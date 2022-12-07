@@ -22,13 +22,13 @@ object.
 User Sessions
 ~~~~~~~~~~~~~
 
-Atlas App Services manages sessions with access tokens and refresh tokens. Client 
+Atlas App Services manages sessions with access tokens and refresh tokens. Client
 SDKs supply the logic to manage tokens, and provide them with requests.
 
-For web browsers, the JavaScript SDK stores these tokens in 
+For web browsers, the JavaScript SDK stores these tokens in
 `HTML5 local storage <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API>`_.
 
-.. seealso:: 
+.. seealso::
 
    :ref:`<user-sessions>`
 
@@ -48,13 +48,13 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.anonymous-login.js
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
          :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.anonymous-login.ts
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.ts
          :language: typescript
 
 .. _react-native-email-password-login:
@@ -75,13 +75,13 @@ password and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.email-password-login.js
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.email-password-login.js
          :language: javascript
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.email-password-login.ts
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.email-password-login.ts
          :language: typescript
 
 .. _react-native-api-key-login:
@@ -101,13 +101,13 @@ API key and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.server-api-key-login.js
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.server-api-key-login.js
          :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.server-api-key-login.ts
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.server-api-key-login.ts
          :language: typescript
 
 .. _react-native-custom-jwt-login:
@@ -128,13 +128,13 @@ and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.custom-jwt-login.js
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.custom-jwt-login.js
          :language: javascript
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.custom-jwt-login.ts
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.custom-jwt-login.ts
          :language: typescript
 
 .. _react-native-custom-function-login:
@@ -155,13 +155,13 @@ with a payload object and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.custom-function-login.js
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.custom-function-login.js
          :language: javascript
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.custom-function-login.ts
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.custom-function-login.ts
          :language: typescript
 
 .. _react-native-facebook-login:
@@ -229,19 +229,19 @@ authenticate users with their existing Google account.
 
 
 There is no official Sign in with Google integration with React Native. The simplest
-approach to integrating Sign in With Google into your React Native app 
-with Realm authentication is to use a third-party library. 
-The below example uses the library 
+approach to integrating Sign in With Google into your React Native app
+with Realm authentication is to use a third-party library.
+The below example uses the library
 :github:`React Native Google Sign In <react-native-google-signin/google-signin>`.
 You can also build your own solution using :google:`Google Identity Services <identity>` to handle the user
-authentication and redirect flow from a client application. 
+authentication and redirect flow from a client application.
 
-Regardless of implementation, you must retrieve an ID token from the Google Authorization server. 
-Use that ID token to log into Realm. 
+Regardless of implementation, you must retrieve an ID token from the Google Authorization server.
+Use that ID token to log into Realm.
 
 .. code-block:: javascript
    
-   // Get the Google OAuth 2.0 access token 
+   // Get the Google OAuth 2.0 access token
    const idToken = getGoogleAccessToken();
 
    // Log the user in to your app
@@ -254,14 +254,14 @@ Use that ID token to log into Realm.
 
 .. example:: Authenticate with Google in React Native
 
-   This example uses the library 
+   This example uses the library
    :github:`React Native Google Sign In<react-native-google-signin/google-signin>`.
    In addition to the React Native code, you must also set up additional configuration
    in your project's ``ios`` and ``android`` directories to use Sign in with Google.
-   Refer to the package's documentation for 
+   Refer to the package's documentation for
    :github:`iOS-specific <react-native-google-signin/google-signin/blob/master/docs/ios-guide.md>`
-   and :github:`Android-specific <react-native-google-signin/google-signin/blob/master/docs/android-guide.md>` 
-   documentation. 
+   and :github:`Android-specific <react-native-google-signin/google-signin/blob/master/docs/android-guide.md>`
+   documentation.
 
    .. literalinclude:: /examples/generated/rn/sign-in-with-google.snippet.react-native-sign-in-with-google.jsx
       :caption: SignInWithGoogleButton.jsx
@@ -333,6 +333,27 @@ To learn how to use the cached user in the Sync Configuration and access a
 realm while offline, read the :ref:`Open a Synced Realm While Offline
 <react-native-open-synced-realm-offline>` docs.
 
+.. _react-native-get-user-access-token:
+
+Get a User Access Token
+-----------------------
+
+.. include:: /includes/user-access-token.rst
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.get-user-access-token.js
+         :language: javascript
+   
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.get-user-access-token.ts
+         :language: typescript
+
 .. _react-native-logout:
 
 Log a User Out
@@ -347,11 +368,11 @@ To log any user out, call the ``User.logOut()`` on their user instance.
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.logout.js
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.logout.js
          :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.logout.ts
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.logout.ts
          :language: typescript

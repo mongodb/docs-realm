@@ -1,5 +1,5 @@
-// Create a custom function credential
-const credentials = Realm.Credentials.function({ username: "ilovemongodb" });
+// Create an anonymous credential
+const credentials = Realm.Credentials.anonymous();
 try {
   const user = await app.logIn(credentials);
   console.log("Successfully logged in!", user.id);
