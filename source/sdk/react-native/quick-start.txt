@@ -17,6 +17,8 @@ Overview
 This page contains information to quickly get Realm Database
 integrated into your app.
 
+If you haven't already, :ref:`install the Realm React Native SDK <react-native-install>`.
+
 .. _react-native-quickstart-local-import-realm:
 
 Import Realm
@@ -52,7 +54,7 @@ The following code shows how to define an object model for a ``Task`` object. In
 Open a Realm
 ------------
 To open a realm, pass a :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
+<Realm.html#~Configuration>` object to :js-sdk:`Realm.open()
 <Realm.html#.open>`.
 
 .. literalinclude:: /examples/generated/node/quickstart-local.snippet.open-a-realm.js
@@ -158,8 +160,8 @@ Initialize the App
 ~~~~~~~~~~~~~~~~~~
 
 To use App Services features, such as authentication and sync, you must first access
-your App Services App using your App ID. You can :ref:`find your App ID in
-the App Services UI <find-your-app-id>`.
+your App Services App using your App ID. You can :ref:`find your App ID <find-your-app-id>`
+in the App Services UI.
 
 .. code-block:: javascript
 
@@ -190,20 +192,8 @@ without providing any identifying information:
      timeout: 10000
    }; 
 
-   async function anonymousLogin() {
-     try {
-       // pass in the appConfig variable that you created earlier
-       const app = new Realm.App(appConfig);
-
-       // create an anonymous credential
-       const credentials = Realm.Credentials.anonymous();
-       const user = await app.logIn(credentials);
-       return user;
-
-     } catch (error) {
-         throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
-     }
-   }
+   .. literalinclude:: /examples/generated/code/start/authenticate.snippet.anonymous-login.js
+      :language: javascript
 
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
@@ -227,23 +217,8 @@ name for the subscription to the :js-sdk:`add()
 <Realm.App.Sync.MutableSubscriptionSet.html#add>` method on the
 ``MutableSubscriptionSet``.
 
-.. code-block:: javascript
-   :emphasize-lines: 8,9
-
-   const config = {
-     sync: {
-       user: app.currentUser,
-       flexible: true,
-       initialSubscriptions: {
-         update: (subs, realm) => {
-           subs.add(
-             realm.objects("Item").filtered("ownerId == $0", app.currentUser.id)
-           );
-         },
-       },
-     },
-   };
-   const realm = await Realm.open(config);
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-initial-subscriptions-on-fs-realm.js
+  :language: javascript
 
 The syntax to :ref:`read <react-native-read-objects>`, :ref:`update <react-native-update-objects>`, 
 and :ref:`watch for changes <react-native-react-to-changes>` on a
