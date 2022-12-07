@@ -177,17 +177,15 @@ describe("user authentication", () => {
 });
 
 describe("User Sessions", () => {
-  beforeAll(async () => {
+  test("Get a User Access Token", async () => {
+    const email = "stanley.session@example.com";
+    const password = "pa55w0rd!";
     try {
-      const email = "stanley.session@example.com"
-      const password = "pa55w0rd!"
-      await app.emailPasswordAuth.registerUser({ email, password });
       await app.logIn(Realm.Credentials.emailPassword(email, password));
     } catch (err) {
-      console.error(err);
+      await app.emailPasswordAuth.registerUser({ email, password });
+      await app.logIn(Realm.Credentials.emailPassword(email, password));
     }
-  })
-  test("Get a User Access Token", async () => {
     // :snippet-start: get-user-access-token
     // Gets a valid user access token to authenticate requests
     async function getValidAccessToken(user) {
