@@ -166,16 +166,8 @@ To use App Services features, such as authentication and sync, you must first ac
 your App Services App using your App ID. You can :ref:`find your App ID <find-your-app-id>`
 in the App Services UI.
 
-.. code-block:: javascript
-
-   import Realm from "realm";
-
-   const appId = "<yourAppId>"; // Set App ID here.
-   const appConfig = {
-     id: appId,
-     timeout: 10000
-   };
-   const app = new Realm.App(appConfig);
+.. literalinclude:: /examples/generated/node/initialize-app.snippet.initialize-app.js
+  :language: javascript
 
 .. _node-quick-start-authenticate:
 
@@ -187,18 +179,8 @@ To authenticate and log in a user, call :js-sdk:`App.logIn()
 <anonymous-authentication>` is enabled, users can immediately log into your app
 without providing any identifying information:
 
-.. code-block:: javascript
-
-   import Realm from "realm";
-
-   const appId = "<yourAppId>"; // Set App ID here.
-   const appConfig = {
-     id: appId,
-     timeout: 10000
-   };
-
-  .. literalinclude:: /examples/generated/code/start/authenticate.snippet.anonymous-login.js
-    :language: javascript
+.. literalinclude:: /examples/generated/node/initialize-app.snippet.quickstart-anonymous-login.js
+  :language: javascript
 
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
