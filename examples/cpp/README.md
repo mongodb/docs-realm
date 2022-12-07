@@ -68,6 +68,35 @@ To run the tests, execute the `examples` file from the `build` directory:
 ./examples
 ```
 
+### How to Skip Tests Using Device Sync
+
+Tests that use Device Sync require the example app to make network calls.
+When you run tests involving Device Sync, you'll see a modal requesting 
+you to enter your laptop password. Even when you select *Always Allow*, 
+you'll be prompted to re-enter this password whenever you build a new 
+version of the executable.
+
+This is because macOS enforces access control technology at the kernel 
+level. It does this using App Sandbox. When developing in Xcode, you can 
+[enable access to restricted 
+resources](https://developer.apple.com/documentation/xcode/configuring-the-macos-app-sandbox/). 
+Because this example project does not use Xcode, I'm not aware of a way 
+to set the required entitlements for this project. This is probably 
+something that would be useful to research when someone gets some downtime.
+
+Meanwhile, if you're doing a lot of building and running, and you don't
+want to enter your password every time you rebuild the executable, you 
+can exclude sync tests from your test run. To exclude the sync tests, 
+pass a flag that contains the tag or tags you want to exclude when you
+run the tests:
+
+```shell
+./examples ~[sync]
+```
+
+This requires us to tag every example using sync with the `sync` tag. For
+an example, see the "open a synced realm" test case in `examples.cpp`.
+
 ## Update the Realm SDK Version
 
 CMakeLists.txt has a FetchContent block that pulls in the `realm-cpp` repository
@@ -135,10 +164,17 @@ Find the relevant test case file for the section or category you wish to write
 an example for.
 
 Define a new `TEST_CASE`. This should have a unique string name - as in the 
-example below `"add a dog object to a realm"`, and a `"[test]"` tag.
+example below `"add a dog object to a realm"`, and a tag that designates it 
+as part of a relevant group of tests. In the example below, the test is tagged
+with `"[write]"`. 
+
+To enable us to run a group of tests, or exclude a group of tests, use 
+relevant tags when creating new test cases. For example, tests that use 
+Device Sync could be tagged with `"[sync]"` so we can easily skip them or
+run them specifically, depending on what we're testing.
 
 ```cpp
-TEST_CASE("add a dog object to a realm", "[test]") {
+TEST_CASE("add a dog object to a realm", "[write]") {
     auto dog = Dog { .name = "Floof", .age = 3 };
     
     std::cout << "dog: " << dog << "\n";

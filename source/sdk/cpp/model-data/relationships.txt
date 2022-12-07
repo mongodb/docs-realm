@@ -1,0 +1,77 @@
+.. _cpp-relationships:
+
+===============================
+Relationships - C++ SDK (Alpha)
+===============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Key Concept: Relationships
+--------------------------
+
+Realm Database doesn't use bridge tables or explicit joins to define 
+relationships as you would in a relational database. Realm Database
+handles relationships through embedded objects or reference properties to 
+other Realm Database objects. You read from and write to these 
+properties directly. This makes querying relationships as performant as 
+querying against any other property.
+
+Realm Database supports **to-one**, **to-many**, and **inverse**
+relationships. However, the C++ SDK Alpha does not yet support inverse 
+relationships. Realm also provides a special type of object, called an
+**embedded object**, that is conceptually similar to a relationship but 
+provides additional constraints.
+
+.. _cpp-to-one-relationship:
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship means that an object relates to one other object. 
+You define a to-one relationship for an object type in its object 
+schema. Specify a property where the type is the related Realm 
+object type. For example, a dog might have a to-one relationship with 
+a favorite toy.
+
+.. _cpp-to-many-relationship:
+.. _cpp-list-collections:
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object relates to more than one 
+other object. In Realm Database, a to-many relationship is a list of 
+references to other objects. For example, a person might have many dogs.
+
+Realm Database represents a to-many relationship between two Realm
+types as a list. Lists are mutable: within a write transaction, you can 
+add and remove elements to and from a list. Lists are not associated with 
+a query and are declared as a property of the object model.
+
+Relationship definitions in Realm Database are unidirectional. An 
+**inverse relationship** links an object back to an object that refers 
+to it. You must explicitly define a property in the object's model as an 
+inverse relationship. Inverse relationships can link back to objects in 
+a to-one or to-many relationship. The C++ SDK Alpha does not yet support
+inverse relationships.
+
+.. _cpp-declare-relationship-properties:
+
+Declare Relationship Properties
+-------------------------------
+
+.. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
+
+.. _cpp-define-a-to-one-relationship-property:
+
+Define a To-One Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _ios-define-a-to-many-relationship-property:
+
+Define a To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,0 +1,144 @@
+.. _cpp-supported-property-types:
+
+=================================
+Supported Types - C++ SDK (Alpha)
+=================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Supported Property Types
+------------------------
+
+The Realm Database C++ SDK Alpha currently supports the following property types:
+
+Property Cheat Sheet
+~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 20 40 40
+
+   * - Type
+     - Required
+     - Optional
+   * - Bool
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<bool> bool_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<bool>> opt_bool_name;
+   * - Int, Int8, Int16, Int32, Int64
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<int> int_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<int>> opt_int_name;
+   * - Double
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<double> double_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<double>> opt_double_name;
+   * - String
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::string> str_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<std::string>> opt_str_name;
+   * - Enum
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<Enum> enum_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<Enum>> opt_enum_name;
+   * - Binary Data
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<realm::BinaryData>> data_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<realm::BinaryData>>> opt_data_name;
+   * - Date
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<realm::Timestamp>> date_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<realm::Timestamp>> opt_date_name;
+   * - UUID
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<realm::uuid> uuid_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<realm::uuid>> opt_uuid_name;
+   * - Mixed Data Type
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<realm::mixed> mixed_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<realm::mixed>> opt_mixed_name;
+   * - List
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::vector<Type>> list_type_name;
+     - N/A
+   * - User-defined Object
+     - N/A
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<MyClass>> opt_obj_name;
+   * - User-defined Embedded Object
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<MyEmbeddedClass> embedded_obj_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<MyEmbeddedClass>> opt_embedded_object_name;
+
+Supported Type Implementation Details
+`````````````````````````````````````
+
+Some of the supported types above are aliases for:
+
+- ``int``: An alias for an int-type object that encompasses: 
+  ``int8_t``, ``int16_t``, ``int32_t``, ``int64_t``
+- ``mixed``: An alias for an object that could contain any of the other 
+  supported types
+- ``timestamp``: An alias for an object that uses the `chrono library 
+  <https://en.cppreference.com/w/cpp/chrono>`__
+  to store a ``time_point`` relative to the ``system_clock``: 
+  ``<std::chrono::time_point<std::chrono::system_clock>>``
