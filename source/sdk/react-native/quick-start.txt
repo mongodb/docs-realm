@@ -53,7 +53,7 @@ Open a Realm
 ------------
 To open a realm, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
-<Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`.
+<Realm.html#.open>`.
 
 .. literalinclude:: /examples/generated/node/quickstart-local.snippet.open-a-realm.js
   :language: javascript
@@ -64,7 +64,7 @@ Create Realm Objects
 --------------------
 
 Once you have opened a realm, you can create :ref:`objects
-<react-native-object-types>` in it. All writes must occur within a :ref:`Write
+<react-native-object-types>` in it. All writes must occur within a :ref:`write
 transaction <react-native-write-transactions>`.
     
 .. literalinclude:: /examples/generated/node/quickstart-local.snippet.create-realm-objects.js
@@ -181,7 +181,6 @@ To authenticate and log in a user, call :js-sdk:`App.logIn()
 without providing any identifying information:
 
 .. code-block:: javascript
-   :emphasize-lines: 8,9
 
    import Realm from "realm";
 
@@ -192,12 +191,13 @@ without providing any identifying information:
    }; 
 
    async function anonymousLogin() {
-     let user;
      try {
-       const app = new Realm.App(appConfig); // pass in the appConfig variable that you created earlier
+       // pass in the appConfig variable that you created earlier
+       const app = new Realm.App(appConfig);
 
-       const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
-       user = await app.logIn(credentials);
+       // create an anonymous credential
+       const credentials = Realm.Credentials.anonymous();
+       const user = await app.logIn(credentials);
        return user;
 
      } catch (error) {
@@ -210,7 +210,7 @@ Open a Synced Realm
 
 After you have initialized your App, authenticated a user, and
 defined your object model, you can create a :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>`:
+<Realm.App.Sync.html#~SyncConfiguration>`.
 
 If you have opened a local realm following the :ref:`Open a Realm
 <react-native-quickstart-local-open-a-realm>` section above, replace the
