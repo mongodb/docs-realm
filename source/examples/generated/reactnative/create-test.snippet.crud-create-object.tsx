@@ -4,7 +4,7 @@ const CreateDogInput = () => {
 
     const handleAddItem = () => {
         realm.write(() => {
-            new Dog(realm, {  name: dogName, age: 1, })
+            new Dog(realm, { name: dogName, age: 1, })
         });
     }
 
