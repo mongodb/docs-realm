@@ -43,81 +43,36 @@ data:
      ]
    }
 
-The examples on this page use the following schema, realm, and subscription query.
+The examples on this page use the following schema:
 
-.. code-block:: dart
+.. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.realm-model.dart
+   :language: dart
 
-   // The rest of the example uses RealmObjects generated from these RealmModels
-   @RealmModel()
-   class _Car {
-      @PrimaryKey()
-      late ObjectId id;
+Using that schema, the examples use the following realm and subscription query:
 
-      late String ownerId;
-      late String make;
-      late String? model;
-      late int? miles;
-   }
-
-   // ... instantiate App and log in user
-
-   final app = App(AppConfiguration(APP_ID));
-   final user = await app.logIn(Credentials.anonymous());
-   final config = Configuration.flexibleSync([Car.schema], user);
-   final realm = Realm(config);
-
-   // Add subscriptions
-   realm.subscriptions.update((mutableSubscriptions) {
-      // Get Cars from Atlas that match the Realm Query Language query.
-      // Uses the queryable field `miles`.
-      final newCarQuery = realm.query<Car>("miles < 100 OR miles == \$0", [null]);
-      mutableSubscriptions.add(newCarQuery, "new-car-subscription");
-   });
-   await realm.subscriptions.waitForSynchronization();
+.. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.subscription-setup.dart
+   :language: dart
 
 Write to a Synced Realm
 -----------------------
 
-When you write to a synced realm, your write operations must match with *both*
+When you write to a synced realm, your write operations must match *both*
 of the following criteria:
 
-- **The sync subscription query**. If your write operation doesn't match
-  the query in the subscription, the write fails with a compensating write error.
+- **The sync subscription query.**
+    - If your write operation doesn't match
+      the query in the subscription, the write fails with a compensating write error.
     - To learn more about compensating write errors and how to avoid them,
       refer to the :ref:`Compensating Writes <flutter-compensating-writes>` section.
 - **The Device Sync permissions** in your App Services App.
-  If your try to write data that doesn't match the Device Sync permissions expression,
-  the write fails with a permission denied error.
+    - If your try to write data that doesn't match the Device Sync permissions expression,
+      the write fails with a permission denied error.
     - To learn more about configuring Device Sync permissions for your app,
       refer to :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide`
       in the App Services documentation.
 
-.. code-block:: dart
-
-   // Per the Device Sync permissions, users can only read and write data
-   // where the `Car.ownerId` property matches their own user ID.
-   final userId = app.currentUser!.id;
-
-   realm.write((){
-    // `oldCar` is initially written to the realm, then later removed
-    // in a compensating write when the server processes the write.
-    // This is because the `miles` property of `oldCar` doesn't match
-    // the subscription query, which is only for cars with less than 100 miles.
-    final oldCar = Car(ObjectId(), userId, 'Honda', miles: 90000);
-    realm.add(oldCar);
-
-    // `otherUsersCar` is initially written to the realm, then later removed
-    // because it's `ownerId` property doesn't match the user ID of the user
-    // making the request.
-    final otherUsersCar = Car(ObjectId(), 'someOtherId', 'Ford');
-    realm.add(otherUsersCar);
-
-    // `newCar` is successfully written to the realm and synced to Atlas
-    // because it's data matches the subscription query and it's `ownerId` field
-    // matches the user ID.
-    final newCar = Car(ObjectId(), userId, 'Toyota', miles: 2);
-    realm.add(newCar);
-   });
+.. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.write-synced-realm.dart
+   :language: dart
 
 .. _flutter-compensating-writes:
 
@@ -138,25 +93,5 @@ and the corresponding compensating write will be lost.
 To learn more about compensating write errors and other Device Sync error types,
 refer to :ref:`sync-errors` in the App Services documentation.
 
-.. code-block:: dart
-
-   final carId = ObjectId();
-   final ownerId = app.currentUser!.id;
-
-   realm.write(() {
-    // `oldCar` is initially written to the realm, then later removed
-    // in a compensating write when the server processes the write.
-    // This is because the `miles` property of `oldCar` doesn't match
-    // the subscription query, which is only for cars with less than 100 miles.
-    final oldCar = Car(carId, ownerId, 'Honda', miles: 90000);
-    realm.add(oldCar);
-   });
-
-   // Let changes sync to and from server
-   await realm.syncSession.waitForUpload();
-   await realm.syncSession.waitForDownload();
-
-   final noCar = realm.find(carId);
-   // The Car is no longer in the realm because of the compensating write
-   // from the server.
-   expect(noCar, isNull);
+.. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.compensating-write.dart
+   :language: dart
