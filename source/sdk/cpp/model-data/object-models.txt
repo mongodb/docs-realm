@@ -41,32 +41,42 @@ its type and that it meets all of the constraints specified in the schema.
 
 For more information about how to open a realm, refer to: :ref:`cpp-configure-and-open-a-realm`
 
-.. _cpp-object-schema:
-
-Realm Object Schema
-~~~~~~~~~~~~~~~~~~~
-
-A **realm object schema** defines the properties, relationships, and any 
-property metadata for a specific object type. Because C++ does not have 
-reflection, your model must expose a public static constant expression 
-member that explicitly declares your schema. The object schema includes 
-details like the property name and type, whether the property is a primary 
-key, and whether it forms a relationship with other object types.
-
+.. _cpp-object-model:
 .. _cpp-properties:
 
-Key Concept: Properties
-~~~~~~~~~~~~~~~~~~~~~~~
+Realm Object Model
+~~~~~~~~~~~~~~~~~~
 
-Your Realm object model is a collection of properties. On the most basic level,
-when you create your model, your declarations give Realm information about
-each property:
+Your Realm object model is the core structure that gives Realm 
+information about how to interpret and store the objects in your app.
+The C++ Realm object model is a class or a struct that subclasses one of 
+the Realm object types. The object model contains a collection of 
+properties. You annotate the properties in the model to give Realm 
+information about each property:
 
 - The data type and whether the property is optional or required
 - Whether Realm should store or ignore the property
 
 Properties are also the mechanism for establishing :ref:`relationships 
 <cpp-relationships>` between Realm object types.
+
+You use this object model like any other C++ class or struct when you
+initialize your objects. 
+
+In addition to property information, each C++ Realm object model must 
+expose a schema. 
+
+.. _cpp-object-schema:
+
+Realm Object Schema
+~~~~~~~~~~~~~~~~~~~
+
+A C++ **realm object schema** maps property names, relationships, and any 
+property metadata for a specific object type. Because C++ does not have 
+reflection, your model must expose a public static constant expression 
+member that explicitly declares your schema. The object schema includes 
+details like the property name and type, whether the property is a primary 
+key, and whether it forms a relationship with other object types.
 
 .. _cpp-define-a-new-object-type:
 
@@ -121,6 +131,19 @@ with the property that should be the model's primary key:
 .. literalinclude:: /examples/generated/cpp/examples.snippet.define-a-schema.cpp
    :language: cpp
    :emphasize-lines: 2
+
+.. _cpp-ignore-property:
+
+Ignore a Property
+~~~~~~~~~~~~~~~~~
+
+Your model may include properties that Realm Database does not store. Realm 
+ignores any members not declared as ``realm::persisted`` and not declared 
+in the schema.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
+   :language: cpp
+   :emphasize-lines: 7
 
 .. _cpp-embedded-object:
 

@@ -98,7 +98,7 @@ TEST_CASE("open a realm at a path", "[realm]") {
     REQUIRE(dog_count >= 1);
 }
 
-TEST_CASE("open a synced realm", "[realm, sync]") {
+TEST_CASE("open a synced realm", "[realm][sync]") {
     // :snippet-start: open-a-synced-realm
     auto app = realm::App(APP_ID);
     // Ensure anonymous authentication is enabled in the App Services App
