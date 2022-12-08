@@ -31,12 +31,13 @@ If you know the :ref:`primary key <react-native-primary-keys>` for a given
 object, you can look it up directly by passing the class type and primary key to
 the ``useObject()`` hook. 
 
-In the following example of a ``TaskItem`` component, a Task is found based on
-it's ``_id`` using the ``useObject()`` hook, and the task's name and priority is
-rendered in the UI.
+In the following example of a ``TaskItem`` component, we use the ``useObject()``
+hook to find a task based on its primary key, ``_id``. Then we render the task's
+name and priority in the UI.
 
 .. literalinclude:: /examples/generated/reactnative/read-test.snippet.crud-read-object-by-id.tsx
   :language: typescript
+  :linenos:
 
 .. _react-native-query-an-object-type:
 .. _react-native-get-all-objects:
@@ -59,9 +60,9 @@ object properties. Realm Database lets you filter data using
 :ref:`Realm Query Language <rql>`, a string-based query language to constrain
 searches when retrieving objects from a realm.
 
-To filter a query, call :js-sdk:`filtered()
-<Realm.Collection.html#filtered>` on the query results collection.
-Pass a Realm Query Language query as argument to ``filtered()``.
+Call :js-sdk:`filtered() <Realm.Collection.html#filtered>` on the query results
+collection to filter a query. Pass a Realm Query Language query as an argument
+to ``filtered()``.
 
 In the following example of a ``TaskList`` component, we use the ``useQuery``
 hook to initially retrieve the set of Task objects. We then use the
@@ -73,7 +74,7 @@ hook to initially retrieve the set of Task objects. We then use the
 Finally, we use the `map function to render a list
 <https://reactjs.org/docs/lists-and-keys.html>`__ of `Text
 <https://reactnative.dev/docs/text>`__ components displaying information about
-the high priority and low progress tasks.
+the high-priority and low-progress tasks.
 
 .. literalinclude:: /examples/generated/reactnative/read-test.snippet.crud-read-filter-data.tsx
   :language: typescript
@@ -112,7 +113,7 @@ hook to initially retrieve the set of Task objects. We then use the
 
 - Sort objects based on the task's name alphabetically 
 - Sort objects based on the task's name alphabetically in descending order.
-- Sort objects based on the task's priority in descending order, and the task's name in aschending order.
+- Sort objects based on the task's priority in descending order and the task's name in ascending order.
 - Sort objects based on the assignee object's name alphabetically
 
 Finally, we map through each list of tasks and render them in the UI.
