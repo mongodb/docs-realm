@@ -23,12 +23,23 @@ The example on this page use the following schema:
 Create a New Object
 -------------------
 
+Before you can add an object to a realm, get an instance of your realm by
+calling the ``useRealm()`` hook. 
+
 To add an object to a realm, instantiate it as you would any other object
 and then pass it to :js-sdk:`Realm.create() <Realm.html#create>` inside of a
 write transaction. If the realm's :ref:`schema <react-native-realm-schema>` includes
 the object type and the object conforms to the schema, then Realm
 stores the object, which is now *managed* by the realm.
+
+In the following example of a ``CreateDogInput`` functional component,   an
+application user enters the dog's name in the `TextInput
+<https://reactnative.dev/docs/textinput>`__ component and hits the submit
+`button <https://reactnative.dev/docs/button>`__, calling a function that writes
+a new Dog object to the realm instance.
+
    
 .. literalinclude:: /examples/generated/reactnative/create-test.snippet.crud-create-object.tsx
   :language: javascript
-  :emphasize-lines: 6
+  :emphasize-lines: 3, 6-8
+  :linenos:
