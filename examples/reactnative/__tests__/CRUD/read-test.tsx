@@ -4,6 +4,7 @@ import { render, waitFor} from "@testing-library/react-native";
 import Realm from "realm";
 import { createRealmContext } from '@realm/react'
 
+// :snippet-start: crud-person-and-task-schema
 class Person extends Realm.Object {
     static schema = {
         name: "Person",
@@ -27,6 +28,7 @@ class Task extends Realm.Object {
         primaryKey: "_id",
     }
 }
+// :snippet-end:
 
 const realmConfig = {
   schema: [Person, Task],

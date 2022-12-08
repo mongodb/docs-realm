@@ -14,9 +14,8 @@ About the Examples on this Page
 -------------------------------
 The examples on this page use the following schema:
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.task-schema-crud.js
-  :language: javascript
-
+.. literalinclude:: /examples/generated/reactnative/read-test.snippet.crud-person-and-task-schema.tsx
+  :language: typescript
 
 .. _react-native-read-operations:
 
@@ -28,35 +27,32 @@ Read Operations
 Find a Specific Object by Primary Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you know the :ref:`primary key <react-native-primary-keys>` for a given object, you
-can look it up directly with :js-sdk:`Realm.objectForPrimaryKey()
-<Realm.html#objectForPrimaryKey>`.
+If you know the :ref:`primary key <react-native-primary-keys>` for a given
+object, you can look it up directly by passing the class type and primary key to
+the ``useObject()`` hook. 
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-data-object-for-primary-key.js
-  :language: javascript
+In the following example of a ``TaskItem`` component, a Task is found based on
+it's ``_id`` using the ``useObject()`` hook, and the task's name and priority is
+rendered in the UI.
+
+.. literalinclude:: /examples/generated/reactnative/read-test.snippet.crud-read-object-by-id.tsx
+  :language: typescript
 
 .. _react-native-query-an-object-type:
 .. _react-native-get-all-objects:
-
-Query an Object Type
-~~~~~~~~~~~~~~~~~~~~
-
-To query for objects of a given type in a realm, pass the type name to
-:js-sdk:`Realm.objects() <Realm.html#objects>`.
-
-Query operations return a collection of Realm objects that match the
-query as a :js-sdk:`Realm.Results <Realm.Results.html>` object. A basic query
-matches all objects of a given type in a realm, but you can also apply a
-:ref:`filter <react-native-filter-queries>` to the collection to find specific objects.
-
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-data-query-an-object-type.js
-  :language: javascript
-
 .. _react-native-filter-queries:
 .. _react-native-filter-results:
 
-Filter Queries
-~~~~~~~~~~~~~~
+Query an Object Type and Filter Queries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To query for objects of a given type in a realm, pass the type name to the
+``useQuery()`` hook.
+
+Query operations return a collection of Realm objects that match the query as a
+:js-sdk:`Realm.Results <Realm.Results.html>` object. A basic query matches all
+objects of a given type in a realm, but you can also apply a filter to the
+collection to find specific objects.
 
 A **filter** selects a subset of results based on the value(s) of one or more
 object properties. Realm Database lets you filter data using
@@ -67,15 +63,22 @@ To filter a query, call :js-sdk:`filtered()
 <Realm.Collection.html#filtered>` on the query results collection.
 Pass a Realm Query Language query as argument to ``filtered()``.
 
-In the following example, we use the comparison operators to:
+In the following example of a ``TaskList`` component, we use the ``useQuery``
+hook to initially retrieve the set of Task objects. We then use the
+``filtered()`` method and comparison operators to: 
 
-- Find high priority tasks by comparing the value of the ``priority`` property
-  value with a threshold number, above which priority can be considered high.
-- Find just-started or short-running tasks by seeing if the ``progressMinutes``
-  property falls within a certain range.
+- Find high-priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+- Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a specific range.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-filter-queries.js
-  :language: javascript
+Finally, we use the `map function to render a list
+<https://reactjs.org/docs/lists-and-keys.html>`__ of `Text
+<https://reactnative.dev/docs/text>`__ components displaying information about
+the high priority and low progress tasks.
+
+.. literalinclude:: /examples/generated/reactnative/read-test.snippet.crud-read-filter-data.tsx
+  :language: typescript
+  :emphasize-lines: 3, 5-11
+  :linenos:
 
 .. tip:: Filter on Related and Embedded Object Properties
    
