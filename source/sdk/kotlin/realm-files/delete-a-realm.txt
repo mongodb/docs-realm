@@ -18,13 +18,13 @@ a realm file and its auxiliary files. This is often useful during development to
 quickly reset your environment. However, doing so when you are running your app 
 and realm instances are still open can cause data corruption or disrupt :ref:`sync <sync>`.
 
-To avoid losing data, and disrupting device sync, you can delete these files when 
+To avoid losing data and disrupting device sync, you can delete these files when 
 all instances of a realm are closed. Before you delete a realm file, however, 
-**be sure that you back up any important objects as you will lose all unsynced data in the realm**.
+**be sure that you back up any important objects, as you will lose all unsynced data in the realm**.
 
-To delete a realm file while the app is running, you can use the 
+To safely delete a realm file while the app is running, you can use the 
 :dotnet-sdk:`DeleteRealm(configuration) <reference/Realms.Realm.html#Realms_Realm_DeleteRealm_Realms_RealmConfigurationBase_>` 
-method to safely do so. The following code demonstrates this:
+method. The following code demonstrates this:
 
 .. literalinclude:: /examples/generated/kotlin/DeleteARealm.snippet.delete-realm-file.kt
    :language: kotlin
@@ -36,12 +36,12 @@ Delete a Realm File to Avoid Migration
 If you iterate rapidly as you develop your app, you may want to delete a realm
 file instead of migrating it when you make schema changes. The Realm
 configuration provides a 
-`deleteRealmIfMigrationNeeded <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html#-910115110%2FProperties%2F-1651551339>`__.
+`deleteRealmIfMigrationNeeded <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html#-910115110%2FProperties%2F-1651551339>`__
 parameter to help with this case. 
 
-When you use ``deleteRealmIfMigrationNeeded`` the SDK deletes the realm file
-when a migration would be required. Then, you can create objects that match the
-new schema instead of writing migration blocks for development or test data.
+When you use ``deleteRealmIfMigrationNeeded``, Realm Database deletes the realm
+file if a migration is required. Then, you can create objects that match the new
+schema instead of writing migration blocks for development or test data.
 
 .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.delete-realm-if-migration-needed.kt
    :language: kotlin
