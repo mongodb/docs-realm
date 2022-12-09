@@ -76,7 +76,6 @@ describe("Delete Data Tests", () => {
                     realm.delete(deletableDog)
                 })
             }
-
             return (
                 <>
                     {
