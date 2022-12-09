@@ -178,9 +178,8 @@ describe("Read Data Tests", () => {
         //   }
         // }
         const TaskList = () => {
-            const realm = useRealm();
             // retrieve the set of Task objects
-            const tasks = realm.objects("Task");
+            const tasks = useQuery("Task");
             // Sort tasks by name in ascending order
             const tasksByName = tasks.sorted("name");
             // Sort tasks by name in descending order
@@ -188,7 +187,7 @@ describe("Read Data Tests", () => {
             // Sort tasks by priority in descending order and then by name alphabetically
             const tasksByPriorityDescendingAndName = tasks.sorted([["priority", true], ["name", false],]);
             // Sort Tasks by Assignee's name.
-            const tasksByAssigneeName = realm.objects("Task").sorted("assignee.name");
+            const tasksByAssigneeName = tasks.sorted("assignee.name");
 
             return (
             <>

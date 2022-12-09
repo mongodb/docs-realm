@@ -38,6 +38,7 @@ const realmConfig = {
 const { RealmProvider, useRealm, useObject, useQuery } = createRealmContext(realmConfig);
 
 let assertionRealm;
+
 describe("Update Data Tests", () => {
     beforeEach(async() => {
         // we will use this Realm for assertions to access Realm Objects outside of a Functional Component (like required by @realm/react)
@@ -123,7 +124,7 @@ describe("Update Data Tests", () => {
         // :snippet-start: crud-upsert-object
         // :replace-start: {
         //  "terms": {
-        //   " testID='progressMinutes'": "",
+        //   " testID='progressMinutes'": ""
         //   }
         // }
         const CreateTaskItem = () => {
@@ -163,10 +164,10 @@ describe("Update Data Tests", () => {
     })
 
     it("should bulk update an object", async () => {
-        // :snippet-start: crud-upsert-object
+        // :snippet-start: crud-bulk-update
         // :replace-start: {
         //  "terms": {
-        //   " testID='resetProgressOnAllTasksBtn'": "",
+        //   " testID='resetProgressOnAllTasksBtn'": ""
         //   }
         // }
         const TaskDashboard = () => {

@@ -124,7 +124,7 @@ describe("Update Data Tests", () => {
         // :snippet-start: crud-upsert-object
         // :replace-start: {
         //  "terms": {
-        //   " testID='progressMinutes'": "",
+        //   " testID='progressMinutes'": ""
         //   }
         // }
         const CreateTaskItem = () => {
@@ -164,10 +164,10 @@ describe("Update Data Tests", () => {
     })
 
     it("should bulk update an object", async () => {
-        // :snippet-start: crud-upsert-object
+        // :snippet-start: crud-bulk-update
         // :replace-start: {
         //  "terms": {
-        //   " testID='resetProgressOnAllTasksBtn'": "",
+        //   " testID='resetProgressOnAllTasksBtn'": ""
         //   }
         // }
         const TaskDashboard = () => {
