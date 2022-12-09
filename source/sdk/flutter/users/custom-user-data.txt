@@ -29,7 +29,7 @@ Before You Begin
 ----------------
 
 To use custom user data, you must first enable custom user data
-on the App Services:
+in App Services:
 
 #. :ref:`Create a App <create-a-realm-app>`.
 #. :ref:`Enable custom user data <enable-custom-user-data-procedure>`.
@@ -70,6 +70,65 @@ which ensures your app has the latest custom user data.
 
 .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.refresh-custom-user-data.dart
    :language: dart
+
+.. _flutter-write-custom-user-data:
+
+Write Custom User Data with an Atlas Functions
+----------------------------------------------
+
+You can write to custom user data with an Atlas Function. Atlas Functions
+are server-side JavaScript functions that are built into your backend App.
+You can call an Atlas Function directly from the Realm Flutter SDK.
+
+It is not possible to write to custom user data directly from the Realm Flutter SDK.
+
+To learn more about Atlas Functions, refer to the following documentation:
+
+- :ref:`Call an Atlas Function <flutter-call-function>`
+- :ref:`Atlas Functions <functions>` in the App Services documentation.
+
+There is no single pattern for adding custom user data from an Atlas Function.
+You should write your Function or Functions to suite your application's use case.
+
+In this example, the Atlas Function takes an object passed by the client add adds
+it to the custom user data collection in Atlas. The Function creates
+the custom user data if it doesn't already exist and replaces all data in it
+if it does exist.
+
+.. code-block:: js
+   :caption: updateCustomUserData.js - Atlas Function running on server (JavaScript)
+
+   exports = async function(newCustomUserData) {
+   const userId = context.user.id;
+   const customUserDataCollection = context.services.get("mongodb-atlas").db("myDatabase").collection("custom_user_data");
+
+   // Remove `userId` from the custom user data object to update because
+   // you know it will stay the same.
+   delete newCustomUserData.userId;
+   
+   const filter = { userId };
+   // Replace the existing custom user data document with the new one.
+   const update = { $set: newCustomUserData }
+   // Insert document if it doesn't already exist
+   const options = { upsert: true };
+
+   const res = await customUserDataCollection.updateOne(filter, update, options);
+   return res;
+   }
+
+The Realm SDK code to call this Function:
+
+.. code-block:: dart
+   :caption: Realm Flutter SDK client code (Dart)
+
+   final user = app.currentUser!;
+
+   final functionResponse = await user.functions.call("updateCustomUserData", {
+     userId: user.id,
+     favoriteFood: "pizza",
+     lastUpdated: DateTime.now().millisecondsSinceEpoch
+   });
+
 
 .. TODO: add back in once you can interact w MongoDB from Realm Flutter
 .. .. _flutter-create-custom-user-data:
