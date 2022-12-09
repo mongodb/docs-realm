@@ -4,6 +4,7 @@ import { render, waitFor} from "@testing-library/react-native";
 import Realm from "realm";
 import { createRealmContext } from '@realm/react'
 
+// TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
 // :snippet-start: crud-person-and-task-schema
 class Person extends Realm.Object {
     static schema = {
