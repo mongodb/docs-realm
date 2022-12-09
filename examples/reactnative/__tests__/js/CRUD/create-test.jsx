@@ -47,6 +47,11 @@ describe("Create Data Tests", () => {
             assertionRealm.delete(assertionRealm.objects("Person"));
         })
     })
+    afterAll(() => {
+        if(!assertionRealm.isClosed){
+            assertionRealm.close()
+        }
+    })
     it("should create a new object", async () => {        
         const wrapper = ({ children }) => <RealmProvider>{children}</RealmProvider>;
 

@@ -79,6 +79,11 @@ describe("Read Data Tests", () => {
             })
         })
     })
+    afterAll(() => {
+        if(!assertionRealm.isClosed){
+            assertionRealm.close()
+        }
+    })
 
     it("should read from a realm", async () => {
         // :snippet-start: crud-read-object-by-id
