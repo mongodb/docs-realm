@@ -1,0 +1,24 @@
+name: React Native CI Realm Example App
+
+on:
+  pull_request:
+    paths:
+      - 'examples/react-native/**'
+
+jobs:
+  build:
+    name: Run React Native Example App Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use React Native ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: cd examples/reactnative && npm install
+    - run: cd examples/reactnative && npm run test

@@ -13,13 +13,21 @@ CRUD - Delete - React Native SDK
 About the Examples on this Page
 -------------------------------
 
-The examples on this page use the following schemas:
+The examples on this page use the following schema:
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.dog-schema-crud.js
-  :language: javascript
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/Dog.snippet.ts-dog-schema.ts
+         :language: typescript
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.cat-schema-crud.js
-  :language: javascript
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/reactnative/js/Dog.snippet.js-dog-schema.js
+         :language: javascript
 
 .. _react-native-delete-an-object:
 .. _react-native-delete:
@@ -30,9 +38,31 @@ Delete an Object
 To delete an object from a realm, pass the object to :js-sdk:`Realm.delete()
 <Realm.html#delete>` inside of a write transaction.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-object.js
-  :language: javascript
-  :emphasize-lines: 3
+In the following example of a ``DogList`` component, we:
+
+#. Get access to the opened realm instance by calling the ``useRealm()`` hook. 
+#. Retrieve all dogs in the realm instance by passing ``Dog`` to the ``useQuery()`` hook.
+#. Create a component method ``deleteDog()`` that takes in a ``Dog`` object as a parameter. Within the method, we pass ``Realm.delete()`` the ``Dog`` object, deleting it from the realm. 
+#. `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the dogs to render a list of ``Text`` components displaying each dog'sdog's ``name`` and a "Delete Dog" button. 
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Delete Dog" button that calls the component's ``deleteDog()`` method.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/delete-test.snippet.crud-delete-object.tsx
+         :language: typescript
+         :emphasize-lines: 3, 6-8
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/delete-test.snippet.crud-delete-object.jsx
+         :language: javascript
+         :emphasize-lines: 3, 6-8
+         :linenos:
 
 .. important:: Do not use objects after delete
    
@@ -41,29 +71,49 @@ To delete an object from a realm, pass the object to :js-sdk:`Realm.delete()
 
 .. _react-native-delete-multiple-objects:
 .. _react-native-delete-collection:
+.. _react-native-delete-all-object-of-a-specific-type:
 
 Delete Multiple Objects
 -----------------------
 
-To delete a collection of objects from a realm, pass the collection to
-:js-sdk:`Realm.delete() <Realm.html#delete>` inside of a write transaction.
+You can delete multiple objects from a realm:
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-multiple-objects.js
-  :language: javascript
-  :emphasize-lines: 5
+#. To **delete all objects of a given object type** from a realm, pass Realm.objects(<ObjectType>) to the :js-sdk:`Realm.delete() <Realm.html#delete>` method inside of a write transaction.
+#. To **delete many specific objects** from a realm, pass :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` to ``Realm.delete()`` inside of a write transaction.
 
-.. _react-native-delete-all-object-of-a-specific-type:
+In the following example of a ``DogList`` component, we:
 
-Delete All Objects of a Specific Type
--------------------------------------
+#. Retrieve the realm instance using the ``useRealm()`` hook. 
+#. Set a variable, ``myDogs`` to all the ``Dog`` objects by passing the ``Dog`` class to the ``useQuery()`` hook.
+#. Create a component method ``deleteAllYoungDogObjects()`` that performs a write transaction. Within the write transaction, we set a variable, ``youngDogs``, to the result of ``myDogs.filtered()`` with a query to obtain all dogs younger than three. Then pass ``youngDogs`` to ``realm.delete()``, deleting all young dogs from the realm.
+#. Create a component method ``deleteAllDogObjects()`` that performs a write transaction. Within the write transaction, we pass ``myDogs`` to ``realm.delete()``, deleting all the dogs from the realm.
+#. `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the dogs to render a list of ``Text`` components displaying each dog's ``name`` and ``age``.
+#. Add an ``onPress`` event on the "Delete Young Dog Objects" button that calls ``deleteAllYoungDogObjects()``, deleting all young dogs from the realm, which triggers a re-render and removes them from the UI. 
+#. Add an ``onPress`` event on the "Delete All Dog Objects" button that calls ``deleteAllDogObjects()``, deleting every dog from the realm, which triggers a re-render and removes them from the UI. 
 
-To delete all objects of a given object type from a realm, pass
-``Realm.objects(<ObjectType>)`` to the :js-sdk:`Realm.delete()
-<Realm.html#delete>` method inside of a write transaction.
+.. note:: 
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-all-objects-of-a-specific-type.js
-  :language: javascript
-  :emphasize-lines: 3
+   When you delete objects from the realm instance, the component automatically re-renders and removes them from the UI.
+
+
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/delete-test.snippet.crud-delete-multiple-objects.tsx
+         :language: typescript
+         :emphasize-lines: 3, 6-9, 12-14
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/delete-test.snippet.crud-delete-multiple-objects.jsx
+         :language: javascript
+         :emphasize-lines: 3, 6-9, 12-14
+         :linenos:
 
 .. _react-native-delete-all-objects-in-a-realm:
 
@@ -74,9 +124,29 @@ To delete **all** objects from the realm, call :js-sdk:`Realm.deleteAll()
 <Realm.html#deleteAll>` inside of a write transaction. This clears the realm
 of all object instances but does not affect the realm's schema.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-all.js
-  :language: javascript
-  :emphasize-lines: 3
+In the following example of a ``DeleteProfileSettingsScreen`` component, we:
+
+#. Get access to the opened realm instance by calling the ``useRealm()`` hook within the component. 
+#. Create a component method ``deleteAllData()`` that performs a write transaction and calls ``Realm.deleteAll()``, deleting all objects from the realm. 
+#. Add an ``onPress`` event on the "Delete all data" button that calls ``deleteAllData()``.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/delete-test.snippet.crud-delete-all-objects.tsx
+         :language: typescript
+         :emphasize-lines: 2, 5-7
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/delete-test.snippet.crud-delete-all-objects.jsx
+         :language: javascript
+         :emphasize-lines: 2, 5-7
+         :linenos:
 
 .. tip:: Delete All In Development
    

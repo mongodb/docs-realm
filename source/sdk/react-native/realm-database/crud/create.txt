@@ -13,10 +13,21 @@ CRUD - Create - React Native SDK
 About the Examples on this Page
 -------------------------------
 
-The example on this page use the following schema:
+The example on this page uses the following schema:
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.dog-schema-crud.js
-  :language: javascript
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/Dog.snippet.ts-dog-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/reactnative/js/Dog.snippet.js-dog-schema.js
+         :language: javascript
 
 .. _react-native-create-a-new-object:
 
@@ -28,7 +39,27 @@ and then pass it to :js-sdk:`Realm.create() <Realm.html#create>` inside of a
 write transaction. If the realm's :ref:`schema <react-native-realm-schema>` includes
 the object type and the object conforms to the schema, then Realm
 stores the object, which is now *managed* by the realm.
-   
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-create-a-new-object.js
-  :language: javascript
-  :emphasize-lines: 6
+
+In the following example of a ``CreateDogInput`` component, we:
+
+#. Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
+#. Create a component method ``handleAddItem()`` that performs a :ref:`write transaction <react-native-write-transactions>`, and creates a new ``Dog`` :js-sdk:`object <Realm.Object.html>` based on the TextInput value.
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddItem()`` 
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/create-test.snippet.crud-create-object.tsx
+        :language: typescript
+        :emphasize-lines: 3, 6-8
+        :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/reactnative/js/create-test.snippet.crud-create-object.jsx
+         :language: javascript
+         :emphasize-lines: 3, 6-8
+         :linenos:

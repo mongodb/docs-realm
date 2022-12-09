@@ -1,5 +1,4 @@
 .. _dotnet-compatibility:
-.. _dotnet_supported-platforms:
 
 ===============================================
 Platform and Framework Compatibility - .NET SDK
@@ -13,7 +12,7 @@ Platform and Framework Compatibility - .NET SDK
 
 Frameworks
 ----------
-The following table shows which .NET framework
+The following table shows which .NET and Xamarin framework
 version(s) you can use with Realm on your target platforms:
 
 .. list-table::
@@ -28,48 +27,26 @@ version(s) you can use with Realm on your target platforms:
        | Ubuntu 16.04 or later
      - .NET Core 2.0 or later
 
-   * - Windows
-     - | Windows 8.1 and .NET Core 2.0 or later and 
-         .NET Framework 4.6.1 or later
-       | MAUI requires Windows 11 and Windows 10 version 1809 or higher, using 
-         Windows UI Library (WinUI) 3.
+   * - Windows 8.1 or later
+     - | .NET Core 2.0 or later
+       | .NET Framework 4.6.1 or later
 
    * - Universal Windows Platform (UWP)
      - .NET Standard 2.0 or later (Fall Creators Update)
 
-   * - Android
-     - | Xamarin.Android for Android 4.1 (API level 16) or later. 
-       | MAUI requires Android 5.0 (API level 21) or later.
+   * - Android API level 16 or later
+     - Xamarin.Android for API level 16 or later
 
-   * - macOS (Intel-based Macs)
+   * - macOS 10.11 or later (Intel-based Macs)
      - | .NET Core 2.0 or later
-       | Xamarin.Mac for macOS 10.11 or later. 
-       | MAUI requires macOS 10.15 or later, using Mac Catalyst.
+       | Xamarin.Mac for macOS 10.11 or later
 
-   * - iOS
-     - | Xamarin.iOS for iOS 9 or later. 
-       | MAUI requires iOS 11 or later.
+   * - iOS 9 or later
+     - Xamarin.iOS for iOS 9 or later
 
-Development Environments
-------------------------
+.. note:: 
 
-You can use the following development environments to build Realm apps with 
-the .NET SDK:
-
-- Visual Studio 2015 Update 2 or higher for Windows
-- Visual Studio for Mac 7.0 or higher
-- Unity `2020.3.12f1 (LTS) <https://unity3d.com/get-unity/download/archive>`__ 
-
-.. note::
-
-    The :doc:`Realm .NET SDK </sdk/dotnet>` may be compatible with
-    other versions of Unity, but ``2020.3.12f1 (LTS)`` is the version that the
-    Realm team uses for testing and development. We recommend using
-    this version to ensure your project works with Realm and that
-    the install steps match the :doc:`Integrate Realm with Unity
-    </sdk/dotnet/unity>` documentation steps because Unity's UI
-    often changes between versions. 
-
+   The Realm .NET SDK only supports Intel64 Macs and does not yet support Macs with the Apple M1 chip.
 
 Android Deployment
 ------------------
@@ -97,6 +74,7 @@ throws an exception during app initialization if the following limits are
 exceeded:
 
 - Class names can't exceed 57 bytes in length. 
+
 - Property names can't exceed 63 bytes in length. 
 
 In addition, for iOS apps, the total size of all open Realm files cannot be 

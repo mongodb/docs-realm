@@ -14,24 +14,54 @@ About the Examples on this Page
 -------------------------------
 The examples on this page use the following schemas:
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.dog-schema-crud.js
-  :language: javascript
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/Task.snippet.ts-task-schema.ts
+         :language: typescript
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.person-schema-crud.js
-  :language: javascript
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/Task.snippet.js-task-schema.js
+         :language: javascript
 
 .. _react-native-update-an-object:
 
 Update an Object
 ----------------
 
-You can add, modify, or delete properties of a Realm object inside
-of a write transaction in the same way that you would update any other
-JavaScript object.
+You can add, modify, or delete properties of a Realm object inside of a
+:ref:`write transaction <react-native-write-transactions>` in the same way that
+you would update any other JavaScript object.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-update-an-object.js
-  :language: javascript
-  :emphasize-lines: 7, 8
+In the following example of a ``TaskItem`` component, we:
+
+#. Get access to the opened realm instance by calling the ``useRealm()`` hook within the component. 
+#. Retrieve a task by calling ``useObject()` with "Task" and the ``_id`` parameter of the component.
+#. Create a component method ``incrementTaskProgress()`` that performs a write transaction and increments the task's ``progressMinutes``.
+#. Render the task's ``name`` and ``progressMinutes`` in the UI.
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "increment" button that calls ``incrementTaskProgress()``.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/update-test.snippet.crud-update-object.tsx
+         :language: typescript
+         :emphasize-lines: 2-3, 6-8
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/update-test.snippet.crud-update-object.jsx
+         :language: javascript
+         :emphasize-lines: 2-3, 6-8
+         :linenos:
 
 .. tip:: Update Related and Embedded Objects
    
@@ -46,14 +76,42 @@ JavaScript object.
 Upsert an Object
 ----------------
 
-To upsert an object, call :js-sdk:`Realm.create() <Realm.html#create>` with the
-update mode set to ``modified``. The operation either inserts a new object with
-the given primary key or updates an existing object that already has that
-primary key.
+To upsert an object within a write transaction, call :js-sdk:`Realm.create()
+<Realm.html#create>` with the update mode set to ``modified``. The operation
+either inserts a new object with the given primary key or updates an existing
+object that already has that primary key.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-upsert-an-object.js
-  :language: javascript
-  :emphasize-lines: 4, 13
+.. note:: Upserting Requires ``Realm.create()``
+
+   While you can create new :js-sdk:`Realm Objects <Realm.Object.html>` by
+   calling the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator
+   within a write transaction, you **must** call ``Realm.create()`` to upsert an
+   object.
+
+In the following example of a ``CreateTaskItem`` component we:
+
+#. Get access to the opened realm instance by calling the ``useRealm()`` hook within the component. 
+#. Perform a write transaction, and :ref:`create <react-native-create-a-new-object>` a ``Task`` object with an ``_id`` value of ``1234``.
+#. Call `` Realm.create()`` inside the write transaction to upsert a ``Task`` object by specifying the same ``_id`` and a different``progressMinutes`` and the update mode set to "modified".
+#. Render the task's ``name`` and ``progressMinutes`` in the UI, showing the modified progress. 
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/update-test.snippet.crud-upsert-object.tsx
+         :language: typescript
+         :emphasize-lines: 2, 8, 17
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/update-test.snippet.crud-upsert-object.jsx
+         :language: javascript
+         :emphasize-lines: 2, 8, 17
+         :linenos:
 
 .. _react-native-update-a-collection:
 .. _react-native-bulk-update:
@@ -63,14 +121,29 @@ Bulk Update a Collection
 
 To apply an update to a collection of objects, iterate through the collection
 (e.g. with :mdn:`for...of
-<Web/JavaScript/Reference/Statements/for...of>`). In the loop, update each object individually:
+<Web/JavaScript/Reference/Statements/for...of>`). In the loop, update each object individually.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-bulk-update.js
-  :language: javascript
-  :emphasize-lines: 7, 9
+In the following example of a ``TaskDashboard`` component, we:
 
-.. note:: Inverse Relationships
+#. Get access to the opened realm instance by calling the ``useRealm()`` hook within the component.
+#. Retrieve all tasks in the realm instance by passing "Task" to the ``useQuery()`` hook.
+#. Create a component method resetProgressOnAllTasks() that performs a write transaction. Within that write transaction, we bulk update all tasks by looping through them using ``for...of`` and set their ``progressMinutes`` to 0.
+#. `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the tasks to render a list of ``Text`` components displaying each task's ``name`` and ``progressMinutes``.
 
-   Thanks to an :ref:`inverse relationship <react-native-inverse-relationship>` from
-   ``Dog.owner`` to ``Person.dogs``, Realm Database automatically updates
-   Ali's list of dogs whenever we set her as a puppy's owner.
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/update-test.snippet.crud-bulk-update.tsx
+         :language: typescript
+         :emphasize-lines: 2-3, 6-10
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/update-test.snippet.crud-bulk-update.jsx
+         :language: javascript
+         :emphasize-lines: 2-3, 6-10
+         :linenos:

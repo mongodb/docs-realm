@@ -11,6 +11,7 @@ Encrypt a Realm - .NET SDK
    :depth: 2
    :class: singlecol
 
+
 Overview
 --------
 
@@ -40,11 +41,9 @@ You **must** pass the same encryption key every time you open the encrypted real
 If you don't provide a key or specify the wrong key for an encrypted
 realm, the Realm SDK throws an error.
 
-Apps should store the encryption key securely, typically in the target 
+Apps should store the encryption key securely, typically in the target
 platform's secure key/value storage, so that other apps cannot read the key.
-For example, you can use 
-:maui:`MAUI Secure Storage <platform-integration/storage/secure-storage>` or    
-:xamarin:`Xamarin Secure Storage <essentials/secure-storage>` to 
+You can use :xamarin:`Xamarin Secure Storage <essentials/secure-storage>` to 
 simplify the access to underlying storage. Ultimately, it is the developer's 
 responsibility to ensure that attackers cannot access the key.
 
@@ -67,8 +66,7 @@ Encryption and Atlas Device Sync
 You can encrypt a :ref:`synced realm <dotnet-sync>`. 
 
 If you need unique keys for each user of your application, you can use an OAuth 
-provider (such as :maui:`MAUI.Auth <platform-integration/communication/authentication>`) and 
-:xamarin:`Xamarin.Auth <essentials/web-authenticator>`), or use one of the 
+provider (such as Xamarin.Auth), or use one of the 
 :ref:`Realm Authentication providers <users-and-authentication>` and an 
 :ref:`Authentication Trigger<authentication-triggers>` 
 to create a 64-bit key and store that key in :ref:`a user object <user-objects>`.

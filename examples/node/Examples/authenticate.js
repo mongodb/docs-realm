@@ -175,27 +175,3 @@ describe("user authentication", () => {
     expect(postDeleteMatchesLen).toBe(0);
   });
 });
-
-describe("User Sessions", () => {
-  test("Get a User Access Token", async () => {
-    const email = "stanley.session@example.com";
-    const password = "pa55w0rd!";
-    try {
-      await app.logIn(Realm.Credentials.emailPassword(email, password));
-    } catch (err) {
-      await app.emailPasswordAuth.registerUser({ email, password });
-      await app.logIn(Realm.Credentials.emailPassword(email, password));
-    }
-    // :snippet-start: get-user-access-token
-    // Gets a valid user access token to authenticate requests
-    async function getValidAccessToken(user) {
-      // An already logged in user's access token might be stale. To
-      // guarantee that the token is valid, refresh it if necessary.
-      await user.refreshCustomData();
-      return user.accessToken;
-    }
-    // :snippet-end:
-    const token = await getValidAccessToken(app.currentUser);
-    expect(token).not.toBe(undefined);
-  });
-})
