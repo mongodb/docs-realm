@@ -62,27 +62,22 @@ describe("Delete Data Tests", () => {
         //   }
         // }
         const DogList = () => {
-            const [ dogs, setDogs ] = useState([]);
             const realm = useRealm();
             const myDogs = useQuery(Dog);
-            useEffect(() => {
-                setDogs(myDogs)
-            }, [realm])
 
             const deleteDog = (deletableDog) => {
                 realm.write(() => {
                     realm.delete(deletableDog)
                 })
             }
-
             return (
                 <>
                     {
-                        dogs.map((dog) => {
+                        myDogs.map((dog) => {
                             return(
                             <>
                                 <Text>{dog.name}</Text>
-                                <Button onPress={() => deleteDog(dog)} title="Delete Dog" testID="deleteDog"/>
+                                <Button onPress={() => deleteDog(dog)} title="Delete Dog" testID='deleteDog'/>
                             </>
                             )
                         })
@@ -98,12 +93,14 @@ describe("Delete Data Tests", () => {
         const deleteDogButtons = await waitFor(() => getAllByTestId("deleteDog"));
         const firstDeleteDogButton = deleteDogButtons[0];
 
-        // Test that a dog is deleted when the "Delete Dog" button is pressed
+        // Test that a Dog Realm.Object is deleted and there is one less Dog in the UI when the "Delete Dog" button is pressed
         expect(assertionRealm.objects("Dog").length).toBe(3);
+        expect(getAllByTestId("deleteDog").length).toBe(3);  // we can't use the value of deleteDogButtons because the variable doesn't update when a deleteDog testID is removed from the UI, so we need to call getAllByTestId() again
         await act(async () => {
             fireEvent.press(firstDeleteDogButton);
         });
-        expect(assertionRealm.objects("Dog").length).toBe(2);        
+        expect(assertionRealm.objects("Dog").length).toBe(2);  
+        expect(getAllByTestId("deleteDog").length).toBe(2);
     })
     it("should delete multiple objects", async () => {
         // :snippet-start: crud-delete-multiple-objects
@@ -145,8 +142,8 @@ describe("Delete Data Tests", () => {
                             )
                         })
                     }
-                    <Button onPress={() => deleteAllYoungDogObjects()} title="Delete Young Dog Objects" testID="deleteYoungDogs"/>
-                    <Button onPress={() => deleteAllDogObjects()} title="Delete All Dog Objects" testID="deleteAllDogs"/>
+                    <Button onPress={() => deleteAllYoungDogObjects()} title="Delete Young Dog Objects" testID='deleteYoungDogs'/>
+                    <Button onPress={() => deleteAllDogObjects()} title="Delete All Dog Objects" testID='deleteAllDogs'/>
 
                 </>
             )
@@ -190,7 +187,7 @@ describe("Delete Data Tests", () => {
             return (
                 <>
                     <Text>Delete all data in your profile:</Text>
-                    <Button onPress={deleteAllData} title="Delete all data" testID="deleteAllData"/>
+                    <Button onPress={deleteAllData} title="Delete all data" testID='deleteAllData'/>
                 </>
             )
         }
