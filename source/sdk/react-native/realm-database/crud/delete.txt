@@ -138,6 +138,14 @@ To delete **all** objects from the realm, call :js-sdk:`Realm.deleteAll()
 <Realm.html#deleteAll>` inside of a write transaction. This clears the realm
 of all object instances but does not affect the realm's schema.
 
+In the following example of a ``DeleteProfileSettingsScreen`` component, we get
+access to our realm instance by calling the ``useRealm()`` hook. 
+
+Within the UI, we render a "Delete all data" button that calls the component's
+``deleteAllData()`` method. The ``deleteAllData()`` method performs a write
+transaction and deletes all objects from the realm using the
+``Realm.deleteAll()`` method.
+
 .. tabs-realm-languages::
       
    .. tab::
