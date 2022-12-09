@@ -1,0 +1,212 @@
+import React, { useEffect, useState } from "react";
+import { Button, TextInput, Text } from "react-native";
+import { render, fireEvent, waitFor, act } from "@testing-library/react-native";
+import Realm from "realm";
+import { createRealmContext } from '@realm/react'
+
+// TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
+
+// :snippet-start: crud-dog-schema
+class Dog extends Realm.Object {
+    static schema = {
+        name: "Dog",
+        properties: {
+            name: "string",
+            owner: "Person?",
+            age: "int?",
+        }, 
+    }
+}
+// :snippet-end:
+
+class Person extends Realm.Object {
+    static schema = {
+        name: "Person",
+        properties: {
+            name: "string",
+            age: "int?",
+        },        
+    }
+}
+
+const realmConfig = {
+  schema: [Dog, Person],
+  inMemory: true,   
+}
+
+const { RealmProvider, useRealm, useObject, useQuery } = createRealmContext(realmConfig);
+
+let assertionRealm: Realm;
+
+describe("Delete Data Tests", () => {
+    beforeEach(async() => {
+        // we will use this Realm for assertions to access Realm Objects outside of a Functional Component (like required by @realm/react)
+        assertionRealm = await Realm.open(realmConfig)
+
+        // delete every object in the realmConfig in the Realm to make test idempotent
+        assertionRealm.write(()=> {
+            assertionRealm.delete(assertionRealm.objects("Dog"));
+
+            new Dog(assertionRealm, { name: "Blaise", age: 7, })
+            new Dog(assertionRealm, { name: "Bronson", age: 2, })
+            new Dog(assertionRealm, { name: "Bowie", age: 1, })
+
+            new Person(assertionRealm, { name: "John Smith", age: 18, })
+            new Person(assertionRealm, { name: "Jane Doe", age: 20, })
+
+        })
+    })
+    it("should delete an object", async () => {
+        // :snippet-start: crud-delete-object
+        // :replace-start: {
+        //  "terms": {
+        //   " testID='deleteDog'": ""
+        //   }
+        // }
+        const DogList = () => {
+            const [ dogs, setDogs ] = useState([]);
+            const realm = useRealm();
+            const myDogs = useQuery(Dog);
+            useEffect(() => {
+                setDogs(myDogs)
+            }, [realm])
+
+            const deleteDog = (deletableDog: Dog) => {
+                realm.write(() => {
+                    realm.delete(deletableDog)
+                })
+            }
+
+            return (
+                <>
+                    {
+                        dogs.map((dog) => {
+                            return(
+                            <>
+                                <Text>{dog.name}</Text>
+                                <Button onPress={() => deleteDog(dog)} title="Delete Dog" testID="deleteDog"/>
+                            </>
+                            )
+                        })
+                    }
+                </>
+            )
+        }
+        // :replace-end:
+        // :snippet-end:
+        const App = () => <RealmProvider> <DogList/> </RealmProvider>
+        const { getByTestId, getAllByTestId } = render(<App />);
+
+        const deleteDogButtons = await waitFor(() => getAllByTestId("deleteDog"));
+        const firstDeleteDogButton = deleteDogButtons[0];
+
+        // Test that a dog is deleted when the "Delete Dog" button is pressed
+        expect(assertionRealm.objects("Dog").length).toBe(3);
+        await act(async () => {
+            fireEvent.press(firstDeleteDogButton);
+        });
+        expect(assertionRealm.objects("Dog").length).toBe(2);        
+    })
+    it("should delete multiple objects", async () => {
+        // :snippet-start: crud-delete-multiple-objects
+        // :replace-start: {
+        //  "terms": {
+        //   " testID='deleteDog'": ""
+        //   }
+        // }
+        const DogList = () => {
+            const [ dogs, setDogs ] = useState([]);
+            const realm = useRealm();
+            const myDogs = useQuery(Dog);
+            
+            useEffect(() => {
+                setDogs(myDogs)
+            }, [realm])
+
+            const deleteAllYoungDogObjects = () => {
+                const youngDogs = myDogs.filtered("age < 3");
+                realm.write(() => {
+                    realm.delete(youngDogs)
+                })
+            }
+
+            const deleteAllDogObjects = () => {
+                realm.write(() => {
+                    realm.delete(myDogs)
+                })
+            }
+
+            return (
+                <>
+                    {
+                        dogs.map((dog) => {
+                            return(
+                            <>
+                                <Text>{dog.name}</Text>
+                            </>
+                            )
+                        })
+                    }
+                    <Button onPress={() => deleteAllYoungDogObjects()} title="Delete Young Dog Objects" testID="deleteYoungDogs"/>
+                    <Button onPress={() => deleteAllDogObjects()} title="Delete All Dog Objects" testID="deleteAllDogs"/>
+
+                </>
+            )
+        }
+        // :replace-end:
+        // :snippet-end:
+        const App = () => <RealmProvider> <DogList/> </RealmProvider>
+        const { getByTestId, getAllByTestId } = render(<App />);
+
+
+        // Test that the young Dog objects (Bronson, Bowie) have been deleted when the "Delete All Dog Objects" is pressed, leaving 1 dog object (Blaise) remaining
+        const deleteYoungDogsBtn = await waitFor(() => getByTestId("deleteYoungDogs"));
+        await act(async () => {
+            fireEvent.press(deleteYoungDogsBtn);
+        });
+        expect(assertionRealm.objects("Dog").length).toBe(1);
+
+        // Test that all Dog objects have been deleted when the "Delete Young Dog Objects" is pressed, leaving 0 dog objects remaining
+        const deleteAllDogs = await waitFor(() => getByTestId("deleteAllDogs"));
+        await act(async () => {
+            fireEvent.press(deleteAllDogs);
+        });
+        expect(assertionRealm.objects("Dog").length).toBe(0);
+    })
+    it("should delete all objects", async () => {
+        // :snippet-start: crud-delete-all-objects
+        // :replace-start: {
+        //  "terms": {
+        //   " testID='deleteAllData'": ""
+        //   }
+        // }
+        const DeleteProfileSettingsScreen = () => {
+            const realm = useRealm();
+
+            const deleteAllData = () => {
+                realm.write(() => {
+                    realm.deleteAll();
+                })
+            }
+
+            return (
+                <>
+                    <Text>Delete all data in your profile:</Text>
+                    <Button onPress={deleteAllData} title="Delete all data" testID="deleteAllData"/>
+                </>
+            )
+        }
+        // :replace-end:
+        // :snippet-end:
+        const App = () => <RealmProvider> <DeleteProfileSettingsScreen/> </RealmProvider>
+        const { getByTestId, getAllByTestId } = render(<App />);
+        const deleteAllDataBtn = await waitFor(() => getByTestId("deleteAllData"));
+
+        // Test that when the "Delete all Button" is called, there are no Person or Dog objects.
+        await act(async () => {
+            fireEvent.press(deleteAllDataBtn);
+        });
+        expect(assertionRealm.objects("Dog").length).toBe(0);
+        expect(assertionRealm.objects("Person").length).toBe(0);
+    })
+})
