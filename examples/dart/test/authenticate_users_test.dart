@@ -379,6 +379,24 @@ void main() {
       // :snippet-end:
       expect(updatedCustomData, user.customData);
     });
+
+    test('Write custom user data from Atlas Function', () async {
+      // :snippet-start: write-custom-user-data-function
+      final user = app.currentUser!;
+
+      final functionResponse =
+          await user.functions.call("writeCustomUserData", [
+        {
+          "userId": user.id,
+          "favoriteFood": "pizza",
+          "lastUpdated": DateTime.now().millisecondsSinceEpoch
+        }
+      ]);
+      // :snippet-end:
+      print(functionResponse);
+      expect(num.tryParse(functionResponse['matchedCount']['\$numberInt']), 1);
+      expect(num.tryParse(functionResponse["modifiedCount"]['\$numberInt']), 1);
+    });
   });
 
   test('Delete user', () async {
