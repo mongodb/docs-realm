@@ -77,9 +77,6 @@ name and priority in the UI.
 Query an Object Type and Filter Queries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To query for objects of a given type in a realm, pass the type name to the
-``useQuery()`` hook.
-
 Query operations return a collection of Realm objects that match the query as a
 :js-sdk:`Realm.Results <Realm.Results.html>` object. A basic query matches all
 objects of a given type in a realm, but you can also apply a filter to the
@@ -94,17 +91,11 @@ Call :js-sdk:`filtered() <Realm.Collection.html#filtered>` on the query results
 collection to filter a query. Pass a Realm Query Language query as an argument
 to ``filtered()``.
 
-In the following example of a ``TaskList`` component, we use the ``useQuery``
-hook to initially retrieve the set of Task objects. We then use the
-``filtered()`` method and comparison operators to: 
+In the following example of a ``TaskList`` component we:
 
-- Find high-priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
-- Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a specific range.
-
-Finally, we use the `map function to render a list
-<https://reactjs.org/docs/lists-and-keys.html>`__ of `Text
-<https://reactnative.dev/docs/text>`__ components displaying information about
-the high-priority and low-progress tasks.
+#. Obtain all ``Task`` objects by passing "Task" to the ``useQuery()`` hook.
+#. Obtain all high-priority tasks and low-progress task by passing a query to ``filtered()``.
+#. Use the map function to render a list of Text components displaying information about the high-priority and low-progress tasks.
 
 .. tabs-realm-languages::
       
