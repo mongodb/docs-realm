@@ -2,21 +2,6 @@
 #include <string>
 #include <cpprealm/sdk.hpp>
 
-struct MailingAddress : realm::embedded_object {
-    realm::persisted<std::string> streetAddress;
-    realm::persisted<std::string> city;
-    realm::persisted<std::string> state;
-    realm::persisted<std::string> postalCode;
-    realm::persisted<std::string> country;
-
-    static constexpr auto schema = realm::schema("MailingAddress",
-        realm::property<&MailingAddress::streetAddress>("streetAddress"),
-        realm::property<&MailingAddress::city>("city"),
-        realm::property<&MailingAddress::state>("state"),
-        realm::property<&MailingAddress::postalCode>("postalCode"),
-        realm::property<&MailingAddress::country>("country"));
-};
-
 // :snippet-start: model-with-embedded-object
 // Inherit from realm::embedded_object to declare an embedded object
 struct ContactDetails : realm::embedded_object {
@@ -24,19 +9,16 @@ struct ContactDetails : realm::embedded_object {
     // It does not have a lifecycle outside of the top-level object
     realm::persisted<std::string> emailAddress;
     realm::persisted<std::string> phoneNumber;
-    // An embedded object can contain another embedded object
-    // In this case, MailingAddress is also an embedded object
-    realm::persisted<MailingAddress> mailingAddress;
 
     static constexpr auto schema = realm::schema("ContactDetails",
         realm::property<&ContactDetails::emailAddress>("emailAddress"),
-        realm::property<&ContactDetails::phoneNumber>("phoneNumber"),
-        realm::property<&ContactDetails::mailingAddress>("mailingAddress"));
+        realm::property<&ContactDetails::phoneNumber>("phoneNumber"));
 };
 
 struct Business : realm::object {
     realm::persisted<std::string> _id;
     realm::persisted<std::string> name;
+    // Unlike to-one relationships, an embedded object can be a required property
     realm::persisted<ContactDetails> contactDetails;
 
     static constexpr auto schema = realm::schema("Business",
@@ -64,11 +46,10 @@ struct Employee : realm::object {
 };
 // :snippet-end:
 
-// GPSCoordinates and PointOfInterest were for a relationships example
-// But I can't currently get it to work.
+// :snippet-start: to-one-relationship
 struct GPSCoordinates: realm::object {
-    realm::persisted<std::string> latitude;
-    realm::persisted<std::string> longitude;
+    realm::persisted<double> latitude;
+    realm::persisted<double> longitude;
 
     static constexpr auto schema = realm::schema("GPSCoordinates",
         realm::property<&GPSCoordinates::latitude>("latitude"),
@@ -78,6 +59,7 @@ struct GPSCoordinates: realm::object {
 struct PointOfInterest : realm::object {
     realm::persisted<realm::uuid> _id;
     realm::persisted<std::string> name;
+    // To-one relationship objects must be optional
     realm::persisted<std::optional<GPSCoordinates>> gpsCoordinates;
 
     static constexpr auto schema = realm::schema("PointOfInterest",
@@ -85,21 +67,16 @@ struct PointOfInterest : realm::object {
         realm::property<&PointOfInterest::name>("name"),
         realm::property<&PointOfInterest::gpsCoordinates>("gpsCoordinates"));
 };
+// :snippet-end:
 
 TEST_CASE("create an embedded object", "[model][write]") {
-    auto realm = realm::open<Business, ContactDetails, MailingAddress>();
+    auto realm = realm::open<Business, ContactDetails>();
 
     auto business = Business { .name = "MongoDB" };
     business.contactDetails = ContactDetails { 
         .emailAddress = "email@example.com", 
-        .phoneNumber = "123-456-7890", 
-        .mailingAddress =  MailingAddress {
-        .streetAddress = "123 Any Street",
-        .city = "Any City",
-        .state = "Any State",
-        .postalCode = "12345",
-        .country = "Some Country"
-    }};
+        .phoneNumber = "123-456-7890"
+    };
     
     std::cout << "Business: " << business << "\n";
 
@@ -132,17 +109,12 @@ TEST_CASE("create object with ignored property", "[model][write]") {
     REQUIRE(leslieKnopePointer->ignoredField.empty());
 };
 
-#if 0
-// Can't currently get this to work
 TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
     auto realm = realm::open<PointOfInterest, GPSCoordinates>();
 
-    auto gpsCoordinates = GPSCoordinates { .latitude = "36.0554", .longitude = "112.1401" };
+    auto gpsCoordinates = GPSCoordinates { .latitude = 36.0554, .longitude = 112.1401 };
     auto pointOfInterest = PointOfInterest { .name = "Grand Canyon Village" };
-    pointOfInterest.gpsCoordinates = &gpsCoordinates;
-    // pointOfInterest.gpsCoordinates = GPSCoordinates { .latitude = "36.0554", .longitude = "112.1401" };
-
-    std::cout << "Point of Interest: " << pointOfInterest << "\n";
+    pointOfInterest.gpsCoordinates = gpsCoordinates;
 
     realm.write([&realm, &pointOfInterest] {
         realm.add(pointOfInterest);
@@ -151,9 +123,10 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     auto pointsOfInterest = realm.objects<PointOfInterest>();
     auto namedGrandCanyonVillage = pointsOfInterest.where("name == $0", {"Grand Canyon Village"});
     CHECK(namedGrandCanyonVillage.size() >= 1);
-    std::unique_ptr<PointOfInterest> grandCanyonVillage = namedGrandCanyonVillage[0];
+    auto grandCanyonVillage = namedGrandCanyonVillage[0];
     std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
-    std::cout << "POI Coordinates: " << grandCanyonVillage->gpsCoordinates << "\n";
-    // auto grandCanyonVillageCoordinates = (*grandCanyonVillage->gpsCoordinates).latitude;
+    REQUIRE(grandCanyonVillage->name == "Grand Canyon Village");
+    auto grandCanyonVillageLatitude = *(*grandCanyonVillage->gpsCoordinates).value().latitude;
+    std::cout << "POI Latitude: " << grandCanyonVillageLatitude << "\n";
+    REQUIRE(grandCanyonVillageLatitude == 36.0554);
 };
-#endif

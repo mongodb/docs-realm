@@ -71,6 +71,20 @@ Declare Relationship Properties
 Define a To-One Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+A **to-one** relationship maps one property to a single instance of
+another object type. For example, you can model a point of interest having 
+at most one set of location coordinates as a to-one relationship.
+
+Setting a relationship field to null removes the connection between objects. 
+Realm does not delete the referenced object, though, unless it is 
+:ref:`an embedded object <cpp-embedded-object>`.
+
+.. include:: /includes/note-to-one-relationships-must-be-optional.rst
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
+   :language: cpp
+   :emphasize-lines: 14
+
 .. _ios-define-a-to-many-relationship-property:
 
 Define a To-Many Relationship
