@@ -5,16 +5,7 @@ import Realm from "realm";
 import { createRealmContext } from '@realm/react'
 
 // TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
-// :snippet-start: crud-person-and-task-schema
-class Person extends Realm.Object {
-    static schema = {
-        name: "Person",
-        properties: {
-            name: "string",
-            age: "int?",
-        },
-    }
-}
+// :snippet-start: crud-task-schema
 class Task extends Realm.Object {
     static schema = {
         name: "Task",
@@ -31,7 +22,7 @@ class Task extends Realm.Object {
 // :snippet-end:
 
 const realmConfig = {
-  schema: [Person, Task,],
+  schema: [Task,],
   inMemory: true,
 }
 
@@ -46,16 +37,11 @@ describe("Update Data Tests", () => {
 
         // delete every object in the realmConfig in the Realm to make test idempotent
         assertionRealm.write(()=> {
-            assertionRealm.delete(assertionRealm.objects("Person"));
             assertionRealm.delete(assertionRealm.objects("Task"));
 
-            const nickObj = new Person(assertionRealm, { name: "Nick Jones", age: 74 })
-            const calebObj = new Person(assertionRealm, { name: "Caleb", age: 5 })
-            const kyleObj = new Person(assertionRealm, { name: "Kyle", age: 12 })
-
-            const task1 = new Task(assertionRealm, { _id: 92140, priority: 4, progressMinutes: 0, assignee: nickObj, name: "Paint the walls" });
-            const task2 = new Task(assertionRealm, { _id: 87432, priority: 2, progressMinutes: 0, assignee: calebObj, name: "Complete math homework" });
-            const task3 = new Task(assertionRealm, { _id: 93479, priority: 2, progressMinutes: 30, assignee: calebObj, name: "Learn spanish" });
+            const task1 = new Task(assertionRealm, { _id: 92140, priority: 4, progressMinutes: 0, name: "Paint the walls" });
+            const task2 = new Task(assertionRealm, { _id: 87432, priority: 2, progressMinutes: 0, name: "Complete math homework" });
+            const task3 = new Task(assertionRealm, { _id: 93479, priority: 2, progressMinutes: 30, name: "Learn spanish" });
 
         })
     })

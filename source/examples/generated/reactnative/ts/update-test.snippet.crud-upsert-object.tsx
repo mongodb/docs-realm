@@ -3,7 +3,7 @@ const CreateTaskItem = () => {
 
     let myTask: Realm.Object;
     realm.write(() => {
-        // Add a new person to the realm. Since nobody with ID 1234
+        // Add a new Task to the realm. Since no Task with ID 1234
         // has been added yet, this adds the instance to the realm.
         myTask = realm.create( "Task", { _id: 1234, name: "Wash the car", progressMinutes: 0}, "modified");
 
