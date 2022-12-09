@@ -16,7 +16,7 @@ const TaskList = () => {
         return (
           <Text
             key={taskItem._id + 'element' + i}
-            testID="high-priority-element">
+           >
             {taskItem.name}
           </Text>
         );
@@ -26,7 +26,7 @@ const TaskList = () => {
         return (
           <Text
             key={taskItem._id + 'element' + i}
-            testID="low-progress-element">
+           >
             {taskItem.name}
           </Text>
         );

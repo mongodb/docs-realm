@@ -18,8 +18,8 @@ const TaskDashboard = () => {
       })}
       <Button
         onPress={resetProgressOnAllTasks}
-        title="Reset Progress"
-        testID="resetProgressOnAllTasksBtn"
+        title='Reset Progress'
+       
       />
     </>
   );

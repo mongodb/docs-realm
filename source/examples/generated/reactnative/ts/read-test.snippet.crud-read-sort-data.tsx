@@ -17,31 +17,31 @@ const TaskList = () => {
     <>
       <Text>All tasks:</Text>
       {tasks.map(task => (
-        <Text testID="all-tasks-item">{task.name}</Text>
+        <Text>{task.name}</Text>
       ))}
 
       <Text>Tasks sorted by name:</Text>
       {tasksByName.map(task => (
-        <Text testID="tasks-by-name-item">{task.name}</Text>
+        <Text>{task.name}</Text>
       ))}
 
       <Text>Tasks sorted by name descending:</Text>
       {tasksByNameDescending.map(task => (
-        <Text testID="tasks-by-name-descending-item">{task.name}</Text>
+        <Text>{task.name}</Text>
       ))}
 
       <Text>
         Tasks sorted by priority descending, and name alphabetically:
       </Text>
       {tasksByPriorityDescendingAndName.map(task => (
-        <Text testID="tasks-by-priority-descending-and-name-item">
+        <Text>
           {task.name}
         </Text>
       ))}
 
       <Text>Tasks sorted by assignee name:</Text>
       {tasksByAssigneeName.map(task => (
-        <Text testID="tasks-by-assignee-name-item">{task.name}</Text>
+        <Text>{task.name}</Text>
       ))}
     </>
   );

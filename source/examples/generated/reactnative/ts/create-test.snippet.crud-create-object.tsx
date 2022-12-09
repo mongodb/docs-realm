@@ -13,8 +13,8 @@ const CreateDogInput = () => {
       <TextInput onChangeText={onChangeDogName} value={dogName} />
       <Button
         onPress={() => handleAddItem()}
-        title="Submit Item"
-        testID="handleAddItemBtn"
+        title='Submit Item'
+       
       />
     </>
   );

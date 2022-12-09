@@ -72,7 +72,7 @@ describe('Read Data Tests', () => {
       const myTask = useObject('Task', _id);
       return (
         <View>
-          <Text testID="task-item-sentence">
+          <Text testID='task-item-sentence'>
             {myTask.name} is a task with the priority of: {myTask.priority}
           </Text>
         </View>
@@ -124,7 +124,7 @@ describe('Read Data Tests', () => {
             return (
               <Text
                 key={taskItem._id + 'element' + i}
-                testID="high-priority-element">
+                testID='high-priority-element'>
                 {taskItem.name}
               </Text>
             );
@@ -134,7 +134,7 @@ describe('Read Data Tests', () => {
             return (
               <Text
                 key={taskItem._id + 'element' + i}
-                testID="low-progress-element">
+                testID='low-progress-element'>
                 {taskItem.name}
               </Text>
             );
@@ -204,31 +204,31 @@ describe('Read Data Tests', () => {
         <>
           <Text>All tasks:</Text>
           {tasks.map(task => (
-            <Text testID="all-tasks-item">{task.name}</Text>
+            <Text testID='all-tasks-item'>{task.name}</Text>
           ))}
 
           <Text>Tasks sorted by name:</Text>
           {tasksByName.map(task => (
-            <Text testID="tasks-by-name-item">{task.name}</Text>
+            <Text testID='tasks-by-name-item'>{task.name}</Text>
           ))}
 
           <Text>Tasks sorted by name descending:</Text>
           {tasksByNameDescending.map(task => (
-            <Text testID="tasks-by-name-descending-item">{task.name}</Text>
+            <Text testID='tasks-by-name-descending-item'>{task.name}</Text>
           ))}
 
           <Text>
             Tasks sorted by priority descending, and name alphabetically:
           </Text>
           {tasksByPriorityDescendingAndName.map(task => (
-            <Text testID="tasks-by-priority-descending-and-name-item">
+            <Text testID='tasks-by-priority-descending-and-name-item'>
               {task.name}
             </Text>
           ))}
 
           <Text>Tasks sorted by assignee name:</Text>
           {tasksByAssigneeName.map(task => (
-            <Text testID="tasks-by-assignee-name-item">{task.name}</Text>
+            <Text testID='tasks-by-assignee-name-item'>{task.name}</Text>
           ))}
         </>
       );

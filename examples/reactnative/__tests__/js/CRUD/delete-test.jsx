@@ -56,8 +56,8 @@ describe('Delete Data Tests', () => {
                 <Text>{dog.name}</Text>
                 <Button
                   onPress={() => deleteDog(dog)}
-                  title="Delete Dog"
-                  testID="deleteDog"
+                  title='Delete Dog'
+                  testID='deleteDog'
                 />
               </>
             );
@@ -114,20 +114,20 @@ describe('Delete Data Tests', () => {
           {myDogs.map(dog => {
             return (
               <>
-                <Text testID="dogItem">{dog.name}</Text>
+                <Text testID='dogItem'>{dog.name}</Text>
                 <Text>{dog.age}</Text>
               </>
             );
           })}
           <Button
             onPress={() => deleteAllYoungDogObjects()}
-            title="Delete Young Dog Objects"
-            testID="deleteYoungDogs"
+            title='Delete Young Dog Objects'
+            testID='deleteYoungDogs'
           />
           <Button
             onPress={() => deleteAllDogObjects()}
-            title="Delete All Dog Objects"
-            testID="deleteAllDogs"
+            title='Delete All Dog Objects'
+            testID='deleteAllDogs'
           />
         </>
       );
@@ -182,8 +182,8 @@ describe('Delete Data Tests', () => {
           <Text>Delete all data in your profile:</Text>
           <Button
             onPress={deleteAllData}
-            title="Delete all data"
-            testID="deleteAllData"
+            title='Delete all data'
+            testID='deleteAllData'
           />
         </>
       );

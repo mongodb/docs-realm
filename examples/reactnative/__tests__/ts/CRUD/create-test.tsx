@@ -53,8 +53,8 @@ describe('Create Data Tests', () => {
           <TextInput onChangeText={onChangeDogName} value={dogName} />
           <Button
             onPress={() => handleAddItem()}
-            title="Submit Item"
-            testID="handleAddItemBtn"
+            title='Submit Item'
+            testID='handleAddItemBtn'
           />
         </>
       );

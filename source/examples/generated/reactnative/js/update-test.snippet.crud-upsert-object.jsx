@@ -24,7 +24,7 @@ const CreateTaskItem = () => {
     <>
       <Text>{myTask.name}</Text>
       <Text>Progress made (in minutes):</Text>
-      <Text testID="progressMinutes">{myTask.progressMinutes}</Text>
+      <Text>{myTask.progressMinutes}</Text>
     </>
   );
 };

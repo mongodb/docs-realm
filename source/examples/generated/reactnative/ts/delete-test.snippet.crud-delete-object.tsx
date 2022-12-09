@@ -15,8 +15,8 @@ const DogList = () => {
             <Text>{dog.name}</Text>
             <Button
               onPress={() => deleteDog(dog)}
-              title="Delete Dog"
-              testID="deleteDog"
+              title='Delete Dog'
+             
             />
           </>
         );

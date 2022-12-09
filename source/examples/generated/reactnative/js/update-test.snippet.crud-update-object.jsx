@@ -11,11 +11,11 @@ const TaskItem = ({_id}) => {
     <>
       <Text>Task: {myTask.name}</Text>
       <Text>Progress made (in minutes):</Text>
-      <Text testID="progressMinutes">{myTask.progressMinutes}</Text>
+      <Text>{myTask.progressMinutes}</Text>
       <Button
         onPress={() => incrementTaskProgress()}
-        title="Increment Task Progress"
-        testID="handleIncrementBtn"
+        title='Increment Task Progress'
+       
       />
     </>
   );
