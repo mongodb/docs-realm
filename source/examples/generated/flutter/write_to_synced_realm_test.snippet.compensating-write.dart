@@ -14,7 +14,7 @@ realm.write(() {
 await realm.syncSession.waitForUpload();
 await realm.syncSession.waitForDownload();
 
-final noCar = realm.find(carId);
-// The Car is no longer in the realm because of the compensating write
-// from the server.
+final noCar = realm.find<Car>(carId);
+// The Car is no longer in the realm because of
+// the compensating write from the server.
 expect(noCar, isNull);

@@ -5,9 +5,9 @@ import 'utils.dart';
 
 part 'write_to_synced_realm_test.g.dart';
 
-// TODO: add a different APP_ID here from what otherwise using b/c of different
-// permissions and queryable field
-const APP_ID = '';
+// NOTE: this is a unique App ID from the other Flutter tests
+// because these examples require unique sync permissions.
+const APP_ID = 'write-flex-sync-data-hvpxi';
 
 // :snippet-start: realm-model
 @RealmModel()
@@ -35,6 +35,7 @@ main() async {
   realm.subscriptions.update((mutableSubscriptions) {
     // Get Cars from Atlas that match the Realm Query Language query.
     // Uses the queryable field `miles`.
+    // Query matches cars with less than 100 miles or `null` miles.
     final newCarQuery = realm.query<Car>("miles < 100 OR miles == \$0", [null]);
     mutableSubscriptions.add(newCarQuery, name: "new-car-subscription");
   });
@@ -43,8 +44,12 @@ main() async {
   tearDownAll(() async {
     cleanUpRealm(realm, app);
   });
+  tearDown(() async {
+    realm.write(() => realm.deleteAll<Car>());
+    await realm.syncSession.waitForUpload();
+    await realm.syncSession.waitForDownload();
+  });
 
-  // TODO: make real test
   test("Write to a synced realm", () async {
     // :snippet-start: write-synced-realm
     // Per the Device Sync permissions, users can only read and write data
@@ -75,8 +80,13 @@ main() async {
       realm.add(otherUsersCar);
     });
     // :snippet-end:
+    // sync changes
+    await realm.syncSession.waitForUpload();
+    await realm.syncSession.waitForDownload();
+
+    expect(realm.all<Car>().length, 1);
   });
-  // TODO: make real test
+
   test("Compensating writes", () async {
     // :snippet-start: compensating-write
     final carId = ObjectId();
@@ -95,9 +105,9 @@ main() async {
     await realm.syncSession.waitForUpload();
     await realm.syncSession.waitForDownload();
 
-    final noCar = realm.find(carId);
-    // The Car is no longer in the realm because of the compensating write
-    // from the server.
+    final noCar = realm.find<Car>(carId);
+    // The Car is no longer in the realm because of
+    // the compensating write from the server.
     expect(noCar, isNull);
     // :snippet-end:
   });
