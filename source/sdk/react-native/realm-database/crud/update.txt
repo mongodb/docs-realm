@@ -33,15 +33,17 @@ The examples on this page use the following schemas:
 Update an Object
 ----------------
 
-You can add, modify, or delete properties of a Realm object inside
-of a write transaction in the same way that you would update any other
-JavaScript object.
+You can add, modify, or delete properties of a Realm object inside of a
+:ref:`write transaction <react-native-write-transactions>` in the same way that
+you would update any other JavaScript object.
 
-In the following example of a ``TaskItem`` component, we retrieve the realm
-instance using the ``useRealm()`` hook. We then retrieve a task object by its
-primary key, _id, using the ``useObject()`` hook. When an application user
-clicks the "Submit Item" button, the button calls a function called
-``incrementTask`` updating the retrieved task's ``progressMinutes``.
+In the following example of a ``TaskItem`` component we:
+
+- Retrieve the realm instance using the useRealm() hook. 
+- Retrieve a task by calling ``useObject()` with "Task" and the ``_id`` parameter of the component.
+- Create a component method ``incrementTaskProgress()`` that performs a write transaction and increments the task's ``progressMinutes``.
+- Render the task's ``name`` and ``progressMinutes`` in the UI.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "increment" button that calls ``incrementTaskProgress()``.
 
 .. tabs-realm-languages::
       
@@ -74,17 +76,24 @@ clicks the "Submit Item" button, the button calls a function called
 Upsert an Object
 ----------------
 
-To upsert an object, within a write transaction, call :js-sdk:`Realm.create()
+To upsert an object within a write transaction, call :js-sdk:`Realm.create()
 <Realm.html#create>` with the update mode set to ``modified``. The operation
 either inserts a new object with the given primary key or updates an existing
 object that already has that primary key.
 
-In the following example the ``CreateTaskItem`` component creates a ``Task``
-object with an ``_id`` value of 1234. The component calls ``Realm.create()`` to
-create another ``Task`` object with the same ``_id``, but with a different
-amount for the task's ``progressMinutes``. Since the update mode in the second
-``Realm.create()`` is set to "modified", Realm Database upserts the ``Task``
-object and changes the value of its ``progressMinutes``.
+.. note:: Upserting Requires ``Realm.create()``
+
+   While you can create new :js-sdk:`Realm Objects <Realm.Object.html>` by
+   calling the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator
+   within a write transaction, you **must** call ``Realm.create()`` to upsert an
+   object.
+
+In the following example of a ``CreateTaskItem`` component we:
+
+-  Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
+- Perform a write transaction, and :ref:`create <react-native-create-a-new-object>` a ``Task`` object with an ``_id`` value of ``1234``.
+- Call `` Realm.create()`` inside the write transaction to upsert a ``Task`` object by specifying the same ``_id`` and a different``progressMinutes`` and the update mode set to "modified".
+- Render the task's ``name`` and ``progressMinutes`` in the UI, showing the modified progress. 
 
 .. tabs-realm-languages::
       
