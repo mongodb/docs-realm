@@ -20,9 +20,18 @@ class Task extends Realm.Object {
     }
 }
 // :snippet-end:
+class Person extends Realm.Object {
+    static schema = {
+        name: "Person",
+        properties: {
+            name: "string",
+            age: "int?",
+        },        
+    }
+}
 
 const realmConfig = {
-  schema: [Task,],
+  schema: [Task, Person],
   inMemory: true,
 }
 

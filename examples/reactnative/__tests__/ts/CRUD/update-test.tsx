@@ -21,8 +21,18 @@ class Task extends Realm.Object {
 }
 // :snippet-end:
 
+class Person extends Realm.Object {
+    static schema = {
+        name: "Person",
+        properties: {
+            name: "string",
+            age: "int?",
+        },        
+    }
+}
+
 const realmConfig = {
-  schema: [Task,],
+  schema: [Task, Person],
   inMemory: true,
 }
 
@@ -79,7 +89,7 @@ describe("Update Data Tests", () => {
         // :replace-end:
         // :snippet-end:
 
-        // render an App component, giving the CreateDogInput component access to the @realm/react hooks:
+        // render an App component, giving the TaskItem component access to the @realm/react hooks:
         const App = () => <RealmProvider> <TaskItem _id={92140}/> </RealmProvider>
         const { getByTestId } = render(<App />);
 
