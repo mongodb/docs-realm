@@ -54,10 +54,7 @@ a query and are declared as a property of the object model.
 
 Relationship definitions in Realm Database are unidirectional. An 
 **inverse relationship** links an object back to an object that refers 
-to it. You must explicitly define a property in the object's model as an 
-inverse relationship. Inverse relationships can link back to objects in 
-a to-one or to-many relationship. The C++ SDK Alpha does not yet support
-inverse relationships.
+to it. The C++ SDK Alpha does not yet support inverse relationships.
 
 .. _cpp-declare-relationship-properties:
 
@@ -89,3 +86,11 @@ Realm does not delete the referenced object, though, unless it is
 
 Define a To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship maps one property to zero or more instances
+of another object type. For example, you can model a company having any
+number of employees as a to-many relationship.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
+   :language: cpp
+   :emphasize-lines: 7
