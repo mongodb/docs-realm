@@ -4,6 +4,7 @@ import { render, fireEvent, waitFor, act } from "@testing-library/react-native";
 import Realm from "realm";
 import { createRealmContext } from '@realm/react'
 
+// :snippet-start: crud-dog-schema
 class Dog extends Realm.Object {
     static schema = {
         name: "Dog",
@@ -14,6 +15,7 @@ class Dog extends Realm.Object {
         }, 
     }
 }
+// :snippet-end:
 
 class Person extends Realm.Object {
     static schema = {
@@ -60,7 +62,7 @@ describe("Create Data Tests", () => {
 
             const handleAddItem = () => {
                 realm.write(() => {
-                    new Dog(realm, {  name: dogName, age: 1, })
+                    new Dog(realm, { name: dogName, age: 1, })
                 });
             }
 
