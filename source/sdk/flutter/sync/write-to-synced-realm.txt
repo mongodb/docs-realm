@@ -4,11 +4,17 @@
 Write Data to a Synced Realm - Flutter SDK
 ==========================================
 
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
 When writing data to a synced realm using Flexible Sync, you can use the same APIs
 as writing to a local realm database. However, there are some differences
 in behavior to keep in mind as you develop your application.
-For more information on reading and writing data to a realm,
-refer to :ref:`Read & Write Data <flutter-read-write-data>`
+To learn more about reading and writing data to a realm,
+refer to :ref:`Read & Write Data <flutter-read-write-data>`.
 
 Examples on This Page
 ---------------------
@@ -58,7 +64,7 @@ Write to a Synced Realm
 -----------------------
 
 When you write to a synced realm, your write operations must match *both*
-of the following criteria:
+of the following:
 
 - **The sync subscription query.**
     - If your write operation doesn't match
@@ -83,12 +89,12 @@ Compensating Writes
 Compensating write errors occur when you write data to a realm locally
 that doesn't align with the realm's sync subscriptions.
 
-Because the local realm has no concept of "illegal" writes,
+Because the client realm has no concept of "illegal" writes,
 the write always initially succeeds locally.
 Upon sync, the server will notice the illegal write. The server then undoes the change.
 The undo operation, called a "compensating write", syncs back to the client
 so the client's realm no longer has the illegal write.
-Any local writes to a given object between an illegal write to that object
+Any client-side writes to a given object between an illegal write to that object
 and the corresponding compensating write will be lost.
 
 To learn more about compensating write errors and other Device Sync error types,
