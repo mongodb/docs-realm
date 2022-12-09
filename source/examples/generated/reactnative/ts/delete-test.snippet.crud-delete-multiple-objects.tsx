@@ -1,32 +1,26 @@
 const DogList = () => {
-    const [ dogs, setDogs ] = useState([]);
     const realm = useRealm();
     const myDogs = useQuery(Dog);
     
-    useEffect(() => {
-        setDogs(myDogs)
-    }, [realm])
-
     const deleteAllYoungDogObjects = () => {
         const youngDogs = myDogs.filtered("age < 3");
         realm.write(() => {
             realm.delete(youngDogs)
         })
     }
-
     const deleteAllDogObjects = () => {
         realm.write(() => {
             realm.delete(myDogs)
         })
     }
-
     return (
         <>
             {
-                dogs.map((dog) => {
+                myDogs.map((dog) => {
                     return(
                     <>
                         <Text>{dog.name}</Text>
+                        <Text>{dog.age}</Text>
                     </>
                     )
                 })

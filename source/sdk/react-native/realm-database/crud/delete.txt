@@ -43,10 +43,10 @@ write transaction.
 
 In the following example of a ``DogList`` component, we get access to our realm
 instance by calling the ``useRealm()`` hook. Then we retrieve all ``Dog``
-objects from the realm by passing the class to the ``useQuery()`` hook. We
+objects from the realm by passing the ``Dog`` class to the ``useQuery()`` hook. We
 render the dog's name and a delete button for each dog in the UI. When an
 application user presses a delete button for the dog, we call the component's
-``deleteDog()`` method. Within that method, we perform a write transaction and
+``deleteDog()`` method. Within that method, We perform a write transaction and
 pass the dog object to the ``Realm.delete()`` method. 
 
 .. tabs-realm-languages::

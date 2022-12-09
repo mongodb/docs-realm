@@ -106,38 +106,33 @@ describe("Delete Data Tests", () => {
         // :snippet-start: crud-delete-multiple-objects
         // :replace-start: {
         //  "terms": {
+        //   " testID='dogItem'": "",
         //   " testID='deleteDog'": ""
         //   }
         // }
         const DogList = () => {
-            const [ dogs, setDogs ] = useState([]);
             const realm = useRealm();
             const myDogs = useQuery(Dog);
             
-            useEffect(() => {
-                setDogs(myDogs)
-            }, [realm])
-
             const deleteAllYoungDogObjects = () => {
                 const youngDogs = myDogs.filtered("age < 3");
                 realm.write(() => {
                     realm.delete(youngDogs)
                 })
             }
-
             const deleteAllDogObjects = () => {
                 realm.write(() => {
                     realm.delete(myDogs)
                 })
             }
-
             return (
                 <>
                     {
-                        dogs.map((dog) => {
+                        myDogs.map((dog) => {
                             return(
                             <>
-                                <Text>{dog.name}</Text>
+                                <Text testID='dogItem'>{dog.name}</Text>
+                                <Text>{dog.age}</Text>
                             </>
                             )
                         })
@@ -153,13 +148,15 @@ describe("Delete Data Tests", () => {
         const App = () => <RealmProvider> <DogList/> </RealmProvider>
         const { getByTestId, getAllByTestId } = render(<App />);
 
+        await waitFor(() => getAllByTestId("dogItem")); // even though we don't use this as variable, react-native-testing-library requires us to waitFor() this to avoid the following error: "Unable to find an element with testID: dogItem"
 
-        // Test that the young Dog objects (Bronson, Bowie) have been deleted when the "Delete All Dog Objects" is pressed, leaving 1 dog object (Blaise) remaining
+        // Test that the young Dog objects (Bronson, Bowie) have been deleted from the realm + from the UI when the "Delete All Dog Objects" is pressed, leaving 1 dog object (Blaise) remaining
         const deleteYoungDogsBtn = await waitFor(() => getByTestId("deleteYoungDogs"));
         await act(async () => {
             fireEvent.press(deleteYoungDogsBtn);
         });
         expect(assertionRealm.objects("Dog").length).toBe(1);
+        expect(getAllByTestId("dogItem").length).toBe(1);
 
         // Test that all Dog objects have been deleted when the "Delete Young Dog Objects" is pressed, leaving 0 dog objects remaining
         const deleteAllDogs = await waitFor(() => getByTestId("deleteAllDogs"));
