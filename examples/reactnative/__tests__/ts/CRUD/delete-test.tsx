@@ -108,8 +108,8 @@ describe("Delete Data Tests", () => {
         // :snippet-start: crud-delete-multiple-objects
         // :replace-start: {
         //  "terms": {
-        //   " testID='dogItem'": "",
-        //   " testID='deleteDog'": ""
+        //   " testID='deleteYoungDogs'": "",
+        //   " testID='deleteAllDogs'": ""
         //   }
         // }
         const DogList = () => {

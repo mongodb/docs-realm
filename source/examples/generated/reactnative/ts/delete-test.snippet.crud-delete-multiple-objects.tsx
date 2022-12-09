@@ -19,14 +19,14 @@ const DogList = () => {
                 myDogs.map((dog) => {
                     return(
                     <>
-                        <Text>{dog.name}</Text>
+                        <Text testID='dogItem'>{dog.name}</Text>
                         <Text>{dog.age}</Text>
                     </>
                     )
                 })
             }
-            <Button onPress={() => deleteAllYoungDogObjects()} title="Delete Young Dog Objects" testID='deleteYoungDogs'/>
-            <Button onPress={() => deleteAllDogObjects()} title="Delete All Dog Objects" testID='deleteAllDogs'/>
+            <Button onPress={() => deleteAllYoungDogObjects()} title="Delete Young Dog Objects"/>
+            <Button onPress={() => deleteAllDogObjects()} title="Delete All Dog Objects"/>
 
         </>
     )
