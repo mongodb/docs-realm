@@ -37,13 +37,13 @@ You can add, modify, or delete properties of a Realm object inside of a
 :ref:`write transaction <react-native-write-transactions>` in the same way that
 you would update any other JavaScript object.
 
-In the following example of a ``TaskItem`` component we:
+In the following example of a ``TaskItem`` component, we:
 
-- Get access to the opened realm instance by calling the ``useRealm()`` hook within the component. 
-- Retrieve a task by calling ``useObject()` with "Task" and the ``_id`` parameter of the component.
-- Create a component method ``incrementTaskProgress()`` that performs a write transaction and increments the task's ``progressMinutes``.
-- Render the task's ``name`` and ``progressMinutes`` in the UI.
-- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "increment" button that calls ``incrementTaskProgress()``.
+#. Get access to the opened realm instance by calling the ``useRealm()`` hook within the component. 
+#. Retrieve a task by calling ``useObject()` with "Task" and the ``_id`` parameter of the component.
+#. Create a component method ``incrementTaskProgress()`` that performs a write transaction and increments the task's ``progressMinutes``.
+#. Render the task's ``name`` and ``progressMinutes`` in the UI.
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "increment" button that calls ``incrementTaskProgress()``.
 
 .. tabs-realm-languages::
       
