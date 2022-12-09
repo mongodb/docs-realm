@@ -58,11 +58,6 @@ describe("Update Data Tests", () => {
             const task3 = new Task(assertionRealm, { _id: 93479, priority: 2, progressMinutes: 30, assignee: calebObj, name: "Learn spanish" });
 
         })
-        
-        // const myP = assertionRealm.objects("Person").filtered("name == 'Nick Jones'");
-
-        // console.log("Do my P exist::: ", myP.name)
-
     })
     afterAll(() => {
         if(!assertionRealm.isClosed){
@@ -175,7 +170,6 @@ describe("Update Data Tests", () => {
             const tasks = useQuery("Task");
 
             const resetProgressOnAllTasks = () => {
-                console.log('Reset Progress')
                 realm.write(() => {
                     for(const task of tasks){
                         task.progressMinutes = 0;

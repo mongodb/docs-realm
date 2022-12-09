@@ -3,7 +3,6 @@ const TaskDashboard = () => {
     const tasks = useQuery("Task");
 
     const resetProgressOnAllTasks = () => {
-        console.log('Reset Progress')
         realm.write(() => {
             for(const task of tasks){
                 task.progressMinutes = 0;
