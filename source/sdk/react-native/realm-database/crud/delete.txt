@@ -86,6 +86,31 @@ To delete all objects of a given object type from a realm, pass
 ``Realm.objects(<ObjectType>)`` to the :js-sdk:`Realm.delete()
 <Realm.html#delete>` method inside of a write transaction.
 
+In the following example of a ``DogList`` component, we get access to our realm
+instance by calling the ``useRealm()`` hook. Then we set the ``myDogs`` variable
+to all the ``Dog`` objects in the realm by passing the ``Dog`` class to the
+``useQuery()`` hook. 
+
+Within the component's render method, we:
+
+- Display the "Delete Young Dog Objects" and  "Delete all Dog Objects" buttons
+- Map through the ``Dog`` objects, displaying the dog's name and age
+
+When an application user presses the "Delete all Dog Objects," we call the
+component's ``deleteAllDogObjects()`` method that performs a write transaction.
+Within the write transaction, we pass the ``myDogs`` variable to
+``Realm.delete()``. 
+
+When an application user presses the "Delete Young Dog Objects," we call the
+component's ``deleteAllDogObjects()`` method. We call
+:js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` to retrieve
+only the dogs under age 3. Within the write transaction, we pass the young dogs
+to ``Realm.delete()``. 
+
+When you delete``Dog`` objects from the realm instance, the UI re-renders and
+automatically removes them. 
+
+
 .. tabs-realm-languages::
       
    .. tab::
