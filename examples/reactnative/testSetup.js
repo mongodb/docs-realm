@@ -3,7 +3,7 @@ jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper'); // avoid erro
 jest.setTimeout(10000);
 global.console = {
   ...global.console,
-  // log: jest.fn(),
+  log: jest.fn(),
   error: jest.fn(),
   warn: jest.fn(),
 };
