@@ -48,11 +48,9 @@ describe("Update Data Tests", () => {
         // delete every object in the realmConfig in the Realm to make test idempotent
         assertionRealm.write(()=> {
             assertionRealm.delete(assertionRealm.objects("Task"));
-
             const task1 = new Task(assertionRealm, { _id: 92140, priority: 4, progressMinutes: 0, name: "Paint the walls" });
             const task2 = new Task(assertionRealm, { _id: 87432, priority: 2, progressMinutes: 0, name: "Complete math homework" });
             const task3 = new Task(assertionRealm, { _id: 93479, priority: 2, progressMinutes: 30, name: "Learn spanish" });
-
         })
     })
     afterAll(() => {
