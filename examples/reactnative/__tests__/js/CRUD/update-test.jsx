@@ -71,7 +71,7 @@ describe("Update Data Tests", () => {
             const realm = useRealm();
             const myTask = useObject("Task", _id);
             
-            const incrementTask = () => {
+            const incrementTaskProgress = () => {
                 realm.write(() => {
                     myTask.progressMinutes += 1;
                 })
@@ -81,7 +81,7 @@ describe("Update Data Tests", () => {
                     <Text>Task: {myTask.name}</Text>
                     <Text>Progress made (in minutes):</Text>
                     <Text testID='progressMinutes'>{myTask.progressMinutes}</Text>
-                    <Button onPress={() => incrementTask()} title="Submit Item" testID='handleIncrementBtn'/>
+                    <Button onPress={() => incrementTaskProgress()} title="Increment Task Progress" testID='handleIncrementBtn'/>
                 </>
             )
         }
