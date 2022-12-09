@@ -23,8 +23,8 @@ querying against any other property.
 Realm Database supports **to-one**, **to-many**, and **inverse**
 relationships. However, the C++ SDK Alpha does not yet support inverse 
 relationships. Realm also provides a special type of object, called an
-**embedded object**, that is conceptually similar to a relationship but 
-provides additional constraints.
+:ref:`embedded object <cpp-embedded-object>`, that is conceptually 
+similar to a relationship but provides additional constraints.
 
 .. _cpp-to-one-relationship:
 
@@ -33,7 +33,7 @@ To-One Relationship
 
 A **to-one** relationship means that an object relates to one other object. 
 You define a to-one relationship for an object type in its object 
-schema. Specify a property where the type is the related Realm 
+model. Specify a property where the type is the related Realm 
 object type. For example, a dog might have a to-one relationship with 
 a favorite toy.
 
@@ -51,6 +51,11 @@ Realm Database represents a to-many relationship between two Realm
 types as a list. Lists are mutable: within a write transaction, you can 
 add and remove elements to and from a list. Lists are not associated with 
 a query and are declared as a property of the object model.
+
+.. _cpp-inverse-relationship:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
 
 Relationship definitions in Realm Database are unidirectional. An 
 **inverse relationship** links an object back to an object that refers 
