@@ -20,13 +20,13 @@ The examples on this page use the following schema:
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/reactnative/ts/update-test.snippet.crud-task-schema.tsx
+      .. literalinclude:: /examples/generated/reactnative/ts/delete-test.snippet.crud-dog-schema.tsx
          :language: typescript
 
    .. tab::
       :tabid: javascript
 
-      .. literalinclude:: /examples/generated/reactnative/js/update-test.snippet.crud-task-schema.jsx
+      .. literalinclude:: /examples/generated/reactnative/js/delete-test.snippet.crud-dog-schema.jsx
          :language: javascript
 
 .. _react-native-delete-an-object:
@@ -38,9 +38,23 @@ Delete an Object
 To delete an object from a realm, pass the object to :js-sdk:`Realm.delete()
 <Realm.html#delete>` inside of a write transaction.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-object.js
-  :language: javascript
-  :emphasize-lines: 3
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/delete-test.snippet.crud-delete-object.tsx
+         :language: typescript
+         :emphasize-lines: 3, 10-12
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/delete-test.snippet.crud-delete-object.jsx
+         :language: javascript
+         :emphasize-lines: 3, 10-12
+         :linenos:
 
 .. important:: Do not use objects after delete
    
@@ -49,6 +63,7 @@ To delete an object from a realm, pass the object to :js-sdk:`Realm.delete()
 
 .. _react-native-delete-multiple-objects:
 .. _react-native-delete-collection:
+.. _react-native-delete-all-object-of-a-specific-type:
 
 Delete Multiple Objects
 -----------------------
@@ -56,22 +71,27 @@ Delete Multiple Objects
 To delete a collection of objects from a realm, pass the collection to
 :js-sdk:`Realm.delete() <Realm.html#delete>` inside of a write transaction.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-multiple-objects.js
-  :language: javascript
-  :emphasize-lines: 5
-
-.. _react-native-delete-all-object-of-a-specific-type:
-
-Delete All Objects of a Specific Type
--------------------------------------
-
 To delete all objects of a given object type from a realm, pass
 ``Realm.objects(<ObjectType>)`` to the :js-sdk:`Realm.delete()
 <Realm.html#delete>` method inside of a write transaction.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-all-objects-of-a-specific-type.js
-  :language: javascript
-  :emphasize-lines: 3
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/delete-test.snippet.crud-delete-multiple-objects.tsx
+         :language: typescript
+         :emphasize-lines: 3-4, 10-15, 17-21
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/delete-test.snippet.crud-delete-multiple-objects.jsx
+         :language: javascript
+         :emphasize-lines: 3-4, 10-15, 17-21
+         :linenos:
 
 .. _react-native-delete-all-objects-in-a-realm:
 
@@ -82,9 +102,23 @@ To delete **all** objects from the realm, call :js-sdk:`Realm.deleteAll()
 <Realm.html#deleteAll>` inside of a write transaction. This clears the realm
 of all object instances but does not affect the realm's schema.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-all.js
-  :language: javascript
-  :emphasize-lines: 3
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/reactnative/ts/delete-test.snippet.crud-delete-all-objects.tsx
+         :language: typescript
+         :emphasize-lines: 2, 5-7
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/reactnative/js/delete-test.snippet.crud-delete-all-objects.jsx
+         :language: javascript
+         :emphasize-lines: 2, 5-7
+         :linenos:
 
 .. tip:: Delete All In Development
    
