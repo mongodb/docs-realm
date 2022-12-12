@@ -98,7 +98,9 @@ TEST_CASE("open a realm at a path", "[realm]") {
 
 TEST_CASE("open a synced realm", "[realm, sync]") {
     // :snippet-start: open-a-synced-realm
+    // :snippet-start: connect-app-services
     auto app = realm::App(APP_ID);
+    // :snippet-end:
     // Ensure anonymous authentication is enabled in the App Services App
     auto user = app.login(realm::App::Credentials::anonymous()).get_future().get();
     auto sync_config = user.flexible_sync_configuration();
