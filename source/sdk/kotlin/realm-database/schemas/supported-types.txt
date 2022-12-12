@@ -29,14 +29,16 @@ Realm Database supports the following field data types:
 - Any ``RealmObject`` subclass
 - ``RealmList<T>``, where T is any of the supported data types or a   
   `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
-  Unless T is a ``RealmObject``, T can also be nullable (``RealmList<T?>``).
+  Lists of ``RealmObject`` cannot have null elements. 
+  All other types of ``RealmList<T>`` can be nullable (``RealmList<T?>``).
 - ``RealmSet<T>``, where T is any of the supported data types or a
   `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
-  Unless T is a ``RealmObject``, T can also be nullable (``RealmSet<T?>``).
+  Sets of ``RealmObject`` cannot have null elements. 
+  All other types of ``RealmSet<T>`` can be nullable (``RealmSet<T?>``).
 - ``RealmUUID``
-- ``BacklinksDelegate<T>``, which is used to define an inverse relationship between 
-  `RealmObjects <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ using 
-  `backlinks <{+kotlin-local-prefix+}io.realm.kotlin.ext/backlinks.html>`__.
+- ``BacklinksDelegate<T>``, a `backlinks <{+kotlin-local-prefix+}io.realm.kotlin.ext/backlinks.html>`__
+  delegate used to define an inverse relationship between 
+  `RealmObjects <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
 
 Realm Database stores all non-decimal numeric types as ``Long`` values.
 Similarly, Realm Database stores all decimal numeric types as ``Double``
