@@ -103,8 +103,9 @@ When you write data that doesn't match a subscription, the following occurs:
    The server determines that the user does not have authorization to perform the write.
 #. The server sends a revert operation, called a "compensating write", back to the client.
 #. The client's realm reverts the illegal write operation.
-#. Any client-side writes to a given object between an illegal write to that object
-   and the corresponding compensating write will be lost.
+
+Any client-side writes to a given object between an illegal write to that object
+and the corresponding compensating write will be lost.
 
 .. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.compensating-write.dart
    :language: dart
