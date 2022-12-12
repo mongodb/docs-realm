@@ -156,56 +156,53 @@ Prerequisites
 - :ref:`Flexible Sync <enable-flexible-sync>` enabled with :ref:`Development Mode <development-mode>`
   on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
 
-Initialize the App
-~~~~~~~~~~~~~~~~~~
+.. procedure::
 
-To use App Services features, such as authentication and sync, you must first access
-your App Services App using your App ID. You can :ref:`find your App ID <find-your-app-id>`
-in the App Services UI.
+  .. step:: Initialize the App
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.js
-  :language: javascript
+    To use App Services features, such as authentication and sync, you must first access
+    your App Services App using your App ID. You can :ref:`find your App ID <find-your-app-id>`
+    in the App Services UI.
 
-Authenticate a User
-~~~~~~~~~~~~~~~~~~~
+    .. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.js
+      :language: javascript
 
-To authenticate and log in a user, call :js-sdk:`App.logIn()
-<Realm.App.html#logIn>`. When :ref:`anonymous authentication
-<anonymous-authentication>` is enabled, users can immediately log into your app
-without providing any identifying information:
+  .. step:: Authenticate a User
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.anonymous-login.js
-  :language: javascript
+    To authenticate and log in a user, call :js-sdk:`App.logIn()
+    <Realm.App.html#logIn>`. When :ref:`anonymous authentication
+    <anonymous-authentication>` is enabled, users can immediately log into your app
+    without providing any identifying information:
 
-Define an Object Model
-~~~~~~~~~~~~~~~~~~~~~~
+    .. literalinclude:: /examples/generated/node/quickstart.snippet.anonymous-login.js
+      :language: javascript
+    
+  .. step:: Define an Object Model
+    Object models for Synced realms work the same way as :ref:`local-only Realms 
+    <react-native-quickstart-local-define-an-object-model>`. Define your object model 
+    just as you would for a local-only Realm.
 
-Object models for Synced realms work the same way as :ref:`local-only Realms 
-<react-native-quickstart-local-define-an-object-model>`. Define your object model 
-just as you would for a local-only Realm.
+    .. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
+      :language: javascript
+  
+  .. step:: Open a Synced Realm
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
-  :language: javascript
+    After you have initialized your App, authenticated a user, and
+    defined your object model, you can create a :js-sdk:`SyncConfiguration
+    <Realm.App.Sync.html#~SyncConfiguration>`.
 
-Open a Synced Realm
-~~~~~~~~~~~~~~~~~~~
+    You need at least one subscription before you can read from or write to the
+    realm. Use ``Configuration.sync.initialSubscriptions`` to define the initial 
+    subscription set when the Realm file is first opened.
 
-After you have initialized your App, authenticated a user, and
-defined your object model, you can create a :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>`.
+    .. literalinclude:: /examples/generated/node/quickstart.snippet.open-realm-with-subscriptions.js
+      :language: javascript
 
-You need at least one subscription before you can read from or write to the
-realm. Use ``Configuration.sync.initialSubscriptions`` to define the initial 
-subscription set when the Realm file is first opened.
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.open-realm-with-subscriptions.js
-  :language: javascript
-
-The syntax to :ref:`read <react-native-read-objects>`, :ref:`update <react-native-update-objects>`, 
-and :ref:`watch for changes <react-native-react-to-changes>` on a
-synced realm is identical to the syntax for non-synced realms above. While 
-you work with local data, a background thread efficiently integrates, 
-uploads, and downloads changesets.
+    The syntax to :ref:`read <react-native-read-objects>`, :ref:`update <react-native-update-objects>`, 
+    and :ref:`watch for changes <react-native-react-to-changes>` on a
+    synced realm is identical to the syntax for non-synced realms above. While 
+    you work with local data, a background thread efficiently integrates, 
+    uploads, and downloads changesets.
 
 Next: Check out the Template Apps and Tutorial
 ----------------------------------------------

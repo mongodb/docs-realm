@@ -1,26 +1,3 @@
-// Initialize your App.
-const app = new Realm.App({
-  id: "YOUR_APP_ID",
-});
-
-// Authenticate an anonymous user.
-await app.logIn(Realm.Credentials.anonymous());
-
-
-// Define an object model
-const TaskSchema = {
-  name: "Task",
-  properties: {
-    _id: "int",
-    name: "string",
-    status: "string?",
-    progressMinutes: "int?",
-    owner: "string?",
-    dueDate: "date?",
-  },
-  primaryKey: "_id",
-};
-
 // Create a `SyncConfiguration` object.
 const config = {
   sync: {
@@ -29,7 +6,7 @@ const config = {
     // Set flexible sync to true to enable sync.
     flexible: true,
     // Define initial subscriptions to start syncing data as soon as the
-    // Realm is opened.
+    // realm is opened.
     initialSubscriptions: {
       update: (subs, realm) => {
         subs.add(
