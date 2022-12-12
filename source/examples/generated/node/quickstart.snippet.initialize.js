@@ -1,3 +1,4 @@
+// Initialize your App.
 const app = new Realm.App({
-  id: "flexsyncjstest-smixl", // Replace with your AppID
+  id: "YOUR_APP_ID",
 });

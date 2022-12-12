@@ -165,74 +165,65 @@ describe("QuickStart Local", () => {
 });
 
 describe("Quickstart Sync", () => {
-  const TaskSchema = {
-    name: "Task",
-    properties: {
-      _id: "int",
-      name: "string",
-      status: "string?",
-      progressMinutes: "int?",
-      owner: "string?",
-      dueDate: "date?",
-    },
-    primaryKey: "_id",
-  };
-  
-  const TeamSchema = {
-    name: "Team",
-    properties: {
-      _id: "int",
-      name: "string",
-      description: "string?",
-    },
-    primaryKey: "_id",
-  };
 
   test.skip("should open a FS realm with initial subscriptions", async () => {
     // :snippet-start: open-realm-with-subscriptions
     // :snippet-start: anonymous-login
     // :snippet-start: initialize
+    // :replace-start: {
+    //   "terms": {
+    //     "flexsyncjstest-smixl": "YOUR_APP_ID"
+    //   }
+    // }
+    // Initialize your App.
     const app = new Realm.App({
-      id: "flexsyncjstest-smixl", // Replace with your AppID
+      id: "flexsyncjstest-smixl",
     });
+    // :replace-end:
     // :snippet-end:
     
+    // Authenticate an anonymous user.
     await app.logIn(Realm.Credentials.anonymous());
     // :snippet-end:
 
+
+    // Define an object model
+    const TaskSchema = {
+      name: "Task",
+      properties: {
+        _id: "int",
+        name: "string",
+        status: "string?",
+        progressMinutes: "int?",
+        owner: "string?",
+        dueDate: "date?",
+      },
+      primaryKey: "_id",
+    };
+
+    // Create a `SyncConfiguration` object.
     const config = {
       sync: {
+        // Use the previously-authenticated anonymous user.
         user: app.currentUser,
+        // Set flexible sync to true to enable sync.
         flexible: true,
+        // Define initial subscriptions to start syncing data as soon as the
+        // realm is opened.
         initialSubscriptions: {
           update: (subs, realm) => {
             subs.add(
+              // Get objects that match your object model, then filter them
+              // by owner id.
               realm.objects("Task").filtered(`owner_id = ${app.currentUser.id}`)
             );
           },
         },
       },
     };
+
     const realm = await Realm.open(config);
     // :snippet-end:
-
-    // realm.write(() => {
-    //   const t1 = realm.create("Team", {
-    //     _id: 3124513,
-    //     name: "Developer Education",
-    //     description: "Drivers Docs Sub Team",
-    //   });
-    //   const t2 = realm.create("Team", {
-    //     _id: 2042991,
-    //     name: "Developer Education",
-    //     description: "Realm Docs Sub Team",
-    //   });
-    //   const t3 = realm.create("Team", {
-    //     _id: 1047714,
-    //     name: "Server",
-    //     description: "Server Docs Team",
-    //   });
-    // });
 
     expect(
       realm.objects("Task").filtered(`owner_id = ${app.currentUser.id}`).length

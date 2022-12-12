@@ -177,6 +177,16 @@ without providing any identifying information:
 .. literalinclude:: /examples/generated/node/quickstart.snippet.anonymous-login.js
   :language: javascript
 
+Define an Object Model
+~~~~~~~~~~~~~~~~~~~~~~
+
+Object models for Synced realms work the same way as :ref:`local-only Realms 
+<react-native-quickstart-local-define-an-object-model>`. Define your object model 
+just as you would for a local-only Realm.
+
+.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
+  :language: javascript
+
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
 
@@ -184,22 +194,9 @@ After you have initialized your App, authenticated a user, and
 defined your object model, you can create a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>`.
 
-If you have opened a local realm following the :ref:`Open a Realm
-<react-native-quickstart-local-open-a-realm>` section above, replace the
-``RealmConfiguration`` with the ``SyncConfiguration`` described below.
-
-.. TODO: Update schema reference below to match actual schema
-
-Pass the authenticated user and the ``Item`` class to the ``SyncConfiguration``
-function to create a :ref:`Flexible Sync Configuration
-<react-native-flexible-sync>`.
-
 You need at least one subscription before you can read from or write to the
-realm. Use ``Configuration.sync.initialSubscriptions`` to define the initial subscription set when
-the Realm file is first opened. Pass the query you wish to subscribe to and a
-name for the subscription to the :js-sdk:`add()
-<Realm.App.Sync.MutableSubscriptionSet.html#add>` method on the
-``MutableSubscriptionSet``.
+realm. Use ``Configuration.sync.initialSubscriptions`` to define the initial 
+subscription set when the Realm file is first opened.
 
 .. literalinclude:: /examples/generated/node/quickstart.snippet.open-realm-with-subscriptions.js
   :language: javascript
