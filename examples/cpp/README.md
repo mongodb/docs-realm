@@ -80,7 +80,7 @@ This is because macOS enforces access control technology at the kernel
 level. It does this using App Sandbox. When developing in Xcode, you can 
 [enable access to restricted 
 resources](https://developer.apple.com/documentation/xcode/configuring-the-macos-app-sandbox/). 
-Because this example project does not use Xcode, I'm not aware of a way 
+Because this example project does not necessarily use Xcode, I'm not aware of a way 
 to set the required entitlements for this project. This is probably 
 something that would be useful to research when someone gets some downtime.
 
