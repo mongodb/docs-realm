@@ -1,3 +1,64 @@
+# December 9, 2022
+
+## C++ SDK
+- Install Realm: New page with instructions for how to install the Realm C++ SDK using Swift Package Manager or CMake, remove "Install" instructions from landing page
+
+## Flutter SDK
+- Quick Start: Wording tweaks and typo fix
+- Model Data/Define a Realm Object Schema: Typo fix
+- Sync Device Data
+  - Landing page: Add an explanation of what synced realms are, and how they differ from non-synced realms
+  - Open Synced Realm: Further Reading: Add a link with some information about the new Manage Sync Subscriptions page
+  - Manage Sync Sessions: Move content related to Flexible Sync subscriptions, focus on pause/resume, monitor upload/download progress, check network connection
+  - Manage Sync Subscriptions: New page with existing content related to managing Flexible Sync subscriptions
+
+## Java SDK
+- Usage Examples/Sync Changes Between Devices: Typo fix
+
+## Kotlin SDK
+- Realm Database/Schemas: New "Realm Set" page with tested code examples showing how to use the `RealmSet()` data type
+
+## .NET SDK
+- Add content about Maui, tweak or remove content about Xamarin, from the following pages:
+  - .NET SDK Landing Page
+  - Install Realm
+  - Realm Files
+    - Bundle a Realm
+    - Encrypt a Realm
+  - Model Data/Define an Object Model
+  - CRUD/Threading
+
+## Node.js SDK
+- Usage Examples/Authenticate Users: New section with a tested code example showing how to get a User Access Token
+
+## React Native SDK
+- Realm Database/Overview: Fix typos in a couple of links
+- CRUD
+  - Create: New tested code examples and content showing how to create objects using Realm React 
+  - Read: New tested code examples and content showing how to read objects using Realm React
+- Manage Users/Authenticate Users: New section with a tested code example showing how to get a User Access Token
+
+## Swift SDK
+- Move "Manage User API Keys" page from "App Services" section to "Manage Users" section
+
+## Web SDK
+- Landing page: Fix broken link
+- User Management/Authenticate Users: New section with a tested code example showing how to get a User Access Token
+
+## Realm Studio
+- Open a Realm File: Add tabs showing how to find the realm file path in the Flutter SDK & Kotlin SDK
+- Modify Schema in Realm Studio: Add a tab for the Flutter SDK "Schema Versions & Migrations" page
+
+## Other
+- Remove a note about watching for collection notifications on serverless instances from Quick Starts, add it to Query MongoDB page
+- Internal
+  - Fix missing targets to address Snooty build errors and potentially fix broken links using those targets
+  - Update the README for the C++ code example project with additional details & wording clarifications
+  - Update the README for the Dart code example project to link to `realm-dart/main` instead of `realm-dart/master`
+  - Add the contents of a now-archived external repository to this docs repository: 
+    - Realm SDK Reference Manual Landing Pages
+    - CSVs & JSON containing reference info for Atlas App Services Public IPs & Realm Public IPs
+
 # December 2, 2022
 
 ## C++ SDK
