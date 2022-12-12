@@ -26,7 +26,7 @@ Import Realm
 At the top of your source files where you want to use Realm, add
 the following line to import the SDK.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.import-realm.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.import-realm.js
   :language: javascript
 
 .. _react-native-quickstart-local-define-an-object-model:
@@ -46,7 +46,7 @@ The following code shows how to define an object model for a ``Task`` object. In
 - The ``name`` field is required. The
 - The ``status`` is optional, denoted by the question mark immediately after the data type.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.define-an-object-model.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
   :language: javascript
 
 .. _react-native-quickstart-local-open-a-realm:
@@ -57,7 +57,7 @@ To open a realm, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to :js-sdk:`Realm.open()
 <Realm.html#.open>`.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.open-a-realm.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.open-a-realm.js
   :language: javascript
 
 .. _react-native-quickstart-local-create-realm-objects:
@@ -69,7 +69,7 @@ Once you have opened a realm, you can create :ref:`objects
 <react-native-object-types>` in it. All writes must occur within a :ref:`write
 transaction <react-native-write-transactions>`.
     
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.create-realm-objects.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.create-realm-objects.js
   :language: javascript
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
@@ -83,7 +83,7 @@ The following code demonstrates how to:
 - Filter the query to retrieve only the tasks that are "Open".
 - Sort the tasks by the name in an ascending order.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.find-sort-and-filter-objects.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.find-sort-and-filter-objects.js
   :language: javascript
 
 .. _react-native-quickstart-local-modify-an-object:
@@ -99,7 +99,7 @@ In the following example, an application developer updates ``task1`` from the
 example above. The developer begins progress on the "go grocery shopping
 task" and sets ``task1`` to "InProgress".
 
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.modify-an-object.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.modify-an-object.js
   :language: javascript
 
 .. _react-native-quickstart-local-delete-an-object:
@@ -113,7 +113,7 @@ In the following example, an application developer deletes ``task1`` from the
 :ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
 example above. 
 
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.delete-an-object.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.delete-an-object.js
   :language: javascript
 
 .. _react-native-quickstart-local-watch-a-collection:
@@ -130,7 +130,7 @@ methods.
 In the following example, an application developer watches for changes to the
 ``Task`` collection.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.watch-a-collection.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.watch-a-collection.js
   :language: javascript
 
 .. _react-native-quickstart-local-close-a-realm:
@@ -139,7 +139,7 @@ Close a Realm
 -------------
 Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a realm instance to avoid memory leaks.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.close-a-realm.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.close-a-realm.js
   :language: javascript
 
 Add Device Sync (Optional)
@@ -163,7 +163,7 @@ To use App Services features, such as authentication and sync, you must first ac
 your App Services App using your App ID. You can :ref:`find your App ID <find-your-app-id>`
 in the App Services UI.
 
-.. literalinclude:: /examples/generated/node/initialize-app.snippet.initialize.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.js
   :language: javascript
 
 Authenticate a User
@@ -174,7 +174,7 @@ To authenticate and log in a user, call :js-sdk:`App.logIn()
 <anonymous-authentication>` is enabled, users can immediately log into your app
 without providing any identifying information:
 
-.. literalinclude:: /examples/generated/node/initialize-app.snippet.anonymous-login.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.anonymous-login.js
   :language: javascript
 
 Open a Synced Realm
@@ -188,6 +188,8 @@ If you have opened a local realm following the :ref:`Open a Realm
 <react-native-quickstart-local-open-a-realm>` section above, replace the
 ``RealmConfiguration`` with the ``SyncConfiguration`` described below.
 
+.. TODO: Update schema reference below to match actual schema
+
 Pass the authenticated user and the ``Item`` class to the ``SyncConfiguration``
 function to create a :ref:`Flexible Sync Configuration
 <react-native-flexible-sync>`.
@@ -199,7 +201,7 @@ name for the subscription to the :js-sdk:`add()
 <Realm.App.Sync.MutableSubscriptionSet.html#add>` method on the
 ``MutableSubscriptionSet``.
 
-.. literalinclude:: /examples/generated/node/initialize-app.snippet.initial-subscription.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.open-realm-with-subscriptions.js
   :language: javascript
 
 The syntax to :ref:`read <react-native-read-objects>`, :ref:`update <react-native-update-objects>`, 

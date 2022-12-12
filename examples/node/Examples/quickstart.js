@@ -16,6 +16,7 @@ describe("QuickStart Local", () => {
         _id: "int",
         name: "string",
         status: "string?",
+        owner_id: "string?",
       },
       primaryKey: "_id",
     };
@@ -160,5 +161,81 @@ describe("QuickStart Local", () => {
       console.log(`An error occurred: ${error}`);
     });
     // :snippet-end:
+  });
+});
+
+describe("Quickstart Sync", () => {
+  const TaskSchema = {
+    name: "Task",
+    properties: {
+      _id: "int",
+      name: "string",
+      status: "string?",
+      progressMinutes: "int?",
+      owner: "string?",
+      dueDate: "date?",
+    },
+    primaryKey: "_id",
+  };
+  
+  const TeamSchema = {
+    name: "Team",
+    properties: {
+      _id: "int",
+      name: "string",
+      description: "string?",
+    },
+    primaryKey: "_id",
+  };
+
+  test.skip("should open a FS realm with initial subscriptions", async () => {
+    // :snippet-start: open-realm-with-subscriptions
+    // :snippet-start: anonymous-login
+    // :snippet-start: initialize
+    const app = new Realm.App({
+      id: "flexsyncjstest-smixl", // Replace with your AppID
+    });
+    // :snippet-end:
+    
+    await app.logIn(Realm.Credentials.anonymous());
+    // :snippet-end:
+
+    const config = {
+      sync: {
+        user: app.currentUser,
+        flexible: true,
+        initialSubscriptions: {
+          update: (subs, realm) => {
+            subs.add(
+              realm.objects("Task").filtered(`owner_id = ${app.currentUser.id}`)
+            );
+          },
+        },
+      },
+    };
+    const realm = await Realm.open(config);
+    // :snippet-end:
+
+    // realm.write(() => {
+    //   const t1 = realm.create("Team", {
+    //     _id: 3124513,
+    //     name: "Developer Education",
+    //     description: "Drivers Docs Sub Team",
+    //   });
+    //   const t2 = realm.create("Team", {
+    //     _id: 2042991,
+    //     name: "Developer Education",
+    //     description: "Realm Docs Sub Team",
+    //   });
+    //   const t3 = realm.create("Team", {
+    //     _id: 1047714,
+    //     name: "Server",
+    //     description: "Server Docs Team",
+    //   });
+    // });
+
+    expect(
+      realm.objects("Task").filtered(`owner_id = ${app.currentUser.id}`).length
+    ).toBe(1);
   });
 });
