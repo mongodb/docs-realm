@@ -1,3 +1,26 @@
+// Initialize your App.
+const app = new Realm.App({
+  id: "<yourAppId>",
+});
+
+// Authenticate an anonymous user.
+await app.logIn(Realm.Credentials.anonymous());
+
+
+// Define an object model
+const TaskSchema = {
+  name: "Task",
+  properties: {
+    _id: "int",
+    name: "string",
+    status: "string?",
+    progressMinutes: "int?",
+    owner: "string?",
+    dueDate: "date?",
+  },
+  primaryKey: "_id",
+};
+
 // Create a `SyncConfiguration` object.
 const config = {
   sync: {
