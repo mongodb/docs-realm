@@ -1,5 +1,5 @@
 .. note::
 
-   Flexible Sync does not yet support Sync progress notifications. 
-   Progress notification updates are currently only available for 
-   Partition-Based Sync.
+   Flexible Sync progress notifications are not yet fully supported. Downloads
+   only report notifications after changes are integrated. Partition-Based Sync
+   provides ongoing notifications as changes progress.
