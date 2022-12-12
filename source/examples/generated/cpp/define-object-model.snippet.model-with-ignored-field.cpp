@@ -4,7 +4,7 @@ struct Employee : realm::object {
     realm::persisted<std::string> lastName;
     // Omitting the `realm::persisted` annotation means
     // realm ignores this property
-    std::string ignoredField;
+    std::string jobTitle_notPersisted;
 
     // Your schema consists of properties that you want realm to store.
     // Omit properties that you want to ignore from the schema.

@@ -28,23 +28,23 @@ struct Business : realm::object {
 };
 // :snippet-end:
 
- // :snippet-start: model-with-ignored-field
- struct Employee : realm::object {
-     realm::persisted<realm::uuid> _id;
-     realm::persisted<std::string> firstName;
-     realm::persisted<std::string> lastName;
-     // Omitting the `realm::persisted` annotation means
-     // realm ignores this property
-     std::string ignoredField;
+// :snippet-start: model-with-ignored-field
+struct Employee : realm::object {
+    realm::persisted<realm::uuid> _id;
+    realm::persisted<std::string> firstName;
+    realm::persisted<std::string> lastName;
+    // Omitting the `realm::persisted` annotation means
+    // realm ignores this property
+    std::string jobTitle_notPersisted;
 
-     // Your schema consists of properties that you want realm to store.
-     // Omit properties that you want to ignore from the schema.
-     static constexpr auto schema = realm::schema("Employee",
-         realm::property<&Employee::_id, true>("_id"),
-         realm::property<&Employee::firstName>("firstName"),
-         realm::property<&Employee::lastName>("lastName"));
- };
- // :snippet-end:
+    // Your schema consists of properties that you want realm to store.
+    // Omit properties that you want to ignore from the schema.
+    static constexpr auto schema = realm::schema("Employee",
+        realm::property<&Employee::_id, true>("_id"),
+        realm::property<&Employee::firstName>("firstName"),
+        realm::property<&Employee::lastName>("lastName"));
+};
+// :snippet-end:
                                                  
 // :snippet-start: to-one-relationship
 struct GPSCoordinates: realm::object {
@@ -70,19 +70,19 @@ struct PointOfInterest : realm::object {
 // :snippet-end:
 
 // :snippet-start: to-many-relationship
- struct Company : realm::object {
-     realm::persisted<realm::uuid> _id;
-     realm::persisted<std::string> name;
-     // To-many relationships are a list, represented here as a
-     // vector container whose value type is the Realm object
-     // type that the list field links to.
-     realm::persisted<std::vector<Employee>> employees;
+struct Company : realm::object {
+    realm::persisted<realm::uuid> _id;
+    realm::persisted<std::string> name;
+    // To-many relationships are a list, represented here as a
+    // vector container whose value type is the Realm object
+    // type that the list field links to.
+    realm::persisted<std::vector<Employee>> employees;
 
-     static constexpr auto schema = realm::schema("Company",
-         realm::property<&Company::_id, true>("_id"),
-         realm::property<&Company::name>("name"),
-         realm::property<&Company::employees>("employees"));
- };
+    static constexpr auto schema = realm::schema("Company",
+        realm::property<&Company::_id, true>("_id"),
+        realm::property<&Company::name>("name"),
+        realm::property<&Company::employees>("employees"));
+};
 // :snippet-end:
                                                  
 TEST_CASE("create an embedded object", "[model][write]") {
@@ -111,7 +111,7 @@ TEST_CASE("create object with ignored property", "[model][write]") {
     auto employee = Employee { 
         .firstName = "Leslie", 
         .lastName = "Knope", 
-        .ignoredField = "Organizer-In-Chief" };
+        .jobTitle_notPersisted = "Organizer-In-Chief" };
 
     realm.write([&realm, &employee] {
         realm.add(employee);
@@ -121,8 +121,8 @@ TEST_CASE("create object with ignored property", "[model][write]") {
     auto employeesNamedLeslie = employees.where("firstName == $0", {"Leslie"});
     CHECK(employeesNamedLeslie.size() >= 1);
     std::unique_ptr<Employee> leslieKnopePointer = employeesNamedLeslie[0];
-    REQUIRE(employee.ignoredField == "Organizer-In-Chief");
-    REQUIRE(leslieKnopePointer->ignoredField.empty());
+    REQUIRE(employee.jobTitle_notPersisted == "Organizer-In-Chief");
+    REQUIRE(leslieKnopePointer->jobTitle_notPersisted.empty());
 };
 
 TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
@@ -142,9 +142,10 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     auto grandCanyonVillage = namedGrandCanyonVillage[0];
     std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
     REQUIRE(grandCanyonVillage->name == "Grand Canyon Village");
-    auto grandCanyonVillageLatitude = *(*grandCanyonVillage->gpsCoordinates).value().latitude;
-    std::cout << "POI Latitude: " << grandCanyonVillageLatitude << "\n";
-    REQUIRE(grandCanyonVillageLatitude == 36.0554);
+    auto const &theseGpsCoordinates = **grandCanyonVillage->gpsCoordinates;
+    auto const &latitude = gpsCoordinates.latitude;
+    std::cout << "POI Latitude: " << latitude << "\n";
+    REQUIRE(latitude == 36.0554);
 };
 
 TEST_CASE("create object with to-many relationship", "[model][write][relationship]") {
