@@ -167,6 +167,8 @@ describe("QuickStart Local", () => {
 describe("Quickstart Sync", () => {
 
   test.skip("should open a FS realm with initial subscriptions", async () => {
+    // :snippet-start: open-realm-with-subscriptions
+    // :snippet-start: anonymous-login
     // :snippet-start: initialize
     // :replace-start: {
     //   "terms": {
@@ -180,7 +182,6 @@ describe("Quickstart Sync", () => {
     // :replace-end:
     // :snippet-end:
     
-    // :snippet-start: anonymous-login
     // Authenticate an anonymous user.
     await app.logIn(Realm.Credentials.anonymous());
     // :snippet-end:
@@ -200,7 +201,6 @@ describe("Quickstart Sync", () => {
       primaryKey: "_id",
     };
     
-    // :snippet-start: open-realm-with-subscriptions
     // Create a `SyncConfiguration` object.
     const config = {
       sync: {
