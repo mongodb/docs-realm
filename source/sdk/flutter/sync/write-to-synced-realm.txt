@@ -94,15 +94,17 @@ Compensating Writes
 Compensating write errors occur when you write data to a realm
 that doesn't align with the realm's sync subscriptions.
 
-Because the client realm has no concept of "illegal" writes,
-the write initially succeeds until realm resolves the changeset
-with the App Services backend.
-Upon sync, the server applies the rules and permissions, then
-determines that the user does not have authorization to perform the write.
-The server sends a revert operation, called a "compensating write", back to the client.
-The client's realm then reverts the illegal write operation.
-Any client-side writes to a given object between an illegal write to that object
-and the corresponding compensating write will be lost.
+When you write data that doesn't match a subscription, the following occurs:
+
+#. Because the client realm has no concept of "illegal" writes,
+   the write initially succeeds until realm resolves the changeset
+   with the App Services backend.
+#. Upon sync, the server applies the rules and permissions.
+   The server determines that the user does not have authorization to perform the write.
+#. The server sends a revert operation, called a "compensating write", back to the client.
+#. The client's realm reverts the illegal write operation.
+#. Any client-side writes to a given object between an illegal write to that object
+   and the corresponding compensating write will be lost.
 
 .. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.compensating-write.dart
    :language: dart
