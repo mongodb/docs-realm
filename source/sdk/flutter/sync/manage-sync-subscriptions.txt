@@ -73,7 +73,9 @@ When the data matches the subscription, and the authenticated user has the
 appropriate permissions, Device Sync syncs the backend data with the client app.
 
 Subscription sets persist across sessions even if you no longer include
-the subscription in your code. You must explicitly remove a subscription
+the subscription in your code.
+Subscription information is stored in the synced realm's database file.
+You must explicitly remove a subscription
 for it to stop attempting to sync matching data.
 
 You can specify a string name for your subscription. If you do not give your
