@@ -29,9 +29,9 @@ Before You Begin
 ----------------
 
 To use custom user data, you must first enable custom user data
-on the App Services:
+in App Services:
 
-#. :ref:`Create a App <create-a-realm-app>`.
+#. :ref:`Create an App <create-a-realm-app>`.
 #. :ref:`Enable custom user data <enable-custom-user-data-procedure>`.
 
 .. TODO: add back into the docs when there's a way to use MongoDB data access
@@ -70,6 +70,40 @@ which ensures your app has the latest custom user data.
 
 .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.refresh-custom-user-data.dart
    :language: dart
+
+.. _flutter-write-custom-user-data:
+
+Write Custom User Data with an Atlas Functions
+----------------------------------------------
+
+You can write to custom user data with an Atlas Function. Atlas Functions
+are server-side JavaScript functions that are built into your backend App.
+You can call an Atlas Function directly from the Realm Flutter SDK.
+
+It is not possible to write to custom user data directly from the Realm Flutter SDK.
+
+To learn more about Atlas Functions, refer to the following documentation:
+
+- :ref:`Call an Atlas Function <flutter-call-function>`
+- :ref:`Atlas Functions <functions>` in the App Services documentation.
+
+There is no single pattern for adding custom user data from an Atlas Function.
+You should write your Function or Functions to suite your application's use case.
+
+In this example, the Atlas Function takes an object passed by the client add adds
+it to the custom user data collection in Atlas. The Function creates
+the custom user data if it doesn't already exist and replaces all data in it
+if it does exist.
+
+.. literalinclude:: /examples/generated/flutter/writeCustomUserData.snippet.write-custom-user-data.js
+   :language: js
+   :caption: writeCustomUserData.js - Atlas Function running on server (JavaScript)
+
+The Realm SDK code to call this Function:
+
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.write-custom-user-data-function.dart
+   :language: dart
+   :caption: Realm Flutter SDK client code (Dart)
 
 .. TODO: add back in once you can interact w MongoDB from Realm Flutter
 .. .. _flutter-create-custom-user-data:

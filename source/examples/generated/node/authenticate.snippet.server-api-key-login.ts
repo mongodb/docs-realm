@@ -10,5 +10,7 @@ try {
   console.log("Successfully logged in!", user.id);
   return user;
 } catch (err) {
-  console.error("Failed to log in", err.message);
+  if (err instanceof Error) {
+    console.error("Failed to log in", err.message);
+  }
 }
