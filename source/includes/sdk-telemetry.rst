@@ -1,18 +1,11 @@
-.. _telemetry:
-
-===================
-Realm SDK Telemetry
-===================
-
 MongoDB collects anonymized telemetry data from the Realm SDKs to better
 understand how and where developers use Realm. This data helps us
 determine what to work on next and lets us gracefully deprecate features
-with minimal impact.
+with minimal impact. None of the telemetry data collected by the Realm
+SDKs personally identifies you, your app, or your employer.
 
-None of the telemetry data collected by the Realm SDKs personally
-identifies you, your app, or your employer. Depending on the SDK, data
-is collected whenever you install the SDK, build your app, or run your
-app in a non-production, debugging environment.
+Data is collected whenever you install the SDK, build your app (if
+applicable), or run your app in a non-production, debugging environment.
 
 MongoDB collects the following information:
 
