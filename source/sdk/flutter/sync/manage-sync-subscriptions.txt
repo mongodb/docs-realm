@@ -37,11 +37,11 @@ Align Subscriptions with Backend App
 Your client-side subscription queries must align with the Device Sync configuration
 in your backend App Services App.
 
-You subscription queries must have one of the following structures:
+You subscription queries can either:
 
-- Query all objects of a type.
+- **Query all objects of a type.**
   Create the query using :flutter-sdk:`Realm.all() <realm/Realm/all.html>`.
-- Query objects that match backend App's queryable fields.
+- **Query objects that match backend App's queryable fields.**
   Create the query using :flutter-sdk:`Realm.query() <realm/Realm/query.html>`
   and a Realm Query Language query that includes one or more queryable fields.
   The Realm SDK throws an error if you try to create a subscription using fields

@@ -19,8 +19,9 @@ refer to :ref:`Read & Write Data <flutter-read-write-data>`.
 Examples on This Page
 ---------------------
 
-The examples on this page use a app with the following Device Sync configuration
-and Realm SDK data model and subscriptions.
+The examples on this page use an Atlas App Services App with the following 
+Device Sync configuration and a client app with the following Realm SDK 
+data model and subscriptions.
 
 Device Sync is configured with the following queryable fields:
 
@@ -55,7 +56,8 @@ The examples on this page use the following schema:
 .. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.realm-model.dart
    :language: dart
 
-Using that schema, the examples use the following realm and subscription query:
+Using that schema, the examples configure the synced realm to 
+synchronize objects matching this subscription query:
 
 .. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.subscription-setup.dart
    :language: dart
@@ -86,11 +88,12 @@ of the following:
 Compensating Writes
 -------------------
 
-Compensating write errors occur when you write data to a realm locally
+Compensating write errors occur when you write data to a realm 
 that doesn't align with the realm's sync subscriptions.
 
 Because the client realm has no concept of "illegal" writes,
-the write always initially succeeds locally.
+the write initially succeeds until realm resolves the changeset
+with the App Services backend.
 Upon sync, the server will notice the illegal write. The server then undoes the change.
 The undo operation, called a "compensating write", syncs back to the client
 so the client's realm no longer has the illegal write.
