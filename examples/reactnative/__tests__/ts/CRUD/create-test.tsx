@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, TextInput} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
@@ -8,7 +8,6 @@ import Person from '../models/Person';
 
 const realmConfig = {
   schema: [Dog, Person],
-  inMemory: true,
 };
 
 const {RealmProvider, useRealm} = createRealmContext(realmConfig);
@@ -39,7 +38,7 @@ describe('Create Data Tests', () => {
     //   }
     // }
     const CreateDogInput = () => {
-      const [dogName, onChangeDogName] = React.useState('Fido');
+      const [dogName, onChangeDogName] = useState('Fido');
       const realm = useRealm();
 
       const handleAddItem = () => {
@@ -65,7 +64,6 @@ describe('Create Data Tests', () => {
     // render an App component, giving the CreateDogInput component access to the @realm/react hooks:
     const App = () => (
       <RealmProvider>
-        {' '}
         <CreateDogInput />
       </RealmProvider>
     );
@@ -80,7 +78,7 @@ describe('Create Data Tests', () => {
     });
 
     // check if the new Dog object has been created
-    const myDog = assertionRealm.objects('Dog').filtered("name == 'Fido'")[0];
+    const myDog = assertionRealm.objects(Dog).filtered("name == 'Fido'")[0];
     expect(myDog.name).toBe('Fido');
     expect(myDog.age).toBe(1);
   });
