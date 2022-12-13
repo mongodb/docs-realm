@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */ // disable no-unused vars for this file because the 'RealmProvider' isn't used for these code examples that will be in the docs
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 import Person from '../Models/Person';
@@ -21,6 +20,7 @@ describe('Change an Object Model Tests', () => {
         properties: {
           firstName: 'string',
           lastName: 'string',
+          // add a new property, 'age' to the schema
           age: 'int',
         },
       };
@@ -28,9 +28,11 @@ describe('Change an Object Model Tests', () => {
 
     const config = {
       schema: [MyPerson],
+      // increment the 'schemaVersion', since 'age' has been added to the schema
       schemaVersion: 2,
     };
-    const {RealmProvider} = createRealmContext(config);
+    // pass the configuration object with the updated 'schemaVersion' to createRealmContext()
+    createRealmContext(config);
     // :replace-end:
     // :snippet-end:
   });
@@ -56,9 +58,11 @@ describe('Change an Object Model Tests', () => {
     // }
     const config = {
       schema: [MyPerson],
+      // increment the 'schemaVersion', since 'lastName' has been removed from the schema
       schemaVersion: 2,
     };
-    const {RealmProvider} = createRealmContext(config);
+    // pass the configuration object with the updated 'schemaVersion' to createRealmContext()
+    createRealmContext(config);
     // :replace-end:
     // :snippet-end:
   });
@@ -76,6 +80,7 @@ describe('Change an Object Model Tests', () => {
       static schema = {
         name: 'MyPerson',
         properties: {
+          // rename the 'firstName' and 'lastName' property, to 'fullName' in the schema
           fullName: 'string',
           age: 'int',
         },
@@ -84,6 +89,7 @@ describe('Change an Object Model Tests', () => {
 
     const config = {
       schema: [MyPerson],
+      // increment the 'schemaVersion', since 'fullName' has replaced 'firstName' and 'lastName' in the schema
       schemaVersion: 2,
       migration: (oldRealm: Realm, newRealm: Realm) => {
         // only apply this change if upgrading to schemaVersion 2
@@ -99,7 +105,8 @@ describe('Change an Object Model Tests', () => {
         }
       },
     };
-    const {RealmProvider} = createRealmContext(config);
+    // pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
+    createRealmContext(config);
     // :replace-end:
     // :snippet-end:
   });
@@ -133,6 +140,7 @@ describe('Change an Object Model Tests', () => {
 
     const config = {
       schema: [MyTask],
+      // increment the 'schemaVersion', since the property type of '_id' has been modified
       schemaVersion: 2,
       migration: (oldRealm: Realm, newRealm: Realm) => {
         if (oldRealm.schemaVersion < 2) {
@@ -147,7 +155,8 @@ describe('Change an Object Model Tests', () => {
         }
       },
     };
-    const {RealmProvider} = createRealmContext(config);
+    // pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
+    createRealmContext(config);
     // :replace-end:
     // :snippet-end:
   });

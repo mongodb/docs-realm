@@ -1,19 +1,21 @@
 class Task extends Realm.Object {
   static schema = {
-    name: "Task",
+    name: 'Task',
     properties: {
-      _id: "objectId",
-      name: "string",
-      priority: "int?",
-      progressMinutes: "int?",
-      assignee: "Person?",
+      // update the data type of '_id' to be 'objectId' within the schema
+      _id: 'objectId',
+      name: 'string',
+      priority: 'int?',
+      progressMinutes: 'int?',
+      assignee: 'Person?',
     },
-    primaryKey: "_id",
+    primaryKey: '_id',
   };
 }
 
 const config = {
   schema: [Task],
+  // increment the 'schemaVersion', since the property type of '_id' has been modified
   schemaVersion: 2,
   migration: (oldRealm, newRealm) => {
     if (oldRealm.schemaVersion < 2) {
@@ -28,4 +30,5 @@ const config = {
     }
   },
 };
-const { RealmProvider } = createRealmContext(config);
+// pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
+createRealmContext(config);

@@ -4,6 +4,7 @@ class Person extends Realm.Object {
     properties: {
       firstName: 'string',
       lastName: 'string',
+      // add a new property, 'age' to the schema
       age: 'int',
     },
   };
@@ -11,6 +12,8 @@ class Person extends Realm.Object {
 
 const config = {
   schema: [Person],
+  // increment the 'schemaVersion', since 'age' has been added to the schema
   schemaVersion: 2,
 };
-const {RealmProvider} = createRealmContext(config);
+// pass the configuration object with the updated 'schemaVersion' to createRealmContext()
+createRealmContext(config);
