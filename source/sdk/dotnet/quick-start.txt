@@ -44,10 +44,10 @@ to and from App Services.
    :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
    :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`.
 
-The following code shows how to define an object model for a ``Task`` object. In 
-this example, we have marked the ``Id`` field as the Primary Key, marked the 
-``Name`` and ``Status`` properties as "required", and are using the ``MapTo`` 
-attribute so we can use .NET-friendly casing on our property names.
+The following code shows how to define an object model for a ``TaskItem`` object. In 
+this example, we have marked the ``Id`` field as the Primary Key and marked the 
+``Name`` and ``Status`` properties as `Required`, and are using the `MapTo` attribute
+ so we can use .NET-friendly casing on our property names when using Device Sync.
 
 .. literalinclude:: /examples/generated/dotnet/Task.snippet.task-object-model.cs
    :language: csharp
@@ -91,7 +91,7 @@ You can retrieve a live :ref:`collection <dotnet-client-collections>` of all
    :language: csharp
 
 You can filter the collection by using the 
-`Linq <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/>`_ 
+`LINQ <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/>`_ 
 syntax:
 
 .. literalinclude:: /examples/generated/dotnet/Program.snippet.read-filter.cs

@@ -3,7 +3,7 @@ using Realms;
 
 namespace Examples.Models
 {
-    public class Task : RealmObject
+    public class TaskItem : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -23,12 +23,5 @@ namespace Examples.Models
         [MapTo("status")]
         [Required]
         public string Status { get; set; }
-    }
-
-    public enum TaskStatus
-    {
-        Open,
-        InProgress,
-        Complete
     }
 }

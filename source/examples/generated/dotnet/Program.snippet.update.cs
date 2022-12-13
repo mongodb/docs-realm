@@ -1,6 +1,6 @@
 var davidsStrat = realm.All<Guitar>().FirstOrDefault(
     g => g.Owner == "D. Gilmour"
-    && g.Make == "Fender"
+    && g.Maker == "Fender"
     && g.Model == "Stratocaster");
 
 realm.Write(() =>
