@@ -73,7 +73,7 @@ Realm Object Schema
 
 A C++ **realm object schema** maps property names, relationships, and any 
 property metadata for a specific object type. Because C++ does not have 
-reflection, your model must expose a public static constant expression 
+reflection, your model must expose a public static **constexpr** 
 member that explicitly declares your schema. The object schema includes 
 details like the property name and type, whether the property is a primary 
 key, and whether it forms a relationship with other object types.
@@ -125,8 +125,7 @@ Primary keys are subject to the following limitations:
 If you are using :ref:`Device Sync <cpp-synced-realm>`, your models must 
 have a primary key named ``_id``.
 
-You define a primary key by passing the parameter ``true`` as an argument 
-with the property that should be the model's primary key: 
+You set a property as a primary key by passing ``true`` to the second template parameter of the ``persisted`` template:
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.define-a-schema.cpp
    :language: cpp
