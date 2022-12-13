@@ -7,7 +7,10 @@ Device Sync - Flutter SDK
 .. toctree::
    :titlesonly:
 
+   Add Sync to an App </sdk/flutter/sync/add-sync-to-app>
    Open Synced Realm </sdk/flutter/sync/open-synced-realm>
+   Manage Subscriptions </sdk/flutter/sync/manage-sync-subscriptions>
+   Write Data to a Synced Realm </sdk/flutter/sync/write-to-synced-realm>
    Manage Sync Session </sdk/flutter/sync/manage-sync-session>
    Sync Multiple Processes </sdk/flutter/sync/sync-multiple-processes>
    Handle Sync Errors </sdk/flutter/sync/handle-sync-errors>
@@ -29,6 +32,37 @@ to use :ref:`Flexible Sync <flexible-sync>`.
 .. note::
 
    The Flutter SDK does not support :ref:`Partition-Based Sync <partition-based-sync>`.
+
+.. _flutter-synced-realm:
+
+Synced Realms
+-------------
+
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. Synced realms use a different
+configuration than local-only realms and require an Atlas App Services
+backend to handle the synchronization process.
+
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm Flutter SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Atlas Device Sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+received out of order.
+
+Synced Realms vs. Non-Synced Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Synced realms differ from non-synced local Realm Database in a couple of ways:
+
+- Synced realms attempt to sync changes with your backend App Services App,
+  whereas non-synced realms do not.
+- Synced realms can be accessed by authenticated users, while non-synced
+  realms have no concept of users or authentication.
+
+You can copy data from a non-synced Realm Database to a synced realm,
+and vice versa, but you cannot sync a non-synced Realm Database.
 
 .. _flutter-flexible-sync-fundamentals:
 
@@ -72,9 +106,3 @@ Group Updates for Improved Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/sync-memory-performance.rst
-
-Next Steps
-----------
-
-#. :ref:`Open a Synced Realm <flutter-open-synced-realm>`
-#. :ref:`Manage a Sync Session <flutter-manage-sync-session>`

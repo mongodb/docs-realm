@@ -27,22 +27,22 @@ Prerequisites
 Before getting started, ensure your development environment
 meets the following prerequisites:
 
-- React Native v0.31.0 or later. Follow the `official React Native CLI Quickstart instructions <https://facebook.github.io/react-native/docs/getting-started.html>`__ to set up your environment.
-- `CocoaPods <https://cocoapods.org/>`__ 1.10.1 or later (recommended for building an iOS app with React Native v.60+).
+- Follow the `official React Native CLI Quickstart instructions <https://reactnative.dev/docs/environment-setup>`__ to set up your environment.
+- React Native v0.64.0 or later. Please consult the `compatibility chart <https://github.com/realm/realm-js/blob/master/COMPATIBILITY.md>`__ to determine which version of Realm is compatible.
 
 .. important:: Using Realm with Expo
 
-   `Expo <https://docs.expo.dev/>`_ now supports Realm with the Expo SDK version
+   `Expo <https://docs.expo.dev/>`__ now supports Realm with the Expo SDK version
    44. To use Realm with Expo, upgrade to `Expo SDK version 44
-   <https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/>`_. Realm
-   does not work with earlier versions of Expo or with Expo version 45 on
-   **Android**. To follow progress on its compatibility with Expo v45 on
-   Android, check out the :github:`GitHub issue<realm/realm-js/issues/4639>`.
+   <https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/>`__.  Consult
+   the `compatibility chart
+   <https://github.com/realm/realm-js/blob/master/COMPATIBILITY.md>`__ to
+   determine which version of the Expo SDK is compatible Realm.
 
 .. note:: Realm JS version 10.6.0 Supports Mac Catalyst
-   
+
    For `React Native version 0.64 and below
-   <https://reactnative.dev/versions>`_, building your Realm React
+   <https://reactnative.dev/versions>`__, building your Realm React
    Native application requires additional steps in order to :doc:`build your
    application when using Mac Catalyst
    </sdk/react-native/integrations/mac-catalyst>`.
@@ -77,7 +77,7 @@ and add the Realm React Native SDK to it.
             .. code-block:: bash
 
                cd MyRealmApp
-         
+
          .. step:: Install Realm with npm
 
             In your React Native project directory, add Realm to your
@@ -86,26 +86,26 @@ and add the Realm React Native SDK to it.
             .. code-block:: bash
 
                npm install realm
-         
+
          .. step:: Enable Hermes (optional)
 
             .. note::
-               
+
                To use Hermes, your app must use Realm v11 or later and React Native 0.70.0 or later
 
             Realm supports React Native's mobile-optimized JavaScript
             engine, Hermes. By default, new apps created with the React
             Native CLI already have Hermes enabled.
-            
+
             We recommend that you use Hermes with Realm. However, Realm
             also supports the :apple:`JavaScriptCore (JSC) engine
             <documentation/javascriptcore>` if your app requires it.
-            
+
             Existing apps that currently use JSC can enable Hermes
             separately for Android and iOS. To learn how, see the `Using
             Hermes <https://reactnative.dev/docs/hermes>`_ guide in the
             React Native docs.
-         
+
          .. step:: Resolve CocoaPods Dependencies
 
             For the iOS app, fetch the CocoaPods dependencies with
@@ -126,6 +126,25 @@ and add the Realm React Native SDK to it.
 
             .. include:: /includes/react-native-enable-typescript.rst
 
+         .. step:: Install the Realm React Library
+
+
+            :npm:`Realm React <package/@realm/react>` is an npm package that provides an easy-to-use API to perform
+            common Realm operations, such as querying or writing to a realm
+            and listening to realm objects.
+
+            Realm React helps you avoid creating boilerplate code, such as creating
+            your own listeners and state management. Realm React provides access to
+            Realm database through a set of hooks that update React state when the Realm data changes. This means that components using these hooks
+            will re-render on any changes to data in the realm.
+
+            .. include:: /includes/note-realmreact-version-requirements-for-realmjs.rst
+
+            In your React Native project directory, add Realm React to your project with the following command:
+
+            .. code-block:: shell
+
+               npm install @realm/react
 
          .. step:: Run the App
 
@@ -135,6 +154,10 @@ and add the Realm React Native SDK to it.
 
    .. tab:: Older React Native Versions
       :tabid: rn-pre-v-60
+
+      .. note:: Realm React Version Requirement
+         
+         The :npm:`Realm React <package/@realm/react>` library requires react-native version ``>= 0.59``. If you are developing using older versions of React Native, you can use Realm JS without ``Realm React``. Since the React Native SDK documentation makes heavy use of the ``Realm React`` package, you may want to refer to the :ref:`Node.js SDK documentation <node-intro>`
 
       .. procedure::
 

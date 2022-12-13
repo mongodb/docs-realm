@@ -11,18 +11,18 @@ Realm React Native SDK
 .. toctree::
    :titlesonly:
    :hidden:
-   
-   Install Realm for React Native </sdk/react-native/install>
+
+   Install </sdk/react-native/install>
    Quick Start </sdk/react-native/quick-start-local>
    Quick Start with Sync </sdk/react-native/quick-start>
-   Quick Start with Expo </sdk/react-native/quick-start-expo>
+   Bootstrap with Expo </sdk/react-native/bootstrap-with-expo>
    Use Realm React </sdk/react-native/use-realm-react>
-   Fundamentals </sdk/react-native/fundamentals>
-   Data Types </sdk/react-native/data-types>
-   Usage Examples </sdk/react-native/examples>
+   Realm Database </sdk/react-native/realm-database>
+   Atlas App Services </sdk/react-native/app-services>
+   Manage Users </sdk/react-native/manage-users>
+   Sync Data </sdk/react-native/sync-data>
+   Test & Debug </sdk/react-native/test-and-debug/>
    Integration Guides </sdk/react-native/integrations>
-   Advanced Guides </sdk/react-native/advanced>
-   Test & Debug </sdk/react-native/test-and-debug>
    API Reference <https://www.mongodb.com/docs/realm-sdks/js/latest/>
    Upgrade from Stitch to Realm </sdk/react-native/migrate>
    Release Notes <https://github.com/realm/realm-js/releases>
@@ -42,7 +42,7 @@ Get Started with Realm React Native
    .. card::
       :headline: Quick Start
       :cta: See Code Examples
-      :url: https://www.mongodb.com/docs/realm/sdk/react-native/quick-start-local/
+      :url: https://www.mongodb.com/docs/realm/sdk/react-native/quick-start/
       :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
       :icon-alt: Functions Icon
 
@@ -106,8 +106,12 @@ clients.
 
           .. step:: Read and Write Data
 
-              You can :ref:`create, read, update, and delete objects <react-native-read-and-write-data>`
-              from a realm. Construct complex queries to :ref:`filter data in a realm <react-native-query-data>`.
+              You can :ref:`create <react-native-create-objects>`, :ref:`read
+              <react-native-read-objects>`, :ref:`update
+              <react-native-update-objects>`, and :ref:`delete
+              <react-native-delete-objects>` objects from a realm. Construct
+              complex queries to :ref:`filter data in a realm
+              <react-native-query-data>`.
 
           .. step:: React to Changes
 
@@ -151,7 +155,7 @@ clients.
 
             .. step:: Read and Write Synced Data
 
-               The :ref:`APIs for reading and writing data <react-native-read-and-write-data>`
+               The APIs for reading and writing data
                are the same for both synced and local realms.
                Data that you read and write is automatically kept
                in sync with your Atlas cluster and other clients.
@@ -202,9 +206,6 @@ clients.
 
          Use Realm React to manage a Realm  Database, Atlas App Services,
          and Atlas Device Sync.
-
-         For more information, see :ref:`Realm React
-         <react-native-use-realm-react>`.
 
       .. image:: /images/illustrations/Spot_MauvePurple_Logic_Tech_RealmApp2x.png
          :alt: Realm Mobile Illustration

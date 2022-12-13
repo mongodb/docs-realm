@@ -199,13 +199,13 @@ receives:
          :language: java
          :copyable: false
 
-To subscribe to progress updates for uploads,
+To subscribe to progress updates for downloads,
 call :java-sdk:`addDownloadProgressListener()
 <io/realm/mongodb/sync/SyncSession.html#addDownloadProgressListener-io.realm.mongodb.sync.ProgressMode-io.realm.mongodb.sync.ProgressListener->`
 on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`
 with a :java-sdk:`ProgressMode <io/realm/mongodb/sync/ProgressMode.html>`
 and a :java-sdk:`ProgressListener() <io/realm/mongodb/sync/ProgressListener.html>`.
-The ``ProgressMode`` passed determines which upload events your listener
+The ``ProgressMode`` passed determines which download events your listener
 receives:
 
 .. tabs-realm-languages::

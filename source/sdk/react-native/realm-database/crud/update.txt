@@ -1,0 +1,76 @@
+.. _react-native-update-objects:
+
+================================
+CRUD - Update - React Native SDK
+================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+About the Examples on this Page
+-------------------------------
+The examples on this page use the following schemas:
+
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.dog-schema-crud.js
+  :language: javascript
+
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.person-schema-crud.js
+  :language: javascript
+
+.. _react-native-update-an-object:
+
+Update an Object
+----------------
+
+You can add, modify, or delete properties of a Realm object inside
+of a write transaction in the same way that you would update any other
+JavaScript object.
+
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-update-an-object.js
+  :language: javascript
+  :emphasize-lines: 7, 8
+
+.. tip:: Update Related and Embedded Objects
+   
+   To update a property of an :ref:`embedded object <react-native-embedded-objects>` or
+   a :ref:`related object <react-native-client-relationships>`, modify the property with
+   :mdn:`dot-notation or bracket-notation
+   <Web/JavaScript/Reference/Operators/Property_accessors>` as if it were in a
+   regular, nested object.
+
+.. _react-native-upsert-an-object:
+
+Upsert an Object
+----------------
+
+To upsert an object, call :js-sdk:`Realm.create() <Realm.html#create>` with the
+update mode set to ``modified``. The operation either inserts a new object with
+the given primary key or updates an existing object that already has that
+primary key.
+
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-upsert-an-object.js
+  :language: javascript
+  :emphasize-lines: 4, 13
+
+.. _react-native-update-a-collection:
+.. _react-native-bulk-update:
+
+Bulk Update a Collection
+------------------------
+
+To apply an update to a collection of objects, iterate through the collection
+(e.g. with :mdn:`for...of
+<Web/JavaScript/Reference/Statements/for...of>`). In the loop, update each object individually:
+
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-bulk-update.js
+  :language: javascript
+  :emphasize-lines: 7, 9
+
+.. note:: Inverse Relationships
+
+   Thanks to an :ref:`inverse relationship <react-native-inverse-relationship>` from
+   ``Dog.owner`` to ``Person.dogs``, Realm Database automatically updates
+   Ali's list of dogs whenever we set her as a puppy's owner.
