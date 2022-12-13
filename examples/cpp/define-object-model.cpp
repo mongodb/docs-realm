@@ -142,8 +142,10 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     auto grandCanyonVillage = namedGrandCanyonVillage[0];
     std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
     REQUIRE(grandCanyonVillage->name == "Grand Canyon Village");
-    auto const &theseGpsCoordinates = **grandCanyonVillage->gpsCoordinates;
-    auto const &latitude = gpsCoordinates.latitude;
+    auto const &theseGpsCoordinates = *(grandCanyonVillage->gpsCoordinates);
+    static_assert(std::is_same_v<decltype(theseGpsCoordinates), std::optional<GPSCoordinates> const &>, "Dereference fail!"); // :remove:
+    auto latitude = *(theseGpsCoordinates->latitude);
+    static_assert(std::is_same_v<decltype(latitude), double>, "Dereference fail!"); // :remove:
     std::cout << "POI Latitude: " << latitude << "\n";
     REQUIRE(latitude == 36.0554);
 };
