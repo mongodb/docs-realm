@@ -1,3 +1,12 @@
+class Person extends Realm.Object {
+  static schema = {
+    name: 'Person',
+    properties: {
+      firstName: 'string',
+      age: 'int',
+    },
+  };
+}
 const config = {
   schema: [Person],
   // increment the 'schemaVersion', since 'lastName' has been removed from the schema

@@ -38,6 +38,12 @@ describe('Change an Object Model Tests', () => {
   });
 
   it('should delete a property from a schema', () => {
+    // :snippet-start: delete-a-property-from-a-schema
+    // :replace-start: {
+    //  "terms": {
+    //   "MyPerson": "Person"
+    //   }
+    // }
     class MyPerson extends Realm.Object<MyPerson> {
       firstName!: string;
       age!: number;
@@ -50,12 +56,6 @@ describe('Change an Object Model Tests', () => {
         },
       };
     }
-    // :snippet-start: delete-a-property-from-a-schema
-    // :replace-start: {
-    //  "terms": {
-    //   "MyPerson": "Person"
-    //   }
-    // }
     const config = {
       schema: [MyPerson],
       // increment the 'schemaVersion', since 'lastName' has been removed from the schema
