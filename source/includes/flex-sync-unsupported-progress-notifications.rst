@@ -1,6 +1,6 @@
 .. note::
 
-   Flexible Sync progress notifications are not yet fully supported. Downloads
-   only report notifications after changes are integrated. Partition-Based Sync
-   provides ongoing notifications as changes progress. Upload progress should
-   report regularly for both Sync Modes.
+   Flexible Sync progress notifications are not yet fully supported.
+   When using Flexible Sync, downloads only report notifications after changes are integrated.
+   Partition-Based Sync provides ongoing notifications as changes progress downloading. 
+   Upload progress reports regularly for both Sync Modes.
