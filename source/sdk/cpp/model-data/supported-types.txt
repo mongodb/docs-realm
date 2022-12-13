@@ -13,7 +13,9 @@ Supported Types - C++ SDK (Alpha)
 Supported Property Types
 ------------------------
 
-The Realm Database C++ SDK Alpha currently supports the following property types:
+The Realm Database C++ SDK Alpha currently supports these property types.
+Optionals use the class template 
+`std::optional <https://en.cppreference.com/w/cpp/utility/optional>`__.
 
 Property Cheat Sheet
 ~~~~~~~~~~~~~~~~~~~~
@@ -84,11 +86,11 @@ Property Cheat Sheet
      - .. code-block:: cpp
           :copyable: false
 
-          realm::persisted<realm::Timestamp>> date_name;
+          realm::persisted<std::chrono::time_point<std::chrono::system_clock>> date_name;
      - .. code-block:: cpp
           :copyable: false
 
-          realm::persisted<std::optional<realm::Timestamp>> opt_date_name;
+          realm::persisted<std::optional<std::chrono::time_point<std::chrono::system_clock>>> opt_date_name;
    * - UUID
      - .. code-block:: cpp
           :copyable: false
@@ -134,11 +136,12 @@ Supported Type Implementation Details
 
 Some of the supported types above are aliases for:
 
-- ``int``: An alias for an int-type object that encompasses: 
-  ``int8_t``, ``int16_t``, ``int32_t``, ``int64_t``
 - ``mixed``: An alias for an object that could contain any of the other 
-  supported types
-- ``timestamp``: An alias for an object that uses the `chrono library 
+  supported types. It is implemented using the class template 
+  `std::variant <https://en.cppreference.com/w/cpp/utility/variant>`__.
+  This implementation means that a ``mixed`` property holds a value of 
+  one of its alternative types, or in the case of error - no value.
+- For dates, use the `chrono library 
   <https://en.cppreference.com/w/cpp/chrono>`__
   to store a ``time_point`` relative to the ``system_clock``: 
   ``<std::chrono::time_point<std::chrono::system_clock>>``
