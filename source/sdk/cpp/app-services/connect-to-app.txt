@@ -1,0 +1,35 @@
+.. _cpp-connect-to-backend:
+
+====================================================
+Connect to App Services - C++ SDK
+====================================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The App client is the App Services backend interface. It provides access 
+to authentication and Atlas Functions.
+
+Before You Begin
+----------------
+
+#. :ref:`Create an App Services app <create-a-realm-app>`
+
+.. _cpp-access-the-app-client:
+
+Access the App Client
+---------------------
+
+#. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
+#. Create an `App object <https://www.mongodb.com/docs/realm-sdks/cpp/latest/classrealm_1_1App.html>`__ 
+   with your App's ID as the argument. You use this ``App`` instance to access 
+   App Services features throughout your client application.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.connect-app-services.cpp
+   :language: cpp
