@@ -3,10 +3,10 @@ class Person extends Realm.Object<Person> {
   age!: number;
 
   static schema = {
-    name: 'Person',
+    name: "Person",
     properties: {
-      fullName: 'string',
-      age: 'int',
+      fullName: "string",
+      age: "int",
     },
   };
 }
@@ -28,4 +28,4 @@ const config = {
     }
   },
 };
-const {RealmProvider} = createRealmContext(config);
+const { RealmProvider } = createRealmContext(config);

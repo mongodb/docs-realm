@@ -130,9 +130,9 @@ Delete a Property
 ~~~~~~~~~~~~~~~~~
 
 To delete a property from a schema, remove the property from the object's class
-and set a ``schemaVersion`` of the :js-sdk:`realm's configuration object
-<Realm.html#~Configuration>`. Deleting a property will not impact existing
-objects.
+and set a ``schemaVersion`` of the :js-sdk:`RealmConfiguration
+<Realm.html#~Configuration>` object. Deleting a property will not impact
+existing objects.
 
 .. example::
    
@@ -142,14 +142,21 @@ objects.
 
    To migrate the realm to conform to the updated ``Dog`` schema, the
    developer sets the realm's :ref:`schema version <react-native-schema-version>` to
-   ``2``.
+   ``2`` in the ``RealmConfiguration`` object.
 
    .. tabs-realm-languages::
-     
+
+     .. tab::
+         :tabid: typescript
+ 
+         .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.delete-a-property-from-a-schema.tsx
+           :language: typescript
+           :emphasize-lines: 3
+
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-delete-property.js
+         .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.delete-a-property-from-a-schema.jsx
            :language: javascript
            :emphasize-lines: 3
 
@@ -185,13 +192,20 @@ property, and then delete the old property.
    on the existing ``firstName`` and ``lastName`` properties.
 
    .. tabs-realm-languages::
-     
+
+     .. tab::
+         :tabid: typescript
+ 
+         .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.rename-a-property-of-a-schema.tsx
+           :language: typescript
+           :emphasize-lines: 2, 8, 16, 26
+
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.js
+         .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.rename-a-property-of-a-schema.jsx
            :language: javascript
-           :emphasize-lines: 3, 14
+           :emphasize-lines: 5, 13, 23
 
 .. important:: Synced Realms
 
@@ -232,10 +246,17 @@ callback function of the :js-sdk:`realm's configuration Object
    ``string`` type.
 
    .. tabs-realm-languages::
-     
+
+     .. tab::
+         :tabid: typescript
+ 
+         .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.modify-a-property-type.tsx
+           :language: typescript
+           :emphasize-lines: 2, 11, 23, 32
+
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-modify-property-type.js
+         .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.modify-a-property-type.jsx
            :language: javascript
-           :emphasize-lines: 3, 12 
+           :emphasize-lines: 5, 17, 26

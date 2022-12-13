@@ -1,14 +1,14 @@
 class Task extends Realm.Object {
   static schema = {
-    name: 'Task',
+    name: "Task",
     properties: {
-      _id: 'objectId',
-      name: 'string',
-      priority: 'int?',
-      progressMinutes: 'int?',
-      assignee: 'Person?',
+      _id: "objectId",
+      name: "string",
+      priority: "int?",
+      progressMinutes: "int?",
+      assignee: "Person?",
     },
-    primaryKey: '_id',
+    primaryKey: "_id",
   };
 }
 
@@ -28,4 +28,4 @@ const config = {
     }
   },
 };
-const {RealmProvider} = createRealmContext(config);
+const { RealmProvider } = createRealmContext(config);
