@@ -1,3 +1,117 @@
+# December 9, 2022
+
+## C++ SDK
+- Install Realm: New page with instructions for how to install the Realm C++ SDK using Swift Package Manager or CMake, remove "Install" instructions from landing page
+
+## Flutter SDK
+- Quick Start: Wording tweaks and typo fix
+- Model Data/Define a Realm Object Schema: Typo fix
+- Sync Device Data
+  - Landing page: Add an explanation of what synced realms are, and how they differ from non-synced realms
+  - Open Synced Realm: Further Reading: Add a link with some information about the new Manage Sync Subscriptions page
+  - Manage Sync Sessions: Move content related to Flexible Sync subscriptions, focus on pause/resume, monitor upload/download progress, check network connection
+  - Manage Sync Subscriptions: New page with existing content related to managing Flexible Sync subscriptions
+
+## Java SDK
+- Usage Examples/Sync Changes Between Devices: Typo fix
+
+## Kotlin SDK
+- Realm Database/Schemas: New "Realm Set" page with tested code examples showing how to use the `RealmSet()` data type
+
+## .NET SDK
+- Add content about Maui, tweak or remove content about Xamarin, from the following pages:
+  - .NET SDK Landing Page
+  - Install Realm
+  - Realm Files
+    - Bundle a Realm
+    - Encrypt a Realm
+  - Model Data/Define an Object Model
+  - CRUD/Threading
+
+## Node.js SDK
+- Usage Examples/Authenticate Users: New section with a tested code example showing how to get a User Access Token
+
+## React Native SDK
+- Realm Database/Overview: Fix typos in a couple of links
+- CRUD
+  - Create: New tested code examples and content showing how to create objects using Realm React 
+  - Read: New tested code examples and content showing how to read objects using Realm React
+- Manage Users/Authenticate Users: New section with a tested code example showing how to get a User Access Token
+
+## Swift SDK
+- Move "Manage User API Keys" page from "App Services" section to "Manage Users" section
+
+## Web SDK
+- Landing page: Fix broken link
+- User Management/Authenticate Users: New section with a tested code example showing how to get a User Access Token
+
+## Realm Studio
+- Open a Realm File: Add tabs showing how to find the realm file path in the Flutter SDK & Kotlin SDK
+- Modify Schema in Realm Studio: Add a tab for the Flutter SDK "Schema Versions & Migrations" page
+
+## Other
+- Remove a note about watching for collection notifications on serverless instances from Quick Starts, add it to Query MongoDB page
+- Internal
+  - Fix missing targets to address Snooty build errors and potentially fix broken links using those targets
+  - Update the README for the C++ code example project with additional details & wording clarifications
+  - Update the README for the Dart code example project to link to `realm-dart/main` instead of `realm-dart/master`
+  - Add the contents of a now-archived external repository to this docs repository: 
+    - Realm SDK Reference Manual Landing Pages
+    - CSVs & JSON containing reference info for Atlas App Services Public IPs & Realm Public IPs
+
+# December 2, 2022
+
+## C++ SDK
+- Configure & Open a Realm: New page with tested code examples showing how to configure and open a realm
+
+## Flutter SDK
+- Install Realm for Flutter: Add a "Use Realm with the macOS App Sandbox" section with details about how to enable network requests while an app is in development
+- Manage Realm Database Files
+  - New section with landing page to organize content related to realm files
+  - Move relevant pages into section: Configure & Open a Realm, Bundle a Realm, Compact a Realm, Encrypt a Realm
+  - Delete a Realm: New page with a tested code example showing how to safely delete a realm
+- User Management/Get an Access Token: New page with tested code examples showing how to get and refresh a user access token
+- Sync Device Data/Add Sync to an App: New page showing the procedure & tested code examples for how to add Device Sync to an app
+- Add the Dart/Flutter example projects repository to the navigation table of contents
+
+## Kotlin SDK
+- Quick Start: Fix a broken API reference doc link
+
+## .NET SDK
+- Quick Start
+  - Update code examples to use `Task` model throughout, minor reorganization and removing outdated/unnecessary content
+  - Minor copy/paste fixes
+- CRUD/Filter and Sort Data: Add a new "Unsupported LINQ Operators" section listing LINQ operators that are not currently supported by the Realm .NET SDK
+- Manage Users/Authenticate Users: Add a new "Get a User Access Token" section with an example function showing how to get a refreshed user access token
+- Sync Data/Add Sync to an App: Fix a copy/paste artifact
+
+## React Native SDK
+- Install: Update "Prerequisites" to point to reactnative.dev docs, list a minimum required version, and link to the Compatability Chart in the realm-js repository
+- Quick Start: Update "Prerequisites" to refer to the React Native SDK instead of the Node SDK
+- Major Information Architecture refactor, including:
+  - Move "Fundamentals" content onto relevant topic-based pages
+  - Rearrange table of contents to present topic-based navigation instead of content-typed navigation
+  - Split long pages (Define a Realm Object Model, Read & Write Data, Sync Changes Between Devices) into sections with smaller pages
+
+## Swift SDK
+- Realm Files/Configure & Open a Realm: Change a link to point to a more relevant section of the docs
+- Model Data/Define an Object Model/Object Models: New "Remap a Property Name" section with a tested code example showing how to map a property name in your project to a different name - i.e. a snake-case Device Sync schema property name
+- Manage Users/Authenticate Users: New "Get a User Access Token" section with tested code examples showing how to get and refresh a user access token
+
+## Realm Studio
+- Modify a Realm File: Add information about Realm Studio using the "Flatted" package, and how to parse it
+
+## Other
+- Add an `include` to be shared across docs about how to find an App ID, linking to the relevant page in App Services, and add this to all of the SDK Quick Starts
+- Internal
+  - Add a new checklist to the PR template
+  - Add and update redirects from the .NET information architecture updates
+  - Update dependencies in the readability GitHub workflow
+  - Add a README.md to the C++ code example project explaining how to get set up, run the tests, and add examples
+  - Change the C++ example project to use the Realm C++ SDK as a CMake/FetchContent dependency instead of a git submodule
+  - Fix some broken external links causing Snooty build errors
+  - Various Snyk upgrades and version bumps in example apps
+
 # November 25, 2022
 
 ## Flutter SDK

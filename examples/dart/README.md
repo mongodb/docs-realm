@@ -37,7 +37,7 @@ Run these commands to setup the application:
 
 ## API
 
-For API usage, refer to the tests in the realm-dart repo: https://github.com/realm/realm-dart/blob/master/test/realm_test.dart
+For API usage, refer to the tests in the realm-dart repo: https://github.com/realm/realm-dart/blob/main/test/realm_test.dart
 
 ## Using Unpublished Version of realm_dart
 

@@ -29,9 +29,11 @@ raw: ${prefix}/functions/upload-external-dependencies -> ${base}/functions/add-e
 raw: ${prefix}/manage-apps/configure/import-realm-app -> ${base}/manage-apps/configure/update-realm-app/
 
 # App Structure V2 (https://jira.mongodb.org/browse/DOCSP-14491)
+
 raw: ${prefix}/deploy/application-configuration-files -> ${base}/configuration/legacy/
 
 # New SDK IA 2020/2021 (https://jira.mongodb.org/browse/DOCSP-12546)
+
 raw: ${prefix}/android -> ${base}/sdk/android/
 raw: ${prefix}/android/access-custom-user-data -> ${base}/sdk/android/advanced-guides/custom-user-data/
 raw: ${prefix}/android/async-api -> ${base}/sdk/android/fundamentals/async-api/
@@ -174,7 +176,7 @@ raw: ${prefix}/ios/authenticate -> ${base}/sdk/swift/examples/authenticate-users
 raw: ${prefix}/ios/auxiliary-files -> ${base}/sdk/swift/
 raw: ${prefix}/ios/call-a-function -> ${base}/sdk/swift/app-services/call-a-function/
 raw: ${prefix}/ios/collections -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/ios/create-manage-api-keys -> ${base}/sdk/swift/app-services/manage-user-api-keys/
+raw: ${prefix}/ios/create-manage-api-keys -> ${base}/sdk/swift/users/manage-user-api-keys/
 raw: ${prefix}/ios/data-model -> ${base}/sdk/swift/model-data/define-model/object-models/
 raw: ${prefix}/ios/database -> ${base}/sdk/swift/realm-database/
 raw: ${prefix}/ios/embedded-objects -> ${base}/sdk/swift/model-data/define-model/relationships/
@@ -209,12 +211,15 @@ raw: ${prefix}/values-and-secrets/define-a-secret -> ${base}/values-and-secrets/
 raw: ${prefix}/reference/terminating-and-reenabling-realm-sync/ -> ${base}/sync/pause-or-terminate-sync/
 
 # Sync Updates (https://jira.mongodb.org/browse/DOCSP-16313)
+
 raw: ${prefix}/sync/partitioning -> ${base}/sync/data-access-patterns/partitions/
 
 # Realm CLI V2 (https://jira.mongodb.org/browse/DOCSP-18119)
+
 raw: ${prefix}/deploy/realm-cli-reference -> ${base}/cli/
 
 # Realm Triggers IA Refresh
+
 raw: ${prefix}/triggers/cron-expressions -> ${base}/triggers/scheduled-triggers/
 raw: ${prefix}/triggers -> ${base}/triggers/overview/
 raw: ${prefix}/triggers/eventbridge -> ${base}/triggers/examples/send-events-aws-eventbridge/
@@ -222,6 +227,7 @@ raw: ${prefix}/triggers/trigger-snippets -> ${base}/triggers/examples/
 raw: ${prefix}/triggers/trigger-types -> ${base}/triggers/overview/
 
 # Realm App Admin IA Refresh (https://jira.mongodb.org/browse/DOCSP-18465)
+
 raw: ${prefix}/get-started/create-realm-app -> ${base}/manage-apps/create/create-with-realm-ui/
 raw: ${prefix}/deploy/create-with-cli -> ${base}/manage-apps/create/create-with-cli/
 raw: ${prefix}/config -> ${base}/manage-apps/configure/config/
@@ -251,6 +257,7 @@ raw: ${prefix}/manage-apps/deploy/export-realm-app -> ${base}/manage-apps/config
 raw: ${prefix}/security -> ${base}/manage-apps/secure/
 
 # Add Work with Users page
+
 raw: ${prefix}/sdk/ios/examples/authenticate-users/ -> ${base}/sdk/swift/examples/users/authenticate-users/
 raw: ${prefix}/sdk/ios/examples/manage-email-password-users/ -> ${base}/sdk/swift/examples/users/manage-email-password-users/
 raw: ${prefix}/sdk/ios/advanced-guides/custom-user-data/ -> ${base}/sdk/swift/examples/users/custom-user-data/
@@ -258,16 +265,21 @@ raw: ${prefix}/sdk/ios/advanced-guides/link-user-identities/ -> ${base}/sdk/swif
 raw: ${prefix}/sdk/ios/advanced-guides/multi-user-applications/ -> ${base}/sdk/swift/examples/users/multi-user-applications/
 
 # Separated Schema & Rules Sections
+
 ## Rules
+
 raw: ${prefix}/services/expression-variables -> ${base}/rules/expressions/
 raw: ${prefix}/services/json-expressions -> ${base}/rules/expressions/
 raw: ${prefix}/mongodb/query-roles -> ${base}/rules/roles/
 raw: ${prefix}/mongodb/query-filters -> ${base}/rules/filters/
+
 ## Schemas
+
 raw: ${prefix}/mongodb/document-schemas -> ${base}/schemas/
 raw: ${prefix}/mongodb/enforce-a-document-schema -> ${base}/schemas/enforce-a-schema/
 
 # Atlas Device Sync IA Refresh (https://jira.mongodb.org/browse/DOCSP-19671)
+
 raw: ${prefix}/sync/client-resets -> ${base}/sync/error-handling/client-resets/
 raw: ${prefix}/sync/configure-your-data-model -> ${base}/sync/data-model/sync-schema-overview/
 raw: ${prefix}/sync/conflict-resolution -> ${base}/sync/learn/conflict-resolution/
@@ -287,10 +299,12 @@ raw: ${prefix}/sync/rules -> ${base}/sync/data-access-patterns/permissions/
 raw: ${prefix}/sync/synced-schema-overview -> ${base}/sync/data-model/sync-schema-overview/
 
 # Third Party Services Deprecation
+
 raw: ${prefix}/services/push-notifications -> ${base}/push-notifications/
 raw: ${prefix}/services/send-mobile-push-notifications -> ${base}/push-notifications/
 
 # ios -> swift rename
+
 raw: ${prefix}/sdk/ios -> ${base}/sdk/swift/
 raw: ${prefix}/sdk/ios/quick-start -> ${base}/sdk/swift/quick-start/
 raw: ${prefix}/sdk/ios/fundamentals -> ${base}/sdk/swift/realm-database/
@@ -330,7 +344,7 @@ raw: ${prefix}/sdk/ios/examples/call-a-function -> ${base}/sdk/swift/app-service
 raw: ${prefix}/sdk/ios/examples/react-to-changes -> ${base}/sdk/swift/react-to-changes/
 raw: ${prefix}/sdk/ios/examples/sync-realm-open-legacy -> ${base}/sdk/swift/sync/sync-realm-open-legacy/
 raw: ${prefix}/sdk/ios/examples/work-with-users -> ${base}/sdk/swift/work-with-users/
-raw: ${prefix}/sdk/ios/examples/manage-user-api-keys -> ${base}/sdk/swift/app-services/manage-user-api-keys/
+raw: ${prefix}/sdk/ios/examples/manage-user-api-keys -> ${base}/sdk/swift/users/manage-user-api-keys/
 raw: ${prefix}/sdk/ios/examples/configure-and-open-a-realm -> ${base}/sdk/swift/realm-files/configure-and-open-a-realm/
 raw: ${prefix}/sdk/ios/examples/connect-to-a-mongodb-realm-backend-app -> ${base}/sdk/swift/examples/connect-to-a-mongodb-realm-backend-app/
 raw: ${prefix}/sdk/ios/examples/users -> ${base}/sdk/swift/examples/users/
@@ -348,14 +362,19 @@ raw: ${prefix}/sdk/ios/examples/read-and-write-data -> ${base}/sdk/swift/crud/cr
 raw: ${prefix}/sdk/ios/fundamentals -> ${base}/sdk/swift/
 
 # Query Based Sync & Other Sync Modes Changes Related to QBS (https://jira.mongodb.org/browse/DOCSP-19522)
+
 raw: ${prefix}/sync/data-access-patterns/partition-strategies -> ${base}/sync/data-access-patterns/partitions/
 
 # Client Reset move from Advanced to Examples (part of Seamless Client Reset)
+
 raw: ${prefix}/sdk/android/advanced-guides/client-reset -> ${base}/sdk/android/examples/reset-a-client-realm/
+
 # HTTPS endpoints
+
 raw: ${prefix}/endpoints/requests-and-responses -> ${base}/endpoints/
 
 # android -> java rename
+
 raw: ${prefix}/sdk/android -> ${base}/sdk/java/
 raw: ${prefix}/sdk/android/advanced-guides/custom-user-data -> ${base}/sdk/java/advanced-guides/custom-user-data/
 raw: ${prefix}/sdk/android/advanced-guides/debugging -> ${base}/sdk/java/advanced-guides/debugging/
@@ -415,17 +434,19 @@ raw: ${prefix}/sdk/android/troubleshooting -> ${base}/sdk/java/troubleshooting/
 raw: ${prefix}/tutorial/android-kotlin -> ${base}/tutorial/java-sdk/
 
 # kotlin-multiplatform -> kotlin rename
+
 raw: ${prefix}/sdk/kotlin-multiplatform -> ${base}/sdk/kotlin/
 raw: ${prefix}/sdk/kotlin-multiplatform/frozen-arch -> ${base}/sdk/kotlin/frozen-arch/
 raw: ${prefix}/sdk/kotlin-multiplatform/install -> ${base}/sdk/kotlin/install/
 raw: ${prefix}/sdk/kotlin-multiplatform/quick-start -> ${base}/sdk/kotlin/quick-start/
 raw: ${prefix}/sdk/kotlin-multiplatform/realm-database -> ${base}/sdk/kotlin/realm-database/
 
-
 # Bundle Synced Realms (https://jira.mongodb.org/browse/DOCSP-19531)
+
 raw: ${prefix}/sdk/swift/advanced-guides/bundle -> ${base}/sdk/swift/realm-files/bundle-a-realm/
 
 # Functions & Data Sources Refresh (https://jira.mongodb.org/browse/DOCSP-21889)
+
 raw: ${prefix}/mongodb/specify-cluster-read-preference -> ${base}/mongodb/read-preference/
 raw: ${prefix}/mongodb/connection-strings -> ${base}/mongodb/wire-protocol/
 raw: ${prefix}/mongodb/enable-wire-protocol-connections -> ${base}/mongodb/wire-protocol/
@@ -471,6 +492,7 @@ raw: ${prefix}/mongodb/data-sources -> ${base}/mongodb/
 raw: ${prefix}/mongodb/link-a-data-source -> ${base}/mongodb/
 
 # Flutter Create 'Realm Database' section (https://jira.mongodb.org/browse/DOCSP-22356)
+
 raw: ${prefix}/sdk/flutter/realm-database/overview -> ${base}/sdk/flutter/realm-database/
 raw: ${prefix}/sdk/flutter/define-realm-object-schema -> ${base}/sdk/flutter/realm-database/define-realm-object-schema/
 raw: ${prefix}/sdk/flutter/open-and-close-a-realm -> ${base}/sdk/flutter/realm-database/open-and-close-a-realm/
@@ -480,10 +502,12 @@ raw: ${prefix}/sdk/flutter/query-language -> ${base}/sdk/flutter/realm-database/
 raw: ${prefix}/sdk/flutter/data-types -> ${base}/sdk/flutter/realm-database/data-types/
 
 # JS Client Reset with Seamless loss (https://jira.mongodb.org/browse/DOCSP-19552)
+
 raw: ${prefix}/sdk/node/advanced/client-reset -> ${base}/sdk/node/examples/reset-a-client-realm/
 raw: ${prefix}/sdk/react-native/advanced/client-reset -> ${base}/sdk/react-native/examples/reset-a-client-realm/
 
 # "MongoDB Realm" -> "Atlas App Services" migration
+
 raw: ${prefix}/admin/api/v3 -> ${appServicesBase}/admin/api/v3/
 raw: ${prefix}/alerts -> ${appServicesBase}/alerts/
 raw: ${prefix}/authentication -> ${appServicesBase}/authentication/
@@ -732,6 +756,7 @@ raw: ${prefix}/tutorial/jwt -> ${appServicesBase}/tutorial/jwt/
 raw: ${prefix}/tutorial/unity -> ${base}/sdk/dotnet/unity-tutorial/
 
 # Move files for rename
+
 raw: ${prefix}/sdk/dotnet/examples/connect-to-a-mongodb-realm-backend-app/ -> ${base}/sdk/dotnet/examples/connect-to-app-services-backend/
 raw: ${prefix}/sdk/dotnet/fundamentals/realm-sync/ -> ${base}/sdk/dotnet/fundamentals/device-sync/
 raw: ${prefix}/sdk/java/examples/connect-to-mongodb-realm-backend-app/ -> ${base}/sdk/java/examples/connect-to-app-services-backend/
@@ -748,6 +773,7 @@ raw: ${prefix}/web/mongodb-realm/ -> ${base}/web/atlas-app-services/
 raw: ${prefix}/web/init-realmclient/ -> ${base}/web/init-app-client/
 
 # Consolidate user pages for .NET
+
 raw: ${prefix}/sdk/dotnet/advanced-guides/custom-user-data -> ${base}/sdk/dotnet/examples/users/custom-user-data/
 raw: ${prefix}/sdk/dotnet/advanced-guides/link-user-identities -> ${base}/sdk/dotnet/examples/users/link-user-identities/
 raw: ${prefix}/sdk/dotnet/advanced-guides/multi-user-applications -> ${base}/sdk/dotnet/examples/users/multi-user-applications/
@@ -756,6 +782,7 @@ raw: ${prefix}/sdk/dotnet/examples/manage-email-password-users -> ${base}/sdk/do
 raw: ${prefix}/sdk/dotnet/examples/manage-user-api-keys -> ${base}/sdk/dotnet/examples/users/manage-user-api-keys/
 
 # Redirect reference section to atlas/app-services
+
 raw: ${prefix}/reference/find-your-project-or-app-id -> ${appServicesBase}/reference/find-your-project-or-app-id/
 raw: ${prefix}/reference/authenticate-http-client-requests -> ${appServicesBase}/reference/authenticate-http-client-requests/
 raw: ${prefix}/reference/issues-and-workarounds -> ${appServicesBase}/reference/issues-and-workarounds/
@@ -766,6 +793,7 @@ raw: ${prefix}/reference/push-notifications -> ${appServicesBase}/reference/push
 raw: ${prefix}/reference/services -> ${appServicesBase}/reference/services/
 
 # Improve Discoverability SDK IA Refresh (https://jira.mongodb.org/browse/DOCSP-23502)
+
 raw: ${prefix}/sdk/swift/fundamentals -> ${base}/sdk/swift/realm-database/
 raw: ${prefix}/sdk/swift/fundamentals/realm-database -> ${base}/sdk/swift/realm-database/
 raw: ${prefix}/sdk/swift/fundamentals/realms -> ${base}/sdk/swift/realm-database/
@@ -797,7 +825,7 @@ raw: ${prefix}/sdk/swift/examples/work-with-users -> ${base}/sdk/swift/work-with
 raw: ${prefix}/sdk/swift/examples/connect-to-app-services-backend -> ${base}/sdk/swift/app-services/connect-to-app-services-backend/
 raw: ${prefix}/sdk/swift/examples/call-a-function -> ${base}/sdk/swift/app-services/call-a-function/
 raw: ${prefix}/sdk/swift/examples/mongodb-remote-access -> ${base}/sdk/swift/app-services/mongodb-remote-access/
-raw: ${prefix}/sdk/swift/examples/manage-user-api-keys -> ${base}/sdk/swift/app-services/manage-user-api-keys/
+raw: ${prefix}/sdk/swift/examples/manage-user-api-keys -> ${base}/sdk/swift/users/manage-user-api-keys/
 raw: ${prefix}/sdk/swift/examples/sync-changes-between-devices -> ${base}/sdk/swift/sync/add-sync-to-app/
 raw: ${prefix}/sdk/swift/examples/flexible-sync -> ${base}/sdk/swift/sync/manage-flexible-sync-subscriptions/
 raw: ${prefix}/sdk/swift/examples/swiftui-guide -> ${base}/sdk/swift/swiftui/
@@ -821,6 +849,7 @@ raw: ${prefix}/sdk/swift/event-library -> ${base}/sdk/swift/sync/event-library/
 raw: ${prefix}/sdk/swift/additional-examples -> ${base}/sdk/swift/realm-database/
  
 # Move RQL Reference to top level & make single source of truth
+
 raw: ${prefix}/reference/realm-query-language -> ${base}/realm-query-language/
 raw: ${prefix}/sdk/flutter/realm-database/query-language -> ${base}/realm-query-language/
 raw: ${prefix}/sdk/kotlin/realm-database/query-language -> ${base}/realm-query-language/
@@ -828,17 +857,21 @@ raw: ${prefix}/sdk/node/advanced/query-engine -> ${base}/sdk/node/examples/query
 raw: ${prefix}/sdk/react-native/advanced/query-engine -> ${base}/sdk/react-native/examples/query-data/
 
 # Tutorial refresh
+
 raw: ${prefix}/tutorial/ios-swift -> ${base}/tutorial/swiftui/
 
 # Add a dedicated SwiftUI docs section
+
 raw: ${prefix}/sdk/swift/swiftui-guide -> ${base}/sdk/swift/swiftui/
 
 # Quick start refresh
+
 raw: ${prefix}/sdk/swift/quick-start-with-sync -> ${base}/sdk/swift/quick-start/
 raw: ${prefix}/sdk/dotnet/quick-start-with-sync -> ${base}/sdk/dotnet/quick-start/
 raw: ${prefix}/sdk/dotnet/quick-start-local -> ${base}/sdk/dotnet/quick-start/
 
 # Move tutorials to App Services
+
 raw: ${prefix}/tutorial/dotnet -> ${appServicesBase}/tutorial/dotnet/
 raw: ${prefix}/tutorial/flutter -> ${appServicesBase}/tutorial/flutter/
 raw: ${prefix}/tutorial/kotlin -> ${appServicesBase}/tutorial/kotlin/
@@ -847,6 +880,55 @@ raw: ${prefix}/tutorial/swiftui -> ${appServicesBase}/tutorial/swiftui/
 raw: ${prefix}/tutorial -> ${appServicesBase}/get-started/
 
 # Flutter SDK docs expansion
+
+raw: ${prefix}/sdk/flutter/realm-database/data-types -> ${appServicesBase}/sdk/flutter/model-data/data-types/
+raw: ${prefix}/sdk/flutter/realm-database/define-realm-object-schema -> ${appServicesBase}/sdk/flutter/define-realm-object-schema/
+raw: ${prefix}/sdk/flutter/realm-database/update-realm-object-schema -> ${appServicesBase}/sdk/flutter/update-realm-object-schema/
+
+# React Native IA Refactor (https://jira.mongodb.org/browse/DOCSP-26635)
+
+raw: ${prefix}/sdk/react-native/quick-start-expo/ -> ${base}/sdk/react-native/bootstrap-with-expo/
+raw: ${prefix}/sdk/react-native/fundamentals/realm-database -> ${base}/sdk/react-native/realm-database/overview
+raw: ${prefix}/sdk/react-native/fundamentals/realms -> ${base}/sdk/react-native/realm-database/overview
+raw: ${prefix}/sdk/react-native/fundamentals/live-queries -> ${base}/sdk/react-native/realm-database/overview
+raw: ${prefix}/sdk/react-native/fundamentals/write-transactions -> ${base}/sdk/react-native/realm-database/write-transactions
+raw: ${prefix}/sdk/react-native/fundamentals/relationships-and-embedded-objects -> ${base}/sdk/react-native/realm-database/schemas/relationships
+raw: ${prefix}/sdk/react-native/fundamentals/schema-versions-and-migrations -> ${base}/sdk/react-native/realm-database/change-an-object-model
+raw: ${prefix}/sdk/react-native/fundamentals/application-services -> ${base}/sdk/react-native/app-services/overview
+raw: ${prefix}/sdk/react-native/fundamentals/device-sync -> ${base}/sdk/react-native/sync/overview
+raw: ${prefix}/sdk/react-native/data-types/field-types -> ${base}/sdk/react-native/realm-database/schemas/field-types
+raw: ${prefix}/sdk/react-native/data-types/collections -> ${base}/sdk/react-native/realm-database/schemas/collections
+raw: ${prefix}/sdk/react-native/data-types/dictionaries -> ${base}/sdk/react-native/realm-database/schemas/dictionaries
+raw: ${prefix}/sdk/react-native/data-types/sets -> ${base}/sdk/react-native/realm-database/schemas/sets
+raw: ${prefix}/sdk/react-native/data-types/mixed -> ${base}/sdk/react-native/realm-database/schemas/mixed
+raw: ${prefix}/sdk/react-native/data-types/uuid -> ${base}/sdk/react-native/realm-database/schemas/uuid
+raw: ${prefix}/sdk/react-native/data-types/embedded-objects -> ${base}/sdk/react-native/realm-database/schemas/embedded-objects
+raw: ${prefix}/sdk/react-native/examples/debugging-with-flipper -> ${base}/sdk/react-native/test-and-debug/debugging-with-flipper
+raw: ${prefix}/sdk/react-native/examples/define-a-realm-object-model -> ${base}/sdk/react-native/realm-database/define-a-realm-object-model
+raw: ${prefix}/sdk/react-native/examples/open-and-close-a-realm -> ${base}/sdk/react-native/realm-database/open-and-close-a-realm
+raw: ${prefix}/sdk/react-native/examples/read-and-write-data -> ${base}/sdk/react-native/realm-database/crud/create
+raw: ${prefix}/sdk/react-native/examples/react-to-changes -> ${base}/sdk/react-native/realm-database/react-to-changes
+raw: ${prefix}/sdk/react-native/examples/use-change-listeners-in-components -> ${base}/sdk/react-native/realm-database/react-to-changes
+raw: ${prefix}/sdk/react-native/examples/query-data -> ${base}/sdk/react-native/realm-database/crud/query-data
+raw: ${prefix}/sdk/react-native/examples/modify-an-object-schema -> ${base}/sdk/react-native/realm-database/change-an-object-model
+raw: ${prefix}/sdk/react-native/examples/connect-to-app-services-backend -> ${base}/sdk/react-native/app-services/connect-to-app-services-app
+raw: ${prefix}/sdk/react-native/examples/create-delete-users -> ${base}/sdk/react-native/manage-users/create-and-delete-users
+raw: ${prefix}/sdk/react-native/examples/authenticate-users -> ${base}/sdk/react-native/manage-users/authenticate-users/
+raw: ${prefix}/sdk/react-native/examples/sync-changes-between-devices -> ${base}/sdk/react-native/sync/overview
+raw: ${prefix}/sdk/react-native/examples/flexible-sync -> ${base}/sdk/react-native/sync/flexible-sync
+raw: ${prefix}/sdk/react-native/examples/reset-a-client-realm -> ${base}/sdk/react-native/sync/reset-a-client-realm
+raw: ${prefix}/sdk/react-native/examples/call-a-function -> ${base}/sdk/react-native/app-services/call-a-function
+raw: ${prefix}/sdk/react-native/examples/manage-email-password-users -> ${base}/sdk/react-native/manage-users/manage-email-password-users
+raw: ${prefix}/sdk/react-native/examples/manage-user-api-keys -> ${base}/sdk/react-native/app-services/manage-user-api-keys
+raw: ${prefix}/sdk/react-native/examples/query-mongodb -> ${base}/sdk/react-native/app-services/query-mongodb
+raw: ${prefix}/sdk/react-native/advanced/access-custom-user-data -> ${base}/sdk/react-native/manage-users/custom-user-data
+raw: ${prefix}/sdk/react-native/advanced/multi-user-applications -> ${base}/sdk/react-native/manage-users/multi-user-applications
+raw: ${prefix}/sdk/react-native/advanced/link-identities -> ${base}/sdk/react-native/manage-users/link-user-identities
+raw: ${prefix}/sdk/react-native/advanced/encrypt -> ${base}/sdk/react-native/realm-database/encrypt
+raw: ${prefix}/sdk/react-native/advanced/client-reset-data-recovery -> ${base}/sdk/react-native/sync/client-reset-data-recovery
+raw: ${prefix}/sdk/react-native/advanced/bundle -> ${base}/sdk/react-native/realm-database/bundle
+raw: ${prefix}/sdk/react-native/test-and-debug -> ${base}/sdk/react-native/test-and-debug/testing
+=======
 raw: ${prefix}/sdk/flutter/realm-database/data-types -> ${base}/sdk/flutter/model-data/data-types/
 raw: ${prefix}/sdk/flutter/realm-database/define-realm-object-schema -> ${base}/sdk/flutter/model-data/define-realm-object-schema/
 raw: ${prefix}/sdk/flutter/realm-database/update-realm-object-schema -> ${base}/sdk/flutter/model-data/update-realm-object-schema/
@@ -870,6 +952,15 @@ raw: ${prefix}/sdk/dotnet/examples -> ${base}/sdk/dotnet/
 raw: ${prefix}/sdk/dotnet/examples/encrypt-a-realm -> ${base}/sdk/dotnet/realm-files/encrypt-a-realm/
 raw: ${prefix}/sdk/dotnet/examples/read-and-write-data -> ${base}/sdk/dotnet/crud/read/
 raw: ${prefix}/sdk/dotnet/examples/sync-changes-between-devices -> ${base}/sdk/dotnet/sync/
+raw: ${prefix}/sdk/dotnet/data-types -> ${base}/sdk/dotnet/model-data/data-types
+raw: ${prefix}/sdk/dotnet/advanced-guides/error-handling -> ${base}/sdk/dotnet/sync/handle-sync-errors
+raw: ${prefix}/sdk/dotnet/advanced-guides -> ${base}/sdk/dotnet
+raw: ${prefix}/sdk/dotnet/advanced-guides/debugging -> ${base}/sdk/dotnet
+raw: ${prefix}/sdk/dotnet/advanced-guides/testing -> ${base}/sdk/dotnet
+
+# Swift Move 'Manage User API Keys - Swift SDK' (https://jira.mongodb.org/browse/DOCSP-26775)
+
+raw: ${prefix}/sdk/swift/app-services/manage-user-api-keys -> ${base}/sdk/swift/users/manage-user-api-keys/
 raw: ${prefix}/sdk/dotnet/data-types -> ${base}/sdk/dotnet/model-data/data-types/
 raw: ${prefix}/sdk/dotnet/advanced-guides/error-handling -> ${base}/sdk/dotnet/sync/handle-sync-errors/
 raw: ${prefix}/sdk/dotnet/examples/call-a-function -> ${base}/sdk/dotnet/app-services/call-a-function/

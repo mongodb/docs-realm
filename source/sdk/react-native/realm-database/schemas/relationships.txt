@@ -1,0 +1,193 @@
+.. _react-native-relationships-and-embedded-objects:
+.. _react-native-client-relationships:
+.. _react-native-define-relationship-properties:
+.. _react-native-relationships:
+
+================================
+Relationships - React Native SDK
+================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm allows you to define explicit relationships between the types of
+objects in an App. A relationship is an object property that references
+another Realm object type. You can define
+relationships by setting an object's property to another object type
+in the :ref:`property schema <react-native-realm-schema>`.
+
+Relationships are direct references to other objects in a realm.
+You don't need bridge tables or joins to define a relationship like you
+would in a relational database. 
+Instead you can access related objects by reading and writing to the property
+that defines the relationship.
+
+Realm Database executes read operations lazily as they come in.
+Querying a relationship is just as performant as reading a regular property.
+
+There are three primary types of relationships between objects:
+
+- :ref:`One-to-One Relationship <react-native-to-one-relationship>`
+- :ref:`One-to-Many Relationship <react-native-to-many-relationship>`
+- :ref:`Inverse Relationship <react-native-inverse-relationship>`
+
+.. note:: Realm vs Other Databases
+   
+   Objects often contain direct references to other objects.
+   When working with objects and references,
+   you often copy from database storage into application memory.
+   This situation leaves the developer with a choice of what to copy into memory:
+   
+   - You can copy the entire referenced object ahead of time.
+     This means that all referenced data is always available quickly,
+     but can use up a lot of resources. Depending on the amount of available memory
+     this may not be viable.
+   
+   - You can copy only a foreign key value for each object ahead of time that you
+     can use to query the full object if it's needed.
+     These referenced lookups are memory-efficient.
+     However, they require more query code and too many lookups can slow your application down.
+   
+   Realm's query architecture avoids the tradeoff between memory usage and computational overhead.
+   Instead, Realm queries can directly reference :ref:`related objects
+   <react-native-relationships>` and their properties on disk.
+
+.. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
+
+.. _react-native-to-one-relationship:
+.. _react-native-define-a-to-one-relationship-property:
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship means that an object is related to no more than 
+one other object in an :ref:`object schema <react-native-object-schemas>`. 
+To define a to-one relationship, specify the property type as the related
+Realm object type.
+
+
+.. example::
+
+   An application could use the following object schemas to indicate
+   that a Person may own a single Dog:
+   
+ 
+   .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
+      :language: javascript
+      :emphasize-lines: 6
+
+.. _react-native-to-many-relationship:
+.. _react-native-define-a-to-many-relationship-property:
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object is related in a specific
+way to multiple objects. 
+To define a to-many relationship, specify a property where the type is a list
+or array of the related Realm object type in its
+:ref:`object schema <react-native-object-schemas>`.
+
+
+.. example::
+   
+   An application could use the following object schemas to indicate
+   that a Person may own multiple Dogs:
+   
+   .. literalinclude:: /examples/Relationships/ToMany/ToMany.js
+      :language: javascript
+      :emphasize-lines: 6
+
+.. _react-native-inverse-relationship:
+.. _react-native-define-an-inverse-relationship-property:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+An inverse relationship links an object back to any other objects that refer
+to it in a defined to-one or to-many relationship.
+Relationship definitions are unidirectional by default.
+You must explicitly define a property in the object's model as an inverse relationship.
+
+For example, the to-many relationship "User has many Tasks" does not automatically
+create the inverse relationship "Task belongs to User".
+If you don't specify the inverse relationship in the object model,
+you need to run a separate query to look up the user assigned to a task.
+
+To define an inverse relationship, define a ``linkingObjects`` property in your
+object model. ``linkingObjects`` specifies the object type and
+property name of the relationship that it inverts.
+
+You cannot manually set the value of an inverse relationship property.
+Realm Database automatically updates implicit relationships whenever 
+you add or remove a related object.
+
+.. example::
+   
+   An application could use the following object schemas to indicate: 
+   
+   #. A User may be assigned many Tasks. 
+   #. Each Task should automatically keep track of which User it's assigned to.
+   
+   The User object's tasks property is defined as a to-many relationship with Task objects.
+   It contains all of a given user's assigned tasks. 
+     
+   The Task object's assignee property inverts this relationship.
+   Assignee automatically updates to refer back to any User object that contains
+   the Task in its tasks property.
+   
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: javascript
+          
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.js
+           :language: javascript
+           :emphasize-lines: 8, 19-23
+     
+     .. tab::
+         :tabid: typescript
+          
+         .. literalinclude:: /examples/Relationships/Inverse/Inverse.ts
+           :language: javascript
+           :emphasize-lines: 5, 14, 23, 32-36
+
+.. _react-native-inverse-relationship-dynamically:
+
+Dynamically Obtain an Inversely Linked Object
+`````````````````````````````````````````````
+You can dynamically retrieve an object with an inverse relationship without
+defining a ``linkingObjects`` type in its schema. Remove the
+``linkingObjects`` type from your schema, so your schemas look like a standard
+**to-many** relationship. When you need to retrieve the linked object, call the
+:js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>`
+query.
+
+.. example::
+   
+   In the following continuation from the inverse relationship example, we have removed the
+   ``assignee`` field with type 'linkingObjects' from the Task schema. An application developer
+   creates several users and task objects, and the application pushes the newly created tasks into a 
+   user's task field. 
+   
+   To find the user who owns a specific task object, the developer calls the
+   ``task.linkingObjects()`` method and passes the "User" class name and "tasks" field as parameters. 
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+          :tabid: javascript
+           
+          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.js
+            :language: javascript
+      
+      .. tab::
+          :tabid: typescript
+           
+          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.ts
+            :language: javascript

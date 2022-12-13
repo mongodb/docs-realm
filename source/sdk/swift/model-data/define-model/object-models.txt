@@ -592,6 +592,32 @@ Declare Enum Properties
 
          `RealmEnum <https://www.mongodb.com/docs/realm-sdks/swift/10.9.0/Protocols.html#/s:10RealmSwift0A4EnumP>`_
 
+.. _swift-rename-property:
+
+Remap a Property Name
+~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.33.0
+
+You can map the public name of a property in your object model to a different
+private name to store in the realm. You might want to do this if your 
+Device Sync schema property names use snake case, for example, while your 
+project uses Swift-idiomatic camel case.
+
+Declare the name you want to use in your project as the ``@Persisted`` 
+property on the object model. Then, pass a dictionary containing the 
+public and private values for the property names via the 
+``propertiesMapping()`` function.
+
+In this example, ``firstName`` is the public property name we use in the code 
+throughout the project to perform CRUD operations. Using the ``propertiesMapping()``
+function, we map that to store values using the private property name 
+``first_name`` in the realm. If we write to a synced realm, the Sync 
+schema sees the values stored using the private property name ``first_name``.
+
+.. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.rename-a-property.swift
+   :language: swift
+
 .. _ios-define-and-use-class-projections:
 .. _swift-define-class-projection:
 
