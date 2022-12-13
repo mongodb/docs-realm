@@ -3,7 +3,7 @@ name: React Native CI Realm Example App
 on:
   pull_request:
     paths:
-      - 'examples/react-native/**'
+      - "examples/react-native/**"
 
 jobs:
   build:
@@ -15,10 +15,10 @@ jobs:
         node-version: [14.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use React Native ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: cd examples/react-native && npm install
-    - run: cd examples/react-native && npm run test
+      - uses: actions/checkout@v3
+      - name: Use React Native ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: cd examples/react-native && npm install
+      - run: cd examples/react-native && npm run test
