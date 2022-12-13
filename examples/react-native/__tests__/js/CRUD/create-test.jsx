@@ -65,7 +65,6 @@ describe('Create Data Tests', () => {
     // render an App component, giving the CreateDogInput component access to the @realm/react hooks:
     const App = () => (
       <RealmProvider>
-        {' '}
         <CreateDogInput />
       </RealmProvider>
     );

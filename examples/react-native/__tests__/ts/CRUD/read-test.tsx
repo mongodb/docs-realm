@@ -85,7 +85,6 @@ describe('Read Data Tests', () => {
 
     const App = () => (
       <RealmProvider>
-        {' '}
         <TaskItem _id={142339} />{' '}
       </RealmProvider>
     );
@@ -140,8 +139,7 @@ describe('Read Data Tests', () => {
 
     const App = () => (
       <RealmProvider>
-        {' '}
-        <TaskList />{' '}
+        <TaskList />
       </RealmProvider>
     );
     const {getAllByTestId} = render(<App />);
@@ -231,8 +229,7 @@ describe('Read Data Tests', () => {
 
     const App = () => (
       <RealmProvider>
-        {' '}
-        <TaskList />{' '}
+        <TaskList />
       </RealmProvider>
     );
     const {getAllByTestId} = render(<App />);

@@ -69,8 +69,7 @@ describe('Delete Data Tests', () => {
     // :snippet-end:
     const App = () => (
       <RealmProvider>
-        {' '}
-        <DogList />{' '}
+        <DogList />
       </RealmProvider>
     );
     const {getAllByTestId} = render(<App />);
@@ -136,8 +135,7 @@ describe('Delete Data Tests', () => {
     // :snippet-end:
     const App = () => (
       <RealmProvider>
-        {' '}
-        <DogList />{' '}
+        <DogList />
       </RealmProvider>
     );
     const {getByTestId, getAllByTestId} = render(<App />);

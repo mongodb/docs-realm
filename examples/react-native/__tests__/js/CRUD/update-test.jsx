@@ -92,8 +92,7 @@ describe('Update Data Tests', () => {
     // render an App component, giving the CreateDogInput component access to the @realm/react hooks:
     const App = () => (
       <RealmProvider>
-        {' '}
-        <TaskItem _id={92140} />{' '}
+        <TaskItem _id={92140} />
       </RealmProvider>
     );
     const {getByTestId} = render(<App />);
@@ -162,8 +161,7 @@ describe('Update Data Tests', () => {
 
     const App = () => (
       <RealmProvider>
-        {' '}
-        <CreateTaskItem />{' '}
+        <CreateTaskItem />
       </RealmProvider>
     );
     const {getByTestId} = render(<App />);
@@ -216,8 +214,7 @@ describe('Update Data Tests', () => {
 
     const App = () => (
       <RealmProvider>
-        {' '}
-        <TaskDashboard />{' '}
+        <TaskDashboard />
       </RealmProvider>
     );
     const {getByTestId} = render(<App />);

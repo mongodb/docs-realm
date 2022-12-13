@@ -136,8 +136,7 @@ describe('Read Data Tests', () => {
 
     const App = () => (
       <RealmProvider>
-        {' '}
-        <TaskList />{' '}
+        <TaskList />
       </RealmProvider>
     );
     const {getAllByTestId} = render(<App />);
@@ -227,8 +226,7 @@ describe('Read Data Tests', () => {
 
     const App = () => (
       <RealmProvider>
-        {' '}
-        <TaskList />{' '}
+        <TaskList />
       </RealmProvider>
     );
     const {getAllByTestId} = render(<App />);
