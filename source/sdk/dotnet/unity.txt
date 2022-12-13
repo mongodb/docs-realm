@@ -234,7 +234,7 @@ However, since Unity has some `scripting restrictions
 <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_, you should keep
 the following additional considerations in mind when developing your project:
 
-`dynamic` Keyword Support
+``dynamic`` Keyword Support
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Unity does not support the `dynamic keyword <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_ when using `IL2CPP  <https://docs.unity3d.com/Manual/IL2CPP.html>`_. This means all types used in C# scripts must be known at compile time. When you use the Realm .NET SDK with Unity, you must convert dynamic types to concrete types. To view the full list of limitations, see the Unity `scripting limitations <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ documentation. Although the Realm .NET SDK exposes the :dotnet-sdk:`Dynamic API<reference/Realms.Realm.Dynamic.html?q=dynamic>`, we recommend it only when performing migrations.
 
