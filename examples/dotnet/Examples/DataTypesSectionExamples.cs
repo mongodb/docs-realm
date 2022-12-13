@@ -6,6 +6,8 @@ using Examples.Models;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
+using Realms.Schema;
+using Realms.Weaving;
 
 namespace Examples
 {
@@ -225,7 +227,7 @@ namespace Examples
         //  "terms": {
         //   "PlantInventory": "Inventory"}
         // }
-        public class PlantInventory : RealmObject
+        public partial class PlantInventory : IRealmObject
         {
             //:remove-start:
             [PrimaryKey]
@@ -247,13 +249,33 @@ namespace Examples
             // use the [Required] attribute to prevent storing null values
             [Required]
             public ISet<string> RequiredStrings { get; }
+
+            public IRealmAccessor Accessor => throw new NotImplementedException();
+
+            public bool IsManaged => throw new NotImplementedException();
+
+            public bool IsValid => throw new NotImplementedException();
+
+            public bool IsFrozen => throw new NotImplementedException();
+
+            public Realm Realm => throw new NotImplementedException();
+
+            public ObjectSchema ObjectSchema => throw new NotImplementedException();
+
+            public DynamicObjectApi DynamicApi => throw new NotImplementedException();
+
+            public int BacklinksCount => throw new NotImplementedException();
+
+            public void SetManagedAccessor(IRealmAccessor accessor, IRealmObjectHelper helper = null, bool update = false, bool skipDefaults = false)
+            {
+                throw new NotImplementedException();
+            }
         }
         // :replace-end:
         //:snippet-end:
 
         //:snippet-start:dictionaries
-
-        public class Inventory : RealmObject
+        public partial class Inventory : IRealmObject
         {
             //:remove-start:
             [PrimaryKey]
@@ -262,7 +284,7 @@ namespace Examples
             //:remove-end:
             // The key must be of type string; the value can be 
             // of any Realm-supported type, including objects
-            // that inherit from RealmObject or EmbeddedObject
+            // that implement IRealmObject or IEmbeddedObject
             public IDictionary<string, Plant> PlantDict { get; }
 
             public IDictionary<string, bool> BooleansDict { get; }
@@ -278,7 +300,7 @@ namespace Examples
         }
         //:snippet-end:
 
-        public class ListInventory : RealmObject
+        public partial class ListInventory : IRealmObject
         {
             //:remove-start:
             [PrimaryKey]
@@ -290,7 +312,7 @@ namespace Examples
 
 
         //:snippet-start:realmvalue
-        public class MyRealmValueObject : RealmObject
+        public partial class MyRealmValueObject : IRealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -325,7 +347,7 @@ namespace Examples
     }
 
     // :snippet-start:realmint-class
-    public class MyRealmClass : RealmObject
+    public partial class MyRealmClass : IRealmObject
     {
         [PrimaryKey]
         public int _id { get; set; }

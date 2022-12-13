@@ -13,7 +13,7 @@ namespace Examples.Models
     //      "Address10": "Address",
     //       "Contact10": "Contact"}
     // }
-    public class Address10 : EmbeddedObject
+    public partial class Address10 : IEmbeddedObject
     {
         public ObjectId Id { get; set; }
         public string Street { get; set; }

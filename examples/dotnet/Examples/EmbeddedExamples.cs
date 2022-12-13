@@ -184,7 +184,7 @@ namespace Examples
         }
 
         // :snippet-start:embedded-classes
-        public class Address : EmbeddedObject
+        public partial class Address : IEmbeddedObject
         {
             [MapTo("street")]
             public string Street { get; set; }
