@@ -172,7 +172,7 @@ describe('Update Data Tests', () => {
     );
     const carWashTask = assertionRealm.objectForPrimaryKey(Task, 1234);
 
-    // Test that the the 'Wash the car' task was upserted, and progressMinutesText is now displaying 5 minutes progressed
+    // Test that the 'Wash the car' task was upserted, and progressMinutesText is now displaying 5 minutes progressed
     expect(progressMinutesText.children.toString()).toBe('5');
     expect(carWashTask.progressMinutes).toBe(5);
   });
