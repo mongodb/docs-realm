@@ -1,8 +1,7 @@
 # Realm Examples
 
-
 The Realm Examples project contains unit tested JavaScript and TypeScript code examples for the
-MongoDB Realm React Native SDK using @realm/react. 
+MongoDB Realm React Native SDK using @realm/react.
 
 This project serves as the source of truth for generated code examples in
 the React Native SDK documentation.
@@ -18,7 +17,6 @@ This project uses [npm](https://www.npmjs.com/) to manage dependencies. To get s
 ```bash
 npm install
 ```
-
 
 ### Run Tests
 
@@ -39,14 +37,13 @@ todo: Add JavaScript support
 
 The following diagram shows the key items in the project directory:
 
-| Path               | Description                                                                             |
-| ------------------ | --------------------------------------------------------------------------------------- |
-| `__tests__/`        | Examples, test cases, and supporting source files. Add `.js` & `.ts` files here.        |
-| `babel.config.js`  | Configuration for [Babel](https://babeljs.io/) transpilation.                           |
-| `jest.config.js`   | Configuration for the [Jest](https://jestjs.io/) testing framework.                     |
-| `tsconfig.json`    | Configuration for the TypeScript compiler.                                              |
-| `testSetup.js`     | Setup and cleanup for the Jest tests. Runs immediately after Jest loads.                |
-
+| Path              | Description                                                                      |
+| ----------------- | -------------------------------------------------------------------------------- |
+| `__tests__/`      | Examples, test cases, and supporting source files. Add `.js` & `.ts` files here. |
+| `babel.config.js` | Configuration for [Babel](https://babeljs.io/) transpilation.                    |
+| `jest.config.js`  | Configuration for the [Jest](https://jestjs.io/) testing framework.              |
+| `tsconfig.json`   | Configuration for the TypeScript compiler.                                       |
+| `testSetup.js`    | Setup and cleanup for the Jest tests. Runs immediately after Jest loads.         |
 
 ## Develop
 
@@ -54,7 +51,7 @@ The following diagram shows the key items in the project directory:
 
 The file structure in `__tests__/` is intended to match the IA structure in the
 React Native docs. If you're adding a new code example to an existing page, add
-an additional it/test block within the existing page. 
+an additional it/test block within the existing page.
 
 If you're adding a new section in the TOC of the docs, create a
 new folder under `__tests__`. For each page in that section, create a test file
@@ -72,7 +69,6 @@ its corresponding page in the docs whenever possible.
 For example, the code blocks on
 https://www.mongodb.com/docs/realm/sdk/react-native/realm-database/crud/create/
 live in `__tests__/crud/create.tsx|jsx`
-
 
 > 🧪&nbsp;&nbsp;**Jest Global Variables**
 >
@@ -142,6 +138,7 @@ bluehawk snip __tests__/ <your-directory-where-your-docs-are-stored>/docs-realm/
 
 done
 ```
+
 This processes each test file and outputs generated example code blocks to the
 `source/examples/generated/` directory. These files map directly from the `:snippet-start:`
 comments in each file.
