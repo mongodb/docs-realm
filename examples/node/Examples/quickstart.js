@@ -203,6 +203,7 @@ describe("Quickstart Sync", () => {
     
     // Create a `SyncConfiguration` object.
     const config = {
+      schema: [TaskSchema],
       sync: {
         // Use the previously-authenticated anonymous user.
         user: app.currentUser,
@@ -214,7 +215,7 @@ describe("Quickstart Sync", () => {
           update: (subs, realm) => {
             subs.add(
               // Get objects that match your object model, then filter them
-              // by owner id.
+              // the `owner_id` queryable field
               realm.objects("Task").filtered(`owner_id = ${app.currentUser.id}`)
             );
           },

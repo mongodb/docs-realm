@@ -45,8 +45,9 @@ The following code shows how to define an object model for a ``Task`` object. In
   
 - The ``primaryKey`` is the ``_id`` of type ``int``. (Another common type used for 
   primary keys is :js-sdk:`ObjectId <Realm.Object.html#objectId>`.)
-- The ``name`` field is required. The
-- The ``status`` is optional, denoted by the question mark immediately after the data type.
+- The ``name`` field is required.
+- The ``status`` and ``onwer_id`` fields are optional, denoted by the question 
+  mark immediately after the data type.
 
 .. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
   :language: javascript
@@ -187,7 +188,7 @@ Define an Object Model
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Object models for synced realms work the same way as :ref:`local-only Realms 
-<react-native-quickstart-local-define-an-object-model>`. Define your object model 
+<node-quickstart-local-define-an-object-model>`. Define your object model 
 just as you would for a local-only Realm.
 
 .. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
@@ -204,7 +205,8 @@ To open a Flexible Sync realm, call :js-sdk:`Realm.open() <Realm.html#.open>`.
 Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
 object, which must include the ``sync`` property defining a 
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
-In the SyncConfiguration, you must include include a ``user`` and ``flexible:true``.
+To use Flexible Sync, in the SyncConfiguration, you must include include a 
+``user`` and ``flexible: true``.
 
 Additionally, you need at least one subscription before you can read from or write to the
 realm. Use ``Configuration.sync.initialSubscriptions`` to define the initial 
