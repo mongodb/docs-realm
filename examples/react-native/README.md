@@ -51,7 +51,7 @@ The following diagram shows the key items in the project directory:
 
 The file structure in `__tests__/` is intended to match the IA structure in the
 React Native docs. If you're adding a new code example to an existing page, add
-an additional it/test block within the existing page.
+an additional it/test block within the test file corresponding to that page.
 
 If you're adding a new section in the TOC of the docs, create a
 new folder under `__tests__`. For each page in that section, create a test file
@@ -61,7 +61,7 @@ However, if you're just adding a new page, create a new page within the relevant
 subfolder of `__test__`. For example, if you're creating examples for a new page
 called "read.txt" that is under the "CRUD" section of the TOC in the docs, you
 should create the file `__tests__/CRUD/read.tsx|jsx`. That new file should have
-it's own describe block labelled accordingly to the page.
+its own describe block labelled accordingly to the page.
 
 The file can have any name, but for consistency it should use the same name as
 its corresponding page in the docs whenever possible.
