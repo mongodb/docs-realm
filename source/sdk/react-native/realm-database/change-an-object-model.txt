@@ -93,7 +93,8 @@ Add a Property
 ~~~~~~~~~~~~~~
 
 To add a property to a schema, add the new property to the object's class and
-set a ``schemaVersion`` of the :js-sdk:`realm's configuration object <Realm.html#~Configuration>`.
+set a ``schemaVersion`` of the :js-sdk:`RealmConfiguration
+<Realm.html#~Configuration>` object.
 
 .. example::
    
@@ -102,26 +103,26 @@ set a ``schemaVersion`` of the :js-sdk:`realm's configuration object <Realm.html
    ``age`` property to the ``Person`` class. 
 
    To migrate the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's :ref:`schema version <react-native-schema-version>` to
-   ``2``.
+   developer sets the realm's :ref:`schema version
+   <react-native-schema-version>` in the ``RealmConfiguration`` to ``2``.
+
+   .. tabs-realm-languages::
+     
+     .. tab::
+         :tabid: typescript
+ 
+         .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.add-a-property-to-schema.tsx
+           :language: typescript
+           :emphasize-lines: 4, 11, 18
 
    .. tabs-realm-languages::
      
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.js
+         .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.add-a-property-to-schema.jsx
            :language: javascript
-           :emphasize-lines: 6
-
-   .. tabs-realm-languages::
-     
-     .. tab::
-         :tabid: javascript
- 
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-add-property.js
-           :language: javascript
-           :emphasize-lines: 3
+           :emphasize-lines: 7, 14
 
 .. _react-native-delete-a-property:
 
