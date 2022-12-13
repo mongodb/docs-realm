@@ -5,7 +5,7 @@ var testTask = new Task
     Partition = "myPart"
 };
 
-realm.Write(() =>
+await realm.WriteAsync(() =>
 {
     realm.Add(testTask);
 });

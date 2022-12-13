@@ -52,16 +52,16 @@ Don't lock to read:
   since each thread might need to wait its turn before
   reading.
 
-Avoid writes on the UI thread if you write on a background thread:
+Avoid synchronous writes on the UI thread if you write on a background thread:
   You can :ref:`write <dotnet-realm-database-writes>` to a
   realm from any thread, but there can be only one
-  writer at a time. Consequently, write transactions block
-  each other. A write on the UI thread may result in your
+  writer at a time. Consequently, synchronous write transactions block
+  each other. A synchronous write on the UI thread may result in your
   app appearing unresponsive while it waits for a write on a
   background thread to complete. If you are using
-  :ref:`Device Sync <sync>`, avoid writing on
+  :ref:`Device Sync <sync>`, avoid synchronous writes on
   the UI thread as Sync writes on a background
-  thread.
+  thread. Prefer to use asynchronous writes in this case, with `realm.WrireAsync`.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realm instances are
@@ -294,7 +294,7 @@ Summary
 
   - don't lock to read
 
-  - avoid writes on the UI thread if you write on background threads or
+  - avoid synchronous writes on the UI thread if you write on background threads or
     use :ref:`Device Sync <sync>`
     
   - don't pass live objects to other threads.
