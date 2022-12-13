@@ -1,6 +1,6 @@
 # Realm Examples
 
-The Realm Examples project contains unit tested JavaScript and TypeScript code examples for the
+The Realm Examples project contains unit-tested JavaScript and TypeScript code examples for the
 MongoDB Realm React Native SDK using @realm/react.
 
 This project serves as the source of truth for generated code examples in
@@ -12,7 +12,7 @@ The project uses [Jest](https://jestjs.io/) and [React Native Testing Library](h
 
 ### Install Dependencies
 
-This project uses [npm](https://www.npmjs.com/) to manage dependencies. To get started, run:
+This project uses [npm](https://www.npmjs.com/) to manage dependencies. To get started, run the following:
 
 ```bash
 npm install
@@ -20,7 +20,7 @@ npm install
 
 ### Run Tests
 
-This project defines a unit test suite that tests both JS and TS code examples, run them via:
+This project defines a unit test suite that tests both JS and TS code examples. You can run them via:
 
 ```bash
 npm run test
@@ -54,9 +54,9 @@ However, if you're just adding a new page, create a new page within the relevant
 subfolder of `__test__`. For example, if you're creating examples for a new page
 called "read.txt" that is under the "CRUD" section of the TOC in the docs, you
 should create the file `__tests__/CRUD/read.tsx|jsx`. That new file should have
-its own describe block labelled accordingly to the page.
+its own `describe` block labeled accordingly to the page.
 
-The file can have any name, but for consistency it should use the same name as
+The file can have any name, but for consistency, it should use the same name as
 its corresponding page in the docs whenever possible.
 
 For example, the code blocks on
@@ -124,7 +124,7 @@ Install Bluehawk globally:
 npm install -g bluehawk
 ```
 
-Then, in this directory (the project root), run:
+Then, in this directory (the project root), run the following:
 
 ```bash
 bluehawk snip __tests__/ <your-directory-where-your-docs-are-stored>/docs-realm/source/examples/generated/react-native/
@@ -160,7 +160,7 @@ directive.
 
 ## Rejoice!
 
-If all went according to plan, you have now included your unit tested code examples in the docs. Huzzah!
+If all went according to plan, you have now included your unit-tested code examples in the docs. Huzzah!
 
 ## Questions
 
