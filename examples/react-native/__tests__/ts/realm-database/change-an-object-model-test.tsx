@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */ // disable no-unused vars for this file because the 'RealmProvider' isn't used for these code examples that will be in the docs
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
+import Person from '../Models/Person';
 
 describe('Change an Object Model Tests', () => {
   it('should add a property to a schema', () => {
@@ -9,7 +11,11 @@ describe('Change an Object Model Tests', () => {
     //   "MyPerson": "Person"
     //   }
     // }
-    class MyPerson extends Realm.Object {
+    class MyPerson extends Realm.Object<MyPerson> {
+      firstName!: string;
+      lastName!: string;
+      age!: number;
+
       static schema = {
         name: 'MyPerson',
         properties: {
@@ -23,9 +29,6 @@ describe('Change an Object Model Tests', () => {
     const config = {
       schema: [MyPerson],
       schemaVersion: 2,
-      // :remove-start:
-      inMemory: true,
-      // :remove-end:
     };
     const {RealmProvider} = createRealmContext(config);
     // :replace-end:
@@ -33,7 +36,10 @@ describe('Change an Object Model Tests', () => {
   });
 
   it('should delete a property from a schema', () => {
-    class MyPerson extends Realm.Object {
+    class MyPerson extends Realm.Object<MyPerson> {
+      firstName!: string;
+      age!: number;
+
       static schema = {
         name: 'MyPerson',
         properties: {
@@ -51,9 +57,6 @@ describe('Change an Object Model Tests', () => {
     const config = {
       schema: [MyPerson],
       schemaVersion: 2,
-      // :remove-start:
-      inMemory: true,
-      // :remove-end:
     };
     const {RealmProvider} = createRealmContext(config);
     // :replace-end:
@@ -66,7 +69,10 @@ describe('Change an Object Model Tests', () => {
     //   "MyPerson": "Person"
     //   }
     // }
-    class MyPerson extends Realm.Object {
+    class MyPerson extends Realm.Object<MyPerson> {
+      fullName!: string;
+      age!: number;
+
       static schema = {
         name: 'MyPerson',
         properties: {
@@ -82,8 +88,8 @@ describe('Change an Object Model Tests', () => {
       migration: (oldRealm: Realm, newRealm: Realm) => {
         // only apply this change if upgrading to schemaVersion 2
         if (oldRealm.schemaVersion < 2) {
-          const oldObjects = oldRealm.objects('Person');
-          const newObjects = newRealm.objects('Person');
+          const oldObjects = oldRealm.objects(MyPerson);
+          const newObjects = newRealm.objects(MyPerson);
           // loop through all objects and set the fullName property in the new schema
           for (const objectIndex in oldObjects) {
             const oldObject = oldObjects[objectIndex];
@@ -105,7 +111,13 @@ describe('Change an Object Model Tests', () => {
     //   "MyTask": "Task"
     //   }
     // }
-    class MyTask extends Realm.Object {
+    class MyTask extends Realm.Object<MyTask> {
+      _id: Realm.BSON.ObjectId = new Realm.BSON.ObjectId();
+      name!: string;
+      priority?: number;
+      progressMinutes?: number;
+      assignee?: Person;
+
       static schema = {
         name: 'MyTask',
         properties: {
@@ -124,13 +136,13 @@ describe('Change an Object Model Tests', () => {
       schemaVersion: 2,
       migration: (oldRealm: Realm, newRealm: Realm) => {
         if (oldRealm.schemaVersion < 2) {
-          const oldObjects = oldRealm.objects('Dog');
-          const newObjects = newRealm.objects('Dog');
+          const oldObjects = oldRealm.objects(MyTask);
+          const newObjects = newRealm.objects(MyTask);
           // loop through all objects and set the _id property in the new schema
           for (const objectIndex in oldObjects) {
             const oldObject = oldObjects[objectIndex];
             const newObject = newObjects[objectIndex];
-            newObject._id = oldObject._id.toHexString();
+            newObject._id = new Realm.BSON.ObjectId(oldObject._id);
           }
         }
       },

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */ // disable no-unused vars for this file because the 'RealmProvider' isn't used for these code examples that will be in the docs
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 
@@ -23,9 +24,6 @@ describe('Change an Object Model Tests', () => {
     const config = {
       schema: [MyPerson],
       schemaVersion: 2,
-      // :remove-start:
-      inMemory: true,
-      // :remove-end:
     };
     const {RealmProvider} = createRealmContext(config);
     // :replace-end:
@@ -51,9 +49,6 @@ describe('Change an Object Model Tests', () => {
     const config = {
       schema: [MyPerson],
       schemaVersion: 2,
-      // :remove-start:
-      inMemory: true,
-      // :remove-end:
     };
     const {RealmProvider} = createRealmContext(config);
     // :replace-end:
@@ -82,8 +77,8 @@ describe('Change an Object Model Tests', () => {
       migration: (oldRealm, newRealm) => {
         // only apply this change if upgrading to schemaVersion 2
         if (oldRealm.schemaVersion < 2) {
-          const oldObjects = oldRealm.objects('Person');
-          const newObjects = newRealm.objects('Person');
+          const oldObjects = oldRealm.objects(MyPerson);
+          const newObjects = newRealm.objects(MyPerson);
           // loop through all objects and set the fullName property in the new schema
           for (const objectIndex in oldObjects) {
             const oldObject = oldObjects[objectIndex];
@@ -124,13 +119,13 @@ describe('Change an Object Model Tests', () => {
       schemaVersion: 2,
       migration: (oldRealm, newRealm) => {
         if (oldRealm.schemaVersion < 2) {
-          const oldObjects = oldRealm.objects('Dog');
-          const newObjects = newRealm.objects('Dog');
+          const oldObjects = oldRealm.objects(MyTask);
+          const newObjects = newRealm.objects(MyTask);
           // loop through all objects and set the _id property in the new schema
           for (const objectIndex in oldObjects) {
             const oldObject = oldObjects[objectIndex];
             const newObject = newObjects[objectIndex];
-            newObject._id = oldObject._id.toHexString();
+            newObject._id = new Realm.BSON.ObjectId(oldObject._id);
           }
         }
       },
