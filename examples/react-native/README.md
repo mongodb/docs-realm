@@ -20,18 +20,11 @@ npm install
 
 ### Run Tests
 
-This project defines two test suites, one each for JavaScript and TypeScript, implemented as Jest
-projects. To test either JS or TS code examples, run one of the following:
-
-**TypeScript**
+This project defines a unit test suite that tests both JS and TS code examples, run them via:
 
 ```bash
 npm run test
 ```
-
-**JavaScript**
-
-todo: Add JavaScript support
 
 ### Understand the Project Structure
 
