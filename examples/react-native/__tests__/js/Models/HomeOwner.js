@@ -1,6 +1,6 @@
 import Realm from 'realm';
 
-// :snippet-start: ts-person-schema
+// :snippet-start: js-homeowner-schema
 class HomeOwner extends Realm.Object {
   static schema = {
     name: 'HomeOwner',
