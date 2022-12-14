@@ -21,11 +21,14 @@ device is online, Sync asynchronously synchronizes data in a
 background thread between the device and your backend App.
 
 When you use Sync in your client application, your implementation must match
-the :ref:`Sync <sync-modes>` you select in your backend App configuration.
+the :ref:`Sync Mode <sync-modes>` you select in your backend App configuration.
 The Sync Mode options are:
 
-- Partition-Based Sync
-- Flexible Sync
+- Partition-Based Sync: documents in a synced cluster form a "partition" by
+  having the same value for a field designated as "partition key". All documents
+  in a partition have the same read/write permissions for a given user.
+- Flexible Sync: lets you define a query in the client and sync only the objects
+  that match the query.
 
 You can only use one Sync Mode for your application.
 

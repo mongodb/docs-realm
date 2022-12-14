@@ -15,6 +15,12 @@ Additionally, Kotlin Multiplatform projects require the following:
   Studio. Follow the instructions in the `KMM documentation
   <https://kotlinlang.org/docs/mobile/create-first-app.html>`__.
 
+You can find a more detailed explanation of the steps you should follow
+to set up your KMM environment `here
+<https://kotlinlang.org/docs/multiplatform-mobile-setup.html>`__,
+and especially the section on
+`how to check you're all set up <https://kotlinlang.org/docs/multiplatform-mobile-setup.html#check-your-environment>`__.
+
 Installation
 ------------
 
@@ -42,7 +48,7 @@ Installation
              kotlin("multiplatform")
              kotlin("native.cocoapods")
              id("com.android.library")
-             id("io.realm.kotlin")
+             id("io.realm.kotlin") version "1.4.0"
          }
 
          version = "1.0"
@@ -109,51 +115,19 @@ Installation
              }
          }
 
-      Then, add :file:`classpath("io.realm.kotlin:gradle-plugin:{+kotlin-sdk-version+}")`
-      to the :file:`buildscript.dependencies` block of your project-level
-      Gradle build file, typically found at :file:`<project>/build.gradle.kts`:
-
-      .. code-block:: kotlin
-         :emphasize-lines: 10
-         :copyable: false
-
-         buildscript {
-              repositories {
-                  gradlePluginPortal()
-                  google()
-                  mavenCentral()
-              }
-              dependencies {
-                  classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-                  classpath("com.android.tools.build:gradle:7.1.1")
-                  classpath("io.realm.kotlin:gradle-plugin:{+kotlin-sdk-version+}")
-              }
-          }
-
-          allprojects {
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-          }
-
-          tasks.register("clean", Delete::class) {
-              delete(rootProject.buildDir)
-          }
-
-   .. tab:: Sync
+   .. tab:: Device Sync
       :tabid: sync
 
-      To add Realm Database and Sync to your application, make
+      To add Realm Database and Device Sync to your application, make
       the following changes to your shared module Gradle build
       file, typically found at :file:`shared/build.gradle.kts`:
 
+      - Add :file:`io.realm.kotlin` to your list of plugins.
       - Add :file:`io.realm.kotlin:library-sync` to the dependencies
         block of your common module.
       - To use coroutines with the SDK, add the
         :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
         to the dependencies block of your common module.
-      - Add :file:`io.realm.kotlin` to your list of plugins.
 
       .. code-block:: kotlin
          :emphasize-lines: 5, 28, 29
@@ -163,7 +137,7 @@ Installation
              kotlin("multiplatform")
              kotlin("native.cocoapods")
              id("com.android.library")
-             id("io.realm.kotlin")
+             id("io.realm.kotlin") version "1.4.0"
          }
 
          version = "1.0"
@@ -229,38 +203,6 @@ Installation
                  targetSdk = 30
              }
          }
-
-      Then, add :file:`io.realm.kotlin:gradle-plugin`
-      to the :file:`buildscript.dependencies` block of your project-level
-      Gradle build file, typically found at :file:`<project>/build.gradle.kts`:
-
-      .. code-block:: kotlin
-         :emphasize-lines: 10
-         :copyable: false
-
-         buildscript {
-              repositories {
-                  gradlePluginPortal()
-                  google()
-                  mavenCentral()
-              }
-              dependencies {
-                  classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-                  classpath("com.android.tools.build:gradle:7.1.1")
-                  classpath("io.realm.kotlin:gradle-plugin:{+kotlin-sdk-version+}")
-              }
-          }
-
-          allprojects {
-              repositories {
-                  google()
-                  mavenCentral()
-              }
-          }
-
-          tasks.register("clean", Delete::class) {
-              delete(rootProject.buildDir)
-          }
 
 .. note:: Android Module Dependencies
 
