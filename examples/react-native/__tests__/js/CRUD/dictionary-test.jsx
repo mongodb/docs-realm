@@ -117,4 +117,89 @@ describe('Dictionary Tests', () => {
       expect(homeOwner.home.address).toBe('1 Home Street');
     }, 3000);
   });
+  it('should query for objects with a dictionary property', async () => {
+    // :snippet-start: query-objects-with-dictionary
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='homeItem'": "",
+    //   " testID='homeWithAPriceItem'": "",
+    //   " testID='summerHillHouseColor'": "",
+    //   " testID='redHouseAddress'": ""
+    //   }
+    // }
+    const HomeList = () => {
+      const realm = useRealm();
+      // query for all HomeOwner objects
+      const homeOwners = realm.objects(HomeOwner);
+
+      // run the `.filtered()` method on all the returned homeOwners to
+      // find all homeOwners that have a house with a listed price
+      const listedPriceHomes = homeOwners.filtered('home.@keys = "price"');
+
+      // run the `.filtered()` method on all the returned homeOwners to
+      // find the house with the address "Summerhill St."
+      const summerHillHouse = homeOwners.filtered(
+        'home["address"] = "Summerhill St."',
+      )[0].home;
+
+      // run the `.filtered()` method on all the returned homeOwners to
+      // find the first house that has any field with a value of 'red'
+      const redHouse = homeOwners.filtered('home.@values = "red"')[0].home;
+      return (
+        <View>
+          <Text>All homes:</Text>
+          {homeOwners.map(homeOwner => (
+            <View>
+              <Text testID='homeItem'>{homeOwner.home.address}</Text>
+            </View>
+          ))}
+
+          <Text>All homes with a price:</Text>
+          {listedPriceHomes.map(homeOwner => (
+            <View>
+              <Text testID='homeWithAPriceItem'>{homeOwner.home.address}</Text>
+              <Text>{homeOwner.home.price}</Text>
+            </View>
+          ))}
+
+          <Text>Summer Hill House:</Text>
+          <Text>{summerHillHouse.address}</Text>
+          <Text testID='summerHillHouseColor'>{summerHillHouse.color}</Text>
+
+          <Text>Red House:</Text>
+          <Text testID='redHouseAddress'>{redHouse.address}</Text>
+        </View>
+      );
+    };
+    // :replace-end:
+    // :snippet-end:
+    const App = () => (
+      <RealmProvider>
+        <HomeList />
+      </RealmProvider>
+    );
+    const {getByTestId, getAllByTestId} = render(<App />);
+
+    const homeItem = await waitFor(() => getAllByTestId('homeItem'));
+    // test that 4 home items are rendered, since there are 4 HomeOwner realm objects
+    expect(homeItem.length).toBe(4);
+
+    const homeWithAPriceItem = await waitFor(() =>
+      getAllByTestId('homeWithAPriceItem'),
+    );
+
+    // test that there is only one home with a price that is rendered, and its address is '200 lake street'
+    expect(homeWithAPriceItem.length).toBe(1);
+    expect(homeWithAPriceItem[0].props.children).toBe('200 lake street');
+
+    const summerHillHouseColor = await waitFor(() =>
+      getByTestId('summerHillHouseColor'),
+    );
+    // test that the summer hill house has rendered properly in the UI by checking its color
+    expect(summerHillHouseColor.props.children).toBe('pink');
+
+    const redHouseAddress = await waitFor(() => getByTestId('redHouseAddress'));
+    // test that the red house has rendered properly in the UI by checking its address
+    expect(redHouseAddress.props.children).toBe('1 washington street');
+  });
 });
