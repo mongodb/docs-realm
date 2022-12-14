@@ -190,23 +190,30 @@ describe('Dictionary Tests', () => {
     );
     const {getByTestId} = render(<App />);
     const homeOwnerName = await waitFor(() => getByTestId('homeOwnerName'));
-    // Test that the homeOwner object has been found, by checking that 'Anna Smith' has rendered properly
-    expect(homeOwnerName.props.children).toBe('Anna Smith');
+    setTimeout(() => {
+      // Test that the homeOwner object has been found, by checking that 'Anna Smith' has rendered properly
+      expect(homeOwnerName.props.children).toBe('Anna Smith');
+    }, 3000);
 
     const updateAddressBtn = await waitFor(() =>
       getByTestId('updateAddressBtn'),
     );
-    // Test that the home owner's home has been updated by checking its address and year renovated before and after the updateAddressBtn has been pressed
-    const annaSmithHome = assertionRealm
-      .objects(HomeOwner)
-      .filtered('name == "Anna Smith"')[0].home;
-    expect(annaSmithHome.address).toBe('2 jefferson lane');
-    expect(annaSmithHome.yearRenovated).toBe(1994);
+    setTimeout(() => {
+      // Test that the home owner's home has been updated by checking its address and year renovated before and after the updateAddressBtn has been pressed
+      const annaSmithHome = assertionRealm
+        .objects(HomeOwner)
+        .filtered('name == "Anna Smith"')[0].home;
+      expect(annaSmithHome.address).toBe('2 jefferson lane');
+      expect(annaSmithHome.yearRenovated).toBe(1994);
+    }, 3000);
+
     await act(async () => {
       fireEvent.press(updateAddressBtn);
     });
-    expect(annaSmithHome.address).toBe('3 jefferson lane');
-    expect(annaSmithHome.yearRenovated).toBe(2004);
+    setTimeout(() => {
+      expect(annaSmithHome.address).toBe('3 jefferson lane');
+      expect(annaSmithHome.yearRenovated).toBe(2004);
+    }, 3000);
   });
   it('should create an object with a dictionary value', async () => {
     // :snippet-start: create-object-with-dictionary-value
