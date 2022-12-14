@@ -111,10 +111,10 @@ describe('Dictionary Tests', () => {
       const homeOwner = assertionRealm
         .objects(HomeOwner)
         .filtered("name == 'John Smith'")[0];
-      console.log(homeOwner);
+
+      // check if the new HomeOwner object has been created
+      expect(homeOwner.name).toBe('John Smith');
+      expect(homeOwner.home.address).toBe('1 Home Street');
     }, 3000);
-    // check if the new HomeOwner object has been created
-    // expect(homeOwner.name).toBe('John Smith');
-    // expect(homeOwner.home.address).toBe('1 Home Street');
   });
 });
