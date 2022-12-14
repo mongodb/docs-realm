@@ -202,4 +202,73 @@ describe('Dictionary Tests', () => {
     // test that the red house has rendered properly in the UI by checking its address
     expect(redHouseAddress.props.children).toBe('1 washington street');
   });
+  it('should update a dictionary', async () => {
+    // :snippet-start: update-a-dictionary
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='homeOwnerName'": "",
+    //   " testID='updateAddressBtn'": "",
+    //   "3 jefferson lane": ""
+    //   }
+    // }
+    const UpdateHome = ({homeOwnerName}) => {
+      const [address, setAddress] = useState('3 jefferson lane');
+      const realm = useRealm();
+      const homeOwner = realm
+        .objects(HomeOwner)
+        .filtered(`name == '${homeOwnerName}'`)[0];
+
+      const updateAddress = () => {
+        // Update the home object with the new address
+        realm.write(() => {
+          // use the `set()` method to update a field of a dictionary
+          homeOwner.home.set({address});
+          // alternatively, update a field of a dictionary through dot notation
+          homeOwner.home.yearRenovated = 2004;
+        });
+      };
+
+      return (
+        <View>
+          <Text testID='homeOwnerName'>{homeOwner.name}</Text>
+          <TextInput
+            value={address}
+            onChangeText={setAddress}
+            placeholder='Enter new address'
+          />
+          <Button
+            onPress={updateAddress}
+            title='Update Address'
+            testID='updateAddressBtn'
+          />
+        </View>
+      );
+    };
+    // :replace-end:
+    // :snippet-end:
+    const App = () => (
+      <RealmProvider>
+        <UpdateHome homeOwnerName='Anna Smith' />
+      </RealmProvider>
+    );
+    const {getByTestId} = render(<App />);
+    const homeOwnerName = await waitFor(() => getByTestId('homeOwnerName'));
+    // Test that the homeOwner object has been found, by checking that 'Anna Smith' has rendered properly
+    expect(homeOwnerName.props.children).toBe('Anna Smith');
+
+    const updateAddressBtn = await waitFor(() =>
+      getByTestId('updateAddressBtn'),
+    );
+    // Test that the home owner's home has been updated by checking its address and year renovated before and after the updateAddressBtn has been pressed
+    const annaSmithHome = assertionRealm
+      .objects(HomeOwner)
+      .filtered('name == "Anna Smith"')[0].home;
+    expect(annaSmithHome.address).toBe('2 jefferson lane');
+    expect(annaSmithHome.yearRenovated).toBe(1994);
+    await act(async () => {
+      fireEvent.press(updateAddressBtn);
+    });
+    expect(annaSmithHome.address).toBe('3 jefferson lane');
+    expect(annaSmithHome.yearRenovated).toBe(2004);
+  });
 });
