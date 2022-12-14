@@ -64,20 +64,20 @@ describe('Dictionary Tests', () => {
     const CreateHomeOwner = () => {
       const [homeOwnerName, setHomeOwnerName] = useState('John Smith');
       const [address, setAddress] = useState('1 Home Street');
-      //   const realm = useRealm();
+      const realm = useRealm();
 
-      //   const SubmitHomeOwner = () => {
-      //     // Create a HomeOwner within a Write Transaction
-      //     realm.write(() => {
-      //       new HomeOwner(realm, {
-      //         name: homeOwnerName,
-      //         // For the dictionary field, 'home', set the value to a regular javascript object
-      //         home: {
-      //           address,
-      //         },
-      //       });
-      //     });
-      //   };
+      const SubmitHomeOwner = () => {
+        // Create a HomeOwner within a Write Transaction
+        realm.write(() => {
+          new HomeOwner(realm, {
+            name: homeOwnerName,
+            // For the dictionary field, 'home', set the value to a regular javascript object
+            home: {
+              address,
+            },
+          });
+        });
+      };
       return (
         <View>
           <Button
