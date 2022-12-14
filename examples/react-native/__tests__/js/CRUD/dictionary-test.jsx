@@ -322,10 +322,13 @@ describe('Dictionary Tests', () => {
       .filtered('name == "Anna Smith"')[0].home;
     expect(annaSmithHome.yearRenovated).toBe(1994);
     expect(annaSmithHome.color).toBe('blue');
-    await act(async () => {
-      fireEvent.press(deleteExtraHomeInfoBtn);
-    });
-    expect(annaSmithHome.yearRenovated).toBeUndefined();
-    expect(annaSmithHome.color).toBeUndefined();
+
+    setTimeout(async () => {
+      await act(async () => {
+        fireEvent.press(deleteExtraHomeInfoBtn);
+      });
+      expect(annaSmithHome.yearRenovated).toBeUndefined();
+      expect(annaSmithHome.color).toBeUndefined();
+    }, 3000);
   });
 });
