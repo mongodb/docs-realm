@@ -1,12 +1,6 @@
 import React, {useState} from 'react';
 import {Button, TextInput, View, Text} from 'react-native';
-import {
-  render,
-  fireEvent,
-  userEvent,
-  waitFor,
-  act,
-} from '@testing-library/react-native';
+import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 import HomeOwner from '../../Models/HomeOwner';
@@ -46,11 +40,6 @@ describe('Dictionary Tests', () => {
       });
     });
   });
-  afterAll(() => {
-    if (!assertionRealm.isClosed) {
-      assertionRealm.close();
-    }
-  });
   it('should create an object with a dictionary value', async () => {
     // :snippet-start: create-object-with-dictionary-value
     // :replace-start: {
@@ -68,10 +57,10 @@ describe('Dictionary Tests', () => {
         realm.write(() => {
           new HomeOwner(realm, {
             name: homeOwnerName,
-            // // For the dictionary field, 'home', set the value to a regular javascript object
-            // home: {
-            //   address,
-            // },
+            // For the dictionary field, 'home', set the value to a regular javascript object
+            home: {
+              address,
+            },
           });
         });
       };
@@ -85,7 +74,7 @@ describe('Dictionary Tests', () => {
           <Button
             title='Submit Home Owner'
             testID='submitHomeOwnerBtn'
-            onPress={() => SubmitHomeOwner()}
+            onPress={SubmitHomeOwner}
           />
         </View>
       );
@@ -97,22 +86,19 @@ describe('Dictionary Tests', () => {
         <CreateHomeOwner />
       </RealmProvider>
     );
-    const {findByTestId} = render(<App />);
-    const submitHomeOwnerBtn = findByTestId('submitHomeOwnerBtn');
-    // const submitHomeOwnerBtn = await waitFor(() =>
-    //   findByTestId('submitHomeOwnerBtn', {asyncUtilTimeout: 4000}),
-    // );
-    fireEvent.press(submitHomeOwnerBtn);
-    // await act(async () => {
-    //   userEvent.click(submitHomeOwnerBtn);
-    //   // fireEvent.press(submitHomeOwnerBtn);
-    // });
+    const {getByTestId} = render(<App />);
+    const submitHomeOwnerBtn = await waitFor(() =>
+      getByTestId('submitHomeOwnerBtn'),
+    );
+    await act(async () => {
+      fireEvent.press(submitHomeOwnerBtn);
+    });
     // check if the new HomeOwner object has been created
-    // const homeOwner = assertionRealm
-    //   .objects(HomeOwner)
-    //   .filtered("name == 'John Smith'")[0];
-    // expect(homeOwner.name).toBe('John Smith');
-    // expect(homeOwner.home.address).toBe('1 Home Street');
+    const homeOwner = assertionRealm
+      .objects(HomeOwner)
+      .filtered("name == 'John Smith'")[0];
+    expect(homeOwner.name).toBe('John Smith');
+    expect(homeOwner.home.address).toBe('1 Home Street');
   });
   it('should query for objects with a dictionary property', async () => {
     // :snippet-start: query-objects-with-dictionary
@@ -257,16 +243,16 @@ describe('Dictionary Tests', () => {
       getByTestId('updateAddressBtn'),
     );
     // Test that the home owner's home has been updated by checking its address and year renovated before and after the updateAddressBtn has been pressed
-    // const annaSmithHome = assertionRealm
-    //   .objects(HomeOwner)
-    //   .filtered('name == "Anna Smith"')[0].home;
-    // expect(annaSmithHome.address).toBe('2 jefferson lane');
-    // expect(annaSmithHome.yearRenovated).toBe(1994);
+    const annaSmithHome = assertionRealm
+      .objects(HomeOwner)
+      .filtered('name == "Anna Smith"')[0].home;
+    expect(annaSmithHome.address).toBe('2 jefferson lane');
+    expect(annaSmithHome.yearRenovated).toBe(1994);
     await act(async () => {
       fireEvent.press(updateAddressBtn);
     });
-    // expect(annaSmithHome.address).toBe('3 jefferson lane');
-    // expect(annaSmithHome.yearRenovated).toBe(2004);
+    expect(annaSmithHome.address).toBe('3 jefferson lane');
+    expect(annaSmithHome.yearRenovated).toBe(2004);
   });
   it('should delete members of a dictionary', async () => {
     // :snippet-start: delete-members-of-a-dictionary
@@ -314,15 +300,15 @@ describe('Dictionary Tests', () => {
       getByTestId('deleteExtraHomeInfoBtn'),
     );
     // Test that the home owner's home had her 'yearRenovated' & 'color' removed by checking its address and year renovated before and after the deleteExtraHomeInfoBtn has been pressed
-    // const annaSmithHome = assertionRealm
-    //   .objects(HomeOwner)
-    //   .filtered('name == "Anna Smith"')[0].home;
-    // expect(annaSmithHome.yearRenovated).toBe(1994);
-    // expect(annaSmithHome.color).toBe('blue');
+    const annaSmithHome = assertionRealm
+      .objects(HomeOwner)
+      .filtered('name == "Anna Smith"')[0].home;
+    expect(annaSmithHome.yearRenovated).toBe(1994);
+    expect(annaSmithHome.color).toBe('blue');
     await act(async () => {
       fireEvent.press(deleteExtraHomeInfoBtn);
     });
-    // expect(annaSmithHome.yearRenovated).toBeUndefined();
-    // expect(annaSmithHome.color).toBeUndefined();
+    expect(annaSmithHome.yearRenovated).toBeUndefined();
+    expect(annaSmithHome.color).toBeUndefined();
   });
 });
