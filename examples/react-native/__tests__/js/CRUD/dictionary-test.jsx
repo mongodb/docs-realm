@@ -54,69 +54,6 @@ describe('Dictionary Tests', () => {
       assertionRealm.close();
     }
   });
-  it('should create an object with a dictionary value', async () => {
-    // :snippet-start: create-object-with-dictionary-value
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='submitHomeOwnerBtn'": ""
-    //   }
-    // }
-    const CreateHomeOwner = () => {
-      const [homeOwnerName, setHomeOwnerName] = useState('John Smith');
-      const [address, setAddress] = useState('1 Home Street');
-      const realm = useRealm();
-
-      const SubmitHomeOwner = () => {
-        // Create a HomeOwner within a Write Transaction
-        realm.write(() => {
-          new HomeOwner(realm, {
-            name: homeOwnerName,
-            // For the dictionary field, 'home', set the value to a regular javascript object
-            home: {
-              address,
-            },
-          });
-        });
-      };
-      return (
-        <View>
-          <Button
-            title='Submit Home Owner'
-            testID='submitHomeOwnerBtn'
-            onPress={() => SubmitHomeOwner()}
-          />
-          <TextInput
-            value={homeOwnerName}
-            onChangeText={text => setHomeOwnerName(text)}
-          />
-          <TextInput value={address} onChangeText={text => setAddress(text)} />
-        </View>
-      );
-    };
-    // :replace-end:
-    // :snippet-end:
-    const App = () => (
-      <RealmProvider>
-        <CreateHomeOwner />
-      </RealmProvider>
-    );
-    const {getByTestId} = render(<App />);
-    const submitHomeOwnerBtn = await waitFor(() =>
-      getByTestId('submitHomeOwnerBtn'),
-    );
-    await act(async () => {
-      fireEvent.press(submitHomeOwnerBtn);
-    });
-    setTimeout(() => {
-      const homeOwner = assertionRealm
-        .objects(HomeOwner)
-        .filtered("name == 'John Smith'")[0];
-
-      // check if the new HomeOwner object has been created
-      expect(homeOwner.name).toBe('John Smith');
-      expect(homeOwner.home.address).toBe('1 Home Street');
-    }, 3000);
-  });
   it('should query for objects with a dictionary property', async () => {
     // :snippet-start: query-objects-with-dictionary
     // :replace-start: {
@@ -270,6 +207,69 @@ describe('Dictionary Tests', () => {
     });
     expect(annaSmithHome.address).toBe('3 jefferson lane');
     expect(annaSmithHome.yearRenovated).toBe(2004);
+  });
+  it('should create an object with a dictionary value', async () => {
+    // :snippet-start: create-object-with-dictionary-value
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='submitHomeOwnerBtn'": ""
+    //   }
+    // }
+    const CreateHomeOwner = () => {
+      const [homeOwnerName, setHomeOwnerName] = useState('John Smith');
+      const [address, setAddress] = useState('1 Home Street');
+      const realm = useRealm();
+
+      const SubmitHomeOwner = () => {
+        // Create a HomeOwner within a Write Transaction
+        realm.write(() => {
+          new HomeOwner(realm, {
+            name: homeOwnerName,
+            // For the dictionary field, 'home', set the value to a regular javascript object
+            home: {
+              address,
+            },
+          });
+        });
+      };
+      return (
+        <View>
+          <Button
+            title='Submit Home Owner'
+            testID='submitHomeOwnerBtn'
+            onPress={() => SubmitHomeOwner()}
+          />
+          <TextInput
+            value={homeOwnerName}
+            onChangeText={text => setHomeOwnerName(text)}
+          />
+          <TextInput value={address} onChangeText={text => setAddress(text)} />
+        </View>
+      );
+    };
+    // :replace-end:
+    // :snippet-end:
+    const App = () => (
+      <RealmProvider>
+        <CreateHomeOwner />
+      </RealmProvider>
+    );
+    const {getByTestId} = render(<App />);
+    const submitHomeOwnerBtn = await waitFor(() =>
+      getByTestId('submitHomeOwnerBtn'),
+    );
+    await act(async () => {
+      fireEvent.press(submitHomeOwnerBtn);
+    });
+    setTimeout(() => {
+      const homeOwner = assertionRealm
+        .objects(HomeOwner)
+        .filtered("name == 'John Smith'")[0];
+
+      // check if the new HomeOwner object has been created
+      expect(homeOwner.name).toBe('John Smith');
+      expect(homeOwner.home.address).toBe('1 Home Street');
+    }, 3000);
   });
   it('should delete members of a dictionary', async () => {
     // :snippet-start: delete-members-of-a-dictionary
