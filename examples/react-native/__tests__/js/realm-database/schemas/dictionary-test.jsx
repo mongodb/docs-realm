@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 import React, {useState} from 'react';
 import {Button, TextInput, View, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
@@ -64,16 +66,9 @@ describe('Dictionary Tests', () => {
       };
       return (
         <View>
-          <TextInput
-            value={homeOwnerName}
-            onChangeText={text => setHomeOwnerName(text)}
-          />
+          <TextInput value={homeOwnerName} onChangeText={text => setHomeOwnerName(text)} />
           <TextInput value={address} onChangeText={text => setAddress(text)} />
-          <Button
-            title='Submit Home Owner'
-            testID='submitHomeOwnerBtn'
-            onPress={SubmitHomeOwner}
-          />
+          <Button title='Submit Home Owner' testID='submitHomeOwnerBtn' onPress={SubmitHomeOwner} />
         </View>
       );
     };
@@ -86,16 +81,12 @@ describe('Dictionary Tests', () => {
     );
     const {getByTestId} = render(<App />);
     // press the "Add Dog" button
-    const handleAddDogBtn = await waitFor(() =>
-      getByTestId('submitHomeOwnerBtn'),
-    );
+    const handleAddDogBtn = await waitFor(() => getByTestId('submitHomeOwnerBtn'));
     await act(async () => {
       fireEvent.press(handleAddDogBtn);
     });
     // check if the new HomeOwner object has been created
-    const homeOwner = assertionRealm
-      .objects(HomeOwner)
-      .filtered("name == 'John Smith'")[0];
+    const homeOwner = assertionRealm.objects(HomeOwner).filtered("name == 'John Smith'")[0];
     expect(homeOwner.name).toBe('John Smith');
     expect(homeOwner.home.address).toBe('1 Home Street');
   });
@@ -120,9 +111,7 @@ describe('Dictionary Tests', () => {
 
       // run the `.filtered()` method on all the returned homeOwners to
       // find the house with the address "Summerhill St."
-      const summerHillHouse = homeOwners.filtered(
-        'home["address"] = "Summerhill St."',
-      )[0].home;
+      const summerHillHouse = homeOwners.filtered('home["address"] = "Summerhill St."')[0].home;
 
       // run the `.filtered()` method on all the returned homeOwners to
       // find the first house that has any field with a value of 'red'
@@ -166,17 +155,13 @@ describe('Dictionary Tests', () => {
     // test that 4 home items are rendered, since there are 4 HomeOwner realm objects
     expect(homeItem.length).toBe(4);
 
-    const homeWithAPriceItem = await waitFor(() =>
-      getAllByTestId('homeWithAPriceItem'),
-    );
+    const homeWithAPriceItem = await waitFor(() => getAllByTestId('homeWithAPriceItem'));
 
     // test that there is only one home with a price that is rendered, and its address is '200 lake street'
     expect(homeWithAPriceItem.length).toBe(1);
     expect(homeWithAPriceItem[0].props.children).toBe('200 lake street');
 
-    const summerHillHouseColor = await waitFor(() =>
-      getByTestId('summerHillHouseColor'),
-    );
+    const summerHillHouseColor = await waitFor(() => getByTestId('summerHillHouseColor'));
     // test that the summer hill house has rendered properly in the UI by checking its color
     expect(summerHillHouseColor.props.children).toBe('pink');
 
@@ -195,9 +180,7 @@ describe('Dictionary Tests', () => {
     const UpdateHome = ({homeOwnerName}) => {
       const [address, setAddress] = useState('');
       const realm = useRealm();
-      const homeOwner = realm
-        .objects(HomeOwner)
-        .filtered(`name == '${homeOwnerName}'`)[0];
+      const homeOwner = realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
 
       const updateAddress = () => {
         // Update the home object with the new address
@@ -212,16 +195,8 @@ describe('Dictionary Tests', () => {
       return (
         <View>
           <Text testID='homeOwnerName'>{homeOwner.name}</Text>
-          <TextInput
-            value={address}
-            onChangeText={setAddress}
-            placeholder='Enter new address'
-          />
-          <Button
-            onPress={updateAddress}
-            title='Update Address'
-            testID='updateAddressBtn'
-          />
+          <TextInput value={address} onChangeText={setAddress} placeholder='Enter new address' />
+          <Button onPress={updateAddress} title='Update Address' testID='updateAddressBtn' />
         </View>
       );
     };
@@ -237,13 +212,9 @@ describe('Dictionary Tests', () => {
     // Test that the homeOwner object has been found, by checking that 'Anna Smith' has rendered properly
     expect(homeOwnerName.props.children).toBe('Anna Smith');
 
-    const updateAddressBtn = await waitFor(() =>
-      getByTestId('updateAddressBtn'),
-    );
+    const updateAddressBtn = await waitFor(() => getByTestId('updateAddressBtn'));
     // Test that the home owner's home has been updated by checking its address and year renovated before and after the updateAddressBtn has been pressed
-    const annaSmithHome = assertionRealm
-      .objects(HomeOwner)
-      .filtered('name == "Anna Smith"')[0].home;
+    const annaSmithHome = assertionRealm.objects(HomeOwner).filtered('name == "Anna Smith"')[0].home;
     expect(annaSmithHome.address).toBe('2 jefferson lane');
     expect(annaSmithHome.yearRenovated).toBe(1994);
     await act(async () => {
@@ -261,9 +232,7 @@ describe('Dictionary Tests', () => {
     // }
     const HomeInfo = ({homeOwnerName}) => {
       const realm = useRealm();
-      const homeOwner = realm
-        .objects(HomeOwner)
-        .filtered(`name == '${homeOwnerName}'`)[0];
+      const homeOwner = realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
 
       const deleteExtraHomeInfo = () => {
         realm.write(() => {
@@ -276,16 +245,13 @@ describe('Dictionary Tests', () => {
         <View>
           <Text>{homeOwner.name}</Text>
           <Text>{homeOwner.home.address}</Text>
-          <Button
-            onPress={deleteExtraHomeInfo}
-            title='Delete extra home info'
-            testID='deleteExtraHomeInfoBtn'
-          />
+          <Button onPress={deleteExtraHomeInfo} title='Delete extra home info' testID='deleteExtraHomeInfoBtn' />
         </View>
       );
     };
     // :replace-end:
     // :snippet-end:
+
     const App = () => (
       <RealmProvider>
         <HomeInfo homeOwnerName='Anna Smith' />
@@ -293,13 +259,9 @@ describe('Dictionary Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const deleteExtraHomeInfoBtn = await waitFor(() =>
-      getByTestId('deleteExtraHomeInfoBtn'),
-    );
+    const deleteExtraHomeInfoBtn = await waitFor(() => getByTestId('deleteExtraHomeInfoBtn'));
     // Test that the home owner's home had her 'yearRenovated' & 'color' removed by checking its address and year renovated before and after the deleteExtraHomeInfoBtn has been pressed
-    const annaSmithHome = assertionRealm
-      .objects(HomeOwner)
-      .filtered('name == "Anna Smith"')[0].home;
+    const annaSmithHome = assertionRealm.objects(HomeOwner).filtered('name == "Anna Smith"')[0].home;
     expect(annaSmithHome.yearRenovated).toBe(1994);
     expect(annaSmithHome.color).toBe('blue');
     await act(async () => {

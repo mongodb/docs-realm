@@ -15,19 +15,9 @@ const CreateHomeOwner = () => {
   };
   return (
     <View>
-      <TextInput
-        value={homeOwnerName}
-        onChangeText={(text: string) => setHomeOwnerName(text)}
-      />
-      <TextInput
-        value={address}
-        onChangeText={(text: string) => setAddress(text)}
-      />
-      <Button
-        title='Submit Home Owner'
-       
-        onPress={SubmitHomeOwner}
-      />
+      <TextInput value={homeOwnerName} onChangeText={(text: string) => setHomeOwnerName(text)} />
+      <TextInput value={address} onChangeText={(text: string) => setAddress(text)} />
+      <Button title='Submit Home Owner' onPress={SubmitHomeOwner} />
     </View>
   );
 };

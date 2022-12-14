@@ -9,9 +9,7 @@ const HomeList = () => {
 
   // run the `.filtered()` method on all the returned homeOwners to
   // find the house with the address "Summerhill St."
-  const summerHillHouse = homeOwners.filtered(
-    'home["address"] = "Summerhill St."',
-  )[0].home;
+  const summerHillHouse = homeOwners.filtered('home["address"] = "Summerhill St."')[0].home;
 
   // run the `.filtered()` method on all the returned homeOwners to
   // find the first house that has any field with a value of 'red'
