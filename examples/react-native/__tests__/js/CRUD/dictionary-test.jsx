@@ -108,9 +108,9 @@ describe('Dictionary Tests', () => {
       fireEvent.press(submitHomeOwnerBtn);
     });
     // check if the new HomeOwner object has been created
-    const homeOwner = assertionRealm
-      .objects(HomeOwner)
-      .filtered("name == 'John Smith'")[0];
+    // const homeOwner = assertionRealm
+    //   .objects(HomeOwner)
+    //   .filtered("name == 'John Smith'")[0];
     // expect(homeOwner.name).toBe('John Smith');
     // expect(homeOwner.home.address).toBe('1 Home Street');
   });
