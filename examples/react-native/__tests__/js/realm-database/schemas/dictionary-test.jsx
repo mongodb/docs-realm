@@ -101,11 +101,11 @@ describe('Dictionary Tests', () => {
     const submitHomeOwnerBtn = await waitFor(() =>
       findByTestId('submitHomeOwnerBtn', {asyncUtilTimeout: 4000}),
     );
-
-    await act(async () => {
-      userEvent.press(submitHomeOwnerBtn);
-      // fireEvent.press(submitHomeOwnerBtn);
-    });
+    fireEvent.press(submitHomeOwnerBtn);
+    // await act(async () => {
+    //   userEvent.click(submitHomeOwnerBtn);
+    //   // fireEvent.press(submitHomeOwnerBtn);
+    // });
     // check if the new HomeOwner object has been created
     // const homeOwner = assertionRealm
     //   .objects(HomeOwner)
