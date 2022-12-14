@@ -86,10 +86,11 @@ describe('Dictionary Tests', () => {
         <CreateHomeOwner />
       </RealmProvider>
     );
-    const {getByTestId} = render(<App />);
-    const submitHomeOwnerBtn = await waitFor(() =>
-      getByTestId('submitHomeOwnerBtn'),
-    );
+    const {getByTestId, findByTestId} = render(<App />);
+    await findByTestId('submitHomeOwnerBtn');
+    // const submitHomeOwnerBtn = await waitFor(() =>
+    //   findByTestId('submitHomeOwnerBtn'),
+    // );
     await act(async () => {
       fireEvent.press(submitHomeOwnerBtn);
     });
