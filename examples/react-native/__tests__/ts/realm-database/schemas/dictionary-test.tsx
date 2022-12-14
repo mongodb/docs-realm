@@ -82,10 +82,9 @@ describe('Dictionary Tests', () => {
       </RealmProvider>
     );
     const {getByTestId} = render(<App />);
-    // press the "Add Dog" button
-    const handleAddDogBtn = await waitFor(() => getByTestId('submitHomeOwnerBtn'));
+    const submitHomeOwnerBtn = await waitFor(() => getByTestId('submitHomeOwnerBtn'));
     await act(async () => {
-      fireEvent.press(handleAddDogBtn);
+      fireEvent.press(submitHomeOwnerBtn);
     });
     // check if the new HomeOwner object has been created
     const homeOwner = assertionRealm.objects(HomeOwner).filtered("name == 'John Smith'")[0];
