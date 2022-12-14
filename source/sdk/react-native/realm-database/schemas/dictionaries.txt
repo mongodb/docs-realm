@@ -22,9 +22,8 @@ Realm Object Models
 -------------------
 
 To define a dictionary of mixed values in your schema, set the data type
-of your field to an empty object, ``"{}"``. Alternatively, to create a
-dictionary with values of a specific type, add the data type before the
-brackets. For instance, ``"int{}"`` to specify that dictionary values must be
+of your field to an empty object, ``"{}"``. Alternatively, add the data type before the brackets to create a
+dictionary with values of a specific type. For instance, ``"int{}"`` to specify that dictionary values must be
 integers or ``"string{}"`` to specify that dictionary values must be strings.
 
 .. tabs-realm-languages::
@@ -121,7 +120,7 @@ Update a Dictionary
 -------------------
 Update a dictionary's property by using the :js-sdk:`dictionary.set() <Realm.Dictionary.html#set>` method or dot notation to set its property to a new value.
 
-In the following example of an``UpdateHome`` component, we:
+In the following example of an ``UpdateHome`` component, we:
 
 #. Create React `state <https://reactjs.org/docs/react-component.html#state>`__ that represents the home address, respectively.
 #. Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
