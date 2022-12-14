@@ -1,5 +1,3 @@
-/* eslint react/prop-types: 0 */
-
 import React, {useState} from 'react';
 import {Button, TextInput, View, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
