@@ -271,4 +271,61 @@ describe('Dictionary Tests', () => {
     expect(annaSmithHome.address).toBe('3 jefferson lane');
     expect(annaSmithHome.yearRenovated).toBe(2004);
   });
+  it('should delete members of a dictionary', async () => {
+    // :snippet-start: delete-members-of-a-dictionary
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='deleteExtraHomeInfoBtn'": ""
+    //   }
+    // }
+    const HomeInfo = ({homeOwnerName}) => {
+      const realm = useRealm();
+      const homeOwner = realm
+        .objects(HomeOwner)
+        .filtered(`name == '${homeOwnerName}'`)[0];
+
+      const deleteExtraHomeInfo = () => {
+        realm.write(() => {
+          // remove the 'yearRenovated' and 'color' field of the house
+          homeOwner.home.remove(['yearRenovated', 'color']);
+        });
+      };
+
+      return (
+        <View>
+          <Text>{homeOwner.name}</Text>
+          <Text>{homeOwner.home.address}</Text>
+          <Button
+            onPress={deleteExtraHomeInfo}
+            title='Delete extra home info'
+            testID='deleteExtraHomeInfoBtn'
+          />
+        </View>
+      );
+    };
+    // :replace-end:
+    // :snippet-end:
+
+    const App = () => (
+      <RealmProvider>
+        <HomeInfo homeOwnerName='Anna Smith' />
+      </RealmProvider>
+    );
+    const {getByTestId} = render(<App />);
+
+    const deleteExtraHomeInfoBtn = await waitFor(() =>
+      getByTestId('deleteExtraHomeInfoBtn'),
+    );
+    // Test that the home owner's home had her 'yearRenovated' & 'color' removed by checking its address and year renovated before and after the deleteExtraHomeInfoBtn has been pressed
+    const annaSmithHome = assertionRealm
+      .objects(HomeOwner)
+      .filtered('name == "Anna Smith"')[0].home;
+    expect(annaSmithHome.yearRenovated).toBe(1994);
+    expect(annaSmithHome.color).toBe('blue');
+    await act(async () => {
+      fireEvent.press(deleteExtraHomeInfoBtn);
+    });
+    expect(annaSmithHome.yearRenovated).toBeUndefined();
+    expect(annaSmithHome.color).toBeUndefined();
+  });
 });
