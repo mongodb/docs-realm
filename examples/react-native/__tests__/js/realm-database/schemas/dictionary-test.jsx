@@ -68,7 +68,7 @@ describe('Dictionary Tests', () => {
         <View>
           <TextInput value={homeOwnerName} onChangeText={text => setHomeOwnerName(text)} />
           <TextInput value={address} onChangeText={text => setAddress(text)} />
-          <Button title='Submit Home Owner' testID='submitHomeOwnerBtn' onPress={SubmitHomeOwner} />
+          <Button title='Submit Home Owner' testID='submitHomeOwnerBtn' onPress={() => SubmitHomeOwner()} />
         </View>
       );
     };
