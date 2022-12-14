@@ -1,4 +1,4 @@
 const realm = await Realm.open({
-  path: "myrealm",
+  path: "realm-files/myrealm",
   schema: [TaskSchema],
 });
