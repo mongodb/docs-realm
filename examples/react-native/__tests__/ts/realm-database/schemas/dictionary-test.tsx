@@ -14,7 +14,7 @@ const {RealmProvider, useRealm} = createRealmContext(realmConfig);
 
 let assertionRealm: Realm;
 
-describe.skip('Dictionary Tests', () => {
+describe('Dictionary Tests', () => {
   beforeEach(async () => {
     // we will use this Realm for assertions to access Realm Objects outside of a Functional Component (like required by @realm/react)
     assertionRealm = await Realm.open(realmConfig);

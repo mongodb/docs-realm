@@ -40,6 +40,11 @@ describe('Dictionary Tests', () => {
       });
     });
   });
+  afterAll(() => {
+    if (!assertionRealm.isClosed) {
+      assertionRealm.close();
+    }
+  });
   it('should create an object with a dictionary value', async () => {
     // :snippet-start: create-object-with-dictionary-value
     // :replace-start: {
