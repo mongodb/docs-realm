@@ -7,7 +7,7 @@ const UpdateHome = ({homeOwnerName}: {homeOwnerName: string}) => {
     // Update the home object with the new address
     realm.write(() => {
       // use the `set()` method to update a field of a dictionary
-      homeOwner.home.set({address: '3 jefferson lane'});
+      homeOwner.home.set({address});
       // alternatively, update a field of a dictionary through dot notation
       homeOwner.home.yearRenovated = 2004;
     });

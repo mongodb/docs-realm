@@ -174,11 +174,12 @@ describe('Dictionary Tests', () => {
     // :replace-start: {
     //  "terms": {
     //   " testID='homeOwnerName'": "",
-    //   " testID='updateAddressBtn'": ""
+    //   " testID='updateAddressBtn'": "",
+    //   "3 jefferson lane": ""
     //   }
     // }
     const UpdateHome = ({homeOwnerName}: {homeOwnerName: string}) => {
-      const [address, setAddress] = useState('');
+      const [address, setAddress] = useState('3 jefferson lane');
       const realm = useRealm();
       const homeOwner = realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
 
@@ -186,7 +187,7 @@ describe('Dictionary Tests', () => {
         // Update the home object with the new address
         realm.write(() => {
           // use the `set()` method to update a field of a dictionary
-          homeOwner.home.set({address: '3 jefferson lane'});
+          homeOwner.home.set({address});
           // alternatively, update a field of a dictionary through dot notation
           homeOwner.home.yearRenovated = 2004;
         });
