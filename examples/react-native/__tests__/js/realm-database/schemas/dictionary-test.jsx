@@ -98,9 +98,10 @@ describe('Dictionary Tests', () => {
       </RealmProvider>
     );
     const {findByTestId} = render(<App />);
-    const submitHomeOwnerBtn = await waitFor(() =>
-      findByTestId('submitHomeOwnerBtn', {asyncUtilTimeout: 4000}),
-    );
+    const submitHomeOwnerBtn = findByTestId('submitHomeOwnerBtn');
+    // const submitHomeOwnerBtn = await waitFor(() =>
+    //   findByTestId('submitHomeOwnerBtn', {asyncUtilTimeout: 4000}),
+    // );
     fireEvent.press(submitHomeOwnerBtn);
     // await act(async () => {
     //   userEvent.click(submitHomeOwnerBtn);
