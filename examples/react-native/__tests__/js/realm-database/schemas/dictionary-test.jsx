@@ -91,9 +91,9 @@ describe('Dictionary Tests', () => {
         <CreateHomeOwner />
       </RealmProvider>
     );
-    const {getByTestId} = render(<App />);
+    const {findByTestId} = render(<App />);
     const submitHomeOwnerBtn = await waitFor(() =>
-      getByTestId('submitHomeOwnerBtn'),
+      findByTestId('submitHomeOwnerBtn'),
     );
     await act(async () => {
       fireEvent.press(submitHomeOwnerBtn);
