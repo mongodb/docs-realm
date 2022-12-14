@@ -7,5 +7,5 @@ module.exports = {
   trailingComma: 'all',
   quoteProps: 'preserve',
   jsxSingleQuote: true, // do not remove this line, otherwise the bluehawk replacement of testIDs won't work
-  printWidth: 200,
+  // printWidth: 200,
 };
