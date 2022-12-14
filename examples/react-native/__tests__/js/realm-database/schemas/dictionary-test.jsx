@@ -87,7 +87,7 @@ describe('Dictionary Tests', () => {
       </RealmProvider>
     );
     const {getByTestId, findByTestId} = render(<App />);
-    await findByTestId('submitHomeOwnerBtn');
+    const submitHomeOwnerBtn = await findByTestId('submitHomeOwnerBtn');
     // const submitHomeOwnerBtn = await waitFor(() =>
     //   findByTestId('submitHomeOwnerBtn'),
     // );
