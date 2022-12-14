@@ -93,7 +93,7 @@ describe('Dictionary Tests', () => {
     );
     const {findByTestId} = render(<App />);
     const submitHomeOwnerBtn = await waitFor(() =>
-      findByTestId('submitHomeOwnerBtn'),
+      findByTestId('submitHomeOwnerBtn', {asyncUtilTimeout: 4000}),
     );
     await act(async () => {
       fireEvent.press(submitHomeOwnerBtn);
