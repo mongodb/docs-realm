@@ -54,7 +54,7 @@ In the following example of a ``CreateHomeOwner`` component, we:
 
 #. Create React `state <https://reactjs.org/docs/react-component.html#state>`__ that represents the homeowner's name and address, respectively.
 #. Get access to an open realm instance by calling the ``useRealm()`` hook within the component.
-#. Create a component method ``SubmitHomeOwner()`` that performs a write transaction and creates a new ``HomeOwner`` object based on the ``TextInput`` values for the homeowner's name and address, respectively.
+#. Create a component method ``SubmitHomeOwner()`` that performs a write transaction and creates a new ``HomeOwner`` object based on the ``TextInput`` valuesg for the homeowner's name and address, respectively.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``SubmitHomeOwner()``
 
 .. tabs-realm-languages::
@@ -122,9 +122,9 @@ Update a dictionary's property by using the :js-sdk:`dictionary.set() <Realm.Dic
 
 In the following example of an ``UpdateHome`` component, we:
 
-#. Create React `state <https://reactjs.org/docs/react-component.html#state>`__ that represents the home address, respectively.
+#. Create a React `state <https://reactjs.org/docs/react-component.html#state>`__ variable that represents the home address.
 #. Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
-#. Create a component method ``updateAddress()`` that performs a write transaction and uses ``dictionary.set()`` to set the home's address to the ``address`` state variable. It also uses dot syntax to set the ``yearRenovated`` to ``2004``.
+#. Create a component method ``updateAddress()`` that performs a write transaction and uses ``dictionary.set()`` to set the home's address to the value of the ``address`` state variable. It also uses dot syntax to set the ``yearRenovated`` to ``2004``.
 #. Render a ``TextInput`` that displays and changes the ``address`` state variable.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Update Address" button that calls ``updateAddress()``
 
@@ -150,9 +150,9 @@ In the following example of an ``UpdateHome`` component, we:
 
 Delete Members of a Dictionary
 ------------------------------
-To delete members of a dictionary, use the :js-sdk:`Realm.Dictionary.html#remove` method with an array of properties to remove from the dictionary.
+To delete members of a dictionary, use the :js-sdk:`dictionary.remove() <Realm.Dictionary.html#remove>` method with an array of properties to remove from the dictionary.
 
-In the following example of an``HomeInfo`` component, we:
+In the following example of a ``HomeInfo`` component, we:
 
 #. Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
 #. Retrieve the first homeowner that matches the name passed into the component as a prop. We do this by getting the first value returned from the query: ``realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)``.
