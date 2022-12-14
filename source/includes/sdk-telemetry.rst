@@ -14,9 +14,10 @@ MongoDB collects the following information:
 - Your programming language and framework versions
 - Your operating system platform and version
 
-Telemetry is on by default for the Realm SDKs. To disable telemetry, set
-the ``REALM_DISABLE_ANALYTICS`` environment variable to ``true``:
+Telemetry is on by default for the Realm SDKs. You can disable telemetry
+at any time b by setting the ``REALM_DISABLE_ANALYTICS`` environment
+variable to ``true`` in your shell environment:
 
 .. code-block:: shell
    
-   REALM_DISABLE_ANALYTICS=true
+   export REALM_DISABLE_ANALYTICS=true
