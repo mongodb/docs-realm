@@ -80,14 +80,16 @@ describe('Dictionary Tests', () => {
       </RealmProvider>
     );
     const {getByTestId, findByTestId} = render(<App />);
-    await act(async () => {
-      const submitHomeOwnerBtn = await findByTestId('submitHomeOwnerBtn');
-      fireEvent.press(submitHomeOwnerBtn);
-      // check if the new HomeOwner object has been created
-      const homeOwner = assertionRealm.objects(HomeOwner).filtered("name == 'John Smith'")[0];
-      expect(homeOwner.name).toBe('John Smith');
-      expect(homeOwner.home.address).toBe('1 Home Street');
+    const submitHomeOwnerBtn = await waitFor(() => findByTestId('submitHomeOwnerBtn'), {
+      timeout: 5000,
     });
+    await act(async () => {
+      fireEvent.press(submitHomeOwnerBtn);
+    });
+    // check if the new HomeOwner object has been created
+    const homeOwner = assertionRealm.objects(HomeOwner).filtered("name == 'John Smith'")[0];
+    expect(homeOwner.name).toBe('John Smith');
+    expect(homeOwner.home.address).toBe('1 Home Street');
   });
   it('should query for objects with a dictionary property', async () => {
     // :snippet-start: query-objects-with-dictionary
