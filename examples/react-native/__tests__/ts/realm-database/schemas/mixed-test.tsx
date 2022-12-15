@@ -5,6 +5,8 @@ import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 import Cat from '../../models/Cat';
 
+jest.setTimeout(30000);
+
 const realmConfig = {
   schema: [Cat],
   deleteRealmIfMigrationNeeded: true,
@@ -35,6 +37,12 @@ describe('Mixed Tests', () => {
     }
   });
   it('should create an object with a mixed value', async () => {
+    // :snippet-start: create-mixed-object
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='catItem'": ""
+    //   }
+    // }
     const CreateCatsInput = () => {
       const realm = useRealm();
 
@@ -57,10 +65,9 @@ describe('Mixed Tests', () => {
           // create a Dog with a birthDate value of type null
           new Cat(realm, {name: 'Pythagoras', birthDate: null});
         });
-
-        console.log('use effect ran?');
       }, [realm]);
 
+      // retrieve all cats
       const cats = useQuery(Cat);
 
       return (
@@ -74,6 +81,8 @@ describe('Mixed Tests', () => {
         </>
       );
     };
+    // :replace-end:
+    // :snippet-end:
 
     const App = () => (
       <RealmProvider>
@@ -93,6 +102,12 @@ describe('Mixed Tests', () => {
     }, 3000);
   });
   it('should query for objects with a mixed value', async () => {
+    // :snippet-start: query-mixed-object
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='catBirthDate'": ""
+    //   }
+    // }
     const CatInfoCard = ({catName}: {catName: string}) => {
       // To query for the cat's birthDate, filter for their name to retrieve the realm object.
       // Use dot notation to access the birthDate property.
@@ -110,6 +125,9 @@ describe('Mixed Tests', () => {
         return <Text>Cat not found</Text>;
       }
     };
+    // :replace-end:
+    // :snippet-end:
+
     const App = () => (
       <RealmProvider>
         <CatInfoCard catName='Clover' />
