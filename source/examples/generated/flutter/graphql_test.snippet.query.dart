@@ -10,4 +10,5 @@ query {
 final queryOptions = QueryOptions(
   document: gql(query),
 );
+
 final queryRes = await client.query(queryOptions);
