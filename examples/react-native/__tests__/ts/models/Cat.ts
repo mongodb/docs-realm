@@ -1,6 +1,6 @@
 import Realm from 'realm';
 // TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
-// :snippet-start: ts-dog-schema
+// :snippet-start: ts-cat-schema
 class Cat extends Realm.Object<Cat> {
   name!: string;
   birthDate?: Realm.Mixed;
@@ -15,6 +15,3 @@ class Cat extends Realm.Object<Cat> {
 }
 // :snippet-end:
 export default Cat;
-
-// name: "string",
-// birthDate: "mixed",

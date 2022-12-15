@@ -14,7 +14,7 @@ const realmConfig = {
 
 const {RealmProvider, useRealm, useQuery} = createRealmContext(realmConfig);
 
-let assertionRealm: Realm;
+let assertionRealm;
 
 describe('Mixed Tests', () => {
   beforeEach(async () => {
@@ -110,7 +110,7 @@ describe('Mixed Tests', () => {
     //   " testID='catBirthDate'": ""
     //   }
     // }
-    const CatInfoCard = ({catName}: {catName: string}) => {
+    const CatInfoCard = ({catName}) => {
       // To query for the cat's birthDate, filter for their name to retrieve the realm object.
       // Use dot notation to access the birthDate property.
       const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];
