@@ -22,6 +22,11 @@ describe('Mixed Tests', () => {
     // delete every object in the realmConfig in the Realm to make test idempotent
     assertionRealm.write(() => {
       assertionRealm.delete(assertionRealm.objects(Cat));
+
+      new Cat(assertionRealm, {
+        name: 'Clover',
+        birthDate: new Date('January 21, 2016'),
+      });
     });
   });
   afterAll(() => {
@@ -52,6 +57,8 @@ describe('Mixed Tests', () => {
           // create a Dog with a birthDate value of type null
           new Cat(realm, {name: 'Pythagoras', birthDate: null});
         });
+
+        console.log('use effect ran?');
       }, [realm]);
 
       const cats = useQuery(Cat);
@@ -78,9 +85,41 @@ describe('Mixed Tests', () => {
 
     const catItems = await waitFor(() => getAllByTestId('catItem'));
 
-    // Test that 4 Cat Items have been added to the UI, and 4 matching Cat objects have been created in the realm
-    expect(catItems.length).toBe(4);
-    const cats = assertionRealm.objects(Cat);
-    expect(cats.length).toBe(4);
+    // Test that 5 Cat Items have been added to the UI, and 5 matching Cat objects have been created in the assertionRealm (since there was already 1 cat object 'clover' created in the beforeEach) + the 4 new Cats
+    setTimeout(() => {
+      expect(catItems.length).toBe(5);
+      const cats = assertionRealm.objects(Cat);
+      expect(cats.length).toBe(5);
+    }, 3000);
+  });
+  it('should query for objects with a mixed value', async () => {
+    const CatInfoCard = ({catName}: {catName: string}) => {
+      // To query for the cat's birthDate, filter for their name to retrieve the realm object.
+      // Use dot notation to access the birthDate property.
+      const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];
+      const catBirthDate = cat.birthDate;
+
+      if (cat) {
+        return (
+          <>
+            <Text>{catName}</Text>
+            <Text testID='catBirthDate'>{String(catBirthDate)}</Text>
+          </>
+        );
+      } else {
+        return <Text>Cat not found</Text>;
+      }
+    };
+    const App = () => (
+      <RealmProvider>
+        <CatInfoCard catName='Clover' />
+      </RealmProvider>
+    );
+    const {getByTestId} = render(<App />);
+    const catBirthDate = await waitFor(() => getByTestId('catBirthDate'));
+    // Expect catBirthDate in the UI to be the same value we set in the beforeEach (which is clover's birthday 'January 21, 2016')
+    expect(new Date(catBirthDate.props.children)).toBe(
+      new Date('January 21, 2016'),
+    );
   });
 });

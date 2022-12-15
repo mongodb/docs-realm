@@ -6,7 +6,7 @@ class Cat extends Realm.Object<Cat> {
   birthDate?: Realm.Mixed;
 
   static schema = {
-    name: 'Dog',
+    name: 'Cat',
     properties: {
       name: 'string',
       birthDate: 'mixed',
