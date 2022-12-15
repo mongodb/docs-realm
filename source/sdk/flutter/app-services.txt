@@ -10,6 +10,7 @@ Application Services Overview - Flutter SDK
 
    Connect to App Services </sdk/flutter/app-services/connect-to-app>
    Call a Function </sdk/flutter/app-services/call-function>
+   Query Atlas GraphQL API </sdk/flutter/app-services/graphql-api>
 
 .. contents:: On this page
    :local:
@@ -25,6 +26,7 @@ backend using the Flutter SDK. Backend functionality includes:
 
 - :doc:`Connect to a Realm App </sdk/flutter/app-services/connect-to-app>`
 - :doc:`Authenticate Users </sdk/flutter/users/authenticate>`
+- :doc:`Query Atlas GraphQL API </sdk/flutter/app-services/graphql-api>`
 
 The App Services Client
 -----------------------
@@ -37,7 +39,6 @@ the backend. Initialize an App with the Realm app ID, which you can
 
 To learn how to initialize the Realm App client, refer to
 :ref:`Connect to App Services <flutter-connect-to-backend>`.
-
 
 .. button:: Create an App Services Account
    :uri: https://www.mongodb.com/realm/register?tck=docs_CTA_realm_flutter
@@ -87,7 +88,14 @@ Using Functions provides a secure way for multiple client
 applications to share complex functionality without having to reproduce that
 logic client-side.
 
-To learn how to call an Atlas Function from your client app, refer to
-:ref:`Call a Function <flutter-call-function>`.
+To learn how to call an Atlas Function from your client app,
+refer to :ref:`Call a Function <flutter-call-function>`.
 
+Query Atlas GraphQL API
+-----------------------
 
+The :ref:`Atlas GraphQL API <graphql-api>` lets you access data stored
+in a linked MongoDB Atlas cluster using any standard GraphQL client.
+
+To learn how to use the Realm Flutter SDK to authenticate requests to the Atlas GraphQL API,
+refer to :ref:`Query Atlas GraphQL API <flutter-graphql-api>`.
