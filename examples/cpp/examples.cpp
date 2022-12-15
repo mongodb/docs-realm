@@ -40,11 +40,13 @@ struct Person : realm::object {
     // Create relationships by pointing an Object field to another Class
     realm::persisted<std::optional<Dog>> dog;
 
+    // :snippet-start: define-a-schema
     static constexpr auto schema = realm::schema("Person",
         realm::property<&Person::_id, true>("_id"), // primary key
         realm::property<&Person::name>("name"),
         realm::property<&Person::age>("age"),
         realm::property<&Person::dog>("dog"));
+    // :snippet-end:
 };
 // :snippet-end:
 
@@ -93,10 +95,10 @@ TEST_CASE("open a realm at a path", "[realm]") {
     });
     auto dogs = realm.objects<Dog>();
     auto dog_count = dogs.size();
-    REQUIRE(dog_count <= 1);
+    REQUIRE(dog_count >= 1);
 }
 
-TEST_CASE("open a synced realm", "[realm, sync]") {
+TEST_CASE("open a synced realm", "[realm][sync]") {
     // :snippet-start: open-a-synced-realm
     // :snippet-start: connect-app-services
     auto app = realm::App(APP_ID);
