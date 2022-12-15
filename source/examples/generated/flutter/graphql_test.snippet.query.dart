@@ -1,4 +1,4 @@
-final document = """
+final query = """
 query {
   car_V1 {
     _id
@@ -8,6 +8,6 @@ query {
 """;
 
 final queryOptions = QueryOptions(
-  document: gql(document),
+  document: gql(query),
 );
 final queryRes = await client.query(queryOptions);

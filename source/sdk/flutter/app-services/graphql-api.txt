@@ -106,18 +106,23 @@ You can also find your entire schema and explore it with test operations in the
 Run a Query
 ~~~~~~~~~~~
 
-TODO: add description
+You can query the Atlas GraphQL API schema with query resolvers generated
+when you define your schema.
+To learn more about the generated queries and the inputs they accept, refer to
+:ref:`Query Resolvers <graphql-query-resolvers>` in the App Services documentation.
 
 .. literalinclude:: /examples/generated/flutter/graphql_test.snippet.create-gql-client.dart
    :language: dart
-
 
 .. _flutter-graphql-run-mutation:
 
 Run a Mutation
 ~~~~~~~~~~~~~~
 
-TODO: add description
+You can run mutation agaisnt the Atlas GraphQL API schema with mutation resolvers
+generated when you define your schema.
+To learn more about the generated mutations and the inputs they accept, refer to
+:ref:`Mutation Resolvers <graphql-mutation-resolvers>` in the App Services documentation.
 
 .. literalinclude:: /examples/generated/flutter/graphql_test.snippet.query.dart
    :language: dart
@@ -128,6 +133,9 @@ Complete Example
 ----------------
 
 A following is a complete runnable example composed of the above code examples.
+This example uses the :ref:`Dart Standalone SDK <dart-install-steps>`
+(not the Flutter version of the SDK) to be easier to understand and run
+in your development environment.
 
-.. literalinclude:: /examples/generated/flutter/graphql_test.snippet.mutation.dart
+.. literalinclude:: /examples/generated/flutter/graphql_test.snippet.complete-example.dart
    :language: dart

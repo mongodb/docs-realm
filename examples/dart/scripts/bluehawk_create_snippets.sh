@@ -12,3 +12,6 @@ bluehawk snip $DART_EXAMPLES/test -o $GENERATED_EXAMPLES
 echo "Bluehawking Flutter bundle example"
 bluehawk snip $DART_EXAMPLES/bin/myapp.dart -o $GENERATED_EXAMPLES
 bluehawk snip $DART_EXAMPLES/bundle_example -o $GENERATED_EXAMPLES
+
+# Bluehawk GraphQL complete example
+bluehawk snip $DART_EXAMPLES/test/graphql_test.dart --state complete-example -o $GENERATED_EXAMPLES

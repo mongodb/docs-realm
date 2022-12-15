@@ -1,12 +1,20 @@
 // :snippet-start: complete-example
 // :snippet-start: import
 import 'package:graphql/client.dart';
-import 'package:realm_dart/realm.dart'; // :remove
+// :state-start: complete-example
+// Import the Realm Dart Standalone SDK
+import 'package:realm_dart/realm.dart';
+// :state-end:
 // :uncomment-start:
 // import 'package:realm/realm.dart';
 // :uncomment-end:
 import "dart:async"; // used to refresh access token
 // :snippet-end:
+
+// :state-uncomment-start: complete-example
+// const APP_ID = '<Your App ID>';
+// const GRAPHQL_URL = '< Your GraphQL API Endpoint';
+// :state-uncomment-end:
 
 // :remove-start:
 const APP_ID = 'graphql_test-kobqo';
@@ -34,7 +42,7 @@ void main() async {
   // :snippet-end:
 
   // :snippet-start: query
-  final document = """
+  final query = """
   query {
     car_V1 {
       _id
@@ -44,13 +52,29 @@ void main() async {
   """;
 
   final queryOptions = QueryOptions(
-    document: gql(document),
+    document: gql(query),
   );
   final queryRes = await client.query(queryOptions);
   // :snippet-end:
 
   // :snippet-start: mutation
   // TODO: add mutation code example
+  final mutation = """
+  mutation AddCar( \$_id: ObjectId!, \$make: String!) {
+    insertOneCar_V1(data: {
+      _id: \$_id
+      make: \$make
+    }) {
+      _id
+      make
+    }
+  }
+  """;
+  final mutationOptions = MutationOptions(
+      document: gql(mutation),
+      variables: {'_id': ObjectId().toString(), 'make': 'Toyota'});
+  final mutationRes = await client.mutate(mutationOptions);
+  print(mutationRes);
   // :snippet-end:
 }
 // :snippet-end:

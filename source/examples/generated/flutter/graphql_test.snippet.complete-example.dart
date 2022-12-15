@@ -1,13 +1,13 @@
 import 'package:graphql/client.dart';
-import 'package:realm_dart/realm.dart'; // :remove
+// Import the Realm Dart Standalone SDK
+import 'package:realm_dart/realm.dart';
 import 'package:realm/realm.dart';
-import "dart:async";
+import "dart:async"; // used to refresh access token
+
+const APP_ID = '<Your App ID>';
+const GRAPHQL_URL = '< Your GraphQL API Endpoint';
 
 void main() async {
-  const APP_ID = 'graphql_test-kobqo';
-  const GRAPHQL_URL =
-      'https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/graphql_test-kobqo/graphql';
-
   final app = App(AppConfiguration(APP_ID));
   await app.logIn(Credentials.anonymous());
   // Refresh the user access token every 29 minutes, as the default expiration
@@ -23,7 +23,7 @@ void main() async {
   final link = authLink.concat(HttpLink(GRAPHQL_URL));
   final client = GraphQLClient(link: link, cache: GraphQLCache());
 
-  final document = """
+  final query = """
   query {
     car_V1 {
       _id
@@ -33,9 +33,25 @@ void main() async {
   """;
 
   final queryOptions = QueryOptions(
-    document: gql(document),
+    document: gql(query),
   );
   final queryRes = await client.query(queryOptions);
 
   // TODO: add mutation code example
+  final mutation = """
+  mutation AddCar( \$_id: ObjectId!, \$make: String!) {
+    insertOneCar_V1(data: {
+      _id: \$_id
+      make: \$make
+    }) {
+      _id
+      make
+    }
+  }
+  """;
+  final mutationOptions = MutationOptions(
+      document: gql(mutation),
+      variables: {'_id': ObjectId().toString(), 'make': 'Toyota'});
+  final mutationRes = await client.mutate(mutationOptions);
+  print(mutationRes);
 }
