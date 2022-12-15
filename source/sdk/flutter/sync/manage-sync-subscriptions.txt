@@ -265,6 +265,20 @@ An exception may occur if:
 .. literalinclude:: /examples/generated/flutter/manage_sync_subscription_test.snippet.wait-for-subscription-change.dart
    :language: dart
 
+Subscription State
+~~~~~~~~~~~~~~~~~~
+
+Use the :flutter-sdk:`Realm.subscriptions.state <SubscriptionSet/state.html>`
+property to read the current state of the subscription set.
+
+The ``superseded`` state is a :flutter-sdk:`SubscriptionSetState
+<SubscriptionSetState.html>` that can occur when another thread updates a
+subscription on a different instance of the subscription set. If the state
+becomes ``superseded``, you must obtain a new instance of the subscription set
+before you can update it.
+
+.. include:: /includes/note-sync-state-complete.rst
+
 .. _flutter-flexible-sync-rql-limitations:
 
 Flexible Sync RQL Limitations
