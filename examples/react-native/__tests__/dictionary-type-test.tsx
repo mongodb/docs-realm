@@ -4,28 +4,36 @@ import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 
-interface Home extends Realm.Dictionary {
-  address?: string;
-  color?: string;
-  price?: number;
-  yearRenovated?: number;
-}
-
-class HomeOwner extends Realm.Object<HomeOwner> {
+class Dog extends Realm.Object<Dog> {
   name!: string;
-  home!: Home;
+  owner?: Person;
+  age?: number;
 
   static schema = {
-    name: 'HomeOwner',
+    name: 'Dog',
     properties: {
       name: 'string',
-      home: '{}',
+      owner: 'Person?',
+      age: 'int?',
+    },
+  };
+}
+
+class Person extends Realm.Object<Person> {
+  name!: string;
+  age?: number;
+
+  static schema = {
+    name: 'Person',
+    properties: {
+      name: 'string',
+      age: 'int?',
     },
   };
 }
 
 const realmConfig = {
-  schema: [HomeOwner],
+  schema: [Dog, Person],
   deleteRealmIfMigrationNeeded: true,
 };
 
@@ -40,7 +48,8 @@ describe('Create Data Tests', () => {
 
     // delete every object in the realmConfig in the Realm to make test idempotent
     assertionRealm.write(() => {
-      assertionRealm.delete(assertionRealm.objects('HomeOwner'));
+      assertionRealm.delete(assertionRealm.objects('Dog'));
+      assertionRealm.delete(assertionRealm.objects('Person'));
     });
   });
   afterAll(() => {
@@ -61,7 +70,7 @@ describe('Create Data Tests', () => {
 
       const handleAddDog = () => {
         realm.write(() => {
-          new HomeOwner(realm, {name: dogName});
+          new Dog(realm, {name: dogName});
         });
       };
 
@@ -94,9 +103,7 @@ describe('Create Data Tests', () => {
     });
 
     // check if the new Dog object has been created
-    const myDog = assertionRealm
-      .objects(HomeOwner)
-      .filtered("name == 'Fido'")[0];
+    const myDog = assertionRealm.objects(Dog).filtered("name == 'Fido'")[0];
     expect(myDog.name).toBe('Fido');
     // expect(myDog.age).toBe(1);
   });
