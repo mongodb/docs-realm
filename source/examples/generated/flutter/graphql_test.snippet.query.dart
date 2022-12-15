@@ -1,4 +1,3 @@
-// Get 5 cars with most miles
 final query = """
 query {
   plants(limit: 5) {

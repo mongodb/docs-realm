@@ -31,9 +31,9 @@ Set Up GraphQL Client
    .. step:: Get App ID and GraphQL Endpoint
 
       Once you've completed the all the necessary actions in the Prerequisites section above,
-      you must find your App ID and GraphQL Endpoint.
+      you must find your App ID and GraphQL endpoint.
 
-      You can find both of these in the UI for your App on Atlas:
+      You can find both of these in your App's UI on Atlas:
 
       - To find your App ID, refer to :ref:`Find Your App ID <find-your-app-id>`.
       - To find your GraphQL Endpoint in the Atlas UI, navigate to the :guilabel:`GraphQL` page.
@@ -44,7 +44,7 @@ Set Up GraphQL Client
       Install a standard GraphQL client. This page uses `graphql <https://pub.dev/packages/graphql>`__,
       a lightweight GraphQL client that you can use in Dart standalone and Flutter apps.
 
-      .. code-block:: sh
+      .. code-block:: bash
 
          flutter pub add graphql
 
@@ -112,7 +112,7 @@ when you define your schema.
 To learn more about the generated queries and the inputs they accept, refer to
 :ref:`Query Resolvers <graphql-query-resolvers>` in the App Services documentation.
 
-.. literalinclude:: /examples/generated/flutter/graphql_test.snippet.create-gql-client.dart
+.. literalinclude:: /examples/generated/flutter/graphql_test.snippet.query.dart
    :language: dart
 
 .. _flutter-graphql-run-mutation:
@@ -125,5 +125,5 @@ generated when you define your schema.
 To learn more about the generated mutations and the inputs they accept, refer to
 :ref:`Mutation Resolvers <graphql-mutation-resolvers>` in the App Services documentation.
 
-.. literalinclude:: /examples/generated/flutter/graphql_test.snippet.query.dart
+.. literalinclude:: /examples/generated/flutter/graphql_test.snippet.mutation.dart
    :language: dart
