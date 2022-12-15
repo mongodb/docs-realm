@@ -29,16 +29,43 @@ To :ref:`set a property of your object model
 <react-native-define-a-realm-object-schema>` as ``Mixed``, set the property's type to
 "``mixed``".
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.define-mixed-in-schema.js
-    :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Cat.snippet.ts-cat-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Cat.snippet.js-cat-schema.js
+         :language: javascript
+
 
 Create an Object With a Mixed Value
 -----------------------------------
 Create an object with a mixed value by running the :js-sdk:`realm.create()
 <Realm.html#create>` method within a write transaction.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.create-objects-with-mixed-values.js
-    :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/mixed-test.snippet.create-mixed-object.tsx
+         :language: typescript
+         :emphasize-lines: 2, 5-21
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/mixed-tests.snippet.create-mixed-object.jsx
+         :language: javascript
+         :emphasize-lines: 2, 5-21
+         :linenos:
 
 Query for Objects with a Mixed Value
 ------------------------------------
@@ -47,7 +74,22 @@ Query for objects with a mixed value by running the
 passing in a :ref:`filter <react-native-filter-queries>` for a non-mixed field. You can
 then print the value of the mixed property or the entire object itself.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.query-objects-with-mixed-values.js
-    :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/mixed-test.snippet.query-mixed-object.tsx
+         :language: typescript
+         :emphasize-lines: 4-5
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/mixed-tests.snippet.query-mixed-object.jsx
+         :language: javascript
+         :emphasize-lines: 4-5
+         :linenos:
 
 
