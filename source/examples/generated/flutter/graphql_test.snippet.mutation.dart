@@ -1,17 +1,23 @@
 final mutation = """
-mutation AddCar( \$_id: ObjectId!, \$make: String!) {
-  insertOneCar_V1(data: {
+mutation AddPlant( \$_id: ObjectId!, \$name: String!, \$color: String) {
+  insertOnePlant(data: {
     _id: \$_id
-    make: \$make
+    name: \$name
+    color: \$color
   }) {
     _id
-    make
+    name
+    color
   }
 }
 """;
 
 final mutationOptions = MutationOptions(
     document: gql(mutation),
-    variables: {'_id': ObjectId().toString(), 'make': 'Toyota'});
+    variables: {
+      '_id': ObjectId().toString(),
+      'name': 'lily',
+      'color': 'white'
+    });
 
 final mutationRes = await client.mutate(mutationOptions);

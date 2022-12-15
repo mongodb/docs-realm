@@ -1,8 +1,10 @@
+// Get 5 cars with most miles
 final query = """
 query {
-  car_V1 {
+  plants(limit: 5) {
     _id
-    make
+    name
+    color
   }
 }
 """;
