@@ -260,18 +260,18 @@ error if the update cannot complete successfully.
 
 .. include:: /includes/swift-concurrency-mainactor.rst
 
-SyncSubscriptionState Enum
-``````````````````````````
+Subscription Set State
+~~~~~~~~~~~~~~~~~~~~~~
 
-You can watch the state of the subscription set with the
-:swift-sdk:`SyncSubscriptionState
+Use the :swift-sdk:`SubscriptionSet.state
+<Structs/SyncSubscriptionSet.html#/s:10RealmSwift19SyncSubscriptionSetV5stateAA0cD5StateOvp`
+property to read the current state of the subscription set.
+
+The ``superseded`` state is a :swift-sdk:`SyncSubscriptionState
 <Enums/SyncSubscriptionState.html#/s:10RealmSwift21SyncSubscriptionStateO8completeyA2CmF>`
-enum.
-
-The ``superseded`` state is a ``SyncSubscriptionState`` that can occur when
-another thread updates a subscription on a different instance of the
-subscription set. If the state becomes ``superseded``, you must obtain a new
-instance of the subscription set before you can update it.
+that can occur when another thread updates a subscription on a different
+instance of the subscription set. If the state becomes ``superseded``, you must
+obtain a new instance of the subscription set before you can update it.
 
 .. include:: /includes/note-sync-state-complete.rst
 
