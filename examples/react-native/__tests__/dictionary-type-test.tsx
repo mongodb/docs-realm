@@ -1,36 +1,10 @@
 import React, {useState} from 'react';
-import {Button, TextInput, View, Text} from 'react-native';
+import {Button, TextInput} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-
-class Dog extends Realm.Object<Dog> {
-  name!: string;
-  owner?: Person;
-  age?: number;
-
-  static schema = {
-    name: 'Dog',
-    properties: {
-      name: 'string',
-      owner: 'Person?',
-      age: 'int?',
-    },
-  };
-}
-
-class Person extends Realm.Object<Person> {
-  name!: string;
-  age?: number;
-
-  static schema = {
-    name: 'Person',
-    properties: {
-      name: 'string',
-      age: 'int?',
-    },
-  };
-}
+import Dog from '../models/Dog';
+import Person from '../models/Person';
 
 const realmConfig = {
   schema: [Dog, Person],
@@ -70,7 +44,7 @@ describe('Create Data Tests', () => {
 
       const handleAddDog = () => {
         realm.write(() => {
-          new Dog(realm, {name: dogName});
+          new Dog(realm, {name: dogName, age: 1});
         });
       };
 
@@ -105,6 +79,6 @@ describe('Create Data Tests', () => {
     // check if the new Dog object has been created
     const myDog = assertionRealm.objects(Dog).filtered("name == 'Fido'")[0];
     expect(myDog.name).toBe('Fido');
-    // expect(myDog.age).toBe(1);
+    expect(myDog.age).toBe(1);
   });
 });
