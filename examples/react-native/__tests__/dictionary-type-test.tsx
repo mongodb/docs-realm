@@ -32,54 +32,49 @@ const realmConfig = {
 const {RealmProvider, useRealm} = createRealmContext(realmConfig);
 
 describe('Dictionary Tests', () => {
-  it('should create a dictionary object', async () => {
-    console.log('foo');
-    const CreateHomeOwner = () => {
-      // useState hook to store the homeowner's name and address
-      const [name, setName] = useState('');
-      const [address, setAddress] = useState('');
+  it('should create a new object', async () => {
+    // :snippet-start: crud-create-object
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='handleAddDogBtn'": ""
+    //   }
+    // }
+    const CreateHomeOwnerInput = () => {
+      const [name, setName] = useState('Fido');
+      const realm = useRealm();
 
-      // handler for when the "Save" button is clicked
-      const handleSave = () => {
-        // create the homeowner object with the name and address
-        const homeowner = {
-          name: name,
-          address: address,
-        };
-
-        // save the homeowner object (you could add code here to save the object to a database, etc.)
+      const handleAddObj = () => {
+        realm.write(() => {
+          new HomeOwner(realm, {name: name});
+        });
       };
 
       return (
-        <View>
-          <TextInput placeholder='Name' value={name} onChangeText={setName} />
-          <TextInput
-            placeholder='Address'
-            value={address}
-            onChangeText={setAddress}
+        <>
+          <TextInput onChangeText={setName} value={name} />
+          <Button
+            onPress={() => handleAddObj()}
+            title='Add Name'
+            testID='handleAddObjBtn'
           />
-          <Button title='Save' onPress={handleSave} />
-        </View>
+        </>
       );
     };
+    // :replace-end:
+    // :snippet-end:
 
+    // render an App component, giving the CreateDogInput component access to the @realm/react hooks:
     const App = () => (
       <RealmProvider>
-        <CreateHomeOwner />
+        <CreateHomeOwnerInput />
       </RealmProvider>
     );
-    const {findByPlaceholderText, getByText} = render(<App />);
+    const {getByTestId} = render(<App />);
 
-    // get the name and address input fields
-    const nameInput = await findByPlaceholderText('Name');
-    const addressInput = await findByPlaceholderText('Address');
-
-    // simulate the user entering a name and address
-    fireEvent.changeText(nameInput, 'John Doe');
-    fireEvent.changeText(addressInput, '123 Main St');
-
-    // get the "Save" button and click it
-    const saveButton = getByText('Save');
-    fireEvent.press(saveButton);
+    // press the "Add Name" button
+    const handleAddObjBtn = await waitFor(() => getByTestId('handleAddObjBtn'));
+    await act(async () => {
+      fireEvent.press(handleAddObjBtn);
+    });
   });
 });
