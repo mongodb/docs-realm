@@ -136,7 +136,7 @@ Supported Type Implementation Details
 
 Some of the supported types above are aliases for:
 
-- ``mixed``: An alias for an object that could contain any of the other 
+- ``mixed``: A union-like object that can represent a value any of the 
   supported types. It is implemented using the class template 
   `std::variant <https://en.cppreference.com/w/cpp/utility/variant>`__.
   This implementation means that a ``mixed`` property holds a value of 
