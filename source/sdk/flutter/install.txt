@@ -157,3 +157,70 @@ except where otherwise noted.
       .. code-block:: dart
 
         import 'package:realm_dart/realm.dart';
+
+.. _flutter-update-package:
+
+Update Package Version
+----------------------
+
+If you would like to use a version of the Flutter SDK or Dart Standalone SDK
+different from the one currently in your project, follow these steps.
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      #. Add the new SDK version to your :file:`pubspec.yaml` file.
+
+         .. code-block:: yaml
+           :caption: pubspec.yaml
+
+           dependencies:
+             realm: <updated_version>
+
+      #. Install the updated version.
+
+         .. code-block::
+
+            dart pub upgrade realm
+
+      #. Regenerate your Realm Object models.
+
+         .. code-block::
+
+            dart run realm_dart generate
+
+   .. tab:: Dart Standalone
+      :tabid: dart
+
+      #. Add the new SDK version to your :file:`pubspec.yaml` file.
+
+         .. code-block:: yaml
+           :caption: pubspec.yaml
+
+           dependencies:
+             realm_dart: <updated_version>
+
+      #. Install the updated version.
+
+         .. code-block::
+
+            dart pub upgrade realm_dart
+
+      #. Install the updated SDK's native binaries.
+
+         .. code-block::
+
+            dart run realm_dart install
+
+      #. Regenerate your Realm Object models.
+
+         .. code-block::
+
+            dart run realm_dart generate
+
+These steps should make the updated SDK version work in your application.
+If issues persist, you can delete the application from your linked client and
+restart it. Note that this will also delete all data stored in the realm
+on that client.
