@@ -98,7 +98,7 @@ cat's name.
 
 The ``CatInfoCard`` component does the following:
 
-- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use :js-sdk:`filtered() <Realm.Collection.html#filtered>` to filter the results to receive only the cats whose name match the name passed as a prop. We then get the first matching cat and store it as a const variable. 
+- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use ``filtered()`` to filter the results to receive only the cats whose name match the name passed as a prop. We then get the first matching cat and store it as a const variable. 
 - Use dot notation to retrieve the mixed property, ``birthDate``. 
 - Display the cat's name and birthdate in the render method if the cat was found. If there is no cat that matches the name passed into the component as a prop, we render text that says "Cat not found".
 
