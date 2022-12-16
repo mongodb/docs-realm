@@ -100,10 +100,10 @@ In the following ``HomeList`` example, we query for objects that have dictionary
 
 The ``HomeList`` component does the following:
 
-- Query for all homeowners by passing the ``HomeOwner`` class to the ``useQuery`` hook.
-- Query for homeowners with a listed price by passing ``collection.filtered()`` the query: ``home.@keys = "price"``.
-- Query for the summer hill house by running ``collection.filtered()`` using bracket notation to find the first homeowner with an address set to "Summerhill St." and getting their home by using dot syntax. 
-- Query for all homeowners with any field with a value of red by passing ``collection.filtered()`` the query: ``'home.@values = "red"'``. We then get the first homeowner's home.
+- Performs a query for all homeowners by passing the ``HomeOwner`` class to the ``useQuery`` hook.
+- Performs a query for homeowners with a listed price by passing ``collection.filtered()`` the query: ``home.@keys = "price"``.
+- Performs a query for the summer hill house by running ``collection.filtered()`` using bracket notation to find the first homeowner with an address set to "Summerhill St." and getting their home by using dot syntax. 
+- Performs a query for all homeowners with any field with a value of red by passing ``collection.filtered()`` the query: ``'home.@values = "red"'``. We then get the first homeowner's home.
 - Display the results of our queries in the UI by rendering information about the homes
 
 .. tabs-realm-languages::
