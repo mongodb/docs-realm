@@ -239,4 +239,4 @@ class NotificationsTest: RealmTest() {
             realm.close()
         }
     }
-}g
+}
