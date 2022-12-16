@@ -53,14 +53,14 @@ Create an object with a mixed value by running the :js-sdk:`realm.create()
 Example
 ~~~~~~~
 
-In the following ``CreateCatsInput`` example we create several ``Cat`` realm
-objects that have a ``mixed`` type for the ``birthDate`` field. 
+In the following ``CreateCatsInput`` example, we create several ``Cat`` realm
+objects with a ``mixed`` type for the ``birthDate`` field. 
 
 The ``CreateCatsInput`` component does the following:
 
 - Get access to the opened realm instance by calling the ``useRealm()`` hook. 
-- Use React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once, by passing ``useEffect`` an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__ as a second argument.
-- Within the anonymous function, we create four different ``Cat`` objects by using the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator to create a new realm object within a write transaction. Each of the ``Cat`` objects use a different data type for the ``birthDate`` property. 
+- Use React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once by passing ``useEffect`` an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__ as a second argument.
+- Within the anonymous function, we create four different ``Cat`` objects by using the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator to create a new realm object within a write transaction. Each of the ``Cat`` objects uses a different data type for the ``birthDate`` property. 
 - Use the ``useQuery()`` hook to retrieve all ``Cat`` objects.
 - `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the cats to render a list of ``Text`` components displaying each cat's ``name`` and ``birthDate``.
 
@@ -85,7 +85,7 @@ The ``CreateCatsInput`` component does the following:
 
 Query for Objects with a Mixed Value
 ------------------------------------
-Query for objects with a mixed value by running the
+To query for objects with a mixed value, run the
 :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method and
 passing in a :ref:`filter <react-native-filter-queries>` for a non-mixed field. You can
 then print the value of the mixed property or the entire object itself.
@@ -93,14 +93,14 @@ then print the value of the mixed property or the entire object itself.
 Example
 ~~~~~~~
 
-In the following ``CatInfoCard`` example we query for a ``Cat`` object using the
+In the following ``CatInfoCard`` example, we query for a ``Cat`` object using the
 cat's name.
 
 The ``CatInfoCard`` component does the following:
 
-- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use :js-sdk:`filtered() <Realm.Collection.html#filtered>` to filter the results to receive only the cats whose name match the name passed as a prop. We then get the first matching cat, and store it as a const variable. 
+- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use :js-sdk:`filtered() <Realm.Collection.html#filtered>` to filter the results to receive only the cats whose name match the name passed as a prop. We then get the first matching cat and store it as a const variable. 
 - Use dot notation to retrieve the mixed property, ``birthDate``. 
-- Display the cat's name and birthdate in the render method if the cat was found. If there is no cat that matches the name passed in to the component as a prop, we render text that says "Cat not found".
+- Display the cat's name and birthdate in the render method if the cat was found. If there is no cat that matches the name passed into the component as a prop, we render text that says "Cat not found".
 
 .. tabs-realm-languages::
 
