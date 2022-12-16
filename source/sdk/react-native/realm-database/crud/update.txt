@@ -40,7 +40,7 @@ you would update any other JavaScript object.
 In the following example of a ``TaskItem`` component, we:
 
 #. Get access to the opened realm instance by calling the ``useRealm()`` hook within the component. 
-#. Retrieve a task by calling ``useObject()` with "Task" and the ``_id`` parameter of the component.
+#. Retrieve a task by calling ``useObject()`` with "Task" and the ``_id`` parameter of the component.
 #. Create a component method ``incrementTaskProgress()`` that performs a write transaction and increments the task's ``progressMinutes``.
 #. Render the task's ``name`` and ``progressMinutes`` in the UI.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "increment" button that calls ``incrementTaskProgress()``.
@@ -92,7 +92,7 @@ In the following example of a ``CreateTaskItem`` component we:
 
 #. Get access to the opened realm instance by calling the ``useRealm()`` hook within the component. 
 #. Perform a write transaction, and :ref:`create <react-native-create-a-new-object>` a ``Task`` object with an ``_id`` value of ``1234``.
-#. Call `` Realm.create()`` inside the write transaction to upsert a ``Task`` object by specifying the same ``_id`` and a different``progressMinutes`` and the update mode set to "modified".
+#. Call ``Realm.create()`` inside the write transaction to upsert a ``Task`` object by specifying the same ``_id`` and a different``progressMinutes`` and the update mode set to "modified".
 #. Render the task's ``name`` and ``progressMinutes`` in the UI, showing the modified progress. 
 
 .. tabs-realm-languages::
