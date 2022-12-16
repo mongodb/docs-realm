@@ -3,7 +3,6 @@ package com.mongodb.realm.realmkmmapp
 import org.mongodb.kbson.ObjectId
 
 class RQLTest: RealmTest() {
-    // :snippet-start: rql-examples
     class Task() {
         var id: ObjectId = ObjectId()
         lateinit var name: String
@@ -19,5 +18,4 @@ class RQLTest: RealmTest() {
         lateinit var tasks: Array<Task>
         var quota: Int? = null
     }
-    // :snippet-end:
 }
