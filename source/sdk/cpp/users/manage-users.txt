@@ -14,96 +14,50 @@ When you enable the :ref:`email/password provider <email-password-authentication
 in your Atlas App Services App, you can handle user authentication from client code
 by registering a new user account.
 
-.. TODO: Note that "User objects can be accessed from any thread." 
+.. TODO: Note that "User objects can be accessed from any thread."
 
 .. _cpp-register-a-new-user-account:
 
 Register a New User Account
 ---------------------------
-.. TODO: updated this sample
 
-.. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.snippet.register-email.swift
-   :language: swift
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.register-user.cpp
+   :language: cpp
+
+Confirm registration with an email
+----------------------------------
+
+You can use Atlas App Services to :ref:`send a confirmation email <auth-run-a-confirmation-function>` 
+to newly-registered user account email addresses. After confirmation, you can log
+the user in.
 
 Log a Registered User in or out
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. TODO: fill this section out
+
+Users must be registered before you can log them in or out.
+
+To log a user in:
+
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.log-user-in.cpp
+   :language: cpp
+
+To log a user out:
 .. realm::User.log_out()
 
-Retry a User Confirmation Function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. TODO: Detemine if functions work. If so, rewrite for C++
-.. I think they are. realm::User.call_function()
+Handle password resets with an Atlas Function
+---------------------------------------------
 
-.. versionadded:: 10.9.0
+To reset a user password, you can :ref:`run a password reset function 
+<auth-run-a-password-reset-function>`. To do so, you need to properly configure
+your Atlas App Services App.
 
-Retry a :ref:`custom user confirmation function <auth-run-a-confirmation-function>`. 
+1. In the Atlas UI, go to your App
+#. Select :guilabel:`Authentication`, then select the :guilabel:`Authentication Providers` tab
+#. In the :guilabel:`Email/Password` row, press the :guilabel:`EDIT` button
+#. Under :guilabel:`User Confirmation`, select :guilabel:`Run a confirmation function`
+#. Select your confirmation function or create a new function, then press :guilabel:`Save`
 
-.. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.snippet.retry-confirmation-function.swift
-   :language: swift
+Now, you can use the custom password reset function you created in your client code.
 
-.. _cpp-reset-a-users-password:
-
-Reset a User's Password
------------------------
-.. TODO: Determine if this is possible with C++
-
-To reset a user password in Device Sync, you can run a password reset function
-
-Select your preferred password reset method by going to:
-
-1. Your Atlas App Services App
-#. :guilabel:`Authentication`
-#. :guilabel:`Authentication Providers`
-#. :guilabel:`Email/Password` - and press the :guilabel:`EDIT` button
-
-Send a Password Reset Email
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-After you configure your App to :ref:`send a password reset email 
-<auth-send-a-password-reset-email>`, you can call ``sendResetPasswordEmail`` 
-with the user's email. App Services sends an email to the user that contains 
-a unique URL. The user must visit this URL within 30 minutes to confirm 
-the reset.
- 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: swift
-
-      .. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.snippet.reset-password.swift
-         :language: swift
-
-   .. tab::
-      :tabid: objective-c
-
-      .. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.snippet.reset-password-objc.m
-         :language: objectivec
-
-Run a Password Reset Function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When you configure your app to :ref:`run a password reset function 
-<auth-run-a-password-reset-function>`, you'll define the function that 
-should run when you call :swift-sdk:`callResetPasswordFunction() <Extensions/EmailPasswordAuth.html#/s:So20RLMEmailPasswordAuthC10RealmSwiftE09callResetB8Function5email8password4args7Combine6FutureCyyts5Error_pGSS_SSSayAC7AnyBSONOGtF>` 
-from the SDK. This function can take a username, a password, and any number 
-of additional arguments. You can use these arguments to specify details 
-like security question answers or other challenges that the user should 
-pass to successfully complete a password reset.
-
-You might prefer to use a custom password reset function when you want to
-define your own password reset flows. For example, you might send a custom 
-password reset email from a specific domain, or through a service other 
-than email.
-
-.. seealso::
-
-   For more information on how to define a custom password reset function
-   in the Device Sync backend, including how to structure it and examples 
-   of implementing custom flows, see: :ref:`Run a Password Reset Function 
-   <auth-run-a-password-reset-function>`.
- 
-.. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.snippet.password-reset-function.swift
-   :language: swift
-
-.. _cpp-manage-users-completion-handler-example:
+.. TODO: Figure out how to demenstrate call a function through the user object.
