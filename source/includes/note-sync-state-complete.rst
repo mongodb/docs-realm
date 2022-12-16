@@ -9,3 +9,6 @@
      was sent to the server* are now on the local device. Note that this does
      not necessarily include all documents that currently match the
      subscription.
+  
+   The Realm SDK does not provide a way to check whether all documents that
+   match a subscription have synced to the device.
