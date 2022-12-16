@@ -1,7 +1,6 @@
 const HomeList = () => {
-  const realm = useRealm();
   // query for all HomeOwner objects
-  const homeOwners = realm.objects(HomeOwner);
+  const homeOwners = useQuery(HomeOwner);
 
   // run the `.filtered()` method on all the returned homeOwners to
   // find all homeOwners that have a house with a listed price

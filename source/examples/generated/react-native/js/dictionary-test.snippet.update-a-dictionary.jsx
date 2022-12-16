@@ -1,7 +1,7 @@
 const UpdateHome = ({homeOwnerName}) => {
   const [address, setAddress] = useState('');
   const realm = useRealm();
-  const homeOwner = realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
+  const homeOwner = useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
 
   const updateAddress = () => {
     // Update the home object with the new address

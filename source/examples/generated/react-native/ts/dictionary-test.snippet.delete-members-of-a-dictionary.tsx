@@ -1,6 +1,6 @@
 const HomeInfo = ({homeOwnerName}: {homeOwnerName: string}) => {
   const realm = useRealm();
-  const homeOwner = realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
+  const homeOwner = useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
 
   const deleteExtraHomeInfo = () => {
     realm.write(() => {

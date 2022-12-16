@@ -46,7 +46,7 @@ integers or ``"string{}"`` to specify that dictionary values must be strings.
 Create an Object with a Dictionary Value
 ----------------------------------------
 
-To create an object with a dictionary value use the :mdn:`new
+To create an object with a dictionary value, use the :mdn:`new
 <Web/JavaScript/Reference/Operators/new>` operator within a :ref:`write
 transaction <react-native-write-transactions>`. 
 
@@ -59,7 +59,7 @@ The ``CreateHomeOwner`` component does the following:
 
 - Create React `state <https://reactjs.org/docs/react-component.html#state>`__ that represents the homeowner's name and address, respectively.
 - Get access to an open realm instance by calling the ``useRealm()`` hook within the component.
-- Create a component method ``SubmitHomeOwner()`` that performs a write transaction and creates a new ``HomeOwner`` object based on the ``TextInput`` valuesg for the homeowner's name and address, respectively.
+- Create a component method ``SubmitHomeOwner()`` that performs a write transaction and creates a new ``HomeOwner`` object based on the ``TextInput`` values for the homeowner's name and address, respectively.
 - Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``SubmitHomeOwner()``
 
 .. tabs-realm-languages::
@@ -85,7 +85,7 @@ Query for Objects with a Dictionary Property
 To filter a query, run :js-sdk:`collection.filtered()
 <Realm.Collection.html#filtered>` to specify a subset of results based on the
 value(s) of one or more object properties. You can specify results based on the value of a 
-dictionary's properties by using :mdn:`bracket-notation <Web/JavaScript/Reference/Operators/Property_accessors>`.
+dictionary's properties by using :mdn:`bracket notation <Web/JavaScript/Reference/Operators/Property_accessors>`.
 
 You can also determine whether a results collection has a certain key or value
 by using ``<dictionary>.@keys`` or ``<dictionary>.@values``. For instance, if

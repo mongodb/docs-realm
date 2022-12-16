@@ -10,7 +10,7 @@ const realmConfig = {
   deleteRealmIfMigrationNeeded: true,
 };
 
-const {RealmProvider, useRealm} = createRealmContext(realmConfig);
+const {RealmProvider, useRealm, useQuery} = createRealmContext(realmConfig);
 
 let assertionRealm;
 
@@ -102,9 +102,8 @@ describe('Dictionary Tests', () => {
     //   }
     // }
     const HomeList = () => {
-      const realm = useRealm();
       // query for all HomeOwner objects
-      const homeOwners = realm.objects(HomeOwner);
+      const homeOwners = useQuery(HomeOwner);
 
       // run the `.filtered()` method on all the returned homeOwners to
       // find all homeOwners that have a house with a listed price
@@ -182,7 +181,7 @@ describe('Dictionary Tests', () => {
     const UpdateHome = ({homeOwnerName}) => {
       const [address, setAddress] = useState('3 jefferson lane');
       const realm = useRealm();
-      const homeOwner = realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
+      const homeOwner = useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
 
       const updateAddress = () => {
         // Update the home object with the new address
@@ -234,7 +233,7 @@ describe('Dictionary Tests', () => {
     // }
     const HomeInfo = ({homeOwnerName}) => {
       const realm = useRealm();
-      const homeOwner = realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
+      const homeOwner = useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
 
       const deleteExtraHomeInfo = () => {
         realm.write(() => {
