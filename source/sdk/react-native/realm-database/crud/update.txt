@@ -127,7 +127,7 @@ In the following example of a ``TaskDashboard`` component, we:
 
 #. Get access to the opened realm instance by calling the ``useRealm()`` hook within the component.
 #. Retrieve all tasks in the realm instance by passing "Task" to the ``useQuery()`` hook.
-#. Create a component method resetProgressOnAllTasks() that performs a write transaction. Within that write transaction, we bulk update all tasks by looping through them using ``for...of`` and set their ``progressMinutes`` to 0.
+#. Create a component method ``resetProgressOnAllTasks()`` that performs a write transaction. Within that write transaction, we bulk update all tasks by looping through them using ``for...of`` and set their ``progressMinutes`` to 0.
 #. `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the tasks to render a list of ``Text`` components displaying each task's ``name`` and ``progressMinutes``.
 
 .. tabs-realm-languages::
