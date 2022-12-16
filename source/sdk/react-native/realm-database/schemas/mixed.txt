@@ -13,9 +13,10 @@ Mixed - React Native SDK
 
 Overview
 --------
-The mixed data type is a realm property type that can hold any valid Realm data type except a collection.
-You can create collections (lists, sets, and dictionaries) of type ``mixed``, but a ``mixed`` itself 
-cannot be a collection. Properties using the mixed data type can also hold null values.
+The mixed data type is a realm property type that can hold any valid Realm data
+type except a collection. You can create collections (lists, sets, and
+dictionaries) of type ``mixed``, but a ``mixed`` type itself cannot be a
+collection. Properties using the mixed data type can also hold null values.
 
 .. note::
 
@@ -98,9 +99,9 @@ cat's name.
 
 The ``CatInfoCard`` component does the following:
 
-- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use ``filtered()`` to filter the results to receive only the cats whose name match the name passed as a prop. We then get the first matching cat and store it as a const variable. 
+- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use ``filtered()`` to filter the results to receive only the cats whose names match the name passed as a prop. We then get the first matching cat and store it as a const variable. 
 - Use dot notation to retrieve the mixed property, ``birthDate``. 
-- Display the cat's name and birthdate in the render method if the cat was found. If there is no cat that matches the name passed into the component as a prop, we render text that says "Cat not found".
+- Display the cat's name and birthdate in the render method if Realm finds the cat. If there is no cat that matches the name passed into the component as a prop, we render text that says "Cat not found".
 
 .. tabs-realm-languages::
 
