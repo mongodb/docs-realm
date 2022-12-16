@@ -22,6 +22,7 @@ struct SyncDog : realm::object {
 };
 
 // :snippet-start: define-models
+// :snippet-start: single-object-model
 // Define your models like regular structs.
 struct Dog : realm::object {
     realm::persisted<std::string> name;
@@ -31,6 +32,7 @@ struct Dog : realm::object {
         realm::property<&Dog::name>("name"),
         realm::property<&Dog::age>("age"));
 };
+// :snippet-end:
 
 struct Person : realm::object {
     realm::persisted<std::string> _id;
@@ -65,6 +67,52 @@ TEST_CASE("first test case", "[test]") {
         realm.add(dog);
     });
     // :snippet-end:
+}
+
+TEST_CASE("create a dog", "[write]") {
+    // :snippet-start: create-an-object
+    // Create a Realm object like a regular object.
+    auto dog = Dog { .name = "Rex", .age = 1 };
+    
+    std::cout << "dog: " << dog << "\n";
+
+    // Open a realm with compile-time schema checking.
+    auto realm = realm::open<Dog>();
+
+    // Persist your data in a write transaction
+    realm.write([&realm, &dog] {
+        realm.add(dog);
+    });
+    // :snippet-end:
+}
+
+TEST_CASE("update a dog", "[write][update]") {
+    auto dog = Dog { .name = "Maui", .age = 1 };
+
+    auto realm = realm::open<Dog>();
+
+    realm.write([&realm, &dog] {
+        realm.add(dog);
+    });
+
+    // :snippet-start: update-an-object
+    // Query for the object you want to update
+    auto dogs = realm.objects<Dog>();
+    auto dogsNamedMaui = dogs.where("name == $0", {"Maui"});
+    CHECK(dogsNamedMaui.size() >= 1);
+    // Access an object in the results set. 
+    auto mauiPointer = dogsNamedMaui[0];
+    REQUIRE(mauiPointer->age == 1); // :remove:
+
+    std::cout << "Dog " << mauiPointer->name << " is " << mauiPointer->age << " years old\n";
+
+    realm.write([&realm, &mauiPointer] {
+        mauiPointer->age = 2;
+    });
+
+    std::cout << "Dog " << mauiPointer->name << " is " << mauiPointer->age << " years old\n";
+    // :snippet-end:
+    REQUIRE(mauiPointer->age == 2);
 }
 
 TEST_CASE("open a default realm", "[realm]") {

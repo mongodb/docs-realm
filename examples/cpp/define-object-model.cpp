@@ -86,6 +86,7 @@ struct Company : realm::object {
 // :snippet-end:
                                                  
 TEST_CASE("create an embedded object", "[model][write]") {
+    // :snippet-start: create-embedded-object
     auto realm = realm::open<Business, ContactDetails>();
 
     auto business = Business { .name = "MongoDB" };
@@ -99,6 +100,8 @@ TEST_CASE("create an embedded object", "[model][write]") {
     realm.write([&realm, &business] {
         realm.add(business);
     });
+    // :snippet-end:
+
     auto businesses = realm.objects<Business>();
     auto mongoDBPointer = businesses[0];
     REQUIRE(businesses.size() >= 1);
@@ -126,6 +129,7 @@ TEST_CASE("create object with ignored property", "[model][write]") {
 };
 
 TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
+    // :snippet-start: create-object-with-to-one-relationship
     auto realm = realm::open<PointOfInterest, GPSCoordinates>();
 
     auto gpsCoordinates = GPSCoordinates { .latitude = 36.0554, .longitude = 112.1401 };
@@ -135,6 +139,7 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     realm.write([&realm, &pointOfInterest] {
         realm.add(pointOfInterest);
     });
+    // :snippet-end:
 
     auto pointsOfInterest = realm.objects<PointOfInterest>();
     auto namedGrandCanyonVillage = pointsOfInterest.where("name == $0", {"Grand Canyon Village"});
@@ -151,6 +156,7 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
 };
 
 TEST_CASE("create object with to-many relationship", "[model][write][relationship]") {
+    // :snippet-start: create-object-with-to-many-relationship
     auto realm = realm::open<Company, Employee>();
 
     auto employee1 = Employee {
@@ -165,19 +171,94 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
         .name = "Dunder Mifflin"
     };
     
+    // Use the `push_back` member function available to the 
+    // `ListObjectPersistable<T>` template to append `Employee` objects to
+    // the `Company` `employees` list property. 
     company.employees.push_back(employee1);
     company.employees.push_back(employee2);
 
-    realm.write([&realm, &employee1, &employee2, &company] {
+    realm.write([&realm, &company] {
         realm.add(company);
     });
-    
+    // :snippet-end:
+
+    // :snippet-start: check-size-and-access-results
+    // :snippet-start: read-objects-from-realm
     auto companies = realm.objects<Company>();
+    // :snippet-end:
+    // :snippet-start: filter-using-type-safe-query
     auto namedDunderMifflin = companies.where("name == $0", {"Dunder Mifflin"});
+    // :snippet-end:
     CHECK(namedDunderMifflin.size() >= 1);
     auto dunderMifflin = namedDunderMifflin[0];
-    std::cout << "Company named:" << dunderMifflin->name << "\n";
+    std::cout << "Company named: " << dunderMifflin->name << "\n";
+    // :snippet-end:
+
     REQUIRE(dunderMifflin->name == "Dunder Mifflin");
     auto employeeCount = dunderMifflin->employees.size();
     REQUIRE(employeeCount >= 2);
+    auto companyEmployees = dunderMifflin->employees;
+    auto employees = realm.objects<Employee>();
+    auto employeesNamedJim = employees.where("firstName == $0", {"Jim"});
+    REQUIRE(employeesNamedJim.size() >= 1);
 };
+
+TEST_CASE("update an embedded object", "[model][update]") {
+    auto realm = realm::open<Business, ContactDetails>();
+
+    auto business = Business { .name = "MongoDB" };
+    business.contactDetails = ContactDetails { 
+        .emailAddress = "email@example.com", 
+        .phoneNumber = "123-456-7890"
+    };
+
+    realm.write([&realm, &business] {
+        realm.add(business);
+    });
+    // :snippet-start: update-embedded-object
+    auto businesses = realm.objects<Business>();
+    auto mongoDBPointer = businesses[0];
+    REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com"); // :remove:
+
+    realm.write([&realm, &mongoDBPointer] {
+        (*mongoDBPointer->contactDetails).emailAddress = "info@example.com";
+    });
+
+    std::cout << "New email address: " << (*mongoDBPointer->contactDetails).emailAddress << "\n";
+    // :snippet-end:
+    REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "info@example.com");
+}
+
+#if 0
+TEST_CASE("overwrite an embedded object", "[model][update]") {
+    auto realm = realm::open<Business, ContactDetails>();
+
+    auto business = Business { .name = "My Awesome Business" };
+    business.contactDetails = ContactDetails { 
+        .emailAddress = "email@example.com", 
+        .phoneNumber = "123-456-7890"
+    };
+
+    realm.write([&realm, &business] {
+        realm.add(business);
+    });
+    // :snippet-start: overwrite-embedded-object
+    auto businesses = realm.objects<Business>();
+    auto namedMyAwesomeBusiness = businesses.where("name == $0", {"My Awesome Business"});
+    auto myAwesomeBusinessPointer = namedMyAwesomeBusiness[0];
+    REQUIRE((*myAwesomeBusinessPointer->contactDetails).emailAddress == "email@example.com"); // :remove:
+
+    auto newContactDetails = ContactDetails { 
+        .emailAddress = "info@example.com", 
+        .phoneNumber = "234-567-8901"
+    };
+
+    realm.write([&realm, &myAwesomeBusinessPointer, &newContactDetails] {
+        (*myAwesomeBusinessPointer).contactDetails = newContactDetails;
+    });
+
+    std::cout << "New contact info: " << (*myAwesomeBusinessPointer->contactDetails) << "\n";
+    // :snippet-end:
+    REQUIRE((*myAwesomeBusinessPointer->contactDetails).phoneNumber == "234-567-8901");
+}
+#endif
