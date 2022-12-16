@@ -6,13 +6,14 @@ const TaskSchema = {
     _id: "int",
     name: "string",
     status: "string?",
+    owner_id: "string?",
   },
   primaryKey: "_id",
 };
 
 async function quickStart() {
   const realm = await Realm.open({
-    path: "myrealm",
+    path: "realm-files/myrealm",
     schema: [TaskSchema],
   });
 
