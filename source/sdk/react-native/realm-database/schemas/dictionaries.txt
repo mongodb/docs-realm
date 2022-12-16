@@ -100,8 +100,7 @@ In the following ``HomeList`` example, we query for objects that have dictionary
 
 The ``HomeList`` component does the following:
 
-- Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
-- Query for all homeowners by passing ``HomeOwner`` to :js-sdk:`Realm.objects() <Realm.html#objects>`.
+- Query for all homeowners by passing the ``HomeOwner`` class to the ``useQuery`` hook.
 - Query for homeowners with a listed price by passing ``collection.filtered()`` the query: ``home.@keys = "price"``.
 - Query for the summer hill house by running ``collection.filtered()`` using bracket notation to find the first homeowner with an address set to "Summerhill St." and getting their home by using dot syntax. 
 - Query for all homeowners with any field with a value of red by passing ``collection.filtered()`` the query: ``'home.@values = "red"'``. We then get the first homeowner's home.
@@ -138,7 +137,7 @@ In the following ``UpdateHome`` example, we update a dictionary's property.
 The ``UpdateHome`` component does the following:
 
 - Create a React `state <https://reactjs.org/docs/react-component.html#state>`__ variable that represents the home address.
-- Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
+- Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
 - Create a component method ``updateAddress()`` that performs a write transaction and uses ``dictionary.set()`` to set the home's address to the value of the ``address`` state variable. It also uses dot syntax to set the ``yearRenovated`` to ``2004``.
 - Render a ``TextInput`` that displays and changes the ``address`` state variable.
 - Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Update Address" button that calls ``updateAddress()``
@@ -175,7 +174,7 @@ In the following ``HomeInfo`` example, we delete members of a dictionary.
 The ``HomeInfo`` component does the following:
 
 - Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
-- Retrieve the first homeowner that matches the name passed into the component as a prop. We do this by getting the first value returned from the query: ``realm.objects(HomeOwner).filtered(`name == '${homeOwnerName}'`)``.
+- Retrieve the first homeowner that matches the name passed into the component as a prop. We do this by getting the first value returned from the query: ``useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)``.
 - Create a component method ``deleteExtraHomeInfo()`` that performs a write transaction and calls ``dictionary.remove()`` to remove the ``yearRenovated`` and ``color`` properties.
 - Render the homeowner's name and home address in the UI.
 - Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Delete extra home info" button that calls ``deleteExtraHomeInfo()``.
