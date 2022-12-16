@@ -34,16 +34,16 @@ The example on this page uses the following schema:
 Create a New Object
 -------------------
 
-To add an object to a realm, instantiate it as you would any other object and
-then use the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator to
-create a new realm object inside of a write transaction. If the realm's
+To add an object to a realm instance, instantiate it as you would any other
+object and then use the :mdn:`new <Web/JavaScript/Reference/Operators/new>`
+operator to create a new Realm object inside of a write transaction. If the
 :ref:`schema <react-native-realm-schema>` includes the object type and the
-object conforms to the schema, then Realm stores the object, which is now
-*managed* by the realm.
+object conforms to the schema, then Realm Database stores the object, which is
+now *managed* by the realm instance.
 
 In the following example of a ``CreateDogInput`` component, we:
 
-#. Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
+#. Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
 #. Create a component method ``handleAddItem()`` that performs a :ref:`write transaction <react-native-write-transactions>`, and creates a new ``Dog`` :js-sdk:`object <Realm.Object.html>` based on the TextInput value.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddItem()`` 
 
