@@ -18,6 +18,7 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.log.RealmLogger
+import io.realm.kotlin.query.RealmResults
 import kotlinx.coroutines.*
 //import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.launch
