@@ -20,7 +20,7 @@ const CreateCatsInput = () => {
       // create a Dog with a birthDate value of type null
       new Cat(realm, {name: 'Pythagoras', birthDate: null});
     });
-  }, [realm]);
+  }, []);
 
   // retrieve all cats
   const cats = useQuery(Cat);
