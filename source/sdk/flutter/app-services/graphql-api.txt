@@ -73,7 +73,9 @@ Set Up GraphQL Client
 
    .. step:: Instantiate an App Services Client & Log In a User
 
-      Instantiate the App Services client and log in a user.
+      Instantiate the App Services client to connect to the backend.
+      You must log a user in to the ``App`` client to authenticate requests
+      to the Atlas GraphQL API with the user's access token.
       This example also invokes ``Timer.periodic()`` to refresh the access token
       in the background. The access token doesn't refresh automatically.
 
@@ -84,11 +86,16 @@ Set Up GraphQL Client
 
       Now you can use the logged in user's :flutter-sdk:`accessToken <realm/User/accessToken.html>`
       property to authenticate with the Atlas GraphQL API.
+      To query the GraphQL API as a user, use Bearer token authentication
+      with the user's ``accessToken``.
 
       Use the ``graphql`` package to create a GraphQL client to run queries from.
 
       .. literalinclude:: /examples/generated/flutter/graphql_test.snippet.create-gql-client.dart
          :language: dart
+
+      To learn more about the ways to authenticate requests to the Atlas GraphQL API,
+      refer to :ref:`graphql-authentication` in the App Services documentation.
 
 .. _flutter-run-queries-mutations:
 
