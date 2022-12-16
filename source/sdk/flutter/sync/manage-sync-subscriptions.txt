@@ -29,6 +29,30 @@ To use Flexible Sync in a Flutter application:
 #. :ref:`Authenticate a user <flutter-authenticate>` in the client
 #. :ref:`Open the synced realm <flutter-open-synced-realm>` in the client
 
+.. _flutter-align-subscription-with-app:
+
+Align Subscriptions with Backend App
+------------------------------------
+
+Your client-side subscription queries must align with the Device Sync configuration
+in your backend App Services App.
+
+You subscription queries can either:
+
+- **Query all objects of a type.**
+  Create the query using :flutter-sdk:`Realm.all() <realm/Realm/all.html>`.
+- **Query objects that match backend App's queryable fields.**
+  Create the query using :flutter-sdk:`Realm.query() <realm/Realm/query.html>`
+  and a Realm Query Language query that includes one or more queryable fields.
+  The Realm SDK throws an error if you try to create a subscription using fields
+  that are not queryable.
+
+  - To learn more about configuring queryable fields,
+    refer to :ref:`Queryable Fields <queryable-fields>` in the App Services documentation.
+  - To learn more about the limitations of using Realm Query Language with Flexible Sync,
+    refer to the :ref:`Flexible Sync RQL Limitations
+    <flutter-flexible-sync-rql-limitations>` section.
+
 Manage Your Subscriptions
 -------------------------
 
@@ -37,7 +61,7 @@ client application can query. In the client application, use the
 :flutter-sdk:`Realm.subscriptions <realm/Realm/subscriptions.html>` property to
 manage a set of subscriptions to specific queries on queryable fields.
 
-You can:
+You can do the following with your subscriptions:
 
 - Get a list of all subscriptions
 - Add subscriptions
@@ -47,6 +71,12 @@ You can:
 
 When the data matches the subscription, and the authenticated user has the
 appropriate permissions, Device Sync syncs the backend data with the client app.
+
+Subscription sets persist across sessions even if you no longer include
+the subscription in your code.
+Subscription information is stored in the synced realm's database file.
+You must explicitly remove a subscription
+for it to stop attempting to sync matching data.
 
 You can specify a string name for your subscription. If you do not give your
 subscription a name, the name is set to ``null``.
