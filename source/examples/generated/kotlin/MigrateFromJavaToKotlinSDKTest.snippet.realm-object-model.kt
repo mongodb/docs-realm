@@ -14,5 +14,5 @@ class Sample : RealmObject {
         RealmInstant.from(
             100,
             1000)
-    var objectIdField: ObjectId = ObjectId.create()
+    var objectIdField: ObjectId = ObjectId()
 }

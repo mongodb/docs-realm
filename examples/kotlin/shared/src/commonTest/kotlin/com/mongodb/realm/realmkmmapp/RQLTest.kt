@@ -1,11 +1,10 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.kotlin.types.ObjectId
+import org.mongodb.kbson.ObjectId
 
 class RQLTest: RealmTest() {
-    // :snippet-start: rql-examples
     class Task() {
-        var id: ObjectId = ObjectId.create()
+        var id: ObjectId = ObjectId()
         lateinit var name: String
         var isComplete: Boolean = false
         var assignee: String? = null
@@ -14,10 +13,9 @@ class RQLTest: RealmTest() {
     }
 
     class Project() {
-        var id: ObjectId = ObjectId.create()
+        var id: ObjectId = ObjectId()
         lateinit var name: String
         lateinit var tasks: Array<Task>
         var quota: Int? = null
     }
-    // :snippet-end:
 }
