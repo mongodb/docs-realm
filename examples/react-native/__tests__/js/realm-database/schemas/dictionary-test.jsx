@@ -79,7 +79,7 @@ describe('Dictionary Tests', () => {
         <CreateHomeOwner />
       </RealmProvider>
     );
-    const {getByTestId, findByTestId} = render(<App />);
+    const {findByTestId} = render(<App />);
     const submitHomeOwnerBtn = await waitFor(() => findByTestId('submitHomeOwnerBtn'), {
       timeout: 5000,
     });

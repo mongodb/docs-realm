@@ -8,7 +8,7 @@ const CreateHomeOwner = () => {
     realm.write(() => {
       new HomeOwner(realm, {
         name: homeOwnerName,
-        // For the dictionary field, 'home', set it's value to a regular javascript object
+        // For the dictionary field, 'home', set the value to a regular javascript object
         home: {
           address,
         },
