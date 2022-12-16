@@ -191,6 +191,11 @@ different from the one currently in your project, follow these steps.
 
             dart run realm_dart generate
 
+      These steps should make the updated SDK version work in your application.
+      If issues persist, you can delete the application from your linked client and
+      restart it. Note that this will also delete all data stored in the realm
+      on that client.
+
    .. tab:: Dart Standalone
       :tabid: dart
 
@@ -220,6 +225,8 @@ different from the one currently in your project, follow these steps.
 
             dart run realm_dart generate
 
-These steps should make the updated SDK version work in your application.
-If issues persist, you can delete the application from your device and
-restart it. Note that this will also delete all data stored in the realm.
+      These steps should make the updated SDK version work in your application.
+      If issues persist, delete the ``.realm`` database file created by the SDK,
+      and restart the application.
+      Note that deleting the ``.realm`` file also deletes all data stored in the realm
+      on that client.
