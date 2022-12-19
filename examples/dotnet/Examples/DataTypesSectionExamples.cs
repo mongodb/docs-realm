@@ -221,29 +221,6 @@ namespace Examples
             });
 
         }
-
-
-
-        private void TestRealmValue()
-        {
-            var obj = new MyRealmValueObject();
-
-            // set the value to null:
-            obj.MyValue = RealmValue.Null;
-
-            // or an int...
-            obj.MyValue = 1;
-
-            // or a string...
-            obj.MyValue = "abc";
-
-            // Use RealmValueType to check the type:
-            if (obj.MyValue.Type == RealmValueType.String)
-            {
-                var myString = obj.MyValue.AsString();
-            }
-        }
-        //:snippet-end:
     }
 
     // :snippet-start:realmint-class
@@ -334,7 +311,26 @@ namespace Examples
 
         // A nullable RealmValue property is *not supported*
         // public RealmValue? NullableRealmValueNotAllowed { get; set; }
-    }
-    //:snippet-end:
 
+        private void TestRealmValue()
+        {
+            var obj = new MyRealmValueObject();
+
+            // set the value to null:
+            obj.MyValue = RealmValue.Null;
+
+            // or an int...
+            obj.MyValue = 1;
+
+            // or a string...
+            obj.MyValue = "abc";
+
+            // Use RealmValueType to check the type:
+            if (obj.MyValue.Type == RealmValueType.String)
+            {
+                var myString = obj.MyValue.AsString();
+            }
+        }
+        //:snippet-end:
+    }
 }

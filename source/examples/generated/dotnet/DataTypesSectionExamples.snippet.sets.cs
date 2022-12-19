@@ -1,4 +1,4 @@
-public class Inventory : RealmObject
+public partial class Inventory : IRealmObject
 {
     // A Set can contain any Realm-supported type, including
     // objects that inherit from RealmObject

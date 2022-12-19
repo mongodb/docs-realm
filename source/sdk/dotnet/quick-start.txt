@@ -37,12 +37,7 @@ Your application's :ref:`object model <dotnet-objects>` defines
 the data that you can store within Realm Database and synchronize
 to and from App Services.
 
-.. important:: Inheritance
-
-   All Realm objects must derive from 
-   :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
-   :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
-   :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`.
+.. include:: /includes/dotnet-implement-interface.rst
 
 The following code shows how to define an object model for a ``Item`` object. In 
 this example, we have marked the ``Id`` field as the Primary Key, marked the 
