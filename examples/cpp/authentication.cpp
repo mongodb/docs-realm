@@ -27,6 +27,9 @@ TEST_CASE("create and log in a user", "[realm]") {
 
     CHECK(user.state() == realm::User::state::logged_in);
 
-    // TODO: delete test users. Should probably be added to the end of `examples.cpp`.
-    // auto result = user.call_function("deleteAllUsers", {realm::bson::BsonDocument({{"name", "john"}})}).get_future().get();
+    // :snippet-start: log-user-out
+    user.log_out().get_future().get();
+    // :snippet-end:
+
+    CHECK(user.state() == realm::User::state::logged_out);
 }

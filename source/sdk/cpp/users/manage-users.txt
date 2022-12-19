@@ -1,7 +1,7 @@
-.. _cpp-manage-email-password-users:
+.. _cpp-manage-users:
 
 =======================================
-Manage Email/Password Users - C++ SDK
+Manage Users - C++ SDK
 =======================================
 
 .. contents:: On this page
@@ -13,10 +13,6 @@ Manage Email/Password Users - C++ SDK
 When you enable the :ref:`email/password provider <email-password-authentication>` 
 in your Atlas App Services App, you can handle user authentication from client code
 by registering a new user account.
-
-.. TODO: Note that "User objects can be accessed from any thread."
-
-.. _cpp-register-a-new-user-account:
 
 Register a New User Account
 ---------------------------
@@ -31,9 +27,10 @@ You can use Atlas App Services to :ref:`send a confirmation email <auth-run-a-co
 to newly-registered user account email addresses. After confirmation, you can log
 the user in.
 
+.. _cpp-authenticate-user:
+
 Log a Registered User in or out
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. TODO: fill this section out
 
 Users must be registered before you can log them in or out.
 
@@ -43,7 +40,9 @@ To log a user in:
    :language: cpp
 
 To log a user out:
-.. realm::User.log_out()
+
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.log-user-out.cpp
+   :language: cpp
 
 Handle password resets with an Atlas Function
 ---------------------------------------------
