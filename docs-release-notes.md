@@ -1,3 +1,71 @@
+# December 16, 2022
+
+## C++ SDK
+- Model Data: New section containing the following pages w/tested code examples:
+  - Object Types & Schemas
+  - Supported Data Types
+  - Relationships
+- Connect to App Services: New page showing how to connect to an App Services app
+
+## Flutter SDK
+- Install Realm for Flutter: New "Update Package Version" section showing how to update Flutter SDK or Dart Standalone SDK in your project
+- Manage Users/Custom User Data: New page with tested code example showing how to write custom user data from an Atlas Function
+- Atlas App Services/Query Atlas GraphQL API: New page with tested code examples showing how to query & mutate data in MongoDB Atlas from the client app using the Atlas GraphQL API
+- Sync Device Data:
+  - Manage Subscriptions: Add more information about how subscriptions relate to the backend app/queryable fields/RQL, and how subscriptions are stored
+  - Write Data to a Synced Realm: New page detailing more explicitly Sync subscription behavior and permissions and compensating writes
+- SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+
+## Java SDK
+- Usage Examples/Sync Changes Between Devices: Add a note to the "Check Upload & Download Progress" section about Flexible Sync progress notifications only reporting a notification after changes are synced
+- SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+
+## Kotlin SDK
+- Quick Start: Fix broken link
+- Realm Database
+  - Schemas/Supported Types
+    - Add `MutableRealmInt`, `RealmList<T>`, `RealmSet<T>`, and `BacklinksDelegate<T>` to the list of supported types
+    - Add note about importing `ObjectId` from `org.mongodb.kbson.ObjectId` in Realm Kotlin SDK version 1.5.x or higher
+  - Open & Close a Realm: New "Open an In Memory Realm" section with tested code example showing how to open a realm in memory
+- SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+
+## .NET SDK
+- Working with Unity: Typo fix
+- Sync Data/Check Upload & Download Progress: Add a note about Flexible Sync progress notifications only reporting a notification after changes are synced
+- SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+
+## Node.js SDK
+- Quick Start
+  - Merge the local & sync quick starts into one quick start, with the optional step of Add Device Sync
+  - Replace manual code examples with tested code examples generated with Bluehawk
+- Usage Examples/Sync Changes Between Devices: Add a note to the "Check Upload & Download Progress" section about Flexible Sync progress notifications only reporting a notification after changes are synced
+- SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+
+## React Native SDK
+- Quick Start
+  - Merge the local & sync quick starts into one quick start, with the optional step of Add Device Sync
+  - Replace manual code examples with tested code examples generated with Bluehawk
+- Sync Data/Check Upload & Download Progress: Add a note about Flexible Sync progress notifications only reporting a notification after changes are synced
+- SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+
+## Swift SDK
+- Sync Data/Check Upload & Download Progress: Add a note about Flexible Sync progress notifications only reporting a notification after changes are synced
+- SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+
+## Web SDK
+- SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+
+## Other
+- Landing Page: Add card for C++ SDK
+- Realm SDK Telemetry: New page with information about the telemetry data that the Realm SDKs collect, and how to disable it
+- Internal: 
+  - Created a new React Native unit test suite that is specific to React Native and uses components as well as `@realm/react`
+    - Add tests & generate code snippets for the "Change an Object Model" page
+  - Kotlin SDK
+    - Fix bug in unit test suite
+    - Switch to importing `ObjectId` from `org.mongodb.kbson.ObjectId`, change `ObjectId.create()` to `ObjectId()` in tests & generated code examples
+  - Various Snyk and Dependabot upgrades and version bumps in example apps
+
 # December 9, 2022
 
 ## C++ SDK
