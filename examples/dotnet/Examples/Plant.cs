@@ -6,7 +6,6 @@ namespace Examples.Models
 {
     // :snippet-start: plant-class
     public partial class Plant : IRealmObject
-    //:remove-end:
     {
         //:remove-start:
         [PrimaryKey]
