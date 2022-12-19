@@ -105,21 +105,156 @@ Object you have defined.
    To learn the various types that a Realm Object Model accepts, how to specify optional fields, define relationships, embedded objects, primary keys, and more, check out the :ref:`Schemas <react-native-schemas-overview>` section.
 
 
-
 .. _react-native-define-objects-with-js-classes:
 
-Define Realm Object Types with JavaScript Classes
--------------------------------------------------
+Define Realm Object Types Using a Class
+---------------------------------------
 
-You can define Realm object types with JavaScript classes. To use a class as an
-object type, define the object schema on the static property ``schema``. 
+.. tabs-realm-languages::
 
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
-     :language: javascript
-   
-Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object when opening a realm. You can then :doc:`read and write
-</sdk/node/examples/read-and-write-data>` normally.
+   .. tab::
+      :tabid: typescript
 
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-     :language: javascript
+      You can declare a Realm Object Model using TypeScript property types
+      declarations on classes. The Realm JS SDK will derive the schema at runtime from
+      the types declared in your TS source files. This allows you to use TypeScript
+      syntax without needing to explicitly define a schema.
+
+      .. note:: Prerequisites
+
+         To define Realm Object Model using TypeScript, you must install the
+         Realm Babel Plugin and add it to your Babel config file. If you have
+         not already done so you can follow the installation procedure in
+         :ref:`TypeScript Support <react-native-typescript-support>`
+
+      Define Realm object types using a class `TypeScript
+      <https://www.typescriptlang.org/docs/handbook/2/classes.htmll>`_ by
+      extending :js-sdk:`Realm.Object <Realm.Object.html>`.
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.ts
+         :language: typescript
+
+      Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
+      <Realm.html#~Configuration>` object when opening a realm. You can then
+      :doc:`read data </sdk/node/examples/read-and-write-data>` normally. 
+
+      Classes extending ``Realm.Object`` call :js-sdk:`Realm.create()
+      <Realm.html#create>` when you call their constructor, so you do not need to
+      explicitly call ``Realm.create()``. Realm objects using ``new`` can only be
+      created within a write transaction.
+         
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.ts
+         :language: typescript
+
+      You can optionally add a constructor in your class. This may be useful if
+      you need to set a value based on some calculation. In the following
+      example, we define a constructor and round the ``miles`` travelled to the
+      nearest integer.
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes-with-constructor.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      You can define Realm object types using a `class
+      <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes>`_ by
+      extending :js-sdk:`Realm.Object <Realm.Object.html>`. Within your class, define
+      the object schema on the static property ``schema``.
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
+         :language: javascript  
+            
+      Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
+      <Realm.html#~Configuration>` object when opening a realm. You can then
+      :doc:`read data </sdk/node/examples/read-and-write-data>` normally. Class based
+      models call :js-sdk:`Realm.create() <Realm.html#create>` when you call their
+      constructor, so you do not need to explicitly call ``Realm.create()``.
+      
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
+         :language: javascript
+
+      You can optionally add a constructor in your class. This may be useful if
+      you need to set a value based on some calculation. In the following
+      example, we define a constructor and round the ``miles`` travelled to the
+      nearest integer.
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes-with-constructor.js
+         :language: javascript  
+
+Supported TypeScript Types
+--------------------------
+
+The Realm Babel plugin supports standard TypeScript types wherever possible to make
+defining your model feel like a native TypeScript experience. Some Realm types
+do not have a direct TypeScript equivalent. For example, ``double``, ``int``,
+and ``float`` are all represented by ``number`` in TypeScript). In these cases,
+use the types provided by ``Realm.Types``.
+
+We recommend using TypeScript types wherever possible and using ``Realm.Types``
+where you cannot.
+
+The top-level Realm namespace and ``Realm.Types`` exports various types, such as
+``Realm.List``. You can import from either in your models.
+
+The table below details the supported types:
+
+.. include:: /includes/supported-typescript-types.rst
+
+Additional Schema Properties (TypeScript)
+-----------------------------------------
+If you are using TypeScript, you can specify additional schema properties. Add
+them as ``static`` properties of your class. The following additional schema
+properties can be defined:
+
+.. list-table::
+
+   * - Static Property
+     - Type
+     - Description
+
+   * - ``name``
+     - *string*
+     - The name of the Realm schema. Defaults to your class name.
+
+   * - ``primaryKey``
+     - *string*
+     - The name of a property to be used as the primary key.
+
+   * - ``embedded``
+     - *boolean*
+     - Defines the Realm Object Model as an embedded object (nested Realm object).
+
+   * - ``asymmetric``
+     - *boolean*
+     - Specifies this Realm Object Model should sync unidirectionally if using flexible sync.
+
+.. _node-ts-decorators:
+
+Decorators (TypeScript)
+-----------------------
+ 
+If you are using TypeScript, decorators allow you to specify that a property
+should be the :ref:`index <node-indexes>` or should be remapped to a
+different name. 
+
+.. list-table::
+
+   * - Decorator
+     - Parameters
+     - Description
+
+   * - ``index``
+     - none
+     - The property should be indexed.
+
+   * - ``mapTo``
+     - (realmPropertyName: string)
+     - The property should be stored as realmPropertyName in the Realm Database.
+
+In the following example, we specify that the ``make`` field is indexed using
+the ``@index`` annotation, and we remap the ``odometer`` field to be named
+``miles``.
+
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.map-field-using-ts-first-model.ts
+   :language: typescript

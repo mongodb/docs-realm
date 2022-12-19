@@ -120,12 +120,6 @@ and add the Realm React Native SDK to it.
             project ``.xcworkspace`` file that you can work with in
             Xcode to run your application.
 
-
-         .. step:: Enable TypeScript (optional)
-
-
-            .. include:: /includes/react-native-enable-typescript.rst
-
          .. step:: Install the Realm React Library
 
 
@@ -267,6 +261,85 @@ and add the Realm React Native SDK to it.
 
 
             .. include:: /includes/react-native-run-the-app.rst
+
+.. _react-native-typescript-support:
+
+TypeScript Support (Optional)
+-----------------------------
+
+If you are using `React Native version 0.60 or greater
+<https://reactnative.dev/versions>`_, you can declare a Realm Object Model using
+TypeScript property types declarations on classes. The Realm JS SDK will derive
+the schema at runtime from the types declared in your TS source files. This
+allows you to use TypeScript syntax without needing to explicitly define a
+schema.
+
+To do so, follow the steps below to install and configure:
+
+-  the :npm:`Realm Babel Plugin <package/@realm/babel-plugin>`
+-  the :npm:`@babel/plugin-proposal-decorators <package/@babel/plugin-proposal-decorators>`
+
+Although we recommend installing and configuring
+``@babel/plugin-proposal-decorators`` as detailed below, it is only required if
+you intend to use :ref:`decorators  <react-native-ts-decorators>` in your
+classes. 
+
+.. procedure::
+
+   .. step:: Enable TypeScript
+
+      .. include:: /includes/react-native-enable-typescript.rst
+
+   .. step:: Install the Realm Babel Plugin and Babel Plugin Proposal Decorators Package
+      
+      Run the following command to add them to your `dev dependencies
+      <https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file>`_:
+
+      .. code-block:: shell
+         
+         npm install --save-dev @realm/babel-plugin @babel/plugin-proposal-decorators
+
+   .. step:: Add the Plugins to Your Babel Config
+
+      Add the following to your ``babel.config.js`` file to apply the `plugins <https://babeljs.io/docs/en/plugins>`_
+
+      .. code-block:: javascript
+
+         const presets = [ ... ];
+         module.exports = { 
+            presets,
+            plugins: [
+               '@realm/babel-plugin',
+               ['@babel/plugin-proposal-decorators', { legacy: true }],  // Optional, unless you're using decorators
+            ],
+         };
+   .. step:: Enable Decorators in your TS Config File (Optional)
+
+      Enable experimental decorators in your `tsconfig.json <https://www.typescriptlang.org/docs/handbook/tsconfig-json.html>`_ within your ``compilerOptions``:
+
+      .. code-block:: json
+
+         {
+            "compilerOptions": {
+               "experimentalDecorators": true
+            },
+         }
+
+   .. step:: Restart the Package Cache
+
+      If you're using TypeScript, you must restart the package cache to work with the newly applied plugin in your app. For most React Native applications, you can run the command:
+
+      .. code-block:: shell
+
+         npm start -- --reset-cache
+
+      However, if you are using Expo, read the docs on `clearing the cache with MacOS and Linux <https://docs.expo.dev/troubleshooting/clear-cache-macos-linux/>`_ or with `Windows <https://docs.expo.dev/troubleshooting/clear-cache-windows/>`_.
+
+   .. step:: Run the App
+      
+      .. include:: /includes/react-native-run-the-app.rst
+
+
 
 Import Realm
 ------------
