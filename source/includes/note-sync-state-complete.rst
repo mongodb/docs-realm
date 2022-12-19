@@ -1,7 +1,8 @@
 .. note:: Subscription State "Complete"
 
-   The subscription set state called "complete" does not mean "sync is done" or
-   "all documents have been synced". "Complete" means:
+   The subscription set state "complete" does not mean "sync is done" or "all
+   documents have been synced". "Complete" means the following two things have
+   happened:
    
    - The subscription has become the active subscription set that is currently
      being synchronized with the server.
