@@ -43,7 +43,7 @@ In the following example of a ``DogList`` component, we:
 #. Get access to the opened realm instance by calling the ``useRealm()`` hook. 
 #. Retrieve all dogs in the realm instance by passing ``Dog`` to the ``useQuery()`` hook.
 #. Create a component method ``deleteDog()`` that takes in a ``Dog`` object as a parameter. Within the method, we pass ``Realm.delete()`` the ``Dog`` object, deleting it from the realm. 
-#. `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the dogs to render a list of ``Text`` components displaying each dog'sdog's ``name`` and a "Delete Dog" button. 
+#. `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the dogs to render a list of ``Text`` components that contain a dog's ``name`` and a "Delete Dog" button. 
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Delete Dog" button that calls the component's ``deleteDog()`` method.
 
 .. tabs-realm-languages::
