@@ -138,41 +138,11 @@ properties can be defined:
 
    * - ``embedded``
      - *boolean*
-     - Defines the Realm Object Model as an embedded object (nested Realm object).
+     - Defines this Realm Object Model as an embedded object (nested Realm object).
 
    * - ``asymmetric``
      - *boolean*
      - Specifies this Realm Object Model should sync unidirectionally if using flexible sync.
-
-.. _node-ts-decorators:
-
-Decorators (TypeScript)
------------------------
- 
-If you are using TypeScript, decorators allow you to specify that a property
-should be the :ref:`index <node-indexes>` or should be remapped to a
-different name. 
-
-.. list-table::
-
-   * - Decorator
-     - Parameters
-     - Description
-
-   * - ``index``
-     - none
-     - The property should be indexed.
-
-   * - ``mapTo``
-     - (realmPropertyName: string)
-     - The property should be stored as realmPropertyName in the Realm Database.
-
-In the following example, we specify that the ``make`` field is indexed using
-the ``@index`` annotation, and we remap the ``odometer`` field to be named
-``miles``.
-
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.map-field-using-ts-first-model.ts
-   :language: typescript
 
 .. _node-supported-property-types:
 
@@ -200,23 +170,51 @@ to the type name.
 Supported TypeScript Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This plugin supports standard TypeScript types wherever possible to make
+The Realm Babel Plugin plugin supports standard TypeScript types wherever possible to make
 defining your model feel like a native TypeScript experience. Some Realm types
 do not have a direct TypeScript equivalent. For example, ``double``, ``int``,
-and ``float`` are all represented by ``number`` in TypeScript). In these cases,
+and ``float`` are all represented by ``number`` in TypeScript. In these cases,
 use the types provided by ``Realm.Types``.
 
 We recommend using TypeScript types wherever possible and using ``Realm.Types``
 where you cannot.
 
-The top-level Realm namespace and ``Realm.Types`` exports various types, such as
+The top-level Realm namespace and ``Realm.Types`` export various types, such as
 ``Realm.List``. You can import from either in your models.
 
 The table below details the supported types:
 
 .. include:: /includes/supported-typescript-types.rst
 
+.. _node-ts-decorators:
 
+Decorators (TypeScript)
+~~~~~~~~~~~~~~~~~~~~~~~
+ 
+If you are using TypeScript, decorators allow you to specify that a property
+should be the :ref:`index <node-indexes>` or should be remapped to a
+different name. 
+
+.. list-table::
+
+   * - Decorator
+     - Parameters
+     - Description
+
+   * - ``index``
+     - none
+     - The property should be indexed.
+
+   * - ``mapTo``
+     - (realmPropertyName: string)
+     - The property should be stored as realmPropertyName in the Realm Database.
+
+In the following example, we specify that the ``make`` field is indexed using
+the ``@index`` annotation, and we remap the ``odometer`` field to be named
+``miles``.
+
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.map-field-using-ts-first-model.ts
+   :language: typescript
 
 .. _node-define-a-property:
 

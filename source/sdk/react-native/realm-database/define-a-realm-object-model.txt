@@ -188,13 +188,13 @@ Supported TypeScript Types
 The Realm Babel plugin supports standard TypeScript types wherever possible to make
 defining your model feel like a native TypeScript experience. Some Realm types
 do not have a direct TypeScript equivalent. For example, ``double``, ``int``,
-and ``float`` are all represented by ``number`` in TypeScript). In these cases,
+and ``float`` are all represented by ``number`` in TypeScript. In these cases,
 use the types provided by ``Realm.Types``.
 
 We recommend using TypeScript types wherever possible and using ``Realm.Types``
 where you cannot.
 
-The top-level Realm namespace and ``Realm.Types`` exports various types, such as
+The top-level Realm namespace and ``Realm.Types`` export various types, such as
 ``Realm.List``. You can import from either in your models.
 
 The table below details the supported types:
@@ -223,7 +223,7 @@ properties can be defined:
 
    * - ``embedded``
      - *boolean*
-     - Defines the Realm Object Model as an embedded object (nested Realm object).
+     - Defines this Realm Object Model as an embedded object (nested Realm object).
 
    * - ``asymmetric``
      - *boolean*
