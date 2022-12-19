@@ -106,6 +106,10 @@ TEST_CASE("create an embedded object", "[model][write]") {
     auto mongoDBPointer = businesses[0];
     REQUIRE(businesses.size() >= 1);
     REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com");
+    // Clean up after the test
+    realm.write([&realm, &business] {
+        realm.remove(business);
+    });
 }
 
 TEST_CASE("create object with ignored property", "[model][write]") {
@@ -126,6 +130,10 @@ TEST_CASE("create object with ignored property", "[model][write]") {
     std::unique_ptr<Employee> leslieKnopePointer = employeesNamedLeslie[0];
     REQUIRE(employee.jobTitle_notPersisted == "Organizer-In-Chief");
     REQUIRE(leslieKnopePointer->jobTitle_notPersisted.empty());
+    // Clean up after the test
+    realm.write([&realm, &employee] {
+        realm.remove(employee);
+    });
 };
 
 TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
@@ -153,6 +161,10 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     static_assert(std::is_same_v<decltype(latitude), double>, "Dereference fail!"); // :remove:
     std::cout << "POI Latitude: " << latitude << "\n";
     REQUIRE(latitude == 36.0554);
+    // Clean up after the test
+    realm.write([&realm, &pointOfInterest] {
+        realm.remove(pointOfInterest);
+    });
 };
 
 TEST_CASE("create object with to-many relationship", "[model][write][relationship]") {
@@ -201,6 +213,10 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
     auto employees = realm.objects<Employee>();
     auto employeesNamedJim = employees.where("firstName == $0", {"Jim"});
     REQUIRE(employeesNamedJim.size() >= 1);
+    // Clean up after the test
+    realm.write([&realm, &company] {
+        realm.remove(company);
+    });
 };
 
 TEST_CASE("update an embedded object", "[model][update]") {
@@ -227,38 +243,8 @@ TEST_CASE("update an embedded object", "[model][update]") {
     std::cout << "New email address: " << (*mongoDBPointer->contactDetails).emailAddress << "\n";
     // :snippet-end:
     REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "info@example.com");
-}
-
-#if 0
-TEST_CASE("overwrite an embedded object", "[model][update]") {
-    auto realm = realm::open<Business, ContactDetails>();
-
-    auto business = Business { .name = "My Awesome Business" };
-    business.contactDetails = ContactDetails { 
-        .emailAddress = "email@example.com", 
-        .phoneNumber = "123-456-7890"
-    };
-
+    // Clean up after the test
     realm.write([&realm, &business] {
-        realm.add(business);
+        realm.remove(business);
     });
-    // :snippet-start: overwrite-embedded-object
-    auto businesses = realm.objects<Business>();
-    auto namedMyAwesomeBusiness = businesses.where("name == $0", {"My Awesome Business"});
-    auto myAwesomeBusinessPointer = namedMyAwesomeBusiness[0];
-    REQUIRE((*myAwesomeBusinessPointer->contactDetails).emailAddress == "email@example.com"); // :remove:
-
-    auto newContactDetails = ContactDetails { 
-        .emailAddress = "info@example.com", 
-        .phoneNumber = "234-567-8901"
-    };
-
-    realm.write([&realm, &myAwesomeBusinessPointer, &newContactDetails] {
-        (*myAwesomeBusinessPointer).contactDetails = newContactDetails;
-    });
-
-    std::cout << "New contact info: " << (*myAwesomeBusinessPointer->contactDetails) << "\n";
-    // :snippet-end:
-    REQUIRE((*myAwesomeBusinessPointer->contactDetails).phoneNumber == "234-567-8901");
 }
-#endif

@@ -67,6 +67,10 @@ TEST_CASE("first test case", "[test]") {
         realm.add(dog);
     });
     // :snippet-end:
+    // Clean up after the test
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
+    });
 }
 
 TEST_CASE("create a dog", "[write]") {
@@ -84,6 +88,17 @@ TEST_CASE("create a dog", "[write]") {
         realm.add(dog);
     });
     // :snippet-end:
+    auto dogsCount = realm.objects<Dog>().size();
+    std::cout << "Dog count after adding Rex: " << dogsCount << "\n";
+    REQUIRE(dogsCount >= 1);
+    // :snippet-start: delete-an-object
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
+    });
+    // :snippet-end:
+    auto updatedDogsCount = realm.objects<Dog>().size();
+    std::cout << "Dog count after deleting Rex: " << updatedDogsCount << "\n";
+    REQUIRE(updatedDogsCount < dogsCount);
 }
 
 TEST_CASE("update a dog", "[write][update]") {
@@ -106,6 +121,7 @@ TEST_CASE("update a dog", "[write][update]") {
 
     std::cout << "Dog " << mauiPointer->name << " is " << mauiPointer->age << " years old\n";
 
+    // Assign a new value to a member of the object in a write transaction
     realm.write([&realm, &mauiPointer] {
         mauiPointer->age = 2;
     });
@@ -113,6 +129,10 @@ TEST_CASE("update a dog", "[write][update]") {
     std::cout << "Dog " << mauiPointer->name << " is " << mauiPointer->age << " years old\n";
     // :snippet-end:
     REQUIRE(mauiPointer->age == 2);
+    // Clean up after the test
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
+    });
 }
 
 TEST_CASE("open a default realm", "[realm]") {
@@ -144,6 +164,10 @@ TEST_CASE("open a realm at a path", "[realm]") {
     auto dogs = realm.objects<Dog>();
     auto dog_count = dogs.size();
     REQUIRE(dog_count >= 1);
+        // Clean up after the test
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
+    });
 }
 
 TEST_CASE("open a synced realm", "[realm][sync]") {
