@@ -83,10 +83,9 @@ object that already has that primary key.
 
 .. note:: Upserting Requires ``Realm.create()``
 
-   While you can create new :js-sdk:`Realm Objects <Realm.Object.html>` by
-   calling the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator
-   within a write transaction, you **must** call ``Realm.create()`` to upsert an
-   object.
+   You **must** call ``Realm.create()`` within a write transaction to upsert an object. 
+   This is different than creating a new :js-sdk:`Realm Objects <Realm.Object.html>` by
+   calling the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator.
 
 In the following example of a ``CreateTaskItem`` component we:
 
