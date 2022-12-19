@@ -148,27 +148,41 @@ namespace Examples
             });
             // :snippet-end:
         }
+    }
 
+    partial class MyTask : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        class MyTask : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+        [MapTo("name")]
+        [Required]
+        public string Name { get; set; }
 
-            [MapTo("name")]
-            [Required]
-            public string Name { get; set; }
+        [MapTo("status")]
+        public string Status { get; set; }
 
-            [MapTo("status")]
-            public string Status { get; set; }
+        [MapTo("owner")]
+        public string Owner { get; set; }
 
-            [MapTo("owner")]
-            public string Owner { get; set; }
+        [MapTo("progressMinutes")]
+        public int ProgressMinutes { get; set; }
 
-            [MapTo("progressMinutes")]
-            public int ProgressMinutes { get; set; }
+    }
+    public enum TaskStatus
+    {
+        Open,
+        InProgress,
+        Complete
+    }
+    partial class Team : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
+<<<<<<< HEAD
         }
         public enum ItemStatus
         {
@@ -181,14 +195,14 @@ namespace Examples
             [PrimaryKey]
             [MapTo("_id")]
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+=======
+        [MapTo("name")]
+        [Required]
+        public string Name { get; set; }
+>>>>>>> 6b04f802 (source solution updated and all tests pass)
 
-            [MapTo("name")]
-            [Required]
-            public string Name { get; set; }
+        [MapTo("description")]
+        public string Description { get; set; }
 
-            [MapTo("description")]
-            public string Description { get; set; }
-
-        }
     }
 }

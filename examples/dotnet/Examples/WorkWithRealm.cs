@@ -332,30 +332,29 @@ namespace Examples
             }
             // :snippet-end:
         }
+    }
+    public partial class PersonN : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
 
-        public class PersonN : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+    }
 
-            [Required]
-            public string Name { get; set; }
-        }
+    // used only in this class
+    public partial class Dog : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
 
-        // used only in this class
-        public class Dog : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
+        [Required]
+        public string Name { get; set; }
 
-            [Required]
-            public string Name { get; set; }
-
-            public int Age { get; set; }
-            public string Breed { get; set; }
-            public IList<PersonN> Owners { get; }
-        }
+        public int Age { get; set; }
+        public string Breed { get; set; }
+        public IList<PersonN> Owners { get; }
     }
 }

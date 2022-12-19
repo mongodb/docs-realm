@@ -4,7 +4,11 @@ using Realms;
 
 namespace Examples.Models
 {
+<<<<<<< HEAD
     public class Item : RealmObject
+=======
+    public partial class Task : IRealmObject
+>>>>>>> 6b04f802 (source solution updated and all tests pass)
     {
         [PrimaryKey]
         [MapTo("_id")]

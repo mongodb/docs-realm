@@ -10,33 +10,6 @@ namespace Examples
 {
     public class OneToOneRelationship
     {
-        // :snippet-start: one-to-one
-        // :replace-start: {
-        //  "terms": {
-        //   "RelPerson": "Person",
-        //   "RelDog" : "Dog" }
-        // }
-        public class RelPerson : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
-            public string Name { get; set; }
-            public DateTimeOffset Birthdate { get; set; }
-            public RelDog Dog { get; set; }
-        }
-
-        public class RelDog : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
-            public string Name { get; set; }
-            public int Age { get; set; }
-            public string Breed { get; set; }
-        }
-        //:replace-end:
-        // :snippet-end:
 
         [Test]
         public async Task OneToOneQuery()
@@ -91,33 +64,7 @@ namespace Examples
             // :snippet-end:
         }
 
-        // :snippet-start: one-to-many
-        // :replace-start: {
-        //  "terms": {
-        //   "Rel2Person": "Person",
-        //   "Rel2Dog" : "Dog" }
-        // }
-        public class Rel2Person : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
-            public string Name { get; set; }
-            public DateTimeOffset Birthdate { get; set; }
-            public IList<Rel2Dog> Dogs { get; }
-        }
 
-        public class Rel2Dog : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
-            public string Name { get; set; }
-            public int Age { get; set; }
-            public string Breed { get; set; }
-        }
-        // :replace-end:
-        // :snippet-end:
 
         [Test]
         public async Task OneToManyQuery()
@@ -162,6 +109,7 @@ namespace Examples
 
     public class InverseRelationship
     {
+<<<<<<< HEAD
         // :snippet-start: inverse
         // :replace-start: {
         //  "terms": {
@@ -192,6 +140,9 @@ namespace Examples
         }
         // :replace-end:
         // :snippet-end:
+=======
+
+>>>>>>> 6b04f802 (source solution updated and all tests pass)
 
         [Test]
         public async Task InverseQuery()
@@ -239,5 +190,91 @@ namespace Examples
         }
 
     }
+
+    // :snippet-start: inverse
+    // :replace-start: {
+    //  "terms": {
+    //   "UserTwo": "User",
+    //   "TaskTwo" : "Task" }
+    // }
+    public partial class UserTwo : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+
+        public string Name { get; set; }
+
+        [Backlink(nameof(TaskTwo.Assignee))]
+        public IQueryable<TaskTwo> Tasks { get; }
+    }
+
+    public partial class TaskTwo : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+
+        public string Text { get; set; }
+
+        public UserTwo Assignee { get; set; }
+    }
+    // :replace-end:
+    // :snippet-end:
+    // :snippet-start: one-to-one
+    // :replace-start: {
+    //  "terms": {
+    //   "RelPerson": "Person",
+    //   "RelDog" : "Dog" }
+    // }
+    public partial class RelPerson : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+        public string Name { get; set; }
+        public DateTimeOffset Birthdate { get; set; }
+        public RelDog Dog { get; set; }
+    }
+
+    public partial class RelDog : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string Breed { get; set; }
+    }
+    //:replace-end:
+    // :snippet-end:
+
+    // :snippet-start: one-to-many
+    // :replace-start: {
+    //  "terms": {
+    //   "Rel2Person": "Person",
+    //   "Rel2Dog" : "Dog" }
+    // }
+    public partial class Rel2Person : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+        public string Name { get; set; }
+        public DateTimeOffset Birthdate { get; set; }
+        public IList<Rel2Dog> Dogs { get; }
+    }
+
+    public partial class Rel2Dog : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string Breed { get; set; }
+    }
+    // :replace-end:
+    // :snippet-end:
 
 }

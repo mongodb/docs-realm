@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Examples;
 using MongoDB.Bson;
 using Realms;
 using static Examples.ObjectModelsAndSchemas;
@@ -19,7 +20,8 @@ namespace Examples.Models
         public string Street { get; set; }
         public string City { get; set; }
     }
-    public class Contact10 : RealmObject
+
+    public partial class Contact10 : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -39,7 +41,7 @@ namespace Examples.Models
     //      "Doge": "Dog",
     //      "//[NotPrimaryKey]": "[PrimaryKey]" }
     // }
-    public class Doge : RealmObject
+    public partial class Doge : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -60,7 +62,7 @@ namespace Examples.Models
     //      "Person_Required": "Person",
     //      "Dog_OMAS": "Dog"}
     // }
-    public class Person_Required : RealmObject
+    public partial class Person_Required : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -79,7 +81,7 @@ namespace Examples.Models
     //  "terms": {
     //      "PersonB": "Person" }
     // }
-    public class PersonB : RealmObject
+    public partial class PersonB : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -97,7 +99,7 @@ namespace Examples.Models
     //      "Person_Index": "Person",
     //      "Dog_OMAS": "Dog"}
     // }
-    public class Person_Index : RealmObject
+    public partial class Person_Index : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -117,7 +119,7 @@ namespace Examples.Models
     //      "Person_Rel_One_to_One": "Person",
     //      "Dog_Rel_One_to_One": "Dog" }
     // }
-    public class Dog_Rel_One_to_One : RealmObject
+    public partial class Dog_Rel_One_to_One : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -128,7 +130,7 @@ namespace Examples.Models
         public Person_Rel_One_to_One Owner { get; set; }
     }
 
-    public class Person_Rel_One_to_One : RealmObject
+    public partial class Person_Rel_One_to_One : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -147,7 +149,7 @@ namespace Examples.Models
     //   "Person_Rel_One_to_Many": "Person",
     //   "Dog_Rel_One_to_Many" : "Dog" }
     // }
-    public class Dog_Rel_One_to_Many : RealmObject
+    public partial class Dog_Rel_One_to_Many : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -158,7 +160,7 @@ namespace Examples.Models
         public string Name { get; set; }
     }
 
-    public class Person_Rel_One_to_Many : RealmObject
+    public partial class Person_Rel_One_to_Many : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -177,7 +179,7 @@ namespace Examples.Models
     //   "Person_Inverse": "Person",
     //   "Dog_Inverse":"Dog" }
     // }
-    class Dog_Inverse : RealmObject
+    partial class Dog_Inverse : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -188,7 +190,7 @@ namespace Examples.Models
         public Person_Inverse Owner { get; set; }
     }
 
-    class Person_Inverse : RealmObject
+    partial class Person_Inverse : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -204,7 +206,7 @@ namespace Examples.Models
         public IList<Hobby> Hobbies { get; }
     }
 
-    class Hobby : RealmObject
+    partial class Hobby : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
@@ -236,105 +238,104 @@ namespace Examples.Models
         [Ignored]
         public Image Thumbnail { get; set; }
         // :snippet-end:
-
-        // :snippet-start: rename
-        //:replace-start: {
-        // "terms": {
-        //   "PersonH": "Person"}
-        // }
-        public class PersonH : RealmObject
-        {
-            //:remove-start:
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId ID { get; set; }
-            //:remove-end:
-            [MapTo("moniker")]
-            public string Name { get; set; }
-        }
-        //:replace-end:
-        // :snippet-end:
-
-        public class Image
-        {
-        }
     }
-
-    public class CustomGetterSetter : RealmObject
-    {
-        [PrimaryKey]
-        public string _id { get; set; } = ObjectId.GenerateNewId().ToString();
-        // :snippet-start: custom-setter
-        // This property will be stored in the Realm
-        private string email { get; set; }
-
-        // Custom validation of the email property.
-        // This property is *not* stored in Realm.
-        public string Email
-        {
-            get { return email; }
-            set
-            {
-                if (!value.Contains("@")) throw new Exception("Invalid email address");
-                email = value;
-            }
-        }
-        // :snippet-end:
-    }
-
-    // :snippet-start: rename-class
+    // :snippet-start: rename
     //:replace-start: {
     // "terms": {
-    //   "PersonI": "Person",
-    //      "DogB": "Dog"}
+    //   "PersonH": "Person"}
     // }
-    [MapTo("Human")]
-    public class PersonI : RealmObject
+    public partial class PersonH : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
         //:remove-end:
+        [MapTo("moniker")]
         public string Name { get; set; }
     }
-    // :replace-end:
+    //:replace-end:
     // :snippet-end:
 
-
-
-    // :snippet-start: subset
-    //:replace-start: {
-    // "terms": {
-    //      "Dog_OMAS": "Dog"}
-    // }
-    // Declare your schema
-    class LoneClass : RealmObject
+    public class Image
     {
-        //:remove-start:
-        [PrimaryKey]
-        [MapTo("_id")]
-        public ObjectId ID { get; set; }
-        //:remove-end:
-        public string Name { get; set; }
     }
-
-    class AnotherClass
-    {
-        private void SetUpMyRealmConfig()
-        {
-            // Define your config with a single class
-            var config = new RealmConfiguration("RealmWithOneClass.realm");
-            config.Schema = new[] { typeof(LoneClass) };
-
-            // Or, specify multiple classes to use in the Realm
-            config.Schema = new[] { typeof(Dog_OMAS), typeof(Cat) };
-        }
-    }
-    // :replace-end:
-    // :snippet-end:
-
-    class Cat
-    { }
-
 }
+
+public partial class CustomGetterSetter : IRealmObject
+{
+    [PrimaryKey]
+    public string _id { get; set; } = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+    // :snippet-start: custom-setter
+    // This property will be stored in the Realm
+    private string email { get; set; }
+
+    // Custom validation of the email property.
+    // This property is *not* stored in Realm.
+    public string Email
+    {
+        get { return email; }
+        set
+        {
+            if (!value.Contains("@")) throw new Exception("Invalid email address");
+            email = value;
+        }
+    }
+    // :snippet-end:
+}
+
+// :snippet-start: rename-class
+//:replace-start: {
+// "terms": {
+//   "PersonI": "Person",
+//      "DogB": "Dog"}
+// }
+[MapTo("Human")]
+public partial class PersonI : IRealmObject
+{
+    //:remove-start:
+    [PrimaryKey]
+    [MapTo("_id")]
+    public ObjectId ID { get; set; }
+    //:remove-end:
+    public string Name { get; set; }
+}
+// :replace-end:
+// :snippet-end:
+
+
+
+// :snippet-start: subset
+//:replace-start: {
+// "terms": {
+//      "Dog_OMAS": "Dog"}
+// }
+// Declare your schema
+partial class LoneClass : IRealmObject
+{
+    //:remove-start:
+    [PrimaryKey]
+    [MapTo("_id")]
+    public ObjectId ID { get; set; }
+    //:remove-end:
+    public string Name { get; set; }
+}
+
+class AnotherClass
+{
+    private void SetUpMyRealmConfig()
+    {
+        // Define your config with a single class
+        var config = new RealmConfiguration("RealmWithOneClass.realm");
+        config.Schema = new[] { typeof(LoneClass) };
+
+        // Or, specify multiple classes to use in the Realm
+        config.Schema = new[] { typeof(Dog_OMAS), typeof(Cat) };
+    }
+}
+// :replace-end:
+// :snippet-end:
+
+class Cat
+{ }
+

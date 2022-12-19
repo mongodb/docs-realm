@@ -37,7 +37,7 @@ namespace ConsoleTests
         //:snippet-end:
     }
 
-    class TestClass : RealmObject
+    partial class TestClass : IRealmObject
     {
         public int Bar { get; set; }
     }

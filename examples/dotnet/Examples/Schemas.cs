@@ -67,13 +67,13 @@ namespace Examples
         }
     }
 
-    class ClassA : RealmObject
+    partial class ClassA : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
         public string Id { get; set; }
     }
-    class ClassB : RealmObject
+    partial class ClassB : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]

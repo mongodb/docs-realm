@@ -12,7 +12,7 @@ namespace Examples.RqlSchemaExamples
     //   "RqlProject": "Project",
     //   "RqlTasks": "Items"}
     // }
-    public class RqlTask : RealmObject
+    public partial class RqlTask : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -39,7 +39,7 @@ namespace Examples.RqlSchemaExamples
         public IQueryable<RqlProject> Projects { get; }
     }
 
-    public class RqlProject : RealmObject
+    public partial class RqlProject : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]

@@ -242,7 +242,7 @@ namespace Examples
         }
     }
 
-    public class WriteDog : RealmObject
+    public partial class WriteDog : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -256,7 +256,7 @@ namespace Examples
         public WritePerson Owner { get; set; }
     }
 
-    public class WritePerson : RealmObject
+    public partial class WritePerson : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]

@@ -1,8 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Realms;
-using Realms.Schema;
-using Realms.Weaving;
 
 namespace Examples.Models
 {
@@ -34,27 +32,6 @@ namespace Examples.Models
 
         [BsonElement("_partition")]
         public string Partition { get; set; }
-
-        public IRealmAccessor Accessor => throw new System.NotImplementedException();
-
-        public bool IsManaged => throw new System.NotImplementedException();
-
-        public bool IsValid => throw new System.NotImplementedException();
-
-        public bool IsFrozen => throw new System.NotImplementedException();
-
-        public Realm Realm => throw new System.NotImplementedException();
-
-        public ObjectSchema ObjectSchema => throw new System.NotImplementedException();
-
-        public DynamicObjectApi DynamicApi => throw new System.NotImplementedException();
-
-        public int BacklinksCount => throw new System.NotImplementedException();
-
-        public void SetManagedAccessor(IRealmAccessor accessor, IRealmObjectHelper helper = null, bool update = false, bool skipDefaults = false)
-        {
-            throw new System.NotImplementedException();
-        }
     }
     public enum Sunlight
     {

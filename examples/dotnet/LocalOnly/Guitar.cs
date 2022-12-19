@@ -4,7 +4,7 @@ using Realms;
 namespace LocalOnly
 {
     //:snippet-start:guitar-object
-    public class Guitar : RealmObject
+    public partial class Guitar : IRealmObject
     {
         [PrimaryKey]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
