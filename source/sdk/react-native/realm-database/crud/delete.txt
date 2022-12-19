@@ -78,7 +78,7 @@ Delete Multiple Objects
 
 You can delete multiple objects from a realm in a couple of ways:
 
-#. To **delete all objects of a given object type** from a realm, pass Realm.objects(<ObjectType>) to the :js-sdk:`Realm.delete() <Realm.html#delete>` method inside of a write transaction.
+#. To **delete all objects of a given object type** from a realm, pass the results of useQuery(<ObjectType>) to the :js-sdk:`Realm.delete() <Realm.html#delete>` method inside of a write transaction.
 #. To **delete many specific objects** from a realm, pass :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` to ``Realm.delete()`` inside of a write transaction.
 
 In the following example of a ``DogList`` component, we:
