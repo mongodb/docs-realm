@@ -87,7 +87,7 @@ In the following example of a ``DogList`` component, we:
 #. Set a variable, ``myDogs`` to all the ``Dog`` objects by passing the ``Dog`` class to the ``useQuery()`` hook.
 #. Create a component method ``deleteAllYoungDogObjects()`` that performs a write transaction. Within the write transaction, we set a variable, ``youngDogs``, to the result of ``myDogs.filtered()`` with a query to obtain all dogs younger than three. Then pass ``youngDogs`` to ``realm.delete()``, deleting all young dogs from the realm.
 #. Create a component method ``deleteAllDogObjects()`` that performs a write transaction. Within the write transaction, we pass ``myDogs`` to ``realm.delete()``, deleting all the dogs from the realm.
-#. `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the dogs to render a list of ``Text`` components displaying each dog's ``name`` and ``age``.
+#. `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the dogs to render a list of ``Text`` components that contain a dog's ``name`` and ``age``.
 #. Add an ``onPress`` event on the "Delete Young Dog Objects" button that calls ``deleteAllYoungDogObjects()``, deleting all young dogs from the realm, which triggers a re-render and removes them from the UI. 
 #. Add an ``onPress`` event on the "Delete All Dog Objects" button that calls ``deleteAllDogObjects()``, deleting every dog from the realm, which triggers a re-render and removes them from the UI. 
 
