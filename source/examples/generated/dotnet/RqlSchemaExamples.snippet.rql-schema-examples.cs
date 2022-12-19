@@ -1,4 +1,4 @@
-public class Item : RealmObject
+public partial class Task : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
@@ -25,7 +25,7 @@ public class Item : RealmObject
     public IQueryable<Project> Projects { get; }
 }
 
-public class Project : RealmObject
+public partial class Project : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]

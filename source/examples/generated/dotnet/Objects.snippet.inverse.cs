@@ -1,10 +1,10 @@
-class Dog : RealmObject
+partial class Dog : IRealmObject
 {
     // To-one relationship from the Dog to its owner
     public Person Owner { get; set; }
 }
 
-class Person : RealmObject
+partial class Person : IRealmObject
 {
     // An inverse relationship that returns all Dog instances that have Dog.Owner set to
     // the current Person.
@@ -15,7 +15,7 @@ class Person : RealmObject
     public IList<Hobby> Hobbies { get; }
 }
 
-class Hobby : RealmObject
+partial class Hobby : IRealmObject
 {
     // An inverse relationship that returns all Person instances that have the current Hobby
     // instance in their Hobbies list.

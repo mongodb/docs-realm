@@ -53,7 +53,6 @@ namespace Examples
         [Test]
         public void TestUploadDownloadProgressNotification()
         {
-<<<<<<< HEAD
             //var progressNotificationTriggered = false;
             var appConfig = new AppConfiguration(myRealmAppId)
             {
@@ -70,32 +69,7 @@ namespace Examples
                 .Subscribe(progress =>
                    {
                        Console.WriteLine($@"transferred bytes:
-=======
-            try
-            {
-                var progressNotificationTriggered = false;
-                var appConfig = new AppConfiguration(myRealmAppId)
-                {
-                    DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
-                };
-                app = App.Create(appConfig);
-                user = app.LogInAsync(Credentials.Anonymous()).Result;
-                config = new PartitionSyncConfiguration("myPartition", user);
-                var realm = Realm.GetInstance(config);
-                // :snippet-start: upload-download-progress-notification
-                var session = realm.SyncSession;
-                var token = session.GetProgressObservable(ProgressDirection.Upload,
-                    ProgressMode.ReportIndefinitely)
-                    .Subscribe(progress =>
-                       {
-                           // :remove-start:
-                           progressNotificationTriggered = true;
-                           // :remove-end:
-                           Console.WriteLine($@"transferred bytes:
->>>>>>> 6b04f802 (source solution updated and all tests pass)
                             {progress.TransferredBytes}");
-                           Console.WriteLine($@"transferable bytes:
-                            {progress.TransferableBytes}");
                        });
                 // :snippet-end: upload-download-progress-notification
                 var id = 2;

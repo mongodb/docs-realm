@@ -1,4 +1,4 @@
-public class Address : EmbeddedObject
+public partial class Address : IEmbeddedObject
 {
     [MapTo("street")]
     public string Street { get; set; }
@@ -11,9 +11,9 @@ public class Address : EmbeddedObject
 
     [MapTo("postalCode")]
     public string PostalCode { get; set; }
-
 }
-public class Contact : RealmObject
+
+public partial class Contact : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
@@ -30,7 +30,8 @@ public class Contact : RealmObject
     public Address Address { get; set; } // embed a single address 
 
 }
-public class Business : RealmObject
+
+public partial class Business : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]

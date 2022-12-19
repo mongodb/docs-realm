@@ -1,4 +1,4 @@
-public class Employee : RealmObject
+public partial class Employee : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
@@ -16,7 +16,7 @@ public class Employee : RealmObject
     public IList<Item> Items { get; }
 }
 
-public class Item : RealmObject
+public partial class Item : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
