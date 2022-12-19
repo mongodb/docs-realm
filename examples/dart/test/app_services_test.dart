@@ -55,6 +55,11 @@ void main() {
         final appConfig = AppConfiguration(appId, httpClient: httpClient);
         return App(appConfig);
       }
+
+      final letsEncryptCertificate = "<LET'S ENCRYPT CERTIFICATE>";
+      final appId = "<YOUR APP ID>";
+
+      final app = createAppWithCustomHttpsClient(letsEncryptCertificate, appId);
       // :snippet-end:
     },
         skip:
