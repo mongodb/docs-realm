@@ -98,8 +98,8 @@ You can also return values from the write transaction callback function.
 .. warning:: Write RealmObjects to One Realm
 
    You can only write ``RealmObjects`` to a single realm.
-   If your app already writes a ``RealmObject`` to one realm,
-   the SDK throws a ``RealmException`` if you try to add it.
+   If you already wrote a ``RealmObject`` to one realm,
+   the SDK throws a ``RealmException`` if you try to write it to another realm.
 
 .. _flutter-create-objects:
 
