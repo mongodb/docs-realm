@@ -91,44 +91,48 @@ namespace Examples
         [Test]
         public void OpensLocalRealm()
         {
-            var pathToDb = Directory.GetCurrentDirectory() + "/db/";
-            if (!File.Exists(pathToDb))
+            try
             {
-                Directory.CreateDirectory(pathToDb);
-            }
+                var pathToDb = Directory.GetCurrentDirectory() + "/db";
+                if (!File.Exists(pathToDb))
+                {
+                    Directory.CreateDirectory(pathToDb);
+                }
 
-            // :snippet-start: local-realm
-            var config = new RealmConfiguration(pathToDb + "my.realm")
-            {
-                IsReadOnly = true,
-            };
-            // :remove-start:
-            config.Schema = new[]
-            {
+                // :snippet-start: local-realm
+                var config = new RealmConfiguration(pathToDb + "/my.realm")
+                {
+                    IsReadOnly = true,
+                };
+                // :remove-start:
+                config.Schema = new[]
+                {
                 typeof(Item),
                 typeof(Examples.Models.User)
             };
-            // :remove-end:
-            Realm localRealm;
-            try
-            {
-                localRealm = Realm.GetInstance(config);
-            }
-            catch (RealmFileAccessErrorException ex)
-            {
-                Console.WriteLine($@"Error creating or opening the
+                // :remove-end:
+                Realm localRealm;
+                try
+                {
+                    localRealm = Realm.GetInstance(config);
+                }
+                catch (RealmFileAccessErrorException ex)
+                {
+                    Console.WriteLine($@"Error creating or opening the
                     realm file. {ex.Message}");
-            }
-            // :snippet-end:
+                }
+                // :snippet-end:
 
-            try
-            {
-                Directory.Delete(pathToDb, true);
-            }
-            catch (Exception)
-            {
+                try
+                {
+                    Directory.Delete(pathToDb, true);
+                }
+                catch (Exception)
+                {
 
+                }
             }
+            catch (Exception) { }
         }
 
         public void DisposeCodeSnippet()
