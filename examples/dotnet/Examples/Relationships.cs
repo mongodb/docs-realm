@@ -195,7 +195,7 @@ namespace Examples
     // :replace-start: {
     //  "terms": {
     //   "UserTwo": "User",
-    //   "TaskTwo" : "Task" }
+    //   "TaskTwo" : "Item" }
     // }
     public partial class UserTwo : IRealmObject
     {

@@ -1,4 +1,4 @@
-public partial class Task : IRealmObject
+public partial class Items : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]

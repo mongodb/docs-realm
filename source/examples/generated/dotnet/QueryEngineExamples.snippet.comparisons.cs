@@ -1,4 +1,4 @@
-var highPri = items.Where(t => t.Priority > 5);
+var highPri = items.Where(i => i.Priority > 5);
 
 var quickItems = items.Where(i =>
     i.ProgressMinutes >= 1 &&
@@ -9,4 +9,4 @@ var unassignedItems = items.Where(i =>
 
 var AliOrJamieItems = items.Where(i =>
    i.Assignee == "Ali" ||
-    i.Assignee == "Jamie");
+   i.Assignee == "Jamie");

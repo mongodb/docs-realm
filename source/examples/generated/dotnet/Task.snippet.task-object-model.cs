@@ -3,7 +3,7 @@ using Realms;
 
 namespace Examples.Models
 {
-    public partial class Task : IRealmObject
+    public partial class Item : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
