@@ -7,10 +7,11 @@
 TEST_CASE("create and log in a user", "[realm]") {
     // :snippet-start: register-user
     const std::string APP_ID = "cpp-tester-uliix";
-    const std::string USER_EMAIL = "testUser@mongodb.com";
-    const std::string USER_PASSWORD = "password1234";
 
     auto app = realm::App(APP_ID);
+
+    std::string USER_EMAIL = "testUser@mongodb.com";
+    std::string USER_PASSWORD = "password1234";
 
     app.register_user(USER_EMAIL, USER_PASSWORD).get_future().get();
     // :snippet-end:
