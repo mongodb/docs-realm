@@ -16,7 +16,6 @@ namespace Examples
         App app;
         User user;
         PartitionSyncConfiguration config;
-        bool didTriggerErrorHandler;
         string myRealmAppId = Config.appid;
 
         [Test]
@@ -56,9 +55,6 @@ namespace Examples
                 {
                     case ErrorCode.InvalidCredentials:
                         // Tell the user they don't have permissions to work with that Realm
-                        // :remove-start:
-                        didTriggerErrorHandler = true;
-                        // :remove-end:
                         break;
                     case ErrorCode.Unknown:
                         // See https://www.mongodb.com/docs/realm-sdks/dotnet
@@ -100,7 +96,7 @@ namespace Examples
                 Realm.GetInstance(syncConfig);
             }
             // :snippet-end:
-            catch (Exception ex) { }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
     }
 }

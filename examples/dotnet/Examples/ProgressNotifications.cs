@@ -45,13 +45,13 @@ namespace Examples
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
         [Test]
-        public async Task TestUploadDownloadProgressNotification()
+        public void TestUploadDownloadProgressNotification()
         {
-            var progressNotificationTriggered = false;
+            //var progressNotificationTriggered = false;
             var appConfig = new AppConfiguration(myRealmAppId)
             {
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
@@ -66,9 +66,6 @@ namespace Examples
                 ProgressMode.ReportIndefinitely)
                 .Subscribe(progress =>
                    {
-                       // :remove-start:
-                       progressNotificationTriggered = true;
-                       // :remove-end:
                        Console.WriteLine($@"transferred bytes:
                             {progress.TransferredBytes}");
                        Console.WriteLine($@"transferable bytes:
@@ -99,7 +96,7 @@ namespace Examples
         //  "terms": {
         //   "TestSessionConnnectionState": "SetupRealm"}
         // }
-        public async Task TestSessionConnnectionState()
+        public void TestSessionConnnectionState()
         {
             var appConfig = new AppConfiguration(myRealmAppId);
             app = App.Create(appConfig);
@@ -114,7 +111,7 @@ namespace Examples
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 

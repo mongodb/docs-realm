@@ -1,1 +1,1 @@
-var elvisProjects = projects.Filter("Tasks.Assignee == 'Elvis'");
+var elvisProjects = projects.Filter("Items.Assignee == 'Elvis'");

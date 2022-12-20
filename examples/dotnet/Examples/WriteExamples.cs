@@ -73,6 +73,7 @@ namespace Examples
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 // Something went wrong; roll back the transaction
                 transaction.Dispose();
             }
