@@ -6,21 +6,21 @@ using NUnit.Framework;
 using Realms;
 using Realms.Exceptions;
 using Realms.Sync;
-using Task = Examples.Models.Task;
-using TaskStatus = Examples.Models.TaskStatus;
-using ThreadTask = System.Threading.Tasks.Task;
+using Examples.Models;
+using System.Threading.Tasks;
+using User = Realms.Sync.User;
 
 namespace Examples
 {
     public class OpenARealmExamples
     {
         App app;
-        User user;
+        Realms.Sync.User user;
         PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
-        public async ThreadTask Setup()
+        public async Task Setup()
         {
             app = App.Create(myRealmAppId);
             // :snippet-start: open-synced-realm
@@ -33,7 +33,7 @@ namespace Examples
             // it being initialized
             config.Schema = new[]
             {
-                typeof(Task),
+                typeof(Item),
                 typeof(Examples.Models.User)
             };
             Realm realm = Realm.GetInstance(config);
@@ -53,7 +53,7 @@ namespace Examples
 
             realm.Write(() =>
             {
-                realm.RemoveAll<Task>();
+                realm.RemoveAll<Item>();
             });
 
             // :snippet-start: open-synced-realm-synchronously
@@ -105,7 +105,7 @@ namespace Examples
             // :remove-start:
             config.Schema = new[]
             {
-                typeof(Task),
+                typeof(Item),
                 typeof(Examples.Models.User)
             };
             // :remove-end:
@@ -140,7 +140,7 @@ namespace Examples
         }
 
         [Test]
-        public async ThreadTask OpenIfUserExists()
+        public async Task OpenIfUserExists()
         {
             app = App.Create(myRealmAppId);
             User user3;
@@ -174,14 +174,14 @@ namespace Examples
         }
 
         [Test]
-        public async ThreadTask ScopesARealm()
+        public void ScopesARealm()
         {
             // :snippet-start: scope
             config = new PartitionSyncConfiguration("myPart", user);
             //:remove-start:
             config.Schema = new Type[]
                 {
-                    typeof(Task),
+                    typeof(Item),
                     typeof(Examples.Models.User),
                     typeof(AClassWorthStoring),
                     typeof(AnotherClassWorthStoring)
@@ -189,7 +189,7 @@ namespace Examples
             //:remove-end:
             using (var realm = Realm.GetInstance(config))
             {
-                var allTasks = realm.All<Task>();
+                var allItems = realm.All<Item>();
             }
             // :snippet-end:
         }

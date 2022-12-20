@@ -1,28 +1,27 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Examples.Models;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Exceptions;
 using Realms.Sync;
-using Task = Examples.Models.Task;
-using TaskStatus = Examples.Models.TaskStatus;
-using ThreadTask = System.Threading.Tasks.Task;
 using User = Examples.Models.User;
 
 namespace Examples
 {
     public class QuickStartExamples
     {
-        ObjectId testTaskId;
+        ObjectId testItemId;
         Realms.Sync.User user;
         PartitionSyncConfiguration config;
         App app;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
-        public async ThreadTask Setup()
+        public async Task Setup()
         {
             // :snippet-start: initialize-realm
             app = App.Create(myRealmAppId);
@@ -33,14 +32,14 @@ namespace Examples
             config = new PartitionSyncConfiguration("myPart", user);
             config.Schema = new[]
             {
-                typeof(Task),
+                typeof(Item),
                 typeof(User)
             };
 
             Realm realm = Realm.GetInstance(config);
             realm.Write(() =>
             {
-                realm.RemoveAll<Task>();
+                realm.RemoveAll<Item>();
             });
 
             // :snippet-start: open-synced-realm-sync
@@ -49,26 +48,25 @@ namespace Examples
             // :uncomment-end:
             // :snippet-end:
             // :snippet-start: create
-            var testTask = new Task
+            var testItem = new Item
             {
                 Name = "Do this thing",
-                Status = TaskStatus.Open.ToString(),
+                Status = ItemStatus.Open.ToString(),
                 Partition = "myPart"
             };
 
             realm.Write(() =>
             {
-                realm.Add(testTask);
+                realm.Add(testItem);
             });
             // :snippet-end:
-            testTaskId = testTask.Id;
+            testItemId = testItem.Id;
 
-            return;
         }
 
 
         [Test]
-        public async ThreadTask GetsSyncedTasks()
+        public async Task GetsSyncedTasks()
         {
             App app = App.Create(myRealmAppId);
             // :snippet-start: anon-login
@@ -79,49 +77,48 @@ namespace Examples
             //:remove-start:
             config.Schema = new[]
             {
-                typeof(Task),
+                typeof(Item),
                 typeof(User)
             };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :snippet-end:
             // :snippet-start: read-all
-            var tasks = realm.All<Task>();
+            var items = realm.All<Item>();
             // :snippet-end:
-            //Assert.AreEqual(1, tasks.Count(),"Get All");
+            //Assert.AreEqual(1, items.Count(),"Get All");
             // :snippet-start: read-some
-            tasks = realm.All<Task>().Where(t => t.Status == "Open");
+            items = realm.All<Item>().Where(i => i.Status == "Open");
             // :snippet-end:
-            //Assert.AreEqual(1, tasks.Count(), "Get Some");
+            //Assert.AreEqual(1, items.Count(), "Get Some");
             return;
         }
 
         // [Test]
-        public async ThreadTask ModifiesATask()
+        public async Task ModifiesATask()
         {
             // App app = App.Create(myRealmAppId);
             config = new PartitionSyncConfiguration("myPart", user);
             //:remove-start:
             config.Schema = new[]
             {
-                typeof(Task),
+                typeof(Item),
                 typeof(User)
             };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :snippet-start: modify
-            var t = realm.All<Task>()
-                .FirstOrDefault(t => t.Id == testTaskId);
+            var i = realm.All<Item>()
+                .FirstOrDefault(i => i.Id == testItemId);
 
             realm.Write(() =>
             {
-                t.Status = TaskStatus.InProgress.ToString();
+                i.Status = ItemStatus.InProgress.ToString();
             });
 
             // :snippet-end:
-            var ttest = realm.All<Task>().FirstOrDefault(x => x.Id == t.Id);
-            //Assert.AreEqual(1, allTasks.Count);
-            Assert.AreEqual(TaskStatus.InProgress.ToString(), ttest.Status);
+            var ttest = realm.All<Item>().FirstOrDefault(x => x.Id == i.Id);
+            Assert.AreEqual(ItemStatus.InProgress.ToString(), ttest.Status);
 
             return;
         }
@@ -129,25 +126,25 @@ namespace Examples
 
 
         [OneTimeTearDown]
-        public async ThreadTask TearDown()
+        public async Task TearDown()
         {
             App app = App.Create(myRealmAppId);
             using (var realm = Realm.GetInstance(config))
             {
-                var myTask = new Task() { Partition = "foo", Name = "foo2", Status = TaskStatus.Complete.ToString() };
+                var myItem = new Item() { Partition = "foo", Name = "foo2", Status = ItemStatus.Complete.ToString() };
                 realm.Write(() =>
                 {
-                    realm.Add(myTask);
+                    realm.Add(myItem);
                 });
                 // :snippet-start: delete
                 realm.Write(() =>
                 {
-                    realm.Remove(myTask);
+                    realm.Remove(myItem);
                 });
                 // :snippet-end:
                 realm.Write(() =>
                 {
-                    realm.RemoveAll<Task>();
+                    realm.RemoveAll<Item>();
                 });
                 var user = await app.LogInAsync(Credentials.Anonymous());
                 // :snippet-start: logout
