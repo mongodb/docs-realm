@@ -137,6 +137,7 @@ main() {
         }
       });
       // :snippet-end:
+      streamListener.cancel();
       expect(isConnected, isTrue);
     });
   });

@@ -111,8 +111,8 @@ such as ``Uuid.v4()``.
 RealmValue
 ~~~~~~~~~~
 
-The :flutter-sdk:`RealmValue <TODO: add link>` data type is a mixed data type.
-``RealmValue`` is indexable.
+The `RealmValue <https://pub.dev/documentation/realm_common/latest/realm_common/RealmValue-class.html>`__
+data type is a mixed data type. ``RealmValue`` is indexable.
 
 ``RealmValue`` can represent any other valid Realm data type except a collection.
 You can create collections  of type ``RealmValue``, but a ``RealmValue`` itself
@@ -124,41 +124,20 @@ cannot be a collection.
    However, if you want a ``RealmValue`` property to contain a null value,
    you can use the special ``RealmValue.nullValue()`` property.
 
-
 To define a property as ``RealmValue``, set its type in your Realm object model.
 
-.. code-block:: dart
-
-   @RealmModel()
-   class _AnythingGoes {
-      @Indexed()
-      late RealmValue any;
-      late List<RealmValue> manyAny;
-   }
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-model.dart
+   :language: dart
 
 To add a ``RealmValue`` to a Realm object, call ``RealmValue.from()`` on the data.
 
-.. code-block:: dart
-
-   final realm = Realm(Configuration.local(AnythingGoes.schema));
-
-   realm.write((){
-     realm.addAll([
-      AnythingGoes(RealmValue.from(1), [Uuid(), "abc", 123].map(RealmValue.from));
-      AnythingGoes(RealmValue.from(ObjectId()), ["abc", 123].map(RealmValue.from));
-     ]);
-   });
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-from.dart
+   :language: dart
 
 Access the type of data with ``RealmValue.type`` and the value with ``RealmValue.value``.
 
-.. code-block:: dart
-
-   final data = realm.all<AnythingGoes>();
-   for (var obj in data){
-     if(obj.type is ObjectId){
-       print(obj.value.toString());
-     }
-   }
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type-value.dart
+   :language: dart
 
 .. _flutter-embedded-objects:
 

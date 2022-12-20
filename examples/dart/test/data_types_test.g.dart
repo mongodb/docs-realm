@@ -260,6 +260,56 @@ class ObjectIdPrimaryKey extends _ObjectIdPrimaryKey
   }
 }
 
+class RealmValueExample extends _RealmValueExample
+    with RealmEntity, RealmObjectBase, RealmObject {
+  RealmValueExample({
+    RealmValue anyValue = const RealmValue.nullValue(),
+    Iterable<RealmValue> mixedAnyValues = const [],
+  }) {
+    RealmObjectBase.set(this, 'anyValue', anyValue);
+    RealmObjectBase.set<RealmList<RealmValue>>(
+        this, 'mixedAnyValues', RealmList<RealmValue>(mixedAnyValues));
+  }
+
+  RealmValueExample._();
+
+  @override
+  RealmValue get anyValue =>
+      RealmObjectBase.get<RealmValue>(this, 'anyValue') as RealmValue;
+  @override
+  set anyValue(RealmValue value) =>
+      RealmObjectBase.set(this, 'anyValue', value);
+
+  @override
+  RealmList<RealmValue> get mixedAnyValues =>
+      RealmObjectBase.get<RealmValue>(this, 'mixedAnyValues')
+          as RealmList<RealmValue>;
+  @override
+  set mixedAnyValues(covariant RealmList<RealmValue> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<RealmValueExample>> get changes =>
+      RealmObjectBase.getChanges<RealmValueExample>(this);
+
+  @override
+  RealmValueExample freeze() =>
+      RealmObjectBase.freezeObject<RealmValueExample>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(RealmValueExample._);
+    return const SchemaObject(
+        ObjectType.realmObject, RealmValueExample, 'RealmValueExample', [
+      SchemaProperty('anyValue', RealmPropertyType.mixed,
+          optional: true, indexed: true),
+      SchemaProperty('mixedAnyValues', RealmPropertyType.mixed,
+          optional: true, collectionType: RealmCollectionType.list),
+    ]);
+  }
+}
+
 class Vehicle extends _Vehicle with RealmEntity, RealmObjectBase, RealmObject {
   Vehicle(
     String nickname,

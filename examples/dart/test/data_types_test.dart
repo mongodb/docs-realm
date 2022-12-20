@@ -61,6 +61,17 @@ class _ObjectIdPrimaryKey {
 }
 
 // :snippet-end:
+
+// :snippet-start: realm-value-model
+@RealmModel()
+class _RealmValueExample {
+  @Indexed()
+  late RealmValue anyValue;
+  late List<RealmValue> mixedAnyValues;
+}
+
+// :snippet-end:
+
 // :snippet-start: datetime-model
 @RealmModel()
 class _Vehicle {
@@ -85,6 +96,53 @@ main() {
     final object = ObjectIdPrimaryKey(id);
     // :snippet-end:
     expect(object.id.toString(), isA<String>());
+  });
+  test("RealmValue - RealmValue.from()", () {
+    // :snippet-start: realm-value-from
+    final realm = Realm(Configuration.local([RealmValueExample.schema]));
+
+    realm.write(() {
+      realm.addAll([
+        RealmValueExample(
+            anyValue: RealmValue.from(1),
+            mixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
+        RealmValueExample(
+            anyValue: RealmValue.nullValue(),
+            mixedAnyValues: ["abc", 123].map(RealmValue.from))
+      ]);
+    });
+    // :snippet-end:
+
+    expect(realm.query<RealmValueExample>("anyValue.@type == 'int'").first,
+        isNotNull);
+    expect(realm.query<RealmValueExample>("anyValue.@type == 'Null'").first,
+        isNotNull);
+    cleanUpRealm(realm);
+  });
+  test("RealmValue - RealmValue.type and RealmValue.value", () {
+    final realm = Realm(Configuration.local([RealmValueExample.schema]));
+    realm.write(() {
+      realm.addAll([
+        RealmValueExample(
+            anyValue: RealmValue.from(1),
+            mixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
+        RealmValueExample(
+            anyValue: RealmValue.nullValue(),
+            mixedAnyValues: ["abc", 123].map(RealmValue.from))
+      ]);
+    });
+    var calledCount = 0;
+    // :snippet-start: realm-value-type-value
+    final data = realm.all<RealmValueExample>();
+    for (var obj in data) {
+      if (obj.anyValue.type == int) {
+        print(obj.anyValue.value.toString());
+        calledCount++; // :remove:
+      }
+    }
+    // :snippet-end:
+    expect(calledCount, 1);
+    cleanUpRealm(realm);
   });
   test('DateTime', () {
     final config = Configuration.local([Vehicle.schema]);
