@@ -6,11 +6,11 @@ public class User : RealmObject
 
     public string Name { get; set; }
 
-    [Backlink(nameof(Task.Assignee))]
-    public IQueryable<Task> Tasks { get; }
+    [Backlink(nameof(Item.Assignee))]
+    public IQueryable<Item> Items { get; }
 }
 
-public class Task : RealmObject
+public class Item : RealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]

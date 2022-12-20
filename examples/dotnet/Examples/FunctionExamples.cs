@@ -3,7 +3,7 @@ using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-using ThreadTask = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
 
 namespace Examples
 {
@@ -15,7 +15,7 @@ namespace Examples
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
-        public async ThreadTask Setup()
+        public async Task Setup()
         {
 
             app = App.Create(myRealmAppId);
@@ -30,7 +30,7 @@ namespace Examples
         }
 
         [Test]
-        public async ThreadTask CallsAFunction()
+        public async Task CallsAFunction()
         {
             try
             {
@@ -47,10 +47,10 @@ namespace Examples
                 // :snippet-end:
                 Assert.AreEqual(42, sum);
                 // :snippet-start: callfuncWithPOCO
-                var task = await user.Functions.CallAsync<MyClass>
-                    ("getTask", "5f7f7638024a99f41a3c8de4");
+                var item = await user.Functions.CallAsync<MyClass>
+                    ("getItem", "5f7f7638024a99f41a3c8de4");
 
-                var name = task.Name;
+                var name = item.Name;
                 // :snippet-end:
                 return;
             }

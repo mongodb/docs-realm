@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using Realms;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Examples
 {
@@ -21,7 +22,7 @@ namespace Examples
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
-        public async System.Threading.Tasks.Task Setup()
+        public async Task Setup()
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
@@ -39,8 +40,8 @@ namespace Examples
             var t = new UserTask() { Priority = 100, ProgressMinutes = 5, Assignee = "Jamie" };
             var t2 = new UserTask() { Priority = 1, ProgressMinutes = 500, Assignee = "Elvis" };
             var up = new UserProject() { Name = "A Big Project" };
-            up.Tasks.Add(t);
-            up.Tasks.Add(t2);
+            up.Items.Add(t);
+            up.Items.Add(t2);
             realm.Write(() =>
             {
                 realm.Add(t);
@@ -52,32 +53,32 @@ namespace Examples
 
 
         [Test]
-        public async System.Threading.Tasks.Task Comparisons()
+        public async Task Comparisons()
         {
             var realm = await Realm.GetInstanceAsync(config);
-            var tasks = realm.All<UserTask>();
+            var items = realm.All<UserTask>();
             // :snippet-start: comparisons
-            var highPri = tasks.Where(t => t.Priority > 5);
+            var highPri = items.Where(i => i.Priority > 5);
 
-            var quickTasks = tasks.Where(t =>
-                t.ProgressMinutes >= 1 &&
-                t.ProgressMinutes < 15);
+            var quickItems = items.Where(i =>
+                i.ProgressMinutes >= 1 &&
+                i.ProgressMinutes < 15);
 
-            var unassignedTasks = tasks.Where(t =>
-                t.Assignee == null);
+            var unassignedItems = items.Where(i =>
+                i.Assignee == null);
 
-            var AliOrJamieTasks = tasks.Where(t =>
-                t.Assignee == "Ali" ||
-                t.Assignee == "Jamie");
+            var AliOrJamieItems = items.Where(i =>
+               i.Assignee == "Ali" ||
+               i.Assignee == "Jamie");
             // :snippet-end:
 
             Assert.AreEqual(1, highPri.Count());
-            Assert.AreEqual(1, quickTasks.Count());
-            Assert.AreEqual(0, unassignedTasks.Count());
-            Assert.AreEqual(1, AliOrJamieTasks.Count());
+            Assert.AreEqual(1, quickItems.Count());
+            Assert.AreEqual(0, unassignedItems.Count());
+            Assert.AreEqual(1, AliOrJamieItems.Count());
             // :snippet-start: logical
-            var completedTasksForAli = tasks.Where(t => t.Assignee == "Ali"
-                && t.IsComplete);
+            var completedItemsForAli = items
+                .Where(i => i.Assignee == "Ali" && i.IsComplete);
             // :snippet-end:
             // :snippet-start: strings
 
@@ -86,50 +87,46 @@ namespace Examples
             // Single(), SingleOrDefault(),
             // Last(), or LastOrDefault().
 
-            // Get all tasks where the Assignee's name starts with "E" or "e"
-            var tasksStartWitE = tasks.Where(t => t.Assignee.StartsWith("E",
+            // Get all items where the Assignee's name starts with "E" or "e"
+            var ItemssStartWithE = items.Where(i => i.Assignee.StartsWith("E",
                 StringComparison.OrdinalIgnoreCase));
 
-            // Get all tasks where the Assignee's name ends wth "is"
+            // Get all items where the Assignee's name ends wth "is"
             // (lower case only)
-            var endsWith = tasks.Where(t =>
+            var endsWith = items.Where(t =>
                 t.Assignee.EndsWith("is", StringComparison.Ordinal));
 
-            // Get all tasks where the Assignee's name contains the
+            // Get all items where the Assignee's name contains the
             // letters "ami" in any casing
-            var tasksContains = tasks.Where(t => t.Assignee.Contains("ami",
+            var itemsContains = items.Where(i => i.Assignee.Contains("ami",
                  StringComparison.OrdinalIgnoreCase));
 
-            // Get all tasks that have no assignee
-            var null_or_empty = tasks.Where(t => string.IsNullOrEmpty(t.Assignee));
+            // Get all items that have no assignee
+            var null_or_empty = items.Where(i => string.IsNullOrEmpty(i.Assignee));
 
             // :snippet-end:
-
-            Assert.AreEqual(1, tasksStartWitE.Count());
-            Assert.AreEqual(1, tasksContains.Count());
+            Assert.AreEqual(1, ItemssStartWithE.Count());
+            Assert.AreEqual(1, itemsContains.Count());
             Assert.AreEqual(0, null_or_empty.Count());
 
             var projects = realm.All<UserProject>();
 
-
-
-
             // :snippet-start: aggregate
-            // Get all projects with an average Task priorty > 5:
+            // Get all projects with an average Item priorty > 5:
             var avgPriority = projects.Filter(
-                "Tasks.@avg.Priority > 5");
+                "Items.@avg.Priority > 5");
 
-            // Get all projects where all Tasks are high-priority:
+            // Get all projects where all Items are high-priority:
             var highPriProjects = projects.Filter(
-                "Tasks.@min.Priority > 5");
+                "Items.@min.Priority > 5");
 
-            // Get all projects with long-running Tasks:
+            // Get all projects with long-running Items:
             var longRunningProjects = projects.Filter(
-                "Tasks.@sum.ProgressMinutes > 100");
+                "Items.@sum.ProgressMinutes > 100");
             // :snippet-end:
 
             // :snippet-start: rql
-            var elvisProjects = projects.Filter("Tasks.Assignee == 'Elvis'");
+            var elvisProjects = projects.Filter("Items.Assignee == 'Elvis'");
             // :snippet-end:
 
             Assert.AreEqual(1, avgPriority.Count());
@@ -154,7 +151,7 @@ namespace Examples
     // :snippet-start: classes
     // :replace-start: {
     // "terms": {
-    //   "UserTask": "Task",
+    //   "UserTask": "Items",
     // "UserProject": "Project"}
     // }
     public class UserTask : RealmObject
@@ -175,7 +172,7 @@ namespace Examples
         [MapTo("_id")]
         public ObjectId ID { get; set; } = ObjectId.GenerateNewId();
         public string Name { get; set; }
-        public IList<UserTask> Tasks { get; }
+        public IList<UserTask> Items { get; }
     }
     // :replace-end:
     // :snippet-end:

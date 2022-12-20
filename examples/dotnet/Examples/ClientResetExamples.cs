@@ -18,7 +18,6 @@ namespace Examples
         RealmUser user;
 
         const string myRealmAppId = Config.fsAppId;
-        Realm realm;
         App fsApp;
         Realm fsRealm;
         RealmUser fsUser;
