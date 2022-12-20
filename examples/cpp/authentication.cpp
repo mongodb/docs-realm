@@ -17,7 +17,7 @@ TEST_CASE("create and log in a user", "[realm]") {
 
     // :snippet-start: log-user-in
     auto user = app.login(realm::App::Credentials::username_password(USER_EMAIL, USER_PASSWORD))
-    .get_future().get();
+        .get_future().get();
     // :snippet-end:
 
     // :snippet-start: log-user-out
