@@ -8,9 +8,9 @@ namespace Examples.RqlSchemaExamples
     // :snippet-start: rql-schema-examples
     // :replace-start: {
     //  "terms": {
-    //   "RqlTask": "Task",
+    //   "RqlTask": "Item",
     //   "RqlProject": "Project",
-    //   "RqlTasks": "Tasks"}
+    //   "RqlTasks": "Items"}
     // }
     public class RqlTask : RealmObject
     {
@@ -35,7 +35,7 @@ namespace Examples.RqlSchemaExamples
         public int ProgressMinutes { get; set; } = 0;
 
         [MapTo("projects")]
-        [Backlink(nameof(RqlProject.RqlTasks))]
+        [Backlink(nameof(RqlProject.RqlItems))]
         public IQueryable<RqlProject> Projects { get; }
     }
 
@@ -49,8 +49,8 @@ namespace Examples.RqlSchemaExamples
         [Required]
         public string Name { get; set; }
 
-        [MapTo("tasks")]
-        public IList<RqlTask> RqlTasks { get; }
+        [MapTo("items")]
+        public IList<RqlTask> RqlItems { get; }
 
         [MapTo("quota")]
         public int Quota { get; set; }

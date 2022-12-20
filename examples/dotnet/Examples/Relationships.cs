@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
@@ -38,7 +39,7 @@ namespace Examples
         // :snippet-end:
 
         [Test]
-        public async System.Threading.Tasks.Task OneToOneQuery()
+        public async Task OneToOneQuery()
         {
             var realm = await Realm.GetInstanceAsync();
             realm.Write(() =>
@@ -119,7 +120,7 @@ namespace Examples
         // :snippet-end:
 
         [Test]
-        public async System.Threading.Tasks.Task OneToManyQuery()
+        public async Task OneToManyQuery()
         {
             var realm = await Realm.GetInstanceAsync();
             realm.Write(() =>
@@ -165,7 +166,7 @@ namespace Examples
         // :replace-start: {
         //  "terms": {
         //   "UserTwo": "User",
-        //   "TaskTwo" : "Task" }
+        //   "TaskTwo" : "Item" }
         // }
         public class UserTwo : RealmObject
         {
@@ -176,7 +177,7 @@ namespace Examples
             public string Name { get; set; }
 
             [Backlink(nameof(TaskTwo.Assignee))]
-            public IQueryable<TaskTwo> Tasks { get; }
+            public IQueryable<TaskTwo> Items { get; }
         }
 
         public class TaskTwo : RealmObject
@@ -193,7 +194,7 @@ namespace Examples
         // :snippet-end:
 
         [Test]
-        public async System.Threading.Tasks.Task InverseQuery()
+        public async Task InverseQuery()
         {
             var realm = await Realm.GetInstanceAsync();
             realm.Write(() =>
@@ -209,22 +210,22 @@ namespace Examples
                 realm.Add(user);
             });
 
-            var task1 = new TaskTwo() { Text = "Defribillate the master oscillator", Assignee = user };
-            var task2 = new TaskTwo() { Text = "Subvert the paradigm", Assignee = user };
+            var item1 = new TaskTwo() { Text = "Defribillate the master oscillator", Assignee = user };
+            var item2 = new TaskTwo() { Text = "Subvert the paradigm", Assignee = user };
             realm.Write(() =>
             {
-                realm.Add(task1);
-                realm.Add(task2);
+                realm.Add(item1);
+                realm.Add(item2);
             });
 
             // :snippet-start: inverse-query
             // :replace-start: {
             //  "terms": {
             //   "UserTwo": "User",
-            //   "TaskTwo" : "Task" }
+            //   "TaskTwo" : "Item" }
             // }
             var oscillatorAssignees = realm.All<UserTwo>()
-                .Filter("Tasks.Text CONTAINS 'oscillator'").ToList();
+                .Filter("Items.Text CONTAINS 'oscillator'").ToList();
 
             foreach (UserTwo u in oscillatorAssignees)
             {

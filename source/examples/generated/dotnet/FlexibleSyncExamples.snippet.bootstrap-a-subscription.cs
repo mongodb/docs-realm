@@ -2,10 +2,10 @@ var config = new FlexibleSyncConfiguration(app.CurrentUser)
 {
     PopulateInitialSubscriptions = (realm) =>
     {
-        var myTasks = realm.All<Task>().Where(n => n.OwnerId == myUserId);
-        realm.Subscriptions.Add(myTasks);
+        var myItems = realm.All<Item>().Where(n => n.OwnerId == myUserId);
+        realm.Subscriptions.Add(myItems);
     }
 };
 
-// The process will complete when all the user's tasks have been downloaded.
+// The process will complete when all the user's items have been downloaded.
 var realm = await Realm.GetInstanceAsync(config);

@@ -1,4 +1,4 @@
-public class Task : RealmObject
+public class Items : RealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
@@ -16,5 +16,5 @@ public class Project : RealmObject
     [MapTo("_id")]
     public ObjectId ID { get; set; } = ObjectId.GenerateNewId();
     public string Name { get; set; }
-    public IList<Task> Tasks { get; }
+    public IList<Items> Items { get; }
 }
