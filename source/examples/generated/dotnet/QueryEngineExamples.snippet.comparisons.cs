@@ -8,5 +8,5 @@ var unassignedItems = items.Where(i =>
     i.Assignee == null);
 
 var AliOrJamieItems = items.Where(i =>
-   i.Assignee == "Ali" ||
-   i.Assignee == "Jamie");
+    i.Assignee == "Ali" ||
+    i.Assignee == "Jamie");

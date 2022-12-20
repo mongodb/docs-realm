@@ -91,7 +91,11 @@ namespace Examples
         [Test]
         public void OpensLocalRealm()
         {
-            var pathToDb = String.Empty;
+            var pathToDb = Directory.GetCurrentDirectory() + "/db/";
+            if (!File.Exists(pathToDb))
+            {
+                Directory.CreateDirectory(pathToDb);
+            }
 
             // :snippet-start: local-realm
             var config = new RealmConfiguration(pathToDb + "my.realm")
