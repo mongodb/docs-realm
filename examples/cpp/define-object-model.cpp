@@ -101,12 +101,13 @@ TEST_CASE("create an embedded object", "[model][write]") {
         realm.add(business);
     });
     // :snippet-end:
-
-    auto businesses = realm.objects<Business>();
-    auto mongoDBPointer = businesses[0];
-    REQUIRE(businesses.size() >= 1);
-    REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com");
-    // Clean up after the test
+    SECTION("Test code example functions as intended") {
+        auto businesses = realm.objects<Business>();
+        auto mongoDBPointer = businesses[0];
+        REQUIRE(businesses.size() >= 1);
+        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com");
+    }
+    // Clean up after test
     realm.write([&realm, &business] {
         realm.remove(business);
     });
@@ -124,12 +125,14 @@ TEST_CASE("create object with ignored property", "[model][write]") {
         realm.add(employee);
     });
 
-    auto employees = realm.objects<Employee>();
-    auto employeesNamedLeslie = employees.where("firstName == $0", {"Leslie"});
-    CHECK(employeesNamedLeslie.size() >= 1);
-    std::unique_ptr<Employee> leslieKnopePointer = employeesNamedLeslie[0];
-    REQUIRE(employee.jobTitle_notPersisted == "Organizer-In-Chief");
-    REQUIRE(leslieKnopePointer->jobTitle_notPersisted.empty());
+    SECTION("Test code example functions as intended") {
+        auto employees = realm.objects<Employee>();
+        auto employeesNamedLeslie = employees.where("firstName == $0", {"Leslie"});
+        CHECK(employeesNamedLeslie.size() >= 1);
+        std::unique_ptr<Employee> leslieKnopePointer = employeesNamedLeslie[0];
+        REQUIRE(employee.jobTitle_notPersisted == "Organizer-In-Chief");
+        REQUIRE(leslieKnopePointer->jobTitle_notPersisted.empty());
+    }
     // Clean up after the test
     realm.write([&realm, &employee] {
         realm.remove(employee);
@@ -149,18 +152,20 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     });
     // :snippet-end:
 
-    auto pointsOfInterest = realm.objects<PointOfInterest>();
-    auto namedGrandCanyonVillage = pointsOfInterest.where("name == $0", {"Grand Canyon Village"});
-    CHECK(namedGrandCanyonVillage.size() >= 1);
-    auto grandCanyonVillage = namedGrandCanyonVillage[0];
-    std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
-    REQUIRE(grandCanyonVillage->name == "Grand Canyon Village");
-    auto const &theseGpsCoordinates = *(grandCanyonVillage->gpsCoordinates);
-    static_assert(std::is_same_v<decltype(theseGpsCoordinates), std::optional<GPSCoordinates> const &>, "Dereference fail!"); // :remove:
-    auto latitude = *(theseGpsCoordinates->latitude);
-    static_assert(std::is_same_v<decltype(latitude), double>, "Dereference fail!"); // :remove:
-    std::cout << "POI Latitude: " << latitude << "\n";
-    REQUIRE(latitude == 36.0554);
+    SECTION("Test code example functions as intended") {
+        auto pointsOfInterest = realm.objects<PointOfInterest>();
+        auto namedGrandCanyonVillage = pointsOfInterest.where("name == $0", {"Grand Canyon Village"});
+        CHECK(namedGrandCanyonVillage.size() >= 1);
+        auto grandCanyonVillage = namedGrandCanyonVillage[0];
+        std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
+        REQUIRE(grandCanyonVillage->name == "Grand Canyon Village");
+        auto const &theseGpsCoordinates = *(grandCanyonVillage->gpsCoordinates);
+        static_assert(std::is_same_v<decltype(theseGpsCoordinates), std::optional<GPSCoordinates> const &>, "Dereference fail!"); // :remove:
+        auto latitude = *(theseGpsCoordinates->latitude);
+        static_assert(std::is_same_v<decltype(latitude), double>, "Dereference fail!"); // :remove:
+        std::cout << "POI Latitude: " << latitude << "\n";
+        REQUIRE(latitude == 36.0554);
+    }
     // Clean up after the test
     realm.write([&realm, &pointOfInterest] {
         realm.remove(pointOfInterest);
@@ -206,13 +211,15 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
     std::cout << "Company named: " << dunderMifflin->name << "\n";
     // :snippet-end:
 
-    REQUIRE(dunderMifflin->name == "Dunder Mifflin");
-    auto employeeCount = dunderMifflin->employees.size();
-    REQUIRE(employeeCount >= 2);
-    auto companyEmployees = dunderMifflin->employees;
-    auto employees = realm.objects<Employee>();
-    auto employeesNamedJim = employees.where("firstName == $0", {"Jim"});
-    REQUIRE(employeesNamedJim.size() >= 1);
+    SECTION("Test code example functions as intended") {
+        REQUIRE(dunderMifflin->name == "Dunder Mifflin");
+        auto employeeCount = dunderMifflin->employees.size();
+        REQUIRE(employeeCount >= 2);
+        auto companyEmployees = dunderMifflin->employees;
+        auto employees = realm.objects<Employee>();
+        auto employeesNamedJim = employees.where("firstName == $0", {"Jim"});
+        REQUIRE(employeesNamedJim.size() >= 1);
+    }
     // Clean up after the test
     realm.write([&realm, &company] {
         realm.remove(company);
@@ -231,18 +238,20 @@ TEST_CASE("update an embedded object", "[model][update]") {
     realm.write([&realm, &business] {
         realm.add(business);
     });
-    // :snippet-start: update-embedded-object
-    auto businesses = realm.objects<Business>();
-    auto mongoDBPointer = businesses[0];
-    REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com"); // :remove:
+    SECTION("This example could fail but we still want to clean up after the test") {
+        // :snippet-start: update-embedded-object
+        auto businesses = realm.objects<Business>();
+        auto mongoDBPointer = businesses[0];
+        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com"); // :remove:
 
-    realm.write([&realm, &mongoDBPointer] {
-        (*mongoDBPointer->contactDetails).emailAddress = "info@example.com";
-    });
+        realm.write([&realm, &mongoDBPointer] {
+            (*mongoDBPointer->contactDetails).emailAddress = "info@example.com";
+        });
 
-    std::cout << "New email address: " << (*mongoDBPointer->contactDetails).emailAddress << "\n";
-    // :snippet-end:
-    REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "info@example.com");
+        std::cout << "New email address: " << (*mongoDBPointer->contactDetails).emailAddress << "\n";
+        // :snippet-end:
+        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "info@example.com");
+    }
     // Clean up after the test
     realm.write([&realm, &business] {
         realm.remove(business);
