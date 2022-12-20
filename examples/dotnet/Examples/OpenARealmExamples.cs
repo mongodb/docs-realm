@@ -98,7 +98,7 @@ namespace Examples
             }
 
             // :snippet-start: local-realm
-            var config = new RealmConfiguration(pathToDb + "/my.realm")
+            var config = new RealmConfiguration(pathToDb + "my.realm")
             {
                 IsReadOnly = true,
             };

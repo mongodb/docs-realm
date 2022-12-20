@@ -52,7 +52,7 @@ namespace Examples
             {
                 // subscribe to all long running items, and give the subscription the name 'longRunningItems'
                 var longRunningItemsQuery = realm.All<MyTask>()
-                    .Where(i => i.Status == "completed" && t.ProgressMinutes > 120);
+                    .Where(i => i.Status == "completed" && i.ProgressMinutes > 120);
                 realm.Subscriptions
                     .Add(longRunningItemsQuery,
                         new SubscriptionOptions() { Name = "longRunningItems" });
@@ -91,7 +91,7 @@ namespace Examples
             {
                 var updatedLongRunningItemsQuery = realm
                     .All<MyTask>()
-                    .Where(i => i.Status == "completed" && t.ProgressMinutes > 130);
+                    .Where(i => i.Status == "completed" && i.ProgressMinutes > 130);
                 realm.Subscriptions
                     .Add(updatedLongRunningItemsQuery,
                         new SubscriptionOptions() { Name = "longRunningItems" });

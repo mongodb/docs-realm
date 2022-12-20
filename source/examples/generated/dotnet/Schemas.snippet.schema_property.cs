@@ -11,7 +11,7 @@ var manualConfig = new RealmConfiguration
 {
     Schema = new RealmSchema.Builder
     {
-        new ObjectSchema.Builder("ClassA", isEmbedded: false)
+        new Builder("ClassA", ObjectType.EmbeddedObject)
         {
             Property.Primitive("Id",
                 RealmValueType.Guid,

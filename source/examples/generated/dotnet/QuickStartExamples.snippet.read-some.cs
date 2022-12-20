@@ -1,1 +1,1 @@
-tasks = realm.All<Task>().Where(t => t.Status == "Open");
+items = realm.All<Item>().Where(i => i.Status == "Open");
