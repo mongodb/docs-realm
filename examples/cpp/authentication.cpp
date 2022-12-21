@@ -10,14 +10,14 @@ TEST_CASE("create and log in a user", "[realm]") {
 
     auto app = realm::App(APP_ID);
 
-    std::string USER_EMAIL = "testUser@mongodb.com";
-    std::string USER_PASSWORD = "password1234";
+    auto user_email = "testUser@mongodb.com";
+    auto user_password = "password1234";
 
-    app.register_user(USER_EMAIL, USER_PASSWORD).get_future().get();
+    app.register_user(user_email, user_password).get_future().get();
     // :snippet-end:
 
     // :snippet-start: log-user-in
-    auto user = app.login(realm::App::Credentials::username_password(USER_EMAIL, USER_PASSWORD))
+    auto user = app.login(realm::App::Credentials::username_password(user_email, user_password))
         .get_future().get();
     // :snippet-end:
 
