@@ -79,7 +79,7 @@ bytes to be transferred.
 ``SyncSession.getProgressStream()`` takes two arguments:
 
 - A :flutter-sdk:`ProgressDirection <realm/ProgressDirection.html>`
-  enum that can be set to ``upload``.
+  enum that must be set to ``upload``.
   This specifies that the progress stream track uploads.
 
 - A :flutter-sdk:`ProgressMode <realm/latest/realm/ProgressMode.html>` enum
@@ -94,7 +94,7 @@ bytes to be transferred.
 .. warning:: Do Not Track Downloads
 
    The ``ProgressDirection`` enum also has a ``download`` option to track down downloads.
-   However, this option is not currently working. Do **not** use ``ProgressDirection.download``.
+   However, this option is not currently working. **Do not** use ``ProgressDirection.download``.
 
 .. _flutter-monitor-network-connection:
 
