@@ -57,3 +57,24 @@ You can add optional arguments to the :flutter-sdk:`AppConfiguration <realm/AppC
 
    For most use cases, you only need your application's App ID to connect
    to App Services. The other settings demonstrated here are optional.
+
+.. _flutter-connect-old-android:
+
+Connect Using Android 7 or Older
+--------------------------------
+
+To use App Services with the Realm SDK on a device using Android 7 or older,
+you must add an HTTP client with a custom Let's Encrypt Transport Layer Security (TLS) encryption certificate
+to the ``App``.
+
+This is due to a known issue using Flutter on devices running Android 7 or older
+to connect to web servers that use Let's Encrypt TLS certificates.
+As App Services server uses a Let's Encrypt TLS certificate, you must add the custom certificate.
+
+You can download the Let's Encrypt certificate to add to your app
+by clicking this link: https://letsencrypt.org/certs/lets-encrypt-r3.pem
+
+To set up the custom HTTP client, adapt the following code example to your app.
+
+.. literalinclude:: /examples/generated/flutter/app_services_test.snippet.custom-ssl-cert.dart
+   :language: dart
