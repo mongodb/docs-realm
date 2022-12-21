@@ -88,6 +88,7 @@ namespace Examples
             //:snippet-end:
         }
 
+        [Test]
         public void OpensLocalRealm()
         {
             try
