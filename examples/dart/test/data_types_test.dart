@@ -66,8 +66,8 @@ class _ObjectIdPrimaryKey {
 @RealmModel()
 class _RealmValueExample {
   @Indexed()
-  late RealmValue anyValue;
-  late List<RealmValue> mixedAnyValues;
+  late RealmValue singleAnyValue;
+  late List<RealmValue> listOfMixedAnyValues;
 }
 
 // :snippet-end:
@@ -104,18 +104,20 @@ main() {
     realm.write(() {
       realm.addAll([
         RealmValueExample(
-            anyValue: RealmValue.from(1),
-            mixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
+            singleAnyValue: RealmValue.from(1),
+            listOfMixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
         RealmValueExample(
-            anyValue: RealmValue.nullValue(),
-            mixedAnyValues: ["abc", 123].map(RealmValue.from))
+            singleAnyValue: RealmValue.nullValue(),
+            listOfMixedAnyValues: ["abc", 123].map(RealmValue.from))
       ]);
     });
     // :snippet-end:
 
-    expect(realm.query<RealmValueExample>("anyValue.@type == 'int'").first,
+    expect(
+        realm.query<RealmValueExample>("singleAnyValue.@type == 'int'").first,
         isNotNull);
-    expect(realm.query<RealmValueExample>("anyValue.@type == 'Null'").first,
+    expect(
+        realm.query<RealmValueExample>("singleAnyValue.@type == 'Null'").first,
         isNotNull);
     cleanUpRealm(realm);
   });
@@ -124,19 +126,19 @@ main() {
     realm.write(() {
       realm.addAll([
         RealmValueExample(
-            anyValue: RealmValue.from(1),
-            mixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
+            singleAnyValue: RealmValue.from(1),
+            listOfMixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
         RealmValueExample(
-            anyValue: RealmValue.nullValue(),
-            mixedAnyValues: ["abc", 123].map(RealmValue.from))
+            singleAnyValue: RealmValue.nullValue(),
+            listOfMixedAnyValues: ["abc", 123].map(RealmValue.from))
       ]);
     });
     var calledCount = 0;
     // :snippet-start: realm-value-type-value
     final data = realm.all<RealmValueExample>();
     for (var obj in data) {
-      if (obj.anyValue.type == int) {
-        print(obj.anyValue.value.toString());
+      if (obj.singleAnyValue.type == int) {
+        print(obj.singleAnyValue.value.toString());
         calledCount++; // :remove:
       }
     }

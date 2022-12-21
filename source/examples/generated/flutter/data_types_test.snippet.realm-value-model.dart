@@ -1,7 +1,7 @@
 @RealmModel()
 class _RealmValueExample {
   @Indexed()
-  late RealmValue anyValue;
-  late List<RealmValue> mixedAnyValues;
+  late RealmValue singleAnyValue;
+  late List<RealmValue> listOfMixedAnyValues;
 }
 

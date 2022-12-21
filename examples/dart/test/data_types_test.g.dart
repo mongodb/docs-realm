@@ -263,29 +263,29 @@ class ObjectIdPrimaryKey extends _ObjectIdPrimaryKey
 class RealmValueExample extends _RealmValueExample
     with RealmEntity, RealmObjectBase, RealmObject {
   RealmValueExample({
-    RealmValue anyValue = const RealmValue.nullValue(),
-    Iterable<RealmValue> mixedAnyValues = const [],
+    RealmValue singleAnyValue = const RealmValue.nullValue(),
+    Iterable<RealmValue> listOfMixedAnyValues = const [],
   }) {
-    RealmObjectBase.set(this, 'anyValue', anyValue);
-    RealmObjectBase.set<RealmList<RealmValue>>(
-        this, 'mixedAnyValues', RealmList<RealmValue>(mixedAnyValues));
+    RealmObjectBase.set(this, 'singleAnyValue', singleAnyValue);
+    RealmObjectBase.set<RealmList<RealmValue>>(this, 'listOfMixedAnyValues',
+        RealmList<RealmValue>(listOfMixedAnyValues));
   }
 
   RealmValueExample._();
 
   @override
-  RealmValue get anyValue =>
-      RealmObjectBase.get<RealmValue>(this, 'anyValue') as RealmValue;
+  RealmValue get singleAnyValue =>
+      RealmObjectBase.get<RealmValue>(this, 'singleAnyValue') as RealmValue;
   @override
-  set anyValue(RealmValue value) =>
-      RealmObjectBase.set(this, 'anyValue', value);
+  set singleAnyValue(RealmValue value) =>
+      RealmObjectBase.set(this, 'singleAnyValue', value);
 
   @override
-  RealmList<RealmValue> get mixedAnyValues =>
-      RealmObjectBase.get<RealmValue>(this, 'mixedAnyValues')
+  RealmList<RealmValue> get listOfMixedAnyValues =>
+      RealmObjectBase.get<RealmValue>(this, 'listOfMixedAnyValues')
           as RealmList<RealmValue>;
   @override
-  set mixedAnyValues(covariant RealmList<RealmValue> value) =>
+  set listOfMixedAnyValues(covariant RealmList<RealmValue> value) =>
       throw RealmUnsupportedSetError();
 
   @override
@@ -302,9 +302,9 @@ class RealmValueExample extends _RealmValueExample
     RealmObjectBase.registerFactory(RealmValueExample._);
     return const SchemaObject(
         ObjectType.realmObject, RealmValueExample, 'RealmValueExample', [
-      SchemaProperty('anyValue', RealmPropertyType.mixed,
+      SchemaProperty('singleAnyValue', RealmPropertyType.mixed,
           optional: true, indexed: true),
-      SchemaProperty('mixedAnyValues', RealmPropertyType.mixed,
+      SchemaProperty('listOfMixedAnyValues', RealmPropertyType.mixed,
           optional: true, collectionType: RealmCollectionType.list),
     ]);
   }
