@@ -94,7 +94,9 @@ bytes to be transferred.
 .. warning:: Do Not Track Downloads
 
    The ``ProgressDirection`` enum also has a ``download`` option to track down downloads.
-   However, this option is not currently working. **Do not** use ``ProgressDirection.download``.
+   The ``download`` case provides planned future support for download progress notifications. 
+   However, these notifications do not currently provide an accurate indicator of download progress.
+   Do not rely on ``ProgressDirection.download`` for download progress notifications.
 
 .. _flutter-monitor-network-connection:
 
