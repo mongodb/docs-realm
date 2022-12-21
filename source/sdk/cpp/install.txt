@@ -135,3 +135,36 @@ Make the Realm C++ SDK available in your code by including the
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.includes.cpp
    :language: cpp
+
+.. _cpp-build-android-app:
+
+Build an Android App
+--------------------
+
+The Realm C++ SDK Alpha supports building Android apps. To build an Android
+app:
+
+- Add ``<uses-permission android:name="android.permission.INTERNET" />`` to your ``AndroidManifest.xml``
+- Add the subdirectory of the Realm C++ SDK to your native library's ``CMakeLists.txt``:
+
+  .. code-block:: shell
+
+     set(CMAKE_CXX_STANDARD 17) 
+     add_subdirectory("realm-cpp")
+     ...
+     target_link_libraries( 
+        # Specifies the target library.
+        myapplication
+        # make sure to link the Realm C++ SDK.
+        cpprealm
+     )
+
+- Ensure that the git submodules are initialized inside of the ``realm-cpp`` folder before building. 
+- When instantiating the Realm or the Realm App, you must pass the ``filesDir.path`` to the ``path`` parameter in the respective constructors. 
+
+For an example of how to use the Realm C++ SDK Alpha in an Android app, refer to
+the :github:`Android RealmExample App <realm/realm-cpp/tree/main/examples/Android>`
+in the ``realm-cpp`` GitHub repository.
+
+Specifically, refer to the ``MainActivity.kt`` & ``native-lib.cpp`` files 
+in the Android example app for code examples.

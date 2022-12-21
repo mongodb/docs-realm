@@ -31,9 +31,16 @@ Access the App Client
 ---------------------
 
 #. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
-#. Create an `App object <https://www.mongodb.com/docs/realm-sdks/cpp/latest/classrealm_1_1App.html>`__ 
+#. Create an :cpp-sdk:`App object <classrealm_1_1App.html>`__ 
    with your App's ID as the argument. You use this ``App`` instance to access 
    App Services features throughout your client application.
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.connect-app-services.cpp
    :language: cpp
+
+.. tip:: Building an Android App
+
+   When building an Android app that uses the Realm C++ SDK Alpha, 
+   you must pass the ``filesDir.path`` to the ``file_path`` parameter in the 
+   App constructor. For more information about building an Android 
+   app, refer to: :ref:`cpp-build-android-app`.
