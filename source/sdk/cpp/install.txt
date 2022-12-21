@@ -145,9 +145,10 @@ The Realm C++ SDK Alpha supports building Android apps. To build an Android
 app:
 
 - Add ``<uses-permission android:name="android.permission.INTERNET" />`` to your ``AndroidManifest.xml``
-- Add the subdirectory of the Realm C++ SDK to your native library's ``CMakeLists.txt``:
+- Add the subdirectory of the Realm C++ SDK to your native library's ``CMakeLists.txt``
+  and link it as a target library:
 
-  .. code-block:: shell
+  .. code-block:: text
 
      set(CMAKE_CXX_STANDARD 17) 
      add_subdirectory("realm-cpp")
