@@ -222,13 +222,13 @@ as the property type.
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
-The following ``Person`` object schema specifies that a person may or may not
-own a single ``Dog``. If they do own a ``Dog``, Realm links to it via the
-``dog`` property:
+The following ``CarOwner`` object schema specifies that a person may or may not
+own a single ``Car``. If they do own a ``Car``, Realm links to it through the
+``car`` property:
 
-.. literalinclude:: /examples/Relationships/ToOne/ToOne.js
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-one.js
    :language: javascript
-   :emphasize-lines: 6
+   :emphasize-lines: 7
 
 .. _node-define-a-to-many-relationship-property:
 

@@ -1,4 +1,4 @@
-import Realm from "realm";
+import Realm, { BSON } from "realm";
 
 describe("Define a Realm Object Schema", () => {
   test.skip("should define realm object types with js classes", async () => {
@@ -61,6 +61,66 @@ describe("Define a Realm Object Schema", () => {
     // delete the car after its used
     realm.write(() => {
       realm.delete(car1);
+    });
+    // close the realm
+    realm.close();
+  });
+});
+
+describe("Define Relationship Properties", () => {
+  test.skip("should define a to-one relationship", async () => {
+    // :snippet-start: define-one-to-one
+    class CarOwner {
+      static schema = {
+        name: "CarOwner",
+        properties: {
+          _id: "objectId",
+          // A car owner can have one car
+          car: "Car?"
+        },
+      };
+    }
+    
+    class Car {
+      static schema = {
+        name: "Car",
+        properties: {
+          _id: "objectId",
+          make: "string",
+          model: "string",
+          miles: "int?",
+        },
+      };
+    }
+    // :snippet-end:
+
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [CarOwner, Car],
+    });
+
+    let carOwner, car1;
+
+    realm.write(() => {
+      car1 = realm.create("Car", {
+        _id: new BSON.ObjectID(),
+        make: "Nissan",
+        model: "Sentra",
+        miles: 1000,
+      });
+
+      carOwner = realm.create("CarOwner", {
+        _id: new BSON.ObjectID(),
+        car: car1
+      });
+    });
+    console.log(carOwner.car.carName);
+
+    expect(carOwner.car.carName).toBe("Nissan Sentra");
+    // delete the car after its used
+    realm.write(() => {
+      realm.delete(car1);
+      realm.delete(carOwner);
     });
     // close the realm
     realm.close();
