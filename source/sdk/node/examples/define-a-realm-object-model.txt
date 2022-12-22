@@ -12,9 +12,6 @@ Define a Realm Object Schema - Node.js SDK
 
 .. _node-define-a-new-object-type:
 
-Define a New Object Type
-------------------------
-
 To define a Realm object type, create a schema object that specifies the type's
 ``name`` and ``properties``. The type name must be unique among object types in
 a realm. For details on how to define specific properties, see :ref:`Define
@@ -246,10 +243,9 @@ An application could use the following object schemas to indicate
 that a Person may own multiple Dogs by including them in its ``dog``
 property:
 
-.. literalinclude:: /examples/Relationships/ToMany/ToMany.js
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-many.js
    :language: javascript
-   :emphasize-lines: 6
-
+   :emphasize-lines: 7
 
 .. _node-define-an-inverse-relationship-property:
 

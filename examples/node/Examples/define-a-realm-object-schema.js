@@ -114,14 +114,88 @@ describe("Define Relationship Properties", () => {
         car: car1
       });
     });
+
     console.log(carOwner.car.carName);
 
     expect(carOwner.car.carName).toBe("Nissan Sentra");
-    // delete the car after its used
+
+    // delete the objects after they're used
     realm.write(() => {
       realm.delete(car1);
       realm.delete(carOwner);
     });
+
+    // close the realm
+    realm.close();
+  });
+
+  test.skip("should define a to-many relationship", async () => {
+    // :snippet-start: define-one-to-many
+    class CarOwner {
+      static schema = {
+        name: "CarOwner",
+        properties: {
+          _id: "objectId",
+          // A car owner can have many cars
+          cars: "Car[]"
+        },
+      };
+    }
+    
+    class Car {
+      static schema = {
+        name: "Car",
+        properties: {
+          _id: "objectId",
+          make: "string",
+          model: "string",
+          miles: "int?",
+        },
+      };
+    }
+    // :snippet-end:
+
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [CarOwner, Car],
+    });
+
+    let carOwner, car1, car2;
+
+    realm.write(() => {
+      car1 = realm.create("Car", {
+        _id: new BSON.ObjectID(),
+        make: "Nissan",
+        model: "Sentra",
+        miles: 1000,
+      });
+
+      car2 = realm.create("Car", {
+        _id: new BSON.ObjectID(),
+        make: "Hyundai",
+        model: "Elantra",
+        miles: 10000,
+      });
+
+      carOwner = realm.create("CarOwner", {
+        _id: new BSON.ObjectID(),
+        cars: []
+      });
+
+      carOwner.cars.push(car1, car2);
+    });
+
+    console.log(carOwner.cars.length());
+
+    expect(carOwner.cars.length()).toBe(1);
+
+    // delete the objects after they're used
+    realm.write(() => {
+      realm.delete(car1);
+      realm.delete(car2);
+      realm.delete(carOwner);
+    });
+
     // close the realm
     realm.close();
   });
