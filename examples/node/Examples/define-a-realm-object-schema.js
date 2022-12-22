@@ -7,14 +7,12 @@ describe("Define a Realm Object Schema", () => {
     class Car {
       static schema = {
         name: "Car",
-        // :snippet-start: define-optional-property
         properties: {
           _id: "objectId",
           make: "string",
           model: "string",
           miles: "int?",
         },
-        // :snippet-end:
         primaryKey: '_id',
       };
       // :remove-start:

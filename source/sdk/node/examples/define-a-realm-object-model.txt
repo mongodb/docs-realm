@@ -104,12 +104,11 @@ Specify an Optional Property
 
 To mark a property as optional, append a question mark ``?`` to its type.
    
-The following schema defines a DogSchema with the optional property ``breed``
-of type ``string``.
+The following ``Car`` schema defines an optional ``miles`` property of type ``int``.
 
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-optional-property.js
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-object-properties.js
    :language: javascript
-   :emphasize-lines: 5
+   :emphasize-lines: 8
 
 .. _node-specify-a-primary-key:
 .. _node-primary-keys:
@@ -137,7 +136,7 @@ To specify a property as an object type's primary key, set the schema's
 The following ``Car`` object schema specifies the ``_id`` property as its
 primary key.
    
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-object-properties.js
    :language: javascript
    :emphasize-lines: 10
 
@@ -194,10 +193,9 @@ To use a different property name in your code than is stored in
 Realm Database, set ``mapTo`` to the name of the property as it appears in
 your code.
    
-A developer opens a realm using the following ``Dog`` object schema.
-Realm Database stores each dog's first name with the snake case
-``first_name`` property. The schema maps the property to ``firstName`` for
-objects used in JavaScript code.
+In the following ``CarOwner`` object schema, Realm Database stores the ``CarOwner``'s 
+last name with the snake case ``last_name`` property. The schema maps the property 
+to ``lastName`` for objects used in client code.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
    :language: javascript
