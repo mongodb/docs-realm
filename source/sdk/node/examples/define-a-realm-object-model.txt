@@ -234,14 +234,13 @@ Define a To-Many Relationship Property
 
 A **to-many** relationship maps one property to zero or more instances
 of another object type. For example, you can model a person having any
-number of companion dogs as a to-many relationship.
+number of cars as a to-many relationship.
 
 To define a to-many relationship property, specify the related object type name
 as a list.
    
-An application could use the following object schemas to indicate
-that a Person may own multiple Dogs by including them in its ``dog``
-property:
+An application could use the following object schemas to indicate that a ``CarOwner``
+may own multiple ``Car`` objects by including them in its ``cars`` property:
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-many.js
    :language: javascript
