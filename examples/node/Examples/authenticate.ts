@@ -3,7 +3,7 @@ import Realm from "realm";
 // :snippet-start: get-app-instance
 // :replace-start: {
 //   "terms": {
-//     "flexsyncjstest-smixl": "<yourAppId>"
+//     "example-testers-kvjdyl": "<yourAppId>"
 //   }
 // }
 const app = Realm.App.getApp("example-testers-kvjdy");
