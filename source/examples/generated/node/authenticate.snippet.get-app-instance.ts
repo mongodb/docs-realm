@@ -1,1 +1,1 @@
-const app = Realm.App.getApp("example-testers-kvjdy");
+const app = Realm.App.getApp("<yourAppId>");
