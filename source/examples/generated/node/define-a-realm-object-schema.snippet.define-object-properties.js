@@ -9,3 +9,4 @@ class Car {
     },
     primaryKey: '_id',
   };
+}

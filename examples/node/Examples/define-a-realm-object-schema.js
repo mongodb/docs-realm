@@ -17,12 +17,13 @@ describe("Define a Realm Object Schema", () => {
         // :snippet-end:
         primaryKey: '_id',
       };
-      // :snippet-end:
-      
+      // :remove-start:
       get carName() {
         return `${this.make} ${this.model}`;
       }
+      // :remove-end:
     }
+    // :snippet-end:
     // :snippet-end:
 
     // :snippet-start: define-advanced-properties
