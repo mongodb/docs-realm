@@ -9,8 +9,3 @@ class Car {
     },
     primaryKey: '_id',
   };
-  
-  get carName() {
-    return `${this.make} ${this.model}`;
-  }
-}
