@@ -4,94 +4,44 @@
 Connect to an Atlas App Services Backend - Node.js SDK
 ======================================================
 
-Overview
---------
-
-The App client is the interface to the App Services
+The App client is the interface to the Atlas App Services
 backend. It provides access to the :ref:`authentication functionality
 <node-authenticate-users>`, :ref:`functions <node-call-a-function>`, and
 :ref:`sync management <node-sync-changes-between-devices>`.
 
-
 .. _node-access-the-app-client:
+
+Before You Begin
+----------------
+
+#. :ref:`Create an App Services App <create-a-realm-app>`
+#. :ref:`Install the Realm Node.js SDK <node-install>`
 
 Access the App Client
 ---------------------
 
-Pass the Realm App ID for your App, which you can :ref:`find in the Realm UI <find-your-app-id>`.
+To connect to the App Services backend from your client, you need to create a 
+:js-sdk:`configuration object <Realm.App.html#~AppConfiguration>`. Then, pass
+that configuration object to a ``Realm.App()`` instance.
+ 
+You must include the ``id`` field and the :guilabel:`App ID` for your App Services App, which you can 
+:ref:`find in the App Services UI <find-your-app-id>`.
 
-.. tabs-realm-languages::
-
-      .. tab::
-         :tabid: typescript
-
-         .. code-block:: typescript
-
-            const id = "<Your App ID>"; // replace this with your App ID
-
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const id = "<Your App ID>"; // replace this with your App ID
-
-.. _node-app-client-configuration:
-
-Configuration
--------------
-
-To set up your App client, pass a configuration object to an instance
-of ``Realm.App``.
-
-.. tabs-realm-languages::
-
-      .. tab::
-         :tabid: typescript
-
-         .. code-block:: typescript
-
-            const config = {
-              id,
-            };
-            const app = new Realm.App(config);
-
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const config = {
-              id,
-            };
-            const app = new Realm.App(config);
-
-.. note:: 
-    
-   ``id`` is a required field of the application configuration object. To see the full list of fields for the configuration object that ``Realm.App`` accepts as a parameter, view the :js-sdk:`App Configuration Type Definitions <Realm.App.html#~AppConfiguration>`.
+.. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.js
+  :language: javascript
 
 .. _node-app-retrieve-client:
 
 Retrieve an Instance of the App Client
 --------------------------------------
 
-To retrieve an instance of the App Client from anywhere in your application, call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your ``App ID``. 
+To retrieve an instance of the App Client from anywhere in your application, 
+call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your 
+:guilabel:`App ID`. 
 
-.. tabs-realm-languages::
+.. TODO: Remove the tabs, as there's no difference. Also, Bluehawk it.
+authenticate.snippet.get-app-instance
 
-      .. tab::
-         :tabid: typescript
-
-         .. code-block:: typescript
-
-            const app = Realm.App.getApp("<Your App ID>"); // replace this with your App ID
-
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const app = Realm.App.getApp("<Your App ID>"); // replace this with your App ID
-
-
+.. literalinclude:: /examples/generated/node/authenticate.snippet.get-app-instance.ts
+  :language: javascript
   

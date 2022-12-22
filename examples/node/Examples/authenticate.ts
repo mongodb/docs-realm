@@ -1,6 +1,14 @@
 import Realm from "realm";
 
+// :snippet-start: get-app-instance
+// :replace-start: {
+//   "terms": {
+//     "flexsyncjstest-smixl": "<yourAppId>"
+//   }
+// }
 const app = Realm.App.getApp("example-testers-kvjdy");
+// :replace-end:
+// :snippet-end:
 
 describe("user authentication", () => {
   afterEach(async () => {
