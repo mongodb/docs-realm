@@ -260,25 +260,25 @@ To define an inverse relationship property, set the property type to
 ``linkingObjects`` and specify the object type and property name that define the
 relationship to invert.
    
-An application could use the following object schemas to indicate that a User
-may be assigned many Tasks and that each Task should automatically keep track
-of which User it's assigned to.
+An application could use the following object schemas to indicate that a ``CarOwner``
+may own many ``Car`` objects and that each ``Car`` should automatically keep track
+of which ``CarOwner`` owns it.
 
-- The User object's ``tasks`` property is defined as a to-many relationship
-   with Task objects and contains all of a given user's assigned tasks.
+- The ``CarOwner`` object's ``cars`` property is defined as a to-many relationship
+   with ``Car`` objects and contains all of a given car owner's cars.
    
-- The Task object's ``assignee`` property inverts the relationship and
-   automatically updates to refer back to any User object that contains the
-   Task in its ``tasks`` property.
+- The ``Car`` object's ``assignee`` property inverts the relationship and
+   automatically updates to refer back to any ``CarOwner`` object that contains the
+   car in its ``cars`` property.
 
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: javascript
          
-      .. literalinclude:: /examples/Relationships/Inverse/Inverse.js
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-inverse.js
          :language: javascript
-         :emphasize-lines: 8, 19-23
+         :emphasize-lines: 7, 22-26
    
    .. tab::
       :tabid: typescript
