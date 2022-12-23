@@ -158,7 +158,7 @@ properties. To define an index for a given property, set ``indexed`` to
    It's best to only add indexes when optimizing the read performance for
    specific situations.
    
-The following ``CarOwner`` object schema defines an index on the ``name``
+The following ``Car`` object schema defines an index on the ``_id``
 property.
    
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
@@ -173,9 +173,9 @@ Define a Default Property Value
 
 To define a default value, set the value of the property to an object with a
 ``type`` field and a ``default`` field.
-   
-The following ``CarOwner`` object schema specifies a default value of ``0`` for
-the ``numberOfCarsOwned`` property:
+
+The following ``Car`` object schema specifies a default value of ``0`` for
+the ``miles`` property:
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
    :language: javascript
@@ -190,9 +190,9 @@ To use a different property name in your code than is stored in
 Realm Database, set ``mapTo`` to the name of the property as it appears in
 your code.
    
-In the following ``CarOwner`` object schema, Realm Database stores the ``CarOwner``'s 
-last name with the snake case ``last_name`` property. The schema maps the property 
-to ``lastName`` for objects used in client code.
+In the following ``Car`` object schema, Realm Database stores the car's 
+model name with the snake case ``model_name`` property. The schema maps the property 
+to ``modelName`` for objects used in client code.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
    :language: javascript
@@ -219,8 +219,8 @@ as the property type.
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
-The following ``CarOwner`` object schema specifies that a person may or may not
-own a single ``Car``. If they do own a ``Car``, Realm links to it through the
+The following ``Manufacturer`` object schema specifies that a manufacturer may or may not
+make a single ``Car``. If they do make a ``Car``, Realm links to it through the
 ``car`` property:
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-one.js
@@ -239,8 +239,8 @@ number of cars as a to-many relationship.
 To define a to-many relationship property, specify the related object type name
 as a list.
    
-An application could use the following object schemas to indicate that a ``CarOwner``
-may own multiple ``Car`` objects by including them in its ``cars`` property:
+An application could use the following object schemas to indicate that a ``Manufacturer``
+may make multiple ``Car`` objects by including them in its ``cars`` property:
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-many.js
    :language: javascript
@@ -260,15 +260,15 @@ To define an inverse relationship property, set the property type to
 ``linkingObjects`` and specify the object type and property name that define the
 relationship to invert.
    
-An application could use the following object schemas to indicate that a ``CarOwner``
-may own many ``Car`` objects and that each ``Car`` should automatically keep track
-of which ``CarOwner`` owns it.
+An application could use the following object schemas to indicate that a ``Manufacturer``
+may make many ``Car`` objects and that each ``Car`` should automatically keep track
+of which ``Manufacturer`` makes it.
 
-- The ``CarOwner`` object's ``cars`` property is defined as a to-many relationship
-   with ``Car`` objects and contains all of a given car owner's cars.
+- The ``Manufacturer`` object's ``cars`` property is defined as a to-many relationship
+   with ``Car`` objects and contains all of a given manufacturer's cars.
    
 - The ``Car`` object's ``assignee`` property inverts the relationship and
-   automatically updates to refer back to any ``CarOwner`` object that contains the
+   automatically updates to refer back to any ``Manufacturer`` object that contains the
    car in its ``cars`` property.
 
 .. tabs-realm-languages::
@@ -312,9 +312,9 @@ that is embedded. A ``Business`` object can embed a list of ``Address``
 objects, whereas a ``Contact`` object can only embed a single ``Address``
 object.
 
-.. literalinclude:: /examples/Schemas/Embedded.js
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-embedded-property.js
    :language: javascript
-   :emphasize-lines: 3, 18, 28
+   :emphasize-lines: 7, 22-26
 
 .. _node-define-an-asymmetric-object:
 

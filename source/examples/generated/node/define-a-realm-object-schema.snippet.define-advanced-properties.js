@@ -1,11 +1,11 @@
-class CarOwner {
+class Car {
   static schema = {
-    name: "CarOwner",
+    name: "Car",
     properties: {
       _id: { type: "objectId", indexed: true },
-      firstName: "string",
-      last_name: { type: "string", mapTo: "lastName" },
-      numberOfCarsOwned: { type: "int", default: 0 },
+      make: "string",
+      model_name: { type: "string", mapTo: "modelName" },
+      miles: { type: "int", default: 0 },
     },
     primaryKey: '_id',
   };

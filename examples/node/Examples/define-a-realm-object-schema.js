@@ -24,21 +24,6 @@ describe("Define a Realm Object Schema", () => {
     // :snippet-end:
     // :snippet-end:
 
-    // :snippet-start: define-advanced-properties
-    class CarOwner {
-      static schema = {
-        name: "CarOwner",
-        properties: {
-          _id: { type: "objectId", indexed: true },
-          firstName: "string",
-          last_name: { type: "string", mapTo: "lastName" },
-          numberOfCarsOwned: { type: "int", default: 0 },
-        },
-        primaryKey: '_id',
-      };
-    }
-    // :snippet-end:
-
     // :snippet-start: define-a-realm-object-schema-js-classes-open-and-access-properties
     const realm = await Realm.open({
       path: "myrealm",
@@ -65,17 +50,34 @@ describe("Define a Realm Object Schema", () => {
     // close the realm
     realm.close();
   });
+
+  test.skip("should define realm object advanced properties", async () => {
+    // :snippet-start: define-advanced-properties
+    class Car {
+      static schema = {
+        name: "Car",
+        properties: {
+          _id: { type: "objectId", indexed: true },
+          make: "string",
+          model_name: { type: "string", mapTo: "modelName" },
+          miles: { type: "int", default: 0 },
+        },
+        primaryKey: '_id',
+      };
+    }
+    // :snippet-end:
+  });
 });
 
 describe("Define Relationship Properties", () => {
   test.skip("should define a to-one relationship", async () => {
     // :snippet-start: define-one-to-one
-    class CarOwner {
+    class Manufacturer {
       static schema = {
-        name: "CarOwner",
+        name: "Manufacturer",
         properties: {
           _id: "objectId",
-          // A car owner can have one car
+          // A manufacturer that may have one car
           car: "Car?"
         },
       };
@@ -96,10 +98,10 @@ describe("Define Relationship Properties", () => {
 
     const realm = await Realm.open({
       path: "myrealm",
-      schema: [CarOwner, Car],
+      schema: [Manufacturer, Car],
     });
 
-    let carOwner, car1;
+    let Manufacturer, car1;
 
     realm.write(() => {
       car1 = realm.create("Car", {
@@ -109,20 +111,20 @@ describe("Define Relationship Properties", () => {
         miles: 1000,
       });
 
-      carOwner = realm.create("CarOwner", {
+      Manufacturer = realm.create("Manufacturer", {
         _id: new BSON.ObjectID(),
         car: car1
       });
     });
 
-    console.log(carOwner.car.carName);
+    console.log(Manufacturer.car.carName);
 
-    expect(carOwner.car.carName).toBe("Nissan Sentra");
+    expect(Manufacturer.car.carName).toBe("Nissan Sentra");
 
     // delete the objects after they're used
     realm.write(() => {
       realm.delete(car1);
-      realm.delete(carOwner);
+      realm.delete(Manufacturer);
     });
 
     // close the realm
@@ -131,12 +133,12 @@ describe("Define Relationship Properties", () => {
 
   test.skip("should define a to-many relationship", async () => {
     // :snippet-start: define-one-to-many
-    class CarOwner {
+    class Manufacturer {
       static schema = {
-        name: "CarOwner",
+        name: "Manufacturer",
         properties: {
           _id: "objectId",
-          // A car owner can have many cars
+          // A manufactuerer that may have many cars
           cars: "Car[]"
         },
       };
@@ -157,10 +159,10 @@ describe("Define Relationship Properties", () => {
 
     const realm = await Realm.open({
       path: "myrealm",
-      schema: [CarOwner, Car],
+      schema: [Manufacturer, Car],
     });
 
-    let carOwner, car1, car2;
+    let Manufacturer, car1, car2;
 
     realm.write(() => {
       car1 = realm.create("Car", {
@@ -177,23 +179,23 @@ describe("Define Relationship Properties", () => {
         miles: 10000,
       });
 
-      carOwner = realm.create("CarOwner", {
+      Manufacturer = realm.create("Manufacturer", {
         _id: new BSON.ObjectID(),
         cars: []
       });
 
-      carOwner.cars.push(car1, car2);
+      Manufacturer.cars.push(car1, car2);
     });
 
-    console.log(carOwner.cars.length());
+    console.log(Manufacturer.cars.length());
 
-    expect(carOwner.cars.length()).toBe(1);
+    expect(Manufacturer.cars.length()).toBe(1);
 
     // delete the objects after they're used
     realm.write(() => {
       realm.delete(car1);
       realm.delete(car2);
-      realm.delete(carOwner);
+      realm.delete(Manufacturer);
     });
 
     // close the realm
@@ -202,12 +204,12 @@ describe("Define Relationship Properties", () => {
 
   test.skip("should define an inverse relationship", async () => {
     // :snippet-start: define-inverse
-    class CarOwner {
+    class Manufacturer {
       static schema = {
-        name: "CarOwner",
+        name: "Manufacturer",
         properties: {
           _id: "objectId",
-          // A car owner can have many cars
+          // A manufacturer that may have many cars
           cars: "Car[]"
         },
       };
@@ -221,12 +223,46 @@ describe("Define Relationship Properties", () => {
           make: "string",
           model: "string",
           miles: "int?",
-          // Backlink to the CarOwner. This is automatically updated whenever
-          // this car is added to or removed from a CarOwner's cars list.
+          // Backlink to the Manufacturer. This is automatically updated whenever
+          // this car is added to or removed from a Manufacturer's cars list.
           assignee: {
-            type: 'linkingObjects',
-            objectType: 'CarOwner',
-            property: 'cars'
+            type: "linkingObjects",
+            objectType: "Manufacturer",
+            property: "cars",
+          }
+        },
+      };
+    }
+    // :snippet-end:
+  });
+
+  test.skip("should define an embedded object property", async () => {
+    // :snippet-start: define-embedded-property
+    class Manufacturer {
+      static schema = {
+        name: "Manufacturer",
+        properties: {
+          _id: "objectId",
+          // A manufacturer that may have many cars
+          cars: "Car[]"
+        },
+      };
+    }
+    
+    class Car {
+      static schema = {
+        name: "Car",
+        properties: {
+          _id: "objectId",
+          make: "string",
+          model: "string",
+          miles: "int?",
+          // Backlink to the Manufacturer. This is automatically updated whenever
+          // this car is added to or removed from a Manufacturer's cars list.
+          assignee: {
+            type: "linkingObjects",
+            objectType: "Manufacturer",
+            property: "cars",
           }
         },
       };

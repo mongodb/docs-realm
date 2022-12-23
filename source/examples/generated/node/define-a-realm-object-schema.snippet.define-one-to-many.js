@@ -1,9 +1,9 @@
-class CarOwner {
+class Manufacturer {
   static schema = {
-    name: "CarOwner",
+    name: "Manufacturer",
     properties: {
       _id: "objectId",
-      // A car owner can have many cars
+      // A manufactuerer that may have many cars
       cars: "Car[]"
     },
   };
