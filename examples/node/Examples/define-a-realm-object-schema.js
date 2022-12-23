@@ -101,7 +101,7 @@ describe("Define Relationship Properties", () => {
       schema: [Manufacturer, Car],
     });
 
-    let Manufacturer, car1;
+    let manufacturer, car1;
 
     realm.write(() => {
       car1 = realm.create("Car", {
@@ -111,15 +111,15 @@ describe("Define Relationship Properties", () => {
         miles: 1000,
       });
 
-      Manufacturer = realm.create("Manufacturer", {
+      manufacturer = realm.create("Manufacturer", {
         _id: new BSON.ObjectID(),
         car: car1
       });
     });
 
-    console.log(Manufacturer.car.carName);
+    console.log(manufacturer.car.carName);
 
-    expect(Manufacturer.car.carName).toBe("Nissan Sentra");
+    expect(manufacturer.car.carName).toBe("Nissan Sentra");
 
     // delete the objects after they're used
     realm.write(() => {
@@ -162,7 +162,7 @@ describe("Define Relationship Properties", () => {
       schema: [Manufacturer, Car],
     });
 
-    let Manufacturer, car1, car2;
+    let manufacturer, car1, car2;
 
     realm.write(() => {
       car1 = realm.create("Car", {
@@ -179,17 +179,17 @@ describe("Define Relationship Properties", () => {
         miles: 10000,
       });
 
-      Manufacturer = realm.create("Manufacturer", {
+      manufacturer = realm.create("Manufacturer", {
         _id: new BSON.ObjectID(),
         cars: []
       });
 
-      Manufacturer.cars.push(car1, car2);
+      manufacturer.cars.push(car1, car2);
     });
 
-    console.log(Manufacturer.cars.length());
+    console.log(manufacturer.cars.length());
 
-    expect(Manufacturer.cars.length()).toBe(1);
+    expect(manufacturer.cars.length()).toBe(1);
 
     // delete the objects after they're used
     realm.write(() => {
