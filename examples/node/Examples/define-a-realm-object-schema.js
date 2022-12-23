@@ -189,7 +189,7 @@ describe("Define Relationship Properties", () => {
 
     console.log(manufacturer.cars.length());
 
-    expect(manufacturer.cars.length()).toBe(1);
+    expect(manufacturer.cars.length()).toBe(2);
 
     // delete the objects after they're used
     realm.write(() => {
@@ -234,6 +234,40 @@ describe("Define Relationship Properties", () => {
       };
     }
     // :snippet-end:
+
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [Manufacturer, Car],
+    });
+
+    let manufacturer, car1;
+
+    realm.write(() => {
+      car1 = realm.create("Car", {
+        _id: new BSON.ObjectID(),
+        make: "Nissan",
+        model: "Sentra",
+        miles: 1000,
+      });
+
+      manufacturer = realm.create("Manufacturer", {
+        _id: new BSON.ObjectID(),
+        car: car1
+      });
+    });
+
+    console.log(manufacturer.cars.length());
+
+    expect(manufacturer.cars.length()).toBe(1);
+
+    // delete the objects after they're used
+    realm.write(() => {
+      realm.delete(car1);
+      realm.delete(Manufacturer);
+    });
+
+    // close the realm
+    realm.close();
   });
 
   test.skip("should define an embedded object property", async () => {
@@ -276,5 +310,49 @@ describe("Define Relationship Properties", () => {
       };
     }
     // :snippet-end:
+
+    const realm = await Realm.open({
+      path: "myrealm",
+      schema: [Manufacturer, Car],
+    });
+
+    let manufacturer, car1, warranty;
+
+    realm.write(() => {
+      warranty = realm.create("Warranty", {
+        name: "Premium",
+        termLength: 12,
+        cost: 500
+      });
+
+      car1 = realm.create("Car", {
+        _id: new BSON.ObjectID(),
+        make: "Nissan",
+        model: "Sentra",
+        miles: 1000,
+        warranty: warranty
+      });
+
+      manufacturer = realm.create("Manufacturer", {
+        _id: new BSON.ObjectID(),
+        car: car1
+      });
+
+      manufacturer.cars.push(car1);
+    });
+
+    console.log(manufacturer.cars[0].warranty.name);
+
+    expect(manufacturer.cars[0].warranty.name).toBe("Premium");
+
+    // delete the objects after they're used
+    realm.write(() => {
+      realm.delete(warranty);
+      realm.delete(car1);
+      realm.delete(Manufacturer);
+    });
+
+    // close the realm
+    realm.close();
   });
 });
