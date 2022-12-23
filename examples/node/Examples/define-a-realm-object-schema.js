@@ -243,8 +243,9 @@ describe("Define Relationship Properties", () => {
         name: "Manufacturer",
         properties: {
           _id: "objectId",
-          // A manufacturer that may have many cars
-          cars: "Car[]"
+          name: "string",
+          // Embed an array of objects
+          warranties: { type: "list", objectType: "Warranty" }
         },
       };
     }
@@ -257,13 +258,20 @@ describe("Define Relationship Properties", () => {
           make: "string",
           model: "string",
           miles: "int?",
-          // Backlink to the Manufacturer. This is automatically updated whenever
-          // this car is added to or removed from a Manufacturer's cars list.
-          assignee: {
-            type: "linkingObjects",
-            objectType: "Manufacturer",
-            property: "cars",
-          }
+          // Embed one object
+          warranty: "Warranty",
+        },
+      };
+    }
+
+    class Warranty {
+      static schema = {
+        name: "Warranty",
+        embedded: true,
+        properties: {
+          name: "string",
+          termLength: "int",
+          cost: "int",
         },
       };
     }
