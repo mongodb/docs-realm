@@ -34,7 +34,7 @@
 ## Other:
 
 - Internal:
-  - Add shared backend source for the unit test suite suites
+  - Add shared backend source for the unit test suites
   - C++ SDK:
     - Change capitalization convention for constant variables in authentication unit tests
   - Swift SDK:
