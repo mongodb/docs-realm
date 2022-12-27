@@ -71,7 +71,10 @@ describe('Create Data Tests', () => {
     const {getByTestId} = render(<App />);
 
     // press the "Add Dog" button
-    const handleAddDogBtn = await waitFor(() => getByTestId('handleAddDogBtn'));
+    const handleAddDogBtn = await waitFor(
+      () => getByTestId('handleAddDogBtn'),
+      {timeout: 5000},
+    );
     await act(async () => {
       fireEvent.press(handleAddDogBtn);
     });

@@ -91,8 +91,9 @@ describe('Read Data Tests', () => {
     const {getByTestId} = render(<App />);
 
     // test that the 'useObject()' method worked and the correct sentence is rendered as expected
-    const taskItemSentence = await waitFor(() =>
-      getByTestId('task-item-sentence'),
+    const taskItemSentence = await waitFor(
+      () => getByTestId('task-item-sentence'),
+      {timeout: 5000},
     );
     expect(taskItemSentence.props.children.join('')).toBe(
       'Wash the dishes is a task with the priority of: 3',
@@ -145,16 +146,18 @@ describe('Read Data Tests', () => {
     const {getAllByTestId} = render(<App />);
 
     // test that the highPriorityTasks items Text renders
-    const highPriorityTasksUIList = await waitFor(() =>
-      getAllByTestId('high-priority-element'),
+    const highPriorityTasksUIList = await waitFor(
+      () => getAllByTestId('high-priority-element'),
+      {timeout: 5000},
     );
     expect(highPriorityTasksUIList[0].children[0].toString()).toBe(
       'Do the laundry',
     ); // Since only the 'Do the laundry' task is high priority
 
     // test that the highPriorityTasks items Text renders
-    const lowProgressTasksUIList = await waitFor(() =>
-      getAllByTestId('low-progress-element'),
+    const lowProgressTasksUIList = await waitFor(
+      () => getAllByTestId('low-progress-element'),
+      {timeout: 5000},
     );
     // test that both 'Wash the dishes' and 'Gym Workout' rendered because they are both low progress tasks
     expect(lowProgressTasksUIList[0].children[0].toString()).toBe(
@@ -235,24 +238,27 @@ describe('Read Data Tests', () => {
     const {getAllByTestId} = render(<App />);
 
     // test that tasks should be in the order that they were written
-    const allTasksUIList = await waitFor(() =>
-      getAllByTestId('all-tasks-item'),
+    const allTasksUIList = await waitFor(
+      () => getAllByTestId('all-tasks-item'),
+      {timeout: 5000},
     );
     expect(allTasksUIList[0].children[0].toString()).toBe('Wash the dishes');
     expect(allTasksUIList[1].children[0].toString()).toBe('Do the laundry');
     expect(allTasksUIList[2].children[0].toString()).toBe('Gym Workout');
 
     // test that tasksByName should be in alphabetical name order
-    const taskByNameUIList = await waitFor(() =>
-      getAllByTestId('tasks-by-name-item'),
+    const taskByNameUIList = await waitFor(
+      () => getAllByTestId('tasks-by-name-item'),
+      {timeout: 5000},
     );
     expect(taskByNameUIList[0].children[0].toString()).toBe('Do the laundry');
     expect(taskByNameUIList[1].children[0].toString()).toBe('Gym Workout');
     expect(taskByNameUIList[2].children[0].toString()).toBe('Wash the dishes');
 
     // test that tasksByNameDescending should be in reverse alphabetical name order
-    const taskByNameDescendingUIList = await waitFor(() =>
-      getAllByTestId('tasks-by-name-descending-item'),
+    const taskByNameDescendingUIList = await waitFor(
+      () => getAllByTestId('tasks-by-name-descending-item'),
+      {timeout: 5000},
     );
     expect(taskByNameDescendingUIList[0].children[0].toString()).toBe(
       'Wash the dishes',
@@ -265,8 +271,9 @@ describe('Read Data Tests', () => {
     );
 
     // test that tasksByNameDescending should be in reverse alphabetical name order
-    const tasksByPriorityDescendingAndNameUIList = await waitFor(() =>
-      getAllByTestId('tasks-by-priority-descending-and-name-item'),
+    const tasksByPriorityDescendingAndNameUIList = await waitFor(
+      () => getAllByTestId('tasks-by-priority-descending-and-name-item'),
+      {timeout: 5000},
     );
     expect(
       tasksByPriorityDescendingAndNameUIList[0].children[0].toString(),
@@ -279,8 +286,9 @@ describe('Read Data Tests', () => {
     ).toBe('Wash the dishes');
 
     // test that tasksByNameDescending should be in reverse alphabetical name order
-    const tasksByAssigneeNameUIList = await waitFor(() =>
-      getAllByTestId('tasks-by-assignee-name-item'),
+    const tasksByAssigneeNameUIList = await waitFor(
+      () => getAllByTestId('tasks-by-assignee-name-item'),
+      {timeout: 5000},
     );
     expect(tasksByAssigneeNameUIList[0].children[0].toString()).toBe(
       'Wash the dishes',

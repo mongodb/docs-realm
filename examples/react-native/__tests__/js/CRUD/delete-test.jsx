@@ -74,7 +74,9 @@ describe('Delete Data Tests', () => {
     );
     const {getAllByTestId} = render(<App />);
 
-    const deleteDogButtons = await waitFor(() => getAllByTestId('deleteDog'));
+    const deleteDogButtons = await waitFor(() => getAllByTestId('deleteDog'), {
+      timeout: 5000,
+    });
     const firstDeleteDogButton = deleteDogButtons[0];
 
     // Test that a Dog Realm.Object is deleted and there is one less Dog in the UI when the "Delete Dog" button is pressed
@@ -140,11 +142,12 @@ describe('Delete Data Tests', () => {
     );
     const {getByTestId, getAllByTestId} = render(<App />);
 
-    await waitFor(() => getAllByTestId('dogItem')); // even though we don't use this as variable, react-native-testing-library requires us to waitFor() this to avoid the following error: "Unable to find an element with testID: dogItem"
+    await waitFor(() => getAllByTestId('dogItem'), {timeout: 5000}); // even though we don't use this as variable, react-native-testing-library requires us to waitFor() this to avoid the following error: "Unable to find an element with testID: dogItem"
 
     // Test that the young Dog objects (Bronson, Bowie) have been deleted from the realm + from the UI when the "Delete All Dog Objects" is pressed, leaving 1 dog object (Blaise) remaining
-    const deleteYoungDogsBtn = await waitFor(() =>
-      getByTestId('deleteYoungDogs'),
+    const deleteYoungDogsBtn = await waitFor(
+      () => getByTestId('deleteYoungDogs'),
+      {timeout: 5000},
     );
     await act(async () => {
       fireEvent.press(deleteYoungDogsBtn);
@@ -153,7 +156,9 @@ describe('Delete Data Tests', () => {
     expect(getAllByTestId('dogItem').length).toBe(1);
 
     // Test that all Dog objects have been deleted when the "Delete Young Dog Objects" is pressed, leaving 0 dog objects remaining
-    const deleteAllDogs = await waitFor(() => getByTestId('deleteAllDogs'));
+    const deleteAllDogs = await waitFor(() => getByTestId('deleteAllDogs'), {
+      timeout: 5000,
+    });
     await act(async () => {
       fireEvent.press(deleteAllDogs);
     });
@@ -194,7 +199,9 @@ describe('Delete Data Tests', () => {
       </RealmProvider>
     );
     const {getByTestId} = render(<App />);
-    const deleteAllDataBtn = await waitFor(() => getByTestId('deleteAllData'));
+    const deleteAllDataBtn = await waitFor(() => getByTestId('deleteAllData'), {
+      timeout: 5000,
+    });
 
     // Test that when the "Delete all Button" is called, there are no Person or Dog objects.
     await act(async () => {

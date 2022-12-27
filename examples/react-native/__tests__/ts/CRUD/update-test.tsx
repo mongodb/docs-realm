@@ -96,11 +96,13 @@ describe('Update Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const handleIncrementBtn = await waitFor(() =>
-      getByTestId('handleIncrementBtn'),
+    const handleIncrementBtn = await waitFor(
+      () => getByTestId('handleIncrementBtn'),
+      {timeout: 5000},
     );
-    const progressMinutesText = await waitFor(() =>
-      getByTestId('progressMinutes'),
+    const progressMinutesText = await waitFor(
+      () => getByTestId('progressMinutes'),
+      {timeout: 5000},
     );
 
     const paintTask = assertionRealm.objectForPrimaryKey(Task, 92140);
@@ -165,8 +167,9 @@ describe('Update Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const progressMinutesText = await waitFor(() =>
-      getByTestId('progressMinutes'),
+    const progressMinutesText = await waitFor(
+      () => getByTestId('progressMinutes'),
+      {timeout: 5000},
     );
     const carWashTask = assertionRealm.objectForPrimaryKey(Task, 1234);
 
@@ -218,8 +221,9 @@ describe('Update Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const resetProgressOnAllTasksBtn = await waitFor(() =>
-      getByTestId('resetProgressOnAllTasksBtn'),
+    const resetProgressOnAllTasksBtn = await waitFor(
+      () => getByTestId('resetProgressOnAllTasksBtn'),
+      {timeout: 5000},
     );
 
     await act(async () => {
