@@ -40,7 +40,7 @@
   - Swift SDK:
     - Use Swiftlint to fix linting errors
   - .NET SDK:
-    - Replace "Task" model with "Item" model in unit test suite.
+    - Replace "Task" model with "Item" model in unit test suite
 
 # December 16, 2022
 
