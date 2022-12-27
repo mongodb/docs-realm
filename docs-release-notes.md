@@ -6,7 +6,7 @@
 - Add "User Metadata" page to Flutter
 - Remove download progress notification from Flutter docs
 - Add info about connecting Using Android 7 or Older
-- Added info clarifying "completed subscription state
+- Added info clarifying "completed subscription state"
 - Update minimum Flutter and Dart SDK versions
 
 ## C++ SDK:
@@ -17,19 +17,19 @@
 ## .NET SDK:
 
 - Change capitalization of "Linq" to "LINQ" in QuickStart
-- Added info clarifying "completed subscription state
+- Added info clarifying "completed subscription state"
 
 ## Kotlin SDK:
 
-- Added info clarifying "completed subscription state
+- Added info clarifying "completed subscription state"
 
 ## React Native SDK:
 
-- Added info clarifying "completed subscription state
+- Added info clarifying "completed subscription state"
 
 ## Swift SDK :
 
-- Added info clarifying "completed subscription state
+- Added info clarifying "completed subscription state"
 
 ## Other:
 
