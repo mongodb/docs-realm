@@ -1,8 +1,9 @@
-class Car {
+class Car extends Realm.Object {
+
   static schema = {
     name: "Car",
     properties: {
-      _id: "objectId",
+      _id: { type: 'objectId', default: () => new Realm.BSON.ObjectId() },
       make: "string",
       model: "string",
       miles: "int?",

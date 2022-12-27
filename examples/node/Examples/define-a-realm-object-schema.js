@@ -1,14 +1,15 @@
 import Realm, { BSON } from "realm";
 
 describe("Define a Realm Object Schema", () => {
-  test.skip("should define realm object types with js classes", async () => {
+  test("should define realm object types with js classes", async () => {
     // :snippet-start: define-a-realm-object-schema-define-js-classes
     // :snippet-start: define-object-properties
-    class Car {
+    class Car extends Realm.Object {
+
       static schema = {
         name: "Car",
         properties: {
-          _id: "objectId",
+          _id: { type: 'objectId', default: () => new Realm.BSON.ObjectId() },
           make: "string",
           model: "string",
           miles: "int?",
@@ -31,13 +32,15 @@ describe("Define a Realm Object Schema", () => {
     });
 
     let car1;
+
     realm.write(() => {
-      car1 = realm.create("Car", {
+      car1 = realm.create(Car, {
         make: "Nissan",
         model: "Sentra",
         miles: 1000,
       });
     });
+    
     console.log(car1.carName);
     // use car1
     // :snippet-end:
@@ -51,9 +54,9 @@ describe("Define a Realm Object Schema", () => {
     realm.close();
   });
 
-  test.skip("should define realm object advanced properties", async () => {
+  test("should define realm object advanced properties", async () => {
     // :snippet-start: define-advanced-properties
-    class Car {
+    class Car extends Realm.Object {
       static schema = {
         name: "Car",
         properties: {
@@ -72,7 +75,7 @@ describe("Define a Realm Object Schema", () => {
 describe("Define Relationship Properties", () => {
   test.skip("should define a to-one relationship", async () => {
     // :snippet-start: define-one-to-one
-    class Manufacturer {
+    class Manufacturer extends Realm.Object {
       static schema = {
         name: "Manufacturer",
         properties: {
@@ -83,7 +86,7 @@ describe("Define Relationship Properties", () => {
       };
     }
     
-    class Car {
+    class Car extends Realm.Object {
       static schema = {
         name: "Car",
         properties: {
@@ -104,14 +107,14 @@ describe("Define Relationship Properties", () => {
     let manufacturer, car1;
 
     realm.write(() => {
-      car1 = realm.create("Car", {
+      car1 = realm.create(Car, {
         _id: new BSON.ObjectID(),
         make: "Nissan",
         model: "Sentra",
         miles: 1000,
       });
 
-      manufacturer = realm.create("Manufacturer", {
+      manufacturer = realm.create(Manufacturer, {
         _id: new BSON.ObjectID(),
         car: car1
       });
@@ -133,7 +136,7 @@ describe("Define Relationship Properties", () => {
 
   test.skip("should define a to-many relationship", async () => {
     // :snippet-start: define-one-to-many
-    class Manufacturer {
+    class Manufacturer extends Realm.Object {
       static schema = {
         name: "Manufacturer",
         properties: {
@@ -144,7 +147,7 @@ describe("Define Relationship Properties", () => {
       };
     }
     
-    class Car {
+    class Car extends Realm.Object {
       static schema = {
         name: "Car",
         properties: {
@@ -165,21 +168,21 @@ describe("Define Relationship Properties", () => {
     let manufacturer, car1, car2;
 
     realm.write(() => {
-      car1 = realm.create("Car", {
+      car1 = realm.create(Car, {
         _id: new BSON.ObjectID(),
         make: "Nissan",
         model: "Sentra",
         miles: 1000,
       });
 
-      car2 = realm.create("Car", {
+      car2 = realm.create(Car, {
         _id: new BSON.ObjectID(),
         make: "Hyundai",
         model: "Elantra",
         miles: 10000,
       });
 
-      manufacturer = realm.create("Manufacturer", {
+      manufacturer = realm.create(Manufacturer, {
         _id: new BSON.ObjectID(),
         cars: []
       });
@@ -204,7 +207,7 @@ describe("Define Relationship Properties", () => {
 
   test.skip("should define an inverse relationship", async () => {
     // :snippet-start: define-inverse
-    class Manufacturer {
+    class Manufacturer extends Realm.Object {
       static schema = {
         name: "Manufacturer",
         properties: {
@@ -215,7 +218,7 @@ describe("Define Relationship Properties", () => {
       };
     }
     
-    class Car {
+    class Car extends Realm.Object {
       static schema = {
         name: "Car",
         properties: {
@@ -243,14 +246,14 @@ describe("Define Relationship Properties", () => {
     let manufacturer, car1;
 
     realm.write(() => {
-      car1 = realm.create("Car", {
+      car1 = realm.create(Car, {
         _id: new BSON.ObjectID(),
         make: "Nissan",
         model: "Sentra",
         miles: 1000,
       });
 
-      manufacturer = realm.create("Manufacturer", {
+      manufacturer = realm.create(Manufacturer, {
         _id: new BSON.ObjectID(),
         car: car1
       });
@@ -272,7 +275,7 @@ describe("Define Relationship Properties", () => {
 
   test.skip("should define an embedded object property", async () => {
     // :snippet-start: define-embedded-property
-    class Manufacturer {
+    class Manufacturer extends Realm.Object {
       static schema = {
         name: "Manufacturer",
         properties: {
@@ -284,7 +287,7 @@ describe("Define Relationship Properties", () => {
       };
     }
     
-    class Car {
+    class Car extends Realm.Object {
       static schema = {
         name: "Car",
         properties: {
@@ -298,7 +301,7 @@ describe("Define Relationship Properties", () => {
       };
     }
 
-    class Warranty {
+    class Warranty extends Realm.Object {
       static schema = {
         name: "Warranty",
         embedded: true,
@@ -319,13 +322,13 @@ describe("Define Relationship Properties", () => {
     let manufacturer, car1, warranty;
 
     realm.write(() => {
-      warranty = realm.create("Warranty", {
+      warranty = realm.create(Warranty, {
         name: "Premium",
         termLength: 12,
         cost: 500
       });
 
-      car1 = realm.create("Car", {
+      car1 = realm.create(Car, {
         _id: new BSON.ObjectID(),
         make: "Nissan",
         model: "Sentra",
@@ -333,7 +336,7 @@ describe("Define Relationship Properties", () => {
         warranty: warranty
       });
 
-      manufacturer = realm.create("Manufacturer", {
+      manufacturer = realm.create(Manufacturer, {
         _id: new BSON.ObjectID(),
         car: car1
       });

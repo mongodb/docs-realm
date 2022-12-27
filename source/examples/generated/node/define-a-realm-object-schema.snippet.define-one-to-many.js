@@ -1,4 +1,4 @@
-class Manufacturer {
+class Manufacturer extends Realm.Object {
   static schema = {
     name: "Manufacturer",
     properties: {
@@ -9,7 +9,7 @@ class Manufacturer {
   };
 }
 
-class Car {
+class Car extends Realm.Object {
   static schema = {
     name: "Car",
     properties: {
