@@ -41,7 +41,7 @@ describe('uuid schema', () => {
     // :replace-start: {
     //  "terms": {
     //   " testID='nameInput'": "",
-    //   " testID='createProfileButton'": "",
+    //   " testID='createProfileButton'": ""
     //   }
     // }
     const CreateProfileInput = () => {
@@ -59,16 +59,8 @@ describe('uuid schema', () => {
       };
       return (
         <View>
-          <TextInput
-            testID='nameInput'
-            placeholder='Name'
-            onChangeText={setName}
-          />
-          <Button
-            testID='createProfileButton'
-            title='Create Profile'
-            onPress={createProfile}
-          />
+          <TextInput testID='nameInput' placeholder='Name' onChangeText={setName} />
+          <Button testID='createProfileButton' title='Create Profile' onPress={createProfile} />
         </View>
       );
       // :replace-end:
@@ -86,10 +78,7 @@ describe('uuid schema', () => {
     const nameInput = await waitFor(() => getByTestId('nameInput'), {
       timeout: 5000,
     });
-    const createProfileButton = await waitFor(
-      () => getByTestId('createProfileButton'),
-      {timeout: 5000},
-    );
+    const createProfileButton = await waitFor(() => getByTestId('createProfileButton'), {timeout: 5000});
 
     await act(() => {
       fireEvent.changeText(nameInput, 'Steve Rogers');
