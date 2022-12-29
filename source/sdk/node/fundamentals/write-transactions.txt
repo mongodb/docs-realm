@@ -22,30 +22,13 @@ operations in a single, idempotent update. A transaction is
 .. important::
    
    Every write operation must occur in a write transaction.
+   
+Write transactions are callback functions that you pass to a realm
+instance. For examples of specific write operations, see 
+:ref:`node-write-operations`.
 
-.. example::
-   
-   Write transactions are callback functions that you pass to a realm
-   instance. For examples of specific write operations, see 
-   :ref:`node-write-operations`.
-   
-   .. code-block:: javascript
-      
-      const realm = await Realm.open();
-      realm.write(() => {
-        const tesla = realm.create("Car", {
-          make: "Tesla",
-          model: "Model S",
-          year: 2020,
-          miles: 12000
-        })
-        const honda = realm.create("Car", {
-          make: "Honda",
-          model: "Civic",
-          year: 2018,
-          miles: 30000
-        })
-      })
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
+   :language: javascript
 
 Transaction Lifecycle
 ---------------------
