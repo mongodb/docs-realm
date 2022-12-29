@@ -3,7 +3,7 @@ class Manufacturer extends Realm.Object {
     name: "Manufacturer",
     properties: {
       _id: "objectId",
-      // A manufactuerer that may have many cars
+      // A manufacturer that may have many cars
       cars: "Car[]"
     },
   };
