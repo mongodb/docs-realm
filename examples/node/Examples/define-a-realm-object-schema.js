@@ -141,7 +141,7 @@ describe("Define Relationship Properties", () => {
         name: "Manufacturer",
         properties: {
           _id: "objectId",
-          // A manufactuerer that may have many cars
+          // A manufacturer that may have many cars
           cars: "Car[]"
         },
       };
@@ -226,8 +226,8 @@ describe("Define Relationship Properties", () => {
           make: "string",
           model: "string",
           miles: "int?",
-          // Backlink to the Manufacturer. This is automatically updated whenever
-          // this car is added to or removed from a Manufacturer's cars list.
+          // Backlink to the manufacturer. This is automatically updated whenever
+          // this car is added to or removed from a manufacturer's cars list.
           assignee: {
             type: "linkingObjects",
             objectType: "Manufacturer",
