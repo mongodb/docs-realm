@@ -36,6 +36,12 @@ If successful, :file:`app.login()` returns a :file:`User` object.
 In the event of a failure, :file:`app.login()` throws an
 exception of type :file:`AppException`.
 
+You can get the authentication provider type used to log a user in using the 
+`user.provider <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/provider.html>`__
+property. 
+If the user is logged out, the provider last used to log the user in will still be returned.
+
+
 .. _kotlin-anonymous-login:
 
 Anonymous
@@ -211,6 +217,36 @@ to `app.login()
    on Apple platforms, see the
    :ref:`Swift SDK Example <ios-login-apple>`.
 
+.. _kotlin-access-token:
+
+Get a User Access Token
+-----------------------
+
+The Realm SDK automatically manages access tokens, refreshes them when they 
+expire, and includes a valid access token for the current user with each 
+request. Tokens are removed after the user logs out.
+
+You can get the current access token for a logged-in user with the
+`user.accessToken <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/access-token.html>`__ 
+property:
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.access-token-get.kt
+   :language: kotlin
+   :copyable: false
+
+If you send requests outside of the SDK (e.g. through the :ref:`GraphQL 
+API <graphql-api>`), then you must include the user's access token with 
+each request and manually refresh the token when it expires. 
+Access tokens expire 30 minutes after a user logs in.
+
+You can get a refresh token for a logged-in user with the
+`user.refreshToken <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/refresh-token.html>`__ 
+property:
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.access-token-refresh.kt
+   :language: kotlin
+   :copyable: false
+
 .. _kotlin-logout:
 
 Log a User Out
@@ -223,9 +259,11 @@ to log in, using `user.logOut()
 - deletes locally stored user credentials from the device
 
 - immediately halts any synchronization to and from the user's realms
-
+   
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
+
+.. include:: /includes/log-out-queries-in-progress.rst
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.log-out.kt
    :language: kotlin

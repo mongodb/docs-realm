@@ -152,6 +152,26 @@ class AuthenticationTest: RealmTest() {
     }
 
     @Test
+    fun accessTokenTest() {
+        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            val user = app.login(Credentials.anonymous())
+            // :snippet-start: access-token-get
+            val token = user.accessToken
+            // :snippet-end:
+            // :snippet-start: access-token-refresh
+            // Gets a refreshed access token for the user
+            fun refreshAccessToken(): String {
+                return user.refreshToken
+            }
+            // Access token is removed after user logs out
+            user.logOut()
+            // :snippet-end:
+        }
+
+    }
+
+    @Test
     fun logoutTest() {
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking { // use runBlocking sparingly -- it can delay UI interactions
