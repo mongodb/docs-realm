@@ -32,11 +32,25 @@ To specify a property as an object type's primary key, set the schema's
    object of that type is added to a realm and you cannot modify an object's
    primary key value.
 
-.. example::
-   
-   The following ``Task`` object schema specifies the ``_id`` property as its
-   primary key.
-      
-   .. literalinclude:: /examples/Schemas/PrimaryKey.js
-      :language: javascript
-      :emphasize-lines: 9
+Example
+~~~~~~~
+In the following example of a ``Task`` class, we specify the ``_id`` property as
+the primary key.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Task.snippet.ts-task-schema.ts
+         :language: typescript
+         :emphasize-lines: 2, 12, 18
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Task.snippet.js-task-schema.js
+         :language: javascript
+         :emphasize-lines: 5, 11
+         :linenos:
