@@ -17,11 +17,25 @@ Overview
 
 To mark a property as optional, append a question mark ``?`` to its type.
 
-.. example::
-   
-   The following schema defines a DogSchema with the optional property ``breed``
-   of type ``string``.
-   
-   .. literalinclude:: /examples/Schemas/OptionalProperty.js
-      :language: javascript
-      :emphasize-lines: 4
+Example
+~~~~~~~
+In the following example of a ``Dog`` class, the ``age`` property of type
+``int`` is optional.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/Dog.snippet.ts-dog-schema.ts
+         :language: typescript
+         :emphasize-lines: 11
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/Dog.snippet.js-dog-schema.js
+         :language: javascript
+         :emphasize-lines: 7
+         :linenos:
