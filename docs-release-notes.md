@@ -1,3 +1,9 @@
+# December 30, 2022
+
+## Flutter SDK:
+
+- Bug fix - "Flutter/User-Metadata" rST issue with title underline. The "User Metadata - Flutter SDK" page had a title underline that was too short.
+
 # December 23, 2022
 
 ## Flutter SDK:
