@@ -188,25 +188,8 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
    .. tab:: Kotlin SDK
       :tabid: kotlin
 
-      .. code-block:: kotlin
-
-         class Task(): RealmObject {
-           var id: Long = 0 // Kotlin SDK does not yet support ObjectId
-           lateinit var name: String
-           var isComplete: Boolean = false
-           var assignee: String? = null
-           var priority: Int = 0
-           var progressMinutes: Int = 0
-           @LinkingObjects("tasks")
-           val projects: RealmResults<Project>? = null
-         }
-
-         class Project(): RealmObject {
-           var id: Long = 0 // Kotlin SDK does not yet support ObjectId
-           lateinit var name: String
-           lateinit var tasks: Array<Task>
-           var quota: Int? = null
-         }
+      .. literalinclude:: /examples/generated/kotlin/RQLTest.snippet.rql-schema-example.kt
+         :language: kotlin
 
    .. tab:: Flutter SDK
       :tabid: Flutter
