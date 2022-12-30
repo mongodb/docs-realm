@@ -24,6 +24,11 @@ Each authentication provider corresponds to a
 used to instantiate :file:`Credentials` objects for that
 authentication provider.
 
+You can get the authentication provider type used to log in a user using the 
+`user.provider <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/provider.html>`__
+property. 
+If the user is currently logged out, the provider last used to log in the user will be returned.
+
 .. _kotlin-login:
 
 Log In
@@ -35,12 +40,6 @@ You can authenticate users with `app.login()
 If successful, :file:`app.login()` returns a :file:`User` object.
 In the event of a failure, :file:`app.login()` throws an
 exception of type :file:`AppException`.
-
-You can get the authentication provider type used to log a user in using the 
-`user.provider <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/provider.html>`__
-property. 
-If the user is logged out, the provider last used to log the user in will still be returned.
-
 
 .. _kotlin-anonymous-login:
 
@@ -259,7 +258,7 @@ to log in, using `user.logOut()
 - deletes locally stored user credentials from the device
 
 - immediately halts any synchronization to and from the user's realms
-   
+
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
 
