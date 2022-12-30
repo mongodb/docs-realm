@@ -63,7 +63,6 @@ describe("Define a Realm Object Schema", () => {
     };
     // :snippet-end:
   });
-});
 
   test("should define realm object advanced properties", async () => {
     // :snippet-start: define-advanced-properties
