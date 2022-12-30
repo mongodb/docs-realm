@@ -4,12 +4,22 @@
 
 - Bug fix - "Flutter/User-Metadata" rST issue with title underline. The "User Metadata - Flutter SDK" page had a title underline that was too short.
 
+## Kotlin SDK:
+
+- Update Kotlin example in RQL docs to use `ObjectId`
+
 ## Node.js SDK:
 
 - Bluehawkify Node.js code samples: Code samples on several pages were updated to match modern usage.
-  - `node/install/`: One minor code sample
-  - `/node/examples/define-a-realm-object-model/`: Many code sample changes
-  - `/node/examples/connect-to-app-services-backend/`: Several code sample changes
+  - `node/install`: One minor code sample
+  - `/node/examples/define-a-realm-object-model`: Many code sample changes
+  - `/node/examples/connect-to-app-services-backend`: Several code sample changes
+
+## Other
+
+- Internal:
+  - Refactor React Native SDK Create, Read, Update, and Delete pages. These are
+  now focused on using `@realm/react`. Merged to a "feature" branch.
 
 # December 23, 2022
 
