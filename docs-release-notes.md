@@ -4,6 +4,13 @@
 
 - Bug fix - "Flutter/User-Metadata" rST issue with title underline. The "User Metadata - Flutter SDK" page had a title underline that was too short.
 
+## Node.js SDK:
+
+- Bluehawkify Node.js code samples: Code samples on several pages were updated to match modern usage.
+  - `node/install/`: One minor code sample
+  - `/node/examples/define-a-realm-object-model/`: Many code sample changes
+  - `/node/examples/connect-to-app-services-backend/`: Several code sample changes
+
 # December 23, 2022
 
 ## Flutter SDK:
