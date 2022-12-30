@@ -5,7 +5,6 @@ describe("Define a Realm Object Schema", () => {
     // :snippet-start: define-a-realm-object-schema-define-js-classes
     // :snippet-start: define-object-properties
     class Car extends Realm.Object {
-
       static schema = {
         name: "Car",
         properties: {
@@ -40,9 +39,6 @@ describe("Define a Realm Object Schema", () => {
         miles: 1000,
       });
     });
-    
-    console.log(car1.carName);
-    // use car1
     // :snippet-end:
 
     expect(car1.carName).toBe("Nissan Sentra");
@@ -53,6 +49,21 @@ describe("Define a Realm Object Schema", () => {
     // close the realm
     realm.close();
   });
+
+  test("should define realm object as javascript object", async () => {
+    // :snippet-start: define-schema-as-object
+    const Car = {
+      name: "Car",
+      properties: {
+        _id: "objectId",
+        make: "string",
+        model: "string",
+        miles: "int?",
+      },
+    };
+    // :snippet-end:
+  });
+});
 
   test("should define realm object advanced properties", async () => {
     // :snippet-start: define-advanced-properties
@@ -119,8 +130,6 @@ describe("Define Relationship Properties", () => {
         car: car1
       });
     });
-
-    console.log(manufacturer.car.carName);
 
     expect(manufacturer.car.carName).toBe("Nissan Sentra");
 
@@ -190,8 +199,6 @@ describe("Define Relationship Properties", () => {
       manufacturer.cars.push(car1, car2);
     });
 
-    console.log(manufacturer.cars.length());
-
     expect(manufacturer.cars.length()).toBe(2);
 
     // delete the objects after they're used
@@ -258,8 +265,6 @@ describe("Define Relationship Properties", () => {
         car: car1
       });
     });
-
-    console.log(manufacturer.cars.length());
 
     expect(manufacturer.cars.length()).toBe(1);
 
@@ -343,8 +348,6 @@ describe("Define Relationship Properties", () => {
 
       manufacturer.cars.push(car1);
     });
-
-    console.log(manufacturer.cars[0].warranty.name);
 
     expect(manufacturer.cars[0].warranty.name).toBe("Premium");
 

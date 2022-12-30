@@ -10,31 +10,15 @@ Define a Realm Object Schema - Node.js SDK
    :depth: 2
    :class: singlecol
 
-.. _node-define-a-new-object-type:
-
 To define a Realm object type, create a schema object that specifies the type's
 ``name`` and ``properties``. The type name must be unique among object types in
 a realm. For details on how to define specific properties, see :ref:`Define
 Object Properties <node-define-a-property>`.
 
-.. code-block:: javascript
-   
-   const Car = {
-     name: "Car",
-     properties: {
-       make: "string",
-       model: "string",
-       miles: "int",
-     }
-   }
+It's best to define your schemas with JavaScript classes, but you can also define
+them as JavaScript objects.
 
-Open a Realm with a Realm Object
---------------------------------
-
-After defining a Realm object, you can :ref:`open a realm <node-open-a-local-realm>`
-with it.
-
-.. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-schema-as-object.js
    :language: javascript
 
 .. _node-define-objects-with-js-classes:
@@ -46,14 +30,23 @@ You can define Realm object types with JavaScript classes. To use a class as an
 object type, define the object schema on the static property ``schema``. 
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
-     :language: javascript
+   :language: javascript
    
 Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object when opening a realm. You can then :doc:`read and write data
 </sdk/node/examples/read-and-write-data>` normally.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-     :language: javascript
+   :language: javascript
+
+Open a Realm with a Realm Object
+--------------------------------
+
+After defining a Realm object, you can :ref:`open a realm <node-open-a-local-realm>`
+with it.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
+   :language: javascript
 
 .. _node-supported-property-types:
 
@@ -86,8 +79,8 @@ Define Object Properties
 To define a property for an object type, create a key-value pair representing
 the name and data type of the property under the ``properties`` field.
    
-The following schema defines a ``Dog`` type that has two properties: a string
-``name`` and an integer ``age``.
+The following schema defines a ``Car`` type that has these properties: ``_id``
+``make``, ``model``, and ``miles``.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-object-properties.js
    :language: javascript
@@ -211,8 +204,8 @@ Define a To-One Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A **to-one** relationship maps one property to a single instance of
-another object type. For example, you can model a person having at most
-one companion dog as a to-one relationship.
+another object type. For example, you can model a manufacturer having at most
+one car as a to-one relationship.
 
 To define a to-one relationship property, specify the related object type name
 as the property type.
@@ -233,7 +226,7 @@ Define a To-Many Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A **to-many** relationship maps one property to zero or more instances
-of another object type. For example, you can model a person having any
+of another object type. For example, you can model a manufacturer having any
 number of cars as a to-many relationship.
 
 To define a to-many relationship property, specify the related object type name
