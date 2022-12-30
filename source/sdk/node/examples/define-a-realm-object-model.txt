@@ -15,8 +15,8 @@ To define a Realm object type, create a schema object that specifies the type's
 a realm. For details on how to define specific properties, see :ref:`Define
 Object Properties <node-define-a-property>`.
 
-It's best to define your schemas with JavaScript classes, but you can also define
-them as JavaScript objects.
+You can define your schemas with JavaScript classes (like most of the examples on 
+this page), but you can also define them as JavaScript objects.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-schema-as-object.js
    :language: javascript
@@ -37,15 +37,6 @@ Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
 </sdk/node/examples/read-and-write-data>` normally.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-   :language: javascript
-
-Open a Realm with a Realm Object
---------------------------------
-
-After defining a Realm object, you can :ref:`open a realm <node-open-a-local-realm>`
-with it.
-
-.. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
    :language: javascript
 
 .. _node-supported-property-types:
