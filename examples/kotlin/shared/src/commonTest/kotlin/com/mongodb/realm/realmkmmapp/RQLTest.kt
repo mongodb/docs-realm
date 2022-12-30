@@ -1,10 +1,14 @@
 package com.mongodb.realm.realmkmmapp
 
 import org.mongodb.kbson.ObjectId
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
 class RQLTest: RealmTest() {
-    class Task() {
-        var id: ObjectId = ObjectId()
+    // :snippet-start: rql-schema-example
+    class Task(): RealmObject {
+        @PrimaryKey
+        var _id: ObjectId = ObjectId()
         lateinit var name: String
         var isComplete: Boolean = false
         var assignee: String? = null
@@ -12,10 +16,12 @@ class RQLTest: RealmTest() {
         var progressMinutes: Int = 0
     }
 
-    class Project() {
-        var id: ObjectId = ObjectId()
+    class Project(): RealmObject {
+        @PrimaryKey
+        var _id: ObjectId = ObjectId()
         lateinit var name: String
         lateinit var tasks: Array<Task>
         var quota: Int? = null
     }
+    // :snippet-end:
 }
