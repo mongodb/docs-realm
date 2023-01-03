@@ -34,6 +34,9 @@ Realm objects can contain lists of any supported data type.
 Realm uses the :flutter-sdk:`RealmList <realm/RealmList-class.html>` data type
 to store the data.
 
+When you include ``RealmObjects`` as the items in a ``RealmList``,  it represents a :ref:`to-many
+relationship <flutter-many-to-one-relationship>`.
+
 Deleting an object from the database will remove it from any lists
 where it existed. Therefore, a list of objects will never contain null objects.
 However, lists of primitive types can contain null values. If you do not
@@ -41,9 +44,7 @@ want to allow null values in a list, then either use non-nullable types in
 the list declaration (for example, use ``List<int>`` instead of
 ``List<int?>``).
 
-A **list** collection represents a :ref:`to-many
-relationship <flutter-many-to-one-relationship>` between two Realm
-types. Lists are mutable and you can add and remove elements on a list within a write transaction.
+Lists are mutable and you can add and remove elements on a list within a write transaction.
 
 Add RealmLists to a Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -61,17 +62,22 @@ Querying RealmLists
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realmlist-use.dart
    :language: dart
 
-TODO: flutterify
-
 RealmResults Collections
 ------------------------
 
-A :flutter-sdk:`RealmResults <https://pub.dev/documentation/realm/latest/realm/RealmResults-class.html>`
+A :flutter-sdk:`RealmResults <realm/RealmResults-class.html>`
 collection represents the lazily-evaluated
 results of a query operation. Unlike a ``RealmList``, results are immutable: you
 cannot add or remove elements on the results collection.
 This is because the contents of a results collection are determined by a
 query against the database.
+
+:flutter-sdk:`Realm.all() <realm/Realm/all.html>` and :flutter-sdk:`Realm.query()
+<realm/Realm/query.html>` return ``RealmResults``.
+For more information on querying Realm Database, refer to :ref:`Read Operations <flutter-read-data>`.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realmresults-use.dart
+   :language: dart
 
 .. _flutter-lazy-evaluated-results:
 
@@ -96,21 +102,20 @@ Like :ref:`live objects <flutter-live-object>`, Realm collections
 are *usually* live:
 
 - Live **results collections** always reflect the current results of the associated query.
-- Live **lists** always reflect the current state of the relationship on the realm instance.
+- Live **lists** of ``RealmObjects`` always reflect the current state of the relationship on the realm instance.
 
 There are two cases, however, when a collection is **not** live:
 
-- The collection is unmanaged: a List property of a Realm object
+- The collection is unmanaged: a ``RealmList`` property of a Realm object
   that has not been added to a realm yet or that has been copied from a
   realm.
 - The collection is :ref:`frozen <flutter-freeze>`.
 
 Combined with :ref:`listening for changes on a collection <flutter-react-to-changes>`,
 live collections enable clean, reactive code.
-For example, suppose your view displays the
-results of a query. You can keep a reference to the results
-collection in your view class, then read the results
-collection as needed without having to refresh it or
+For example, suppose your view displays the results of a query.
+You can keep a reference to the results collection in your view class,
+then read the results collection as needed without having to refresh it or
 validate that it is up-to-date.
 
 .. important:: Indexes may change
