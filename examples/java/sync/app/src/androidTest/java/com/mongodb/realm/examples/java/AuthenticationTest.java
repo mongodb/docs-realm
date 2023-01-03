@@ -358,4 +358,42 @@ public class AuthenticationTest extends RealmTest {
         });
         expectation.await();
     }
+    // :snippet-start: get-valid-access-token
+    // Gets a valid user access token to authenticate requests
+    public String getValidAccessToken(User user) {
+        // An already logged in user's access token might be stale. To
+        // guarantee that the token is valid, refresh it if necessary.
+        user.refreshCustomData();
+        return user.getAccessToken();
+    }
+    // :snippet-end:
+    @Test
+    public void testGetUserAccessToken(){
+
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID)
+                    .build());
+
+            Credentials anonymousCredentials = Credentials.anonymous();
+            app.loginAsync(anonymousCredentials, it -> {
+                Assert.assertEquals(true, it.isSuccess());
+                if (it.isSuccess()) {
+                    User user = app.currentUser();
+                    String accessToken = getValidAccessToken(user);
+//                    Assert.assertTrue(accessToken instanceof String);
+
+                    expectation.fulfill();
+                }
+            });
+
+
+        });
+        expectation.await();
+
+
+
+
+    }
 }
