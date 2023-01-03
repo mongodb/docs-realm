@@ -1,6 +1,4 @@
-// Gets a refreshed access token for the user
-fun refreshAccessToken(): String {
+// Gets the current refresh token for the user
+fun getRefreshToken(): String {
     return user.refreshToken
 }
-// Access token is removed after user logs out
-user.logOut()

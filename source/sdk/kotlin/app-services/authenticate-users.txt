@@ -238,9 +238,9 @@ API <graphql-api>`), then you must include the user's access token with
 each request and manually refresh the token when it expires. 
 Access tokens expire 30 minutes after a user logs in.
 
-You can get a refresh token for a logged-in user with the
+You can get the current refresh token for a logged-in user with the
 `user.refreshToken <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/refresh-token.html>`__ 
-property:
+property, which you can use to request a new access token:
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.access-token-refresh.kt
    :language: kotlin
