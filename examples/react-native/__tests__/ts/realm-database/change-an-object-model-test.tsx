@@ -146,7 +146,8 @@ describe('Change an Object Model Tests', () => {
         if (oldRealm.schemaVersion < 2) {
           const oldObjects = oldRealm.objects(MyTask);
           const newObjects = newRealm.objects(MyTask);
-          // loop through all objects and set the _id property in the new schema
+          // loop through all objects and set the _id property
+          // in the new schema
           for (const objectIndex in oldObjects) {
             const oldObject = oldObjects[objectIndex];
             const newObject = newObjects[objectIndex];
@@ -155,7 +156,8 @@ describe('Change an Object Model Tests', () => {
         }
       },
     };
-    // pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
+    // pass the configuration object with the updated
+    // 'schemaVersion' and 'migration' function to createRealmContext()
     createRealmContext(config);
     // :replace-end:
     // :snippet-end:

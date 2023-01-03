@@ -6,15 +6,15 @@ class Task extends Realm.Object<Task> {
   assignee?: Person;
 
   static schema = {
-    name: 'Task',
+    name: "Task",
     properties: {
-      _id: 'objectId',
-      name: 'string',
-      priority: 'int?',
-      progressMinutes: 'int?',
-      assignee: 'Person?',
+      _id: "objectId",
+      name: "string",
+      priority: "int?",
+      progressMinutes: "int?",
+      assignee: "Person?",
     },
-    primaryKey: '_id',
+    primaryKey: "_id",
   };
 }
 
@@ -26,7 +26,8 @@ const config = {
     if (oldRealm.schemaVersion < 2) {
       const oldObjects = oldRealm.objects(Task);
       const newObjects = newRealm.objects(Task);
-      // loop through all objects and set the _id property in the new schema
+      // loop through all objects and set the _id property
+      // in the new schema
       for (const objectIndex in oldObjects) {
         const oldObject = oldObjects[objectIndex];
         const newObject = newObjects[objectIndex];
@@ -35,5 +36,6 @@ const config = {
     }
   },
 };
-// pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
+// pass the configuration object with the updated
+// 'schemaVersion' and 'migration' function to createRealmContext()
 createRealmContext(config);
