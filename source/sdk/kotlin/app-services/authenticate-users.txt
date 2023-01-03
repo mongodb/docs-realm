@@ -24,6 +24,11 @@ Each authentication provider corresponds to a
 used to instantiate :file:`Credentials` objects for that
 authentication provider.
 
+You can get the authentication provider type used to log in a user using the 
+`user.provider <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/provider.html>`__
+property. 
+If the user is currently logged out, the provider last used to log in the user will be returned.
+
 .. _kotlin-login:
 
 Log In
@@ -211,6 +216,36 @@ to `app.login()
    on Apple platforms, see the
    :ref:`Swift SDK Example <ios-login-apple>`.
 
+.. _kotlin-access-token:
+
+Get a User Access Token
+-----------------------
+
+The Realm Kotlin SDK automatically manages access tokens, refreshes them when they 
+expire, and includes a valid access token for the current user with each 
+request. Tokens are removed after the user logs out.
+
+You can get the current access token for a logged-in user with the
+`user.accessToken <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/access-token.html>`__ 
+property:
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.access-token-get.kt
+   :language: kotlin
+   :copyable: false
+
+If you send requests outside of the SDK (e.g. through the :ref:`GraphQL 
+API <graphql-api>`), then you must include the user's access token with 
+each request and manually refresh the token when it expires. 
+Access tokens expire 30 minutes after a user logs in.
+
+You can get the current refresh token for a logged-in user with the
+`user.refreshToken <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/refresh-token.html>`__ 
+property, which you can use to request a new access token:
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.access-token-refresh.kt
+   :language: kotlin
+   :copyable: false
+
 .. _kotlin-logout:
 
 Log a User Out
@@ -226,6 +261,8 @@ to log in, using `user.logOut()
 
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
+
+.. include:: /includes/log-out-queries-in-progress.rst
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.log-out.kt
    :language: kotlin
