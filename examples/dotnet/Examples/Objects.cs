@@ -210,16 +210,13 @@ namespace Examples.Models
         // instance in their Hobbies list.
         [Backlink(nameof(Person_Inverse.Hobbies))]
         public IQueryable<Person_Inverse> PeopleWithThatHobby { get; }
-        // :replace-end:
     }
 
     class IgnorantRenamer
     {
-        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:remove-end:
         // :snippet-start: ignore
         // Rather than store an Image in Realm,
         // store the path to the Image...
@@ -232,7 +229,7 @@ namespace Examples.Models
         // :snippet-end:
     }
     // :snippet-start: rename
-    //:replace-start: {
+    // :replace-start: {
     // "terms": {
     //   "PersonH": "Person"}
     // }
@@ -246,7 +243,7 @@ namespace Examples.Models
         [MapTo("moniker")]
         public string Name { get; set; }
     }
-    //:replace-end:
+    // :replace-end:
     // :snippet-end:
 
     public class Image
@@ -277,7 +274,7 @@ public partial class CustomGetterSetter : IRealmObject
 }
 
 // :snippet-start: rename-class
-//:replace-start: {
+// :replace-start: {
 // "terms": {
 //   "PersonI": "Person",
 //      "DogB": "Dog"}
@@ -295,10 +292,8 @@ public partial class PersonI : IRealmObject
 // :replace-end:
 // :snippet-end:
 
-
-
 // :snippet-start: subset
-//:replace-start: {
+// :replace-start: {
 // "terms": {
 //      "Dog_OMAS": "Dog"}
 // }

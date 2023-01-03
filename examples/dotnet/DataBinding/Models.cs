@@ -6,7 +6,7 @@ using Realms;
 namespace DataBinding
 {
     //:snippet-start:binding-classes
-    public class Employee : RealmObject
+    public partial class Employee : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -24,7 +24,7 @@ namespace DataBinding
         public IList<Item> Items { get; }
     }
 
-    public class Item : RealmObject
+    public partial class Item : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]

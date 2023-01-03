@@ -1,4 +1,4 @@
-public class Dog : RealmObject
+public partial class Dog : IRealmObject
 {
     [PrimaryKey]
     public string Name { get; set; }
