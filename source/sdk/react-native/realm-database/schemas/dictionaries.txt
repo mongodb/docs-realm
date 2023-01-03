@@ -14,9 +14,10 @@ Dictionaries - React Native SDK
 
 Overview
 --------
-You can use the ``dictionary`` data type to manage a collection of unique String
-keys paired with values. The ``dictionary`` data maps to the Javascript
-:mdn:`Object <Web/JavaScript/Reference/Global_Objects/Object>` type. 
+You can use the :js-sdk:`Realm.Dictionary <Realm.Dictionary.html>` data type to
+manage a collection of unique String keys paired with values. The ``dictionary``
+data maps to the Javascript :mdn:`Object
+<Web/JavaScript/Reference/Global_Objects/Object>` type. 
 
 Realm Object Models
 -------------------
@@ -30,6 +31,12 @@ integers or ``"string{}"`` to specify that dictionary values must be strings.
 
    .. tab::
       :tabid: typescript
+
+      Use an `interface
+      <https://www.typescriptlang.org/docs/handbook/2/objects.html>`__ that
+      extends the ``Realm.Dictionary`` type that defines the syntax for your
+      dictionary object. All dictionary objects must follow the syntax specified
+      in the interface.
 
       .. literalinclude:: /examples/generated/react-native/ts/HomeOwner.snippet.ts-homeowner-schema.ts
          :language: typescript
