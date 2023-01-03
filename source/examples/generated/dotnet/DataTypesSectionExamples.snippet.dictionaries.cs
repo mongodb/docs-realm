@@ -1,5 +1,5 @@
 
-public class Inventory : RealmObject
+public partial class Inventory : IRealmObject
 {
     // The key must be of type string; the value can be 
     // of any Realm-supported type, including objects

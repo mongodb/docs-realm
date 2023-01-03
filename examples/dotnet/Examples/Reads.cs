@@ -7,7 +7,7 @@ using Realms;
 namespace ReadExamples
 {
 
-    public class ReadsTask : RealmObject
+    public partial class ReadsTask : IRealmObject
     {
 
         [PrimaryKey]
@@ -20,7 +20,7 @@ namespace ReadExamples
         public int ProgressMinutes { get; set; }
     }
 
-    public class ReadsProject : RealmObject
+    public partial class ReadsProject : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]

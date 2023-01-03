@@ -2,7 +2,7 @@ realm.Subscriptions.Update(() =>
 {
     // subscribe to all long running items, and give the subscription the name 'longRunningItems'
     var longRunningItemsQuery = realm.All<Item>()
-        .Where(t => t.Status == "completed" && t.ProgressMinutes > 120);
+        .Where(i => i.Status == "completed" && i.ProgressMinutes > 120);
     realm.Subscriptions
         .Add(longRunningItemsQuery,
             new SubscriptionOptions() { Name = "longRunningItems" });

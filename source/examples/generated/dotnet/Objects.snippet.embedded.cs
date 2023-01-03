@@ -1,10 +1,10 @@
-public class Address : EmbeddedObject
+public partial class Address : IEmbeddedObject
 {
     public ObjectId Id { get; set; }
     public string Street { get; set; }
     public string City { get; set; }
 }
-public class Contact : RealmObject
+public partial class Contact : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]

@@ -1,4 +1,4 @@
-public class MyRealmClass : RealmObject
+public partial class MyRealmClass : IRealmObject
 {
     [PrimaryKey]
     public int _id { get; set; }

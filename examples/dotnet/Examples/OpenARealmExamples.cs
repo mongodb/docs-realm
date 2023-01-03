@@ -91,7 +91,7 @@ namespace Examples
         [Test]
         public void OpensLocalRealm()
         {
-            var pathToDb = Directory.GetCurrentDirectory() + "/db";
+            var pathToDb = Directory.GetCurrentDirectory() + "/db/";
             if (!File.Exists(pathToDb))
             {
                 Directory.CreateDirectory(pathToDb);

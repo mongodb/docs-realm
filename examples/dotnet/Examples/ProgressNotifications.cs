@@ -13,6 +13,7 @@ namespace Examples
         Realms.Sync.User user;
         PartitionSyncConfiguration config;
         string myRealmAppId = Config.appid;
+
         public class ProgressObj : RealmObject
         {
             [PrimaryKey]

@@ -1,4 +1,4 @@
-public class Person : RealmObject
+public partial class Person : IRealmObject
 {
     [Required]
     public string Name { get; set; }
