@@ -244,10 +244,10 @@ callback function of the :js-sdk:`Configuration
    be of type ``ObjectId``, and updates the schema.
 
    To migrate the realm to conform to the updated ``Task`` schema, the developer
-   creates a :js-sdk:`Configuration <Realm.html#~Configuration>` object and
-   sets the realm's schema version to ``2``, and defines a migration function to
-   convert the integer type to an ``Object ID`` type. Finally, the developer
-   passes the configuration object to the ``createRealmContext()`` method.
+   creates a ``Configuration`` object and sets the realm's schema version to
+   ``2``, and defines a migration function to convert the integer type to an
+   ``Object ID`` type. Finally, the developer passes the configuration object to
+   the ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
 
