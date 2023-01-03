@@ -86,6 +86,7 @@ struct Company : realm::object {
 // :snippet-end:
                                                  
 TEST_CASE("create an embedded object", "[model][write]") {
+    // :snippet-start: create-embedded-object
     auto realm = realm::open<Business, ContactDetails>();
 
     auto business = Business { .name = "MongoDB" };
@@ -99,10 +100,17 @@ TEST_CASE("create an embedded object", "[model][write]") {
     realm.write([&realm, &business] {
         realm.add(business);
     });
-    auto businesses = realm.objects<Business>();
-    auto mongoDBPointer = businesses[0];
-    REQUIRE(businesses.size() >= 1);
-    REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com");
+    // :snippet-end:
+    SECTION("Test code example functions as intended") {
+        auto businesses = realm.objects<Business>();
+        auto mongoDBPointer = businesses[0];
+        REQUIRE(businesses.size() >= 1);
+        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com");
+    }
+    // Clean up after test
+    realm.write([&realm, &business] {
+        realm.remove(business);
+    });
 }
 
 TEST_CASE("create object with ignored property", "[model][write]") {
@@ -117,15 +125,22 @@ TEST_CASE("create object with ignored property", "[model][write]") {
         realm.add(employee);
     });
 
-    auto employees = realm.objects<Employee>();
-    auto employeesNamedLeslie = employees.where("firstName == $0", {"Leslie"});
-    CHECK(employeesNamedLeslie.size() >= 1);
-    std::unique_ptr<Employee> leslieKnopePointer = employeesNamedLeslie[0];
-    REQUIRE(employee.jobTitle_notPersisted == "Organizer-In-Chief");
-    REQUIRE(leslieKnopePointer->jobTitle_notPersisted.empty());
+    SECTION("Test code example functions as intended") {
+        auto employees = realm.objects<Employee>();
+        auto employeesNamedLeslie = employees.where("firstName == $0", {"Leslie"});
+        CHECK(employeesNamedLeslie.size() >= 1);
+        std::unique_ptr<Employee> leslieKnopePointer = employeesNamedLeslie[0];
+        REQUIRE(employee.jobTitle_notPersisted == "Organizer-In-Chief");
+        REQUIRE(leslieKnopePointer->jobTitle_notPersisted.empty());
+    }
+    // Clean up after the test
+    realm.write([&realm, &employee] {
+        realm.remove(employee);
+    });
 };
 
 TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
+    // :snippet-start: create-object-with-to-one-relationship
     auto realm = realm::open<PointOfInterest, GPSCoordinates>();
 
     auto gpsCoordinates = GPSCoordinates { .latitude = 36.0554, .longitude = 112.1401 };
@@ -135,22 +150,30 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     realm.write([&realm, &pointOfInterest] {
         realm.add(pointOfInterest);
     });
+    // :snippet-end:
 
-    auto pointsOfInterest = realm.objects<PointOfInterest>();
-    auto namedGrandCanyonVillage = pointsOfInterest.where("name == $0", {"Grand Canyon Village"});
-    CHECK(namedGrandCanyonVillage.size() >= 1);
-    auto grandCanyonVillage = namedGrandCanyonVillage[0];
-    std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
-    REQUIRE(grandCanyonVillage->name == "Grand Canyon Village");
-    auto const &theseGpsCoordinates = *(grandCanyonVillage->gpsCoordinates);
-    static_assert(std::is_same_v<decltype(theseGpsCoordinates), std::optional<GPSCoordinates> const &>, "Dereference fail!"); // :remove:
-    auto latitude = *(theseGpsCoordinates->latitude);
-    static_assert(std::is_same_v<decltype(latitude), double>, "Dereference fail!"); // :remove:
-    std::cout << "POI Latitude: " << latitude << "\n";
-    REQUIRE(latitude == 36.0554);
+    SECTION("Test code example functions as intended") {
+        auto pointsOfInterest = realm.objects<PointOfInterest>();
+        auto namedGrandCanyonVillage = pointsOfInterest.where("name == $0", {"Grand Canyon Village"});
+        CHECK(namedGrandCanyonVillage.size() >= 1);
+        auto grandCanyonVillage = namedGrandCanyonVillage[0];
+        std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
+        REQUIRE(grandCanyonVillage->name == "Grand Canyon Village");
+        auto const &theseGpsCoordinates = *(grandCanyonVillage->gpsCoordinates);
+        static_assert(std::is_same_v<decltype(theseGpsCoordinates), std::optional<GPSCoordinates> const &>, "Dereference fail!"); // :remove:
+        auto latitude = *(theseGpsCoordinates->latitude);
+        static_assert(std::is_same_v<decltype(latitude), double>, "Dereference fail!"); // :remove:
+        std::cout << "POI Latitude: " << latitude << "\n";
+        REQUIRE(latitude == 36.0554);
+    }
+    // Clean up after the test
+    realm.write([&realm, &pointOfInterest] {
+        realm.remove(pointOfInterest);
+    });
 };
 
 TEST_CASE("create object with to-many relationship", "[model][write][relationship]") {
+    // :snippet-start: create-object-with-to-many-relationship
     auto realm = realm::open<Company, Employee>();
 
     auto employee1 = Employee {
@@ -165,19 +188,72 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
         .name = "Dunder Mifflin"
     };
     
+    // Use the `push_back` member function available to the 
+    // `ListObjectPersistable<T>` template to append `Employee` objects to
+    // the `Company` `employees` list property. 
     company.employees.push_back(employee1);
     company.employees.push_back(employee2);
 
-    realm.write([&realm, &employee1, &employee2, &company] {
+    realm.write([&realm, &company] {
         realm.add(company);
     });
-    
+    // :snippet-end:
+
+    // :snippet-start: check-size-and-access-results
+    // :snippet-start: read-objects-from-realm
     auto companies = realm.objects<Company>();
+    // :snippet-end:
+    // :snippet-start: filter-using-type-safe-query
     auto namedDunderMifflin = companies.where("name == $0", {"Dunder Mifflin"});
+    // :snippet-end:
     CHECK(namedDunderMifflin.size() >= 1);
     auto dunderMifflin = namedDunderMifflin[0];
-    std::cout << "Company named:" << dunderMifflin->name << "\n";
-    REQUIRE(dunderMifflin->name == "Dunder Mifflin");
-    auto employeeCount = dunderMifflin->employees.size();
-    REQUIRE(employeeCount >= 2);
+    std::cout << "Company named: " << dunderMifflin->name << "\n";
+    // :snippet-end:
+
+    SECTION("Test code example functions as intended") {
+        REQUIRE(dunderMifflin->name == "Dunder Mifflin");
+        auto employeeCount = dunderMifflin->employees.size();
+        REQUIRE(employeeCount >= 2);
+        auto companyEmployees = dunderMifflin->employees;
+        auto employees = realm.objects<Employee>();
+        auto employeesNamedJim = employees.where("firstName == $0", {"Jim"});
+        REQUIRE(employeesNamedJim.size() >= 1);
+    }
+    // Clean up after the test
+    realm.write([&realm, &company] {
+        realm.remove(company);
+    });
 };
+
+TEST_CASE("update an embedded object", "[model][update]") {
+    auto realm = realm::open<Business, ContactDetails>();
+
+    auto business = Business { .name = "MongoDB" };
+    business.contactDetails = ContactDetails { 
+        .emailAddress = "email@example.com", 
+        .phoneNumber = "123-456-7890"
+    };
+
+    realm.write([&realm, &business] {
+        realm.add(business);
+    });
+    SECTION("This example could fail but we still want to clean up after the test") {
+        // :snippet-start: update-embedded-object
+        auto businesses = realm.objects<Business>();
+        auto mongoDBPointer = businesses[0];
+        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com"); // :remove:
+
+        realm.write([&realm, &mongoDBPointer] {
+            (*mongoDBPointer->contactDetails).emailAddress = "info@example.com";
+        });
+
+        std::cout << "New email address: " << (*mongoDBPointer->contactDetails).emailAddress << "\n";
+        // :snippet-end:
+        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "info@example.com");
+    }
+    // Clean up after the test
+    realm.write([&realm, &business] {
+        realm.remove(business);
+    });
+}
