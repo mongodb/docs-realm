@@ -47,6 +47,7 @@ describe('Mixed Tests', () => {
       const realm = useRealm();
 
       useEffect(() => {
+        // Add data to the Realm when the component mounts
         realm.write(() => {
           // create a Dog with a birthDate value of type string
           new Cat(realm, {
