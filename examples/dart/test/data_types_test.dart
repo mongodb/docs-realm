@@ -71,6 +71,27 @@ class _Vehicle {
 
 // :snippet-end:
 
+// :snippet-start: realmlist-model
+@RealmModel()
+class _Player {
+  @PrimaryKey()
+  late String username;
+  // `inventory` property of type RealmList<Item>
+  // where Items are other RealmObjects
+  late List<_Item> inventory;
+  // `traits` property of type RealmList<String>
+  // where traits are Dart Strings.
+  late List<String> traits;
+}
+
+@RealmModel()
+class _Item {
+  @PrimaryKey()
+  late String name;
+  late String description;
+}
+// :snippet-end:
+
 main() {
   test('Uuid', () {
     // :snippet-start: uuid-use
@@ -116,6 +137,37 @@ main() {
     final queriedSubieDate = queriedSubaruOutback.dateLastServiced.toString();
     expect(queriedSubieDate, '2022-09-18 12:30:00.000Z');
 
+    cleanUpRealm(realm);
+  });
+
+  test("RealmList", () {
+    final config = Configuration.local([Player.schema, Item.schema]);
+    final realm = Realm(config);
+    // :snippet-start: realmlist-use
+    final artemis = realm.write(() => Player('Art3mis', inventory: [
+          Item('elvish sword', 'sword forged by elves'),
+          Item('body armor', 'protects player from damage'),
+        ], traits: [
+          'brave',
+          'kind'
+        ]));
+
+    // Use RealmList methods to filter results
+    RealmList<String> traits = artemis.traits;
+    final brave = traits.firstWhere((element) => element == 'brave');
+
+    final elvishSword =
+        artemis.inventory.where((item) => item.name == 'elvish sword').first;
+
+    // Query RealmList with Realm Query Language
+    final playersWithBodyArmor =
+        realm.query<Player>("ANY inventory.name == \$0", ['body armor']);
+    print("LEN " + playersWithBodyArmor.length.toString()); // currently `0`,
+    // but think it should be 1
+    // :snippet-end:
+    expect(brave, 'brave');
+    expect(elvishSword.name, 'elvish sword');
+    expect(playersWithBodyArmor.length, 1); // fails
     cleanUpRealm(realm);
   });
 
