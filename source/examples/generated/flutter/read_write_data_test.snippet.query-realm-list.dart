@@ -1,5 +1,4 @@
-final config = Configuration.local([Person.schema, Team.schema],
-    path: 'rebellion.realm');
+final config = Configuration.local([Person.schema, Team.schema]);
 final realm = Realm(config);
 final heroes = Team('Millenium Falcon Crew', crew: [
   Person('Luke'),
@@ -9,4 +8,4 @@ final heroes = Team('Millenium Falcon Crew', crew: [
 ]);
 realm.write(() => realm.add(heroes));
 
-final lukeAndLeia = (heroes.crew).query(r'name BEGINSWITH $0', ['L']);
+final lukeAndLeia = heroes.crew.query(r'name BEGINSWITH $0', ['L']);

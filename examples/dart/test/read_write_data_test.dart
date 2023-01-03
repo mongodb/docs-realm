@@ -24,10 +24,22 @@ class _Team {
 
 void main() {
   group('Query Data', () {
+    test('Query Object by Primary Key', () {
+      final config = Configuration.local([Person.schema]);
+      final realm = Realm(config);
+
+      realm.write(() => realm.add(Person("Luke")));
+
+      // :snippet-start: query-object-by-pk
+      final luke = realm.find<Person>("Luke");
+      // :snippet-end:
+      expect(luke, isNotNull);
+      expect(luke!.name, 'Luke');
+      cleanUpRealm(realm);
+    });
     test("Query List of Realm Objects", () {
       // :snippet-start: query-realm-list
-      final config = Configuration.local([Person.schema, Team.schema],
-          path: 'rebellion.realm');
+      final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
       final heroes = Team('Millenium Falcon Crew', crew: [
         Person('Luke'),
@@ -37,7 +49,7 @@ void main() {
       ]);
       realm.write(() => realm.add(heroes));
 
-      final lukeAndLeia = (heroes.crew).query(r'name BEGINSWITH $0', ['L']);
+      final lukeAndLeia = heroes.crew.query(r'name BEGINSWITH $0', ['L']);
       // :snippet-end:
       expect(lukeAndLeia.length, 2);
       expect(lukeAndLeia.query("name == 'Luke'").length, 1);
@@ -45,8 +57,7 @@ void main() {
         realm.deleteMany(realm.all<Person>());
         realm.deleteMany(realm.all<Team>());
       });
-      realm.close();
-      Realm.deleteRealm(realm.config.path);
+      cleanUpRealm(realm);
     });
   });
   test('Return from write block', () {
@@ -83,6 +94,22 @@ void main() {
     // :snippet-end:
     final prius = realm.query<Car>('model == \$0', ["Prius"]).first;
     expect(prius.miles, 500);
+    cleanUpRealm(realm);
+  });
+  test("Delete all objects of a type", () {
+    final config = Configuration.local([Car.schema]);
+    final realm = Realm(config);
+    realm.write(
+      () => realm
+          .addAll<Car>([Car(ObjectId(), 'Toyota'), Car(ObjectId(), 'Honda')]),
+    );
+    expect(realm.all<Car>().length, 2);
+    // :snippet-start: delete-all-objects-of-type
+    realm.write(() {
+      realm.deleteAll<Car>();
+    });
+    // :snippet-end:
+    expect(realm.all<Car>().length, 0);
     cleanUpRealm(realm);
   });
 
