@@ -389,14 +389,7 @@ public class AuthenticationTest extends RealmTest {
                 }
                 expectation.fulfill();
             });
-            // :snippet-end:
         });
         expectation.await();
-
-
-
-
-
-
     }
 }
