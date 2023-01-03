@@ -171,12 +171,7 @@ namespace Examples.Models
     // :replace-end:
     // :snippet-end:
 
-    // :snippet-start: inverse
-    //  :replace-start: {
-    //  "terms": {
-    //   "Person_Inverse": "Person",
-    //   "Dog_Inverse":"Dog" }
-    // }
+
     class Dog_Inverse : RealmObject
     {
         //:remove-start:
@@ -217,7 +212,6 @@ namespace Examples.Models
         public IQueryable<Person_Inverse> PeopleWithThatHobby { get; }
         // :replace-end:
     }
-    // :snippet-end:
 
     class IgnorantRenamer
     {
