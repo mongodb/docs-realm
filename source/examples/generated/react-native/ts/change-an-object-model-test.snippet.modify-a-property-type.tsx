@@ -8,6 +8,7 @@ class Task extends Realm.Object<Task> {
   static schema = {
     name: "Task",
     properties: {
+      // update the data type of '_id' to be 'objectId' within the schema
       _id: "objectId",
       name: "string",
       priority: "int?",
