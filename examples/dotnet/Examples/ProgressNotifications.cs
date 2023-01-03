@@ -22,7 +22,6 @@ namespace Examples
         PartitionSyncConfiguration config;
         string myRealmAppId = Config.appid;
 
-
         [Test]
         public async Task TestWaitForChangesToDownloadAsync()
         {
@@ -41,7 +40,9 @@ namespace Examples
 
                 // :uncomment-end:
                 var realm = Realm.GetInstance(config);
-                await realm.SyncSession.WaitForDownloadAsync();
+                // :uncomment-start:
+                //await realm.SyncSession.WaitForDownloadAsync();
+                // :uncomment-end:
                 // :snippet-end:
                 realm.Dispose();
             }
