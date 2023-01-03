@@ -16,5 +16,4 @@ final elvishSword =
 // Query RealmList with Realm Query Language
 final playersWithBodyArmor =
     realm.query<Player>("inventory.name == \$0", ['body armor']);
-print("LEN " + playersWithBodyArmor.length.toString()); // currently `0`,
-// but think it should be 1
+print("LEN " + playersWithBodyArmor.length.toString());
