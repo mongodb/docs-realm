@@ -34,7 +34,7 @@ Your application's **data model** defines the structure of data
 stored within Realm Database.
 You can define your application's data model via Kotlin
 classes in your application code with
-:ref:`Realm Object Models <create-schema-from-rom>`.
+:ref:`Realm Object Models <kotlin-supported-types>`.
 
 To define your application's data model, add a class definition to your
 application code. The example below illustrates the creation of an 'Item' model
@@ -191,12 +191,14 @@ Pass the authenticated user and the ``Item`` class to the `SyncConfiguration.Bui
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__
 function to create a :ref:`Flexible Sync Configuration <kotlin-flexible-sync-fundamentals>`.
 
-You need at least one subscription before you can read from or write to the
-realm. Use `initialSubscriptions
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/initial-subscriptions.html>`__
-to define the initial subscription set when the Realm file is first opened.
-Pass the query you wish to subscribe to and a name for the subscription to the `add()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__ function.
+.. important:: Initial Subscriptions
+
+   You need at least one subscription before you can read from or write to the
+   realm. Use `initialSubscriptions
+   <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/initial-subscriptions.html>`__
+   to define the initial subscription set when the Realm file is first opened.
+   Pass the query you wish to subscribe to and a name for the subscription to the `add()
+   <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__ function.
 
 The example below specifies a subscription named "User's Items" with
 all ``Item`` objects.
