@@ -58,7 +58,7 @@ Create an Object
 ~~~~~~~~~~~~~~~~
 
 To add an object to a realm, instantiate it as you would any other
-object. Then pass it to the :cpp-sdk:`Realm.add() template
+object. Then pass it to the :cpp-sdk:`Realm.add() function
 <structrealm_1_1db.html>` inside of a write transaction.
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.create-an-object.cpp
@@ -80,7 +80,7 @@ Create an Embedded Object
 
 To create an embedded object, assign an instance of the embedded object
 to a parent object's property. Pass the parent object to the 
-:cpp-sdk:`Realm.add() template <structrealm_1_1db.html>` inside of a 
+:cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` inside of a 
 write transaction.
 
 .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-embedded-object.cpp
@@ -106,7 +106,7 @@ Create an Object with a To-One Relationship
 
 To create an object with a to-one relationship link to another object, 
 assign an instance of the linked object to the related object's property.
-Pass the main object to the :cpp-sdk:`Realm.add() template
+Pass the main object to the :cpp-sdk:`Realm.add() function
 <structrealm_1_1db.html>` inside of a write transaction.
 
 .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-object-with-to-one-relationship.cpp
@@ -142,7 +142,7 @@ To create an object with a to-many relationship link to one or more objects:
 - Use the :cpp-sdk:`push_back <structrealm_1_1persisted_3_01T_00_01type__info_1_1ListObjectPersistable_3_01T_01_4_01_4.html>`
   member function available to the ``ListObjectPersistable< T >`` template
   to append the linked objects to the main object's list property
-- Pass the main object to the to the :cpp-sdk:`Realm.add() template
+- Pass the main object to the to the :cpp-sdk:`Realm.add() function
   <structrealm_1_1db.html>` inside of a write transaction.
 
 .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-object-with-to-many-relationship.cpp
