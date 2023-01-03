@@ -70,29 +70,24 @@ namespace Examples
                    {
                        Console.WriteLine($@"transferred bytes:
                             {progress.TransferredBytes}");
-                       });
-                // :snippet-end: upload-download-progress-notification
-                var id = 2;
-                var myObj = new ProgressObj
-                {
-                    Id = id
-                };
-                realm.Write(() =>
-                {
-                    realm.Add(myObj);
-                });
-                realm.Write(() =>
-                {
-                    realm.RemoveAll<ProgressObj>();
-                });
-                // :snippet-start: remove-progress-notification
-                token.Dispose();
-                // :snippet-end: remove-progress-notification
-            }
-            catch (Exception ex)
+                   });
+            // :snippet-end: upload-download-progress-notification
+            var id = 2;
+            var myObj = new ProgressObj
             {
-
-            }
+                Id = id
+            };
+            realm.Write(() =>
+            {
+                realm.Add(myObj);
+            });
+            realm.Write(() =>
+            {
+                realm.RemoveAll<ProgressObj>();
+            });
+            // :snippet-start: remove-progress-notification
+            token.Dispose();
+            // :snippet-end: remove-progress-notification
         }
 
         [Test]

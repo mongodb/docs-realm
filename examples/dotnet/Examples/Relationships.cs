@@ -109,41 +109,6 @@ namespace Examples
 
     public class InverseRelationship
     {
-<<<<<<< HEAD
-        // :snippet-start: inverse
-        // :replace-start: {
-        //  "terms": {
-        //   "UserTwo": "User",
-        //   "TaskTwo" : "Item" }
-        // }
-        public class UserTwo : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
-
-            public string Name { get; set; }
-
-            [Backlink(nameof(TaskTwo.Assignee))]
-            public IQueryable<TaskTwo> Items { get; }
-        }
-
-        public class TaskTwo : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
-
-            public string Text { get; set; }
-
-            public UserTwo Assignee { get; set; }
-        }
-        // :replace-end:
-        // :snippet-end:
-=======
-
->>>>>>> 6b04f802 (source solution updated and all tests pass)
-
         [Test]
         public async Task InverseQuery()
         {
@@ -188,7 +153,6 @@ namespace Examples
             Assert.AreEqual("Katie", oscillatorAssignees[0].Name, "matches");
             return;
         }
-
     }
 
     // :snippet-start: inverse
@@ -206,7 +170,7 @@ namespace Examples
         public string Name { get; set; }
 
         [Backlink(nameof(TaskTwo.Assignee))]
-        public IQueryable<TaskTwo> Tasks { get; }
+        public IQueryable<TaskTwo> Items { get; }
     }
 
     public partial class TaskTwo : IRealmObject

@@ -182,27 +182,11 @@ namespace Examples
         [MapTo("_id")]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-<<<<<<< HEAD
-        }
-        public enum ItemStatus
-        {
-            Open,
-            InProgress,
-            Complete
-        }
-        class Team : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
-=======
         [MapTo("name")]
         [Required]
         public string Name { get; set; }
->>>>>>> 6b04f802 (source solution updated and all tests pass)
 
         [MapTo("description")]
         public string Description { get; set; }
-
     }
 }

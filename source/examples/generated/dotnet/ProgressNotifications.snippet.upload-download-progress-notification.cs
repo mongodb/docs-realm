@@ -5,6 +5,4 @@ var token = session.GetProgressObservable(ProgressDirection.Upload,
        {
            Console.WriteLine($@"transferred bytes:
                 {progress.TransferredBytes}");
-           Console.WriteLine($@"transferable bytes:
-                {progress.TransferableBytes}");
        });

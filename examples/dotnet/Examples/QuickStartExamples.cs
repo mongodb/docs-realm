@@ -131,11 +131,7 @@ namespace Examples
             App app = App.Create(myRealmAppId);
             using (var realm = Realm.GetInstance(config))
             {
-<<<<<<< HEAD
-                var myItem = new Item() { Partition = "foo", Name = "foo2", Status = ItemStatus.Complete.ToString() };
-=======
-                var myTask = new Task() { Partition = "myPart", Name = "foo2", Status = TaskStatus.Complete.ToString() };
->>>>>>> 6b04f802 (source solution updated and all tests pass)
+                var myItem = new Item() { Partition = "mypart", Name = "mypart", Status = ItemStatus.Complete.ToString() };
                 realm.Write(() =>
                 {
                     realm.Add(myItem);
