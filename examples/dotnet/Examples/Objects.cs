@@ -171,7 +171,6 @@ namespace Examples.Models
     // :replace-end:
     // :snippet-end:
 
-
     partial class Dog_Inverse : IRealmObject
     {
         //:remove-start:
