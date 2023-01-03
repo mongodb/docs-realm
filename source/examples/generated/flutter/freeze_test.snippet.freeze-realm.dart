@@ -21,11 +21,6 @@ realm.write(() {
 final purpleScooterFrozen =
     frozenRealm.query<Scooter>("name == \$0", ["Purple scooter"]).first;
 print(purpleScooterFrozen.owner!.firstName); // prints 'Mace'
-realm.write(() {
-  realm.deleteAll<Person>();
-  realm.deleteAll<Scooter>();
-});
-realm.close();
 
 // You must also close the frozen realm before exiting the process
 frozenRealm.close();

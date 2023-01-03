@@ -60,12 +60,12 @@ void main() {
       expect(purpleScooterLive.owner!.firstName, 'Qui-Gon');
       expect(purpleScooterFrozen.owner!.firstName, 'Mace');
       expect(frozenRealm.isFrozen, isTrue);
-      // :remove-end:
       realm.write(() {
         realm.deleteAll<Person>();
         realm.deleteAll<Scooter>();
       });
       realm.close();
+      // :remove-end:
 
       // You must also close the frozen realm before exiting the process
       frozenRealm.close();
