@@ -7,79 +7,199 @@ Dictionaries - React Native SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
-.. versionadded:: 10.5.0
+.. versionadded:: Realm JS: 10.5.0
 
 Overview
 --------
-You can use the ``dictionary`` data type to manage a collection of unique String
-keys paired with values. The ``dictionary`` data maps to the Javascript
-:mdn:`Object <Web/JavaScript/Reference/Global_Objects/Object>` type. 
+You can use the :js-sdk:`Realm.Dictionary <Realm.Dictionary.html>` data type to
+manage a collection of unique String keys paired with values. The ``dictionary``
+data maps to the Javascript :mdn:`Object
+<Web/JavaScript/Reference/Global_Objects/Object>` type. 
 
 Realm Object Models
 -------------------
 
 To define a dictionary of mixed values in your schema, set the data type
-of your field to an empty object, ``"{}"``. Alternatively, to create a
-dictionary with values of a specific type, add the data type before the
-brackets. For instance, ``"int{}"`` to specify that dictionary values must be
+of your field to an empty object, ``"{}"``. Alternatively, add the data type before the brackets to create a
+dictionary with values of a specific type. For instance, ``"int{}"`` to specify that dictionary values must be
 integers or ``"string{}"`` to specify that dictionary values must be strings.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.define-dictionary-in-schema.js
-    :language: javascript
+.. tabs-realm-languages::
 
-Create an Object with a  Dictionary Value
------------------------------------------
-Create an object with a dictionary value by running the :js-sdk:`realm.create()
-<Realm.html#create>` method within a write transaction. 
+   .. tab::
+      :tabid: typescript
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.create-realm-obj-with-dictionary.js
-    :language: javascript
+      Use an `interface
+      <https://www.typescriptlang.org/docs/handbook/2/objects.html>`__ that
+      extends the ``Realm.Dictionary`` type to define the syntax for your
+      dictionary object. All of your Realm Objects for this class must follow
+      the syntax specified in the interface.
+
+      .. literalinclude:: /examples/generated/react-native/ts/HomeOwner.snippet.ts-homeowner-schema.ts
+         :language: typescript
+         :emphasize-lines: 16
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/HomeOwner.snippet.js-homeowner-schema.js
+         :language: javascript
+         :emphasize-lines: 6
+
+
+Create an Object with a Dictionary Value
+----------------------------------------
+
+To create an object with a dictionary value, use the :mdn:`new
+<Web/JavaScript/Reference/Operators/new>` operator within a :ref:`write
+transaction <react-native-write-transactions>`. 
+
+Example
+~~~~~~~
+
+In the following ``CreateHomeOwner`` example, we create a new object with a dictionary property.
+
+The ``CreateHomeOwner`` component does the following:
+
+- Create React `state <https://reactjs.org/docs/react-component.html#state>`__ that represents the homeowner's name and address, respectively.
+- Get access to an open realm instance by calling the ``useRealm()`` hook within the component.
+- Create a component method ``SubmitHomeOwner()`` that performs a write transaction and creates a new ``HomeOwner`` object based on the ``TextInput`` values for the homeowner's name and address, respectively.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``SubmitHomeOwner()``
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.create-object-with-dictionary-value.tsx
+         :language: typescript
+         :emphasize-lines: 4, 7-16
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/dictionary-test.snippet.create-object-with-dictionary-value.jsx
+         :language: javascript
+         :emphasize-lines: 4, 7-16
+         :linenos:
 
 Query for Objects with a Dictionary Property
 --------------------------------------------
 To filter a query, run :js-sdk:`collection.filtered()
 <Realm.Collection.html#filtered>` to specify a subset of results based on the
 value(s) of one or more object properties. You can specify results based on the value of a 
-dictionary's properties by using :mdn:`bracket-notation <Web/JavaScript/Reference/Operators/Property_accessors>`.
+dictionary's properties by using :mdn:`bracket notation <Web/JavaScript/Reference/Operators/Property_accessors>`.
 
 You can also determine whether a results collection has a certain key or value
 by using ``<dictionary>.@keys`` or ``<dictionary>.@values``. For instance, if
-you had a ``Person`` collection with a nested ``home`` dictionary, you could
-return all ``Person`` objects with a ``home`` with a ``"price"`` property by
+you had a ``HomeOwner`` collection with a nested ``home`` dictionary, you could
+return all ``HomeOwner`` objects with a ``home`` with a ``"price"`` property by
 running the query: ``home.@keys = "price"``.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.query-a-dictionary.js
-    :language: javascript
+Example
+~~~~~~~
 
-Add a Listener to a Dictionary
-------------------------------
-You can add a listener to a dictionary by running the
-:js-sdk:`dictionary.addListener() <Realm.List.html#addListener>` method. The
-``addListener`` method's callback function has two parameters, the changed
-dictionary and an array of changes describing how the dictionary was changed.
+In the following ``HomeList`` example, we query for objects that have dictionary properties.
 
-.. note:: 
+The ``HomeList`` component does the following:
 
-   Learn more about :ref:`change notifications <react-native-change-notifications>`.
+- Performs a query for all homeowners by passing the ``HomeOwner`` class to the ``useQuery`` hook.
+- Performs a query for homeowners with a listed price by passing ``collection.filtered()`` the query: ``home.@keys = "price"``.
+- Performs a query for the summer hill house by running ``collection.filtered()`` using bracket notation to find the first homeowner with an address set to "Summerhill St." and getting their home by using dot syntax. 
+- Performs a query for all homeowners with any field with a value of red by passing ``collection.filtered()`` the query: ``'home.@values = "red"'``. We then get the first homeowner's home.
+- Display the results of our queries in the UI by rendering information about the homes
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.add-a-listener-to-a-dictionary.js
-    :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.query-objects-with-dictionary.tsx
+         :language: typescript
+         :emphasize-lines: 3, 7, 11, 15
+         :linenos:
+
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/dictionary-test.snippet.query-objects-with-dictionary.jsx
+         :language: javascript
+         :emphasize-lines: 3, 7, 11, 15
+         :linenos:
 
 Update a Dictionary
 -------------------
-To update a dictionary's properties, use dot notation or the ``dictionary.put()`` method.
+Update a dictionary's property by using the :js-sdk:`dictionary.set() <Realm.Dictionary.html#set>` method or dot notation to set its property to a new value.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.update-a-dictionary.js
-    :language: javascript
+Example
+~~~~~~~
+
+In the following ``UpdateHome`` example, we update a dictionary's property. 
+
+The ``UpdateHome`` component does the following:
+
+- Create a React `state <https://reactjs.org/docs/react-component.html#state>`__ variable that represents the home address.
+- Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Create a component method ``updateAddress()`` that performs a write transaction and uses ``dictionary.set()`` to set the home's address to the value of the ``address`` state variable. It also uses dot syntax to set the ``yearRenovated`` to ``2004``.
+- Render a ``TextInput`` that displays and changes the ``address`` state variable.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Update Address" button that calls ``updateAddress()``
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.update-a-dictionary.tsx
+         :language: typescript
+         :emphasize-lines: 3-4, 8-13
+         :linenos:
+
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/dictionary-test.snippet.update-a-dictionary.jsx
+         :language: javascript
+         :emphasize-lines: 3-4, 8-13
+         :linenos:
+
 
 Delete Members of a Dictionary
 ------------------------------
-To delete members of a dictionary, use the ``dictionary.remove()`` method with an array of properties to remove from the dictionary.
+To delete members of a dictionary, use the :js-sdk:`dictionary.remove() <Realm.Dictionary.html#remove>` method with an array of properties to remove from the dictionary.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.remove-fields-of-the-dictionary.js
-    :language: javascript
+Example
+~~~~~~~
 
+In the following ``HomeInfo`` example, we delete members of a dictionary.
 
+The ``HomeInfo`` component does the following:
+
+- Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
+- Retrieve the first homeowner that matches the name passed into the component as a prop. We do this by getting the first value returned from the query: ``useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)``.
+- Create a component method ``deleteExtraHomeInfo()`` that performs a write transaction and calls ``dictionary.remove()`` to remove the ``yearRenovated`` and ``color`` properties.
+- Render the homeowner's name and home address in the UI.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Delete extra home info" button that calls ``deleteExtraHomeInfo()``.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.delete-members-of-a-dictionary.tsx
+         :language: typescript
+         :emphasize-lines: 2, 3, 6-9
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/dictionary-test.snippet.delete-members-of-a-dictionary.jsx
+         :language: javascript
+         :emphasize-lines: 2, 3, 6-9
+         :linenos:
