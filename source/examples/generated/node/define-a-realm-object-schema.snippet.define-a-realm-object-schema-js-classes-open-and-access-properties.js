@@ -12,6 +12,3 @@ realm.write(() => {
     miles: 1000,
   });
 });
-
-console.log(car1.carName);
-// use car1

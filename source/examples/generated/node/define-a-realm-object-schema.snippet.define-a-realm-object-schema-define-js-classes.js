@@ -1,5 +1,4 @@
 class Car extends Realm.Object {
-
   static schema = {
     name: "Car",
     properties: {
