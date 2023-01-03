@@ -52,7 +52,7 @@ describe('Dictionary Tests', () => {
       const [address, setAddress] = useState('1 Home Street');
       const realm = useRealm();
 
-      const SubmitHomeOwner = () => {
+      const submitHomeOwner = () => {
         // Create a HomeOwner within a Write Transaction
         realm.write(() => {
           new HomeOwner(realm, {
@@ -68,7 +68,7 @@ describe('Dictionary Tests', () => {
         <View>
           <TextInput value={homeOwnerName} onChangeText={text => setHomeOwnerName(text)} />
           <TextInput value={address} onChangeText={text => setAddress(text)} />
-          <Button title='Submit Home Owner' testID='submitHomeOwnerBtn' onPress={SubmitHomeOwner} />
+          <Button title='Submit Home Owner' testID='submitHomeOwnerBtn' onPress={submitHomeOwner} />
         </View>
       );
     };
