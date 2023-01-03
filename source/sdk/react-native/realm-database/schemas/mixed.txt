@@ -16,13 +16,12 @@ Overview
 The mixed data type is a realm property type that can hold any valid Realm data
 type except a collection. You can create collections (lists, sets, and
 dictionaries) of type ``mixed``, but a ``mixed`` type itself cannot be a
-collection. Properties using the mixed data type can also hold null values.
+collection. 
 
-.. note::
+The mixed data type is indexable, but you can't use it as a primary key.
 
-   The mixed data type is indexable, but you can't use it as a primary key.
-   Because null is a permitted value, you can't declare a Mixed property as
-   optional.
+Properties using the mixed data type can also hold null values. You can't
+declare a Mixed property as optional.
 
 Realm Object Models
 -------------------

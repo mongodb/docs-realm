@@ -97,7 +97,10 @@ describe('Mixed Tests', () => {
       timeout: 5000,
     });
 
-    // Test that 5 Cat Items have been added to the UI, and 5 matching Cat objects have been created in the assertionRealm (since there was already 1 cat object 'clover' created in the beforeEach) + the 4 new Cats
+    // Test that 5 Cat Items have been added to the UI,
+    // and 5 matching Cat objects have been created in the assertionRealm
+    // (since there was already 1 cat object 'clover' created in the beforeEach)
+    // + the 4 new Cats
     setTimeout(() => {
       expect(catItems.length).toBe(5);
       const cats = assertionRealm.objects(Cat);
