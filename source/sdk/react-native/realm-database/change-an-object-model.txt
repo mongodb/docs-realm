@@ -68,10 +68,10 @@ realm defaults to version ``0``.
 Key Concept: Migrations
 -----------------------
 
-A **migration** is a function that updates a realm and any objects it
-contains from one :ref:`schema version <react-native-schema-version>` to a newer
-version. Migrations give you the flexibility to change your object schemas over
-time to accommodate new features and refactors.
+A **migration** is a function that updates a realm and any objects it contains
+from one :ref:`schema version <react-native-schema-version>` to a newer version.
+Migrations allow you to change your object schemas over time to accommodate new
+features and refactors.
 
 When you create a :js-sdk:`Configuration
 <Realm.html#~Configuration>` with schema version greater than the
@@ -189,7 +189,7 @@ property, and then delete the old property.
    
    To migrate the realm to conform to the updated ``Person`` schema, the
    developer creates a :js-sdk:`RealmConfiguration <Realm.html#~Configuration>` object
-   and sets the realm's schema version to ``2`` and defines a migration function that
+   and sets the realm's schema version to ``2``, and defines a migration function that
    sets the value of ``fullName`` based on the existing ``firstName`` and ``lastName``
    properties. Finally, the developer passes the configuration object to the
    ``createRealmContext()`` method.
@@ -245,7 +245,7 @@ callback function of the :js-sdk:`Configuration
 
    To migrate the realm to conform to the updated ``Task`` schema, the developer
    creates a :js-sdk:`Configuration <Realm.html#~Configuration>` object and
-   sets the realm's schema version to ``2`` and defines a migration function to
+   sets the realm's schema version to ``2``, and defines a migration function to
    convert the integer type to an ``Object ID`` type. Finally, the developer
    passes the configuration object to the ``createRealmContext()`` method.
 
@@ -256,11 +256,11 @@ callback function of the :js-sdk:`Configuration
  
          .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.modify-a-property-type.tsx
            :language: typescript
-           :emphasize-lines: 2, 11, 24, 33
+           :emphasize-lines: 2, 11, 25, 34
 
      .. tab::
          :tabid: javascript
  
          .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.modify-a-property-type.jsx
            :language: javascript
-           :emphasize-lines: 6, 19, 28
+           :emphasize-lines: 6, 20, 29

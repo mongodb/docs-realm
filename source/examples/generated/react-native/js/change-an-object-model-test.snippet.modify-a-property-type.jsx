@@ -15,7 +15,8 @@ class Task extends Realm.Object {
 
 const config = {
   schema: [Task],
-  // increment the 'schemaVersion', since the property type of '_id' has been modified
+  // increment the 'schemaVersion', since the property type of '_id'
+  // has been modified
   schemaVersion: 2,
   migration: (oldRealm, newRealm) => {
     if (oldRealm.schemaVersion < 2) {

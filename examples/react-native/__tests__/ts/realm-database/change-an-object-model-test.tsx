@@ -140,7 +140,8 @@ describe('Change an Object Model Tests', () => {
 
     const config = {
       schema: [MyTask],
-      // increment the 'schemaVersion', since the property type of '_id' has been modified
+      // increment the 'schemaVersion', since the property type of '_id'
+      // has been modified
       schemaVersion: 2,
       migration: (oldRealm: Realm, newRealm: Realm) => {
         if (oldRealm.schemaVersion < 2) {
