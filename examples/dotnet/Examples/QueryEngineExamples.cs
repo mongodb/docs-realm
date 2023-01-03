@@ -154,7 +154,7 @@ namespace Examples
     //   "UserTask": "Items",
     // "UserProject": "Project"}
     // }
-    public class UserTask : RealmObject
+    public partial class UserTask : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
@@ -166,7 +166,7 @@ namespace Examples
         public int ProgressMinutes { get; set; }
     }
 
-    public class UserProject : RealmObject
+    public partial class UserProject : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]

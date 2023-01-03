@@ -208,100 +208,6 @@ namespace Examples
             //:snippet-end:
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            realm.Write(() =>
-            {
-                realm.RemoveAll<Inventory>();
-                realm.RemoveAll<PlantInventory>();
-                realm.RemoveAll<ListInventory>();
-            });
-
-        }
-
-        //:snippet-start:sets
-        //:replace-start: {
-        //  "terms": {
-        //   "PlantInventory": "Inventory"}
-        // }
-        public class PlantInventory : RealmObject
-        {
-            //:remove-start:
-            [PrimaryKey]
-            [MapTo("_id")]
-            [Required]
-            public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
-            //:remove-end:
-            // A Set can contain any Realm-supported type, including
-            // objects that inherit from RealmObject
-            public ISet<Plant> PlantSet { get; }
-
-            public ISet<double> DoubleSet { get; }
-
-            // Nullable types are supported in local-only
-            // Realms, but not with Sync
-            public ISet<int?> NullableIntsSet { get; }
-
-            // For C# types that are implicitly nullable, you can
-            // use the [Required] attribute to prevent storing null values
-            [Required]
-            public ISet<string> RequiredStrings { get; }
-        }
-        // :replace-end:
-        //:snippet-end:
-
-        //:snippet-start:dictionaries
-
-        public class Inventory : RealmObject
-        {
-            //:remove-start:
-            [PrimaryKey]
-            [MapTo("_id")]
-            public string Id { get; set; }
-            //:remove-end:
-            // The key must be of type string; the value can be 
-            // of any Realm-supported type, including objects
-            // that inherit from RealmObject or EmbeddedObject
-            public IDictionary<string, Plant> PlantDict { get; }
-
-            public IDictionary<string, bool> BooleansDict { get; }
-
-            // Nullable types are supported in local-only
-            // Realms, but not with Sync
-            public IDictionary<string, int?> NullableIntDict { get; }
-
-            // For C# types that are implicitly nullable, you can
-            // use the [Required] attribute to prevent storing null values
-            [Required]
-            public IDictionary<string, string> RequiredStringsDict { get; }
-        }
-        //:snippet-end:
-
-        public class ListInventory : RealmObject
-        {
-            //:remove-start:
-            [PrimaryKey]
-            [MapTo("_id")]
-            public string Id { get; set; }
-            //:remove-end:
-            public IList<Plant> Plants { get; }
-        }
-
-
-        //:snippet-start:realmvalue
-        public class MyRealmValueObject : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public Guid Id { get; set; }
-
-            public RealmValue MyValue { get; set; }
-
-            // A nullable RealmValue property is *not supported*
-            // public RealmValue? NullableRealmValueNotAllowed { get; set; }
-        }
-
         private void TestRealmValue()
         {
             var obj = new MyRealmValueObject();
@@ -322,10 +228,105 @@ namespace Examples
             }
         }
         //:snippet-end:
+
+
+        [TearDown]
+        public void TearDown()
+        {
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Inventory>();
+                realm.RemoveAll<PlantInventory>();
+                realm.RemoveAll<ListInventory>();
+            });
+
+        }
+    }
+
+    //:snippet-start:sets
+    //:replace-start: {
+    //  "terms": {
+    //   "PlantInventory": "Inventory"}
+    // }
+    public partial class PlantInventory : IRealmObject
+    {
+        //:remove-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        [Required]
+        public string Id { get; set; } = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+        //:remove-end:
+        // A Set can contain any Realm-supported type, including
+        // objects that inherit from RealmObject
+        public ISet<Plant> PlantSet { get; }
+
+        public ISet<double> DoubleSet { get; }
+
+        // Nullable types are supported in local-only
+        // Realms, but not with Sync
+        public ISet<int?> NullableIntsSet { get; }
+
+        // For C# types that are implicitly nullable, you can
+        // use the [Required] attribute to prevent storing null values
+        [Required]
+        public ISet<string> RequiredStrings { get; }
+    }
+    // :replace-end:
+    //:snippet-end:
+
+    //:snippet-start:dictionaries
+
+    public partial class Inventory : IRealmObject
+    {
+        //:remove-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public string Id { get; set; }
+        //:remove-end:
+        // The key must be of type string; the value can be 
+        // of any Realm-supported type, including objects
+        // that inherit from RealmObject or EmbeddedObject
+        public IDictionary<string, Plant> PlantDict { get; }
+
+        public IDictionary<string, bool> BooleansDict { get; }
+
+        // Nullable types are supported in local-only
+        // Realms, but not with Sync
+        public IDictionary<string, int?> NullableIntDict { get; }
+
+        // For C# types that are implicitly nullable, you can
+        // use the [Required] attribute to prevent storing null values
+        [Required]
+        public IDictionary<string, string> RequiredStringsDict { get; }
+    }
+    //:snippet-end:
+
+    public partial class ListInventory : IRealmObject
+    {
+        //:remove-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public string Id { get; set; }
+        //:remove-end:
+        public IList<Plant> Plants { get; }
+    }
+
+
+    //:snippet-start:realmvalue
+    public partial class MyRealmValueObject : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public Guid Id { get; set; }
+
+        public RealmValue MyValue { get; set; }
+
+        // A nullable RealmValue property is *not supported*
+        // public RealmValue? NullableRealmValueNotAllowed { get; set; }
     }
 
     // :snippet-start:realmint-class
-    public class MyRealmClass : RealmObject
+    public partial class MyRealmClass : IRealmObject
     {
         [PrimaryKey]
         public int _id { get; set; }

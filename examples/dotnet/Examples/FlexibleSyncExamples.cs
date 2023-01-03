@@ -149,46 +149,45 @@ namespace Examples
             // :snippet-end:
         }
 
+    }
+    partial class MyTask : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        class MyTask : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+        [MapTo("name")]
+        [Required]
+        public string Name { get; set; }
 
-            [MapTo("name")]
-            [Required]
-            public string Name { get; set; }
+        [MapTo("status")]
+        public string Status { get; set; }
 
-            [MapTo("status")]
-            public string Status { get; set; }
+        [MapTo("owner")]
+        public string Owner { get; set; }
 
-            [MapTo("owner")]
-            public string Owner { get; set; }
+        [MapTo("progressMinutes")]
+        public int ProgressMinutes { get; set; }
 
-            [MapTo("progressMinutes")]
-            public int ProgressMinutes { get; set; }
+    }
+    public enum ItemStatus
+    {
+        Open,
+        InProgress,
+        Complete
+    }
+    partial class Team : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        }
-        public enum ItemStatus
-        {
-            Open,
-            InProgress,
-            Complete
-        }
-        class Team : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+        [MapTo("name")]
+        [Required]
+        public string Name { get; set; }
 
-            [MapTo("name")]
-            [Required]
-            public string Name { get; set; }
+        [MapTo("description")]
+        public string Description { get; set; }
 
-            [MapTo("description")]
-            public string Description { get; set; }
-
-        }
     }
 }

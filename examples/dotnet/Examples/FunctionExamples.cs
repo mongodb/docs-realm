@@ -59,7 +59,7 @@ namespace Examples
         }
     }
 
-    public class MyClass : RealmObject
+    public partial class MyClass : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
