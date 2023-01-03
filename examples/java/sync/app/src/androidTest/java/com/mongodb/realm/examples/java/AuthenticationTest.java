@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 
+import org.bson.Document;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -376,21 +377,23 @@ public class AuthenticationTest extends RealmTest {
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
 
-            Credentials anonymousCredentials = Credentials.anonymous();
-            app.loginAsync(anonymousCredentials, it -> {
-                Assert.assertEquals(true, it.isSuccess());
+            Credentials emailPasswordCredentials = Credentials.emailPassword("<email>", "<password>");
+
+            AtomicReference<User> user = new AtomicReference<User>();
+            app.loginAsync(emailPasswordCredentials, it -> {
                 if (it.isSuccess()) {
-                    User user = app.currentUser();
-                    String accessToken = getValidAccessToken(user);
-//                    Assert.assertTrue(accessToken instanceof String);
-
-                    expectation.fulfill();
+                    String accessToken = getValidAccessToken(app.currentUser());
+                    Assert.assertTrue(accessToken instanceof String);
+                } else {
+                    Log.e("AUTH", it.getError().toString());
                 }
+                expectation.fulfill();
             });
-
-
+            // :snippet-end:
         });
         expectation.await();
+
+
 
 
 
