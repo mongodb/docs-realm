@@ -13,10 +13,9 @@ Object Models - .NET SDK
 
 Create an Object Model
 ----------------------
-Realm objects are regular C# classes that inherit from 
-:dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
-:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`. The 
-class itself defines the Realm schema.
+Realm classes are regular C# classes that define the Realm schema.
+
+.. include:: /includes/dotnet-implement-interface.rst
 
 .. _dotnet-object-schema:
 
@@ -147,7 +146,7 @@ In C#, value types are implicitly non-nullable, but can be made optional by appe
 `?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
 Reference types, such as ``string`` and ``byte[]``, are implicitly nullable and can be
 made required by annotating them with the ``[Required]`` attribute. Properties of types
-that inherit from ``RealmObject`` or ``EmbeddedObject`` are special and can always be
+that inherit from ``IRealmObject`` or ``IEmbeddedObject`` are special and can always be
 null. Applying ``[Required]`` on such a property will result in a compilation error.
 
 You can use the ``[Required]`` attribute as seen in the following example:
@@ -255,8 +254,8 @@ Omit Classes from your Realm Schema
 -----------------------------------
 
 By default, your application's Realm Schema includes all
-classes that inherit from ``RealmObject`` or ``EmbeddedObject``. If you only want to include a
-a subset of these classes in your Realm
+classes that implement ``IRealmObject`` or ``IEmbeddedObject``. 
+If you only want to include a subset of these classes in your Realm
 Schema, you can update your configuration to include the specific classes you want:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.subset.cs

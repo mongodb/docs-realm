@@ -1,4 +1,4 @@
-public class Person : RealmObject
+public partial class Person : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]

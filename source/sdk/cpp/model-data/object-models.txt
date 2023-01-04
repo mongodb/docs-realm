@@ -1,0 +1,174 @@
+.. _cpp-object-models:
+
+===============================
+Object Models - C++ SDK (Alpha)
+===============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Key Concept: Object Types & Schemas
+-----------------------------------
+
+Realm Database applications model data as objects composed of
+field-value pairs that each contain one or more :ref:`supported
+<cpp-supported-property-types>` data types.
+
+Every Realm object has an *object type* that refers to the object's
+class. Objects of the same type share an :ref:`object schema
+<cpp-object-schema>` that defines the properties and relationships of those
+objects.
+
+.. _cpp-realm-schema:
+
+Realm Schema
+~~~~~~~~~~~~
+
+A **realm schema** is a list of valid object schemas that a realm may 
+contain. Every Realm object must conform to an object type that's included 
+in its realm's schema.
+
+When opening a realm, you must specify which models are available by 
+passing the models to the template you use to open the realm. Those 
+models must have schemas, and this list of schemas becomes the realm schema.
+
+If a realm already contains data when you open it, Realm Database 
+validates each object to ensure that an object schema was provided for 
+its type and that it meets all of the constraints specified in the schema.
+
+For more information about how to open a realm, refer to: :ref:`cpp-configure-and-open-a-realm`
+
+.. _cpp-object-model:
+.. _cpp-properties:
+
+Realm Object Model
+~~~~~~~~~~~~~~~~~~
+
+Your Realm object model is the core structure that gives Realm 
+information about how to interpret and store the objects in your app.
+The C++ Realm object model is a class or a struct that subclasses one of 
+the Realm object types. The object model contains a collection of 
+properties. You annotate the properties in the model to give Realm 
+information about each property:
+
+- The data type and whether the property is optional or required
+- Whether Realm should store or ignore the property
+
+Properties are also the mechanism for establishing :ref:`relationships 
+<cpp-relationships>` between Realm object types.
+
+You use this object model like any other C++ class or struct when you
+initialize your objects. 
+
+In addition to property information, each C++ Realm object model must 
+expose a schema. 
+
+.. _cpp-object-schema:
+
+Realm Object Schema
+~~~~~~~~~~~~~~~~~~~
+
+A C++ **realm object schema** maps property names, relationships, and any 
+property metadata for a specific object type. Because C++ does not have 
+reflection, your model must expose a public static **constexpr** 
+member that explicitly declares your schema. The object schema includes 
+details like the property name and type, whether the property is a primary 
+key, and whether it forms a relationship with other object types.
+
+.. _cpp-define-a-new-object-type:
+
+Define a New Object Type
+------------------------
+
+You can define your models as classes or structs that inherit from 
+:cpp-sdk:`realm::object <structrealm_1_1object.html>`.
+
+You must declare any property you want to store (persist) in a realm as 
+:cpp-sdk:`realm::persisted <structrealm_1_1persisted.html>`. Your model 
+must also expose a public static constant expression (``constexpr``) member 
+called ``schema``. Use the :cpp-sdk:`realm::schema 
+<structrealm_1_1internal_1_1schema.html>` and :cpp-sdk:`realm::property 
+<structrealm_1_1property.html>` templates to describe your schema.
+
+Realm ignores any members not declared as ``realm::persisted`` and not 
+declared in the schema.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.define-models.cpp
+   :language: cpp
+
+.. _cpp-primary-key:
+
+Specify a Primary Key
+~~~~~~~~~~~~~~~~~~~~~
+
+You can designate a property as the **primary key** of your object.
+
+Primary keys allow you to efficiently find, update, and upsert objects.
+
+Primary keys are subject to the following limitations:
+
+- You can define only one primary key per object model.
+
+- Primary key values must be unique across all instances of an object
+  in a realm. Realm Database throws an error if you try to
+  insert a duplicate primary key value.
+
+- Primary key values are immutable. To change the primary key value of
+  an object, you must delete the original object and insert a new object
+  with a different primary key value.
+
+- Embedded objects cannot define a primary key.
+
+If you are using :ref:`Device Sync <cpp-synced-realm>`, your models must 
+have a primary key named ``_id``.
+
+You set a property as a primary key by passing ``true`` to the second template parameter of the ``persisted`` template:
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.define-a-schema.cpp
+   :language: cpp
+   :emphasize-lines: 2
+
+.. _cpp-ignore-property:
+
+Ignore a Property
+~~~~~~~~~~~~~~~~~
+
+Your model may include properties that Realm Database does not store. Realm 
+ignores any members not declared as ``realm::persisted`` and not declared 
+in the schema.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
+   :language: cpp
+   :emphasize-lines: 7
+
+.. _cpp-embedded-object:
+
+Define an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **embedded object** is a special type of object that models complex 
+data about a specific object. Embedded objects are similar to 
+relationships, but they provide additional constraints and
+map more naturally to the denormalized :manual:`MongoDB document model
+</core/data-modeling-introduction/>`.
+
+Realm enforces unique ownership constraints that treat each embedded
+object as nested data inside of a single, specific parent object. An
+embedded object inherits the lifecycle of its parent object and cannot
+exist as an independent Realm object. Realm automatically deletes
+embedded objects if their parent object is deleted or when overwritten
+by a new embedded object instance.
+
+You can declare an object as an :ref:`embedded object <cpp-embedded-object>` 
+that does not have a lifecycle independent of the object in which it 
+is embedded. This differs from a :ref:`to-one <cpp-to-one-relationship>` 
+or :ref:`to-many <cpp-to-many-relationship>` relationship, in which the 
+related objects have independent lifecycles.
+
+To declare an object as an embedded object, inherit from 
+:cpp-sdk:`realm::embedded_object <structrealm_1_1embedded__object.html>`.
+
+.. include:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp.rst

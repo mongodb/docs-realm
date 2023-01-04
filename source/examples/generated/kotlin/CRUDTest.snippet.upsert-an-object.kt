@@ -10,7 +10,7 @@ realm.write {
     } else {
         // if the query returned no object, insert a new object with a new primary key.
         this.copyToRealm(Frog().apply {
-            _id = ObjectId.create()
+            _id = ObjectId()
             name = "Wirt"
             age = 4
             species = "Greyfrog"

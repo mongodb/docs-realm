@@ -1,5 +1,5 @@
 // Declare your schema
-class LoneClass : RealmObject
+partial class LoneClass : IRealmObject
 {
     public string Name { get; set; }
 }

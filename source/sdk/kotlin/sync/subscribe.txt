@@ -112,27 +112,20 @@ You can also use `SubscriptionSet.waitForSynchronization()
 to delay execution until subscription sync completes after instantiating
 a sync connection.
 
-``SubscriptionSet.State`` Enum
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Subscription Set State
+~~~~~~~~~~~~~~~~~~~~~~
 
-Additionally, you can watch the state of the subscription set with the 
-`SubscriptionSetState
+Use the `SubscriptionSet.state
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set/index.html#-508547000%2FProperties%2F645295071>`__
+property to read the current state of the subscription set.
+
+``SUPERCEDED`` (sic -- note alternate spelling) is a `SubscriptionSetState
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set-state/index.html>`__
-enum. You can use subscription state to:
+that can occur when another thread writes a subscription on a different instance
+of the subscription set. If the state becomes ``SUPERCEDED``, you must obtain a
+new instance of the subscription set before you can write to it.
 
-- Show a progress indicator while data is downloading
-- Find out when a subscription set becomes superseded
-
-You can access the state of your application's subscription set using
-``SubscriptionSet.state``.
-
-Superceded
-~~~~~~~~~~
-
-``SUPERCEDED`` is a ``SubscriptionSetState`` that can occur when another
-thread writes a subscription on a different instance of the 
-subscription set. If the state becomes ``SUPERCEDED``, you must obtain 
-a new instance of the subscription set before you can write to it.
+.. include:: /includes/note-sync-state-complete.rst
 
 .. _kotlin-update-subscriptions-with-new-query:
 

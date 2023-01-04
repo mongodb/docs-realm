@@ -67,10 +67,10 @@ The following code block demonstrates calling these methods:
 
 .. _flutter-monitor-sync-progress:
 
-Monitor Sync Progress
----------------------
+Monitor Sync Upload Progress
+----------------------------
 
-To monitor Sync progress, call :flutter-sdk:`SyncSession.getProgressStream()
+To monitor Sync upload progress progress, call :flutter-sdk:`SyncSession.getProgressStream()
 <realm/Session/getProgressStream.html>`. This method returns a Stream of
 :flutter-sdk:`SyncProgress <realm/SyncProgress-class.html>` objects.
 ``SyncProgress`` provides the total number of transferrable bytes and the remaining
@@ -79,8 +79,8 @@ bytes to be transferred.
 ``SyncSession.getProgressStream()`` takes two arguments:
 
 - A :flutter-sdk:`ProgressDirection <realm/ProgressDirection.html>`
-  enum that can be set to ``upload`` or ``download``.
-  This specifies the transfer direction (upload or download) tracked by the progress stream.
+  enum that must be set to ``upload``.
+  This specifies that the progress stream tracks uploads.
 
 - A :flutter-sdk:`ProgressMode <realm/latest/realm/ProgressMode.html>` enum
   that can be set to ``reportIndefinitely`` or ``forCurrentlyOutstandingWork``.
@@ -91,18 +91,12 @@ bytes to be transferred.
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-progress.dart
    :language: dart
 
-Considerations when monitoring sync progress with ``SyncSession.getProgressStream()``:
+.. warning:: Do Not Track Downloads
 
-- The number of transferred and transferable bytes are only estimates.
-  The Sync changesets are compressed with
-  `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting, so
-  the actual size of transmitted bytes will be smaller than the reported number
-  of both transferable and transferred bytes.
-- Realm optimizes download speeds by combining multiple changesets
-  into a single download message, up to 16 MB. Since the progress callback is
-  only invoked once before and after a download message is processed, this
-  means that you'll likely see ``transferredBytes`` change in increments of roughly
-  16 MB rather than continuously as the message is being downloaded.
+   The ``ProgressDirection`` enum also has a ``download`` option to track down downloads.
+   The ``download`` case provides planned future support for download progress notifications. 
+   However, these notifications do not currently provide an accurate indicator of download progress.
+   Do not rely on ``ProgressDirection.download`` for download progress notifications.
 
 .. _flutter-monitor-network-connection:
 

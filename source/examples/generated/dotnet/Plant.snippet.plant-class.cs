@@ -1,4 +1,4 @@
-public class Plant
+public partial class Plant : IRealmObject
 {
     [BsonElement("_id")]
     public ObjectId Id { get; set; } = ObjectId.GenerateNewId();

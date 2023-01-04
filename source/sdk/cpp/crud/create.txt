@@ -1,0 +1,171 @@
+.. _cpp-crud-create:
+
+===============================
+CRUD - Create - C++ SDK (Alpha)
+===============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _cpp-write-transactions:
+
+Key Concept: Transactions
+-------------------------
+
+Write Transactions
+~~~~~~~~~~~~~~~~~~
+
+Realm Database uses a highly efficient storage engine
+to persist objects. You can **create** objects in a realm,
+**update** objects in a realm, and eventually **delete**
+objects from a realm. Because these operations modify the
+state of the realm, we call them writes.
+
+Realm handles writes in terms of **transactions**. A
+transaction is a list of read and write operations that
+Realm treats as a single indivisible operation. In other
+words, a transaction is *all or nothing*: either all of the
+operations in the transaction succeed or none of the
+operations in the transaction take effect. 
+
+All writes must happen in a transaction.
+
+A realm allows only one open transaction at a time. Realm
+blocks other writes on other threads until the open
+transaction is complete. Consequently, there is no race
+condition when reading values from the realm within a
+transaction.
+
+When you are done with your transaction, Realm either
+**commits** it or **cancels** it:
+
+- When Realm **commits** a transaction, Realm writes
+  all changes to disk. For synced realms, the SDK queues the change
+  for synchronization with Atlas Device Sync.
+- When Realm **cancels** a write transaction or an operation in
+  the transaction causes an error, all changes are discarded
+  (or "rolled back").
+
+Create a New Object
+-------------------
+
+.. _cpp-create-a-new-object:
+
+Create an Object
+~~~~~~~~~~~~~~~~
+
+To add an object to a realm, instantiate it as you would any other
+object. Then pass it to the :cpp-sdk:`Realm.add() function
+<structrealm_1_1db.html>` inside of a write transaction.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.create-an-object.cpp
+    :language: cpp
+
+Model
+`````
+
+For more information about modeling an object, refer to: 
+:ref:`cpp-define-a-new-object-type`.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.single-object-model.cpp
+    :language: cpp
+
+.. _cpp-create-an-embedded-object:
+
+Create an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create an embedded object, assign an instance of the embedded object
+to a parent object's property. Pass the parent object to the 
+:cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` inside of a 
+write transaction.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-embedded-object.cpp
+    :language: cpp
+
+This adds both the parent object and the embedded object to the realm. 
+The embedded object does not have its own lifecycle independent of the parent
+object. If you delete the parent object, the embedded object is also deleted.
+
+Model
+`````
+
+For more information about modeling an embedded object, refer to: 
+:ref:`cpp-embedded-object`.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp
+    :language: cpp
+
+.. _cpp-create-an-object-with-to-one-relationship:
+
+Create an Object with a To-One Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create an object with a to-one relationship link to another object, 
+assign an instance of the linked object to the related object's property.
+Pass the main object to the :cpp-sdk:`Realm.add() function
+<structrealm_1_1db.html>` inside of a write transaction.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-object-with-to-one-relationship.cpp
+    :language: cpp
+
+This adds both the main object and the linked object to the realm, and 
+creates a one-way connection from the main object to the linked object.
+
+In other Realm SDKs, you can create an inverse link to refer to the main object
+from the linked object. However, inverse links are not yet supported in the 
+Realm C++ SDK.
+
+The linked object has its own lifecycle independent of the main object. If 
+you delete the main object, the linked object remains.
+
+Model
+`````
+
+For more information about modeling a to-one relationship, refer to: 
+:ref:`cpp-define-a-to-one-relationship-property`.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
+    :language: cpp
+
+.. _cpp-create-an-object-with-to-many-relationship:
+
+Create an Object with a To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create an object with a to-many relationship link to one or more objects:
+
+- Initialize the main object and the linked objects
+- Use the :cpp-sdk:`push_back <structrealm_1_1persisted_3_01T_00_01type__info_1_1ListObjectPersistable_3_01T_01_4_01_4.html>`
+  member function available to the ``ListObjectPersistable< T >`` template
+  to append the linked objects to the main object's list property
+- Pass the main object to the to the :cpp-sdk:`Realm.add() function
+  <structrealm_1_1db.html>` inside of a write transaction.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-object-with-to-many-relationship.cpp
+    :language: cpp
+
+This adds the main object and the linked objects to the realm, and creates 
+a one-way connection from the main object to the linked objects. 
+
+In other Realm SDKs, you can create an inverse link to refer to the main object
+from the linked objects. However, inverse links are not yet supported in the 
+Realm C++ SDK.
+
+The linked objects have their own lifecycles independent of the main 
+object. If you delete the main object, the linked objects remain.
+
+Model
+`````
+
+For more information about modeling a to-many relationship, refer to: 
+:ref:`cpp-define-a-to-many-relationship-property`.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
+    :language: cpp
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
+    :language: cpp
