@@ -1,0 +1,20 @@
+name: C++ Example Tests
+
+on:
+  pull_request:
+    paths:
+      - "examples/cpp/**"
+
+jobs:
+  build:
+    name: Run C++ Example Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          cd examples/cpp
+          mkdir build && cd build
+          cmake ..
+          make
+          ./examples
