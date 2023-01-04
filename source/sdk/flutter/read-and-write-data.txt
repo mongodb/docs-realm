@@ -34,7 +34,7 @@ Query All Objects
 Retrieve a collection of all objects of a data model in the realm with the
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>` method.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.query-all-objects.dart
    :language: dart
 
 .. _flutter-query-list-realm-objects:
@@ -62,7 +62,7 @@ objects from a realm.
 For more information on constructing queries, refer to the
 :ref:`Realm Query Language reference documentation <rql>`.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter.dart
    :language: dart
 
 .. _flutter-sort-results:
@@ -73,7 +73,7 @@ Sort Results
 Sort the results using the :ref:`Realm Query Language SORT() operator
 <rql-sort-distinct-limit>` in the ``query()`` method's argument.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.sort.dart
    :language: dart
 
 .. _flutter-write-operations:
@@ -112,7 +112,7 @@ To create a new Realm object, instantiate an instance of the object class
 and add it to the realm in a write transaction block with
 :flutter-sdk:`Realm.add() <realm/Realm/add.html>`.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.create-object.dart
    :language: dart
 
 .. _flutter-create-multiple-objects:
@@ -123,7 +123,7 @@ Create Multiple Objects
 To add multiple objects to a realm, pass a list of multiple objects
 to :flutter-sdk:`Realm.addAll() <realm/Realm/addAll.html>` inside a write transaction block.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-many-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.create-multiple-objects.dart
    :language: dart
 
 .. _flutter-update-objects:
@@ -138,7 +138,7 @@ Update Object Properties
 
 To modify an object's properties, update the properties in a write transaction block.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.update-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.update-object.dart
    :language: dart
 
 .. _flutter-upsert-objects:
@@ -168,7 +168,7 @@ Delete a Single Object
 Delete an object by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
 method in a write transaction block.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.delete-one-object.dart
    :language: dart
 
 .. _flutter-delete-multiple-objects:
@@ -179,7 +179,7 @@ Delete Multiple Objects
 Delete multiple objects with the :flutter-sdk:`Realm.deleteMany()
 <realm/Realm/deleteMany.html>` method in a write transaction block.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.delete-multiple-objects.dart
    :language: dart
 
 .. _flutter-delete-all-of-type:
@@ -198,7 +198,7 @@ in a write transaction block.
 Background Writes
 -----------------
 
-You can add, modify, or delete objects asynchronously using 
+You can add, modify, or delete objects asynchronously using
 :flutter-sdk:`Realm.writeAsync() <realm/Realm/writeAsync.html>`. 
 
 When you use ``Realm.writeAsync()`` to perform write operations, waiting 

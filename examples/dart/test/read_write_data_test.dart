@@ -43,6 +43,19 @@ void main() {
       expect(luke!.name, 'Luke');
       cleanUpRealm(realm);
     });
+    test('Query All Objects', () {
+      final config = Configuration.local([Person.schema]);
+      final realm = Realm(config);
+
+      final lukesObjectId = ObjectId();
+      realm.write(() => realm.add(Person(lukesObjectId, "Luke")));
+
+      // :snippet-start: query-all-objects
+      final people = realm.all<Person>();
+      // :snippet-end:
+      expect(people.length, 1);
+      cleanUpRealm(realm);
+    });
     test("Query List of Realm Objects", () {
       // :snippet-start: query-realm-list
       final config = Configuration.local([Person.schema, Team.schema]);
