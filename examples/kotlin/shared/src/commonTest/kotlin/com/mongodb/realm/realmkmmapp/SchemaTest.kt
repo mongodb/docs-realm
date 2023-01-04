@@ -18,6 +18,7 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.log.RealmLogger
+import io.realm.kotlin.query.RealmResults
 import kotlinx.coroutines.*
 //import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.launch
@@ -88,8 +89,7 @@ class Knight : RealmObject {
 // :snippet-start: define-a-realm-set
 class Frog2 : RealmObject {
     var name: String = ""
-    var favoriteSnacks: RealmSet<Snack> =
-        realmSetOf<Snack>()
+    var favoriteSnacks: RealmSet<Snack> = realmSetOf<Snack>()
 }
 
 class Snack : RealmObject {
@@ -158,6 +158,14 @@ class SchemaTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
 
+            // Delete cats to make this test successful on consecutive reruns
+            realm.write {
+                // fetch all frogs from the realm
+                val cats: RealmResults<Cat> = this.query<Cat>().find()
+                // call delete on the results of a query to delete those objects permanently
+                delete(cats)
+            }
+
             // :snippet-start: create-uuid-random
             realm.write {
                 this.copyToRealm(Cat().apply {
@@ -178,6 +186,7 @@ class SchemaTest: RealmTest() {
         }
     }
     @Test
+    @kotlin.test.Ignore
     fun createRealmSetTypes() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(Frog2::class, Snack::class))

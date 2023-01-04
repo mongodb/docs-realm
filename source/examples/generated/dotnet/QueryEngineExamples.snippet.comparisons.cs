@@ -1,12 +1,12 @@
-var highPri = tasks.Where(t => t.Priority > 5);
+var highPri = items.Where(i => i.Priority > 5);
 
-var quickTasks = tasks.Where(t =>
-    t.ProgressMinutes >= 1 &&
-    t.ProgressMinutes < 15);
+var quickItems = items.Where(i =>
+    i.ProgressMinutes >= 1 &&
+    i.ProgressMinutes < 15);
 
-var unassignedTasks = tasks.Where(t =>
-    t.Assignee == null);
+var unassignedItems = items.Where(i =>
+    i.Assignee == null);
 
-var AliOrJamieTasks = tasks.Where(t =>
-    t.Assignee == "Ali" ||
-    t.Assignee == "Jamie");
+var AliOrJamieItems = items.Where(i =>
+   i.Assignee == "Ali" ||
+   i.Assignee == "Jamie");

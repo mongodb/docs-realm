@@ -7,7 +7,7 @@ using Realms;
 namespace ReadExamples
 {
 
-    public class ReadsTask : RealmObject
+    public partial class ReadsTask : IRealmObject
     {
 
         [PrimaryKey]
@@ -20,14 +20,14 @@ namespace ReadExamples
         public int ProgressMinutes { get; set; }
     }
 
-    public class ReadsProject : RealmObject
+    public partial class ReadsProject : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
 
         public string Name { get; set; }
-        public IList<ReadsTask> Tasks { get; }
+        public IList<ReadsTask> Items { get; }
     }
 
 
@@ -41,10 +41,10 @@ namespace ReadExamples
             //:replace-start: {
             // "terms": {
             //   "ReadsProject": "Project",
-            //   "ReadsTask": "Task"}
+            //   "ReadsTask": "Item"}
             // }
             var projects = realm.All<ReadsProject>();
-            var tasks = realm.All<ReadsTask>();
+            var items = realm.All<ReadsTask>();
             // :replace-end:
             // :snippet-end:
 
@@ -56,17 +56,17 @@ namespace ReadExamples
             //:replace-start: {
             // "terms": {
             //   "ReadsProject": "Project",
-            //   "ReadsTask": "Task"}
+            //   "ReadsTask": "Item"}
             // }
             // Object to be stored in the Realm instance
-            var myTask = new ReadsTask
+            var myItem = new ReadsTask
             {
                 Id = 1
             };
 
             realm.Write(() =>
             {
-                realm.Add(myTask);
+                realm.Add(myItem);
             });
 
             // Other code...

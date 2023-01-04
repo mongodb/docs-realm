@@ -3,29 +3,24 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms.Sync;
-using Task = Examples.Models.Task;
-using TaskStatus = Examples.Models.TaskStatus;
-using ThreadTask = System.Threading.Tasks.Task;
+using Examples.Models;
+using User = Realms.Sync.User;
 
 namespace Examples
 {
     public class AuthenticationExamples
     {
         App app;
-        ObjectId testTaskId;
-        User user;
-        PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
-        public async ThreadTask Setup()
+        public void Setup()
         {
             app = App.Create(myRealmAppId);
-            return;
         }
 
         [Test]
-        public async ThreadTask LogsOnManyWays()
+        public async Task LogsOnManyWays()
         {
             {
                 // :snippet-start: logon_anon

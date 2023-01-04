@@ -1,0 +1,45 @@
+.. _cpp-connect-to-backend:
+
+====================================================
+Connect to App Services - C++ SDK
+====================================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The App client is the Atlas App Services backend interface. It provides access 
+to authentication and Atlas Functions.
+
+Some of your App Services App's features are associated with user accounts. For example, you
+need to :ref:`authenticate a user <cpp-authenticate-user>` before you can access
+your App's functions.
+
+Before You Begin
+----------------
+
+#. :ref:`Create an App Services app <create-a-realm-app>`
+
+.. _cpp-access-the-app-client:
+
+Access the App Client
+---------------------
+
+#. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
+#. Create an :cpp-sdk:`App object <classrealm_1_1App.html>` 
+   with your App's ID as the argument. You use this ``App`` instance to access 
+   App Services features throughout your client application.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.connect-app-services.cpp
+   :language: cpp
+
+.. tip:: Building an Android App
+
+   When building an Android app that uses the Realm C++ SDK Alpha, 
+   you must pass the ``filesDir.path`` to the ``file_path`` parameter in the 
+   ``App`` constructor. For more information, refer to: :ref:`cpp-build-android-app`.

@@ -7,7 +7,7 @@ import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.subscriptions
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
-import io.realm.kotlin.types.ObjectId
+import org.mongodb.kbson.ObjectId
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlin.test.Test
@@ -18,7 +18,7 @@ class SyncTest: RealmTest() {
 
     class Toad: RealmObject {
         @PrimaryKey
-        var _id: ObjectId = ObjectId.create()
+        var _id: ObjectId = ObjectId()
         var name: String = ""
     }
 

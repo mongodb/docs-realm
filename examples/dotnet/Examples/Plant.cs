@@ -5,10 +5,7 @@ using Realms;
 namespace Examples.Models
 {
     // :snippet-start: plant-class
-    public class Plant
-    //:remove-start:
-    : RealmObject
-    //:remove-end:
+    public partial class Plant : IRealmObject
     {
         //:remove-start:
         [PrimaryKey]

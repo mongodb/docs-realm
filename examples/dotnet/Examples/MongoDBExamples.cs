@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Task = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
 using Examples;
 using Examples.Models;
 using MongoDB.Bson;
