@@ -93,7 +93,7 @@ Add a Property
 ~~~~~~~~~~~~~~
 
 To add a property to a schema, add the new property to the object's class and
-set a ``schemaVersion`` of the ``RealmConfiguration`` object.
+set a ``schemaVersion`` of the ``Configuration`` object.
 
 .. example::
    
@@ -103,7 +103,7 @@ set a ``schemaVersion`` of the ``RealmConfiguration`` object.
    ``age`` property to the ``Person`` class. 
 
    To migrate the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's schema version in the ``RealmConfiguration`` to ``2``.
+   developer sets the realm's schema version in the ``Configuration`` to ``2``.
    Finally, the developer passes the configuration object to the
    ``createRealmContext()`` method.
 
@@ -140,7 +140,7 @@ existing objects.
    remove the property from the schema. 
 
    To migrate the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's schema version to 2 in the ``RealmConfiguration``
+   developer sets the realm's schema version to 2 in the ``Configuration``
    object. Finally, the developer passes the configuration object to the
    ``createRealmContext()`` method.
 
@@ -188,7 +188,7 @@ property, and then delete the old property.
    ``fullName`` field and removes the separate ``firstName`` and ``lastName`` fields.
    
    To migrate the realm to conform to the updated ``Person`` schema, the
-   developer creates a :js-sdk:`RealmConfiguration <Realm.html#~Configuration>` object
+   developer creates a :js-sdk:`Configuration <Realm.html#~Configuration>` object
    and sets the realm's schema version to ``2``, and defines a migration function that
    sets the value of ``fullName`` based on the existing ``firstName`` and ``lastName``
    properties. Finally, the developer passes the configuration object to the
