@@ -6,22 +6,22 @@ Mixed - React Native SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
 .. versionadded:: 10.5.0
 
 Overview
 --------
-The mixed data type is a realm property type that can hold any valid Realm data type except a collection.
-You can create collections (lists, sets, and dictionaries) of type ``mixed``, but a ``mixed`` itself 
-cannot be a collection. Properties using the mixed data type can also hold null values.
+The mixed data type is a realm property type that can hold any valid Realm data
+type except a collection. You can create collections (lists, sets, and
+dictionaries) of type ``mixed``, but a ``mixed`` type itself cannot be a
+collection. 
 
-.. note::
+The mixed data type is indexable, but you can't use it as a primary key.
 
-   The mixed data type is indexable, but you can't use it as a primary key.
-   Because null is a permitted value, you can't declare a Mixed property as
-   optional.
+Properties using the mixed data type can also hold null values. You can't
+declare a Mixed property as optional.
 
 Realm Object Models
 -------------------
@@ -29,25 +29,95 @@ To :ref:`set a property of your object model
 <react-native-define-a-realm-object-schema>` as ``Mixed``, set the property's type to
 "``mixed``".
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.define-mixed-in-schema.js
-    :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Cat.snippet.ts-cat-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Cat.snippet.js-cat-schema.js
+         :language: javascript
+
 
 Create an Object With a Mixed Value
 -----------------------------------
-Create an object with a mixed value by running the :js-sdk:`realm.create()
-<Realm.html#create>` method within a write transaction.
+Create an object with a mixed value by using the :mdn:`new
+<Web/JavaScript/Reference/Operators/new>` operator within a :ref:`write
+transaction <react-native-write-transactions>`.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.create-objects-with-mixed-values.js
-    :language: javascript
+Example
+~~~~~~~
+
+In the following ``CreateCatsInput`` example, we create several ``Cat`` realm
+objects with a ``mixed`` type for the ``birthDate`` field. 
+
+The ``CreateCatsInput`` component does the following:
+
+- Get access to the opened realm instance by calling the ``useRealm()`` hook. 
+- Use React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once by passing ``useEffect`` an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__ as a second argument.
+- Within the anonymous function, we create four different ``Cat`` objects by using the ``new`` operator to create a new realm object within a write transaction. Each of the ``Cat`` objects uses a different data type for the ``birthDate`` property. 
+- Use the ``useQuery()`` hook to retrieve all ``Cat`` objects.
+- `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the cats to render a list of ``Text`` components displaying each cat's ``name`` and ``birthDate``.
+
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/mixed-test.snippet.create-mixed-object.tsx
+         :language: typescript
+         :emphasize-lines: 2, 6-23
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/mixed-tests.snippet.create-mixed-object.jsx
+         :language: javascript
+         :emphasize-lines: 2, 6-23
+         :linenos:
 
 Query for Objects with a Mixed Value
 ------------------------------------
-Query for objects with a mixed value by running the
+To query for objects with a mixed value, run the 
 :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method and
-passing in a :ref:`filter <react-native-filter-queries>` for a non-mixed field. You can
+pass in a :ref:`filter <react-native-filter-queries>` for a non-mixed field. You can
 then print the value of the mixed property or the entire object itself.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.query-objects-with-mixed-values.js
-    :language: javascript
+Example
+~~~~~~~
+
+In the following ``CatInfoCard`` example, we query for a ``Cat`` object using the
+cat's name.
+
+The ``CatInfoCard`` component does the following:
+
+- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use ``filtered()`` to filter the results to receive only the cats whose names match the name passed as a prop. We then get the first matching cat and store it as a const variable. 
+- Use dot notation to retrieve the mixed property, ``birthDate``. 
+- Display the cat's name and birthdate in the render method if Realm finds the cat. If there is no cat that matches the name passed into the component as a prop, we render text that says "Cat not found".
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/mixed-test.snippet.query-mixed-object.tsx
+         :language: typescript
+         :emphasize-lines: 4-5
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/mixed-tests.snippet.query-mixed-object.jsx
+         :language: javascript
+         :emphasize-lines: 4-5
+         :linenos:
 
 
