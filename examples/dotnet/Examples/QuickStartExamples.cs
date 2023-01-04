@@ -55,7 +55,7 @@ namespace Examples
                 Partition = "myPart"
             };
 
-            realm.Write(() =>
+            await realm.WriteAsync(() =>
             {
                 realm.Add(testItem);
             });
