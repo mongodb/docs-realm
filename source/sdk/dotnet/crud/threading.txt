@@ -61,7 +61,7 @@ Avoid synchronous writes on the UI thread if you write on a background thread:
   background thread to complete. If you are using
   :ref:`Device Sync <sync>`, avoid synchronous writes on
   the UI thread as Sync writes on a background
-  thread. Prefer to use asynchronous writes in this case, with `realm.WrireAsync`.
+  thread. Instead, use ``realm.WriteAsync``.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realm instances are
