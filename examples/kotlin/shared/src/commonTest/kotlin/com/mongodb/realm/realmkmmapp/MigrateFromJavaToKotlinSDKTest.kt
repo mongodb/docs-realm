@@ -15,7 +15,7 @@ import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.notifications.UpdatedResults
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.query.Sort
-import io.realm.kotlin.types.ObjectId
+import org.mongodb.kbson.ObjectId
 import io.realm.kotlin.types.RealmInstant
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
@@ -45,7 +45,7 @@ class Sample : RealmObject {
         RealmInstant.from(
             100,
             1000)
-    var objectIdField: ObjectId = ObjectId.create()
+    var objectIdField: ObjectId = ObjectId()
 }
 // :snippet-end:
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Task = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
 using Examples;
 using MongoDB.Bson;
 using NUnit.Framework;

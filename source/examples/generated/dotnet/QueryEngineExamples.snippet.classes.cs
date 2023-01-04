@@ -1,4 +1,4 @@
-public class Task : RealmObject
+public partial class Items : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
@@ -10,11 +10,11 @@ public class Task : RealmObject
     public int ProgressMinutes { get; set; }
 }
 
-public class Project : RealmObject
+public partial class Project : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
     public ObjectId ID { get; set; } = ObjectId.GenerateNewId();
     public string Name { get; set; }
-    public IList<Task> Tasks { get; }
+    public IList<Items> Items { get; }
 }

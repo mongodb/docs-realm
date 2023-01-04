@@ -1,5 +1,5 @@
 config = new PartitionSyncConfiguration("myPart", user);
 using (var realm = Realm.GetInstance(config))
 {
-    var allTasks = realm.All<Task>();
+    var allItems = realm.All<Item>();
 }
