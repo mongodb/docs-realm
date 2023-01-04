@@ -8,7 +8,6 @@ class DeleteARealm {
     @Test
     fun deleteARealm(){
         val config = RealmConfiguration.Builder(schema = setOf(Task::class))
-            .directory("/throwaway-directory/")
             .name("throwaway-file")
             .build()
         val realm = Realm.open(config)
