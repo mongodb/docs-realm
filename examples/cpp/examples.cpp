@@ -3,6 +3,7 @@
 #include <string>
 #include <thread>
 #include <future>
+#include "testHelpers.hpp"
 
 // :snippet-start: includes
 #include <cpprealm/sdk.hpp>
@@ -68,9 +69,7 @@ TEST_CASE("first test case", "[test]") {
     });
     // :snippet-end:
     // Clean up after the test
-    realm.write([&realm, &dog] {
-        realm.remove(dog);
-    });
+    removeAll(realm);
 }
 
 TEST_CASE("create a dog", "[write]") {
