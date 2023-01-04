@@ -61,8 +61,10 @@ The following code creates a new ``Task`` object and writes it to the realm:
 
 .. important:: When Using Sync, Avoid Synchronous Writes on the Main Thread
 
-   The fact that Realm performs sync integrations on a background thread means
-   that if you do a synchronous write to your realm on the main thread, there's a small chance your UI
-   could appear to hang as it waits for the background sync thread to finish a write
-   transaction. Therefore, it's a best practice :ref:`not to do a synchronous write on the main thread
-   when using Device Sync <dotnet-threading-three-rules>` and instead use asynchronous writes with ``realm.WriteAsync``.
+   Because Realm performs sync integrations on a background thread, 
+   if you do a synchronous write to your realm on the main thread, there's 
+   a small chance your UI could appear to hang as it waits for the background 
+   sync thread to finish a write transaction. Therefore, it's a best practice 
+   :ref:`not to do a synchronous write on the main thread 
+   when using Device Sync <dotnet-threading-three-rules>` and instead use 
+   asynchronous writes with ``realm.WriteAsync``.
