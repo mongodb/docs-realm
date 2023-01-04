@@ -74,7 +74,7 @@ Migrations allow you to change your object schemas over time to accommodate new
 features and refactors.
 
 When you create a :js-sdk:`Configuration
-<Realm.html#~Configuration>` with schema version greater than the
+<Realm.html#~Configuration>` with a schema version greater than the
 realm's current version, Realm runs a migration function that you define.
 The function has access to the realm's version number and incrementally
 updates objects in the realm to conform to the new schema.
