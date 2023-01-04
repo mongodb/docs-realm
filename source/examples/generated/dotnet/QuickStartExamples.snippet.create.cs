@@ -5,7 +5,7 @@ var testItem = new Item
     Partition = "myPart"
 };
 
-realm.Write(() =>
+await realm.WriteAsync(() =>
 {
     realm.Add(testItem);
 });
