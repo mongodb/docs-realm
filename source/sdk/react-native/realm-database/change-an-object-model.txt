@@ -99,7 +99,7 @@ set a ``schemaVersion`` of the ``Configuration`` object.
    
    A realm using :ref:`schema version
    <react-native-schema-version>` ``1`` has a ``Person`` object type with a
-   ``firstName``, and ``lastName`` property. You decide to add an
+   ``firstName`` and ``lastName`` property. You decide to add an
    ``age`` property to the ``Person`` class. 
 
    To migrate the realm to conform to the updated ``Person`` schema, the
@@ -184,11 +184,11 @@ property, and then delete the old property.
    
    A realm using :ref:`schema version <react-native-schema-version>` ``1`` has
    a ``Person`` object type. The original schema had a ``firstName`` and ``lastName``
-   field. You later decides that the ``Person`` class should use a combined
+   field. You later decide that the ``Person`` class should use a combined
    ``fullName`` field and removes the separate ``firstName`` and ``lastName`` fields.
    
    To migrate the realm to conform to the updated ``Person`` schema, you create a :js-sdk:`Configuration <Realm.html#~Configuration>` object
-   and sets the realm's schema version to ``2``, and defines a migration function that
+   and set the realm's schema version to ``2``, and define a migration function that
    sets the value of ``fullName`` based on the existing ``firstName`` and ``lastName``
    properties. Finally, you pass the configuration object to the
    ``createRealmContext()`` method.
@@ -239,12 +239,12 @@ callback function of the :js-sdk:`Configuration
    
    A realm using :ref:`schema version <react-native-schema-version>` ``1`` has a
    ``Task`` object type. The original schema had an ``_id`` with a property type of
-   ``int``. You later decides that the ``Task`` class's ``_id`` field should
+   ``int``. You later decide that the ``Task`` class's ``_id`` field should
    be of type ``ObjectId``, and updates the schema.
 
    To migrate the realm to conform to the updated ``Task`` schema, you create a
-   ``Configuration`` object and sets the realm's schema version to ``2``, and
-   defines a migration function to convert the integer type to an ``Object ID``
+   ``Configuration`` object and set the realm's schema version to ``2``, and
+   define a migration function to convert the integer type to an ``Object ID``
    type. Finally, you pass the configuration object to the
    ``createRealmContext()`` method.
 
