@@ -25,10 +25,10 @@ to :ref:`change notifications <flutter-react-to-changes>`.
 
 Realm Database has two kinds of collections: **RealmLists** and **RealmResults**.
 
-.. _flutter-realm-lists:
+.. _flutter-realm-list:
 
-RealmLists
-----------
+RealmList Collections
+---------------------
 
 Realm objects can contain lists of any supported data type.
 Realm uses the :flutter-sdk:`RealmList <realm/RealmList-class.html>` data type
@@ -46,8 +46,8 @@ the list declaration (for example, use ``List<int>`` instead of
 
 Lists are mutable and you can add and remove elements on a list within a write transaction.
 
-Add RealmLists to a Schema
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add a RealmList to a Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can add a ``RealmList`` to your Realm Object schema by defining a property as type
 ``List<T>`` where ``T`` can be any :ref:`supported Realm data type <flutter-data-types>`
@@ -56,8 +56,8 @@ You can add a ``RealmList`` to your Realm Object schema by defining a property a
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realmlist-model.dart
    :language: dart
 
-Querying RealmLists
-~~~~~~~~~~~~~~~~~~~
+Query a RealmList
+~~~~~~~~~~~~~~~~~
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realmlist-use.dart
    :language: dart
@@ -90,8 +90,8 @@ results collection. This lazy evaluation enables you to
 write elegant, highly performant code for handling large
 data sets and complex queries.
 
-Work wth Collections
---------------------
+Work with Collections
+---------------------
 
 .. _flutter-live-collections:
 
