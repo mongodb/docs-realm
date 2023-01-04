@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 
+import org.bson.Document;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -355,6 +356,39 @@ public class AuthenticationTest extends RealmTest {
                 }
             });
 
+        });
+        expectation.await();
+    }
+    // :snippet-start: get-valid-access-token
+    // Gets a valid user access token to authenticate requests
+    public String getValidAccessToken(User user) {
+        // An already logged in user's access token might be stale. To
+        // guarantee that the token is valid, refresh it if necessary.
+        user.refreshCustomData();
+        return user.getAccessToken();
+    }
+    // :snippet-end:
+    @Test
+    public void testGetUserAccessToken(){
+
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID)
+                    .build());
+
+            Credentials emailPasswordCredentials = Credentials.emailPassword("<email>", "<password>");
+
+            AtomicReference<User> user = new AtomicReference<User>();
+            app.loginAsync(emailPasswordCredentials, it -> {
+                if (it.isSuccess()) {
+                    String accessToken = getValidAccessToken(app.currentUser());
+                    Assert.assertTrue(accessToken instanceof String);
+                } else {
+                    Log.e("AUTH", it.getError().toString());
+                }
+                expectation.fulfill();
+            });
         });
         expectation.await();
     }
