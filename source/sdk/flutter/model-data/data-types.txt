@@ -13,7 +13,6 @@ Data Types - Flutter SDK
 The Flutter SDK supports Dart-language data types, a limited subset of
 `BSON <https://bsonspec.org/>`__ types, and :wikipedia:`UUID <Universally_unique_identifier>`.
 
-
 .. _flutter-dart-types:
 
 Dart Types
@@ -26,9 +25,6 @@ Realm supports the following Dart types:
 - ``bool``
 - ``String``
 - ``DateTime``
-- ``List<T>``, where T is any of the supported data types or a
-  `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__.
-  T can also be nullable (``List<T?>``).
 
 DateTime
 ~~~~~~~~
@@ -55,6 +51,14 @@ Reference Realm Objects
 
 You can also reference one or more Realm objects from another. Learn more in the
 :ref:`relationship properties documentation <flutter-client-relationships>`.
+
+Collections
+-----------
+
+You can use a ``RealmList`` to represent a **collection** in Realm Database.
+A collection is an object that contains zero or more instances of one Realm type.
+For more information on defining collections in your data model and using them
+in your application, refer to :ref:`Collections <flutter-collections>`.
 
 .. _flutter-additional-types:
 

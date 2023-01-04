@@ -301,3 +301,100 @@ class Vehicle extends _Vehicle with RealmEntity, RealmObjectBase, RealmObject {
     ]);
   }
 }
+
+class Player extends _Player with RealmEntity, RealmObjectBase, RealmObject {
+  Player(
+    String username, {
+    Iterable<Item> inventory = const [],
+    Iterable<String> traits = const [],
+  }) {
+    RealmObjectBase.set(this, 'username', username);
+    RealmObjectBase.set<RealmList<Item>>(
+        this, 'inventory', RealmList<Item>(inventory));
+    RealmObjectBase.set<RealmList<String>>(
+        this, 'traits', RealmList<String>(traits));
+  }
+
+  Player._();
+
+  @override
+  String get username =>
+      RealmObjectBase.get<String>(this, 'username') as String;
+  @override
+  set username(String value) => RealmObjectBase.set(this, 'username', value);
+
+  @override
+  RealmList<Item> get inventory =>
+      RealmObjectBase.get<Item>(this, 'inventory') as RealmList<Item>;
+  @override
+  set inventory(covariant RealmList<Item> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  RealmList<String> get traits =>
+      RealmObjectBase.get<String>(this, 'traits') as RealmList<String>;
+  @override
+  set traits(covariant RealmList<String> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<Player>> get changes =>
+      RealmObjectBase.getChanges<Player>(this);
+
+  @override
+  Player freeze() => RealmObjectBase.freezeObject<Player>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(Player._);
+    return const SchemaObject(ObjectType.realmObject, Player, 'Player', [
+      SchemaProperty('username', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('inventory', RealmPropertyType.object,
+          linkTarget: 'Item', collectionType: RealmCollectionType.list),
+      SchemaProperty('traits', RealmPropertyType.string,
+          collectionType: RealmCollectionType.list),
+    ]);
+  }
+}
+
+class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
+  Item(
+    String name,
+    String description,
+  ) {
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'description', description);
+  }
+
+  Item._();
+
+  @override
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
+  @override
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
+
+  @override
+  String get description =>
+      RealmObjectBase.get<String>(this, 'description') as String;
+  @override
+  set description(String value) =>
+      RealmObjectBase.set(this, 'description', value);
+
+  @override
+  Stream<RealmObjectChanges<Item>> get changes =>
+      RealmObjectBase.getChanges<Item>(this);
+
+  @override
+  Item freeze() => RealmObjectBase.freezeObject<Item>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(Item._);
+    return const SchemaObject(ObjectType.realmObject, Item, 'Item', [
+      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('description', RealmPropertyType.string),
+    ]);
+  }
+}
