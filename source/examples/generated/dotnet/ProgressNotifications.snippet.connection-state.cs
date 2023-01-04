@@ -1,4 +1,4 @@
-public async Task SetupRealm()
+public void SetupRealm()
 {
     var appConfig = new AppConfiguration(myRealmAppId);
     app = App.Create(appConfig);
@@ -13,7 +13,7 @@ public async Task SetupRealm()
     }
     catch (Exception ex)
     {
-
+        Console.WriteLine(ex.Message);
     }
 }
 

@@ -5,17 +5,17 @@ using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-using Task = Examples.Models.Task;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Collections.Generic;
+using Examples.Models;
 
 namespace Examples
 {
     public class WorkWithRealm
     {
         App app;
-        User user;
+        Realms.Sync.User user;
         string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
@@ -309,24 +309,24 @@ namespace Examples
                 realm = Realm.GetInstance("");
             }
             //:snippet-start:unsubscribe
-            private IQueryable<Task> tasks;
+            private IQueryable<Item> items;
 
             public void LoadUI()
             {
-                tasks = realm.All<Task>();
+                items = realm.All<Item>();
 
-                // Subscribe for notifications - since tasks is IQueryable<Task>, we're
+                // Subscribe for notifications - since items is IQueryable<Item>, we're
                 // using the AsRealmCollection extension method to cast it to IRealmCollection
-                tasks.AsRealmCollection().CollectionChanged += OnTasksChanged;
+                items.AsRealmCollection().CollectionChanged += OnItemsChanged;
             }
 
             public void UnloadUI()
             {
                 // Unsubscribe from notifications
-                tasks.AsRealmCollection().CollectionChanged -= OnTasksChanged;
+                items.AsRealmCollection().CollectionChanged -= OnItemsChanged;
             }
 
-            private void OnTasksChanged(object sender, NotifyCollectionChangedEventArgs args)
+            private void OnItemsChanged(object sender, NotifyCollectionChangedEventArgs args)
             {
                 // Do something with the notification information
             }

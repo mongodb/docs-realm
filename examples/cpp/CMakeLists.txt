@@ -19,6 +19,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
-add_executable(examples examples.cpp)
+add_executable(examples testHelpers.hpp examples.cpp define-object-model.cpp authentication.cpp testHelpersTests.cpp)
 target_link_libraries(examples PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(examples PRIVATE cpprealm)

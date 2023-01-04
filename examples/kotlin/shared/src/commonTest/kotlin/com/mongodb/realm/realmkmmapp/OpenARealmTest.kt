@@ -8,7 +8,6 @@ import kotlin.test.Test
 class OpenARealmTest: RealmTest() {
     @Test
     fun openAndCloseARealmTest() {
-        val REALM_NAME = getRandom()
         runBlocking {
             // :snippet-start: open-a-realm
             val config = RealmConfiguration.Builder(setOf(Frog::class))
@@ -38,6 +37,20 @@ class OpenARealmTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :snippet-end:
+        }
+    }
+    @Test
+    fun onAnInMemoryRealm() {
+        runBlocking {
+            // :snippet-start: open-an-in-memory-realm
+            val config = RealmConfiguration.Builder(setOf(Frog::class))
+                .inMemory()
+                .build()
+
+            val realm = Realm.open(config)
+            Log.v("Successfully opened an in memory realm")
+            // :snippet-end:
+            realm.close()
         }
     }
 }

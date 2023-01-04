@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Realms;
 using Realms.Schema;
+using static Realms.Schema.ObjectSchema;
 
 namespace Examples
 {
@@ -28,7 +29,7 @@ namespace Examples
             {
                 Schema = new RealmSchema.Builder
                 {
-                    new ObjectSchema.Builder("ClassA", isEmbedded: false)
+                    new Builder("ClassA", ObjectType.EmbeddedObject)
                     {
                         Property.Primitive("Id",
                             RealmValueType.Guid,

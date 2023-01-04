@@ -1,0 +1,139 @@
+.. _flutter-graphql-api:
+
+=================
+Atlas GraphQL API
+=================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can query your data in MongoDB Atlas from your client app
+using the Atlas GraphQL API and the Realm Flutter SDK.
+You can use any standard GraphQL client to query the Atlas GraphQL API.
+
+Prerequisites
+-------------
+
+#. :ref:`Create an App Services App <create-a-realm-app>`
+#. :ref:`Generate a schema and enable schema rules for the GraphQL API <graphql-expose-data>`
+#. :ref:`Install the Realm Flutter SDK <flutter-install>`
+
+.. _flutter-graphql-setup:
+
+Set Up GraphQL Client
+---------------------
+
+.. procedure::
+
+   .. step:: Get Your App ID and GraphQL Endpoint
+
+      Once you've completed the all the necessary actions in the Prerequisites section above,
+      you must find your App ID and GraphQL endpoint.
+
+      You can find both of these in your App's UI on Atlas:
+
+      - To find your App ID, refer to :ref:`Find Your App ID <find-your-app-id>`.
+      - To find your GraphQL Endpoint in the Atlas UI, navigate to the :guilabel:`GraphQL` page.
+        Near the top of the page, you can copy the :guilabel:`GraphQL Endpoint` link.
+
+   .. step:: Install a GraphQL Client Package
+
+      Install a standard GraphQL client. This page uses `graphql <https://pub.dev/packages/graphql>`__,
+      a lightweight GraphQL client that you can use in Dart standalone and Flutter apps.
+
+      .. code-block:: bash
+
+         flutter pub add graphql
+
+      If you haven't already installed the Realm SDK,
+      you can do so now as well.
+      
+      .. code-block:: bash
+         
+         flutter pub add realm
+
+      While the examples on this page use ``graphql`` to query the Atlas GraphQL API,
+      there are other Dart and Flutter GraphQL packages that you could use.
+      For example, the `graphql_flutter <https://pub.dev/packages/graphql_flutter>`__
+      package includes Flutter widget wrappers around the ``graphql`` library
+      to provide a more idiomatic Flutter development experience and reduce
+      the need for writing boilerplate code.
+
+   .. step:: Import dependencies
+
+      Import the ``realm`` and ``graphql`` packages into your Flutter app.
+      This example also imports the ``dart:async`` library to help refresh
+      the access token used in the GraphQL queries.
+
+      .. literalinclude:: /examples/generated/flutter/graphql_test.snippet.import.dart
+         :language: dart
+
+   .. step:: Instantiate an App Services Client & Log In a User
+
+      Instantiate the App Services client to connect to the backend.
+      You must log a user in to the ``App`` client to authenticate requests
+      to the Atlas GraphQL API with the user's access token.
+      This example also invokes ``Timer.periodic()`` to refresh the access token
+      in the background. The access token doesn't refresh automatically.
+
+      .. literalinclude:: /examples/generated/flutter/graphql_test.snippet.log-in.dart
+         :language: dart
+
+   .. step:: Instantiate a GraphQL Client
+
+      Now you can use the logged in user's :flutter-sdk:`accessToken <realm/User/accessToken.html>`
+      property to authenticate with the Atlas GraphQL API.
+      To query the GraphQL API as a user, use Bearer token authentication
+      with the user's ``accessToken``.
+
+      Use the ``graphql`` package to create a GraphQL client to run queries from.
+
+      .. literalinclude:: /examples/generated/flutter/graphql_test.snippet.create-gql-client.dart
+         :language: dart
+
+      To learn more about the ways to authenticate requests to the Atlas GraphQL API,
+      refer to :ref:`graphql-authentication` in the App Services documentation.
+
+.. _flutter-run-queries-mutations:
+
+Run Queries and Mutations
+-------------------------
+
+Run queries and mutations with the Atlas GraphQL API from the client.
+
+To learn more about available operations, refer to the following App Services documentation:
+
+- :ref:`graphql-types-and-resolvers`
+- :ref:`graphql-custom-resolvers`
+
+You can also find your entire schema and explore it with test operations in the
+:guilabel:`GraphQL` section of the App Services UI.
+
+.. _flutter-graphql-run-query:
+
+Run a Query
+~~~~~~~~~~~
+
+You can query the Atlas GraphQL API schema with query resolvers generated
+when you define your schema.
+To learn more about the generated queries and the inputs they accept, refer to
+:ref:`Query Resolvers <graphql-query-resolvers>` in the App Services documentation.
+
+.. literalinclude:: /examples/generated/flutter/graphql_test.snippet.query.dart
+   :language: dart
+
+.. _flutter-graphql-run-mutation:
+
+Run a Mutation
+~~~~~~~~~~~~~~
+
+You can run mutation against the Atlas GraphQL API schema with mutation resolvers
+generated when you define your schema.
+To learn more about the generated mutations and the inputs they accept, refer to
+:ref:`Mutation Resolvers <graphql-mutation-resolvers>` in the App Services documentation.
+
+.. literalinclude:: /examples/generated/flutter/graphql_test.snippet.mutation.dart
+   :language: dart

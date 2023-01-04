@@ -3,6 +3,7 @@
 #include <string>
 #include <thread>
 #include <future>
+#include "testHelpers.hpp"
 
 // :snippet-start: includes
 #include <cpprealm/sdk.hpp>
@@ -22,6 +23,7 @@ struct SyncDog : realm::object {
 };
 
 // :snippet-start: define-models
+// :snippet-start: single-object-model
 // Define your models like regular structs.
 struct Dog : realm::object {
     realm::persisted<std::string> name;
@@ -31,6 +33,7 @@ struct Dog : realm::object {
         realm::property<&Dog::name>("name"),
         realm::property<&Dog::age>("age"));
 };
+// :snippet-end:
 
 struct Person : realm::object {
     realm::persisted<std::string> _id;
@@ -40,11 +43,13 @@ struct Person : realm::object {
     // Create relationships by pointing an Object field to another Class
     realm::persisted<std::optional<Dog>> dog;
 
+    // :snippet-start: define-a-schema
     static constexpr auto schema = realm::schema("Person",
         realm::property<&Person::_id, true>("_id"), // primary key
         realm::property<&Person::name>("name"),
         realm::property<&Person::age>("age"),
         realm::property<&Person::dog>("dog"));
+    // :snippet-end:
 };
 // :snippet-end:
 
@@ -63,6 +68,71 @@ TEST_CASE("first test case", "[test]") {
         realm.add(dog);
     });
     // :snippet-end:
+    // Clean up after the test
+    removeAll(realm);
+}
+
+TEST_CASE("create a dog", "[write]") {
+    // :snippet-start: create-an-object
+    // Create a Realm object like a regular object.
+    auto dog = Dog { .name = "Rex", .age = 1 };
+    
+    std::cout << "dog: " << dog << "\n";
+
+    // Open a realm with compile-time schema checking.
+    auto realm = realm::open<Dog>();
+
+    // Persist your data in a write transaction
+    realm.write([&realm, &dog] {
+        realm.add(dog);
+    });
+    // :snippet-end:
+    auto dogsCount = realm.objects<Dog>().size();
+    SECTION("Test code example functions as intended") {
+        REQUIRE(dogsCount >= 1);
+    }
+    // :snippet-start: delete-an-object
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
+    });
+    // :snippet-end:
+    auto updatedDogsCount = realm.objects<Dog>().size();
+    REQUIRE(updatedDogsCount < dogsCount);
+}
+
+TEST_CASE("update a dog", "[write][update]") {
+    auto dog = Dog { .name = "Maui", .age = 1 };
+
+    auto realm = realm::open<Dog>();
+
+    realm.write([&realm, &dog] {
+        realm.add(dog);
+    });
+    SECTION("Test code example functions as intended") {
+        // :snippet-start: update-an-object
+        // Query for the object you want to update
+        auto dogs = realm.objects<Dog>();
+        auto dogsNamedMaui = dogs.where("name == $0", {"Maui"});
+        CHECK(dogsNamedMaui.size() >= 1);
+        // Access an object in the results set. 
+        auto mauiPointer = dogsNamedMaui[0];
+        REQUIRE(mauiPointer->age == 1); // :remove:
+
+        std::cout << "Dog " << mauiPointer->name << " is " << mauiPointer->age << " years old\n";
+
+        // Assign a new value to a member of the object in a write transaction
+        realm.write([&realm, &mauiPointer] {
+            mauiPointer->age = 2;
+        });
+
+        std::cout << "Dog " << mauiPointer->name << " is " << mauiPointer->age << " years old\n";
+        // :snippet-end:
+        REQUIRE(mauiPointer->age == 2);
+    }
+    // Clean up after test
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
+    });
 }
 
 TEST_CASE("open a default realm", "[realm]") {
@@ -86,17 +156,23 @@ TEST_CASE("open a realm at a path", "[realm]") {
     auto config = realm::db_config{ path = path };
     auto realm = realm::open<Dog>(config);
     // :snippet-end:
-    // Write something to the realm to confirm this worked as expected.
-    auto dog = Dog { .name = "Maui", .age = 2 };
-    realm.write([&realm, &dog] {
-        realm.add(dog);
-    });
-    auto dogs = realm.objects<Dog>();
-    auto dog_count = dogs.size();
-    REQUIRE(dog_count <= 1);
+    SECTION("Test code example functions as intended + teardown") {
+        // Write something to the realm to confirm this worked as expected.
+        auto dog = Dog { .name = "Maui", .age = 2 };
+        realm.write([&realm, &dog] {
+            realm.add(dog);
+        });
+        auto dogs = realm.objects<Dog>();
+        auto dog_count = dogs.size();
+        REQUIRE(dog_count >= 1);
+        // Clean up after test
+        realm.write([&realm, &dog] {
+                realm.remove(dog);
+        });
+    }
 }
 
-TEST_CASE("open a synced realm", "[realm, sync]") {
+TEST_CASE("open a synced realm", "[realm][sync]") {
     // :snippet-start: open-a-synced-realm
     // :snippet-start: connect-app-services
     auto app = realm::App(APP_ID);
