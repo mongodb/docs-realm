@@ -15,7 +15,7 @@ Change an Object Model - React Native SDK
 Overview
 --------
 
-When you update your object schema, you must increment the schema version 
+When updating your object schema, you must increment the schema version 
 and perform a migration. 
 
 If your schema update adds optional properties or removes properties, 
@@ -33,12 +33,13 @@ in a ``migration`` function. This might include changes such as:
 
 .. tip:: Bypass Migration During Development
 
-   When developing or debugging your application, you may prefer to delete 
-   the realm instead of migrating it. Use the 
-   ``deleteRealmIfMigrationNeeded`` flag to delete the database 
-   automatically when a schema mismatch would require a migration. 
+   When developing or debugging your application, you may prefer to delete the
+   realm instead of migrating it. Use the
+   :js-sdk:`Configuration.deleteRealmIfMigrationNeeded
+   <Realm.html#~Configuration>` property to delete the database automatically
+   when a schema mismatch requires a migration. 
 
-   Never release an app to production with this flag set to ``true``.
+   Never release an app to production with this property set to ``true``.
 
 .. _react-native-schema-version:
 
@@ -50,31 +51,30 @@ A **schema version** identifies the state of a :ref:`realm schema
 schema version of each realm and uses it to map the objects in each
 realm to the correct schema.
 
-Schema versions are ascending integers that you can optionally include
-in the realm configuration when you open a realm. If a client
-application does not specify a version number when it opens a realm then
-the realm defaults to version ``0``.
+Schema versions are ascending integers you can include in the realm
+configuration. If a client application does not specify a version number, the
+realm defaults to version ``0``.
 
 .. important:: Increment Versions Monotonically
    
-   :ref:`Migrations <react-native-migrations>` must update a realm to a
-   higher schema version. Realm Database will throw an error if a client
-   application opens a realm with a schema version that is lower than
-   the realm's current version or if the specified schema version is the
-   same as the realm's current version but includes different
-   :ref:`object schemas <react-native-object-schemas>`.
+   :ref:`Migrations <react-native-migrations>` must update a realm to a higher 
+   schema version. Realm Database throws an error if a client application 
+   uses a schema version that is lower than the realm's current version or if 
+   the specified schema version is the same as the realm's current version but 
+   includes a different schema.
 
 .. _react-native-migrations:
 
 Key Concept: Migrations
 -----------------------
 
-A **migration** is a function that updates a realm and any objects it
-contains from one :ref:`schema version <react-native-schema-version>` to a newer
-version. Migrations give you the flexibility to change your object schemas over
-time to accommodate new features and refactors.
+A **migration** is a function that updates a realm and any objects it contains
+from one :ref:`schema version <react-native-schema-version>` to a newer version.
+Migrations allow you to change your object schemas over time to accommodate new
+features and refactors.
 
-Whenever you open an existing realm with a schema version greater than the
+When you create a :js-sdk:`Configuration
+<Realm.html#~Configuration>` with a schema version greater than the
 realm's current version, Realm runs a migration function that you define.
 The function has access to the realm's version number and incrementally
 updates objects in the realm to conform to the new schema.
@@ -93,35 +93,34 @@ Add a Property
 ~~~~~~~~~~~~~~
 
 To add a property to a schema, add the new property to the object's class and
-set a ``schemaVersion`` of the :js-sdk:`realm's configuration object <Realm.html#~Configuration>`.
+set a ``schemaVersion`` of the ``Configuration`` object.
 
 .. example::
    
-   A realm using schema version ``1`` has a ``Person`` object type with a
-   ``firstName``, and ``lastName`` property. The developer decides to add an
+   A realm using :ref:`schema version
+   <react-native-schema-version>` ``1`` has a ``Person`` object type with a
+   ``firstName`` and ``lastName`` property. You decide to add an
    ``age`` property to the ``Person`` class. 
 
-   To migrate the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's :ref:`schema version <react-native-schema-version>` to
-   ``2``.
+   To migrate the realm to conform to the updated ``Person`` schema, you set the
+   realm's schema version in the ``Configuration`` to ``2``. Finally, pass
+   the configuration object to the ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
      
      .. tab::
-         :tabid: javascript
+         :tabid: typescript
  
-         .. literalinclude:: /examples/Migrations/PersonClassV1/PersonClassV1.js
-           :language: javascript
-           :emphasize-lines: 6
-
-   .. tabs-realm-languages::
+         .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.add-a-property-to-schema.tsx
+           :language: typescript
+           :emphasize-lines: 4, 12, 20
      
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-add-property.js
+         .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.add-a-property-to-schema.jsx
            :language: javascript
-           :emphasize-lines: 3
+           :emphasize-lines: 8, 16
 
 .. _react-native-delete-a-property:
 
@@ -129,28 +128,36 @@ Delete a Property
 ~~~~~~~~~~~~~~~~~
 
 To delete a property from a schema, remove the property from the object's class
-and set a ``schemaVersion`` of the :js-sdk:`realm's configuration object
-<Realm.html#~Configuration>`. Deleting a property will not impact existing
-objects.
+and set a ``schemaVersion`` of the :js-sdk:`Configuration
+<Realm.html#~Configuration>` object. Deleting a property will not impact
+existing objects.
 
 .. example::
-   
-   A realm using schema version ``1`` has a ``Dog`` object type with a
-   ``weight`` property. The developer decides to remove the property from the
-   schema.
 
-   To migrate the realm to conform to the updated ``Dog`` schema, the
-   developer sets the realm's :ref:`schema version <react-native-schema-version>` to
-   ``2``.
+   A realm using :ref:`schema version <react-native-schema-version>` ``1`` has a
+   ``Person`` object type with a ``lastName`` property. You decide to
+   remove the property from the schema. 
+
+   To migrate the realm to conform to the updated ``Person`` schema, set the
+   realm's schema version to 2 in the ``Configuration`` object. Finally, pass
+   the configuration object to the ``createRealmContext()`` method.
+
 
    .. tabs-realm-languages::
-     
+
+     .. tab::
+         :tabid: typescript
+ 
+         .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.delete-a-property-from-a-schema.tsx
+           :language: typescript
+           :emphasize-lines: 16
+
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-delete-property.js
+         .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.delete-a-property-from-a-schema.jsx
            :language: javascript
-           :emphasize-lines: 3
+           :emphasize-lines: 13
 
 .. _react-native-perform-a-schema-migration:
 
@@ -163,34 +170,42 @@ Rename a Property
 ~~~~~~~~~~~~~~~~~
 
 To rename an object property, change the property name in the object schema and
-then open the realm with an incremented :ref:`schema version
-<react-native-schema-version>` and a :ref:`migration <react-native-migrations>` function that
-updates existing objects to use the new property name.
+then create a realm configuration with an incremented :ref:`schema version
+<react-native-schema-version>` and a :ref:`migration <react-native-migrations>`
+function that updates existing objects to use the new property name.
 
-Migrations do not allow you to directly rename a property. Instead you can
+Migrations do not allow you to directly rename a property. Instead, you can
 create a new property with the updated name, copy the value from the old
 property, and then delete the old property.
 
 .. example::
    
-   A realm using schema version ``1`` has a ``Person`` object type. The
-   original schema had a ``firstName`` and ``lastName`` field. The developer
-   later decides that the ``Person`` class should use a combined ``fullName``
-   field and removes the separate ``firstName`` and ``lastName`` fields.
+   A realm using :ref:`schema version <react-native-schema-version>` ``1`` has
+   a ``Person`` object type. The original schema had a ``firstName`` and ``lastName``
+   field. You later decide that the ``Person`` class should use a combined
+   ``fullName`` field and removes the separate ``firstName`` and ``lastName`` fields.
    
-   To migrate the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's :ref:`schema version <react-native-schema-version>` to
-   ``2`` and defines a migration function to set the value of ``fullName`` based
-   on the existing ``firstName`` and ``lastName`` properties.
+   To migrate the realm to conform to the updated ``Person`` schema, create a :js-sdk:`Configuration <Realm.html#~Configuration>` object
+   and set the realm's schema version to ``2``, and define a migration function that
+   sets the value of ``fullName`` based on the existing ``firstName`` and ``lastName``
+   properties. Finally, pass the configuration object to the
+   ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
-     
+
+     .. tab::
+         :tabid: typescript
+ 
+         .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.rename-a-property-of-a-schema.tsx
+           :language: typescript
+           :emphasize-lines: 2, 9, 18, 28
+
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration.js
+         .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.rename-a-property-of-a-schema.jsx
            :language: javascript
-           :emphasize-lines: 3, 14
+           :emphasize-lines: 6, 15, 25
 
 .. important:: Synced Realms
 
@@ -207,12 +222,12 @@ Modify a Property Type
 ~~~~~~~~~~~~~~~~~~~~~~
 To modify a property's type, set the property type of the field that you wish to
 modify to the new data type. Then, set a ``schemaVersion``, and a ``migration``
-callback function of the :js-sdk:`realm's configuration Object
-<Realm.html#~Configuration>`. 
+callback function of the :js-sdk:`Configuration
+<Realm.html#~Configuration>` object. 
 
 .. note::
 
-   :ref:`Synchronized realms <sync>` only support non-breaking changes,
+   :ref:`Synchronized realms <sync>` only support non-breaking changes
    to ensure that older clients can sync with newer clients. This means that
    synchronized realms do not support modifying the type of a property of a
    schema. 
@@ -220,21 +235,29 @@ callback function of the :js-sdk:`realm's configuration Object
 
 .. example::
    
-   A realm using schema version ``1`` has a ``Dog`` object type. The
-   original schema had an ``_id`` with a property type of ``Object ID``. The
-   developer later decides that the ``Dog`` class's ``_id`` field should be of
-   type ``string``, and updates the schema.
+   A realm using :ref:`schema version <react-native-schema-version>` ``1`` has a
+   ``Task`` object type. The original schema had an ``_id`` with a property type of
+   ``int``. You later decide that the ``Task`` class's ``_id`` field should
+   be of type ``ObjectId``, and updates the schema.
 
-   To migrate the realm to conform to the updated ``Dog`` schema, the
-   developer sets the realm's :ref:`schema version <react-native-schema-version>` to
-   ``2`` and defines a migration function to convert the ``Object ID`` type to a
-   ``string`` type.
+   To migrate the realm to conform to the updated ``Task`` schema, create a
+   ``Configuration`` object and set the realm's schema version to ``2``, and
+   define a migration function to convert the integer type to an ``Object ID``
+   type. Finally, pass the configuration object to the
+   ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
-     
+
+     .. tab::
+         :tabid: typescript
+ 
+         .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.modify-a-property-type.tsx
+           :language: typescript
+           :emphasize-lines: 2, 12, 25, 34
+
      .. tab::
          :tabid: javascript
  
-         .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-modify-property-type.js
+         .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.modify-a-property-type.jsx
            :language: javascript
-           :emphasize-lines: 3, 12 
+           :emphasize-lines: 6, 20, 29
