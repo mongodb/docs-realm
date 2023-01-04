@@ -102,10 +102,9 @@ set a ``schemaVersion`` of the ``Configuration`` object.
    ``firstName`` and ``lastName`` property. You decide to add an
    ``age`` property to the ``Person`` class. 
 
-   To migrate the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's schema version in the ``Configuration`` to ``2``.
-   Finally, you pass the configuration object to the
-   ``createRealmContext()`` method.
+   To migrate the realm to conform to the updated ``Person`` schema, you set the
+   realm's schema version in the ``Configuration`` to ``2``. Finally, pass
+   the configuration object to the ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
      
@@ -139,10 +138,9 @@ existing objects.
    ``Person`` object type with a ``lastName`` property. You decide to
    remove the property from the schema. 
 
-   To migrate the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's schema version to 2 in the ``Configuration``
-   object. Finally, you pass the configuration object to the
-   ``createRealmContext()`` method.
+   To migrate the realm to conform to the updated ``Person`` schema, set the
+   realm's schema version to 2 in the ``Configuration`` object. Finally, pass
+   the configuration object to the ``createRealmContext()`` method.
 
 
    .. tabs-realm-languages::
@@ -187,10 +185,10 @@ property, and then delete the old property.
    field. You later decide that the ``Person`` class should use a combined
    ``fullName`` field and removes the separate ``firstName`` and ``lastName`` fields.
    
-   To migrate the realm to conform to the updated ``Person`` schema, you create a :js-sdk:`Configuration <Realm.html#~Configuration>` object
+   To migrate the realm to conform to the updated ``Person`` schema, create a :js-sdk:`Configuration <Realm.html#~Configuration>` object
    and set the realm's schema version to ``2``, and define a migration function that
    sets the value of ``fullName`` based on the existing ``firstName`` and ``lastName``
-   properties. Finally, you pass the configuration object to the
+   properties. Finally, pass the configuration object to the
    ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
@@ -242,10 +240,10 @@ callback function of the :js-sdk:`Configuration
    ``int``. You later decide that the ``Task`` class's ``_id`` field should
    be of type ``ObjectId``, and updates the schema.
 
-   To migrate the realm to conform to the updated ``Task`` schema, you create a
+   To migrate the realm to conform to the updated ``Task`` schema, create a
    ``Configuration`` object and set the realm's schema version to ``2``, and
    define a migration function to convert the integer type to an ``Object ID``
-   type. Finally, you pass the configuration object to the
+   type. Finally, pass the configuration object to the
    ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
