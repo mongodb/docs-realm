@@ -11,7 +11,7 @@ Read & Write Data - Flutter SDK
    :class: singlecol
 
 This page explains the Realm SDK methods that you can use to create, read, update,
-and delete data in a Realm Database.
+and delete data in a realm.
 
 .. example:: About the Examples on This Page
 
@@ -92,7 +92,7 @@ Write Operations
 ----------------
 
 Once you've opened a realm, you can create objects within it using a
-:flutter-sdk:`Realm.write() transaction block <realm/Realm/write.html>`.
+:flutter-sdk:`Realm.write() <realm/Realm/write.html>` transaction block.
 All operations within a write transaction are :wikipedia:`atomic <Atomicity_(database_systems)>`.
 If an operation in the write transaction fails, the whole transaction fails,
 Realm throws an error, and no changes from the transaction block are applied to the realm.
@@ -118,8 +118,8 @@ Create Objects
 Create One Object
 `````````````````
 
-To create a new Realm object, instantiate an instance of the object class
-and add it to the realm in a write transaction block with
+To add an object to a realm, pass an instance of a Realm object class
+to the realm in a write transaction block with
 :flutter-sdk:`Realm.add() <realm/Realm/add.html>`.
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.create-object.dart
@@ -158,8 +158,9 @@ Upsert Objects
 
 To upsert an object, call :flutter-sdk:`Realm.add() <realm/Realm/add.html>`
 with the optional ``update`` flag set to ``true`` inside a transaction block.
-The operation either inserts a new object with the given primary key or
-updates an existing object that already has that primary key.
+The operation inserts a new object with the given primary key
+if an object with that primary key does not exist. If there's already an object
+with that primary key, the operation updates the existing object for that primary key.
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.upsert.dart
    :language: dart
@@ -175,8 +176,8 @@ Delete Objects
 Delete a Single Object
 ``````````````````````
 
-Delete an object by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
-method in a write transaction block.
+Delete an object from a realm by calling :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
+in a write transaction block.
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.delete-one-object.dart
    :language: dart
@@ -186,8 +187,8 @@ method in a write transaction block.
 Delete Multiple Objects
 ```````````````````````
 
-Delete multiple objects with the :flutter-sdk:`Realm.deleteMany()
-<realm/Realm/deleteMany.html>` method in a write transaction block.
+Delete multiple objects from a realm the :flutter-sdk:`Realm.deleteMany()
+<realm/Realm/deleteMany.html>` in a write transaction block.
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.delete-multiple-objects.dart
    :language: dart
@@ -197,7 +198,7 @@ Delete multiple objects with the :flutter-sdk:`Realm.deleteMany()
 Delete All Objects of a Type
 ````````````````````````````
 
-Delete all objects of a type with :flutter-sdk:`Realm.deleteAll() <realm/Realm/deleteAll.html>`
+Delete all objects of a type in a realm with :flutter-sdk:`Realm.deleteAll() <realm/Realm/deleteAll.html>`
 in a write transaction block.
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.delete-all-objects-of-type.dart
