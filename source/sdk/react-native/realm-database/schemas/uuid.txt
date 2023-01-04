@@ -16,18 +16,59 @@ Overview
 
 ``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
 <Universally_unique_identifier>`. You can use ``UUID`` as an identifier for
-objects. ``UUID`` is :ref:`indexable <react-native-indexes>` and you can use it as a
+objects. ``UUID`` is :ref:`indexable <react-native-indexes>`, and you can use it as a
 :ref:`primary key <react-native-primary-keys>`.
 
-.. include:: /includes/note-using-uuid-instead-of-objectid.rst
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Profile.snippet.ts-profile-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Profile.snippet.js-profile-schema.js
+         :language: javascript
 
 Usage
 -----
-To define a property as a ``UUID``, set its type to the string ``"uuid"`` in
-your :ref:`object model <react-native-object-schemas>`. Create a Realm
-object within a write transaction. To set any unique identifier properties of
-your object to a random value, call ``new UUID()``. Alternatively, pass a string
-to ``new UUID()`` to set the unique identifier property to a specific value.
+To define a property as a ``UUID``, set its type to ``"uuid"`` in your
+:ref:`object model <react-native-object-schemas>`. Create a Realm object within
+a write transaction. To set any unique identifier properties of your object to a
+random value, call ``new UUID()``. Alternatively, pass a string to ``new
+UUID()`` to set the unique identifier property to a specific value.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.work-with-uuid.js
-    :language: javascript
+Example
+~~~~~~~
+
+In the following ``CreateProfileInput`` example, we create a ``Profile``
+:js-sdk:`Realm.Object <Realm.Object.html>` with a ``uuid`` type for the ``_id``
+field. 
+
+The ``CreateProfileInput`` component does the following:
+
+- Gets access to the opened realm instance by calling the ``useRealm()`` hook. 
+- Creates a name `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "name" that represents the name of the profile.
+- Creates a ``createProfile`` method that performs a write transaction. Within that write transaction, we :ref:`create <react-native-create-a-new-object>` a ``Profile`` object with the ``name`` value of the "name" state variable and an ``_id`` value of a new ``UUID`` object.
+- Renders a ``TextInput`` component that allows the user to enter a name for the profile. When the user presses the "Create Profile" button, the ``createProfile`` method is called and creates a ``Profile`` object.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/uuid.test.snippet.create-uuid-object.tsx
+         :language: typescript
+         :emphasize-lines: 2, 7-12
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/uuid.test.snippet.create-uuid-object.jsx
+         :language: javascript
+         :emphasize-lines: 2, 7-12
+         :linenos:
