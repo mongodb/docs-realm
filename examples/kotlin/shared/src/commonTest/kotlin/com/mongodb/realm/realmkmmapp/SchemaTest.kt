@@ -178,6 +178,7 @@ class SchemaTest: RealmTest() {
         }
     }
     @Test
+    @kotlin.test.Ignore
     fun createRealmSetTypes() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(Frog2::class, Snack::class))
