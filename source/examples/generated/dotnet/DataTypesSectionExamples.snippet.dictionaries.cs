@@ -1,6 +1,9 @@
 
 public partial class Inventory : IRealmObject
 {
+    [PrimaryKey]
+    [MapTo("_id")]
+    public string Id { get; set; }
     // The key must be of type string; the value can be 
     // of any Realm-supported type, including objects
     // that inherit from RealmObject or EmbeddedObject

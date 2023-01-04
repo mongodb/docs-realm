@@ -16,8 +16,8 @@ storeInventory2.RequiredStringsDictionary.Add("foo", "Bar");
 
 realm.Write(() =>
 {
-    realm.Add<Inventory>(storeInventory);
-    realm.Add<Inventory>(storeInventory2);
+    realm.Add(storeInventory);
+    realm.Add(storeInventory2);
 });
 
 // Find all Inventory items that have "Petunia"
@@ -42,5 +42,5 @@ var matches = realm.All<Inventory>()
 var myStoreInventory = realm
     .All<Inventory>().FirstOrDefault();
 
-var petunia = myStoreInventory.Plants
-    .FirstOrDefault(p => p.Key == "Petunia");
+var petunia = myStoreInventory.Plants.AsRealmQueryable()
+    .Where(p => p.Name == "Petunia");

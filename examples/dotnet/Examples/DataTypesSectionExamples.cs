@@ -91,8 +91,8 @@ namespace Examples
 
             realm.Write(() =>
             {
-                realm.Add<Inventory>(storeInventory);
-                realm.Add<Inventory>(storeInventory2);
+                realm.Add(storeInventory);
+                realm.Add(storeInventory2);
             });
 
             // Find all Inventory items that have "Petunia"
@@ -117,8 +117,8 @@ namespace Examples
             var myStoreInventory = realm
                 .All<Inventory>().FirstOrDefault();
 
-            var petunia = myStoreInventory.Plants
-                .FirstOrDefault(p => p.Key == "Petunia");
+            var petunia = myStoreInventory.Plants.AsRealmQueryable()
+                .Where(p => p.Name == "Petunia");
             //:snippet-end:
 
             Assert.IsNotNull(petunias);
@@ -265,11 +265,9 @@ namespace Examples
 
     public partial class Inventory : IRealmObject
     {
-        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public string Id { get; set; }
-        //:remove-end:
         // The key must be of type string; the value can be 
         // of any Realm-supported type, including objects
         // that inherit from RealmObject or EmbeddedObject
