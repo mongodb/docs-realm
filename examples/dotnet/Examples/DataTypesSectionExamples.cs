@@ -78,16 +78,16 @@ namespace Examples
                 Id = ObjectId.GenerateNewId().ToString()
             };
 
-            storeInventory.PlantDict.Add("Petunia", new Plant());
-            storeInventory.NullableIntDict.Add("random things", 7);
-            storeInventory.RequiredStringsDict.Add("foo", "bar");
+            storeInventory.Plants.Add("Petunia", new Plant());
+            storeInventory.NullableIntDictionary.Add("random things", 7);
+            storeInventory.RequiredStringsDictionary.Add("foo", "bar");
 
             var storeInventory2 = new Inventory()
             {
                 Id = ObjectId.GenerateNewId().ToString()
             };
 
-            storeInventory2.RequiredStringsDict.Add("foo", "Bar");
+            storeInventory2.RequiredStringsDictionary.Add("foo", "Bar");
 
             realm.Write(() =>
             {
@@ -96,24 +96,33 @@ namespace Examples
             });
 
             // Find all Inventory items that have "Petunia"
-            // as a key in their PlantDict.
+            // as a key in their Plants dictionary.
             var petunias = realm.All<Inventory>()
-                .Filter("PlantDict.@keys == 'Petunia'");
+                .Filter("Plants.@keys == 'Petunia'");
 
             // Find all Inventory items that have at least one value in their
-            // IntDict that is larger than 5
+            // IntDictionary that is larger than 5 using RQL
             var matchesMoreThanFive = realm.All<Inventory>()
-                .Filter("NullableIntDict.@values > 5");
+                .Filter("NullableIntDictionary.@values > 5");
 
-            // Find all Inventory items where any RequiredStringsDict has a key
+            // Find all Inventory items where the RequiredStringsDictionary has a key
             // "Foo", and the value of that key contains the phrase "bar"
             // (case insensitive)
-            var matches = realm.All<Inventory>().Filter("RequiredStringsDict['foo'] CONTAINS[c] 'bar'");
+            var matches = realm.All<Inventory>()
+                .Filter("RequiredStringsDictionary['foo'] CONTAINS[c] 'bar'");
             // matches.Count() == 2
 
+            // Query the Plants dictionary of an Inventory object
+            // for a specific plant
+            var myStoreInventory = realm
+                .All<Inventory>().FirstOrDefault();
+
+            var petunia = myStoreInventory.Plants
+                .FirstOrDefault(p => p.Key == "Petunia");
             //:snippet-end:
 
             Assert.IsNotNull(petunias);
+            Assert.IsNotNull(petunia);
             Assert.IsNotNull(matchesMoreThanFive);
             Assert.AreEqual(2, matches.Count());
         }
@@ -145,7 +154,7 @@ namespace Examples
                 .Filter("Name == 'Prickly Pear'");
 
             // Find all Inventory items that have at least one value in their
-            // IntDict that is larger than 5
+            // DoubleSet that is larger than 5
             var moreThan100 = realm.All<PlantInventory>()
                 .Filter("DoubleSet.@values > 100");
             // :replace-end:
@@ -264,18 +273,18 @@ namespace Examples
         // The key must be of type string; the value can be 
         // of any Realm-supported type, including objects
         // that inherit from RealmObject or EmbeddedObject
-        public IDictionary<string, Plant> PlantDict { get; }
+        public IDictionary<string, Plant> Plants { get; }
 
-        public IDictionary<string, bool> BooleansDict { get; }
+        public IDictionary<string, bool> BooleansDictionary { get; }
 
         // Nullable types are supported in local-only
         // Realms, but not with Sync
-        public IDictionary<string, int?> NullableIntDict { get; }
+        public IDictionary<string, int?> NullableIntDictionary { get; }
 
         // For C# types that are implicitly nullable, you can
         // use the [Required] attribute to prevent storing null values
         [Required]
-        public IDictionary<string, string> RequiredStringsDict { get; }
+        public IDictionary<string, string> RequiredStringsDictionary { get; }
     }
     //:snippet-end:
 

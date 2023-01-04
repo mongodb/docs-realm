@@ -34,7 +34,7 @@ instead of ``IDictionary<string, double?>``), or add the
 :ref:`[Required]<dotnet-required-optional-property>` attribute if the dictionary  
 contains nullable reference types, such as ``string`` or ``byte[]``.
 
-.. important:: Not Supported with Sync
+.. important:: Nullable Values Not Supported with Sync
 
    Local-only Realm Databases support collections of nullable (optional) values, 
    but ``Sync`` does not.
@@ -46,12 +46,8 @@ The following code shows examples of dictionary types:
 
 Usage Example
 -------------
-The following code shows how to create, write to, and read from Dictionaries.
-
-.. note::
-
-   You cannot use Linq to query against a Realm Dictionary. Instead, 
-   use a string query.
+The following code shows how to create, write to, and read from Dictionaries, 
+using either a string query (:ref:`RQL <dotnet-realm-query-language>`) or LINQ.
 
 .. literalinclude:: /examples/generated/dotnet/DataTypesSectionExamples.snippet.query-dictionaries.cs
    :language: csharp
