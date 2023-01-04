@@ -9,7 +9,6 @@ import kotlin.test.Test
 class EncryptARealmTest : RealmTest() {
     @Test
     fun encryptARealm() {
-
         // :snippet-start: encrypt-a-realm
         // return a random key from the given seed
         fun getRandomKey(seed: Long? = null): ByteArray {
@@ -30,10 +29,11 @@ class EncryptARealmTest : RealmTest() {
             val config = RealmConfiguration.Builder(
                 setOf(Frog::class))
                 // :remove-start:
-                .directory("tmp_path")
+                .deleteRealmIfMigrationNeeded()
+                .directory("tmp_path_encrypted")
                 // :remove-end:
                 // specify the encryptionKey
-                .encryptionKey(getRandomKey())
+                .encryptionKey(getRandomKey(1)) // specify a seed value of 1
                 .build()
             // Open a realm with the encryption key.
             val realm = Realm.open(config)
