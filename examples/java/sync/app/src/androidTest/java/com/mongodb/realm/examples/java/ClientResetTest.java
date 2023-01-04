@@ -552,8 +552,6 @@ public class ClientResetTest extends RealmTest {
                 }
             });
         });
-        expectation.await(42000); // long timeout because manual recovery can take a while
-        // (dynamic realms are slooooooooow)
     }
 
     @Test
