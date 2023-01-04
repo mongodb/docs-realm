@@ -33,7 +33,7 @@ void main() {
       // :snippet-start: freeze-realm
       final config = Configuration.local([Person.schema, Scooter.schema]);
       final realm = Realm(config);
-      // Add scooter ownded by Mace Windu
+      // Add scooter owned by Mace Windu
       final maceWindu = Person(ObjectId(), "Mace", "Windu");
       final purpleScooter =
           Scooter(ObjectId(), "Purple scooter", owner: maceWindu);
@@ -80,7 +80,7 @@ void main() {
       // :snippet-start: freeze-realm-results
       // Add data to the realm
       final maceWindu = Person(ObjectId(), "Mace", "Windu");
-      final jocastaNu = Person(ObjectId(), "Jocasta", "Nul");
+      final jocastaNu = Person(ObjectId(), "Jocasta", "Nu");
       realm.write(() => realm.addAll([maceWindu, jocastaNu]));
 
       // Get RealmResults and freeze data

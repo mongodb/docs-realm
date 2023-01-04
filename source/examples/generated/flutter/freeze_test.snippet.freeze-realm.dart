@@ -1,6 +1,6 @@
 final config = Configuration.local([Person.schema, Scooter.schema]);
 final realm = Realm(config);
-// Add scooter ownded by Mace Windu
+// Add scooter owned by Mace Windu
 final maceWindu = Person(ObjectId(), "Mace", "Windu");
 final purpleScooter =
     Scooter(ObjectId(), "Purple scooter", owner: maceWindu);
