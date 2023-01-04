@@ -1,1 +1,1 @@
-final luke = realm.find<Person>("Luke");
+final luke = realm.find<Person>(lukesObjectId);

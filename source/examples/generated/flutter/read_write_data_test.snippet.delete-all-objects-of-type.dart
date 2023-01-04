@@ -1,3 +1,3 @@
 realm.write(() {
-  realm.deleteAll<Car>();
+  realm.deleteAll<Person>();
 });

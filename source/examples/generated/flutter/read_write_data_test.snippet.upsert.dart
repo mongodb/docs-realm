@@ -1,12 +1,15 @@
 final id = ObjectId();
-// Add Toyota Prius to the realm with primary key `id`
-final newPrius = Car(id, "Toyota", model: "Prius", miles: 0);
+// Add Anakin Skywalker to the realm with primary key `id`
+final anakin = Person(
+  id,
+  "Anakin Skywalker",
+);
 realm.write(() {
-  realm.add<Car>(newPrius);
+  realm.add<Person>(anakin);
 });
 
-// Update Toyota Prius's miles in the realm with primary key `id`
-final usedPrius = Car(id, "Toyota", model: "Prius", miles: 500);
+// Update Anakin Skywalker's name to Darth Vader in the realm with primary key `id`
+final darthVader = Person(id, 'Darth Vader');
 realm.write(() {
-  realm.add<Car>(usedPrius, update: true);
+  realm.add<Person>(darthVader, update: true);
 });
