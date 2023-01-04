@@ -60,7 +60,7 @@ The ``CreateCatsInput`` component does the following:
 
 - Get access to the opened realm instance by calling the ``useRealm()`` hook. 
 - Use React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once by passing ``useEffect`` an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__ as a second argument.
-- Within the anonymous function, we create four different ``Cat`` objects by using the new operator to create a new realm object within a write transaction. Each of the ``Cat`` objects uses a different data type for the ``birthDate`` property. 
+- Within the anonymous function, we create four different ``Cat`` objects by using the ``new`` operator to create a new realm object within a write transaction. Each of the ``Cat`` objects uses a different data type for the ``birthDate`` property. 
 - Use the ``useQuery()`` hook to retrieve all ``Cat`` objects.
 - `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the cats to render a list of ``Text`` components displaying each cat's ``name`` and ``birthDate``.
 
