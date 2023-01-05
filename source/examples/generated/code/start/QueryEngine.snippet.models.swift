@@ -4,6 +4,7 @@ class Task: Object {
     @Persisted var assignee: String?
     @Persisted var priority = 0
     @Persisted var progressMinutes = 0
+    @Persisted var labels: MutableSet<String>
 }
 
 class Project: Object {

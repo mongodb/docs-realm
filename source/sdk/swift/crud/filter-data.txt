@@ -37,8 +37,10 @@ task list app. The two Realm object types are ``Project``
 and ``Task``. A ``Task`` has a name, assignee's name, and
 completed flag. There is also an arbitrary number for
 priority -- higher is more important -- and a count of
-minutes spent working on it. A ``Project`` has zero or more
-``Tasks``.
+minutes spent working on it. Finally, a ``Task`` can have one
+or more string ``labels``.
+
+A ``Project`` has zero or more ``Tasks``.
 
 See the schema for these two classes, ``Project`` and
 ``Task``, below:
@@ -172,12 +174,19 @@ You can search for individual values by element, or search within a range.
    * - ``.contains(_ range:)``
      - Equivalent to the ``BETWEEN`` operator. Evaluates to ``true`` if the property referenced by the expression contains a value that is within the range.
 
+   * - ``.containsAny(in: )``
+     - Equivalent to the ``IN`` operator combined with the ``ANY`` operator. Evaluates to ``true`` if any elements contained in the given array are present in the collection.
+
 .. example::
 
-   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
-   - Find tasks where the ``progressMinutes`` property is within a given range of minutes.
+   Find tasks where the ``labels`` MutableSet collection property contains "quick win".
 
    .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-collections-contains.swift
+      :language: swift
+
+   Find tasks where the ``labels`` MutableSet collection property contains any of the elements in the given array: "quick win" or "bug".
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-collections-contains-any.swift
       :language: swift
 
 .. versionadded:: 10.23.0: The ``IN`` operator

@@ -1,7 +1,7 @@
-let aliOrJamiesTasks = tasks.where {
-    $0.assignee.contains("Ali") || $0.assignee.contains("Jamie")
+let quickWinTasks = tasks.where {
+    $0.labels.contains("quick win")
 }
-print("Tasks where assignee contains Ali or Jamie: \(aliOrJamiesTasks.count)")
+print("Tasks labeled 'quick win': \(quickWinTasks.count)")
 
 let progressBetween30and60 = tasks.where {
     $0.progressMinutes.contains(30...60)

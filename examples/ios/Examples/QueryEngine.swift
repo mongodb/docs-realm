@@ -146,10 +146,10 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
             let task2 = QueryEngineExamples_Task()
             task.assignee = "Alex"
             task.priority = 10
-            task.labels.insert("quick wins")
+            task.labels.insert("quick win")
             task2.assignee = "Ali"
             task2.priority = 9
-            task2.labels.insert("quick wins")
+            task2.labels.insert("quick win")
             project.tasks.append(task)
             project.tasks.append(task2)
             realm.add(project)
@@ -190,9 +190,9 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
 
         // :snippet-start: tsq-collections-contains
         let quickWinTasks = tasks.where {
-            $0.labels.contains("quick wins")
+            $0.labels.contains("quick win")
         }
-        print("Tasks labeled 'quick wins': \(quickWinTasks.count)")
+        print("Tasks labeled 'quick win': \(quickWinTasks.count)")
 
         let progressBetween30and60 = tasks.where {
             $0.progressMinutes.contains(30...60)
