@@ -1,3 +1,3 @@
-final fordFusion = realm.write<Car>(() {
-  return realm.add(Car(ObjectId(), 'Ford', model: 'Fusion', miles: 101));
+final yoda = realm.write<Person>(() {
+  return realm.add(Person(ObjectId(), 'Yoda'));
 });
