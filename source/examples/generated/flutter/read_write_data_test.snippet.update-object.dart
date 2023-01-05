@@ -1,5 +1,5 @@
 realm.write(() {
-  millenniumFalconCrew.name = 'Galactic Republic Scout Team';
-  millenniumFalconCrew.crew
+  spaceshipTeam.name = 'Galactic Republic Scout Team';
+  spaceshipTeam.crew
       .addAll([Person(ObjectId(), 'Luke'), Person(ObjectId(), 'Leia')]);
 });

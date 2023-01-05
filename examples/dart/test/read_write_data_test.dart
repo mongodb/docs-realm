@@ -33,11 +33,11 @@ void main() {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
 
-      final lukesObjectId = ObjectId();
-      realm.write(() => realm.add(Person(lukesObjectId, "Luke")));
+      final lukePrimaryKey = ObjectId();
+      realm.write(() => realm.add(Person(lukePrimaryKey, "Luke")));
 
       // :snippet-start: query-object-by-pk
-      final luke = realm.find<Person>(lukesObjectId);
+      final luke = realm.find<Person>(lukePrimaryKey);
       // :snippet-end:
       expect(luke, isNotNull);
       expect(luke!.name, 'Luke');
@@ -47,8 +47,8 @@ void main() {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
 
-      final lukesObjectId = ObjectId();
-      realm.write(() => realm.add(Person(lukesObjectId, "Luke")));
+      final lukePrimaryKey = ObjectId();
+      realm.write(() => realm.add(Person(lukePrimaryKey, "Luke")));
 
       // :snippet-start: query-all-objects
       final people = realm.all<Person>();
@@ -164,18 +164,18 @@ void main() {
   test("Update Object Properties", () {
     final config = Configuration.local([Person.schema, Team.schema]);
     final realm = Realm(config);
-    final millenniumFalconCrew = Team(ObjectId(), 'Millennium Falcon Crew',
+    final spaceshipTeam = Team(ObjectId(), 'Millennium Falcon Crew',
         crew: [Person(ObjectId(), 'Han'), Person(ObjectId(), 'Chewbacca')]);
-    realm.write(() => realm.add(millenniumFalconCrew));
+    realm.write(() => realm.add(spaceshipTeam));
     // :snippet-start: update-object
     realm.write(() {
-      millenniumFalconCrew.name = 'Galactic Republic Scout Team';
-      millenniumFalconCrew.crew
+      spaceshipTeam.name = 'Galactic Republic Scout Team';
+      spaceshipTeam.crew
           .addAll([Person(ObjectId(), 'Luke'), Person(ObjectId(), 'Leia')]);
     });
     // :snippet-end:
-    expect(millenniumFalconCrew.name, 'Galactic Republic Scout Team');
-    expect(millenniumFalconCrew.crew.length, 4);
+    expect(spaceshipTeam.name, 'Galactic Republic Scout Team');
+    expect(spaceshipTeam.crew.length, 4);
     cleanUpRealm(realm);
   });
 
@@ -193,8 +193,8 @@ void main() {
       realm.add<Person>(anakin);
     });
 
-    // Update Anakin Skywalker's name to Darth Vader in the realm
-    // with primary key `id`
+    // Overwrite the 'Anakin' Person object
+    // with a new 'Darth Vader' object
     final darthVader = Person(id, 'Darth Vader');
     realm.write(() {
       realm.add<Person>(darthVader, update: true);
