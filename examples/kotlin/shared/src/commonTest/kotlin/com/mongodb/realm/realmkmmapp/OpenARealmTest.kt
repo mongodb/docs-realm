@@ -24,6 +24,22 @@ class OpenARealmTest: RealmTest() {
         }
     }
     @Test
+    fun deleteRealmIfMigrationNeeded() {
+        val REALM_NAME = getRandom()
+        runBlocking {
+            // :snippet-start: delete-realm-if-migration-needed
+            val config = RealmConfiguration.Builder(setOf(Frog::class))
+                // :remove-start:
+                .name(REALM_NAME)
+                // :remove-end:
+                .deleteRealmIfMigrationNeeded()
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            // :snippet-end:
+        }
+    }
+    @Test
     fun onAnInMemoryRealm() {
         runBlocking {
             // :snippet-start: open-an-in-memory-realm
