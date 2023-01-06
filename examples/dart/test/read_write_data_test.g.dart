@@ -8,12 +8,19 @@ part of 'read_write_data_test.dart';
 
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
+    ObjectId id,
     String name,
   ) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
   }
 
   Person._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -32,22 +39,30 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Person._);
     return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
-      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('name', RealmPropertyType.string),
     ]);
   }
 }
 
 class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
   Team(
+    ObjectId id,
     String name, {
     Iterable<Person> crew = const [],
   }) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set<RealmList<Person>>(
         this, 'crew', RealmList<Person>(crew));
   }
 
   Team._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -73,7 +88,8 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Team._);
     return const SchemaObject(ObjectType.realmObject, Team, 'Team', [
-      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('crew', RealmPropertyType.object,
           linkTarget: 'Person', collectionType: RealmCollectionType.list),
     ]);

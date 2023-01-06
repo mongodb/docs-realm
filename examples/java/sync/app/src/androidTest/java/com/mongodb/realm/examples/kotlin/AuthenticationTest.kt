@@ -14,9 +14,9 @@ import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.User
-import java.util.concurrent.atomic.AtomicReference
 import org.junit.Assert
 import org.junit.Test
+import java.util.concurrent.atomic.AtomicReference
 
 
 class AuthenticationTest : RealmTest() {
@@ -368,6 +368,44 @@ class AuthenticationTest : RealmTest() {
                     Log.e("AUTH", it.error.toString())
                 }
 
+            }
+        }
+        expectation.await()
+    }
+
+    // :snippet-start: get-valid-access-token
+    // Gets a valid user access token to authenticate requests
+    fun getValidAccessToken(user: User?): String {
+        // An already logged in user's access token might be stale. To
+        // guarantee that the token is valid, refresh it if necessary.
+        user!!.refreshCustomData()
+        return user.accessToken
+    }
+
+    // :snippet-end:
+    @Test
+    fun testGetUserAccessToken() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(
+                AppConfiguration.Builder(appID)
+                    .build()
+            )
+            val emailPasswordCredentials =
+                Credentials.emailPassword("<email>", "<password>")
+            val user =
+                AtomicReference<User>()
+            app.loginAsync(
+                emailPasswordCredentials
+            ) { it: App.Result<User?> ->
+                if (it.isSuccess) {
+                    val accessToken = getValidAccessToken(app.currentUser())
+                    Assert.assertTrue(accessToken is String)
+                } else {
+                    Log.e("AUTH", it.error.toString())
+                }
+                expectation.fulfill()
             }
         }
         expectation.await()

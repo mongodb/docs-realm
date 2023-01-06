@@ -1,6 +1,6 @@
 final config = Configuration.local([Person.schema, Scooter.schema]);
 final realm = Realm(config);
-// Add scooter ownded by Mace Windu
+// Add scooter owned by Mace Windu
 final maceWindu = Person(ObjectId(), "Mace", "Windu");
 final purpleScooter =
     Scooter(ObjectId(), "Purple scooter", owner: maceWindu);
@@ -21,11 +21,6 @@ realm.write(() {
 final purpleScooterFrozen =
     frozenRealm.query<Scooter>("name == \$0", ["Purple scooter"]).first;
 print(purpleScooterFrozen.owner!.firstName); // prints 'Mace'
-realm.write(() {
-  realm.deleteAll<Person>();
-  realm.deleteAll<Scooter>();
-});
-realm.close();
 
 // You must also close the frozen realm before exiting the process
 frozenRealm.close();
