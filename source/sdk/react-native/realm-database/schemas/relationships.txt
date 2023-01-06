@@ -71,16 +71,33 @@ one other object in an :ref:`object schema <react-native-object-schemas>`.
 To define a to-one relationship, specify the property type as the related
 Realm object type.
 
+Example
+~~~~~~~
 
-.. example::
+In the following example of a to-one relationship, a ``PetOwner`` may own a single ``Pet``: 
 
-   An application could use the following object schemas to indicate
-   that a Person may own a single Dog:
-   
- 
-   .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
-      :language: javascript
-      :emphasize-lines: 6
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/PetOwner.snippet.ts-petowner-schema.ts
+         :language: typescript
+         :emphasize-lines: 4, 11
+         :linenos:
+
+      .. literalinclude:: /examples/generated/react-native/ts/Pet.snippet.ts-pet-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Person.snippet.js-person-schema.js
+         :language: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Task.snippet.js-task-schema.js
+         :language: typescript
+
 
 .. _react-native-to-many-relationship:
 .. _react-native-define-a-to-many-relationship-property:
