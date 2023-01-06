@@ -18,17 +18,33 @@ If you are using Flexible Sync and need to sync a collection unidirectionally
 from your device to your Atlas database, you can set the ``asymmetric`` property
 on your object schema.
 
-.. example::
+Example
+~~~~~~~
    
-   In the following example of a retail app, the client requires large amounts of
-   invoice data to be recorded rapidly by store employees. The client specifies
-   that invoice data does not need to be read after employees have recorded it. To
-   satisfy this requirement, the application developer defines an invoice
-   collection with its ``asymmetric`` property set to ``true``. 
-   
-   .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync.js
-      :language: javascript
-      :emphasize-lines: 4
+In the following example of a retail app, the client requires large amounts of
+invoice data to be recorded rapidly by store employees. The client specifies
+that invoice data does not need to be read after employees have recorded it. To
+satisfy this requirement, the application developer defines an invoice
+collection with its ``asymmetric`` property set to ``true``. 
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/Invoice.snippet.ts-invoice-schema.ts
+         :language: typescript
+         :emphasize-lines: 9
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/Invoice.snippet.js-invoice-schema.js
+         :language: javascript
+         :emphasize-lines: 5
+         :linenos:
+
 
 .. note:: Attempting to Read Asymmetric Sync Objects
 
