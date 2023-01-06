@@ -88,9 +88,8 @@ Check the Status of a Transaction
 ---------------------------------
 
 The SDK provides a :dotnet-sdk:`TransactionState <reference/Realms.Transaction.html#Realms_TransactionState>` 
-property that provides the status of the current transaction. This property can 
-be used to ensure you don't commit or rollback a transaction twice. The following 
-code shows how to use it:
+property with the current transaction status. You can use ``TransactionState`` 
+to ensure you don't commit or rollback a transaction twice:
 
 .. literalinclude:: /examples/generated/dotnet/WriteExamples.snippet.create-long-hand.cs
    :language: csharp
