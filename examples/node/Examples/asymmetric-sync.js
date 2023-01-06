@@ -13,7 +13,7 @@ describe("Asymmetric Sync", () => {
     // :snippet-start: asymmetric-sync
     const InvoiceSchema = {
       name: "Invoice",
-      // sync Person objects one way from your device to your Atlas database.
+      // sync Invoice objects one way from your device to your Atlas database.
       asymmetric: true,
       primaryKey: "_id",
       properties: {
