@@ -33,8 +33,11 @@ class EncryptARealmTest : RealmTest() {
                 .directory("tmp_path_encrypted")
                 // :remove-end:
                 // specify the encryptionKey
-                .encryptionKey(getRandomKey(1)) // specify a seed value of 1
+                .encryptionKey(getRandomKey())
                 .build()
+            // :remove-start:
+            Realm.deleteRealm(config)
+            // :remove-end:
             // Open a realm with the encryption key.
             val realm = Realm.open(config)
             Log.v("Successfully opened realm:" +
