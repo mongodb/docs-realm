@@ -1,1 +1,1 @@
-final cars = realm.all<Car>().query('make == "Tesla"');
+final cars = realm.query<Car>('make == "Tesla"');
