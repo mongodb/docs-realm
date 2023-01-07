@@ -177,10 +177,9 @@ Example
 In the following example of an inverse relationship, each ``Post`` object may
 belong to a single ``User`` object. This indicates:
 
-- A ``User`` may have many ``Post`` objects.
-- The ``User`` object's ``posts`` property is defined as a to-many relationship
-  with ``Post`` objects. It contains all of a given user's posts. 
-- The ``Post`` object's ``author`` property inverts this relationship. The post's ``user``
+- A ``User`` object may have many ``Post`` objects.
+- A ``User`` object's ``posts`` property contains all of their posts.
+- The ``Post`` object's ``user`` property inverts this relationship: the post's ``user``
   automatically updates to refer back to any ``User`` object that contains the
   ``Post`` in its ``posts`` property. 
 - Each ``Post`` automatically keeps track of which ``User`` it belongs to. If a
@@ -219,7 +218,7 @@ belong to a single ``User`` object. This indicates:
 Dynamically Obtain an Inversely Linked Object Using a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To dynamically obtain the an inversely linked object **without** altering the
+To dynamically obtain an inversely linked object **without** altering the
 object's schema, call the :js-sdk:`Realm.Object.linkingObjects()
 <Realm.Object.html#linkingObjects>` method.
 
@@ -231,15 +230,16 @@ example <react-native-to-many-relationship>`. Since the ``User`` class has a
 object who owns a specific ``Post`` object by calling the
 ``post.linkingObjects()`` method.
 
-In the following ``PostItem`` example, we obtain information about the user who
-the post belongs to by running a query to look up the linked user.
+In the following ``PostItem`` example, we obtain information about the user to
+whom the post belongs by running a query to look up the linked user.
+
 
 The ``PostItem`` component does the following:
 
 - Gets the post by passing the ``Post`` class and ``postID`` to the ``useObject()`` hook.
 - Gets the user by passing the object type ``'User'`` and the property ``'posts'`` to the ``linkingObjects()`` method and retrieving the first result.
 - Returns "The post or user could not be found" if the post or user is ``undefined``.
-- Returns the post's title and the user's name if the post and user is found.
+- Returns the post's title and the user's name if the post and user are found.
 
 .. tabs-realm-languages::
 
