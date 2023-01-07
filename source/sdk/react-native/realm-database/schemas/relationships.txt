@@ -10,7 +10,7 @@ Relationships - React Native SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 1
+   :depth: 2
    :class: singlecol
 
 Overview
@@ -72,7 +72,7 @@ To define a to-one relationship, specify the property type as the related
 Realm object type.
 
 Example
-~~~~~~~
+```````
 
 In the following example of a **to-one** relationship, a ``PetOwner`` may own a single ``Pet``: 
 
@@ -116,7 +116,7 @@ or array of the related Realm object type in its
 :ref:`object schema <react-native-object-schemas>`.
 
 Example
-~~~~~~~
+```````
 In the following example of a **to-many** relationship, a ``User`` may own multiple ``Post`` objects:
 
 .. tabs-realm-languages::
@@ -174,7 +174,7 @@ specifies the object type and property name of the relationship that it links
 back to.
    
 Example
-~~~~~~~
+```````
 In the following example of an inverse relationship, each ``Post`` object may
 belong to a single ``User`` object. This indicates:
 
@@ -220,7 +220,7 @@ belong to a single ``User`` object. This indicates:
 Dynamically Obtain an Inversely Linked Object Using a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To dynamically obtain the an inversely linked object without altering the
+To dynamically obtain the an inversely linked object **without** altering the
 object's schema, call the :js-sdk:`Realm.Object.linkingObjects()
 <Realm.Object.html#linkingObjects>` method.
 
