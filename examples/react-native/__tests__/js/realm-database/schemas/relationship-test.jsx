@@ -11,9 +11,9 @@ const realmConfig = {
   deleteRealmIfMigrationNeeded: true,
 };
 
-const {RealmProvider, useObject, useRealm} = createRealmContext(realmConfig);
+const {RealmProvider, useObject} = createRealmContext(realmConfig);
 
-let assertionRealm: Realm;
+let assertionRealm;
 
 // test describe block for the relationship page
 describe('relationships tests', () => {
@@ -50,7 +50,7 @@ describe('relationships tests', () => {
     //   " testID='createProfileButton'": ""
     //   }
     // }
-    const PostItem = ({_id}: {_id: Realm.BSON.ObjectId}) => {
+    const PostItem = ({_id}) => {
       const post = useObject(Post, _id);
       const user = post?.linkingObjects('User', 'posts')[0];
 

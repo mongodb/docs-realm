@@ -1,12 +1,12 @@
 class User extends Realm.Object {
   static schema = {
-    name: 'User',
+    name: "User",
     properties: {
-      _id: 'objectId',
-      name: 'string',
-      birthdate: 'date',
-      posts: 'Post[]',
+      _id: "objectId",
+      name: "string",
+      birthdate: "date?",
+      posts: "Post[]",
     },
-    primaryKey: '_id',
+    primaryKey: "_id",
   };
 }

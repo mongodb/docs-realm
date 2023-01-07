@@ -184,32 +184,32 @@ you add or remove a related object.
    
 Example
 ~~~~~~~
-In the following example of an inverse relationship, a ``Customer`` may own multiple ``Order`` objects:
+In the following example of an inverse relationship, a ``User`` may own multiple ``Post`` objects:
 
 .. tabs-realm-languages::
       
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/react-native/ts/Customer.snippet.ts-customer-schema.ts
+      .. literalinclude:: /examples/generated/react-native/ts/User.snippet.ts-user-schema.ts
          :language: typescript
-         :emphasize-lines: 4, 11
+         :emphasize-lines: 5, 13
          :linenos:
 
-      .. literalinclude:: /examples/generated/react-native/ts/Order.snippet.ts-order-schema.ts
+      .. literalinclude:: /examples/generated/react-native/ts/InverseRelationshipPost.snippet.ts-inverserelationshippost-schema.ts
          :language: typescript
-         :emphasize-lines: 4, 11-15
+         :emphasize-lines: 4, 10-14
          :linenos:
 
    .. tab::
       :tabid: javascript
 
-      .. literalinclude:: /examples/generated/react-native/js/Customer.snippet.js-customer-schema.js
+      .. literalinclude:: /examples/generated/react-native/js/User.snippet.js-user-schema.js
          :language: javascript
-         :emphasize-lines: 7
+         :emphasize-lines: 8
          :linenos:
 
-      .. literalinclude:: /examples/generated/react-native/js/Order.snippet.js-order-schema.js
+      .. literalinclude:: /examples/generated/react-native/js/InverseRelationshipPost.snippet.js-inverserelationshippost-schema.js
          :language: typescript
          :emphasize-lines: 7-11
          :linenos:

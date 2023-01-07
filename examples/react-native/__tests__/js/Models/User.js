@@ -7,7 +7,7 @@ class User extends Realm.Object {
     properties: {
       _id: 'objectId',
       name: 'string',
-      birthdate: 'date',
+      birthdate: 'date?',
       posts: 'Post[]',
     },
     primaryKey: '_id',

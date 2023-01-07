@@ -1,21 +1,26 @@
 import Realm from 'realm';
-import Order from './Order';
-// TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
-// :snippet-start: ts-customer-schema
-class Customer extends Realm.Object<Customer> {
-  _id!: Realm.BSON.ObjectId;
-  name!: string;
-  orders!: Realm.List<Order>;
+import User from './User';
 
+// TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
+// :snippet-start: ts-inverserelationshippost-schema
+class Post extends Realm.Object<Post> {
+  _id!: Realm.BSON.ObjectId;
+  title!: string;
+  user!: Realm.Results<User>;
   static schema = {
-    name: 'Customer',
+    name: 'Post',
     properties: {
       _id: 'objectId',
-      name: 'string',
-      orders: 'Order[]',
+      title: 'string',
+      user: {
+        type: 'linkingObjects',
+        objectType: 'User',
+        property: 'posts',
+      },
     },
     primaryKey: '_id',
   };
 }
 // :snippet-end:
-export default Customer;
+
+export default Post;

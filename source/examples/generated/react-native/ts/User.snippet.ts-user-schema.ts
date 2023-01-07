@@ -1,7 +1,7 @@
 class User extends Realm.Object<User> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
-  birthdate!: Date;
+  birthdate?: Date;
   posts!: Realm.List<Post>;
 
   static schema = {
@@ -9,7 +9,7 @@ class User extends Realm.Object<User> {
     properties: {
       _id: 'objectId',
       name: 'string',
-      birthdate: 'date',
+      birthdate: 'date?',
       posts: 'Post[]',
     },
     primaryKey: '_id',
