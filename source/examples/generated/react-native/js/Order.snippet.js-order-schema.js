@@ -1,14 +1,15 @@
 class Order extends Realm.Object {
   static schema = {
-    name: "Order",
+    name: 'Order',
     properties: {
-      id: "objectId",
-      name: "string",
+      _id: 'objectId',
+      name: 'string',
       customer: {
-        type: "linkingObjects",
-        objectType: "Customer",
-        property: "orders",
+        type: 'linkingObjects',
+        objectType: 'Customer',
+        property: 'orders',
       },
     },
+    primaryKey: '_id',
   };
 }

@@ -2,9 +2,10 @@ class Customer extends Realm.Object {
   static schema = {
     name: 'Customer',
     properties: {
-      id: 'objectId',
+      _id: 'objectId',
       name: 'string',
       orders: 'Order[]',
     },
+    primaryKey: '_id',
   };
 }
