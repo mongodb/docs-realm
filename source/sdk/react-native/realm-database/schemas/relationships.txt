@@ -172,20 +172,6 @@ To create an inverse relationship, you can define it in your object model by
 specifying the ``linkingObjects`` property. The ``linkingObjects`` property
 specifies the object type and property name of the relationship that it links
 back to.
-
-.. example::
-   
-   An application could use the following object schemas to indicate: 
-   
-   #. A User may be assigned many Tasks. 
-   #. Each Task should automatically keep track of which User it's assigned to.
-   
-   The User object's tasks property is defined as a to-many relationship with Task objects.
-   It contains all of a given user's assigned tasks. 
-     
-   The Task object's assignee property inverts this relationship.
-   Assignee automatically updates to refer back to any User object that contains
-   the Task in its tasks property.
    
 Example
 ~~~~~~~
