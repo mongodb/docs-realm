@@ -4,7 +4,7 @@ class Order extends Realm.Object {
   static schema = {
     name: 'Order',
     properties: {
-      id: 'objectId',
+      _id: 'objectId',
       name: 'string',
       customer: {
         type: 'linkingObjects',
@@ -12,6 +12,7 @@ class Order extends Realm.Object {
         property: 'orders',
       },
     },
+    primaryKey: '_id',
   };
 }
 // :snippet-end:
