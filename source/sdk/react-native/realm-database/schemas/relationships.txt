@@ -150,6 +150,59 @@ In the following example of a **to-many** relationship, a ``User`` may own multi
 
 Inverse Relationship
 --------------------
+
+Dynamically Obtain an Inversely Linked Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can dynamically retrieve an object with an inverse relationship without
+defining a ``linkingObjects`` type in its schema. Remove the
+``linkingObjects`` type from your schema, so your schemas look like a standard
+**to-many** relationship. When you need to retrieve the linked object, call the
+:js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>`
+query.
+
+.. example::
+   
+   In the following continuation from the inverse relationship example, we have removed the
+   ``assignee`` field with type 'linkingObjects' from the Task schema. An application developer
+   creates several users and task objects, and the application pushes the newly created tasks into a 
+   user's task field. 
+   
+   To find the user who owns a specific task object, the developer calls the
+   ``task.linkingObjects()`` method and passes the "User" class name and "tasks" field as parameters. 
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: typescript
+           
+          .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.dynamically-obtain-inverse-relationship.tsx
+            :language: typescript
+
+      .. tab::
+          :tabid: javascript
+           
+          .. literalinclude:: /examples/generated/react-native/js/relationship-test.snippet.dynamically-obtain-inverse-relationship.jsx
+            :language: javascript
+
+Example
+````````
+To do: Add text
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.dynamically-obtain-inverse-relationship.tsx
+         :language: typescript
+         :emphasize-lines: 3
+         :linenos:
+
+      .. literalinclude:: /examples/generated/react-native/js/relationship-test.snippet.dynamically-obtain-inverse-relationship.jsx
+         :language: typescript
+         :emphasize-lines: 3
+         :linenos:
+
 An inverse relationship links an object back to any other objects that refer
 to it in a defined to-one or to-many relationship.
 Relationship definitions are unidirectional by default.
@@ -215,36 +268,3 @@ In the following example of an inverse relationship, a ``User`` may own multiple
          :linenos:
 
 .. _react-native-inverse-relationship-dynamically:
-
-Dynamically Obtain an Inversely Linked Object
-`````````````````````````````````````````````
-You can dynamically retrieve an object with an inverse relationship without
-defining a ``linkingObjects`` type in its schema. Remove the
-``linkingObjects`` type from your schema, so your schemas look like a standard
-**to-many** relationship. When you need to retrieve the linked object, call the
-:js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>`
-query.
-
-.. example::
-   
-   In the following continuation from the inverse relationship example, we have removed the
-   ``assignee`` field with type 'linkingObjects' from the Task schema. An application developer
-   creates several users and task objects, and the application pushes the newly created tasks into a 
-   user's task field. 
-   
-   To find the user who owns a specific task object, the developer calls the
-   ``task.linkingObjects()`` method and passes the "User" class name and "tasks" field as parameters. 
-
-   .. tabs-realm-languages::
-      
-      .. tab::
-          :tabid: javascript
-           
-          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.js
-            :language: javascript
-      
-      .. tab::
-          :tabid: typescript
-           
-          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.ts
-            :language: javascript
