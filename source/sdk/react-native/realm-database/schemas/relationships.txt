@@ -232,8 +232,8 @@ example <react-native-to-many-relationship>`. Since the ``User`` class has a
 object who owns a specific ``Post`` object by calling the
 ``post.linkingObjects()`` method.
 
-In the following ``PostItem`` example, we obtain information about both the user
-and post by running a query to look up the user who created the post.
+In the following ``PostItem`` example, we obtain information about the user who
+the post belongs to by running a query to look up the linked user.
 
 The ``PostItem`` component does the following:
 
@@ -254,7 +254,7 @@ The ``PostItem`` component does the following:
 
    .. tab::
       :tabid: javascript
-      
+
       .. literalinclude:: /examples/generated/react-native/js/relationship-test.snippet.dynamically-obtain-inverse-relationship.jsx
          :language: typescript
          :emphasize-lines: 3
