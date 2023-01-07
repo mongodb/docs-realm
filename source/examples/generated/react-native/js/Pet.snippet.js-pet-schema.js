@@ -1,6 +1,3 @@
-import Realm from 'realm';
-
-// :snippet-start: js-pet-schema
 class Pet extends Realm.Object {
   static schema = {
     name: 'Pet',
@@ -11,5 +8,3 @@ class Pet extends Realm.Object {
     },
   };
 }
-// :snippet-end:
-export default Pet;

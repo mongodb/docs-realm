@@ -10,7 +10,7 @@ Relationships - React Native SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
 Overview
@@ -74,7 +74,7 @@ Realm object type.
 Example
 ~~~~~~~
 
-In the following example of a to-one relationship, a ``PetOwner`` may own a single ``Pet``: 
+In the following example of a **to-one** relationship, a ``PetOwner`` may own a single ``Pet``: 
 
 .. tabs-realm-languages::
       
@@ -88,6 +88,7 @@ In the following example of a to-one relationship, a ``PetOwner`` may own a sing
 
       .. literalinclude:: /examples/generated/react-native/ts/Pet.snippet.ts-pet-schema.ts
          :language: typescript
+         :linenos:
 
    .. tab::
       :tabid: javascript
@@ -99,6 +100,7 @@ In the following example of a to-one relationship, a ``PetOwner`` may own a sing
 
       .. literalinclude:: /examples/generated/react-native/js/Pet.snippet.ts-pet-schema.js
          :language: typescript
+         :linenos:
 
 
 .. _react-native-to-many-relationship:
@@ -113,15 +115,35 @@ To define a to-many relationship, specify a property where the type is a list
 or array of the related Realm object type in its
 :ref:`object schema <react-native-object-schemas>`.
 
+Example
+~~~~~~~
+In the following example of a **to-many** relationship, a ``User`` may own multiple ``Post`` objects:
 
-.. example::
-   
-   An application could use the following object schemas to indicate
-   that a Person may own multiple Dogs:
-   
-   .. literalinclude:: /examples/Relationships/ToMany/ToMany.js
-      :language: javascript
-      :emphasize-lines: 6
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/User.snippet.ts-user-schema.ts
+         :language: typescript
+         :emphasize-lines: 4, 11
+         :linenos:
+
+      .. literalinclude:: /examples/generated/react-native/ts/Post.snippet.ts-post-schema.ts
+         :language: typescript
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/User.snippet.ts-user-schema.js
+         :language: javascript
+         :emphasize-lines: 7
+         :linenos:
+
+      .. literalinclude:: /examples/generated/react-native/js/Post.snippet.ts-post-schema.js
+         :language: typescript
+         :linenos:
 
 .. _react-native-inverse-relationship:
 .. _react-native-define-an-inverse-relationship-property:
@@ -160,21 +182,37 @@ you add or remove a related object.
    Assignee automatically updates to refer back to any User object that contains
    the Task in its tasks property.
    
-   .. tabs-realm-languages::
-     
-     .. tab::
-         :tabid: javascript
-          
-         .. literalinclude:: /examples/Relationships/Inverse/Inverse.js
-           :language: javascript
-           :emphasize-lines: 8, 19-23
-     
-     .. tab::
-         :tabid: typescript
-          
-         .. literalinclude:: /examples/Relationships/Inverse/Inverse.ts
-           :language: javascript
-           :emphasize-lines: 5, 14, 23, 32-36
+Example
+~~~~~~~
+In the following example of an inverse relationship, a ``Customer`` may own multiple ``Order`` objects:
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/Customer.snippet.ts-customer-schema.ts
+         :language: typescript
+         :emphasize-lines: 4, 11
+         :linenos:
+
+      .. literalinclude:: /examples/generated/react-native/ts/Order.snippet.ts-order-schema.ts
+         :language: typescript
+         :emphasize-lines: 4, 11-15
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Customer.snippet.js-customer-schema.js
+         :language: javascript
+         :emphasize-lines: 7
+         :linenos:
+
+      .. literalinclude:: /examples/generated/react-native/js/Order.snippet.js-order-schema.js
+         :language: typescript
+         :emphasize-lines: 7-11
+         :linenos:
 
 .. _react-native-inverse-relationship-dynamically:
 
