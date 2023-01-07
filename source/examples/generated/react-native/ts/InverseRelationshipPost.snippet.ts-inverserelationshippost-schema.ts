@@ -3,16 +3,16 @@ class Post extends Realm.Object<Post> {
   title!: string;
   user!: Realm.Results<User>;
   static schema = {
-    name: "Post",
+    name: 'Post',
     properties: {
-      _id: "objectId",
-      title: "string",
+      _id: 'objectId',
+      title: 'string',
       user: {
-        type: "linkingObjects",
-        objectType: "User",
-        property: "posts",
+        type: 'linkingObjects',
+        objectType: 'User',
+        property: 'posts',
       },
     },
-    primaryKey: "_id",
+    primaryKey: '_id',
   };
 }

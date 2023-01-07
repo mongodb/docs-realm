@@ -54,7 +54,7 @@ describe('relationships tests', () => {
       const post = useObject(Post, _id);
       const user = post?.linkingObjects('User', 'posts')[0];
 
-      if (!post || !user) return <Text>The post or user could not load </Text>;
+      if (!post || !user) return <Text>The post or user could not be found</Text>;
       return (
         <View>
           <Text testID='postTitle'>Post title: {post.title}</Text>
@@ -76,7 +76,7 @@ describe('relationships tests', () => {
 
     await waitFor(() => {
       expect(getByTestId('postTitle')).toHaveTextContent('Post title: My First Post');
-      expect(getByTestId('userName')).toHaveTextContent('Post authored by: John Doe');
+      expect(getByTestId('userName')).toHaveTextContent('Post created by: John Doe');
     });
   });
 });
