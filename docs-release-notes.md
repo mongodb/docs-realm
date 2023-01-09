@@ -1,3 +1,64 @@
+# January 6, 2023
+
+## C++ SDK
+- New "CRUD" section with Create, Read, Update, and Delete pages that contain info and tested code examples
+
+## Flutter SDK
+- Why Realm Database?: Expand page with details on Realm vs. other databases, live queries, and Realm Flutter SDK examples
+- Quick Start: Update query code example to show `realm.query<Type>` syntax instead of `realm.all<Type>.query()` syntax
+- Model Data
+  - Data Types: Add a "Collections" section with a link out to the new Collections page
+  - Collections: New page with details & tested code examples showing collection types & working with collections
+- Read & Write Data: Various improvements including formatting improvements, test updates, and adding an example of finding an object by primary key
+- Freeze Data: Fix typos in code examples, remove code example highlighting of specific lines
+
+## Java SDK
+- Usage Examples/Authenticate Users: New section with a tested code example showing how to get a User Access Token
+
+## Kotlin SDK
+- Install
+  - Android: Update a reference from Sync to Device Sync for naming
+  - Kotlin Multiplatform: Add information with a link to KMM documentation about environment setup, remove Gradle examples
+- Quick Start: Link "Realm Object Models" to supported types instead of create a schema, make "Initial Subscription" note an "Important" callout
+- Manage Realm Database Files: New section with existing Open & Close a Realm page moved into it, as well as two new pages:
+  - Delete a Realm: New page with tested code examples showing how to delete a Realm when using the Kotlin SDK
+  - Encrypt a Realm: New page with tested code example showing how to encrypt a Realm when using the Kotlin SDK
+- Sync
+  - Landing Page: Add details about Flexible Sync and Partition-Based Sync
+  - Add Sync to an App: Add an "Important" callout with details about avoiding synchronous writes on the main thread
+- Atlas App Services/Authenticate Users: New section with a tested code example showing how to get a User Access Token
+
+## .NET SDK
+- Update code examples across many pages to show support for source generators. Classes must now be defined as partial and should be declared implementing an interface (like `IRealmObject`)
+- Model Data/Supported Data Types/Dictionaries: Update wording to specify that nullable values are not supported when using Device Sync, add mention of LINQ regarding querying a dictionary, code example naming tweaks and Realm .NET SDK version updates
+- CRUD
+  - Write Transactions: New "Check the Status of a Transaction" section with details and tested code example showing `TransactionState`
+  - Threading: Update code example to show awaiting `realm.writeAsync()`, wording improvements to avoiding synchronous writes note
+- Sync Data: Add a mention of LINQ alongside RQL regarding forming Flexible Sync queries
+- Compatability: Small tweaks and improvements regarding supported .NET versions, table organization
+
+## Node.js SDK
+- Fundamentals
+  - Realms: Replace code examples with tested, Bluehawked code snippet
+  - Write Transactions: Replace code example with tested, Bluehawked code snippet, improve formatting
+- Usage Examples/Define a Realm Object Schema: Typo fix in code example
+
+## React Native SDK
+- Schemas/Define an Asymmetric Object: Typo fix in code example
+
+## Swift SDK
+- Model Data/Supported Types: Add missing optional `NSUUID` to supported Objective-C types, fix a typo
+
+## Web SDK
+- Next.js Integration Guide: Fix a typo in a link to the npm package `nookies`
+
+## Other
+- Internal
+  - Snyk updates
+  - C++ Test Suite:
+    - Add a `removeAll()` method to the C++ test suite to remove all realm objects as this is not yet implemented in the SDK
+    - Add CI to run the C++ tests & report success/fail when a PR adds or changes a file in the test suite directory
+
 # December 30, 2022
 
 ## Flutter SDK:
