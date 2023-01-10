@@ -145,6 +145,7 @@ Include the relevant headers. They probably look something like:
 #include <string>
 #include <thread>
 #include <cpprealm/sdk.hpp>
+#include "testHelpers.hpp"
 ```
 
 Write the test code.

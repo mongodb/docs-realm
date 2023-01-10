@@ -1,0 +1,1 @@
+realm::persisted<double> doubleName;

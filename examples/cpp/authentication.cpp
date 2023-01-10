@@ -16,7 +16,7 @@ auto random_string() {
     return std::to_string(random_number());
 }
 
-TEST_CASE("create and log in a user", "[realm]") {
+TEST_CASE("create and log in a user", "[realm][sync]") {
     // :snippet-start: register-user
     const std::string APP_ID = "cpp-tester-uliix";
 
