@@ -61,6 +61,12 @@ to generate an instance of that realm:
    :language: kotlin
    :copyable: false
 
+You can open a realm using the
+`RealmConfiguration.create() <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-companion/create.html>`__
+function if no configuration parameters are passed. Only default values are used to open the realm. 
+Otherwise, you must build the configuration
+using `RealmConfiguration.builder() <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-builder/index.html>`__.  
+
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
