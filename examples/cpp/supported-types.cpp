@@ -5,13 +5,9 @@
 #include "testHelpers.hpp"
 #include <cpprealm/sdk.hpp>
 
-// :replace-start: {
-//   "terms": {
-//     "<std::vector<std::string>>": "<std::vector<Type>>"
-//   }
-// }
-
 struct AllTypesObject : realm::object { 
+    using SomeType = std::string;
+
     enum class Enum {
         one, two
     };
@@ -72,7 +68,7 @@ struct AllTypesObject : realm::object {
     realm::persisted<realm::mixed> mixedName;
     // :snippet-end:
     // :snippet-start: required-list
-    realm::persisted<std::vector<std::string>> listTypeName;
+    realm::persisted<std::vector<SomeType>> listTypeName;
     // :snippet-end:
 
     static constexpr auto schema = realm::schema("AllTypesObject",
@@ -183,6 +179,3 @@ TEST_CASE("optional supported types", "[write]") {
     // Clean up after the test
     removeAll(realm);
 }
-
-
-// :replace-end:

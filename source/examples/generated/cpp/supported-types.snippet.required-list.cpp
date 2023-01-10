@@ -1,1 +1,1 @@
-realm::persisted<std::vector<Type>> listTypeName;
+realm::persisted<std::vector<SomeType>> listTypeName;
