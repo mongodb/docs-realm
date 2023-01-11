@@ -1,11 +1,11 @@
 const RemoveInventoryFromCharacter = ({characterName}) => {
-  const [input, setInput] = useState('');
   const realm = useRealm();
+  const [inventoryItem, setInventoryItem] = useState('');
   const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
 
   const removeInventoryItem = () => {
     realm.write(() => {
-      character?.inventory.delete(input);
+      character?.inventory.delete(inventoryItem);
     });
   };
   const removeAllInventory = () => {
@@ -16,7 +16,7 @@ const RemoveInventoryFromCharacter = ({characterName}) => {
   return (
     <View>
       <Text>{character.name}</Text>
-      <TextInput onChangeText={text => setInput(text)} value={input} />
+      <TextInput onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
       <Button title='Remove Inventory Item' onPress={removeInventoryItem} />
       <Button title='Remove All Inventory' onPress={removeAllInventory} />
     </View>

@@ -212,13 +212,13 @@ describe('Set schema', () => {
     //   }
     // }
     const RemoveInventoryFromCharacter = ({characterName}) => {
-      const [input, setInput] = useState('');
       const realm = useRealm();
+      const [inventoryItem, setInventoryItem] = useState('');
       const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
 
       const removeInventoryItem = () => {
         realm.write(() => {
-          character?.inventory.delete(input);
+          character?.inventory.delete(inventoryItem);
         });
       };
       const removeAllInventory = () => {
@@ -229,7 +229,7 @@ describe('Set schema', () => {
       return (
         <View>
           <Text>{character.name}</Text>
-          <TextInput testID='inventoryInput' onChangeText={text => setInput(text)} value={input} />
+          <TextInput testID='inventoryInput' onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
           <Button testID='removeInventoryItemBtn' title='Remove Inventory Item' onPress={removeInventoryItem} />
           <Button testID='removeAllInventoryBtn' title='Remove All Inventory' onPress={removeAllInventory} />
         </View>
