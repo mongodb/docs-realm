@@ -12,7 +12,7 @@ const realmConfig = {
 
 const {RealmProvider, useRealm, useQuery} = createRealmContext(realmConfig);
 
-let assertionRealm: Realm;
+let assertionRealm;
 
 // test describe block for the RealmSet schema
 describe('Set schema', () => {
@@ -97,7 +97,7 @@ describe('Set schema', () => {
     //   " testID='addInventoryItemBtn'": ""
     //   }
     // }
-    const AddInventoryToCharacter = ({characterName}: {characterName: string}) => {
+    const AddInventoryToCharacter = ({characterName}) => {
       const realm = useRealm();
       const [inventoryItem, setInventoryItem] = useState('');
       const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
@@ -148,12 +148,12 @@ describe('Set schema', () => {
     //   " testID='addInventoryItemBtn'": ""
     //   }
     // }
-    const QueryCharacterInventory = ({characterName}: {characterName: string}) => {
+    const QueryCharacterInventory = ({characterName}) => {
       const [inventoryItem, setInventoryItem] = useState('');
       const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
 
       const queryCharacterInventory = () => {
-        const characterDoesHaveItem: Boolean = character.inventory.has(inventoryItem);
+        const characterDoesHaveItem = character.inventory.has(inventoryItem);
         if (characterDoesHaveItem) {
           Alert.alert(`Character has item: ${inventoryItem}`);
         } else {
@@ -211,7 +211,7 @@ describe('Set schema', () => {
     //   " testID='removeAllInventoryBtn'": ""
     //   }
     // }
-    const RemoveInventoryFromCharacter = ({characterName}: {characterName: string}) => {
+    const RemoveInventoryFromCharacter = ({characterName}) => {
       const [input, setInput] = useState('');
       const realm = useRealm();
       const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];

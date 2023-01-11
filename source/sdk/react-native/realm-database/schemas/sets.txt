@@ -31,8 +31,23 @@ To define a property type as a ``Realm Set``, specify the data type
 you want in the set, followed by ``<>``. For instance, for a set made of integer
 values, specify ``"int<>"``. 
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.define-set-objects.js
-   :language: javascript
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/Character.snippet.ts-character-schema.ts
+         :language: typescript
+         :emphasize-lines: 4-5, 13-14
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/Character.snippet.js-character-schema.js
+         :language: javascript
+         :emphasize-lines: 8-9
+         :linenos:
 
 .. _react-native-create-set-objects:
 
@@ -43,9 +58,37 @@ the object within a write transaction. When defining your Realm
 object, initialize the **Realm Set** by passing an empty array or an
 array with your initial values.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.create-set-objects.js
-   :language: javascript
+Example
+~~~~~~~
 
+In the following example of a ``CreateInitialCharacters`` component we create
+``Character`` objects with ``Set`` properties.
+
+The ``CreateInitialCharacters`` component does the following:
+
+- Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Use React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once by passing ``useEffect`` an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__ as a second argument.
+- Within the anonymous function, we create two different ``Character`` objects by using the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator operator to create new realm objects within a write transaction. We set each character's ``inventory`` and ``levelsCompleted`` sets as an array with initial values.
+- Retrieve all characters in the realm instance by passing the ``Character`` class to the ``useQuery()`` hook.
+- Display each character's name in the UI as a ``Text`` element.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/sets-test.snippet.create-set-object.tsx
+         :language: typescript
+         :emphasize-lines: 4-5, 13-14
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/sets-test.snippet.create-set-object.jsx
+         :language: javascript
+         :emphasize-lines: 8-9
+         :linenos:
 
 .. _react-native-add-items-to-set:
 
@@ -53,8 +96,36 @@ Add Items to a Set
 ------------------
 To add an item to a set, pass the new value to the ``<Realm.Set>.add()`` method within a write transaction.
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.add-items-to-set.js
-   :language: javascript
+Example
+~~~~~~~
+
+In the following example of a ``AddInventoryToCharacter`` component we add new ``Set`` elements to the character's inventory.
+
+The ``AddInventoryToCharacter`` component does the following:
+
+- Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventoryItem" that represents the new inventory item to add to the inventory set.
+- Uses the ``useQuery`` hook to perform a query for all characters, and filter the results to only include the characters with the name matching the ``characterName`` passed to the component as a `prop <https://reactjs.org/docs/components-and-props.html>`__. Then we get the first matching result.
+- Create a component method ``addInventoryItem()`` that performs a write transaction that adds an inventory item to the character's inventory by passing the ``inventoryItem`` state variable to the :js-sdk:`Realm.Set.add() <Realm.Set.html#add>` method.
+- Render a ``TextInput`` that changes the ``inventoryItem`` state variable, and a ``Button`` that calls the ``addInventoryItem()`` method.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/sets-test.snippet.add-items-to-set.tsx
+         :language: typescript
+         :emphasize-lines: 4-5, 13-14
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/sets-test.snippet.add-items-to-set.jsx
+         :language: javascript
+         :emphasize-lines: 8-9
+         :linenos:
 
 .. _react-native-check-if-set-has-items:
 
