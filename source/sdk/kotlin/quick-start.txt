@@ -49,21 +49,20 @@ that represents Todo items in a Todo list app.
 Open a Realm
 ------------
 
-Use `RealmConfiguration
-<{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__
-to control the specifics of the realm you
-would like to open, including the name, location, and schema.
-Pass your configuration to the `Realm factory constructor
-<{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__
+Use 
+`RealmConfiguration.create() <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-companion/create.html>`__ 
+to open a realm using default parameters. Pass your configuration to the 
+`Realm factory constructor <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__
 to generate an instance of that realm:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-open-a-local-realm.kt
    :language: kotlin
    :copyable: false
 
-To open a realm using only default properties, you can use the
-`RealmConfiguration.create() <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-companion/create.html>`__
-function.   
+For more information on how to control the specifics of the
+`RealmConfiguration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__ 
+you would like to open (e.g. name, location, schema version), refer to 
+:ref:`Open & Close a Realm <kotlin-open-and-close-a-realm>`.
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
