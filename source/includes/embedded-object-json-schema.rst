@@ -31,9 +31,9 @@ This behavior differs from regular Realm objects, which map to their own MongoDB
    {
      "title": "Business",
      "bsonType": "object",
-     "required": ["_id", "name", "addresses"],
+     "required": ["_id", "name"],
      "properties": {
-       "_id": "objectId",
+       "_id": { "bsonType": "objectId" },
        "name": { "bsonType": "string" },
        "addresses": {
          "bsonType": "array",
