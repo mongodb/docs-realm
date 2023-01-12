@@ -19,6 +19,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines)
                 implementation("io.github.aakira:napier:2.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
+                api("co.touchlab:kermit:0.1.8")
             }
         }
         val commonTest by getting {

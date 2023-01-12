@@ -1,28 +1,22 @@
 package com.mongodb.realm.realmkmmapp
+import co.touchlab.kermit.Kermit
 
-import io.github.aakira.napier.Napier
-
-/*
- * Log -- singleton class for interacting with Napier without
- * constantly naming Napier
- */
 object Log {
-    fun wtf(log: String) {
-        Napier.wtf(log)
-    }
+    val kermit = Kermit()
+
     fun e(log: String) {
-        Napier.e(log)
+        kermit.e { log }
     }
     fun w(log: String) {
-        Napier.w(log)
+        kermit.w { log }
     }
     fun d(log: String) {
-        Napier.d(log)
+        kermit.d { log }
     }
     fun i(log: String) {
-        Napier.i(log)
+        kermit.i { log }
     }
     fun v(log: String) {
-        Napier.v(log)
+        kermit.v { log }
     }
 }
