@@ -185,30 +185,14 @@ to your Node.js app and use to finish logging the user in to your app.
    .. tab::
       :tabid: javascript
       
-      .. code-block:: javascript
-         
-         // Get the access token from a client application using the Facebook SDK
-         const accessToken = getFacebookAccessToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.facebook(accessToken);
-         app.logIn(credentials).then(user => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.user-auth-facebook.js
+         :language: typescript
 
    .. tab::
       :tabid: typescript
       
-      .. code-block:: typescript
-         
-         // Get the access token from a client application using the Facebook SDK
-         const accessToken = getFacebookAccessToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.facebook(accessToken);
-         app.logIn(credentials).then((user: Realm.User) => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.user-auth-facebook.ts
+         :language: typescript
 
 .. _node-google-login:
 .. _node-login-google:
@@ -310,30 +294,14 @@ use to finish logging the user in to your app.
    .. tab::
       :tabid: javascript
       
-      .. code-block:: javascript
-         
-         // Get the access token from a client application using the Apple JS SDK
-         const idToken = getAppleIdToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.apple(idToken);
-         app.logIn(credentials).then(user => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.user-auth-apple.js
+         :language: typescript
 
    .. tab::
       :tabid: typescript
       
-      .. code-block:: typescript
-         
-         // Get the access token from a client application using the Apple JS SDK
-         const idToken: string = getAppleIdToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.apple(idToken);
-         app.logIn(credentials).then((user: Realm.User) => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.user-auth-apple.ts
+         :language: typescript
 
 .. include:: /includes/authorization-appleidcredential-string.rst
 
