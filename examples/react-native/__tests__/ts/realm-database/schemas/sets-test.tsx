@@ -269,4 +269,57 @@ describe('Set schema', () => {
     });
     expect(assertionRealm.objects(Character)[0].inventory.size).toEqual(0);
   });
+  it.skip('should traverse a set', async () => {
+    // :snippet-start: traverse-a-set
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='inventoryInput'": "",
+    //   " testID='removeInventoryItemBtn'": "",
+    //   " testID='removeAllInventoryBtn'": ""
+    //   }
+    // }
+    const DisplayInventory = () => {
+      const realm = useRealm();
+
+      let character: Character;
+      let unorderedInventory: Array<string>;
+      let orderedInventory: Array<string>;
+
+      const updateSetAndOrderedInventoryArray = (newInventoryItem: string) => {
+        // update the inventory set
+        realm.write(() => {
+          character?.inventory.add(newInventoryItem);
+        });
+        orderedInventory.push(newInventoryItem);
+      };
+
+      useEffect(() => {
+        realm.write(() => {
+          character = new Character(realm, {
+            _id: new Realm.BSON.ObjectId(),
+            name: 'PlayerThree',
+            inventory: [],
+            levelsCompleted: [1, 2],
+          });
+        });
+        // the character's inventory set is not ordered by insert order by default
+        unorderedInventory = Array.from(character.inventory);
+
+
+        Crafting Kit
+      }, []);
+
+      //
+      const orderedSet = [];
+    };
+    // :replace-end:
+    // :snippet-end:
+
+    const App = () => (
+      <RealmProvider>
+        <></>
+      </RealmProvider>
+    );
+    const {getByTestId} = render(<App />);
+  });
 });
