@@ -29,10 +29,19 @@ describe("user authentication", () => {
     const randomInt = Math.floor(Math.random() * Math.floor(200000));
     const username = "joe.jasper" + randomInt.toString() + "@example.com";
 
+    // :snippet-start: register-email-pass-user
+    // :replace-start: {
+    //    "terms": {
+    //       "username": "\"someone@example.com\""
+    //    }
+    // }
     await app.emailPasswordAuth.registerUser({
       email: username,
       password: "passw0rd",
     });
+    // :replace-end:
+    // :snippet-end:
+
     // :snippet-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
@@ -54,6 +63,60 @@ describe("user authentication", () => {
     } catch (err) {
       console.error("Failed to log in", err.message);
     }
+    // :snippet-end:
+  });
+
+  test.skip("confirm email/pass user", async () => {
+    // :snippet-start: confirm-email-pass-user
+    const token = "someToken";
+    const tokenId = "someTokenId";
+    
+    try {
+      await app.emailPasswordAuth.confirmUser({ token, tokenId });
+      // User email address confirmed.
+      console.log("Successfully confirmed user.");
+    } catch (err){
+      console.log(`User confirmation failed: ${err}`);
+    }
+    // :snippet-end:
+  });
+
+  test.skip("resend confirmation email", async () => {
+    // :snippet-start: resend-confirmation-email
+    const email = "someone@example.com";
+    await app.emailPasswordAuth.resendConfirmation({ email });
+    // :snippet-end:
+  });
+  
+  test.skip("retry a user confirmation function", async () => {
+    // :snippet-start: retry-user-confirmation-function
+    const email = "someone@example.com";
+    await app.emailPasswordAuth.retryCustomConfirmation({ email });
+    // :snippet-end:
+  });
+
+  test.skip("send password reset email", async () => {
+    // :snippet-start: send-pass-reset-email
+    const email = "joe.jasper@example.com"
+    await app.emailPasswordAuth.sendResetPasswordEmail({ email });
+    // :snippet-end:
+  });
+
+  test.skip("call a password reset function", async () => {
+    // :snippet-start: call-password-reset-function
+    const email = "joe.jasper@example.com";
+    // The new password to use
+    const password = "newPassw0rd";
+    // Additional arguments for the reset function
+    const args = [];
+
+    await app.emailPasswordAuth.callResetPasswordFunction({ email, password }, args);
+    // :snippet-end:
+  });
+  
+  test.skip("complete password reset", async () => {
+    // :snippet-start: complete-pass-reset
+    await app.emailPasswordAuth.resetPassword({ password: "newPassw0rd", token, tokenId });
     // :snippet-end:
   });
 
