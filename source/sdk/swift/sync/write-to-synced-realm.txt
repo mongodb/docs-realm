@@ -7,7 +7,7 @@ Write Data to a Synced Realm - Swift SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 Overview
@@ -39,9 +39,11 @@ and other Device Sync error types, refer to :ref:`sync-errors` in the App Servic
 Determining What Data Syncs
 ---------------------------
 
-The examples on this page use an Atlas App Services App with the following 
-Device Sync configuration and a client app with the following Realm SDK 
-data model and subscriptions.
+The data that you can write to a synced realm is the intersection of your 
+Device Sync configuration - your queryable fields and permissions - and the
+Flexible Sync subscription query that you use when you open the realm.
+
+The examples on this page use the following configurations and models:
 
 Device Sync Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,44 +106,15 @@ value is greater than ``4``, cannot sync to this realm.
 Write to a Synced Realm
 -----------------------
 
-When you write to a synced realm, these are the most common cases:
+Writes to Flexible Sync realms may broadly fall into one of two categories: 
 
 - **Successful writes**: The written object matches both the query subscription
   and the user's permissions. The object writes successfully to the realm,
   and syncs successfully to the App Services backend and other devices.
-- **Writes that don't match the query subscription**: The written object matches 
-  the user's permissions, but does not match the query subscription. The
-  object writes to the realm, but when the realm syncs to the backend, it
-  reverts the write in a non-fatal error operation we call a compensating 
-  write.
-- **Writes that don't match permissions**: The written object matches the query
-  subscription, but does not match the user's permissions. The
-  object writes to the realm, but when the realm syncs to the backend, it
-  reverts the write in a non-fatal error operation we call a compensating 
-  write.
 
-If you perform a write that does not match the subscription query, or where
-the user does not have sufficient permissions to perform the write, Realm 
-performs a compensating write. This is a non-fatal operation that 
-essentially reverts an illegal write.
-
-In more detail, when you write data that is outside the bounds of a query
-subscription or does not match the user's permissions, the following occurs:
-
-#. Because the client realm has no concept of "illegal" writes,
-   the write initially succeeds until realm resolves the changeset
-   with the App Services backend.
-#. Upon sync, the server applies the rules and permissions.
-   The server determines that the user does not have authorization to perform the write.
-#. The server sends a revert operation, called a "compensating write", back to the client.
-#. The client's realm reverts the illegal write operation.
-
-Any client-side writes to a given object between an illegal write to that object
-and the corresponding compensating write will be lost.
-
-In practice, this may "look like" an object being written to the realm, and
-then disappearing after the server sends the compensating write back to 
-the client.
+- **Compensating writes**: When the written object does not match
+  the subscription query, or where the user does not have sufficient 
+  permissions to perform the write, Realm reverts the illegal write.
 
 .. _swift-successful-writes:
 
@@ -159,8 +132,42 @@ with the App Services backend when the device has a network connection.
 
 .. _swift-compensating-writes:
 
+Compensating Writes
+~~~~~~~~~~~~~~~~~~~
+
+In some cases, a write that initially appears to succeed is actually an 
+illegal write. In these cases, the object writes to the database, but when 
+the database syncs to the backend, Realm reverts the write in a non-fatal 
+error operation called a compensating write. Compensating writes can occur
+when:
+
+- **Writes that don't match the query subscription**: The written object matches 
+  the user's permissions, but does not match the query subscription. 
+- **Writes that don't match permissions**: The written object matches the query
+  subscription, but does not match the user's permissions.
+
+In more detail, when you write data that is outside the bounds of a query
+subscription or does not match the user's permissions, the following occurs:
+
+#. Because the client realm has no concept of "illegal" writes,
+   the write initially succeeds until realm resolves the changeset
+   with the App Services backend.
+#. Upon sync, the server applies the rules and permissions.
+   The server determines that the user does not have authorization to perform the write.
+#. The server sends a revert operation, called a "compensating write", back to the client.
+#. The client's realm reverts the illegal write operation.
+
+Any client-side writes to a given object between an illegal write to that object
+and the corresponding compensating write will be lost.
+
+In practice, this may look like an object being written to the realm, and
+then disappearing after the server sends the compensating write back to 
+the client.
+
+.. _swift-writes-outside-subscription:
+
 Writes that Don't Match the Query Subscription
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``````````````````````````````````````````````
 
 You can only write objects to a Flexible Sync realm if they match the 
 subscription query. If you perform a write that does not match the 
@@ -168,11 +175,19 @@ subscription query, Realm initially writes the object, but then performs
 a compensating write. This is a non-fatal operation that 
 reverts an illegal write that does not match the subscription query.
 
-In practice, this may look like the write succeeding, but then the object
-"disappears" when Realm performs the compensating write.
+In practice, this may look like the write succeeding, but then the 
+object "disappears" when Realm syncs with the App Services backend and 
+performs the compensating write.
+
+If you want to write an object that does not match the query subscription,
+you must open a different realm where the object matches the query 
+subscription. Alternately, you could write the object to a :ref:`non-synced 
+realm <swift-synced-realms-vs-non-synced-realms>` that does not enforce 
+permissions or subscription queries. There is no way to write an object 
+to a Flexible Sync realm that does not match the query subscription.
 
 Code Example
-````````````
+++++++++++++
 
 Given the configuration for the Flexible Sync realm above, attempting to 
 write this object does not match the query subscription:
@@ -181,7 +196,7 @@ write this object does not match the query subscription:
    :language: swift
 
 Client Error
-````````````
+++++++++++++
 
 The error message in the client-side logs in this scenario is: 
 
@@ -192,7 +207,7 @@ The error message in the client-side logs in this scenario is:
    reverted" (error_code=231, try_again=true, error_action=Warning)
 
 App Services Error
-``````````````````
+++++++++++++++++++
 
 The error message in the App Services logs in this scenario is:
 
@@ -207,7 +222,7 @@ The error message in the App Services logs in this scenario is:
 .. _swift-writes-outside-permissions:
 
 Writes That Don't Match Permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```````````````````````````````````
 
 Attempting to write to the client can also trigger a compensating write 
 error when the object does not match the user's write permissions. 
@@ -218,7 +233,7 @@ succeeding, but then the object "disappears" when Realm syncs with the
 App Services backend and performs the compensating write.
 
 Code Example
-````````````
+++++++++++++
 
 Given the permissions in the Device Sync Configuration detailed above, 
 attempting to write an object where the ``ownerId`` property does not match
@@ -228,7 +243,7 @@ the ``user.id`` of the logged-in user is not a legal write:
    :language: swift
 
 Client Error
-````````````
+++++++++++++
 
 The client error in this scenario is the same as when you attempt to write
 an object that is outside the query filter:
@@ -240,7 +255,7 @@ an object that is outside the query filter:
    reverted" (error_code=231, try_again=true, error_action=Warning)
 
 App Services Error
-``````````````````
+++++++++++++++++++
 
 The error message in the App Services logs provides some additional 
 information to help you determine that it is a permissions issue,
