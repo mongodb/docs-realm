@@ -44,11 +44,11 @@ Device Sync configuration and a client app with the following Realm SDK
 data model and subscriptions.
 
 Device Sync Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Device Sync is configured with the following queryable fields:
 
-- ``_id`` (this is always a queryable field in every Device Sync configuration)
+- ``_id`` (this is a queryable field in every Device Sync configuration)
 - ``ownerId``
 - ``complexity``
 
@@ -74,7 +74,7 @@ data:
    }
 
 Client Data Model and Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The examples on this page use the following object model:
 
@@ -165,11 +165,11 @@ Writes that Don't Match the Query Subscription
 You can only write objects to a Flexible Sync realm if they match the 
 subscription query. If you perform a write that does not match the 
 subscription query, Realm initially writes the object, but then performs 
-a compensating write. This is a non-fatal operation that essentially 
+a compensating write. This is a non-fatal operation that 
 reverts an illegal write that does not match the subscription query.
 
 In practice, this may look like the write succeeding, but then the object
-"disappearing" when Realm performs the compensating write.
+"disappears" when Realm performs the compensating write.
 
 Code Example
 ````````````
@@ -214,7 +214,7 @@ error when the object does not match the user's write permissions.
 
 On the client, this type of write behaves the same as a write that doesn't 
 match the query subscription. In practice, this may look like the write 
-succeeding, but then the object "disappearing" when Realm syncs with the 
+succeeding, but then the object "disappears" when Realm syncs with the 
 App Services backend and performs the compensating write.
 
 Code Example
@@ -243,9 +243,9 @@ App Services Error
 ``````````````````
 
 The error message in the App Services logs provides some additional 
-information to help you determine that it is a permissions issue - in this 
-case the object does not match the user's role - and not a query subscription 
-issue:
+information to help you determine that it is a permissions issue,
+and not a query subscription issue. In this example, the error message shows
+that the the object does not match the user's role:
 
 .. code-block:: console
 
