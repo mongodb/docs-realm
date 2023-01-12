@@ -120,6 +120,49 @@ describe("user authentication", () => {
     // :snippet-end:
   });
 
+  test.skip("create user api key", async () => {
+    // :snippet-start: create-user-api-key
+    const user = app.currentUser;
+    const key = await user.apiKeys.create("apiKeyName");
+    // :snippet-end:
+  });
+
+  test.skip("look up user api key", async () => {
+    // :snippet-start: look-up-user-api-key
+    const user = app.currentUser;
+    // List all of a user's keys
+    const keys = await user.apiKeys.fetchAll();
+    // Get a specific key by its ID
+    const key = await user.apiKeys.fetch("5eb5931548d79bc784adf46e");
+    // :snippet-end:
+  });
+
+  test.skip("enable or disable user api key", async () => {
+    // :snippet-start: enable-disable-user-api-key
+    // Get the ID of a User API Key
+    const user = app.currentUser;
+    const apiKeys = await user.apiKeys.fetchAll();
+    const keyId = apiKeys[0]["_id"];
+
+    // Enable the User API Key
+    await user.apiKey.enable(keyId);
+    // Disable the User API Key
+    await user.apiKey.disable(keyId);
+    // :snippet-end:
+  });
+
+  test.skip("delete user api key", async () => {
+    // :snippet-start: delete-user-api-key
+    // Get the ID of a User API Key
+    const user = app.currentUser;
+    const apiKeys = await user.apiKeys.fetchAll();
+    const keyId = apiKeys[0]["_id"];
+
+    // Delete the User API Key
+    await user.apiKey.delete(keyId);
+    // :snippet-end:
+  });
+
   test("server api key login", async () => {
     process.env.realmApiKey = "ceb9d97d12f398c284f8";
     // :snippet-start: server-api-key-login
