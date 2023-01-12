@@ -149,16 +149,17 @@ In the following example of a **to-many** relationship, a ``User`` may own multi
 Inverse Relationship
 --------------------
 
-An inverse relationship links an object back to any other objects that refer to
-it in a defined to-one or to-many relationship. Relationship definitions are
-unidirectional by default. 
+An inverse relationship :ref:`backlinks <rql-backlinks>` to any other objects
+that refer to it in a defined to-one or to-many relationship. Relationship
+definitions are unidirectional by default. 
 
 For example, if you define a relationship that maps ``User.posts`` to a list of
 ``Post`` objects, then you could use an inverse relationship to look up the
 ``User`` object related to a given ``Post`` object in this way.
 
-Inverse relationships can either be :ref:`defined explicitly <react-native-define-an-inverse-relationship-property>` in your schema or
-:ref:`obtained dynamically <react-native-dynamically-obtain-an-inverse-relationship-object>` using a query.
+Inverse relationships can be:
+#. :ref:`Defined explicitly <react-native-define-an-inverse-relationship-property>` in your schema
+#. :ref:`Obtained dynamically <react-native-dynamically-obtain-an-inverse-relationship-object>` using a query.
 
 .. _react-native-define-an-inverse-relationship-property:
 
