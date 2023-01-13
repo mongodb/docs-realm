@@ -14,6 +14,7 @@ class QueryEngineExamples_Task: Object {
     @Persisted var priority = 0
     @Persisted var progressMinutes = 0
     @Persisted var labels: MutableSet<String>
+    @Persisted var ratings: MutableSet<Int>
 }
 
 class QueryEngineExamples_Project: Object {
@@ -147,9 +148,14 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
             task.assignee = "Alex"
             task.priority = 10
             task.labels.insert("quick win")
+            task.ratings.insert(1)
+            task.ratings.insert(5)
             task2.assignee = "Ali"
             task2.priority = 9
             task2.labels.insert("quick win")
+            task2.ratings.insert(1)
+            let task3 = QueryEngineExamples_Task()
+            task3.ratings.insert(1)
             project.tasks.append(task)
             project.tasks.append(task2)
             realm.add(project)
@@ -263,6 +269,18 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
             $0.tasks.progressMinutes.sum > 100
         }
         print("Long running projects: \(longRunningProjects.count)")
+        // :snippet-end:
+        
+        // :snippet-start: tsq-set-operators
+        let projectsWithGivenLabels = projects.where {
+            $0.tasks.labels.containsAny(in: ["quick win", "bug"])
+        }
+        print("Projects with quick wins: \(projectsWithGivenLabels.count)")
+        
+        let projectsWithRatingsOver3 = projects.where {
+            $0.tasks.ratings > 3
+        }
+        print("Projects with any ratings over 3: \(projectsWithRatingsOver3.count)")
         // :snippet-end:
 
         // :snippet-start: tsq-subquery
