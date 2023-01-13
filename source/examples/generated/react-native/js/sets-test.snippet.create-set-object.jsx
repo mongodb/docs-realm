@@ -4,7 +4,7 @@ const CreateInitialCharacters = () => {
     realm.write(() => {
       new Character(realm, {
         _id: new Realm.BSON.ObjectId(),
-        name: 'PlayerOne',
+        name: 'AdventurousPlayer',
         inventory: ['elixir', 'compass', 'glowing shield'],
         levelsCompleted: [4, 9],
       });
@@ -12,7 +12,7 @@ const CreateInitialCharacters = () => {
     realm.write(() => {
       new Character(realm, {
         _id: new Realm.BSON.ObjectId(),
-        name: 'PlayerTwo',
+        name: 'HealerPlayer',
         inventory: ['estus flask', 'gloves', 'rune'],
         levelsCompleted: [1, 2, 5, 24],
       });

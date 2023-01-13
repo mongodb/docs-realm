@@ -218,19 +218,48 @@ The ``RemoveInventoryFromCharacter`` component does the following:
 
 Traverse a Set
 --------------
-To traverse a set, use the ``<Realm.Set>.forEach()`` method or alternative :mdn:`iteration method
+You can traverse a set to access each item in the set. To traverse a set, use
+the ``<Realm.Set>.map()`` method or alternative :mdn:`iteration method
 <Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>`. 
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.traverse-a-set.js
-   :language: javascript
+However, by default the order of the items in a set is not guaranteed. To
+traverse a set in order, you can store the set's items in a `state variable
+<https://reactjs.org/docs/hooks-state.html>`__ and update that state variable
+when you add new items to the set.
 
+Example
+~~~~~~~
 
-.. example:: Traversing a Set in Order
+In the following example of a ``TraverseCharacterInventory`` component a
+character starts with no inventory items. When the user adds items to the
+inventory set, the component displays each item in the set in both an ordered
+and unordered list.
 
-   The order of the **Realm Set** may be different from the order that 
-   the items were added.
+The ``TraverseCharacterInventory`` component does the following:
 
-   You can track the set order by updating an array when a new value is added. For example:
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventoryItem" that represents the new inventory item to add to the inventory set.
+- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventory" that will hold the character's inventory items in order of insertion.
+- Retrieves the character by passing the ``Character`` class to the ``useQuery()`` hook and running the :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method on the result to filter for characters with the name matching the ``characterName`` prop. Then we set the variable ``character`` to the first matching result.
+- Creates a component method ``addInventoryItem()`` that performs a write transaction that adds an inventory item to the character's inventory by passing the ``inventoryItem`` state variable to the :js-sdk:`Realm.Set.add() <Realm.Set.html#add>` method. After the write transaction, the method adds the ``inventoryItem`` to the ``inventory`` array state variable.
+- Renders a ``TextInput`` that changes the ``inventoryItem`` state variable, and a ``Button`` that calls the ``addInventoryItem()`` method.
+- Renders a list of the character's inventory items in the order they were added to the set by iterating through the ``inventory`` array state variable.
+- Renders a unordered list of the character's inventory by iterating through ``character.inventory``.
 
-   .. literalinclude:: /examples/generated/node/data-types.snippet.make-array-with-insertion-order-from-set.js
-      :language: javascript
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/sets-test.snippet.traverse-a-set.tsx
+         :language: typescript
+         :emphasize-lines: 4, 9-12, 22-25, 27-30
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/sets-test.snippet.traverse-a-set.jsx
+         :language: javascript
+         :emphasize-lines: 4, 9-12, 22-25, 27-30
+         :linenos:

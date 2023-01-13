@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Button, TextInput, View, Text, Alert} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
@@ -30,6 +30,13 @@ describe('Set schema', () => {
         levelsCompleted: [1, 2, 3],
         inventory: ['sword', 'shield', 'potion'],
       });
+
+      new Character(assertionRealm, {
+        _id: new Realm.BSON.ObjectID(),
+        name: 'PlayerOne',
+        inventory: [],
+        levelsCompleted: [],
+      });
     });
   });
   afterAll(() => {
@@ -50,7 +57,7 @@ describe('Set schema', () => {
         realm.write(() => {
           new Character(realm, {
             _id: new Realm.BSON.ObjectId(),
-            name: 'PlayerOne',
+            name: 'AdventurousPlayer',
             inventory: ['elixir', 'compass', 'glowing shield'],
             levelsCompleted: [4, 9],
           });
@@ -58,7 +65,7 @@ describe('Set schema', () => {
         realm.write(() => {
           new Character(realm, {
             _id: new Realm.BSON.ObjectId(),
-            name: 'PlayerTwo',
+            name: 'HealerPlayer',
             inventory: ['estus flask', 'gloves', 'rune'],
             levelsCompleted: [1, 2, 5, 24],
           });
@@ -85,8 +92,8 @@ describe('Set schema', () => {
     );
     const {getAllByTestId} = render(<App />);
     await waitFor(() => {
-      expect(getAllByTestId('characterName')[1]).toHaveTextContent('PlayerOne');
-      expect(getAllByTestId('characterName')[2]).toHaveTextContent('PlayerTwo');
+      expect(getAllByTestId('characterName')[2]).toHaveTextContent('AdventurousPlayer');
+      expect(getAllByTestId('characterName')[3]).toHaveTextContent('HealerPlayer');
     });
   });
   it('should add items to a set', async () => {
@@ -268,5 +275,99 @@ describe('Set schema', () => {
       fireEvent.press(removeAllInventoryBtn);
     });
     expect(assertionRealm.objects(Character)[0].inventory.size).toEqual(0);
+  });
+  it('should traverse a set', async () => {
+    // :snippet-start: traverse-a-set
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='inventoryInput'": "",
+    //   " testID='removeInventoryItemBtn'": "",
+    //   " testID='removeAllInventoryBtn'": ""
+    //   }
+    // }
+    const TraverseCharacterInventory = ({characterName}) => {
+      const realm = useRealm();
+      const [inventoryItem, setInventoryItem] = useState('');
+      const [inventory, setInventory] = useState([]);
+
+      const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
+
+      const addInventoryItem = () => {
+        realm.write(() => {
+          character?.inventory.add(inventoryItem);
+        });
+        setInventory([...inventory, inventoryItem]);
+      };
+
+      return (
+        <View>
+          <Text>{character.name}</Text>
+          <Text>Add an item to the inventory:</Text>
+          <TextInput testID='inventoryInput' onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
+          <Button testID='addInventoryItemBtn' title='Add Inventory Item' onPress={addInventoryItem} />
+
+          <Text>Ordered Inventory:</Text>
+          {inventory.map(item => (
+            <Text testID='inventoryItem'>{item}</Text>
+          ))}
+
+          <Text>Unordered Inventory:</Text>
+          {character.inventory.map(item => (
+            <Text testID='unorderedInventoryItem'>{item}</Text>
+          ))}
+        </View>
+      );
+    };
+    // :replace-end:
+    // :snippet-end:
+
+    const App = () => (
+      <RealmProvider>
+        <TraverseCharacterInventory characterName='PlayerOne' />
+      </RealmProvider>
+    );
+    const {getByTestId, getAllByTestId} = render(<App />);
+
+    const inventoryInput = await waitFor(() => getByTestId('inventoryInput'), {
+      timeout: 5000,
+    });
+    const addInventoryItemBtn = await waitFor(() => getByTestId('addInventoryItemBtn'), {
+      timeout: 5000,
+    });
+
+    await act(() => {
+      fireEvent.changeText(inventoryInput, 'cape');
+    });
+    await act(() => {
+      fireEvent.press(addInventoryItemBtn);
+    });
+    await act(() => {
+      fireEvent.changeText(inventoryInput, 'bow');
+    });
+    await act(() => {
+      fireEvent.press(addInventoryItemBtn);
+    });
+    await act(() => {
+      fireEvent.changeText(inventoryInput, 'dagger');
+    });
+    await act(() => {
+      fireEvent.press(addInventoryItemBtn);
+    });
+    // test that there are 3 inventory items rendered
+
+    const inventoryItems = await waitFor(() => getAllByTestId('inventoryItem'), {
+      timeout: 5000,
+    });
+    // test that the newly added inventory items have been rendered to the ui
+    expect(inventoryItems[0].props.children).toEqual('cape');
+    expect(inventoryItems[1].props.children).toEqual('bow');
+    expect(inventoryItems[2].props.children).toEqual('dagger');
+
+    // test the unordered inventory items
+    const unorderedInventoryItems = await waitFor(() => getAllByTestId('unorderedInventoryItem'), {
+      timeout: 5000,
+    });
+    // Since we can't be certain of the order of the unordered inventory items, we'll test that the items are present
+    expect(unorderedInventoryItems.length).toEqual(3);
   });
 });
