@@ -1,2 +1,2 @@
-const customUserData = user.customData;
+const customUserData = app.currentUser.customData;
 console.log(customUserData);
