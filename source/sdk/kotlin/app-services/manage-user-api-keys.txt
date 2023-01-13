@@ -17,7 +17,11 @@ to re-authenticate.
 
 User API keys are associated with a user object created by another
 non-anonymous authentication provider. Each user can associate up to 20
-user keys with their account.
+user keys with their account. 
+
+You can manage keys through the user's 
+`apiKeyAuth <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.auth/-api-key-auth/index.html>`__
+instance.
 
 .. tip::
 
@@ -27,10 +31,6 @@ user keys with their account.
    more about server API keys, refer to :ref:`API Key Authentication
    <api-key-authentication>`.
 
-You can manage a user API key with a user's **API Key auth instance**, which you
-can access through the user's 
-`apiKeyAuth <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.auth/-api-key-auth/index.html>`__
-property.
 
 .. _kotlin-create-user-key:
 
@@ -74,7 +74,6 @@ You can enable or disable a key by calling
 or 
 `ApiKeyAuth.disable() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.auth/-api-key-auth/disable.html>`__
 with the key's ``id``.
-
 Disabled keys cannot be used to log in on behalf of the user.
 
 .. literalinclude:: /examples/generated/kotlin/UserAPIKeysTest.snippet.enable-api-key.kt
@@ -88,8 +87,8 @@ Delete a User API Key
 To permanently remove a specific user API key, pass the
 key's ``id`` to   
 `ApiKeyAuth.delete() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.auth/-api-key-auth/delete.html>`__.
+Deleted keys cannot be recovered or used to log in on behalf of the user.
 
 .. literalinclude:: /examples/generated/kotlin/UserAPIKeysTest.snippet.delete-api-key.kt
     :language: kotlin
 
-Deleted keys cannot be recovered or used to log in on behalf of the user.
