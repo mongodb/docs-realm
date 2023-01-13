@@ -55,74 +55,73 @@ namespace Examples
             var realm = Realm.GetInstance(config);
             // :snippet-end:
         }
-
-        // :snippet-start: ro1
-        //:replace-start: {
-        // "terms": {
-        //   "PersonJ": "Person"}
-        // }
-        public class PersonJ : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
-
-            public string FirstName { get; set; }
-            public int Age { get; set; }
-        }
-        //:replace-end:
-        // :snippet-end:
-
-        // :snippet-start: ro2
-        //:replace-start: {
-        // "terms": {
-        //   "PersonK": "Person"
-        // }}
-        public class PersonK : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
-
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public int Age { get; set; }
-        }
-        // :replace-end:
-        // :snippet-end:
-
-        // :snippet-start: ro3
-        //:replace-start: {
-        // "terms": {
-        //   "PersonL": "Person"
-        // }}
-        public class PersonL : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
-
-            public string FullName { get; set; }
-            public int Age { get; set; }
-        }
-        // :replace-end:
-        // :snippet-end:
-
-        // :snippet-start: ro4
-        //:replace-start: {
-        // "terms": {
-        //   "PersonM": "Person"
-        // }}
-        public class PersonM : RealmObject
-        {
-            [PrimaryKey]
-            [MapTo("_id")]
-            public ObjectId Id { get; set; }
-
-            public string FullName { get; set; }
-            public DateTimeOffset Birthday { get; set; }
-        }
-        // :replace-end:
-        // :snippet-end:
     }
+    // :snippet-start: ro1
+    //:replace-start: {
+    // "terms": {
+    //   "PersonJ": "Person"}
+    // }
+    public partial class PersonJ : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        public string FirstName { get; set; }
+        public int Age { get; set; }
+    }
+    //:replace-end:
+    // :snippet-end:
+
+    // :snippet-start: ro2
+    //:replace-start: {
+    // "terms": {
+    //   "PersonK": "Person"
+    // }}
+    public partial class PersonK : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int Age { get; set; }
+    }
+    // :replace-end:
+    // :snippet-end:
+
+    // :snippet-start: ro3
+    //:replace-start: {
+    // "terms": {
+    //   "PersonL": "Person"
+    // }}
+    public partial class PersonL : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        public string FullName { get; set; }
+        public int Age { get; set; }
+    }
+    // :replace-end:
+    // :snippet-end:
+
+    // :snippet-start: ro4
+    //:replace-start: {
+    // "terms": {
+    //   "PersonM": "Person"
+    // }}
+    public partial class PersonM : IRealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        public string FullName { get; set; }
+        public DateTimeOffset Birthday { get; set; }
+    }
+    // :replace-end:
+    // :snippet-end:
 }

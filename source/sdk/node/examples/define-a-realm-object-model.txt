@@ -10,34 +10,16 @@ Define a Realm Object Schema - Node.js SDK
    :depth: 2
    :class: singlecol
 
-.. _node-define-a-new-object-type:
-
-Define a New Object Type
-------------------------
-
 To define a Realm object type, create a schema object that specifies the type's
 ``name`` and ``properties``. The type name must be unique among object types in
 a realm. For details on how to define specific properties, see :ref:`Define
 Object Properties <node-define-a-property>`.
 
-.. code-block:: javascript
-   
-   const Car = {
-     name: "Car",
-     properties: {
-       make: "string",
-       model: "string",
-       miles: "int",
-     }
-   }
+You can define your schemas with JavaScript classes (like most of the examples on 
+this page), but you can also define them as JavaScript objects.
 
-.. note::
-   
-   You can :ref:`open a realm <node-open-a-local-realm>` using the Realm
-   Object you have defined.
-   
-   .. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
-     :language: javascript
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-schema-as-object.js
+   :language: javascript
 
 .. _node-define-objects-with-js-classes:
 
@@ -48,14 +30,14 @@ You can define Realm object types with JavaScript classes. To use a class as an
 object type, define the object schema on the static property ``schema``. 
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
-     :language: javascript
+   :language: javascript
    
 Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object when opening a realm. You can then :doc:`read and write data
 </sdk/node/examples/read-and-write-data>` normally.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-     :language: javascript
+   :language: javascript
 
 .. _node-supported-property-types:
 
@@ -87,15 +69,13 @@ Define Object Properties
 
 To define a property for an object type, create a key-value pair representing
 the name and data type of the property under the ``properties`` field.
+   
+The following schema defines a ``Car`` type that has these properties: ``_id``
+``make``, ``model``, and ``miles``.
 
-.. example::
-   
-   The following schema defines a ``Dog`` type that has two properties: a string
-   ``name`` and an integer ``age``.
-   
-   .. literalinclude:: /examples/Schemas/DefineAProperty.js
-      :language: javascript
-      :emphasize-lines: 4, 5
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-object-properties.js
+   :language: javascript
+   :emphasize-lines: 5-8
 
 .. _node-specify-an-optional-property:
 .. _node-optional-properties:
@@ -104,15 +84,12 @@ Specify an Optional Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To mark a property as optional, append a question mark ``?`` to its type.
+   
+The following ``Car`` schema defines an optional ``miles`` property of type ``int``.
 
-.. example::
-   
-   The following schema defines a DogSchema with the optional property ``breed``
-   of type ``string``.
-   
-   .. literalinclude:: /examples/Schemas/OptionalProperty.js
-      :language: javascript
-      :emphasize-lines: 4
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-object-properties.js
+   :language: javascript
+   :emphasize-lines: 8
 
 .. _node-specify-a-primary-key:
 .. _node-primary-keys:
@@ -136,15 +113,13 @@ To specify a property as an object type's primary key, set the schema's
    key. You cannot change the primary key property for an object type after any
    object of that type is added to a realm and you cannot modify an object's
    primary key value.
-
-.. example::
    
-   The following ``Task`` object schema specifies the ``_id`` property as its
-   primary key.
-      
-   .. literalinclude:: /examples/Schemas/PrimaryKey.js
-      :language: javascript
-      :emphasize-lines: 9
+The following ``Car`` object schema specifies the ``_id`` property as its
+primary key.
+   
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-object-properties.js
+   :language: javascript
+   :emphasize-lines: 10
 
 .. _node-index-a-property:
 .. _node-indexes:
@@ -166,15 +141,13 @@ properties. To define an index for a given property, set ``indexed`` to
    
    It's best to only add indexes when optimizing the read performance for
    specific situations.
-
-.. example::
    
-   The following ``Book`` object schema defines an index on the ``name``
-   property.
-    
-   .. literalinclude:: /examples/Schemas/Indexed.js
-      :language: javascript
-      :emphasize-lines: 4
+The following ``Car`` object schema defines an index on the ``_id``
+property.
+   
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
+   :language: javascript
+   :emphasize-lines: 5
 
 .. _node-define-a-default-property-value:
 .. _node-default-values:
@@ -185,14 +158,12 @@ Define a Default Property Value
 To define a default value, set the value of the property to an object with a
 ``type`` field and a ``default`` field.
 
-.. example::
-   
-   The following ``Car`` object schema specifies a default value of ``0`` for
-   the ``miles`` property:
- 
-   .. literalinclude:: /examples/Schemas/DefaultValues.js
-      :language: javascript
-      :emphasize-lines: 6
+The following ``Car`` object schema specifies a default value of ``0`` for
+the ``miles`` property:
+
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
+   :language: javascript
+   :emphasize-lines: 8
 
 .. _node-remap-a-property:
 
@@ -202,18 +173,14 @@ Remap a Property
 To use a different property name in your code than is stored in
 Realm Database, set ``mapTo`` to the name of the property as it appears in
 your code.
-
-.. example::
    
-   A developer opens a realm using the following ``Dog`` object schema.
-   Realm Database stores each dog's first name with the snake case
-   ``first_name`` property. The schema maps the property to ``firstName`` for
-   objects used in JavaScript code.
-   
-   .. literalinclude:: /examples/Schemas/Mapped.js
-      :language: javascript
-      :emphasize-lines: 5
+In the following ``Car`` object schema, Realm Database stores the car's 
+model name with the snake case ``model_name`` property. The schema maps the property 
+to ``modelName`` for objects used in client code.
 
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
+   :language: javascript
+   :emphasize-lines: 7
 
 .. _node-define-relationship-properties:
 
@@ -228,23 +195,21 @@ Define a To-One Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A **to-one** relationship maps one property to a single instance of
-another object type. For example, you can model a person having at most
-one companion dog as a to-one relationship.
+another object type. For example, you can model a manufacturer having at most
+one car as a to-one relationship.
 
 To define a to-one relationship property, specify the related object type name
 as the property type.
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
-.. example::
+The following ``Manufacturer`` object schema specifies that a manufacturer may or may not
+make a single ``Car``. If they do make a ``Car``, Realm links to it through the
+``car`` property:
 
-   The following ``Person`` object schema specifies that a person may or may not
-   own a single ``Dog``. If they do own a ``Dog``, Realm links to it via the
-   ``dog`` property:
-   
-   .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
-      :language: javascript
-      :emphasize-lines: 6
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-one.js
+   :language: javascript
+   :emphasize-lines: 7
 
 .. _node-define-a-to-many-relationship-property:
 
@@ -252,22 +217,18 @@ Define a To-Many Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A **to-many** relationship maps one property to zero or more instances
-of another object type. For example, you can model a person having any
-number of companion dogs as a to-many relationship.
+of another object type. For example, you can model a manufacturer having any
+number of cars as a to-many relationship.
 
 To define a to-many relationship property, specify the related object type name
 as a list.
-
-.. example::
    
-   An application could use the following object schemas to indicate
-   that a Person may own multiple Dogs by including them in its ``dog``
-   property:
-   
-   .. literalinclude:: /examples/Relationships/ToMany/ToMany.js
-      :language: javascript
-      :emphasize-lines: 6
+An application could use the following object schemas to indicate that a ``Manufacturer``
+may make multiple ``Car`` objects by including them in its ``cars`` property:
 
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-many.js
+   :language: javascript
+   :emphasize-lines: 7
 
 .. _node-define-an-inverse-relationship-property:
 
@@ -282,35 +243,21 @@ set the value of an inverse relationship property.
 To define an inverse relationship property, set the property type to
 ``linkingObjects`` and specify the object type and property name that define the
 relationship to invert.
+   
+An application could use the following object schemas to indicate that a ``Manufacturer``
+may make many ``Car`` objects and that each ``Car`` should automatically keep track
+of which ``Manufacturer`` makes it.
 
-.. example::
+- The ``Manufacturer`` object's ``cars`` property is defined as a to-many relationship
+   with ``Car`` objects and contains all of a given manufacturer's cars.
    
-   An application could use the following object schemas to indicate that a User
-   may be assigned many Tasks and that each Task should automatically keep track
-   of which User it's assigned to.
-   
-   - The User object's ``tasks`` property is defined as a to-many relationship
-     with Task objects and contains all of a given user's assigned tasks.
-     
-   - The Task object's ``assignee`` property inverts the relationship and
-     automatically updates to refer back to any User object that contains the
-     Task in its ``tasks`` property.
-   
-   .. tabs-realm-languages::
-     
-     .. tab::
-         :tabid: javascript
-          
-         .. literalinclude:: /examples/Relationships/Inverse/Inverse.js
-            :language: javascript
-            :emphasize-lines: 8, 19-23
-     
-     .. tab::
-         :tabid: typescript
-          
-         .. literalinclude:: /examples/Relationships/Inverse/Inverse.ts
-            :language: javascript
-            :emphasize-lines: 5, 14, 23, 32-36
+- The ``Car`` object's ``assignee`` property inverts the relationship and
+   automatically updates to refer back to any ``Manufacturer`` object that contains the
+   car in its ``cars`` property.
+
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-inverse.js
+   :language: javascript
+   :emphasize-lines: 7, 22-26
 
 .. _node-define-an-embedded-object-property:
 
@@ -319,29 +266,24 @@ Define an Embedded Object Property
 
 To define a Realm object model with an embedded object (nested Realm
 object), set ``embedded`` to ``true``.
+   
+An **embedded object** exists as nested data inside of a single, specific
+parent object. It inherits the lifecycle of its parent object and cannot
+exist as an independent Realm object. Realm automatically deletes embedded
+objects if their parent object is deleted or when overwritten by a new
+embedded object instance. Embedded objects cannot have a primary key.
 
-.. note::
+You can reference an embedded object type from parent object types in the
+same way as a relationship.
    
-   An **embedded object** exists as nested data inside of a single, specific
-   parent object. It inherits the lifecycle of its parent object and cannot
-   exist as an independent Realm object. Realm automatically deletes embedded
-   objects if their parent object is deleted or when overwritten by a new
-   embedded object instance.
-   
-   You can reference an embedded object type from parent object types in the
-   same way as a relationship.
+The following example requires two parent schemas, ``Manufacturer`` and
+``Car``. The application requires an embedded child schema ``Warranty``. 
+A ``Manufacturer`` object can embed a list of ``Warranty`` objects, whereas a 
+``Car`` object can only embed a single ``Warranty`` object.
 
-.. example::
-   
-   An application requires two parent schemas, ``ContactSchema`` and
-   ``BusinessSchema``. The application requires a child schema ``AddressSchema``
-   that is embedded. A ``Business`` object can embed a list of ``Address``
-   objects, whereas a ``Contact`` object can only embed a single ``Address``
-   object.
-   
-   .. literalinclude:: /examples/Schemas/Embedded.js
-      :language: javascript
-      :emphasize-lines: 3, 18, 28
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-embedded-property.js
+   :language: javascript
+   :emphasize-lines: 8, 22, 30
 
 .. _node-define-an-asymmetric-object:
 
@@ -351,18 +293,16 @@ Define an Asymmetric Object
 If you are using Flexible Sync and need to sync a collection unidirectionally
 from your device to your Atlas database, you can set the ``asymmetric`` property
 on your object schema.
+   
+In the following example of a retail app, the client requires large amounts of
+invoice data to be recorded rapidly by store employees. The client specifies
+that invoice data does not need to be read after employees have recorded it. To
+satisfy this requirement, the application developer defines an invoice
+collection with its ``asymmetric`` property set to ``true``. 
 
-.. example::
-   
-   In the following example of a retail app, the client requires large amounts of
-   invoice data to be recorded rapidly by store employees. The client specifies
-   that invoice data does not need to be read after employees have recorded it. To
-   satisfy this requirement, the application developer defines an invoice
-   collection with its ``asymmetric`` property set to ``true``. 
-   
-   .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync.js
-      :language: javascript
-      :emphasize-lines: 4
+.. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync.js
+   :language: javascript
+   :emphasize-lines: 4
 
 .. note:: Attempting to Read Asymmetric Sync Objects
 

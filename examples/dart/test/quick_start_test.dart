@@ -85,7 +85,7 @@ void main() {
         realm.add(Car(ObjectId(), 'Toyota', model: 'Prius', miles: 99));
       });
       // :snippet-start: query-realm-objects-with-filter
-      final cars = realm.all<Car>().query('make == "Tesla"');
+      final cars = realm.query<Car>('make == "Tesla"');
       // :snippet-end:
       expect(cars.length, 1);
       expect(cars[0].make, 'Tesla');

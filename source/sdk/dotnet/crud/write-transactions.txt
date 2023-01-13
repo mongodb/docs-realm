@@ -83,3 +83,13 @@ The following code shows how to use both approaches:
    `CancellationToken <https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken?view=net-6.0>`_ 
    as a parameter, providing you with the option to cancel the operation before 
    the process completes.
+
+Check the Status of a Transaction
+---------------------------------
+
+The SDK provides a :dotnet-sdk:`TransactionState <reference/Realms.Transaction.html#Realms_TransactionState>` 
+property with the current transaction status. You can use ``TransactionState`` 
+to ensure you don't commit or rollback a transaction twice:
+
+.. literalinclude:: /examples/generated/dotnet/WriteExamples.snippet.create-long-hand.cs
+   :language: csharp

@@ -160,7 +160,7 @@ class SchemaTest: RealmTest() {
 
             // Delete cats to make this test successful on consecutive reruns
             realm.write {
-                // fetch all frogs from the realm
+                // fetch all cats from the realm
                 val cats: RealmResults<Cat> = this.query<Cat>().find()
                 // call delete on the results of a query to delete those objects permanently
                 delete(cats)

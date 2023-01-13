@@ -1,5 +1,5 @@
 [MapTo("Human")]
-public class Person : RealmObject
+public partial class Person : IRealmObject
 {
     public string Name { get; set; }
 }

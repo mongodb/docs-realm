@@ -1,4 +1,4 @@
-public class Dog : RealmObject
+public partial class Dog : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
@@ -12,7 +12,7 @@ public class Dog : RealmObject
     public IList<Person> Owners { get; }
 }
 
-public class Person : RealmObject
+public partial class Person : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]

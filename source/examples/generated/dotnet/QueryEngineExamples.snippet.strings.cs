@@ -4,20 +4,20 @@
 // Single(), SingleOrDefault(),
 // Last(), or LastOrDefault().
 
-// Get all tasks where the Assignee's name starts with "E" or "e"
-var tasksStartWitE = tasks.Where(t => t.Assignee.StartsWith("E",
+// Get all items where the Assignee's name starts with "E" or "e"
+var ItemssStartWithE = items.Where(i => i.Assignee.StartsWith("E",
     StringComparison.OrdinalIgnoreCase));
 
-// Get all tasks where the Assignee's name ends wth "is"
+// Get all items where the Assignee's name ends wth "is"
 // (lower case only)
-var endsWith = tasks.Where(t =>
+var endsWith = items.Where(t =>
     t.Assignee.EndsWith("is", StringComparison.Ordinal));
 
-// Get all tasks where the Assignee's name contains the
+// Get all items where the Assignee's name contains the
 // letters "ami" in any casing
-var tasksContains = tasks.Where(t => t.Assignee.Contains("ami",
+var itemsContains = items.Where(i => i.Assignee.Contains("ami",
      StringComparison.OrdinalIgnoreCase));
 
-// Get all tasks that have no assignee
-var null_or_empty = tasks.Where(t => string.IsNullOrEmpty(t.Assignee));
+// Get all items that have no assignee
+var null_or_empty = items.Where(i => string.IsNullOrEmpty(i.Assignee));
 
