@@ -154,8 +154,6 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
             task2.priority = 9
             task2.labels.insert("quick win")
             task2.ratings.insert(1)
-            let task3 = QueryEngineExamples_Task()
-            task3.ratings.insert(1)
             project.tasks.append(task)
             project.tasks.append(task2)
             realm.add(project)
