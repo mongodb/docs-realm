@@ -10,9 +10,6 @@ Access Custom User Data - Node.js SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 You can read arbitrary data about your application users, known as
 custom user data, directly within your Node application. For example,
 you might store a user's preferred language, date of birth, or local
@@ -21,11 +18,6 @@ timezone. You can write to the Custom User Data object via a
 
 The code examples in this page use the following :ref:`user object
 <user-objects>` on which the custom_data field has not yet been set.
-
-.. literalinclude:: /examples/generated/node/custom-user-data.snippet.user-data-object.js
-  :language: javascript
-
-.. include:: /includes/use-custom-data-note.rst
 
 Before You Begin
 ----------------
@@ -73,7 +65,7 @@ If you have not recently updated your custom user data, use the user object's :j
 
    const customUserData = user.customData
    console.log(customUserData);
-   // Console output shows the `favoriteColor` field we added earlier.
+   // Console output shows the `favoriteColor` field we added earlier:
    // {
    //    "_id":"5f233a3ac49aca916792de1d",
    //    "description":"a test document for user test@test.com",
