@@ -14,9 +14,10 @@ mobile database:
 - **Mobile**: designed for the low-power, battery-sensitive, real-time
   environment of a mobile device.
 
-Realm Database is an alternative to
-`SQLite <https://www.sqlite.org/index.html>`__ and
-:apple:`Core Data <documentation/coredata>`.
+Realm Database is an alternative to `SQLite
+<https://www.sqlite.org/index.html>`__, :apple:`Core Data
+<documentation/coredata>`, and :android:`Room Database
+<jetpack/androidx/releases/room>`.
 
 This page explains some of the implementation details and inner workings
 of Realm Database and Device Sync. This page is for you if you are:
