@@ -33,9 +33,6 @@ of the following:
       refer to :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide`
       in the App Services documentation.
 
-To learn more about permission denied errors, compensating write errors
-and other Device Sync error types, refer to :ref:`sync-errors` in the App Services documentation.
-
 Determining What Data Syncs
 ---------------------------
 
@@ -155,7 +152,7 @@ subscription or does not match the user's permissions, the following occurs:
 #. Upon sync, the server applies the rules and permissions.
    The server determines that the user does not have authorization to perform the write.
 #. The server sends a revert operation, called a "compensating write", back to the client.
-#. The client's realm reverts the illegal write operation.
+#. The client's realm reverts the illegal write operation by deleting the illegal object from the realm.
 
 Any client-side writes to a given object between an illegal write to that object
 and the corresponding compensating write will be lost.
@@ -163,6 +160,9 @@ and the corresponding compensating write will be lost.
 In practice, this may look like an object being written to the realm, and
 then disappearing after the server sends the compensating write back to 
 the client.
+
+To learn more about permission denied errors, compensating write errors
+and other Device Sync error types, refer to :ref:`sync-errors` in the App Services documentation.
 
 .. _swift-writes-outside-subscription:
 
@@ -225,7 +225,7 @@ Writes That Don't Match Permissions
 ```````````````````````````````````
 
 Attempting to write to the client can also trigger a compensating write 
-error when the object does not match the user's write permissions. 
+error when the object does not match the user's server-side write permissions. 
 
 On the client, this type of write behaves the same as a write that doesn't 
 match the query subscription. In practice, this may look like the write 
