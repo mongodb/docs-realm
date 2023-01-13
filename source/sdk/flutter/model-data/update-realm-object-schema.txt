@@ -24,6 +24,14 @@ You must perform a manual migration for all other schema changes.
 For more information, refer to the :ref:`Manually Migrate Schema section
 <flutter-manually-migrate-schema>`.
 
+.. tip:: Bypass Migration During Development
+
+   When developing or debugging your application, you may prefer to delete
+   the realm instead of migrating it. Use the
+   :flutter-sdk:`LocalConfiguration.shouldDeleteIfMigrationNeeded <realm/LocalConfiguration/shouldDeleteIfMigrationNeeded.html>`
+   property to delete the database automatically when a schema mismatch
+   requires a migration.
+
 .. important:: Modify Schema Properties of a Synced Realm
 
    The contents on this page only apply to local Realm Databases.
@@ -121,14 +129,6 @@ Deleting a property does not impact existing objects.
 
 Manually Migrate Schema
 -----------------------
-
-.. tip:: Bypass Migration During Development
-
-   When developing or debugging your application, you may prefer to delete
-   the realm instead of migrating it. Use the
-   :flutter-sdk:`LocalConfiguration.shouldDeleteIfMigrationNeeded <realm/LocalConfiguration/shouldDeleteIfMigrationNeeded.html>`
-   property to delete the database automatically when a schema mismatch
-   requires a migration.
 
 For more complex schema updates, Realm Database requires you to manually migrate
 old instances of a given object to the new schema.
