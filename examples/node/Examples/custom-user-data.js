@@ -89,9 +89,7 @@ describe("user custom data", () => {
       (id) => id === uid
     ).length;
     expect(preDeleteMatchesLen).toBe(1);
-    // :snippet-start: delete-user
     await app.deleteUser(app.currentUser);
-    // :snippet-end:
     const postDeleteMatchesLen = Object.keys(app.allUsers).filter(
       (id) => id === uid
     ).length;
