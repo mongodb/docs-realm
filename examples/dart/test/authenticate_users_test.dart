@@ -362,6 +362,13 @@ void main() {
     setUp(() async {
       user = await app.logIn(
           Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
+      final updatedTimestamp = DateTime.now().millisecondsSinceEpoch;
+      final updatedCustomUserData = {
+        "userId": user.id,
+        "favoriteFood": "tuna tartare",
+        "lastUpdated": updatedTimestamp
+      };
+      await user.functions.call("writeCustomUserData", [updatedCustomUserData]);
     });
     test('Read custom user data', () async {
       // :snippet-start: read-custom-user-data

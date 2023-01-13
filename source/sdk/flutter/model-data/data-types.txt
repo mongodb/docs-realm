@@ -65,6 +65,8 @@ in your application, refer to :ref:`Collections <flutter-collections>`.
 Additional Supported Data Types
 -------------------------------
 
+.. _flutter-objectid:
+
 ObjectId
 ~~~~~~~~
 
@@ -83,6 +85,8 @@ to ``ObjectId()`` to set the unique identifier property to a specific value.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.objectid-use.dart
    :language: dart
+
+.. _flutter-uuid:
 
 UUID
 ~~~~
@@ -104,6 +108,37 @@ your object to a random value, call one of the ``Uuid`` methods to create a UUID
 such as ``Uuid.v4()``.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.uuid-use.dart
+   :language: dart
+
+.. _flutter-realm-value:
+
+RealmValue
+~~~~~~~~~~
+
+The `RealmValue <https://pub.dev/documentation/realm_common/latest/realm_common/RealmValue-class.html>`__
+data type is a mixed data type that can represent any other valid Realm data type except a collection.
+You can create collections  of type ``RealmValue``, but a ``RealmValue`` itself
+cannot be a collection. ``RealmValue`` is indexable, but cannot be a primary key.
+
+.. note::
+
+   When defining your Realm object schema, you cannot create a nullable ``RealmValue``.
+   However, if you want a ``RealmValue`` property to contain a null value,
+   you can use the special ``RealmValue.nullValue()`` property.
+
+To define a property as ``RealmValue``, set its type in your Realm object model.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-model.dart
+   :language: dart
+
+To add a ``RealmValue`` to a Realm object, call ``RealmValue.from()`` on the data.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-from.dart
+   :language: dart
+
+Access the type of data with ``RealmValue.type`` and the value with ``RealmValue.value``.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type-value.dart
    :language: dart
 
 .. _flutter-embedded-objects:

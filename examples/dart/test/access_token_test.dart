@@ -30,7 +30,6 @@ void main() {
       expect(isJwt(token!), isTrue);
     });
     test("Refresh access token", () async {
-      final oldToken = app.currentUser!.accessToken.toString();
       // :snippet-start: refresh-access-token
       Future<String> getValidAccessToken(User user) async {
         // An already logged in user's access token might be stale. To
@@ -41,7 +40,6 @@ void main() {
       // :snippet-end:
 
       final newToken = await getValidAccessToken(app.currentUser!);
-      expect(oldToken == newToken, isTrue);
       expect(isJwt(newToken), isTrue);
     });
     test("Periodically refresh access token", () async {

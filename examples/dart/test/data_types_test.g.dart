@@ -260,6 +260,56 @@ class ObjectIdPrimaryKey extends _ObjectIdPrimaryKey
   }
 }
 
+class RealmValueExample extends _RealmValueExample
+    with RealmEntity, RealmObjectBase, RealmObject {
+  RealmValueExample({
+    RealmValue singleAnyValue = const RealmValue.nullValue(),
+    Iterable<RealmValue> listOfMixedAnyValues = const [],
+  }) {
+    RealmObjectBase.set(this, 'singleAnyValue', singleAnyValue);
+    RealmObjectBase.set<RealmList<RealmValue>>(this, 'listOfMixedAnyValues',
+        RealmList<RealmValue>(listOfMixedAnyValues));
+  }
+
+  RealmValueExample._();
+
+  @override
+  RealmValue get singleAnyValue =>
+      RealmObjectBase.get<RealmValue>(this, 'singleAnyValue') as RealmValue;
+  @override
+  set singleAnyValue(RealmValue value) =>
+      RealmObjectBase.set(this, 'singleAnyValue', value);
+
+  @override
+  RealmList<RealmValue> get listOfMixedAnyValues =>
+      RealmObjectBase.get<RealmValue>(this, 'listOfMixedAnyValues')
+          as RealmList<RealmValue>;
+  @override
+  set listOfMixedAnyValues(covariant RealmList<RealmValue> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<RealmValueExample>> get changes =>
+      RealmObjectBase.getChanges<RealmValueExample>(this);
+
+  @override
+  RealmValueExample freeze() =>
+      RealmObjectBase.freezeObject<RealmValueExample>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(RealmValueExample._);
+    return const SchemaObject(
+        ObjectType.realmObject, RealmValueExample, 'RealmValueExample', [
+      SchemaProperty('singleAnyValue', RealmPropertyType.mixed,
+          optional: true, indexed: true),
+      SchemaProperty('listOfMixedAnyValues', RealmPropertyType.mixed,
+          optional: true, collectionType: RealmCollectionType.list),
+    ]);
+  }
+}
+
 class Vehicle extends _Vehicle with RealmEntity, RealmObjectBase, RealmObject {
   Vehicle(
     String nickname,
