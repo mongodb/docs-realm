@@ -5,4 +5,4 @@ val provider = user.apiKeyAuth
 provider.enable(key.id)
 
 // Disable a specified API key that's currently enabled
-provider.fetch(key.id)
+provider.disable(key.id)

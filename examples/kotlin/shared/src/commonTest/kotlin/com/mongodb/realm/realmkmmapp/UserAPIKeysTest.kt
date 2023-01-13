@@ -2,21 +2,13 @@ package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
-import io.realm.kotlin.mongodb.auth.ApiKey
 import io.realm.kotlin.internal.platform.runBlocking
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import java.util.*
 import kotlin.random.Random
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
-import kotlin.test.fail
 import co.touchlab.kermit.Kermit
-import co.touchlab.kermit.Logger
+
 
 class UserAPIKeysTest : RealmTest() {
     private val random = Random
@@ -24,6 +16,7 @@ class UserAPIKeysTest : RealmTest() {
     private var email: String? = null
     private var password: String? = null
     private val kermit = Kermit()
+
     @BeforeTest
     fun setup() {
         email = "api-key-user@example.com" + random.nextInt(10000000)
@@ -51,7 +44,6 @@ class UserAPIKeysTest : RealmTest() {
             checkNotNull(key.value)
             checkNotNull(key.id)
             check(key.enabled)
-            kermit.i { "$user now has an API Key '${key.name}: ${key.id}'" }
 
             user.logOut()
             check(!user.loggedIn)
@@ -79,8 +71,9 @@ class UserAPIKeysTest : RealmTest() {
             // Get a specific key by its ID
             val apiKey = provider.fetch(key.id)
 // :snippet-end:
-            kermit.i { "fetchAll: $apiKeys"}
-            kermit.i { "fetch: $apiKey"}
+            kermit.i { "fetchAll: $apiKeys" }
+            kermit.i { "fetch: $apiKey" }
+
             user.logOut()
             check(!user.loggedIn)
         }
@@ -96,16 +89,15 @@ class UserAPIKeysTest : RealmTest() {
             val user = app.currentUser!!
             val provider = user.apiKeyAuth
             // :remove-start:
-            val key = provider.create("anotherKey")
+            val key = provider.create("anotherApiKey")
             // :remove-end:
 
-            // Enable a specified API key
+            // Enable a specified API key that's currently disabled
             provider.enable(key.id)
 
-            // Disable a specified API key
+            // Disable a specified API key that's currently enabled
             provider.disable(key.id)
 // :snippet-end:
-            kermit.i { "${key.name}: Enabled is ${key.enabled}" }
             //check(!key.enabled)
 
             user.logOut()
@@ -123,25 +115,30 @@ class UserAPIKeysTest : RealmTest() {
             val user = app.currentUser!!
             val provider = user.apiKeyAuth
             // :remove-start:
-            val key = provider.create("rab")
+            val key = provider.create("foo")
+            val keyId = provider.fetch(key.id)
+            checkNotNull(keyId)
             // :remove-end:
 
             // Delete the specified API key
-            // Once deleted, keys cannot be recovered
             provider.delete(key.id)
 // :snippet-end:
-            //check(key.id == null)
+            //check(keyId == null)
+
             user.logOut()
             check(!user.loggedIn)
         }
     }
+
+
     @AfterTest
-    fun tearDown() {
+    fun teardown() {
         runBlocking {
-            val user = app.currentUser!!
+            val credentials = Credentials.emailPassword(email!!, password!!)
+            val user = app.login(credentials)
             user.delete()
+            check(app.currentUser == null)
+            kermit.i { "teardown: `${app.currentUser}` deleted" }
         }
-        kermit.i { "teardown: user is successfully deleted" }
     }
 }
-
