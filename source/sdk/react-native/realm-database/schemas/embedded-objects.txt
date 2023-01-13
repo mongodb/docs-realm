@@ -97,7 +97,6 @@ JSON Schema
 
 .. include:: /includes/embedded-object-json-schema.rst
 
-
 Read and Write Embedded Objects
 -------------------------------
 
@@ -107,28 +106,23 @@ Create an Embedded Object
 To create an embedded object, assign an instance of the embedded object
 to a parent object's property:
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.create-an-embedded-object.js
-  :language: javascript
+.. tabs-realm-languages::
 
-Update an Embedded Object Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   .. tab::
+      :tabid: typescript
 
-To update a property in an embedded object, modify the property in a
-write transaction:
+      .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.create-embedded-object.tsx
+         :language: typescript
+         :emphasize-lines: 7, 10-24
+         :linenos:
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.update-an-embedded-object.js
-  :language: javascript
+   .. tab::
+      :tabid: javascript
 
-
-Overwrite an Embedded Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To overwrite an embedded object, reassign the embedded object property
-of a party to a new instance in a write transaction:
-
-.. literalinclude:: /examples/generated/node/data-types.snippet.overwrite-an-embedded-object.js
-  :language: javascript
-
+      .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.create-embedded-object.jsx
+         :language: javascript
+         :emphasize-lines: 7, 10-24
+         :linenos:
 
 Query a Collection on Embedded Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,17 +131,91 @@ Use dot notation to filter or sort a :ref:`collection
 <react-native-results-collections>` of objects based on an embedded object
 property value:
 
-.. include:: /includes/directly-query-embedded-objects-note.rst
+.. tabs-realm-languages::
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.query-an-embedded-object.js
-  :language: javascript
+   .. tab::
+      :tabid: typescript
 
+      .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.query-embedded-object.tsx
+         :language: typescript
+         :emphasize-lines: 3, 7-8
+         :linenos:
 
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.query-embedded-object.jsx
+         :language: javascript
+         :emphasize-lines: 3, 7-8
+         :linenos:
+
+Update an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To update a property in an embedded object, modify the property in a
+write transaction:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.update-embedded-object.tsx
+         :language: typescript
+         :emphasize-lines: 4-5, 8-12
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.update-embedded-object.jsx
+         :language: javascript
+         :emphasize-lines: 4-5, 8-12
+         :linenos:
+
+Overwrite an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To overwrite an embedded object, reassign the embedded object property
+of a party to a new instance in a write transaction:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.overwrite-embedded-object.tsx
+         :language: typescript
+         :emphasize-lines: 6-7, 10-19
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.overwrite-embedded-object.jsx
+         :language: javascript
+         :emphasize-lines: 6-7, 10-19
+         :linenos:
 
 Delete an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Realm Uses Cascading Deletes for Embedded Objects. To delete an embedded object,
 delete the embedded object's parent. 
 
-.. literalinclude:: /examples/generated/node/data-types.snippet.delete-an-embedded-object.js
-  :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.delete-embedded-object.tsx
+         :language: typescript
+         :emphasize-lines: 2-3, 6-11
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.delete-embedded-object.jsx
+         :language: javascript
+         :emphasize-lines: 2-3, 6-11
+         :linenos:
