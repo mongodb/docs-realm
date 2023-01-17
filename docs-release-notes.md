@@ -1,3 +1,50 @@
+# January 13, 2023
+
+## C++ SDK
+- Model Data/Supported Types: Fix a bug in a property declaration, update property declarations to tested Bluehawked code examples
+
+## Flutter SDK
+- Model Data
+  - Data Types: New section with tested Bluehawked code examples showing how to define and use `RealmValue` properties
+  - Update a Realm Object Schema: Add a tip about bypassing migration during development by using `shouldDeleteIfMigrationNeeded`
+- Read & Write Data: Add warning that Flutter SDK throws an error if you try to write the same object to multiple realms
+- Sync Device Data/Handle Sync Errors: Add a tip linking to the Sync Errors page in the App Services documentation
+
+## Java SDK
+- Usage Examples/Sync Changes Between Devices: Add a tip linking to the Sync Errors page in the App Services documentation
+
+## Kotlin SDK
+- Quick Start: Add more details about `RealmConfiguration.create()`, update Bluehawk markup for a generated code example
+- Handle Errors/Handle App Errors: Add a tip linking to the Sync Errors page in the App Services documentation
+
+## .NET SDK
+- Sync Data/Handle Sync Errors: Add a tip linking to the Sync Errors page in the App Services documentation
+
+## Node.js SDK
+- Usage Examples/Sync Changes Between Devices: Add a tip linking to the Sync Errors page in the App Services documentation
+
+## React Native SDK
+- Bootstrap with Expo: Update the link to the Realm Expo template to use NPM
+- Sync Data/Handle Sync Errors: Add a tip linking to the Sync Errors page in the App Services documentation
+
+## Swift SDK
+- CRUD/Filter Data:
+  - Add Realm Swift Query API/type-safe query info & tested code examples for: 
+    - Collection operators `.in(_ collection:)` and `.containsAny(in:)`
+    - Set operator examples for string and integer arrays
+- Sync Data
+  - Write to a Synced Realm: New page with details & code examples about how Device Sync permissions & Flexible Sync queries determine what data you can write. Explains Compensating Writes.
+  - Handle Sync Errors: Add a tip linking to the Sync Errors page in the App Services documentation
+
+## Web SDK
+- Table of Contents: Move Next.js Integration Guide up in ToC, add Create & Manage User API Keys to User Management 
+
+## Other
+- Internal
+  - Update Kotlin SDK version, link to latest Kotlin API documentation
+  - Replace the Kotlin unit test project logger Napier with Kermit
+  - Remove over 1,000 unused files from repository, add CI to check for unused files in PRs
+
 # January 6, 2023
 
 ## C++ SDK
