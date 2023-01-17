@@ -5,7 +5,6 @@ class Task: Object {
     @Persisted var priority = 0
     @Persisted var progressMinutes = 0
     @Persisted var labels: MutableSet<String>
-    @Persisted var ratings: MutableSet<Int>
 }
 
 class Project: Object {

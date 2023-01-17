@@ -38,7 +38,7 @@ and ``Task``. A ``Task`` has a name, assignee's name, and
 completed flag. There is also an arbitrary number for
 priority -- higher is more important -- and a count of
 minutes spent working on it. Finally, a ``Task`` can have one
-or more string ``labels`` and one or more integer ``ratings``.
+or more string ``labels``.
 
 A ``Project`` has zero or more ``Tasks``.
 
@@ -102,6 +102,28 @@ that reference valid properties.
 
 In the examples on this page, we use the ``$0`` shorthand to reference 
 the variable passed into the callback.
+
+Subqueries
+~~~~~~~~~~
+
+You can iterate through a collection property with another query using a
+subquery. To form a subquery, you must wrap the expression in parenthesis
+and immediately follow it with the ``.count`` aggregator.
+
+.. code-block:: swift
+
+   (<query>).count > n
+
+If the expression does not produce a valid subquery, you'll get an
+exception at runtime.
+
+.. example::
+
+   Running the following query on a ``projects`` collection returns projects
+   with tasks that have not been completed by a user named Alex.
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-subquery.swift
+      :language: swift
 
 .. _ios-where-operators:
 
@@ -322,45 +344,20 @@ to a single value.
 Set Operators
 `````````````
 
-A **set operator** uses specific rules to determine whether
+The NSPredicate Query API supports using :ref:`set operators 
+<ios-nspredicate-set-operators>` to evaluate objects in a collection: 
+``ALL``, ``ANY``/``SOME``, ``NONE``.
+
+These **set operators** use specific rules to determine whether
 to pass each input collection object to the output
 collection by applying a given query expression to every element of
 a given :ref:`list <ios-list-collections>` property of
 the object.
 
-.. example::
-
-   Running the following queries in ``projects`` collections returns:
-   
-   - Projects where a set of string ``labels`` contains any of "quick win", "bug".
-   - Projects where any element in a set of integer ``ratings`` is greater than 3.
-
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-set-operators.swift
-      :language: swift
-
-.. _ios-realm-swift-query-api-subquery:
-
-Subqueries
-~~~~~~~~~~
-
-You can iterate through a collection property with another query using a
-subquery. To form a subquery, you must wrap the expression in parentheses
-and immediately follow it with the ``.count`` aggregator.
-
-.. code-block:: swift
-
-   (<query>).count > n
-
-If the expression does not produce a valid subquery, you'll get an
-exception at runtime.
-
-.. example::
-
-   Running the following query on a ``projects`` collection returns projects
-   with tasks that have not been completed by a user named Alex.
-
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-subquery.swift
-      :language: swift
+The Realm Swift Query API does not explicitly support these set operators. 
+If you need to explicitly use any of these set operators in your filters, use 
+:ref:`the NSPredicate Query API with set operators 
+<ios-nspredicate-set-operators>`.
 
 .. _ios-nspredicate-query:
 
@@ -431,6 +428,43 @@ You can use the following substitutions in your predicate format strings:
 
       .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.substitutions.m
          :language: objectivec
+
+.. _ios-nspredicate-subquery:
+
+Subqueries
+~~~~~~~~~~
+
+You can iterate through a collection property with another query using the
+``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
+
+.. code-block:: objective-c
+
+   SUBQUERY(<collection>, <variableName>, <predicate>)
+
+- ``collection``: the name of the list property to iterate through
+- ``variableName``: a variable name of the current element to use in the subquery
+- ``predicate``: a string that contains the subquery predicate. You can use the
+  variable name specified by ``variableName`` to refer to the currently-iterated
+  element.
+
+.. example::
+
+   Running the following filter on a ``projects`` collection returns projects
+   with tasks that have not been completed by a user named Alex.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.subquery.swift
+             :language: swift
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.subquery.m
+             :language: objectivec
 
 .. _ios-filter-data-operators:
 
@@ -777,40 +811,3 @@ the object.
 
           .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.set-operators.swift
              :language: swift
-
-.. _ios-nspredicate-subquery:
-
-Subqueries
-~~~~~~~~~~
-
-You can iterate through a collection property with another query using the
-``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
-
-.. code-block:: objective-c
-
-   SUBQUERY(<collection>, <variableName>, <predicate>)
-
-- ``collection``: the name of the list property to iterate through
-- ``variableName``: a variable name of the current element to use in the subquery
-- ``predicate``: a string that contains the subquery predicate. You can use the
-  variable name specified by ``variableName`` to refer to the currently iterated
-  element.
-
-.. example::
-
-   Running the following filter on a ``projects`` collection returns projects
-   with tasks that have not been completed by a user named Alex.
-
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: swift
-
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.subquery.swift
-             :language: swift
-
-      .. tab::
-         :tabid: objective-c
-
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.subquery.m
-             :language: objectivec
