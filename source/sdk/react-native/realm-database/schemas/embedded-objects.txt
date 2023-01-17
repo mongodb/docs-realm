@@ -104,7 +104,25 @@ Create an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create an embedded object, assign an instance of the embedded object
-to a parent object's property:
+to a parent object's property.
+
+Example
+```````
+
+In the following ``CreateContact`` example, we create a new ``Contact`` object 
+with an embedded ``Address`` object.
+
+The ``CreateContact`` component does the following:
+
+- Creates React `state <https://reactjs.org/docs/react-component.html#state>`__ variables that
+  represent the contact's name and address details.
+- Gets access to an open realm instance by calling the ``useRealm()`` hook within the 
+  component.
+- Creates a component method ``submitContact()`` that performs a write transaction 
+  to create a new ``Address`` embedded object and ``Contact`` parent object based 
+  on the ``TextInput`` values for the contact's name and address.
+- Adds an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the
+  ``'Submit Contact'`` button that calls ``submitContact()``.
 
 .. tabs-realm-languages::
 
@@ -127,9 +145,22 @@ to a parent object's property:
 Query a Collection on Embedded Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use dot notation to filter or sort a :ref:`collection
+You can use dot notation to filter or sort a :ref:`collection
 <react-native-results-collections>` of objects based on an embedded object
-property value:
+property value.
+
+Example
+``````` 
+
+In the following ``ContactList`` example, we filter and query an embedded 
+``Address`` object.
+
+The ``ContactList`` component does the following:
+
+- Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook.
+- Filters for contacts with the name ``"John Smith"`` by passing :js-sdk:`collection.filtered()
+  <Realm.Collection.html#filtered>` on the query ``"name == 'John Smith'"``.
+- Retrieves the contact's street address by using dot notation.
 
 .. tabs-realm-languages::
 
@@ -153,7 +184,27 @@ Update an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To update a property in an embedded object, modify the property in a
-write transaction:
+write transaction.
+
+Example
+``````` 
+
+In the following ``UpdateContact`` example, we update the ``street`` property for 
+an embedded ``Address`` object.
+
+The ``UpdateContact`` component does the following:
+
+- Creates a React `state <https://reactjs.org/docs/react-component.html#state>`__ variable
+  that represents the contact's new street address.
+- Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook 
+  and filters for the contact that matches the name passed into the component as a prop.
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the 
+  component. 
+- Creates a component method ``updateStreet()`` that performs a write transaction and 
+  sets the contact's street address to the value of the ``street`` state variable.
+- Renders a ``TextInput`` that displays and changes the ``street`` state variable.
+- Adds an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the 
+  ``'Update Street Address'`` button that calls ``updateStreet()``.
 
 .. tabs-realm-languages::
 
@@ -177,7 +228,27 @@ Overwrite an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To overwrite an embedded object, reassign the embedded object property
-of a party to a new instance in a write transaction:
+of a party to a new instance in a write transaction.
+
+Example
+``````` 
+
+In the following ``OverwriteContact`` example, we overwrite an embedded ``Address`` object.
+
+The ``OverwriteContact`` component does the following:
+
+- Creates React `state <https://reactjs.org/docs/react-component.html#state>`__ variables
+  that represent the contact's new address.
+- Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook 
+  and filters for the contact that matches the name passed into the component as a prop.
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the 
+  component.
+- Creates a component method ``updateAddress()`` that performs a write transaction and 
+  creates a new ``Address`` object that overwrites the existing address in the ``Contact`` object.
+- Renders ``TextInput`` components that display and change the state variables for the 
+  new address.
+- Adds an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the 
+  ``'Overwrite Address'`` button that calls ``updateAddress()``.
 
 .. tabs-realm-languages::
 
@@ -201,6 +272,22 @@ Delete an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 Realm Uses Cascading Deletes for Embedded Objects. To delete an embedded object,
 delete the embedded object's parent. 
+
+Example
+```````
+
+In the following ``DeleteContact`` example, we delete an embedded object and its 
+parent object.
+
+The ``DeleteContact`` component does the following:
+
+- Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook.
+- Gets access to an open realm instance by calling the ``useRealm()`` hook within the component. 
+- Creates a component method ``deleteContact()`` that performs a write transaction and calls
+  :js-sdk:`Realm.delete() <Realm.html#delete>` to remove the ``Contact`` object that matches 
+  the name passed into the component as a prop.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the ``'Delete Contact'`` 
+  button that calls ``deleteContact()``.
 
 .. tabs-realm-languages::
 

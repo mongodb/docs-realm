@@ -1,7 +1,7 @@
 // Find the contact you want to update
 const UpdateContact = ({contactName}: {contactName: string}) => {
-  const contact = useQuery(Contact).filtered(`name == '${contactName}'`)[0];
   const [street, setStreet] = useState('');
+  const contact = useQuery(Contact).filtered(`name == '${contactName}'`)[0];
   const realm = useRealm();
 
   const updateStreet = () => {

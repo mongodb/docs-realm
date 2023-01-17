@@ -5,7 +5,7 @@ class Business extends Realm.Object {
     properties: {
       _id: "objectId",
       name: "string",
-      addresses: { type: "list?", objectType: "Address" }, // Embed an array of objects
+      addresses: { type: "list", objectType: "Address" }, // Embed an array of objects
     },
   };
 }

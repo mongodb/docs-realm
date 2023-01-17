@@ -1,7 +1,7 @@
 class Business extends Realm.Object {
   _id!: string;
   name!: string;
-  addresses?: Realm.List<Address>;
+  addresses!: Realm.List<Address>;
   
   static schema = {
     name: "Business",
@@ -9,7 +9,7 @@ class Business extends Realm.Object {
     properties: {
       _id: "objectId",
       name: "string",
-      addresses: { type: "list?", objectType: "Address" }, // Embed an array of objects
+      addresses: { type: "list", objectType: "Address" }, // Embed an array of objects
     },
   };
 }
