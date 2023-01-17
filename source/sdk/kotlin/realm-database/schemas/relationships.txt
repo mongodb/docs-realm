@@ -101,12 +101,10 @@ a list of ``posts``:
    :language: kotlin
    :copyable: false
 
-You can provide a link in the opposite direction, from ``Post`` to ``User``: 
+You can provide a link in the opposite direction, from ``Post`` to ``User``.
+This allows you :ref:`filter <kotlin-filter-data>` data about the user who the
+post belongs to like any other ``RealmResults``.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.inverse-relationship-post.kt
    :language: kotlin
    :copyable: false
-
-.. note:: 
-
-   Like any other ``RealmResults``, you can :ref:`query <kotlin-filter-data>` an inverse relationship.
