@@ -189,3 +189,48 @@ Close a Realm
       .. code-block:: dart
 
          Realm.shutdown();
+
+.. _flutter-copy-data-into-new-realm:
+
+Copy Data into a New Realm
+--------------------------
+
+To copy data from an existing realm to a new realm with different
+configuration options, pass the new configuration to
+:flutter-sdk:`Realm.writeCopy() <TODO: add link>`.
+
+TODO: validate if this is true (lifted from JS
+In the new realm's configuration, you *must* specify the ``path``.
+
+If you write the copied realm to a realm file that already exists,
+the data is written object by object. The copy operation replaces objects
+if there already exists objects for given primary keys.
+The schemas of the realm you copy and the realm you are writing to must be
+compatible for the copy operation to succeed.
+Only objects in the schemas of both configurations are copied over.
+
+Using ``Realm.writeCopy()``, you can convert between the following
+:flutter-sdk:`Configuration <realm/Configuration-class.html>`
+types:
+
+- ``LocalConfiguration`` to ``LocalConfiguration``
+- ``FlexibleSyncConfiguration`` to ``FlexibleSyncConfiguration``
+- ``FlexibleSyncConfiguration`` to ``LocalConfiguration``
+- ``LocalConfiguration`` to read-only ``LocalConfiguration``
+- ``InMemoryConfiguration`` to ``LocalConfiguration``
+
+You **cannot** convert from a ``LocalConfiguration`` or a ``InMemoryConfiguration``
+to a ``FlexibleSyncConfiguration``.
+
+The following example copies the data from a realm with a ``LocalConfiguration``
+to a new realm with a ``FlexibleSyncConfiguration``.
+
+TODO: code example
+
+You can also :ref:`include a new encryption key <flutter-encrypt>`
+in the copied realm's configuration or remove the encryption key from the new configuration.
+
+The following example copies data from an unencrypted realm with a ``LocalConfiguration``
+to an encrypted realm with a ``FlexibleSyncConfiguration``.
+
+TODO: code example
