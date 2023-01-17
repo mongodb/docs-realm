@@ -24,7 +24,7 @@
 - Usage Examples/Sync Changes Between Devices: Add a tip linking to the Sync Errors page in the App Services documentation
 
 ## React Native SDK
-- Bootstrap with Expo: Update the link to the Realm Expo template to use NPM
+- Bootstrap with Expo: Update the link to the Realm Expo template to use npm
 - Sync Data/Handle Sync Errors: Add a tip linking to the Sync Errors page in the App Services documentation
 
 ## Swift SDK
