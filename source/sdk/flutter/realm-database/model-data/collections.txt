@@ -17,13 +17,17 @@ In a Realm collection, all objects in a collection are of the same type.
 You can filter and sort any collection using Realm Database's
 :ref:`query language <flutter-filter-results>`. Collections are
 :ref:`live objects <flutter-live-object>`, so they always reflect the
-current state of the realm instance.  The contents of a collection update
+current state of the realm instance. The contents of a collection update
 when new elements are added to or deleted from the collection or from its Realm.
 
 You can also listen for changes in the collection by subscribing
 to :ref:`change notifications <flutter-react-to-changes>`.
 
-Realm Database has two kinds of collections: **RealmLists** and **RealmResults**.
+Realm Database has the following types of collections:
+
+- RealmList
+- RealmSet
+- RealmResult
 
 .. _flutter-realm-list:
 
@@ -37,14 +41,15 @@ to store the data.
 When you include ``RealmObjects`` as the items in a ``RealmList``,  it represents a :ref:`to-many
 relationship <flutter-many-to-one-relationship>`.
 
-Deleting an object from the database will remove it from any lists
-where it existed. Therefore, a list of objects will never contain null objects.
+Deleting an object from the database will remove it from any RealmLists
+where it existed. Therefore, a ``RealmList`` of ``RealmObject`` types will never contain null values.
 However, lists of primitive types can contain null values. If you do not
 want to allow null values in a list, then either use non-nullable types in
 the list declaration (for example, use ``List<int>`` instead of
 ``List<int?>``).
 
-Lists are mutable and you can add and remove elements on a list within a write transaction.
+A ``RealmList`` is mutable and you can add and remove elements on a ``RealmList``
+within a write transaction.
 
 Add a RealmList to a Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -61,6 +66,51 @@ Query a RealmList
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realmlist-use.dart
    :language: dart
+
+.. _flutter-realm-set:
+
+RealmSet Collections
+--------------------
+
+Realm objects can contain sets of any supported data type except another collection.
+Realm uses the :flutter-sdk:`RealmSet <realm/RealmSet-class.html>` data type
+to store the data. In a ``RealmSet``` collection, all values are *unique*.
+
+When you include ``RealmObjects`` as the items in a ``RealmSet``,  it represents a :ref:`to-many
+relationship <flutter-many-to-one-relationship>`.
+
+A ``RealmSet`` is mutable and you can add and remove elements in a ``RealmSet``
+within a write transaction.
+
+Add a RealmSet to a Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can add a ``RealmSet`` to your Realm Object schema by defining a property as type
+``Set<T>`` where ``T`` can be any :ref:`supported Realm data type <flutter-data-types>`
+(except other collections), in your Realm Object model.
+
+A ``RealmSet`` of ``RealmObject`` types **cannot** contain nullable values.
+However, sets of primitive types can contain null values. If you do not
+want to allow null values in a ``RealmSet``, then either use non-nullable types in
+the declaration (for example, use ``Set<int>`` instead of
+``Set<int?>``).
+
+TODO: add code example
+
+Query a RealmList
+~~~~~~~~~~~~~~~~~
+
+The following example demonstrates some basic usage of ``RealmSet``.
+For more information about all available methods, refer to the
+:flutter-sdk:`RealmSet reference documentation on pub.dev <realm/RealmSet-class.html>`.
+
+TODO: example showing the following methods:
+- .contains() -> bool
+- .length -> int
+- .add() -> ?
+- .remove() -> ?
+
+
 
 RealmResults Collections
 ------------------------
