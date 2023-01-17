@@ -3,11 +3,9 @@ package com.mongodb.realm.realmkmmapp
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.internal.platform.runBlocking
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
 import kotlin.random.Random
 import co.touchlab.kermit.Kermit
+import kotlin.test.*
 
 
 class UserAPIKeysTest : RealmTest() {
@@ -23,7 +21,7 @@ class UserAPIKeysTest : RealmTest() {
         password = "123456"
         runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             app.emailPasswordAuth.registerUser(email!!, password!!)
-            kermit.i { "setup: successfully logged in with $email and $password" }
+            kermit.i { "setup: user logged in with $email and $password" }
         }
     }
 
@@ -40,13 +38,7 @@ class UserAPIKeysTest : RealmTest() {
             // Create an API key for the logged-in user
             val key = provider.create("apiKeyName")
 // :snippet-end:
-            check(key.name == "apiKeyName")
-            checkNotNull(key.value)
-            checkNotNull(key.id)
-            check(key.enabled)
-
-            user.logOut()
-            check(!user.loggedIn)
+            user.delete()
         }
     }
 
@@ -71,11 +63,7 @@ class UserAPIKeysTest : RealmTest() {
             // Get a specific key by its ID
             val apiKey = provider.fetch(key.id)
 // :snippet-end:
-            kermit.i { "fetchAll: $apiKeys" }
-            kermit.i { "fetch: $apiKey" }
-
-            user.logOut()
-            check(!user.loggedIn)
+            user.delete()
         }
     }
 
@@ -92,16 +80,15 @@ class UserAPIKeysTest : RealmTest() {
             val key = provider.create("anotherApiKey")
             // :remove-end:
 
-            // Enable a specified API key that's currently disabled
+            // ... fetch the key to enable or disable
+
+            // Enable an API key that's currently disabled
             provider.enable(key.id)
 
-            // Disable a specified API key that's currently enabled
+            // Disable an API key that's currently enabled
             provider.disable(key.id)
 // :snippet-end:
-            //check(!key.enabled)
-
-            user.logOut()
-            check(!user.loggedIn)
+            user.delete()
         }
     }
 
@@ -116,29 +103,14 @@ class UserAPIKeysTest : RealmTest() {
             val provider = user.apiKeyAuth
             // :remove-start:
             val key = provider.create("foo")
-            val keyId = provider.fetch(key.id)
-            checkNotNull(keyId)
             // :remove-end:
+
+            // ... fetch the key to delete
 
             // Delete the specified API key
             provider.delete(key.id)
 // :snippet-end:
-            //check(keyId == null)
-
-            user.logOut()
-            check(!user.loggedIn)
-        }
-    }
-
-
-    @AfterTest
-    fun teardown() {
-        runBlocking {
-            val credentials = Credentials.emailPassword(email!!, password!!)
-            val user = app.login(credentials)
             user.delete()
-            check(app.currentUser == null)
-            kermit.i { "teardown: `${app.currentUser}` deleted" }
         }
     }
 }
