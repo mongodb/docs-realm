@@ -11,7 +11,7 @@ const realmConfig = {
   deleteRealmIfMigrationNeeded: true,
 };
 
-const {RealmProvider, useObject, useRealm} = createRealmContext(realmConfig);
+const {RealmProvider, useObject} = createRealmContext(realmConfig);
 
 let assertionRealm: Realm;
 
