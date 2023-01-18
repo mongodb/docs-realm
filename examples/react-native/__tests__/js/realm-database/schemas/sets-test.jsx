@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, TextInput, View, Text, Alert} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
@@ -91,10 +91,13 @@ describe('Set schema', () => {
       </RealmProvider>
     );
     const {getAllByTestId} = render(<App />);
-    await waitFor(() => {
-      expect(getAllByTestId('characterName')[2]).toHaveTextContent('AdventurousPlayer');
-      expect(getAllByTestId('characterName')[3]).toHaveTextContent('HealerPlayer');
-    });
+    await waitFor(
+      () => {
+        expect(getAllByTestId('characterName')[2]).toHaveTextContent('AdventurousPlayer');
+        expect(getAllByTestId('characterName')[3]).toHaveTextContent('HealerPlayer');
+      },
+      {timeout: 5000},
+    );
   });
   it('should add items to a set', async () => {
     // :snippet-start: add-items-to-set

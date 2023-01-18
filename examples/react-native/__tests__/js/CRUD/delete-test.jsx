@@ -54,11 +54,7 @@ describe('Delete Data Tests', () => {
             return (
               <>
                 <Text>{dog.name}</Text>
-                <Button
-                  onPress={() => deleteDog(dog)}
-                  title='Delete Dog'
-                  testID='deleteDog'
-                />
+                <Button onPress={() => deleteDog(dog)} title='Delete Dog' testID='deleteDog' />
               </>
             );
           })}
@@ -120,16 +116,8 @@ describe('Delete Data Tests', () => {
               </>
             );
           })}
-          <Button
-            onPress={() => deleteAllYoungDogObjects()}
-            title='Delete Young Dog Objects'
-            testID='deleteYoungDogs'
-          />
-          <Button
-            onPress={() => deleteAllDogObjects()}
-            title='Delete All Dog Objects'
-            testID='deleteAllDogs'
-          />
+          <Button onPress={() => deleteAllYoungDogObjects()} title='Delete Young Dog Objects' testID='deleteYoungDogs' />
+          <Button onPress={() => deleteAllDogObjects()} title='Delete All Dog Objects' testID='deleteAllDogs' />
         </>
       );
     };
@@ -145,10 +133,7 @@ describe('Delete Data Tests', () => {
     await waitFor(() => getAllByTestId('dogItem'), {timeout: 5000}); // even though we don't use this as variable, react-native-testing-library requires us to waitFor() this to avoid the following error: "Unable to find an element with testID: dogItem"
 
     // Test that the young Dog objects (Bronson, Bowie) have been deleted from the realm + from the UI when the "Delete All Dog Objects" is pressed, leaving 1 dog object (Blaise) remaining
-    const deleteYoungDogsBtn = await waitFor(
-      () => getByTestId('deleteYoungDogs'),
-      {timeout: 5000},
-    );
+    const deleteYoungDogsBtn = await waitFor(() => getByTestId('deleteYoungDogs'), {timeout: 5000});
     await act(async () => {
       fireEvent.press(deleteYoungDogsBtn);
     });
@@ -183,11 +168,7 @@ describe('Delete Data Tests', () => {
       return (
         <>
           <Text>Delete all data in your profile:</Text>
-          <Button
-            onPress={deleteAllData}
-            title='Delete all data'
-            testID='deleteAllData'
-          />
+          <Button onPress={deleteAllData} title='Delete all data' testID='deleteAllData' />
         </>
       );
     };
