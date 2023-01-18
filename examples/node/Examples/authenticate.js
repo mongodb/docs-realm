@@ -264,6 +264,7 @@ describe("user authentication", () => {
       console.error(err.message);
     }
   });
+
   test("Delete user", async () => {
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
@@ -280,11 +281,35 @@ describe("user authentication", () => {
     ).length;
     expect(postDeleteMatchesLen).toBe(0);
   });
+
+  test("read user metadata", async () => {
+    const email = "someone@example.com";
+    const password = "pa55w0rd!";
+
+    // :snippet-start: user-metadata
+    try {
+    // :replace-start: {
+    //    "terms": {
+    //       "email": "<email>",
+    //       "password": "<password>"
+    //    }
+    // }
+      await app.logIn(Realm.Credentials.emailPassword(email, password));
+    // :replace-end:
+    } catch (err) {
+      console.error("Failed to log in", err.message);
+    }
+    
+    const userEmail = app.currentUser.profile.email;
+    // :snippet-end:
+
+    expect(userProfile.email).toBe("someone@example.com");
+  });
 });
 
 describe("User Sessions", () => {
   test("Get a User Access Token", async () => {
-    const email = "stanley.session@example.com";
+    const email = "someone@example.com";
     const password = "pa55w0rd!";
     try {
       await app.logIn(Realm.Credentials.emailPassword(email, password));
@@ -303,25 +328,5 @@ describe("User Sessions", () => {
     // :snippet-end:
     const token = await getValidAccessToken(app.currentUser);
     expect(token).not.toBe(undefined);
-  });
-})
-
-describe("User Metadata", () => {
-  test("read user metadata", async () => {
-    const email = "stanley.session@example.com";
-    const password = "pa55w0rd!";
-    try {
-      await app.logIn(Realm.Credentials.emailPassword(email, password));
-    } catch (err) {
-      await app.emailPasswordAuth.registerUser({ email, password });
-      await app.logIn(Realm.Credentials.emailPassword(email, password));
-    }
-    
-    const userProfile = app.currentUser.profile;
-
-    console.debug(userProfile)
-    console.debug(userProfile.email)
-
-    expect(userProfile.email).toBe("stanley.session@example.com");
   });
 })
