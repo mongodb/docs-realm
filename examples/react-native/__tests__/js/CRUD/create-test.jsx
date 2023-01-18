@@ -51,11 +51,7 @@ describe('Create Data Tests', () => {
       return (
         <>
           <TextInput onChangeText={setDogName} value={dogName} />
-          <Button
-            onPress={() => handleAddDog()}
-            title='Add Dog'
-            testID='handleAddDogBtn'
-          />
+          <Button onPress={() => handleAddDog()} title='Add Dog' testID='handleAddDogBtn' />
         </>
       );
     };
@@ -71,10 +67,7 @@ describe('Create Data Tests', () => {
     const {getByTestId} = render(<App />);
 
     // press the "Add Dog" button
-    const handleAddDogBtn = await waitFor(
-      () => getByTestId('handleAddDogBtn'),
-      {timeout: 5000},
-    );
+    const handleAddDogBtn = await waitFor(() => getByTestId('handleAddDogBtn'), {timeout: 5000});
     await act(async () => {
       fireEvent.press(handleAddDogBtn);
     });

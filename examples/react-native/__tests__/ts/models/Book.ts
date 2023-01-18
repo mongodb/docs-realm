@@ -9,10 +9,10 @@ class Book extends Realm.Object<Book> {
   static schema = {
     name: 'Book',
     properties: {
-      name: { type: 'string', indexed: true },
+      name: {type: 'string', indexed: true},
       price: 'int?',
     },
   };
-}  
+}
 // :snippet-end:
 export default Book;
