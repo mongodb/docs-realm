@@ -106,11 +106,27 @@ class AuthenticationTest: RealmTest() {
 
     @Test
     fun apiKeyAuthTest() {
-        val key = "ZL0XzEnp44eKi2BZMDqfPoYW3YUajm7RRUVWalDQRYwc07a4JDUeEG4kHG1Y71ak"
+        val email = getRandom()
+        val password = getRandom()
+        val randomKeyString = getRandom()
+
         // :snippet-start: api-key-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            // :remove-start:
+            // Register and login a temporary user to create an API key
+            app.emailPasswordAuth.registerUser(email, password)
+            val tempUser = app.login(Credentials.emailPassword(email, password))
+            val apiKey = tempUser.apiKeyAuth.create(randomKeyString)
+            // API Key value in string form
+            val key = apiKey.value!!
+            // :remove-end:
             val user = app.login(Credentials.apiKey(key))
+            // :remove-start:
+            // delete the key so we're not constantly creating new user api keys
+            tempUser.apiKeyAuth.delete(apiKey.id)
+            tempUser.logOut()
+            // :remove-end:
         }
         // :snippet-end:
     }
