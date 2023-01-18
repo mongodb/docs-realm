@@ -67,7 +67,7 @@ In the following example of a ``CreateInitialCharacters`` component we create
 The ``CreateInitialCharacters`` component does the following:
 
 - Gets access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
-- Uses React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once by passing ``useEffect`` an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__ as a second argument. Within the anonymous function, we create two different ``Character`` objects by using the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator operator to create new realm objects within a write transaction. We set each character's ``inventory`` and ``levelsCompleted`` sets as an array with initial values.
+- Uses React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once by passing ``useEffect``, an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__, as a second argument. Within the anonymous function, we create two different ``Character`` objects by using the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator to create new realm objects within a write transaction. We set each character's ``inventory`` and ``levelsCompleted`` sets as an array with initial values.
 - Retrieves all characters in the realm instance by passing the ``Character`` class to the ``useQuery()`` hook.
 - Displays each character's name in the UI as a ``Text`` element.
 
