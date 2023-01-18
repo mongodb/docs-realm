@@ -62,10 +62,12 @@ class CreateRealmObjects: XCTestCase {
 
     func testCreate() {
         // :snippet-start: create
-        // Instantiate the class. For convenience, you can initialize
-        // objects from dictionaries with appropriate keys and values.
-        let dog = CreateExamples_Dog(value: ["name": "Max", "age": 5])
+        // Instantiate the class and set its values.
+        let dog = CreateExamples_Dog()
+        dog.name = "Rex"
+        dog.age = 10
 
+        // Get the default realm. You only need to do this once per thread.
         let realm = try! Realm()
         // Open a thread-safe transaction.
         try! realm.write {
@@ -76,24 +78,17 @@ class CreateRealmObjects: XCTestCase {
     }
 
     func testCreateNewObject() {
-        // :snippet-start: create-a-new-object
-        // (1) Create a CreateExamples_Dog object and then set its properties
-        let myDog = CreateExamples_Dog()
-        myDog.name = "Rex"
-        myDog.age = 10
+        // :snippet-start: initialize-objects-with-values
+        // (1) Create a CreateExamples_Dog object from a dictionary
+        let myDog = CreateExamples_Dog(value: ["name": "Pluto", "age": 3])
 
-        // (2) Create a CreateExamples_Dog object from a dictionary
-        let myOtherDog = CreateExamples_Dog(value: ["name": "Pluto", "age": 3])
+        // (2) Create a CreateExamples_Dog object from an array
+        let myOtherDog = CreateExamples_Dog(value: ["Fido", 5])
 
-        // (3) Create a CreateExamples_Dog object from an array
-        let myThirdDog = CreateExamples_Dog(value: ["Fido", 5])
-
-        // Get the default realm. You only need to do this once per thread.
         let realm = try! Realm()
-
         // Add to the realm inside a transaction
         try! realm.write {
-            realm.add(myDog)
+            realm.add([myDog, myOtherDog])
         }
         // :snippet-end:
     }

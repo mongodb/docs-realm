@@ -8,7 +8,7 @@
 - (void)testCallFunction {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
     // :snippet-start: call-a-function
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     
     // ... log in ...
     

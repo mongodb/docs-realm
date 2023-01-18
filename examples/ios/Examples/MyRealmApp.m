@@ -8,7 +8,7 @@
     static RLMApp *app = nil;
     @synchronized(self) {
         if (app == nil) { 
-            app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+            app = [RLMApp appWithId:YOUR_APP_ID];
         }
     }
     return app;    

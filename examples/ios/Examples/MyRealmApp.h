@@ -3,7 +3,7 @@
 
 #include <Realm/Realm.h>
 
-static NSString *YOUR_REALM_APP_ID = @"example-testers-kvjdy";
+static NSString *YOUR_APP_ID = @"example-testers-kvjdy";
 
 @interface MyRealmApp : NSObject
 

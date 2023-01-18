@@ -1,4 +1,4 @@
-RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
 // ... log in ...
 RLMUser *user = [app currentUser];
 RLMAPIKeyAuth *client = [user apiKeysAuth];

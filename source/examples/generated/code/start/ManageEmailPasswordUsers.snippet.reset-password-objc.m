@@ -1,4 +1,4 @@
-RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
 RLMEmailPasswordAuth *client = [app emailPasswordAuth];
 
 // If Realm app password reset mode is "Send a password reset email",

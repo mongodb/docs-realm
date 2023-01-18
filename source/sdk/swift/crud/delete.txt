@@ -115,6 +115,34 @@ Delete Multiple Objects
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-collection.m
          :language: objectivec
 
+.. _ios-chaining-delete:
+
+Delete an Object and its Related Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes, you want to delete related objects when you delete the parent 
+object. We call this a **chaining delete**. Realm Database does not delete 
+the related objects for you. If you do not delete the objects yourself, 
+they remain orphaned in your realm. Whether or not this is a problem 
+depends on your application's needs.
+
+The best way to delete dependent objects is to iterate through 
+the dependencies and delete them before deleting the parent object.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/DeleteRealmObjects.snippet.chaining-delete.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+            .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.cascading-delete.m
+         :language: objectivec
+
 .. _ios-delete-all-object-of-a-specific-type:
 
 Delete All Objects of a Specific Type

@@ -11,7 +11,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"register completes"];
 
     // :snippet-start: register-email-objc
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
     NSString *email = @"skroob2@example.com";
     NSString *password = @"password12345";
@@ -39,7 +39,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"confirmation completes"];
 
     // :snippet-start: confirm-new-user-email-objc
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
 
     // Token and tokenId are query parameters in the confirmation
@@ -69,7 +69,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"send reset email completes"];
 
     // :snippet-start: reset-password-objc
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
 
     // If Realm app password reset mode is "Send a password reset email",

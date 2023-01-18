@@ -318,26 +318,6 @@ class Sync: AnonymouslyLoggedInTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-    func testResetClientRealmFile() {
-        // :snippet-start: reset-client-realm-file
-        autoreleasepool {
-            // all Realm usage here -- explicitly guarantee
-            // that all realm objects are deallocated
-            // before deleting the files
-        }
-        do {
-            let app = App(id: YOUR_APP_SERVICES_APP_ID)
-            var configuration = app.currentUser!.configuration(partitionValue: "some partition value")
-            // :remove-start:
-            configuration.objectTypes = [SyncExamples_Task.self]
-            // :remove-end:
-            _ = try Realm.deleteFiles(for: configuration)
-        } catch {
-            // handle error
-        }
-        // :snippet-end:
-    }
-
     func testSetClientLogLevel() {
         // :snippet-start: set-log-level
         // Access your app
