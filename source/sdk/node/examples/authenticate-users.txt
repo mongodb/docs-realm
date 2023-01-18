@@ -180,35 +180,8 @@ to handle the user authentication and redirect flow from a client application.
 Once authenticated, the Facebook SDK returns an access token that you can send
 to your Node.js app and use to finish logging the user in to your app.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Get the access token from a client application using the Facebook SDK
-         const accessToken = getFacebookAccessToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.facebook(accessToken);
-         app.logIn(credentials).then(user => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
-
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // Get the access token from a client application using the Facebook SDK
-         const accessToken = getFacebookAccessToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.facebook(accessToken);
-         app.logIn(credentials).then((user: Realm.User) => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.facebook-sdk-oauth.js
+   :language: javascript
 
 .. _node-google-login:
 .. _node-login-google:
@@ -237,7 +210,7 @@ To set up your App for Google User authentication in your App configuration:
 
 #. Enable OpenID Connect on the backend.
 
-Use the `official Google APIs Node.js OAuth 2.0 Client <https://googleapis.dev/nodejs/googleapis/latest/oauth2/index.html>`_
+Use the official `Google Auth Library for Node.js <https://cloud.google.com/nodejs/docs/reference/google-auth-library/latest>`_
 to handle the user authentication and redirect flow from a Node.js client application:
 
 #. Install the Realm and Google APIs npm packages.
@@ -278,8 +251,7 @@ to handle the user authentication and redirect flow from a Node.js client applic
    All of the Google OAuth 2.0 implementation is in the ``server.js`` file.
 
    The example uses `Express <https://expressjs.com/>`_ for routing and the
-   `Google APIs Node.js OAuth 2.0 Client <https://googleapis.dev/nodejs/googleapis/latest/oauth2/index.html>`_
-   authentication library.
+   Google Auth Library for Node.js.
 
    You might want to authenticate with Google on a Node.js server
    to perform server-side operations on behalf of a user, like call an
@@ -305,35 +277,8 @@ authentication and redirect flow from a client application. Once authenticated,
 the Apple JS SDK returns an ID token that you can send to your Node.js app and
 use to finish logging the user in to your app.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Get the access token from a client application using the Apple JS SDK
-         const idToken = getAppleIdToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.apple(idToken);
-         app.logIn(credentials).then(user => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
-
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // Get the access token from a client application using the Apple JS SDK
-         const idToken: string = getAppleIdToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.apple(idToken);
-         app.logIn(credentials).then((user: Realm.User) => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.apple-sdk-oauth.js
+   :language: javascript
 
 .. include:: /includes/authorization-appleidcredential-string.rst
 
