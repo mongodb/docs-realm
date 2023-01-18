@@ -283,8 +283,14 @@ describe("user authentication", () => {
   });
 
   test("read user metadata", async () => {
-    const email = "someone@example.com";
-    const password = "pa55w0rd!";
+    const randomInt = Math.floor(Math.random() * Math.floor(200000));
+    const email = "someone" + randomInt.toString() + "@example.com";
+    const password = "passw0rd";
+
+    await app.emailPasswordAuth.registerUser({
+      email: email,
+      password: password,
+    });
 
     // :snippet-start: user-metadata
     try {
@@ -303,7 +309,9 @@ describe("user authentication", () => {
     const userEmail = app.currentUser.profile.email;
     // :snippet-end:
 
-    expect(userProfile.email).toBe("someone@example.com");
+    expect(userEmail).toBe(email);
+
+    await app.deleteUser(app.currentUser);
   });
 });
 
