@@ -142,8 +142,6 @@ describe('Mixed Tests', () => {
     const {getByTestId} = render(<App />);
     const catBirthDate = await waitFor(() => getByTestId('catBirthDate'));
     // Expect catBirthDate in the UI to be the same value we set in the beforeEach (which is clover's birthday 'January 21, 2016')
-    expect(new Date(catBirthDate.props.children)).toStrictEqual(
-      new Date('January 21, 2016'),
-    );
+    expect(new Date(catBirthDate.props.children)).toStrictEqual(new Date('January 21, 2016'));
   });
 });
