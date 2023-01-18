@@ -29,14 +29,14 @@ in App Services:
 Read Custom User Data
 ---------------------
 
-You retrieve custom user data in the  :js-sdk:`customData <Realm.User.html#customData>`
-property of a logged in user:
+You retrieve custom user data in the :js-sdk:`customData <Realm.User.html#customData>`
+property of the ``User`` object:
 
 .. literalinclude:: /examples/generated/node/custom-user-data.snippet.read-custom-user-data.js
   :language: javascript
 
-App Services **does not dynamically update** the value of the
-``User.customData`` immediately when underlying data changes. Instead, App Services
+App Services **does not immediately update** the value of the
+``User.customData`` when underlying data changes. Instead, App Services
 fetches the most recent version of custom user data whenever a user
 refreshes their :ref:`access token <user-sessions>` or when you explicitly
 call :js-sdk:`refreshCustomData() <Realm.User.html#refreshCustomData>`,

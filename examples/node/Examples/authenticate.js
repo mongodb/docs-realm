@@ -27,7 +27,7 @@ describe("user authentication", () => {
 
   test("email/password login", async () => {
     const randomInt = Math.floor(Math.random() * Math.floor(200000));
-    const username = "joe.jasper" + randomInt.toString() + "@example.com";
+    const username = "someone" + randomInt.toString() + "@example.com";
 
     // :snippet-start: register-email-pass-user
     // :replace-start: {
@@ -49,7 +49,7 @@ describe("user authentication", () => {
       username,
       // :remove-end:
       // :uncomment-start:
-      // "joe.jasper@example.com",
+      // "someone@example.com",
       // :uncomment-end:
       "passw0rd"
     );
@@ -97,14 +97,14 @@ describe("user authentication", () => {
 
   test.skip("send password reset email", async () => {
     // :snippet-start: send-pass-reset-email
-    const email = "joe.jasper@example.com"
+    const email = "someone@example.com"
     await app.emailPasswordAuth.sendResetPasswordEmail({ email });
     // :snippet-end:
   });
 
   test.skip("call a password reset function", async () => {
     // :snippet-start: call-password-reset-function
-    const email = "joe.jasper@example.com";
+    const email = "someone@example.com";
     // The new password to use
     const password = "newPassw0rd";
     // Additional arguments for the reset function
@@ -240,7 +240,7 @@ describe("user authentication", () => {
 
   test("logout", async () => {
     const emailPasswordCredentials = Realm.Credentials.emailPassword(
-      "joe.jasper@example.com",
+      "someone@example.com",
       "passw0rd"
     );
     const functionCredentials = Realm.Credentials.function({
