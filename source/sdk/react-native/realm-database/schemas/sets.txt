@@ -194,7 +194,7 @@ The ``RemoveInventoryFromCharacter`` component does the following:
 - Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventoryItem" that represents the inventory item to remove from the inventory set.
 - Creates a component method ``removeInventoryItem`` that passes the ``inventoryItem`` state variable to the :js-sdk:`Realm.Set.delete() <Realm.Set.html#delete>` method to remove the item from the character's inventory.
 - Creates a component method ``removeAllInventory`` that calls the :js-sdk:`Realm.Set.clear() <Realm.Set.html#clear>` method to remove all items from the character's inventory.
-- Renders a ``TextInput`` that changes the ``inventoryItem`` state variable, and two ``Button``s that call the ``removeInventoryItem`` and ``removeAllInventory`` methods, respectively. 
+- Renders a ``TextInput`` that changes the ``inventoryItem`` state variable, and two ``Button`` components that call the ``removeInventoryItem`` and ``removeAllInventory`` methods, respectively. 
 
 .. tabs-realm-languages::
       
