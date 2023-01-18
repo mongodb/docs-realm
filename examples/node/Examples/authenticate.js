@@ -199,3 +199,23 @@ describe("User Sessions", () => {
     expect(token).not.toBe(undefined);
   });
 })
+
+describe("User Metadata", () => {
+  test("read user metadata", async () => {
+    const email = "stanley.session@example.com";
+    const password = "pa55w0rd!";
+    try {
+      await app.logIn(Realm.Credentials.emailPassword(email, password));
+    } catch (err) {
+      await app.emailPasswordAuth.registerUser({ email, password });
+      await app.logIn(Realm.Credentials.emailPassword(email, password));
+    }
+    
+    const userProfile = app.currentUser.profile;
+
+    console.debug(userProfile)
+    console.debug(userProfile.email)
+
+    expect(userProfile.email).toBe("stanley.session@example.com");
+  });
+})
