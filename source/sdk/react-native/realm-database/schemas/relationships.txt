@@ -227,9 +227,9 @@ belong to a single ``User`` object. This indicates:
 - A ``User`` object's ``posts`` property contains all of their posts.
 - The ``Post`` object's ``user`` property inverts this relationship: the post's ``user``
   automatically updates to refer back to any ``User`` object that contains the
-  ``Post`` in its ``posts`` property. 
-- Each ``Post`` automatically keeps track of which ``User`` it belongs to. If a
-  ``User`` is modified, the ``Post`` objects that refer to it are automatically updated.
+  ``Post`` object in its ``posts`` property. 
+- Each ``Post`` object automatically keeps track of which ``User`` object it belongs to. If a
+  ``User`` object is modified, the ``Post`` objects that refer to it are automatically updated.
 
 .. tabs-realm-languages::
       
