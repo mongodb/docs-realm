@@ -15,6 +15,7 @@ import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import io.realm.kotlin.ext.query
+import io.realm.kotlin.ext.backlinks
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.log.RealmLogger
@@ -23,6 +24,7 @@ import kotlinx.coroutines.*
 //import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.launch
 //import kotlinx.coroutines.runBlocking
+import org.mongodb.kbson.ObjectId
 
 // :replace-start: {
 //    "terms": {
@@ -33,13 +35,13 @@ import kotlinx.coroutines.*
 // :snippet-start: primary-key
 class Lizard : RealmObject {
     @PrimaryKey
-    val _id: ObjectId = ObjectId.create()
+    val _id: ObjectId = ObjectId()
 }
 // :snippet-end:
 
 // :snippet-start: ignore
 class ShoppingCart : RealmObject {
-    val _id: ObjectId = ObjectId.create()
+    val _id: ObjectId = ObjectId()
 
     @Ignore
     val items: List<String> = listOf()
@@ -49,18 +51,18 @@ class ShoppingCart : RealmObject {
 // :snippet-start: index
 class Movie : RealmObject {
     @Index
-    val _id: ObjectId = ObjectId.create()
+    val _id: ObjectId = ObjectId()
     val starring: List<String> = listOf()
 }
 // :snippet-end:
 
 class Fish : RealmObject {
-    val _id: ObjectId = ObjectId.create()
+    val _id: ObjectId = ObjectId()
 }
 
 // :snippet-start: to-many-relationship
 class Sushi : RealmObject {
-    val _id: ObjectId = ObjectId.create()
+    val _id: ObjectId = ObjectId()
     val name: String = ""
     val fishes: RealmList<Fish> = realmListOf<Fish>()
 }
@@ -68,19 +70,37 @@ class Sushi : RealmObject {
 
 // :snippet-start: to-one-relationship
 class SushiPlatter : RealmObject {
-    val _id: ObjectId = ObjectId.create()
+    val _id: ObjectId = ObjectId()
     val name: String = ""
     val fish: Fish? = null
 }
 // :snippet-end:
 
+// :snippet-start: inverse-relationship-user
+class User: RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId()
+    lateinit var name: String
+    val posts: RealmList<Post>? = null
+}
+// :snippet-end:
+
+// :snippet-start: inverse-relationship-post
+class Post: RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId()
+    lateinit var title: String
+    val user: RealmResults<User> by backlinks(User::posts)
+}
+// :snippet-end:
+
 class Horse : RealmObject {
-    val _id: ObjectId = ObjectId.create()
+    val _id: ObjectId = ObjectId()
 }
 
 // :snippet-start: optional
 class Knight : RealmObject {
-    val _id: ObjectId = ObjectId.create()
+    val _id: ObjectId = ObjectId()
     val name: String = ""
     val mount: Horse? = null
 }

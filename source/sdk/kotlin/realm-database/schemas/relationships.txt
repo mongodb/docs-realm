@@ -74,3 +74,46 @@ RealmLists are containers of RealmObjects, but otherwise behave like a
 regular collection. The same object can occur in multiple to-many
 relationships; the distinction between a many-to-many and a one-to-many
 relationship is up to your application.
+
+.. note::
+
+   The child objects in a to-many relationship must be a `RealmList
+   <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html>`__ or a
+   `RealmSet
+   <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__. For
+   instance, if a "Sushi" object has many "Fish" objects, you must specify the
+   "Sushi.fishes" as a ``RealmList`` or ``RealmSet`` of ``Fish`` objects.
+
+Inverse Relationships
+---------------------
+
+An inverse relationship links an object back to any other objects that refer
+to it in a defined to-one or to-many relationship. Relationship definitions are
+unidirectional, so you must explicitly define a property in the object's model
+as an inverse relationship.
+
+For example, the to-many relationship "User has many Posts" does not
+automatically create the inverse relationship "Post belongs to User". 
+
+Realm Database automatically updates implicit relationships whenever an
+object is added or removed in the specified relationship. You cannot manually
+add or remove items from a `backlinks collection
+<{+kotlin-local-prefix+}io.realm.kotlin.ext/backlinks.html>`__.
+
+Because relationships are many-to-one or many-to-many, following inverse
+relationships can result in zero, one, or many objects.
+
+Consider the following class defining a ``User`` with a `RealmList
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html>`__ of ``posts``:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.inverse-relationship-user.kt
+   :language: kotlin
+   :copyable: false
+
+You can provide a link in the opposite direction, from ``Post`` to ``User``.
+This allows you :ref:`filter <kotlin-filter-data>` data about the user who the
+post belongs to like any other ``RealmResults``.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.inverse-relationship-post.kt
+   :language: kotlin
+   :copyable: false
