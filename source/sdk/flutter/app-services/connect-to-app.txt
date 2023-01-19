@@ -46,17 +46,14 @@ Access the App Client
 Advanced Configuration
 ----------------------
 
-Add additional configuration for more granular control of the details of your app client,
-such as custom timeouts for connections and keys for local encryption.
-You can add optional arguments to the :flutter-sdk:`AppConfiguration <realm/AppConfiguration-class.html>`:
+You can add optional arguments to the ``AppConfiguration`` for more granular control
+of your ``App`` client. You may want to add things like custom timeouts
+for connections or keys for local metadata encryption.
+To learn about the available configuration options, refer to the
+:flutter-sdk:`AppConfiguration <realm/AppConfiguration-class.html>` reference documentation.
 
 .. literalinclude:: /examples/generated/flutter/app_services_test.snippet.app-client-advanced-configuration.dart
    :language: dart
-
-.. note::
-
-   For most use cases, you only need your application's App ID to connect
-   to App Services. The other settings demonstrated here are optional.
 
 .. note:: Connect Using Android 7 or Older
 
