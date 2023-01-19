@@ -63,10 +63,10 @@ There are three primary types of relationships between objects:
 .. _react-native-to-one-relationship:
 .. _react-native-define-a-to-one-relationship-property:
 
-To-One Relationship
--------------------
+One-to-One Relationship
+-----------------------
 
-A **to-one** relationship means an object is related to at most 
+A **one-to-one** relationship means an object is related to at most 
 one other object of a particular type. 
 To define a to-one relationship, specify the property type as the related
 Realm object type.
@@ -74,7 +74,7 @@ Realm object type.
 Example
 ~~~~~~~
 
-In the following example of a **to-one** relationship, a ``PetOwner`` may own a single ``Pet``: 
+In the following example of a **one-to-one** relationship, a ``PetOwner`` may own a single ``Pet``: 
 
 .. tabs-realm-languages::
       
@@ -106,17 +106,17 @@ In the following example of a **to-one** relationship, a ``PetOwner`` may own a 
 .. _react-native-to-many-relationship:
 .. _react-native-define-a-to-many-relationship-property:
 
-To-Many Relationship
---------------------
+One-to-Many Relationship
+------------------------
 
-A **to-many** relationship means an object may be related to
+A **one-to-many** relationship means an object may be related to
 multiple objects. To define a to-many relationship, specify a property where the
 type is a list or array of the related Realm object type in its :ref:`object
 schema <react-native-object-schemas>`.
 
 Example
 ~~~~~~~
-In the following example of a **to-many** relationship, a ``User`` may own multiple ``Post`` objects:
+In the following example of a **one-to-many** relationship, a ``User`` may own multiple ``Post`` objects:
 
 .. tabs-realm-languages::
       
@@ -150,28 +150,68 @@ Inverse Relationship
 --------------------
 
 An inverse relationship :ref:`backlinks <rql-backlinks>` to any other objects
-that refer to it in a defined to-one or to-many relationship. Relationship
+that refer to it in a defined one-to-one or one-to-many relationship. Relationship
 definitions are unidirectional by default. 
 
 For example, if you define a relationship that maps ``User.posts`` to a list of
 ``Post`` objects, then you could use an inverse relationship to look up the
 ``User`` object related to a given ``Post`` object in this way.
 
-Inverse relationships can be:
+To use inverse relationships, you can: 
 
-#. :ref:`Defined explicitly <react-native-define-an-inverse-relationship-property>` in your schema
-#. :ref:`Obtained dynamically <react-native-dynamically-obtain-an-inverse-relationship-object>` using a query.
+#. :ref:`Obtain an implicitly back-linked object <react-native-obtain-an-implicitly-backlinked-object>` using the :js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>` method.
+#. :ref:`Define an inverse relationship explicitly in a schema <react-native-define-an-inverse-relationship-property>` using the ``LinkingObjects`` property.
+
+.. _react-native-obtain-an-implicitly-backlinked-object:
+
+Obtain an Implicitly Back-linked Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To obtain an inversely linked object **without** altering the
+object's schema, call the :js-sdk:`Realm.Object.linkingObjects()
+<Realm.Object.html#linkingObjects>` method.
+
+Example
+````````
+Consider the ``User`` and ``Post`` classes from the :ref:`one-to-many relationship
+example <react-native-to-many-relationship>`. Since the ``User`` class has a
+``posts`` field that is a list of ``Post`` objects, you can obtain the ``User``
+object who owns a specific ``Post`` object by calling the
+``post.linkingObjects()`` method.
+
+In the following ``PostItem`` example, we obtain information about the user to
+whom the post belongs by running a query to look up the linked user.
+
+
+The ``PostItem`` component does the following:
+
+- Gets the post by passing the ``Post`` class and ``postID`` to the ``useObject()`` hook.
+- Gets the user by passing the object type ``'User'`` and the property ``'posts'`` to the ``linkingObjects()`` method and retrieving the first result.
+- Returns "The post or user could not be found" if the post or user is ``undefined``.
+- Returns the post's title and the user's name if the post and user are found.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.dynamically-obtain-inverse-relationship.tsx
+         :language: typescript
+         :emphasize-lines: 3
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/relationship-test.snippet.dynamically-obtain-inverse-relationship.jsx
+         :language: typescript
+         :emphasize-lines: 3
+         :linenos:
 
 .. _react-native-define-an-inverse-relationship-property:
 
-Explicitly Define an Inverse Relationship
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can explicitly define an inverse relationship in your schema. 
-
-In the example of the "User" and "Post" classes from the :ref:`to-many
-relationship example <react-native-to-many-relationship>`,  the "User has many
-Posts" does not automatically create the inverse relationship "Post belongs to
-User". 
+Define an Inverse Relationship Explicitly in a Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create an inverse relationship, you can define it in your object model by
 specifying the ``linkingObjects`` property. The ``linkingObjects`` property
@@ -217,50 +257,4 @@ belong to a single ``User`` object. This indicates:
       .. literalinclude:: /examples/generated/react-native/js/InverseRelationshipPost.snippet.js-inverserelationshippost-schema.js
          :language: typescript
          :emphasize-lines: 7-11
-         :linenos:
-
-.. _react-native-dynamically-obtain-an-inverse-relationship-object:
-
-Dynamically Obtain an Inversely Linked Object Using a Query
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To dynamically obtain an inversely linked object **without** altering the
-object's schema, call the :js-sdk:`Realm.Object.linkingObjects()
-<Realm.Object.html#linkingObjects>` method.
-
-Example
-````````
-Consider the ``User`` and ``Post`` classes from the :ref:`to-many relationship
-example <react-native-to-many-relationship>`. Since the ``User`` class has a
-``posts`` field that is a list of ``Post`` objects, you can obtain the ``User``
-object who owns a specific ``Post`` object by calling the
-``post.linkingObjects()`` method.
-
-In the following ``PostItem`` example, we obtain information about the user to
-whom the post belongs by running a query to look up the linked user.
-
-
-The ``PostItem`` component does the following:
-
-- Gets the post by passing the ``Post`` class and ``postID`` to the ``useObject()`` hook.
-- Gets the user by passing the object type ``'User'`` and the property ``'posts'`` to the ``linkingObjects()`` method and retrieving the first result.
-- Returns "The post or user could not be found" if the post or user is ``undefined``.
-- Returns the post's title and the user's name if the post and user are found.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.dynamically-obtain-inverse-relationship.tsx
-         :language: typescript
-         :emphasize-lines: 3
-         :linenos:
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/relationship-test.snippet.dynamically-obtain-inverse-relationship.jsx
-         :language: typescript
-         :emphasize-lines: 3
          :linenos:
