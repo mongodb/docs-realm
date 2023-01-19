@@ -30,21 +30,18 @@ the metatdata:
 User metadata options vary depending on which provider you're using and
 :ref:`which metadata fields you enable <configure-user-metadata-on-the-backend>`.
 
-.. warning:: User Metadata May Be Stale
-   
-   Atlas App Services fetches the most recent version of user metadata when a user
-   logs in. If the user changes their email address or profile photo with a
-   login provider, for example, those changes do not update in user metadata
-   until the user logs in again. Because Realm caches credentials and enables you
-   to bypass the login flow, user metadata may become stale unless you
-   force the user to log in again.
-
+.. include:: /includes/stale-user-metadata.rst
 
 .. _flutter-configure-user-metadata:
+
+Configure User Metadata
+-----------------------
+
+.. include:: /includes/configure-user-metadata.rst
+
+.. _flutter-update-user-metadata:
 
 Update User Metadata
 --------------------
 
-User metadata is read-only data. You cannot update or edit it. If you want
-to create editable user data, use :ref:`custom user data <flutter-custom-user-data>`
-instead.
+.. include:: /includes/update-user-metadata.rst

@@ -264,6 +264,7 @@ describe("user authentication", () => {
       console.error(err.message);
     }
   });
+
   test("Delete user", async () => {
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
@@ -280,11 +281,43 @@ describe("user authentication", () => {
     ).length;
     expect(postDeleteMatchesLen).toBe(0);
   });
+
+  test("read user metadata", async () => {
+    const randomInt = Math.floor(Math.random() * Math.floor(200000));
+    const email = "someone" + randomInt.toString() + "@example.com";
+    const password = "passw0rd";
+
+    await app.emailPasswordAuth.registerUser({
+      email: email,
+      password: password,
+    });
+
+    // :snippet-start: user-metadata
+    try {
+    // :replace-start: {
+    //    "terms": {
+    //       "email": "<email>",
+    //       "password": "<password>"
+    //    }
+    // }
+      await app.logIn(Realm.Credentials.emailPassword(email, password));
+    // :replace-end:
+    } catch (err) {
+      console.error("Failed to log in", err.message);
+    }
+    
+    const userEmail = app.currentUser.profile.email;
+    // :snippet-end:
+
+    expect(userEmail).toBe(email);
+
+    await app.deleteUser(app.currentUser);
+  });
 });
 
 describe("User Sessions", () => {
   test("Get a User Access Token", async () => {
-    const email = "stanley.session@example.com";
+    const email = "someone@example.com";
     const password = "pa55w0rd!";
     try {
       await app.logIn(Realm.Credentials.emailPassword(email, password));
