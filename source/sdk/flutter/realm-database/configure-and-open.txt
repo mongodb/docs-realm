@@ -199,7 +199,6 @@ To copy data from an existing realm to a new realm with different
 configuration options, pass the new configuration to
 :flutter-sdk:`Realm.writeCopy() <TODO: add link>`.
 
-TODO: validate if this is true (lifted from JS
 In the new realm's configuration, you *must* specify the ``path``.
 
 If you write the copied realm to a realm file that already exists,
@@ -221,6 +220,16 @@ types:
 
 You **cannot** convert from a ``LocalConfiguration`` or a ``InMemoryConfiguration``
 to a ``FlexibleSyncConfiguration``.
+
+Some additional considerations to keep in mind while using ``Realm.writeTo()``:
+
+#. The destination file should not already exist.
+#. Copying realm is not allowed within a write transaction or during migration.
+#. When using synced Realm, it is required that all local changes are synchronized
+   with the server before the copy can be written.
+   This is to be sure that the file can be used as a starting point
+   for a newly installed application.
+   The method throws if there are pending uploads.
 
 The following example copies the data from a realm with a ``LocalConfiguration``
 to a new realm with a ``FlexibleSyncConfiguration``.
