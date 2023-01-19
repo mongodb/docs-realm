@@ -75,6 +75,15 @@ regular collection. The same object can occur in multiple to-many
 relationships; the distinction between a many-to-many and a one-to-many
 relationship is up to your application.
 
+.. note::
+
+   The child objects in a to-many relationship must be a `RealmList
+   <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html>`__ or a
+   `RealmSet
+   <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__. For
+   instance, if a "Sushi" object has many "Fish" objects, you must specify the
+   "Sushi.fishes" as a ``RealmList`` or ``RealmSet`` of ``Fish`` objects.
+
 Inverse Relationships
 ---------------------
 
@@ -94,8 +103,8 @@ add or remove items from a `backlinks collection
 Because relationships are many-to-one or many-to-many, following inverse
 relationships can result in zero, one, or many objects.
 
-Consider the following class defining a ``User`` with
-a list of ``posts``:
+Consider the following class defining a ``User`` with a `RealmList
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html>`__ of ``posts``:
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.inverse-relationship-user.kt
    :language: kotlin
