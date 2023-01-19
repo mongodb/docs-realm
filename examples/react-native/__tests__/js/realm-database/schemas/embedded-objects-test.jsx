@@ -158,30 +158,35 @@ describe('embedded objects tests', () => {
     const {getByTestId} = render(<App />);
 
     // test that querying for name works
-    const contactAddress = await waitFor(() => getByTestId('addressText'));
+    const contactAddress = await waitFor(() => getByTestId('addressText'), {
+      timeout: 5000,
+    });
     expect(contactAddress.props.children).toBe('1 Home Street');
   });
   it('should delete an embedded object', async () => {
     // :snippet-start: delete-embedded-object
     // :replace-start: {
     //  "terms": {
+    //   " testID = 'contactNameText'": "",
     //   " testID = 'deleteContactBtn'": ""
     //   }
     // }
     const ContactInfo = ({contactName}) => {
       const contacts = useQuery(Contact);
+      const toDelete = contacts.filtered(`name == '${contactName}'`)[0]
       const realm = useRealm();
 
       const deleteContact = () => {
         realm.write(() => {
           // Deleting the contact also deletes the embedded address of that contact
           realm.delete(
-            contacts.filtered(`name == '${contactName}'`)[0]
+            toDelete
           );
         });
       };
       return (
         <View>
+          <Text testID='contactNameText'>{contactName}</Text>
           <Button testID='deleteContactBtn' onPress={deleteContact} title='Delete Contact' />
         </View>
       );
@@ -194,6 +199,11 @@ describe('embedded objects tests', () => {
       </RealmProvider>
     );
     const {findByTestId} = render(<App />);
+    const contactNameText = await waitFor(() => findByTestId('contactNameText'), {
+      timeout: 5000,
+    });
+    expect(contactNameText.props.children).toBe('John Smith');
+
     const deleteContactBtn = await waitFor(() => findByTestId('deleteContactBtn'), {
       timeout: 5000,
     });

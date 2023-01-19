@@ -122,7 +122,7 @@ The ``CreateContact`` component does the following:
   to create a new ``Address`` embedded object and ``Contact`` parent object based 
   on the ``TextInput`` values for the contact's name and address.
 - Adds an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the
-  ``'Submit Contact'`` button that calls ``submitContact()``.
+  "Submit Contact" button that calls ``submitContact()``.
 
 .. tabs-realm-languages::
 
@@ -158,7 +158,7 @@ In the following ``ContactList`` example, we filter and query an embedded
 The ``ContactList`` component does the following:
 
 - Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook.
-- Filters for contacts with the name ``"John Smith"`` by passing :js-sdk:`collection.filtered()
+- Filters for contacts with the name "John Smith" by passing :js-sdk:`collection.filtered()
   <Realm.Collection.html#filtered>` on the query ``"name == 'John Smith'"``.
 - Retrieves the contact's street address by using dot notation.
 
@@ -197,7 +197,8 @@ The ``UpdateContact`` component does the following:
 - Creates a React `state <https://reactjs.org/docs/react-component.html#state>`__ variable
   that represents the contact's new street address.
 - Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook 
-  and filters for the contact that matches the name passed into the component as a prop.
+  and filters for the contact that matches the name passed into the component as a `prop 
+  <https://reactjs.org/docs/components-and-props.html>`__.
 - Gets access to an opened realm instance by calling the ``useRealm()`` hook within the 
   component. 
 - Creates a component method ``updateStreet()`` that performs a write transaction and 
@@ -240,7 +241,8 @@ The ``OverwriteContact`` component does the following:
 - Creates React `state <https://reactjs.org/docs/react-component.html#state>`__ variables
   that represent the contact's new address.
 - Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook 
-  and filters for the contact that matches the name passed into the component as a prop.
+  and filters for the contact that matches the name passed into the component as a `prop
+  <https://reactjs.org/docs/components-and-props.html>`__.
 - Gets access to an opened realm instance by calling the ``useRealm()`` hook within the 
   component.
 - Creates a component method ``updateAddress()`` that performs a write transaction and 
@@ -282,11 +284,12 @@ parent object.
 The ``DeleteContact`` component does the following:
 
 - Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook.
+- Filters for the ``Contact`` object that matches the name passed into the component as a 
+  `prop <https://reactjs.org/docs/components-and-props.html>`__.
 - Gets access to an open realm instance by calling the ``useRealm()`` hook within the component. 
 - Creates a component method ``deleteContact()`` that performs a write transaction and calls
-  :js-sdk:`Realm.delete() <Realm.html#delete>` to remove the ``Contact`` object that matches 
-  the name passed into the component as a prop.
-- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the ``'Delete Contact'`` 
+  :js-sdk:`Realm.delete() <Realm.html#delete>` to remove the ``Contact`` object.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Delete Contact" 
   button that calls ``deleteContact()``.
 
 .. tabs-realm-languages::
@@ -296,7 +299,7 @@ The ``DeleteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.delete-embedded-object.tsx
          :language: typescript
-         :emphasize-lines: 2-3, 6-11
+         :emphasize-lines: 2-4, 7-12
          :linenos:
 
    .. tab::
@@ -304,5 +307,5 @@ The ``DeleteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.delete-embedded-object.jsx
          :language: javascript
-         :emphasize-lines: 2-3, 6-11
+         :emphasize-lines: 2-4, 7-12
          :linenos:
