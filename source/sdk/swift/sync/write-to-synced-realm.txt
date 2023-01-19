@@ -304,8 +304,8 @@ If you need to read from or write to a synced realm from an App Extension,
 there are a few recommended alternatives:
 
 - **Offline-first**: pass data on disk to or from the main app
-- **Always up-to-date**: use HTTP to communicate directly with the backing 
-  Atlas collection
+- **Always up-to-date**: communicate directly with the backing 
+  Atlas collection across a network connection
 
 Pass Data On Disk
 `````````````````
@@ -322,14 +322,18 @@ Use HTTP to Communicate with the Backing Atlas Collection
 `````````````````````````````````````````````````````````
 
 If having the information always up-to-date across all devices is the most 
-important consideration for your app, you can write data directly to the 
-backing Atlas collection across the network. For example, you could use 
-:ref:`App Services Functions <ios-call-a-function>` or HTTP calls via the 
-:ref:`Data API <data-api>` or :ref:`GraphQL API <graphql-api>` to 
-read or write data to or from the Atlas collections that back your Device 
-Sync app. Then, any device that has a network connection is always getting 
-the most up-to-date information, without waiting for the user to open your 
-main app as in the option above.
+important consideration for your app, you can read or write data directly 
+to or from the backing Atlas collection across the network. Depending on your 
+needs, you may want to use one of these tools to communicate directly with 
+Atlas:
+
+- Query Atlas with the :ref:`Realm Swift SDK MongoClient <ios-mongodb-data-access>`
+- Pass data to an :ref:`App Services Function <ios-call-a-function>` 
+- Make HTTPS calls with the :ref:`Data API <data-api>` or :ref:`GraphQL API <graphql-api>`
+
+Then, any device that has a network connection is always getting the most 
+up-to-date information, without waiting for the user to open your main app 
+as in the option above.
 
 This option does require your user's device to have a network connection 
 when using the App Extension. As a fallback, you could check for a network
