@@ -29,7 +29,7 @@ TEST_CASE("create and log in a user", "[realm][sync]") {
     // :snippet-end:
 
     // :snippet-start: log-user-in
-    auto user = app.login(realm::App::Credentials::username_password(user_email, user_password))
+    auto user = app.login(realm::App::credentials::username_password(user_email, user_password))
         .get_future().get();
     // :snippet-end:
 

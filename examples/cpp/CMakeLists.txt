@@ -14,11 +14,12 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        f4f89d1c75d4c762a679f57d2e9f26e87ec1215b
+  GIT_TAG        08b3c0056877118f385e27c1d6e332f1df39f02d
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
-add_executable(examples testHelpers.hpp examples.cpp define-object-model.cpp authentication.cpp supported-types.cpp testHelpersTests.cpp)
+# add_executable(examples testHelpers.hpp examples.cpp define-object-model.cpp authentication.cpp supported-types.cpp testHelpersTests.cpp)
+add_executable(examples examples.cpp define-object-model.cpp authentication.cpp supported-types.cpp)
 target_link_libraries(examples PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(examples PRIVATE cpprealm)

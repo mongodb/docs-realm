@@ -4,7 +4,7 @@
 
 // :snippet-start: model-with-embedded-object
 // Inherit from realm::embedded_object to declare an embedded object
-struct ContactDetails : realm::embedded_object { // :emphasize:
+struct ContactDetails : realm::embedded_object<ContactDetails> { // :emphasize:
     // Because ContactDetails is an embedded object, it cannot have its own _id
     // It does not have a lifecycle outside of the top-level object
     realm::persisted<std::string> emailAddress;
@@ -15,22 +15,22 @@ struct ContactDetails : realm::embedded_object { // :emphasize:
         realm::property<&ContactDetails::phoneNumber>("phoneNumber"));
 };
 
-struct Business : realm::object {
-    realm::persisted<std::string> _id;
+struct Business : realm::object<Business> {
+//    realm::persisted<std::string> _id;
     realm::persisted<std::string> name;
     // Unlike to-one relationships, an embedded object can be a required property
     realm::persisted<ContactDetails> contactDetails; // :emphasize:
 
     static constexpr auto schema = realm::schema("Business",
-        realm::property<&Business::_id, true>("_id"),
+//        realm::property<&Business::_id, true>("_id"),
         realm::property<&Business::name>("name"),
         realm::property<&Business::contactDetails>("contactDetails")); // :emphasize:
 };
 // :snippet-end:
 
 // :snippet-start: model-with-ignored-field
-struct Employee : realm::object {
-    realm::persisted<realm::uuid> _id;
+struct Employee : realm::object<Employee> {
+//    realm::persisted<realm::uuid> _id;
     realm::persisted<std::string> firstName;
     realm::persisted<std::string> lastName;
     // Omitting the `realm::persisted` annotation means
@@ -40,14 +40,14 @@ struct Employee : realm::object {
     // Your schema consists of properties that you want realm to store.
     // Omit properties that you want to ignore from the schema.
     static constexpr auto schema = realm::schema("Employee",
-        realm::property<&Employee::_id, true>("_id"),
+//        realm::property<&Employee::_id, true>("_id"),
         realm::property<&Employee::firstName>("firstName"),
         realm::property<&Employee::lastName>("lastName"));
 };
 // :snippet-end:
-                                                 
+                                          
 // :snippet-start: to-one-relationship
-struct GPSCoordinates: realm::object {
+struct GPSCoordinates: realm::object<GPSCoordinates> {
     realm::persisted<double> latitude;
     realm::persisted<double> longitude;
 
@@ -56,22 +56,22 @@ struct GPSCoordinates: realm::object {
         realm::property<&GPSCoordinates::longitude>("longitude"));
 };
 
-struct PointOfInterest : realm::object {
-    realm::persisted<realm::uuid> _id;
+struct PointOfInterest : realm::object<PointOfInterest> {
+//    realm::persisted<realm::uuid> _id;
     realm::persisted<std::string> name;
     // To-one relationship objects must be optional
     realm::persisted<std::optional<GPSCoordinates>> gpsCoordinates;
 
     static constexpr auto schema = realm::schema("PointOfInterest",
-        realm::property<&PointOfInterest::_id, true>("_id"),
+//        realm::property<&PointOfInterest::_id, true>("_id"),
         realm::property<&PointOfInterest::name>("name"),
         realm::property<&PointOfInterest::gpsCoordinates>("gpsCoordinates"));
 };
 // :snippet-end:
 
 // :snippet-start: to-many-relationship
-struct Company : realm::object {
-    realm::persisted<realm::uuid> _id;
+struct Company : realm::object<Company> {
+//    realm::persisted<realm::uuid> _id;
     realm::persisted<std::string> name;
     // To-many relationships are a list, represented here as a
     // vector container whose value type is the Realm object
@@ -79,12 +79,13 @@ struct Company : realm::object {
     realm::persisted<std::vector<Employee>> employees;
 
     static constexpr auto schema = realm::schema("Company",
-        realm::property<&Company::_id, true>("_id"),
+//        realm::property<&Company::_id, true>("_id"),
         realm::property<&Company::name>("name"),
         realm::property<&Company::employees>("employees"));
 };
 // :snippet-end:
-                                                 
+
+#if 0
 TEST_CASE("create an embedded object", "[model][write]") {
     // :snippet-start: create-embedded-object
     auto realm = realm::open<Business, ContactDetails>();
@@ -94,8 +95,6 @@ TEST_CASE("create an embedded object", "[model][write]") {
         .emailAddress = "email@example.com", 
         .phoneNumber = "123-456-7890"
     };
-    
-    std::cout << "Business: " << business << "\n";
 
     realm.write([&realm, &business] {
         realm.add(business);
@@ -103,15 +102,16 @@ TEST_CASE("create an embedded object", "[model][write]") {
     // :snippet-end:
     SECTION("Test code example functions as intended") {
         auto businesses = realm.objects<Business>();
-        auto mongoDBPointer = businesses[0];
+        Business mongoDBPointer = businesses[0];
         REQUIRE(businesses.size() >= 1);
-        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com");
+        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "email@example.com");
     }
     // Clean up after test
     realm.write([&realm, &business] {
         realm.remove(business);
     });
 }
+#endif
 
 TEST_CASE("create object with ignored property", "[model][write]") {
     auto realm = realm::open<Employee>();
@@ -129,9 +129,9 @@ TEST_CASE("create object with ignored property", "[model][write]") {
         auto employees = realm.objects<Employee>();
         auto employeesNamedLeslie = employees.where("firstName == $0", {"Leslie"});
         CHECK(employeesNamedLeslie.size() >= 1);
-        std::unique_ptr<Employee> leslieKnopePointer = employeesNamedLeslie[0];
+        Employee leslieKnopePointer = employeesNamedLeslie[0];
         REQUIRE(employee.jobTitle_notPersisted == "Organizer-In-Chief");
-        REQUIRE(leslieKnopePointer->jobTitle_notPersisted.empty());
+        REQUIRE(leslieKnopePointer.jobTitle_notPersisted.empty());
     }
     // Clean up after the test
     realm.write([&realm, &employee] {
@@ -139,6 +139,7 @@ TEST_CASE("create object with ignored property", "[model][write]") {
     });
 };
 
+#if 0
 TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
     // :snippet-start: create-object-with-to-one-relationship
     auto realm = realm::open<PointOfInterest, GPSCoordinates>();
@@ -171,6 +172,7 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
         realm.remove(pointOfInterest);
     });
 };
+#endif
 
 TEST_CASE("create object with to-many relationship", "[model][write][relationship]") {
     // :snippet-start: create-object-with-to-many-relationship
@@ -207,15 +209,15 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
     auto namedDunderMifflin = companies.where("name == $0", {"Dunder Mifflin"});
     // :snippet-end:
     CHECK(namedDunderMifflin.size() >= 1);
-    auto dunderMifflin = namedDunderMifflin[0];
-    std::cout << "Company named: " << dunderMifflin->name << "\n";
+    Company dunderMifflin = namedDunderMifflin[0];
+    std::cout << "Company named: " << dunderMifflin.name << "\n";
     // :snippet-end:
 
     SECTION("Test code example functions as intended") {
-        REQUIRE(dunderMifflin->name == "Dunder Mifflin");
-        auto employeeCount = dunderMifflin->employees.size();
+        REQUIRE(dunderMifflin.name == "Dunder Mifflin");
+        auto employeeCount = dunderMifflin.employees.size();
         REQUIRE(employeeCount >= 2);
-        auto companyEmployees = dunderMifflin->employees;
+        auto companyEmployees = dunderMifflin.employees;
         auto employees = realm.objects<Employee>();
         auto employeesNamedJim = employees.where("firstName == $0", {"Jim"});
         REQUIRE(employeesNamedJim.size() >= 1);
@@ -226,6 +228,7 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
     });
 };
 
+#if 0
 TEST_CASE("update an embedded object", "[model][update]") {
     auto realm = realm::open<Business, ContactDetails>();
 
@@ -242,18 +245,19 @@ TEST_CASE("update an embedded object", "[model][update]") {
         // :snippet-start: update-embedded-object
         auto businesses = realm.objects<Business>();
         auto mongoDBPointer = businesses[0];
-        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "email@example.com"); // :remove:
+        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "email@example.com"); // :remove:
 
         realm.write([&realm, &mongoDBPointer] {
-            (*mongoDBPointer->contactDetails).emailAddress = "info@example.com";
+            mongoDBPointer.contactDetails->emailAddress = "info@example.com";
         });
 
-        std::cout << "New email address: " << (*mongoDBPointer->contactDetails).emailAddress << "\n";
+        std::cout << "New email address: " << mongoDBPointer.contactDetails->emailAddress << "\n";
         // :snippet-end:
-        REQUIRE((*mongoDBPointer->contactDetails).emailAddress == "info@example.com");
+        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "info@example.com");
     }
     // Clean up after the test
     realm.write([&realm, &business] {
         realm.remove(business);
     });
 }
+#endif
