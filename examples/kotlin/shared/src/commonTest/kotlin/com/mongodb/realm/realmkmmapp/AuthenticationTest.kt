@@ -113,7 +113,6 @@ class AuthenticationTest: RealmTest() {
         // :snippet-start: api-key-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-<<<<<<< HEAD
             // :remove-start:
             // Register and login a temporary user to create an API key
             app.emailPasswordAuth.registerUser(email, password)
@@ -128,11 +127,6 @@ class AuthenticationTest: RealmTest() {
             tempUser.apiKeyAuth.delete(apiKey.id)
             tempUser.logOut()
             // :remove-end:
-=======
-            // :uncomment-start:
-            //val user = app.login(Credentials.apiKey(key))
-            // :uncomment-end:
->>>>>>> a728903f (commenting out invalid authKey that keeps failing)
         }
         // :snippet-end:
     }
