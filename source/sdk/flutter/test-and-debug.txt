@@ -31,6 +31,15 @@ the following command:
 This command installs native binaries needed to run tests for the
 Flutter app.
 
+.. note:: Testing on macOS
+
+   If you are developing with the Realm Flutter SDK on macOS,
+   network requests do not work by default due to built-in macOS security settings.
+   To fix this, you must change the Flutter app's macOS network entitlements.
+
+   To learn how to do this, refer to :ref:`Use Realm with the macOS App Sandbox
+   <flutter-macos-development>`.
+
 .. note:: Testing for Dart Standalone SDK
 
    If you're using the Dart Standalone SDK, you do don't need to install
