@@ -75,6 +75,8 @@ RealmSet Collections
 Realm objects can contain sets of any supported data type except another collection.
 Realm uses the :flutter-sdk:`RealmSet <realm/RealmSet-class.html>` data type
 to store the data. In a ``RealmSet``` collection, all values are *unique*.
+``RealmSet`` extends the native Dart `Set <https://api.dart.dev/stable/dart-core/Set-class.html>`__
+data type with additional Realm-specific properties and methods.
 
 When you include ``RealmObjects`` as the items in a ``RealmSet``,  it represents a :ref:`to-many
 relationship <flutter-many-to-one-relationship>`.
@@ -89,11 +91,11 @@ You can add a ``RealmSet`` to your Realm Object schema by defining a property as
 ``Set<T>`` where ``T`` can be any :ref:`supported Realm data type <flutter-data-types>`
 (except other collections), in your Realm Object model.
 
-A ``RealmSet`` of ``RealmObject`` types **cannot** contain nullable values.
+A ``RealmSet`` of ``RealmObject`` or ``RealmValue`` types **cannot** contain nullable values.
 However, sets of primitive types can contain null values. If you do not
 want to allow null values in a ``RealmSet``, then either use non-nullable types in
 the declaration (for example, use ``Set<int>`` instead of
-``Set<int?>``).
+``Set<int?>``). You also cannot set the default value of a ``RealmSet``.
 
 TODO: add code example
 
@@ -109,8 +111,6 @@ TODO: example showing the following methods:
 - .length -> int
 - .add() -> ?
 - .remove() -> ?
-
-
 
 RealmResults Collections
 ------------------------
