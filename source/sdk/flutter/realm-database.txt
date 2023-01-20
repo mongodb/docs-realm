@@ -1,9 +1,9 @@
 .. _flutter-realm-database:
 .. _flutter-realm-database-overview:
 
-=====================================
-Realm Database Overview - Flutter SDK
-=====================================
+============================
+Realm Database - Flutter SDK
+============================
 
 .. contents:: On this page
    :local:
@@ -11,104 +11,39 @@ Realm Database Overview - Flutter SDK
    :depth: 1
    :class: singlecol
 
-.. include:: /includes/realm-database.rst
+.. toctree::
+   :titlesonly:
 
+   Model Data </sdk/flutter/model-data>
+   Configure & Open a Realm </sdk/flutter/realm-files/configure-and-open>
+   Read & Write Data </sdk/flutter/read-and-write-data>
+   React to Changes </sdk/flutter/react-to-changes>
+   Freeze Data </sdk/flutter/freeze>
+   Manage Realm Database Files </sdk/flutter/realm-files>
+   Database Internals </sdk/flutter/realm-database/database-internals>
 
-Realm vs Other Databases
-------------------------
+Realm Database is a reactive, object-oriented, cross-platform,
+mobile database:
 
-The Realm data model is similar to both relational and
-document databases but has distinct differences from both. To underscore
-these differences, it's helpful to highlight what a realm **is
-not**:
+- **Reactive**: query the current state of data
+  and subscribe to state changes like the result of a query, or even
+  changes to a single object.
 
-A realm is not a single, application-wide database.
-    Applications based on other database systems generally store all of their
-    data in a single database. Apps often split data across multiple
-    realms to organize data more efficiently and to enforce access controls.
+- **Object-oriented**: organizes data as objects, rather than rows,
+  documents, or columns.
 
-A realm is not a relational table.
-    Normalized tables in relational databases only store one type of
-    information, such as street addresses or items in a store inventory. A
-    realm can contain any number of object types that are relevant to a
-    given domain.
+- **Cross-platform**: use the same database on iOS, Android,
+  Linux, macOS, or Windows. Just define a schema for each SDK you use.
 
-A realm is not a collection of schemaless documents.
-    Document databases don't necessarily enforce a strict schema for the data in
-    each collection. While similar to documents in form, every Realm object
-    conforms to a schema for a specific object type in the realm. An object
-    cannot contain a property that is not described by its schema.
+- **Mobile**: designed for the low-power, battery-sensitive, real-time
+  environment of a mobile device.
 
-.. _flutter-live-queries:
+Realm Database is a cross-platform and mobile-optimized alternative to other
+mobile databases such as `SQLite <https://www.sqlite.org/index.html>`__,
+:apple:`Core Data <documentation/coredata>`, and :android:`Room
+<jetpack/androidx/releases/room>`.
 
-Live Queries
-------------
+You can also synchronize data between Realm Database and MongoDB Atlas using
+Atlas Device Sync. To learn more about using Realm Database with Device Sync,
+refer to :ref:`flutter-sync`.
 
-You can read back the data that you have stored
-in Realm Database by finding, filtering, and sorting objects.
-
-To get the best performance from Realm as your app grows and your
-queries become more complex, design your app's data access patterns
-around a solid understanding of Realm Database read characteristics.
-
-Read Characteristics
-~~~~~~~~~~~~~~~~~~~~
-
-When you design your app's data access patterns around the following three key
-characteristics of reads in Realm Database, you can be confident you are reading 
-data as efficiently as possible.
-
-- Results are not copies: results to a query are not copies of your data.
-  Modifying the results of a query will modify the data on disk directly.
-  This memory mapping also means that results are live: that is, they always
-  reflect the current state on disk.
-
-- Results are lazy: Realm only runs a query when you actually request the results
-  of that query. You can also chain several query operations
-  without requiring extra work to process the intermediate state.
-
-- References are retained: one benefit of Realm object model is that
-  Realm automatically retains all of an object's :ref:`relationships <flutter-client-relationships>`
-  as direct references.
-
-.. _flutter-live-object:
-
-Live Objects
-~~~~~~~~~~~~
-
-All Realm objects are **live objects**, which means they
-automatically update whenever they're modified. Realm emits a
-:ref:`notification event <flutter-react-to-changes>` whenever any property
-changes.
-
-You can use live objects to work with object-oriented data natively
-without an :wikipedia:`ORM <Object-relational_mapping>` tool. Live
-objects are direct proxies to the underlying stored data, which means
-that a live object doesn't directly contain data. Instead, a live object
-always references the most up-to-date data on disk and :wikipedia:`lazy
-loads <Lazy_loading>` property values when you access them from a
-:ref:`collection <flutter-collections>`. This means that a realm
-can contain many objects but only pay the performance cost for data that
-the application is actually using.
-
-Valid write operations on a live object automatically persist to the
-realm. If you are using :ref:`Atlas Device Sync <flutter-sync>`,
-the updates also propagate to any other synced clients.
-You do not need to call an update method, modify the realm, or otherwise "push" updates.
-
-.. _flutter-additional-examples:
-
-Realm Flutter SDK Examples
---------------------------
-
-- Most pages in the Realm Flutter SDK documentation contain example code showing
-  a specific task.
-
-- The :ref:`Quick Start <flutter-quick-start>` contains content to get you
-  developing a Realm app with minimal explanation.
-  
-- The :ref:`Flutter Tutorial <flutter-tutorial>` starts with a template application
-  to provide a complete, working application.
-
-- The :github:`example applications <realm/realm-dart-samples>`
-  provide examples for Flutter that demonstrate how to use Realm features.
