@@ -127,11 +127,13 @@ TEST_CASE("create object with ignored property", "[model][write]") {
 
     SECTION("Test code example functions as intended") {
         auto employees = realm.objects<Employee>();
-        auto employeesNamedLeslie = employees.where("firstName == $0", {"Leslie"});
+        auto employeesNamedLeslie = employees.where([](auto &employee) {
+            return employee.firstName == "Leslie";
+        });
         CHECK(employeesNamedLeslie.size() >= 1);
-        Employee leslieKnopePointer = employeesNamedLeslie[0];
+        auto leslieKnope = employeesNamedLeslie[0];
         REQUIRE(employee.jobTitle_notPersisted == "Organizer-In-Chief");
-        REQUIRE(leslieKnopePointer.jobTitle_notPersisted.empty());
+        REQUIRE(leslieKnope.jobTitle_notPersisted.empty());
     }
     // Clean up after the test
     realm.write([&realm, &employee] {
@@ -155,7 +157,9 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
 
     SECTION("Test code example functions as intended") {
         auto pointsOfInterest = realm.objects<PointOfInterest>();
-        auto namedGrandCanyonVillage = pointsOfInterest.where("name == $0", {"Grand Canyon Village"});
+        auto namedGrandCanyonVillage = pointsOfInterest.where([](auto &pointOfInterest) {
+            return pointOfInterest.name == "Grand Canyon Village";
+        });
         CHECK(namedGrandCanyonVillage.size() >= 1);
         auto grandCanyonVillage = namedGrandCanyonVillage[0];
         std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
@@ -206,7 +210,9 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
     auto companies = realm.objects<Company>();
     // :snippet-end:
     // :snippet-start: filter-using-type-safe-query
-    auto namedDunderMifflin = companies.where("name == $0", {"Dunder Mifflin"});
+    auto namedDunderMifflin = companies.where([](auto &company) {
+        return company.name == "Dunder Mifflin";
+    });
     // :snippet-end:
     CHECK(namedDunderMifflin.size() >= 1);
     Company dunderMifflin = namedDunderMifflin[0];
@@ -219,7 +225,9 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
         REQUIRE(employeeCount >= 2);
         auto companyEmployees = dunderMifflin.employees;
         auto employees = realm.objects<Employee>();
-        auto employeesNamedJim = employees.where("firstName == $0", {"Jim"});
+        auto employeesNamedJim = employees.where([](auto &employee) {
+            return employee.firstName == "Jim";
+        });
         REQUIRE(employeesNamedJim.size() >= 1);
     }
     // Clean up after the test

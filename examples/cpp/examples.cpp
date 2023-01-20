@@ -69,7 +69,9 @@ TEST_CASE("first test case", "[test]") {
     });
     // :snippet-end:
     // Clean up after the test
-    realm.remove(dog);
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
+    });
 }
 
 TEST_CASE("create a dog", "[write]") {
@@ -112,22 +114,29 @@ TEST_CASE("update a dog", "[write][update]") {
         // :snippet-start: update-an-object
         // Query for the object you want to update
         auto dogs = realm.objects<Dog>();
-        auto dogsNamedMaui = dogs.where("name == $0", {"Maui"});
+        // auto dogsNamedMaui = dogs.where("name == $0", {"Maui"});
+        auto dogsNamedMaui = dogs.where([](auto &dog) {
+            return dog.name == "Maui";
+        });
         CHECK(dogsNamedMaui.size() >= 1);
-        // Access an object in the results set. 
-        Dog maui = dogsNamedMaui[0];
-        REQUIRE(maui.age == 1); // :remove:
+        // Access an object in the results set.
+        auto maui = dogsNamedMaui[0];
+        // :remove-start:
+        int64_t dogAge = 1; 
+        REQUIRE(maui.age == dogAge);
+        // :remove-end:
 
         std::cout << "Dog " << maui.name << " is " << maui.age << " years old\n";
 
         // Assign a new value to a member of the object in a write transaction
-        realm.write([&realm, &maui] {
-            maui.age = 2;
+        int64_t newAge = 2;
+        realm.write([&realm, &maui, &newAge] {
+            maui.age = newAge;
         });
-
-        std::cout << "Dog " << maui.name << " is " << maui.age << " years old\n";
         // :snippet-end:
-        REQUIRE(maui.age == 2);
+        auto updatedMaui = dogsNamedMaui[0];
+        std::cout << "Dog " << updatedMaui.name << " is " << updatedMaui.age << " years old\n";
+        REQUIRE(updatedMaui.age == newAge);
     }
     // Clean up after test
     realm.write([&realm, &dog] {
@@ -168,7 +177,7 @@ TEST_CASE("open a realm at a path", "[realm]") {
         REQUIRE(dog_count >= 1);
         // Clean up after test
         realm.write([&realm, &dog] {
-                realm.remove(dog);
+            realm.remove(dog);
         });
     }
 }
