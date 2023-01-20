@@ -47,3 +47,60 @@ You can also synchronize data between Realm Database and MongoDB Atlas using
 Atlas Device Sync. To learn more about using Realm Database with Device Sync,
 refer to :ref:`flutter-sync`.
 
+Features
+--------
+
+Realm Database supports many popular database features.
+
+Schemas
+~~~~~~~
+
+Every realm object has a schema. That schema is defined via a native
+object in your SDK's language. Object schemas can include embedded lists
+and relations between object instances. To learn more,
+refer to :ref:`Define a Schema <flutter-define-realm-object-schema>`.
+
+Each realm uses a versioned schema. When that schema changes, you
+must define a migration to move object data between schema versions.
+Non-breaking schema changes, also referred to as additive schema changes,
+do not require a migration. After you increment the local schema version,
+you can begin using the updated schema in your app. Breaking schema
+changes, also called destructive schema changes, require a migration function.
+
+To learn more about schema versioning and migrations,
+refer to :ref:`Update a Realm Object Schema <flutter-update-schema>`.
+
+Persistent or In-Memory Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use Realm Database to store data persistently on disk, or
+ephemerally in memory. Ephemeral realms can be useful in situations
+where you don't need to persist data between application instances, such
+as when a user works in a temporary workspace.
+
+To learn more, refer to :ref:`Configure and Open a Realm <flutter-open-close-realm>`.
+
+Queries
+~~~~~~~
+
+You can query Realm Database using :ref:`Realm Query Language <rql>`.
+
+To learn more about querying Realm Database, refer to :ref:`Read & Write Data <flutter-read-write-data>`.
+
+Encryption
+~~~~~~~~~~
+
+Realm Database supports on-device realm encryption. Since
+memory mapping does not support encryption, encrypted realms use a
+simulated in-library form of memory mapping instead.
+
+To learn more, refer to :ref:`Encrypt a Realm <flutter-encrypt>`.
+
+Indexes
+~~~~~~~
+
+Indexes are implemented as trees containing values of a given property
+instead of a unique internal object key. This means that indexes only
+support one column, and thus only one property, at a time.
+
+To learn more, refer to :ref:`Index Properties <flutter-index-property>`.
