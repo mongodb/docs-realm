@@ -12,7 +12,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
     // :snippet-start: create-custom-user-data
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to log in: %@", error);
@@ -45,7 +45,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
     // :snippet-start: read-custom-user-data
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to log in: %@", error);
@@ -79,7 +79,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
     // :snippet-start: update-custom-user-data
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to log in: %@", error);

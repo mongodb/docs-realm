@@ -96,25 +96,19 @@ RLM_COLLECTION_TYPE(ReadWriteDataObjcExample_Person)
 }
 
 - (void)testCreateNewObject {
-    // :snippet-start: create-a-new-object
-    // (1) Create a Dog object and then set its properties
-    ReadWriteDataObjcExample_Dog *myDog = [[ReadWriteDataObjcExample_Dog alloc] init];
-    myDog.name = @"Rex";
-    myDog.age = 10;
+    // :snippet-start: initialize-objects-with-values
+    // (1) Create a Dog object from a dictionary
+    ReadWriteDataObjcExample_Dog *myDog = [[ReadWriteDataObjcExample_Dog alloc] initWithValue:@{@"name" : @"Pluto", @"age" : @3}];
 
-    // (2) Create a Dog object from a dictionary
-    ReadWriteDataObjcExample_Dog *myOtherDog = [[ReadWriteDataObjcExample_Dog alloc] initWithValue:@{@"name" : @"Pluto", @"age" : @3}];
+    // (2) Create a Dog object from an array
+    ReadWriteDataObjcExample_Dog *myOtherDog = [[ReadWriteDataObjcExample_Dog alloc] initWithValue:@[@"Pluto", @3]];
 
-    // (3) Create a Dog object from an array
-    ReadWriteDataObjcExample_Dog *myThirdDog = [[ReadWriteDataObjcExample_Dog alloc] initWithValue:@[@"Pluto", @3]];
-
-    // Get the default realm.
-    // You only need to do this once per thread.
     RLMRealm *realm = [RLMRealm defaultRealm];
 
     // Add to the realm with transaction
     [realm transactionWithBlock:^() {
         [realm addObject:myDog];
+        [realm addObject:myOtherDog];
     }];
     // :snippet-end:
 }
@@ -207,6 +201,8 @@ RLM_COLLECTION_TYPE(ReadWriteDataObjcExample_Person)
 
 - (void)testCreateAndDelete {
     // :snippet-start: create
+    // Get the default realm.
+    // You only need to do this once per thread.
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     // Instantiate the class.
@@ -327,19 +323,6 @@ RLM_COLLECTION_TYPE(ReadWriteDataObjcExample_Person)
         // Otherwise, Realm automatically commits the transaction at the
         // end of the code block.
     }];
-    // :snippet-end:
-}
-
-- (void)testTransactionCounterexample {
-    // :snippet-start: transaction-counterexample
-    RLMRealm *realm = [RLMRealm defaultRealm];
-
-    // BAD EXAMPLE -- avoid this!
-    [realm beginWriteTransaction];
-    // ... Make changes ...
-    // If an exception is thrown here or the function otherwise returns early,
-    // the transaction remains open!
-    [realm commitWriteTransaction];
     // :snippet-end:
 }
 

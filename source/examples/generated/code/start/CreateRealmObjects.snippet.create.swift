@@ -1,7 +1,9 @@
-// Instantiate the class. For convenience, you can initialize
-// objects from dictionaries with appropriate keys and values.
-let dog = Dog(value: ["name": "Max", "age": 5])
+// Instantiate the class and set its values.
+let dog = Dog()
+dog.name = "Rex"
+dog.age = 10
 
+// Get the default realm. You only need to do this once per thread.
 let realm = try! Realm()
 // Open a thread-safe transaction.
 try! realm.write {

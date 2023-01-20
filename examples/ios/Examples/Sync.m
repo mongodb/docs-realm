@@ -70,7 +70,7 @@
 @implementation SyncObjc
 - (void)testInitSyncedRealm {
     // :snippet-start: init-synced-realm
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     
     // Log in...
 
@@ -100,7 +100,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
     // :snippet-start: asyncopen-synced-realm
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     
     // Log in...
 
@@ -147,7 +147,7 @@
 }
 
 - (void)testPauseResumeSyncSession {
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     RLMUser *user = [app currentUser];
     NSString *partitionValue = @"some partition value";
     RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:partitionValue];
@@ -181,7 +181,7 @@
 }
 
 - (void)testCheckProgress {
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     RLMUser *user = [app currentUser];
     NSString *partitionValue = @"some partition value";
     RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:partitionValue];
@@ -222,7 +222,7 @@
     }
 
     // Get configuration
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     RLMUser *user = [app currentUser];
     RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:@"some partition value"];
     configuration.objectClasses = @[SyncObjcExamples_Task.class];
@@ -241,7 +241,7 @@
 - (void)testSetClientLogLevel {
     // :snippet-start: set-log-level
     // Access your app
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     
     // Access the sync manager for the app
     RLMSyncManager *syncManager = [app syncManager];

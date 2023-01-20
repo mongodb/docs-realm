@@ -1,4 +1,4 @@
-RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
 RLMEmailPasswordAuth *client = [app emailPasswordAuth];
 NSString *email = @"skroob2@example.com";
 NSString *password = @"password12345";

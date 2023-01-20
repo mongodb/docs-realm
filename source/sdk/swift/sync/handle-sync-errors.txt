@@ -36,7 +36,7 @@ API calls.
    
          Realm's :swift-sdk:`SyncError <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>` conforms to :apple:`Swift's Error protocol <documentation/swift/error>`
 
-      .. literalinclude:: /examples/generated/Errors.snippet.create-error-handler.swift
+      .. literalinclude:: /examples/generated/code/start/Errors.snippet.create-error-handler.swift
          :language: swift
 
    .. tab::
@@ -54,7 +54,7 @@ API calls.
          :objc-sdk:`RLMSyncErrorDomain <Constants.html#/c:@RLMSyncErrorDomain>`. To learn more about the error codes, check out
          the definitions of :objc-sdk:`RLMSyncError <Enums/RLMSyncError.html>` and :objc-sdk:`RLMSyncAuthError <Enums/RLMSyncAuthError.html>`.
 
-      .. literalinclude:: /examples/generated/Errors.snippet.create-error-handler.m
+      .. literalinclude:: /examples/generated/code/start/Errors.snippet.create-error-handler.m
          :language: objectivec
 
 .. _ios-client-resets:
@@ -285,10 +285,27 @@ manual error handler. This may occur in any of these automatic client reset mode
 - ``.recoverOrDiscardUnsyncedChanges``
 - ``.discardUnsyncedChanges`` 
 
-You can set an error handler for this fallback case via the :swift-sdk:`SyncManager 
-<Typealiases.html#/s:10RealmSwift11SyncManagera>`. We recommend treating 
-the manual handler as a tool for fatal error recovery situations where 
-you advise users to update the app or perform some other action. 
+.. tabs-realm-languages::
 
-.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.manual-fallback-error-handler.swift
-   :language: swift
+   .. tab::
+      :tabid: swift
+
+      You can set an error handler for this fallback case via the :swift-sdk:`SyncManager 
+      <Typealiases.html#/s:10RealmSwift11SyncManagera>`. We recommend treating 
+      the manual handler as a tool for fatal error recovery situations where 
+      you advise users to update the app or perform some other action. 
+
+      .. literalinclude:: /examples/generated/code/start/ClientReset.snippet.manual-fallback-error-handler.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can set an error handler for this fallback case via the
+      :objc-sdk:`RLMSyncManager <Classes/RLMSyncManager.html>` instance
+      on your :objc-sdk:`RLMApp <Classes/RLMApp.html>`. We recommend treating 
+      the manual handler as a tool for fatal error recovery situations where 
+      you advise users to update the app or perform some other action.
+
+      .. literalinclude:: /examples/generated/code/start/Errors.snippet.client-reset.m
+         :language: objectivec

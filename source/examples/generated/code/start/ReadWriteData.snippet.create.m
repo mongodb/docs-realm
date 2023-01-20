@@ -1,3 +1,5 @@
+// Get the default realm.
+// You only need to do this once per thread.
 RLMRealm *realm = [RLMRealm defaultRealm];
 
 // Instantiate the class.

@@ -11,7 +11,7 @@
 - (void)setUp {
     XCTestExpectation *expectation = [self expectationWithDescription:@"registers and logs in"];
 
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID]; // Replace YOUR_REALM_APP_ID with your Realm app ID
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID]; // Replace YOUR_REALM_APP_ID with your Realm app ID
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
     NSString *email = @"manage-api-keys-objc@example.com";
     NSString *password = @"123456";
@@ -36,7 +36,7 @@
 - (void)testCreateApiKey {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
     // :snippet-start: create-api-key
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     // ... log in ...
     RLMUser *user = [app currentUser];
     RLMAPIKeyAuth *client = [user apiKeysAuth];
@@ -62,7 +62,7 @@
     XCTestExpectation *fetchOneExpectation = [self expectationWithDescription:@"fetch one completes"];
     XCTestExpectation *fetchAllExpectation = [self expectationWithDescription:@"fetch all completes"];
     // :snippet-start: look-up-api-key
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     // ... log in ...
     RLMUser *user = [app currentUser];
     RLMAPIKeyAuth *client = [user apiKeysAuth];
@@ -102,7 +102,7 @@
     XCTestExpectation *enableExpectation = [self expectationWithDescription:@"enable completes"];
     XCTestExpectation *disableExpectation = [self expectationWithDescription:@"disable completes"];
     // :snippet-start: enable-disable-api-key
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     // ... log in ...
     RLMUser *user = [app currentUser];
     RLMAPIKeyAuth *client = [user apiKeysAuth];
@@ -137,7 +137,7 @@
 - (void)testDeleteApiKey {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
     // :snippet-start: delete-api-key
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     // ... log in ...
     RLMUser *user = [app currentUser];
     RLMAPIKeyAuth *client = [user apiKeysAuth];

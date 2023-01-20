@@ -171,8 +171,6 @@ class DeleteRealmObjects: XCTestCase {
     }
 
     func testBatchUpdateAndCascadingDelete() {
-        // TODO: CURRENTLY COMMENTED OUT UNTIL https://jira.mongodb.org/browse/RCOCOA-1282 IS FIXED
-        /*
         // :snippet-start: batch-update
         let realm = try! Realm()
         try! realm.write {
@@ -198,7 +196,7 @@ class DeleteRealmObjects: XCTestCase {
         }
         // :snippet-end:
 
-        // :snippet-start: cascading-delete
+        // :snippet-start: chaining-delete
         let person = realm.object(ofType: DeleteExamples_Person.self, forPrimaryKey: 1)!
         // :remove-start:
         XCTAssert(person.dogs.count == 1)
@@ -211,7 +209,6 @@ class DeleteRealmObjects: XCTestCase {
         // :snippet-end:
         XCTAssert(realm.objects(DeleteExamples_Dog.self).count == 0)
         XCTAssert(realm.objects(DeleteExamples_Person.self).count == 0)
-        */
     }
 
     func testRemoveValueOfAnyRealmValue() {
