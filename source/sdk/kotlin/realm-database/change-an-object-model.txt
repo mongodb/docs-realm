@@ -1,0 +1,229 @@
+.. _kotlin-schema-versions-and-migrations:
+.. _kotlin-change-object-model:
+
+=========================================
+Change an Object Model - Kotlin SDK
+=========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
+
+Overview
+--------
+
+You can change the schema of a Realm object after you first create it.
+Depending on the type of changes you make to the schema, the changes can be 
+automatically applied or require a manual update to the new schema.  
+Schema updates are called migrations in Realm Database.
+
+- For simple schema updates (adding an optional property or deleting a  
+  property), Realm Database will automatically migrate the changes. 
+  You only need to update the schema version.
+- For more complex schema updates, you must manually migrate old instances 
+  of a given object to the new schema. 
+  This might include changes such as:
+
+  - Adding required properties that must be populated with default values
+  - Combining fields
+  - Renaming a field
+  - Changing a field's type
+  - Converting from an object to an embedded object
+
+.. tip:: Bypass Migration During Development
+
+   When developing or debugging your application, you may prefer to delete 
+   the realm instead of migrating it. Use the 
+   `RealmConfiguration.deleteRealmIfMigrationNeeded <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/delete-realm-if-migration-needed.html>`__ 
+   property to delete the database automatically when a schema mismatch would 
+   require a migration. 
+
+   Never release an app to production with this flag set to ``true``.
+
+.. _kotlin-schema-version:
+
+Schema Version
+--------------
+
+A **schema version** identifies the state of a realm schema at some point in 
+time. 
+.. TODO: add <realm schema> link
+Realm Database tracks the schema version of each realm and uses it to map the
+objects in each realm to the correct schema.
+
+Schema versions are ascending integers that you can optionally include
+in the realm configuration when you :ref:`open a realm <kotlin-open-a-realm>`. 
+If a client application does not specify a version number when it opens a 
+realm, then the realm defaults to version ``0``.
+
+.. important:: Increment Versions Monotonically
+   
+   Migrations must update a realm to a higher schema version. 
+   Realm Database will throw an error if a client
+   application opens a realm with a schema version that is lower than
+   the realm's current version or if the specified schema version is the
+   same as the realm's current version but includes different
+   object schemas.
+   .. TODO: add <object schemas> link
+
+.. _kotlin-migrations:
+
+Migrations
+----------
+
+A **migration** is a function that updates a realm and any objects it
+contains from one schema version to a newer version. 
+Migrations give you the flexibility to change your object schemas over
+time to accommodate new features and refactors.
+
+Whenever you open an existing realm with a schema version greater than the
+realm's current version, you can provide a **migration function** that 
+defines any additional logic needed when you open the out-of-date realm.
+For example, you can customize property values, merge and split properties, 
+or create new objects.
+The function has access to the realm's version number and incrementally
+updates objects in the realm to conform to the new schema.
+
+A **local migration** is a migration for a realm that does *not* automatically 
+:ref:`Sync <sync>` with another realm. 
+
+.. note::
+      To modify schema properties of a synced realm, refer to 
+      :ref:`Update a Data Model <synced-schema-overview>` in the Atlas
+      Device Sync documentation.
+
+Automatically Update Schema
+---------------------------
+
+If your schema update adds optional properties or removes properties, 
+Realm Database can perform the migration automatically. 
+You only need to increment the ``schemaVersion``. 
+
+.. _kotlin-add-a-property:
+
+Add a Property
+~~~~~~~~~~~~~~
+
+To add a property to a schema:  
+
+#. Add the new property to the object's class. 
+#. Set the schema version through the 
+   `RealmConfiguration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__ builder.
+
+Realm does not automatically set values for new properties 
+unless the updated object schema specifies a default value. 
+
+.. example::
+   
+   A realm using schema version ``1`` has a ``Person`` object type 
+   with first name, last name, and age properties. 
+   The developer adds an ``email`` field to the ``Person`` class.
+
+   To change the realm to conform to the updated ``Person`` schema, the
+   developer sets the realm's schema version to ``2``:
+
+   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v1.kt
+    :language: kotlin
+    :emphasize-lines: 4
+
+   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.update-schema-version-2.kt
+     :language: kotlin
+     :emphasize-lines: 5
+
+.. _kotlin-delete-a-property:
+
+Delete a Property
+~~~~~~~~~~~~~~~~~
+
+To delete a property from a schema: 
+
+#. Remove the property from the object's class.
+#. Set the schema version through the 
+   `RealmConfiguration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__ builder. 
+
+Deleting a property will not impact existing objects.
+
+.. example::
+   
+   A realm using schema version ``2`` has a ``Person`` object type 
+   with first name, last name, age, and email properties.
+   The developer removes the ``age`` field from the ``Person`` class.
+
+   To change the realm to conform to the updated ``Person`` schema, the
+   developer sets the realm's schema version to ``3``:
+    
+   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v2.kt
+    :language: kotlin
+    :emphasize-lines: 4
+
+   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.update-schema-version-3.kt
+     :language: kotlin
+     :emphasize-lines: 5
+
+.. _kotlin-perform-a-schema-migration:
+
+Manually Migrate Schema
+-----------------------
+
+For more complex schema updates, Realm Database requires you to manually 
+migrate old instances of a given object to the new schema.
+
+When you open the realm with the updated schema, you must do the following
+in the 
+`RealmConfiguration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__:
+
+- Increment the ``schemaVersion`` property.
+- Define the migration logic using the `migrationContext <{+kotlin-local-prefix+}io.realm.kotlin.migration/-automatic-schema-migration/-migration-context/index.html>`__.
+
+.. _kotlin-modify-a-property:
+.. _kotlin-rename-a-property:
+
+Modify a Property
+~~~~~~~~~~~~~~~~~
+
+To modify an object property (e.g. rename, merge, split, or change property
+type): 
+
+#. Change the property or properties in the object schema.
+#. Open the realm with an incremented schema version and a
+   migration function that maps the existing objects to use the new properties.
+
+.. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.local-migration.kt
+   :language: kotlin
+
+.. _kotlin-convert-to-an-embedded-object:
+
+.. note:: Converting Objects to Embedded Objects
+  Embedded objects cannot exist independently of a parent object. 
+  When changing an Object to an 
+  `EmbeddedObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__, 
+  the migration function must ensure that every embedded object has exactly 
+  one backlink to a parent object. 
+
+.. TODO link to Embedded Object doc once available
+
+.. _kotlin-other-migration-tasks:
+
+Other Migration Tasks
+~~~~~~~~~~~~~~~~~~~~~
+
+To perform other realm schema migrations, use the following properties of
+the ``AutomaticSchemaMigration.MigrationContext`` interface:
+
+- `MigrationContext.oldRealm <{+kotlin-local-prefix+}io.realm.kotlin.migration/-automatic-schema-migration/-migration-context/old-realm.html>`__: 
+  The Realm as it existed before the migration with the previous schema 
+  version.
+  The `dynamic API <{+kotlin-local-prefix+}io.realm.kotlin.dynamic/index.html>__` lets you find Realm objects by a string representation of 
+  their class name.
+- `MigrationContext.newRealm <{+kotlin-local-prefix+}io.realm.kotlin.migration/-automatic-schema-migration/-migration-context/new-realm.html>`__:
+  The Realm as it exists after the migration using the new schema version. 
+  
+By the end of the migration, you must migrate all relevant data from ``oldRealm`` into ``newRealm``. 
+Any objects obtained in the migration are valid only in the scope of the migration.
+
+.. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.local-migration-other.kt
+   :language: kotlin
