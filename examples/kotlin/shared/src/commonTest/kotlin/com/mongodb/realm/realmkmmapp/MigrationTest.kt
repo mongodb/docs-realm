@@ -153,7 +153,7 @@ class MigrationTest {
             // using the newer schema version
             // and define the migration logic between your old and new realm objects
             val config = RealmConfiguration.Builder(
-                schema = setOf(MigrationExampleV5_Person::class)
+                schema = setOf(MigrationExampleV4_Person::class)
             )
                 .schemaVersion(2) // Set the new schema version to 2
                 .migration(AutomaticSchemaMigration {
@@ -165,7 +165,6 @@ class MigrationTest {
                     for (oldPerson in oldPersons) {
                         // Get properties from old realm using dynamic string-based API
                         val firstName: String = oldPerson.getValue(propertyName = "firstName", clazz = String::class)
-                        val child: DynamicRealmObject? = oldPerson.getObject("")
                     }
 
                     // Get objects from old realm to use in the new realm as mutable objects
