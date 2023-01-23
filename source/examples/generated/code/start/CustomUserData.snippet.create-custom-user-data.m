@@ -1,4 +1,4 @@
-RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
 [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
     if (error != nil) {
         NSLog(@"Failed to log in: %@", error);

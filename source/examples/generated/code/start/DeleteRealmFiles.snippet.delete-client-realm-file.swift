@@ -4,8 +4,9 @@ autoreleasepool {
     // before deleting the files
 }
 do {
-    let app = App(id: YOUR_APP_SERVICES_APP_ID)
-    var configuration = app.currentUser!.configuration(partitionValue: "some partition value")
+    let app = App(id: APPID)
+    let user = try await app.login(credentials: Credentials.anonymous)
+    var configuration = user.flexibleSyncConfiguration()
     _ = try Realm.deleteFiles(for: configuration)
 } catch {
     // handle error

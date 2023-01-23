@@ -59,7 +59,7 @@ class Threading: XCTestCase {
 
         // :remove-start:
         try! realm.write {
-            realm.add(Todo())
+            realm.add(ThreadingExamples_Person())
         }
         // :remove-end:
         // Get an immutable copy of the realm that can be passed across threads
@@ -67,28 +67,28 @@ class Threading: XCTestCase {
 
         assert(frozenRealm.isFrozen)
 
-        let todos = realm.objects(Todo.self)
+        let people = realm.objects(ThreadingExamples_Person.self)
 
         // You can freeze collections
-        let frozenTodos = todos.freeze()
+        let frozenPeople = people.freeze()
 
-        assert(frozenTodos.isFrozen)
+        assert(frozenPeople.isFrozen)
 
         // You can still read from frozen realms
-        let frozenTodos2 = frozenRealm.objects(Todo.self)
+        let frozenPeople2 = frozenRealm.objects(ThreadingExamples_Person.self)
 
-        assert(frozenTodos2.isFrozen)
+        assert(frozenPeople2.isFrozen)
 
-        let todo = todos.first!
+        let person = people.first!
 
-        assert(!todo.realm!.isFrozen)
+        assert(!person.realm!.isFrozen)
 
         // You can freeze objects
-        let frozenTodo = todo.freeze()
+        let frozenPerson = person.freeze()
 
-        assert(frozenTodo.isFrozen)
+        assert(frozenPerson.isFrozen)
         // Frozen objects have a reference to a frozen realm
-        assert(frozenTodo.realm!.isFrozen)
+        assert(frozenPerson.realm!.isFrozen)
         // :snippet-end:
     }
 
@@ -96,39 +96,39 @@ class Threading: XCTestCase {
         let realm = try! Realm()
 
         try! realm.write {
-            realm.add(Todo())
+            realm.add(ThreadingExamples_Person())
         }
 
         let frozenRealm = realm.freeze()
 
         // :snippet-start: thaw
         // Read from a frozen realm
-        let frozenTodos = frozenRealm.objects(Todo.self)
+        let frozenPeople = frozenRealm.objects(ThreadingExamples_Person.self)
 
         // The collection that we pull from the frozen realm is also frozen
-        assert(frozenTodos.isFrozen)
+        assert(frozenPeople.isFrozen)
 
-        // Get an individual task from the collection
-        let frozenTodo = frozenTodos.first!
+        // Get an individual person from the collection
+        let frozenPerson = frozenPeople.first!
 
-        // To modify the todo, you must first thaw it
+        // To modify the person, you must first thaw it
         // You can also thaw collections and realms
-        let thawedTodo = frozenTodo.thaw()
+        let thawedPerson = frozenPerson.thaw()
 
-        // Check to make sure this todo is valid. An object is
+        // Check to make sure this person is valid. An object is
         // invalidated when it is deleted from its managing realm,
         // or when its managing realm has invalidate() called on it.
-        assert(thawedTodo?.isInvalidated == false)
+        assert(thawedPerson?.isInvalidated == false)
 
-        // Thawing the todo also thaws the frozen realm it references
-        assert(thawedTodo!.realm!.isFrozen == false)
+        // Thawing the person also thaws the frozen realm it references
+        assert(thawedPerson!.realm!.isFrozen == false)
 
         // Let's make the code easier to follow by naming the thawed realm
-        let thawedRealm = thawedTodo!.realm!
+        let thawedRealm = thawedPerson!.realm!
 
         // Now, you can modify the todo
         try! thawedRealm.write {
-           thawedTodo!.status = "Done"
+           thawedPerson!.name = "John Michael Kane"
         }
         // :snippet-end:
     }

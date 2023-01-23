@@ -1,3 +1,9 @@
+// :replace-start: {
+//   "terms": {
+//     "ObjectModelsExamples_": ""
+//   }
+// }
+
 import XCTest
 import RealmSwift
 
@@ -35,10 +41,10 @@ class OpenCloseRealm: XCTestCase {
         config.inMemoryIdentifier = "test"
         // :remove-end:
 
-        // Given: `class Todo: Object`
-        // Limit the realm to only the Todo object. All other
+        // Given: `class ObjectModelsExamples_Dog: Object`
+        // Limit the realm to only the ObjectModelsExamples_Dog object. All other
         // Object- and EmbeddedObject-derived classes are not added.
-        config.objectTypes = [Todo.self]
+        config.objectTypes = [ObjectModelsExamples_Dog.self]
 
         let realm = try! Realm(configuration: config)
         // :snippet-end:
@@ -64,3 +70,4 @@ class OpenCloseRealm: XCTestCase {
         // :snippet-end:
     }
 }
+// :replace-end:
