@@ -1,6 +1,2 @@
-.. code-block:: javascript
-
-   // Get on-disk location of the default Realm
-   Realm.open({}).then(realm => {
-       console.log("Realm is located at: " + realm.path);
-   });
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.find-realm-file.js
+  :language: javascript
