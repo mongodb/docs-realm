@@ -1,5 +1,5 @@
-struct Employee : realm::object {
-    realm::persisted<realm::uuid> _id;
+struct Employee : realm::object<Employee> {
+    realm::persisted<int64_t> _id;
     realm::persisted<std::string> firstName;
     realm::persisted<std::string> lastName;
     // Omitting the `realm::persisted` annotation means

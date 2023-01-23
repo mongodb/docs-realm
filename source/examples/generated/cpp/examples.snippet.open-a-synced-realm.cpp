@@ -1,6 +1,6 @@
 auto app = realm::App(APP_ID);
 // Ensure anonymous authentication is enabled in the App Services App
-auto user = app.login(realm::App::Credentials::anonymous()).get_future().get();
+auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
 auto sync_config = user.flexible_sync_configuration();
 // Note that get_future().get() blocks this thread until the promise - 
 // in this case, the task kicked off by the call to async_open - is resolved
