@@ -63,13 +63,16 @@ describe("Open and Close a Realm", () => {
 
   test("find realm file", async () => {
     // :snippet-start: find-realm-file
+    const realm = await Realm.open({});
     // Get on-disk location of the default Realm
-    const realmFileLocation = await Realm.open({}).then(realm => {
-      console.log("Realm file is located at: " + realm.path);
+    const realmFileLocation = realm.path;
 
-      return realm.path;
-    });
+    console.log("Realm file is located at: " + realm.path);
     // :snippet-end:
+
+    console.debug(realmFileLocation)
+
+    realm.close();
   });
 
   test.skip("should open an in memory realm", async () => {
