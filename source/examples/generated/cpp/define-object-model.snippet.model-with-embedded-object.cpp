@@ -13,8 +13,7 @@ struct ContactDetails : realm::embedded_object<ContactDetails> {
 struct Business : realm::object<Business> {
     realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
-    // Unlike to-one relationships, an embedded object can be a required property
-    realm::persisted<ContactDetails> contactDetails; 
+    realm::persisted<std::optional<ContactDetails>> contactDetails; 
 
     static constexpr auto schema = realm::schema("Business",
         realm::property<&Business::_id, true>("_id"),

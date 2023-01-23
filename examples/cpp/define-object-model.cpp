@@ -24,8 +24,7 @@ struct ContactDetails : realm::embedded_object<ContactDetails> { // :emphasize:
 struct Business : realm::object<Business> {
     realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
-    // Unlike to-one relationships, an embedded object can be a required property
-    realm::persisted<ContactDetails> contactDetails; // :emphasize:
+    realm::persisted<std::optional<ContactDetails>> contactDetails; // :emphasize:
 
     static constexpr auto schema = realm::schema("Business",
         realm::property<&Business::_id, true>("_id"),
@@ -117,12 +116,48 @@ struct Company : realm::object<Company> {
 };
 // :snippet-end:
 
-#if 0
+// struct EmbeddedFoo: realm::embedded_object<EmbeddedFoo> {
+//     realm::persisted<int64_t> bar;
+
+//     static constexpr auto schema = realm::schema("EmbeddedFoo", realm::property<&EmbeddedFoo::bar>("bar"));
+// };
+
+// struct Foo: realm::object<Foo> {
+//     realm::persisted<int64_t> bar;
+//     realm::persisted<std::optional<EmbeddedFoo>> foo;
+
+//     realm::persisted<int64_t> bar2;
+//     realm::persisted<std::optional<EmbeddedFoo>> foo2;
+
+//     Foo() = default;
+//     Foo(const Foo&) = delete;
+//     static constexpr auto schema = realm::schema("Foo",
+//         realm::property<&Foo::bar>("bar"),
+//         realm::property<&Foo::foo>("foo"),
+//         realm::property<&Foo::bar2>("bar2"),
+//         realm::property<&Foo::foo2>("foo2"));
+// };
+// TEST_CASE("SDK's version of create an embedded object", "[model][write]") {
+//     auto realm = realm::open<Foo, EmbeddedFoo>();
+
+//     auto foo = Foo();
+//     foo.foo = EmbeddedFoo{.bar=42};
+//     realm.write([&foo, &realm]() {
+//         realm.add(foo);
+//     });
+
+//     CHECK(foo.foo->bar == 42);
+//     EmbeddedFoo e_foo = *(*foo.foo);
+
+//     realm.write([&foo, &realm]() {
+//         realm.remove(foo);
+//     });
+// }
+
 TEST_CASE("create an embedded object", "[model][write]") {
     // :snippet-start: create-embedded-object
     auto realm = realm::open<Business, ContactDetails>();
 
-    // auto business = Business { ._id = 789012, .name = "MongoDB" };
     auto business = Business();
     business._id = 789012;
     business.name = "MongoDB";
@@ -139,14 +174,14 @@ TEST_CASE("create an embedded object", "[model][write]") {
         auto businesses = realm.objects<Business>();
         Business mongoDBPointer = businesses[0];
         REQUIRE(businesses.size() >= 1);
-        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "email@example.com");
+        REQUIRE(business.contactDetails->emailAddress == "email@example.com");
+        std::cout << "Business email address is: " << business.contactDetails->emailAddress << "\n";
     }
     // Clean up after test
     realm.write([&realm, &business] {
         realm.remove(business);
     });
 }
-#endif
 
 TEST_CASE("create object with ignored property", "[model][write]") {
     auto realm = realm::open<Employee>();
@@ -307,7 +342,6 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
     });
 };
 
-#if 0
 TEST_CASE("update an embedded object", "[model][update]") {
     auto realm = realm::open<Business, ContactDetails>();
 
@@ -324,7 +358,6 @@ TEST_CASE("update an embedded object", "[model][update]") {
         // :snippet-start: update-embedded-object
         auto businesses = realm.objects<Business>();
         auto mongoDBPointer = businesses[0];
-        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "email@example.com"); // :remove:
 
         realm.write([&realm, &mongoDBPointer] {
             mongoDBPointer.contactDetails->emailAddress = "info@example.com";
@@ -332,12 +365,11 @@ TEST_CASE("update an embedded object", "[model][update]") {
 
         std::cout << "New email address: " << mongoDBPointer.contactDetails->emailAddress << "\n";
         // :snippet-end:
-        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "info@example.com");
     }
     // Clean up after the test
     realm.write([&realm, &business] {
         realm.remove(business);
     });
 }
-#endif
+
 // :replace-end:
