@@ -1,5 +1,3 @@
-// Use the configuration builder to open the realm
-// using the newer schema version
 val config = RealmConfiguration.Builder(
     schema = setOf(Person::class)
 )

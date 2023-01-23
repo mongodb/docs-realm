@@ -1,4 +1,5 @@
-class Person : RealmObject { // Realm schema version 3
+// Realm schema version 3
+class Person : RealmObject {
     var firstName: String = ""
     var lastName: String = ""
     // var age: Int = 0

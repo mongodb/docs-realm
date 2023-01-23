@@ -1,5 +1,4 @@
-// Use the configuration builder to open the realm
-// using the newer schema version
+// Use the configuration builder to open the realm with the newer schema version
 // and define the migration logic between your old and new realm objects
 val config = RealmConfiguration.Builder(
     schema = setOf(Person::class)
@@ -8,6 +7,12 @@ val config = RealmConfiguration.Builder(
     .migration(AutomaticSchemaMigration {
         it.enumerate(className = "Person") { oldObject: DynamicRealmObject, newObject: DynamicMutableRealmObject? ->
             newObject?.run {
+                // Change property type
+                set(
+                    "_id",
+                    oldObject.getValue<ObjectId>(fieldName = "_id").toString()
+                )
+
                 // Merge properties
                 set(
                     "fullName",
@@ -17,12 +22,8 @@ val config = RealmConfiguration.Builder(
                 // Rename property
                 set(
                     "yearsSinceBirth",
-                    oldObject.getValue<String>(fieldName = "age"))
-
-                // Change property type
-                set(
-                    "_id",
-                    oldObject.getValue<ObjectId>(fieldName = "_id").toString())
+                    oldObject.getValue<String>(fieldName = "age")
+                )
             }
         }
     })

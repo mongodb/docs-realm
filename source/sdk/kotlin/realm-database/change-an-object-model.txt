@@ -73,6 +73,7 @@ Whenever you open an existing realm with a schema version greater than the
 realm's current version, you can provide a **migration function** that 
 defines any additional logic needed for the schema update.
 For example: 
+
 - Setting property values
 - Combining or splitting fields
 - Renaming a field
@@ -113,19 +114,23 @@ unless the updated object schema specifies a default value.
 .. example::
    
    A realm using schema version ``1`` has a ``Person`` object type 
-   with first name, last name, and age properties. 
-   The developer adds an ``email`` field to the ``Person`` class.
+   with first name, last name, and age properties: 
+      
+   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v1.kt
+    :language: kotlin
+
+   The developer adds an ``email`` field to the ``Person`` class:
+
+   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v2.kt
+    :language: kotlin
+    :emphasize-lines: 6
 
    To change the realm to conform to the updated ``Person`` schema, the
    developer sets the realm's schema version to ``2``:
 
-   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v1.kt
-    :language: kotlin
-    :emphasize-lines: 5
-
    .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.update-schema-version-2.kt
      :language: kotlin
-     :emphasize-lines: 5
+     :emphasize-lines: 4
 
 .. _kotlin-delete-a-property:
 
@@ -143,19 +148,23 @@ Deleting a property will not impact existing objects.
 .. example::
    
    A realm using schema version ``2`` has a ``Person`` object type 
-   with first name, last name, age, and email properties.
-   The developer removes the ``age`` field from the ``Person`` class.
+   with first name, last name, age, and email properties:
+   
+   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v2.kt
+    :language: kotlin
+
+   The developer removes the ``age`` field from the ``Person`` class:
+
+   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v3.kt
+    :language: kotlin
+    :emphasize-lines: 5
 
    To change the realm to conform to the updated ``Person`` schema, the
    developer sets the realm's schema version to ``3``:
-    
-   .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v2.kt
-    :language: kotlin
-    :emphasize-lines: 4
 
    .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.update-schema-version-3.kt
      :language: kotlin
-     :emphasize-lines: 5
+     :emphasize-lines: 4
 
 .. _kotlin-perform-a-schema-migration:
 
@@ -185,7 +194,9 @@ type):
 #. Open the realm with an incremented schema version and a
    migration function that maps the existing objects to use the new properties.
 
-.. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v5.kt
+In the following example, the schema is updated to change a property type, merge two properties into a new property, and rename an existing property. 
+
+.. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.model-v4.kt
    :language: kotlin
 
 .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.local-migration.kt
@@ -193,14 +204,11 @@ type):
 
 .. _kotlin-convert-to-an-embedded-object:
 
-.. note:: Converting Objects to Embedded Objects
-  Embedded objects cannot exist independently of a parent object. 
-  When changing an Object to an 
+.. note:: 
+  If your schema update includes converting an object to an 
   `EmbeddedObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__, 
   the migration function must ensure that every embedded object has exactly 
-  one backlink to a parent object. 
-
-.. TODO link to Embedded Object doc once available
+  one backlink to a parent object. Embedded objects cannot exist independently of a parent object. 
 
 .. _kotlin-other-migration-tasks:
 
@@ -210,12 +218,12 @@ Other Migration Tasks
 To perform other realm schema migrations, use the following properties of
 the ``AutomaticSchemaMigration.MigrationContext`` interface:
 
-- `MigrationContext.oldRealm <{+kotlin-local-prefix+}io.realm.kotlin.migration/-automatic-schema-migration/-migration-context/old-realm.html>`__: 
+- `oldRealm <{+kotlin-local-prefix+}io.realm.kotlin.migration/-automatic-schema-migration/-migration-context/old-realm.html>`__: 
   The Realm as it existed before the migration with the previous schema 
   version.
-  The `dynamic API <{+kotlin-local-prefix+}io.realm.kotlin.dynamic/index.html>__` lets you find Realm objects by a string representation of 
+  The `dynamic API <{+kotlin-local-prefix+}io.realm.kotlin.dynamic/index.html>`__ lets you find Realm objects by a string representation of 
   their class name.
-- `MigrationContext.newRealm <{+kotlin-local-prefix+}io.realm.kotlin.migration/-automatic-schema-migration/-migration-context/new-realm.html>`__:
+- `newRealm <{+kotlin-local-prefix+}io.realm.kotlin.migration/-automatic-schema-migration/-migration-context/new-realm.html>`__:
   The Realm as it exists after the migration using the new schema version. 
   
 By the end of the migration, you must migrate all relevant data from ``oldRealm`` into ``newRealm``. 
