@@ -1,4 +1,6 @@
-const realm = await Realm.open({});
+const realm = await Realm.open({
+  schema: [<yourSchema>],
+});
 // Get on-disk location of the default Realm
 const realmFileLocation = realm.path;
 
