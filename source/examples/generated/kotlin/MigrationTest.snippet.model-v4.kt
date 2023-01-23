@@ -7,7 +7,7 @@ class Person : RealmObject {
 }
 
 // Realm schema version 2 (newObject)
-class MigrationExamplev5_Person : RealmObject {
+class Person : RealmObject {
     var _id: String = "" // change property type
     var fullName: String = "" // merge firstName and lastName properties
     var yearsSinceBirth: Int = 0 // rename property

@@ -27,8 +27,6 @@ import io.realm.kotlin.types.RealmList
 //     "MigrationExampleV3_": "",
 //     "MigrationExampleV4_": "",
 //     "MigrationExampleV5_": "",
-//     "MigrationExampleV6_": "",
-//     "MigrationExampleV7_": "",
 //     "MigrationExampleV1Update1_": "",
 //     "MigrationExampleV1Update2_": ""
 //   }
@@ -70,7 +68,7 @@ class MigrationExampleV4_Person : RealmObject {
 }
 
 // Realm schema version 2 (newObject)
-class MigrationExamplev5_Person : RealmObject {
+class MigrationExampleV5_Person : RealmObject {
     var _id: String = "" // change property type
     var fullName: String = "" // merge firstName and lastName properties
     var yearsSinceBirth: Int = 0 // rename property
@@ -116,11 +114,18 @@ class MigrationTest {
             // Use the configuration builder to open the realm with the newer schema version
             // and define the migration logic between your old and new realm objects
             val config = RealmConfiguration.Builder(
-                schema = setOf(MigrationExampleV4_Person::class)
+                schema = setOf(MigrationExampleV5_Person::class)
             )
-                .schemaVersion(2) // Set the new schema version to 2
+                // :remove-start:
+                // Prevent schema version from affecting other unit tests
+                .inMemory()
+                .schemaVersion(4)
+                // :remove-end:
+                // :uncomment-start:
+                //.schemaVersion(2) // Set the new schema version to 2
+                // :uncomment-end:
                 .migration(AutomaticSchemaMigration {
-                    it.enumerate(className = "Person") { oldObject: DynamicRealmObject, newObject: DynamicMutableRealmObject? ->
+                    it.enumerate(className = "MigrationExampleV5_Person") { oldObject: DynamicRealmObject, newObject: DynamicMutableRealmObject? ->
                         newObject?.run {
                             // Change property type
                             set(
@@ -154,15 +159,22 @@ class MigrationTest {
         runBlocking {
 // :snippet-start: local-migration-other
             val config = RealmConfiguration.Builder(
-                schema = setOf(MigrationExampleV4_Person::class)
+                schema = setOf(MigrationExampleV5_Person::class)
             )
-                .schemaVersion(2)
+                // :remove-start:
+                // Prevent schema version from affecting other unit tests
+                .inMemory()
+                .schemaVersion(5)
+                // :remove-end:
+                // :uncomment-start:
+                //.schemaVersion(2)
+                // :uncomment-end:
                 .migration(AutomaticSchemaMigration { migrationContext ->
                     val oldRealm = migrationContext.oldRealm // old realm using the previous schema
                     val newRealm = migrationContext.newRealm // new realm using the new schema
 
                     // Dynamic query for all Persons in old realm
-                    val oldPersons = oldRealm.query(className = "Person").find()
+                    val oldPersons = oldRealm.query(className = "MigrationExampleV5_Person").find()
                     for (oldPerson in oldPersons) {
                         // Get properties from old realm
                         val firstName: String = oldPerson.getValue(
@@ -202,5 +214,4 @@ class MigrationTest {
     }
 
 }
-
 // :replace-end:
