@@ -1,7 +1,8 @@
-// Use the configuration builder to open the realm using the newer schema version
+// Use the configuration builder to open the realm
+// using the newer schema version
 // and define the migration logic between your old and new realm objects
 val config = RealmConfiguration.Builder(
-    schema = setOf(MigrationExampleV4_Person::class)
+    schema = setOf(Person::class)
 )
     .schemaVersion(2) // Set the new schema version to 2
     .migration(AutomaticSchemaMigration {

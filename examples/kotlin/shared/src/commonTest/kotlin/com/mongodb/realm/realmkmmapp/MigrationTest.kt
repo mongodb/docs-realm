@@ -22,6 +22,8 @@ import io.realm.kotlin.dynamic.getValue
 //     "MigrationExampleV1_": "",
 //     "MigrationExampleV2_": "",
 //     "MigrationExampleV3_": "",
+//     "MigrationExampleV4_": "",
+//     "MigrationExampleV5_": "",
 //     "MigrationExampleV1Update1_": "",
 //     "MigrationExampleV1Update2_": ""
 //   }
@@ -74,7 +76,8 @@ class MigrationTest {
     fun updateSchemaVersion1Test() {
         runBlocking {
 // :snippet-start: update-schema-version-2
-            // Use the configuration builder to open the realm using the newer schema version
+            // Use the configuration builder to open the realm
+            // using the newer schema version
             val config = RealmConfiguration.Builder(
                 schema = setOf(MigrationExampleV2_Person::class)
             )
@@ -90,7 +93,8 @@ class MigrationTest {
     fun updateSchemaVersion2Test() {
         runBlocking {
 // :snippet-start: update-schema-version-3
-            // Use the configuration builder to open the realm using the newer schema version
+            // Use the configuration builder to open the realm
+            // using the newer schema version
             val config = RealmConfiguration.Builder(
                 schema = setOf(MigrationExampleV3_Person::class)
             )
@@ -106,7 +110,8 @@ class MigrationTest {
     fun localMigrationTest() {
         runBlocking {
 // :snippet-start: local-migration
-            // Use the configuration builder to open the realm using the newer schema version
+            // Use the configuration builder to open the realm
+            // using the newer schema version
             // and define the migration logic between your old and new realm objects
             val config = RealmConfiguration.Builder(
                 schema = setOf(MigrationExampleV4_Person::class)
@@ -144,10 +149,11 @@ class MigrationTest {
     fun localMigrationOtherTest() {
         runBlocking {
 // :snippet-start: local-migration-other
-            // Use the configuration builder to open the realm using the newer schema version
+            // Use the configuration builder to open the realm
+            // using the newer schema version
             // and define the migration logic between your old and new realm objects
             val config = RealmConfiguration.Builder(
-                schema = setOf(MigrationExampleV4_Person::class)
+                schema = setOf(MigrationExampleV5_Person::class)
             )
                 .schemaVersion(2) // Set the new schema version to 2
                 .migration(AutomaticSchemaMigration {

@@ -1,5 +1,5 @@
 // Realm schema version 1 (oldObject)
-class MigrationExampleV4_Person : RealmObject {
+class Person : RealmObject {
     var _id: ObjectId = ObjectId()
     var firstName: String = ""
     var lastName: String = ""
