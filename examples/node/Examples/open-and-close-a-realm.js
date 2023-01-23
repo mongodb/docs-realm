@@ -59,40 +59,67 @@ describe("Open and Close a Realm", () => {
     } catch (err) {
       console.error(err);
     }
+
+    try {
+      // :snippet-start: find-realm-file
+      // :replace-start: {
+      //    "terms": {
+      //       "Car": "<yourSchema>"
+      //    }
+      // }
+      const realm = await Realm.open({
+        schema: [Car],
+      });
+
+      // Get on-disk location of the default Realm
+      const realmFileLocation = realm.path;
+
+      console.log("Realm file is located at: " + realm.path);
+      // :replace-end:
+      // :snippet-end:
+
+      const parseRealmFilePath = path => path.substring(path.lastIndexOf("/") + 1);
+
+      expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
+
+      realm.close();
+    } catch (err) {
+      console.error(err);
+    }
   });
 
-  test("find realm file", async () => {
-    const Car = {
-      name: "Car",
-      properties: {
-        make: "string",
-        model: "string",
-        miles: "int",
-      },
-    };
+  // test("find realm file", async () => {
+  //   const Car = {
+  //     name: "Car",
+  //     properties: {
+  //       make: "string",
+  //       model: "string",
+  //       miles: "int",
+  //     },
+  //   };
     
-    // :snippet-start: find-realm-file
-    // :replace-start: {
-    //    "terms": {
-    //       "Car": "<yourSchema>"
-    //    }
-    // }
-    const realm = new Realm({
-      schema: [Car],
-    });
-    // Get on-disk location of the default Realm
-    const realmFileLocation = realm.path;
+  //   // :snippet-start: find-realm-file
+  //   // :replace-start: {
+  //   //    "terms": {
+  //   //       "Car": "<yourSchema>"
+  //   //    }
+  //   // }
+  //   const realm = new Realm({
+  //     schema: [Car],
+  //   });
+  //   // Get on-disk location of the default Realm
+  //   const realmFileLocation = realm.path;
 
-    console.log("Realm file is located at: " + realm.path);
-    // :replace-end:
-    // :snippet-end:
+  //   console.log("Realm file is located at: " + realm.path);
+  //   // :replace-end:
+  //   // :snippet-end:
 
-    const parseRealmFilePath = path => path.substring(path.lastIndexOf("/") + 1);
+  //   const parseRealmFilePath = path => path.substring(path.lastIndexOf("/") + 1);
 
-    expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
+  //   expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
 
-    realm.close();
-  });
+  //   realm.close();
+  // });
 
   test.skip("should open an in memory realm", async () => {
     const Car = {
