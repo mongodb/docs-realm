@@ -47,13 +47,10 @@ You can also synchronize data between Realm Database and MongoDB Atlas using
 Atlas Device Sync. To learn more about using Realm Database with Device Sync,
 refer to :ref:`flutter-sync`.
 
-Features
---------
-
-Realm Database supports many popular database features.
+Realm Database supports the following popular database features.
 
 Schemas
-~~~~~~~
+-------
 
 Every realm object has a schema. That schema is defined via a native
 object in your SDK's language. Object schemas can include embedded lists
@@ -71,7 +68,7 @@ To learn more about schema versioning and migrations,
 refer to :ref:`Update a Realm Object Schema <flutter-update-schema>`.
 
 Persistent or In-Memory Realms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 You can use Realm Database to store data persistently on disk, or
 ephemerally in memory. Ephemeral realms can be useful in situations
@@ -81,14 +78,14 @@ as when a user works in a temporary workspace.
 To learn more, refer to :ref:`Configure and Open a Realm <flutter-open-close-realm>`.
 
 Queries
-~~~~~~~
+-------
 
 You can query Realm Database using :ref:`Realm Query Language <rql>`.
 
 To learn more about querying Realm Database, refer to :ref:`Read & Write Data <flutter-read-write-data>`.
 
 Encryption
-~~~~~~~~~~
+----------
 
 Realm Database supports on-device realm encryption. Since
 memory mapping does not support encryption, encrypted realms use a
@@ -97,7 +94,7 @@ simulated in-library form of memory mapping instead.
 To learn more, refer to :ref:`Encrypt a Realm <flutter-encrypt>`.
 
 Indexes
-~~~~~~~
+-------
 
 Indexes are implemented as trees containing values of a given property
 instead of a unique internal object key. This means that indexes only
