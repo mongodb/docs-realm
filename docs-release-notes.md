@@ -1,3 +1,37 @@
+# January 20, 2023
+
+## Flutter SDK
+- Model Data/Update a Realm Object Schema: Update the "Rename a Property" code example to use correct code example
+- Troubleshooting: New page containing existing info moved from other places in the docs to help troubleshoot common errors
+
+## Kotlin SDK
+- Install/Kotlin Multiplatform: Update Kotlin SDK version number in code examples
+- Realm Database
+  - Overview: Add "Room" to list of other mobile databases for which Realm is an alternative
+  - Schemas/Relationships: New Inverse Relationships section with tested code examples showing how to define an inverse relationship
+- Atlas App Services/Create & Manage User API Keys: New page with tested code examples showing how to manage user API keys
+
+## Node.js SDK
+- Usage Examples/Access User Metadata: New page with tested code examples showing how to read, configure, and update user metadata
+- Advanced Guides/Access Custom User Data: Reorganize page and update code examples to use tested code examples
+
+## Swift SDK
+- Realm Files/Delete a Realm File: Update the code example to show deleting a realm file oustside the context of a client reset
+- CRUD
+  - Create: Add more code examples for Initializing Objects with a Value
+  - Update: Add a code example showing batch updates using KVC
+  - Delete: Add a code example illustrating deleting related objects
+  - Threading: Update the Frozen Objects code example to use a model that's already used on this page
+  - Filter Data: Move the Subqueries section to the bottom of each section, add Swift Query API examples for Set operators
+- Sync Data
+  - Write to a Synced Realm: New "Don't Write to a Synced Realm in an App Extension" section describing limitations and workarounds
+  - Handle Sync Errors: Add back an Objective-C example for manually handling a client reset error
+
+## Other
+- Internal
+  - Remove unused Swift & Objective-C tests and code examples from unit test suite
+  - Update Kotlin API Key example in unit test to fix error
+
 # January 13, 2023
 
 ## C++ SDK
