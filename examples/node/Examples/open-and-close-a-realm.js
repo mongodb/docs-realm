@@ -77,7 +77,7 @@ describe("Open and Close a Realm", () => {
     //       "Car": "<yourSchema>"
     //    }
     // }
-    const realm = await Realm.open({
+    const realm = new Realm({
       schema: [Car],
     });
     // Get on-disk location of the default Realm
@@ -88,8 +88,6 @@ describe("Open and Close a Realm", () => {
     // :snippet-end:
 
     const parseRealmFilePath = path => path.substring(path.lastIndexOf("/") + 1);
-    
-    console.debug(parseRealmFilePath(realmFileLocation))
 
     expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
 
