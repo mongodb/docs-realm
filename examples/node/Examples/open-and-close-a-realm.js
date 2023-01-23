@@ -88,39 +88,6 @@ describe("Open and Close a Realm", () => {
     }
   });
 
-  // test("find realm file", async () => {
-  //   const Car = {
-  //     name: "Car",
-  //     properties: {
-  //       make: "string",
-  //       model: "string",
-  //       miles: "int",
-  //     },
-  //   };
-    
-  //   // :snippet-start: find-realm-file
-  //   // :replace-start: {
-  //   //    "terms": {
-  //   //       "Car": "<yourSchema>"
-  //   //    }
-  //   // }
-  //   const realm = new Realm({
-  //     schema: [Car],
-  //   });
-  //   // Get on-disk location of the default Realm
-  //   const realmFileLocation = realm.path;
-
-  //   console.log("Realm file is located at: " + realm.path);
-  //   // :replace-end:
-  //   // :snippet-end:
-
-  //   const parseRealmFilePath = path => path.substring(path.lastIndexOf("/") + 1);
-
-  //   expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
-
-  //   realm.close();
-  // });
-
   test.skip("should open an in memory realm", async () => {
     const Car = {
       name: "Car",
