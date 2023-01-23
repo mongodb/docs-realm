@@ -40,7 +40,7 @@ class Tricycle extends _Tricycle
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Tricycle._);
     return const SchemaObject(ObjectType.realmObject, Tricycle, 'Tricycle', [
-      SchemaProperty('_id', RealmPropertyType.int,
+      SchemaProperty('id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
     ]);

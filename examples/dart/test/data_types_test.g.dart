@@ -448,3 +448,100 @@ class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
     ]);
   }
 }
+
+class RealmSetExample extends _RealmSetExample
+    with RealmEntity, RealmObjectBase, RealmObject {
+  RealmSetExample({
+    Set<String> primitiveSet = const {},
+    Set<int?> nullablePrimitiveSet = const {},
+    Set<SomeRealmModel> realmObjectSet = const {},
+  }) {
+    RealmObjectBase.set<RealmSet<String>>(
+        this, 'primitiveSet', RealmSet<String>(primitiveSet));
+    RealmObjectBase.set<RealmSet<int?>>(
+        this, 'nullablePrimitiveSet', RealmSet<int?>(nullablePrimitiveSet));
+    RealmObjectBase.set<RealmSet<SomeRealmModel>>(
+        this, 'realmObjectSet', RealmSet<SomeRealmModel>(realmObjectSet));
+  }
+
+  RealmSetExample._();
+
+  @override
+  RealmSet<String> get primitiveSet =>
+      RealmObjectBase.get<String>(this, 'primitiveSet') as RealmSet<String>;
+  @override
+  set primitiveSet(covariant RealmSet<String> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  RealmSet<int?> get nullablePrimitiveSet =>
+      RealmObjectBase.get<int?>(this, 'nullablePrimitiveSet') as RealmSet<int?>;
+  @override
+  set nullablePrimitiveSet(covariant RealmSet<int?> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  RealmSet<SomeRealmModel> get realmObjectSet =>
+      RealmObjectBase.get<SomeRealmModel>(this, 'realmObjectSet')
+          as RealmSet<SomeRealmModel>;
+  @override
+  set realmObjectSet(covariant RealmSet<SomeRealmModel> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<RealmSetExample>> get changes =>
+      RealmObjectBase.getChanges<RealmSetExample>(this);
+
+  @override
+  RealmSetExample freeze() =>
+      RealmObjectBase.freezeObject<RealmSetExample>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(RealmSetExample._);
+    return const SchemaObject(
+        ObjectType.realmObject, RealmSetExample, 'RealmSetExample', [
+      SchemaProperty('primitiveSet', RealmPropertyType.string,
+          collectionType: RealmCollectionType.set),
+      SchemaProperty('nullablePrimitiveSet', RealmPropertyType.int,
+          optional: true, collectionType: RealmCollectionType.set),
+      SchemaProperty('realmObjectSet', RealmPropertyType.object,
+          linkTarget: 'SomeRealmModel',
+          collectionType: RealmCollectionType.set),
+    ]);
+  }
+}
+
+class SomeRealmModel extends _SomeRealmModel
+    with RealmEntity, RealmObjectBase, RealmObject {
+  SomeRealmModel(
+    ObjectId id,
+  ) {
+    RealmObjectBase.set(this, 'id', id);
+  }
+
+  SomeRealmModel._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+
+  @override
+  Stream<RealmObjectChanges<SomeRealmModel>> get changes =>
+      RealmObjectBase.getChanges<SomeRealmModel>(this);
+
+  @override
+  SomeRealmModel freeze() => RealmObjectBase.freezeObject<SomeRealmModel>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(SomeRealmModel._);
+    return const SchemaObject(
+        ObjectType.realmObject, SomeRealmModel, 'SomeRealmModel', [
+      SchemaProperty('id', RealmPropertyType.objectid),
+    ]);
+  }
+}

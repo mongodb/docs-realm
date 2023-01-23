@@ -60,11 +60,11 @@ class Todo extends _Todo with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Todo._);
     return const SchemaObject(ObjectType.realmObject, Todo, 'Todo', [
-      SchemaProperty('_id', RealmPropertyType.objectid,
+      SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('isComplete', RealmPropertyType.bool),
       SchemaProperty('summary', RealmPropertyType.string),
-      SchemaProperty('owner_id', RealmPropertyType.string, mapTo: 'owner_id'),
+      SchemaProperty('ownerId', RealmPropertyType.string, mapTo: 'owner_id'),
     ]);
   }
 }
