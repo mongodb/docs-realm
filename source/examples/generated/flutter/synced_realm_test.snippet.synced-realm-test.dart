@@ -13,8 +13,8 @@ void main() {
 
   // Log current user out
   tearDown(() async {
-    // Delete all items in the realm so that the items are not persisted
-    // Atlas and can occur in subsequent tests.
+    // Delete all items in the realm so that the items are not persisted in Atlas
+    // and do not re-sync in subsequent tests.
     realm.write(() => realm.deleteAll<Car>());
 
     // Fully synchronize realm before closing and deleting
