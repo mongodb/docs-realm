@@ -11,8 +11,7 @@ val config = RealmConfiguration.Builder(
         for (oldPerson in oldPersons) {
             // Get properties from old realm
             val firstName: String = oldPerson.getValue(
-                propertyName = "firstName",
-                clazz = String::class
+                propertyName = "firstName", String::class
             )
             // Get objects from old realm as dynamic realm objects
             val pet: DynamicRealmObject? = oldPerson.getObject(
