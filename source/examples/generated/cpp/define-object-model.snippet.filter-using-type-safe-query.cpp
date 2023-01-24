@@ -1,1 +1,3 @@
-auto namedDunderMifflin = companies.where("name == $0", {"Dunder Mifflin"});
+auto namedDunderMifflin = companies.where([](auto &company) {
+    return company.name == "Dunder Mifflin";
+});
