@@ -233,10 +233,12 @@ the ``AutomaticSchemaMigration.MigrationContext`` interface:
 - `newRealm <{+kotlin-local-prefix+}io.realm.kotlin.migration/-automatic-schema-migration/-migration-context/new-realm.html>`__:
   The realm as it exists after the migration using the new schema version. 
   
-By the end of the migration, you must migrate all data affected by the schema 
-update from the old realm to the new realm. 
 Any objects obtained from ``oldRealm`` and ``newRealm`` 
 are valid only in the scope of the migration function.
+
+By the end of the migration, you must migrate all data affected by the schema 
+update from the old realm to the new realm. 
+Any data affected by the schema update that is not migrated will be lost. 
 
 .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.local-migration-other.kt
    :language: kotlin
