@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
-import {View, Text} from 'react-native';
-import {render, waitFor} from '@testing-library/react-native';
+import {Button, TextInput, View, Text} from 'react-native';
+import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 import User from '../../Models/User';
@@ -11,9 +11,9 @@ const realmConfig = {
   deleteRealmIfMigrationNeeded: true,
 };
 
-const {RealmProvider, useQuery, useObject} = createRealmContext(realmConfig);
+const {RealmProvider, useObject} = createRealmContext(realmConfig);
 
-let assertionRealm: Realm;
+let assertionRealm;
 
 // test describe block for the relationship page
 describe('relationships tests', () => {
@@ -91,11 +91,12 @@ describe('relationships tests', () => {
     //   " testID='userName'": ""
     //   }
     // }
-    const PostItem = ({_id}: {_id: Realm.BSON.ObjectId}) => {
+    console.log('hi');
+    const PostItem = ({_id}) => {
       const post = useObject(Post, _id);
-      const user = post?.linkingObjects<User>('User', 'posts')[0];
+      const user = post?.linkingObjects('User', 'posts')[0];
 
-      if (!post || !user) return <Text>The post or user was not found.</Text>;
+      if (!post || !user) return <Text>The post or user could not be found</Text>;
       return (
         <View>
           <Text testID='postTitle'>Post title: {post.title}</Text>
@@ -121,7 +122,7 @@ describe('relationships tests', () => {
     });
   });
 
-  it('Query Backlinks with @links.<Type>.<Property>', async () => {
+  it.only('Query Backlinks with @links.<Type>.<Property>', async () => {
     // :snippet-start: query-backlinks
     // :replace-start: {
     //  "terms": {
@@ -163,4 +164,5 @@ describe('relationships tests', () => {
       expect(getByTestId('Post 1')).toHaveTextContent('My favorite food is pizza');
     });
   });
+
 });

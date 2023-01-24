@@ -1,6 +1,3 @@
-.. _react-native-relationships-and-embedded-objects:
-.. _react-native-client-relationships:
-.. _react-native-define-relationship-properties:
 .. _react-native-relationships:
 
 ================================
@@ -16,20 +13,17 @@ Relationships - React Native SDK
 Overview
 --------
 
-Realm allows you to define explicit relationships between the types of
-objects in an App. A relationship is an object property that references
-another Realm object type. You can define
-relationships by setting an object's property to another object type
-in the :ref:`property schema <react-native-realm-schema>`.
+You can define relationships between objects in a realm. Realm models
+relationships as object properties that point to other objects of a
+given type in the realm. You define a relationship at the type level by
+declaring a property in the type's schema where the value is another
+object type.
 
-Relationships are direct references to other objects in a realm.
-You don't need bridge tables or joins to define a relationship like you
-would in a relational database. 
-Instead, you can access related objects by reading and writing to the property
-that defines the relationship.
-
-Realm Database executes read operations lazily as they come in.
-Querying a relationship is just as performant as reading a regular property.
+Querying a relationship is just as performant as a regular property.
+Relationships are direct references to other objects, so you don't need
+to use joins and complex models to define and use them like you would in
+a relational database. Instead, you can access related objects by
+reading and writing to the relationship property directly.
 
 There are three primary types of relationships between objects:
 
@@ -41,70 +35,71 @@ There are three primary types of relationships between objects:
    
    Objects often contain direct references to other objects.
    When working with objects and references,
-   you often copy from database storage into application memory.
-   This situation leaves the developer with a choice of what to copy into memory:
+   you typically copy data from database storage into application memory.
+   This situation leaves the developer with a choice of what to copy
+   into memory:
    
-   - You can copy the entire referenced object ahead of time.
+   - You can copy all referenced objects into memory ahead of time.
      This means that all referenced data is always available quickly
-     but can use up a lot of resources. Depending on the amount of available memory,
+     but can use up a lot of resources. If a system has limited memory,
      this may not be viable.
    
-   - You can copy only a foreign key value for each object ahead of time that you
-     can use to query the full object if it's needed.
-     These referenced lookups are memory-efficient.
-     However, they require more query code, and too many lookups can slow your application down.
-   
-   Realm's query architecture avoids the tradeoff between memory usage and computational overhead.
-   Instead, Realm queries can directly reference :ref:`related objects
-   <react-native-relationships>` and their properties on disk.
+   - You can copy just a foreign key value for each object. Later, you
+     can use the key to look up the full object when you need it.
+     These "lazy" lookups are more memory-efficient than copying all
+     referenced objects ahead of time. However, they require you to
+     maintain more query code and use runtime lookups that can slow
+     your app down.
+
+   Realm's query architecture avoids the tradeoff between memory usage
+   and computational overhead. Instead, Realm queries can directly
+   reference :ref:`related objects <react-native-relationships>` and
+   their properties on disk.
 
 .. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
 
 .. _react-native-to-one-relationship:
-.. _react-native-define-a-to-one-relationship-property:
 
 One-to-One Relationship
 -----------------------
 
-A **one-to-one** relationship means an object is related to at most 
-one other object of a particular type. 
-To define a one-to-one relationship, specify the property type as the related
-Realm object type.
+A **one-to-one** relationship means an object is related to at most one
+other object of a particular type. To define a one-to-one relationship,
+specify the property type as the related Realm object type.
 
-Example
-~~~~~~~
+.. example::
 
-In the following example of a **one-to-one** relationship, a ``PetOwner`` may own a single ``Pet``: 
+   In the following example of a **one-to-one** relationship, a
+   ``PetOwner`` may own a single ``Pet``:
 
-.. tabs-realm-languages::
-      
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/PetOwner.snippet.ts-petowner-schema.ts
-         :language: typescript
-         :emphasize-lines: 4, 11
-         :linenos:
+   .. tabs-realm-languages::
 
-      .. literalinclude:: /examples/generated/react-native/ts/Pet.snippet.ts-pet-schema.ts
-         :language: typescript
-         :linenos:
+      .. tab::
+         :tabid: typescript
 
-   .. tab::
-      :tabid: javascript
+         .. literalinclude:: /examples/generated/react-native/ts/PetOwner.snippet.ts-petowner-schema.ts
+            :language: typescript
+            :emphasize-lines: 4, 11
+            :linenos:
 
-      .. literalinclude:: /examples/generated/react-native/js/PetOwner.snippet.js-petowner-schema.js
-         :language: javascript
-         :emphasize-lines: 7
-         :linenos:
+         .. literalinclude:: /examples/generated/react-native/ts/Pet.snippet.ts-pet-schema.ts
+            :language: typescript
+            :linenos:
 
-      .. literalinclude:: /examples/generated/react-native/js/Pet.snippet.js-pet-schema.js
-         :language: typescript
-         :linenos:
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/react-native/js/PetOwner.snippet.js-petowner-schema.js
+            :language: javascript
+            :emphasize-lines: 7
+            :linenos:
+
+         .. literalinclude:: /examples/generated/react-native/js/Pet.snippet.js-pet-schema.js
+            :language: typescript
+            :linenos:
 
 
 .. _react-native-to-many-relationship:
-.. _react-native-define-a-to-many-relationship-property:
 
 One-to-Many Relationship
 ------------------------
@@ -114,147 +109,167 @@ multiple objects. To define a to-many relationship, specify a property where the
 type is a list or array of the related Realm object type in its :ref:`object
 schema <react-native-object-schemas>`.
 
-Example
-~~~~~~~
-In the following example of a **one-to-many** relationship, a ``User`` may own multiple ``Post`` objects:
+.. example::
 
-.. tabs-realm-languages::
-      
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/User.snippet.ts-user-schema.ts
-         :language: typescript
-         :emphasize-lines: 5, 13
-         :linenos:
+   In the following example of a **one-to-many** relationship, a
+   ``User`` may own multiple ``Post`` objects:
 
-      .. literalinclude:: /examples/generated/react-native/ts/Post.snippet.ts-post-schema.ts
-         :language: typescript
-         :linenos:
+   .. tabs-realm-languages::
 
-   .. tab::
-      :tabid: javascript
+      .. tab::
+         :tabid: typescript
 
-      .. literalinclude:: /examples/generated/react-native/js/User.snippet.js-user-schema.js
-         :language: javascript
-         :emphasize-lines: 8
-         :linenos:
+         .. literalinclude:: /examples/generated/react-native/ts/User.snippet.ts-user-schema.ts
+            :language: typescript
+            :emphasize-lines: 5, 13
+            :linenos:
 
-      .. literalinclude:: /examples/generated/react-native/js/Post.snippet.js-post-schema.js
-         :language: typescript
-         :linenos:
+         .. literalinclude:: /examples/generated/react-native/ts/Post.snippet.ts-post-schema.ts
+            :language: typescript
+            :linenos:
+
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/react-native/js/User.snippet.js-user-schema.js
+            :language: javascript
+            :emphasize-lines: 8
+            :linenos:
+
+         .. literalinclude:: /examples/generated/react-native/js/Post.snippet.js-post-schema.js
+            :language: typescript
+            :linenos:
 
 .. _react-native-inverse-relationship:
 
 Inverse Relationship
 --------------------
 
-An inverse relationship :ref:`backlinks <rql-backlinks>` to any other objects
-that refer to it in a defined one-to-one or one-to-many relationship. Relationship
-definitions are unidirectional by default. 
+An inverse relationship connects an object to all other objects that
+refer to it in a one-to-one or one-to-many relationship. Whenever you
+define a relationship, you also implicity create an inverse
+relationship.
 
-For example, if you define a relationship that maps ``User.posts`` to a list of
-``Post`` objects, then you could use an inverse relationship to look up the
-``User`` object related to a given ``Post`` object in this way.
-
-To use inverse relationships, you can: 
-
-#. :ref:`Obtain an implicitly backlinked object <react-native-obtain-an-implicitly-backlinked-object>` using the :js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>` method.
-#. :ref:`Define an inverse relationship explicitly in a schema <react-native-define-an-inverse-relationship-property>` using the ``LinkingObjects`` property.
-
-.. _react-native-obtain-an-implicitly-backlinked-object:
-
-Obtain an Implicitly Backlinked Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To obtain an inversely linked object **without** altering the
-object's schema, call the :js-sdk:`Realm.Object.linkingObjects()
-<Realm.Object.html#linkingObjects>` method.
-
-Example
-````````
-Consider the ``User`` and ``Post`` classes from the :ref:`one-to-many relationship
-example <react-native-to-many-relationship>`. Since the ``User`` class has a
-``posts`` field that is a list of ``Post`` objects, you can obtain the ``User``
-object who owns a specific ``Post`` object by calling the
-``post.linkingObjects()`` method.
-
-In the following ``PostItem`` example, we obtain information about the user to
-whom the post belongs by running a query to look up the linked user.
-
-
-The ``PostItem`` component does the following:
-
-- Gets the post by passing the ``Post`` class and ``postID`` to the ``useObject()`` hook.
-- Gets the user by passing the object type ``'User'`` and the property ``'posts'`` to the ``linkingObjects()`` method and retrieving the first result.
-- Returns "The post or user could not be found" if the post or user is ``undefined``.
-- Returns the post's title and the user's name if the post and user are found.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.dynamically-obtain-inverse-relationship.tsx
-         :language: typescript
-         :emphasize-lines: 3
-         :linenos:
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/relationship-test.snippet.dynamically-obtain-inverse-relationship.jsx
-         :language: typescript
-         :emphasize-lines: 3
-         :linenos:
+You can use inverse relationships to "backlink" from one object to
+another based on a particular relationship. For example, if you define a
+relationship that maps ``User.posts`` to a list of ``Post`` objects,
+then you could use an inverse relationship to look up the ``User``
+object related to a given ``Post`` object in this way.
 
 .. _react-native-define-an-inverse-relationship-property:
 
-Define an Inverse Relationship Explicitly in a Schema
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Define Inverse Relationship Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create an inverse relationship, you can define it in your object model by
-specifying the ``linkingObjects`` property. The ``linkingObjects`` property
-specifies the object type and property name of the relationship that it links
-back to.
-   
-Example
-```````
-In the following example of an inverse relationship, each ``Post`` object may
-belong to a single ``User`` object. This indicates:
+You can assign an inverse relationship to a property in the object
+schema using the ``linkingObjects`` property type. This lets you access
+the inverse relationship like a normal property.
 
-- A ``User`` object may have many ``Post`` objects.
-- A ``User`` object's ``posts`` property contains all of their posts.
-- The ``Post`` object's ``user`` property inverts this relationship: the post's ``user``
-  automatically updates to refer back to any ``User`` object that contains the
-  ``Post`` object in its ``posts`` property. 
-- Each ``Post`` object automatically keeps track of which ``User`` object it belongs to. If a
-  ``User`` object is modified, the ``Post`` objects that refer to it are automatically updated.
+A ``linkingObjects`` property backlinks to a specific relationship. You
+specify which relationship to backlink with the object type and property
+name of the relationship.
 
-.. tabs-realm-languages::
-      
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/User.snippet.ts-user-schema.ts
-         :language: typescript
-         :emphasize-lines: 5, 13
-         :linenos:
+.. example::
 
-      .. literalinclude:: /examples/generated/react-native/ts/InverseRelationshipPost.snippet.ts-inverserelationshippost-schema.ts
-         :language: typescript
-         :emphasize-lines: 4, 10-14
-         :linenos:
+   In the following example of an inverse relationship, each ``Post``
+   object may belong to a single ``User`` object.
 
-   .. tab::
-      :tabid: javascript
+   .. tabs-realm-languages::
 
-      .. literalinclude:: /examples/generated/react-native/js/User.snippet.js-user-schema.js
-         :language: javascript
-         :emphasize-lines: 8
-         :linenos:
+      .. tab::
+         :tabid: typescript
 
-      .. literalinclude:: /examples/generated/react-native/js/InverseRelationshipPost.snippet.js-inverserelationshippost-schema.js
-         :language: typescript
-         :emphasize-lines: 7-11
-         :linenos:
+         .. literalinclude:: /examples/generated/react-native/ts/User.snippet.ts-user-schema.ts
+            :language: typescript
+            :emphasize-lines: 5, 13
+            :linenos:
+
+         .. literalinclude:: /examples/generated/react-native/ts/InverseRelationshipPost.snippet.ts-inverserelationshippost-schema.ts
+            :language: typescript
+            :emphasize-lines: 4, 10-14
+            :linenos:
+
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/react-native/js/User.snippet.js-user-schema.js
+            :language: javascript
+            :emphasize-lines: 8
+            :linenos:
+
+         .. literalinclude:: /examples/generated/react-native/js/InverseRelationshipPost.snippet.js-inverserelationshippost-schema.js
+            :language: typescript
+            :emphasize-lines: 7-11
+            :linenos:
+
+
+.. _react-native-linkingObjects-method:
+
+Find Linking Objects In Code
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can find all objects that link to a given object by calling the
+object's :js-sdk:`Realm.Object.linkingObjects()
+<Realm.Object.html#linkingObjects>` method. This is useful for when you
+want to access all linking objects for a particular relationship without
+adding a property to the object schema.
+
+.. example::
+
+   A ``User`` object may reference multiple ``Post`` objects in the
+   ``User.posts`` property. You can use the ``linkingObjects()`` method
+   to find all the ``User`` objects that reference a given ``Post``:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: typescript
+
+         .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.dynamically-obtain-inverse-relationship.tsx
+            :language: typescript
+            :emphasize-lines: 3
+            :linenos:
+
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/react-native/js/relationships-test.snippet.dynamically-obtain-inverse-relationship.jsx
+            :language: typescript
+            :emphasize-lines: 3
+            :linenos:
+
+.. _react-native-backlinks-query:
+
+Filter a Query Based On Linking Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can reference linking objects in an RQL query by using the
+``@links.<Type>.<Property>`` syntax. This is useful for when you want to
+use inverse relationships in queries and subscriptions. For more
+information, see :ref:`Backlink Queries <rql-backlinks>`.
+
+.. example::
+
+   A filter can match a ``Post`` object based on properties of the
+   ``User`` object that references it. In the following example, the
+   ``@links`` operator references the relationship defined for
+   ``User.posts``. If a ``User`` was born on or after January 1, 2000,
+   then their ``Post`` objects are included in the query results.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: typescript
+
+         .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.query-backlinks.tsx
+            :language: typescript
+            :emphasize-lines: 4
+            :linenos:
+
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/react-native/js/relationships-test.snippet.query-backlinks.jsx
+            :language: typescript
+            :emphasize-lines: 4
+            :linenos:
