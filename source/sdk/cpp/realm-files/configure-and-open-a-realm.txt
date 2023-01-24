@@ -39,9 +39,7 @@ You can open, view, and edit the contents of these files with
    
    Realm Database creates additional files for each realm.
    To learn more about these files, see :ref:`Realm Database Internals
-   <ios-realm-database>`. Deleting these files has important implications.
-   For more information about deleting ``.realm`` or auxiliary files, see: 
-   :ref:`Delete a Realm <swift-delete-a-realm>`
+   <cpp-realm-database>`.
 
 .. _cpp-synced-realm:
 
@@ -113,10 +111,8 @@ current directory.
 Open a Realm at a File Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you need to open a realm at a specific file path, you can construct a 
-:cpp-sdk:`db_config <structrealm_1_1db__config.html>` with a specific string 
-path for your realm file. The ``db_config`` constructor removes the last 
-path element and uses it as the name for your realm file.
+If you need to open a realm at a specific file path, you can pass a path 
+to the realm open template.
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.open-realm-at-path.cpp
    :language: cpp
@@ -124,9 +120,8 @@ path element and uses it as the name for your realm file.
 .. tip:: Building an Android App
 
    When building an Android app that uses the Realm C++ SDK Alpha, 
-   you must pass the ``filesDir.path`` to the ``path`` parameter in the 
-   :cpp-sdk:`db_config <structrealm_1_1db__config.html>` constructor. For 
-   more information, refer to: :ref:`cpp-build-android-app`.
+   you must pass the ``filesDir.path`` as the ``path`` parameter when you
+   open the realm. For more information, refer to: :ref:`cpp-build-android-app`.
 
 .. _cpp-open-synced-realm:
 
