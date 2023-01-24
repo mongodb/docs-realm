@@ -1,0 +1,81 @@
+.. _cpp-realm-database:
+
+================================
+Realm Database - C++ SDK (Alpha)
+================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. note:: The Realm C++ SDK is Currently in Alpha
+
+   While the Realm C++ SDK is in alpha, some of the features listed on this
+   page are not yet implemented or fully supported in this SDK. 
+
+.. include:: /includes/realm-database.rst
+
+Realm vs Other Databases
+------------------------
+
+The Realm data model is similar to both relational and
+document databases but has distinct differences from both. To underscore
+these differences, it's helpful to highlight what a realm **is
+not**:
+
+A realm is not a single, application-wide database.
+    Applications based on other database systems generally store all of their
+    data in a single database. Apps often split data across multiple
+    realms to organize data more efficiently and to enforce access controls.
+
+A realm is not a relational table.
+    Normalized tables in relational databases only store one type of
+    information, such as street addresses or items in a store inventory. A
+    realm can contain any number of object types that are relevant to a
+    given domain.
+
+A realm is not a collection of schemaless documents.
+    Document databases don't necessarily enforce a strict schema for the data in
+    each collection. While similar to documents in form, every Realm object
+    conforms to a schema for a specific object type in the realm. An object
+    cannot contain a property that is not described by its schema.
+
+.. _cpp-realm-database-reads:
+.. _cpp-live-queries:
+
+Live Queries
+------------
+
+You can read back the data that you have :ref:`stored
+<cpp-write-transactions>` in Realm Database by finding,
+filtering, and sorting objects.
+
+To get the best performance from Realm as your app grows and your
+queries become more complex, design your app's data access patterns
+around a solid understanding of Realm Database :ref:`read
+characteristics <cpp-realm-read-characteristics>`.
+
+.. _cpp-live-object:
+
+Live Object
+~~~~~~~~~~~
+
+All Realm objects are **live objects**, which means they
+automatically update whenever they're modified. Realm emits a
+notification event whenever any property changes.
+
+You can use live objects to work with object-oriented data natively
+without an :wikipedia:`ORM <Object-relational_mapping>` tool. Live
+objects are direct proxies to the underlying stored data, which means
+that a live object doesn't directly contain data. Instead, a live object
+always references the most up-to-date data on disk and :wikipedia:`lazy
+loads <Lazy_loading>` property values when you access them from a
+collection. This means that a realm can contain many objects but only 
+pay the performance cost for data that the application is actually using.
+
+Valid write operations on a live object automatically persist to the
+realm and propagate to any other synced clients. You do not need to
+call an update method, modify the realm, or otherwise "push"
+updates.

@@ -150,20 +150,19 @@ TEST_CASE("open a default realm", "[realm]") {
     // :snippet-end:
 }
 
-#if 0
 TEST_CASE("open a realm at a path", "[realm]") {
     // Construct an arbitrary path to use in the example
-        // :snippet-start: open-realm-at-path
-    auto relative_realm_path = "custom_path_directory/";
-    std::filesystem::create_directories(relative_realm_path); // :remove:
-    // Construct a path, and then convert it to a string so you can append a name for the realm file
-    auto path = std::filesystem::current_path().append(relative_realm_path).string();
-    /* Add a name for the file. When you provide a path, the `db_config` 
-     * constructor removes the last path element and makes that 
-     * the realm file name. */
-    path = path + "dog_objects";
-    auto config = realm::db_config{ path = path };
-    auto realm = realm::open<Dog>(config);
+    // :snippet-start: open-realm-at-path
+    auto relative_realm_path_directory = "custom_path_directory/";
+    std::filesystem::create_directories(relative_realm_path_directory); // :remove:
+    // Construct a path
+    std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+    // Add a name for the realm file
+    path =  path.append("dog_objects");
+    // Add the .realm extension
+    path = path.replace_extension("realm");
+    // Open a realm at the path
+    auto realm = realm::open<Dog>({ path });
     // :snippet-end:
     SECTION("Test code example functions as intended + teardown") {
         // Write something to the realm to confirm this worked as expected.
@@ -180,7 +179,6 @@ TEST_CASE("open a realm at a path", "[realm]") {
         });
     }
 }
-#endif
 
 TEST_CASE("open a synced realm", "[realm][sync]") {
     // :snippet-start: open-a-synced-realm
