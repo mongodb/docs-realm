@@ -161,7 +161,8 @@ app:
      )
 
 - Ensure that the git submodules are initialized inside of the ``realm-cpp`` folder before building. 
-- When instantiating the Realm or the Realm App, you must pass the ``filesDir.path`` to the ``path`` parameter in the respective constructors. 
+- When instantiating the Realm or the Realm App, you must pass the ``filesDir.path`` as the ``path`` 
+  parameter in the respective constructor or realm open template. 
 
 For an example of how to use the Realm C++ SDK Alpha in an Android app, refer to
 the :github:`Android RealmExample App <realm/realm-cpp/tree/main/examples/Android>`
