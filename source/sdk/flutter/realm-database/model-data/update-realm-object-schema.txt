@@ -182,14 +182,15 @@ Other Migration Tasks
 To perform other realm schema migrations, use the following properties of
 the ``Migration`` object in your migration callback function:
 
-- :flutter-sdk:`Migration.oldRealm <realm/Migration/oldRealm.html>`: The Realm
+- :flutter-sdk:`Migration.oldRealm <realm/Migration/oldRealm.html>`: The realm
   as it existed just before the migration with the previous schema version.
   You must use the ``oldRealm``'s dynamic API to access its objects because you
   cannot use standard type-based queries. The dynamic API lets you find Realm objects
   by a string representation of their class name.
 - :flutter-sdk:`Migration.newRealm <realm/Migration/newRealm.html>`:
-  The Realm as it exists after the migration. By the end of the migration callback,
-  you must migrate all relevant data  from ``oldRealm`` into ``newRealm``.
+  The realm as it exists after the migration. By the end of the migration callback,
+  you must migrate all data affected by the schema update from ``oldRealm`` into ``newRealm``.
+  Any data affected by the schema update that is not migrated will be lost.
 
 To find instances of an object in an old realm in the new realm,
 use :flutter-sdk:`Migration.findInNewRealm() <realm/Migration/findInNewRealm.html>`.
