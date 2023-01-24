@@ -1,17 +1,16 @@
-// Define your models like regular structs.
-struct Dog : realm::object {
+struct Dog : realm::object<Dog> {
     realm::persisted<std::string> name;
-    realm::persisted<int> age;
+    realm::persisted<int64_t> age;
 
     static constexpr auto schema = realm::schema("Dog",
         realm::property<&Dog::name>("name"),
         realm::property<&Dog::age>("age"));
 };
 
-struct Person : realm::object {
-    realm::persisted<std::string> _id;
+struct Person : realm::object<Person> {
+    realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
-    realm::persisted<int> age;
+    realm::persisted<int64_t> age;
 
     // Create relationships by pointing an Object field to another Class
     realm::persisted<std::optional<Dog>> dog;

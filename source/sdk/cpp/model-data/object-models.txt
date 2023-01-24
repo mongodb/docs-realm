@@ -84,7 +84,10 @@ Define a New Object Type
 ------------------------
 
 You can define your models as classes or structs that inherit from 
-:cpp-sdk:`realm::object <structrealm_1_1object.html>`.
+:cpp-sdk:`realm::object <structrealm_1_1object.html>`. The Realm C++ SDK
+uses `CRTP <https://en.cppreference.com/w/cpp/language/crtp>`__ to simplify
+working with Realm objects. With this implementation, you pass the object's
+type as a template paramater when you declare your object struct.
 
 You must declare any property you want to store (persist) in a realm as 
 :cpp-sdk:`realm::persisted <structrealm_1_1persisted.html>`. Your model 

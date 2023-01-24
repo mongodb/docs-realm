@@ -24,7 +24,6 @@ struct SyncDog : realm::object<SyncDog> {
 
 // :snippet-start: define-models
 // :snippet-start: single-object-model
-// Define your models like regular structs.
 struct Dog : realm::object<Dog> {
     realm::persisted<std::string> name;
     realm::persisted<int64_t> age;
@@ -36,7 +35,7 @@ struct Dog : realm::object<Dog> {
 // :snippet-end:
 
 struct Person : realm::object<Person> {
-    realm::persisted<std::string> _id;
+    realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
     realm::persisted<int64_t> age;
 

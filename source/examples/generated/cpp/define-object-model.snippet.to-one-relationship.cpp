@@ -1,20 +1,22 @@
-struct GPSCoordinates: realm::object {
-    realm::persisted<double> latitude;
-    realm::persisted<double> longitude;
+struct FavoriteToy : realm::object<FavoriteToy> {
+    realm::persisted<int64_t> _id;
+    realm::persisted<std::string> name;
 
-    static constexpr auto schema = realm::schema("GPSCoordinates",
-        realm::property<&GPSCoordinates::latitude>("latitude"),
-        realm::property<&GPSCoordinates::longitude>("longitude"));
+    static constexpr auto schema = realm::schema("FavoriteToy",
+        realm::property<&FavoriteToy::_id, true>("_id"),
+        realm::property<&FavoriteToy::name>("name"));
 };
 
-struct PointOfInterest : realm::object {
-    realm::persisted<realm::uuid> _id;
+struct Dog : realm::object<Dog> {
+    realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
+    realm::persisted<int64_t> age;
     // To-one relationship objects must be optional
-    realm::persisted<std::optional<GPSCoordinates>> gpsCoordinates;
+    realm::persisted<std::optional<FavoriteToy>> favoriteToy;
 
-    static constexpr auto schema = realm::schema("PointOfInterest",
-        realm::property<&PointOfInterest::_id, true>("_id"),
-        realm::property<&PointOfInterest::name>("name"),
-        realm::property<&PointOfInterest::gpsCoordinates>("gpsCoordinates"));
+    static constexpr auto schema = realm::schema("Dog",
+        realm::property<&Dog::_id, true>("_id"),
+        realm::property<&Dog::name>("name"),
+        realm::property<&Dog::age>("age"),
+        realm::property<&Dog::favoriteToy>("favoriteToy"));
 };

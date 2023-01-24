@@ -1,9 +1,9 @@
-auto realm = realm::open<PointOfInterest, GPSCoordinates>();
+auto realm = realm::open<Dog, FavoriteToy>();
 
-auto gpsCoordinates = GPSCoordinates { .latitude = 36.0554, .longitude = 112.1401 };
-auto pointOfInterest = PointOfInterest { .name = "Grand Canyon Village" };
-pointOfInterest.gpsCoordinates = gpsCoordinates;
+auto favoriteToy = FavoriteToy { .name = "Wubba" };
+auto dog = Dog { .name = "Lita", .age = 10 };
+dog.favoriteToy = favoriteToy;
 
-realm.write([&realm, &pointOfInterest] {
-    realm.add(pointOfInterest);
+realm.write([&realm, &dog] {
+    realm.add(dog);
 });

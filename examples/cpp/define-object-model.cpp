@@ -2,6 +2,12 @@
 #include <string>
 #include <cpprealm/sdk.hpp>
 
+// :replace-start: {
+//   "terms": {
+//     "ToOneRelationship_": ""
+//   }
+// }
+
 // :snippet-start: model-with-embedded-object
 // Inherit from realm::embedded_object to declare an embedded object
 struct ContactDetails : realm::embedded_object<ContactDetails> { // :emphasize:
@@ -16,13 +22,12 @@ struct ContactDetails : realm::embedded_object<ContactDetails> { // :emphasize:
 };
 
 struct Business : realm::object<Business> {
-//    realm::persisted<std::string> _id;
+    realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
-    // Unlike to-one relationships, an embedded object can be a required property
-    realm::persisted<ContactDetails> contactDetails; // :emphasize:
+    realm::persisted<std::optional<ContactDetails>> contactDetails; // :emphasize:
 
     static constexpr auto schema = realm::schema("Business",
-//        realm::property<&Business::_id, true>("_id"),
+        realm::property<&Business::_id, true>("_id"),
         realm::property<&Business::name>("name"),
         realm::property<&Business::contactDetails>("contactDetails")); // :emphasize:
 };
@@ -30,7 +35,7 @@ struct Business : realm::object<Business> {
 
 // :snippet-start: model-with-ignored-field
 struct Employee : realm::object<Employee> {
-//    realm::persisted<realm::uuid> _id;
+    realm::persisted<int64_t> _id;
     realm::persisted<std::string> firstName;
     realm::persisted<std::string> lastName;
     // Omitting the `realm::persisted` annotation means
@@ -40,13 +45,39 @@ struct Employee : realm::object<Employee> {
     // Your schema consists of properties that you want realm to store.
     // Omit properties that you want to ignore from the schema.
     static constexpr auto schema = realm::schema("Employee",
-//        realm::property<&Employee::_id, true>("_id"),
+        realm::property<&Employee::_id, true>("_id"),
         realm::property<&Employee::firstName>("firstName"),
         realm::property<&Employee::lastName>("lastName"));
 };
 // :snippet-end:
-                                          
+
 // :snippet-start: to-one-relationship
+struct ToOneRelationship_FavoriteToy : realm::object<ToOneRelationship_FavoriteToy> {
+    realm::persisted<int64_t> _id;
+    realm::persisted<std::string> name;
+
+    static constexpr auto schema = realm::schema("ToOneRelationship_FavoriteToy",
+        realm::property<&ToOneRelationship_FavoriteToy::_id, true>("_id"),
+        realm::property<&ToOneRelationship_FavoriteToy::name>("name"));
+};
+
+struct ToOneRelationship_Dog : realm::object<ToOneRelationship_Dog> {
+    realm::persisted<int64_t> _id;
+    realm::persisted<std::string> name;
+    realm::persisted<int64_t> age;
+    // To-one relationship objects must be optional
+    realm::persisted<std::optional<ToOneRelationship_FavoriteToy>> favoriteToy;
+
+    static constexpr auto schema = realm::schema("ToOneRelationship_Dog",
+        realm::property<&ToOneRelationship_Dog::_id, true>("_id"),
+        realm::property<&ToOneRelationship_Dog::name>("name"),
+        realm::property<&ToOneRelationship_Dog::age>("age"),
+        realm::property<&ToOneRelationship_Dog::favoriteToy>("favoriteToy"));
+};
+// :snippet-end:
+
+#if 0
+// Temporarily removing this model as doubles are causing an error                                     
 struct GPSCoordinates: realm::object<GPSCoordinates> {
     realm::persisted<double> latitude;
     realm::persisted<double> longitude;
@@ -57,21 +88,21 @@ struct GPSCoordinates: realm::object<GPSCoordinates> {
 };
 
 struct PointOfInterest : realm::object<PointOfInterest> {
-//    realm::persisted<realm::uuid> _id;
+    realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
     // To-one relationship objects must be optional
     realm::persisted<std::optional<GPSCoordinates>> gpsCoordinates;
 
     static constexpr auto schema = realm::schema("PointOfInterest",
-//        realm::property<&PointOfInterest::_id, true>("_id"),
+        realm::property<&PointOfInterest::_id, true>("_id"),
         realm::property<&PointOfInterest::name>("name"),
         realm::property<&PointOfInterest::gpsCoordinates>("gpsCoordinates"));
 };
-// :snippet-end:
+#endif
 
 // :snippet-start: to-many-relationship
 struct Company : realm::object<Company> {
-//    realm::persisted<realm::uuid> _id;
+    realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
     // To-many relationships are a list, represented here as a
     // vector container whose value type is the Realm object
@@ -79,18 +110,57 @@ struct Company : realm::object<Company> {
     realm::persisted<std::vector<Employee>> employees;
 
     static constexpr auto schema = realm::schema("Company",
-//        realm::property<&Company::_id, true>("_id"),
+        realm::property<&Company::_id, true>("_id"),
         realm::property<&Company::name>("name"),
         realm::property<&Company::employees>("employees"));
 };
 // :snippet-end:
 
-#if 0
+// struct EmbeddedFoo: realm::embedded_object<EmbeddedFoo> {
+//     realm::persisted<int64_t> bar;
+
+//     static constexpr auto schema = realm::schema("EmbeddedFoo", realm::property<&EmbeddedFoo::bar>("bar"));
+// };
+
+// struct Foo: realm::object<Foo> {
+//     realm::persisted<int64_t> bar;
+//     realm::persisted<std::optional<EmbeddedFoo>> foo;
+
+//     realm::persisted<int64_t> bar2;
+//     realm::persisted<std::optional<EmbeddedFoo>> foo2;
+
+//     Foo() = default;
+//     Foo(const Foo&) = delete;
+//     static constexpr auto schema = realm::schema("Foo",
+//         realm::property<&Foo::bar>("bar"),
+//         realm::property<&Foo::foo>("foo"),
+//         realm::property<&Foo::bar2>("bar2"),
+//         realm::property<&Foo::foo2>("foo2"));
+// };
+// TEST_CASE("SDK's version of create an embedded object", "[model][write]") {
+//     auto realm = realm::open<Foo, EmbeddedFoo>();
+
+//     auto foo = Foo();
+//     foo.foo = EmbeddedFoo{.bar=42};
+//     realm.write([&foo, &realm]() {
+//         realm.add(foo);
+//     });
+
+//     CHECK(foo.foo->bar == 42);
+//     EmbeddedFoo e_foo = *(*foo.foo);
+
+//     realm.write([&foo, &realm]() {
+//         realm.remove(foo);
+//     });
+// }
+
 TEST_CASE("create an embedded object", "[model][write]") {
     // :snippet-start: create-embedded-object
     auto realm = realm::open<Business, ContactDetails>();
 
-    auto business = Business { .name = "MongoDB" };
+    auto business = Business();
+    business._id = 789012;
+    business.name = "MongoDB";
     business.contactDetails = ContactDetails { 
         .emailAddress = "email@example.com", 
         .phoneNumber = "123-456-7890"
@@ -104,19 +174,20 @@ TEST_CASE("create an embedded object", "[model][write]") {
         auto businesses = realm.objects<Business>();
         Business mongoDBPointer = businesses[0];
         REQUIRE(businesses.size() >= 1);
-        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "email@example.com");
+        REQUIRE(business.contactDetails->emailAddress == "email@example.com");
+        std::cout << "Business email address is: " << business.contactDetails->emailAddress << "\n";
     }
     // Clean up after test
     realm.write([&realm, &business] {
         realm.remove(business);
     });
 }
-#endif
 
 TEST_CASE("create object with ignored property", "[model][write]") {
     auto realm = realm::open<Employee>();
 
     auto employee = Employee { 
+        ._id = 12345,
         .firstName = "Leslie", 
         .lastName = "Knope", 
         .jobTitle_notPersisted = "Organizer-In-Chief" };
@@ -141,9 +212,42 @@ TEST_CASE("create object with ignored property", "[model][write]") {
     });
 };
 
-#if 0
 TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
     // :snippet-start: create-object-with-to-one-relationship
+    auto realm = realm::open<ToOneRelationship_Dog, ToOneRelationship_FavoriteToy>();
+
+    auto favoriteToy = ToOneRelationship_FavoriteToy { .name = "Wubba" };
+    auto dog = ToOneRelationship_Dog { .name = "Lita", .age = 10 };
+    dog.favoriteToy = favoriteToy;
+
+    realm.write([&realm, &dog] {
+        realm.add(dog);
+    });
+    // :snippet-end:
+
+    SECTION("Test code example functions as intended") {
+        auto dogs = realm.objects<ToOneRelationship_Dog>();
+        auto namedLita = dogs.where([](auto &dog) {
+            return dog.name == "Lita";
+        });
+        CHECK(namedLita.size() >= 1);
+        auto lita = namedLita[0];
+        std::cout << "Dog's name is " << lita.name << "\n";
+        REQUIRE(lita.name == "Lita");
+        auto litaFavoriteToy = dog.favoriteToy;
+        auto favoriteToyName = litaFavoriteToy->name;
+        std::cout << "Lita's favorite toy: " << favoriteToyName << "\n";
+        REQUIRE(favoriteToyName == "Wubba");
+    }
+    // Clean up after the test
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
+    });
+};
+
+#if 0
+// Temporarily removing this since the related model has been removed
+TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
     auto realm = realm::open<PointOfInterest, GPSCoordinates>();
 
     auto gpsCoordinates = GPSCoordinates { .latitude = 36.0554, .longitude = 112.1401 };
@@ -153,7 +257,6 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     realm.write([&realm, &pointOfInterest] {
         realm.add(pointOfInterest);
     });
-    // :snippet-end:
 
     SECTION("Test code example functions as intended") {
         auto pointsOfInterest = realm.objects<PointOfInterest>();
@@ -162,9 +265,9 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
         });
         CHECK(namedGrandCanyonVillage.size() >= 1);
         auto grandCanyonVillage = namedGrandCanyonVillage[0];
-        std::cout << "Point of Interest: " << grandCanyonVillage->name << "\n";
-        REQUIRE(grandCanyonVillage->name == "Grand Canyon Village");
-        auto const &theseGpsCoordinates = *(grandCanyonVillage->gpsCoordinates);
+        std::cout << "Point of Interest: " << grandCanyonVillage.name << "\n";
+        REQUIRE(grandCanyonVillage.name == "Grand Canyon Village");
+        auto const &theseGpsCoordinates = *(grandCanyonVillage.gpsCoordinates);
         static_assert(std::is_same_v<decltype(theseGpsCoordinates), std::optional<GPSCoordinates> const &>, "Dereference fail!"); // :remove:
         auto latitude = *(theseGpsCoordinates->latitude);
         static_assert(std::is_same_v<decltype(latitude), double>, "Dereference fail!"); // :remove:
@@ -183,14 +286,17 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
     auto realm = realm::open<Company, Employee>();
 
     auto employee1 = Employee {
+        ._id = 23456,
         .firstName = "Pam",
         .lastName = "Beesly" };
     
     auto employee2 = Employee {
+        ._id = 34567,
         .firstName = "Jim",
         .lastName = "Halpert" };
 
     auto company = Company {
+        ._id = 45678,
         .name = "Dunder Mifflin"
     };
     
@@ -236,7 +342,6 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
     });
 };
 
-#if 0
 TEST_CASE("update an embedded object", "[model][update]") {
     auto realm = realm::open<Business, ContactDetails>();
 
@@ -253,7 +358,6 @@ TEST_CASE("update an embedded object", "[model][update]") {
         // :snippet-start: update-embedded-object
         auto businesses = realm.objects<Business>();
         auto mongoDBPointer = businesses[0];
-        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "email@example.com"); // :remove:
 
         realm.write([&realm, &mongoDBPointer] {
             mongoDBPointer.contactDetails->emailAddress = "info@example.com";
@@ -261,11 +365,11 @@ TEST_CASE("update an embedded object", "[model][update]") {
 
         std::cout << "New email address: " << mongoDBPointer.contactDetails->emailAddress << "\n";
         // :snippet-end:
-        REQUIRE(mongoDBPointer.contactDetails->emailAddress == "info@example.com");
     }
     // Clean up after the test
     realm.write([&realm, &business] {
         realm.remove(business);
     });
 }
-#endif
+
+// :replace-end:
