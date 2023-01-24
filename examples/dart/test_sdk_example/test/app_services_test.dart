@@ -11,10 +11,10 @@ void main() {
     await app.logIn(Credentials.anonymous());
   });
 
-  // Log current user out
+  // Delete and log current user out
   tearDown(() async {
+    app.deleteUser(app.currentUser!);
     await app.currentUser?.logOut();
-    // Realm.shutdown();
   });
 
   test("Check user type", () {

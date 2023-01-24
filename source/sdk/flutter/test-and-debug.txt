@@ -104,8 +104,8 @@ with the ``late`` keyword at a higher scope than your tests. Instantiate
 the ``App`` client and log a user in inside a ``setUp`` function. Then
 run clean up operations inside of a `tearDown function
 <https://api.flutter.dev/flutter/flutter_test/tearDown.html>`__.
-Inside of the ``tearDown`` callback function, log out the
-``App.currentUser``.
+Inside of the ``tearDown`` callback function, delete the current user from the backend
+and then log them out on the device.
 
 .. literalinclude:: /examples/generated/flutter/app_services_test.snippet.app-services-test.dart
    :language: dart
@@ -123,6 +123,12 @@ Test App Services sections above.
 
 To test a synced Realm, you can lazily instantiate the ``App`` and
 ``Realm`` with the ``late`` keyword at a higher scope than your tests.
+In a ``tearDown`` function, you should perform the following:
+
+#. Delete all data in the realm.
+#. Sync the latest changes to Atlas to ensure that the deletion propagates to Atlas.
+#. Close the Realm.
+#. Delete the Realm File from the device.
 
 .. literalinclude:: /examples/generated/flutter/synced_realm_test.snippet.synced-realm-test.dart
    :language: dart
