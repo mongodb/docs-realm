@@ -197,16 +197,10 @@ Copy Data into a New Realm
 
 To copy data from an existing realm to a new realm with different
 configuration options, pass the new configuration to
-:flutter-sdk:`Realm.writeCopy() <TODO: add link>`.
+:flutter-sdk:`Realm.writeCopy() <realm/Realm/writeCopy.html>`.
 
 In the new realm's configuration, you *must* specify the ``path``.
-
-If you write the copied realm to a realm file that already exists,
-the data is written object by object. The copy operation replaces objects
-if there already exists objects for given primary keys.
-The schemas of the realm you copy and the realm you are writing to must be
-compatible for the copy operation to succeed.
-Only objects in the schemas of both configurations are copied over.
+You **cannot** write to a path that already contains a file.
 
 Using ``Realm.writeCopy()``, you can convert between the following
 :flutter-sdk:`Configuration <realm/Configuration-class.html>`
@@ -214,14 +208,16 @@ types:
 
 - ``LocalConfiguration`` to ``LocalConfiguration``
 - ``FlexibleSyncConfiguration`` to ``FlexibleSyncConfiguration``
+- ``InMemoryConfiguration`` to ``InMemoryConfiguration``
+- ``LocalConfiguration`` to read-only ``LocalConfiguration`` and vice versa
+- ``InMemoryConfiguration`` to ``LocalConfiguration`` and vice versa
 - ``FlexibleSyncConfiguration`` to ``LocalConfiguration``
-- ``LocalConfiguration`` to read-only ``LocalConfiguration``
-- ``InMemoryConfiguration`` to ``LocalConfiguration``
+- ``FlexibleSyncConfiguration`` to ``InMemoryConfiguration``
 
 You **cannot** convert from a ``LocalConfiguration`` or a ``InMemoryConfiguration``
 to a ``FlexibleSyncConfiguration``.
 
-Some additional considerations to keep in mind while using ``Realm.writeTo()``:
+Some additional considerations to keep in mind while using ``Realm.writeCopy()``:
 
 #. The destination file should not already exist.
 #. Copying realm is not allowed within a write transaction or during migration.
@@ -231,15 +227,15 @@ Some additional considerations to keep in mind while using ``Realm.writeTo()``:
    for a newly installed application.
    The method throws if there are pending uploads.
 
-The following example copies the data from a realm with a ``LocalConfiguration``
-to a new realm with a ``FlexibleSyncConfiguration``.
+The following example copies the data from a realm with a ``InMemoryConfiguration``
+to a new realm with a ``LocalConfiguration``.
 
 TODO: code example
 
 You can also :ref:`include a new encryption key <flutter-encrypt>`
 in the copied realm's configuration or remove the encryption key from the new configuration.
 
-The following example copies data from an unencrypted realm with a ``LocalConfiguration``
-to an encrypted realm with a ``FlexibleSyncConfiguration``.
+The following example copies data from an **unencrypted** realm with a ``LocalConfiguration``
+to an **encrypted** realm with a ``LocalConfiguration``.
 
 TODO: code example
