@@ -21,5 +21,5 @@ unencryptedRealm.close();
 final encryptedRealm = Realm(encryptedConfig);
 
 // Person object for "Harper" is in `localRealm` because
-// the data was copied over with `inMemoryRealm.writeCopy()`.
+// the data was copied over with `unencryptedRealm.writeCopy()`.
 final harper = encryptedRealm.find<Person>('Harper');
