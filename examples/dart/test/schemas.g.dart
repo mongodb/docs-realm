@@ -89,7 +89,7 @@ class SyncSchema extends _SyncSchema
     RealmObjectBase.registerFactory(SyncSchema._);
     return const SchemaObject(
         ObjectType.realmObject, SyncSchema, 'SyncSchema', [
-      SchemaProperty('_id', RealmPropertyType.objectid,
+      SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
     ]);
   }
