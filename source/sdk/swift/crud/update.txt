@@ -84,10 +84,22 @@ accessors for every item.
 .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.key-value-coding.swift
    :language: swift
 
-.. tip::
+You can also add values for embedded objects or relationships this
+way. In this example, we add a collection to an object's list property:
 
-   You can also add values for embedded objects or relationships this
-   way. See :ref:`ios-initialize-an-object-with-a-value`.
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/DeleteRealmObjects.snippet.batch-update.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.batch-update.m
+         :language: objectivec
 
 .. _ios-upsert-an-object:
 

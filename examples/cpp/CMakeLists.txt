@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 project(examples)
 
-set(CMAKE_CXX_STANDARD 20)
-
-add_subdirectory(realm-cpp)
+set(CMAKE_CXX_STANDARD 17)
 
 Include(FetchContent)
 
@@ -13,9 +11,15 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
   GIT_TAG        v3.0.1 # or a later release
 )
+FetchContent_Declare(
+  cpprealm
+  GIT_REPOSITORY https://github.com/realm/realm-cpp.git
+  GIT_TAG        08b3c0056877118f385e27c1d6e332f1df39f02d
+)
 
-FetchContent_MakeAvailable(Catch2)
+FetchContent_MakeAvailable(Catch2 cpprealm)
 
-add_executable(examples examples.cpp)
+# add_executable(examples testHelpers.hpp examples.cpp define-object-model.cpp authentication.cpp supported-types.cpp testHelpersTests.cpp)
+add_executable(examples examples.cpp define-object-model.cpp authentication.cpp supported-types.cpp)
 target_link_libraries(examples PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(examples PRIVATE cpprealm)

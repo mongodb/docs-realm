@@ -31,7 +31,7 @@ a Realm object schema.
 You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>`
 class that's used within your application.
 
-For more information, refer to :ref:`Define a Realm Object Schema - Flutter SDK <flutter-define-realm-object-schema>`.
+For more information, refer to :ref:`Define a Realm Object Schema <flutter-define-realm-object-schema>`.
 
 Create Data Model
 ~~~~~~~~~~~~~~~~~
@@ -132,7 +132,7 @@ to generate an instance of that realm:
 
 You can now use that realm instance to work with objects in the database.
 
-For more information, refer to :ref:`Open and Close a Realm - Flutter SDK <flutter-open-close-realm>`.
+For more information, refer to :ref:`Configure and Open a Realm <flutter-open-close-realm>`.
 
 Work with Realm Objects
 -----------------------
@@ -140,7 +140,7 @@ Work with Realm Objects
 Once you've opened a realm, you can create objects within it using a
 :flutter-sdk:`write transaction block <realm/Realm/write.html>`.
 
-For more information, refer to :ref:`Read and Write Data - Flutter SDK <flutter-read-write-data>`.
+For more information, refer to :ref:`Read and Write Data <flutter-read-write-data>`.
 
 Create Objects
 ~~~~~~~~~~~~~~
@@ -173,14 +173,7 @@ of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method
 In the ``query()`` method's argument,
 use :ref:`Realm Query Language operators<rql-operators>` to perform filtering.
 
-
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
-   :language: dart
-
-Sort the results using the :ref:`Realm Query Language SORT() operator
-<rql-sort-distinct-limit>` in the ``query()`` method's argument.
-
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
    :language: dart
 
 Delete Objects
@@ -190,12 +183,6 @@ Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.htm
 method in a write transaction block:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
-   :language: dart
-
-Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
-<realm/Realm/deleteMany.html>` method in a write transaction block.
-
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
    :language: dart
 
 React to Changes
@@ -211,18 +198,6 @@ To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
    :language: dart
 
-To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
-<realm/RealmObjectChanges-class.html>`.
-
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-object-change-listener.dart
-   :language: dart
-
-To listen to a list of Realm objects within another Realm object, use :flutter-sdk:`RealmList.changes.listen()
-<realm/RealmListChanges-class.html>`.
-
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
-   :language: dart
-
 You can pause and resume subscriptions as well.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.pause-resume-subscription.dart
@@ -233,7 +208,7 @@ Once you've finished listening to changes, close the change listener to prevent 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.cancel-subscription.dart
    :language: dart
 
-For more information, refer to :ref:`React to Changes - Flutter SDK <flutter-react-to-changes>`.
+For more information, refer to :ref:`React to Changes <flutter-react-to-changes>`.
 
 Close a Realm
 -------------
@@ -286,9 +261,7 @@ you must configure Device Sync using Atlas App Services:
 Initialize App Services
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To use App Services features such as authentication and sync, you must
-access your App Services App using your App ID.
-You can :ref:`find your App ID in the App Services UI <find-your-project-or-app-id>`.
+.. include:: /includes/access-app-id.rst
 
 .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.init-app.dart
    :language: dart
@@ -313,7 +286,7 @@ Open a Synced Realm
 Once you have enabled Device Sync and authenticated a user,
 open a synced realm with :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`.
 Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
-to open an instance of the realm. The synced realm **must** hav a different
+to open an instance of the realm. The synced realm **must** have a different
 :flutter-sdk:`Configuration.path <realm/Configuration/path.html>`
 from other opened local-only realms.
 
@@ -336,7 +309,7 @@ Use ``MutableSubscriptionSet.add()`` to add a new subscription.
 .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.add-sync-subscription.dart
    :language: dart
 
-For more information, refer to :ref:`Manage Sync Session <flutter-manage-sync-session>`.
+For more information, refer to :ref:`Manage Sync Subscriptions <flutter-flexible-sync-manage-subscriptions>`.
 
 Further Examples and Next Steps
 -------------------------------

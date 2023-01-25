@@ -21,11 +21,14 @@ device is online, Sync asynchronously synchronizes data in a
 background thread between the device and your backend App.
 
 When you use Sync in your client application, your implementation must match
-the :ref:`Sync <sync-modes>` you select in your backend App configuration.
+the :ref:`Sync Mode <sync-modes>` you select in your backend App configuration.
 The Sync Mode options are:
 
-- Partition-Based Sync
-- Flexible Sync
+- Flexible Sync (recommended): lets you define a query in the client and sync only the
+  objects that match the query.
+- Partition-Based Sync: documents in a synced cluster form a "partition" by
+  having the same value for a field designated as "partition key". All documents
+  in a partition have the same read/write permissions for a given user.
 
 You can only use one Sync Mode for your application.
 
@@ -71,8 +74,13 @@ You can form queries using :ref:`Realm Query Language <realm-query-language>`.
 
 Subscription sets are based on object type.
 You might have multiple subscriptions if you
-have many types of realm objects.
+have many types of Realm objects.
 
 To use Flexible Sync in your client application, open a synced realm 
 with an initial set of subscriptions to determine which documents to
 sync.
+
+Group Updates for Improved Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/sync-memory-performance.rst

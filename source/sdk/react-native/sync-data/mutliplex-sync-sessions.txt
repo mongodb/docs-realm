@@ -1,0 +1,27 @@
+.. _react-native-multiplex-sync-sessions:
+
+===========================================
+Multiplex Sync Sessions - React Native SDK
+===========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+Enable :wikipedia:`session multiplexing <Session_multiplexing>` to consolidate
+multiple sync sessions of a Realm app.
+Only use session multiplexing if you see errors about reaching the file descriptor limit,
+and you know you are using many sync sessions.
+
+To enable session multiplexing, call :js-sdk:`Realm.App.Sync.enableSessionMultiplexing()
+<Realm.App.Sync.html#.enableSessionMultiplexing>` with your :js-sdk:`Realm.App <Realm.App.html>`. 
+
+.. example::
+   
+   .. literalinclude:: /examples/SyncChanges/enable-session-multiplexing.js
+      :language: javascript

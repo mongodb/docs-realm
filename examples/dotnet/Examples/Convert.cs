@@ -14,7 +14,7 @@ namespace Examples
         public async Task TestNoSyncToSync()
         {
             // :snippet-start: nonsync-to-sync
-            var existingConfig = new RealmConfiguration("my.realm");
+            var existingConfig = new RealmConfiguration("example.realm");
             var existingRealm = Realm.GetInstance(existingConfig);
 
             var app = App.Create("my-app-id");

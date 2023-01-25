@@ -1,29 +1,26 @@
 .. _flutter-realm-database:
 .. _flutter-realm-database-overview:
 
-=====================================
-Realm Database Overview - Flutter SDK
-=====================================
-
-.. toctree::
-   :titlesonly:
-
-   Define a Realm Object Schema </sdk/flutter/realm-database/define-realm-object-schema>
-   Open & Close a Realm </sdk/flutter/realm-database/open-and-close-a-realm>
-   Read & Write Data </sdk/flutter/realm-database/read-and-write-data>
-   React to Changes </sdk/flutter/realm-database/react-to-changes>
-   Data Types </sdk/flutter/realm-database/data-types>
-   Update a Realm Object Schema </sdk/flutter/realm-database/update-realm-object-schema>
-   Freeze Data </sdk/flutter/realm-database/freeze>
-   Encrypt a Realm </sdk/flutter/realm-database/encrypt>
-   Bundle a Realm </sdk/flutter/realm-database/bundle>
-   Database Internals </sdk/flutter/realm-database/database-internals>
+============================
+Realm Database - Flutter SDK
+============================
 
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 1
+   :depth: 2
    :class: singlecol
+
+.. toctree::
+   :titlesonly:
+
+   Model Data </sdk/flutter/realm-database/model-data>
+   Configure & Open a Realm </sdk/flutter/realm-database/configure-and-open>
+   Read & Write Data </sdk/flutter/realm-database/read-and-write-data>
+   React to Changes </sdk/flutter/realm-database/react-to-changes>
+   Freeze Data </sdk/flutter/realm-database/freeze>
+   Manage Realm Database Files </sdk/flutter/realm-database/realm-files>
+   Database Internals </sdk/flutter/realm-database/database-internals>
 
 Realm Database is a reactive, object-oriented, cross-platform,
 mobile database:
@@ -41,75 +38,66 @@ mobile database:
 - **Mobile**: designed for the low-power, battery-sensitive, real-time
   environment of a mobile device.
 
-Realm Database is an alternative to `SQLite <https://www.sqlite.org/index.html>`__
-and :apple:`Core Data <documentation/coredata>`.
+Realm Database is a cross-platform and mobile-optimized alternative to other
+mobile databases such as `SQLite <https://www.sqlite.org/index.html>`__,
+:apple:`Core Data <documentation/coredata>`, and :android:`Room
+<jetpack/androidx/releases/room>`.
 
-Features
---------
+You can also synchronize data between Realm Database and MongoDB Atlas using
+Atlas Device Sync. To learn more about using Realm Database with Device Sync,
+refer to :ref:`flutter-sync`.
 
-Realm Database supports many popular database features.
+Realm Database supports the following popular database features.
+
+Schemas
+-------
+
+Every realm object has a schema. That schema is defined via a native
+object in your SDK's language. Object schemas can include embedded lists
+and relations between object instances. To learn more,
+refer to :ref:`Define a Schema <flutter-define-realm-object-schema>`.
+
+Each realm uses a versioned schema. When that schema changes, you
+must define a migration to move object data between schema versions.
+Non-breaking schema changes, also referred to as additive schema changes,
+do not require a migration. After you increment the local schema version,
+you can begin using the updated schema in your app. Breaking schema
+changes, also called destructive schema changes, require a migration function.
+
+To learn more about schema versioning and migrations,
+refer to :ref:`Update a Realm Object Schema <flutter-update-schema>`.
+
+Persistent or In-Memory Realms
+------------------------------
+
+You can use Realm Database to store data persistently on disk, or
+ephemerally in memory. Ephemeral realms can be useful in situations
+where you don't need to persist data between application instances, such
+as when a user works in a temporary workspace.
+
+To learn more, refer to :ref:`Configure and Open a Realm <flutter-open-close-realm>`.
 
 Queries
-~~~~~~~
+-------
 
-You can query Realm Database using platform-native queries or a
-raw query language that works across platforms.
+You can query Realm Database using :ref:`Realm Query Language <rql>`.
+
+To learn more about querying Realm Database, refer to :ref:`Read & Write Data <flutter-read-write-data>`.
+
+Encryption
+----------
+
+Realm Database supports on-device realm encryption. Since
+memory mapping does not support encryption, encrypted realms use a
+simulated in-library form of memory mapping instead.
+
+To learn more, refer to :ref:`Encrypt a Realm <flutter-encrypt>`.
 
 Indexes
-~~~~~~~
+-------
 
 Indexes are implemented as trees containing values of a given property
 instead of a unique internal object key. This means that indexes only
 support one column, and thus only one property, at a time.
 
-Schemas
-~~~~~~~
-
-Every realm object has a schema. That schema is defined via a native
-object in your SDK's language. Object schemas can include embedded lists
-and relations between object instances.
-
-Each realm uses a versioned schema. When that schema changes, you
-must define a migration to move object data between schema versions.
-Non-breaking schema changes, also referred to as additive schema changes,
-happen automatically. However, your SDK may require you to increase the
-local schema version to begin using the updated schema in your app.
-Breaking schema changes, also called destructive schema changes, require
-a migration function.
-
-Sync
-~~~~
-
-Device Sync adds network synchronization between a Atlas App Services backend and
-client devices on top of all of the functionality of Realm Database.
-When you use Realm Database with Sync, realms exist on device
-just like when you only use Realm Database. However, changes to
-the data stored in those realms synchronize between all client
-devices through a backend App Services instance. That backend also stores
-realm data in a cloud-based Atlas cluster running MongoDB.
-
-Device Sync relies on a worker client that communicates with your
-application backend in a dedicated thread in your application.
-Additionally, synced realms keep a history of changes to contained
-objects. Sync uses this history to resolve conflicts between client
-changes and backend changes.
-
-Applications that use Device Sync define their schema on the backend using
-`JSON Schema <https://json-schema.org/learn/getting-started-step-by-step.html>`__.
-Client applications must match that backend schema to synchronize data.
-However, if you prefer to define your initial schema in your application's
-programming language, you can use :ref:`Development Mode
-<concept-development-mode>` to create a backend JSON Schema based on
-native SDK objects as you write your application. However, once your
-application is used for production purposes, you should alter your
-schema using JSON Schema on the backend.
-
-For more information, refer to :ref:`the Sync documentation <flutter-sync>`.
-
-Further Reading
----------------
-
-- :ref:`Define Realm Object Schema <flutter-define-realm-object-schema>`:
-  Get started with Realm by defining your data model.
-- :ref:`Realm Database Internals <flutter-realm-database-internals>`:
-  Learn more about the inner workings of Realm database.
+To learn more, refer to :ref:`Index Properties <flutter-index-property>`.

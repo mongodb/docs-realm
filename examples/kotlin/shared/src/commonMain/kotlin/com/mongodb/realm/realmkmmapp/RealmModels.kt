@@ -1,7 +1,7 @@
 package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.types.RealmObject
-import io.realm.kotlin.types.ObjectId
+import org.mongodb.kbson.ObjectId
 import io.realm.kotlin.types.annotations.PrimaryKey
 
 class Person : RealmObject {
@@ -31,7 +31,7 @@ class Task : RealmObject {
 // :snippet-start: quick-start-model
 class Item() : RealmObject {
     @PrimaryKey
-    var _id: ObjectId = ObjectId.create()
+    var _id: ObjectId = ObjectId()
     var isComplete: Boolean = false
     var summary: String = ""
     var owner_id: String = ""

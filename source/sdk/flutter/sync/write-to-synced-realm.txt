@@ -1,0 +1,110 @@
+.. _flutter-write-synced-realm:
+
+==========================================
+Write Data to a Synced Realm - Flutter SDK
+==========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+When writing data to a synced realm using Flexible Sync, you can use the same APIs
+as writing to a local realm. However, there are some differences
+in behavior to keep in mind as you develop your application.
+To learn more about reading and writing data to a realm,
+refer to :ref:`Read & Write Data <flutter-read-write-data>`.
+
+Examples on This Page
+---------------------
+
+The examples on this page use an Atlas App Services App with the following 
+Device Sync configuration and a client app with the following Realm SDK 
+data model and subscriptions.
+
+Device Sync is configured with the following queryable fields:
+
+- ``_id`` (always included)
+- ``miles``
+- ``ownerId``
+
+Device Sync has permissions configured to let users read and write only their own
+data:
+
+.. code-block:: json
+
+   {
+     "rules": {},
+     "defaultRoles": [
+       {
+         "name": "owner-read-write",
+         "applyWhen": {},
+         "read": {
+           "ownerId": "%%user.id"
+         },
+         "write": {
+           "ownerId": "%%user.id"
+         }
+       }
+     ]
+   }
+
+The examples on this page use the following schema:
+
+.. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.realm-model.dart
+   :language: dart
+
+Using that schema, the examples configure the synced realm to 
+synchronize objects matching this subscription query:
+
+.. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.subscription-setup.dart
+   :language: dart
+
+Write to a Synced Realm
+-----------------------
+
+When you write to a synced realm, your write operations must match *both*
+of the following:
+
+- **The sync subscription query.**
+    - If your write operation doesn't match the query in the subscription,
+      the write reverts with a non-fatal compensating write error (ErrorCompensatingWrite).
+    - To learn more about compensating write errors and how to avoid them,
+      refer to the :ref:`Compensating Writes <flutter-compensating-writes>` section.
+- **The Device Sync permissions** in your App Services App.
+    - If your try to write data that doesn't match the Device Sync permissions expression,
+      the write reverts with a non-fatal permission denied error (ErrorPermissionDenied).
+    - To learn more about configuring Device Sync permissions for your app,
+      refer to :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide`
+      in the App Services documentation.
+
+To learn more about permission denied errors, compensating write errors
+and other Device Sync error types, refer to :ref:`sync-errors` in the App Services documentation.
+
+.. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.write-synced-realm.dart
+   :language: dart
+
+.. _flutter-compensating-writes:
+
+Compensating Writes
+-------------------
+
+Compensating write errors occur when you write data to a realm
+that doesn't align with the realm's sync subscriptions.
+
+When you write data that doesn't match a subscription, the following occurs:
+
+#. Because the client realm has no concept of "illegal" writes,
+   the write initially succeeds until realm resolves the changeset
+   with the App Services backend.
+#. Upon sync, the server applies the rules and permissions.
+   The server determines that the user does not have authorization to perform the write.
+#. The server sends a revert operation, called a "compensating write", back to the client.
+#. The client's realm reverts the illegal write operation.
+
+Any client-side writes to a given object between an illegal write to that object
+and the corresponding compensating write will be lost.
+
+.. literalinclude:: /examples/generated/flutter/write_to_synced_realm_test.snippet.compensating-write.dart
+   :language: dart

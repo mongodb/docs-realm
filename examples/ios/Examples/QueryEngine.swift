@@ -13,6 +13,8 @@ class QueryEngineExamples_Task: Object {
     @Persisted var assignee: String?
     @Persisted var priority = 0
     @Persisted var progressMinutes = 0
+    @Persisted var labels: MutableSet<String>
+    @Persisted var ratings: MutableSet<Int>
 }
 
 class QueryEngineExamples_Project: Object {
@@ -145,8 +147,13 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
             let task2 = QueryEngineExamples_Task()
             task.assignee = "Alex"
             task.priority = 10
+            task.labels.insert("quick win")
+            task.ratings.insert(1)
+            task.ratings.insert(5)
             task2.assignee = "Ali"
             task2.priority = 9
+            task2.labels.insert("quick win")
+            task2.ratings.insert(1)
             project.tasks.append(task)
             project.tasks.append(task2)
             realm.add(project)
@@ -186,15 +193,22 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
         // :snippet-end:
 
         // :snippet-start: tsq-collections-contains
-        let aliOrJamiesTasks = tasks.where {
-            $0.assignee.contains("Ali") || $0.assignee.contains("Jamie")
+        let quickWinTasks = tasks.where {
+            $0.labels.contains("quick win")
         }
-        print("Tasks where assignee contains Ali or Jamie: \(aliOrJamiesTasks.count)")
+        print("Tasks labeled 'quick win': \(quickWinTasks.count)")
 
         let progressBetween30and60 = tasks.where {
             $0.progressMinutes.contains(30...60)
         }
         print("Tasks with progress between 30 and 60 minutes: \(progressBetween30and60.count)")
+        // :snippet-end:
+
+        // :snippet-start: tsq-collections-contains-any
+        let quickWinOrBugTasks = tasks.where {
+            $0.labels.containsAny(in: ["quick win", "bug"])
+        }
+        print("Tasks labeled 'quick win' or 'bug': \(quickWinOrBugTasks.count)")
         // :snippet-end:
 
         // :snippet-start: tsq-logical-operators
@@ -253,6 +267,18 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
             $0.tasks.progressMinutes.sum > 100
         }
         print("Long running projects: \(longRunningProjects.count)")
+        // :snippet-end:
+        
+        // :snippet-start: tsq-set-operators
+        let projectsWithGivenLabels = projects.where {
+            $0.tasks.labels.containsAny(in: ["quick win", "bug"])
+        }
+        print("Projects with quick wins: \(projectsWithGivenLabels.count)")
+        
+        let projectsWithRatingsOver3 = projects.where {
+            $0.tasks.ratings > 3
+        }
+        print("Projects with any ratings over 3: \(projectsWithRatingsOver3.count)")
         // :snippet-end:
 
         // :snippet-start: tsq-subquery

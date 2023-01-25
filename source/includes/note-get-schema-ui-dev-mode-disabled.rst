@@ -6,5 +6,4 @@
    You must re-enable Development Mode if you want to make changes to the
    object model definition from client side code.
 
-   :ref:`Learn more in the documentation for creating a schema.
-   <create-schema-for-backend-realm-app>`
+   For more information, see :ref:`<create-schema-for-backend-realm-app>`.

@@ -1,6 +1,14 @@
 import Realm from "realm";
 
+// :snippet-start: get-app-instance
+// :replace-start: {
+//   "terms": {
+//     "example-testers-kvjdy": "<yourAppId>"
+//   }
+// }
 const app = Realm.App.getApp("example-testers-kvjdy");
+// :replace-end:
+// :snippet-end:
 
 describe("user authentication", () => {
   afterEach(async () => {
@@ -61,15 +69,15 @@ describe("user authentication", () => {
   });
 
   test("server api key login", async () => {
-    process.env.realmServerApiKey = "lolthisisntreallyakey";
+    process.env.realmApiKey = "ceb9d97d12f398c284f8";
     // :snippet-start: server-api-key-login
     // Get the API key from the local environment
-    const apiKey = process.env?.realmServerApiKey;
+    const apiKey = process.env?.realmApiKey;
     if (!apiKey) {
       throw new Error("Could not find a Realm Server API Key.");
     }
     // Create an api key credential
-    const credentials = Realm.Credentials.serverApiKey(apiKey);
+    const credentials = Realm.Credentials.apiKey(apiKey);
     try {
       const user = await app.logIn(credentials);
       console.log("Successfully logged in!", user.id);
@@ -172,5 +180,34 @@ describe("user authentication", () => {
         console.error("Failed to log in", err.message);
       }
     }
+  });
+});
+
+describe("User Sessions", () => {
+  afterEach(async () => {
+    await app.currentUser?.logOut();
+    jest.runAllTimers();
+  });
+
+  test("Get a User Access Token", async () => {
+    const email = "stanley.session@example.com";
+    const password = "pa55w0rd!";
+    try {
+      await app.logIn(Realm.Credentials.emailPassword(email, password));
+    } catch (err) {
+      await app.emailPasswordAuth.registerUser({ email, password });
+      await app.logIn(Realm.Credentials.emailPassword(email, password));
+    }
+    // :snippet-start: get-user-access-token
+    // Gets a valid user access token to authenticate requests
+    async function getValidAccessToken(user: Realm.User) {
+      // An already logged in user's access token might be stale. To
+      // guarantee that the token is valid, refresh it if necessary.
+      await user.refreshCustomData();
+      return user.accessToken;
+    }
+    // :snippet-end:
+    const token = await getValidAccessToken(app.currentUser!);
+    expect(token).not.toBe(undefined);
   });
 });

@@ -1,0 +1,52 @@
+.. _flutter-realm-files:
+
+=========================
+Realm Files - Flutter SDK
+=========================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. toctree::
+   :titlesonly:
+
+   Delete a Realm </sdk/flutter/realm-database/realm-files/delete>
+   Bundle a Realm </sdk/flutter/realm-database/realm-files/bundle>
+   Reduce Realm File Size </sdk/flutter/realm-database/realm-files/compact>
+   Encrypt a Realm </sdk/flutter/realm-database/realm-files/encrypt>
+
+A **realm** is the core data structure used to organize data in
+Realm Database. A realm is a collection of the objects that you use
+in your application, called Realm objects, as well as additional metadata
+that describe the objects. To learn how to define a Realm object, see
+:ref:`Define a Realm Object Schema <flutter-define-realm-object-schema>`.
+
+When you open a realm, you can include configuration that specifies additional details
+about how to configure the realm file. This includes things like:
+
+- Pass a file path or in-memory identifier to customize how the realm is stored on device
+- Provide a logged-in user and Sync details to use Sync with the realm
+- Specify the realm use only a subset of your app's classes
+- Whether and when to compact a realm to reduce its file size
+- Pass an encryption key to encrypt a realm
+- Provide a schema version or migration block when making schema changes
+
+.. _flutter-realm-file:
+
+Realm Files
+-----------
+
+Realm Database stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at :ref:`a specific
+path <flutter-customize-default-configuration>` that you can define when you open the realm.
+You can open, view, and edit the contents of these files with
+:ref:`realm-studio`.
+
+Realm Database also creates additional files for each realm.
+To learn more about these files, see :ref:`Realm Database Internals
+<flutter-realm-database-internals>`. Deleting these files has important implications.
+For more information about deleting ``.realm`` or auxiliary files, refer to
+:ref:`Delete a Realm <flutter-delete-realm>`.

@@ -11,7 +11,7 @@ typedef Car = Schemas.Car;
 @MapTo("Person")
 class _PersonV2 {
   @PrimaryKey()
-  late ObjectId id;
+  late String id;
 
   late String fullName;
   late int? yearsSinceBirth;
@@ -27,9 +27,10 @@ void main() {
         Configuration.local([PersonV1.schema, Car.schema], path: realmPath);
     final realmV1 = Realm(configV1);
     realmV1.write(() {
-      realmV1.add<PersonV1>(PersonV1(1, "Lando", "Calrissian", age: 42));
-      realmV1.add<PersonV1>(PersonV1(2, "Boba", "Fett", age: 36));
-      realmV1.add<PersonV1>(PersonV1(3, "Mace", "Windu", age: 40));
+      realmV1
+          .add<PersonV1>(PersonV1(ObjectId(), "Lando", "Calrissian", age: 42));
+      realmV1.add<PersonV1>(PersonV1(ObjectId(), "Boba", "Fett", age: 36));
+      realmV1.add<PersonV1>(PersonV1(ObjectId(), "Mace", "Windu", age: 40));
     });
     realmV1.close();
   });
@@ -40,7 +41,7 @@ void main() {
   group("Migrations - ", () {
     test("Delete type", () {
       // :snippet-start: migration-delete-type
-      Configuration configWithoutPerson = Configuration.local([Car.schema],
+      final configWithoutPerson = Configuration.local([Car.schema],
           schemaVersion: 2,
           // :remove-start:
           path: realmPath,
@@ -49,7 +50,7 @@ void main() {
         // Between v1 and v2 we removed the Person type
         migration.deleteType('Person');
       }));
-      Realm realmWithoutPerson = Realm(configWithoutPerson);
+      final realmWithoutPerson = Realm(configWithoutPerson);
       // :snippet-end:
       realmToTearDown = realmWithoutPerson; // set for tear down
       expect(realmWithoutPerson.schema.first.name, "Car");
@@ -58,7 +59,7 @@ void main() {
   });
   test("Rename property", () {
     // :snippet-start: migrations-rename-property
-    Configuration configWithRenamedAge =
+    final configWithRenamedAge =
         Configuration.local([Person.schema, Car.schema],
             schemaVersion: 2,
             // :remove-start:
@@ -76,14 +77,14 @@ void main() {
         newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
             " " +
             oldPerson.dynamic.get<String>("lastName");
-        final oldIdBytes = oldPerson.dynamic.get<int>("id");
-        newPerson.id = ObjectId.fromValues(0, 0, oldIdBytes);
+        final oldId = oldPerson.dynamic.get<ObjectId>("id");
+        newPerson.id = oldId.toString();
       }
       // :remove-end:
       // Between v1 and v2 we renamed the Person 'age' property to 'yearsSinceBirth'
       migration.renameProperty('Person', 'age', 'yearsSinceBirth');
     }));
-    Realm realmWithRenamedAge = Realm(configWithRenamedAge);
+    final realmWithRenamedAge = Realm(configWithRenamedAge);
     // :snippet-end:
     realmToTearDown = realmWithRenamedAge; // set for tear down
     final maceWindu =
@@ -92,13 +93,12 @@ void main() {
   });
   test("Other migration tasks", () {
     // :snippet-start: migrations-other
-    Configuration configWithChanges =
-        Configuration.local([Person.schema, Car.schema],
-            schemaVersion: 2,
-            // :remove-start:
-            path: realmPath,
-            // :remove-end:
-            migrationCallback: ((migration, oldSchemaVersion) {
+    final configWithChanges = Configuration.local([Person.schema, Car.schema],
+        schemaVersion: 2,
+        // :remove-start:
+        path: realmPath,
+        // :remove-end:
+        migrationCallback: ((migration, oldSchemaVersion) {
       // Dynamic query for all Persons in previous schema
       final oldPeople = migration.oldRealm.all('Person');
       for (final oldPerson in oldPeople) {
@@ -113,15 +113,15 @@ void main() {
         newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
             " " +
             oldPerson.dynamic.get<String>("lastName");
-        // convert `id` from int to ObjectId
-        final oldId = oldPerson.dynamic.get<int>("id");
-        newPerson.id = ObjectId.fromValues(0, 0, oldId);
+        // convert `id` from ObjectId to String
+        final oldId = oldPerson.dynamic.get<ObjectId>("id");
+        newPerson.id = oldId.toString();
       }
       // :remove-start:
       migration.renameProperty('Person', 'age', 'yearsSinceBirth');
       // :remove-end:
     }));
-    Realm realmWithChanges = Realm(configWithChanges);
+    final realmWithChanges = Realm(configWithChanges);
     // :snippet-end:
     realmToTearDown = realmWithChanges; // set for tear down
     final maceWindu =

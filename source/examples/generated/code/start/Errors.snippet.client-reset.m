@@ -1,4 +1,4 @@
-RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
 [[app syncManager] setErrorHandler:^(NSError *error, RLMSyncSession *session) {
     if (error.code == RLMSyncErrorClientResetError) {
         // TODO: Invalidate all open realm instances

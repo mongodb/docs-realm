@@ -1,2 +1,2 @@
-Uuid myId = Uuid.v4();
-UuidPrimaryKey object = UuidPrimaryKey(myId);
+final myId = Uuid.v4();
+final object = UuidPrimaryKey(myId);

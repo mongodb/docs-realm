@@ -5,25 +5,25 @@ let frozenRealm = realm.freeze()
 
 assert(frozenRealm.isFrozen)
 
-let tasks = realm.objects(Task.self)
+let people = realm.objects(Person.self)
 
 // You can freeze collections
-let frozenTasks = tasks.freeze()
+let frozenPeople = people.freeze()
 
-assert(frozenTasks.isFrozen)
+assert(frozenPeople.isFrozen)
 
 // You can still read from frozen realms
-let frozenTasks2 = frozenRealm.objects(Task.self)
+let frozenPeople2 = frozenRealm.objects(Person.self)
 
-assert(frozenTasks2.isFrozen)
+assert(frozenPeople2.isFrozen)
 
-let task = tasks.first!
+let person = people.first!
 
-assert(!task.realm!.isFrozen)
+assert(!person.realm!.isFrozen)
 
 // You can freeze objects
-let frozenTask = task.freeze()
+let frozenPerson = person.freeze()
 
-assert(frozenTask.isFrozen)
+assert(frozenPerson.isFrozen)
 // Frozen objects have a reference to a frozen realm
-assert(frozenTask.realm!.isFrozen)
+assert(frozenPerson.realm!.isFrozen)

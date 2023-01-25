@@ -1,0 +1,29 @@
+.. _react-native-handle-sync-errors:
+
+=====================================
+Handle Sync Errors - React Native SDK
+=====================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+While developing an application that uses Device Sync, you should set an error
+handler. This error handler will detect and respond to any failed sync-related
+API calls. 
+
+Set an error handler by registering an error callback as part of the :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-handle-sync-errors.js
+   :language: javascript
+
+.. include:: /includes/sync-errors-in-app-services.rst
+
+.. note:: Client Reset Errors
+
+   To learn more about handling client reset errors, read the :ref:`Reset a Client Realm <react-native-client-resets>` documentation.

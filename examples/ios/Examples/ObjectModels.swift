@@ -3,7 +3,8 @@
 //     "ObjectModelsExamples_": "",
 //     "ObjectModelsObjcDynamicExamples_": "",
 //     "OptionalRequiredPropertyExample_": "",
-//     "OptionalRequiredPropertyObjcDynamicExample_": ""
+//     "OptionalRequiredPropertyObjcDynamicExample_": "",
+//     "ObjectModelsExamplesRename_": ""
 //   }
 // }
 import XCTest
@@ -173,11 +174,30 @@ class ObjectModelsObjcDynamicExamples_Task: Object {
 }
 // :snippet-end:
 
+// :snippet-start: rename-a-property
+class ObjectModelsExamplesRename_Person: Object {
+    @Persisted var firstName = ""
+    @Persisted var lastName = ""
+    
+    override class public func propertiesMapping() -> [String: String] {
+        ["firstName": "first_name",
+         "lastName": "last_name"]
+    }
+}
+// :snippet-end:
+
 class ObjectModelsExamples_MyModel: Object {
     @Persisted var someProperty = 0
 }
 
 class ObjectModels: XCTestCase {
+    override func tearDown() {
+        let realm = try! Realm()
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
+    
     func testGenericCollectionFunc() {
         // :snippet-start: generic-collection
         func operateOn<C: RealmCollection>(collection: C) {
@@ -207,6 +227,21 @@ class ObjectModels: XCTestCase {
             }
         }
         // :snippet-end:
+    }
+    
+    func testPropertiesMapping() {
+        let person = ObjectModelsExamplesRename_Person(value: ["firstName": "Jon", "lastName": "Snow"])
+
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(person)
+        }
+        
+        let people = realm.objects(ObjectModelsExamplesRename_Person.self)
+        let specificPerson = people.where {
+            $0.firstName == "Jon"
+        }.first!
+        XCTAssertNotNil(specificPerson)
     }
 }
 

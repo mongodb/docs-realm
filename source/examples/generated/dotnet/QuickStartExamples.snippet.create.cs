@@ -1,11 +1,11 @@
-var testTask = new Task
+var testItem = new Item
 {
     Name = "Do this thing",
-    Status = TaskStatus.Open.ToString(),
+    Status = ItemStatus.Open.ToString(),
     Partition = "myPart"
 };
 
-realm.Write(() =>
+await realm.WriteAsync(() =>
 {
-    realm.Add(testTask);
+    realm.Add(testItem);
 });

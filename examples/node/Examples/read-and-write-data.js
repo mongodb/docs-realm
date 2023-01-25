@@ -1,6 +1,6 @@
 import Realm from "realm";
 
-// :snippet-start: read-and-write-data-schemas
+// :snippet-start: task-schema-crud
 const TaskSchema = {
   name: "Task",
   properties: {
@@ -11,7 +11,9 @@ const TaskSchema = {
   },
   primaryKey: "_id",
 };
+// :snippet-end:
 
+// :snippet-start: person-schema-crud
 const PersonSchema = {
   name: "Person",
   properties: {
@@ -19,6 +21,9 @@ const PersonSchema = {
     age: "int?",
   },
 };
+// :snippet-end:
+
+// :snippet-start: dog-schema-crud
 const DogSchema = {
   name: "Dog",
   properties: {
@@ -27,7 +32,9 @@ const DogSchema = {
     age: "int?",
   },
 };
+// :snippet-end:
 
+// :snippet-start: cat-schema-crud
 const CatSchema = {
   name: "Cat",
   properties: {

@@ -15,6 +15,6 @@ var pricklyPearPlants = inventory.PlantSet
     .Filter("Name == 'Prickly Pear'");
 
 // Find all Inventory items that have at least one value in their
-// IntDict that is larger than 5
+// DoubleSet that is larger than 5
 var moreThan100 = realm.All<Inventory>()
     .Filter("DoubleSet.@values > 100");

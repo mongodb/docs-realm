@@ -42,7 +42,7 @@ Open a Realm
 ------------
 
 In a local-only Realm Database, the simplest option to open a realm
-is to use the default realm with no configuration paramater:
+is to use the default realm with no configuration parameter:
 
 .. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-open-realm-without-config-param.swift
    :language: swift
@@ -51,7 +51,7 @@ You can also specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configurat
 parameter to open a realm at a specific file URL, in-memory, or with a 
 subset of classes. 
 
-For more information, see: :ref:`Configure and Open a Realm <ios-open-a-local-realm>`
+For more information, see: :ref:`Configure and Open a Realm <ios-open-a-local-realm>`.
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
@@ -90,8 +90,6 @@ Watch for Changes
 You can :ref:`watch a realm, collection, or object for changes
 <ios-react-to-changes>` with the ``observe`` method.
 
-.. include:: /includes/serverless-watch-note.rst
-
 .. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-set-notification-token.swift
    :language: swift
 
@@ -116,16 +114,14 @@ Before you can sync Realm data, you must:
 
 - :ref:`Create an App Services App <create-a-realm-app>`
 - :ref:`Enable anonymous authentication <anonymous-authentication>`
-- :ref:`Enable Flexible Sync <enable-flexible-sync>` with  :ref:`Development Mode <enable-development-mode>` toggled to ``On`` and an ``ownerId`` field in the :guilabel:`Queryable Fields` section.
+- :ref:`Enable Flexible Sync <enable-flexible-sync>` with  :ref:`Development Mode <development-mode>` toggled to ``On`` and an ``ownerId`` field in the :guilabel:`Queryable Fields` section.
 
 .. _ios-quick-start-init-app:
 
 Initialize the App
 ~~~~~~~~~~~~~~~~~~
 
-To use App Services features such as authentication and sync, 
-access your App Services App using your App ID. You can :ref:`find your 
-App ID <find-your-app-id>` in the App Services UI.
+.. include:: /includes/access-app-id.rst
 
 .. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.connect-to-backend.swift
    :language: swift
@@ -168,8 +164,4 @@ synced realm is identical to the syntax for non-synced realms above. While
 you work with local data, a background thread efficiently integrates, 
 uploads, and downloads changesets. 
 
-To use Sync with this Quick Start model, add the ``ownerId`` property 
-when you create new todo objects:
-
-.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.create-todo.swift
-   :language: swift
+.. include:: /includes/sync-memory-performance.rst

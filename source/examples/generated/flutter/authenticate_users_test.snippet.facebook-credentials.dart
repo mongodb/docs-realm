@@ -1,2 +1,2 @@
-Credentials facebookCredentials = Credentials.facebook(accessToken);
-User currentUser = await app.logIn(facebookCredentials);
+final facebookCredentials = Credentials.facebook(accessToken);
+final currentUser = await app.logIn(facebookCredentials);

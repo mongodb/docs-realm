@@ -1,6 +1,6 @@
 async function loginApiKey(apiKey) {
   // Create an API Key credential
-  const credentials = Realm.Credentials.serverApiKey(apiKey);
+  const credentials = Realm.Credentials.apiKey(apiKey);
   try {
     // Authenticate the user
     const user = await app.logIn(credentials);

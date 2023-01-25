@@ -34,7 +34,7 @@ Your application's **data model** defines the structure of data
 stored within Realm Database.
 You can define your application's data model via Kotlin
 classes in your application code with
-:ref:`Realm Object Models <create-schema-from-rom>`.
+:ref:`Realm Object Models <kotlin-supported-types>`.
 
 To define your application's data model, add a class definition to your
 application code. The example below illustrates the creation of an 'Item' model
@@ -49,17 +49,20 @@ that represents Todo items in a Todo list app.
 Open a Realm
 ------------
 
-Use `RealmConfiguration
-<{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__
-to control the specifics of the realm you
-would like to open, including the name, location, and schema.
-Pass your configuration to the `Realm factory constructor
-<{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__
+Use 
+`RealmConfiguration.create() <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-companion/create.html>`__ 
+to open a realm using default parameters. Pass your configuration to the 
+`Realm factory constructor <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__
 to generate an instance of that realm:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-open-a-local-realm.kt
    :language: kotlin
    :copyable: false
+
+For more information on how to control the specifics of the
+`RealmConfiguration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__
+you would like to open (e.g. name, location, schema version), refer to 
+:ref:`Open & Close a Realm <kotlin-open-a-realm>`.
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
@@ -140,7 +143,7 @@ completed.
 .. _kotlin-client-quick-start-add-device-sync:
 
 Add Device Sync (Optional)
--------------------------
+--------------------------
 This section illustrates how to authenticate with an Anonymous User, and open a
 Flexible Sync realm to begin syncing data between devices.
 
@@ -151,14 +154,12 @@ The code snippets in this section require the following:
 
 - :ref:`A created App Services App <create-a-realm-app>`
 - :ref:`Enabled anonymous authentication <anonymous-authentication>` in the App Services UI
-- :ref:`Enable Flexible Sync <enable-flexible-sync>` with  :ref:`Development Mode <enable-development-mode>` toggled on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
+- :ref:`Enable Flexible Sync <enable-flexible-sync>` with  :ref:`Development Mode <development-mode>` toggled on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
 
 Initialize the App
 ~~~~~~~~~~~~~~~~~~
 
-To use App Services features such as authentication and sync, you must first access
-your Atlas App Services App using your App ID. You can :ref:`find your App ID in
-the App Services UI <find-your-app-id>`.
+.. include:: /includes/access-app-id.rst
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-initialize-app.kt
    :language: kotlin
@@ -167,8 +168,8 @@ the App Services UI <find-your-app-id>`.
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
 
-To authenticate and log in a user, call :js-sdk:`App.logIn()
-<Realm.App.html#logIn>`. When :ref:`anonymous authentication
+To authenticate and log in a user, call `App.login
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__. When :ref:`anonymous authentication
 <anonymous-authentication>` is enabled, users can immediately log into your app
 without providing any identifying information:
 
@@ -193,12 +194,14 @@ Pass the authenticated user and the ``Item`` class to the `SyncConfiguration.Bui
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__
 function to create a :ref:`Flexible Sync Configuration <kotlin-flexible-sync-fundamentals>`.
 
-You need at least one subscription before you can read from or write to the
-realm. Use `initialSubscriptions
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/initial-subscriptions.html>`__
-to define the initial subscription set when the Realm file is first opened.
-Pass the query you wish to subscribe to and a name for the subscription to the `add()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__ function.
+.. important:: Initial Subscriptions
+
+   You need at least one subscription before you can read from or write to the
+   realm. Use `initialSubscriptions
+   <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/initial-subscriptions.html>`__
+   to define the initial subscription set when the Realm file is first opened.
+   Pass the query you wish to subscribe to and a name for the subscription to the `add()
+   <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__ function.
 
 The example below specifies a subscription named "User's Items" with
 all ``Item`` objects.
@@ -216,5 +219,5 @@ application that integrates Realm Database and Atlas Device Sync into a
 customizable android app.
 
 Alternatively, if you are interested in a guided experience, you can read our
-:ref:`Android with Kotlin SDK tutorial <tutorial>` that expands on the template
+:ref:`Android with Kotlin SDK tutorial <kotlin-tutorial>` that expands on the template
 app. 

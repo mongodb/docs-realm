@@ -15,13 +15,13 @@ Prerequisites
 -------------
 
 - `Install Flutter in your development environment <https://docs.flutter.dev/get-started/install>`__.
-  You must use Flutter version 3.0 or later and Dart version 2.17.0 or later.
+  To use the latest version of the Realm SDK, you must use Flutter version 3.0.3 or later and Dart version 2.17.5 or later.
 
 .. warning:: Incompatible with Dart 2.17.3
 
    The Realm Flutter SDK and Realm Dart Standalone SDK are not compatible with
    Dart 2.17.3 due to an issue with the Dart virtual machine in this version.
-   You may use any other Dart 2.17.x version with Realm.
+   You may use Dart 2.17.5 version or later with Realm.
 
 .. _flutter-install-steps:
 
@@ -71,6 +71,16 @@ your Flutter project.
       .. code-block:: dart
 
         import 'package:realm/realm.dart';
+
+.. note:: Using Networking in your macOS App
+
+   If you are developing with the Realm Flutter SDK in the macOS App Sandbox,
+   network requests do not work by default due to built-in macOS security settings.
+   To fix this, you must change the Flutter app's macOS network entitlements.
+
+   To learn how to do this, refer to :ref:`Use Realm with the macOS App Sandbox
+   <flutter-macos-development>`.
+
 
 .. _dart-install-steps:
 
@@ -131,3 +141,76 @@ except where otherwise noted.
       .. code-block:: dart
 
         import 'package:realm_dart/realm.dart';
+
+.. _flutter-update-package:
+
+Update Package Version
+----------------------
+
+To change the version of the Flutter SDK or Dart Standalone SDK in your project, 
+follow these steps.
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      #. Add the new SDK version to your :file:`pubspec.yaml` file.
+
+         .. code-block:: yaml
+           :caption: pubspec.yaml
+
+           dependencies:
+             realm: <updated_version>
+
+      #. Install the updated version.
+
+         .. code-block::
+
+            flutter pub upgrade realm
+
+      #. Regenerate your Realm Object models.
+
+         .. code-block::
+
+            flutter pub run realm generate
+
+      These steps should make the updated SDK version work in your application.
+      If issues persist, you can delete the application from your linked client and
+      restart it. Note that this will also delete all data stored in the realm
+      on that client.
+
+   .. tab:: Dart Standalone
+      :tabid: dart
+
+      #. Add the new SDK version to your :file:`pubspec.yaml` file.
+
+         .. code-block:: yaml
+           :caption: pubspec.yaml
+
+           dependencies:
+             realm_dart: <updated_version>
+
+      #. Install the updated version.
+
+         .. code-block::
+
+            dart pub upgrade realm_dart
+
+      #. Install the updated SDK's native binaries.
+
+         .. code-block::
+
+            dart run realm_dart install
+
+      #. Regenerate your Realm Object models.
+
+         .. code-block::
+
+            dart run realm_dart generate
+
+      These steps should make the updated SDK version work in your application.
+      If issues persist, delete the ``.realm`` database file created by the SDK,
+      and restart the application.
+      Note that deleting the ``.realm`` file also deletes all data stored in the realm
+      on that client.

@@ -20,8 +20,9 @@ part 'define_realm_model_test.g.dart'; // :remove:
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late String make;
+  late ObjectId id;
 
+  late String make;
   late String? model;
   late int? miles;
 }
@@ -40,7 +41,7 @@ main() {
   test('Create a new schema version', () {
     // :snippet-start: schema-version
     final config = Configuration.local([Person.schema], schemaVersion: 2);
-    Realm realm = Realm(config);
+    final realm = Realm(config);
     // :snippet-end:
     expect(config.schemaVersion, 2);
     realm.close();

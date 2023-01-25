@@ -1,1 +1,0 @@
-SubscriptionSet subscriptions = realm.subscriptions;

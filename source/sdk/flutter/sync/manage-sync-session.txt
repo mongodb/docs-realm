@@ -10,224 +10,112 @@ Manage a Sync Session - Flutter SDK
    :depth: 2
    :class: singlecol
 
-Device Sync with Flexible Sync uses subscriptions and permissions to determine which
-data to sync between Atlas and your app.
+When you use Atlas Device Sync, the Realm Flutter SDK syncs data with Atlas
+in the background using a sync session. The sync session starts whenever
+you open a synced realm.
 
-You can add, update, and remove query subscriptions to determine which data
-syncs to the client device.
+The sync session manages the following:
 
-.. include:: /includes/note-flexible-sync-prerequisite.rst
+- Uploading and downloading changes to the realm
+- Pausing and resuming sync
+- Monitoring sync progress
+- Monitoring network connectivity
 
-Before You Begin
-----------------
+You can access the :flutter-sdk:`Session <realm/Session-class.html>` of any synced
+realm through the :flutter-sdk:`Realm.syncSession <realm/Realm/syncSession.html>` property.
 
-To use Flexible Sync in a Flutter application:
+Prerequisites
+-------------
+
+Before you can manage your sync session state, you must perform the following:
 
 #. :ref:`Configure Flexible Sync on the Atlas App Services backend <enable-flexible-sync>`
-#. :ref:`Initialize the app client <flutter-connect-to-backend>`
-#. :ref:`Authenticate a user <flutter-authenticate>` in the client
-#. :ref:`Open the synced realm <flutter-open-synced-realm>` in the client
+#. :ref:`Add Device Sync to your app <flutter-add-sync-to-app>`
 
-.. _flutter-flexible-sync-manage-subscriptions:
+.. _flutter-sync-wait-for-changes:
 
-Manage Your Subscriptions
--------------------------
+Wait for Changes to Upload and Download
+---------------------------------------
 
-When configuring Flexible Sync on the backend, you specify which fields your
-client application can query. In the client application, use the
-:flutter-sdk:`Realm.subscriptions <realm/Realm/subscriptions.html>` property to
-manage a set of subscriptions to specific queries on queryable fields.
+To asynchronously wait for all changes to upload to Atlas from your synced realm,
+call :flutter-sdk:`Session.waitForUpload()
+<realm/Session/waitForUpload.html>`. To asynchronously wait for all changes on Atlas
+to download to your synced realm, call :flutter-sdk:`Session.waitForDownload()
+<realm/Session/waitForDownload.html>`.
 
-You can:
-
-- Get a list of all subscriptions
-- Add subscriptions
-- Check subscription state
-- Update a subscription with a new query
-- Remove subscriptions
-
-When the data matches the subscription, and the authenticated user has the
-appropriate permissions, Device Sync syncs the backend data with the client app.
-
-You can specify a string name for your subscription. If you do not give your
-subscription a name, the name is set to ``null``.
-
-When you create a subscription, Realm looks for data matching a query on a
-specific object type. In your Flexible Sync subscriptions, you can have
-subscriptions on several different object types or several queries on the same
-object type.
-
-.. _flutter-sync-get-subscription:
-
-Get Subscriptions
-~~~~~~~~~~~~~~~~~
-
-When using Flexible Sync, you can access a
-:flutter-sdk:`SubscriptionSet <realm/SubscriptionSet-class.html>`, a
-collection of subscriptions, through the ``Realm.subscriptions`` property.
-
-You can use this subscriptions set to add queries to this list of subscriptions and
-update existing subscriptions, as shown in the examples below.
-
-.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.get-subscriptions.dart
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.wait-upload-download.dart
    :language: dart
 
-.. _flutter-sync-add-subscription:
+.. _flutter-pause-resume-sync:
 
-Add a Query to the Set of Subscriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pause and Resume a Sync Session
+-------------------------------
 
-You must perform all mutations on the subscriptions set within an update block.
-To create an update block, call :flutter-sdk:`SubscriptionSet.update() <realm/SubscriptionSet/update.html>`.
+To pause syncing for a session, call :flutter-sdk:`Session.pause() <realm/Session/pause.html>`.
+The realm will not sync changes with Atlas while the session is paused.
 
-The update block callback function includes a :flutter-sdk:`MutableSubscriptionSet()
-<realm/MutableSubscriptionSet-class.html>` object as an argument.
-You can modify your method on the ``SubscriptionSet`` to add a query to the subscription.
+To resume syncing a changes, call :flutter-sdk:`Session.resume() <realm/Session/resume.html>`.
 
-.. important::
+You must manually call ``Session.pause()`` and ``Session.resume()`` for each
+realm whose Sync session you want to pause and restart.
+The sync state of one session has no impact on other open sessions.
 
-   Flexible Sync does not support all the operators available in Realm 
-   Query Language. See :ref:`Flexible Sync RQL Limitations 
-   <flutter-flexible-sync-rql-limitations>` for details.
+The following code block demonstrates calling these methods:
 
-The ``MutableSubscriptionSet.add()`` method takes three arguments:
-
-- ``RealmResults query``: Required. A ``RealmResults`` object that you can create using the
-  :ref:`Realm Query Language query <rql>`.
-- ``String name``: Optional. Name for the subscription that you can refer to.
-- ``bool update``:  Optional. When true, adding a subscription with an existing name 
-  replaces the existing query with the new query. Only use with named subscriptions. 
-
-
-.. note:: Duplicate Subscriptions
-
-   If you add a duplicate **unnamed** subscription with the same query,
-   Realm automatically removes it; adding an identical
-   **named** subscription is a :wikipedia:`no-op <NOP_(code)>`. Therefore, in
-   both cases, duplicate subscriptions are ignored.
-
-You can add a single query, or batch multiple queries within a ``SubscriptionSet.update``
-block. Performing query updates is an expensive operation on the server. We
-strongly advise designing your application to minimize subscription updates.
-You can do this by creating all subscriptions in a single update block
-the first time the user launches the app and batching any follow-up changes
-to the subscription set.
-
-In the example below, we subscribe to two queries.
-
-.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.add-subscription.dart
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.pause-resume-sync.dart
    :language: dart
 
-.. _flutter-update-subscriptions-with-new-query:
+.. _flutter-monitor-sync-progress:
 
-Update Subscriptions with a New Query
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Monitor Sync Upload Progress
+----------------------------
 
-You can update a named subscription with a new query. To update a subscription's
-query, open an update block with ``SubscriptionSet.update()``.
-In the callback function of the update block, pass the following arguments to ``MutableSubscriptionSet.add()``:
+To monitor Sync upload progress progress, call :flutter-sdk:`SyncSession.getProgressStream()
+<realm/Session/getProgressStream.html>`. This method returns a Stream of
+:flutter-sdk:`SyncProgress <realm/SyncProgress-class.html>` objects.
+``SyncProgress`` provides the total number of transferrable bytes and the remaining
+bytes to be transferred.
 
-- The new query
-- The name of the subscription that you want to update
-- ``update: true``
+``SyncSession.getProgressStream()`` takes two arguments:
 
-You cannot update an unnamed subscription. Alternatively, you can
-:ref:`delete the unnamed subscription <flutter-remove-subscriptions>`, and
-:ref:`create a new subscription <flutter-sync-add-subscription>` with the desired query.
+- A :flutter-sdk:`ProgressDirection <realm/ProgressDirection.html>`
+  enum that must be set to ``upload``.
+  This specifies that the progress stream tracks uploads.
 
-In the following example, long trains are re-defined to be any trains that
-have more than 10 cars.
+- A :flutter-sdk:`ProgressMode <realm/latest/realm/ProgressMode.html>` enum
+  that can be set to ``reportIndefinitely`` or ``forCurrentlyOutstandingWork``.
+  ``reportIndefinitely`` sets notifications to continue until the callback is unregistered.
+  ``forCurrentlyOutstandingWork`` sets notifications to continue until only
+  the currently-transferable bytes are synced.
 
-.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.update-subscriptions-new-query.dart
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-progress.dart
    :language: dart
 
-.. _flutter-remove-subscriptions:
+.. warning:: Do Not Track Downloads
 
-Remove Subscriptions
-~~~~~~~~~~~~~~~~~~~~
+   The ``ProgressDirection`` enum also has a ``download`` option to track down downloads.
+   The ``download`` case provides planned future support for download progress notifications. 
+   However, these notifications do not currently provide an accurate indicator of download progress.
+   Do not rely on ``ProgressDirection.download`` for download progress notifications.
 
-To remove subscriptions from the subscription set, you can:
+.. _flutter-monitor-network-connection:
 
-- Remove a single subscription with the given query
-- Remove a single subscription with the given name
-- Remove a single subscription with the subscription reference
-- Remove all subscriptions
+Monitor Network Connection
+--------------------------
 
-When you remove a subscription query, the server also removes synced data from
-the client device.
+You can get the state of the current network connection with
+:flutter-sdk:`Session.connectionState <realm/Session/connectionState.html>`.
+This returns a :flutter-sdk:`ConnectionState <realm/ConnectionState.html>` enum
+that contains the network connection's state: ``connected``, ``disconnected``, or ``connecting``.
 
-Remove a Subscription by Query
-``````````````````````````````
-
-Within an update block, you can remove a specific subscription by query.
-Open an update block with ``SubscriptionSet.update()``. Pass the ``Subscription`` to
-:flutter-sdk:`MutableSubscriptionSet.removeByQuery() <realm/MutableSubscriptionSet/removeByQuery.html>`.
-
-In the following example, the subscription for all ``Plane`` objects is removed.
-
-.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.remove-subscriptions-by-query.dart
-   :language: dart
-   :emphasize-lines: 2
-
-Remove a Subscription by Name
-`````````````````````````````
-
-Within an update block, you can remove a specific subscription by name. Pass the name to
-:flutter-sdk:`MutableSubscriptionSet.removeByName() <realm/MutableSubscriptionSet/removeByName.html>`
-
-.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.remove-subscriptions-by-name.dart
-   :language: dart
-   :emphasize-lines: 2
-
-Remove a Subscription by Reference
-``````````````````````````````````
-
-You can remove a subscription if you have a reference to its :flutter-sdk:`Subscription
-<realm/Subscription-class.html>` object.
-Within a subscription update block, pass the ``Subscription`` reference to
-:flutter-sdk:`MutableSubscriptionSet.remove() <realm/MutableSubscriptionSet/remove.html>`.
-
-.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.remove-subscriptions-by-reference.dart
-   :language: dart
-   :emphasize-lines: 1, 3
-
-Remove All Subscriptions
-````````````````````````
-
-Within a subscription update block, you can remove all unnamed subscriptions from the
-subscriptions set with :flutter-sdk:`MutableSubscriptionSet.clear() <realm/MutableSubscriptionSet/clear.html>`.
-
-.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.remove-all-subscriptions.dart
-   :language: dart
-   :emphasize-lines: 2
-
-Wait for Subscription Changes to Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Mutating the subscription set within an update block is only one part
-of changing a subscription. After the local subscription change, the realm
-synchronizes with the server to resolve any updates to the data due to
-the subscription change. This includes adding or removing data from the
-synced realm.
-
-Use :flutter-sdk:`Realm.subscriptions.waitForSynchronization() <realm/SubscriptionSet/waitForSynchronization.html>`
-to wait for the server to acknowledge this set of subscriptions.
-If the server rejects the change, and an exception is thrown.
-
-An exception may occur if:
-
-- You subscribe to an unsupported query. Subscribing to an unsupported query will pause synchronization.
-  To resume synchronization, :ref:`remove the unsupported query <flutter-remove-subscriptions>`.
-- You are performing an invalid action, such as adding an object that does not match a subscription.
-  This triggers a :ref:`client reset <client-resets>`: data is erased from the realm,
-  and a new copy of the data is created without any subscriptions in the set.
-
-.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.wait-for-subscription-change.dart
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.get-network-connection.dart
    :language: dart
 
-.. _flutter-flexible-sync-rql-limitations:
+Monitor the state of the network connection with
+:flutter-sdk:`Session.connectionStateChanges <realm/Session/connectionStateChanges.html>`.
+This property returns a Stream of :flutter-sdk:`ConnectionStateChange <realm/ConnectionStateChange-class.html>`
+objects that updates when the network connection changes.
+You can access the current and previous ``ConnectionState`` from ``ConnectionStateChange``.
 
-Flexible Sync RQL Limitations
------------------------------
-
-.. include:: /includes/flex-sync-limitations.rst
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-network-connection.dart
+   :language: dart

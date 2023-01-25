@@ -246,6 +246,7 @@ error if the update cannot complete successfully.
 
 .. code-block:: swift
 
+   @MainActor
    func changeSubscription() async throws {
       let subscriptions = realm.subscriptions
       try await subcriptions.update {
@@ -259,26 +260,20 @@ error if the update cannot complete successfully.
 
 .. include:: /includes/swift-concurrency-mainactor.rst
 
-SyncSubscriptionState Enum
-``````````````````````````
+Subscription Set State
+~~~~~~~~~~~~~~~~~~~~~~
 
-Additionally, you can watch the state of the subscription set with the 
-``SyncSubscriptionState`` enum. You can use subscription state to:
+Use the :swift-sdk:`SubscriptionSet.state
+<Structs/SyncSubscriptionSet.html#/s:10RealmSwift19SyncSubscriptionSetV5stateAA0cD5StateOvp>`
+property to read the current state of the subscription set.
 
-- Show a progress indicator while data is downloading
-- Find out when a subscription set becomes superseded
-- Wait for a subscription that has been persisted locally to sync with
-  the server
-- Watch for errors
+The ``superseded`` state is a :swift-sdk:`SyncSubscriptionState
+<Enums/SyncSubscriptionState.html#/s:10RealmSwift21SyncSubscriptionStateO8completeyA2CmF>`
+that can occur when another thread updates a subscription on a different
+instance of the subscription set. If the state becomes ``superseded``, you must
+obtain a new instance of the subscription set before you can update it.
 
-
-Superseded
-``````````
-
-The ``superseded`` state is a ``SyncSubscriptionState`` that can occur when 
-another thread updates a subscription on a different instance of the 
-subscription set. If the state becomes ``superseded``, you must obtain 
-a new instance of the subscription set before you can update it.
+.. include:: /includes/note-sync-state-complete.rst
 
 .. _ios-update-subscriptions-with-new-query:
 
@@ -347,6 +342,11 @@ method in a subscription update block.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-subscriptions.swift
    :language: swift
+
+Group Updates for Improved Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/sync-memory-performance.rst
 
 .. _swift-flexible-sync-rql-limitations:
 

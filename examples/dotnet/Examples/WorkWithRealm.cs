@@ -5,17 +5,17 @@ using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-using Task = Examples.Models.Task;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Collections.Generic;
+using Examples.Models;
 
 namespace Examples
 {
     public class WorkWithRealm
     {
         App app;
-        User user;
+        Realms.Sync.User user;
         string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
@@ -226,7 +226,7 @@ namespace Examples
                 Id = ObjectId.GenerateNewId(),
                 Name = "Fido"
             };
-            
+
             realm.Write(() =>
             {
                 fido = realm.Add<Dog>(fido);
@@ -273,13 +273,25 @@ namespace Examples
             realm.Refresh();
 
             Assert.IsTrue(changesHaveBeenCleared);
-
+            // :snippet-start: subscribe
+            // :replace-start: {
+            //  "terms": {
+            //   "token2": "token" }
+            // }
+            var token2 = fido.Owners.SubscribeForNotifications((sender, changes, error) =>
+            {
+                if (error != null) return;
+                if (changes == null) return;
+            });
+            token2.Dispose();
+            //:replace-end:
+            //:snippet-end:
         }
 
         // :snippet-start: define-handle-collection-changed
         private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if(e.Action == NotifyCollectionChangedAction.Reset)
+            if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 // ... handle a CollectionChanged Event with action `Reset`
             }
@@ -297,24 +309,24 @@ namespace Examples
                 realm = Realm.GetInstance("");
             }
             //:snippet-start:unsubscribe
-            private IQueryable<Task> tasks;
+            private IQueryable<Item> items;
 
             public void LoadUI()
             {
-                tasks = realm.All<Task>();
+                items = realm.All<Item>();
 
-                // Subscribe for notifications - since tasks is IQueryable<Task>, we're
+                // Subscribe for notifications - since items is IQueryable<Item>, we're
                 // using the AsRealmCollection extension method to cast it to IRealmCollection
-                tasks.AsRealmCollection().CollectionChanged += OnTasksChanged;
+                items.AsRealmCollection().CollectionChanged += OnItemsChanged;
             }
 
             public void UnloadUI()
             {
                 // Unsubscribe from notifications
-                tasks.AsRealmCollection().CollectionChanged -= OnTasksChanged;
+                items.AsRealmCollection().CollectionChanged -= OnItemsChanged;
             }
 
-            private void OnTasksChanged(object sender, NotifyCollectionChangedEventArgs args)
+            private void OnItemsChanged(object sender, NotifyCollectionChangedEventArgs args)
             {
                 // Do something with the notification information
             }

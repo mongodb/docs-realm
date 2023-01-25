@@ -98,11 +98,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
     func testInsertMany() {
         let expectation = XCTestExpectation(description: "Multiple documents are inserted")
 
-        // :snippet-start: insert-sample-data
         app.login(credentials: Credentials.anonymous) { (result) in // :emphasize:
-            // Remember to dispatch back to the main thread in completion handlers
-            // if you want to do anything on the UI.
-            // :emphasize-start:
             DispatchQueue.main.async {
                 switch result {
                 case .failure(let error):
@@ -111,15 +107,12 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                     print("Login as \(user) succeeded!")
                     // Continue below
                 }
-                // :emphasize-end:
-                // mongodb-atlas is the cluster service name
-                let client = app.currentUser!.mongoClient("mongodb-atlas") // :emphasize:
 
-                // Select the database
+                let client = app.currentUser!.mongoClient("mongodb-atlas")
+
                 let database = client.database(named: "ios") // :emphasize:
 
-                // Select the collection
-                let collection = database.collection(withName: "CoffeeDrinks") // :emphasize:
+                let collection = database.collection(withName: "CoffeeDrinks")
 
                 // :snippet-start: insert-many
                 let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
@@ -143,7 +136,6 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // :snippet-end:
             }
         }
-        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 

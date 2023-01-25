@@ -19,7 +19,7 @@
 
 - (void)testErrorHandlerMethod {
     // :snippet-start: create-error-handler
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     // Access the sync manager for the app
     RLMSyncManager *syncManager = [app syncManager];
 
@@ -31,7 +31,7 @@
 
 - (void)testClientReset {
     // :snippet-start: client-reset
-    RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     [[app syncManager] setErrorHandler:^(NSError *error, RLMSyncSession *session) {
         if (error.code == RLMSyncErrorClientResetError) {
             // TODO: Invalidate all open realm instances

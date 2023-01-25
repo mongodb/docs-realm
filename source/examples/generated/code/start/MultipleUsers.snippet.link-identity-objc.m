@@ -8,7 +8,7 @@
 
 // Entry-point for example.
 - (void)runExample {
-    app = [RLMApp appWithId:YOUR_REALM_APP_ID];
+    app = [RLMApp appWithId:YOUR_APP_ID];
     [self logInAnonymously];
 }
 

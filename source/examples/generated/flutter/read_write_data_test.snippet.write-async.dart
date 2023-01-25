@@ -1,5 +1,5 @@
-// Add Subaru Outback to the realm using `writeAsync`
-Car newOutback = Car("Subaru", model: "Outback Touring XT", miles: 2);
+// Add Leia to the realm using `writeAsync`
+Person leia = Person(ObjectId(), "Leia");
 realm.writeAsync(() {
-  realm.add<Car>(newOutback);
+  realm.add<Person>(leia);
 });

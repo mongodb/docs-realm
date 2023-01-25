@@ -1,30 +1,26 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms.Sync;
-using Task = Examples.Models.Task;
-using TaskStatus = Examples.Models.TaskStatus;
-using ThreadTask = System.Threading.Tasks.Task;
+using Examples.Models;
+using User = Realms.Sync.User;
 
 namespace Examples
 {
     public class AuthenticationExamples
     {
         App app;
-        ObjectId testTaskId;
-        User user;
-        PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
-        public async ThreadTask Setup()
+        public void Setup()
         {
             app = App.Create(myRealmAppId);
-            return;
         }
 
         [Test]
-        public async ThreadTask LogsOnManyWays()
+        public async Task LogsOnManyWays()
         {
             {
                 // :snippet-start: logon_anon
@@ -116,5 +112,16 @@ namespace Examples
                 Assert.AreEqual("InvalidSession: authentication via 'oauth2-apple' is unsupported", e.Message);
             }
         }
+
+        // :snippet-start: get_user_token
+        // Returns a valid user access token to authenticate requests
+        public async Task<string> GetValidAccessToken(User user)
+        {
+            // An already logged in user's access token might be stale. To
+            // guarantee that the token is valid, refresh it.
+            await user.RefreshCustomDataAsync();
+            return user.AccessToken;
+        }
+        // :snippet-end:
     }
 }

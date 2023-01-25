@@ -39,7 +39,7 @@ created, modified, or deleted.
 Apps that use Atlas Device Sync can define schemas in two ways:
 
 - object schemas :ref:`using Kotlin and Java class declarations
-  <create-schema-from-rom>` with :ref:`Development Mode <enable-development-mode>`.
+  <create-schema-from-rom>` with :ref:`Development Mode <development-mode>`.
 
 - JSON :ref:`object schemas <object-schema>` in your App backend.
 
@@ -241,10 +241,10 @@ of a specific field ordered by the value of the field. The ordering of
 the index entries supports efficient equality matches and range-based
 query operations.
 
-Adding an index to a field makes writing slightly slower, but makes
-certain queries faster. Indexes require space in your realm file, so
-adding an index to a field will increase disk space consumed by your
-realm file.
+Adding an index can speed up some queries at the cost of slightly slower write
+times and additional storage and memory overhead. Indexes require space in your
+realm file, so adding an index to a property will increase disk space consumed
+by your realm file. Each index entry is a minimum of 12 bytes.
 
 You can index fields with the following types:
 
@@ -260,9 +260,7 @@ You can index fields with the following types:
 - ``RealmAny``
 
 Realm creates indexes for fields annotated with
-:java-sdk:`@Index <io/realm/annotations/Index.html>`. Indexes speed up
-some queries, but have a negative impact on insert and update operation
-speed. Indexes also consume additional space on disk.
+:java-sdk:`@Index <io/realm/annotations/Index.html>`.
 
 .. seealso::
 

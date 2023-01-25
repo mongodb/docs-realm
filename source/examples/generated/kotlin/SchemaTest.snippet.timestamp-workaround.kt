@@ -1,10 +1,10 @@
 // model class that stores an Instant (kotlinx-datetime) field as a RealmInstant via a conversion
-class RealmInstantConversion: RealmObject {
+class RealmInstantConversion : RealmObject {
     private var _timestamp: RealmInstant = RealmInstant.from(0, 0)
     public var timestamp: Instant
-        get()
-        { return _timestamp.toInstant() }
-
+        get() {
+            return _timestamp.toInstant()
+        }
         set(value) {
             _timestamp = value.toRealmInstant()
         }
@@ -18,9 +18,7 @@ fun RealmInstant.toInstant(): Instant {
 
     return if (sec >= 0) { // For positive timestamps, conversion can happen directly
         Instant.fromEpochSeconds(sec, nano.toLong())
-    }
-
-    else {
+    } else {
         // For negative timestamps, RealmInstant starts from the higher value with negative
         // nanoseconds, while Instant starts from the lower value with positive nanoseconds
         // TODO This probably breaks at edge cases like MIN/MAX
@@ -35,9 +33,7 @@ fun Instant.toRealmInstant(): RealmInstant {
 
     return if (sec >= 0) { // For positive timestamps, conversion can happen directly
         RealmInstant.from(sec, nano)
-    }
-
-    else {
+    } else {
         // For negative timestamps, RealmInstant starts from the higher value with negative
         // nanoseconds, while Instant starts from the lower value with positive nanoseconds
         // TODO This probably breaks at edge cases like MIN/MAX

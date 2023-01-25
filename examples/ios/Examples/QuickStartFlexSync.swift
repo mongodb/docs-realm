@@ -7,9 +7,7 @@
 // swiftlint:disable identifier_name
 
  import XCTest
-// :snippet-start: import-realm
  import RealmSwift
-// :snippet-end:
 
  let FS_APP_ID = "swift-flexible-vkljj"
 
@@ -29,10 +27,9 @@
 // :snippet-end:
 
  class QuickStartFlexSync: XCTestCase {
-    @MainActor
     func testRunExample() async {
         await flexibleSyncQuickStart()
-        // Entrypoint. Call this to run the quick start.
+        
         func flexibleSyncQuickStart() async {
             // Instantiate the app
             // :snippet-start: connect-to-backend
@@ -48,6 +45,9 @@
             }
             // :snippet-end:
             // :snippet-start: open-synced-realm
+            // Opening a realm and accessing it must be done from the same thread.
+            // Marking this function as `@MainActor` avoids threading-related issues.
+            @MainActor
             func openSyncedRealm(user: User) async {
                 do {
                     var config = user.flexibleSyncConfiguration()
@@ -70,14 +70,13 @@
                 }
             }
             // :snippet-end:
-            // :snippet-start: use-realm
+            @MainActor
             func useRealm(realm: Realm, user: User) async {
                 // :snippet-start: get-all-todos
                 // Get all todos in the realm
                 let todos = realm.objects(QuickStartFlexSync_Todo.self)
                 // :snippet-end:
 
-                // :snippet-start: watch-for-changes
                 // Retain notificationToken as long as you want to observe
                 let notificationToken = todos.observe { (changes) in
                     switch changes {
@@ -93,7 +92,6 @@
                         fatalError("\(error)")
                     }
                 }
-                // :snippet-end:
 
                 // Delete all from the realm
                 try! realm.write {
@@ -144,21 +142,16 @@
 
                 print("A list of all todos after deleting one: \(todos)")
 
-                // :snippet-start: logout
                 do {
                     try await user.logOut()
                     print("Successfully logged user out")
                 } catch {
                     print("Failed to log user out: \(error.localizedDescription)")
                 }
-                // :snippet-end:
 
-                // :snippet-start: invalidate-notification-token
                 // Invalidate notification tokens when done observing
                 notificationToken.invalidate()
-                // :snippet-end:
             }
-            // :snippet-end:
         }
     }
  }

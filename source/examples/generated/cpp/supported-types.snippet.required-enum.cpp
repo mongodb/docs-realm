@@ -1,0 +1,1 @@
+realm::persisted<Enum> enumName;

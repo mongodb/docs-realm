@@ -1,2 +1,2 @@
-Credentials anonCredentials = Credentials.anonymous();
+final anonCredentials = Credentials.anonymous();
 await app.logIn(anonCredentials);

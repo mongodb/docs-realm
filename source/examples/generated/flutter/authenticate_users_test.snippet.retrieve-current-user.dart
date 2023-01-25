@@ -1,1 +1,1 @@
-User? user = app.currentUser;
+final user = app.currentUser;

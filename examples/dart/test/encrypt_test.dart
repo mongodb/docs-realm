@@ -9,13 +9,13 @@ void main() {
     test("Open Realm with encryption key", () {
       // :snippet-start: encrypt-realm
       // Generate encryption key
-      List<int> key = List<int>.generate(64, (i) => Random().nextInt(256));
+      final key = List<int>.generate(64, (i) => Random().nextInt(256));
 
-      Configuration encryptedConfig = Configuration.local([Car.schema],
+      final encryptedConfig = Configuration.local([Car.schema],
           path: 'encrypted.realm', // :remove:
           // Include the encryption key in the configuration
           encryptionKey: key);
-      Realm encryptedRealm = Realm(encryptedConfig);
+      final encryptedRealm = Realm(encryptedConfig);
       // :snippet-end:
       expect(encryptedRealm.isClosed, isFalse);
       encryptedRealm.close();

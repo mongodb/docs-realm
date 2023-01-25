@@ -1,150 +1,144 @@
+import 'dart:async';
+
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
 
 part 'manage_sync_session_test.g.dart';
 
-@RealmModel()
-class _Plane {
-  @PrimaryKey()
-  @MapTo('_id')
-  late int id;
-
-  late String name;
-  late int numSeats;
-}
-
-@RealmModel()
-class _Train {
-  @PrimaryKey()
-  @MapTo('_id')
-  late int id;
-
-  late String name;
-  late int numCars;
-}
-
-@RealmModel()
-class _Boat {
-  @PrimaryKey()
-  @MapTo('_id')
-  late int id;
-
-  late String name;
-  late int tonnage;
-}
-
+const APP_ID = "flutter-flexible-luccm";
 late App app;
 late Realm realm;
-late User currentUser;
-const APP_ID = "flutter-flexible-luccm";
-void main() {
-  group('Manage sync session', () {
-    setUpAll(() async {
-      AppConfiguration appConfig = AppConfiguration(APP_ID);
-      app = App(appConfig);
-      Credentials credentials =
-          Credentials.emailPassword("lisa@example.com", "abc123");
-      currentUser = await app.logIn(credentials);
-    });
-    tearDownAll(() async {
-      await app.currentUser?.logOut();
-    });
-    setUp(() async {
-      Configuration config = Configuration.flexibleSync(
-        currentUser,
-        [Plane.schema, Train.schema, Boat.schema],
-        path: 'flex-${generateRandomString(10)}.realm',
-      );
-      realm = Realm(config);
-      await realm.subscriptions.waitForSynchronization();
-      final planeQuery = realm.all<Plane>();
-      final longTrainQuery = realm.all<Train>().query("numCars >= 4");
-      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.add(planeQuery, name: "all-planes");
-        mutableSubscriptions.add(longTrainQuery, name: 'long-trains');
-      });
-      await realm.subscriptions.waitForSynchronization();
-    });
-    tearDown(() async {
-      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.clear();
-      });
-      await realm.subscriptions.waitForSynchronization();
-      realm.close();
-      await Future.delayed(Duration(milliseconds: 300));
-      Realm.deleteRealm(realm.config.path);
-    });
-    test('Add query to subscription set', () async {
-      // :snippet-start: add-subscription
-      final planeQuery = realm.all<Plane>();
-      final longTrainQuery = realm.query<Train>("numCars >= 5");
-      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.add(planeQuery, name: "planes");
-        mutableSubscriptions.add(longTrainQuery,
-            name: 'long-trains', update: true);
-      });
-      await realm.subscriptions.waitForSynchronization();
-      // :snippet-end:
-      expect(realm.subscriptions.length, 3);
-    });
-    test('Get subscriptions', () async {
-      // :snippet-start: get-subscriptions
-      SubscriptionSet subscriptions = realm.subscriptions;
-      // :snippet-end:
-      expect(subscriptions.length, 2);
-    });
-    test('Wait for subscription changes to sync', () async {
-      // :snippet-start: wait-for-subscription-change
-      await realm.subscriptions.waitForSynchronization();
-      // :snippet-end:
-      expect(realm.subscriptions.state, SubscriptionSetState.complete);
-    });
+late User user;
 
-    test('Update subscriptions with new query', () async {
-      // :snippet-start: update-subscriptions-new-query
-      final longerTrainQuery = realm.query<Train>("numCars > 10");
+@RealmModel()
+class _Car {
+  @MapTo('_id')
+  @PrimaryKey()
+  late ObjectId id;
 
-      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.add(longerTrainQuery,
-            name: 'long-trains', update: true);
-      });
-      // :snippet-end:
-      expect(realm.subscriptions.findByName('long-trains')?.queryString.trim(),
-          "numCars > 10");
+  late String make;
+  late String? model;
+  late int? miles;
+}
+
+main() {
+  app = App(AppConfiguration(APP_ID));
+  setUp(() async {
+    user = await app.logIn(Credentials.anonymous());
+    final config = Configuration.flexibleSync(user, [Car.schema]);
+    realm = await Realm.open(config);
+    realm.subscriptions.update((mutableSubscriptions) {
+      mutableSubscriptions.add(realm.all<Car>());
     });
-    test('Remove subscription by query', () async {
-      // :snippet-start: remove-subscriptions-by-query
-      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.removeByQuery(realm.all<Plane>());
+    await realm.subscriptions.waitForSynchronization();
+  });
+  tearDown(() async {
+    cleanUpRealm(realm, app);
+  });
+  group("Manage sync session - ", () {
+    test("Wait for changes to upload and download", () async {
+      // :snippet-start: wait-upload-download
+      // Wait to download all pending changes from Atlas
+      await realm.syncSession.waitForDownload();
+
+      // :remove-start:
+      final syncProgress = realm.syncSession.getProgressStream(
+          ProgressDirection.upload, ProgressMode.forCurrentlyOutstandingWork);
+      var called = false;
+      var streamListener;
+      streamListener = syncProgress.listen((syncProgressEvent) {
+        if (called == false) {
+          expect(syncProgressEvent.transferableBytes > 0, isTrue);
+          expect(syncProgressEvent.transferredBytes > 0, isTrue);
+          called = true;
+          streamListener.cancel();
+        }
       });
+      // :remove-end:
+      // Add data locally
+      realm.write(() {
+        realm.addAll<Car>([
+          Car(ObjectId(), "Hyundai"),
+          Car(ObjectId(), "Kia"),
+          Car(ObjectId(), "Lincoln")
+        ]);
+      });
+      // Wait for changes to upload to Atlas before continuing execution.
+      await realm.syncSession.waitForUpload();
       // :snippet-end:
-      // expect(realm.subscriptions.length, 1);
+      expect(called, isTrue);
     });
-    test('Remove subscription by name', () async {
-      // :snippet-start: remove-subscriptions-by-name
-      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.removeByName('long-trains');
+    test("Pause and resume sync session", () async {
+      // :snippet-start: pause-resume-sync
+      // Pause the sync session
+      realm.syncSession.pause();
+      expect(realm.syncSession.state, SessionState.inactive); // :remove:
+
+      // Data that you add while the sync session is paused does not sync to Atlas.
+      // However, the data is still added to the realm locally.
+      realm.write(() {
+        realm.addAll<Car>([
+          Car(ObjectId(), "Volvo"),
+          Car(ObjectId(), "Genesis"),
+          Car(ObjectId(), "VW")
+        ]);
       });
+
+      // Resume sync session. Now, the data you wrote to the realm
+      // syncs to Atlas.
+      realm.syncSession.resume();
       // :snippet-end:
-      expect(realm.subscriptions.length, 1);
+      expect(realm.syncSession.state, SessionState.active);
     });
-    test('Remove all subscriptions by reference', () async {
-      // :snippet-start: remove-subscriptions-by-reference
-      Subscription sub = realm.subscriptions[0];
-      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.remove(sub);
+    test("Monitor sync progress", () async {
+      var isCalled = false;
+      realm.write(() {
+        realm.addAll<Car>([
+          Car(ObjectId(), "Volvo"),
+          Car(ObjectId(), "Genesis"),
+          Car(ObjectId(), "VW")
+        ]);
+      });
+      // :snippet-start: monitor-progress
+      final stream = realm.syncSession.getProgressStream(
+          ProgressDirection.upload, ProgressMode.forCurrentlyOutstandingWork);
+
+      late StreamSubscription streamListener;
+      streamListener = stream.listen((syncProgressEvent) {
+        if (syncProgressEvent.transferableBytes ==
+            syncProgressEvent.transferredBytes) {
+          isCalled = true; // :remove:
+          // Upload complete
+          print('Upload complete');
+          // Stop listening to the Stream
+          streamListener.cancel();
+        }
       });
       // :snippet-end:
-      expect(realm.subscriptions.length, 1);
+      await Future.delayed(Duration(seconds: 1));
+      expect(isCalled, isTrue);
     });
-    test('Remove all subscriptions', () async {
-      // :snippet-start: remove-all-subscriptions
-      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.clear();
+    test("Monitor network connection", () async {
+      var isConnected = false;
+      // :snippet-start: get-network-connection
+      if (realm.syncSession.connectionState == ConnectionState.connected) {
+        // ... do stuff
+        isConnected = true; // :remove:
+      }
+      // :snippet-end:
+      // :snippet-start: monitor-network-connection
+      final connectionStream = realm.syncSession.connectionStateChanges;
+      late StreamSubscription streamListener;
+      streamListener = connectionStream.listen((connectionStateChange) {
+        if (connectionStateChange.current == ConnectionState.connected) {
+          print("Connected to Atlas Device Sync server");
+          streamListener.cancel();
+        }
       });
       // :snippet-end:
-      expect(realm.subscriptions, isEmpty);
+      streamListener.cancel();
+      expect(isConnected, isTrue);
     });
   });
 }

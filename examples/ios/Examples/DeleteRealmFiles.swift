@@ -28,7 +28,7 @@ class DeleteRealmFiles: XCTestCase {
 
     }
 
-    func testDeleteSyncedClientRealmFile() {
+    func testDeleteSyncedClientRealmFile() async {
         // :snippet-start: delete-client-realm-file
         autoreleasepool {
             // all Realm usage here -- explicitly guarantee
@@ -36,10 +36,11 @@ class DeleteRealmFiles: XCTestCase {
             // before deleting the files
         }
         do {
-            let app = App(id: YOUR_APP_SERVICES_APP_ID)
-            var configuration = app.currentUser!.configuration(partitionValue: "some partition value")
+            let app = App(id: APPID)
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var configuration = user.flexibleSyncConfiguration()
             // :remove-start:
-            configuration.objectTypes = [SyncExamples_Task.self]
+            configuration.objectTypes = [FlexibleSync_Task.self]
             // :remove-end:
             _ = try Realm.deleteFiles(for: configuration)
         } catch {

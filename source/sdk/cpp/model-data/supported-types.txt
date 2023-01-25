@@ -1,0 +1,124 @@
+.. _cpp-supported-property-types:
+
+=================================
+Supported Types - C++ SDK (Alpha)
+=================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Supported Property Types
+------------------------
+
+The Realm Database C++ SDK Alpha currently supports these property types.
+Optionals use the class template 
+`std::optional <https://en.cppreference.com/w/cpp/utility/optional>`__.
+
+Property Cheat Sheet
+~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 20 40 40
+
+   * - Type
+     - Required
+     - Optional
+   * - Bool
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-bool.cpp
+          :language: cpp
+          :copyable: false
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-bool.cpp
+          :language: cpp
+          :copyable: false
+   * - Int, Int8, Int16, Int32, Int64
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-int.cpp
+          :language: cpp
+          :copyable: false
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-int.cpp
+          :language: cpp
+          :copyable: false
+   * - Double
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-double.cpp
+          :language: cpp
+          :copyable: false
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-double.cpp
+          :language: cpp
+          :copyable: false
+   * - String
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-string.cpp
+          :language: cpp
+          :copyable: false
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-string.cpp
+          :language: cpp
+          :copyable: false
+   * - Enum
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-enum.cpp
+          :language: cpp
+          :copyable: false
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-enum.cpp
+          :language: cpp
+          :copyable: false
+   * - Binary Data
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-binary-data.cpp
+          :language: cpp
+          :copyable: false
+     - N/A
+   * - Date
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-date.cpp
+          :language: cpp
+          :copyable: false
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-date.cpp
+          :language: cpp
+          :copyable: false
+   * - UUID
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-uuid.cpp
+          :language: cpp
+          :copyable: false
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-uuid.cpp
+          :language: cpp
+          :copyable: false
+   * - Mixed Data Type
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-mixed-type.cpp
+          :language: cpp
+          :copyable: false
+     - N/A
+   * - List
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-list.cpp
+          :language: cpp
+          :copyable: false
+     - N/A
+   * - User-defined Object
+     - N/A
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<MyClass>> opt_obj_name;
+   * - User-defined Embedded Object
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<MyEmbeddedClass> embedded_obj_name;
+     - .. code-block:: cpp
+          :copyable: false
+
+          realm::persisted<std::optional<MyEmbeddedClass>> opt_embedded_object_name;
+
+Supported Type Implementation Details
+`````````````````````````````````````
+
+Some of the supported types above are aliases for:
+
+- ``mixed``: A union-like object that can represent a value any of the 
+  supported types. It is implemented using the class template 
+  `std::variant <https://en.cppreference.com/w/cpp/utility/variant>`__.
+  This implementation means that a ``mixed`` property holds a value of 
+  one of its alternative types, or in the case of error - no value.
+- For dates, use the `chrono library 
+  <https://en.cppreference.com/w/cpp/chrono>`__
+  to store a ``time_point`` relative to the ``system_clock``: 
+  ``<std::chrono::time_point<std::chrono::system_clock>>``

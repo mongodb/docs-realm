@@ -1,3 +1,3 @@
-String token = await authenticateWithExternalSystem();
-Credentials jwtCredentials = Credentials.jwt(token);
-User currentUser = await app.logIn(jwtCredentials);
+final token = await authenticateWithExternalSystem();
+final jwtCredentials = Credentials.jwt(token);
+final currentUser = await app.logIn(jwtCredentials);
