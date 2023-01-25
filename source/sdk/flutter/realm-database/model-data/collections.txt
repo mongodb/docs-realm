@@ -100,7 +100,7 @@ When defining a RealmSet in a schema:
 - A set of ``RealmObject`` and ``RealmValue`` types can only be non-nullable.
   For example ``Set<RealmValue>`` **is valid** and ``Set<RealmValue?>`` **is not valid**.
 - You **cannot** define default values when defining a set in a schema.
-  For example, ``Set = {0,1,2}`` **is not valid**.
+  For example, ``Set mySet = {0,1,2}`` **is not valid**.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-set-model.dart
    :language: dart
