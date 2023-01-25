@@ -43,7 +43,9 @@ relationship <flutter-many-to-one-relationship>`.
 
 Deleting an object from the database will remove it from any RealmLists
 where it existed. Therefore, a ``RealmList`` of ``RealmObject`` types will never contain null values.
-However, lists of primitive types can contain null values. If you do not
+Also, a ``RealmList`` can contain multiple references to the same ``RealmObject``.
+
+A ``RealmList`` of primitive types can contain null values. If you do not
 want to allow null values in a list, then either use non-nullable types in
 the list declaration (for example, use ``List<int>`` instead of
 ``List<int?>``).
@@ -89,13 +91,16 @@ Add a RealmSet to a Schema
 
 You can add a ``RealmSet`` to your Realm Object schema by defining a property as type
 ``Set<T>`` where ``T`` can be any :ref:`supported Realm data type <flutter-data-types>`
-(except other collections), in your Realm Object model.
+except other collections, in your Realm Object model.
 
-A ``RealmSet`` of ``RealmObject`` or ``RealmValue`` types **cannot** contain nullable values.
-However, sets of primitive types can contain null values. If you do not
-want to allow null values in a ``RealmSet``, then either use non-nullable types in
-the declaration (for example, use ``Set<int>`` instead of
-``Set<int?>``). You also cannot set the default value of a ``RealmSet``.
+When defining a RealmSet in a schema:
+
+- A set of primitive types can be defined as either nullable or non-nullable.
+  For example, both ``Set<int>`` and ``Set<int?>`` are valid in a Realm schema.
+- A set of ``RealmObject`` and ``RealmValue`` types can only be non-nullable.
+  For example ``Set<RealmValue>`` **is valid** and ``Set<RealmValue?>`` **is not valid**.
+- You **cannot** define default values when defining a set in a schema.
+  For example, ``Set = {0,1,2}`` **is not valid**.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-set-model.dart
    :language: dart
