@@ -9,89 +9,54 @@ Overview
 
 The App client is the interface to the App Services
 backend. It provides access to the :ref:`authentication functionality
-<react-native-authenticate-users>`, :ref:`functions <react-native-call-a-function>`, and
-:ref:`sync management <react-native-realm-sync>`.
+<react-native-authenticate-users>`, :ref:`Atlas Functions <react-native-call-a-function>`,
+and :ref:`Atlas Device Sync <react-native-realm-sync>`.
 
+Before You Begin
+----------------
 
-.. _react-native-access-the-app-client:
-
-Access the App Client
----------------------
-
-Pass the Realm App ID for your App, which you can :ref:`find in the Realm UI <find-your-app-id>`.
-
-.. tabs-realm-languages::
-
-      .. tab::
-         :tabid: typescript
-
-         .. code-block:: typescript
-
-            const id = "<Your App ID>"; // replace this with your App ID
-
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const id = "<Your App ID>"; // replace this with your App ID
+#. :ref:`Create an App Services App <create-a-realm-app>`
+#. :ref:`Get Your App ID <find-your-app-id>`
 
 .. _react-native-app-client-configuration:
+.. _react-native-access-the-app-client:
 
-Configuration
--------------
+Configure the App Client
+------------------------
 
-To set up your App client, pass a configuration object to an instance
-of ``Realm.App``.
+To set up your App client, pass the App ID string
+to the ``id`` prop of the ``AppProvider``.
+Wrap any components that need to access the App with the ``AppProvider``.
 
-.. tabs-realm-languages::
+TODO: new literalinclues for both examples
 
-      .. tab::
-         :tabid: typescript
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-provider.tsx
+    :language: typescript
+    :emphasize-lines: 1, 5
 
-         .. code-block:: typescript
+You can also include additional configuration in the ``AppProvider`` by passing
+the properties of :js-sdk:`Realm.AppConfiguration <Realm.AppConfiguration.html>` as props.
 
-            const config = {
-              id,
-            };
-            const app = new Realm.App(config);
-
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const config = {
-              id,
-            };
-            const app = new Realm.App(config);
-
-.. note:: 
-    
-   ``id`` is a required field of the application configuration object. To see the full list of fields for the configuration object that ``Realm.App`` accepts as a parameter, view the :js-sdk:`App Configuration Type Definitions <Realm.App.html#~AppConfiguration>`.
+TODO: literalincludes for both examples
 
 .. _react-native-app-retrieve-client:
 
 Retrieve an Instance of the App Client
 --------------------------------------
 
-To retrieve an instance of the App Client from anywhere in your application, call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your ``App ID``. 
+All components wrapped within an ``AppProvider`` can access the :js-sdk:`App <Realm.App.html>`
+client with the ``useApp()`` hook. Using the App, you can authenticate users
+and access App Services.
 
-.. tabs-realm-languages::
+TODO: literalincludes for both examples
 
-      .. tab::
-         :tabid: typescript
+.. literalinclude:: /examples/generated/expo/LoginComponent.snippet.useApp-hook-usage.tsx
+    :language: typescript
+    :emphasize-lines: 1, 7, 11
 
-         .. code-block:: typescript
+.. _react-native-retrieve-client-outside-provider:
 
-            const app = Realm.App.getApp("<Your App ID>"); // replace this with your App ID
+Retrieve App Outside the App Provider
+-------------------------------------
 
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const app = Realm.App.getApp("<Your App ID>"); // replace this with your App ID
-
-
-  
+TODO: i don't fully grok this
