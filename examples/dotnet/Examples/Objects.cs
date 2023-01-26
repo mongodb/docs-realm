@@ -119,15 +119,11 @@ namespace Examples.Models
 
     public partial class Person_Rel_One_to_One : IRealmObject
     {
-        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:remove-end:
-        // ... other property declarations
         public string Name { get; set; }
     }
-    // :replace-end:
 
     public partial class Dog_Rel_One_to_Many : IRealmObject
     {

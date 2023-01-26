@@ -114,12 +114,12 @@ namespace Examples
                 {
                     realm.Add(myItem);
                 });
-                // :snippet-start: delete
+
                 realm.Write(() =>
                 {
                     realm.Remove(myItem);
                 });
-                // :snippet-end:
+
                 realm.Write(() =>
                 {
                     realm.RemoveAll<Item>();
