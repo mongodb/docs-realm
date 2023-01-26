@@ -31,7 +31,7 @@ function MyApp() {
 }
 // :snippet-end:
 
-afterEach(() => App.getApp(APP_ID).currentUser?.logOut());
+afterEach(async () => await App.getApp(APP_ID).currentUser?.logOut());
 
 test('useApp hook works correctly', async () => {
   const {getByTestId} = render(<AppWrapper />);
