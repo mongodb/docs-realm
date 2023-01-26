@@ -7,7 +7,6 @@ using Realms.Sync.Exceptions;
 using Realms.Sync.Testing;
 using Realms.Logging;
 using System.Threading;
-using ReadExamples;
 
 namespace Examples
 {
@@ -83,7 +82,7 @@ namespace Examples
             var appConfig = new AppConfiguration(Config.fsAppId);
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
-            // :snippet-start:cancel-token
+
             var syncConfig = new FlexibleSyncConfiguration(user);
             try
             {
@@ -95,7 +94,7 @@ namespace Examples
             {
                 Realm.GetInstance(syncConfig);
             }
-            // :snippet-end:
+
             catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
     }

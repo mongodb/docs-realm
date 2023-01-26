@@ -7,12 +7,7 @@ using Realms;
 
 namespace Examples.Models
 {
-    // :snippet-start: embedded
-    // :replace-start: {
-    //  "terms": {
-    //      "Address10": "Address",
-    //       "Contact10": "Contact"}
-    // }
+
     public partial class Address10 : IEmbeddedObject
     {
         public ObjectId Id { get; set; }
@@ -27,8 +22,7 @@ namespace Examples.Models
         public string Name { get; set; }
         public Address10 Address { get; set; } // embed a single address 
     }
-    // :replace-end:
-    // :snippet-end:
+
 
 
     // STAND-ALONE class; not used elsewhere
@@ -111,12 +105,7 @@ namespace Examples.Models
     // :replace-end:
     // :snippet-end:
 
-    // :snippet-start: rel-to-one
-    // :replace-start: {
-    //     "terms": {
-    //      "Person_Rel_One_to_One": "Person",
-    //      "Dog_Rel_One_to_One": "Dog" }
-    // }
+
     public partial class Dog_Rel_One_to_One : IRealmObject
     {
         //:remove-start:
@@ -139,14 +128,7 @@ namespace Examples.Models
         public string Name { get; set; }
     }
     // :replace-end:
-    // :snippet-end:
 
-    // :snippet-start: rel-to-many
-    // :replace-start: {
-    //  "terms": {
-    //   "Person_Rel_One_to_Many": "Person",
-    //   "Dog_Rel_One_to_Many" : "Dog" }
-    // }
     public partial class Dog_Rel_One_to_Many : IRealmObject
     {
         //:remove-start:
@@ -169,7 +151,6 @@ namespace Examples.Models
         public IList<Dog_Rel_One_to_Many> Dogs { get; }
     }
     // :replace-end:
-    // :snippet-end:
 
     partial class Dog_Inverse : IRealmObject
     {

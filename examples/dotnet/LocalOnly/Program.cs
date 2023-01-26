@@ -61,7 +61,7 @@ namespace LocalOnly
             });
             //:snippet-end:
 
-            //:snippet-start:collection-notifications
+
             // Watch for Guitar collection changes.
             var token = realm.All<Guitar>()
                 .SubscribeForNotifications((sender, changes, error) =>
@@ -84,7 +84,6 @@ namespace LocalOnly
 
             // Later, when you no longer wish to receive notifications
             token.Dispose();
-            //:snippet-end:
 
 
         }

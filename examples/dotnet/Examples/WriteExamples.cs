@@ -30,13 +30,7 @@ namespace Examples
         [Test]
         public void Snippets()
         {
-            //TearDown();
-            // :snippet-start: transaction
-            // :replace-start: {
-            //  "terms": {
-            //   "WritePerson": "Person",
-            //   "WriteDog" : "Dog" }
-            // }
+
             realm.Write(() =>
             {
                 // Create someone to take care of some dogs.
@@ -53,8 +47,7 @@ namespace Examples
                     puppy.Owner = ali;
                 }
             });
-            // :replace-end:
-            // :snippet-end:
+
             var myDog = new WriteDog { Id = 411, Name = "Gracie", Age = 7 };
             // :snippet-start: create-long-hand
             // :replace-start: {
@@ -107,12 +100,7 @@ namespace Examples
             });
             // :replace-end:
             // :snippet-end:
-            // :snippet-start: upsert
-            // :replace-start: {
-            //  "terms": {
-            //   "WritePerson": "Person",
-            //   "WriteDog" : "Dog" }
-            // }
+
             realm.Write(() =>
             {
                 var drew = new WritePerson { Id = 1234, Name = "Drew" };
@@ -125,16 +113,9 @@ namespace Examples
                 // When `update` is true, you overwrite the original entry (i.e. Drew -> Andy).
                 realm.Add(andy, update: true);
             });
-            // :replace-end:
-            // :snippet-end:
 
-            // :snippet-start: update
-            // :replace-start: {
-            //  "terms": {
-            //   "WritePerson": "Person",
-            //   "WriteDog" : "Dog" }
-            // }
-            // Open a thread-safe transaction.
+
+
             realm.Write(() =>
             {
                 // Get a dog to update.
@@ -145,14 +126,7 @@ namespace Examples
                 dog.Name = "Wolfie";
                 dog.Age += 1;
             });
-            // :replace-end:
-            // :snippet-end:
-            // :snippet-start: update-collection
-            // :replace-start: {
-            //  "terms": {
-            //   "WritePerson": "Person",
-            //   "WriteDog" : "Dog" }
-            // }
+
             realm.Write(() =>
             {
                 // Create someone to take care of some dogs.
@@ -169,18 +143,13 @@ namespace Examples
                     puppy.Owner = ali;
                 }
             });
-            // :replace-end:
-            // :snippet-end:
+
             var foodog = new WriteDog { Id = 123, Name = "FiFi" };
             realm.Write(() =>
             {
                 realm.Add(foodog);
             });
-            // :snippet-start: delete-one
-            // :replace-start: {
-            //  "terms": {
-            //   "foodog": "dog"}
-            // }
+
             realm.Write(() =>
             {
                 // Remove the instance from the realm.
@@ -189,14 +158,7 @@ namespace Examples
                 // Discard the reference.
                 foodog = null;
             });
-            // :replace-end:
-            // :snippet-end:
-            // :snippet-start: delete-collection
-            // :replace-start: {
-            //  "terms": {
-            //   "WritePerson": "Person",
-            //   "WriteDog" : "Dog" }
-            // }
+
             realm.Write(() =>
             {
                 // Find dogs younger than 2 years old.
@@ -205,20 +167,13 @@ namespace Examples
                 // Remove the collection from the realm.
                 realm.RemoveRange(puppies);
             });
-            // :replace-end:
-            // :snippet-end:
 
             var ali = new WritePerson();
             realm.Write(() =>
             {
                 realm.Add(ali);
             });
-            // :snippet-start: cascade-delete
-            // :replace-start: {
-            //  "terms": {
-            //   "WritePerson": "Person",
-            //   "WriteDog" : "Dog" }
-            // }
+
             realm.Write(() =>
         {
             // Remove all of Ali's dogs.
@@ -227,29 +182,18 @@ namespace Examples
             // Remove Ali.
             realm.Remove(ali);
         });
-            // :replace-end:
-            // :snippet-end:
-            // :snippet-start: delete-all-of-type
-            // :replace-start: {
-            //  "terms": {
-            //   "WritePerson": "Person",
-            //   "WriteDog" : "Dog" }
-            // }    
+
             realm.Write(() =>
             {
                 // Remove all instances of Dog from the realm.
                 realm.RemoveAll<WriteDog>();
             });
-            // :replace-end:
-            // :snippet-end:
-            // :snippet-start: delete-all
+
             realm.Write(() =>
             {
                 // Remove all objects from the realm.
                 realm.RemoveAll();
             });
-
-            // :snippet-end:
         }
     }
 
