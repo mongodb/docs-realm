@@ -10,7 +10,7 @@ struct realmSwiftUIApp: SwiftUI.App {
             NextView(app: app)
                 // Inject the error handler as an environment object
                 .environmentObject(errorHandler)
-                // Display an alert to the user containing the error when a Sync error is encountered
+                // Display an alert to the user containing the error when a Sync error occurs
                 .alert(Text("Error"), isPresented: .constant(errorHandler.error != nil)) {
                     Button("OK", role: .cancel) { errorHandler.error = nil }
                 } message: {
