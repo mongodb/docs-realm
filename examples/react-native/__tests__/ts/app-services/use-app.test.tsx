@@ -1,4 +1,4 @@
-// :snippet-start: app-provider
+// :snippet-start: use-app
 import React from 'react';
 import {useApp} from '@realm/react';
 import {Credentials} from 'realm';
