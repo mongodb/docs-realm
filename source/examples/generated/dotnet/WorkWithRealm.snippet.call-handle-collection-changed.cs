@@ -1,1 +1,2 @@
-fido.Owners.AsRealmCollection().CollectionChanged += HandleCollectionChanged;
+fido.Owners.AsRealmCollection().CollectionChanged +=
+    HandleCollectionChanged;

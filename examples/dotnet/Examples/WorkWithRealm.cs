@@ -135,18 +135,21 @@ namespace Examples
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
 
-            //:snippet-start:notifications
+            // :snippet-start:notifications
             // Observe realm notifications.
             realm.RealmChanged += (sender, eventArgs) =>
             {
-                // sender is the realm that has changed.
-                // eventArgs is reserved for future use.
+                // The "sender" object is the realm that has changed.
+                // "eventArgs" is reserved for future use.
                 // ... update UI ...
             };
             //:snippet-end:
 
             //:snippet-start:collection-notifications
-            // Observe collection notifications. Retain the token to keep observing.
+            // Watch the collection notifications.
+            // You can retain the token to keep observing, or call
+            // Dispose() when you are done observing the
+            // collection.
             var token = realm.All<Dog>()
                 .SubscribeForNotifications((sender, changes, error) =>
             {
@@ -197,14 +200,25 @@ namespace Examples
             //  "terms": {
             //   "PersonN": "Person" }
             // }
-            var theKing = realm.All<PersonN>()
+            var artist = realm.All<PersonN>()
                 .FirstOrDefault(p => p.Name == "Elvis Presley");
 
-            theKing.PropertyChanged += (sender, eventArgs) =>
+            artist.PropertyChanged += (sender, eventArgs) =>
             {
-                Debug.WriteLine("New value set for The King: " +
-                    eventArgs.PropertyName);
+                var changedProperty = eventArgs.PropertyName;
+
+                Debug.WriteLine(
+                    $@"New value set for 'artist':
+                    '{changedProperty}' is now {artist.GetType()
+                    .GetProperty(changedProperty).GetValue(artist)}");
             };
+
+            realm.Write(() =>
+            {
+                artist.Name = "Elvis Costello";
+            });
+
+            realm.Refresh();
         }
         // :replace-end:
         //:snippet-end:
@@ -244,14 +258,15 @@ namespace Examples
             var changesHaveBeenCleared = false;
 
             // :snippet-start: get-notification-if-collection-is-cleared
-            var token = fido.Owners.SubscribeForNotifications((sender, changes, error) =>
+            var token = fido.Owners.SubscribeForNotifications(
+                (sender, changes, error) =>
             {
                 if (error != null) return;
                 if (changes == null) return;
 
                 if (changes.IsCleared)
                 {
-                    // ... handle collection has been cleared ...
+                    // All items in the collection have been deleted.
                     // :remove-start:
                     changesHaveBeenCleared = true;
                     // :remove-end:
@@ -260,15 +275,14 @@ namespace Examples
             // :snippet-end:
 
             // :snippet-start: call-handle-collection-changed
-            fido.Owners.AsRealmCollection().CollectionChanged += HandleCollectionChanged;
+            fido.Owners.AsRealmCollection().CollectionChanged +=
+                HandleCollectionChanged;
             // :snippet-end:
 
-            // :snippet-start: clear-collection
             realm.Write(() =>
             {
                 fido.Owners.Clear();
             });
-            // :snippet-end:
 
             realm.Refresh();
 
@@ -289,7 +303,8 @@ namespace Examples
         }
 
         // :snippet-start: define-handle-collection-changed
-        private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void HandleCollectionChanged(object sender,
+            NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {

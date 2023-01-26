@@ -1,4 +1,5 @@
-private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+private void HandleCollectionChanged(object sender,
+    NotifyCollectionChangedEventArgs e)
 {
     if (e.Action == NotifyCollectionChangedAction.Reset)
     {
