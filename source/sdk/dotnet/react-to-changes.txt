@@ -70,14 +70,10 @@ specifically what change has occurred.
 
 Watch for Collection Changes
 ----------------------------
-
-You can register a notification handler on a specific 
-collection within a realm. The handler receives a 
-description of changes made to the collection since the last notification. 
-Unlike realm-wide notifications, collection notifications contain 
-detailed information about the change and provide the information you need to 
-manage a list or other view that represents the collection in the UI.
-
+There are two ways to be notified about changes to a collection: register a 
+notification handler on the collection or handle the `CollectionChanged 
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged?view=net-6.0>`_ 
+event. 
 
 Register a Collection Change Listener
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,6 +101,12 @@ Specifically, the notification contains three lists of indices:
 - The indices of the objects that were inserted.
 - The indices of the objects that were modified.
 
+The notification also contains a specific handler if the entire collection 
+is cleared (all items in the collection are removed). If a 
+collection has been cleared by calling ``Clear()``, Realm sets the 
+:dotnet-sdk:`ChangeSet.IsCleared <reference/Realms.ChangeSet.html#Realms_ChangeSet_IsCleared>` 
+property to ``true``.
+
 To subscribe to collection notifications, you call the 
 :dotnet-sdk:`SubscribeForNotifications <reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_SubscribeForNotifications__1_System_Collections_Generic_IDictionary_System_String___0__Realms_NotificationCallbackDelegate_System_Collections_Generic_KeyValuePair_System_String___0___>` 
 method. ``SubscribeForNotifications`` returns a subscription token which can be 
@@ -112,20 +114,20 @@ cancelled at any time to stop receiving notifications on the collection.
 
 .. example::
 
-The following code shows how to observe a collection for changes. It also 
-demonstrates calling ``Dispose`` on the token when you no longer want to 
-be notified of changes.
+   The following code shows how to observe a collection for changes. It also 
+   demonstrates calling ``Dispose`` on the token when you no longer want to 
+   be notified of changes.
 
-.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.collection-notifications.cs
-   :language: csharp
-   :emphasize-lines: 2-3
+   .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.collection-notifications.cs
+      :language: csharp
+      :emphasize-lines: 2-3
 
-.. important:: Order Matters
-   
-   In collection notification handlers, always apply changes
-   in the following order: deletions, insertions, then
-   modifications. Handling insertions before deletions may
-   result in unexpected behavior.
+   .. important:: Order Matters
+      
+      In collection notification handlers, always apply changes
+      in the following order: deletions, insertions, then
+      modifications. Handling insertions before deletions may
+      result in unexpected behavior.
 
 Handle the CollectionChanged Event
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,6 +138,8 @@ to use a collection directly in data-binding scenarios. Because collections impl
 is to handle the `CollectionChanged 
 <https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged?view=net-6.0>`_ 
 event. 
+
+https://learn.microsoft.com/en-us/dotnet/api/system.collections.specialized.notifycollectionchangedaction?view=net-7.0
 
 .. important:: Less Detailed Information
 
@@ -150,28 +154,6 @@ handler:
 
 .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.define-handle-collection-changed.cs
    :language: csharp
-
-.. _dotnet-collection-cleared:
-
-Check if the Collection Has Been Cleared
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A special case of collection-based notifications occurs if the entire collection 
-is cleared (all items in the collection are removed). You still use 
-``SubscribeForNotifications`` to handle notifications. If an `IList
-<https://docs.microsoft.com/en-us/dotnet/api/system.collections.ilist?view=net-6.0>`_
-or `ISet
-<https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.iset-1?view=net-6.0>`_ 
-collection has been cleared by calling ``Clear()``, the :dotnet-sdk:`ChangeSet.IsCleared
-<reference/Realms.ChangeSet.html#Realms_ChangeSet_IsCleared>` property to true.
-
-.. example::
-
-  In the following example, we register a change listener on ``fido.Owners``,
-  and check the boolean value of ``changes.IsCleared``:
-
-  .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.get-notification-if-collection-is-cleared.cs
-     :language: csharp
 
 
 .. _dotnet-register-an-object-change-listener:

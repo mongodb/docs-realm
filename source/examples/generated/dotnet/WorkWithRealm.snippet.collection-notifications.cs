@@ -21,7 +21,6 @@ var token = realm.All<Dog>()
     }
 
     // Handle individual changes
-
     foreach (var i in changes.DeletedIndices)
     {
         // ... handle deletions ...
@@ -35,6 +34,13 @@ var token = realm.All<Dog>()
     foreach (var i in changes.NewModifiedIndices)
     {
         // ... handle modifications ...
+    }
+
+    if (changes.IsCleared)
+    {
+        // A special case if the collection has been cleared: 
+        // i.e., all items have been deleted by calling
+        // the Clear() method.
     }
 });
 

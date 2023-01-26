@@ -1,8 +1,10 @@
 private void HandleCollectionChanged(object sender,
     NotifyCollectionChangedEventArgs e)
 {
-    if (e.Action == NotifyCollectionChangedAction.Reset)
+    // Use e.Action to get the
+    // NotifyCollectionChangedAction type.
+    if (e.Action == NotifyCollectionChangedAction.Add)
     {
-        // ... handle a CollectionChanged Event with action `Reset`
+        // etc.
     }
 }

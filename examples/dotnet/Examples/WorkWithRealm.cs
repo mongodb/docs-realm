@@ -169,7 +169,6 @@ namespace Examples
                 }
 
                 // Handle individual changes
-
                 foreach (var i in changes.DeletedIndices)
                 {
                     // ... handle deletions ...
@@ -183,6 +182,13 @@ namespace Examples
                 foreach (var i in changes.NewModifiedIndices)
                 {
                     // ... handle modifications ...
+                }
+
+                if (changes.IsCleared)
+                {
+                    // A special case if the collection has been cleared: 
+                    // i.e., all items have been deleted by calling
+                    // the Clear() method.
                 }
             });
 
@@ -255,38 +261,11 @@ namespace Examples
                 fido.Owners.Add(helenWick);
             });
 
-            var changesHaveBeenCleared = false;
-
-            // :snippet-start: get-notification-if-collection-is-cleared
-            var token = fido.Owners.SubscribeForNotifications(
-                (sender, changes, error) =>
-            {
-                if (error != null) return;
-                if (changes == null) return;
-
-                if (changes.IsCleared)
-                {
-                    // All items in the collection have been deleted.
-                    // :remove-start:
-                    changesHaveBeenCleared = true;
-                    // :remove-end:
-                }
-            });
-            // :snippet-end:
-
             // :snippet-start: call-handle-collection-changed
             fido.Owners.AsRealmCollection().CollectionChanged +=
                 HandleCollectionChanged;
             // :snippet-end:
 
-            realm.Write(() =>
-            {
-                fido.Owners.Clear();
-            });
-
-            realm.Refresh();
-
-            Assert.IsTrue(changesHaveBeenCleared);
             // :snippet-start: subscribe
             // :replace-start: {
             //  "terms": {
@@ -306,9 +285,11 @@ namespace Examples
         private void HandleCollectionChanged(object sender,
             NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
+            // Use e.Action to get the
+            // NotifyCollectionChangedAction type.
+            if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                // ... handle a CollectionChanged Event with action `Reset`
+                // etc.
             }
         }
         // :snippet-end:
