@@ -261,10 +261,6 @@ namespace Examples
                 fido.Owners.Add(helenWick);
             });
 
-            // :snippet-start: call-handle-collection-changed
-            fido.Owners.AsRealmCollection().CollectionChanged +=
-                HandleCollectionChanged;
-            // :snippet-end:
 
             // :snippet-start: subscribe
             // :replace-start: {
@@ -279,9 +275,19 @@ namespace Examples
             token2.Dispose();
             //:replace-end:
             //:snippet-end:
-        }
 
-        // :snippet-start: define-handle-collection-changed
+            // :snippet-start: call-handle-collection-changed
+            fido.Owners.AsRealmCollection().CollectionChanged +=
+                HandleCollectionChanged;
+            //:remove-start:
+        }
+        //:remove-end:
+        // :uncomment-start:
+        //  ...
+        //
+        //}
+        // 
+        // :uncomment-end:
         private void HandleCollectionChanged(object sender,
             NotifyCollectionChangedEventArgs e)
         {
@@ -298,7 +304,6 @@ namespace Examples
         class NotificationUnsub
         {
             Realm realm;
-
 
             public NotificationUnsub()
             {
