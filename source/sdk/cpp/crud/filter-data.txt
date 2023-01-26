@@ -1,0 +1,42 @@
+.. _cpp-client-query-engine:
+.. _cpp-filter-data:
+
+=============================
+Filter Data - C++ SDK (Alpha)
+=============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+To filter data in your realm, you can leverage
+Realm Database's query engine. 
+
+About the Examples on This Page
+-------------------------------
+   
+The examples in this page use a simple data set for a
+todo list app. The two Realm object types are ``Project``
+and ``Item``. An ``Item`` has:
+
+- A name
+- A completed flag
+- An optional assignee's name
+- A count of minutes spent working on it
+
+A ``Project`` has a name and a to-many relationship to zero or more ``Items``.
+
+The schema for ``Project`` and ``Item`` is:
+
+.. literalinclude:: /examples/generated/code/cpp/filter-data.snippet.models.cpp
+   :language: cpp
+
+You can set up the realm for these examples with the following code:
+
+.. literalinclude:: /examples/generated/code/cpp/filter-data.snippet.models.cpp
+   :language: cpp
