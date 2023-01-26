@@ -11,7 +11,7 @@ const realmConfig = {
   deleteRealmIfMigrationNeeded: true,
 };
 
-const {RealmProvider, useQuery, useObject} = createRealmContext(realmConfig);
+const {RealmProvider, useObject, useQuery} = createRealmContext(realmConfig);
 
 let assertionRealm: Realm;
 
@@ -26,55 +26,55 @@ describe('relationships tests', () => {
       assertionRealm.delete(assertionRealm.objects(User));
       assertionRealm.delete(assertionRealm.objects(Post));
 
-      const user1 = new User(assertionRealm, {
+      const user1 = assertionRealm.create<User>(User, {
         _id: new Realm.BSON.ObjectId(),
         name: 'John Doe',
         birthdate: new Date(1990, 0, 1),
       });
-      const user2 = new User(assertionRealm, {
+      const user2 = assertionRealm.create(User, {
         _id: new Realm.BSON.ObjectId(),
         name: 'Jane Doe',
         birthdate: new Date(1993, 6, 3),
       });
-      const user3 = new User(assertionRealm, {
+      const user3 = assertionRealm.create(User, {
         _id: new Realm.BSON.ObjectId(),
         name: 'Billy Bob',
         birthdate: new Date(2002, 9, 14),
       });
 
-      const post1 = new Post(assertionRealm, {
+      const post1 = assertionRealm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'My First Post',
       });
-      const post2 = new Post(assertionRealm, {
+      const post2 = assertionRealm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'My Second Post',
       });
       user1.posts.push(post1);
       user1.posts.push(post2);
 
-      const post3 = new Post(assertionRealm, {
+      const post3 = assertionRealm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'Row Row Row Your Boat',
       });
-      const post4 = new Post(assertionRealm, {
+      const post4 = assertionRealm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'Life is but a dream',
       });
       user2.posts.push(post3);
       user2.posts.push(post4);
 
-      const post5 = new Post(assertionRealm, {
+      const post5 = assertionRealm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'I am not a child but I am not old either',
       });
-      const post6 = new Post(assertionRealm, {
+      const post6 = assertionRealm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'My favorite food is pizza',
       });
       user3.posts.push(post5);
       user3.posts.push(post6);
-    });
+    })
   });
 
   afterAll(() => {

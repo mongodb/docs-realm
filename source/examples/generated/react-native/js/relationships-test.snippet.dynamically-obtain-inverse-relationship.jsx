@@ -1,4 +1,3 @@
-console.log('hi');
 const PostItem = ({_id}) => {
   const post = useObject(Post, _id);
   const user = post?.linkingObjects('User', 'posts')[0];

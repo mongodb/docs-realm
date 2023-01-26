@@ -11,64 +11,64 @@ const realmConfig = {
   deleteRealmIfMigrationNeeded: true,
 };
 
-const {RealmProvider, useObject} = createRealmContext(realmConfig);
+const {RealmProvider, useObject, useQuery} = createRealmContext(realmConfig);
 
-let assertionRealm;
+let realm;
 
 // test describe block for the relationship page
 describe('relationships tests', () => {
   beforeEach(async () => {
     // we will use this Realm for assertions to access Realm Objects outside of a Functional Component (like required by @realm/react)
-    assertionRealm = await Realm.open(realmConfig);
+    realm = await Realm.open(realmConfig);
 
     // delete every object in the realmConfig in the Realm to make test idempotent
-    assertionRealm.write(() => {
-      assertionRealm.delete(assertionRealm.objects(User));
-      assertionRealm.delete(assertionRealm.objects(Post));
+    realm.write(() => {
+      realm.delete(realm.objects(User));
+      realm.delete(realm.objects(Post));
 
-      const user1 = new User(assertionRealm, {
+      const user1 = realm.create(User, {
         _id: new Realm.BSON.ObjectId(),
         name: 'John Doe',
         birthdate: new Date(1990, 0, 1),
       });
-      const user2 = new User(assertionRealm, {
+      const user2 = realm.create(User, {
         _id: new Realm.BSON.ObjectId(),
         name: 'Jane Doe',
         birthdate: new Date(1993, 6, 3),
       });
-      const user3 = new User(assertionRealm, {
+      const user3 = realm.create(User, {
         _id: new Realm.BSON.ObjectId(),
         name: 'Billy Bob',
         birthdate: new Date(2002, 9, 14),
       });
 
-      const post1 = new Post(assertionRealm, {
+      const post1 = realm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'My First Post',
       });
-      const post2 = new Post(assertionRealm, {
+      const post2 = realm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'My Second Post',
       });
       user1.posts.push(post1);
       user1.posts.push(post2);
 
-      const post3 = new Post(assertionRealm, {
+      const post3 = realm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'Row Row Row Your Boat',
       });
-      const post4 = new Post(assertionRealm, {
+      const post4 = realm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'Life is but a dream',
       });
       user2.posts.push(post3);
       user2.posts.push(post4);
 
-      const post5 = new Post(assertionRealm, {
+      const post5 = realm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'I am not a child but I am not old either',
       });
-      const post6 = new Post(assertionRealm, {
+      const post6 = realm.create(Post, {
         _id: new Realm.BSON.ObjectId(),
         title: 'My favorite food is pizza',
       });
@@ -78,8 +78,8 @@ describe('relationships tests', () => {
   });
 
   afterAll(() => {
-    if (!assertionRealm.isClosed) {
-      assertionRealm.close();
+    if (!realm.isClosed) {
+      realm.close();
     }
   });
 
@@ -91,7 +91,6 @@ describe('relationships tests', () => {
     //   " testID='userName'": ""
     //   }
     // }
-    console.log('hi');
     const PostItem = ({_id}) => {
       const post = useObject(Post, _id);
       const user = post?.linkingObjects('User', 'posts')[0];
@@ -106,7 +105,7 @@ describe('relationships tests', () => {
     };
     // :replace-end:
     // :snippet-end:
-    const postId = assertionRealm.objects(Post)[0]._id;
+    const postId = realm.objects(Post)[0]._id;
 
     const App = () => (
       <RealmProvider>
@@ -122,7 +121,7 @@ describe('relationships tests', () => {
     });
   });
 
-  it.only('Query Backlinks with @links.<Type>.<Property>', async () => {
+  it('Query Backlinks with @links.<Type>.<Property>', async () => {
     // :snippet-start: query-backlinks
     // :replace-start: {
     //  "terms": {

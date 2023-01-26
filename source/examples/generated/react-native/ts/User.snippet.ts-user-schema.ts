@@ -1,4 +1,4 @@
-class User extends Realm.Object<User> {
+class User extends Realm.Object<User, "_id" | "name"> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
   birthdate?: Date;
