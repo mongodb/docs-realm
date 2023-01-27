@@ -1,5 +1,6 @@
 import React from 'react';
 import {AppProvider} from '@realm/react';
+
 function AppWrapper() {
   return (
     <View>
