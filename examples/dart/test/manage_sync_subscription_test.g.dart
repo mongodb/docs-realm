@@ -46,7 +46,7 @@ class Plane extends _Plane with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Plane._);
     return const SchemaObject(ObjectType.realmObject, Plane, 'Plane', [
-      SchemaProperty('_id', RealmPropertyType.int,
+      SchemaProperty('id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('numSeats', RealmPropertyType.int),
@@ -94,7 +94,7 @@ class Train extends _Train with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Train._);
     return const SchemaObject(ObjectType.realmObject, Train, 'Train', [
-      SchemaProperty('_id', RealmPropertyType.int,
+      SchemaProperty('id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('numCars', RealmPropertyType.int),
@@ -142,7 +142,7 @@ class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Boat._);
     return const SchemaObject(ObjectType.realmObject, Boat, 'Boat', [
-      SchemaProperty('_id', RealmPropertyType.int,
+      SchemaProperty('id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('tonnage', RealmPropertyType.int),
