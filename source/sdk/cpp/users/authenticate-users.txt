@@ -1,0 +1,38 @@
+.. _cpp-authenticate-users:
+
+====================================
+Authenticate Users - C++ SDK (Alpha)
+====================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Log In
+------
+
+.. _cpp-login-anonymous:
+
+Anonymous User
+~~~~~~~~~~~~~~
+
+If you have enabled :ref:`Anonymous authentication <anonymous-authentication>`
+in the App Services UI, users can immediately log into your app without providing any
+identifying information.
+
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.anonymous-login.cpp
+   :language: cpp
+
+.. _cpp-login-email-password:
+
+Email/Password User
+~~~~~~~~~~~~~~~~~~~
+
+If you have enabled :ref:`Email/Password authentication <email-password-authentication>`,
+and have :ref:`registered an email/password user <cpp-register-email-password-user>`, 
+you can log that user in.
+
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.log-user-in.cpp
+   :language: cpp
