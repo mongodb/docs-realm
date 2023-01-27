@@ -46,7 +46,7 @@ refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
 Open an In-Memory Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To create a realm that runs entirely in memory without being persisted to a file,
+To create a realm that runs in memory without being persisted,
 create your ``Configuration`` with :flutter-sdk:`Configuration.inMemory() <realm/Configuration/inMemory.html>`.
 You must provide a list of schemas as an argument.
 In-memory realms **cannot** also be read-only.
@@ -189,3 +189,54 @@ Close a Realm
       .. code-block:: dart
 
          Realm.shutdown();
+
+.. _flutter-copy-data-into-new-realm:
+
+Copy Data into a New Realm
+--------------------------
+
+To copy data from an existing realm to a new realm with different
+configuration options, pass the new configuration to
+:flutter-sdk:`Realm.writeCopy() <realm/Realm/writeCopy.html>`.
+
+In the new realm's configuration, you *must* specify the ``path``.
+You **cannot** write to a path that already contains a file.
+
+Using ``Realm.writeCopy()``, you can convert between the following
+:flutter-sdk:`Configuration <realm/Configuration-class.html>`
+types:
+
+- ``LocalConfiguration`` to ``LocalConfiguration``
+- ``FlexibleSyncConfiguration`` to ``FlexibleSyncConfiguration``
+- ``InMemoryConfiguration`` to ``InMemoryConfiguration``
+- ``LocalConfiguration`` to read-only ``LocalConfiguration`` and vice versa
+- ``InMemoryConfiguration`` to ``LocalConfiguration`` and vice versa
+- ``FlexibleSyncConfiguration`` to ``LocalConfiguration``
+- ``FlexibleSyncConfiguration`` to ``InMemoryConfiguration``
+
+You **cannot** convert from a ``LocalConfiguration`` or a ``InMemoryConfiguration``
+to a ``FlexibleSyncConfiguration``.
+
+Some additional considerations to keep in mind while using ``Realm.writeCopy()``:
+
+#. The destination file  cannot already exist.
+#. Copying a realm is not allowed within a write transaction or during migration.
+#. When using  Device Sync, you must sync all local changes with the server
+   before the copy is written. This ensures that the file can be used
+   as a starting point for a newly-installed application.
+   The ``Realm.writeCopy()`` throws if there are pending uploads.
+
+The following example copies the data from a realm with a ``InMemoryConfiguration``
+to a new realm with a ``LocalConfiguration``.
+
+.. literalinclude:: /examples/generated/flutter/write_copy_test.snippet.in-memory-to-local.dart
+   :language: dart
+
+You can also :ref:`include a new encryption key <flutter-encrypt>`
+in the copied realm's configuration or remove the encryption key from the new configuration.
+
+The following example copies data from an **unencrypted** realm with a ``LocalConfiguration``
+to an **encrypted** realm with a ``LocalConfiguration``.
+
+.. literalinclude:: /examples/generated/flutter/write_copy_test.snippet.unencrypted-to-encrypted.dart
+   :language: dart
