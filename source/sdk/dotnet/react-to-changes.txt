@@ -13,15 +13,18 @@ React to Changes - .NET SDK
 
 Realm's notification system allows you to watch for and react to changes in your
 data, independent of the writes that caused the changes. To observe changes, you 
-create a notification handler for the Realm, collection, or object that you want 
-to watch. You can then add your specific app logic related to the change.
+create a notification handler for a Realm, a 
+:ref:`managed collection <dotnet-client-collections>`, or a Realm object 
+that you want to watch. You can then add your specific app logic related to the 
+change.
 
 Realm emits three kinds of notifications:
 
 - :ref:`Realm notifications <dotnet-realm-notifications>` whenever a specific 
   Realm commits a write transaction.
 - :ref:`Collection notifications <dotnet-collection-notifications>` whenever 
-  any Realm object in a collection changes, including inserts, updates, and deletes.
+  any a managed collection changes, such as inserts, updates, and deletes of 
+  objects in the collection.
 - :ref:`Object notifications <dotnet-object-notifications>` whenever a specific 
   Realm object changes.
 
@@ -69,10 +72,14 @@ specifically what change has occurred.
 
 Watch for Collection Changes
 ----------------------------
-In addition to watching for general realm changes, you can register for changes 
-to collections. There are two ways to be notified about changes to a collection: 
-register a notification handler on the collection or handle the `CollectionChanged 
-<https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged?view=net-6.0>`_ 
+You can also watch for changes to collections that implement 
+`IList
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.ilist?view=net-6.0>`__
+or `ISet
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.iset-1?view=net-6.0>`__. 
+There are two ways to be notified about changes to a collection: register a 
+notification handler on the collection or handle the `CollectionChanged 
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged?view=net-6.0>`__ 
 event. 
 
 Register a Collection Change Listener
@@ -92,19 +99,26 @@ Realm emits an initial notification when a subscription is added. After the
 initial notification, Realm delivers notifications asynchronously whenever a 
 write transaction adds, modifies, or removes objects in the collection.
 
-Specifically, the notification contains three lists of indices:
+Specifically, the notification contains a :dotnet-sdk:`ChangeSet <reference/Realms.ChangeSet.html>` 
+with 6 properties:
 
-- The indices of the objects that were deleted.
-- The indices of the objects that were inserted.
-- The indices of the objects that were modified.
+- ``DeletedIndices`` is an int32[] that contains the indices of the objects that were 
+  deleted.
+- ``InsertedIndices`` is an int32[] that contains the indices of the objects that were 
+  inserted.
+- ``ModifiedIndices`` is an int32[] that contains the *old* indices of the objects 
+  that were modified. These indices indicate the position of the modified objects 
+  in the original collection before any deletions or insertions ocurred. 
+- ``NewModifiedIndices`` is an int32[] that represents the same entries as the 
+  ModifiedIndices property, but the indices represent the new locations in the 
+  collection after all changes have been accounted for.
+- ``IsCleared`` is a boolean set to ``true`` when a collection has been cleared by 
+  calling the ``Clear()`` method.
+- ``Moved`` is an array of :dotnet-sdk:`ChangeSet.Move <reference/Realms.ChangeSet.Move.html>` 
+  structs that contain the previous and new index of an object moved within the 
+  collection.
 
-The notification also contains a specific handler if the entire collection 
-is cleared (all items in the collection are removed). If a 
-collection has been cleared by calling ``Clear()``, Realm sets the 
-:dotnet-sdk:`ChangeSet.IsCleared <reference/Realms.ChangeSet.html#Realms_ChangeSet_IsCleared>` 
-property to ``true``.
-
-To subscribe to collection notifications, you call the 
+To subscribe to collection notifications, call the 
 :dotnet-sdk:`SubscribeForNotifications <reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_SubscribeForNotifications__1_System_Collections_Generic_IDictionary_System_String___0__Realms_NotificationCallbackDelegate_System_Collections_Generic_KeyValuePair_System_String___0___>` 
 method. ``SubscribeForNotifications`` returns a subscription token which can be 
 cancelled at any time to stop receiving notifications on the collection. 
@@ -121,9 +135,12 @@ cancelled at any time to stop receiving notifications on the collection.
    .. important:: Order Matters
       
       In collection notification handlers, always apply changes
-      in the following order: deletions, insertions, then
-      modifications. Handling insertions before deletions may
-      result in unexpected behavior.
+      in the following order:
+      1. deletions
+      #. insertions
+      #. modifications. 
+      
+      Handling insertions before deletions may result in unexpected behavior.
 
 Handle the CollectionChanged Event
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -132,14 +149,14 @@ Every Realm collection implements ``INotifyCollectionChanged``, which allows you
 to use a collection directly in data-binding scenarios. Because collections implement 
 ``INotifyCollectionChanged``, another approach to monitoring collection changes 
 is to handle the `CollectionChanged 
-<https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged>`_ 
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged>`__ 
 event and check for the type of `NotifyCollectionChangedAction 
-<https://learn.microsoft.com/en-us/dotnet/api/system.collections.specialized.notifycollectionchangedaction`_.
+<https://learn.microsoft.com/en-us/dotnet/api/system.collections.specialized.notifycollectionchangedaction`__.
 
 .. important:: Less Detailed Information
 
    The ``CollectionChanged`` event handler does not provide the same level of 
-   detail about the change. For finer control, use ``SubscribeForNotifications``.
+   detail about changes as ``SubscribeForNotifications`` does.
 
 The following code shows you how to implement the ``CollectionChanged`` event 
 handler:

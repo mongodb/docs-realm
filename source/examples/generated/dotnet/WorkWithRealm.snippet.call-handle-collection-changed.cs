@@ -1,3 +1,8 @@
+    // Subscribe to a query
+    realm.All<Dog>().AsRealmCollection().CollectionChanged +=
+        HandleCollectionChanged;
+
+    // Subscribe to a property collection
     fido.Owners.AsRealmCollection().CollectionChanged +=
         HandleCollectionChanged;
  ...

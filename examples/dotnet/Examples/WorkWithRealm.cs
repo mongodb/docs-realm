@@ -277,6 +277,11 @@ namespace Examples
             //:snippet-end:
 
             // :snippet-start: call-handle-collection-changed
+            // Subscribe to a query
+            realm.All<Dog>().AsRealmCollection().CollectionChanged +=
+                HandleCollectionChanged;
+
+            // Subscribe to a property collection
             fido.Owners.AsRealmCollection().CollectionChanged +=
                 HandleCollectionChanged;
             //:remove-start:
