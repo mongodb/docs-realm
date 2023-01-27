@@ -43,7 +43,7 @@ API Key User
 ~~~~~~~~~~~~
 
 If you have enabled :ref:`API Key authentication <api-key-authentication>`,
-you can log in using an API key.
+you can log in using a user API key.
 
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.api-key.cpp
    :language: cpp
@@ -54,7 +54,7 @@ Custom Function User
 ~~~~~~~~~~~~~~~~~~~~
 
 If you have enabled the :ref:`Custom Function authentication provider
-<custom-function-authentication>`, you can log in using a custom function:
+<custom-function-authentication>`, you can log in using a custom function.
 
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.custom-function.cpp
    :language: cpp
@@ -68,6 +68,33 @@ If you have enabled the :ref:`Custom JWT authentication provider
 <custom-jwt-authentication>`, you can log in using a custom JWT.
 
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.custom-jwt.cpp
+   :language: cpp
+
+.. _cpp-login-facebook:
+
+Facebook User
+~~~~~~~~~~~~~
+
+The :ref:`Facebook <facebook-authentication>` authentication provider allows you
+to authenticate users through a Facebook app using their existing Facebook
+account.
+
+.. include:: /includes/note-enable-facebook-auth.rst
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
+
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.facebook.cpp
+   :language: cpp
+
+.. _cpp-login-apple:
+
+Apple User
+~~~~~~~~~~
+
+If you have enabled :ref:`Sign-in with Apple authentication
+<apple-id-authentication>`, you can log a user in using an Apple ID token.
+
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.apple.cpp
    :language: cpp
 
 .. _cpp-get-a-user-access-token:
@@ -94,39 +121,12 @@ fetch an access token:
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.get-user-access-token.cpp
    :language: cpp
 
-.. _cpp-login-facebook:
-
-Facebook User
-~~~~~~~~~~~~~
-
-The :ref:`Facebook <facebook-authentication>` authentication provider allows you
-to authenticate users through a Facebook app using their existing Facebook
-account.
-
-.. include:: /includes/note-enable-facebook-auth.rst
-
-.. include:: /includes/note-facebook-profile-picture-url.rst
-
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.facebook.cpp
-   :language: cpp
-
-.. _cpp-login-apple:
-
-Apple User
-~~~~~~~~~~
-
-If you have enabled :ref:`Sign-in with Apple authentication
-<apple-id-authentication>`, you can log a user in using an Apple ID token:
-
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.apple.cpp
-   :language: cpp
-
 .. _cpp-logout:
 
 Log Out
 -------
 
-Once logged in, you can log out:
+Once logged in, you can log out.
 
 .. include:: /includes/log-out-queries-in-progress.rst
 
