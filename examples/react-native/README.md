@@ -18,9 +18,6 @@ This project uses [npm](https://www.npmjs.com/) to manage dependencies. To get s
 npm install
 ```
 
-> **Warning**
-> Currently, `npm install` fails in Node.js v16.17.0. We recommend using Node.js v16.14.0.
-
 ### Run Tests
 
 This project defines a unit test suite that tests both JS and TS code examples. You can run them via:
