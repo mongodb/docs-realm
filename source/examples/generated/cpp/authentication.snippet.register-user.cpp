@@ -1,6 +1,4 @@
-const std::string APP_ID = "cpp-tester-uliix";
-
-auto app = realm::App(APP_ID);
+auto app = realm::App(INSERT_APP_ID_HERE);
 
 std::string user_email = "testUser@mongodb.com";
 std::string user_password = "password1234";
