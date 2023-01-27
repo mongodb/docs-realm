@@ -144,14 +144,13 @@ cancelled at any time to stop receiving notifications on the collection.
 
 Handle the CollectionChanged Event
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Every Realm collection implements ``INotifyCollectionChanged``, which allows you 
 to use a collection directly in data-binding scenarios. Because collections implement 
 ``INotifyCollectionChanged``, another approach to monitoring collection changes 
 is to handle the `CollectionChanged 
 <https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged>`__ 
 event and check for the type of `NotifyCollectionChangedAction 
-<https://learn.microsoft.com/en-us/dotnet/api/system.collections.specialized.notifycollectionchangedaction`__.
+<https://learn.microsoft.com/en-us/dotnet/api/system.collections.specialized.notifycollectionchangedaction>`__.
 
 .. important:: Less Detailed Information
 
