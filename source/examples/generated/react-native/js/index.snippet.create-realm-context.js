@@ -1,5 +1,5 @@
 import {createRealmContext} from '@realm/react';
-// Import all of your models
+// Import all of your models.
 import {Cat} from './Cat';
 import {Dog} from './Dog';
 
