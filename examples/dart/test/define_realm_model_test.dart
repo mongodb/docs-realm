@@ -37,6 +37,19 @@ class _Person {
 }
 // :snippet-end:
 
+// :snippet-start: map-to
+@RealmModel()
+@MapTo('naval_ship')
+class _Boat {
+  @PrimaryKey()
+  late ObjectId id;
+
+  late String name;
+  late int? maxKnots;
+  late int? nauticalMiles;
+}
+// :snippet-end:
+
 main() {
   test('Create a new schema version', () {
     // :snippet-start: schema-version
