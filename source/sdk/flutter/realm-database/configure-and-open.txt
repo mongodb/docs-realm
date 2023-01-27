@@ -220,10 +220,10 @@ to a ``FlexibleSyncConfiguration``.
 Some additional considerations to keep in mind while using ``Realm.writeCopy()``:
 
 #. The destination file  cannot already exist.
-#. Copying realm is not allowed within a write transaction or during migration.
+#. Copying a realm is not allowed within a write transaction or during migration.
 #. When using  Device Sync, you must sync all local changes with the server
    before the copy is written. This ensures that the file can be used
-   as a starting point for a newly installed application.
+   as a starting point for a newly-installed application.
    The ``Realm.writeCopy()`` throws if there are pending uploads.
 
 The following example copies the data from a realm with a ``InMemoryConfiguration``
