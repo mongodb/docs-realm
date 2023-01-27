@@ -5,10 +5,11 @@ import {Credentials} from 'realm';
 // :remove-start:
 import {App} from 'realm';
 import {AppProvider} from '@realm/react';
-import 'react-native';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import {View, Button} from 'react-native';
+
 const APP_ID = 'example-testers-kvjdy';
+
 function AppWrapper() {
   return (
     <View>

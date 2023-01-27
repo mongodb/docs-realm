@@ -71,7 +71,9 @@ Retrieve App Outside the App Provider
 -------------------------------------
 
 To retrieve an instance of the App Client from anywhere in your application,
-call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your ``App ID``.
+instantiate a new instance of :js-sdk:`Realm.App() <Realm.App.html>`
+from the ``realm`` package, then pass in your ``App ID``.
+
 
 .. tabs-realm-languages::
 
@@ -79,6 +81,7 @@ call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your ``App
          :tabid: typescript
 
          .. code-block:: typescript
+            import Realm from "realm";
 
             const app = new Realm.App("<Your App ID>");
 
@@ -86,5 +89,6 @@ call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your ``App
          :tabid: javascript
 
          .. code-block:: javascript
+            import Realm from "realm";
 
             const app = Realm.App.getApp("<Your App ID>");

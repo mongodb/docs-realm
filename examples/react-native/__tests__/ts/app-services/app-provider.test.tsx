@@ -2,11 +2,12 @@
 import React from 'react';
 import {AppProvider} from '@realm/react';
 // :remove-start:
-import 'react-native';
 import {render} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
 import {View, Text} from 'react-native';
+
 const APP_ID = 'example-testers-kvjdy';
+
 function MyApp() {
   const app = useApp();
   if (app.id !== APP_ID) {
