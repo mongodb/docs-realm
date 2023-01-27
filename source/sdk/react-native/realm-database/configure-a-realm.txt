@@ -10,8 +10,6 @@ Configure a Realm - React Native SDK
    :depth: 2
    :class: singlecol
 
-.. TODO: Set up redirect from open-a-realm page to new configure-a-realm page.
-
 The ``@realm/react`` library uses `React Context objects <https://reactjs.org/docs/context.html>`__
 to create and configure realms. You can access realms with React hooks.
 
@@ -23,44 +21,47 @@ does so, you need to pass props to the ``@realm/react`` Context Providers:
 - ``<RealmProvider>``
 
 For Flexible Sync realms, you need all three Providers, nested in the order above.
-For local-only realms, you only need the ``<RealmProvider>``.
+For local-only realms, you only need ``<RealmProvider>``.
 
 Create a Context Object with ``createRealmContext``
 ---------------------------------------------------
-https://github.com/realm/realm-js/tree/master/packages/realm-react#createrealmcontext
 
-Create an indext file in the directory where your Realm models live.
+By passing a :js-sdk:`Configuration <Realm.html#~Configuration>` object to 
+``createRealmContext``, you can create a Context object that contains an open 
+realm and some hooks that give you access to the realm.
+
+In this example, we create and export our config object so that it can be used elsewhere.
 
 .. literalinclude:: /examples/generated/react-native/js/index.snippet.create-realm-context.js
+   :language: javascript
+
+Configure a realm with ``<RealmProvider>``
+------------------------------------------
+
+``<RealmProvider>`` is a wrapper for your Realm Database. All child components
+inside ``RealmProvider`` have access to hooks that let you read, write, and update
+data. This is what a local-only realm wrapper might look like:
+
+.. literalinclude:: /examples/generated/react-native/js/configure-realm-local.test.snippet.configure-realm.jsx
+   :language: javascript
+
+Enable Flexible Sync
+~~~~~~~~~~~~~~~~~~~~
+
+To use a Flexible Sync realm, you must nest ``<RealmProvider>`` within <AppProvider> 
+and <UserProvider>. This ensures your client has access to your App Services App
+and that a user with permissions exists to access your realm data.
+
+.. literalinclude:: /examples/generated/react-native/js/configure-realm-sync.test.snippet.configure-realm-sync.jsx
    :language: javascript
 
 Open more than one realm
 ------------------------
 
-https://github.com/realm/realm-js/tree/master/packages/realm-react#multiple-realms
+You can open more than one realm at a time by creating another Context object.
 
-Configure a realm with ``<RealmProvider>``
-------------------------------------------
-https://github.com/realm/realm-js/tree/master/packages/realm-react#realmprovider
-
-``<RealmProvider>`` is a wrapper for your application that enables hooks.
-
-Sync vs non-sync
-
-Sync requires <AppProvider> and <UserProvider> parent providers.
-
-Open an In Memory Realm
------------------------
-
-.. include:: /includes/js-open-an-in-memory-realm.rst
-
-.. seealso:: Additional Ways to Configure a Realm
-
-   - Learn how to :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`
-   - Learn how to :ref:`Encrypt a Realm <react-native-encrypt-a-realm>`
-   - Learn how to :ref:`Bundle a Realm <react-native-bundle-a-realm>`
-
-.. include:: /includes/js-close-a-realm.rst
+.. literalinclude:: /examples/generated/react-native/js/configure-realm-sync.test.snippet.two-realm-contexts.jsx
+   :language: javascript
 
 Key Concept: Realm Files
 ------------------------
