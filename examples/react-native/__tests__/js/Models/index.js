@@ -15,6 +15,6 @@ export const RealmContext = createRealmContext({
 // :snippet-end:
 
 export const SecondRealmContext = createRealmContext({
-  // Pass all of your models into the schema value.
+  // Pass all of your secondary models into the schema value.
   schema: [Person, Profile],
 });

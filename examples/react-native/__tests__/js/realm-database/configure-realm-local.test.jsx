@@ -1,6 +1,5 @@
 // :snippet-start: configure-realm
 import React from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
 
 import {RealmContext} from '../Models';
 // :remove-start:

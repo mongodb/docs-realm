@@ -48,15 +48,15 @@ data. This is what a local-only realm wrapper might look like:
 Enable Flexible Sync
 ~~~~~~~~~~~~~~~~~~~~
 
-To use a Flexible Sync realm, you must nest ``<RealmProvider>`` within <AppProvider> 
-and <UserProvider>. This ensures your client has access to your App Services App
+To use a Flexible Sync realm, you must nest ``<RealmProvider>`` within ``<AppProvider>`` 
+and ``<UserProvider>``. This ensures your client has access to your App Services App
 and that a user with permissions exists to access your realm data.
 
 .. literalinclude:: /examples/generated/react-native/js/configure-realm-sync.test.snippet.configure-realm-sync.jsx
    :language: javascript
 
 Open more than one realm
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can open more than one realm at a time by creating another Context object.
 
