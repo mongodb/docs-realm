@@ -132,6 +132,7 @@ The following code shows how to observe a collection for changes.
    
    In collection notification handlers, always apply changes
    in the following order:
+
    1. deletions
    #. insertions
    #. modifications. 
@@ -177,7 +178,7 @@ Register an Object Change Listener
 ----------------------------------
 
 You can register a notification handler on a specific object
-within a realm so that Realm notifies you when any of the object's 
+within a realm so that the SDK notifies you when any of the object's 
 properties change. The handler receives information about which field 
 has changed. With the field name, you can get the new value. 
 

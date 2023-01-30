@@ -1,12 +1,12 @@
+{
     // Subscribe to a query
     realm.All<Dog>().AsRealmCollection().CollectionChanged +=
         HandleCollectionChanged;
 
     // Subscribe to a property collection
-    fido.Owners.AsRealmCollection().CollectionChanged +=
+    gracie.Owners.AsRealmCollection().CollectionChanged +=
         HandleCollectionChanged;
- ...
-
+   ...
 }
 
 private void HandleCollectionChanged(object sender,

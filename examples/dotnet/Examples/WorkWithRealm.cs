@@ -286,21 +286,26 @@ namespace Examples
             token2.Dispose();
             //:replace-end:
             //:snippet-end:
-
-            // :snippet-start: call-handle-collection-changed
+        }
+        private void CollectionChanged()
+        // :snippet-start: call-handle-collection-changed
+        {
+            //:remove-start:
+            var realm = Realm.GetInstance("");
+            var gracie = new Dog();
+            // :remove-end:
             // Subscribe to a query
             realm.All<Dog>().AsRealmCollection().CollectionChanged +=
                 HandleCollectionChanged;
 
             // Subscribe to a property collection
-            fido.Owners.AsRealmCollection().CollectionChanged +=
+            gracie.Owners.AsRealmCollection().CollectionChanged +=
                 HandleCollectionChanged;
             //:remove-start:
         }
         //:remove-end:
         // :uncomment-start:
-        //  ...
-        //
+        //    ...
         //}
         // 
         // :uncomment-end:
