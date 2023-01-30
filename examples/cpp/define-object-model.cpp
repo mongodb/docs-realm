@@ -22,7 +22,7 @@ struct ContactDetails : realm::embedded_object<ContactDetails> { // :emphasize:
 };
 
 struct Business : realm::object<Business> {
-    realm::persisted<realm::object_id> _id;
+    realm::persisted<realm::object_id> _id{realm::object_id::generate()};
     realm::persisted<std::string> name;
     realm::persisted<std::optional<ContactDetails>> contactDetails; // :emphasize:
 
@@ -159,7 +159,6 @@ TEST_CASE("create an embedded object", "[model][write]") {
     auto realm = realm::open<Business, ContactDetails>();
 
     auto business = Business();
-    business._id = realm::object_id::generate();
     business.name = "MongoDB";
     business.contactDetails = ContactDetails { 
         .emailAddress = "email@example.com", 
@@ -352,7 +351,6 @@ TEST_CASE("update an embedded object", "[model][update]") {
     auto realm = realm::open<Business, ContactDetails>();
 
     auto business = Business { 
-        ._id = realm::object_id::generate(), 
         .name = "MongoDB" 
     };
     
