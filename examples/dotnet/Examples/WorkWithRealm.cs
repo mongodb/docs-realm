@@ -208,9 +208,6 @@ namespace Examples
             var dog = realm.All<Dog>()
             .FirstOrDefault(p => p.Name == "Laura V.");
 
-            dog.Owners.AsRealmCollection()
-                .SubscribeForNotifications((sender, changes, error) => { });
-
             realm.Write(() =>
             {
                 realm.Add(new PersonN { Id = ObjectId.GenerateNewId(), Name = "Elvis Presley" });
