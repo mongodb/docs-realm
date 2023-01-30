@@ -8,8 +8,7 @@ function AppWrapperSync() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider>
-        <RealmProvider
-          sync={{flexible: true, onError: error => console.error(error)}}>
+        <RealmProvider sync={{flexible: true, onError: error => console.error(error)}}>
           <MyApp />
         </RealmProvider>
       </UserProvider>

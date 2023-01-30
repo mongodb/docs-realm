@@ -32,35 +32,39 @@ realm and some hooks that give you access to the realm.
 
 The following example creates and exports a Context object so that it can be used elsewhere.
 
-.. literalinclude:: /examples/generated/react-native/js/index.snippet.create-realm-context.js
+.. literalinclude:: /examples/generated/react-native/ts/index.snippet.create-realm-context.ts
    :language: javascript
 
 Configure a Realm with ``<RealmProvider>``
 ------------------------------------------
 
-``<RealmProvider>`` is a wrapper that exposes a Context with Realm Database to its child components. All child components
-inside ``<RealmProvider>`` have access to hooks that let you read, write, and update
-data. This is what a local-only realm wrapper might look like:
+``<RealmProvider>`` is a wrapper that exposes a Context with Realm Database to 
+its child components. All child components inside ``<RealmProvider>`` have access 
+to hooks that let you read, write, and update data. This is what a local-only 
+realm wrapper might look like:
 
-.. literalinclude:: /examples/generated/react-native/js/configure-realm-local.test.snippet.configure-realm.jsx
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
    :language: javascript
 
-Enable Flexible Sync
-~~~~~~~~~~~~~~~~~~~~
+Open an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~
 
-To use a Flexible Sync realm, you must nest ``<RealmProvider>`` within ``<AppProvider>`` 
-and ``<UserProvider>``. This ensures your client has access to your App Services App
-and that a user with permissions exists to access your realm data.
+To create a realm that runs entirely in memory without being written to a file,
+add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object:
 
-.. literalinclude:: /examples/generated/react-native/js/configure-realm-sync.test.snippet.configure-realm-sync.jsx
+.. literalinclude:: /examples/generated/react-native/ts/index.snippet.in-memory-realm.ts
    :language: javascript
 
-Open more than one realm
-~~~~~~~~~~~~~~~~~~~~~~~~
+In-memory realms may use disk space if memory is running low, but files created 
+by an in-memory realm are deleted when you close the realm.
+
+Open One or More Realms
+~~~~~~~~~~~~~~~~~~~~~~~
 
 You can open more than one realm at a time by creating additional Contexts and ``RealmProvider`` components.
 
-.. literalinclude:: /examples/generated/react-native/js/configure-realm-sync.test.snippet.two-realm-contexts.jsx
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.two-realm-contexts.tsx
    :language: javascript
 
 Key Concept: Realm Files
