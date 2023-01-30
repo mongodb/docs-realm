@@ -1,8 +1,5 @@
-// Watch the collection notifications.
-// You can retain the token to keep observing, or call
-// Dispose() when you are done observing the
-// collection.
-var token = realm.All<Dog>()
+// Watch for collection notifications.
+var subscriptionToken = realm.All<Dog>()
     .SubscribeForNotifications((sender, changes, error) =>
 {
     if (error != null)
@@ -43,6 +40,3 @@ var token = realm.All<Dog>()
         // the Clear() method.
     }
 });
-
-// Later, when you no longer wish to receive notifications
-token.Dispose();

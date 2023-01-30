@@ -48,6 +48,7 @@ Realm emits three kinds of notifications:
 
 Register a Realm Change Listener
 --------------------------------
+
 You can register a notification handler on an entire realm.
 Realm invokes the notification handler whenever any write
 transaction on that realm is committed. 
@@ -56,22 +57,21 @@ The handler receives no specific information about the change. This is useful
 when you want to know that there has been a change but do not need to know 
 specifically what change has occurred.
 
-.. example::
+Suppose you are building a real-time collaborative app and you want to have a  
+counter that increases every time a change is made. In this scenario, you could 
+subscribe to the realm notification handler and add the code that controls 
+the indicator.
 
-  Suppose you are building a real-time collaborative app and you want to have a  
-  counter that increases every time a change is made. In this scenario, you could 
-  subscribe to the realm notification handler and add the code that controls 
-  the indicator.
-
-  .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.notifications.cs
-     :language: csharp
-     :emphasize-lines: 2
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.notifications.cs
+   :language: csharp
+   :emphasize-lines: 2
 
 .. _dotnet-register-a-collection-change-listener:
 .. _dotnet-collection-notifications:
 
 Watch for Collection Changes
 ----------------------------
+
 You can also watch for changes to collections that implement 
 `IList
 <https://docs.microsoft.com/en-us/dotnet/api/system.collections.ilist?view=net-6.0>`__
@@ -123,24 +123,31 @@ To subscribe to collection notifications, call the
 method. ``SubscribeForNotifications`` returns a subscription token which can be 
 cancelled at any time to stop receiving notifications on the collection. 
 
-.. example::
+The following code shows how to observe a collection for changes. 
 
-   The following code shows how to observe a collection for changes. It also 
-   demonstrates calling ``Dispose`` on the token when you no longer want to 
-   be notified of changes.
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.collection-notifications.cs
+   :language: csharp
 
-   .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.collection-notifications.cs
-      :language: csharp
+.. important:: Order Matters
+   
+   In collection notification handlers, always apply changes
+   in the following order:
+   1. deletions
+   #. insertions
+   #. modifications. 
+   
+   Handling insertions before deletions may result in unexpected behavior.
 
-   .. important:: Order Matters
-      
-      In collection notification handlers, always apply changes
-      in the following order:
-      1. deletions
-      #. insertions
-      #. modifications. 
-      
-      Handling insertions before deletions may result in unexpected behavior.
+.. _dotnet-unregister-a-change-listener:
+
+Unregister a Change Listener
+----------------------------
+
+To unregister a change listener, call ``Dispose`` on the token. The following code 
+shows how to do this:
+
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.unsub-collection-notifications.cs
+   :language: csharp
 
 Handle the CollectionChanged Event
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,22 +181,20 @@ within a realm so that Realm notifies you when any of the object's
 properties change. The handler receives information about which field 
 has changed. With the field name, you can get the new value. 
 
-.. example::
+The following code shows how to observe an object for
+changes.
 
-  The following code shows how to observe an object for
-  changes.
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.object-notifications.cs
+   :language: csharp
+   :emphasize-lines: 4
 
-  .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.object-notifications.cs
-     :language: csharp
-     :emphasize-lines: 4
-
-.. _dotnet-unregister-a-change-listener:
 
 Unregister a Change Listener
 ----------------------------
 
-When you no longer want to receive notifications on an event, you unsubscribe. 
-The following code demonstrates this:
+When you no longer want to receive notifications ona change listener, you 
+unregister the handler. The code is the same for both Object change handlers 
+and collection change handlers. The following code demonstrates this:
 
 .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.unsubscribe.cs
    :language: csharp

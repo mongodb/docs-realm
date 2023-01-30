@@ -9,6 +9,8 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Examples.Models;
+using System.Reflection;
+using System.Threading.Channels;
 
 namespace Examples
 {
@@ -146,11 +148,8 @@ namespace Examples
             //:snippet-end:
 
             //:snippet-start:collection-notifications
-            // Watch the collection notifications.
-            // You can retain the token to keep observing, or call
-            // Dispose() when you are done observing the
-            // collection.
-            var token = realm.All<Dog>()
+            // Watch for collection notifications.
+            var subscriptionToken = realm.All<Dog>()
                 .SubscribeForNotifications((sender, changes, error) =>
             {
                 if (error != null)
@@ -191,11 +190,26 @@ namespace Examples
                     // the Clear() method.
                 }
             });
+            //:snippet-end:
 
-            // Later, when you no longer wish to receive notifications
+            //:snippet-start:unsub-collection-notifications
+            // Watch for collection notifications.
+            // Call Dispose() when you are done observing the
+            // collection.
+            var token = realm.All<Dog>()
+                .SubscribeForNotifications((sender, changes, error) =>
+                {
+                    // etc.
+                });
+            // When you no longer want to receive notifications:
             token.Dispose();
             //:snippet-end:
 
+            var dog = realm.All<Dog>()
+            .FirstOrDefault(p => p.Name == "Laura V.");
+
+            dog.Owners.AsRealmCollection()
+                .SubscribeForNotifications((sender, changes, error) => { });
 
             realm.Write(() =>
             {
@@ -314,29 +328,22 @@ namespace Examples
             {
                 realm = Realm.GetInstance("");
             }
-            //:snippet-start:unsubscribe
             private IQueryable<Item> items;
-
-            public void LoadUI()
+            private void foo()
             {
-                items = realm.All<Item>();
+                //:snippet-start:unsubscribe
+                // Subscribe for notifications
+                items.AsRealmCollection().CollectionChanged += OnItemsChangedHandler;
 
-                // Subscribe for notifications - since items is IQueryable<Item>, we're
-                // using the AsRealmCollection extension method to cast it to IRealmCollection
-                items.AsRealmCollection().CollectionChanged += OnItemsChanged;
-            }
-
-            public void UnloadUI()
-            {
                 // Unsubscribe from notifications
-                items.AsRealmCollection().CollectionChanged -= OnItemsChanged;
+                items.AsRealmCollection().CollectionChanged -= OnItemsChangedHandler;
+                // :snippet-end:
             }
 
-            private void OnItemsChanged(object sender, NotifyCollectionChangedEventArgs args)
+            private void OnItemsChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
             {
-                // Do something with the notification information
+                throw new NotImplementedException();
             }
-            // :snippet-end:
         }
 
         public class PersonN : RealmObject
