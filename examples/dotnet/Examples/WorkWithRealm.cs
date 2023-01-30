@@ -336,7 +336,8 @@ namespace Examples
                 //:snippet-start:unsubscribe
                 // Unsubscribe from notifications on a
                 // collection of realm objects
-                items.AsRealmCollection().CollectionChanged -= OnItemsChangedHandler;
+                realm.All<Item>().AsRealmCollection()
+                    .CollectionChanged -= OnItemsChangedHandler;
 
                 // Unsubscribe from notifications on a
                 // collection property
