@@ -11,7 +11,7 @@ struct ContactDetails : realm::embedded_object<ContactDetails> {
 };
 
 struct Business : realm::object<Business> {
-    realm::persisted<int64_t> _id;
+    realm::persisted<realm::object_id> _id{realm::object_id::generate()};
     realm::persisted<std::string> name;
     realm::persisted<std::optional<ContactDetails>> contactDetails; 
 

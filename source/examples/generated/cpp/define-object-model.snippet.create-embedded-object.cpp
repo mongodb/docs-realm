@@ -1,7 +1,6 @@
 auto realm = realm::open<Business, ContactDetails>();
 
 auto business = Business();
-business._id = 789012;
 business.name = "MongoDB";
 business.contactDetails = ContactDetails { 
     .emailAddress = "email@example.com", 
