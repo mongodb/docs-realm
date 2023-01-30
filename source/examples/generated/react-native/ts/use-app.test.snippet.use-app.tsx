@@ -1,6 +1,6 @@
-import React from "react";
-import { useApp } from "@realm/react";
-import { Credentials } from "realm";
+import React from 'react';
+import { useApp } from '@realm/react';
+import { Credentials } from 'realm';
 
 function MyApp() {
   const app = useApp();
