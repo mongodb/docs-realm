@@ -128,6 +128,13 @@ Primary keys are subject to the following limitations:
 If you are using :ref:`Device Sync <cpp-synced-realm>`, your models must 
 have a primary key named ``_id``.
 
+The Realm C++ SDK supports primary keys of the following types, required or optional:
+
+- ``realm::object_id``
+- ``realm::uuid``
+- ``realm::enum``
+- ``std::string``
+
 You set a property as a primary key by passing ``true`` to the second template parameter of the ``persisted`` template:
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.define-a-schema.cpp

@@ -22,7 +22,7 @@ struct ContactDetails : realm::embedded_object<ContactDetails> { // :emphasize:
 };
 
 struct Business : realm::object<Business> {
-    realm::persisted<int64_t> _id;
+    realm::persisted<realm::object_id> _id{realm::object_id::generate()};
     realm::persisted<std::string> name;
     realm::persisted<std::optional<ContactDetails>> contactDetails; // :emphasize:
 
@@ -53,7 +53,7 @@ struct Employee : realm::object<Employee> {
 
 // :snippet-start: to-one-relationship
 struct ToOneRelationship_FavoriteToy : realm::object<ToOneRelationship_FavoriteToy> {
-    realm::persisted<int64_t> _id;
+    realm::persisted<realm::uuid> _id;
     realm::persisted<std::string> name;
 
     static constexpr auto schema = realm::schema("ToOneRelationship_FavoriteToy",
@@ -62,7 +62,7 @@ struct ToOneRelationship_FavoriteToy : realm::object<ToOneRelationship_FavoriteT
 };
 
 struct ToOneRelationship_Dog : realm::object<ToOneRelationship_Dog> {
-    realm::persisted<int64_t> _id;
+    realm::persisted<realm::uuid> _id;
     realm::persisted<std::string> name;
     realm::persisted<int64_t> age;
     // To-one relationship objects must be optional
@@ -159,7 +159,6 @@ TEST_CASE("create an embedded object", "[model][write]") {
     auto realm = realm::open<Business, ContactDetails>();
 
     auto business = Business();
-    business._id = 789012;
     business.name = "MongoDB";
     business.contactDetails = ContactDetails { 
         .emailAddress = "email@example.com", 
@@ -216,8 +215,14 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     // :snippet-start: create-object-with-to-one-relationship
     auto realm = realm::open<ToOneRelationship_Dog, ToOneRelationship_FavoriteToy>();
 
-    auto favoriteToy = ToOneRelationship_FavoriteToy { .name = "Wubba" };
-    auto dog = ToOneRelationship_Dog { .name = "Lita", .age = 10 };
+    auto favoriteToy = ToOneRelationship_FavoriteToy { 
+        ._id = realm::uuid("68b696c9-320b-4402-a412-d9cee10fc6a5"), 
+        .name = "Wubba" };
+
+    auto dog = ToOneRelationship_Dog { 
+        ._id = realm::uuid("68b696d7-320b-4402-a412-d9cee10fc6a3"), 
+        .name = "Lita", 
+        .age = 10 };
     dog.favoriteToy = favoriteToy;
 
     realm.write([&realm, &dog] {
@@ -345,7 +350,10 @@ TEST_CASE("create object with to-many relationship", "[model][write][relationshi
 TEST_CASE("update an embedded object", "[model][update]") {
     auto realm = realm::open<Business, ContactDetails>();
 
-    auto business = Business { .name = "MongoDB" };
+    auto business = Business { 
+        .name = "MongoDB" 
+    };
+    
     business.contactDetails = ContactDetails { 
         .emailAddress = "email@example.com", 
         .phoneNumber = "123-456-7890"
