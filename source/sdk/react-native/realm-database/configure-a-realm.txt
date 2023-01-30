@@ -10,14 +10,13 @@ Configure a Realm - React Native SDK
    :depth: 2
    :class: singlecol
 
-The ``@realm/react`` library exposes realms throughout your application with 
+The ``@realm/react`` library exposes realms in your application using 
 `React Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
 components. You can access realms with React hooks.
 
 To open a local realm, create a Context with the realm's configuration. The 
-Context exports a ``RealmProvider`` component that exposes a realm with the 
-configuration passed to the Context. All child components of the ``RealmProvider`` 
-can access the realm using hooks.
+Context exports a ``RealmProvider`` component that exposes a configured realm. 
+All child components of ``RealmProvider`` can access the realm using hooks.
 
 To learn how to open a realm using Device Sync, refer to 
 :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
@@ -29,7 +28,8 @@ By passing a :js-sdk:`Configuration <Realm.html#~Configuration>` object to
 ``createRealmContext``, you can create a Context object that contains an open 
 realm and some hooks that give you access to the realm.
 
-The following example creates and exports a Context object so that it can be used elsewhere.
+The following example creates and exports a Context object so that it can be 
+used elsewhere.
 
 .. literalinclude:: /examples/generated/react-native/ts/index.snippet.create-realm-context.ts
    :language: javascript
@@ -69,10 +69,17 @@ by an in-memory realm are deleted when you close the realm.
 Open One or More Realms
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You can open more than one realm at a time by creating additional Contexts and ``RealmProvider`` components.
+You can open more than one realm at a time by creating additional Contexts and 
+``RealmProvider`` components.
 
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.two-realm-contexts.tsx
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.two-realm-contexts.tsx
    :language: javascript
+
+Encrypt a Realm
+~~~~~~~~~~~~~~~
+
+To encrypt a realm database file on disk, refer to 
+:ref:`Encrypt a Realm <react-native-encrypt-a-realm>`.
 
 Key Concept: Realm Files
 ------------------------

@@ -1,6 +1,5 @@
 // :snippet-start: configure-realm
 import React from 'react';
-
 import {RealmContext} from '../Models';
 // :remove-start:
 import {render} from '@testing-library/react-native';
@@ -23,6 +22,7 @@ function MyApp() {
   );
 }
 // :remove-end:
+
 function AppWrapperLocal() {
   const {RealmProvider} = RealmContext;
 

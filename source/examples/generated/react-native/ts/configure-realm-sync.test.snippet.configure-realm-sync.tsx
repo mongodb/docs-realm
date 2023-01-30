@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
-
 import {RealmContext} from '../Models';
+
 function AppWrapperSync() {
   const {RealmProvider} = RealmContext;
 

@@ -1,7 +1,8 @@
-// :snippet-start: configure-realm-sync
+// :snippet-start: two-realm-contexts
 import React from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
 import {RealmContext} from '../Models';
+import {SecondRealmContext} from '../Models';
 // :remove-start:
 import {render} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
@@ -24,8 +25,9 @@ function MyApp() {
 }
 // :remove-end:
 
-function AppWrapperSync() {
-  const {RealmProvider} = RealmContext;
+function AppWrapperTwoRealms() {
+  const {RealmProvider: RealmProvider} = RealmContext;
+  const {RealmProvider: SecondRealmProvider} = SecondRealmContext;
 
   return (
     <AppProvider id={APP_ID}>
@@ -33,12 +35,15 @@ function AppWrapperSync() {
         <RealmProvider sync={{flexible: true, onError: error => console.error(error)}}>
           <MyApp />
         </RealmProvider>
+        <SecondRealmProvider>
+          <MyApp />
+        </SecondRealmProvider>
       </UserProvider>
     </AppProvider>
   );
 }
 // :snippet-end:
 
-test('Instantiate RealmProvider correctly', () => {
-  render(<AppWrapperSync />);
+test('Instantiate SecondRealmProvider correctly', () => {
+  render(<AppWrapperTwoRealms />);
 });
