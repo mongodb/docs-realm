@@ -10,11 +10,11 @@ Configure a Realm - React Native SDK
    :depth: 2
    :class: singlecol
 
-The ``@realm/react`` library uses `React Context objects <https://reactjs.org/docs/context.html>`__
+The ``@realm/react`` library uses `React Context <https://reactjs.org/docs/context.html>`__
 to create and configure realms. You can access realms with React hooks.
 
 ``@realm/react`` automatically opens and closes realms for you. To manage how it
-does so, you need to pass props to the ``@realm/react`` Context Providers:
+does so, you need to pass configuration props to the ``@realm/react`` Context Providers:
 
 - ``<AppProvider>``
 - ``<UserProvider>``
@@ -30,15 +30,15 @@ By passing a :js-sdk:`Configuration <Realm.html#~Configuration>` object to
 ``createRealmContext``, you can create a Context object that contains an open 
 realm and some hooks that give you access to the realm.
 
-In this example, we create and export our config object so that it can be used elsewhere.
+The following example creates and exports a Context object so that it can be used elsewhere.
 
 .. literalinclude:: /examples/generated/react-native/js/index.snippet.create-realm-context.js
    :language: javascript
 
-Configure a realm with ``<RealmProvider>``
+Configure a Realm with ``<RealmProvider>``
 ------------------------------------------
 
-``<RealmProvider>`` is a wrapper for your Realm Database. All child components
+``<RealmProvider>`` is a wrapper that exposes a Context with Realm Database to its child components. All child components
 inside ``<RealmProvider>`` have access to hooks that let you read, write, and update
 data. This is what a local-only realm wrapper might look like:
 
@@ -58,7 +58,7 @@ and that a user with permissions exists to access your realm data.
 Open more than one realm
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can open more than one realm at a time by creating another Context object.
+You can open more than one realm at a time by creating additional Contexts and ``RealmProvider`` components.
 
 .. literalinclude:: /examples/generated/react-native/js/configure-realm-sync.test.snippet.two-realm-contexts.jsx
    :language: javascript
