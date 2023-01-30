@@ -35,7 +35,7 @@ struct Dog : realm::object<Dog> {
 // :snippet-end:
 
 struct Person : realm::object<Person> {
-    realm::persisted<int64_t> _id;
+    realm::persisted<std::string> _id;
     realm::persisted<std::string> name;
     realm::persisted<int64_t> age;
 
