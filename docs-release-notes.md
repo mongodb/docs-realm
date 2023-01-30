@@ -1,3 +1,17 @@
+# January 27, 2023
+
+## Flutter SDK
+- Realm Database
+  - Reorganize Table of contents and consolidate many existing entries into a new "Realm Database" section
+  - Model Data/Data Types
+    - Consolidate existing "Collections" content onto "Data Types" page
+    - Add a "RealmSet Collections" section with tested Bluehawked code examples showing how to use it
+  - Configure & Open a Realm: Add a "Copy Data into a New Realm" section with tested Bluehawked code examples showing how to use `writeCopy()`
+- Test and Debug: New "Test and Debug" page with strategies and tested Bluehawked code examples for testing and debugging Flutter apps that use Realm
+
+## Realm Studio
+- Open a Realm File: Update the JS example for finding a Realm file to a tested Bluehawked code example
+
 # January 20, 2023
 
 ## Flutter SDK
