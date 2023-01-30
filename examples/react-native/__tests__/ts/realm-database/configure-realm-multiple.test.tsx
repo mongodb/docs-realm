@@ -10,7 +10,7 @@ import {View, Text} from 'react-native';
 
 const APP_ID = 'example-testers-kvjdy';
 
-function MyApp() {
+function AppSectionOne() {
   const app = useApp();
 
   if (app.id !== APP_ID) {
@@ -23,20 +23,38 @@ function MyApp() {
     </View>
   );
 }
+
+function AppSectionTwo() {
+  const app = useApp();
+
+  if (app.id !== APP_ID) {
+    throw new Error('Did not instantiate app client');
+  }
+
+  return (
+    <View>
+      <Text>Bar</Text>
+    </View>
+  );
+}
 // :remove-end:
 
-function AppWrapperTwoRealms() {
+function TwoRealmsWrapper() {
   const {RealmProvider: RealmProvider} = RealmContext;
   const {RealmProvider: SecondRealmProvider} = SecondRealmContext;
 
   return (
     <AppProvider id={APP_ID}>
       <UserProvider>
-        <RealmProvider sync={{flexible: true, onError: error => console.error(error)}}>
-          <MyApp />
+        {/* This realm uses Flexible Sync. */}
+        <RealmProvider 
+          sync={{flexible: true, onError: error => console.error(error)}}
+        >
+          <AppSectionOne />
         </RealmProvider>
+        {/* This is a separate local-only realm. */}
         <SecondRealmProvider>
-          <MyApp />
+          <AppSectionTwo />
         </SecondRealmProvider>
       </UserProvider>
     </AppProvider>
@@ -45,5 +63,5 @@ function AppWrapperTwoRealms() {
 // :snippet-end:
 
 test('Instantiate SecondRealmProvider correctly', () => {
-  render(<AppWrapperTwoRealms />);
+  render(<TwoRealmsWrapper />);
 });
