@@ -109,3 +109,60 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
     ]);
   }
 }
+
+class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
+  Boat(
+    ObjectId id,
+    String name, {
+    int? maxKnots,
+    int? nauticalMiles,
+  }) {
+    RealmObjectBase.set(this, 'id', id);
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'maxKnots', maxKnots);
+    RealmObjectBase.set(this, 'nauticalMiles', nauticalMiles);
+  }
+
+  Boat._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+
+  @override
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
+  @override
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
+
+  @override
+  int? get maxKnots => RealmObjectBase.get<int>(this, 'maxKnots') as int?;
+  @override
+  set maxKnots(int? value) => RealmObjectBase.set(this, 'maxKnots', value);
+
+  @override
+  int? get nauticalMiles =>
+      RealmObjectBase.get<int>(this, 'nauticalMiles') as int?;
+  @override
+  set nauticalMiles(int? value) =>
+      RealmObjectBase.set(this, 'nauticalMiles', value);
+
+  @override
+  Stream<RealmObjectChanges<Boat>> get changes =>
+      RealmObjectBase.getChanges<Boat>(this);
+
+  @override
+  Boat freeze() => RealmObjectBase.freezeObject<Boat>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(Boat._);
+    return const SchemaObject(ObjectType.realmObject, Boat, 'naval_ship', [
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('name', RealmPropertyType.string),
+      SchemaProperty('maxKnots', RealmPropertyType.int, optional: true),
+      SchemaProperty('nauticalMiles', RealmPropertyType.int, optional: true),
+    ]);
+  }
+}

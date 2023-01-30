@@ -187,6 +187,26 @@ inverse relationships, and embedding objects within other objects.
 To learn more about how to define relationships in your Realm object schema,
 refer to :ref:`Relationships <flutter-client-relationships>`.
 
+.. _flutter-map-model-name:
+
+Map Realm Model to Different Name
+---------------------------------
+
+You can use the `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__
+annotation to map a Realm object model to a different model name in Realm Database.
+This can be useful in the following scenarios:
+
+- Working with one realm from different Realm SDKs
+- Migrating Realm object models
+- Adhering to certain code style conventions
+
+If you're using Atlas Device Sync, the name that you map to corresponds
+with the :ref:`App Services Schema <schemas>` name.
+
+.. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.map-to.dart
+   :language: dart
+   :emphasize-lines: 2
+
 .. _flutter-generate-realm-object:
 
 Generate the RealmObject
