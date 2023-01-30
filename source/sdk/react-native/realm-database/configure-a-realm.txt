@@ -10,18 +10,17 @@ Configure a Realm - React Native SDK
    :depth: 2
    :class: singlecol
 
-The ``@realm/react`` library uses `React Context <https://reactjs.org/docs/context.html>`__
-to create and configure realms. You can access realms with React hooks.
+The ``@realm/react`` library exposes realms throughout your application with 
+`React Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
+components. You can access realms with React hooks.
 
-``@realm/react`` automatically opens and closes realms for you. To manage how it
-does so, you need to pass configuration props to the ``@realm/react`` Context Providers:
+To open a local realm, create a Context with the realm's configuration. The 
+Context exports a ``RealmProvider`` component that exposes a realm with the 
+configuration passed to the Context. All child components of the ``RealmProvider`` 
+can access the realm using hooks.
 
-- ``<AppProvider>``
-- ``<UserProvider>``
-- ``<RealmProvider>``
-
-For Flexible Sync realms, you need all three Providers, nested in the order above.
-For local-only realms, you only need ``<RealmProvider>``.
+To learn how to open a realm using Device Sync, refer to 
+:ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
 Create a Context Object with ``createRealmContext``
 ---------------------------------------------------
@@ -34,6 +33,7 @@ The following example creates and exports a Context object so that it can be use
 
 .. literalinclude:: /examples/generated/react-native/ts/index.snippet.create-realm-context.ts
    :language: javascript
+   :caption: Models/index.js
 
 Configure a Realm with ``<RealmProvider>``
 ------------------------------------------
@@ -45,6 +45,12 @@ realm wrapper might look like:
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
    :language: javascript
+
+Open a Synced Realm
+~~~~~~~~~~~~~~~~~~~
+
+To open a realm that synchronizes data with Atlas using Device Sync,
+refer to :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
 Open an In-Memory Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
