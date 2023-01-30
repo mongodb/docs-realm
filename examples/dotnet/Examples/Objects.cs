@@ -146,8 +146,7 @@ namespace Examples.Models
         // ... other property declarations
         public IList<Dog_Rel_One_to_Many> Dogs { get; }
     }
-    // :replace-end:
-
+    
     partial class Dog_Inverse : IRealmObject
     {
         //:remove-start:
