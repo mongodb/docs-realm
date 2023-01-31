@@ -17,7 +17,7 @@ Overview
 
 An embedded object is a special type of :ref:`Realm object <react-native-object-schemas>`
 that models complex data about a specific object. Embedded objects are similar
-to :ref:`relationships <react-native-client-relationships>`, but they provide additional
+to :ref:`relationships <react-native-relationships>`, but they provide additional
 constraints and map more naturally to the denormalized :manual:`MongoDB document
 model </core/data-modeling-introduction/>`.
 
@@ -40,7 +40,7 @@ deleted.
    When you delete a Realm object, Realm automatically deletes any
    embedded objects referenced by that object. Any objects that your
    application must persist after the deletion of their parent object
-   should use :ref:`relationships <react-native-client-relationships>`
+   should use :ref:`relationships <react-native-relationships>`
    instead.
 
 Realm Object Models
