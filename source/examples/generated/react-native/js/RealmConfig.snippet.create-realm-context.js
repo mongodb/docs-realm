@@ -1,7 +1,7 @@
 import {createRealmContext} from '@realm/react';
 // Import all of your models.
-import Invoice from './Invoice';
-import Business from './Business';
+import Invoice from './ts/Models/Invoice';
+import Business from './ts/Models/Business';
 
 export const RealmContext = createRealmContext({
   // Pass all of your models into the schema value.

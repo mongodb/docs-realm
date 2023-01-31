@@ -14,37 +14,26 @@ The ``@realm/react`` library exposes realms in your application using
 `React Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
 components. You can access realms with React hooks.
 
-To open a local realm, create a Context with the realm's configuration. The 
+To configure and open a local realm, create a Context with the realm's configuration. The 
 Context exports a ``RealmProvider`` component that exposes a configured realm. 
 All child components of ``RealmProvider`` can access the realm using hooks.
 
 To learn how to open a realm using Device Sync, refer to 
 :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
-Create a Context Object with ``createRealmContext``
----------------------------------------------------
+Create a Context Object
+-----------------------
 
 By passing a :js-sdk:`Configuration <Realm.html#~Configuration>` object to 
-``createRealmContext``, you can create a Context object that contains an open 
+``createRealmContext()``, you create a Context object that contains an open 
 realm and some hooks that give you access to the realm.
 
 The following example creates and exports a Context object so that it can be 
 used elsewhere.
 
-.. literalinclude:: /examples/generated/react-native/ts/index.snippet.create-realm-context.ts
+.. literalinclude:: /examples/generated/react-native/js/RealmConfig.snippet.create-realm-context.js
    :language: javascript
-   :caption: Models/index.js
-
-Configure a Realm with ``<RealmProvider>``
-------------------------------------------
-
-``<RealmProvider>`` is a wrapper that exposes a Context with Realm Database to 
-its child components. All child components inside ``<RealmProvider>`` have access 
-to hooks that let you read, write, and update data. This is what a local-only 
-realm wrapper might look like:
-
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
-   :language: javascript
+   :caption: RealmConfig.js
 
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
@@ -59,27 +48,38 @@ To create a realm that runs entirely in memory without being written to a file,
 add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object:
 
-.. literalinclude:: /examples/generated/react-native/ts/index.snippet.in-memory-realm.ts
+.. literalinclude:: /examples/generated/react-native/js/RealmConfig.snippet.in-memory-realm.js
    :language: javascript
    :emphasize-lines: 3
 
 In-memory realms may use disk space if memory is running low, but files created 
 by an in-memory realm are deleted when you close the realm.
 
-Open One or More Realms
-~~~~~~~~~~~~~~~~~~~~~~~
+Encrypt a Realm
+~~~~~~~~~~~~~~~
+
+To encrypt a realm database file on disk, refer to 
+:ref:`Encrypt a Realm <react-native-encrypt-a-realm>`.
+
+Expose a Realm
+--------------
+
+``<RealmProvider>`` is a wrapper that exposes a Context with Realm Database to 
+its child components. All child components inside ``<RealmProvider>`` have access 
+to hooks that let you read, write, and update data. This is what a local-only 
+realm wrapper might look like:
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
+   :language: javascript
+
+Expose More Than One Realm
+--------------------------
 
 You can open more than one realm at a time by creating additional Contexts and 
 ``RealmProvider`` components.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.two-realm-contexts.tsx
    :language: javascript
-
-Encrypt a Realm
-~~~~~~~~~~~~~~~
-
-To encrypt a realm database file on disk, refer to 
-:ref:`Encrypt a Realm <react-native-encrypt-a-realm>`.
 
 Key Concept: Realm Files
 ------------------------

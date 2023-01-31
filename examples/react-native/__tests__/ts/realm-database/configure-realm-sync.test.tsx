@@ -1,7 +1,7 @@
 // :snippet-start: configure-realm-sync
 import React from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
-import {RealmContext} from '../Models';
+import {RealmContext} from '../../RealmConfig';
 // :remove-start:
 import {render} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
