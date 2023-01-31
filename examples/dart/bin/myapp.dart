@@ -36,10 +36,6 @@ void main(List<String> arguments) {
       realm.add(Car(ObjectId(), "Mercedes", model: 'G Wagon'));
     });
 
-    // Sync changes with the server
-    await realm.syncSession.waitForUpload();
-    await realm.syncSession.waitForDownload();
-
     // Create new configuration for the bundled realm.
     // You must specify a path separate from the realm you
     // are copying for Realm.writeCopy() to succeed.

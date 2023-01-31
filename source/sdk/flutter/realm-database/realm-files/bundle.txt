@@ -107,9 +107,7 @@ You should only bundle a synced realm if your use case meets the following crite
 To bundle a synced realm, perform the following:
 
 #. Connect to your App and authenticate a user to use Device Sync.
-#. Ensure that there are no pending sync processes.
-   Do this by calling :flutter-sdk:`Realm.syncSession.waitForUpload() <realm/Session/waitForUpload.html>`
-   and :flutter-sdk:`Realm.syncSession.waitForDownload() <realm/Session/waitForDownload.html>`.
+#. Add Data to the synced realm.
 #. Use :flutter-sdk:`Realm.writeCopy() <realm/Realm/writeCopy.html>` to create
    a new version of the synced realm. You **must** use ``Realm.writeCopy()``
    to bundle the synced realm because the method removes metadata that associates
