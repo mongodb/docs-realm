@@ -1,5 +1,5 @@
 import React from 'react';
-import {RealmContext} from '../../RealmConfig';
+import {RealmContext} from '../RealmConfig';
 
 function AppWrapperLocal() {
   const {RealmProvider} = RealmContext;

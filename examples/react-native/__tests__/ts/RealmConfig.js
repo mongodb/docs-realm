@@ -1,11 +1,11 @@
 // :snippet-start: create-realm-context
 import {createRealmContext} from '@realm/react';
 // Import all of your models.
-import Invoice from './ts/Models/Invoice';
-import Business from './ts/Models/Business';
+import Invoice from './Models/Invoice';
+import Business from './Models/Business';
 // :remove-start:
-import Address from './ts/Models/Address';
-import Contact from './ts/Models/Contact';
+import Address from './Models/Address';
+import Contact from './Models/Contact';
 // :remove-end:
 
 export const RealmContext = createRealmContext({

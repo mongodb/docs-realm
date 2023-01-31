@@ -1,6 +1,6 @@
 // :snippet-start: configure-realm
 import React from 'react';
-import {RealmContext} from '../../RealmConfig';
+import {RealmContext} from '../RealmConfig';
 // :remove-start:
 import {render} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
