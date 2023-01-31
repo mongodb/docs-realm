@@ -66,33 +66,13 @@ Manage Your Subscriptions
 When configuring Flexible Sync on the backend, you specify which fields your
 client application can query. In the client application, the
 :cpp-sdk:`sync_subscription_set <structrealm_1_1SyncSubscriptionSet.html>` 
-is a list of zero or more :cpp-sdk:`sync_subscriptions 
-<structrealm_1_1SyncSubscription.html>` that determine what objects the 
+is a list of zero or more :cpp-sdk:`sync_subscription 
+<structrealm_1_1SyncSubscription.html>` objects that determine what objects the 
 realm can store. 
 
 The Realm C++ SDK also has a :cpp-sdk:`mutable_sync_subscription_set 
 <structrealm_1_1MutableSyncSubscriptionSet.html>` that enables you to
-add, change, and remove subscriptions.
-
-You can do the following with your ``sync_subscription_set``:
-
-- Get the number of subscriptions
-- Find a specific subscription
-
-With a ``mutable_subscription_set`` you can:
-
-- Add a new subscription
-- Find a specific subscription
-- Update a specific subscription
-- Remove a specific subscription
-- Clear all subscriptions
-
-When you access a specific ``sync_subscription``, you can read or update its 
-attributes:
-
-- Reference the subscription by string ``name``
-- Find out when it was created (``created_at``) or updated (``updated_at``)
-- Check its string ``object_class_name`` and check or modify its ``query_string``
+add, change, and remove ``sync_subscription`` objects.
 
 .. _cpp-verify-subscription-size-find-subscription:
 
