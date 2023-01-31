@@ -135,7 +135,9 @@ class Car : RealmObject {
 // :snippet-end:
 
 // :snippet-start: define-object-type
-class Cat2 : RealmObject { // Defines a `Cat` object type
+// Defines a `Cat` object type
+// with several properties
+class Cat2 : RealmObject {
     var name: String = ""
     var color: String? = null
     var age: Int = 0

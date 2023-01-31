@@ -16,11 +16,11 @@ Overview
 Realm applications model data as objects composed of field-value
 pairs that each contain one or more data types or other Realm objects.
 
+The Kotlin SDK memory maps Realm objects directly to native Kotlin 
+objects, so there's no need to use a special data access library (such as an 
+:wikipedia:`ORM <Object-relational_mapping>`). 
 You define your application's data model via regular Kotlin classes declared
 in your application code object. 
-And because the Kotlin SDK memory maps Realm objects directly to native Kotlin 
-objects, there's no need to use a special data access library (such as an 
-:wikipedia:`ORM <Object-relational_mapping>`). 
 
 .. _kotlin-object-type:
 .. _kotlin-object-schema:
@@ -67,13 +67,15 @@ Define a New Object Type
 To define a Realm object type: 
 
 1. Create a uniquely named Kotlin class that implements the 
-`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ 
-or 
-`RealmEmbeddedObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
-interface. 
+   `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ 
+   or 
+   `RealmEmbeddedObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
+   interface. 
+
 #. Add fields to your class. You can add all :ref:`supported data types <kotlin-supported-types>`. 
+ 
 #. Add any property annotations to give Realm additional information about a 
-property, including whether Realm should ignore the property or should be indexed.
+   property, including whether Realm should ignore the property or should be indexed.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.define-object-type.kt
   :language: kotlin
@@ -87,7 +89,7 @@ when you :ref:`open the realm <kotlin-open-a-realm>`.
   :language: kotlin
   :emphasize-lines: 2
    
-Declare Properties
+Property Annotations
 --------------------
 
 Use annotations to add functionality to properties in your Realm object models.  
@@ -96,8 +98,8 @@ Required and Optional Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In Kotlin, value types are implicitly non-nullable. 
-You can make properties optional (nullable) by appending the safe call operator
-`?  <https://kotlinlang.org/docs/null-safety.html>`__
+You can make properties optional (nullable) by appending
+`?  <https://kotlinlang.org/docs/null-safety.html>`__.
 
 Include ``?`` to specify a property as optional.
 
@@ -120,13 +122,12 @@ Specify a Primary Key
 You can specify a property as the object type's primary key. 
 The primary key is a unique identifier for an object in a realm. 
 
-To specify a property as a primary key, use the ``@PrimaryKey`` annotation:
+To specify a property as a primary key, use the ``@PrimaryKey`` annotation. 
+For more information, refer to :ref:`Primary Keys <kotlin-primary-keys>`.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
   :language: kotlin
   :emphasize-lines: 2-3
-
-For more information, refer to :ref:`Primary Keys <kotlin-primary-keys>`.
 
 Ignore Properties from Realm Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -138,24 +139,22 @@ By default, Realm manages properties defined in your Realm object model.
  
 You can mix managed and ignored properties within a class. 
 
-To ignore a property, use the ``@Ignore`` annotation:
+To ignore a property, use the ``@Ignore`` annotation.
+For more information, refer to :ref:`Ignore a Field <kotlin-ignore>`.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
   :language: kotlin
   :emphasize-lines: 12-13
 
-For more information, refer to :ref:`Ignore a Field <kotlin-ignore>`.
-
 Index Properties
 ~~~~~~~~~~~~~~~~
 
-To create an index on a property, use the ``@Index`` annotation:
+To create an index on a property, use the ``@Index`` annotation. 
+For more information, refer to :ref:`Index a Field <kotlin-indices>`.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
   :language: kotlin
   :emphasize-lines: 5-6
-
-For more information, refer to :ref:`Index a Field <kotlin-indices>`.
 
 Define Relationship Properties
 ------------------------------
