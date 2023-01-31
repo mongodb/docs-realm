@@ -17,8 +17,7 @@ Realm applications model data as objects composed of field-value
 pairs that each contain one or more data types or other Realm objects.
 
 The Kotlin SDK memory maps Realm objects directly to native Kotlin 
-objects, so there's no need to use a special data access library (such as an 
-:wikipedia:`ORM <Object-relational_mapping>`). 
+objects, so there's no need to use a special data access library. 
 You define your application's data model via regular Kotlin classes declared
 in your application code object. 
 
@@ -51,13 +50,7 @@ You define object schemas by using Kotlin class declarations.
 Realm Schema
 ~~~~~~~~~~~~
 
-A **realm schema** is a list of valid object schemas that a realm may contain.
-Every Realm object must conform to an object type that's included in its realm's 
-schema. 
-
-If a realm already contains data when you open it, Realm Database
-validates each object to ensure that an object schema was provided for its type
-and that it meets all of the constraints specified in the schema.
+.. include:: /includes/realm-schema.rst
 
 .. _kotlin-define-a-new-object-type:
 
@@ -69,10 +62,10 @@ To define a Realm object type:
 1. Create a uniquely named Kotlin class that implements the 
    `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ 
    or 
-   `RealmEmbeddedObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
+   `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
    interface. 
 
-#. Add fields to your class. You can add all :ref:`supported data types <kotlin-supported-types>`. 
+#. Add fields to your class. You can add any :ref:`supported data types <kotlin-supported-types>` as a field in your class. 
  
 #. Add any property annotations to give Realm additional information about a 
    property, including whether Realm should ignore the property or should be indexed.
@@ -98,10 +91,8 @@ Required and Optional Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In Kotlin, value types are implicitly non-nullable. 
-You can make properties optional (nullable) by appending
-`?  <https://kotlinlang.org/docs/null-safety.html>`__.
-
-Include ``?`` to specify a property as optional.
+You can make properties optional (nullable) using
+the built-in ``?`` Kotlin operator.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
   :language: kotlin
