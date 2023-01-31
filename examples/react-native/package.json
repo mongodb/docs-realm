@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest --runInBand --forceExit ",
+    "test": "jest --onlyChanged --runInBand --forceExit ",
     "lint": "eslint --fix __tests__/ --ext .js,.jsx,.ts,.tsx",
     "prettier": "prettier --write __tests__/*"
   },
@@ -14,15 +14,16 @@
     "@realm/react": "^0.4.1",
     "react": "18.1.0",
     "react-native": "0.70.6",
-    "realm": "^11.0.0"
+    "realm": "^11.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/jest-native": "^4.0.13",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^11.2.0",
     "@tsconfig/react-native": "^2.0.2",
     "@types/jest": "^26.0.23",
