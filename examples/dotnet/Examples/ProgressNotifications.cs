@@ -86,9 +86,9 @@ namespace Examples
             {
                 realm.RemoveAll<ProgressObj>();
             });
-            // :snippet-start: remove-progress-notification
+
             token.Dispose();
-            // :snippet-end: remove-progress-notification
+
         }
 
         [Test]

@@ -9,6 +9,8 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Examples.Models;
+using System.Reflection;
+using System.Threading.Channels;
 
 namespace Examples
 {
@@ -135,19 +137,19 @@ namespace Examples
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
 
-            //:snippet-start:notifications
+            // :snippet-start:notifications
             // Observe realm notifications.
             realm.RealmChanged += (sender, eventArgs) =>
             {
-                // sender is the realm that has changed.
-                // eventArgs is reserved for future use.
+                // The "sender" object is the realm that has changed.
+                // "eventArgs" is reserved for future use.
                 // ... update UI ...
             };
             //:snippet-end:
 
             //:snippet-start:collection-notifications
-            // Observe collection notifications. Retain the token to keep observing.
-            var token = realm.All<Dog>()
+            // Watch for collection notifications.
+            var subscriptionToken = realm.All<Dog>()
                 .SubscribeForNotifications((sender, changes, error) =>
             {
                 if (error != null)
@@ -166,7 +168,6 @@ namespace Examples
                 }
 
                 // Handle individual changes
-
                 foreach (var i in changes.DeletedIndices)
                 {
                     // ... handle deletions ...
@@ -181,12 +182,31 @@ namespace Examples
                 {
                     // ... handle modifications ...
                 }
-            });
 
-            // Later, when you no longer wish to receive notifications
+                if (changes.IsCleared)
+                {
+                    // A special case if the collection has been cleared: 
+                    // i.e., all items have been deleted by calling
+                    // the Clear() method.
+                }
+            });
+            //:snippet-end:
+
+            //:snippet-start:unsub-collection-notifications
+            // Watch for collection notifications.
+            // Call Dispose() when you are done observing the
+            // collection.
+            var token = realm.All<Dog>()
+                .SubscribeForNotifications((sender, changes, error) =>
+                {
+                    // etc.
+                });
+            // When you no longer want to receive notifications:
             token.Dispose();
             //:snippet-end:
 
+            var dog = realm.All<Dog>()
+            .FirstOrDefault(p => p.Name == "Laura V.");
 
             realm.Write(() =>
             {
@@ -197,14 +217,25 @@ namespace Examples
             //  "terms": {
             //   "PersonN": "Person" }
             // }
-            var theKing = realm.All<PersonN>()
+            var artist = realm.All<PersonN>()
                 .FirstOrDefault(p => p.Name == "Elvis Presley");
 
-            theKing.PropertyChanged += (sender, eventArgs) =>
+            artist.PropertyChanged += (sender, eventArgs) =>
             {
-                Debug.WriteLine("New value set for The King: " +
-                    eventArgs.PropertyName);
+                var changedProperty = eventArgs.PropertyName;
+
+                Debug.WriteLine(
+                    $@"New value set for 'artist':
+                    '{changedProperty}' is now {artist.GetType()
+                    .GetProperty(changedProperty).GetValue(artist)}");
             };
+
+            realm.Write(() =>
+            {
+                artist.Name = "Elvis Costello";
+            });
+
+            realm.Refresh();
         }
         // :replace-end:
         //:snippet-end:
@@ -241,38 +272,7 @@ namespace Examples
                 fido.Owners.Add(helenWick);
             });
 
-            var changesHaveBeenCleared = false;
 
-            // :snippet-start: get-notification-if-collection-is-cleared
-            var token = fido.Owners.SubscribeForNotifications((sender, changes, error) =>
-            {
-                if (error != null) return;
-                if (changes == null) return;
-
-                if (changes.IsCleared)
-                {
-                    // ... handle collection has been cleared ...
-                    // :remove-start:
-                    changesHaveBeenCleared = true;
-                    // :remove-end:
-                }
-            });
-            // :snippet-end:
-
-            // :snippet-start: call-handle-collection-changed
-            fido.Owners.AsRealmCollection().CollectionChanged += HandleCollectionChanged;
-            // :snippet-end:
-
-            // :snippet-start: clear-collection
-            realm.Write(() =>
-            {
-                fido.Owners.Clear();
-            });
-            // :snippet-end:
-
-            realm.Refresh();
-
-            Assert.IsTrue(changesHaveBeenCleared);
             // :snippet-start: subscribe
             // :replace-start: {
             //  "terms": {
@@ -287,13 +287,36 @@ namespace Examples
             //:replace-end:
             //:snippet-end:
         }
-
-        // :snippet-start: define-handle-collection-changed
-        private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void CollectionChanged()
+        // :snippet-start: call-handle-collection-changed
         {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
+            //:remove-start:
+            var realm = Realm.GetInstance("");
+            var gracie = new Dog();
+            // :remove-end:
+            // Subscribe to a query
+            realm.All<Dog>().AsRealmCollection().CollectionChanged +=
+                HandleCollectionChanged;
+
+            // Subscribe to a property collection
+            gracie.Owners.AsRealmCollection().CollectionChanged +=
+                HandleCollectionChanged;
+            //:remove-start:
+        }
+        //:remove-end:
+        // :uncomment-start:
+        //    ...
+        //}
+        // 
+        // :uncomment-end:
+        private void HandleCollectionChanged(object sender,
+            NotifyCollectionChangedEventArgs e)
+        {
+            // Use e.Action to get the
+            // NotifyCollectionChangedAction type.
+            if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                // ... handle a CollectionChanged Event with action `Reset`
+                // etc.
             }
         }
         // :snippet-end:
@@ -303,34 +326,29 @@ namespace Examples
         {
             Realm realm;
 
-
             public NotificationUnsub()
             {
                 realm = Realm.GetInstance("");
             }
-            //:snippet-start:unsubscribe
             private IQueryable<Item> items;
-
-            public void LoadUI()
+            private void foo()
             {
-                items = realm.All<Item>();
+                //:snippet-start:unsubscribe
+                // Unsubscribe from notifications on a
+                // collection of realm objects
+                realm.All<Item>().AsRealmCollection()
+                    .CollectionChanged -= OnItemsChangedHandler;
 
-                // Subscribe for notifications - since items is IQueryable<Item>, we're
-                // using the AsRealmCollection extension method to cast it to IRealmCollection
-                items.AsRealmCollection().CollectionChanged += OnItemsChanged;
+                // Unsubscribe from notifications on a
+                // collection property
+                items.AsRealmCollection().CollectionChanged -= OnItemsChangedHandler;
+                // :snippet-end:
             }
 
-            public void UnloadUI()
+            private void OnItemsChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
             {
-                // Unsubscribe from notifications
-                items.AsRealmCollection().CollectionChanged -= OnItemsChanged;
+                throw new NotImplementedException();
             }
-
-            private void OnItemsChanged(object sender, NotifyCollectionChangedEventArgs args)
-            {
-                // Do something with the notification information
-            }
-            // :snippet-end:
         }
 
         public class PersonN : RealmObject

@@ -42,11 +42,7 @@ namespace Examples
                 realm.RemoveAll<Item>();
             });
 
-            // :snippet-start: open-synced-realm-sync
-            // :uncomment-start:
-            // var synchronousRealm = await Realm.GetInstanceAsync(config);
-            // :uncomment-end:
-            // :snippet-end:
+
             // :snippet-start: create
             var testItem = new Item
             {
@@ -72,25 +68,7 @@ namespace Examples
             // :snippet-start: anon-login
             var user = await app.LogInAsync(Credentials.Anonymous());
             // :snippet-end:
-            // :snippet-start: config
-            config = new PartitionSyncConfiguration("myPart", user);
-            //:remove-start:
-            config.Schema = new[]
-            {
-                typeof(Item),
-                typeof(User)
-            };
-            //:remove-end:
-            var realm = await Realm.GetInstanceAsync(config);
-            // :snippet-end:
-            // :snippet-start: read-all
-            var items = realm.All<Item>();
-            // :snippet-end:
-            //Assert.AreEqual(1, items.Count(),"Get All");
-            // :snippet-start: read-some
-            items = realm.All<Item>().Where(i => i.Status == "Open");
-            // :snippet-end:
-            //Assert.AreEqual(1, items.Count(), "Get Some");
+
             return;
         }
 
@@ -107,7 +85,7 @@ namespace Examples
             };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
-            // :snippet-start: modify
+
             var i = realm.All<Item>()
                 .FirstOrDefault(i => i.Id == testItemId);
 
@@ -116,7 +94,7 @@ namespace Examples
                 i.Status = ItemStatus.InProgress.ToString();
             });
 
-            // :snippet-end:
+
             var ttest = realm.All<Item>().FirstOrDefault(x => x.Id == i.Id);
             Assert.AreEqual(ItemStatus.InProgress.ToString(), ttest.Status);
 
@@ -136,12 +114,12 @@ namespace Examples
                 {
                     realm.Add(myItem);
                 });
-                // :snippet-start: delete
+
                 realm.Write(() =>
                 {
                     realm.Remove(myItem);
                 });
-                // :snippet-end:
+
                 realm.Write(() =>
                 {
                     realm.RemoveAll<Item>();

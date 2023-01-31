@@ -1,5 +1,5 @@
-// Observe collection notifications. Retain the token to keep observing.
-var token = realm.All<Dog>()
+// Watch for collection notifications.
+var subscriptionToken = realm.All<Dog>()
     .SubscribeForNotifications((sender, changes, error) =>
 {
     if (error != null)
@@ -18,7 +18,6 @@ var token = realm.All<Dog>()
     }
 
     // Handle individual changes
-
     foreach (var i in changes.DeletedIndices)
     {
         // ... handle deletions ...
@@ -33,7 +32,11 @@ var token = realm.All<Dog>()
     {
         // ... handle modifications ...
     }
-});
 
-// Later, when you no longer wish to receive notifications
-token.Dispose();
+    if (changes.IsCleared)
+    {
+        // A special case if the collection has been cleared: 
+        // i.e., all items have been deleted by calling
+        // the Clear() method.
+    }
+});

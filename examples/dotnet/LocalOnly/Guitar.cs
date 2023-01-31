@@ -3,7 +3,7 @@ using Realms;
 
 namespace LocalOnly
 {
-    //:snippet-start:guitar-object
+
     public partial class Guitar : IRealmObject
     {
         [PrimaryKey]
@@ -19,5 +19,5 @@ namespace LocalOnly
 
         public string Owner { get; set; }
     }
-    //:snippet-end:
+
 }
