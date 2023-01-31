@@ -1,8 +1,8 @@
 .. _react-native-configure-realm:
 
-=======================================
+====================================
 Configure a Realm - React Native SDK
-=======================================
+====================================
 
 .. contents:: On this page
    :local:
@@ -21,8 +21,8 @@ All child components of ``RealmProvider`` can access the realm using hooks.
 To learn how to open a realm using Device Sync, refer to 
 :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
-Create a Context Object
------------------------
+Create Realm Configuration
+--------------------------
 
 By passing a :js-sdk:`Configuration <Realm.html#~Configuration>` object to 
 ``createRealmContext()``, you create a Context object that contains an open 
@@ -35,14 +35,14 @@ used elsewhere.
    :language: javascript
    :caption: RealmConfig.js
 
-Open a Synced Realm
-~~~~~~~~~~~~~~~~~~~
+Configure a Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 To open a realm that synchronizes data with Atlas using Device Sync,
 refer to :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
-Open an In-Memory Realm
-~~~~~~~~~~~~~~~~~~~~~~~
+Configure an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a realm that runs entirely in memory without being written to a file,
 add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
