@@ -66,7 +66,7 @@ describe("Manage email/password users", () => {
 
       await app.emailPasswordAuth.callResetPasswordFunction(
         { email, password },
-        args
+        ...args
       );
       // :snippet-end:
     });
