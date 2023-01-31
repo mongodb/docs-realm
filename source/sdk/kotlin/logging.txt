@@ -1,0 +1,42 @@
+.. _kotlin-logging:
+
+====================
+Logging - Kotlin SDK
+====================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Kotlin SDK logs events to the Android system log automatically. 
+You can view these events using 
+:android:`Logcat </studio/debug/am-logcat>`. 
+
+.. _kotlin-set-client-log-level:
+
+Set the Client Log Level
+------------------------
+
+To configure the log level for Realm logs in your application, pass a 
+`LogLevel <{+kotlin-local-prefix+}io.realm.kotlin.log/-log-level/index.html>`__
+to the 
+`log configuration <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/log.html>`__
+for the realm instance:
+
+.. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.set-log-level.kt
+    :language: kotlin
+
+.. include:: /includes/tip-sync-log-levels.rst
+
+Customize the Logging Function
+------------------------------
+
+To set a custom logger function, set the  to a custom Logger function. 
+
+
+    
