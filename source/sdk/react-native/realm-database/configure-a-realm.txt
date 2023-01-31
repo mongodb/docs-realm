@@ -1,0 +1,112 @@
+.. _react-native-configure-realm:
+
+====================================
+Configure a Realm - React Native SDK
+====================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The ``@realm/react`` library exposes realms in your application using 
+`React Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
+components. You can access realms with React hooks.
+
+To configure and open a local realm, create a Context with the realm's configuration. The 
+Context exports a ``RealmProvider`` component that exposes a configured realm. 
+All child components of ``RealmProvider`` can access the realm using hooks.
+
+To learn how to open a realm using Device Sync, refer to 
+:ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
+
+Create Realm Configuration
+--------------------------
+
+By passing a :js-sdk:`Configuration <Realm.html#~Configuration>` object to 
+``createRealmContext()``, you create a Context object that contains an open 
+realm and some hooks that give you access to the realm.
+
+The following example creates and exports a Context object so that it can be 
+used elsewhere.
+
+.. literalinclude:: /examples/generated/react-native/js/RealmConfig.snippet.create-realm-context.js
+   :language: javascript
+   :caption: RealmConfig.js
+
+Configure a Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+To open a realm that synchronizes data with Atlas using Device Sync,
+refer to :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
+
+Configure an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a realm that runs entirely in memory without being written to a file,
+add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object:
+
+.. literalinclude:: /examples/generated/react-native/js/RealmConfig.snippet.in-memory-realm.js
+   :language: javascript
+   :emphasize-lines: 3
+
+In-memory realms may use disk space if memory is running low, but files created 
+by an in-memory realm are deleted when you close the realm.
+
+Encrypt a Realm
+~~~~~~~~~~~~~~~
+
+To encrypt a realm database file on disk, refer to 
+:ref:`Encrypt a Realm <react-native-encrypt-a-realm>`.
+
+Expose a Realm
+--------------
+
+``<RealmProvider>`` is a wrapper that exposes a Context with Realm Database to 
+its child components. All child components inside ``<RealmProvider>`` have access 
+to hooks that let you read, write, and update data. This is what a local-only 
+realm wrapper might look like:
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
+   :language: javascript
+
+Expose More Than One Realm
+--------------------------
+
+You can open more than one realm at a time by creating additional Contexts and 
+``RealmProvider`` components.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.two-realm-contexts.tsx
+   :language: javascript
+
+Key Concept: Realm Files
+------------------------
+
+Realm Database stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at a specific path that
+you define when you open the realm.
+
+.. tip:: Implement Compacting in Your Production Application
+
+   Every production application should implement a ``shouldCompactOnLaunch`` 
+   callback to periodically reduce the realm file size.
+
+.. note:: Auxiliary Realm Files
+   
+   Realm Database creates additional files for each realm.
+   To learn more about these files, see :ref:`Realm Database Internals <react-native-realm-database>`.
+
+.. warning:: Use Caution When Deleting Realm Files
+   
+   In some circumstances, such as a client reset scenario, you might need to
+   delete a realm file and its auxiliary files.
+   
+   If you delete a realm file or any of its auxiliary files while one or
+   more instances of the realm are open, you might corrupt the realm or
+   disrupt :ref:`sync <sync>`.
+   
+   You may safely delete these files when all instances of a realm are
+   closed. Before you delete a realm file, make sure that you back up any
+   important objects as you will lose all unsynced data in the realm.
