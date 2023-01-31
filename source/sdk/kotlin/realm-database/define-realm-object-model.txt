@@ -1,0 +1,167 @@
+.. _kotlin-define-object-model:
+
+========================================
+Define a Realm Object Model - Kotlin SDK
+========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm applications model data as objects composed of field-value
+pairs that each contain one or more data types or other Realm objects.
+
+You define your application's data model via regular Kotlin classes declared
+in your application code object. 
+And because the Kotlin SDK memory maps Realm objects directly to native Kotlin 
+objects, there's no need to use a special data access library (such as an 
+:wikipedia:`ORM <Object-relational_mapping>`). 
+
+.. _kotlin-object-type:
+.. _kotlin-object-schema:
+
+Object Types & Schemas
+----------------------
+
+Realm objects are regular Kotlin classes, and you can work with them 
+as you would any other class instance. 
+
+- Every Realm object has an **object type** that refers to the object's class.
+- Objects of the same type share an **object schema**, which defines the 
+  properties and :ref:`relationships <kotlin-relationships>` for objects of that 
+  type.
+
+You define object schemas by using Kotlin class declarations.
+
+.. example::
+   
+  The following schema defines a ``Car`` object type with 
+  ``make``, ``model``, and ``miles`` properties:
+   
+  .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.example-schema.kt
+    :language: kotlin
+
+.. _kotlin-realm-schema:
+
+Realm Schema
+~~~~~~~~~~~~
+
+A **realm schema** is a list of valid object schemas that a realm may contain.
+Every Realm object must conform to an object type that's included in its realm's 
+schema. 
+
+If a realm already contains data when you open it, Realm Database
+validates each object to ensure that an object schema was provided for its type
+and that it meets all of the constraints specified in the schema.
+
+.. _kotlin-define-a-new-object-type:
+
+Define a New Object Type
+------------------------
+
+To define a Realm object type: 
+
+1. Create a uniquely named Kotlin class that implements the 
+`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ 
+or 
+`RealmEmbeddedObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
+interface. 
+#. Add fields to your class. You can add all :ref:`supported data types <kotlin-supported-types>`. 
+#. Add any property annotations to give Realm additional information about a 
+property, including whether Realm should ignore the property or should be indexed.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.define-object-type.kt
+  :language: kotlin
+
+Once you've defined your object model, you can pass the class to the ``schema`` 
+property of the 
+`RealmConfiguration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__ 
+when you :ref:`open the realm <kotlin-open-a-realm>`.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.open-with-class.kt
+  :language: kotlin
+  :emphasize-lines: 2
+   
+Declare Properties
+--------------------
+
+Use annotations to add functionality to properties in your Realm object models.  
+
+Required and Optional Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In Kotlin, value types are implicitly non-nullable. 
+You can make properties optional (nullable) by appending the safe call operator
+`?  <https://kotlinlang.org/docs/null-safety.html>`__
+
+Include ``?`` to specify a property as optional.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 8
+
+Default Field Values
+~~~~~~~~~~~~~~~~~~~~
+
+You can assign a default value to a property in the property declaration.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 10
+
+Specify a Primary Key
+~~~~~~~~~~~~~~~~~~~~~
+
+You can specify a property as the object type's primary key. 
+The primary key is a unique identifier for an object in a realm. 
+
+To specify a property as a primary key, use the ``@PrimaryKey`` annotation:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 2-3
+
+For more information, refer to :ref:`Primary Keys <kotlin-primary-keys>`.
+
+Ignore Properties from Realm Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, Realm manages properties defined in your Realm object model. 
+
+- **Managed properties** are stored or updated in the database.
+- **Ignored properties** are *not* stored to the database. 
+ 
+You can mix managed and ignored properties within a class. 
+
+To ignore a property, use the ``@Ignore`` annotation:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 12-13
+
+For more information, refer to :ref:`Ignore a Field <kotlin-ignore>`.
+
+Index Properties
+~~~~~~~~~~~~~~~~
+
+To create an index on a property, use the ``@Index`` annotation:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 5-6
+
+For more information, refer to :ref:`Index a Field <kotlin-indices>`.
+
+Define Relationship Properties
+------------------------------
+
+You can define relationships between Realm objects in your schema. 
+The Realm Kotlin SDK supports to-one relationships, to-many relationships, 
+inverse relationships, and embedding objects within other objects. 
+
+To learn more about how to define relationships in your Realm object schema, refer to :ref:`Relationships <kotlin-relationships>`.

@@ -10,11 +10,14 @@ Ignore a Field - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-To prevent a field from persisting in Realm Database or showing up in
-your Realm Schema, use the 
+To prevent a field from persisting in Realm Database or being included
+in the ``RealmObject`` :ref:`object schema <kotlin-object-schema>`, use the 
 `@Ignore <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-ignore/index.html>`__
 annotation:
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.ignore.kt
    :language: kotlin
-   :copyable: false
+
+Ignored properties behave exactly like normal properties, but they are 
+not stored to the database.  
+They can't be used in queries and won't trigger Realm notifications.

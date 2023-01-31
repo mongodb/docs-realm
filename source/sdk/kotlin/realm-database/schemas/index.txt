@@ -17,11 +17,15 @@ a minimum of 12 bytes.
 
 To index a field, use the `@Index
 <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-index/index.html>`__
-annotation:
+annotation in the :ref:`object schema <kotlin-object-schema>`:
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.index.kt
    :language: kotlin
    :copyable: false
+
+.. note:: 
+
+   :ref:`Primary keys <kotlin-primary-keys>` are indexed by default.
 
 Indexes support the efficient execution of queries in Realm Database.
 Without indexes, Realm Database must perform a collection scan, i.e.,
