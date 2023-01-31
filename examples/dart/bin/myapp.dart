@@ -23,10 +23,10 @@ void main(List<String> arguments) {
     // You must connect to the Device Sync server with an authenticated
     // user to work with the synced realm.
     final app = App(AppConfiguration(APP_ID));
-    final user = await app.logIn(Credentials.anonymous());
+    // Check if current user exists and log anonymous user if not.
+    final user = app.currentUser ?? await app.logIn(Credentials.anonymous());
 
-    final config =
-        Configuration.flexibleSync(user, [Car.schema], path: 'bundle.realm');
+    final config = Configuration.flexibleSync(user, [Car.schema]);
     final realm = Realm(config);
 
     // Add data to realm
@@ -40,7 +40,14 @@ void main(List<String> arguments) {
     await realm.syncSession.waitForUpload();
     await realm.syncSession.waitForDownload();
 
-    print("Bundled realm location: " + realm.config.path);
+    // Create new configuration for the bundled realm.
+    // You must specify a path separate from the realm you
+    // are copying for Realm.writeCopy() to succeed.
+    final bundledConfig =
+        Configuration.flexibleSync(user, [Car.schema], path: 'bundle.realm');
+    realm.writeCopy(bundledConfig);
+
+    print("Bundled realm location: " + bundledConfig.path);
     realm.close();
     // :snippet-end:
   }

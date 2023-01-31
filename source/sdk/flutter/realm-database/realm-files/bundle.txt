@@ -43,7 +43,6 @@ realm database file in your Flutter app.
      and ensure that no version ever stays current for more than
      **client maximum offline time** number of days.
 
-
 .. procedure::
 
    .. step:: Create a Realm File for Bundling
@@ -56,27 +55,8 @@ realm database file in your Flutter app.
       Get the path to the realm file with the :flutter-sdk:`Realm.config.path <realm/Configuration/path.html>`
       property.
 
-      .. tabs::
-
-         .. tab:: Local Realm
-            :tabid: copy_local
-
-            .. literalinclude:: /examples/generated/flutter/myapp.snippet.create-bundle.dart
-               :language: dart
-
-         .. tab:: Synced Realm
-            :tabid: copy_synced
-
-            Before you bundle a synced realm, you must connect to your App and
-            authenticate a user to use Device Sync.
-
-            You must also ensure that there are no pending sync processes.
-            You do this by calling :flutter-sdk:`Realm.syncSession.waitForUpload()
-            <realm/Session/waitForUpload.html>`
-            and :flutter-sdk:`Realm.syncSession.waitForDownload() <realm/Session/waitForDownload.html>`.
-
-            .. literalinclude:: /examples/generated/flutter/myapp.snippet.create-synced-bundle.dart
-               :language: dart
+      .. literalinclude:: /examples/generated/flutter/myapp.snippet.create-bundle.dart
+         :language: dart
 
       .. tip:: Create Bundled Realm with Dart Standalone SDK
 
@@ -123,3 +103,45 @@ realm database file in your Flutter app.
       .. literalinclude:: /examples/generated/flutter/main.snippet.include-bundled-realm.dart
          :language: dart
          :caption: lib/main.dart
+
+.. _flutter-bundle-synced-realm:
+
+Bundle a Synced Realm
+---------------------
+
+In most cases, you should **not** bundle a synced realm. If the bundled realm
+was last updated further in the past than :ref:`client maximum offline time
+<client-maximum-offline-time>`, the user experiences a client reset
+the first time they open the bundled realm file. The client reset causes
+the application to download the full state of the realm from the application backend.
+This negates the advantages of bundling a realm file.
+
+Rather than bundling a synced realm, you can bootstrap application data using
+sync subscriptions. To learn more, refer to :ref:`Manage Sync Subscriptions
+<flutter-flexible-sync-manage-subscriptions>`.
+
+You should only bundle a synced realm if your use case meets the following criteria:
+
+- You can ensure that the users have a version of the app with the bundled synced realm
+  that is less old than the client maximum offline time.
+- The initial bundled data is very large **and** app is being used in a situation
+  with limited internet bandwidth, so an initial data download using sync subscriptions
+  would take too long.
+
+To bundle a synced realm, perform the following:
+
+#. Connect to your App and authenticate a user to use Device Sync.
+#. Ensure that there are no pending sync processes.
+   Do this by calling :flutter-sdk:`Realm.syncSession.waitForUpload() <realm/Session/waitForUpload.html>`
+   and :flutter-sdk:`Realm.syncSession.waitForDownload() <realm/Session/waitForDownload.html>`.
+#. Use :flutter-sdk:`Realm.writeCopy() <realm/Realm/writeCopy.html>` to create
+   a new version of the synced realm. You **must** use ``Realm.writeCopy()``
+   to bundle the synced realm because the method removes metadata that associates
+   the realm with the user in the configuration, which allows other users
+   to open the realm file as well.
+
+.. literalinclude:: /examples/generated/flutter/myapp.snippet.create-synced-bundle.dart
+   :language: dart
+
+After you create the bundled realm, follow the instructions from the above sections
+**Bundle a Realm File in Your Production Application** and **Open a Realm from a Bundled Realm File**.
