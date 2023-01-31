@@ -226,7 +226,7 @@ is a Google SDK that lets users sign up to or log in to a website with one click
           });
           // Callback used in `data-callback` to handle Google's response and log user into App Services
           function handleCredentialsResponse(response) {
-            const credentials = Realm.Credentials.google(response.credential);
+            const credentials = Realm.Credentials.google({ id_token: response.credential });
             app
               .logIn(credentials)
               .then((user) => alert(`Logged in with id: ${user.id}`));
