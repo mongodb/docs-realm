@@ -12,6 +12,6 @@ class Project(): RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     lateinit var name: String
-    lateinit var tasks: Array<Task>
+    lateinit var tasks: RealmList<Task>
     var quota: Int? = null
 }
