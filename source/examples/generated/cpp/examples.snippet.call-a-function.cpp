@@ -15,6 +15,6 @@ CHECK(result);
 auto bsonResult = result.value();
 
 // Translate the BSON result back to a string
-std::string resultString = std::string(bsonResult);
+auto resultString = std::string(bsonResult);
 // Prints "Calling the concatenate function returned john.smith@companyemail.com."
 std::cout << "Calling the concatenate function returned " << resultString << ".\n";
