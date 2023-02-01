@@ -6,7 +6,7 @@
    :dotnet-sdk:`IAsymmetricObject <reference/Realms.IAsymmetricObject.html>`
    interface and should be declared ``partial`` classes.
 
-   You can also derive derive from the 
+   You can also derive from the 
    :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
    :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
    :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`

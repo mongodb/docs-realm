@@ -10,28 +10,33 @@ Primary Keys - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-Define a primary key for an object type with the ``@PrimaryKey`` annotation:
+To define a primary key for an object type, use the `@PrimaryKey
+<{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-primary-key/index.html>`__
+annotation:
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.primary-key.kt
    :language: kotlin
-   :copyable: false
 
 Realm Database treats fields marked with the ``@PrimaryKey`` annotation
-as primary keys for their corresponding object schema. Primary keys are
-subject to the following limitations:
+as primary keys for their corresponding  :ref:`object schema <kotlin-object-schema>`. 
+The primary key is a unique identifier for an object in a realm.
+No other objects of the same type may share an object's primary key.
+
+Important aspects of primary keys:
 
 - You can define only one primary key per object schema.
-
+- You cannot change the primary key field for an object type after
+  adding any object of that type to a realm.
 - Primary key values must be unique across all instances of an object
   in a realm. Attempting to insert a duplicate primary key value results
   in an error.
-
-- Primary key **values** are immutable. To change the primary key value of
+- Primary key values are immutable. To change the primary key value of
   an object, you must delete the original object and insert a new object
   with a different primary key value.
-
-- You cannot change the primary key **field** for an object type after
-  adding any object of that type to a realm.
+- Primary keys are nullable. ``null`` can only be the primary key of one object
+  in a collection.
+- Realm automatically indexes primary keys, so you can efficiently 
+  read and modify objects based on their primary key.
 
 You can create a primary key with any of the following types:
 
@@ -43,11 +48,4 @@ You can create a primary key with any of the following types:
 - ``Long``
 - ``ObjectId``
 - ``RealmUUID``
-
-Optional fields can contain a value of null as a primary key value,
-but only for one object of a particular type, since each primary key
-value must be unique. Attempting to insert an object with an existing
-primary key into a realm results in an error.
-
-Realm Database automatically indexes primary key fields, which allows
-you to efficiently read and modify objects based on their primary key.
+ 

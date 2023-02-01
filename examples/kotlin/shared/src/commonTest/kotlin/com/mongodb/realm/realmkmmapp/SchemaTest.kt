@@ -28,7 +28,9 @@ import org.mongodb.kbson.ObjectId
 
 // :replace-start: {
 //    "terms": {
-//       "Frog2": "Frog"
+//       "Frog2": "Frog",
+//       "Cat2": "Cat",
+//       "Cat3": "Cat"
 //    }
 // }
 
@@ -124,6 +126,41 @@ class Cat: RealmObject {
 }
 // :snippet-end:
 
+// :snippet-start: example-schema
+class Car : RealmObject {
+    var make: String = ""
+    var model: String = ""
+    var miles: Int = 0
+}
+// :snippet-end:
+
+// :snippet-start: define-object-type
+// Defines a `Cat` object type
+// with several properties
+class Cat2 : RealmObject {
+    var name: String = ""
+    var color: String? = null
+    var age: Int = 0
+}
+// :snippet-end:
+
+// :snippet-start: declare-properties
+class Cat3 : RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId() // Primary key
+
+    @Index
+    var name: String = "" // Indexed property
+
+    var color: String? = null // Optional property
+
+    var age: Int = 0 // 0 is default value
+
+    @Ignore
+    var tempId: Int = 0 // Ignored property
+}
+// :snippet-end:
+
 // :snippet-start: timestamp-workaround
 // model class that stores an Instant (kotlinx-datetime) field as a RealmInstant via a conversion
 class RealmInstantConversion : RealmObject {
@@ -172,10 +209,16 @@ class SchemaTest: RealmTest() {
     @Test
     fun createUUIDTypes() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(Cat::class))
+            // :snippet-start: open-with-class
+            val config = RealmConfiguration.Builder(
+                schema = setOf(Cat::class) // Pass the defined class as the object schema
+            )
+                // :remove-start:
                 .directory("/tmp/") // default location for jvm is... in the project root
+                // :remove-end:
                 .build()
             val realm = Realm.open(config)
+            // :snippet-end:
             Log.v("Successfully opened realm: ${realm.configuration.name}")
 
             // Delete cats to make this test successful on consecutive reruns
