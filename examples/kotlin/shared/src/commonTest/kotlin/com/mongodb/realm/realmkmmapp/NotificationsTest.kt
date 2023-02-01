@@ -111,6 +111,9 @@ class NotificationsTest: RealmTest() {
                     }
                 }
             }
+            // :remove-start:
+            job.cancel() // cancelling job to keep from hanging (no active changes in this test)
+            // :remove-end:
             // Listen for changes on RealmResults
             val hobbits = realm.query(Character::class, "species == 'Hobbit'")
             val hobbitJob = CoroutineScope(Dispatchers.Default).launch {
@@ -120,7 +123,7 @@ class NotificationsTest: RealmTest() {
                 }
             }
             // :snippet-end:
-
+            hobbitJob.cancel() // cancelling job to keep from hanging  (no active changes in this test)
             realm.close()
         }
     }
@@ -161,7 +164,7 @@ class NotificationsTest: RealmTest() {
                 }
             }
             // :snippet-end:
-
+            job.cancel() // cancelling job to keep from hanging  (no active changes in this test)
             realm.close()
         }
     }
@@ -206,7 +209,7 @@ class NotificationsTest: RealmTest() {
                 }
             }
             // :snippet-end:
-
+            job.cancel() // cancelling job to keep from hanging  (no active changes in this test)
             realm.close()
         }
     }
