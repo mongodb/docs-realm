@@ -7,5 +7,5 @@ const args = [];
 
 await app.emailPasswordAuth.callResetPasswordFunction(
   { email, password },
-  args
+  ...args
 );
