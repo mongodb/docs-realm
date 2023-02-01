@@ -335,6 +335,10 @@ namespace Examples
             {
                 //:snippet-start:unsubscribe
                 // Unsubscribe from notifications on a
+                // realm listener
+                realm.RealmChanged -= OnRealmChanged;
+
+                // Unsubscribe from notifications on a
                 // collection of realm objects
                 realm.All<Item>().AsRealmCollection()
                     .CollectionChanged -= OnItemsChangedHandler;
@@ -343,6 +347,11 @@ namespace Examples
                 // collection property
                 items.AsRealmCollection().CollectionChanged -= OnItemsChangedHandler;
                 // :snippet-end:
+            }
+
+            private void OnRealmChanged(object sender, EventArgs e)
+            {
+                throw new NotImplementedException();
             }
 
             private void OnItemsChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
