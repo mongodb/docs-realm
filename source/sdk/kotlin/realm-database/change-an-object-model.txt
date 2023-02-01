@@ -16,11 +16,12 @@ Change an Object Model - Kotlin SDK
 Overview
 --------
 
-You can change the schema of a Realm object after you first create it.  
+You can make changes to your object schema after you 
+:ref:`create your Realm object model <kotlin-define-object-model>`.  
 Depending on the type of changes you make to the schema, the changes can be 
 automatically applied or require a manual update to the new schema.  
 
-- Realm will automatically update a Realm object schema when you add or 
+- Realm will automatically update a Realm :ref:`object schema <kotlin-object-schema>` when you add or 
   delete a property from a Realm object model. 
   You only need to update the schema version.
 - For all other schema changes, you must manually migrate old instances 
@@ -42,7 +43,7 @@ Schema Version
 --------------
 
 A **schema version** identifies the state of a 
-realm schema at some point in time. 
+:ref:`realm schema<kotlin-realm-schema>` at some point in time. 
 Realm Database tracks the schema version of each realm and uses it to map the
 objects in each realm to the correct schema.
 
