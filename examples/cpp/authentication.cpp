@@ -131,7 +131,7 @@ TEST_CASE("sign in with Facebook", "[realm][sync]") {
     // :snippet-end:
 }
 
-TEST_CASE("sign in with apple", "[realm][sync]") {
+TEST_CASE("sign in with Apple", "[realm][sync]") {
     // :snippet-start: apple
     auto app = realm::App(INSERT_APP_ID_HERE);
 
@@ -142,6 +142,34 @@ TEST_CASE("sign in with apple", "[realm][sync]") {
     // :remove-end:
     // :uncomment-start:
     //auto user = app.login(realm::App::credentials::apple(idToken)).get_future().get();
+    // :uncomment-end:
+    // :snippet-end:
+}
+
+TEST_CASE("sign in with Google Auth Code", "[realm][sync]") {
+    // :snippet-start: google-auth-code
+    auto app = realm::App(INSERT_APP_ID_HERE);
+    
+    // :remove-start:
+    // Flutter does not test the third-party login credentials so taking this approach here
+    // :remove-end:
+    // The auth_code below is the user's server auth code you got from Google
+    // :uncomment-start:
+    // auto user = app.login(realm::App::credentials::google(auth_code)).get_future().get();
+    // :uncomment-end:
+    // :snippet-end:
+}
+
+TEST_CASE("sign in with Google ID Token", "[realm][sync]") {
+    // :snippet-start: google-id-token
+    auto app = realm::App(INSERT_APP_ID_HERE);
+    
+    // :remove-start:
+    // Flutter does not test the third-party login credentials so taking this approach here
+    // :remove-end:
+    // The id_token below is the user's OpenID Connect id_token you got from the Google OAuth response
+    // :uncomment-start:
+    // auto user = app.login(realm::App::credentials::google(id_token)).get_future().get();
     // :uncomment-end:
     // :snippet-end:
 }
