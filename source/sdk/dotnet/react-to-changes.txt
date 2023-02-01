@@ -72,11 +72,8 @@ the indicator.
 Watch for Collection Changes
 ----------------------------
 
-You can also watch for changes to collections that implement 
-`IList
-<https://docs.microsoft.com/en-us/dotnet/api/system.collections.ilist?view=net-6.0>`__
-or `ISet
-<https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.iset-1?view=net-6.0>`__. 
+You can watch for changes on a collection of realm objects and realm 
+:ref:`collection <dotnet-client-collections>` properties on an object.
 There are two ways to be notified about changes to a collection: register a 
 notification handler on the collection or handle the `CollectionChanged 
 <https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged?view=net-6.0>`__ 
@@ -102,15 +99,15 @@ write transaction adds, modifies, or removes objects in the collection.
 Specifically, the notification contains a :dotnet-sdk:`ChangeSet <reference/Realms.ChangeSet.html>` 
 with 6 properties:
 
-- ``DeletedIndices`` is an int32[] that contains the indices of the objects that were 
+- ``DeletedIndices`` is an ``int[]`` that contains the indices of the objects that were 
   deleted.
-- ``InsertedIndices`` is an int32[] that contains the indices of the objects that were 
+- ``InsertedIndices`` is an ``int[]`` that contains the indices of the objects that were 
   inserted.
-- ``ModifiedIndices`` is an int32[] that contains the *old* indices of the objects 
+- ``ModifiedIndices`` is an ``int[]`` that contains the *old* indices of the objects 
   that were modified. These indices indicate the position of the modified objects 
   in the original collection before any deletions or insertions ocurred. 
-- ``NewModifiedIndices`` is an int32[] that represents the same entries as the 
-  ModifiedIndices property, but the indices represent the new locations in the 
+- ``NewModifiedIndices`` is an ``int[]`` that represents the same entries as the 
+  ``ModifiedIndices`` property, but the indices represent the new locations in the 
   collection after all changes have been accounted for.
 - ``IsCleared`` is a boolean set to ``true`` when a collection has been cleared by 
   calling the ``Clear()`` method.
@@ -121,7 +118,7 @@ with 6 properties:
 To subscribe to collection notifications, call the 
 :dotnet-sdk:`SubscribeForNotifications <reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_SubscribeForNotifications__1_System_Collections_Generic_IDictionary_System_String___0__Realms_NotificationCallbackDelegate_System_Collections_Generic_KeyValuePair_System_String___0___>` 
 method. ``SubscribeForNotifications`` returns a subscription token which can be 
-cancelled at any time to stop receiving notifications on the collection. 
+disposed at any time to stop receiving notifications on the collection. 
 
 The following code shows how to observe a collection for changes. 
 
@@ -135,7 +132,7 @@ The following code shows how to observe a collection for changes.
 
    1. deletions
    #. insertions
-   #. modifications. 
+   #. modifications 
    
    Handling insertions before deletions may result in unexpected behavior.
 
