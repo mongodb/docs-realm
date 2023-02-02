@@ -9,17 +9,27 @@ final user = app.currentUser ?? await app.logIn(Credentials.anonymous());
 final config = Configuration.flexibleSync(user, [Car.schema]);
 final realm = Realm(config);
 
+// Add subscription that's the same as the one in your main app
+realm.subscriptions.update((mutableSubscriptions) {
+  mutableSubscriptions.add(realm.all<Car>());
+});
+await realm.subscriptions.waitForSynchronization();
+
 // Add data to realm
 realm.write(() {
   realm.add(Car(ObjectId(), "Audi", model: 'A8'));
   realm.add(Car(ObjectId(), "Mercedes", model: 'G Wagon'));
 });
 
+// Sync changes with the server
+await realm.syncSession.waitForUpload();
+await realm.syncSession.waitForDownload();
+
 // Create new configuration for the bundled realm.
 // You must specify a path separate from the realm you
 // are copying for Realm.writeCopy() to succeed.
-final bundledConfig =
-    Configuration.flexibleSync(user, [Car.schema], path: 'bundle.realm');
+final bundledConfig = Configuration.flexibleSync(user, [Car.schema],
+    path: 'sync_bundle.realm');
 realm.writeCopy(bundledConfig);
 
 print("Bundled realm location: " + bundledConfig.path);

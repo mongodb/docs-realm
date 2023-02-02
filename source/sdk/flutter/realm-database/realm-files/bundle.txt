@@ -103,11 +103,17 @@ You should only bundle a synced realm if your use case meets the following crite
 - The initial bundled data is very large **and** app is being used in a situation
   with limited internet bandwidth, so an initial data download using sync subscriptions
   would take too long.
+- All app users have backend permission to view the data included in the bundle.
+  If a user doesn't have permission to view this data, it will be removed from
+  their device when the realm sync with Atlas via a :ref:`compensating write error
+  <flutter-compensating-writes>`.
 
 To bundle a synced realm, perform the following:
 
 #. Connect to your App and authenticate a user to use Device Sync.
+#. Add a subscription to the realm. You need a subscription to write to a synced realm.
 #. Add Data to the synced realm.
+#. Sync all changes with the Device Sync server.
 #. Use :flutter-sdk:`Realm.writeCopy() <realm/Realm/writeCopy.html>` to create
    a new version of the synced realm. You **must** use ``Realm.writeCopy()``
    to bundle the synced realm because the method removes metadata that associates
