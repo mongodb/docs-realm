@@ -117,7 +117,7 @@ To bundle a synced realm, perform the following:
 #. Use :flutter-sdk:`Realm.writeCopy() <realm/Realm/writeCopy.html>` to create
    a new version of the synced realm. You **must** use ``Realm.writeCopy()``
    to bundle the synced realm because the method removes metadata that associates
-   the realm with the user in the configuration, which allows other users
+   the realm with the user, which allows other users
    to open the realm file as well.
 
 .. literalinclude:: /examples/generated/flutter/myapp.snippet.create-synced-bundle.dart
