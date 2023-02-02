@@ -37,7 +37,7 @@ TEST_CASE("create and log in an email/password user", "[realm][sync]") {
     // :snippet-start: log-user-out
     user.log_out().get_future().get();
     // :snippet-end:
-    CHECK(user.state() == realm::user::state::logged_out);
+    REQUIRE(user.access_token().empty());
 }
 
 TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
@@ -48,7 +48,7 @@ TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
     // :snippet-end:
     REQUIRE(!user.access_token().empty());
     user.log_out().get_future().get();
-    CHECK(user.state() == realm::user::state::removed);
+    REQUIRE(user.access_token().empty());
 }
 
 TEST_CASE("test API key authentication", "[realm][sync]") {
@@ -67,11 +67,13 @@ TEST_CASE("test API key authentication", "[realm][sync]") {
     // :snippet-end:
     // REQUIRE(!user.access_token().empty());
     // user.log_out().get_future().get();
-    // CHECK(user.state() == realm::user::state::logged_out);
+    // REQUIRE(user.access_token().empty());
 }
 
 TEST_CASE("test custom function authentication", "[realm][sync]") {
     // :snippet-start: custom-function
+    // Custom function authentication takes a BSON Document with parameters.
+    // The parameter details vary depending on how you define your custom authentication function.
     realm::bson::BsonDocument params = {{ "username", "bob" }};
 
     auto app = realm::App(INSERT_APP_ID_HERE);
@@ -80,7 +82,7 @@ TEST_CASE("test custom function authentication", "[realm][sync]") {
     // :snippet-end:
     REQUIRE(!user.access_token().empty());
     user.log_out().get_future().get();
-    CHECK(user.state() == realm::user::state::logged_out);
+    REQUIRE(user.access_token().empty());
 }
 
 TEST_CASE("test custom JWT authentication", "[realm][sync]") {
@@ -113,7 +115,7 @@ TEST_CASE("test get user access token", "[realm][sync]") {
     // :snippet-end:
     REQUIRE(!userAccessToken.empty());
     user.log_out().get_future().get();
-    CHECK(user.state() == realm::user::state::removed);
+    REQUIRE(user.access_token().empty());
 }
 
 TEST_CASE("sign in with Facebook", "[realm][sync]") {
