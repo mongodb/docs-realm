@@ -64,6 +64,12 @@ struct AllTypesObject : realm::object<AllTypesObject> {
     // :snippet-start: optional-uuid
     realm::persisted<std::optional<realm::uuid>> optUuidName;
     // :snippet-end:
+    // :snippet-start: required-object-id
+    realm::persisted<realm::object_id> objectIdName;
+    // :snippet-end:
+    // :snippet-start: optional-object-id
+    realm::persisted<std::optional<realm::object_id>> optObjectIdName;
+    // :snippet-end:
     // :snippet-start: required-mixed-type
     realm::persisted<realm::mixed> mixedName;
     // :snippet-end:
@@ -104,7 +110,8 @@ TEST_CASE("required supported types", "[write]") {
             .enumName = AllTypesObject::Enum::one,
             // The below line causes this test to hang indefinitely running from the terminal, but works in Xcode
             // .binaryDataName = std::vector<uint8_t>{0,1,2},
-            .uuidName = realm::uuid()
+            .uuidName = realm::uuid(),
+            .objectIdName = realm::object_id::generate()
         };
 
         realm.write([&realm, &allRequiredTypesObject] {
@@ -142,7 +149,8 @@ TEST_CASE("optional supported types", "[write]") {
             .enumName = AllTypesObject::Enum::one,
             // The below line causes this test to hang indefinitely running from the terminal, but works in Xcode
             // .binaryDataName = std::vector<uint8_t>{0,1,2},
-            .uuidName = realm::uuid()
+            .uuidName = realm::uuid(),
+            .objectIdName = realm::object_id::generate()
         };
 
         realm.write([&realm, &allRequiredAndOptionalTypesObject] {
@@ -158,6 +166,7 @@ TEST_CASE("optional supported types", "[write]") {
             // Currently leaving this commented out due to issue reported in ln 53 above
             // allRequiredAndOptionalTypesObject.optBinaryDataName = std::vector<uint8_t>{3,4,5};
             allRequiredAndOptionalTypesObject.optUuidName = realm::uuid();
+            allRequiredAndOptionalTypesObject.optObjectIdName = realm::object_id::generate();
         });
 
        auto allTypeObjects = realm.objects<AllTypesObject>();
