@@ -56,6 +56,9 @@ contains a constant value:
 
       // Invalid Flexible Sync query. Do not do this!
       "{'comedy', 'horror', 'suspense'} IN genres"
+      
+      // Another invalid Flexible Sync query. Do not do this!
+      "ANY {'comedy', 'horror', 'suspense'} != ANY genres"
 
 Embedded or Linked Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
