@@ -20,7 +20,8 @@ Embedded objects are similar to :ref:`relationships
 
 Realm treats each embedded object as nested data inside of a single specific
 parent object.
-An embedded object inherits the lifecycle of its parent object.
+An embedded object inherits the lifecycle of its 
+`parent <{+kotlin-local-prefix+}io.realm.kotlin.ext/parent.html>`__ object.
 It cannot exist as an independent Realm object. 
 
 Embedded objects have the following properties: 
@@ -47,10 +48,6 @@ To define an embedded object, derive a class from `EmbeddedRealmObject <{+kotlin
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.embedded-object-model.kt 
     :language: kotlin
 
-
-Read and Write Embedded Objects
--------------------------------
-
 Once your embedded object class is defined, you must include its schema in the
 realm's 
 `configuration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__:
@@ -59,8 +56,12 @@ realm's
     :language: kotlin 
     :emphasize-lines: 3
 
+
+Read and Write Embedded Objects
+-------------------------------
+
 Create an Embedded Object
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create an embedded object, assign an instance of the embedded object
 to a parent object's property:
@@ -100,9 +101,6 @@ object property value:
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.query-embedded-objects.kt 
     :language: kotlin
 
-.. tip:: 
-
-    You can use the `parent <{+kotlin-local-prefix+}io.realm.kotlin.ext/parent.html>`__ property to access the parent of the embedded object.
 
 Delete an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,10 +113,8 @@ Delete an Embedded Object
    parent object, use a regular Realm object with a :ref:`to-one relationship 
    <kotlin-to-one-relationship>` instead.
 
-To delete an embedded object, you can either: 
-
-- Delete the embedded object from the parent. 
-- Delete the parent, which also deletes the embedded object.  
+To delete an embedded object, you can delete the embedded object or delete the 
+parent, which also deletes the embedded object:  
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.delete-embedded-object.kt 
     :language: kotlin
