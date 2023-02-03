@@ -1,0 +1,66 @@
+.. _kotlin-embedded-objects:
+
+=============================
+Embedded Objects - Kotlin SDK
+=============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+An embedded object is a 
+
+
+An embedded object is a special type of :ref:`Realm object
+<kotlin-object-type>` that models complex data about a specific object.
+Embedded objects are similar to :ref:`relationships
+<kotlin-relationships>`, but they provide additional constraints.
+
+Realm treats each embedded object as nested data inside of a single specific
+parent object.
+An embedded object inherits the lifecycle of its parent object.
+It cannot exist as an independent Realm object. 
+
+Embedded objects have the following properties: 
+
+- Embedded objects are deleted when their parent object is deleted 
+  or their parent no longer references them. 
+- Embedded objects cannot have a :ref:`primary key <kotlin-primary-keys>`. 
+- You cannot reassign an embedded object to a different parent object.
+- You cannot link to an embedded object from multiple parent objects. 
+- You can only query an embedded object by accessing it through its parent object.
+
+.. tip:: Embedded Object Types are Reusable and Composable
+
+   You can use the same embedded object type in multiple parent object types, and
+   you can embed objects inside other embedded objects. You can even
+   recursively reference an embedded object type as an optional property in its
+   own definition.
+
+.. warning:: Realm Uses Cascading Deletes for Embedded Objects
+
+   When you delete a Realm object, Realm automatically deletes any
+   embedded objects referenced by that object. 
+   If you want the referenced objects to persist after the deletion of the 
+   parent object, use a regular Realm object with a :ref:`to-one relationship 
+   <kotlin-to-one-relationship>` instead.
+
+Define an Embedded Object
+-------------------------
+
+To define an embedded object, derive a class from `EmbeddedRealmObject <{+kotlin-local-prefix+}/io.realm.kotlin.types/-embedded-realm-object/index.html>`__. 
+
+.. literalinclude:: /examples/generated/kotlin/ .snippet.embedded-object-model.kt 
+
+You can use the 
+`parent <{+kotlin-local-prefix+}io.realm.kotlin.ext/parent.html>`__ 
+property to access the parent of the embedded object.
+
+
+Read and Write Embedded Objects
+-------------------------------
