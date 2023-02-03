@@ -46,11 +46,7 @@ struct AllTypesObject : realm::object<AllTypesObject> {
     realm::persisted<std::vector<std::uint8_t>> binaryDataName;
     // :snippet-end:
     // :snippet-start: optional-binary-data
-    // When I try to declare an optional binary from this syntax, I get these two errors:
-    // Implicit instantiation of undefined template 'realm::type_info::persisted_type<realm::BinaryData>'
-    // Incomplete definition of type 'realm::type_info::persisted_type<realm::BinaryData>'
-    // In cpp/cpprealm/persisted.cpp at ln 128
-    // realm::persisted<std::optional<std::vector<std::uint8_t>>> optBinaryDataName;
+    realm::persisted<std::optional<std::vector<std::uint8_t>>> optBinaryDataName;
     // :snippet-end:
     // :snippet-start: required-date
     realm::persisted<std::chrono::time_point<std::chrono::system_clock>> dateName;
@@ -89,14 +85,13 @@ struct AllTypesObject : realm::object<AllTypesObject> {
         realm::property<&AllTypesObject::enumName>("enumName"),
         realm::property<&AllTypesObject::optEnumName>("optEnumName"),
         realm::property<&AllTypesObject::binaryDataName>("binaryDataName"),
-        // realm::property<&AllTypesObject::optBinaryDataName>("optBinaryDataName"),
+        realm::property<&AllTypesObject::optBinaryDataName>("optBinaryDataName"),
         realm::property<&AllTypesObject::uuidName>("uuidName"),
         realm::property<&AllTypesObject::optUuidName>("optUuidName"),
         realm::property<&AllTypesObject::mixedName>("mixedName"),
         realm::property<&AllTypesObject::listTypeName>("listTypeName"));
 };
 
-#if 0
 TEST_CASE("required supported types", "[write]") {
 
     auto realm = realm::open<AllTypesObject>();
@@ -107,16 +102,15 @@ TEST_CASE("required supported types", "[write]") {
             .intName = 1,
             .doubleName = 1.1,
             .stringName = "Fluffy",
+            .mixedName = realm::mixed("mixed data"),
             .enumName = AllTypesObject::Enum::one,
-            // The below line causes this test to hang indefinitely running from the terminal, but works in Xcode
-            // .binaryDataName = std::vector<uint8_t>{0,1,2},
+            .binaryDataName = std::vector<uint8_t>{0,1,2},
             .uuidName = realm::uuid(),
             .objectIdName = realm::object_id::generate()
         };
 
         realm.write([&realm, &allRequiredTypesObject] {
             realm.add(allRequiredTypesObject);
-            allRequiredTypesObject.mixedName = "mixed data";
             allRequiredTypesObject.listTypeName.push_back("Rex");
         });
 
@@ -126,15 +120,16 @@ TEST_CASE("required supported types", "[write]") {
         REQUIRE(specificAllTypeObjects.intName == 1);
         REQUIRE(specificAllTypeObjects.doubleName == 1.1);
         REQUIRE(specificAllTypeObjects.stringName == "Fluffy");
-        REQUIRE(specificAllTypeObjects.enumName == AllTypesObject::Enum::one);
-        // REQUIRE(specificAllTypeObjects->binaryDataName == std::vector<uint8_t>{0,1,2});
-        REQUIRE(specificAllTypeObjects.mixedName == std::string("mixed data"));
+        REQUIRE(*specificAllTypeObjects.enumName == AllTypesObject::Enum::one);
+        REQUIRE(specificAllTypeObjects.binaryDataName == std::vector<uint8_t>{0,1,2});
+        REQUIRE(*specificAllTypeObjects.mixedName == realm::mixed("mixed data"));
         REQUIRE(specificAllTypeObjects.listTypeName[0] == "Rex");
-    }
-    // Clean up after the test
-    removeAll(realm);
-}
 
+        realm.write([&realm, &allRequiredTypesObject] {
+            realm.remove(allRequiredTypesObject);
+        });
+    }
+}
 
 TEST_CASE("optional supported types", "[write]") {
 
@@ -147,46 +142,44 @@ TEST_CASE("optional supported types", "[write]") {
             .doubleName = 1.1,
             .stringName = "Fluffy",
             .enumName = AllTypesObject::Enum::one,
-            // The below line causes this test to hang indefinitely running from the terminal, but works in Xcode
-            // .binaryDataName = std::vector<uint8_t>{0,1,2},
+            .binaryDataName = std::vector<uint8_t>{0,1,2},
             .uuidName = realm::uuid(),
-            .objectIdName = realm::object_id::generate()
+            .objectIdName = realm::object_id::generate(),
+            .mixedName = realm::mixed("mixed data"),
+            .optBoolName = false,
+            .optIntName = 42,
+            .optDoubleName = 42.42,
+            .optStringName = "Maui",
+            .optEnumName = AllTypesObject::Enum::two,
+            .optUuidName = realm::uuid(),
+            .optObjectIdName = realm::object_id::generate(),
+            .optBinaryDataName = std::vector<uint8_t>{3,4,5}
         };
 
         realm.write([&realm, &allRequiredAndOptionalTypesObject] {
             realm.add(allRequiredAndOptionalTypesObject);
-            allRequiredAndOptionalTypesObject.mixedName = "mixed data";
             allRequiredAndOptionalTypesObject.listTypeName.push_back("Rex");
-            // Set optional values
-            allRequiredAndOptionalTypesObject.optBoolName = false;
-            allRequiredAndOptionalTypesObject.optIntName = 42;
-            allRequiredAndOptionalTypesObject.optDoubleName = 42.42;
-            allRequiredAndOptionalTypesObject.optStringName = "Maui";
-            allRequiredAndOptionalTypesObject.optEnumName = AllTypesObject::Enum::two;
-            // Currently leaving this commented out due to issue reported in ln 53 above
-            // allRequiredAndOptionalTypesObject.optBinaryDataName = std::vector<uint8_t>{3,4,5};
-            allRequiredAndOptionalTypesObject.optUuidName = realm::uuid();
-            allRequiredAndOptionalTypesObject.optObjectIdName = realm::object_id::generate();
         });
 
        auto allTypeObjects = realm.objects<AllTypesObject>();
        auto specificAllTypeObjects = allTypeObjects[0];
-       REQUIRE(specificAllTypeObjects->boolName == true);
+       REQUIRE(specificAllTypeObjects.boolName == true);
        REQUIRE(specificAllTypeObjects.intName == 1);
-       REQUIRE(specificAllTypeObjects->doubleName == 1.1);
+       REQUIRE(specificAllTypeObjects.doubleName == 1.1);
        REQUIRE(specificAllTypeObjects.stringName == "Fluffy");
-       REQUIRE(specificAllTypeObjects.enumName == AllTypesObject::Enum::one);
-       // REQUIRE(specificAllTypeObjects->binaryDataName == std::vector<uint8_t>{0,1,2});
-       REQUIRE(specificAllTypeObjects.mixedName == std::string("mixed data"));
+       REQUIRE(*specificAllTypeObjects.enumName == AllTypesObject::Enum::one);
+       REQUIRE(specificAllTypeObjects.binaryDataName == std::vector<uint8_t>{0,1,2});
+       REQUIRE(*specificAllTypeObjects.mixedName == realm::mixed("mixed data"));
        REQUIRE(specificAllTypeObjects.listTypeName[0] == "Rex");
-       REQUIRE(specificAllTypeObjects->optBoolName == false);
-       REQUIRE(specificAllTypeObjects.optIntName == 42);
-       REQUIRE(specificAllTypeObjects->optDoubleName == 42.42);
+       REQUIRE(specificAllTypeObjects.optBoolName == false);
+       REQUIRE(*specificAllTypeObjects.optIntName == 42);
+       REQUIRE(specificAllTypeObjects.optDoubleName == 42.42);
        REQUIRE(specificAllTypeObjects.optStringName == "Maui");
-       REQUIRE(specificAllTypeObjects.optEnumName == AllTypesObject::Enum::two);
-        // REQUIRE(specificAllTypeObjects->optBinaryDataName == std::vector<uint8_t>{3,4,5});
+       REQUIRE(*specificAllTypeObjects.optEnumName == AllTypesObject::Enum::two);
+       REQUIRE(*specificAllTypeObjects.optBinaryDataName == std::vector<uint8_t>{3,4,5});
+
+        realm.write([&realm, &allRequiredAndOptionalTypesObject] {
+            realm.remove(allRequiredAndOptionalTypesObject);
+        });
     }
-    // Clean up after the test
-    removeAll(realm);
 }
-#endif
