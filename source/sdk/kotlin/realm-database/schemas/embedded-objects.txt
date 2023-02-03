@@ -13,9 +13,6 @@ Embedded Objects - Kotlin SDK
 Overview
 --------
 
-An embedded object is a 
-
-
 An embedded object is a special type of :ref:`Realm object
 <kotlin-object-type>` that models complex data about a specific object.
 Embedded objects are similar to :ref:`relationships
@@ -42,6 +39,74 @@ Embedded objects have the following properties:
    recursively reference an embedded object type as an optional property in its
    own definition.
 
+Define an Embedded Object
+-------------------------
+
+To define an embedded object, derive a class from `EmbeddedRealmObject <{+kotlin-local-prefix+}/io.realm.kotlin.types/-embedded-realm-object/index.html>`__: 
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.embedded-object-model.kt 
+    :language: kotlin
+
+
+Read and Write Embedded Objects
+-------------------------------
+
+Once your embedded object class is defined, you must include its schema in the
+realm's 
+`configuration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.open-realm-embedded-object.kt 
+    :language: kotlin 
+    :emphasize-lines: 3
+
+Create an Embedded Object
+-------------------------
+
+To create an embedded object, assign an instance of the embedded object
+to a parent object's property:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.create-embedded-object.kt 
+    :language: kotlin
+
+
+Update an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To update a property in an embedded object, modify the property in a
+write transaction:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.update-embedded-object.kt 
+    :language: kotlin
+
+
+Overwrite an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To overwrite an embedded object, reassign the embedded object properties to a new 
+instance in a write transaction:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.overwrite-embedded-object.kt 
+    :language: kotlin
+
+
+Query a Collection on Embedded Object Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use dot notation to filter or sort a collection of objects based on an embedded 
+object property value:
+
+.. include:: /includes/directly-query-embedded-objects-note.rst
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.query-embedded-objects.kt 
+    :language: kotlin
+
+.. tip:: 
+
+    You can use the `parent <{+kotlin-local-prefix+}io.realm.kotlin.ext/parent.html>`__ property to access the parent of the embedded object.
+
+Delete an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. warning:: Realm Uses Cascading Deletes for Embedded Objects
 
    When you delete a Realm object, Realm automatically deletes any
@@ -50,17 +115,10 @@ Embedded objects have the following properties:
    parent object, use a regular Realm object with a :ref:`to-one relationship 
    <kotlin-to-one-relationship>` instead.
 
-Define an Embedded Object
--------------------------
+To delete an embedded object, you can either: 
 
-To define an embedded object, derive a class from `EmbeddedRealmObject <{+kotlin-local-prefix+}/io.realm.kotlin.types/-embedded-realm-object/index.html>`__. 
+- Delete the embedded object from the parent. 
+- Delete the parent, which also deletes the embedded object.  
 
-.. literalinclude:: /examples/generated/kotlin/ .snippet.embedded-object-model.kt 
-
-You can use the 
-`parent <{+kotlin-local-prefix+}io.realm.kotlin.ext/parent.html>`__ 
-property to access the parent of the embedded object.
-
-
-Read and Write Embedded Objects
--------------------------------
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.delete-embedded-object.kt 
+    :language: kotlin
