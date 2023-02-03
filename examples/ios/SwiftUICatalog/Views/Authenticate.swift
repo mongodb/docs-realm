@@ -80,10 +80,10 @@ struct FlexibleSyncContentView: View {
 
 // :snippet-start: flexible-sync-view-with-client-reset-handling
 struct FlexSyncContentView: View {
-    // Observe the Realm app object in order to react to login state changes.
+    // Observe the Realm App object in order to react to login state changes.
     @ObservedObject var flexibleSyncApp: RealmSwift.App
     // Use the error handler that you've injected into the environment
-    // to react to Sync errors.
+    // to react to Device Sync errors.
     // :uncomment-start:
     //@EnvironmentObject var errorHandler: ErrorHandler
     // :uncomment-end:
@@ -111,7 +111,7 @@ struct FlexSyncContentView: View {
                         // Existing subscriptions found - do nothing
                         return
                     } else {
-                        // Add queries for any objects you want to use in the app
+                        // Add queries for any objects you want to use in the app.
                         // Linked objects do not automatically get queried, so you
                         // must explicitly query for all linked objects you want to include.
                         subs.append(QuerySubscription<SwiftUI_Person>(name: "people"))

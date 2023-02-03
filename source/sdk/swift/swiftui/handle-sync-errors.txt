@@ -50,9 +50,8 @@ view hierarchy as an environment object. In this example, we display an
 
 Then, in the view where you are observing the Realm ``App``, you can use the 
 error handler as an ``@EnvironmentObject`` to react to Sync errors. An 
-error that occurs here pops up an alert for the user, thanks to the ``.alert``
-set in the view above. To see this in action, if you're following along
-with the template app, try registering a user that already exists.
+error that occurs here pops up an alert for the user, using the ``.alert``
+set in the view above.
 
 .. literalinclude:: /examples/generated/swiftui/HandleSyncErrors.snippet.use-app-and-error-handler-in-next-view.swift
    :language: swift
@@ -63,9 +62,9 @@ Handle Client Reset Errors
 --------------------------
 
 A client reset error is a specific type of Sync error that occurs when the 
-realm on the user's device can no longer sync with the backend. For more
-information about the underlying error and recovery options, refer to:
-:ref:`ios-client-reset`.
+realm on the user's device can no longer sync with the App Services App. 
+For more information about the underlying error and recovery options, 
+refer to: :ref:`ios-client-reset`.
 
 Realm's SwiftUI property wrappers ``@AsyncOpen`` and ``@AutoOpen`` enable
 you to handle a client reset error by adding a few things to your app:
@@ -105,35 +104,46 @@ It never progresses past the ``.connecting`` state. The next time the user
 opens the app, it loads without issue.
 
 You can take some action in the ``afterClientReset`` block to handle this in
-your app. You might set a ``@State`` variable, modify its value in the 
+your app. You could set a ``@State`` variable, modify its value in the 
 ``afterClientResetBlock``, and use that to instruct the user to 
-re-open the app when a client reset occurs. Or you might force the 
+re-open the app when a client reset occurs. Or you could force the 
 ``@AsyncOpen`` or ``@AutoOpen`` View to reload using the updated realm.
 
 Verify Client Reset Works as Expected
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To test that your client reset implementation is working, you can trigger
+To test that your client reset implementation is working, you trigger
 a client reset by terminating and re-enabling Device Sync.
 
 .. warning::
 
    Test client reset handling in a development app that does not have 
-   public users. Triggering a client reset using this method triggers it 
-   for *all* app users. If your app does not yet have a functional client
-   reset handler, this can leave users in a bad app state.
+   external users. Triggering a client reset using this method causes a 
+   client reset for *all* app users.
 
-Open your app on the device. Add some data to your app. Then, stop your 
-app.
+.. procedure::
 
-Follow the instructions in the Device Sync documentation to :ref:`terminating-realm-sync`.
-You should see a ``TranslatorFatalError Error`` message in the App Services 
-logs, indicating that Sync has terminated. Then, :ref:`re-enable-realm-sync`. 
+   .. step:: Run the App and Add Data
 
-When you run the app on your device again, it should trigger a client reset 
-error. Verify that you see any relevant log messages that you added to your 
-code while implementing the client reset logic, and that the device
-resets the realm and successfully loads fresh data from the backend.
+      Open your app on the device. Add some data to your app. Then, stop your 
+      app.
 
-Repeat until you are satisfied with the client reset implementation in your
-SwiftUI app.
+   .. step:: Trigger a Client Reset
+
+      Follow the instructions in the Device Sync documentation to 
+      :ref:`terminating-realm-sync`. You should see a 
+      ``TranslatorFatalError Error`` message in the App Services logs, 
+      indicating that Sync has terminated. Then, :ref:`re-enable-realm-sync`. 
+
+   .. step:: Run and Test the App
+      
+      When you run the app on your device again, it should trigger a 
+      client reset error. Verify that you see any relevant log messages 
+      that you added to your code while implementing the client reset logic, 
+      and that the device resets the realm and successfully loads fresh data 
+      from the backend.
+
+   .. step:: Iterate as Needed
+      
+      Repeat until you are satisfied with the client reset implementation in your
+      SwiftUI app.
