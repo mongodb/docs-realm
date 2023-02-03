@@ -10,19 +10,25 @@ struct FlexSyncContentView: View {
             let config = user.flexibleSyncConfiguration(
                 clientResetMode: .recoverUnsyncedChanges(
                     beforeReset: { realm in
+                        // A block called after a client reset error is detected, but before the
+                        // client recovery process is executed.
+                        // This block could be used for any custom logic, reporting, debugging etc.
+                        // For more information, refer to: https://www.mongodb.com/docs/realm/sdk/swift/sync/handle-sync-errors/
                         print("Before client reset block")
                     }, afterReset: { before,after in
-                        print("After client reset block")
-                        // Do something after the client reset error has completed.
-                        // You might modify a @State variable to trigger views to reload
+                        // A block called after the client recovery process has executed.
+                        // This block could be used for custom recovery, reporting, debugging etc.
+                        // For SwiftUI, you might modify a @State variable to trigger views to reload
                         // or advise the user to restart the app.
+                        // For more information, refer to: https://www.mongodb.com/docs/realm/sdk/swift/sync/handle-sync-errors/
+                        print("After client reset block")
                 }),
                 initialSubscriptions: { subs in
                     let peopleSubscriptionExists = subs.first(named: "people")
                     let dogSubscriptionExists = subs.first(named: "dogs")
                     // Check whether the subscription already exists. Adding it more
                     // than once causes an error.
-                    if (peopleSubscriptionExists != nil) && (dogSubscriptionExists != nil) {
+                    if peopleSubsriptionExists && dogSubscriptionExists {
                         // Existing subscriptions found - do nothing
                         return
                     } else {
