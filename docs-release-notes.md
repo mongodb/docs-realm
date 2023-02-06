@@ -1,3 +1,33 @@
+# February 3, 2023
+
+## Flutter SDK
+- Realm Database/Model Data/Define a Realm Object Schema: New "Map Realm Model to a Different Name" section with info and example for `MapTo`
+
+## Kotlin SDK
+- Realm Database
+  - Define an Object Model: New page with information and tested, Bluehawked code examples showing how to define an object model and use property annotations
+  - Change an Object Model: New page with information and tested, Bluehawked code examples showing how to perform migrations
+  - Schemas
+    - Supported Types: Add `Decimal128` to supported types list
+    - Ignore a Field: Add details about how ignored properties behave
+    - Index a Field: Note that primary keys are indexed by default
+    - Primary Keys: Link to API docs for the annotation, add details about primary key behavior and limitations
+  - Manage Realm Database Files: Add information about providing object schemas when opening a realm, link to the Open a Synced Realm page
+- Update the Kotlin SDK version to 1.6.0
+
+## .NET SDK
+- React to Changes: Reorganize page, add missing information, clarify code examples
+
+## Web SDK
+- Append "Web SDK" to page titles throughout section to improve search results
+- User Management
+  - Authenticate Users: Update Google credential code example for breaking change
+  - Manage Email/Password Users: Update the "Call a Password Reset Function" code example syntax for passing additional arguments
+
+## Other
+- Realm Query Language: Update the Kotlin data type declaration to show valid `RealmList<Tasks>` syntax
+- Various Snyk dependency updates
+
 # January 27, 2023
 
 ## Flutter SDK
