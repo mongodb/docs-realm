@@ -21,31 +21,26 @@ named ``sum`` that takes two arguments, adds them, and returns the result:
      return a + b;
    };
 
+Prerequisites
+-------------
+
+Before You Begin
+----------------
+
+#. In an App Services App, :ref:`define an Atlas Function <define-a-function>`.
+#. In your client project, :ref:`initialize the App client <react-native-connect-to-mongodb-realm-backend-app>`.
+#. Then, :ref:`authenticate a user <react-native-authenticate-users>` in your React Native project.
+
 .. _react-native-call-a-function-by-name:
 
-Call a Function by Name
------------------------
+Call a Function
+---------------
 
 .. include:: /includes/important-sanitize-client-data-in-functions.rst
 
 To call a function, you can either pass its name and arguments to
-``User.callFunction()`` or call the function as if it was a method on the
-:js-sdk:`User.functions <Realm.User.html#functions>` property.
+:js-sdk:`User.callFunction() <Realm.User.html#functions>` or call the function
+as if it were a method on the :js-sdk:`User.functions <Realm.User.html#functions>` property.
 
-.. note:: Link a MongoDB Atlas Data Source
-   
-   This example requires a Realm app with a linked
-   :ref:`Atlas data source <data-sources>`. Replace
-   ``<appId>`` in the code with your App ID, which you can find in the
-   left navigation menu of the App Services UI.
-
-.. literalinclude:: /examples/generated/node/call-a-function.snippet.call-a-function-by-name.js
-  :language: javascript
- 
-
-When you run the code sample, your output should resemble the following:
-
-.. code-block:: none
-
-   Using the "functions.sum()" method: the sum of 2 + 3 = 5
-   Using the "callFunction()" method: the sum of 2 + 3 = 5
+.. literalinclude:: /examples/generated/react-native/ts/atlas-functions.test.snippet.call-function.tsx
+  :language: typescript
