@@ -13,8 +13,10 @@ in multiple processes include:
 - A multi-window desktop application where each window writes to the same synced realm.
 - A server application that writes to a synced realm from multiple processes.
 
-On a high level, syncing data to a realm from multiple processes consists
-of the following:
+Open a Synced Realm in Multiple Processes
+-----------------------------------------
+
+To open a single synced realm from multiple processes, perform the following:
 
 #. Creating a single **main process** that opens a Realm using a standard flexible
    sync configuration. The main process handles synchronization.
@@ -41,3 +43,28 @@ constructor. Include the schema and any additional optional named arguments.
    :language: dart
    :caption: secondary_process.dart
    :emphasize-lines: 5,6
+
+.. _flutter-realm-refresh:
+
+Refresh Data across Processes
+-----------------------------
+
+When you are working with a realm across multiple processes, the realm does not
+automatically update in one process when another process writes to it.
+To get update notifications for changes made by another process, call
+:flutter-sdk:`Realm.refresh() <realm/Realm/refresh.html>`.
+
+.. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.refresh-main-process.dart
+   :language: dart
+   :caption: main_process.dart
+
+.. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.refresh-secondary-process.dart
+   :language: dart
+   :caption: secondary_process.dart
+
+Alternatively, you can use :flutter-sdk:`Realm.refreshAsync() <realm/Realm/refreshAsync.html>`
+to asynchronously  get update notifications for changes made by another process.
+
+.. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.refresh-async.dart
+   :language: dart
+   :caption: secondary_process.dart
