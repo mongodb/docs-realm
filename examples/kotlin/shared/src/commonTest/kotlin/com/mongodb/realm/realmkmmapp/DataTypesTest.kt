@@ -138,19 +138,19 @@ class DataTypesTest : RealmTest() {
             }
 
             // :snippet-start: query-embedded-objects
-            // Query embedded objects directly
+            // Query through the parent object
+            val queryContactAddresses: RealmResults<Contact> =
+                realm.query<Contact>("address.state == 'NY'")
+                    .sort("name")
+                    .find()
+
+            // Query an embedded object directly
             val queryAddress: Address =
                 realm.query<Address>("state == 'MA'").find().first()
 
             // Get the parent of an embedded object
             val getParent: Contact =
                 queryAddress.parent()
-
-            // Query through the parent object
-            val queryContactAddresses: RealmResults<Contact> =
-                realm.query<Contact>("address.state == 'NY'")
-                    .sort("name")
-                    .find()
             // :snippet-end:
 
             // :snippet-start: delete-embedded-object
@@ -158,8 +158,6 @@ class DataTypesTest : RealmTest() {
             realm.write {
                 val addressToDelete: Address =
                     this.query<Address>("street == '123 Fake St'").find().first()
-
-                // Deletes only the specified embedded object
                 delete(addressToDelete)
             }
 
@@ -167,8 +165,6 @@ class DataTypesTest : RealmTest() {
             realm.write {
                 val contactToDelete: Contact =
                     this.query<Contact>("name == 'Nick Riviera'").find().first()
-
-                // Deletes the parent and any embedded objects
                 delete(contactToDelete)
             }
             // :snippet-end:
