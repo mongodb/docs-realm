@@ -47,6 +47,20 @@ contains a constant value:
    // Query an array-valued queryable field for a constant value
    "'comedy' IN genres"
 
+.. warning::
+
+   You **cannot** compare two lists with each other in a Flexible Sync query.
+   Note that this is valid Realm Query Language syntax outside of Flexible Sync queries.
+
+   .. code-block:: javascript
+      :copyable: false
+
+      // Invalid Flexible Sync query. Do not do this!
+      "{'comedy', 'horror', 'suspense'} IN genres"
+      
+      // Another invalid Flexible Sync query. Do not do this!
+      "ANY {'comedy', 'horror', 'suspense'} != ANY genres"
+
 Embedded or Linked Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
