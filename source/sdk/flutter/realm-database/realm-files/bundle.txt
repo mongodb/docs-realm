@@ -22,6 +22,9 @@ refer to the :ref:`Bundle a Synced Realm <flutter-bundle-synced-realm>` section.
    You can also add data to your realm the first time an application opens it
    using the :ref:`initial data callback function <flutter-initial-data-callback>`.
 
+Bundle a Local Realm
+--------------------
+
 .. procedure::
 
    .. step:: Create a Realm File for Bundling
@@ -118,7 +121,7 @@ To bundle a synced realm, perform the following:
 
 #. Connect to your App Services App and authenticate a user.
 #. Add a subscription to the realm. You need a subscription to write to a synced realm.
-#. Add Data to the synced realm.
+#. Add data to the synced realm.
 #. Wait for all local changes to synchronize with the Device Sync server.
 #. Use :flutter-sdk:`Realm.writeCopy() <realm/Realm/writeCopy.html>` to create
    a new version of the synced realm. You **must** use ``Realm.writeCopy()``
