@@ -99,8 +99,8 @@ sync subscriptions. To learn more, refer to :ref:`Manage Sync Subscriptions
 You should only bundle a synced realm if your use case meets the following criteria:
 
 - You can ensure that the users have a version of the app with the bundled synced realm
-  that is less old than the client maximum offline time.
-- The initial bundled data is very large **and** app is being used in a situation
+  that was created more recently than the client maximum offline time.
+- The initial bundled data is very large **and** the app is being used in a situation
   with limited internet bandwidth, so an initial data download using sync subscriptions
   would take too long.
 - All app users have backend permission to view the data included in the bundle.
