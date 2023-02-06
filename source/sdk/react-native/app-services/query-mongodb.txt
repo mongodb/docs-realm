@@ -12,6 +12,13 @@ Query MongoDB - React Native SDK
    :depth: 2
    :class: singlecol
 
+You can query data stored in MongoDB Atlas directly from your client application code
+by using the Realm React Native SDK's :js-sdk:`MongoDB client <Realm-MongoDB.html>`
+with the :manual:`Query API </tutorial/query-documents>`.
+Atlas App Services provides data access :ref:`rules <mongodb-rules>` on
+collections to securely retrieve results based on the logged-in user or the
+content of each document.
+
 .. note:: Example Dataset
 
    The examples on this page use a MongoDB collection that describes inventory
@@ -35,6 +42,15 @@ possible. You might want to query MongoDB when:
 
 While not exhaustive, these are some common use cases for querying MongoDB 
 directly.
+
+Prerequisites
+-------------
+
+Before you can query MongoDB from your React Native application, you must set up
+MongoDB Data Access in your App Services App. To learn how to set up your
+backend App to let the Realm SDK query Atlas,
+refer to :ref:`Set Up MongoDB Data Access <client-data-access>`
+in the App Services documentation.
 
 .. _react-native-mongodb-example-dataset:
 

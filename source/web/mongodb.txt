@@ -11,11 +11,26 @@ Query MongoDB - Web SDK
    :depth: 2
    :class: singlecol
 
+You can query data stored in MongoDB Atlas directly from your client application code
+by using the Realm Web SDK's :js-sdk:`MongoDB client <Realm-MongoDB.html>`
+with the :manual:`Query API </tutorial/query-documents>`.
+Atlas App Services provides data access :ref:`rules <mongodb-rules>` on
+collections to securely retrieve results based on the logged-in user or the
+content of each document.
+
 The following actions let you query a linked MongoDB Atlas cluster
 from a Web app using the Realm Web SDK.
 
 .. include:: /includes/mongodb-data-access-query-filter-indeterminate-order-note.rst
 
+Prerequisites
+-------------
+
+Before you can query MongoDB from your web application, you must set up
+MongoDB Data Access in your App Services App. To learn how to set up your
+backend App to let the Realm SDK query Atlas,
+refer to :ref:`Set Up MongoDB Data Access <client-data-access>`
+in the App Services documentation.
 
 .. _web-mongodb-set-up:
 
