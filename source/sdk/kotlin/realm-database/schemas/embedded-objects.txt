@@ -43,14 +43,16 @@ Embedded objects have the following properties:
 Define an Embedded Object
 -------------------------
 
-To define an embedded object, derive a class from `EmbeddedRealmObject <{+kotlin-local-prefix+}/io.realm.kotlin.types/-embedded-realm-object/index.html>`__: 
+To define an embedded object, derive a class from 
+`EmbeddedRealmObject <{+kotlin-local-prefix+}/io.realm.kotlin.types/-embedded-realm-object/index.html>`__: 
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.embedded-object-model.kt 
     :language: kotlin
 
 Once your embedded object class is defined, you must include its schema in the
 realm's 
-`configuration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__:
+`configuration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__
+to use it in your realm instance:
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.open-realm-embedded-object.kt 
     :language: kotlin 
@@ -95,8 +97,6 @@ Query a Collection on Embedded Object Properties
 
 Use dot notation to filter or sort a collection of objects based on an embedded 
 object property value:
-
-.. include:: /includes/directly-query-embedded-objects-note.rst
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.query-embedded-objects.kt 
     :language: kotlin

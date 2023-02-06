@@ -1,6 +1,6 @@
-// ... Fetch the parent object
+// ... Fetch the object
 
-// Overwrite the embedded object
+// Overwrite the embedded object (deletes the original object)
 realm.write {
     nicksAddress.apply {
         street = "202 Coconut Court"

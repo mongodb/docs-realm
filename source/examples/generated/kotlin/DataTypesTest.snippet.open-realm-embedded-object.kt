@@ -1,4 +1,4 @@
-// Include parent and embedded objects in schema
+// Include parent and embedded object classes in schema
 val config = RealmConfiguration.Builder(
     setOf(Contact::class, Address::class)
 )

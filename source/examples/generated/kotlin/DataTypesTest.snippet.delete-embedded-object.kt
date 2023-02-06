@@ -1,15 +1,17 @@
-//  Delete embedded object from parent object
+//  Delete an embedded object directly from parent
 realm.write {
     val addressToDelete: Address =
         this.query<Address>("street == '123 Fake St'").find().first()
+
+    // Deletes only the specified embedded object
     delete(addressToDelete)
 }
 
-// Delete parent object also deletes the embedded object
+// Delete parent object (deletes all embedded objects)
 realm.write {
     val contactToDelete: Contact =
         this.query<Contact>("name == 'Nick Riviera'").find().first()
 
-    // Delete the parent and its embedded objects permanently
+    // Deletes the parent and any embedded objects
     delete(contactToDelete)
 }

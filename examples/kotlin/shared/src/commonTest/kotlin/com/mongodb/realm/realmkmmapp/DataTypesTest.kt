@@ -11,8 +11,6 @@ import io.realm.kotlin.types.EmbeddedRealmObject
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -51,7 +49,7 @@ class DataTypesTest : RealmTest() {
     fun createEmbeddedObject() {
         runBlocking {
             // :snippet-start: open-realm-embedded-object
-            // Include parent and embedded objects in schema
+            // Include parent and embedded object classes in schema
             val config = RealmConfiguration.Builder(
                 setOf(Contact::class, Address::class)
             )
@@ -81,18 +79,23 @@ class DataTypesTest : RealmTest() {
             // :snippet-end:
 
             // :snippet-start: update-embedded-object
-            // ... Fetch the parent object
+            // ... Fetch the object
 
+            // Modify the property of the embedded object in a write transaction
             realm.write {
-                // Update the embedded object directly through the contact
-                nickRiviera.address?.street = "100 10th St N"
+
+                // Update the embedded object property directly
+                nicksAddress.street = "100 10th St N"
+
+                // Update property through the parent object
+                nickRiviera.address?.state = "NY"
             }
             // :snippet-end:
 
             // :snippet-start: overwrite-embedded-object
-            // ... Fetch the parent object
+            // ... Fetch the object
 
-            // Overwrite the embedded object
+            // Overwrite the embedded object (deletes the original object)
             realm.write {
                 nicksAddress.apply {
                     street = "202 Coconut Court"
@@ -101,14 +104,6 @@ class DataTypesTest : RealmTest() {
                     postalCode = "90210"
                 }
             }
-            // :snippet-end:
-
-            // :snippet-start: query-embedded-objects
-            // Access the embedded object through the parent object
-            val contactsInNY: RealmResults<Contact> =
-                realm.query<Contact>("address.state == 'NY'")
-                    .sort("name")
-                    .find()
             // :snippet-end:
 
             realm.close()
@@ -141,31 +136,48 @@ class DataTypesTest : RealmTest() {
                         }
                     })
             }
-            val asyncCall: Deferred<Unit> = async {
-                // :snippet-start: delete-embedded-object
-                //  Delete embedded object from parent object
-                realm.write {
-                    val addressToDelete: Address =
-                        this.query<Address>("street == '123 Fake St'").find().first()
-                    delete(addressToDelete)
-                }
 
-                // Delete parent object also deletes the embedded object
-                realm.write {
-                    val contactToDelete: Contact =
-                        this.query<Contact>("name == 'Nick Riviera'").find().first()
+            // :snippet-start: query-embedded-objects
+            // Query embedded objects directly
+            val queryAddress: Address =
+                realm.query<Address>("state == 'MA'").find().first()
 
-                    // Delete the parent and its embedded objects permanently
-                    delete(contactToDelete)
-                }
-                // :snippet-end:
+            // Get the parent of an embedded object
+            val getParent: Contact =
+                queryAddress.parent()
+
+            // Query through the parent object
+            val queryContactAddresses: RealmResults<Contact> =
+                realm.query<Contact>("address.state == 'NY'")
+                    .sort("name")
+                    .find()
+            // :snippet-end:
+
+            // :snippet-start: delete-embedded-object
+            //  Delete an embedded object directly from parent
+            realm.write {
+                val addressToDelete: Address =
+                    this.query<Address>("street == '123 Fake St'").find().first()
+
+                // Deletes only the specified embedded object
+                delete(addressToDelete)
             }
-            asyncCall.await()
-            asyncCall.cancel()
+
+            // Delete parent object (deletes all embedded objects)
+            realm.write {
+                val contactToDelete: Contact =
+                    this.query<Contact>("name == 'Nick Riviera'").find().first()
+
+                // Deletes the parent and any embedded objects
+                delete(contactToDelete)
+            }
+            // :snippet-end:
+
+            assertEquals(0, realm.query<Address>().find().size)
             assertEquals(0, realm.query<Contact>().find().size)
+
             realm.close()
             Realm.deleteRealm(config)
-
         }
     }
 }
