@@ -11,41 +11,18 @@ Write Transactions - React Native SDK
    :depth: 2
    :class: singlecol
 
-A write transaction is a function that modifies objects in a realm. Write 
-transactions let you create, modify, or delete Realm objects. They handle 
-operations in a single, idempotent update. A transaction is 
-*all or nothing*. Either:
+Within a ``<RealmProvider>`` that has an open realm, you can create Realm objects
+using a :js-sdk:`Realm.write() transaction block <Realm.html#write>`.
 
-- All the operations in the transaction succeed, or; 
-- If any operation fails, none of the operations complete.
+All operations within a write transaction are :wikipedia:`atomic <Atomicity_(database_systems)>`.
+If an operation in the write transaction fails, the whole transaction fails,
+Realm throws an error, and no changes from the transaction block are applied to the realm.
 
-.. important::
-   
-   Every write operation must occur in a write transaction.
+Every write operation must occur in a write transaction.
 
-.. example::
-   
-   Write transactions are callback functions that you pass to a realm
-   instance. For examples of specific write operations, see 
-   :ref:`react-native-create-objects` or :ref:`react-native-update-objects`.
-   
-   .. code-block:: javascript
-      
-      const realm = await Realm.open();
-      realm.write(() => {
-        const tesla = realm.create("Car", {
-          make: "Tesla",
-          model: "Model S",
-          year: 2020,
-          miles: 12000
-        })
-        const honda = realm.create("Car", {
-          make: "Honda",
-          model: "Civic",
-          year: 2018,
-          miles: 30000
-        })
-      })
+.. literalinclude:: /examples/generated/react-native/ts/create-test.snippet.crud-create-object.tsx
+  :language: typescript
+  :emphasize-lines: 6-8
 
 Transaction Lifecycle
 ---------------------
