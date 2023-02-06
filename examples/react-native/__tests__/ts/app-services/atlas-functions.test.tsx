@@ -34,14 +34,12 @@ function MyApp() {
       <UserProvider>
         <Text>Foo!</Text>
         <Addition />
-        <AdditionWithTypes />
       </UserProvider>
     </View>
   ) : null;
 }
 
 let higherScopedSum: number;
-let typedHigherScopedSum: number;
 // :remove-end:
 
 function Addition() {
@@ -70,27 +68,6 @@ function Addition() {
   // :remove-end:
 }
 // :snippet-end:
-// :snippet-start: addition-with-types
-type FunctionTypes = {
-  sum: (a: number, b: number) => number;
-} & Realm.DefaultFunctionsFactory;
-
-function AdditionWithTypes() {
-  const user = useUser<FunctionTypes, SimpleObject, Realm.DefaultUserProfileData>();
-  async function addNumbers(numA: number, numB: number) {
-    const sum = await user?.functions.sum(numA, numB);
-    // :remove-start:
-    expect(sum).toBe(3);
-    typedHigherScopedSum = sum as number;
-    // :remove-end:
-    return sum;
-  }
-  // ...
-  // :remove-start:
-  return <Button onPress={() => addNumbers(1, 2)} testID='test-typed-function-call' title='Test Me!' />;
-  // :remove-end:
-}
-// :snippet-end:
 
 afterEach(async () => await App.getApp(APP_ID).currentUser?.logOut());
 
@@ -98,13 +75,6 @@ test('Call Atlas Function', async () => {
   const {getByTestId} = render(<AppWrapper />);
 
   const button = await waitFor(() => getByTestId('test-function-call'));
-  fireEvent.press(button);
-  await waitFor(() => expect(higherScopedSum).toBe(3));
-});
-test('Call Typed Atlas Function', async () => {
-  const {getByTestId} = render(<AppWrapper />);
-
-  const button = await waitFor(() => getByTestId('test-typed-function-call'));
   fireEvent.press(button);
   await waitFor(() => expect(higherScopedSum).toBe(3));
 });
