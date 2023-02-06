@@ -2,6 +2,7 @@
 #include <string>
 #include <future>
 #include <random>
+#include <realm/object-store/util/tagged_string.hpp>
 
 #include <cpprealm/sdk.hpp>
 
@@ -16,7 +17,7 @@ auto random_string() {
     return std::to_string(random_number());
 }
 
-auto INSERT_APP_ID_HERE = "cpp-tester-uliix";
+auto const INSERT_APP_ID_HERE = "cpp-tester-uliix";
 
 TEST_CASE("create and log in an email/password user", "[realm][sync]") {
     // :snippet-start: register-user
@@ -51,25 +52,6 @@ TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
     REQUIRE(user.access_token().empty());
 }
 
-TEST_CASE("test API key authentication", "[realm][sync]") {
-    auto API_KEY = "test passed locally but redacted for commit pending how to handle secrets";
-
-    // :snippet-start: api-key
-    auto app = realm::App(INSERT_APP_ID_HERE);
-
-    // :remove-start:
-    // The test below succeeded locally with the valid API_KEY - commenting out for 
-    // CI until we have a chance to discuss how to handle a secret here.
-    // :remove-end:
-    // :uncomment-start:
-    // auto user = app.login(realm::App::credentials::api_key(API_KEY)).get_future().get();
-    // :uncomment-end:
-    // :snippet-end:
-    // REQUIRE(!user.access_token().empty());
-    // user.log_out().get_future().get();
-    // REQUIRE(user.access_token().empty());
-}
-
 TEST_CASE("test custom function authentication", "[realm][sync]") {
     // :snippet-start: custom-function
     // Custom function authentication takes a BSON Document with parameters.
@@ -83,22 +65,6 @@ TEST_CASE("test custom function authentication", "[realm][sync]") {
     REQUIRE(!user.access_token().empty());
     user.log_out().get_future().get();
     REQUIRE(user.access_token().empty());
-}
-
-TEST_CASE("test custom JWT authentication", "[realm][sync]") {
-    // :snippet-start: custom-jwt
-    auto token = "<jwt>";
-
-    // :remove-start:
-    // We expect a failure in Swift & don't actually test that this works, 
-    // so going with the same approach here
-    // :remove-end:
-    // :uncomment-start:
-    // auto app = realm::App(INSERT_APP_ID_HERE);
-
-    // auto user = app.login(realm::App::credentials::custom(token)).get_future().get();
-    // :uncomment-end:
-    // :snippet-end:
 }
 
 TEST_CASE("test get user access token", "[realm][sync]") {
@@ -118,60 +84,69 @@ TEST_CASE("test get user access token", "[realm][sync]") {
     REQUIRE(user.access_token().empty());
 }
 
-TEST_CASE("sign in with Facebook", "[realm][sync]") {
+// The following funcs aren't actually being called anywhere so we're not
+// really testing these. But having these as funcs lets us check that the
+// syntax is valid and compiles, at least.
+void testAPIKeyAuthSyntax() {
+    auto API_KEY = "this was tested with a valid API key when written";
+
+    // :snippet-start: api-key
+    auto app = realm::App(INSERT_APP_ID_HERE);
+
+    auto user = app.login(realm::App::credentials::api_key(API_KEY)).get_future().get();
+    // :snippet-end:
+}
+
+void testCustomJWTAuthSyntax() {
+    // :snippet-start: custom-jwt
+    auto token = "<jwt>";
+
+    auto app = realm::App(INSERT_APP_ID_HERE);
+
+    auto user = app.login(realm::App::credentials::custom(token)).get_future().get();
+    // :snippet-end:
+}
+
+void testSignInWithFacebookAuthSyntax() {
     // :snippet-start: facebook
     auto app = realm::App(INSERT_APP_ID_HERE);
 
     auto accessToken = "<token>";
 
-    // :remove-start:
-    // Flutter does not test the third-party login credentials so taking this approach here
-    // :remove-end:
-    // :uncomment-start:
-    //auto user = app.login(realm::App::credentials::facebook(accessToken)).get_future().get();
-    // :uncomment-end:
+    auto user = app.login(realm::App::credentials::facebook(accessToken)).get_future().get();
     // :snippet-end:
 }
 
-TEST_CASE("sign in with Apple", "[realm][sync]") {
+void testSignInWithAppleAuthSyntax() {
     // :snippet-start: apple
     auto app = realm::App(INSERT_APP_ID_HERE);
 
     auto idToken = "<token>";
 
-    // :remove-start:
-    // Flutter does not test the third-party login credentials so taking this approach here
-    // :remove-end:
-    // :uncomment-start:
-    //auto user = app.login(realm::App::credentials::apple(idToken)).get_future().get();
-    // :uncomment-end:
+    auto user = app.login(realm::App::credentials::apple(idToken)).get_future().get();
     // :snippet-end:
 }
 
-TEST_CASE("sign in with Google Auth Code", "[realm][sync]") {
+void testSignInWithGoogleAuthCodeSyntax() {
+    auto myAuthCode = "some auth code string";
+    auto auth_code = realm::App::credentials::auth_code{myAuthCode};
+
     // :snippet-start: google-auth-code
     auto app = realm::App(INSERT_APP_ID_HERE);
     
-    // :remove-start:
-    // Flutter does not test the third-party login credentials so taking this approach here
-    // :remove-end:
     // The auth_code below is the user's server auth code you got from Google
-    // :uncomment-start:
-    // auto user = app.login(realm::App::credentials::google(auth_code)).get_future().get();
-    // :uncomment-end:
+    auto user = app.login(realm::App::credentials::google(auth_code)).get_future().get();
     // :snippet-end:
 }
 
-TEST_CASE("sign in with Google ID Token", "[realm][sync]") {
+void testSignInWithGoogleIdTokenSyntax() {
+    auto myIdToken = "some ID token string";
+    auto id_token = realm::App::credentials::id_token{myIdToken};
+
     // :snippet-start: google-id-token
     auto app = realm::App(INSERT_APP_ID_HERE);
     
-    // :remove-start:
-    // Flutter does not test the third-party login credentials so taking this approach here
-    // :remove-end:
     // The id_token below is the user's OpenID Connect id_token you got from the Google OAuth response
-    // :uncomment-start:
-    // auto user = app.login(realm::App::credentials::google(id_token)).get_future().get();
-    // :uncomment-end:
+    auto user = app.login(realm::App::credentials::google(id_token)).get_future().get();
     // :snippet-end:
 }
