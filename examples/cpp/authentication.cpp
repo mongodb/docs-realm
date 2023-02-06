@@ -2,7 +2,6 @@
 #include <string>
 #include <future>
 #include <random>
-#include <realm/object-store/util/tagged_string.hpp>
 
 #include <cpprealm/sdk.hpp>
 
