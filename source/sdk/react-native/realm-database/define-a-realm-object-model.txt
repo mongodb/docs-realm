@@ -44,7 +44,7 @@ If a realm already contains data when you open it, Realm Database
 validates each object to ensure that an object schema was provided for its type
 and that it meets all of the constraints specified in the schema.
 
-In ``@realm/react``, you define a realm schema by passing individual object
+Using ``@realm/react``, you define a realm schema by passing individual object
 schemas to ``<RealmProvider>`` or ``createRealmContext()``.
 
 .. literalinclude:: /examples/generated/react-native/js/RealmConfig.snippet.create-realm-context.js
@@ -54,7 +54,7 @@ schemas to ``<RealmProvider>`` or ``createRealmContext()``.
 .. _react-native-define-a-new-object-type:
 
 Define an Object Type
-------------------------
+---------------------
 
 To define a Realm object type, create a class that extends ``Realm.Object``. 
 Define the type's ``name`` and ``properties`` in a static property called ``schema``. 
@@ -75,8 +75,7 @@ The type's name must be unique among object types in a realm.
         :language: javascript
 
 Then you can pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object when opening a realm. You can then :doc:`read and write
-</sdk/node/examples/read-and-write-data>` normally.
+<Realm.html#~Configuration>` object when opening a realm.
 
 .. note::
    
