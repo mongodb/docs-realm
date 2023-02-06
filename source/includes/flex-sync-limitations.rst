@@ -53,6 +53,7 @@ contains a constant value:
    Note that this is valid Realm Query Language syntax outside of Flexible Sync queries.
 
    .. code-block:: javascript
+      :copyable: false
 
       // Invalid Flexible Sync query. Do not do this!
       "{'comedy', 'horror', 'suspense'} IN genres"
