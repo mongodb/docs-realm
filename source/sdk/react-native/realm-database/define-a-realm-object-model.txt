@@ -19,7 +19,7 @@ Key Concept: Object Types & Schemas
 -----------------------------------
 
 Every Realm object conforms to a specific **object type**. Object types are
-classes you define that contain the properties and :ref:`relationships <react-native-client-relationships>`
+classes you define that contain the properties and :ref:`relationships <react-native-relationships>`
 for objects of that type using a pre-defined schema. Realm guarantees that all
 objects in a realm conform to the schema for their object type and validates
 objects whenever they're created, modified, or deleted.
@@ -44,81 +44,43 @@ If a realm already contains data when you open it, Realm Database
 validates each object to ensure that an object schema was provided for its type
 and that it meets all of the constraints specified in the schema.
 
-.. TODO: Remove example directive and Bluehawk new sample
-
 In ``@realm/react``, you define a realm schema by passing individual object
 schemas to ``<RealmProvider>`` or ``createRealmContext()``.
 
-.. code-block:: json
-  
-  [
-    {
-      "type": "Library",
-      "properties": {
-        "address": "string",
-        "books": "Book[]"
-      }
-    },
-    {
-      "type": "Book",
-      "primaryKey": "isbn",
-      "properties": {
-        "isbn": "string",
-        "title": "string",
-        "author": "string",
-        "numberOwned": { "type": "int?", "default": 0 },
-        "numberLoaned": { "type": "int?", "default": 0 }
-      }
-    }
-  ]
-
-.. TODO: Is "new" necessary?
+.. literalinclude:: /examples/generated/react-native/js/RealmConfig.snippet.create-realm-context.js
+   :language: javascript
+   :emphasize-lines: 8
 
 .. _react-native-define-a-new-object-type:
 
-Define a New Object Type
+Define an Object Type
 ------------------------
 
-To define a Realm object type, create a schema object that specifies the type's
-``name`` and ``properties``. The type name must be unique among object types in
-a realm.
+To define a Realm object type, create a class that extends ``Realm.Object``. 
+Define the type's ``name`` and ``properties`` in a static property called ``schema``. 
+The type's name must be unique among object types in a realm.
 
-.. TODO: Bluehawk it
+.. tabs-realm-languages::
 
-.. code-block:: javascript
-   
-   const CarSchema = {
-     name: "Car",
-     properties: {
-       make: "string",
-       model: "string",
-       miles: "int",
-     }
-   }
+   .. tab::
+      :tabid: typescript
 
-You can then :ref:`open a realm <node-open-a-local-realm>` using the Realm
-Object you have defined.
+      .. literalinclude:: /examples/generated/react-native/ts/Book.snippet.ts-book-schema.ts
+        :language: javascript
 
-.. TODO: Realm reactify
-   
-.. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
-  :language: javascript
+   .. tab::
+      :tabid: javascript
 
-.. note::
-   
-   To learn the various types that a Realm Object Model accepts, how to specify optional fields, define relationships, embedded objects, primary keys, and more, check out the :ref:`Schemas <react-native-schemas-overview>` section.
+      .. literalinclude:: /examples/generated/react-native/js/Book.snippet.js-book-schema.js
+        :language: javascript
 
-.. TODO: In future, add a section about how to use the object models when opening a realm.
-   At the very least, link to relevant content.
-You can define Realm object types with JavaScript classes. To use a class as an
-object type, define the object schema on the static property ``schema``. 
-
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
-     :language: javascript
-   
-Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
+Then you can pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object when opening a realm. You can then :doc:`read and write
 </sdk/node/examples/read-and-write-data>` normally.
 
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-     :language: javascript
+.. note::
+   
+   To learn the various types that a Realm Object Model accepts, how to specify 
+   optional fields, define relationships, embedded objects, primary keys, and more, 
+   check out the :ref:`Schemas <react-native-schemas-overview>` section.
+    
