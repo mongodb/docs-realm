@@ -49,10 +49,17 @@ constructor. Include the schema and any additional optional named arguments.
 Refresh Data across Processes
 -----------------------------
 
-When you are working with a realm across multiple processes, the realm does not
-automatically update in one process when another process writes to it.
-To get update notifications for changes made by another process, call
-:flutter-sdk:`Realm.refresh() <realm/Realm/refresh.html>`.
+When sharing the same realm file between multiple processes,
+Realm has auto-refresh built-in. Data written from one process is visible
+to the other processes. Generally, you do not need to write additional logic
+to refresh data across processes.
+
+However, occasionally the refresh may not happen immediately. In this case,
+you can trigger a manual refresh in a process with :flutter-sdk:`Realm.refresh() <realm/Realm/refresh.html>`
+or :flutter-sdk:`Realm.refreshAsync() <realm/Realm/refreshAsync.html>`.
+
+To synchronously force update notifications for changes made by another process,
+call ``Realm.refresh()``.
 
 .. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.refresh-main-process.dart
    :language: dart
@@ -62,8 +69,8 @@ To get update notifications for changes made by another process, call
    :language: dart
    :caption: secondary_process.dart
 
-Alternatively, you can use :flutter-sdk:`Realm.refreshAsync() <realm/Realm/refreshAsync.html>`
-to asynchronously  get update notifications for changes made by another process.
+Alternatively, you can use ``Realm.refreshAsync()`` to asynchronously force
+update notifications for changes made by another process.
 
 .. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.refresh-async.dart
    :language: dart
