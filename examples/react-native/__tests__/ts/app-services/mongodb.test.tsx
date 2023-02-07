@@ -83,7 +83,7 @@ function QueryPlants() {
 
 afterEach(async () => await App.getApp(APP_ID).currentUser?.logOut());
 
-test('Call Atlas Function', async () => {
+test('Use MongoDB Data Access', async () => {
   const {getByTestId} = render(<AppWrapper />);
 
   const button = await waitFor(() => getByTestId('test-mongodb-call'));
