@@ -49,7 +49,6 @@ function MyApp() {
 }
 
 let higherScopedVenusFlyTrap: Plant | null;
-// :remove-end:
 
 type Plant = {
   _id: BSON.ObjectId;
@@ -59,6 +58,7 @@ type Plant = {
   color?: string;
   type?: string;
 };
+// :remove-end:
 
 function QueryPlants() {
   // Get currently logged in user
