@@ -65,7 +65,8 @@ void main() {
       await cleanUpRealm(realmWithDisconnectedSync, app);
     });
   });
-  // Note: This test doesn't actually test what is being documented, b/c the
+  // Note: These tests for `Realm.refresh()` and `Realm.refreshASync()`
+  // don't actually test what is being documented b/c the
   // documentation is about working across multiple processes and it's not
   // intuitive to do that within a unit test (which runs in only 1 process)
   test("Realm.refresh()", () async {
@@ -81,11 +82,19 @@ void main() {
     // to trigger the data written in the main process
     // to register in the secondary process.
     realm.refresh();
-    realm.find<Person>('John');
+    final john = realm.find<Person>('John');
     // :snippet-end:
+    cleanUpRealm(realm);
+  });
+  test("Realm.refreshAsync()", () async {
+    final realm = Realm(Configuration.local([Person.schema]));
+    realm.write(() {
+      realm.add(Person('John'));
+    });
     // :snippet-start: refresh-async
     // Asynchronously refresh the realm in the background.
-    realm.refreshAsync();
+    await realm.refreshAsync();
+    final john = realm.find<Person>('John');
     // :snippet-end:
     cleanUpRealm(realm);
   });

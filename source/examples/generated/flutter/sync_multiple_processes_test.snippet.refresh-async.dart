@@ -1,2 +1,3 @@
 // Asynchronously refresh the realm in the background.
-realm.refreshAsync();
+await realm.refreshAsync();
+final john = realm.find<Person>('John');
