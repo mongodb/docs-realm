@@ -11,8 +11,9 @@ Write Transactions - React Native SDK
    :depth: 2
    :class: singlecol
 
-Within a ``<RealmProvider>`` that has an open realm, you can create Realm objects
-using a :js-sdk:`Realm.write() transaction block <Realm.html#write>`.
+Within a ``<RealmProvider>`` that has an open realm, you can access a realm with
+the ``useRealm()`` hook. Then, you can create Realm objects
+using a :js-sdk:`Realm.write() <Realm.html#write>` transaction block.
 
 All operations within a write transaction are :wikipedia:`atomic <Atomicity_(database_systems)>`.
 If an operation in the write transaction fails, the whole transaction fails,
@@ -38,12 +39,10 @@ After processing a transaction, Realm Database either **commits** it or
   Once applied, the realm automatically updates :ref:`live queries
   <react-native-live-queries>`. It notifies listeners of created, modified, 
   and deleted objects.
-  
-  .. note::
      
-     When using :ref:`Sync <sync>`, the SDK also queues
-     the changes to send to Atlas App Services. The SDK sends
-     these changes when a network is available.
+  - When using :ref:`Sync <sync>`, the SDK also queues
+    the changes to send to Atlas App Services. The SDK sends
+    these changes when a network is available.
 
 - Realm Database does not apply any operations in a **cancelled**
   transaction. Realm Database cancels a transaction if an operation 
