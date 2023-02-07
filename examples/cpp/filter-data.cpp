@@ -71,10 +71,10 @@ TEST_CASE("set up tests", "[write]") {
     });
 
     // :remove-start:
-    // TODO: Add this example to the page and related example syntax
-    // with the appropriate query syntax. Variations of the below do not work.
+    // TODO: Add this back to the example, as well as a bullet to the page
+    // describing the query, when the bug is fixed.
     // auto unassignedItems = items.where([](auto &item) {
-    //     return item.assignee == NULL;
+    //     return item.assignee == std::nullopt;
     // });
 
     // :remove-end:
@@ -85,7 +85,7 @@ TEST_CASE("set up tests", "[write]") {
 
     CHECK(highPriorityItems.size() >= 1);
     CHECK(quickItems.size() == 0);
-    //CHECK(unassignedItems.size() == 0);
+    // CHECK(unassignedItems.size() == 0);
     CHECK(aliOrJamieItems.size() == 0);
 
     // :snippet-start: logical-operators
