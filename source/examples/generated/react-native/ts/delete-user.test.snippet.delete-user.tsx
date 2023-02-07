@@ -1,5 +1,5 @@
 import React from 'react';
-import {UserProvider, useApp, useUser} from '@realm/react';
+import {useApp, useUser} from '@realm/react';
 
 function DeleteUser() {
   const app = useApp();

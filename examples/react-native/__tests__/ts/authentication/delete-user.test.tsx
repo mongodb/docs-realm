@@ -1,7 +1,8 @@
 // :snippet-start: delete-user
 import React from 'react';
-import {UserProvider, useApp, useUser} from '@realm/react';
+import {useApp, useUser} from '@realm/react';
 // :remove-start:
+import {UserProvider} from '@realm/react';
 import {Credentials} from 'realm';
 import {App} from 'realm';
 import {AppProvider} from '@realm/react';
