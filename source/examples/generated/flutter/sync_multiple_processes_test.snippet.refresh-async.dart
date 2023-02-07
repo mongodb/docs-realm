@@ -1,3 +1,2 @@
-// Asynchronously refresh the realm. Once the refresh operation occurs
-// in the background.
+// Asynchronously refresh the realm in the background.
 realm.refreshAsync();

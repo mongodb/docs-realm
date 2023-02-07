@@ -88,8 +88,7 @@ void main() {
     realm.find<Person>('John');
     // :snippet-end:
     // :snippet-start: refresh-async
-    // Asynchronously refresh the realm. Once the refresh operation occurs
-    // in the background.
+    // Asynchronously refresh the realm in the background.
     realm.refreshAsync();
     // :snippet-end:
     // wait for async operation to finish before clean up
