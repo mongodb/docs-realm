@@ -37,24 +37,24 @@ received out of order.
 Open a Synced Realm
 -------------------
 
-You can open a Synced realm with a Flexible Sync or Partition-Based Sync. If
-you have not yet decided or are unsure which to use, read the :ref:`Choose Your
-Sync Mode <sync-modes>` page.
-
 By default, Realm syncs all data from the server before returning.
 If you want to sync data in the background, read the :ref:`Open a Synced Realm
 While Offline <react-native-open-synced-realm-offline>` section.
 
 .. _react-native-flexible-sync-open-realm:
 
-Open a Flexible Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open a Flexible Sync Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. TODO: Realm reactify this para
 
 To open a realm using Flexible Sync, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
 Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
 object, which must include the ``sync`` property defining a 
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
 In the SyncConfiguration, you must include include a ``user`` and ``flexible:true``.
+
+.. TODO: Realm reactify this sample
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.open-flexible-sync-realm.js
    :language: javascript
@@ -66,10 +66,14 @@ In the SyncConfiguration, you must include include a ``user`` and ``flexible:tru
 
 .. _react-native-partition-sync-open-realm:
 
-Open a Partition-Based Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open a Partition-Based Sync Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. TODO: Remove include and and Realm reactify text
 
 .. include:: /includes/node-open-a-synced-realm.rst
+
+.. TODO: Realm reactify this sample
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-online-with-car-schema.js
    :language: javascript
@@ -80,6 +84,8 @@ Open a Synced Realm While Offline
 ---------------------------------
 
 .. include:: /includes/offline-login.rst
+
+.. TODO: Realm reactify this sample. How does this work with useUser()?
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.use-cached-user-to-login.js
    :language: javascript
@@ -93,10 +99,8 @@ Within your Sync Configuration, set the optional ``newRealmFileBehavior`` and
 ``existingRealmFileBehavior`` fields to your ``OpenRealmBehaviorConfiguration`` object
 to enable background synchronization. 
 
-.. important:: Offline Login is Supported for Both Flexible and Partition-Based Sync Configurations
-
-   You can open a realm immediately with background sync or after a timeout
-   elapses using either Flexible and Partition-Based Sync.
+You can open a realm immediately with background sync or after a timeout elapses 
+using either Flexible and Partition-Based Sync.
 
 .. _react-native-open-immediately-with-background-sync:
 
@@ -109,6 +113,8 @@ user experience from being blocked. We recommend syncing changes in the
 background for applications in which the user's device may go offline. To sync
 changes in the background, open a synced realm synchronously.
 
+.. TODO: Realm reactify these paras and turn them into an ordered list
+
 Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
 ``type`` to ``"openImmediately"``. 
@@ -118,7 +124,9 @@ include the ``sync`` property defining a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>` object. Set this
 ``OpenRealmBehaviorConfiguration`` object as the value for
 the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
-``SyncConfiguration``. 
+``SyncConfiguration``.
+
+.. TODO: Realm reactify this sample.
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-with-background-sync.js
       :language: javascript
@@ -138,14 +146,22 @@ automatically opens the realm when either:
 If the realm doesn't finish downloading before the timeout, the initial
 Sync continues in the background.
 
+.. TODO: Realm reactify this sample
+
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-config.js
   :language: javascript
 
 .. _react-native-open-existing-realm-different-configuration:
 .. _react-native-copy-data-and-open-new-realm:
 
+.. TODO: This section only relates to partition-based sync. Should we remove it?
+  Or maybe just point to the Node.js SDK docs?
+
 Copy Data and Open a New Realm
 ------------------------------
+
+.. TODO: In version of what? Is this Realm Core or the JS SDK? With realm/react
+  on top, we need to specify because it gets confusing fast.
 
 .. versionadded:: 10.14.0
 
@@ -175,21 +191,21 @@ property of the ``Configuration``:
 - Encrypted realm to unencrypted realm
 - Unencrypted realm to encrypted realm
 
-.. example:: Convert Local Realm to Synced Realm
+.. TODO: Realm reactify this sample
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
-      :language: javascript
-      :emphasize-lines: 15-16
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
+   :language: javascript
+   :emphasize-lines: 15-16
 
 You can also combine changes to configuration. For example, you can open a
 local encrypted realm as a synced unencrypted realm or a unencrypted synced realm
 as an encrypted synced realm.
 
-.. example:: Convert Synced Encrypted to Local Unencrypted Realm
+.. TODO: Realm reactify this sample
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
-      :language: javascript
-      :emphasize-lines: 19-20
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
+   :language: javascript
+   :emphasize-lines: 19-20
 
 .. seealso:: 
 
