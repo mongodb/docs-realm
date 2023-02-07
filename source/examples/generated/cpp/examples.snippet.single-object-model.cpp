@@ -1,7 +1,6 @@
-// Define your models like regular structs.
-struct Dog : realm::object {
+struct Dog : realm::object<Dog> {
     realm::persisted<std::string> name;
-    realm::persisted<int> age;
+    realm::persisted<int64_t> age;
 
     static constexpr auto schema = realm::schema("Dog",
         realm::property<&Dog::name>("name"),

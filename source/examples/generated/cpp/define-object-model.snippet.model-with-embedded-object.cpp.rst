@@ -1,8 +1,8 @@
-.. code-block:: cpp
-   :emphasize-lines: 2, 17, 22
+.. code-block:: text
+   :emphasize-lines: 2, 16, 21
 
    // Inherit from realm::embedded_object to declare an embedded object
-   struct ContactDetails : realm::embedded_object { 
+   struct ContactDetails : realm::embedded_object<ContactDetails> { 
        // Because ContactDetails is an embedded object, it cannot have its own _id
        // It does not have a lifecycle outside of the top-level object
        realm::persisted<std::string> emailAddress;
@@ -13,11 +13,10 @@
            realm::property<&ContactDetails::phoneNumber>("phoneNumber"));
    };
 
-   struct Business : realm::object {
-       realm::persisted<std::string> _id;
+   struct Business : realm::object<Business> {
+       realm::persisted<int64_t> _id;
        realm::persisted<std::string> name;
-       // Unlike to-one relationships, an embedded object can be a required property
-       realm::persisted<ContactDetails> contactDetails; 
+       realm::persisted<std::optional<ContactDetails>> contactDetails; 
 
        static constexpr auto schema = realm::schema("Business",
            realm::property<&Business::_id, true>("_id"),
