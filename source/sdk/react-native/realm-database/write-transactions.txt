@@ -5,47 +5,19 @@
 Write Transactions - React Native SDK
 =====================================
 
-.. contents:: On this page
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
+Within a ``<RealmProvider>``, you can access a realm with
+the ``useRealm()`` hook. Then, you can create Realm objects
+using a :js-sdk:`Realm.write() <Realm.html#write>` transaction block.
 
-A write transaction is a function that modifies objects in a realm. Write 
-transactions let you create, modify, or delete Realm objects. They handle 
-operations in a single, idempotent update. A transaction is 
-*all or nothing*. Either:
+All operations within a write transaction are :wikipedia:`atomic <Atomicity_(database_systems)>`.
+If an operation in the write transaction fails, the whole transaction fails,
+Realm throws an error, and no changes from the transaction block are applied to the realm.
 
-- All the operations in the transaction succeed, or; 
-- If any operation fails, none of the operations complete.
+Every write operation must occur in a write transaction.
 
-.. important::
-   
-   Every write operation must occur in a write transaction.
-
-.. example::
-   
-   Write transactions are callback functions that you pass to a realm
-   instance. For examples of specific write operations, see 
-   :ref:`react-native-create-objects` or :ref:`react-native-update-objects`.
-   
-   .. code-block:: javascript
-      
-      const realm = await Realm.open();
-      realm.write(() => {
-        const tesla = realm.create("Car", {
-          make: "Tesla",
-          model: "Model S",
-          year: 2020,
-          miles: 12000
-        })
-        const honda = realm.create("Car", {
-          make: "Honda",
-          model: "Civic",
-          year: 2018,
-          miles: 30000
-        })
-      })
+.. literalinclude:: /examples/generated/react-native/ts/create-test.snippet.crud-create-object.tsx
+  :language: typescript
+  :emphasize-lines: 6-8
 
 Transaction Lifecycle
 ---------------------
@@ -61,12 +33,13 @@ After processing a transaction, Realm Database either **commits** it or
   Once applied, the realm automatically updates :ref:`live queries
   <react-native-live-queries>`. It notifies listeners of created, modified, 
   and deleted objects.
-  
-  .. note::
      
-     When using :ref:`Sync <sync>`, the SDK also queues
-     the changes to send to Atlas App Services. The SDK sends
-     these changes when a network is available.
+  - When using :ref:`Sync <sync>`, the SDK also queues
+    the changes to send to Atlas App Services. The SDK sends
+    these changes when a network is available.
+
+  - After a commit, objects and collections returned by ``useQuery`` or 
+    ``useObject`` rerender to include relevant changes.
 
 - Realm Database does not apply any operations in a **cancelled**
   transaction. Realm Database cancels a transaction if an operation 
