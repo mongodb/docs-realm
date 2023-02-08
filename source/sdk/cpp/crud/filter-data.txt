@@ -102,6 +102,8 @@ Value comparisons
      value with a threshold number, above which priority can be considered high.
    - Find just-started or short-running tasks by seeing if the ``progressMinutes`` 
      property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is 
+     equal to ``std::nullopt``.
    - Find tasks assigned to specific teammates Ali or Jamie by seeing if the 
      ``assignee`` property is in a list of names.
 
