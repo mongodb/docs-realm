@@ -7,10 +7,17 @@ import 'package:path/path.dart' as path;
 import './utils.dart';
 import './open_flexible_sync_realm_test.dart';
 
+part 'sync_multiple_processes_test.g.dart';
+
 late App app;
-late Realm realm;
 late User currentUser;
 const APP_ID = "flutter-flexible-luccm";
+
+@RealmModel()
+class _Person {
+  @PrimaryKey()
+  late String name;
+}
 
 void main() {
   group('Sync multiple processes', () {
@@ -20,10 +27,6 @@ void main() {
       final credentials =
           Credentials.emailPassword("bart@example.com", "abc123");
       currentUser = await app.logIn(credentials);
-    });
-    tearDown(() async {
-      await currentUser.logOut();
-      Realm.shutdown();
     });
     // Note: This test doesn't actually test what is being documented, b/c the
     // documentation is about working across multiple processes and it's not
@@ -58,6 +61,41 @@ void main() {
       expect(myTri, isNotNull);
       realmWithDisconnectedSync.close();
       // since both realm connections are only for 1 realm, this deletes both
+      await cleanUpRealm(realmWithSync, app);
+      await cleanUpRealm(realmWithDisconnectedSync, app);
     });
+  });
+  // Note: These tests for `Realm.refresh()` and `Realm.refreshASync()`
+  // don't actually test what is being documented b/c the
+  // documentation is about working across multiple processes and it's not
+  // intuitive to do that within a unit test (which runs in only 1 process)
+  test("Realm.refresh()", () async {
+    final realm = Realm(Configuration.local([Person.schema]));
+    // :snippet-start: refresh-main-process
+    // Add object in one process
+    realm.write(() {
+      realm.add(Person('John'));
+    });
+    // :snippet-end:
+    // :snippet-start: refresh-secondary-process
+    // Call realm.refresh() in the secondary process
+    // to trigger the data written in the main process
+    // to register in the secondary process.
+    realm.refresh();
+    final john = realm.find<Person>('John');
+    // :snippet-end:
+    cleanUpRealm(realm);
+  });
+  test("Realm.refreshAsync()", () async {
+    final realm = Realm(Configuration.local([Person.schema]));
+    realm.write(() {
+      realm.add(Person('John'));
+    });
+    // :snippet-start: refresh-async
+    // Asynchronously refresh the realm in the background.
+    await realm.refreshAsync();
+    final john = realm.find<Person>('John');
+    // :snippet-end:
+    cleanUpRealm(realm);
   });
 }
