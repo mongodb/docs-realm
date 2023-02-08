@@ -16,7 +16,7 @@ Register an Object Change Listener
 ----------------------------------
 
 You can register a notification handler on a specific object
-within a Realm. Realm Database notifies your handler:
+within a realm. Realm Database notifies your handler:
 
 - When the object is deleted.
 - When any of the object's properties change.
@@ -24,7 +24,7 @@ within a Realm. Realm Database notifies your handler:
 .. code-block:: cpp
    :copyable: false
    
-   auto token = object.observe([&](auto change) { ... }
+   auto token = object.observe([&](auto&& change) { ... }
 
 The handler receives an :cpp-sdk:`ObjectChange <structrealm_1_1ObjectChange.html>`
 object that contains information about the changes, such as whether the 

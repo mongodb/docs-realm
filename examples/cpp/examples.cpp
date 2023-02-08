@@ -272,7 +272,7 @@ TEST_CASE("object notification", "[notification]") {
     });
 
     //  Set up the listener & observe object notifications.
-    auto token = dog.observe([&](auto change) {
+    auto token = dog.observe([&](auto&& change) {
         try {
             // :snippet-start: notifications-property-changes
             if (change.error) {
@@ -299,8 +299,6 @@ TEST_CASE("object notification", "[notification]") {
     realm.write([&dog, &realm] {
         dog.name = "Wolfie";
     });
-    // Refresh the realm after the change to trigger the notification.
-    realm.refresh();
 
     // Deleting the object triggers a delete notification.
     realm.write([&dog, &realm] {

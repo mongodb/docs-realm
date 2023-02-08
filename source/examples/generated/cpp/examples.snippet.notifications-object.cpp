@@ -8,7 +8,7 @@ realm.write([&realm, &dog] {
 });
 
 //  Set up the listener & observe object notifications.
-auto token = dog.observe([&](auto change) {
+auto token = dog.observe([&](auto&& change) {
     try {
         if (change.error) {
             rethrow_exception(change.error);
@@ -31,8 +31,6 @@ auto token = dog.observe([&](auto change) {
 realm.write([&dog, &realm] {
     dog.name = "Wolfie";
 });
-// Refresh the realm after the change to trigger the notification.
-realm.refresh();
 
 // Deleting the object triggers a delete notification.
 realm.write([&dog, &realm] {
