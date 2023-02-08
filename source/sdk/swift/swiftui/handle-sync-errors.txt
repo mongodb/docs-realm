@@ -84,7 +84,7 @@ To automatically handle a client reset, set the ``clientResetMode`` parameter
 in your :swift-sdk:`flexibleSyncConfiguration() 
 <Extensions/User.html#/flexibleSyncConfiguration(clientResetMode:cancelAsyncOpenOnNonFatalErrors:)>`.
 You can review the possible values and their behaviors in the 
-:swift-sdk:`ClientResetMode enum <Enums/ClientResetMode.html>`
+:swift-sdk:`ClientResetMode enum <Enums/ClientResetMode.html>`.
 
 In this example, we set the ``clientResetMode`` to ``.recoverUnsyncedChanges``.
 
@@ -103,11 +103,11 @@ switching on @AsyncOpen or @AutoOpen property wrapper states
 It never progresses past the ``.connecting`` state. The next time the user 
 opens the app, it loads without issue.
 
-You can take some action in the ``afterClientReset`` block to handle this in
-your app. You could set a ``@State`` variable, modify its value in the 
-``afterClientResetBlock``, and use that to instruct the user to 
+You can perform additional logic in the ``afterClientReset`` block to handle 
+this in your app. You could set a ``@State`` variable, modify its value 
+in the ``afterClientResetBlock``, and use that to instruct the user to 
 re-open the app when a client reset occurs. Or you could force the 
-``@AsyncOpen`` or ``@AutoOpen`` View to reload using the updated realm.
+``@AsyncOpen`` or ``@AutoOpen`` view to reload using the updated realm.
 
 Verify Client Reset Works as Expected
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
