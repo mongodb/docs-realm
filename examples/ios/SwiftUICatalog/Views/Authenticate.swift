@@ -113,7 +113,7 @@ struct FlexSyncContentView: View {
                     let dogSubscriptionExists = subs.first(named: "dogs")
                     // Check whether the subscription already exists. Adding it more
                     // than once causes an error.
-                    if peopleSubsriptionExists && dogSubscriptionExists {
+                    if peopleSubscriptionExists && dogSubscriptionExists {
                         // Existing subscriptions found - do nothing
                         return
                     } else {
