@@ -65,13 +65,13 @@ Manage Your Subscriptions
 
 When configuring Flexible Sync on the backend, you specify which fields your
 client application can query. In the client application, the
-:cpp-sdk:`sync_subscription_set <structrealm_1_1SyncSubscriptionSet.html>` 
+:cpp-sdk:`sync_subscription_set <structrealm_1_1sync__subscription__set.html>` 
 is a list of zero or more :cpp-sdk:`sync_subscription 
-<structrealm_1_1SyncSubscription.html>` objects that determine what objects the 
-realm can store. 
+<structrealm_1_1sync__subscription.html>` objects that determine what 
+objects the realm can store. 
 
 The Realm C++ SDK also has a :cpp-sdk:`mutable_sync_subscription_set 
-<structrealm_1_1MutableSyncSubscriptionSet.html>` that enables you to
+<structrealm_1_1mutable__sync__subscription__set.html>` that enables you to
 add, change, and remove ``sync_subscription`` objects.
 
 .. _cpp-verify-subscription-size-find-subscription:
@@ -85,7 +85,7 @@ has the expected number of subscriptions or has a specific subscription.
 You can get this information by accessing the ``subscriptions()`` public
 member function of a :cpp-sdk:`realm <structrealm_1_1db.html>`. This 
 provides the :cpp-sdk:`sync_subscription_set 
-<structrealm_1_1SyncSubscriptionSet.html>` where you can use the 
+<structrealm_1_1sync__subscription__set.html>` where you can use the 
 ``size()`` or ``find()`` public member functions.
 
 .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.subscription-count-and-find-subscription.cpp
@@ -98,7 +98,7 @@ Add Sync Subscriptions
 
 To update a subscription set, use the ``subscription().updates()`` function.
 This gives you access to a :cpp-sdk:`mutable_sync_subscription_set 
-<structrealm_1_1MutableSyncSubscriptionSet.html>` where you can use the
+<structrealm_1_1mutable__sync__subscription__set.html>` where you can use the
 use the ``add()`` function to add a new Sync subscription.
 
 This template requires the object type of the object you want to sync, and 
@@ -137,9 +137,9 @@ Update Sync Subscriptions
 
 To update a subscription set, use the ``subscription().updates()`` function.
 This gives you access to a :cpp-sdk:`mutable_sync_subscription_set 
-<structrealm_1_1MutableSyncSubscriptionSet.html>` where you can use the
+<structrealm_1_1mutable__sync__subscription__set.html>` where you can use the
 ``update_subscription()`` function to update a specific :cpp-sdk:`sync_subscription 
-<structrealm_1_1SyncSubscription.html>`.
+<structrealm_1_1sync__subscription.html>`.
 
 You can change a ``sync_subscription``'s query in an update. You can add, remove,
 or update the query string for a given ``sync_subscription``.
@@ -154,7 +154,7 @@ Remove Sync Subscriptions
 
 To update a subscription set, use the ``subscription().updates()`` function.
 This gives you access to a :cpp-sdk:`mutable_sync_subscription_set 
-<structrealm_1_1MutableSyncSubscriptionSet.html>` where you can use the
+<structrealm_1_1mutable__sync__subscription__set.html>` where you can use the
 ``remove()`` or ``clear()`` functions to remove subscriptions.
 
 Remove a Specific Subscription

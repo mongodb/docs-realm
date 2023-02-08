@@ -93,8 +93,8 @@ You must declare any property you want to store (persist) in a realm as
 :cpp-sdk:`realm::persisted <structrealm_1_1persisted.html>`. Your model 
 must also expose a public static constant expression (``constexpr``) member 
 called ``schema``. Use the :cpp-sdk:`realm::schema 
-<structrealm_1_1internal_1_1schema.html>` and :cpp-sdk:`realm::property 
-<structrealm_1_1property.html>` templates to describe your schema.
+<structrealm_1_1schemagen_1_1schema.html>` and :cpp-sdk:`realm::property 
+<structrealm_1_1schemagen_1_1property.html>` templates to describe your schema.
 
 Realm ignores any members not declared as ``realm::persisted`` and not 
 declared in the schema.

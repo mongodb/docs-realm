@@ -95,13 +95,13 @@ If you have configured the :ref:`Google authentication provider <google-authenti
 you can log in using an existing Google account.
 
 To log in with a Google authentication code, pass a Google authentication code to
-:cpp-sdk:`credentials::google(auth_code) <structrealm_1_1App_1_1Credentials.html>`.
+:cpp-sdk:`credentials::google(auth_code) <structrealm_1_1App_1_1credentials.html>`.
 
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.google-auth-code.cpp
    :language: cpp
 
 To log in with a Google ID token, pass a Google ID token to
-:cpp-sdk:`credentials::google(id_token) <structrealm_1_1App_1_1Credentials.html>`.
+:cpp-sdk:`credentials::google(id_token) <structrealm_1_1App_1_1credentials.html>`.
 
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.google-id-token.cpp
    :language: cpp
@@ -132,9 +132,9 @@ each request. In this scenario, you must manually refresh the token when
 it expires. Access tokens expire after 30 minutes.
 
 You can call :cpp-sdk:`.refresh_custom_user_data() 
-<structrealm_1_1User.html#a1da89a21c087001f5a67f5475474a192>`
+<structrealm_1_1user.html#a6e08623890de4003a00a351e939a0a9f>`
 on a logged-in user to refresh the user's auth session. Then, get the 
-:cpp-sdk:`.access_token() <structrealm_1_1User.html#a26a79091588769c038d60294e0f9f774>` 
+:cpp-sdk:`.access_token() <structrealm_1_1user.html#ac059073ce64f125553e5bd395bd17cd6>` 
 as a string you can use in your code. You might use code similar to this to 
 fetch an access token:
 

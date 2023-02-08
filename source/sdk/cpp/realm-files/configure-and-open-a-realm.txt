@@ -17,7 +17,8 @@ in your application, called Realm objects, as well as additional metadata
 that describe the objects.
 
 When you open a realm, the ``open`` or ``async_open`` templates 
-construct a :cpp-sdk:`db_config <structrealm_1_1db__config.html>` that 
+construct a :cpp-sdk:`db_config 
+<structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` that 
 specifies details about how to configure the realm file. This can include:
 
 - The models that the realm file should manage
@@ -103,8 +104,8 @@ current directory.
 
    When building an Android app that uses the Realm C++ SDK Alpha, 
    you must pass the ``filesDir.path`` to the ``path`` parameter in the 
-   :cpp-sdk:`db_config <structrealm_1_1db__config.html>` constructor. For 
-   more information, refer to: :ref:`cpp-build-android-app`.
+   :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
+   constructor. For more information, refer to: :ref:`cpp-build-android-app`.
 
 .. _cpp-realm-at-path:
 
@@ -120,8 +121,9 @@ to the realm open template.
 .. tip:: Building an Android App
 
    When building an Android app that uses the Realm C++ SDK Alpha, 
-   you must pass the ``filesDir.path`` as the ``path`` parameter when you
-   open the realm. For more information, refer to: :ref:`cpp-build-android-app`.
+   you must pass the ``filesDir.path`` as the ``path`` parameter in the
+   :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
+   constructor. For more information, refer to: :ref:`cpp-build-android-app`.
 
 .. _cpp-open-synced-realm:
 
@@ -140,8 +142,9 @@ To open a synced realm:
 #. Open the user's synced realm with the configuration.
 
 To open a synced, pass the models you want the realm to manage into the 
-template parameter list of the :cpp-sdk:`async_open <structrealm_1_1async__open__realm.html>`
-function, and pass the configuration as an argument to the function.
+template parameter list of the :cpp-sdk:`async_open 
+<structrealm_1_1async__open__promise.html>` function, and pass the configuration 
+as an argument to the function.
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.open-a-synced-realm.cpp
    :language: cpp
@@ -150,6 +153,5 @@ function, and pass the configuration as an argument to the function.
 
    When building an Android app that uses the Realm C++ SDK Alpha, 
    you must pass the ``filesDir.path`` to the ``path`` parameter in the 
-   :cpp-sdk:`db_config <structrealm_1_1db__config.html>` constructor. For 
-   more information, refer to: 
-   :ref:`cpp-build-android-app`.
+   :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
+   constructor. For more information, refer to: :ref:`cpp-build-android-app`.
