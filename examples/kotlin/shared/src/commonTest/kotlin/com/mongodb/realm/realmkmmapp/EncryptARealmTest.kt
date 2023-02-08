@@ -30,7 +30,7 @@ class EncryptARealmTest : RealmTest() {
                 setOf(Frog::class))
                 // :remove-start:
                 .deleteRealmIfMigrationNeeded()
-                .directory("tmp_path_encrypted")
+                .directory("tmp/encrypted")
                 // :remove-end:
                 // specify the encryptionKey
                 .encryptionKey(getRandomKey())

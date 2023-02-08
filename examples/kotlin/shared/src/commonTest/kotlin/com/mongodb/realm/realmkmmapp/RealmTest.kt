@@ -3,6 +3,7 @@ package com.mongodb.realm.realmkmmapp
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.mongodb.AppConfiguration
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +20,12 @@ open class RealmTest {
 
     val SYNCED_REALM_SCHEMA = setOf(Frog::class, Sample::class)
     val YOUR_APP_ID: String = "kmm-example-testers-viybt"
+    val yourAppId = AppConfiguration.Builder(YOUR_APP_ID).syncRootDirectory("tmp/sync/".plus(getRandom())).build()
+
     val FLEXIBLE_APP_ID = "kotlin-flexible-tijhx"
-    val TMP_PATH = "/tmp"
+    val yourFlexAppId = AppConfiguration.Builder(FLEXIBLE_APP_ID).syncRootDirectory("tmp/sync/".plus(getRandom())).build()
+    val PARTITION = getRandom()
+    val TMP_PATH = "tmp"
     val mainThreadSurrogate = newSingleThreadContext("UI thread")
     val defaultRealmConfiguration = RealmConfiguration.Builder(setOf())
         // :remove-start:
