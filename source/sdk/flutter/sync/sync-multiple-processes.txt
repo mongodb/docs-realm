@@ -18,9 +18,9 @@ Open a Synced Realm in Multiple Processes
 
 To open a single synced realm from multiple processes, perform the following:
 
-#. Creating a single **main process** that opens a Realm using a standard flexible
+#. Create a single **main process** that opens a Realm using a standard flexible
    sync configuration. The main process handles synchronization.
-#. Creating one or more **secondary processes** that open the same realm using a
+#. Create one or more **secondary processes** that open the same realm using a
    disconnected sync configuration. Using a disconnected sync configuration,
    the secondary processes reads and writes data to the realm
    without handling the synchronization. The main process handles
