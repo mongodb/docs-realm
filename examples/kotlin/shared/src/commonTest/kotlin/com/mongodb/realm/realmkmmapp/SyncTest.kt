@@ -4,16 +4,24 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.AppConfiguration
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.subscriptions
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import org.mongodb.kbson.ObjectId
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
+import kotlinx.coroutines.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration
 
+// :replace-start: {
+//   "terms": {
+//     "yourAppId": "YOUR_APP_ID",
+//     "yourFlexAppId": "YOUR_APP_ID"
+//   }
+// }
 class SyncTest: RealmTest() {
 
     class Toad: RealmObject {
@@ -24,10 +32,8 @@ class SyncTest: RealmTest() {
 
     @Test
     fun openASyncedRealmTest() {
-        val PARTITION = getRandom()
-
         // :snippet-start: open-a-synced-realm
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             val config = SyncConfiguration.Builder(user, PARTITION, setOf(/*realm object models here*/))
@@ -37,18 +43,15 @@ class SyncTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             realm.close()
-            // :remove-start:
-            assertEquals(PARTITION, realm.configuration.name)
-            // :remove-end:
+            assertEquals(PARTITION, realm.configuration.name) // :remove:
         }
         // :snippet-end:
     }
 
     @Test
     fun configureASyncedRealmTest() {
-        val PARTITION = getRandom()
         // :snippet-start: configure-a-synced-realm
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             val config = SyncConfiguration.Builder(user, PARTITION, setOf(/*realm object models here*/))
@@ -65,11 +68,8 @@ class SyncTest: RealmTest() {
 
     @Test
     fun openAFlexibleSyncRealmTest() {
-        val PARTITION = getRandom()
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
-
         // :snippet-start: open-a-flexible-sync-realm
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         // use constants for query names so you can edit or remove them later
         val NAME_QUERY = "NAME_QUERY"
         runBlocking {
@@ -94,9 +94,8 @@ class SyncTest: RealmTest() {
 
     @Test
     fun configureAFlexibleSyncRealmTest() {
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
         // :snippet-start: configure-a-flexible-sync-realm
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             val config = SyncConfiguration.Builder(user, setOf(Toad::class))
@@ -121,9 +120,7 @@ class SyncTest: RealmTest() {
 
     @Test
     fun addASubscriptionTest() {
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
-
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             val config = SyncConfiguration.Builder(user, setOf(Toad::class))
@@ -150,9 +147,7 @@ class SyncTest: RealmTest() {
 
     @Test
     fun waitForSubscriptionChangesTest() {
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
-
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             val config = SyncConfiguration.Builder(user, setOf(Toad::class))
@@ -182,9 +177,7 @@ class SyncTest: RealmTest() {
 
     @Test
     fun updateSubscriptionByNameTest() {
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
-
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: update-subscriptions-by-name
@@ -218,9 +211,7 @@ class SyncTest: RealmTest() {
 
     @Test
     fun updateSubscriptionByQueryTest() {
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
-
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             val config = SyncConfiguration.Builder(user, setOf(Toad::class))
@@ -258,9 +249,7 @@ class SyncTest: RealmTest() {
 
     @Test
     fun removeSingleSubscriptionTest() {
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
-
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: remove-single-subscription
@@ -289,9 +278,7 @@ class SyncTest: RealmTest() {
 
     @Test
     fun removeSubscriptionsOfTypeTest() {
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
-
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: remove-all-subscriptions-to-an-object-type
@@ -322,9 +309,7 @@ class SyncTest: RealmTest() {
 
     @Test
     fun removeAllSubscriptionsTest() {
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
-
-        val app = App.create(YOUR_APP_ID)
+        val app = App.create(yourFlexAppId)
         runBlocking {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: remove-all-subscriptions
@@ -352,3 +337,4 @@ class SyncTest: RealmTest() {
         }
     }
 }
+// :replace-end:
