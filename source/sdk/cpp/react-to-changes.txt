@@ -1,0 +1,47 @@
+.. _cpp-react-to-changes:
+
+==================================
+React to Changes - C++ SDK (Alpha)
+==================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _cpp-register-an-object-change-listener:
+
+Register an Object Change Listener
+----------------------------------
+
+You can register a notification handler on a specific object
+within a realm. Realm Database notifies your handler:
+
+- When the object is deleted.
+- When any of the object's properties change.
+
+.. code-block:: cpp
+   :copyable: false
+   
+   auto token = object.observe([&](auto&& change) { ... }
+
+The handler receives an :cpp-sdk:`ObjectChange <structrealm_1_1ObjectChange.html>`
+object that contains information about the changes, such as whether the 
+object was deleted. It may include a list 
+of :cpp-sdk:`PropertyChange 
+<structrealm_1_1PropertyChange.html#a71dc45a7609e6a528e70b91d20ef8f94>` 
+objects that contain information about what fields changed, the new values
+of those fields (except on List properties), and potentially the old values 
+of the fields.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-property-changes.cpp
+    :language: cpp
+
+When you make changes, :cpp-sdk:`refresh() <structrealm_1_1db.html>` the 
+realm to emit a notification.
+
+.. example::
+
+   .. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-object.cpp
+      :language: cpp

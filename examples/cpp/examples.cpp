@@ -260,30 +260,36 @@ TEST_CASE("custom user data", "[realm][sync]") {
     CHECK(deleteResult);
 }
 
-#if 0
-// Can't currently get this to work.
-TEST_CASE("live objects", "[test]") {
-    // Open the default realm.
+TEST_CASE("object notification", "[notification]") {
+    // :snippet-start: notifications-object
     auto realm = realm::open<Person, Dog>();
 
     auto dog = Dog { .name = "Max" };
 
-    // Create a dog in the realm.
+    // Create an object in the realm.
     realm.write([&realm, &dog] {
         realm.add(dog);
     });
 
     //  Set up the listener & observe object notifications.
-    auto token = dog.observe<Dog>([](auto&& change) {
+    auto token = dog.observe([&](auto&& change) {
         try {
+            // :snippet-start: notifications-property-changes
             if (change.error) {
                 rethrow_exception(change.error);
             }
             if (change.is_deleted) {
                 std::cout << "The object was deleted.\n";
             } else {
-                std::cout << "The object changed\n";
+                for (auto& propertyChange : change.property_changes) {
+                    std::cout << "The object's " << propertyChange.name << " property has changed.\n"; 
+                    CHECK(propertyChange.name == "name"); // :remove:
+                    auto newPropertyValue = std::get<std::string>(*propertyChange.new_value);
+                    std::cout << "The new value is " << newPropertyValue << "\n";
+                    CHECK(newPropertyValue == "Wolfie"); // :remove:
+                }
             }
+            // :snippet-end:
         } catch (std::exception const& e) {
             std::cerr << "Error: " << e.what() << "\n";
         }
@@ -293,5 +299,12 @@ TEST_CASE("live objects", "[test]") {
     realm.write([&dog, &realm] {
         dog.name = "Wolfie";
     });
+
+    // Deleting the object triggers a delete notification.
+    realm.write([&dog, &realm] {
+        realm.remove(dog);
+    });
+    // Refresh the realm after the change to trigger the notification.
+    realm.refresh();
+    // :snippet-end:
 }
-#endif
