@@ -24,7 +24,6 @@ struct SyncDog : realm::object<SyncDog> {
 
 // :snippet-start: define-models
 // :snippet-start: single-object-model
-// Define your models like regular structs.
 struct Dog : realm::object<Dog> {
     realm::persisted<std::string> name;
     realm::persisted<int64_t> age;
@@ -151,20 +150,19 @@ TEST_CASE("open a default realm", "[realm]") {
     // :snippet-end:
 }
 
-#if 0
 TEST_CASE("open a realm at a path", "[realm]") {
     // Construct an arbitrary path to use in the example
-        // :snippet-start: open-realm-at-path
-    auto relative_realm_path = "custom_path_directory/";
-    std::filesystem::create_directories(relative_realm_path); // :remove:
-    // Construct a path, and then convert it to a string so you can append a name for the realm file
-    auto path = std::filesystem::current_path().append(relative_realm_path).string();
-    /* Add a name for the file. When you provide a path, the `db_config` 
-     * constructor removes the last path element and makes that 
-     * the realm file name. */
-    path = path + "dog_objects";
-    auto config = realm::db_config{ path = path };
-    auto realm = realm::open<Dog>(config);
+    // :snippet-start: open-realm-at-path
+    auto relative_realm_path_directory = "custom_path_directory/";
+    std::filesystem::create_directories(relative_realm_path_directory); // :remove:
+    // Construct a path
+    std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+    // Add a name for the realm file
+    path =  path.append("dog_objects");
+    // Add the .realm extension
+    path = path.replace_extension("realm");
+    // Open a realm at the path
+    auto realm = realm::open<Dog>({ path });
     // :snippet-end:
     SECTION("Test code example functions as intended + teardown") {
         // Write something to the realm to confirm this worked as expected.
@@ -181,7 +179,6 @@ TEST_CASE("open a realm at a path", "[realm]") {
         });
     }
 }
-#endif
 
 TEST_CASE("open a synced realm", "[realm][sync]") {
     // :snippet-start: open-a-synced-realm
@@ -198,6 +195,69 @@ TEST_CASE("open a synced realm", "[realm][sync]") {
     // we need to resolve() before we can safely use the realm on this thread.
     auto realm = synced_realm_ref.resolve();
     // :snippet-end:
+}
+
+TEST_CASE("call a function", "[realm][sync]") {
+    // :snippet-start: call-a-function
+    // Connect to an App Services App and authenticate a user
+    auto app = realm::App(APP_ID);
+    auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
+    auto sync_config = user.flexible_sync_configuration();
+
+    // If a function takes arguments, pass them as BSON
+    auto arg1 = realm::bson::Bson("john.smith");
+    auto arg2 = realm::bson::Bson("@companyemail.com");
+
+    // Call an App Services function as the logged-in user
+    auto result = user.call_function("concatenate", { arg1, arg2 }).get_future().get();
+    
+    // Verify that the result has a value
+    CHECK(result);
+    auto bsonResult = result.value();
+    
+    // Translate the BSON result back to a string
+    auto resultString = std::string(bsonResult);
+    // Prints "Calling the concatenate function returned john.smith@companyemail.com."
+    std::cout << "Calling the concatenate function returned " << resultString << ".\n";
+    // :snippet-end:
+    REQUIRE(resultString == "john.smith@companyemail.com");
+}
+
+TEST_CASE("custom user data", "[realm][sync]") {
+    auto app = realm::App(APP_ID);
+
+    // :snippet-start: create-custom-user-data
+    auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
+
+    // Functions take an argument of BsonArray, so initialize the custom data as a BsonDocument
+    auto customDataBson = realm::bson::BsonDocument({{"userId", user.identifier()}, {"favoriteColor", "gold"}});
+
+    // Call an Atlas Function to insert custom data for the user
+    auto result = user.call_function("updateCustomUserData", { customDataBson }).get_future().get();
+    // :snippet-end:
+    CHECK(result);
+
+    // :snippet-start: read-custom-user-data
+    // Custom user data could be stale, so refresh it before reading it
+    user.refresh_custom_user_data().get_future().get();
+    CHECK((*user.custom_data())["favoriteColor"] == "gold");
+    // :snippet-end:
+
+    // :snippet-start: update-custom-user-data
+    // Functions take an argument of BsonArray, so initialize the custom data as a BsonDocument
+    auto updatedDataBson = realm::bson::BsonDocument({{"userId", user.identifier()}, { "favoriteColor", "black" }});
+
+    // Call an Atlas Function to update custom data for the user
+    auto updateResult = user.call_function("updateCustomUserData", { updatedDataBson }).get_future().get();
+
+    // Refresh the custom user data before reading it to verify it succeeded
+    user.refresh_custom_user_data().get_future().get();
+    CHECK((*user.custom_data())["favoriteColor"] == "black");
+    // :snippet-end:
+    // :snippet-start: delete-custom-user-data
+    auto deleteResult = user.call_function("deleteCustomUserData", {}).get_future().get();
+    // :snippet-end:
+    CHECK(deleteResult);
 }
 
 #if 0

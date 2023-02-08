@@ -1,1 +1,1 @@
-realm::persisted<std::optional<int>> optIntName;
+realm::persisted<std::optional<int64_t>> optIntName;

@@ -139,8 +139,9 @@ Create an Object with a To-Many Relationship
 To create an object with a to-many relationship link to one or more objects:
 
 - Initialize the main object and the linked objects
-- Use the :cpp-sdk:`push_back <structrealm_1_1persisted_3_01T_00_01type__info_1_1ListObjectPersistable_3_01T_01_4_01_4.html>`
-  member function available to the ``ListObjectPersistable< T >`` template
+- Use the :cpp-sdk:`push_back 
+  <structrealm_1_1persisted_3_01std_1_1vector_3_01T_01_4_00_01std_1_1enable__if__t_3_01std_1_1is__bf25bc7461a39304fb47e25c96413fa0e.html>`
+  member function available to the Realm object lists
   to append the linked objects to the main object's list property
 - Pass the main object to the to the :cpp-sdk:`Realm.add() function
   <structrealm_1_1db.html>` inside of a write transaction.

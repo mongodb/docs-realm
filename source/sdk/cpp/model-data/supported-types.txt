@@ -35,7 +35,7 @@ Property Cheat Sheet
      - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-bool.cpp
           :language: cpp
           :copyable: false
-   * - Int, Int8, Int16, Int32, Int64
+   * - Int64
      - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-int.cpp
           :language: cpp
           :copyable: false
@@ -67,7 +67,9 @@ Property Cheat Sheet
      - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-binary-data.cpp
           :language: cpp
           :copyable: false
-     - N/A
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-binary-data.cpp
+          :language: cpp
+          :copyable: false
    * - Date
      - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-date.cpp
           :language: cpp
@@ -80,6 +82,13 @@ Property Cheat Sheet
           :language: cpp
           :copyable: false
      - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-uuid.cpp
+          :language: cpp
+          :copyable: false
+   * - Object ID
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-object-id.cpp
+          :language: cpp
+          :copyable: false
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-object-id.cpp
           :language: cpp
           :copyable: false
    * - Mixed Data Type
@@ -99,10 +108,7 @@ Property Cheat Sheet
 
           realm::persisted<std::optional<MyClass>> opt_obj_name;
    * - User-defined Embedded Object
-     - .. code-block:: cpp
-          :copyable: false
-
-          realm::persisted<MyEmbeddedClass> embedded_obj_name;
+     - N/A
      - .. code-block:: cpp
           :copyable: false
 

@@ -1,14 +1,17 @@
 auto realm = realm::open<Company, Employee>();
 
 auto employee1 = Employee {
+    ._id = 23456,
     .firstName = "Pam",
     .lastName = "Beesly" };
 
 auto employee2 = Employee {
+    ._id = 34567,
     .firstName = "Jim",
     .lastName = "Halpert" };
 
 auto company = Company {
+    ._id = 45678,
     .name = "Dunder Mifflin"
 };
 
