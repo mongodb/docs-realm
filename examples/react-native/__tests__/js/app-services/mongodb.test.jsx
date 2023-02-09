@@ -1,4 +1,4 @@
-// :snippet-start: call-function
+// :snippet-start: mongodb
 import React from 'react';
 import {useUser} from '@realm/react';
 // :remove-start:
