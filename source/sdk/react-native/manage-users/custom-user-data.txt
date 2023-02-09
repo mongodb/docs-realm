@@ -45,8 +45,11 @@ Write Custom User Data
 ----------------------
 
 You can write to a user's custom user data with :ref:`MongoDB Data Access <react-native-mongodb-data-access>`.
+
 Your write operations must include the :js-sdk:`User.id <Realm.User.html#id>`
-match the **User ID Field** you set when configuring custom user data in the App backend.
+in the **User ID Field** you set when configuring custom user data in the App backend.
+If you don't include the user ID in the User ID Field, the data that you write
+will not be linked to the user's custom user data.
 
 .. literalinclude:: /examples/generated/react-native/ts/write-custom-user-data.test.snippet.write-custom-user-data.tsx
    :language: typescript
