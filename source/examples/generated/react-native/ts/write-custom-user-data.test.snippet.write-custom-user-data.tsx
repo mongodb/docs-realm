@@ -15,7 +15,8 @@ function WriteCustomUserData() {
     };
     const updateDoc = {
       $set: {
-        ...user.customData,
+        // Set User ID if it's not already set
+        userId: user.id,
         // Set the logged in user's favorite color
         favoriteColor,
       },
