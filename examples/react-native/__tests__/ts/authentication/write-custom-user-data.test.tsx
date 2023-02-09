@@ -62,9 +62,9 @@ function WriteCustomUserData() {
     const options = {upsert: true};
 
     await customUserDataCollection.updateOne(filter, updateDoc, options);
-    // :snippet-start: read-custom-user-data
+
+    // Refresh custom user data once it's been updated on the server
     const customUserData = await user.refreshCustomData();
-    // :snippet-end:
     higherScopeResult = customUserData as SimpleObject; // :remove:
     console.log(customUserData);
   }

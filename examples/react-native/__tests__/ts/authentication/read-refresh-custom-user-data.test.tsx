@@ -1,4 +1,4 @@
-// :snippet-start: delete-user
+// :snippet-start: read-refresh-custom-user-data
 import React, {useState} from 'react';
 import {useApp, useUser} from '@realm/react';
 // :remove-start:
@@ -38,22 +38,23 @@ function LogIn() {
   }, []);
   return <></>;
 }
-let higherScopeResult: SimpleObject;
 // :remove-end:
 
 function ReadCustomUserData() {
   const user = useUser();
-  const [customUserData, setCustomUserData] = useState<SimpleObject | null>();
+  const [customUserData, setCustomUserData] = useState();
 
   // Access current custom user data with `user.customData`
   function readCurrentCustomUserData() {
     setCustomUserData(user.customData);
+    expect(user?.customData).toBe(null); // :remove:
   }
 
   // Refresh custom user data with `user.refreshCustomData()`
   async function refreshCustomUserData() {
     const data = await user.refreshCustomData();
     setCustomUserData(data);
+    expect(data.favoriteColor).toBe('purple'); // :remove:
   }
 
   // ...
@@ -101,13 +102,9 @@ test('read custom user data', async () => {
   const {getByTestId} = render(<AppWrapper />);
   const readButton = await waitFor(() => getByTestId(readTestId));
   fireEvent.press(readButton);
-  // TODO: change this
-  await waitFor(() => expect(higherScopeResult.favoriteColor).toBe('pink'));
 });
 test('refresh custom user data', async () => {
   const {getByTestId} = render(<AppWrapper />);
   const refreshButton = await waitFor(() => getByTestId(refreshTestId));
   fireEvent.press(refreshButton);
-  // TODO: change this
-  await waitFor(() => expect(higherScopeResult.favoriteColor).toBe('pink'));
 });
