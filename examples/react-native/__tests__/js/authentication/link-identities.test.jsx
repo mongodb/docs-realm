@@ -38,20 +38,15 @@ function LogIn() {
   }, []);
   return <></>;
 }
-let higherScopeUser: Realm.User;
+let higherScopeUser;
 // :remove-end:
 
-interface LinkUserIdentitiesProps {
-  username: string;
-  password: string;
-}
-
-function LinkUserIdentities({username, password}: LinkUserIdentitiesProps) {
+function LinkUserIdentities({username, password}) {
   const user = useUser();
 
-  const linkIdentities = async (credentials: Realm.Credentials) => {
+  const linkIdentities = async credentials => {
     await user.linkCredentials(credentials);
-    higherScopeUser = user!; // :remove:
+    higherScopeUser = user; // :remove:
   };
 
   // ...
