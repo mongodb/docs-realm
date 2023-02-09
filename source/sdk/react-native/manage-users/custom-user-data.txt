@@ -29,11 +29,12 @@ Read Custom User Data
 
 .. include:: /includes/custom-data-may-be-stale.rst
 
+If you have not recently updated your custom user data, use the user object's :js-sdk:`customData
+<Realm.User.html#customData>` field. The ``customData`` field is read only.
+
 If you have updated your custom user data within the last 30 minutes,
 use :js-sdk:`User.refreshCustomData() <Realm.User.html#refreshCustomData>`.
 
-If you have not recently updated your custom user data, use the user object's :js-sdk:`customData
-<Realm.User.html#customData>` field. The ``customData`` field is read only.
 
 .. literalinclude:: /examples/generated/react-native/ts/read-refresh-custom-user-data.test.snippet.read-refresh-custom-user-data.tsx
    :language: typescript
