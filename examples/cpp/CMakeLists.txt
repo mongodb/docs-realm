@@ -19,8 +19,15 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
-# add_executable(examples testHelpers.hpp testHelpersTests.cpp authentication.cpp define-object-model.cpp examples.cpp flexible-sync.cpp supported-types.cpp)
-add_executable(examples authentication.cpp define-object-model.cpp examples.cpp filter-data.cpp flexible-sync.cpp quick-start.cpp supported-types.cpp)
+add_executable(examples 
+  authentication.cpp 
+  define-object-model.cpp 
+  examples.cpp 
+  filter-data.cpp 
+  flexible-sync.cpp 
+  quick-start.cpp 
+  supported-types.cpp
+)
 
 target_link_libraries(examples PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(examples PRIVATE cpprealm)

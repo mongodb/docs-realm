@@ -1,9 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
-//#include <string>
 #include <thread>
 #include <future>
 #include <string>
-#include <unistd.h>
 // :snippet-start: includes
 #include <cpprealm/sdk.hpp>
 // :snippet-end:
@@ -12,7 +10,7 @@
 //   "terms": {
 //     "Local_": "",
 //     "Sync_": "",
-//     "charUserId": "userId"
+//     "userId.c_str()": "userId"
 //   }
 // }
 
@@ -122,7 +120,7 @@ TEST_CASE("sync quick start", "[realm][write][sync]") {
     auto realm = synced_realm_ref.resolve();
     // :remove-start:
     // Remove any existing subscriptions before adding the one for this example
-    auto clearInitialSubscriptions = realm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
+    auto clearInitialSubscriptions = realm.subscriptions().update([](auto &subs) {
         subs.clear();
     }).get_future().get();
     CHECK(clearInitialSubscriptions == true);
@@ -144,13 +142,11 @@ TEST_CASE("sync quick start", "[realm][write][sync]") {
     // The C++ SDK is currently missing a constructor to store a std::string
     // So convert the userId std::string to a character array for persisting.
     // TODO: Remove this and use the userId directly when the constructor is added.
-    char* charUserId = strcpy(new char[userId.length() + 1], userId.c_str());
-    
     // :snippet-start: write-to-synced-realm
     auto todo = Sync_Todo {
         .name = "Create a Sync todo item",
         .status = "In Progress",
-        .ownerId = charUserId
+        .ownerId = userId.c_str()
     };
 
     realm.write([&realm, &todo] {
