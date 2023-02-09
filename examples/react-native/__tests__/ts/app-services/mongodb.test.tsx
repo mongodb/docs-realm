@@ -3,11 +3,11 @@ import React from 'react';
 import {useUser} from '@realm/react';
 // :remove-start:
 import {Credentials, BSON} from 'realm';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {App} from 'realm';
 import {AppProvider, UserProvider, useApp} from '@realm/react';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
-import {View, Button, Text} from 'react-native';
+import {View, Button} from 'react-native';
 
 const APP_ID = 'example-testers-kvjdy';
 
@@ -15,37 +15,38 @@ function AppWrapper() {
   return (
     <View>
       <AppProvider id={APP_ID}>
-        <MyApp />
+        <UserProvider fallback={<LogIn />}>
+          <QueryPlants />
+        </UserProvider>
       </AppProvider>
     </View>
   );
 }
 
-function MyApp() {
-  const [loggedIn, setLoggedIn] = useState(false);
+function LogIn() {
   const app = useApp();
 
   useEffect(() => {
     app.logIn(Credentials.anonymous()).then(async user => {
-      if (user) {
-        setLoggedIn(true);
-        const plants = user.mongoClient('mongodb-atlas').db('example').collection<Plant>('plants');
-        try {
-          await plants.insertOne({_id: new BSON.ObjectId('5f87976b7b800b285345a8b4'), name: 'venus flytrap', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 42'});
-        } catch (err) {
-          console.error(err);
-        }
+      const plants = user
+        .mongoClient('mongodb-atlas')
+        .db('example')
+        .collection<Plant>('plants');
+      try {
+        await plants.insertOne({
+          _id: new BSON.ObjectId('5f87976b7b800b285345a8b4'),
+          name: 'venus flytrap',
+          sunlight: 'full',
+          color: 'white',
+          type: 'perennial',
+          _partition: 'Store 42',
+        });
+      } catch (err) {
+        console.error(err);
       }
     });
   }, []);
-  return loggedIn ? (
-    <View>
-      <UserProvider>
-        <Text>Foo!</Text>
-        <QueryPlants />
-      </UserProvider>
-    </View>
-  ) : null;
+  return <></>;
 }
 
 let higherScopedVenusFlyTrap: Plant | null;
@@ -66,7 +67,7 @@ function QueryPlants() {
 
   const getPlantByName = async (name: string) => {
     // Access linked MongoDB collection
-    const mongodb = user!.mongoClient('mongodb-atlas');
+    const mongodb = user.mongoClient('mongodb-atlas');
     const plants = mongodb.db('example').collection<Plant>('plants');
     // Query the collection
     const response = await plants.findOne({name});
@@ -76,7 +77,13 @@ function QueryPlants() {
   };
   // ...
   // :remove-start:
-  return <Button onPress={() => getPlantByName('venus flytrap')} testID='test-mongodb-call' title='Test Me!' />;
+  return (
+    <Button
+      onPress={() => getPlantByName('venus flytrap')}
+      testID='test-mongodb-call'
+      title='Test Me!'
+    />
+  );
   // :remove-end:
 }
 // :snippet-end:
@@ -88,7 +95,9 @@ test('Use MongoDB Data Access', async () => {
 
   const button = await waitFor(() => getByTestId('test-mongodb-call'));
   fireEvent.press(button);
-  await waitFor(() => expect(higherScopedVenusFlyTrap?.name).toBe('venus flytrap'));
+  await waitFor(() =>
+    expect(higherScopedVenusFlyTrap?.name).toBe('venus flytrap'),
+  );
 });
 
 // Note: rest of the examples on React Native 'query MongoDB' page can be found

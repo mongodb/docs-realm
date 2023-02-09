@@ -7,7 +7,7 @@ function QueryPlants() {
 
   const getPlantByName = async (name: string) => {
     // Access linked MongoDB collection
-    const mongodb = user!.mongoClient('mongodb-atlas');
+    const mongodb = user.mongoClient('mongodb-atlas');
     const plants = mongodb.db('example').collection<Plant>('plants');
     // Query the collection
     const response = await plants.findOne({name});
