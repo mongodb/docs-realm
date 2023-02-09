@@ -28,10 +28,10 @@ function LogIn() {
 
   useEffect(() => {
     app.logIn(Credentials.anonymous()).then(async user => {
-      const plants =
-        user.mongoClient('mongodb-atlas').db('example').collection <
-        Plant >
-        'plants';
+      const plants = user
+        .mongoClient('mongodb-atlas')
+        .db('example')
+        .collection('plants');
       try {
         await plants.insertOne({
           _id: new BSON.ObjectId('5f87976b7b800b285345a8b4'),
