@@ -23,7 +23,7 @@ specifies details about how to configure the realm file. This can include:
 
 - The models that the realm file should manage
 - An optional path where the realm is stored on device
-- A ``SyncConfig`` if you want to use the realm with Device Sync
+- A ``sync_config`` if you want to use the realm with Device Sync
 
 .. _cpp-realm-file:
 
@@ -49,7 +49,7 @@ Key Concept: Synced Realms
 
 You can configure a realm to automatically synchronize data between many 
 devices that each have their own local copy of the data. Synced realms 
-need a ``SyncConfig`` and require an Atlas App Services backend to handle 
+need a ``sync_config`` and require an Atlas App Services backend to handle 
 the synchronization process. 
 
 Applications can always create, modify, and delete synced realm objects locally,
