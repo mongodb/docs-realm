@@ -73,7 +73,7 @@ to a parent object's property:
 Update an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To update a property in an embedded object, modify the property in a
+To update a property in an embedded object, fetch the object and modify the property in a
 write transaction:
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.update-embedded-object.kt 
@@ -92,9 +92,6 @@ instance in a write transaction:
 
 Query an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~
-
-To query a collection of embedded objects, use dot notation to filter or sort a 
-collection based on an embedded object property value. 
 
 You can query the embedded object directly or through the parent object. 
 You can also use the 
@@ -116,7 +113,13 @@ Delete an Embedded Object
    parent object, use a regular Realm object with a :ref:`to-one relationship 
    <kotlin-to-one-relationship>` instead.
 
-To delete an embedded object, you can delete a specific embedded object or delete the parent, which also deletes all of its embedded objects:  
+To delete an embedded object: 
+
+- Delete only the specific embedded object (without touching the parent object) 
+- Delete through the parent: 
+
+  - Deleting the parent object also deletes all of its embedded objects
+  - Removing the parent's reference to the embedded object also deletes the embedded object 
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.delete-embedded-object.kt 
     :language: kotlin
