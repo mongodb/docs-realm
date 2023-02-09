@@ -4,9 +4,6 @@
 Link User Identities - React Native SDK
 =======================================
 
-Overview
---------
-
 Realm provides :ref:`many authentication providers <authentication-providers>` 
 to log users into your app. Each provider creates a unique user identity. 
 Realm lets you merge multiple credentials into one user identity.
@@ -21,8 +18,8 @@ accounts. They sign up with SSO or email/password authentication. By default,
 this creates a new ``User`` object. The app must link the new 
 identity with the original User.
 
-You can link identities using ``linkUser(credentials:Credentials)``. This 
-links authentication providers to a logged-in ``User`` object.
+You can link identities using :js-sdk:`User.linkCredentials() <Realm.User.html#linkCredentials>`.
+This links authentication providers to a logged-in ``User`` object.
 
 .. tabs-realm-languages::
 
