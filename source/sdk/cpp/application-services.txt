@@ -1,0 +1,131 @@
+.. _cpp-application-services:
+
+======================================
+Application Services - C++ SDK (Alpha)
+======================================
+
+.. toctree::
+   :titlesonly:
+
+   Connect to an App Services App </sdk/cpp/app-services/connect-to-app>
+   Call a Function </sdk/cpp/app-services/call-a-function>
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm SDKs let you connect your client apps to the Atlas App Services backend.
+The SDKs provide the functionality
+needed to authenticate users with any of the built-in :ref:`authentication
+providers <authentication-providers>` and call server-side :ref:`Functions
+<functions>`. You can also use an App Services App to :ref:`sync data
+between devices <sync-overview>`.
+
+The App Client
+--------------
+When using the SDK to access the App Services backend, you start with an
+``App`` object. This object provides all other functionality related to
+App Services. You initialize the ``App`` object with an App Services App ID,
+which you can :ref:`find in the App Services UI <find-your-app-id>`.
+
+.. tip::
+
+   To learn how to initialize the App client, see
+   :ref:`cpp-connect-to-backend`.
+
+
+Authentication & User Management
+--------------------------------
+
+One of the most challenging aspects of client development is implementing a 
+robust and secure authentication system. With the Realm SDKs, however, you 
+can use any of the App Services authentication providers with very 
+minimal backend setup or client-side code required. With the authentication 
+APIs, you can implement the following functionality:
+
+- Creation of new user accounts
+- User log-in and log-out
+- Providing custom user data 
+
+.. tip::
+
+   To learn how to set up authentication with different providers, refer to
+   :ref:`cpp-authenticate-users`.
+
+   To learn how to provide custom user data, refer to :ref:`cpp-custom-user-data`.
+
+Calling Functions
+-----------------
+
+:ref:`Atlas Functions <functions>` enable you to define and execute server-side 
+logic for your application. You can call these Functions from your client applications
+via the Realm SDKs. These server-side functions can run under the context 
+of the authenticated user, and thus honor the rules, roles, and permissions that 
+you have assigned to your collections.
+
+By using Functions, you provide a secure way for a variety of client 
+applications to share complex functionality without having to reproduce that 
+logic client-side. 
+
+.. tip::
+
+   To learn how to call Functions, see :ref:`Call a Function <cpp-call-a-function>`.
+
+.. _cpp-realm-sync:
+
+Sync Data
+---------
+
+Atlas Device Sync automatically synchronizes data between client applications and 
+an :ref:`App Services backend <realm-cloud>`. When a client 
+device is online, Sync asynchronously synchronizes data in a 
+background thread between the device and your backend App. 
+
+When you use Sync in your client application, your implementation must match 
+the Sync Mode you select in your backend App configuration. The Realm C++ SDK
+only supports Flexible Sync.
+
+.. seealso::
+
+   :ref:`enable-realm-sync`
+
+.. _cpp-flexible-sync-fundamentals:
+
+Flexible Sync
+~~~~~~~~~~~~~
+
+When you select :ref:`Flexible Sync <flexible-sync>` for your backend App 
+configuration, your client implementation must include subscriptions to 
+queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works 
+by synchronizing data that matches query subscriptions you maintain in the 
+client application. 
+
+A subscription set contains a set of queries. Flexible Sync returns 
+documents matching those queries, where the user has the appropriate 
+:ref:`permissions <flexible-sync-rules-and-permissions>` to read and/or 
+read and write the documents. If documents match the query, but the client 
+does not have the permission to read or write them, they do not sync to 
+the client application.
+
+You can form queries using :ref:`Realm Query Language <realm-query-language>`.
+
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+
+Subscription sets are based on a specific type of :ref:`Realm object 
+<cpp-object-model>`. You might have multiple subscriptions if you 
+have many types of Realm objects.
+
+To use Flexible Sync in your client application, open a synced realm 
+with a flexible sync configuration. Then, manage subscriptions
+to determine which documents to sync. For more information, refer to
+:ref:`cpp-manage-flexible-sync-subscriptions`.
+
+Group Updates for Improved Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/sync-memory-performance.rst
