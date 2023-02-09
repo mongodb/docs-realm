@@ -79,23 +79,26 @@ in the App Services documentation.
 Connect to a Linked Cluster
 ---------------------------
 
-To access a linked cluster from your client application, pass the cluster name
-to :js-sdk:`User.mongoClient() <Realm.User.html#mongoClient>`. This returns a
-MongoDB service interface that you can use to access databases and collections
-in the cluster.
+To access a linked cluster from your client application, authenticate a user
+and pass the cluster name to :js-sdk:`User.mongoClient() <Realm.User.html#mongoClient>`.
+This returns a MongoDB service interface that you can use to access databases
+and collections in the cluster.
+
+If you are using ``@realm/react``, you can access the MongoDB client
+with the ``useUser()`` hook in a component wrapped by the ``UserProvider``.
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.plants-collection-handle.js
+
+      .. literalinclude:: /examples/generated/react-native/js/mongodb.test.snippet.mongodb.jsx
          :language: javascript
-   
+
    .. tab::
       :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.plants-collection-handle.ts
+
+      .. literalinclude:: /examples/generated/react-native/ts/mongodb.test.snippet.mongodb.tsx
          :language: typescript
 
 Read Operations
