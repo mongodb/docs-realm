@@ -32,7 +32,7 @@ User Account States
 When a user first logs in through a Realm SDK on a given device or
 browser, the SDK saves the user's information and keeps track of the user's
 state on the device. The user's data remains on the device, even if they log
-out, unless you actively :ref:`remove the user <react-native-remove-user>`.
+out, unless you actively :ref:`remove the user <react-native-remove-a-user-from-the-device>`.
 
 The following states describe an on-device user at any given time:
 
@@ -46,7 +46,7 @@ The following states describe an on-device user at any given time:
     more information.
 
   - **Inactive**: all authenticated users that are not the current
-    active user. You can :ref:`switch the active user <react-native-change-active-user>`
+    active user. You can :ref:`switch the active user <react-native-change-the-active-user>`
     to a currently inactive user at any time.
 
 - **Logged Out:** any user that authenticated on the device but
@@ -57,6 +57,17 @@ transition between states when certain events occur:
 
 .. figure:: /images/multi-user.png
    :alt: A diagram the outlines the different states a user can be in: logged out, logged in and active, & logged in and inactive.
+
+Before You Begin
+----------------
+
+If you're using ``@realm/react``, you must wrap any components that you want manage users
+with in the ``AppProvider`` component. Components wrapped with an ``AppProviders``
+can use ``useApp()`` hook to access the :js-sdk:`Realm.App <Realm.App.html>` client.
+
+For more information on using the ``AppProvider`` component and ``useApp()`` hook,
+refer to :ref:`Connect to an Atlas App Services App <react-native-connect-to-mongodb-realm-backend-app>`.
+
 
 .. _react-native-add-a-new-user-to-the-device:
 
