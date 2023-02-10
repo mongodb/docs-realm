@@ -40,9 +40,8 @@ You **cannot** create a user API key for a :ref:`server API key
 <api-key-authentication-server-api-key>`  or an :ref:`anonymous user
 <anonymous-authentication>`.
 
-.. code-block:: typescript
-
-   const key = await user.apiKeys.create("apiKeyName");
+.. literalinclude:: /examples/generated/node/authenticate.snippet.create-user-api-key.js
+   :language: javascript
 
 .. _react-native-look-up-a-user-api-key:
 
@@ -55,12 +54,8 @@ To get an array that lists all of a user's API keys, call
 To find a specific API key, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.fetch() <Realm.Auth.ApiKeyAuth.html#fetch>`.
 
-.. code-block:: typescript
-
-   // List all of a user's keys
-   const keys = await user.apiKeys.fetchAll();
-   // Get a specific key by its ID
-   const key = await user.apiKeys.fetch("5eb5931548d79bc784adf46e");
+.. literalinclude:: /examples/generated/node/authenticate.snippet.look-up-user-api-key.js
+   :language: javascript
 
 .. _react-native-enable-or-disable-a-user-api-key:
 
@@ -72,15 +67,8 @@ To enable or disable a user API key, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.disable() <Realm.Auth.ApiKeyAuth.html#disable>`. When a key
 is disabled, it cannot be used to log in on behalf of the user.
 
-.. code-block:: typescript
-
-   const apiKeys = await user.apiKeys.fetchAll();
-   const keyId = apiKeys[0]["_id"];
-
-   // Enable the User API Key
-   await user.apiKey.enable(keyId);
-   // Disable the User API Key
-   await user.apiKey.disable(keyId);
+.. literalinclude:: /examples/generated/node/authenticate.snippet.enable-disable-user-api-key.js
+   :language: javascript
 
 .. _react-native-delete-a-user-api-key:
 
@@ -91,12 +79,5 @@ To permanently delete a user API, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.delete() <Realm.Auth.ApiKeyAuth.html#delete>`. Deleted keys
 cannot be recovered.
 
-.. code-block:: typescript
-
-   // Get the ID of a User API Key
-   const user = app.currentUser;
-   const apiKeys = await user.apiKeys.fetchAll();
-   const keyId = apiKeys[0]["_id"];
-
-   // Delete the User API Key
-   await user.apiKey.delete(keyId);
+.. literalinclude:: /examples/generated/node/authenticate.snippet.delete-user-api-key.js
+   :language: javascript
