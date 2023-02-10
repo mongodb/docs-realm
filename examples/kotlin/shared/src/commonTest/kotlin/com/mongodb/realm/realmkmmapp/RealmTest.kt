@@ -1,14 +1,12 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.mongodb.AppConfiguration
-import kotlin.random.Random
-import kotlin.test.BeforeTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.setMain
+import kotlin.random.Random
+import kotlin.test.BeforeTest
 
 /*
  * RealmTest -- base class that provides utilities/setup for all other test classes
@@ -16,6 +14,19 @@ import kotlinx.coroutines.test.setMain
 open class RealmTest {
     fun getRandom(): String {
         return Random.nextLong(100000000).toString()
+    }
+
+    fun getEncryptionKey(seed: Long? = null): ByteArray {
+        // generate a new 64-byte encryption key
+        val key = ByteArray(64)
+        if (seed != null) {
+            // If there is a seed provided, create a random number with that seed and fill the byte array with random bytes
+            Random(seed).nextBytes(key)
+        } else {
+            // fill the byte array with random bytes
+            Random.nextBytes(key)
+        }
+        return key
     }
 
     val SYNCED_REALM_SCHEMA = setOf(Frog::class, Sample::class)
