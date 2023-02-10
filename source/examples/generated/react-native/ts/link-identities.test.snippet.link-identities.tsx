@@ -9,7 +9,7 @@ function AppWrapper() {
       <AppProvider id={APP_ID}>
         <UserProvider fallback={<AnonymousLogIn />}>
           {/* ...Rest of app */}
-          <LinkUserIdentities />
+          <SignUpUser />
         </UserProvider>
       </AppProvider>
     </View>
@@ -27,16 +27,25 @@ function AnonymousLogIn() {
   return null;
 }
 
-// Link user credentials. The component contains a form whe
-function LinkUserIdentities() {
+// Link user credentials. The component contains a form
+// where the user can add and link credentials.
+function SignUpUser() {
+  const app = useApp();
   const user = useUser();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  // Link email/password credentials to logged in
-  const linkIdentities = async () => {
-    const credentials = Realm.Credentials.emailPassword(email, password);
-    await user.linkCredentials(credentials);
+  // Link email/password credentials to anonymous user
+  // when creating and logging in email/password user.
+  const registerAndLinkIdentities = async () => {
+    try {
+      await app.emailPasswordAuth.registerUser({email, password});
+
+      const credentials = Realm.Credentials.emailPassword(email, password);
+      await user.linkCredentials(credentials);
+    } catch (err) {
+      // Add error handling logic here
+    }
   };
 
   return (
@@ -57,7 +66,7 @@ function LinkUserIdentities() {
         />
       </View>
       <Button
-        onPress={linkIdentities}
+        onPress={registerAndLinkIdentities}
         title='Link Credentials'
       />
     </View>

@@ -20,7 +20,7 @@ function AppWrapper() {
       <AppProvider id={APP_ID}>
         <UserProvider fallback={<AnonymousLogIn />}>
           {/* ...Rest of app */}
-          <LinkUserIdentities />
+          <SignUpUser />
         </UserProvider>
       </AppProvider>
     </View>
@@ -38,17 +38,26 @@ function AnonymousLogIn() {
   return null;
 }
 
-// Link user credentials. The component contains a form whe
-function LinkUserIdentities() {
+// Link user credentials. The component contains a form
+// where the user can add and link credentials.
+function SignUpUser() {
+  const app = useApp();
   const user = useUser();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  // Link email/password credentials to logged in
-  const linkIdentities = async () => {
-    const credentials = Realm.Credentials.emailPassword(email, password);
-    await user.linkCredentials(credentials);
-    higherScopeUser = user!; // :remove:
+  // Link email/password credentials to anonymous user
+  // when creating and logging in email/password user.
+  const registerAndLinkIdentities = async () => {
+    try {
+      await app.emailPasswordAuth.registerUser({email, password});
+
+      const credentials = Realm.Credentials.emailPassword(email, password);
+      await user.linkCredentials(credentials);
+      higherScopeUser = user; // :remove:
+    } catch (err) {
+      // Add error handling logic here
+    }
   };
 
   return (
@@ -71,7 +80,7 @@ function LinkUserIdentities() {
         />
       </View>
       <Button
-        onPress={linkIdentities}
+        onPress={registerAndLinkIdentities}
         testID='test-link-identities-button' // :remove:
         title='Link Credentials'
       />
@@ -80,21 +89,19 @@ function LinkUserIdentities() {
 }
 
 // :snippet-end:
+
 beforeEach(async () => {
-  try {
-    await Realm.App.getApp(APP_ID).emailPasswordAuth.registerUser(userPass);
-  } catch (err) {
-    console.log(err);
-  }
+  const app = await Realm.App.getApp(APP_ID);
+  const users = Object.values(app.allUsers);
+  await Promise.all(users.map(user => app.deleteUser(user)));
 });
 afterEach(async () => {
   const app = await Realm.App.getApp(APP_ID);
-  app.currentUser
-    ? await app.deleteUser(app.currentUser)
-    : console.log('no current user');
+  const users = Object.values(app.allUsers);
+  await Promise.all(users.map(user => app.deleteUser(user)));
 });
 
-test('Use MongoDB Data Access', async () => {
+test('Link user identities', async () => {
   const {getByTestId} = render(<AppWrapper />);
 
   const [emailInput, passwordInput, button] = await waitFor(() => [
