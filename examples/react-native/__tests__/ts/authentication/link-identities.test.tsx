@@ -1,72 +1,84 @@
 // :snippet-start: link-identities
 import React from 'react';
-import {useUser} from '@realm/react';
+import {AppProvider, UserProvider, useApp, useUser} from '@realm/react';
 import Realm from 'realm';
+import {View, Button, Text, TextInput} from 'react-native';
 // :remove-start:
-import {useEffect} from 'react';
-import {AppProvider, UserProvider, useApp} from '@realm/react';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
-import {View, Button} from 'react-native';
-
 const APP_ID = 'example-testers-kvjdy';
 const rand = Date.now().toString();
 const userPass = {
   email: `user+link-identities-${rand}@example.com`,
   password: 'abc123',
 };
+let higherScopeUser: Realm.User;
+// :remove-end:
 
 function AppWrapper() {
   return (
     <View>
       <AppProvider id={APP_ID}>
-        <UserProvider fallback={<LogIn />}>
-          <LinkUserIdentities
-            username={userPass.email}
-            password={userPass.password}
-          />
+        <UserProvider fallback={<AnonymousLogIn />}>
+          {/* ...Rest of app */}
+          <LinkUserIdentities />
         </UserProvider>
       </AppProvider>
     </View>
   );
 }
 
-function LogIn() {
+// Log in an anonymous user when the app opens
+// if not already logged in current user.
+function AnonymousLogIn() {
   const app = useApp();
 
-  useEffect(() => {
+  React.useEffect(() => {
     app.logIn(Realm.Credentials.anonymous());
   }, []);
-  return <></>;
-}
-let higherScopeUser: Realm.User;
-// :remove-end:
-
-interface LinkUserIdentitiesProps {
-  username: string;
-  password: string;
+  return null;
 }
 
-function LinkUserIdentities({username, password}: LinkUserIdentitiesProps) {
+// Link user credentials. The component contains a form whe
+function LinkUserIdentities() {
   const user = useUser();
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
-  const linkIdentities = async (credentials: Realm.Credentials) => {
+  // Link email/password credentials to logged in
+  const linkIdentities = async () => {
+    const credentials = Realm.Credentials.emailPassword(email, password);
     await user.linkCredentials(credentials);
     higherScopeUser = user!; // :remove:
   };
 
-  // ...
-  // :remove-start:
   return (
-    <Button
-      onPress={() =>
-        linkIdentities(Realm.Credentials.emailPassword(username, password))
-      }
-      testID='test-link-identities' // :remove:
-      title='Link Credentials'
-    />
+    <View>
+      <Text>Log In User</Text>
+      <View>
+        <Text>Email Address:</Text>
+        <TextInput
+          value={email}
+          onChangeText={setEmail}
+          testID='email-address-input' // :remove:
+        />
+      </View>
+      <View>
+        <Text>Password</Text>
+        <TextInput
+          value={password}
+          onChangeText={setPassword}
+          testID='password-input' // :remove:
+        />
+      </View>
+      <Button
+        onPress={linkIdentities}
+        testID='test-link-identities-button' // :remove:
+        title='Link Credentials'
+      />
+    </View>
   );
-  // :remove-end:
 }
+
 // :snippet-end:
 beforeEach(async () => {
   try {
@@ -85,7 +97,26 @@ afterEach(async () => {
 test('Use MongoDB Data Access', async () => {
   const {getByTestId} = render(<AppWrapper />);
 
-  const button = await waitFor(() => getByTestId('test-link-identities'));
+  const [emailInput, passwordInput, button] = await waitFor(() => [
+    getByTestId('email-address-input'),
+    getByTestId('password-input'),
+    getByTestId('test-link-identities-button'),
+  ]);
+  fireEvent.changeText(emailInput, userPass.email);
+  fireEvent.changeText(passwordInput, userPass.password);
   fireEvent.press(button);
-  await waitFor(() => expect(higherScopeUser.identities.length).toBe(2));
+  await waitFor(() => {
+    let hasEmailPasswordCredentials = false;
+    let hasAnonCredentials = false;
+    higherScopeUser.identities.forEach(identity => {
+      if (identity.providerType === 'local-userpass') {
+        hasEmailPasswordCredentials = true;
+      }
+      if (identity.providerType === 'anon-user') {
+        hasAnonCredentials = true;
+      }
+    });
+    expect(hasEmailPasswordCredentials).toBe(true);
+    expect(hasAnonCredentials).toBe(true);
+  });
 });
