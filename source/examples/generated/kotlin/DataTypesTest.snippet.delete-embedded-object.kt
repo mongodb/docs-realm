@@ -1,7 +1,9 @@
-//  Delete an embedded object
+//  Delete an embedded object directly
 realm.write {
     val addressToDelete: Address =
         this.query<Address>("street == '123 Fake St'").find().first()
+
+    // Delete the embedded object (nullifies the parent property)
     delete(addressToDelete)
 }
 
