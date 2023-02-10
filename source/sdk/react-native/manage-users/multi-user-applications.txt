@@ -18,7 +18,7 @@ requiring them to log in again.
 
 .. important::
 
-   **Any logged in user may become the active user without re-authenticating.**
+   **Any logged-in user may become the active user without re-authenticating.**
    Depending on your app, this may be a security vulnerability. For example, a
    user on a shared device may switch to a coworker's logged in account without
    providing their credentials or requiring their explicit permission. If your
@@ -29,8 +29,8 @@ requiring them to log in again.
 User Account States
 -------------------
 
-When a user first logs in through a Realm SDK on a given device or
-browser, the SDK saves the user's information and keeps track of the user's
+When a user first logs in through a Realm SDK on a device,
+the SDK saves the user's information and keeps track of the user's
 state on the device. The user's data remains on the device, even if they log
 out, unless you actively :ref:`remove the user <react-native-remove-a-user-from-the-device>`.
 
