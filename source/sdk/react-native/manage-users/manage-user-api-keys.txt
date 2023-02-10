@@ -45,6 +45,7 @@ You **cannot** create a user API key for a :ref:`server API key
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.create-user-api-key.js
    :language: javascript
+   :start-after: const user = app.currentUser;
 
 .. _react-native-look-up-a-user-api-key:
 
@@ -59,6 +60,7 @@ To find a specific API key, pass the key's ``_id`` to
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.look-up-user-api-key.js
    :language: javascript
+   :start-after: const user = app.currentUser;
 
 .. _react-native-enable-or-disable-a-user-api-key:
 
@@ -72,6 +74,7 @@ is disabled, it cannot be used to log in on behalf of the user.
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.enable-disable-user-api-key.js
    :language: javascript
+   :start-after: const user = app.currentUser;
 
 .. _react-native-delete-a-user-api-key:
 
@@ -84,3 +87,4 @@ cannot be recovered.
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.delete-user-api-key.js
    :language: javascript
+   :start-after: const user = app.currentUser;
