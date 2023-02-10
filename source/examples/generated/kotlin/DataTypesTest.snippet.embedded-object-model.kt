@@ -1,4 +1,4 @@
-// Define an embedded object
+// Define an embedded object (cannot have primary key)
 class Address() : EmbeddedRealmObject {
     var street: String? = null
     var city: String? = null

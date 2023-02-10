@@ -15,15 +15,13 @@ Overview
 
 An embedded object is a special type of :ref:`Realm object
 <kotlin-object-type>` that models complex data about a specific object.
-Embedded objects are similar to :ref:`relationships
-<kotlin-relationships>`, but they provide additional constraints.
-
 Realm treats each embedded object as nested data inside of a single specific
 parent object.
-An embedded object inherits the lifecycle of its parent object.
-It cannot exist as an independent Realm object. 
 
-Embedded objects have the following properties: 
+Embedded objects are similar to :ref:`relationships
+<kotlin-relationships>`, but an embedded object inherits the lifecycle of its 
+parent object and cannot exist as an independent Realm object. 
+Because of this, embedded objects have the following constraints: 
 
 - Embedded objects are deleted when their parent object is deleted 
   or their parent no longer references them. 
@@ -42,7 +40,7 @@ Define an Embedded Object
 -------------------------
 
 To define an embedded object, derive a class from 
-`EmbeddedRealmObject <{+kotlin-local-prefix+}/io.realm.kotlin.types/-embedded-realm-object/index.html>`__: 
+`EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__: 
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.embedded-object-model.kt 
     :language: kotlin
@@ -70,11 +68,11 @@ to a parent object's property:
     :language: kotlin
 
 
-Update an Embedded Object Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Update Embedded Object Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To update a property in an embedded object, fetch the object and modify the property in a
-write transaction:
+To update a property in an embedded object, fetch the object and reassign the 
+embedded object properties in a write transaction:
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.update-embedded-object.kt 
     :language: kotlin
@@ -83,8 +81,8 @@ write transaction:
 Overwrite an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To overwrite an embedded object, reassign the embedded object properties to a new 
-instance in a write transaction:
+To overwrite an embedded object, assign a new embedded object instance to the 
+property in a write transaction:
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.overwrite-embedded-object.kt 
     :language: kotlin
@@ -113,13 +111,13 @@ Delete an Embedded Object
    parent object, use a regular Realm object with a :ref:`to-one relationship 
    <kotlin-to-one-relationship>` instead.
 
-To delete an embedded object: 
+You can delete an embedded object directly or through the parent object. 
 
-- Delete only the specific embedded object (without touching the parent object) 
-- Delete through the parent: 
+To delete only an embedded object, you can fetch and delete a specific embedded object 
+or clear the parent's reference to the embedded object, which also deletes 
+the embedded object instance.  
 
-  - Deleting the parent object also deletes all of its embedded objects
-  - Removing the parent's reference to the embedded object also deletes the embedded object 
+Deleting the parent object automatically deletes all of its embedded objects. 
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.delete-embedded-object.kt 
     :language: kotlin

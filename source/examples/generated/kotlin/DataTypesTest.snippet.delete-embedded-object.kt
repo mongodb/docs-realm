@@ -10,7 +10,7 @@ realm.write {
     val propertyToClear: Contact =
         this.query<Contact>("name == 'Nick Riviera'").find().first()
 
-    // Clear the parent property (deletes the embedded class)
+    // Clear the parent property (deletes the embedded object instance)
     propertyToClear.address = null
 }
 

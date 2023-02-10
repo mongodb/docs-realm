@@ -18,7 +18,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 // :snippet-start: embedded-object-model
-// Define an embedded object
+// Define an embedded object (cannot have primary key)
 class Address() : EmbeddedRealmObject {
     var street: String? = null
     var city: String? = null
@@ -81,14 +81,22 @@ class DataTypesTest : RealmTest() {
                 val address: Address = realm.query<Address>().find().first()
                 val contact: Contact = realm.query<Contact>().find().first()
                 // :snippet-start: update-embedded-object
-                // Modify the property of the embedded object in a write transaction
+                // Modify embedded object properties in a write transaction
                 realm.write {
                     // Fetch the objects
                     val addressToUpdate = findLatest(address)?: error("Cannot find latest version of embedded object")
                     val contactToUpdate = findLatest(contact)?: error("Cannot find latest version of parent object")
 
-                    // Update the embedded object property directly
+                    // Update a single embedded object property directly
                     addressToUpdate.street = "100 10th St N"
+
+                    // Update multiple properties
+                    addressToUpdate.apply {
+                        street = "202 Coconut Court"
+                        city = "Los Angeles"
+                        state = "CA"
+                        postalCode = "90210"
+                    }
 
                     // Update property through the parent object
                     contactToUpdate.address?.state = "NY"
@@ -98,12 +106,12 @@ class DataTypesTest : RealmTest() {
             // :snippet-start: overwrite-embedded-object
             // Overwrite the embedded object in a write transaction
             realm.write {
-                // Fetch the object
-                val addressToOverwrite: Address =
-                    realm.query<Address>("street == '123 Fake St'").find().first()
+                // Fetch the parent object
+                val parentObject: Contact =
+                    realm.query<Contact>("name == 'Nick Riviera'").find().first()
 
-                // Overwrite the embedded object (updates the existing object)
-                addressToOverwrite.apply {
+                // Overwrite the embedded object (deletes the existing object)
+                parentObject.address = Address().apply {
                     street = "202 Coconut Court"
                     city = "Los Angeles"
                     state = "CA"
@@ -209,7 +217,7 @@ class DataTypesTest : RealmTest() {
                 val propertyToClear: Contact =
                     this.query<Contact>("name == 'Nick Riviera'").find().first()
 
-                // Clear the parent property (deletes the embedded class)
+                // Clear the parent property (deletes the embedded object instance)
                 propertyToClear.address = null
             }
 
