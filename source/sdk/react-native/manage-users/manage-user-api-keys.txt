@@ -16,11 +16,13 @@ that users credentials. User API keys can be revoked at any time by the authenti
 User API keys do not expire on their own.
 
 You can manage a user API key with the :js-sdk:`ApiKeyAuth <Realm.Auth.ApiKeyAuth.html>`
-client returned by calling an authenticated user's :js-sdk:`User.apiKeys()
-<Realm.User.html#apiKeys>` method.
+client accessed with an authenticated user's :js-sdk:`User.apiKeys
+<Realm.User.html#apiKeys>` property.
 
 If you are using ``@realm/react``, you can access a user's ``ApiKeyAuth`` client
 with the ``useUser()`` hook in a component wrapped by ``UserProvider``.
+
+TODO: 1 small realm/react example
 
 .. _react-native-create-a-user-api-key:
 
