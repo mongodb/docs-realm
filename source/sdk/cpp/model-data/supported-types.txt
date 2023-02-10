@@ -96,6 +96,11 @@ Property Cheat Sheet
           :language: cpp
           :copyable: false
      - N/A
+   * - Map
+     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-map-type.cpp
+          :language: cpp
+          :copyable: false
+     - N/A
    * - List
      - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-list.cpp
           :language: cpp
@@ -128,3 +133,22 @@ Some of the supported types above are aliases for:
   <https://en.cppreference.com/w/cpp/chrono>`__
   to store a ``time_point`` relative to the ``system_clock``: 
   ``<std::chrono::time_point<std::chrono::system_clock>>``
+
+.. _cpp-map:
+
+Map/Dictionary
+~~~~~~~~~~~~~~
+
+The :cpp-sdk:`Map <classrealm_1_1persisted__map__base.html>` is an 
+associative array that contains key-value pairs with unique keys.
+
+You can declare a Map as a property of an object:
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.dog-map-model.cpp
+   :language: cpp
+
+String is the only supported type for a map key, but map values can be:
+
+- Required versions of any of the SDK's supported data types
+- Optional user-defined object links
+- Optional embedded objects

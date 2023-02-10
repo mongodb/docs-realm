@@ -170,3 +170,27 @@ For more information about modeling a to-many relationship, refer to:
 
 .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
     :language: cpp
+
+.. _cpp-create-object-map-property:
+
+Create an Object with a Map Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you create an object that has a :cpp-sdk:`map property 
+<classrealm_1_1persisted__map__base.html>`, you can set the values for 
+keys in a few ways: 
+
+- Set keys and values on the object and then add the object to the realm
+- Set the object's keys and values directly inside a write transaction
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-map-object.cpp
+    :language: cpp
+
+Model
+`````
+
+For more information about supported map data types, refer to: 
+:ref:`cpp-map`.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-map-property.cpp
+    :language: cpp

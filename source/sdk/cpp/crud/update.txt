@@ -52,4 +52,31 @@ This example uses the following model:
 .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp
     :language: cpp
 
-.. TODO: After std::unique_ptr is cleared up in the SDK, update embedded object examples
+Overwrite an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To overwrite an embedded object, reassign the embedded object property
+to a new instance in a write transaction.
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.overwrite-embedded-object.cpp
+    :language: cpp
+
+Model
+`````
+
+This example uses the following model:
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp
+    :language: cpp
+
+.. _cpp-read-and-iterate-map:
+
+Update a Map Property
+~~~~~~~~~~~~~~~~~~~~~
+
+You can update a realm :cpp-sdk:`map property
+<classrealm_1_1persisted__map__base.html>` 
+as you would a standard C++ `map <https://en.cppreference.com/w/cpp/container/map>`__:
+
+.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.update-map-value.cpp
+    :language: cpp
