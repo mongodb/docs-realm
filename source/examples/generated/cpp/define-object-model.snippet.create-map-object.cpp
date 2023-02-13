@@ -7,13 +7,13 @@ auto employee = Employee {
 };
 
 employee.locationByDay = {
-    { "Monday", Employee::WorkLocation::home },
-    { "Tuesday", Employee::WorkLocation::office },
-    { "Wednesday", Employee::WorkLocation::home },
-    { "Thursday", Employee::WorkLocation::office }
+    { "Monday", Employee::WorkLocation::HOME },
+    { "Tuesday", Employee::WorkLocation::OFFICE },
+    { "Wednesday", Employee::WorkLocation::HOME },
+    { "Thursday", Employee::WorkLocation::OFFICE }
 };
 
 realm.write([&realm, &employee] {
     realm.add(employee);
-    employee.locationByDay["Friday"] = Employee::WorkLocation::home;
+    employee.locationByDay["Friday"] = Employee::WorkLocation::HOME;
 });

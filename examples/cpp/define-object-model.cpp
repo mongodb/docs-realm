@@ -56,7 +56,7 @@ struct Employee : realm::object<Employee> {
 // :snippet-start: model-with-map-property
 struct Map_Employee : realm::object<Map_Employee> {
     enum class WorkLocation {
-        home, office
+        HOME, OFFICE
     };
 
     realm::persisted<int64_t> _id;
@@ -356,18 +356,18 @@ TEST_CASE("test enum map object", "[model][write]") {
     };
 
     employee.locationByDay = {
-        { "Monday", Map_Employee::WorkLocation::home },
-        { "Tuesday", Map_Employee::WorkLocation::office },
-        { "Wednesday", Map_Employee::WorkLocation::home },
-        { "Thursday", Map_Employee::WorkLocation::office }
+        { "Monday", Map_Employee::WorkLocation::HOME },
+        { "Tuesday", Map_Employee::WorkLocation::OFFICE },
+        { "Wednesday", Map_Employee::WorkLocation::HOME },
+        { "Thursday", Map_Employee::WorkLocation::OFFICE }
     };
 
     realm.write([&realm, &employee] {
         realm.add(employee);
-        employee.locationByDay["Friday"] = Map_Employee::WorkLocation::home;
+        employee.locationByDay["Friday"] = Map_Employee::WorkLocation::HOME;
     });
     // :snippet-end:
-    CHECK(employee.locationByDay["Friday"] == Map_Employee::WorkLocation::home);
+    CHECK(employee.locationByDay["Friday"] == Map_Employee::WorkLocation::HOME);
     SECTION("Test code example functions as intended") {
         // :snippet-start: read-map-value
         auto employees = realm.objects<Map_Employee>();
@@ -378,8 +378,8 @@ TEST_CASE("test enum map object", "[model][write]") {
         auto tommy = employeesNamedTommy[0];
         // You can iterate through keys and values and do something with them
         for (auto [k, v] : tommy.locationByDay) {
-            if (k == "Monday") CHECK(v == Map_Employee::WorkLocation::home);
-            else if (k == "Tuesday") CHECK(v == Map_Employee::WorkLocation::office);
+            if (k == "Monday") CHECK(v == Map_Employee::WorkLocation::HOME);
+            else if (k == "Tuesday") CHECK(v == Map_Employee::WorkLocation::OFFICE);
         }
         // You can get an iterator for an element matching a key using `find()`
         auto tuesdayIterator = tommy.locationByDay.find("Tuesday");
@@ -388,17 +388,17 @@ TEST_CASE("test enum map object", "[model][write]") {
         // You can access values for keys like any other map type
         auto mondayLocation = tommy.locationByDay["Monday"];
         // :snippet-end:
-        CHECK(tommy.locationByDay["Tuesday"] == Map_Employee::WorkLocation::office); // :remove:
+        CHECK(tommy.locationByDay["Tuesday"] == Map_Employee::WorkLocation::OFFICE); // :remove:
         // :snippet-start: update-map-value
         // You can check that a key exists using `find`
         auto findTuesday = tommy.locationByDay.find("Tuesday");
         if (findTuesday != tommy.locationByDay.end())
             realm.write([&realm, &tommy] {
-                tommy.locationByDay["Tuesday"] = Map_Employee::WorkLocation::home;
+                tommy.locationByDay["Tuesday"] = Map_Employee::WorkLocation::HOME;
             });
         ;
         // :snippet-end:
-        CHECK(tommy.locationByDay["Tuesday"] == Map_Employee::WorkLocation::home);
+        CHECK(tommy.locationByDay["Tuesday"] == Map_Employee::WorkLocation::HOME);
         // :snippet-start: delete-map-value
         realm.write([&realm, &tommy] {
             tommy.locationByDay.erase("Tuesday");
@@ -454,7 +454,9 @@ TEST_CASE("test string map object", "[model][write]") {
             if (k == "Boston") CHECK(v == "Fort Point");
             else if (k == "New York") CHECK(v == "Central Park");
         }
-        auto favoriteBostonPark = maui.favoriteParkByCity["Boston"];
+        // Use `find()` for read-only access as `operator[]` could create an entry
+        auto favoriteBostonPark = maui.favoriteParkByCity.find("Boston");
+        CHECK(favoriteBostonPark != maui.favoriteParkByCity.end());
         auto favoriteNewYorkPark = maui.favoriteParkByCity["New York"];
         CHECK(favoriteNewYorkPark == "Central Park");
         realm.write([&realm, &maui] {

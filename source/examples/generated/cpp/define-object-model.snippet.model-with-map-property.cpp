@@ -1,6 +1,6 @@
 struct Employee : realm::object<Employee> {
     enum class WorkLocation {
-        home, office
+        HOME, OFFICE
     };
 
     realm::persisted<int64_t> _id;
