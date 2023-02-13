@@ -1,10 +1,12 @@
 #include <catch2/catch_test_macros.hpp>
 #include <string>
+#include <iostream>
 #include <cpprealm/sdk.hpp>
 
 // :replace-start: {
 //   "terms": {
-//     "ToOneRelationship_": ""
+//     "ToOneRelationship_": "",
+//     "Map_": ""
 //   }
 // }
 
@@ -51,6 +53,25 @@ struct Employee : realm::object<Employee> {
 };
 // :snippet-end:
 
+// :snippet-start: model-with-map-property
+struct Map_Employee : realm::object<Map_Employee> {
+    enum class WorkLocation {
+        HOME, OFFICE
+    };
+
+    realm::persisted<int64_t> _id;
+    realm::persisted<std::string> firstName;
+    realm::persisted<std::string> lastName;
+    realm::persisted<std::map<std::string, WorkLocation>> locationByDay;
+
+    static constexpr auto schema = realm::schema("Map_Employee",
+        realm::property<&Map_Employee::_id, true>("_id"),
+        realm::property<&Map_Employee::firstName>("firstName"),
+        realm::property<&Map_Employee::lastName>("lastName"),
+        realm::property<&Map_Employee::locationByDay>("locationByDay"));
+};
+// :snippet-end:
+
 // :snippet-start: to-one-relationship
 struct ToOneRelationship_FavoriteToy : realm::object<ToOneRelationship_FavoriteToy> {
     realm::persisted<realm::uuid> _id;
@@ -76,30 +97,6 @@ struct ToOneRelationship_Dog : realm::object<ToOneRelationship_Dog> {
 };
 // :snippet-end:
 
-#if 0
-// Temporarily removing this model as doubles are causing an error                                     
-struct GPSCoordinates: realm::object<GPSCoordinates> {
-    realm::persisted<double> latitude;
-    realm::persisted<double> longitude;
-
-    static constexpr auto schema = realm::schema("GPSCoordinates",
-        realm::property<&GPSCoordinates::latitude>("latitude"),
-        realm::property<&GPSCoordinates::longitude>("longitude"));
-};
-
-struct PointOfInterest : realm::object<PointOfInterest> {
-    realm::persisted<int64_t> _id;
-    realm::persisted<std::string> name;
-    // To-one relationship objects must be optional
-    realm::persisted<std::optional<GPSCoordinates>> gpsCoordinates;
-
-    static constexpr auto schema = realm::schema("PointOfInterest",
-        realm::property<&PointOfInterest::_id, true>("_id"),
-        realm::property<&PointOfInterest::name>("name"),
-        realm::property<&PointOfInterest::gpsCoordinates>("gpsCoordinates"));
-};
-#endif
-
 // :snippet-start: to-many-relationship
 struct Company : realm::object<Company> {
     realm::persisted<int64_t> _id;
@@ -115,44 +112,6 @@ struct Company : realm::object<Company> {
         realm::property<&Company::employees>("employees"));
 };
 // :snippet-end:
-
-// struct EmbeddedFoo: realm::embedded_object<EmbeddedFoo> {
-//     realm::persisted<int64_t> bar;
-
-//     static constexpr auto schema = realm::schema("EmbeddedFoo", realm::property<&EmbeddedFoo::bar>("bar"));
-// };
-
-// struct Foo: realm::object<Foo> {
-//     realm::persisted<int64_t> bar;
-//     realm::persisted<std::optional<EmbeddedFoo>> foo;
-
-//     realm::persisted<int64_t> bar2;
-//     realm::persisted<std::optional<EmbeddedFoo>> foo2;
-
-//     Foo() = default;
-//     Foo(const Foo&) = delete;
-//     static constexpr auto schema = realm::schema("Foo",
-//         realm::property<&Foo::bar>("bar"),
-//         realm::property<&Foo::foo>("foo"),
-//         realm::property<&Foo::bar2>("bar2"),
-//         realm::property<&Foo::foo2>("foo2"));
-// };
-// TEST_CASE("SDK's version of create an embedded object", "[model][write]") {
-//     auto realm = realm::open<Foo, EmbeddedFoo>();
-
-//     auto foo = Foo();
-//     foo.foo = EmbeddedFoo{.bar=42};
-//     realm.write([&foo, &realm]() {
-//         realm.add(foo);
-//     });
-
-//     CHECK(foo.foo->bar == 42);
-//     EmbeddedFoo e_foo = *(*foo.foo);
-
-//     realm.write([&foo, &realm]() {
-//         realm.remove(foo);
-//     });
-// }
 
 TEST_CASE("create an embedded object", "[model][write]") {
     // :snippet-start: create-embedded-object
@@ -250,42 +209,6 @@ TEST_CASE("create object with to-one relationship", "[model][write][relationship
     });
 };
 
-#if 0
-// Temporarily removing this since the related model has been removed
-TEST_CASE("create object with to-one relationship", "[model][write][relationship]") {
-    auto realm = realm::open<PointOfInterest, GPSCoordinates>();
-
-    auto gpsCoordinates = GPSCoordinates { .latitude = 36.0554, .longitude = 112.1401 };
-    auto pointOfInterest = PointOfInterest { .name = "Grand Canyon Village" };
-    pointOfInterest.gpsCoordinates = gpsCoordinates;
-
-    realm.write([&realm, &pointOfInterest] {
-        realm.add(pointOfInterest);
-    });
-
-    SECTION("Test code example functions as intended") {
-        auto pointsOfInterest = realm.objects<PointOfInterest>();
-        auto namedGrandCanyonVillage = pointsOfInterest.where([](auto &pointOfInterest) {
-            return pointOfInterest.name == "Grand Canyon Village";
-        });
-        CHECK(namedGrandCanyonVillage.size() >= 1);
-        auto grandCanyonVillage = namedGrandCanyonVillage[0];
-        std::cout << "Point of Interest: " << grandCanyonVillage.name << "\n";
-        REQUIRE(grandCanyonVillage.name == "Grand Canyon Village");
-        auto const &theseGpsCoordinates = *(grandCanyonVillage.gpsCoordinates);
-        static_assert(std::is_same_v<decltype(theseGpsCoordinates), std::optional<GPSCoordinates> const &>, "Dereference fail!"); // :remove:
-        auto latitude = *(theseGpsCoordinates->latitude);
-        static_assert(std::is_same_v<decltype(latitude), double>, "Dereference fail!"); // :remove:
-        std::cout << "POI Latitude: " << latitude << "\n";
-        REQUIRE(latitude == 36.0554);
-    }
-    // Clean up after the test
-    realm.write([&realm, &pointOfInterest] {
-        realm.remove(pointOfInterest);
-    });
-};
-#endif
-
 TEST_CASE("create object with to-many relationship", "[model][write][relationship]") {
     // :snippet-start: create-object-with-to-many-relationship
     auto realm = realm::open<Company, Employee>();
@@ -373,10 +296,181 @@ TEST_CASE("update an embedded object", "[model][update]") {
 
         std::cout << "New email address: " << mongoDBPointer.contactDetails->emailAddress << "\n";
         // :snippet-end:
+        CHECK(mongoDBPointer.contactDetails->emailAddress == "info@example.com");
     }
     // Clean up after the test
     realm.write([&realm, &business] {
         realm.remove(business);
+    });
+}
+
+TEST_CASE("overwrite an embedded object", "[model][update]") {
+    auto realm = realm::open<Business, ContactDetails>();
+
+    auto business = Business { 
+        .name = "MongoDB" 
+    };
+    
+    business.contactDetails = ContactDetails { 
+        .emailAddress = "email@example.com", 
+        .phoneNumber = "123-456-7890"
+    };
+
+    realm.write([&realm, &business] {
+        realm.add(business);
+    });
+    SECTION("This example could fail but we still want to clean up after the test") {
+        // :snippet-start: overwrite-embedded-object
+        auto businesses = realm.objects<Business>();
+        auto mongoDBPointer = businesses[0];
+
+        realm.write([&realm, &mongoDBPointer] {
+            auto newContactDetails = ContactDetails {
+                .emailAddress = "info@example.com",
+                .phoneNumber = "234-567-8901"
+            };
+
+            // Overwrite the embedded object
+            mongoDBPointer.contactDetails = newContactDetails;
+        });
+
+        std::cout << "New email address: " << mongoDBPointer.contactDetails->emailAddress << "\n";
+        // :snippet-end:
+        CHECK(mongoDBPointer.contactDetails->emailAddress == "info@example.com");
+        CHECK(mongoDBPointer.contactDetails->phoneNumber == "234-567-8901");
+    }
+    // Clean up after the test
+    realm.write([&realm, &business] {
+        realm.remove(business);
+    });
+}
+
+TEST_CASE("test enum map object", "[model][write]") {
+    // :snippet-start: create-map-object
+    auto realm = realm::open<Map_Employee>();
+
+    auto employee = Map_Employee {
+        ._id = 8675309,
+        .firstName = "Tommy",
+        .lastName = "Tutone"
+    };
+
+    employee.locationByDay = {
+        { "Monday", Map_Employee::WorkLocation::HOME },
+        { "Tuesday", Map_Employee::WorkLocation::OFFICE },
+        { "Wednesday", Map_Employee::WorkLocation::HOME },
+        { "Thursday", Map_Employee::WorkLocation::OFFICE }
+    };
+
+    realm.write([&realm, &employee] {
+        realm.add(employee);
+        employee.locationByDay["Friday"] = Map_Employee::WorkLocation::HOME;
+    });
+    // :snippet-end:
+    CHECK(employee.locationByDay["Friday"] == Map_Employee::WorkLocation::HOME);
+    SECTION("Test code example functions as intended") {
+        // :snippet-start: read-map-value
+        auto employees = realm.objects<Map_Employee>();
+        auto employeesNamedTommy = employees.where([](auto &employee) {
+            return employee.firstName == "Tommy";
+        });
+        REQUIRE(employeesNamedTommy.size() >= 1); // :remove:
+        auto tommy = employeesNamedTommy[0];
+        // You can iterate through keys and values and do something with them
+        for (auto [k, v] : tommy.locationByDay) {
+            if (k == "Monday") CHECK(v == Map_Employee::WorkLocation::HOME);
+            else if (k == "Tuesday") CHECK(v == Map_Employee::WorkLocation::OFFICE);
+        }
+        // You can get an iterator for an element matching a key using `find()`
+        auto tuesdayIterator = tommy.locationByDay.find("Tuesday");
+        CHECK(tuesdayIterator != tommy.locationByDay.end()); // :remove:
+        
+        // You can access values for keys like any other map type
+        auto mondayLocation = tommy.locationByDay["Monday"];
+        // :snippet-end:
+        CHECK(tommy.locationByDay["Tuesday"] == Map_Employee::WorkLocation::OFFICE); // :remove:
+        // :snippet-start: update-map-value
+        // You can check that a key exists using `find`
+        auto findTuesday = tommy.locationByDay.find("Tuesday");
+        if (findTuesday != tommy.locationByDay.end())
+            realm.write([&realm, &tommy] {
+                tommy.locationByDay["Tuesday"] = Map_Employee::WorkLocation::HOME;
+            });
+        ;
+        // :snippet-end:
+        CHECK(tommy.locationByDay["Tuesday"] == Map_Employee::WorkLocation::HOME);
+        // :snippet-start: delete-map-value
+        realm.write([&realm, &tommy] {
+            tommy.locationByDay.erase("Tuesday");
+        });
+        // :snippet-end:
+        CHECK(tommy.locationByDay.find("Tuesday") == tommy.locationByDay.end());
+    }
+    // Clean up after test
+    realm.write([&realm, &employee] {
+        realm.remove(employee);
+    });
+}
+
+// :snippet-start: dog-map-model
+struct Map_Dog : realm::object<Map_Dog> {
+    realm::persisted<std::string> name;
+    realm::persisted<std::map<std::string, std::string>> favoriteParkByCity;
+
+    static constexpr auto schema = realm::schema("Map_Dog",
+        realm::property<&Map_Dog::name>("name"),
+        realm::property<&Map_Dog::favoriteParkByCity>("favoriteParkByCity"));
+};
+// :snippet-end:
+
+// Note: the below test case was for a "simpler" version of a map
+// while trying to debug delete functionality. It's not actually used
+// in any of the code examples, although the model above is used on the Supported Types page
+TEST_CASE("test string map object", "[model][write]") {
+    auto realm = realm::open<Map_Dog>();
+
+    auto dog = Map_Dog {
+        .name = "Maui"
+    };
+
+    dog.favoriteParkByCity = {
+        { "Boston", "Fort Point" },
+        { "New York", "Central Park" }
+    };
+
+    realm.write([&realm, &dog] {
+        realm.add(dog);
+    });
+
+    SECTION("Test code example functions as intended") {
+
+        auto dogs = realm.objects<Map_Dog>();
+        auto dogsNamedMaui = dogs.where([](auto &dog) {
+            return dog.name == "Maui";
+        });
+        REQUIRE(dogsNamedMaui.size() >= 1);
+        auto maui = dogsNamedMaui[0];
+        for (auto [k, v] : maui.favoriteParkByCity) {
+            if (k == "Boston") CHECK(v == "Fort Point");
+            else if (k == "New York") CHECK(v == "Central Park");
+        }
+        // Use `find()` for read-only access as `operator[]` could create an entry
+        auto favoriteBostonPark = maui.favoriteParkByCity.find("Boston");
+        CHECK(favoriteBostonPark != maui.favoriteParkByCity.end());
+        auto favoriteNewYorkPark = maui.favoriteParkByCity["New York"];
+        CHECK(favoriteNewYorkPark == "Central Park");
+        realm.write([&realm, &maui] {
+            maui.favoriteParkByCity["New York"] = "Some other park";
+        });
+        CHECK(favoriteNewYorkPark == "Some other park");
+        realm.write([&realm, &maui] {
+             maui.favoriteParkByCity.erase("New York");
+        });
+        CHECK(maui.favoriteParkByCity.find("New York") == maui.favoriteParkByCity.end());
+    }
+    // Clean up after test
+    realm.write([&realm, &dog] {
+        realm.remove(dog);
     });
 }
 
