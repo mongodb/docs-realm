@@ -381,23 +381,30 @@ TEST_CASE("test enum map object", "[model][write]") {
             if (k == "Monday") CHECK(v == Map_Employee::WorkLocation::home);
             else if (k == "Tuesday") CHECK(v == Map_Employee::WorkLocation::office);
         }
+        // You can get an iterator for an element matching a key using `find()`
+        auto tuesdayIterator = tommy.locationByDay.find("Tuesday");
+        CHECK(tuesdayIterator != tommy.locationByDay.end()); // :remove:
+        
         // You can access values for keys like any other map type
         auto mondayLocation = tommy.locationByDay["Monday"];
         // :snippet-end:
+        CHECK(tommy.locationByDay["Tuesday"] == Map_Employee::WorkLocation::office); // :remove:
         // :snippet-start: update-map-value
-        auto tuesdayLocation = tommy.locationByDay["Tuesday"];
-        CHECK(tuesdayLocation == Map_Employee::WorkLocation::office);
-        realm.write([&realm, &tommy] {
-            tommy.locationByDay["Tuesday"] = Map_Employee::WorkLocation::home;
-        });
-        CHECK(tuesdayLocation == Map_Employee::WorkLocation::home);
+        // You can check that a key exists using `find`
+        auto findTuesday = tommy.locationByDay.find("Tuesday");
+        if (findTuesday != tommy.locationByDay.end())
+            realm.write([&realm, &tommy] {
+                tommy.locationByDay["Tuesday"] = Map_Employee::WorkLocation::home;
+            });
+        ;
         // :snippet-end:
+        CHECK(tommy.locationByDay["Tuesday"] == Map_Employee::WorkLocation::home);
         // :snippet-start: delete-map-value
-//        realm.write([&realm, &tommy, &tuesdayLocation] {
-//            // This fails with the error "No viable conversion from 'std::string' (aka 'basic_string<char, char_traits<char>, allocator<char>>') to 'realm::persisted_map_base<std::map<std::string, Map_Employee::WorkLocation>>::size_type' (aka 'unsigned long')"
-//            tommy.locationByDay.erase(std::string("Tuesday"));
-//        });
+        realm.write([&realm, &tommy] {
+            tommy.locationByDay.erase("Tuesday");
+        });
         // :snippet-end:
+        CHECK(tommy.locationByDay.find("Tuesday") == tommy.locationByDay.end());
     }
     // Clean up after test
     realm.write([&realm, &employee] {
@@ -454,14 +461,10 @@ TEST_CASE("test string map object", "[model][write]") {
             maui.favoriteParkByCity["New York"] = "Some other park";
         });
         CHECK(favoriteNewYorkPark == "Some other park");
-        // TODO: Add an example of deleting a map key/value
-//        realm.write([&realm, &maui] {
-            // maui.favoriteParkByCity.erase("New York");
-//            auto it = maui.favoriteParkByCity->find("New York");
-//            if (it != maui.favoriteParkByCity->end()) {
-//              maui.favoriteParkByCity->erase(it);
-//            }
-//        });
+        realm.write([&realm, &maui] {
+             maui.favoriteParkByCity.erase("New York");
+        });
+        CHECK(maui.favoriteParkByCity.find("New York") == maui.favoriteParkByCity.end());
     }
     // Clean up after test
     realm.write([&realm, &dog] {
