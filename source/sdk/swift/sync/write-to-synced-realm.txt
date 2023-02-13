@@ -47,10 +47,16 @@ that you use when you open the realm.
 
 The examples on this page use the following configurations and models:
 
-Device Sync Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~
+App Services Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Device Sync has permissions configured to let users read and write only their own
+Device Sync is configured with the following queryable fields:
+
+- ``_id`` (always included)
+- ``miles``
+- ``ownerId``
+
+The App Services App has permissions configured to let users read and write only their own
 data:
 
 .. code-block:: json
