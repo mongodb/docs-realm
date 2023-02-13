@@ -1,8 +1,4 @@
-import React from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
-import {RealmContext} from '../RealmConfig';
-
-function AppWrapperSync() {
+function AppWrapperOfflineSync() {
   const {RealmProvider} = RealmContext;
 
   return (
@@ -11,6 +7,8 @@ function AppWrapperSync() {
         <RealmProvider
           sync={{
             flexible: true,
+            newRealmFileBehavior: {type: 'openImmediately'},
+            existingRealmFileBehavior: {type: 'openImmediately'},
             onError: error => console.error(error),
           }}>
           <MyApp />

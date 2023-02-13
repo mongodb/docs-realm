@@ -1,9 +1,10 @@
-import React from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
-import {RealmContext} from '../RealmConfig';
-
-function AppWrapperSync() {
+function AppWrapperTimeoutSync() {
   const {RealmProvider} = RealmContext;
+  const realmAccessBehavior = {
+    type: 'downloadBeforeOpen',
+    timeOut: 1000,
+    timeOutBehavior: 'openLocalRealm',
+  };
 
   return (
     <AppProvider id={APP_ID}>
@@ -11,6 +12,8 @@ function AppWrapperSync() {
         <RealmProvider
           sync={{
             flexible: true,
+            newRealmFileBehavior: realmAccessBehavior,
+            existingRealmFileBehavior: realmAccessBehavior,
             onError: error => console.error(error),
           }}>
           <MyApp />

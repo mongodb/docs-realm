@@ -1,8 +1,4 @@
-import React from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
-import {RealmContext} from '../RealmConfig';
-
-function AppWrapperSync() {
+function AppWrapperPartitionSync() {
   const {RealmProvider} = RealmContext;
 
   return (
@@ -10,7 +6,7 @@ function AppWrapperSync() {
       <UserProvider>
         <RealmProvider
           sync={{
-            flexible: true,
+            partitionValue: 'testPartition',
             onError: error => console.error(error),
           }}>
           <MyApp />
