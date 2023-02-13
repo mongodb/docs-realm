@@ -23,31 +23,20 @@ The examples on this page use an Atlas App Services App with the following
 Device Sync configuration and a client app with the following Realm SDK 
 data model and subscriptions.
 
-Device Sync is configured with the following queryable fields:
-
-- ``_id`` (always included)
-- ``miles``
-- ``ownerId``
-
-Device Sync has permissions configured to let users read and write only their own
-data:
+The App Services App has permissions configured to let users read and write only
+their own data:
 
 .. code-block:: json
 
    {
-     "rules": {},
-     "defaultRoles": [
-       {
-         "name": "owner-read-write",
-         "applyWhen": {},
-         "read": {
-           "ownerId": "%%user.id"
-         },
-         "write": {
-           "ownerId": "%%user.id"
-         }
-       }
-     ]
+     "name": "owner-read-write", 
+     "apply_when": {},
+     "document_filters": {
+       "read": { "ownerId": "%%user.id" },
+       "write": { "ownerId": "%%user.id" }
+     },
+     "read": true,
+     "write": true
    }
 
 The examples on this page use the following schema:
@@ -72,12 +61,14 @@ of the following:
       the write reverts with a non-fatal compensating write error (ErrorCompensatingWrite).
     - To learn more about compensating write errors and how to avoid them,
       refer to the :ref:`Compensating Writes <flutter-compensating-writes>` section.
-- **The Device Sync permissions** in your App Services App.
-    - If your try to write data that doesn't match the Device Sync permissions expression,
-      the write reverts with a non-fatal permission denied error (ErrorPermissionDenied).
-    - To learn more about configuring Device Sync permissions for your app,
-      refer to :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide`
-      in the App Services documentation.
+- **The permissions** in your App Services App.
+    - If your try to write data that doesn't match the permissions expression,
+      the write reverts with a non-fatal permission denied error. In the client,
+      this shows as an error (ErrorCompensatingWrite). On the server, you can see more
+      details about how the write was denied was by a write filter in the role.
+    - To learn more about configuring permissions for your app, see
+      :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide` in the
+      App Services documentation.
 
 To learn more about permission denied errors, compensating write errors
 and other Device Sync error types, refer to :ref:`sync-errors` in the App Services documentation.

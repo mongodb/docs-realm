@@ -23,15 +23,14 @@ of the following:
 - **The sync subscription query.**
     - If your write operation doesn't match the query in the subscription,
       the write reverts with a non-fatal compensating write error (ErrorCompensatingWrite).
-- **The Device Sync permissions** in your App Services App.
-    - If your try to write data that doesn't match the Device Sync permissions expression,
-      the write reverts with a non-fatal permission denied error.
-      In the client, this shows as an (ErrorCompensatingWrite). On the server,
-      you can see more details about how the write was denied was by a 
-      write filter in the role.
-    - To learn more about configuring Device Sync permissions for your app,
-      refer to :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide`
-      in the App Services documentation.
+- **The permissions** in your App Services App.
+    - If your try to write data that doesn't match the permissions expression,
+      the write reverts with a non-fatal permission denied error. In the client,
+      this shows as an error (ErrorCompensatingWrite). On the server, you can see more
+      details about how the write was denied was by a write filter in the role.
+    - To learn more about configuring permissions for your app, see
+      :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide` in the
+      App Services documentation.
 
 .. warning:: Multiprocess Sync is Not Supported
 
@@ -42,20 +41,14 @@ of the following:
 Determining What Data Syncs
 ---------------------------
 
-The data that you can write to a synced realm is the intersection of your 
-Device Sync configuration - your queryable fields and permissions - and the
-Flexible Sync subscription query that you use when you open the realm.
+The data that you can write to a synced realm is the intersection of your Device
+Sync configuration, your permissions, and the Flexible Sync subscription query
+that you use when you open the realm.
 
 The examples on this page use the following configurations and models:
 
 Device Sync Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Device Sync is configured with the following queryable fields:
-
-- ``_id`` (this is a queryable field in every Device Sync configuration)
-- ``ownerId``
-- ``complexity``
 
 Device Sync has permissions configured to let users read and write only their own
 data:
@@ -63,19 +56,14 @@ data:
 .. code-block:: json
 
    {
-     "rules": {},
-     "defaultRoles": [
-       {
-         "name": "owner-read-write",
-         "applyWhen": {},
-         "read": {
-           "ownerId": "%%user.id"
-         },
-         "write": {
-           "ownerId": "%%user.id"
-         }
-       }
-     ]
+     "name": "owner-read-write", 
+     "apply_when": {},
+     "document_filters": {
+       "read": { "ownerId": "%%user.id" },
+       "write": { "ownerId": "%%user.id" }
+     },
+     "read": true,
+     "write": true
    }
 
 Client Data Model and Configuration
@@ -96,8 +84,8 @@ is less than or equal to ``4``:
 What Data Syncs?
 ~~~~~~~~~~~~~~~~
 
-The subscription query combined with the Device Sync permissions mean
-that the synced realm only syncs objects where:
+The subscription query combined with the permissions mean that the synced realm
+only syncs objects where:
 
 - The ``ownerId`` matches the ``user.id`` of the logged-in user (from the permissions)
 - The ``complexity`` property's value is less than or equal to ``4`` (from the subscription query)
@@ -124,11 +112,11 @@ Writes to Flexible Sync realms may broadly fall into one of two categories:
 Successful Writes
 ~~~~~~~~~~~~~~~~~
 
-When the write matches both the :ref:`Device Sync permissions <sync-rules>` 
-and the :ref:`Flexible Sync subscription query 
-<swift-manage-flexible-sync-subscriptions>` in the client, the Realm Swift SDK 
-can successfully write the object to the synced realm. This object syncs 
-with the App Services backend when the device has a network connection.
+When the write matches both the :ref:`permissions <permissions>` and the
+:ref:`Flexible Sync subscription query
+<swift-manage-flexible-sync-subscriptions>` in the client, the Realm Swift SDK
+can successfully write the object to the synced realm. This object syncs with
+the App Services backend when the device has a network connection.
 
 .. literalinclude:: /examples/generated/code/start/SyncedRealmCRUD.snippet.successful-write.swift
    :language: swift
