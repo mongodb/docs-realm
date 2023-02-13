@@ -1,3 +1,59 @@
+# February 10, 2023
+
+## C++ SDK
+- Update existing Model Data and CRUD documentation pages to show the new C++ SDK declaration and usage syntax using CRTP
+- Configure & Open a Realm: Update the documentation about opening a realm at a path based on SDK changes, update API links
+- Add many new pages, including:
+  - Quick Start: New page following the format of the other SDKs with tested, Bluehawked code examples
+  - CRUD/Filter Data: New page following the format of the other SDKs with tested, Bluehawked code examples
+  - React to Changes: New page following the format of the other SDKs with tested, Bluehawked code examples for watching an object for changes
+  - Application Services: New Section
+    - Connect to an App Services App: Minor updates to an existing page, move the page into this new section
+    - Call a Function: New page following the format of the other SDKs with tested, Bluehawked code examples
+  - Manage Users: New Section
+    - Landing Page: Add a landing page that describes managing users in the C++ SDK, based on the functionality that is currently implemented
+    - Authenticate Users: New page following the format of the other SDKs with tested, Bluehawked code examples
+    - Manage Email/Password Users: Minor updates to an existing page, move the page into this new section
+    - Custom User Data: New page with info and tested, Bluehawked code examples showing how to create, read, update, and delete custom user data
+  - Manage Sync Subscriptions: Add a Manage Sync Subscriptions page following the format of the other SDKs with tested, Bluehawked code examples
+
+## Flutter SDK
+- Landing Page & Table of Contents: Remove "Release Candidate" and "RC" language for Flutter SDK's GA
+- Realm Database/Manage Realm Database Files/Bundle a Realm: Add docs for bundling a synced realm
+- Sync Device Data/Sync Multiple Processes: Add a new section with information about how to manually refresh realm data
+- Fix a redirect loop for the Read & Write Data page
+- Fix missing entries in the Table of Contents
+
+## Java SDK
+- Usage Examples/Query MongoDB: Add an introduction and prerequisites with links to corresponding setup docs in App Services documentation
+
+## Kotlin SDK
+- Realm Database/Schemas
+  - Relationships: Add a paragraph with a brief description and link to the new Embedded Objects page
+  - Embedded Objects: New page with tested, Bluehawked code examples showing how to create, read, update, delete, and query embedded objects in the Kotlin SDK
+- Internal
+  - Update the Kotlin documentation unit test suite to use Kotlin SDK version 1.6.1, fix a failing test
+
+## .NET SDK
+- Application Services/Query MongoDB: Add an introduction and prerequisites with links to corresponding setup docs in App Services documentation
+
+## Node.js SDK
+- Usage Examples/Query MongoDB: Add an introduction and prerequisites with links to corresponding setup docs in App Services documentation
+
+## React Native SDK
+- Quick Start: Fix a typo
+- Atlas App Services/Query MongoDB: Add an introduction and prerequisites with links to corresponding setup docs in App Services documentation
+- Manage Users/Multi-User Applications: Add information about user states, update code examples to show `@realm/react`
+
+## Swift SDK
+- Application Services/Query MongoDB: Update prerequisites and introduction with links to corresponding setup docs in App Services documentation
+
+## Web SDK
+- Query MongoDB: Add an introduction and prerequisites with links to corresponding setup docs in App Services documentation
+
+## Other
+- Realm Query Language: Clarify that comparing two lists, while valid RQL syntax, is not supported in Flexible Sync queries
+
 # February 3, 2023
 
 ## Flutter SDK
