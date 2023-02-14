@@ -32,7 +32,52 @@ Before you can authenticate a user, you must:
 Configure User Authentication in App
 ------------------------------------
 
-TODO: add section as outlined
+Configure user authentication with the ``AppProvider`` and ``UserProvider`` components
+and ``useApp()`` and ``useUser()`` hooks.
+
+To set up user authentication, perform the following:
+
+#. Wrap all components you want to use with App Services in a ``AppProvider`` component.
+#. Inside of the ``AppProvider``, wrap all components that you want to have access
+   to an authenticated user with a ``UserProvider`` component.
+#. In the ``UserProvider``, include a ``fallback`` prop with another component
+   that logs a user in.
+#. In the component passed to ``UserProvider.fallback`` prop, authenticate a user
+   with ``Realm.App.logIn()``, which you can access with the ``useApp()`` hook.
+
+Components wrapped by the ``UserProvider`` only render if your app has
+an authenticated user. These components can access to the authenticated user
+with the ``useUser()`` hook.
+
+.. code-block:: js
+
+   function AppWrapper() {
+
+   return (
+      <AppProvider appId={APP_ID}>
+         <UserProvider fallback={LogIn}>
+            {/*Components with access to the user.
+            These components only render if there's an authenticated user.*/}
+         </UserProvider>
+      </AppProvider>
+   );
+   }
+
+   function LogIn() {
+
+      // This example uses email/password authentication.
+      // However, you can use any authentication provider
+      // to log a user in with this pattern.
+      async logInUser(email: string, password: string){
+         // TODO: fill in
+      }
+
+      return (
+         <View>
+         
+         </View>
+      );
+   }
 
 Log In
 ------
@@ -150,35 +195,16 @@ to handle the user authentication and redirect flow from a client application.
 Once authenticated, the Facebook SDK returns an access token that you can send
 to your React Native app and use to finish logging the user in to your app.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Get the access token from a client application using the Facebook SDK
-         const accessToken = getFacebookAccessToken();
+.. code-block:: javascript
 
-         // Log the user in to your app
-         const credentials = Realm.Credentials.facebook(accessToken);
-         app.logIn(credentials).then(user => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+   // Get the access token from a client application using the Facebook SDK
+   const accessToken = getFacebookAccessToken();
 
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // Get the access token from a client application using the Facebook SDK
-         const accessToken = getFacebookAccessToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.facebook(accessToken);
-         app.logIn(credentials).then((user: Realm.User) => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+   // Log the user in to your app
+   const credentials = Realm.Credentials.facebook(accessToken);
+   app.logIn(credentials).then(user => {
+   console.log(`Logged in with id: ${user.id}`);
+   });
 
 .. _react-native-google-login:
 .. _react-native-login-google:
@@ -204,7 +230,7 @@ Regardless of implementation, you must retrieve an ID token from the Google Auth
 Use that ID token to log into Realm.
 
 .. code-block:: javascript
-   
+
    // Get the Google OAuth 2.0 access token
    const idToken = getGoogleAccessToken();
 
