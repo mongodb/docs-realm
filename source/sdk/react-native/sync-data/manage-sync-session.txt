@@ -22,23 +22,22 @@ Before you can manage a sync session, you must perform the following:
 #. :ref:`Open a synced realm <react-native-open-a-synced-realm>`
 #. If you're using Flexible Sync, :ref:`add a sync subscription
    <react-native-sync-subscribe-to-queryable-fields>`
+#. Wrap components that use the ``useRealm()`` hook for a synced realm
+   with the ``AppProvider``, ``UserProvider``, and ``RealmProvider`` components.
+   For more information on configuring and opening a synced realm,
+   refer to :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
 .. _react-native-access-sync-session:
 
 Access Sync Session
 -------------------
 
-If you're using @realm/react, access a synced realm in a component
-with the ``useRealm()`` hook. Access the sync session with the synced realm's
-:js-sdk:`Realm.syncSession <Realm.html#syncSession>` property.
+Access a synced realm in a component with the ``useRealm()`` hook.
+Access the sync session with the synced realm's :js-sdk:`Realm.syncSession
+<Realm.html#syncSession>` property.
 
 .. literalinclude:: /examples/generated/react-native/ts/sync-session.test.snippet.sync-session.tsx
    :language: typescript
-
-You must wrap components that use the ``useRealm()`` hook for a synced realm
-with the ``AppProvider``, ``UserProvider``, and ``RealmProvider`` components.
-For more information on configuring and opening a synced realm,
-refer to :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
 .. _react-native-pause-or-resume-a-sync-session:
 
