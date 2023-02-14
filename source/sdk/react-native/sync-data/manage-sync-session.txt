@@ -10,8 +10,6 @@ Manage a Sync Session - React Native SDK
    :depth: 2
    :class: singlecol
 
-TODO: add redirects
-
 When you use Atlas Device Sync, the Realm REact Native SDK syncs data with Atlas
 in the background using a sync session. The sync session starts whenever
 you open a synced realm.
@@ -19,8 +17,11 @@ you open a synced realm.
 Prerequisites
 -------------
 
-TODO: add bit of info that you must configure device sync and open a synced
-realm. if using flex sync, should also add subscription query first
+Before you can manage a sync session, you must perform the following:
+
+#. :ref:`Open a synced realm <react-native-open-a-synced-realm>`
+#. If you're using Flexible Sync, :ref:`add a sync subscription
+   <react-native-sync-subscribe-to-queryable-fields>`
 
 .. _react-native-access-sync-session:
 
@@ -30,6 +31,8 @@ Access Sync Session
 If you're using @realm/react, access a synced realm in a component
 with the ``useRealm()`` hook. Access the sync session with the synced realm's
 :js-sdk:`Realm.App.Sync.Session <Realm.App.Sync.Session.html>`.
+
+TODO: literalinclude
 
 .. code-block:: typescript
 
@@ -49,6 +52,11 @@ with the ``useRealm()`` hook. Access the sync session with the synced realm's
 
      return <Button text={isPaused ? 'Pause Sync': 'Unpause Sync'}/>
    }
+
+You must wrap components that use the ``useRealm()`` hook for a synced realm
+with the ``AppProvider``, ``UserProvider``, and ``RealmProvider`` components.
+For more information on configuring and opening a synced realm,
+refer to :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
 .. _react-native-pause-or-resume-a-sync-session:
 
@@ -118,9 +126,6 @@ gets the current state of the connection to the server.
 
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-check-network-connection.js
    :language: javascript
-
-TODO: remove this section from the page. really isn't sync session
-
 
 .. _react-native-multiplex-sync-sessions:
 
