@@ -14,12 +14,13 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        f5bdef8e958612143dea3615a0ba5d1b9eeddd36
+  GIT_TAG        a9f780132f96a282c01af0efd1fc81dff2184ff7
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples 
+  asymmetric-sync.cpp
   authentication.cpp 
   define-object-model.cpp 
   examples.cpp 
