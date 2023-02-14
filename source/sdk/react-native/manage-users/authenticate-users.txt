@@ -10,7 +10,22 @@ Authenticate Users - React Native SDK
    :depth: 2
    :class: singlecol
 
-TODO: add brief introduction
+The SDK provides an API for authenticating users using any enabled
+authentication provider. Instantiate a :js-sdk:`Realm.Credentials <Realm.Credentials.html>`
+object and pass it to :js-sdk:`Realm.App.logIn() <Realm.App.html#logIn>`
+to authenticate and obtain a :js-sdk:`Realm.User <Realm.User.html>` object.
+The ``Realm.Credentials`` class exposes factory methods that correspond to
+each of the authentication providers.
+
+Prerequisites
+-------------
+
+Before you can authenticate a user, you must:
+
+- :ref:`Create an App Services App <create-a-realm-app>`
+- Enable one or more :ref:`authentication providers <authentication-providers>`
+  in the App.
+- :ref:`Install the React Native SDK <react-native-install>`
 
 .. _react-native-configure-authentication:
 
