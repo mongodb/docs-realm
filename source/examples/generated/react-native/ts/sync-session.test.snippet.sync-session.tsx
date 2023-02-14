@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppProvider, UserProvider, useUser} from '@realm/react';
 import {SyncedRealmContext} from '../RealmConfig';
-const {RealmProvider, useRealm} = SyncedRealmContext;
+const {useRealm} = SyncedRealmContext;
 
 function ToggleSyncSession() {
   const realm = useRealm();
@@ -23,16 +23,3 @@ function ToggleSyncSession() {
     />
   );
 }
-
-test('Test pause/unpause sync', async () => {
-  const {getByTestId} = render(<AppWrapper />);
-  const button = await waitFor(() => getByTestId(testId));
-  fireEvent.press(button);
-  await waitFor(() => {
-    expect(higherScopedRealm.syncSession?.state).toBe('inactive');
-  });
-  fireEvent.press(button);
-  await waitFor(() => {
-    expect(higherScopedRealm.syncSession?.state).toBe('active');
-  });
-});
