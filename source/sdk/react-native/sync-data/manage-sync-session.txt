@@ -32,26 +32,8 @@ If you're using @realm/react, access a synced realm in a component
 with the ``useRealm()`` hook. Access the sync session with the synced realm's
 :js-sdk:`Realm.App.Sync.Session <Realm.App.Sync.Session.html>`.
 
-TODO: literalinclude
-
-.. code-block:: typescript
-
-   function ToggleSyncSession() {
-     const realm = useRealm();
-
-     const [isPaused, setIsPaused] = useState(false);
-
-     async function toggleSyncSession() {
-       if(isPaused) {
-         await realm.sync.session.resume();
-       } else {
-         await realm.sync.session.pause();
-       }
-       setIsPaused(!isPaused);
-     }
-
-     return <Button text={isPaused ? 'Pause Sync': 'Unpause Sync'}/>
-   }
+.. literalinclude:: /examples/generated/react-native/ts/sync-session.test.snippet.sync-session.tsx
+   :language: typescript
 
 You must wrap components that use the ``useRealm()`` hook for a synced realm
 with the ``AppProvider``, ``UserProvider``, and ``RealmProvider`` components.
