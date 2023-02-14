@@ -106,19 +106,6 @@ user experience from being blocked. We recommend syncing changes in the
 background for applications in which the user's device may go offline. To sync
 changes in the background, open a synced realm synchronously.
 
-.. TODO: Realm reactify these paras and turn them into an ordered list
-
-Create a :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
-``type`` to ``"openImmediately"``. 
-
-Next, create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
-include the ``sync`` property defining a :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>` object. Set this
-``OpenRealmBehaviorConfiguration`` object as the value for
-the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
-``SyncConfiguration``.
-
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.offline-config.tsx
    :language: javascript
 
