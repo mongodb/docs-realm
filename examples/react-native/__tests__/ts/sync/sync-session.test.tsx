@@ -2,8 +2,9 @@
 import React from 'react';
 import {AppProvider, UserProvider, useUser} from '@realm/react';
 import {SyncedRealmContext} from '../RealmConfig';
-const {RealmProvider, useRealm} = SyncedRealmContext;
+const {useRealm} = SyncedRealmContext;
 // :remove-start:
+const {RealmProvider} = SyncedRealmContext;
 import Realm from 'realm';
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
@@ -84,6 +85,7 @@ function ToggleSyncSession() {
     />
   );
 }
+// :snippet-end:
 
 test('Test pause/unpause sync', async () => {
   const {getByTestId} = render(<AppWrapper />);
@@ -97,4 +99,3 @@ test('Test pause/unpause sync', async () => {
     expect(higherScopedRealm.syncSession?.state).toBe('active');
   });
 });
-// :snippet-end:
