@@ -11,6 +11,20 @@ Create & Manage User API Keys - React Native SDK
    :depth: 2
    :class: singlecol
 
+User API keys allow devices or services to communicate with App Services on behalf of a user without sharing
+that users credentials. User API keys can be revoked at any time by the authenticated user.
+User API keys do not expire on their own.
+
+You can manage a user API key with the :js-sdk:`ApiKeyAuth <Realm.Auth.ApiKeyAuth.html>`
+client accessed with an authenticated user's :js-sdk:`User.apiKeys
+<Realm.User.html#apiKeys>` property.
+
+If you are using ``@realm/react``, you can access a user's ``ApiKeyAuth`` client
+with the ``useUser()`` hook in a component wrapped by ``UserProvider``.
+
+.. literalinclude:: /examples/generated/react-native/ts/user-api-keys.test.snippet.user-api-key.tsx
+   :language: typescript
+
 .. _react-native-create-a-user-api-key:
 
 Create a User API Key
@@ -20,31 +34,18 @@ To create a new :ref:`user API key <api-key-authentication-user-api-key>`, pass
 a name that's unique among all of the user's API keys to
 :js-sdk:`ApiKeyAuth.create() <Realm.Auth.ApiKeyAuth.html#create>`.
 
-.. important::
-   
-   You cannot create a user API key for a :ref:`server API key
-   <api-key-authentication-server-api-key>`  or an :ref:`anonymous user
-   <anonymous-authentication>`.
+The SDK returns the value of the user API key when you create it. Make
+sure to store the ``key`` value securely so that you can use it to log in.
+If you lose or do not store the ``key`` value there is no way to recover it.
+You will need to create a new user API key.
 
-.. include:: /includes/note-store-user-api-key-value.rst
+You **cannot** create a user API key for a :ref:`server API key
+<api-key-authentication-server-api-key>`  or an :ref:`anonymous user
+<anonymous-authentication>`.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         
-         const user = app.currentUser;
-         const key = await user.apiKeys.create("apiKeyName");
-   
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-         
-         const user = app.currentUser;
-         const key = await user.apiKeys.create("apiKeyName");
+.. literalinclude:: /examples/generated/node/authenticate.snippet.create-user-api-key.js
+   :language: javascript
+   :start-after: const user = app.currentUser;
 
 .. _react-native-look-up-a-user-api-key:
 
@@ -57,29 +58,9 @@ To get an array that lists all of a user's API keys, call
 To find a specific API key, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.fetch() <Realm.Auth.ApiKeyAuth.html#fetch>`.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         
-         const user = app.currentUser;
-         // List all of a user's keys
-         const keys = await user.apiKeys.fetchAll();
-         // Get a specific key by its ID
-         const key = await user.apiKeys.fetch("5eb5931548d79bc784adf46e");
-   
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-         
-         const user = app.currentUser;
-         // List all of a user's keys
-         const keys = await user.apiKeys.fetchAll();
-         // Get a specific key by its ID
-         const key = await user.apiKeys.fetch("5eb5931548d79bc784adf46e");
+.. literalinclude:: /examples/generated/node/authenticate.snippet.look-up-user-api-key.js
+   :language: javascript
+   :start-after: const user = app.currentUser;
 
 .. _react-native-enable-or-disable-a-user-api-key:
 
@@ -91,37 +72,9 @@ To enable or disable a user API key, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.disable() <Realm.Auth.ApiKeyAuth.html#disable>`. When a key
 is disabled, it cannot be used to log in on behalf of the user.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         
-         // Get the ID of a User API Key
-         const user = app.currentUser;
-         const apiKeys = await user.apiKeys.fetchAll();
-         const keyId = apiKeys[0]["_id"];
-         
-         // Enable the User API Key
-         await user.apiKey.enable(keyId);
-         // Disable the User API Key
-         await user.apiKey.disable(keyId);
-   
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-         
-         // Get the ID of a User API Key
-         const user = app.currentUser;
-         const apiKeys = await user.apiKeys.fetchAll();
-         const keyId = apiKeys[0]["_id"];
-         
-         // Enable the User API Key
-         await user.apiKey.enable(keyId);
-         // Disable the User API Key
-         await user.apiKey.disable(keyId);
+.. literalinclude:: /examples/generated/node/authenticate.snippet.enable-disable-user-api-key.js
+   :language: javascript
+   :start-after: const user = app.currentUser;
 
 .. _react-native-delete-a-user-api-key:
 
@@ -132,30 +85,6 @@ To permanently delete a user API, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.delete() <Realm.Auth.ApiKeyAuth.html#delete>`. Deleted keys
 cannot be recovered.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Get the ID of a User API Key
-         const user = app.currentUser;
-         const apiKeys = await user.apiKeys.fetchAll();
-         const keyId = apiKeys[0]["_id"];
-         
-         // Delete the User API Key
-         await user.apiKey.delete(keyId);
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // Get the ID of a User API Key
-         const user = app.currentUser;
-         const apiKeys = await user.apiKeys.fetchAll();
-         const keyId = apiKeys[0]["_id"];
-         
-         // Delete the User API Key
-         await user.apiKey.delete(keyId);
+.. literalinclude:: /examples/generated/node/authenticate.snippet.delete-user-api-key.js
+   :language: javascript
+   :start-after: const user = app.currentUser;
