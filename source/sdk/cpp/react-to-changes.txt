@@ -45,3 +45,33 @@ realm to emit a notification.
 
    .. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-object.cpp
       :language: cpp
+
+.. _cpp-register-a-results-collection-change-listener:
+
+Register a Results Collection Change Listener
+---------------------------------------------
+
+You can register a notification handler on a :cpp-sdk:`results collection
+<structrealm_1_1results.html>`.
+
+Realm Database notifies your handler whenever a write transaction 
+removes, adds, or changes objects in the collection.
+
+Notifications describe the changes since the prior notification with
+three lists of indices: the indices of the objects that were deleted,
+inserted, and modified.
+
+.. important:: Order Matters
+   
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
+  
+Results collection notifications provide a :cpp-sdk:`results_change 
+<structrealm_1_1results__base_1_1results__change.html>` struct that 
+reports the index of the objects that are deleted, added, or modified.
+It can also notify you if the collection was deleted.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-results.cpp
+   :language: cpp
