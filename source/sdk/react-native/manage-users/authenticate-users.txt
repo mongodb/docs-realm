@@ -32,21 +32,21 @@ Before you can authenticate a user, you must:
 Configure User Authentication in App
 ------------------------------------
 
-Configure user authentication with the ``@realm/react`` ``<AppProvider>`` and ``<UserProvider>`` components
-and ``useApp()`` and ``useUser()`` hooks.
+Configure user authentication with the ``@realm/react`` ``<AppProvider>``
+and ``<UserProvider>`` components and ``useApp()`` and ``useUser()`` hooks.
 
 To set up user authentication:
 
-#. Wrap all components you want to use with App Services in an ``AppProvider`` component.
-#. Inside of ``AppProvider``, wrap all components that you want to have access
-   to an authenticated user with a ``UserProvider`` component.
+#. Wrap all components you want to use with App Services in an ``<AppProvider>`` component.
+#. Inside of ``<AppProvider>``, wrap all components that you want to have access
+   to an authenticated user with a ``<UserProvider>`` component.
 #. In ``UserProvider``, include a ``fallback`` prop with another component
    that logs a user in. The app renders this component if there
    is no authenticated user.
-#. In the component passed to the ``UserProvider.fallback`` prop, authenticate a user
+#. In the component passed to the ``<UserProvider>.fallback`` prop, authenticate a user
    with ``Realm.App.logIn()``, which you can access with the ``useApp()`` hook.
 
-Components wrapped by ``UserProvider`` only render if your app has
+Components wrapped by ``<UserProvider>`` only render if your app has
 an authenticated user. These components can access the authenticated user
 with the ``useUser()`` hook.
 
