@@ -187,7 +187,7 @@ To open a synced realm with initial subscriptions, you need to add an
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-initial-subscriptions-on-fs-realm.js
    :language: javascript
 
-You can't use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
+You **cannot** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
 when setting initial subscriptions.
 
 .. _react-native-flexible-sync-wait-for-sync:
@@ -235,9 +235,6 @@ the subscriptions set. Pass the query to the :js-sdk:`remove()
 ``MutableSubscriptionSet`` within a transaction.
 
 .. TODO: Update to reflect object type instead of owner
-
-In the following example, the subscription to tasks with an owner named 'Ben' is
-removed from the subscriptions set.
 
 .. TODO: realm reactify
 
