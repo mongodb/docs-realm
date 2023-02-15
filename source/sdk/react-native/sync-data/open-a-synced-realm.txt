@@ -69,7 +69,7 @@ Configure a Partition-Based Sync Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To configure a Partition-Based Sync realm, follow the diretions for configuring
-a Flexible Sync realm. However, do not include ``flexible:true`` in your 
+a Flexible Sync realm. However, do not include ``flexible: true`` in your 
 ``SyncConfiguration.`` Instead, add the ``partitionValue`` property and set its
 value to the name of your partition.
 
@@ -88,7 +88,7 @@ realm while offline. To do this, use a cached user and an
 :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object. 
 
-Within ``<RealmProvider>``'s Sync Configuration, set the optional ``newRealmFileBehavior`` 
+Within ``<RealmProvider>``'s sync configuration, set the optional ``newRealmFileBehavior`` 
 and ``existingRealmFileBehavior`` fields to your ``OpenRealmBehaviorConfiguration`` 
 object to enable background synchronization. 
 

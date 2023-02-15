@@ -33,7 +33,7 @@ function AppWrapperSync() {
         <RealmProvider
           sync={{
             flexible: true,
-            onError: error => console.error(error),
+            onError: console.error,
           }}>
           <MyApp />
         </RealmProvider>
