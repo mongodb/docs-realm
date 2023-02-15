@@ -22,6 +22,7 @@ Set an error handler by registering an error callback as part of the
 
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-handle-sync-errors.js
    :language: javascript
+   :end-before: const realm = await Realm.open(config);
 
 .. include:: /includes/sync-errors-in-app-services.rst
 
@@ -210,6 +211,7 @@ discarding all unsynced changes:
 
 .. literalinclude:: /examples/generated/node/client-reset.snippet.recovery-fallback.js
    :language: js
+   :end-before: realm = await Realm.open(config);
 
 .. _react-native-discard-unsynced-changes:
 
