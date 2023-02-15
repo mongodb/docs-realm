@@ -50,7 +50,9 @@ function DeleteUser() {
   }
   // ...
   // :remove-start:
-  return <Button onPress={deleteUser} testID='test-delete-user' title='Test Me!' />;
+  return (
+    <Button onPress={deleteUser} testID='test-delete-user' title='Test Me!' />
+  );
   // :remove-end:
 }
 // :snippet-end:
