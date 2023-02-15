@@ -5,14 +5,15 @@ import {Button} from 'react-native';
 function AppWrapper() {
   return (
     <AppProvider id={APP_ID}>
-      {/* Once the user successfully authenticates,
+      {/* If there is no authenticated user,
+          the app mounts the `fallback` component.
+          Once the user successfully authenticates,
           the app unmounts the component in the
-          `UserProvider.fallback` prop (this component).
-          The app then renders the children components
-          of `UserProvider`. */}
+          `UserProvider.fallback` prop
+          (the `LogIn` component in this example). */}
       <UserProvider fallback={LogIn}>
         {/* Components with access to the user.
-            These components only render
+            These components only mount
             if there's an authenticated user.*/}
         <RestOfApp />
       </UserProvider>

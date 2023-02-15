@@ -41,7 +41,8 @@ To set up user authentication, perform the following:
 #. Inside of the ``AppProvider``, wrap all components that you want to have access
    to an authenticated user with a ``UserProvider`` component.
 #. In the ``UserProvider``, include a ``fallback`` prop with another component
-   that logs a user in.
+   that logs a user in. The app renders this component if there
+   is no authenticated user.
 #. In the component passed to ``UserProvider.fallback`` prop, authenticate a user
    with ``Realm.App.logIn()``, which you can access with the ``useApp()`` hook.
 
