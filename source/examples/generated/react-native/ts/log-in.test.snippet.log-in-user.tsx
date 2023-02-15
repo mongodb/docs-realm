@@ -1,15 +1,6 @@
-// :snippet-start: log-in-user
 import React from 'react';
 import {useApp, UserProvider, AppProvider} from '@realm/react';
 import {Button} from 'react-native';
-// :remove-start:
-import Realm from 'realm';
-import {render, fireEvent, waitFor} from '@testing-library/react-native';
-
-const APP_ID = 'example-testers-kvjdy';
-const testId = 'test-log-in';
-let higherScopedUser: Realm.User | null;
-// :remove-end:
 
 function AppWrapper() {
   return (
@@ -37,33 +28,12 @@ function LogIn() {
   // to log a user in with this pattern.
   async function logInUser() {
     await app.logIn(Realm.Credentials.anonymous());
-    higherScopedUser = app.currentUser; // :remove:
   }
 
   return (
     <Button
       title='Log In'
       onPress={logInUser}
-      testID={testId} // :remove:
     />
   );
 }
-// :snippet-end:
-
-let restOfAppRendered = false;
-function RestOfApp() {
-  restOfAppRendered = true;
-  return <></>;
-}
-
-afterEach(async () => await Realm.App.getApp(APP_ID).currentUser?.logOut());
-
-test('Log in user', async () => {
-  const {getByTestId} = render(<AppWrapper />);
-  const button = await waitFor(() => getByTestId(testId));
-  fireEvent.press(button);
-  await waitFor(() => {
-    expect(restOfAppRendered).toBe(true);
-    expect(higherScopedUser).toBeInstanceOf(Realm.User);
-  });
-});

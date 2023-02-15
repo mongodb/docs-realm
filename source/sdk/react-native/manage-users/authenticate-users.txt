@@ -49,35 +49,8 @@ Components wrapped by the ``UserProvider`` only render if your app has
 an authenticated user. These components can access to the authenticated user
 with the ``useUser()`` hook.
 
-.. code-block:: js
-
-   function AppWrapper() {
-
-   return (
-      <AppProvider appId={APP_ID}>
-         <UserProvider fallback={LogIn}>
-            {/*Components with access to the user.
-            These components only render if there's an authenticated user.*/}
-         </UserProvider>
-      </AppProvider>
-   );
-   }
-
-   function LogIn() {
-
-      // This example uses email/password authentication.
-      // However, you can use any authentication provider
-      // to log a user in with this pattern.
-      async logInUser(email: string, password: string){
-         // TODO: fill in
-      }
-
-      return (
-         <View>
-         
-         </View>
-      );
-   }
+.. literalinclude:: /examples/generated/react-native/ts/log-in.test.snippet.log-in-user.tsx
+   :language: ts
 
 Log In
 ------
