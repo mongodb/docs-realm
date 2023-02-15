@@ -194,10 +194,10 @@ when setting initial subscriptions.
 
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. TODO: Can do this with const realm = useRealm(); Then realm.subscriptions.state.
 
-You can check the subscription state to see if the server has acknowledged the
-subscription and the device has downloaded the data locally.
+You can check a subscription's :js-sdk:`state <Realm.App.Sync.SubscriptionSet.html#state>` 
+to see if the server has acknowledged the subscription and the device has 
+downloaded the data locally.
 
 You can use subscription state to:
 
@@ -206,8 +206,7 @@ You can use subscription state to:
 - Find out when a subscription set is superseded, and you should obtain a
   new instance of the subscription set to write a subscription change
 
-To the status of subscriptions, log the value of the subscription's
-:js-sdk:`state <Realm.App.Sync.SubscriptionSet.html#state>`.
+.. TODO: realm reactify
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.log-subscription-state.js 
     :language: javascript
@@ -216,7 +215,8 @@ To the status of subscriptions, log the value of the subscription's
 
 Remove Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
-To remove subscriptions from the subscription set, you can:
+
+You can remove subscriptions in several ways:
 
 - Remove a single subscription with the given query
 - Remove a single subscription with the given name 
@@ -228,12 +228,13 @@ the client device.
 
 Remove a Subscription by Query
 ``````````````````````````````
-.. TODO: Can do this with const realm = useRealm();
 
 You can remove a specific subscription by query by executing a transaction on
 the subscriptions set. Pass the query to the :js-sdk:`remove()
-<Realm.App.Sync.MutableSubscriptionSet.html#remove>` method on the
+<Realm.App.Sync.MutableSubscriptionSet.html#remove>` method on
 ``MutableSubscriptionSet`` within a transaction.
+
+.. TODO: Update to reflect object type instead of owner
 
 In the following example, the subscription to tasks with an owner named 'Ben' is
 removed from the subscriptions set.
@@ -245,10 +246,11 @@ removed from the subscriptions set.
 
 Remove a Subscription by Name
 `````````````````````````````
+
 To remove a specific subscription by name, execute a transaction on the
 subscriptions set. Within the transaction, pass the name to the
 :js-sdk:`removeByName()
-<Realm.App.Sync.MutableSubscriptionSet.html#removeByName>` method on the
+<Realm.App.Sync.MutableSubscriptionSet.html#removeByName>` method on
 ``MutableSubscriptionSet``.
 
 .. TODO: realm reactify
@@ -258,10 +260,11 @@ subscriptions set. Within the transaction, pass the name to the
 
 Remove a Subscription by Reference
 ``````````````````````````````````
+
 If you have a reference to a subscription, you can remove that subscription. To
 do so, execute a transaction on the subscriptions set. Within the transaction,
 pass the reference variable to the :js-sdk:`removeSubscription
-<Realm.App.Sync.MutableSubscriptionSet.html#removeSubscription>` method on the
+<Realm.App.Sync.MutableSubscriptionSet.html#removeSubscription>` method on
 ``MutableSubscriptionSet``.
 
 .. TODO: realm reactify
@@ -271,10 +274,11 @@ pass the reference variable to the :js-sdk:`removeSubscription
 
 Remove All Subscriptions on an Object Type
 ``````````````````````````````````````````
+
 To remove all subscriptions on a specific object type, execute a transaction on
 the subscriptions set. Within the transaction, pass the object type as a string
 to the :js-sdk:`removeByObjectType
-<Realm.App.Sync.MutableSubscriptionSet.html#removeByObjectType>` method on the
+<Realm.App.Sync.MutableSubscriptionSet.html#removeByObjectType>` method on
 ``MutableSubscriptionSet``.
 
 .. TODO: realm reactify
@@ -284,19 +288,16 @@ to the :js-sdk:`removeByObjectType
 
 Remove All Subscriptions
 ````````````````````````
+
 To remove all subscriptions from the subscriptions set, execute a transaction on
 the subscriptions set. Call the :js-sdk:`removeAll()
-<Realm.App.Sync.MutableSubscriptionSet.html#removeAll>` method on the
+<Realm.App.Sync.MutableSubscriptionSet.html#removeAll>` method on
 ``MutableSubscriptionSet`` within the transaction
 
 .. TODO: realm reactify
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions.js
     :language: javascript
-
-More Subscription Management Options
-------------------------------------
-.. TODO: Link off to Node SDK docs and the regular JavaScript API docs.
 
 .. _react-native-flexible-sync-rql-limitations:
 
