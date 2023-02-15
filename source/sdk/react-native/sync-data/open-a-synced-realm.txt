@@ -34,19 +34,23 @@ received out of order.
    For more information on synced realms, including directions on how to set up
    sync in an App Services App, see :ref:`Atlas Device Sync Overview <sync>`.
 
-Open a Synced Realm
--------------------
+Open a Flexible Sync Realm
+--------------------------
 
 By default, Realm syncs all data from the server before returning.
 If you want to sync data in the background, read the :ref:`Open a Synced Realm
 While Offline <react-native-open-synced-realm-offline>` section.
+
+This section covers Flexible Sync realms. For information about Partition-Based
+realms, refer to the :ref:`Partition-Based Sync <react-native-partition-realms>`
+page.
 
 .. _react-native-flexible-sync-open-realm:
 
 Configure a Flexible Sync Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To open a realm using Flexible Sync, you need to use ``@realm/react``'s `React 
+To open a realm using Flexible Sync, use ``@realm/react``'s `React 
 Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
 components.
 
@@ -62,19 +66,6 @@ object that contains ``flexible:true``.
 
    You can't use a Flexible Sync realm until you add at least one subscription.
    To learn how to add subscriptions, see: :ref:`<react-native-sync-add-subscription>`.
-
-.. _react-native-partition-sync-open-realm:
-
-Configure a Partition-Based Sync Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To configure a Partition-Based Sync realm, follow the diretions for configuring
-a Flexible Sync realm. However, do not include ``flexible: true`` in your 
-``SyncConfiguration.`` Instead, add the ``partitionValue`` property and set its
-value to the name of your partition.
-
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.partition-based-config.tsx
-   :language: javascript
 
 .. _react-native-open-synced-realm-offline:
 
@@ -92,8 +83,7 @@ Within ``<RealmProvider>``'s sync configuration, set the optional ``newRealmFile
 and ``existingRealmFileBehavior`` fields to your ``OpenRealmBehaviorConfiguration`` 
 object to enable background synchronization. 
 
-You can open a realm immediately with background sync or after a timeout elapses 
-using either Flexible or Partition-Based Sync.
+You can open a realm immediately with background sync or after a timeout elapses.
 
 .. _react-native-open-immediately-with-background-sync:
 
@@ -126,9 +116,3 @@ Sync continues in the background.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.timeout-config.tsx
    :language: javascript
-
-.. seealso:: 
-
-   - :ref:`Open a Flexible Synced Realm - React Native SDK <react-native-flexible-sync-open-realm>`
-   - :ref:`Open a Partition-Based Synced Realm - React Native SDK <react-native-encrypt-a-realm>`
-   - :ref:`Encrypt a Realm - React Native SDK <react-native-partition-sync-open-realm>`

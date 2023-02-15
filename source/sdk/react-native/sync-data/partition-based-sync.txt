@@ -1,3 +1,5 @@
+.. _react-native-partition-realms:
+
 =======================================
 Partition-Based Sync - React Native SDK
 =======================================
@@ -8,8 +10,30 @@ Partition-Based Sync - React Native SDK
    :depth: 2
    :class: singlecol
 
-.. NOTE: This page is a placeholder and will be refined and added to.
-   It will not appear in the doc site's TOC.
+Partition-Based Sync is an older mode for Atlas Device Sync. We recommend using
+Flexible Sync for new apps. The information on this page is for users who are 
+still using Partition-Based Sync.
+
+For more information about Partition-Based Sync itself, refer to the 
+:ref:`Partition-Based Sync <partition-based-sync>` page.
+
+.. _react-native-partition-sync-open-realm:
+
+Configure a Partition-Based Sync Realm
+--------------------------------------
+
+To open a realm that uses Partition-Based Sync, use ``@realm/react``'s `React 
+Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
+components.
+
+In a ``<RealmProvider>`` that's nested in a ``<UserProvider>``, pass a 
+:js-sdk:`Configuration <Realm.html#~Configuration>` object. Include the ``sync`` 
+property with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
+object that contains the ``partitionValue`` property and set its
+value to the name of your partition.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.partition-based-config.tsx
+   :language: javascript
 
 .. _react-native-open-existing-realm-different-configuration:
 .. _react-native-copy-data-and-open-new-realm:
