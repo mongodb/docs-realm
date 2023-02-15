@@ -23,8 +23,5 @@ Realm.deleteRealm(copyConfig)
 // Copy the realm data
 originalRealm.writeCopyTo(copyConfig)
 
-// Open the copied realm containing the data
-val copyRealm = Realm.open(copyConfig)
-
 // Get the path to the copy you just created
 Log.v("Bundled realm location: ${copyConfig.path}")

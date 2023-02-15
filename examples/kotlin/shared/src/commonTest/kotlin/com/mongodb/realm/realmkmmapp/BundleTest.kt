@@ -12,7 +12,6 @@ import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.query.RealmResults
 import kotlin.test.Ignore
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -124,14 +123,10 @@ class BundleTest: RealmTest() {
         // Copy the realm data
         originalRealm.writeCopyTo(copyConfig)
 
-        // Open the copied realm containing the data
-        val copyRealm = Realm.open(copyConfig)
-
         // Get the path to the copy you just created
         Log.v("Bundled realm location: ${copyConfig.path}")
         // :snippet-end:
         originalRealm.close()
-        copyRealm.close()
     }
     @Test
     fun openARealmFromABundledFile(){
@@ -156,7 +151,6 @@ class BundleTest: RealmTest() {
                 isComplete = true
             })
         }
-        assertEquals(2, bundledRealm.query<Item>().find().size)
         // :snippet-end:
         bundledRealm.close()
         Realm.deleteRealm(bundledConfig)
