@@ -3,8 +3,8 @@ import {Button, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Dog from '../models/Dog';
-import Person from '../models/Person';
+import Dog from '../Models/Dog';
+import Person from '../Models/Person';
 
 const realmConfig = {
   schema: [Dog, Person],
