@@ -32,63 +32,54 @@ Bundle a Local Realm
 
 To bundle a local realm, perform the following:
 
-Create a Realm File for Bundling
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. procedure::
 
-1. Create a new project with the same 
-   :ref:`Realm object schema <kotlin-object-schema>` as your production app.
+   .. step:: Create a Realm File for Bundling
 
-#. :ref:`Open an existing realm <kotlin-open-a-realm>` with the data
-   you wish to bundle, or create a new realm.
+      Create a new project with the same :ref:`Realm object schema <kotlin-object-schema>` as your 
+      production app.
 
-   If using an existing realm, copy the realm to a new file with the 
-   `writeCopyTo <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__ 
-   method. 
-   (This method automatically compacts your realm to the smallest
-   possible size before copying.) 
+      :ref:`Open an existing realm <kotlin-open-a-realm>` with the data you wish to bundle, or create a new realm. 
+      If using an existing realm, copy the realm to a new file with the 
+      `writeCopyTo <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__ method. 
+      (This method automatically compacts your realm to the smallest possible size before copying.) 
 
-#. Get the path to the realm file using 
-   `Realm.configuration.path <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html#422583608%2FProperties%2F-1651551339>`__.
+      Get the path to the realm file using 
+      `Realm.configuration.path <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html#422583608%2FProperties%2F-1651551339>`__.
 
-.. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm.kt
-    :language: kotlin
+      .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm.kt
+         :language: kotlin
 
-.. _kotlin-bundle-realm-file:
+   .. step:: Bundle a Realm File in Your Production Application
 
-Bundle a Realm File in Your Production Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      Now that you have a copy of the realm that contains the initial data, you
+      need to bundle it with your production application.
 
-Now that you have a copy of the realm that contains the initial data, you
-need to bundle it with your production application.
+      Save a copy of the realm file to your application's assets folder. 
+      In Android Studio, you can do this using the :android:`Device File Explorer <studio/debug/device-file-explorer>`.Find your your application's assets folder. 
 
-1. Find your your application's assets folder. 
-   The assets folder location depends on your app type: 
+      The assets folder location depends on your app type: 
 
-   - For an Android app: :file:`/<app name>/src/main/assets`  
-   - For a KMM app: :file:`/<app name>/shared/src/main/assets`
+      - For an Android app: :file:`/<app name>/src/main/assets`  
+      - For a KMM app: :file:`/<app name>/shared/src/main/assets`
 
-   If your application does not already contain an asset folder, you can 
-   manually create it. 
+      If your application does not already contain an asset folder, you can 
+      manually create it. 
 
-#. Save a copy of the realm file to the assets folder. In Android Studio, you can 
-   do this using the :android:`Device File Explorer <studio/debug/device-file-explorer>`. 
-  
-   .. tip:: Create Asset Folder in Android Studio
+      .. tip:: Create Asset Folder in Android Studio
 
-      To create an asset folder in Android Studio, right-click the top-level application folder
-      (:file:`<app name>` or :file:`<app name>/shared`) and select
-      :guilabel:`New > Folder > Assets Folder` in the menu.
+         To create an asset folder in Android Studio, right-click the top-level application folder
+         (:file:`<app name>` or :file:`<app name>/shared`) and select
+         :guilabel:`New > Folder > Assets Folder` in the menu.
 
-.. _kotlin-open-bundle:
 
-Open a Realm from a Bundled Realm File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   .. step:: Open a Realm from a Bundled Realm File
 
-Now that you have a copy of the realm included with your app, you need to
-add code to use it.
+      Now that you have a copy of the realm included with your app, you need to
+      add code to use it.
 
-.. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.open-from-bundled-file.kt
-   :language: kotlin
+      .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.open-from-bundled-file.kt
+         :language: kotlin
 
 .. _kotlin-bundle-synced-realm:
 
@@ -116,35 +107,35 @@ the client maximum online time while taking advantage of Flexible Sync's :ref:`t
 To learn more about using sync subscriptions, refer to 
 :ref:`Subscriptions <kotlin-subscriptions>`.
 
-Create a Realm File for Bundling a Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. procedure::
+   
+   .. step:: Create a Realm File for Bundling a Synced Realm
 
-To bundle a synced realm, perform the following:
+      :ref:`Open a synced realm <kotlin-open-a-synced-realm>`.
+      
+      Add data to the synced realm. 
+      You *must* wait for all local changes to synchronize with the Device Sync server. 
+      Use `uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__ 
+      and `downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__ 
+      to ensure all sync processes are completed.
+      
+      Create a new version of the synced realm using `writeCopyTo() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__ . 
+      You *must* use ``writeCopyTo()`` to bundle a synced realm. 
+      This method removes metadata that associates the realm with the user, which allows 
+      other users to open the realm file as well.
+      
+      Get the path to the copied realm file using 
+      `Realm.configuration.path <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html#422583608%2FProperties%2F-1651551339>`__.
 
-1. :ref:`Open a synced realm <kotlin-open-a-synced-realm>`.
-#. Add data to the synced realm.  
-   You *must* wait for all local changes to synchronize with the Device Sync server.
-   Use `uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__ 
-   and `downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__ 
-   to ensure all sync processes are completed.
-#. Create a new version of the synced realm using  
-   `writeCopyTo() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__ . 
-   You *must* use ``writeCopyTo()`` to bundle a synced realm. 
-   This method removes metadata that associates the realm with the user, which allows 
-   other users to open the realm file as well.
-#. Get the path to the copied realm file using 
-   `Realm.configuration.path <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html#422583608%2FProperties%2F-1651551339>`__.
+      .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-synced-realm.kt
+         :language: kotlin
 
-.. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-synced-realm.kt
-    :language: kotlin
+   .. step:: Bundle a Synced Realm File in your Production Application
 
-Bundle a Synced Realm File in your Production Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      Follow the steps outlined in the above **Bundle a Realm File in Your Production 
+      Application** procedure for bundling a local realm.
 
-Follow the steps outlined in the above :ref:`Bundle a Realm File in Your Production 
-Application <kotlin-bundle-realm-file>` procedure for bundling a local realm.
+   .. step:: Open a Realm from a Bundled Synced Realm File
 
-Open a Realm from a Bundled Synced Realm File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Follow the steps outlined in the above :ref:`Open a Realm from a Bundled Realm File <kotlin-open-bundle>` procedure for bundling a local realm.
+      Follow the steps outlined in the above **Open a Realm from a Bundled Realm File** 
+      procedure for bundling a local realm.

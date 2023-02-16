@@ -1,7 +1,8 @@
 runBlocking {
     val app = App.create(YOUR_APP_ID)
 
-    // Login with the user whose realm you want to copy for bundling
+    // Login with user that has the server-side permissions
+    // of the users of the bundled realm
     val user = app.login(credentials)
 
     // Create a SyncConfiguration to open the existing synced realm
@@ -9,6 +10,7 @@ runBlocking {
         .name("original.realm")
         .build()
     val originalRealm = Realm.open(originalConfig)
+    Log.v("${originalRealm.configuration.path}")
 
     // Add a subscription that matches the data being added
     // and your app's backend permissions
@@ -40,8 +42,6 @@ runBlocking {
         .name("bundled.realm")
         .build()
 
-    // Delete any existing file before copying
-    Realm.deleteRealm(copyConfig)
 
     // Copy the synced realm with writeCopyTo()
     originalRealm.writeCopyTo(copyConfig)

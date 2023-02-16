@@ -26,7 +26,8 @@ class BundleTest: RealmTest() {
         runBlocking {
             val app = App.create(YOUR_APP_ID)
 
-            // Login with the user whose realm you want to copy for bundling
+            // Login with user that has the server-side permissions
+            // of the users of the bundled realm
             val user = app.login(credentials)
 
             // Create a SyncConfiguration to open the existing synced realm
@@ -34,6 +35,7 @@ class BundleTest: RealmTest() {
                 .name("original.realm")
                 .build()
             val originalRealm = Realm.open(originalConfig)
+            Log.v("${originalRealm.configuration.path}")
 
             // Add a subscription that matches the data being added
             // and your app's backend permissions
@@ -70,8 +72,7 @@ class BundleTest: RealmTest() {
                 .name("bundled.realm")
                 .build()
 
-            // Delete any existing file before copying
-            Realm.deleteRealm(copyConfig)
+            Realm.deleteRealm(copyConfig) // :remove:
 
             // Copy the synced realm with writeCopyTo()
             originalRealm.writeCopyTo(copyConfig)
@@ -117,16 +118,16 @@ class BundleTest: RealmTest() {
             .name("bundled.realm")
             .build()
 
-        // Delete existing file before copying
-        Realm.deleteRealm(copyConfig)
+        Realm.deleteRealm(copyConfig) // :remove:
 
         // Copy the realm data
         originalRealm.writeCopyTo(copyConfig)
 
         // Get the path to the copy you just created
         Log.v("Bundled realm location: ${copyConfig.path}")
-        // :snippet-end:
+
         originalRealm.close()
+        // :snippet-end:
     }
     @Test
     fun openARealmFromABundledFile(){
