@@ -95,31 +95,19 @@ add code to use it.
 Bundle a Synced Realm
 ---------------------
 
-Bundling a synced realm lets users only download the synced changes that occurred since 
-you generated the bundled file. 
-However, there are additional impacts to consider when bundling a synced realm.  
-Because of this, we recommend that you bundle a synced realm only if your use case meets all of the 
-following criteria:
+Bundling a synced realm reduces the size of the data that users must download when using a synced realm. When you bundle a realm with your application, the only data users must download is any changes that have occurred since preparing the bundled realm. 
 
-- For applications with :ref:`client maximum offline time <client-maximum-offline-time>` enabled, 
-  you can ensure that the users have a version of the app with the bundled synced realm
-  that was created more recently than the client maximum offline time.
-  
-  .. warning::
-   
-      If the bundled realm was last updated further in the past than 
-      client maximum offline time, the user experiences a 
-      :ref:`client reset <client-resets>` the first time they open 
-      the bundled realm file, which causes the application to 
-      download the full state of the realm from the application 
-      backend. This negates the advantages of bundling a realm file.
+However, two conditions may cause users to be unable to use your bundled realm:
 
-- The initial bundled data is very large **and** the app is being used in a situation
-  with limited internet bandwidth, so an initial data download using sync subscriptions
-  would take too long.
-- All app users have backend permission to view the data included in the bundle.
-  If a user doesn't have permission to view this data, it will be removed from
-  their device when the realm sync with Atlas via a compensating write error.
+- If the date when you bundled the realm is older than your :ref:`client maximum offline time <client-maximum-offline-time>` 
+  setting, Realm does not have the complete change set required to update the bundled realm 
+  to a syncable state. In this case, users will receive a :ref:`client reset <client-resets>` and must re-download 
+  the entire realm, negating the benefit of bundling the realm.
+- An app user does not have the necessary server-side permissions to view the data included 
+  in the bundle. If a user doesn't have permission to view this data, it is removed from 
+  the device when the realm syncs with Atlas, negating the benefit of bundling the realm.
+
+If you cannot guarantee that your bundled realm was prepared more recently than the client maximum offline time setting or that the app user will have permissions to view the data included the bundled realm, there is no benefit to bundling a synced realm.
 
 As an alternative to bundling a synced realm, you can populate your application 
 with data using sync subscriptions. If you add data using sync 
