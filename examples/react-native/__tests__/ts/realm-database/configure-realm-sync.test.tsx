@@ -1,4 +1,4 @@
-// :snippet-start: configure-realm-sync
+// :snippet-start: configure-realm-sync-full
 import React from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
 import {RealmContext} from '../RealmConfig';
@@ -30,6 +30,7 @@ function AppWrapperSync() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider>
+        {/* :snippet-start: configure-realm-sync */}
         <RealmProvider
           sync={{
             flexible: true,
@@ -37,19 +38,20 @@ function AppWrapperSync() {
           }}>
           <MyApp />
         </RealmProvider>
+        {/* :snippet-end: */}
       </UserProvider>
     </AppProvider>
   );
 }
 // :snippet-end:
 
-// :snippet-start: partition-based-config
 function AppWrapperPartitionSync() {
   const {RealmProvider} = RealmContext;
 
   return (
     <AppProvider id={APP_ID}>
       <UserProvider>
+        {/* :snippet-start: partition-based-config */}
         <RealmProvider
           sync={{
             partitionValue: 'testPartition',
@@ -57,19 +59,19 @@ function AppWrapperPartitionSync() {
           }}>
           <MyApp />
         </RealmProvider>
+        {/* :snippet-end: */}
       </UserProvider>
     </AppProvider>
   );
 }
-// :snippet-end:
 
-// :snippet-start: offline-config
 function AppWrapperOfflineSync() {
   const {RealmProvider} = RealmContext;
 
   return (
     <AppProvider id={APP_ID}>
       <UserProvider>
+        {/* :snippet-start: offline-config */}
         <RealmProvider
           sync={{
             flexible: true,
@@ -79,13 +81,12 @@ function AppWrapperOfflineSync() {
           }}>
           <MyApp />
         </RealmProvider>
+        {/* :snippet-end: */}
       </UserProvider>
     </AppProvider>
   );
 }
-// :snippet-end:
 
-// :snippet-start: timeout-config
 function AppWrapperTimeoutSync() {
   const {RealmProvider} = RealmContext;
   const realmAccessBehavior = {
@@ -97,6 +98,7 @@ function AppWrapperTimeoutSync() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider>
+        {/* :snippet-start: timeout-config */}
         <RealmProvider
           sync={{
             flexible: true,
@@ -106,11 +108,11 @@ function AppWrapperTimeoutSync() {
           }}>
           <MyApp />
         </RealmProvider>
+        {/* :snippet-end: */}
       </UserProvider>
     </AppProvider>
   );
 }
-// :snippet-end:
 
 test('Instantiate RealmProvider correctly', () => {
   render(<AppWrapperSync />);

@@ -45,6 +45,17 @@ This section covers Flexible Sync realms. For information about Partition-Based
 realms, refer to the :ref:`Partition-Based Sync <react-native-partition-realms>`
 page.
 
+Nesting Within <AppProvider> and <UserProvider>
+-----------------------------------------------
+
+To use a Flexible Sync realm and ``@realm/react``, you must nest ``<RealmProvider>``
+within ``<UserProvider>``. And ``<UserProvider>`` must be nested in ``<AppProvider>``. 
+This ensures that ``<RealmProvider>`` has all of the context it needs, like a 
+logged-in user.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
+   :language: javascript
+
 .. _react-native-flexible-sync-open-realm:
 
 Configure a Flexible Sync Realm
