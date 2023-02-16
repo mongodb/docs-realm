@@ -1,0 +1,251 @@
+.. _cpp-client-threading:
+
+===========================
+Threading - C++ SDK (Alpha)
+===========================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+To create performant apps, developers must write thread-safe, performant, 
+and maintainable multithreaded code that avoids issues like deadlocking 
+and race conditions. Realm provides tools specifically designed to for this.
+
+.. _cpp-threading-three-rules:
+
+Three Rules to Keep in Mind
+---------------------------
+
+Realm enables safe multithreaded code when you follow these three rules:
+
+Don't lock to read:
+  Realm Database's :ref:`Multiversion Concurrency Control (MVCC)
+  <cpp-mvcc>` architecture eliminates the need to lock for read operations. The
+  values you read will never be corrupted or in a
+  partially-modified state. You can freely read from realms
+  on any thread without the need for locks or mutexes.
+  Unnecessarily locking would be a performance bottleneck
+  since each thread might need to wait its turn before
+  reading.
+
+Avoid synchronous writes on the UI thread if you write on a background thread:
+  You can write to a realm from any thread, but there can be only one
+  writer at a time. Consequently, synchronous write transactions block
+  each other. A synchronous write on the UI thread may result in your
+  app appearing unresponsive while it waits for a write on a
+  background thread to complete. If you are using
+  :ref:`Device Sync <sync>`, avoid synchronous writes on
+  the UI thread as Sync writes on a background
+  thread.
+
+Don't pass live objects, collections, or realms to other threads:
+  Live objects, collections, and realm instances are
+  **thread-confined**: that is, they are only valid on the
+  thread on which they were created. Practically speaking,
+  this means you cannot pass live instances to other
+  threads. However, Realm Database offers several mechanisms for
+  :ref:`sharing objects across threads
+  <cpp-communication-across-threads>`.
+
+.. _cpp-communication-across-threads:
+
+Communication Across Threads
+----------------------------
+
+To access the same realm file from different threads, you must initialize a 
+new realm to get a different realm instance for every thread of 
+your app. As long as you specify the same configuration, all realm instances 
+will map to the same file on disk.
+
+One of the key rules when working with Realm Database in a
+multithreaded environment is that objects are
+thread-confined: **you cannot access the instances of a
+realm, collection, or object that originated on other
+threads.** Realm Database's :ref:`Multiversion Concurrency Control
+(MVCC) <cpp-mvcc>` architecture means that there could be many
+active versions of an object at any time. Thread-confinement
+ensures that all instances in that thread are of the same
+internal version.
+ 
+When you need to communicate across threads, you have
+several options depending on your use case:
+
+- To modify the data on two threads, :ref:`query <cpp-client-query-engine>`
+  for the object on both threads.
+
+- To react to changes made on any thread, use Realm Database's
+  :ref:`notifications <cpp-react-to-changes>`.
+
+- To see changes from other threads in the realm on the current
+  thread, :ref:`refresh <cpp-refreshing-realms>` your realm instance.
+
+- To share an instance of a realm or specific object with another thread, 
+  share a :ref:`thread_safe_reference <cpp-thread-safe-reference>` to the 
+  realm or object.
+
+.. TODO: Add a bullet about the scheduler
+
+.. _cpp-thread-safe-reference:
+
+Pass Instances Across Threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Instances of ``Realm``, ``Results``, ``List``, and managed ``Objects``
+are *thread-confined*. That means you may only use them on the thread
+where you created them.
+
+You can pass thread-confined instances to another thread as follows:
+
+1. Initialize a :cpp-sdk:`thread_safe_reference 
+   <structrealm_1_1thread__safe__reference_3_01db_3_01Ts_8_8_8_01_4_01_4.html>` 
+   with the thread-confined object.
+#. Pass the reference to the other thread or queue.
+#. Resolve the reference on the other thread by calling ``.resolve()``. 
+   Use the returned object as normal.
+
+.. important::
+
+   You must resolve a ``thread_safe_reference`` exactly once. Otherwise,
+   the source realm will remain pinned until the reference gets
+   deallocated. For this reason, ``thread_safe_reference`` should be
+   short-lived.
+
+.. TODO: Insert code example
+
+Another way to work with an object on another thread is to query for it
+again on that thread. But if the object does not have a primary
+key, it is not trivial to query for it. You can use ``thread_safe_reference`` 
+on any object, regardless of whether it has a primary key. You can also 
+use it with lists and results.
+
+.. _ios-use-realm-across-threads:
+
+Use the Same Realm Across Threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You cannot share realm instances across threads.
+
+To use the same Realm file across threads, open a different realm
+instance on each thread. As long as you use the same
+:cpp-sdk:`configuration 
+<structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`, all Realm
+instances will map to the same file on disk.
+
+.. _cpp-refreshing-realms:
+
+Refreshing Realms
+-----------------
+
+On the main UI thread (or any thread with a run loop), realm 
+automatically refreshes objects at the start of every run loop iteration. 
+Between run loop iterations, you will be working on the snapshot, so 
+individual methods always see a consistent view and never have to worry 
+about what happens on other threads.
+
+When you initially open a realm on a thread, its state will be the most 
+recent successful write commit, and it will remain on that version until 
+refreshed. If a thread has no run loop (which is generally the case in a 
+background thread), then the 
+:cpp-sdk:`realm.refresh() <structrealm_1_1db.html>` method must be called 
+manually in order to advance the transaction to the most recent state.
+
+.. TODO: Add a code example
+
+.. note:: 
+   
+   Failing to refresh Realms on a regular basis could lead to some transaction 
+   versions becoming "pinned", preventing Realm from reusing the disk space used
+   by that version, leading to larger file sizes. 
+
+.. _cpp-scheduler-thread-management:
+
+Thread-Safe Scheduling
+----------------------
+
+The C++ SDK offers a thread-safe scheduler. You can set a scheduler
+as part of the :cpp-sdk:`configuration 
+<structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
+With realm's :cpp-sdk:`thread-safe scheduler 
+<structrealm_1_1this__thread__scheduler.html>`, you can:
+
+- Invoke the scheduler
+- Verify the thread it's on
+- Confirm it's on the current thread
+
+.. TODO: Read up on C++ schedulers to figure out what this actually does, then update docs as needed
+
+.. TODO: Add a code example showing how to set up and use this
+
+.. _cpp-mvcc:
+
+Realm's Threading Model in Depth
+--------------------------------
+
+Realm Database provides safe, fast, lock-free, and concurrent access
+across threads with its :wikipedia:`Multiversion Concurrency
+Control (MVCC) <Multiversion_concurrency_control>`
+architecture.
+
+Compared and Contrasted with Git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you are familiar with a distributed version control
+system like `Git <https://git-scm.com/>`__, you may already
+have an intuitive understanding of MVCC. Two fundamental
+elements of Git are:
+
+- Commits, which are atomic writes.
+- Branches, which are different versions of the commit history.
+
+Similarly, Realm Database has atomically-committed writes in the form
+of transactions. Realm Database also has many different versions of the 
+history at any given time, like branches.
+
+Unlike Git, which actively supports distribution and
+divergence through forking, a realm only has one true latest
+version at any given time and always writes to the head of
+that latest version. Realm Database cannot write to a previous
+version. This makes sense: your data should converge on one
+latest version of the truth.
+
+Internal Structure
+~~~~~~~~~~~~~~~~~~
+
+A realm is implemented using a :wikipedia:`B+ tree
+<B%2B_tree>` data structure. The top-level node represents a
+version of the realm; child nodes are objects in that
+version of the realm. The realm has a pointer to its latest
+version, much like how Git has a pointer to its HEAD commit.
+
+Realm Database uses a copy-on-write technique to ensure
+:wikipedia:`isolation <Isolation_(database_systems)>` and
+:wikipedia:`durability <Durability_(database_systems)>`.
+When you make changes, Realm Database copies the relevant part of the
+tree for writing. Realm Database then commits the changes in two
+phases:
+
+- Realm Database writes changes to disk and verifies success.
+- Realm Database then sets its latest version pointer to point to the newly-written version.
+
+This two-step commit process guarantees that even if the
+write failed partway, the original version is not corrupted
+in any way because the changes were made to a copy of the
+relevant part of the tree. Likewise, the realm's root
+pointer will point to the original version until the new
+version is guaranteed to be valid.
+
+.. include:: /includes/commit-process-diagram.rst
+
+Realm Database uses zero-copy techniques
+like memory mapping to handle data. When you read a value
+from the realm, you are virtually looking at the value on
+the actual disk, not a copy of it. This is the basis for
+:ref:`live objects <cpp-live-object>`. This is also why a realm
+head pointer can be set to point to the new version after
+the write to disk has been validated.
