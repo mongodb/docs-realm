@@ -3,7 +3,7 @@ import {Button, TextInput, View} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Profile from '../../Models/Profile';
+import Profile from '../../temp/Profile';
 
 const realmConfig = {
   schema: [Profile],
