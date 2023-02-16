@@ -23,8 +23,7 @@ available to users on the initial launch of the app.
 .. tip:: Consider Initial Data Callback
 
    You can also add data to your realm the first time an application opens it
-   using 
-   `InitialDataCallback <{+kotlin-local-prefix+}io.realm.kotlin/-initial-data-callback/index.html>`__.
+   using `InitialDataCallback <{+kotlin-local-prefix+}io.realm.kotlin/-initial-data-callback/index.html>`__.
 
 .. _kotlin-bundle-local-realm:
 
@@ -96,29 +95,25 @@ add code to use it.
 Bundle a Synced Realm
 ---------------------
 
-In most cases, you should *not* bundle a synced realm. 
-
-.. tip:: Populate Data with Sync Subscriptions
-
-    Rather than bundling a synced realm, you can populate your application 
-    with data using sync subscriptions. If you add data using sync 
-    subscriptions, you do not need to be concerned with data being older than 
-    the client maximum online time while taking advantage of Flexible Sync's :ref:`trimming <trimming>` feature.
-    To learn more about using sync subscriptions, refer to 
-    :ref:`Subscriptions <kotlin-subscriptions>`.
-
-.. _kotlin_bundle_sync_criteria:
-
-Criteria for Bundling a Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For eligible use cases, bundling lets users only download the synced changes that 
-occurred since you generated the bundled file. 
-You should only bundle a synced realm if your use case meets all of the 
+Bundling a synced realm lets users only download the synced changes that occurred since 
+you generated the bundled file. 
+However, there are additional impacts to consider when bundling a synced realm.  
+Because of this, we recommend that you bundle a synced realm only if your use case meets all of the 
 following criteria:
 
-- You can ensure that the users have a version of the app with the bundled synced realm
+- For applications with :ref:`client maximum offline time <client-maximum-offline-time>` enabled, 
+  you can ensure that the users have a version of the app with the bundled synced realm
   that was created more recently than the client maximum offline time.
+  
+  .. warning::
+   
+      If the bundled realm was last updated further in the past than 
+      client maximum offline time, the user experiences a 
+      :ref:`client reset <client-resets>` the first time they open 
+      the bundled realm file, which causes the application to 
+      download the full state of the realm from the application 
+      backend. This negates the advantages of bundling a realm file.
+
 - The initial bundled data is very large **and** the app is being used in a situation
   with limited internet bandwidth, so an initial data download using sync subscriptions
   would take too long.
@@ -126,7 +121,12 @@ following criteria:
   If a user doesn't have permission to view this data, it will be removed from
   their device when the realm sync with Atlas via a compensating write error.
 
-.. include:: /includes/synced-realm-bundling.rst
+As an alternative to bundling a synced realm, you can populate your application 
+with data using sync subscriptions. If you add data using sync 
+subscriptions, you do not need to be concerned with data being older than 
+the client maximum online time while taking advantage of Flexible Sync's :ref:`trimming <trimming>` feature.
+To learn more about using sync subscriptions, refer to 
+:ref:`Subscriptions <kotlin-subscriptions>`.
 
 Create a Realm File for Bundling a Synced Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

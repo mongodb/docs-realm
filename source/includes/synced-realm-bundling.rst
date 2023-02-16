@@ -1,7 +1,6 @@
 .. warning:: Synced Realm Bundling and Client Maximum Offline Time
 
-   If your application has enabled :ref:`advanced backend compaction
-   <advanced-backend-compaction>` by configuring a
+   If your application has enabled 
    :ref:`client maximum offline time <client-maximum-offline-time>`,
    users could experience a client reset the first time they open the
    bundled realm file. This can happen if the bundled realm file was generated more than **client maximum offline time** days before the user syncs the realm for the first time.

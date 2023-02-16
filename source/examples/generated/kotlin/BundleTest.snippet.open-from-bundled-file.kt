@@ -12,4 +12,3 @@ bundledRealm.writeBlocking {
         isComplete = true
     })
 }
-assertEquals(2, bundledRealm.query<Item>().find().size)
