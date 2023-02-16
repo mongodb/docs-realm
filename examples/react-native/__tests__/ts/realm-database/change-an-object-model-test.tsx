@@ -1,6 +1,6 @@
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Person from '../Models/Person';
+import Person from '../models/Person';
 
 describe('Change an Object Model Tests', () => {
   it('should add a property to a schema', () => {
