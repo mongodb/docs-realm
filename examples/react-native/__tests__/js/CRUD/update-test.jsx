@@ -3,8 +3,8 @@ import {Button, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Person from '../models/Person';
-import Task from '../models/Task';
+import Person from '../Models/Person';
+import Task from '../Models/Task';
 
 const realmConfig = {
   schema: [Task, Person],
