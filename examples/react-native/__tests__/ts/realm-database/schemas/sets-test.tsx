@@ -3,7 +3,7 @@ import {Button, TextInput, View, Text, Alert} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Character from '../../models/Character';
+import Character from '../../Models/Character';
 
 const realmConfig = {
   schema: [Character],
