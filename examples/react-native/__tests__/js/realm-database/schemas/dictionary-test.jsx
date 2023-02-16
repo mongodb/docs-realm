@@ -3,7 +3,7 @@ import {Button, TextInput, View, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import HomeOwner from '../../Models/HomeOwner';
+import HomeOwner from '../../temp/HomeOwner';
 
 const realmConfig = {
   schema: [HomeOwner],
