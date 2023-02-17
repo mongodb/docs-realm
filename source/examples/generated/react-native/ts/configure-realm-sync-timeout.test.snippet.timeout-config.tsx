@@ -3,7 +3,14 @@
     flexible: true,
     newRealmFileBehavior: realmAccessBehavior,
     existingRealmFileBehavior: realmAccessBehavior,
-    onError: error => console.error(error),
-  }}>
+    onError: console.error,
+  }}
+  fallback={
+    <>
+      {console.log(
+        `::REALMPROVIDER:: falling back at ${performance.now()}`,
+      )}
+    </>
+  }>
   <MyApp />
 </RealmProvider>

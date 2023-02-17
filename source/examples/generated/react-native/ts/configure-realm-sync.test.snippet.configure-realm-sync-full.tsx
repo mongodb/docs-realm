@@ -1,13 +1,13 @@
 import React from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
-import {RealmContext} from '../RealmConfig';
+import {SimpleRealmContext} from '../RealmConfig';
 
 function AppWrapperSync() {
-  const {RealmProvider} = RealmContext;
+  const {RealmProvider} = SimpleRealmContext;
 
   return (
     <AppProvider id={APP_ID}>
-      <UserProvider>
+      <UserProvider fallback={LogIn}>
         <RealmProvider
           sync={{
             flexible: true,

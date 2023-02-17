@@ -1,8 +1,6 @@
-// :snippet-start: configure-realm-sync-full
 import React from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
 import {SimpleRealmContext} from '../RealmConfig';
-// :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
@@ -12,44 +10,34 @@ import Profile from '../Models/Profile';
 
 const APP_ID = 'js-flexible-oseso';
 let numberOfProfiles: number;
-// :remove-end:
 
-function AppWrapperSync() {
+function AppWrapperTimeoutSync() {
   const {RealmProvider} = SimpleRealmContext;
+  const realmAccessBehavior = {
+    type: 'downloadBeforeOpen',
+    timeOut: 1000,
+    timeOutBehavior: 'openLocalRealm',
+  };
 
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
-        {/* :snippet-start: configure-realm-sync */}
+        {/* :snippet-start: timeout-config */}
         <RealmProvider
           sync={{
             flexible: true,
+            // TODO: Figure out what's up with "type" not being assignable to string
+            // newRealmFileBehavior: realmAccessBehavior,
+            // existingRealmFileBehavior: realmAccessBehavior,
             onError: console.error,
-          }}>
-          <MyApp />
-        </RealmProvider>
-        {/* :snippet-end: */}
-      </UserProvider>
-    </AppProvider>
-  );
-}
-// :snippet-end:
-
-// NOTE: Currently not testing the partition-based sync code. The App Services
-// App we're using is for Flexible Sync and I don't think PB-based needs its
-// own testing right now.
-function AppWrapperPartitionSync() {
-  const {RealmProvider} = SimpleRealmContext;
-
-  return (
-    <AppProvider id={APP_ID}>
-      <UserProvider>
-        {/* :snippet-start: partition-based-config */}
-        <RealmProvider
-          sync={{
-            partitionValue: 'testPartition',
-            onError: console.error,
-          }}>
+          }}
+          fallback={
+            <>
+              {console.log(
+                `::REALMPROVIDER:: falling back at ${performance.now()}`,
+              )}
+            </>
+          }>
           <MyApp />
         </RealmProvider>
         {/* :snippet-end: */}
@@ -111,12 +99,12 @@ function MyApp() {
   );
 }
 
-test('Instantiate AppWrapperSync and test sync', async () => {
+test('Instantiate AppWrapperTimeoutSync and test sync', async () => {
   console.log(
-    `::::TEST:::: start AppWrapperSync test at: ${performance.now()}`,
+    `::::TEST:::: start AppWrapperTimeoutSync test at: ${performance.now()}`,
   );
 
-  const {findByTestId} = render(<AppWrapperSync />);
+  const {findByTestId} = render(<AppWrapperTimeoutSync />);
   const addProfileButton = await findByTestId('test-add-profile');
   const clearRealmButton = await findByTestId('test-clear-realm');
 
@@ -144,5 +132,7 @@ test('Instantiate AppWrapperSync and test sync', async () => {
     {timeout: 5000},
   );
 
-  console.log(`::::TEST:::: end AppWrapperSync test at: ${performance.now()}`);
+  console.log(
+    `::::TEST:::: end AppWrapperTimeoutSync test at: ${performance.now()}`,
+  );
 });
