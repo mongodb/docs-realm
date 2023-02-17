@@ -1,6 +1,6 @@
-// Create unencrypted realm
 runBlocking {
-    val unencryptedConfig = RealmConfiguration.Builder(setOf(Frog::class))
+    // Create the unencrypted realm
+    val unencryptedConfig = RealmConfiguration.Builder(setOf(Toad::class))
         .name("unencrypted.realm")
         .build()
 
@@ -8,18 +8,15 @@ runBlocking {
     val unencryptedRealm = Realm.open(unencryptedConfig)
 
     unencryptedRealm.write {
-        this.copyToRealm(Frog().apply {
+        this.copyToRealm(Toad().apply {
             name = "Kermit"
-            age = 45
-            species = "Green"
-            owner = "Jim"
         })
     }
 
     // ... Generate encryption key ...
 
     // Create the encrypted realm
-    val encryptedConfig = RealmConfiguration.Builder(setOf(Frog::class))
+    val encryptedConfig = RealmConfiguration.Builder(setOf(Toad::class))
         .name("encrypted.realm")
         .encryptionKey(getEncryptionKey())
         .build()
@@ -34,10 +31,10 @@ runBlocking {
     // Open the new encrypted realm
     val encryptedRealm = Realm.open(encryptedConfig)
 
-    // Copied frog object is available in the new realm
-    val frog: Frog =
-        encryptedRealm.query<Frog>().find().first()
-    Log.v("Copied frog: ${frog.name}")
+    // Copied Toad object is available in the new realm
+    val toad: Toad =
+        encryptedRealm.query<Toad>().find().first()
+    Log.v("Copied Toad: ${toad.name}")
 
     encryptedRealm.close()
 }

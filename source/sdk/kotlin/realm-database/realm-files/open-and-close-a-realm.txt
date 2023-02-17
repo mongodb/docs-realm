@@ -110,14 +110,18 @@ Some additional considerations to keep in mind while using
 - The destination file cannot already exist.
 - Copying a realm is not allowed within a write transaction or during
   a :ref:`migration<kotlin-migrations>`.
-- When using Device Sync, you must sync all local changes with the
+- When using :ref:`Device Sync <sync>`, you must sync all local changes with the
   server before the copy is written. This ensures that the file can 
   be used as a starting point for a newly installed application. 
   Realm throws an error if there are pending uploads.
 
-.. example:: Copy Data from In-Memory to Local Realm
+  You can use `uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__ 
+  and `downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__ 
+  to ensure all sync processes are completed.
 
-  .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.in-memory-to-local-realm.kt
+.. example:: Copy Data from Flexible Sync Realm to Local Realm
+
+  .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.sync-to-local-realm.kt
     :language: kotlin
 
 You can also :ref:`include a new encryption key <kotlin-encrypt-a-realm>`
@@ -126,4 +130,9 @@ in the copied realm's configuration or remove the encryption key from the new co
 .. example:: Copy Data from Unencrypted to Encrypted Realm
 
   .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.unencrypted-to-encrypted-realm.kt
+    :language: kotlin
+
+.. example:: Copy Data from In-Memory to Local Realm
+
+  .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.in-memory-to-local-realm.kt
     :language: kotlin

@@ -1,6 +1,6 @@
-// Create in-memory realm
 runBlocking {
-    val inMemoryConfig = RealmConfiguration.Builder(setOf(Frog::class))
+    // Create the in-memory realm
+    val inMemoryConfig = RealmConfiguration.Builder(setOf(Toad::class))
         .name("inMemory.realm")
         .inMemory()
         .build()
@@ -8,16 +8,13 @@ runBlocking {
     // Open the realm and add data to it
     val inMemoryRealm = Realm.open(inMemoryConfig)
     inMemoryRealm.write {
-        this.copyToRealm(Frog().apply {
+        this.copyToRealm(Toad().apply {
             name = "Kermit"
-            age = 45
-            species = "Green"
-            owner = "Jim"
         })
     }
 
     // Create the local realm
-    val localConfig = RealmConfiguration.Builder(setOf(Frog::class))
+    val localConfig = RealmConfiguration.Builder(setOf(Toad::class))
         .name("local.realm")
         .build()
     // Copy data from `inMemoryRealm` to the new realm
@@ -28,10 +25,10 @@ runBlocking {
     // Open the new local realm
     val localRealm = Realm.open(localConfig)
 
-    // Copied frog object is available in the new realm
-    val frog: Frog =
-        localRealm.query<Frog>().find().first()
-    Log.v("Copied frog: ${frog.name}")
+    // Copied Toad object is available in the new realm
+    val toad: Toad =
+        localRealm.query<Toad>().find().first()
+    Log.v("Copied Toad: ${toad.name}")
 
     localRealm.close()
 }

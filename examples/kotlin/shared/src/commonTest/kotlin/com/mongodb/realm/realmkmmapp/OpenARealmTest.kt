@@ -4,27 +4,36 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.BsonObjectId
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
+
+// :replace-start: {
+//   "terms": {
+//     "yourAppId": "YOUR_APP_ID",
+//     "yourFlexAppId": "YOUR_APP_ID"
+//   }
+// }
 
 class OpenARealmTest: RealmTest() {
 
-    class Frog : RealmObject {
+    class Toad: RealmObject {
         @PrimaryKey
         var _id: ObjectId = BsonObjectId()
         var name: String = ""
-        var age: Int = 0
-        var species: String? = null
-        var owner: String? = null
     }
     @Test
     fun openAndCloseARealmTest() {
         runBlocking {
             // :snippet-start: open-a-realm
-            val config = RealmConfiguration.Builder(setOf(Frog::class))
+            val config = RealmConfiguration.Builder(setOf(Toad::class))
                 // :remove-start:
                 .directory("/tmp/") // default location for jvm is... in the project root
                 // :remove-end:
@@ -42,7 +51,7 @@ class OpenARealmTest: RealmTest() {
         val REALM_NAME = getRandom()
         runBlocking {
             // :snippet-start: delete-realm-if-migration-needed
-            val config = RealmConfiguration.Builder(setOf(Frog::class))
+            val config = RealmConfiguration.Builder(setOf(Toad::class))
                 // :remove-start:
                 .name(REALM_NAME)
                 // :remove-end:
@@ -57,7 +66,7 @@ class OpenARealmTest: RealmTest() {
     fun onAnInMemoryRealm() {
         runBlocking {
             // :snippet-start: open-an-in-memory-realm
-            val config = RealmConfiguration.Builder(setOf(Frog::class))
+            val config = RealmConfiguration.Builder(setOf(Toad::class))
                 .inMemory()
                 .build()
 
@@ -69,11 +78,64 @@ class OpenARealmTest: RealmTest() {
     }
 
     @Test
+    fun syncToLocalRealm() {
+        // :snippet-start: sync-to-local-realm
+        // Instantiate the synced realm with your App ID
+        val app = App.create(yourFlexAppId)
+
+        runBlocking {
+            val user = app.login(Credentials.anonymous())
+            // Create the synced realm configuration
+            val syncConfig = SyncConfiguration.Builder(user, setOf(Toad::class))
+                .initialSubscriptions { realm ->
+                    add(
+                        realm.query<Toad>("name == $0", "name value"),
+                        "subscription name"
+                    )
+                }
+                .build()
+
+            // Open the synced realm and add data to it
+            val syncRealm = Realm.open(syncConfig)
+            Log.v("Successfully opened realm: ${syncRealm.configuration}")
+
+            syncRealm.write {
+                this.copyToRealm(Toad().apply {
+                    name = "Kermit"
+                })
+            }
+            // Wait for write to sync
+            syncRealm.syncSession.uploadAllLocalChanges(30.seconds)
+
+            // Create the local realm
+            val localConfig = RealmConfiguration.Builder(setOf(Toad::class))
+                .name("local.realm")
+                .build()
+            // Copy data from synced realm to the new realm
+            syncRealm.writeCopyTo(localConfig)
+            // Close the synced realm when you're done copying
+            syncRealm.close()
+
+            // Open the new local realm
+            val localRealm = Realm.open(localConfig)
+
+            // Copied Toad object is available in the new realm
+            val toad: Toad =
+                localRealm.query<Toad>().find().first()
+            Log.v("Copied Toad: ${toad.name}")
+
+            localRealm.close()
+            Realm.deleteRealm(syncConfig) // :remove:
+            Realm.deleteRealm(localConfig) // :remove:
+        }
+        // :snippet-end:
+    }
+    @Test
     fun inMemoryToLocalRealm() {
         // :snippet-start: in-memory-to-local-realm
-        // Create in-memory realm
         runBlocking {
-            val inMemoryConfig = RealmConfiguration.Builder(setOf(Frog::class))
+            // Create the in-memory realm
+            val inMemoryConfig = RealmConfiguration.Builder(setOf(Toad::class))
                 .name("inMemory.realm")
                 .inMemory()
                 .build()
@@ -81,16 +143,13 @@ class OpenARealmTest: RealmTest() {
             // Open the realm and add data to it
             val inMemoryRealm = Realm.open(inMemoryConfig)
             inMemoryRealm.write {
-                this.copyToRealm(Frog().apply {
+                this.copyToRealm(Toad().apply {
                     name = "Kermit"
-                    age = 45
-                    species = "Green"
-                    owner = "Jim"
                 })
             }
 
             // Create the local realm
-            val localConfig = RealmConfiguration.Builder(setOf(Frog::class))
+            val localConfig = RealmConfiguration.Builder(setOf(Toad::class))
                 .name("local.realm")
                 .build()
             // Copy data from `inMemoryRealm` to the new realm
@@ -101,10 +160,10 @@ class OpenARealmTest: RealmTest() {
             // Open the new local realm
             val localRealm = Realm.open(localConfig)
 
-            // Copied frog object is available in the new realm
-            val frog: Frog =
-                localRealm.query<Frog>().find().first()
-            Log.v("Copied frog: ${frog.name}")
+            // Copied Toad object is available in the new realm
+            val toad: Toad =
+                localRealm.query<Toad>().find().first()
+            Log.v("Copied Toad: ${toad.name}")
 
             localRealm.close()
             Realm.deleteRealm(inMemoryConfig) // :remove:
@@ -115,9 +174,9 @@ class OpenARealmTest: RealmTest() {
     @Test
     fun unencryptedToEncryptedRealm() {
         // :snippet-start: unencrypted-to-encrypted-realm
-        // Create unencrypted realm
         runBlocking {
-            val unencryptedConfig = RealmConfiguration.Builder(setOf(Frog::class))
+            // Create the unencrypted realm
+            val unencryptedConfig = RealmConfiguration.Builder(setOf(Toad::class))
                 .name("unencrypted.realm")
                 .build()
 
@@ -125,18 +184,15 @@ class OpenARealmTest: RealmTest() {
             val unencryptedRealm = Realm.open(unencryptedConfig)
 
             unencryptedRealm.write {
-                this.copyToRealm(Frog().apply {
+                this.copyToRealm(Toad().apply {
                     name = "Kermit"
-                    age = 45
-                    species = "Green"
-                    owner = "Jim"
                 })
             }
 
             // ... Generate encryption key ...
 
             // Create the encrypted realm
-            val encryptedConfig = RealmConfiguration.Builder(setOf(Frog::class))
+            val encryptedConfig = RealmConfiguration.Builder(setOf(Toad::class))
                 .name("encrypted.realm")
                 .encryptionKey(getEncryptionKey())
                 .build()
@@ -151,10 +207,10 @@ class OpenARealmTest: RealmTest() {
             // Open the new encrypted realm
             val encryptedRealm = Realm.open(encryptedConfig)
 
-            // Copied frog object is available in the new realm
-            val frog: Frog =
-                encryptedRealm.query<Frog>().find().first()
-            Log.v("Copied frog: ${frog.name}")
+            // Copied Toad object is available in the new realm
+            val toad: Toad =
+                encryptedRealm.query<Toad>().find().first()
+            Log.v("Copied Toad: ${toad.name}")
 
             encryptedRealm.close()
             Realm.deleteRealm(unencryptedConfig) // :remove:
@@ -163,3 +219,4 @@ class OpenARealmTest: RealmTest() {
         // :snippet-end:
     }
 }
+        // :replace-end:
