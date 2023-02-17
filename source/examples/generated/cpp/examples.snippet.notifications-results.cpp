@@ -35,3 +35,6 @@ realm.write([&dog2, &realm] {
 
 // Refresh the realm after the change to trigger the notification.
 realm.refresh();
+
+// Unregister the token when done observing.
+token.unregister();

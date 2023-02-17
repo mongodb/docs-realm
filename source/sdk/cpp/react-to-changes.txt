@@ -75,3 +75,20 @@ It can also notify you if the collection was deleted.
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-results.cpp
    :language: cpp
+
+.. _cpp-stop-watching-for-changes:
+
+Stop Watching for Changes
+-------------------------
+
+Observation stops when the token returned by an ``observe`` call becomes
+invalid. You can explicitly invalidate a token by calling its
+``unregister()`` method.
+
+.. important:: Retain Tokens as Long as You Want to Observe
+
+   Notifications stop if the token is in a local variable that goes out
+   of scope. 
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-unregister.cpp
+   :language: cpp
