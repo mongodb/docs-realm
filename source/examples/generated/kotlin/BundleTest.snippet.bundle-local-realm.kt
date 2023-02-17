@@ -17,7 +17,6 @@ val copyConfig = RealmConfiguration.Builder(schema = setOf(Item::class))
     .name("bundled.realm")
     .build()
 
-
 // Copy the realm data
 originalRealm.writeCopyTo(copyConfig)
 

@@ -56,7 +56,7 @@ To bundle a local realm, perform the following:
       need to bundle it with your production application.
 
       Save a copy of the realm file to your application's assets folder. 
-      In Android Studio, you can do this using the :android:`Device File Explorer <studio/debug/device-file-explorer>`.Find your your application's assets folder. 
+      In Android Studio, you can do this using the :android:`Device File Explorer <studio/debug/device-file-explorer>`. 
 
       The assets folder location depends on your app type: 
 
@@ -71,7 +71,6 @@ To bundle a local realm, perform the following:
          To create an asset folder in Android Studio, right-click the top-level application folder
          (:file:`<app name>` or :file:`<app name>/shared`) and select
          :guilabel:`New > Folder > Assets Folder` in the menu.
-
 
    .. step:: Open a Realm from a Bundled Realm File
 
@@ -100,12 +99,14 @@ However, two conditions may cause users to be unable to use your bundled realm:
 
 If you cannot guarantee that your bundled realm was prepared more recently than the client maximum offline time setting or that the app user will have permissions to view the data included the bundled realm, there is no benefit to bundling a synced realm.
 
-As an alternative to bundling a synced realm, you can populate your application 
+As an alternative to bundling a synced realm, if your application uses :ref:`Flexible Sync <flexible-sync>`, you can populate your application 
 with data using sync subscriptions. If you add data using sync 
 subscriptions, you do not need to be concerned with data being older than 
 the client maximum online time while taking advantage of Flexible Sync's :ref:`trimming <trimming>` feature.
 To learn more about using sync subscriptions, refer to 
 :ref:`Subscriptions <kotlin-subscriptions>`.
+
+To bundle a synced realm, perform the following:
 
 .. procedure::
    

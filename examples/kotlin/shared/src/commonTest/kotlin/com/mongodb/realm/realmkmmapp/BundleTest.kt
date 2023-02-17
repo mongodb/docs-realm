@@ -6,16 +6,47 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
-import io.realm.kotlin.mongodb.subscriptions
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.query.RealmResults
 import kotlin.test.Ignore
 import kotlin.test.Test
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 class BundleTest: RealmTest() {
+
+    @Test
+    fun bundleSyncedRealmTest() {
+        val app = App.create(yourFlexAppId)
+        runBlocking {
+            val user = app.login(Credentials.anonymous())
+            val config = SyncConfiguration.Builder(user, setOf(SyncTest.Toad::class))
+                .name("original.realm")
+                .initialSubscriptions { realm ->
+                    add(
+                        realm.query<SyncTest.Toad>(
+                            "name == $0",
+                            "name value"
+                        ),
+                        "subscription name"
+                    )
+                }
+                .build()
+            val realm = Realm.open(config)
+            Log.v("${realm.configuration.path}")
+
+//            realm.writeBlocking {
+//                this.copyToRealm(SyncTest.Toad().apply {
+//                    name = "Jimmy"
+//                })
+//
+//            }
+//
+//            realm.syncSession.uploadAllLocalChanges(30.seconds)
+//            realm.syncSession.downloadAllServerChanges(30.seconds)
+            realm.close()
+        }
+    }
     @Test
     @Ignore
     fun bundleSyncedRealm(){
@@ -33,16 +64,14 @@ class BundleTest: RealmTest() {
             // Create a SyncConfiguration to open the existing synced realm
             val originalConfig = SyncConfiguration.Builder(user, setOf(Item::class))
                 .name("original.realm")
+                // Add a subscription that matches the data being added
+                // and your app's backend permissions
+                .initialSubscriptions{ realm ->
+                    add(
+                        realm.query<Item>("summary == $0", "summary value"), "subscription name")
+                }
                 .build()
             val originalRealm = Realm.open(originalConfig)
-            Log.v("${originalRealm.configuration.path}")
-
-            // Add a subscription that matches the data being added
-            // and your app's backend permissions
-            originalRealm.subscriptions.update {
-                this.add(originalRealm.query<Item>("summary == $0", "summary value"), "subscription name")
-            }
-            originalRealm.subscriptions.waitForSynchronization(Duration.parse("10s"))
 
             originalRealm.writeBlocking {
                 // :remove-start:
@@ -71,7 +100,6 @@ class BundleTest: RealmTest() {
             val copyConfig = SyncConfiguration.Builder(user, setOf(Item::class))
                 .name("bundled.realm")
                 .build()
-
             Realm.deleteRealm(copyConfig) // :remove:
 
             // Copy the synced realm with writeCopyTo()
@@ -80,15 +108,7 @@ class BundleTest: RealmTest() {
             // Get the path to the copy you just created
             Log.v("Bundled realm location: ${copyConfig.path}")
 
-            // Verify the copied realm contains the data we expect
-            val copyRealm = Realm.open(copyConfig)
-            val copiedItems: RealmResults<Item> = copyRealm.query<Item>().find()
-            for(item in copiedItems) {
-                Log.v("My copied Item: ${item.summary}")
-            }
-
             originalRealm.close()
-            copyRealm.close()
             // :remove-start:
             Realm.deleteRealm(originalConfig)
             Realm.deleteRealm(copyConfig)
@@ -117,7 +137,6 @@ class BundleTest: RealmTest() {
         val copyConfig = RealmConfiguration.Builder(schema = setOf(Item::class))
             .name("bundled.realm")
             .build()
-
         Realm.deleteRealm(copyConfig) // :remove:
 
         // Copy the realm data
