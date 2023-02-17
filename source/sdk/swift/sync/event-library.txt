@@ -84,6 +84,19 @@ You can pass optional parameters to customize the ``EventConfiguration``:
 .. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.event-configuration-with-params.swift
    :language: swift
 
+Update Event Metadata
+~~~~~~~~~~~~~~~~~~~~~
+
+You can update metadata even after you have started recording events. 
+Use the ``updateMetadata()`` function to replace the metadata supplied in 
+the event configuration with new values. 
+
+If you update metadata while an event scope is active, the Event Library
+does not use the new metadata until the next event scope begins.
+
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.update-event-metadata.swift
+   :language: swift
+
 .. _swift-event-library-record-events:
 
 Record Events
@@ -112,8 +125,10 @@ different scopes for specific compliance-related activities.
 
 Use :swift-sdk:`beginScope(activity: "some activity") 
 <Structs/Events.html#/s:10RealmSwift6EventsV10beginScope8activityySS_tF>` 
-to begin recording a new event with the given activity name. This records 
-activities that occur within the scope of the event as read or write events.
+to begin recording a new event with the given activity name. This returns 
+a :swift-sdk:`Scope <Structs/Events/Scope.html>` object, which you can 
+use to later commit or cancel the scope. Beginning a scope records 
+activities that occur within that scope as read or write events.
 
 - Read events: run queries and instantiate objects. When the scope ends, 
   the event realm records these activities as read events.
@@ -125,17 +140,34 @@ Using ``beginScope`` to record an event opens the event realm if it
 is not already open. The SDK opens event realms on the background 
 thread and reports errors to the error callback.
 
-Use :swift-sdk:`endScope() 
-<Structs/Events.html#/s:10RealmSwift6EventsV8endScope7Combine6FutureCyyts5Error_pGyF>` 
-to finish recording the event. When you end the recording, the Event Library 
-saves the event to disk locally. Then, if the device has a network connection, 
-the SDK asynchronously sends the data to the server.
+.. note:: Overlapping Event Scopes
+
+   If more than one event scope is active simultaneously, generated events are 
+   recorded by all active scopes.
+
+When you're done recording events for a scope, use ``commit()`` 
+to save events that occurred within the scope. When you end the 
+recording, the Event Library saves the event to disk locally. Then, if 
+the device has a network connection, the SDK asynchronously sends the data 
+to the server.
 
 .. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.record-read-and-write-events.swift
    :language: swift
 
-You can pass an optional completion block to :swift-sdk:`endScope() 
-<Structs/Events.html#/s:10RealmSwift6EventsV8endScope10completionyys5Error_pSgcSg_tF>` 
+Alternately, you can ``cancel()`` an event scope. This stops recording events, 
+and does not persist the events to disk or to the server.
+
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.cancel-event-scope.swift
+   :language: swift
+
+You can check whether a given scope is currently in progress using the
+``isActive`` bool. This returns ``true`` if you have begun a scope
+that you have not yet committed or canceled.
+
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.check-event-scope.swift
+   :language: swift
+
+You can pass an optional completion block to ``commit()`` 
 when you finish recording. The SDK calls this block when the event data 
 has been successfully persisted - not when the event realm upload has completed.
 
@@ -250,10 +282,17 @@ Event Library Reference
 Events
 ~~~~~~
 
-An event object contains:
+The ``AuditEvent`` collection where events are stored must have a schema 
+defined on the server for the App which you will be writing events to. 
+
+The schema must contain the following fields:
 
 .. list-table::
    :widths: 20 20 60
+
+   * - ID
+     - ``_id``
+     - ObjectId.
 
    * - Type of Event
      - ``event``
@@ -261,7 +300,7 @@ An event object contains:
        an arbitrary string for custom events.
 
    * - Event Scope
-     - ``scope``
+     - ``activity``
      - Optional string. The scope name passed to ``beginScope()`` to begin
        recording the event, or an arbitrary string for custom events.
 
