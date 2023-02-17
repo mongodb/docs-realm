@@ -30,14 +30,7 @@ function AppWrapperTimeoutSync() {
             // newRealmFileBehavior: realmAccessBehavior,
             // existingRealmFileBehavior: realmAccessBehavior,
             onError: console.error,
-          }}
-          fallback={
-            <>
-              {console.log(
-                `::REALMPROVIDER:: falling back at ${performance.now()}`,
-              )}
-            </>
-          }>
+          }}>
           <MyApp />
         </RealmProvider>
         {/* :snippet-end: */}
