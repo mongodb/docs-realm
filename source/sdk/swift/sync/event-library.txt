@@ -116,6 +116,10 @@ instance tied to that realm.
 Record Read or Write Events
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. versionchanged:: 10.36.0
+
+   endScope() deprecated for commit() and cancel(), new Scope object
+
 The Event Library records read and write events within the context of 
 a scope. The scope is the period during which the Event Library watches 
 for and records realm activities. You can set different scopes to record
