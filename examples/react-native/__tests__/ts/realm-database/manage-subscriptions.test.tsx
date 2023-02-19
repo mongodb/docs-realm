@@ -7,11 +7,10 @@ import {
   Realm,
 } from '@realm/react';
 // :remove-start:
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {App, Credentials} from 'realm';
 import {useApp, useUser} from '@realm/react';
-import {render, fireEvent, waitFor} from '@testing-library/react-native';
-import {View, Text} from 'react-native';
+import {render, waitFor} from '@testing-library/react-native';
 
 const APP_ID = 'js-flexible-oseso';
 class Cat extends Realm.Object<Cat> {
@@ -31,12 +30,31 @@ class Cat extends Realm.Object<Cat> {
     primaryKey: '_id',
   };
 }
+
+class Bird extends Realm.Object<Bird> {
+  _id!: string;
+  owner_id!: string;
+  name!: string;
+  birthDate?: Realm.Mixed;
+
+  static schema = {
+    name: 'Bird',
+    properties: {
+      _id: 'string',
+      name: 'string',
+      birthDate: 'mixed',
+      owner_id: 'string',
+    },
+    primaryKey: '_id',
+  };
+}
+
 const config: Realm.Configuration = {
   // Pass all of your models into the schema value.
-  schema: [Cat],
+  schema: [Cat, Bird],
 };
-export const SimpleRealmContext = createRealmContext(config);
-const {useRealm, useQuery} = SimpleRealmContext;
+const RealmContext = createRealmContext(config);
+const {useRealm} = RealmContext;
 let numSubs: number;
 // :remove-end:
 
@@ -44,17 +62,12 @@ function AppWrapper() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
-        <Foo />
         <RealmWrapper>
           <SubscriptionManager />
         </RealmWrapper>
       </UserProvider>
     </AppProvider>
   );
-}
-function Foo() {
-  console.log('in foo');
-  return <></>;
 }
 
 function LogIn() {
@@ -74,7 +87,7 @@ type RealmWrapperProps = {
 };
 
 function RealmWrapper({children}: RealmWrapperProps) {
-  const {RealmProvider} = SimpleRealmContext;
+  const {RealmProvider} = RealmContext;
   const user = useUser();
   console.log('In RealmWrapper');
 
@@ -112,7 +125,6 @@ function SubscriptionManager() {
 
   return <></>;
 }
-
 // :snippet-end:
 
 afterEach(async () => {
