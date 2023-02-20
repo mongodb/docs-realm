@@ -1,18 +1,13 @@
-// :snippet-start: manage-subscriptions
 import React from 'react';
-import {
-  AppProvider,
-  UserProvider,
-  createRealmContext,
-  Realm,
-} from '@realm/react';
-// :remove-start:
+import {AppProvider, UserProvider} from '@realm/react';
 import {useEffect} from 'react';
 import {App, Credentials} from 'realm';
-import {useApp, useUser} from '@realm/react';
+import {useApp, createRealmContext, Realm} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
+import {View, Text, FlatList} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
+
 class Cat extends Realm.Object<Cat> {
   _id!: string;
   owner_id!: string;
@@ -50,21 +45,34 @@ class Bird extends Realm.Object<Bird> {
 }
 
 const config: Realm.Configuration = {
-  // Pass all of your models into the schema value.
   schema: [Cat, Bird],
 };
 const RealmContext = createRealmContext(config);
-const {useRealm} = RealmContext;
+// :snippet-start: initialize-hooks
+const {useRealm, useQuery, useObject} = RealmContext;
+// :snippet-end:
 let numSubs: number;
-// :remove-end:
 
 function AppWrapper() {
+  const {RealmProvider} = RealmContext;
+
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
-        <RealmWrapper>
+        {/* :snippet-start: initial-subscriptions */}
+        <RealmProvider
+          sync={{
+            flexible: true,
+            initialSubscriptions: {
+              update(subs, realm) {
+                subs.add(realm.objects(Cat));
+              },
+            },
+            onError: console.log,
+          }}>
           <SubscriptionManager />
-        </RealmWrapper>
+        </RealmProvider>
+        {/* :snippet-end: */}
       </UserProvider>
     </AppProvider>
   );
@@ -75,68 +83,76 @@ function LogIn() {
   console.log('In LogIn');
 
   useEffect(() => {
-    console.log('in effect');
     app.logIn(Credentials.anonymous());
   }, []);
 
   return <></>;
 }
 
-type RealmWrapperProps = {
-  children: React.ReactNode;
-};
+function SubscriptionManager() {
+  console.log('In sub manager');
+  // TODO: add primary key for default cat, Meowseph
+  // const primaryKey: Realm.BSON.ObjectId = new Realm.BSON.ObjectId(
+  //   '63f263bdc31795cd6a265c01',
+  // );
+  const realm = useRealm();
+  // :snippet-start: usequery
+  const allCats: Realm.Results<Cat & Realm.Object> = useQuery(Cat);
+  // :snippet-end:
+  // :snippet-start: useobject
+  // TODO: Figure this out - it's breaking the test. Lol. It's null or a bad request.
+  // const oneCat: Cat & Realm.Object = useObject(Cat, primaryKey);
+  // :snippet-end:
+  // :snippet-start: get-subscriptions
+  const allSubscriptions: Realm.App.Sync.SubscriptionSet = realm.subscriptions;
+  // :snippet-end:
+  // :snippet-start: get-sub-state
+  const allSubscriptionState: Realm.App.Sync.SubscriptionsState =
+    realm.subscriptions.state;
+  // :snippet-end:
 
-function RealmWrapper({children}: RealmWrapperProps) {
-  const {RealmProvider} = RealmContext;
-  const user = useUser();
-  console.log('In RealmWrapper');
+  // :snippet-start: add-subscription
+  useEffect(() => {
+    console.log('In add sub effect');
+    realm.subscriptions.update((subs, myRealm) => {
+      subs.add(myRealm.objects('Bird'));
+    });
+
+    console.log(`number of subs: ${realm.subscriptions.length}`);
+
+    numSubs = realm.subscriptions.length; // :remove:
+  });
+  // :snippet-end:
 
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        user: user!,
-        initialSubscriptions: {
-          update(subs, realm) {
-            subs.add(realm.objects('Cat'));
-          },
-        },
-        onError: console.log,
-      }}
-      fallback={<>{console.log('falling back')}</>}>
-      {children}
-    </RealmProvider>
+    <View>
+      <Text>Status of all subscriptions: {allSubscriptionState}</Text>
+      <FlatList
+        data={allSubscriptions}
+        keyExtractor={subscription => subscription.id.toString()}
+        renderItem={({item}) => <Text>{item.name}</Text>}
+      />
+      (oneCat ? <Text>{oneCat._id}</Text> )
+      <FlatList
+        data={allCats}
+        keyExtractor={cat => cat._id.toString()}
+        renderItem={({item}) => <Text>{item._id}</Text>}
+      />
+    </View>
   );
 }
-
-function SubscriptionManager() {
-  const realm = useRealm();
-  console.log('in subscription manager');
-
-  useEffect(() => {
-    console.log('heello from another effect');
-    realm.subscriptions.update((subs, myRealm) => {
-      subs.add(myRealm.objects('Cat'));
-    });
-    numSubs = realm.subscriptions.length;
-
-    console.log('done w the effect');
-  });
-
-  return <></>;
-}
-// :snippet-end:
 
 afterEach(async () => {
   await App.getApp(APP_ID).currentUser?.logOut();
   Realm.deleteFile(config);
 });
 
+// TODO: Define more tests
 test('Instantiate AppWrapper and children correctly', async () => {
   render(<AppWrapper />);
   await waitFor(
     () => {
-      expect(numSubs).toBe(1);
+      expect(numSubs).toBe(2);
     },
     {timeout: 5000},
   );
