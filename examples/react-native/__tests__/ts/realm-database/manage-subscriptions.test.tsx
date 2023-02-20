@@ -80,7 +80,6 @@ function AppWrapper() {
 
 function LogIn() {
   const app = useApp();
-  console.log('In LogIn');
 
   useEffect(() => {
     app.logIn(Credentials.anonymous());
@@ -90,7 +89,6 @@ function LogIn() {
 }
 
 function SubscriptionManager() {
-  console.log('In sub manager');
   // TODO: add primary key for default cat, Meowseph
   // const primaryKey: Realm.BSON.ObjectId = new Realm.BSON.ObjectId(
   //   '63f263bdc31795cd6a265c01',
@@ -113,12 +111,9 @@ function SubscriptionManager() {
 
   // :snippet-start: add-subscription
   useEffect(() => {
-    console.log('In add sub effect');
     realm.subscriptions.update((subs, myRealm) => {
       subs.add(myRealm.objects('Bird'));
     });
-
-    console.log(`number of subs: ${realm.subscriptions.length}`);
 
     numSubs = realm.subscriptions.length; // :remove:
   });
