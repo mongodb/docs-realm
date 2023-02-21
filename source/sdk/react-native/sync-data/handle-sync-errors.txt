@@ -94,7 +94,7 @@ to the automatic client reset mode.
 Client Reset with Recovery
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: ``realm`` 10.23.0
+.. versionadded:: ``realm@10.23.0``
 
 Client Recovery is a feature that is enabled by default when you configure Device Sync.
 When Client Recovery is enabled, Realm Database automatically manages the
@@ -217,9 +217,9 @@ discarding all unsynced changes:
 Discard Unsynced Changes Mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: ``realm`` 10.11.0
+.. versionadded:: ``realm@10.11.0``
 
-.. versionchanged:: ``realm`` 10.23.0 Mode renamed from "discardLocal" to "discardUnsyncedChanges". Both currently work, but in a future version, "discardLocal" will be removed. "clientResetBefore" and "clientResetAfter" callbacks renamed to "onBefore" and "onAfter", respectively.
+.. versionchanged:: ``realm@10.23.0`` Mode renamed from "discardLocal" to "discardUnsyncedChanges". Both currently work, but in a future version, "discardLocal" will be removed. "clientResetBefore" and "clientResetAfter" callbacks renamed to "onBefore" and "onAfter", respectively.
 
 **Discard Unsynced Changes** mode  permanently deletes all
 local unsynced changes made since the last successful sync.
@@ -275,7 +275,7 @@ discarding all unsynced changes:
 Manual Mode
 ~~~~~~~~~~~
 
-.. versionchanged:: ``realm`` 10.23.0 onManual callback added
+.. versionchanged:: ``realm@10.23.0`` onManual callback added
 
 In **manual** mode, you define your own client reset handler.
 You might want to use a manual client reset handler if the Automatic Recovery logic
