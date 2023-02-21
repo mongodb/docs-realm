@@ -44,3 +44,18 @@ Set the Client Log Level
    negatively affect performance.
 
 .. include:: /includes/tip-sync-log-levels.rst
+
+.. _swift-set-custom-logger:
+
+Set a Custom Logger
+-------------------
+
+You can pipe Sync logs to a custom logger by setting the ``logger`` 
+property on the ``SyncManager``. You must set this property before you 
+open any synced realms.
+
+If you do not specify this property, the Realm Swift SDK outputs log strings
+to Apple System Logger.
+
+.. literalinclude:: /examples/generated/code/start/Sync.snippet.set-custom-logger.swift
+   :language: swift

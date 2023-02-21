@@ -330,5 +330,40 @@ class Sync: AnonymouslyLoggedInTestCase {
         syncManager.logLevel = .debug
         // :snippet-end:
     }
+    
+    // Skipping this test in CI because it fails when you run it with the other tests
+    // with the error: `testSetCustomLogger(): std::logic_error: Cannot set the logger_factory after creating the sync client`
+    // Running it by itself works.
+    func testSetCustomLogger() {
+        // This is an arbitrary struct that mimics the call structure of the
+        // example that the SDK engineer provided in the HELP ticket.
+        // Adding this here lets me remove the client-specific logger
+        // for a generic implementation that uses the exact same call structure.
+        struct AnalyticsProvider {
+            struct shared {
+                struct logEvent {
+                    var event: String
+                    var category: String
+                    
+                    init(_ event: String, category: String) {
+                        self.event = event
+                        self.category = category
+                    }
+                }
+            }
+        }
+        // :snippet-start: set-custom-logger
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
+        
+        // Access the sync manager for the app
+        let syncManager = app.syncManager
+        
+        // Set the logger to provide debug logs
+        syncManager.logLevel = .all
+        syncManager.logger = { logLevel, message in
+            AnalyticsProvider.shared.logEvent("\(logLevel) : \(message)", category: "Engineering debugging")
+        }
+        // :snippet-end:
+    }
 }
 // :replace-end:
