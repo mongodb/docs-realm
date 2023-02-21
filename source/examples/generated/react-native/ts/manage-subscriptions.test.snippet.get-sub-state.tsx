@@ -1,2 +1,1 @@
-const allSubscriptionState: Realm.App.Sync.SubscriptionsState =
-  realm.subscriptions.state;
+const allSubscriptionState = realm.subscriptions.state;

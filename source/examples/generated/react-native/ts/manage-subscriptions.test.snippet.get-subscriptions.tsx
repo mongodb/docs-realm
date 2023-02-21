@@ -1,1 +1,1 @@
-const allSubscriptions: Realm.App.Sync.SubscriptionSet = realm.subscriptions;
+const allSubscriptions = realm.subscriptions;

@@ -8,7 +8,7 @@ import {View, Text, FlatList} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
 
-class Cat extends Realm.Object<Cat> {
+class Cat extends Realm.Object {
   _id!: string;
   owner_id!: string;
   name!: string;
@@ -89,24 +89,19 @@ function LogIn() {
 }
 
 function SubscriptionManager() {
-  // TODO: add primary key for default cat, Meowseph
-  // const primaryKey: Realm.BSON.ObjectId = new Realm.BSON.ObjectId(
-  //   '63f263bdc31795cd6a265c01',
-  // );
+  const primaryKey = '63f263bdc31795cd6a265c01';
   const realm = useRealm();
   // :snippet-start: usequery
-  const allCats: Realm.Results<Cat & Realm.Object> = useQuery(Cat);
+  const allCats = useQuery(Cat);
   // :snippet-end:
   // :snippet-start: useobject
-  // TODO: Figure this out - it's breaking the test. Lol. It's null or a bad request.
-  // const oneCat: Cat & Realm.Object = useObject(Cat, primaryKey);
+  const oneCat = useObject(Cat, primaryKey);
   // :snippet-end:
   // :snippet-start: get-subscriptions
-  const allSubscriptions: Realm.App.Sync.SubscriptionSet = realm.subscriptions;
+  const allSubscriptions = realm.subscriptions;
   // :snippet-end:
   // :snippet-start: get-sub-state
-  const allSubscriptionState: Realm.App.Sync.SubscriptionsState =
-    realm.subscriptions.state;
+  const allSubscriptionState = realm.subscriptions.state;
   // :snippet-end:
 
   // :snippet-start: add-subscription
@@ -127,7 +122,7 @@ function SubscriptionManager() {
         keyExtractor={subscription => subscription.id.toString()}
         renderItem={({item}) => <Text>{item.name}</Text>}
       />
-      (oneCat ? <Text>{oneCat._id}</Text> )
+      {oneCat && <Text>{oneCat._id}</Text>}
       <FlatList
         data={allCats}
         keyExtractor={cat => cat._id.toString()}

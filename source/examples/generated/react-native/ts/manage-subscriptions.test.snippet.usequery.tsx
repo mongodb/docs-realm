@@ -1,1 +1,1 @@
-const allCats: Realm.Results<Cat & Realm.Object> = useQuery(Cat);
+const allCats = useQuery(Cat);
