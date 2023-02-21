@@ -1,0 +1,83 @@
+.. _cpp-stream-data-to-atlas:
+
+======================================
+Stream Data to Atlas - C++ SDK (Alpha)
+======================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can use :ref:`Asymmetric Sync <optimize-asymmetric-sync>` to stream 
+data from the client application to a Flexible Sync-enabled Atlas App Services
+App.
+
+You might want to sync data unidirectionally in IoT applications, such as
+a weather sensor sending data to the cloud. Asymmetric Sync is also useful 
+for writing other types of immutable data where you do not require conflict 
+resolution, such as creating invoices from a retail app or logging application 
+events.
+
+Asymmetric Sync is optimized to provide performance improvements for heavy
+client-side *insert-only* workloads.
+
+Sync Data Unidirectionally from a Client Application
+----------------------------------------------------
+
+.. procedure::
+
+   .. step:: Define an Asymmetric Object
+
+      You can sync data unidirectionally when you inherit from 
+      :cpp-sdk:`asymmetric_object <structrealm_1_1asymmetric__object.html>`.
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
+         :language: cpp
+
+      For more information on how to define an ``asymmetric_object``, including
+      limitations when linking to other object types, see: 
+      :ref:`Define an Asymmetric Object <cpp-define-asymmetric-object>`.
+
+   .. step:: Connect and Authenticate with an App Services App
+
+      To stream data from the client to your backend App, you must 
+      :ref:`connect to an App Services backend <cpp-connect-to-backend>` 
+      and :ref:`authenticate a user <cpp-authenticate-users>`.
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.connect-and-authenticate.cpp
+         :language: cpp
+
+   .. step:: Open a Realm
+
+      After you have an authenticated user, you can open a synced realm
+      using a ``flexibleSyncConfiguration()``. Specify the ``asymmetric_object`` 
+      types you want to sync.
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.open-synced-realm-for-asymmetric-sync.cpp
+         :language: cpp
+
+      Unlike bidirectional Sync, Asymmetric Sync does not use a 
+      :ref:`Flexible Sync subscription <cpp-manage-flexible-sync-subscriptions>`.
+
+      .. tip:: Mixed Object and Asymmetric Object Types
+
+         You cannot read, query, or delete an ``asymmetric_object`` from a
+         realm, so asymmetric objects are incompatible with bi-directional
+         Flexible Sync or local realm use. You cannot open a single synced
+         realm to manage both regular objects and asymmetric objects - you
+         must use different realms to manage these different object types.
+
+   .. step:: Create Asymmetric Objects
+
+      Once you have an open realm, you can create an ``asymmetric_object`` 
+      and set its values as you would a regular object. However, you cannot 
+      read or delete these objects. Once created, they sync to the App 
+      Services backend and the linked Atlas database.
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
+         :language: cpp
