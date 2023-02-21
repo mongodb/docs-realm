@@ -19,6 +19,8 @@ API calls.
 
 Set an error handler by registering an error callback as part of the
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+If you're using ``@realm/react``, pass the SyncConfiguration object to
+``<RealmProvider>``'s ``sync`` property.
 
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-handle-sync-errors.js
    :language: javascript
@@ -31,7 +33,7 @@ Set an error handler by registering an error callback as part of the
 Client Reset
 ------------
 
-A **client reset error** is a scenario where a client realm cannot sync
+A **client reset error** is a type of sync error where a client realm cannot sync
 data with the Atlas App Services backend. Clients in this state may continue to
 run and save data locally but cannot send or receive sync changesets
 until they perform a client reset.
@@ -95,7 +97,7 @@ to the automatic client reset mode.
 Client Reset with Recovery
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 10.23.0
+.. versionadded:: ``realm`` 10.23.0
 
 Client Recovery is a feature that is enabled by default when you configure Device Sync.
 When Client Recovery is enabled, Realm Database automatically manages the
@@ -218,9 +220,9 @@ discarding all unsynced changes:
 Discard Unsynced Changes Mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 10.11.0
+.. versionadded:: ``realm`` 10.11.0
 
-.. versionchanged:: 10.23.0 Mode renamed from "discardLocal" to "discardUnsyncedChanges". Both currently work, but in a future version, "discardLocal" will be removed. "clientResetBefore" and "clientResetAfter" callbacks renamed to "onBefore" and "onAfter", respectively.
+.. versionchanged:: ``realm`` 10.23.0 Mode renamed from "discardLocal" to "discardUnsyncedChanges". Both currently work, but in a future version, "discardLocal" will be removed. "clientResetBefore" and "clientResetAfter" callbacks renamed to "onBefore" and "onAfter", respectively.
 
 **Discard Unsynced Changes** mode  permanently deletes all
 local unsynced changes made since the last successful sync.
@@ -276,7 +278,7 @@ discarding all unsynced changes:
 Manual Mode
 ~~~~~~~~~~~
 
-.. versionchanged:: 10.23.0 onManual callback added
+.. versionchanged:: ``realm`` 10.23.0 onManual callback added
 
 In **manual** mode, you define your own client reset handler.
 You might want to use a manual client reset handler if the Automatic Recovery logic
