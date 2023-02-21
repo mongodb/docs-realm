@@ -52,27 +52,6 @@ struct Person : realm::object<Person> {
 };
 // :snippet-end:
 
-TEST_CASE("first test case", "[test]") {
-    // :snippet-start: usage
-    // Use Realm objects like regular objects.
-    auto dog = Dog { .name = "Rex", .age = 1 };
-    
-    std::cout << "dog: " << dog << "\n";
-
-    // Get the default Realm with compile time schema checking.
-    auto realm = realm::open<Person, Dog>();
-
-    // Persist your data in a write transaction
-    realm.write([&realm, &dog] {
-        realm.add(dog);
-    });
-    // :snippet-end:
-    // Clean up after the test
-    realm.write([&realm, &dog] {
-        realm.remove(dog);
-    });
-}
-
 TEST_CASE("create a dog", "[write]") {
     // :snippet-start: create-an-object
     // Create a Realm object like a regular object.
@@ -304,6 +283,58 @@ TEST_CASE("object notification", "[notification]") {
     realm.write([&dog, &realm] {
         realm.remove(dog);
     });
+    // Refresh the realm after the change to trigger the notification.
+    realm.refresh();
+    // :snippet-end:
+}
+
+TEST_CASE("results notification", "[notification]") {
+    auto realm = realm::open<Dog>();
+
+    auto dog1 = Dog { .name = "Max" };
+    auto dog2 = Dog { .name = "Maui" };
+
+    // Create an object in the realm.
+    realm.write([&realm, &dog1] {
+        realm.add(dog1);
+    });
+
+    // :snippet-start: notifications-results
+    // Get a results collection to observe
+    auto dogs = realm.objects<Dog>();
+    //  Set up the listener & observe results notifications.
+    auto token = dogs.observe([&](auto&& changes) {
+        try {
+            if (changes.collection_root_was_deleted) {
+                std::cout << "The collection was deleted.\n";
+            } else {
+                // Handle deletions, then insertions, then modifications.
+                for (auto& resultsChange : changes.deletions) {
+                    std::cout << "The object at index " << std::to_string(resultsChange) << " was deleted\n";
+                }
+                for (auto& resultsChange : changes.insertions) {
+                    std::cout << "The object at index " << std::to_string(resultsChange) << " was inserted\n";
+                }
+                for (auto& resultsChange : changes.modifications) {
+                    std::cout << "The object at index " << std::to_string(resultsChange) << " was modified\n";
+                }
+            }
+        } catch (std::exception const& e) {
+            std::cerr << "Error: " << e.what() << "\n";
+        }
+    });
+
+    // Delete and then add an object to see deletions and insertions.
+    realm.write([&dog1, &dog2, &realm] {
+        realm.remove(dog1);
+        realm.add(dog2);
+    });
+
+    // Modify an object to see a modification.
+    realm.write([&dog2, &realm] {
+        dog2.age = 2;
+    });
+    
     // Refresh the realm after the change to trigger the notification.
     realm.refresh();
     // :snippet-end:
