@@ -30,6 +30,7 @@ class Bird extends Realm.Object<Bird> {
   _id!: string;
   owner_id!: string;
   name!: string;
+  haveSeen!: boolean;
   birthDate?: Realm.Mixed;
 
   static schema = {
@@ -39,6 +40,7 @@ class Bird extends Realm.Object<Bird> {
       name: 'string',
       birthDate: 'mixed',
       owner_id: 'string',
+      haveSeen: 'bool',
     },
     primaryKey: '_id',
   };
@@ -105,11 +107,12 @@ function SubscriptionManager() {
   // :snippet-end:
 
   // :snippet-start: add-subscription
-  useEffect(() => {
-    realm.subscriptions.update((subs, myRealm) => {
-      subs.add(myRealm.objects('Bird'));
-    });
+  const seenBirds = useQuery(Bird).filtered('haveSeen == true');
 
+  useEffect(() => {
+    realm.subscriptions.update(mutableSubs => {
+      mutableSubs.add(seenBirds);
+    });
     numSubs = realm.subscriptions.length; // :remove:
   });
   // :snippet-end:
@@ -137,13 +140,12 @@ afterEach(async () => {
   Realm.deleteFile(config);
 });
 
-// TODO: Define more tests
 test('Instantiate AppWrapper and children correctly', async () => {
   render(<AppWrapper />);
   await waitFor(
     () => {
       expect(numSubs).toBe(2);
     },
-    {timeout: 5000},
+    {timeout: 2000},
   );
 });

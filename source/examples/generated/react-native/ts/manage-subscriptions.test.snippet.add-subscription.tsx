@@ -1,6 +1,7 @@
-useEffect(() => {
-  realm.subscriptions.update((subs, myRealm) => {
-    subs.add(myRealm.objects('Bird'));
-  });
+const seenBirds = useQuery(Bird).filtered('haveSeen == true');
 
+useEffect(() => {
+  realm.subscriptions.update(mutableSubs => {
+    mutableSubs.add(seenBirds);
+  });
 });

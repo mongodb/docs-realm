@@ -68,7 +68,9 @@ The ``useQuery()`` hook returns a ``Realm.Results`` collection that contains all
 objects of a given type in your realm. The hook will automatically monitor the
 collection and re-render its parent component when changes to its objects are detected.
 
-This hook doesn't update any subscriptions on its own.
+This hook doesn't update any subscriptions on its own. You should pass a class 
+that extends ``Realm.Object`` to this hook. Alternatively, you can pass a string
+that matches the name of your class.
 
 .. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.usequery.tsx
    :language: javascript
@@ -79,20 +81,24 @@ Get a Specific Object with useObject()
 The ``useObject()`` hook returns a single Realm object for a given type and
 primary key. The hook updates if any properties on the returned object change.
 
-This hook doesn't update any subscriptions on its own.
+This hook doesn't update any subscriptions on its own. You should pass a class 
+that extends ``Realm.Object`` to this hook. Alternatively, you can pass a string
+that matches the name of your class.
 
 .. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.useobject.tsx
    :language: javascript
 
 Manage Your Subscriptions
 -------------------------
-.. TODO: useRealm returns a subscription set: https://www.mongodb.com/docs/realm-sdks/js/latest/Realm.App.Sync.SubscriptionSet.html
-.. TODO: minimize
 
 When configuring Flexible Sync on the backend, you specify which fields your
 client application can query. In the client application, use the
 :js-sdk:`Realm.subscriptions <Realm.html#subscriptions>` property to
 manage a set of subscriptions to specific queries on queryable fields.
+
+If you're using ``@realm/react``, you can manage realm subscriptions inside of
+a properly-configured ``<RealmProvider>``. There, the ``useRealm()`` gives you 
+access to the currently-opened realm.
 
 You can do the following with your subscriptions:
 
@@ -119,9 +125,7 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
-Inside of ``<RealmProvider>``, the ``useRealm()`` gives you access to the
-currently-opened realm. The examples in this section assume that you
-have a properly-configured ``<RealmProvider>``.
+The examples in this section assume that you have a properly-configured ``<RealmProvider>``.
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
@@ -138,8 +142,6 @@ update existing subscriptions.
 
 Add a Query to the Set of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. TODO: minimize this content
 
 Compose queries using :ref:`Realm Query Language <react-native-query-data>`
 and add them to your Flexible Sync subscriptions.
