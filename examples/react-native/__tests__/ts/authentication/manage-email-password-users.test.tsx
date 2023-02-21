@@ -4,7 +4,7 @@ import {useApp, UserProvider, AppProvider} from '@realm/react';
 import Realm from 'realm';
 // :remove-start:
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
-import {View, Button, Text} from 'react-native';
+import {View, Button} from 'react-native';
 
 const APP_ID = 'example-testers-kvjdy';
 
@@ -20,8 +20,7 @@ function AppWrapper() {
   return (
     <View>
       <AppProvider id={APP_ID}>
-        <RegisterUser />
-        <UserProvider fallback={LogIn}>
+        <UserProvider fallback={<RegisterUser />}>
           {/* ...Other components in app that require authentication */}
         </UserProvider>
       </AppProvider>
@@ -51,10 +50,6 @@ function RegisterUser() {
   // :remove-end:
 }
 // :snippet-end:
-
-function LogIn() {
-  return <Text>Dummy component</Text>;
-}
 
 afterEach(async () => {
   const app = Realm.App.getApp(APP_ID);

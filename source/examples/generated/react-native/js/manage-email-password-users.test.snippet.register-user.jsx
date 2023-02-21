@@ -6,8 +6,7 @@ function AppWrapper() {
   return (
     <View>
       <AppProvider id={APP_ID}>
-        <RegisterUser />
-        <UserProvider fallback={LogIn}>
+        <UserProvider fallback={<RegisterUser/>}>
           {/* ...Other components in app that require authentication */}
         </UserProvider>
       </AppProvider>

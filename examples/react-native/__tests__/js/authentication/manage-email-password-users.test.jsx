@@ -4,7 +4,7 @@ import {useApp, UserProvider, AppProvider} from '@realm/react';
 import Realm from 'realm';
 // :remove-start:
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
-import {View, Button, Text} from 'react-native';
+import {View, Button} from 'react-native';
 
 const APP_ID = 'example-testers-kvjdy';
 
@@ -13,6 +13,8 @@ const userCreds = {
   username: `user+email-pw-${rand}@example.com`,
   password: 'abc123',
 };
+
+const testId = 'test-register-user';
 let higherScopedUser;
 // :remove-end:
 
@@ -20,8 +22,7 @@ function AppWrapper() {
   return (
     <View>
       <AppProvider id={APP_ID}>
-        <RegisterUser />
-        <UserProvider fallback={LogIn}>
+        <UserProvider fallback={<RegisterUser />}>
           {/* ...Other components in app that require authentication */}
         </UserProvider>
       </AppProvider>
@@ -44,17 +45,13 @@ function RegisterUser() {
   return (
     <Button
       onPress={() => register(userCreds.username, userCreds.password)}
-      testID='test-register-user'
+      testID={testId}
       title='Test Me!'
     />
   );
   // :remove-end:
 }
 // :snippet-end:
-
-function LogIn() {
-  return <Text>Dummy component</Text>;
-}
 
 afterEach(async () => {
   const app = Realm.App.getApp(APP_ID);
@@ -67,7 +64,7 @@ afterEach(async () => {
 
 test('Register user', async () => {
   const {getByTestId} = render(<AppWrapper />);
-  const button = await waitFor(() => getByTestId('test-register-user'));
+  const button = await waitFor(() => getByTestId(testId));
   await fireEvent.press(button);
   await waitFor(() => {
     expect(higherScopedUser.identities[0].providerType).toBe('local-userpass');
