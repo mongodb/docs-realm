@@ -1,3 +1,30 @@
+# February 17, 2023
+
+## C++ SDK
+- Landing Page: Update to the product landing page template used for the other SDK landing pages
+- Model Data/Supported Data Types: Add `Map`
+- CRUD
+  - Create: New "Create an Object with a Map Property" section with tested, Bluehawked code example
+  - Read: New "Read a Map Property" section with tested, Bluehawked code example
+  - Update: New "Update a Map Property" section with tested, Bluehawked code example
+  - Delete: New "Delete Map Keys/Values" section with tested, Bluehawked code example
+- React to Changes: New "Register a Results Collection Change Listener" section with tested, Bluehawked code example
+- SDK Telemetry: Add an SDK Telemetry page for the C++ SDK using the include shared across all SDKs
+
+## Flutter SDK
+- Fix circular redirects
+
+## Swift SDK
+- Sync Data/Record Realm Events: Update the documentation and code examples for the new `Scope` object, minor tweaks and improvements
+- SwiftUI: Note that `@ObservedResults` is intended for use in a SwiftUI view across the following pages:
+  - Configure & Open a Realm
+  - Filter Data
+  - React to Changes
+  - Write Data
+
+## Other
+- Various Snyk dependency updates
+
 # February 10, 2023
 
 ## C++ SDK
