@@ -33,7 +33,7 @@ function App() {
   );
 }
 
-// Work work realm as normal once it's been opened.
+// Work with realm as normal once it's been opened.
 function ListCats() {
   const cats = useQuery<Cat>('Cat');
   return (
