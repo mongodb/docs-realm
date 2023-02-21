@@ -10,6 +10,9 @@ Handle Sync Errors - React Native SDK
    :depth: 3
    :class: singlecol
 
+Add a Generic Sync Error Handler
+--------------------------------
+
 While developing an application that uses Device Sync, you should set an error
 handler. This error handler will detect and respond to any failed sync-related
 API calls.
@@ -27,8 +30,8 @@ If you're using ``@realm/react``, pass the SyncConfiguration object to
 
 .. _react-native-client-resets:
 
-Client Reset
-------------
+Handle Client Reset Errors
+--------------------------
 
 A **client reset error** is a type of sync error where a client realm cannot sync
 data with the Atlas App Services backend. Clients in this state may continue to
@@ -36,7 +39,8 @@ run and save data locally but cannot send or receive sync changesets
 until they perform a client reset.
 
 To learn about the causes of and modes for handling client
-resets, check out Device Sync :ref:`Client Resets in the App Services documentation <client-resets>`.
+resets, refer to :ref:`Device Sync Client Resets <client-resets>`
+in the App Services documentation.
 
 .. _react-native-automatic-vs-manual-client-reset:
 
