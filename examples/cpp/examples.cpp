@@ -285,6 +285,11 @@ TEST_CASE("object notification", "[notification]") {
     });
     // Refresh the realm after the change to trigger the notification.
     realm.refresh();
+    
+    // :snippet-start: notifications-unregister
+    // Unregister the token when done observing.
+    token.unregister();
+    // :snippet-end:
     // :snippet-end:
 }
 
@@ -337,5 +342,12 @@ TEST_CASE("results notification", "[notification]") {
     
     // Refresh the realm after the change to trigger the notification.
     realm.refresh();
+    
+    // Unregister the token when done observing.
+    token.unregister();
     // :snippet-end:
+    // Clean up after the test
+    realm.write([&dog2, &realm] {
+        realm.remove(dog2);
+    });
 }
