@@ -1,14 +1,18 @@
 // :snippet-start: create-bundle
 import Realm from 'realm';
 import Cat from '../Models/Cat';
-let higherScopedConfig: Realm.Configuration; // :remove:
+// :remove-start:
+let higherScopedConfig = {
+  schema: [Cat.schema],
+  path: 'bundle.realm',
+};
+// :remove-end:
 
 async function createBundle() {
   const config = {
     schema: [Cat.schema],
     path: 'bundle.realm',
   };
-  higherScopedConfig = config; // :remove:
   const realm = await Realm.open(config);
 
   // add data to realm
