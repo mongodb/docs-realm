@@ -50,9 +50,6 @@ const config: Realm.Configuration = {
   schema: [Cat, Bird],
 };
 const RealmContext = createRealmContext(config);
-// :snippet-start: initialize-hooks
-const {useRealm, useQuery, useObject} = RealmContext;
-// :snippet-end:
 let numSubs: number;
 
 function AppWrapper() {
@@ -92,11 +89,16 @@ function LogIn() {
 
 function SubscriptionManager() {
   const primaryKey = '63f263bdc31795cd6a265c01';
+  const {useRealm} = RealmContext;
   const realm = useRealm();
   // :snippet-start: usequery
+  const {useQuery} = RealmContext;
+
   const allCats = useQuery(Cat);
   // :snippet-end:
   // :snippet-start: useobject
+  const {useObject} = RealmContext;
+
   const oneCat = useObject(Cat, primaryKey);
   // :snippet-end:
   // :snippet-start: get-subscriptions
