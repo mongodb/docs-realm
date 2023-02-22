@@ -156,6 +156,16 @@ class SwiftUICatalogUITests: XCTestCase {
         XCTAssert(!app.staticTexts["Lita"].exists)
     }
     
+    func testSortedDogList() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "SortedDogsView"
+        app.launch()
+        
+        // Test that the dog name in the first row - sorted by name - is Ben
+        XCTAssert(app.cells.firstMatch.staticTexts["Ben"].exists)
+    }
+    
     func testAppendToList() throws {
         let app = XCUIApplication()
         app.launchEnvironment["MyUITestsCustomView"] = "true"
