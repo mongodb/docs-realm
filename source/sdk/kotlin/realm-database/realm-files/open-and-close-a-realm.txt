@@ -28,7 +28,7 @@ an argument.
 Open a Local-Only Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To open a realm, create a
+To open a realm that only persists data locally, create a
 `RealmConfiguration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__ with
 `RealmConfiguration.Builder <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-builder/index.html>`__
 and pass the resulting :file:`RealmConfiguration` to
@@ -36,7 +36,6 @@ and pass the resulting :file:`RealmConfiguration` to
 
 .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.open-a-realm.kt
    :language: kotlin
-   :copyable: false
 
 .. _kotlin-open-an-in-memory-realm:
 
@@ -51,7 +50,6 @@ Then  pass the resulting :file:`RealmConfiguration` to `Realm.open() <{+kotlin-l
 
 .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.open-an-in-memory-realm.kt
    :language: kotlin
-   :copyable: false
 
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
@@ -64,10 +62,77 @@ refer to :ref:`Open a Synced Realm <kotlin-open-a-synced-realm>`.
 Close a Realm
 -------------
 
-You can close a realm with `realm.close() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/close.html>`__.
+You close a realm with `realm.close() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/close.html>`__.
 The :file:`close()` method blocks until all write transactions on the
 realm have completed.
 
 .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.close-a-realm.kt
    :language: kotlin
-   :copyable: false
+
+.. warning::
+
+  It's important to close your realm instance to free resources. Failing to close
+  realms can lead to an ``OutOfMemoryError``. 
+
+.. _kotlin-copy-data-to-realm:
+
+Copy Data into a New Realm
+--------------------------
+
+To copy data from an existing realm to a new realm with different
+configuration options, pass the new configuration to the
+`Realm.writeCopyTo() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__
+method.
+For example, you might copy data as a way to backup a local realm or to convert
+a synced realm to a local realm.
+
+You can copy data to a realm that uses the same configuration:  
+
+- Local realm to local realm
+- In-memory realm to in-memory realm
+- Synced realm to synced realm
+
+You can copy data to a realm that uses different sync configurations:
+
+- Local realm to Partition-Based Sync realm 
+- Synced realm to local realm
+
+.. warning:: 
+
+  You *cannot* copy data from a local realm to a Flexible Sync realm.
+
+You can also combine changes to the configuration. For example, you can copy data from an 
+unencrypted, in-memory synced realm to an encrypted local realm.
+
+Some additional considerations to keep in mind while using 
+``Realm.writeCopyTo()``: 
+
+- The destination file cannot already exist.
+- Copying a realm is not allowed within a write transaction or during
+  a :ref:`migration<kotlin-migrations>`.
+- When using :ref:`Device Sync <sync>`, you must sync all local changes with the
+  server before the copy is written. This ensures that the file can 
+  be used as a starting point for a newly installed application. 
+  Realm throws an error if there are pending uploads.
+
+  You can use `uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__ 
+  and `downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__ 
+  to ensure all sync processes are completed.
+
+.. example:: Copy Data from Flexible Sync Realm to Local Realm
+
+  .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.sync-to-local-realm.kt
+    :language: kotlin
+
+You can also :ref:`include a new encryption key <kotlin-encrypt-a-realm>`
+in the copied realm's configuration or remove the encryption key from the new configuration.
+
+.. example:: Copy Data from Unencrypted to Encrypted Realm
+
+  .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.unencrypted-to-encrypted-realm.kt
+    :language: kotlin
+
+.. example:: Copy Data from In-Memory to Local Realm
+
+  .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.in-memory-to-local-realm.kt
+    :language: kotlin
