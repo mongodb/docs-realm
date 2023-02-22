@@ -17,7 +17,7 @@ import kotlin.time.Duration.Companion.seconds
 
 // :replace-start: {
 //   "terms": {
-//     "yourAppId": "YOUR_APP_ID",
+//     "local2": "local",
 //     "yourFlexAppId": "YOUR_APP_ID"
 //   }
 // }
@@ -125,7 +125,6 @@ class OpenARealmTest: RealmTest() {
             Log.v("Copied Toad: ${toad.name}")
 
             localRealm.close()
-            Realm.deleteRealm(syncConfig) // :remove:
             Realm.deleteRealm(localConfig) // :remove:
         }
         // :snippet-end:
@@ -150,7 +149,7 @@ class OpenARealmTest: RealmTest() {
 
             // Create the local realm
             val localConfig = RealmConfiguration.Builder(setOf(Toad::class))
-                .name("local.realm")
+                .name("local2.realm")
                 .build()
             // Copy data from `inMemoryRealm` to the new realm
             inMemoryRealm.writeCopyTo(localConfig)
