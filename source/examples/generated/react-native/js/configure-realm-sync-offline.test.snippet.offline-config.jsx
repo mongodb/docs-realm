@@ -7,8 +7,8 @@ const realmContext = createRealmContext({
 const {RealmProvider} = realmContext;
 
 function AppWrapperOfflineSync() {
-  const realmAccessBehavior: Realm.OpenRealmBehaviorConfiguration = {
-    type: Realm.OpenRealmBehaviorType.OpenImmediately,
+  const realmAccessBehavior = {
+    type: 'openImmediately',
   };
 
   return (

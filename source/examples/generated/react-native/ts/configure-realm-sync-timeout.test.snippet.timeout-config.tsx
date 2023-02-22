@@ -7,10 +7,10 @@ const realmContext = createRealmContext({
 const {RealmProvider} = realmContext;
 
 function AppWrapperTimeoutSync() {
-  const realmAccessBehavior = {
-    type: 'downloadBeforeOpen',
+  const realmAccessBehavior: Realm.OpenRealmBehaviorConfiguration = {
+    type: Realm.OpenRealmBehaviorType.DownloadBeforeOpen,
+    timeOutBehavior: Realm.OpenRealmTimeOutBehavior.OpenLocalRealm,
     timeOut: 1000,
-    timeOutBehavior: 'openLocalRealm',
   };
 
   return (

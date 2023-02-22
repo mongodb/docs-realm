@@ -8,11 +8,8 @@ import {useApp} from '@realm/react';
 import {Button} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
-let numberOfProfiles: number;
-class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.UUID;
-  name!: string;
-
+let numberOfProfiles;
+class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
     primaryKey: '_id',
@@ -30,9 +27,9 @@ const realmContext = createRealmContext({
 const {RealmProvider} = realmContext;
 
 function AppWrapperTimeoutSync() {
-  const realmAccessBehavior: Realm.OpenRealmBehaviorConfiguration = {
-    type: Realm.OpenRealmBehaviorType.DownloadBeforeOpen,
-    timeOutBehavior: Realm.OpenRealmTimeOutBehavior.OpenLocalRealm,
+  const realmAccessBehavior = {
+    type: 'downloadBeforeOpen',
+    timeOutBehavior: 'openLocalRealm',
     timeOut: 1000,
   };
 

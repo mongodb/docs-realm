@@ -1,18 +1,17 @@
-// :snippet-start: timeout-config
+// :snippet-start: offline-config
 import React from 'react';
 import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
+import Realm from 'realm';
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
 import {Button} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
-let numberOfProfiles: number;
-class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.UUID;
-  name!: string;
+let numberOfProfiles;
 
+class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
     primaryKey: '_id',
@@ -29,11 +28,9 @@ const realmContext = createRealmContext({
 });
 const {RealmProvider} = realmContext;
 
-function AppWrapperTimeoutSync() {
-  const realmAccessBehavior: Realm.OpenRealmBehaviorConfiguration = {
-    type: Realm.OpenRealmBehaviorType.DownloadBeforeOpen,
-    timeOutBehavior: Realm.OpenRealmTimeOutBehavior.OpenLocalRealm,
-    timeOut: 1000,
+function AppWrapperOfflineSync() {
+  const realmAccessBehavior = {
+    type: 'openImmediately',
   };
 
   return (
@@ -99,8 +96,8 @@ function RestOfApp() {
   );
 }
 
-test('Instantiate AppWrapperTimeoutSync and test sync', async () => {
-  const {findByTestId} = render(<AppWrapperTimeoutSync />);
+test('Instantiate AppWrapperOfflineSync and test sync', async () => {
+  const {findByTestId} = render(<AppWrapperOfflineSync />);
   const addProfileButton = await findByTestId('test-add-profile');
   const clearRealmButton = await findByTestId('test-clear-realm');
 
