@@ -6,7 +6,6 @@ import Business from './Models/Business';
 // :remove-start:
 import Address from './Models/Address';
 import Contact from './Models/Contact';
-import Profile from './Models/Profile';
 // :remove-end:
 
 export const RealmContext = createRealmContext({
@@ -26,7 +25,3 @@ export const InMemoryRealmContext = createRealmContext({
   inMemory: true,
 });
 // :snippet-end:
-
-export const SimpleRealmContext = createRealmContext({
-  schema: [Profile],
-});

@@ -1,5 +1,6 @@
 .. _react-native-open-a-synced-realm:
 .. _react-native-realms:
+.. _react-native-synced-realm:
 
 ======================================
 Open a Synced Realm - React Native SDK
@@ -11,42 +12,37 @@ Open a Synced Realm - React Native SDK
    :depth: 2
    :class: singlecol
 
-.. _react-native-synced-realm:
-
-Overview
---------
-
 You can configure a realm to automatically synchronize data between many devices
-that each have their own local copy of the data. Synced realms use a different
-configuration than local-only realms and require an Atlas App Services backend to handle
-the synchronization process.
+that each have their own local copy of the data. 
 
-Applications can always create, modify, and delete synced realm objects locally,
-even when offline. Whenever a network connection is available, the Realm SDK
-opens a connection to an application server and syncs changes to and from other
-clients. The :ref:`Atlas Device Sync protocol <sync-protocol>` and server-side
-operational transforms guarantee that all fully synced instances of a realm see
-exactly the same data, even if some changes occurred offline and/or were
-received out of order.
+For more information about synced realms, including directions on how to set up
+sync in an App Services App, see :ref:`Atlas Device Sync Overview <sync>`.
 
-.. tip:: Learn How to Configure and Use Sync
-   
-   For more information on synced realms, including directions on how to set up
-   sync in an App Services App, see :ref:`Atlas Device Sync Overview <sync>`.
+Before You Begin
+----------------
+
+Before you open a realm with Flexible Sync in a React Native application:
+
+#. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
+   You must configure Flexible Sync in the backend before you can use it with your
+   client application.
+#. :ref:`Initialize the App client <react-native-connect-to-mongodb-realm-backend-app>`.
+#. :ref:`Authenticate a user <react-native-authenticate-users>` in your client project.
 
 Open a Flexible Sync Realm
 --------------------------
+
+This section covers Flexible Sync realms. Flexible Sync is the preferred mode for
+new apps that use :ref:`Atlas Device Sync <sync>`. For information about Partition-Based
+realms, refer to the :ref:`Partition-Based Sync <react-native-partition-realms>`
+page.
 
 By default, Realm syncs all data from the server before returning.
 If you want to sync data in the background, read the :ref:`Open a Synced Realm
 While Offline <react-native-open-synced-realm-offline>` section.
 
-This section covers Flexible Sync realms. For information about Partition-Based
-realms, refer to the :ref:`Partition-Based Sync <react-native-partition-realms>`
-page.
-
-Nesting Within <AppProvider> and <UserProvider>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Nest <RealmProvider> within <AppProvider> and <UserProvider>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To use a Flexible Sync realm and ``@realm/react``, you must nest ``<RealmProvider>``
 within ``<UserProvider>``. And ``<UserProvider>`` must be nested in ``<AppProvider>``. 
@@ -55,6 +51,9 @@ logged-in user.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: javascript
+
+For more information about configuring and using ``<AppProvider>``, check
+out the :ref:`Connect To Atlas App Services page <react-native-app-client-configuration>`.
 
 .. _react-native-flexible-sync-open-realm:
 
@@ -68,7 +67,7 @@ components.
 In a ``<RealmProvider>`` that's nested in a ``<UserProvider>``, pass a 
 :js-sdk:`Configuration <Realm.html#~Configuration>` object. Include the ``sync`` 
 property with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
-object that contains ``flexible:true``.
+object that contains ``flexible: true``.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync.tsx
    :language: javascript
