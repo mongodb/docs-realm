@@ -9,48 +9,13 @@ import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.query.RealmResults
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 
 class BundleTest: RealmTest() {
-
     @Test
-    fun bundleSyncedRealmTest() {
-        val app = App.create(yourFlexAppId)
-        runBlocking {
-            val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(SyncTest.Toad::class))
-                .name("original.realm")
-                .initialSubscriptions { realm ->
-                    add(
-                        realm.query<SyncTest.Toad>(
-                            "name == $0",
-                            "name value"
-                        ),
-                        "subscription name"
-                    )
-                }
-                .build()
-            val realm = Realm.open(config)
-            Log.v("${realm.configuration.path}")
-
-//            realm.writeBlocking {
-//                this.copyToRealm(SyncTest.Toad().apply {
-//                    name = "Jimmy"
-//                })
-//
-//            }
-//
-//            realm.syncSession.uploadAllLocalChanges(30.seconds)
-//            realm.syncSession.downloadAllServerChanges(30.seconds)
-            realm.close()
-        }
-    }
-    @Test
-    @Ignore
     fun bundleSyncedRealm(){
-        val YOUR_APP_ID = FLEXIBLE_APP_ID
+        val YOUR_APP_ID = "testfbkotlinapp-ykvds"
         val credentials = Credentials.anonymous()
 
         // :snippet-start: bundle-synced-realm
@@ -110,7 +75,6 @@ class BundleTest: RealmTest() {
 
             originalRealm.close()
             // :remove-start:
-            Realm.deleteRealm(originalConfig)
             Realm.deleteRealm(copyConfig)
             // :remove-end:
         }
