@@ -1,23 +1,23 @@
-// :snippet-start: sync-session
+// :snippet-start: access-sync-session
 import React from 'react';
-import {AppProvider, UserProvider, useUser} from '@realm/react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 // :remove-start:
 const {RealmProvider} = SyncedRealmContext;
+import {AppProvider, UserProvider, useUser} from '@realm/react';
 import Realm from 'realm';
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
 import {Button} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
-const testId = 'test-toggle-sync';
+const testId = 'test-access-sync-session';
 function AppWrapper() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={<LogIn />}>
         <RealmWrapper>
-          <ToggleSyncSession />
+          <AccessSyncSession />
         </RealmWrapper>
       </UserProvider>
     </AppProvider>
@@ -29,11 +29,11 @@ type RealmWrapperProps = {
 };
 
 function RealmWrapper({children}: RealmWrapperProps) {
-  const user = useUser();
+  const user = useUser()!;
   return (
     <RealmProvider
       sync={{
-        user: user!,
+        user,
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {
@@ -60,30 +60,25 @@ function LogIn() {
   return <></>;
 }
 
-let higherScopedRealm: Realm;
+let higherScopedSyncSession: Realm.App.Sync.Session | null;
 // :remove-end:
 
-function ToggleSyncSession() {
+function AccessSyncSession() {
   const realm = useRealm();
-  higherScopedRealm = realm; // :remove:
-  const [isPaused, setIsPaused] = React.useState(false);
 
-  async function toggleSyncSession() {
-    if (isPaused) {
-      await realm.syncSession?.resume();
-    } else {
-      await realm.syncSession?.pause();
-    }
-    setIsPaused(!isPaused);
+  async function workWithSyncSession() {
+    const {syncSession} = realm;
+    // Do stuff with sync session...
+    higherScopedSyncSession = syncSession; // :remove:
   }
 
+  // ...
+
+  // :remove-start
   return (
-    <Button
-      title={isPaused ? 'Pause Sync' : 'Unpause Sync'}
-      onPress={toggleSyncSession}
-      testID={testId} // :remove:
-    />
+    <Button title='Click me!' onPress={workWithSyncSession} testID={testId} />
   );
+  // :remove-end:
 }
 // :snippet-end:
 
@@ -92,10 +87,6 @@ test('Test pause/unpause sync', async () => {
   const button = await waitFor(() => getByTestId(testId));
   fireEvent.press(button);
   await waitFor(() => {
-    expect(higherScopedRealm.syncSession?.state).toBe('inactive');
-  });
-  fireEvent.press(button);
-  await waitFor(() => {
-    expect(higherScopedRealm.syncSession?.state).toBe('active');
+    expect(higherScopedSyncSession).toBeInstanceOf(Realm.App.Sync.Session);
   });
 });
