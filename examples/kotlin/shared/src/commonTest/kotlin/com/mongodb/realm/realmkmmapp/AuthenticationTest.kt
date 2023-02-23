@@ -15,9 +15,9 @@ class AuthenticationTest: RealmTest() {
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             val user = app.login(Credentials.anonymous()) // logs in with an anonymous user
-            // registers an email and password user
+            // registers an email/password user
             app.emailPasswordAuth.registerUser(email, password)
-            // link anonymous user with email password credentials
+            // links anonymous user with email/password credentials
             user.linkCredentials(Credentials.emailPassword(email, password));
         }
         // :snippet-end:
@@ -184,6 +184,24 @@ class AuthenticationTest: RealmTest() {
             user.logOut()
         }
 
+    }
+
+    @Test
+    fun customFunctionTest() {
+        val app: App = App.create(FLEXIBLE_APP_ID)
+        runBlocking {
+            // :snippet-start: custom-function-authentication
+            val customCredentials = Credentials.customFunction(
+                payload = mapOf("username" to "bob")
+            )
+
+            // Pass the generated credential to app.login()
+            val currentUser = app.login(customCredentials)
+            // :snippet-end:
+            // :snippet-start: retrieve-current-user
+            val user = app.currentUser
+            // :snippet-end:
+        }
     }
 
     @Test
