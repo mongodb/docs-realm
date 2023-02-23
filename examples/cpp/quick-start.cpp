@@ -118,6 +118,22 @@ TEST_CASE("sync quick start", "[realm][write][sync]") {
     auto sync_config = user.flexible_sync_configuration();
     auto synced_realm_ref = realm::async_open<Sync_Todo>(sync_config).get_future().get();
     auto realm = synced_realm_ref.resolve();
+    // :snippet-start: sync-session
+    // :state-start: session
+    auto syncSession = realm.get_sync_session();
+    // :state-end:
+    // :snippet-end:
+    // :snippet-start: sync-state
+    // :state-start: sync-state
+    syncSession->state();
+    // :state-end:
+    // :snippet-end:
+    // :snippet-start: wait-for-download
+    // :state-start: download
+    syncSession->wait_for_download_completion().get_future().get();
+    realm.refresh();
+    // :state-end:
+    // :snippet-end:
     // :remove-start:
     // Remove any existing subscriptions before adding the one for this example
     auto clearInitialSubscriptions = realm.subscriptions().update([](auto &subs) {
@@ -157,13 +173,12 @@ TEST_CASE("sync quick start", "[realm][write][sync]") {
     // :snippet-end:
     CHECK(todos.size() == 1);
     
-    // The C++ SDK does not yet expose `waitForUpload` and `waitForDownload`
-    // so add a delay to prevent the connection from terminating while syncing
-    sleep(5);
     realm.write([&realm, &todo] {
         realm.remove(todo);
     });
-    sleep(5);
+    // :snippet-start: wait-for-upload
+    syncSession->wait_for_upload_completion().get_future().get();
+    // :snippet-end:
 }
 
 // :replace-end:
