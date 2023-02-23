@@ -1,3 +1,4 @@
+import Profile from './Models/Profile';
 // :snippet-start: create-realm-context
 import {createRealmContext} from '@realm/react';
 // Import all of your models.
@@ -28,5 +29,5 @@ export const InMemoryRealmContext = createRealmContext({
 
 export const SyncedRealmContext = createRealmContext({
   // Pass all of your models into the schema value.
-  schema: [Invoice],
+  schema: [Invoice, Profile],
 });

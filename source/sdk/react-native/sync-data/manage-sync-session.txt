@@ -36,8 +36,7 @@ Access a synced realm in a component with the ``useRealm()`` hook.
 Access the sync session with the synced realm's :js-sdk:`Realm.syncSession
 <Realm.html#syncSession>` property.
 
-.. literalinclude:: /examples/generated/react-native/ts/sync-session.test.snippet.sync-session.tsx
-   :language: typescript
+TODO: literalinclude example from access session file
 
 .. _react-native-pause-or-resume-a-sync-session:
 
@@ -53,8 +52,7 @@ To pause synchronization, use the :js-sdk:`syncSession.pause()
 <Realm.App.Sync.Session.html#~pause>` method. To resume synchronization, use the
 :js-sdk:`syncSession.resume() <Realm.App.Sync.Session.html#~resume>` method.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-pause-or-resume-sync-session.js
-   :language: javascript
+TODO: add example from pause/unpause file
 
 .. |pause_func_name| replace:: ``.pause()``
 .. include:: /includes/note-details-about-pause.rst
@@ -84,29 +82,45 @@ The ``syncSession.addProgressNotification()`` method takes in the following thre
 
 .. include:: /includes/flex-sync-unsupported-progress-notifications.rst
 
-In the following example, an application developer registers a callback on the ``syncSession`` to
-listen for upload events indefinitely. The developer writes to the realm and
+The following example registers a callback on the ``syncSession`` to
+listen for upload events indefinitely. The example writes to the realm and
 then unregisters the ``syncSession`` notification callback.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-check-upload-and-download-progress.js
-  :language: javascript
+TODO: create literalinclude
 
 .. _react-native-check-network-connection:
 
 Check the Network Connection
 ----------------------------
 
-To check the current state of the connection to the server, call the
-:js-sdk:`syncSession.connectionState()
-<Realm.App.Sync.Session.html#.connectionState>` method.
-
 Realm's *offline-first* design means that you generally don't need to
-check the current network connection state. That said, the
-``syncSession.connectionState()`` method is available if your app needs to
-gets the current state of the connection to the server.
+check the current network connection state since data syncs in the background
+when connection is available.
+That said, the Realm SDK provides methods to get the current state of the network
+connection to the server.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-check-network-connection.js
-   :language: javascript
+To check the current state of the connection to the server, call
+:js-sdk:`Realm.syncSession.isConnected() <Realm.App.Sync.Session.html#isConnected>`.
+This method returns a boolean that is ``true`` if there is network connection and
+the sync session is active.
+
+To listen for connection state changes, call :js-sdk:`Realm.syncSession.addConnectionNotification()
+<Realm.App.Sync.Session.html#addConnectionNotification>`, passing a callback function
+to handle network changes as the argument. To unregister the listener,
+pass the same callback function to :js-sdk:`Realm.syncSession.removeConnectionNotification()
+<Realm.App.Sync.Session.html#removeConnectionNotification>`.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+      
+      TODO: literalinclude example from file
+
+   .. tab::
+      :tabid: javascript
+      
+      TODO: create and literalinclude
 
 .. _react-native-multiplex-sync-sessions:
 
@@ -121,5 +135,4 @@ and you know you are using many sync sessions.
 To enable session multiplexing, call :js-sdk:`Realm.App.Sync.enableSessionMultiplexing()
 <Realm.App.Sync.html#.enableSessionMultiplexing>` with your :js-sdk:`Realm.App <Realm.App.html>`.
 
-.. literalinclude:: /examples/SyncChanges/enable-session-multiplexing.js
-  :language: javascript
+TODO: add example from file
