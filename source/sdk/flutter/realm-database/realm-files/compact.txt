@@ -30,6 +30,13 @@ application runs in a resource-constrained environment, you may want to
 compact when you reach a certain file size or when the file size negatively 
 impacts performance.
 
+.. note:: Automatic Compaction
+
+   As of Flutter version 0.9.0 and up, Realm files are automatically compacted in the 
+   background by continuously reallocating data in the file and removing 
+   unused file space. The Realm file will only be automatically compacted when
+   the file is not being accessed.
+
 Compaction Strategies
 ---------------------
 
