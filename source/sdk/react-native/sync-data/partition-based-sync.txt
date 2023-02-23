@@ -10,27 +10,28 @@ Partition-Based Sync - React Native SDK
    :depth: 2
    :class: singlecol
 
-Partition-Based Sync is an older mode for Atlas Device Sync. We recommend using
-Flexible Sync for new apps. The information on this page is for users who are 
-still using Partition-Based Sync.
+Partition-Based Sync is an older mode for using Atlas Device Sync with the Realm 
+React Native SDK.. We recommend using Flexible Sync for new apps. The information 
+on this page is for users who are still using Partition-Based Sync.
 
-For more information about Partition-Based Sync itself, refer to the 
-:ref:`Partition-Based Sync <partition-based-sync>` page.
+For more information about Partition-Based Sync and how to configure it
+in Atlas App Services, refer to :ref:`Partition-Based Sync <partition-based-sync>`
+in the App Services documentation.
 
 .. _react-native-partition-sync-open-realm:
 
 Configure a Partition-Based Sync Realm
 --------------------------------------
 
-To open a realm that uses Partition-Based Sync, use ``@realm/react``'s `React 
-Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
-components.
+To open a Flexible Sync realm, use ``@realm/react``'s ``createRealmContext()`` 
+function and its returned ``<RealmProvider>``.
 
-In a ``<RealmProvider>`` that's nested in a ``<UserProvider>``, pass a 
-:js-sdk:`Configuration <Realm.html#~Configuration>` object. Include the ``sync`` 
+In a ``<RealmProvider>`` that's nested in a ``<UserProvider>``, add a ``sync`` 
 property with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
-object that contains the ``partitionValue`` property and set its
-value to the name of your partition.
+object that contains ``flexible: true``.
+
+Note that ``<UserProvider>`` automatically passes an authenticated user
+to ``<RealmProvider>``.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.partition-based-config.tsx
    :language: javascript

@@ -3,9 +3,10 @@ import React from 'react';
 import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
-import {render, waitFor, fireEvent} from '@testing-library/react-native';
+import Realm from 'realm';
+import {render, waitFor} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
-import {Button} from 'react-native';
+import {Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
 let numberOfProfiles: number;
@@ -67,7 +68,7 @@ function LogIn() {
 function RestOfApp() {
   const {useRealm, useQuery} = realmContext;
   const realm = useRealm();
-  const profiles = useQuery('Profile');
+  const profiles = useQuery(Profile);
 
   useEffect(() => {
     realm.subscriptions.update((subs, myRealm) => {
@@ -75,53 +76,77 @@ function RestOfApp() {
     });
   });
 
-  function addProfile() {
-    realm.write(() => {
-      new Profile(realm, {name: 'TestProfile', _id: new Realm.BSON.UUID()});
-    });
-
+  // Check profile length to confirm this is the same sync realm as
+  // that set up in beforeEach(). Then set numberOfProfiles to the length.
+  if (profiles.length) {
     numberOfProfiles = profiles.length;
-  }
-
-  function clearRealm() {
-    realm.write(() => {
-      realm.deleteAll();
-    });
-
-    numberOfProfiles = 0;
   }
 
   return (
     <>
-      <Button onPress={addProfile} testID='test-add-profile' title='Test Me!' />
-      <Button onPress={clearRealm} testID='test-clear-realm' title='Test Me!' />
+      <Text>Rest of the app!</Text>
     </>
   );
 }
 
-test('Instantiate AppWrapperTimeoutSync and test sync', async () => {
-  const {findByTestId} = render(<AppWrapperTimeoutSync />);
-  const addProfileButton = await findByTestId('test-add-profile');
-  const clearRealmButton = await findByTestId('test-clear-realm');
+const app = new Realm.App(APP_ID);
+const createConfig = user => {
+  return {
+    schema: [Profile],
+    sync: {
+      user: user,
+      flexible: true,
+      onError: console.error,
+    },
+  };
+};
 
-  await waitFor(() => {
-    // Create new profile and increment `numberOfProfiles`.
-    fireEvent.press(addProfileButton);
+beforeEach(async () => {
+  const user = await app.logIn(Realm.Credentials.anonymous());
+  const config = createConfig(user);
+  const realm = await Realm.open(config);
+
+  realm.subscriptions.update((subs, myRealm) => {
+    subs.add(myRealm.objects('Profile'));
   });
+
+  realm.write(() => {
+    // Create a profile object.
+    realm.create('Profile', {
+      name: 'TestProfile',
+      _id: new Realm.BSON.UUID(),
+    });
+  });
+
+  realm.close();
+
+  await user.logOut();
+});
+
+afterEach(async () => {
+  const user = await app.logIn(Realm.Credentials.anonymous());
+  const config = createConfig(user);
+  const realm = await Realm.open(config);
+
+  realm.write(() => {
+    // Clean up. Delete all objects in the realm.
+    realm.deleteAll();
+  });
+
+  numberOfProfiles = 0;
+
+  realm.close();
+
+  await user.logOut();
+});
+
+test('Instantiate AppWrapperTimeoutSync and test sync', async () => {
+  render(<AppWrapperTimeoutSync />);
 
   await waitFor(
     () => {
       expect(numberOfProfiles).toBe(1);
     },
     {timeout: 2000},
-  );
-
-  await waitFor(
-    () => {
-      // Delete all realm objects and decrement `numberofProfiles`.
-      // Runs after the test has passed.
-      fireEvent.press(clearRealmButton);
-    },
-    {timeout: 3000},
   );
 });
