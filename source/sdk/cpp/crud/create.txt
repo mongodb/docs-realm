@@ -194,3 +194,29 @@ For more information about supported map data types, refer to:
 
 .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-map-property.cpp
     :language: cpp
+
+.. _cpp-create-asymmetric-object:
+
+Create an Asymmetric Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create an :cpp-sdk:`asymmetric_object 
+<structrealm_1_1asymmetric__object.html>` that syncs unidirectionally via
+:ref:`Asymmetric Sync <optimize-asymmetric-sync>` to the Atlas 
+database linked to your Atlas App Services App. You cannot access an
+``asymmetric_object`` locally, remove it from a realm, or query for it.
+
+.. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
+   :language: cpp
+
+For more information about working with asymmetric objects, refer to
+:ref:`cpp-stream-data-to-atlas`.
+
+Model
+`````
+
+For more information about defining an asymmetric object, refer to: 
+:ref:`cpp-define-asymmetric-object`.
+
+.. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
+   :language: cpp

@@ -52,27 +52,6 @@ struct Person : realm::object<Person> {
 };
 // :snippet-end:
 
-TEST_CASE("first test case", "[test]") {
-    // :snippet-start: usage
-    // Use Realm objects like regular objects.
-    auto dog = Dog { .name = "Rex", .age = 1 };
-    
-    std::cout << "dog: " << dog << "\n";
-
-    // Get the default Realm with compile time schema checking.
-    auto realm = realm::open<Person, Dog>();
-
-    // Persist your data in a write transaction
-    realm.write([&realm, &dog] {
-        realm.add(dog);
-    });
-    // :snippet-end:
-    // Clean up after the test
-    realm.write([&realm, &dog] {
-        realm.remove(dog);
-    });
-}
-
 TEST_CASE("create a dog", "[write]") {
     // :snippet-start: create-an-object
     // Create a Realm object like a regular object.
@@ -306,6 +285,11 @@ TEST_CASE("object notification", "[notification]") {
     });
     // Refresh the realm after the change to trigger the notification.
     realm.refresh();
+    
+    // :snippet-start: notifications-unregister
+    // Unregister the token when done observing.
+    token.unregister();
+    // :snippet-end:
     // :snippet-end:
 }
 
@@ -358,5 +342,12 @@ TEST_CASE("results notification", "[notification]") {
     
     // Refresh the realm after the change to trigger the notification.
     realm.refresh();
+    
+    // Unregister the token when done observing.
+    token.unregister();
     // :snippet-end:
+    // Clean up after the test
+    realm.write([&dog2, &realm] {
+        realm.remove(dog2);
+    });
 }

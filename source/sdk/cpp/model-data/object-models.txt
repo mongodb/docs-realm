@@ -159,7 +159,7 @@ in the schema.
 .. _cpp-embedded-object:
 
 Define an Embedded Object
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An **embedded object** is a special type of object that models complex 
 data about a specific object. Embedded objects are similar to 
@@ -184,3 +184,38 @@ To declare an object as an embedded object, inherit from
 :cpp-sdk:`realm::embedded_object <structrealm_1_1embedded__object.html>`.
 
 .. include:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp.rst
+
+.. _cpp-define-asymmetric-object:
+
+Define an Asymmetric Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use :ref:`Asymmetric Sync <optimize-asymmetric-sync>` to sync an 
+object unidirectionally from your device to the database linked to your 
+Atlas App Services App. Define an asymmetric object by inheriting from 
+:cpp-sdk:`realm::asymmetric_object <structrealm_1_1asymmetric__object.html>`.
+
+.. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
+   :language: cpp
+
+An ``asymmetric_object`` broadly has the same :ref:`supported types 
+<cpp-supported-property-types>` as ``realm::object``, with a few exceptions:
+
+- Asymmetric objects can only link to embedded objects
+   - ``object`` and ``std::vector<object>`` properties are not supported 
+   - ``embedded_object`` and ``std::vector<embedded_object>`` *are* supported
+
+You cannot link to an ``asymmetric_object`` from within an ``object``. Doing so 
+throws an error.
+
+Asymmetric objects do not function in the same way as other Realm objects. 
+You cannot:
+
+- Remove an asymmetric object from a realm
+- Query an asymmetric object
+
+You can only create an asymmetric object, which then syncs unidirectionally 
+to the Atlas database linked to your App with Device Sync.
+
+For more information, see: :ref:`Create an Asymmetric Object 
+<cpp-create-asymmetric-object>`.
