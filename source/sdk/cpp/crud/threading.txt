@@ -13,9 +13,9 @@ Threading - C++ SDK (Alpha)
 Overview
 --------
 
-To create performant apps, developers must write thread-safe, performant, 
-and maintainable multithreaded code that avoids issues like deadlocking 
-and race conditions. Realm provides tools specifically designed to for this.
+To create performant apps, developers must write thread-safe and maintainable
+multithreaded code that avoids issues like deadlocking and race conditions.
+Realm provides tools specifically designed for this.
 
 .. _cpp-threading-three-rules:
 
@@ -25,56 +25,47 @@ Three Rules to Keep in Mind
 Realm enables safe multithreaded code when you follow these three rules:
 
 Don't lock to read:
-  Realm Database's :ref:`Multiversion Concurrency Control (MVCC)
-  <cpp-mvcc>` architecture eliminates the need to lock for read operations. The
-  values you read will never be corrupted or in a
-  partially-modified state. You can freely read from realms
-  on any thread without the need for locks or mutexes.
-  Unnecessarily locking would be a performance bottleneck
-  since each thread might need to wait its turn before
-  reading.
+  Realm Database's :ref:`Multiversion Concurrency Control (MVCC) <cpp-mvcc>`
+  architecture eliminates the need to lock for read operations. The values you
+  read will never be corrupted or in a partially-modified state. You can freely
+  read from realms on any thread without the need for locks or mutexes.
+  Unnecessarily locking would be a performance bottleneck since each thread
+  might need to wait its turn before reading.
 
 Avoid synchronous writes on the UI thread if you write on a background thread:
-  You can write to a realm from any thread, but there can be only one
-  writer at a time. Consequently, synchronous write transactions block
-  each other. A synchronous write on the UI thread may result in your
-  app appearing unresponsive while it waits for a write on a
-  background thread to complete. If you are using
-  :ref:`Device Sync <sync>`, avoid synchronous writes on
-  the UI thread as Sync writes on a background
-  thread.
+  You can write to a realm from any thread, but there can be only one writer at
+  a time. Consequently, synchronous write transactions block each other. A
+  synchronous write on the UI thread may result in your app appearing
+  unresponsive while it waits for a write on a background thread to complete. If
+  you are using :ref:`Device Sync <sync>`, avoid synchronous writes on the UI
+  thread as Sync writes on a background thread.
 
 Don't pass live objects, collections, or realms to other threads:
-  Live objects, collections, and realm instances are
-  **thread-confined**: that is, they are only valid on the
-  thread on which they were created. Practically speaking,
-  this means you cannot pass live instances to other
-  threads. However, Realm Database offers several mechanisms for
-  :ref:`sharing objects across threads
-  <cpp-communication-across-threads>`.
+  Live objects, collections, and realm instances are **thread-confined**: that
+  is, they are only valid on the thread on which they were created. Practically
+  speaking, this means you cannot pass live instances to other threads. However,
+  Realm Database offers several mechanisms for :ref:`sharing objects across
+  threads <cpp-communication-across-threads>`.
 
 .. _cpp-communication-across-threads:
 
 Communication Across Threads
 ----------------------------
 
-To access the same realm file from different threads, you must initialize a 
-new realm to get a different realm instance for every thread of 
-your app. As long as you specify the same configuration, all realm instances 
-will map to the same file on disk.
+To access the same realm file from different threads, you must instantiate a
+realm instance for every thread of your app. As long as you specify the same
+configuration, all realm instances will map to the same file on disk.
 
-One of the key rules when working with Realm Database in a
-multithreaded environment is that objects are
-thread-confined: **you cannot access the instances of a
-realm, collection, or object that originated on other
-threads.** Realm Database's :ref:`Multiversion Concurrency Control
-(MVCC) <cpp-mvcc>` architecture means that there could be many
-active versions of an object at any time. Thread-confinement
-ensures that all instances in that thread are of the same
-internal version.
- 
-When you need to communicate across threads, you have
-several options depending on your use case:
+One of the key rules when working with Realm Database in a multithreaded
+environment is that objects are thread-confined: **you cannot access the
+instances of a realm, collection, or object that originated on other threads.**
+Realm Database's :ref:`Multiversion Concurrency Control (MVCC) <cpp-mvcc>`
+architecture means that there could be many active versions of an object at any
+time. Thread-confinement ensures that all instances in that thread are of the
+same internal version.
+
+When you need to communicate across threads, you have several options depending
+on your use case:
 
 - To modify the data on two threads, :ref:`query <cpp-client-query-engine>`
   for the object on both threads.
@@ -89,15 +80,15 @@ several options depending on your use case:
   share a :ref:`thread_safe_reference <cpp-thread-safe-reference>` to the 
   realm or object.
 
-.. TODO: Add a bullet about the scheduler
+.. TODO: Add a bullet about the scheduler https://www.mongodb.com/docs/realm-sdks/cpp/latest/structrealm_1_1platform__default__scheduler.html#a96336dad0a9ee38af907cb7c9bed4870
 
 .. _cpp-thread-safe-reference:
 
 Pass Instances Across Threads
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Instances of ``Realm``, ``Results``, ``List``, and managed ``Objects``
-are *thread-confined*. That means you may only use them on the thread
+Instances of ``realm::realm``, ``realm::results``, and ``realm::object`` (when
+managed) are *thread-confined*. That means you may only use them on the thread
 where you created them.
 
 You can pass thread-confined instances to another thread as follows:
@@ -106,8 +97,9 @@ You can pass thread-confined instances to another thread as follows:
    <structrealm_1_1thread__safe__reference_3_01db_3_01Ts_8_8_8_01_4_01_4.html>` 
    with the thread-confined object.
 #. Pass the reference to the other thread or queue.
-#. Resolve the reference on the other thread by calling ``.resolve()``. 
-   Use the returned object as normal.
+#. Resolve the reference on the other thread. If the referred object is a realm
+   instance, resolve it by calling ``.resolve()``; otherwise, move the reference
+   to ``realm.resolve()``. Use the returned object as normal.
 
 .. important::
 
@@ -116,7 +108,8 @@ You can pass thread-confined instances to another thread as follows:
    deallocated. For this reason, ``thread_safe_reference`` should be
    short-lived.
 
-.. TODO: Insert code example
+.. literalinclude:: /examples/generated/cpp/threading.snippet.thread-safe-reference.cpp
+    :language: cpp
 
 Another way to work with an object on another thread is to query for it
 again on that thread. But if the object does not have a primary
@@ -131,56 +124,66 @@ Use the Same Realm Across Threads
 
 You cannot share realm instances across threads.
 
-To use the same Realm file across threads, open a different realm
-instance on each thread. As long as you use the same
-:cpp-sdk:`configuration 
+To use the same Realm file across threads, open a different realm instance on
+each thread. As long as you use the same :cpp-sdk:`configuration
 <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`, all Realm
 instances will map to the same file on disk.
+
+.. _cpp-scheduler-thread-management:
+
+Schedulers (Run Loops)
+----------------------
+
+Some platforms or frameworks automatically set up a **scheduler** (or **run
+loop**), which continuously processes events during the lifetime of your
+program. The Realm C++ SDK detects and uses schedulers on the following
+platforms or frameworks:
+
+- macOS, iOS, tvOS, watchOS
+- Android
+- Qt
+
+Realm uses the scheduler to schedule work such as Device Sync upload and
+download.
+
+If your platform does not have a supported scheduler, or you otherwise want to
+use a custom scheduler, you can implement :cpp-sdk:`realm::scheduler
+<structrealm_1_1scheduler.html>` and pass the instance to the :cpp-sdk:`realm::db_config
+<structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` you use to
+configure the realm. Realm will use the scheduler you pass to it.
+
+For convenience, the C++ SDK provides an implementation called
+:cpp-sdk:`NoPlatformScheduler <structrealm_1_1NoPlatformScheduler.html>` that
+automatically loops and handles events on a background thread.
+
+.. literalinclude:: /examples/generated/cpp/threading.snippet.scheduler.cpp
+   :language: cpp
 
 .. _cpp-refreshing-realms:
 
 Refreshing Realms
 -----------------
 
-On the main UI thread (or any thread with a run loop), realm 
-automatically refreshes objects at the start of every run loop iteration. 
-Between run loop iterations, you will be working on the snapshot, so 
-individual methods always see a consistent view and never have to worry 
-about what happens on other threads.
+On any thread controlled by a scheduler or run loop, Realm automatically
+refreshes objects at the start of every run loop iteration. Between run loop
+iterations, you will be working on the snapshot, so individual methods always
+see a consistent view and never have to worry about what happens on other
+threads.
 
-When you initially open a realm on a thread, its state will be the most 
-recent successful write commit, and it will remain on that version until 
-refreshed. If a thread has no run loop (which is generally the case in a 
-background thread), then the 
-:cpp-sdk:`realm.refresh() <structrealm_1_1db.html>` method must be called 
-manually in order to advance the transaction to the most recent state.
+When you initially open a realm on a thread, its state will be the most recent
+successful write commit, and it will remain on that version until refreshed. If
+a thread is not controlled by a run loop, then the :cpp-sdk:`realm.refresh()
+<structrealm_1_1db.html>` method must be called manually in order to advance the
+transaction to the most recent state.
 
-.. TODO: Add a code example
+.. literalinclude:: /examples/generated/cpp/threading.snippet.refresh.cpp
+    :language: cpp
 
 .. note:: 
    
-   Failing to refresh Realms on a regular basis could lead to some transaction 
+   Failing to refresh realms on a regular basis could lead to some transaction 
    versions becoming "pinned", preventing Realm from reusing the disk space used
-   by that version, leading to larger file sizes. 
-
-.. _cpp-scheduler-thread-management:
-
-Thread-Safe Scheduling
-----------------------
-
-The C++ SDK offers a thread-safe scheduler. You can set a scheduler
-as part of the :cpp-sdk:`configuration 
-<structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
-With realm's :cpp-sdk:`thread-safe scheduler 
-<structrealm_1_1this__thread__scheduler.html>`, you can:
-
-- Invoke the scheduler
-- Verify the thread it's on
-- Confirm it's on the current thread
-
-.. TODO: Read up on C++ schedulers to figure out what this actually does, then update docs as needed
-
-.. TODO: Add a code example showing how to set up and use this
+   by that version and leading to larger file sizes. 
 
 .. _cpp-mvcc:
 
