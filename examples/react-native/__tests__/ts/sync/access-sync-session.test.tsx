@@ -74,7 +74,7 @@ function AccessSyncSession() {
 
   // ...
 
-  // :remove-start
+  // :remove-start:
   return (
     <Button title='Click me!' onPress={workWithSyncSession} testID={testId} />
   );

@@ -24,12 +24,8 @@ function AppWrapper() {
   );
 }
 
-type RealmWrapperProps = {
-  children: React.ReactNode;
-};
-
-function RealmWrapper({children}: RealmWrapperProps) {
-  const user = useUser()!;
+function RealmWrapper({children}) {
+  const user = useUser();
   return (
     <RealmProvider
       sync={{
@@ -60,13 +56,13 @@ function LogIn() {
   return <></>;
 }
 
-let higherScopedRealm: Realm;
-let higherScopePercentTransferred: number = 0;
+let higherScopedRealm;
+let higherScopePercentTransferred = 0;
 
 // Note: have to create and wait for this promise because
 // otherwise the test fails and exits before all the network connection notifications
 // have resolved.
-let promiseResolve: (value: unknown) => void;
+let promiseResolve;
 const promise = new Promise(function (resolve) {
   promiseResolve = resolve;
 });
@@ -96,10 +92,7 @@ function CheckUploadProgress() {
       functionCalled = true;
     }
     // :remove-end:
-    const progressNotificationCallback: Realm.ProgressNotificationCallback = (
-      transferred,
-      transferable,
-    ) => {
+    const progressNotificationCallback = (transferred, transferable) => {
       // Convert decimal to percent with no decimals
       // (e.g. 0.6666... -> 67)
       const percentTransferred =
