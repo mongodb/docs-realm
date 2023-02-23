@@ -6,7 +6,7 @@
 struct Item : realm::object<Item> {
     realm::persisted<std::string> name;
 
-    static constexpr auto schema = realm::schema("Item",
+    static constexpr auto schema = realm::schema("Threading_Item",
         realm::property<&Item::name>("name")
     );
 };
