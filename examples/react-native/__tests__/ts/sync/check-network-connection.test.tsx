@@ -1,4 +1,3 @@
-// TODO: create a JS-only example b/c of type of callback :(
 // :snippet-start: check-network-connection
 import React from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
