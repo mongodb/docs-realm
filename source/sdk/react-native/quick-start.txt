@@ -15,24 +15,35 @@ This page contains information to quickly get Realm Database
 integrated into your app.
 
 Before you begin:
-- Install the :ref:`Realm React Native SDK <react-native-install>`
-- Install the :github:`@realm/react library <https://github.com/realm/realm-js/tree/master/packages/realm-react#installation>`
+
+- Install the :ref:`Realm React Native SDK <react-native-install>` and 
+  ``@realm/react`` library
 
 About the @realm/react Library
 ------------------------------
 
-:github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` library
+The :github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` library
 provides state-aware React hooks for Realm data. This means you don't need to manually
 add and remove listeners. The hooks watch the Realm data and re-render components
 as needed.
 
-The Reack Native SDK defaults to using ``@realm/react`` for examples and when
-describing concepts.
+The React Native SDK documentation defaults to using ``@realm/react`` for examples 
+and when describing concepts.
+
+Set Up Your App
+---------------
+
+After you install the Realm React Native SDK and ``@realm/react``, you're ready
+to start coding. For a typical Realm app, you should start with the following:
+
+- Import hooks from ``@realm/react``
+- Define an object model
+- Configure a realm
 
 .. _react-native-quickstart-local-import-realm:
 
 Import Hooks From @realm/react
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 At the top of your source files where you want to use Realm, import the
 ``@realm/react`` hooks.
@@ -43,8 +54,8 @@ At the top of your source files where you want to use Realm, import the
 
 .. _react-native-quickstart-local-define-an-object-model:
 
-Define Your Object Model
-------------------------
+Define an Object Model
+~~~~~~~~~~~~~~~~~~~~~~
 
 Your application's :ref:`object model <react-native-object-schemas>` defines the data
 that you can store within Realm Database. An object model is made up of object types.
@@ -63,7 +74,7 @@ The type name and primary key must be unique among object types in a realm.
 .. _react-native-quickstart-local-open-a-realm:
 
 Configure a Realm
------------------
+~~~~~~~~~~~~~~~~~
 
 The ``@realm/react`` library exposes realms in your application using 
 `React Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
@@ -83,13 +94,16 @@ Work With Objects
 
 .. TODO: present this as parent section to all things objects
 
+Realm gives you many tools to work with the Realm :ref:`objects
+<react-native-object-types>`. you define in your app's 
+object modal. You need an open realm to read or write to your objects. This 
+means that object hooks and methods only work in components that are
+nested inside of ``<RealmProvider>``;
+
 .. _react-native-quickstart-local-create-realm-objects:
 
 Create Realm Objects
 ~~~~~~~~~~~~~~~~~~~~
-
-In components nested inside of ``<RealmProvider>``, you can create Realm :ref:`objects
-<react-native-object-types>`. 
 
 Within a :ref:`write transaction <react-native-write-transactions>`, call
 :js-sdk:`Realm.create() <Realm.html#create>` and pass in your object class, followed
@@ -159,14 +173,6 @@ example above.
   :language: javascript
 
 .. _react-native-quickstart-local-close-a-realm:
-
-Close a Realm
--------------
-
-.. TODO: Add info about how @realm/react handles closing a realm for you.
-   Make it clear when, exactly, this happens.
-   Potentially also include the regular JS way of closing a realm or link to
-   the Node.js docs.
 
 Add Device Sync (Optional)
 --------------------------
