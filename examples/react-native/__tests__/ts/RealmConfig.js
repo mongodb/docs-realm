@@ -25,3 +25,7 @@ export const InMemoryRealmContext = createRealmContext({
   inMemory: true,
 });
 // :snippet-end:
+export const SyncedRealmContext = createRealmContext({
+  // Pass all of your models into the schema value.
+  schema: [Invoice, Profile],
+});
