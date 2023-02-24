@@ -25,15 +25,17 @@ function AppWrapper() {
 }
 
 // :snippet-start: handle-sync-error
+
+const syncConfigWithErrorHandling = {
+  flexible: true,
+  onError: (_session, error) => {
+    console.log(error);
+  },
+};
+
 function RealmWithErrorHandling() {
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        onError: (_session, error) => {
-          console.log(error);
-        },
-      }}>
+    <RealmProvider sync={syncConfigWithErrorHandling}>
       <RestOfApp />
     </RealmProvider>
   );
@@ -41,48 +43,49 @@ function RealmWithErrorHandling() {
 // :snippet-end:
 
 // :snippet-start: recover-discard-unsynced-changes
+const syncConfigWithRecoverDiscardClientReset = {
+  flexible: true,
+  clientReset: {
+    mode: 'recoverOrDiscardUnsyncedChanges',
+    onBefore: realm => {
+      // This block could be used for custom recovery, reporting, debugging etc.
+    },
+    onAfter: (beforeRealm, afterRealm) => {
+      // This block could be used for custom recovery, reporting, debugging etc.
+    },
+    onFallback: (session, path) => {
+      // See below "Manual Client Reset Fallback" section for example
+    },
+  },
+};
+
 function RealmWithRecoverOrDiscardUnsyncedChangesClientReset() {
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        clientReset: {
-          mode: 'recoverOrDiscardUnsyncedChanges',
-          onBefore: realm => {
-            // This block could be used for custom recovery, reporting, debugging etc.
-          },
-          onAfter: (beforeRealm, afterRealm) => {
-            // This block could be used for custom recovery, reporting, debugging etc.
-          },
-          onFallback: (session, path) => {
-            // See below "Manual Client Reset Fallback" section for example
-          },
-        },
-      }}>
+    <RealmProvider sync={syncConfigWithRecoverDiscardClientReset}>
       <RestOfApp />
     </RealmProvider>
   );
 }
 // :snippet-end:
 // :snippet-start: recover-unsynced-changes
+const syncConfigWithRecoverClientReset = {
+  flexible: true,
+  clientReset: {
+    mode: 'recoverUnsyncedChanges',
+    onBefore: realm => {
+      // This block could be used for custom recovery, reporting, debugging etc.
+    },
+    onAfter: (beforeRealm, afterRealm) => {
+      // This block could be used for custom recovery, reporting, debugging etc.
+    },
+    onFallback: (session, path) => {
+      // See below "Manual Client Reset Fallback" section for example
+    },
+  },
+};
 function RealmWithRecoverUnsyncedChangesClientReset() {
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        clientReset: {
-          mode: 'recoverUnsyncedChanges',
-          onBefore: realm => {
-            // This block could be used for custom recovery, reporting, debugging etc.
-          },
-          onAfter: (beforeRealm, afterRealm) => {
-            // This block could be used for custom recovery, reporting, debugging etc.
-          },
-          onFallback: (session, path) => {
-            // See below "Manual Client Reset Fallback" section for example
-          },
-        },
-      }}>
+    <RealmProvider sync={syncConfigWithRecoverClientReset}>
       <RestOfApp />
     </RealmProvider>
   );
@@ -90,38 +93,39 @@ function RealmWithRecoverUnsyncedChangesClientReset() {
 // :snippet-end:
 
 // :snippet-start: manual-client-reset-fallback
-let realm;
+let realm; // value assigned in <RestOfApp> with useRealm()
+
+const syncConfigWithClientResetFallback = {
+  flexible: true,
+  clientReset: {
+    mode: 'recoverOrDiscardUnsyncedChanges', // or "recoverUnsyncedChanges"
+    // can also include `onBefore` and `onAfter` callbacks
+    onFallback: (_session, path) => {
+      try {
+        // Prompt user to perform a client reset immediately. If they don't,
+        // they won't receive any data from the server until they restart the app
+        // and all changes they make will be discarded when the app restarts.
+        const didUserConfirmReset = showUserAConfirmationDialog();
+        if (didUserConfirmReset) {
+          // Close and delete old realm from device
+          realm.close();
+          Realm.deleteFile(path);
+          // Perform client reset
+          Realm.App.Sync.initiateClientReset(app, path);
+          // Navigate the user back to the main page or reopen the
+          // the Realm and reinitialize the current page
+        }
+      } catch (err) {
+        // Reset failed. Notify user that they'll need to
+        // update the app
+      }
+    },
+  },
+};
 
 function RealmWithManualClientResetFallback() {
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        clientReset: {
-          mode: 'recoverOrDiscardUnsyncedChanges', // or "recoverUnsyncedChanges"
-          // can also include `onBefore` and `onAfter` callbacks
-          onFallback: (_session, path) => {
-            try {
-              // Prompt user to perform a client reset immediately. If they don't,
-              // they won't receive any data from the server until they restart the app
-              // and all changes they make will be discarded when the app restarts.
-              const didUserConfirmReset = showUserAConfirmationDialog();
-              if (didUserConfirmReset) {
-                // Close and delete old realm from device
-                realm.close();
-                Realm.deleteFile(path);
-                // Perform client reset
-                Realm.App.Sync.initiateClientReset(app, path);
-                // Navigate the user back to the main page or reopen the
-                // the Realm and reinitialize the current page
-              }
-            } catch (err) {
-              // Reset failed. Notify user that they'll need to
-              // update the app
-            }
-          },
-        },
-      }}>
+    <RealmProvider sync={syncConfigWithClientResetFallback}>
       <RestOfApp />
     </RealmProvider>
   );
@@ -136,22 +140,23 @@ function RestOfApp() {
 // :snippet-end:
 
 // :snippet-start: discard-unsynced-changes
+const syncConfigWithDiscardClientReset = {
+  flexible: true,
+  clientReset: {
+    mode: 'discardUnsyncedChanges',
+    onBefore: realm => {
+      console.log('Beginning client reset for ', realm.path);
+    },
+    onAfter: (beforeRealm, afterRealm) => {
+      console.log('Finished client reset for', beforeRealm.path);
+      console.log('New realm path', afterRealm.path);
+    },
+  },
+};
+
 function RealmWitDiscardUnsyncedChangesClientReset() {
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        clientReset: {
-          mode: 'discardUnsyncedChanges',
-          onBefore: realm => {
-            console.log('Beginning client reset for ', realm.path);
-          },
-          onAfter: (beforeRealm, afterRealm) => {
-            console.log('Finished client reset for', beforeRealm.path);
-            console.log('New realm path', afterRealm.path);
-          },
-        },
-      }}>
+    <RealmProvider sync={syncConfigWithDiscardClientReset}>
       <RestOfApp />
     </RealmProvider>
   );
@@ -181,26 +186,28 @@ async function handleSyncError(session, syncError) {
     // ...handle other error types
   }
 }
+
+const syncConfigWithDiscardAfterBreakingSchemaChanges = {
+  flexible: true,
+  clientReset: {
+    mode: 'discardUnsyncedChanges',
+    onBefore: realm => {
+      // NOT used with destructive schema changes
+      console.log('Beginning client reset for ', realm.path);
+    },
+    onAfter: (beforeRealm, afterRealm) => {
+      // Destructive schema changes do not hit this function.
+      // Instead, they go through the error handler.
+      console.log('Finished client reset for', beforeRealm.path);
+      console.log('New realm path', afterRealm.path);
+    },
+  },
+  onError: handleSyncError, // invoked with destructive schema changes
+};
+
 function RealmWitDiscardAfterBreakingSchemaChangesClientReset() {
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        clientReset: {
-          mode: 'discardUnsyncedChanges',
-          onBefore: realm => {
-            // NOT used with destructive schema changes
-            console.log('Beginning client reset for ', realm.path);
-          },
-          onAfter: (beforeRealm, afterRealm) => {
-            // Destructive schema changes do not hit this function.
-            // Instead, they go through the error handler.
-            console.log('Finished client reset for', beforeRealm.path);
-            console.log('New realm path', afterRealm.path);
-          },
-        },
-        onError: handleSyncError, // invoked with destructive schema changes
-      }}>
+    <RealmProvider sync={syncConfigWithDiscardAfterBreakingSchemaChanges}>
       <RestOfApp />
     </RealmProvider>
   );
@@ -208,18 +215,19 @@ function RealmWitDiscardAfterBreakingSchemaChangesClientReset() {
 // :snippet-end:
 
 // :snippet-start: manual
+const syncConfigWithManualClientReset = {
+  flexible: true,
+  clientReset: {
+    mode: 'manual',
+    onManual: (session, path) => {
+      // handle manual client reset here
+    },
+  },
+};
+
 function RealmWitManualClientReset() {
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        clientReset: {
-          mode: 'manual',
-          onManual: (session, path) => {
-            // handle manual client reset here
-          },
-        },
-      }}>
+    <RealmProvider sync={syncConfigWithManualClientReset}>
       <RestOfApp />
     </RealmProvider>
   );

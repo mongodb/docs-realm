@@ -20,26 +20,28 @@ async function handleSyncError(session, syncError) {
     // ...handle other error types
   }
 }
+
+const syncConfigWithDiscardAfterBreakingSchemaChanges = {
+  flexible: true,
+  clientReset: {
+    mode: 'discardUnsyncedChanges',
+    onBefore: realm => {
+      // NOT used with destructive schema changes
+      console.log('Beginning client reset for ', realm.path);
+    },
+    onAfter: (beforeRealm, afterRealm) => {
+      // Destructive schema changes do not hit this function.
+      // Instead, they go through the error handler.
+      console.log('Finished client reset for', beforeRealm.path);
+      console.log('New realm path', afterRealm.path);
+    },
+  },
+  onError: handleSyncError, // invoked with destructive schema changes
+};
+
 function RealmWitDiscardAfterBreakingSchemaChangesClientReset() {
   return (
-    <RealmProvider
-      sync={{
-        flexible: true,
-        clientReset: {
-          mode: 'discardUnsyncedChanges',
-          onBefore: realm => {
-            // NOT used with destructive schema changes
-            console.log('Beginning client reset for ', realm.path);
-          },
-          onAfter: (beforeRealm, afterRealm) => {
-            // Destructive schema changes do not hit this function.
-            // Instead, they go through the error handler.
-            console.log('Finished client reset for', beforeRealm.path);
-            console.log('New realm path', afterRealm.path);
-          },
-        },
-        onError: handleSyncError, // invoked with destructive schema changes
-      }}>
+    <RealmProvider sync={syncConfigWithDiscardAfterBreakingSchemaChanges}>
       <RestOfApp />
     </RealmProvider>
   );
