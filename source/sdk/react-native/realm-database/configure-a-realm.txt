@@ -15,8 +15,8 @@ The ``@realm/react`` library exposes realms in your application using
 components. You can access realms with React hooks.
 
 To configure and open a local realm, create a Context with the realm's configuration. The 
-Context exports a ``RealmProvider`` component that exposes a configured realm. 
-All child components of ``RealmProvider`` can access the realm using hooks.
+Context exports a ``<RealmProvider>`` component that exposes a configured realm. 
+All child components of ``<RealmProvider>`` can access the realm using hooks.
 
 To learn how to open a realm using Device Sync, refer to 
 :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
@@ -76,7 +76,7 @@ Expose More Than One Realm
 --------------------------
 
 You can open more than one realm at a time by creating additional Contexts and 
-``RealmProvider`` components.
+``<RealmProvider>`` components.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.two-realm-contexts.tsx
    :language: javascript

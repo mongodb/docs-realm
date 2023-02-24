@@ -103,15 +103,15 @@ Using the Realm Provider
 ------------------------
 
 Wrap the component needing access to Realm Database, typically the top layer
-of your application, with the ``RealmProvider`` component included in the
+of your application, with the ``<RealmProvider>`` component included in the
 ``Context`` object, which was returned from ``createRealmContext``.  The
-``RealmProvider`` provides child components access to the configured
+``<RealmProvider>`` provides child components access to the configured
 Realm through the hooks included in the ``Context`` object.
 
 .. tip:: Choosing Which Components to Wrap inside the Realm Provider
    
    For simple use-cases, you may want to wrap your entire application in the
-   ``RealmProvider`` component, such as the example below. For additional security,
+   ``<RealmProvider>`` component, such as the example below. For additional security,
    you may only want to give access to the opened realm to specific screens, or
    after the user has logged-in.
 
@@ -121,14 +121,14 @@ Import the ``Context`` object that you created. In the example below, the
 ``Context`` object is called ``TaskContext`` since it refers to the Realm ``Context`` of
 the Task. You can :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the ``TaskContext`` object to get its ``RealmProvider``. 
+the ``TaskContext`` object to get its ``<RealmProvider>``. 
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.import-task-context.tsx
     :language: typescript
 
-Wrap the ``RealmProvider`` around the component that you want
+Wrap the ``<RealmProvider>`` around the component that you want
 to give access to the configured realm. In the example below, we give the entire
-app access to the realm by wrapping the ``RealmProvider`` around
+app access to the realm by wrapping the ``<RealmProvider>`` around
 the ``App`` component, which renders the application.
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-realm-provider.tsx
@@ -138,8 +138,8 @@ Dynamically Update the Realm Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can dynamically update the Realm configuration by setting
-:reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
-component. The props you set on the ``RealmProvider`` will overwrite any
+:reactjs:`props <docs/components-and-props.html>` on the ``<RealmProvider>``
+component. The props you set on the ``<RealmProvider>`` will overwrite any
 property passed into ``createRealmContext()``.
 
 In the following example, we update the RealmProvider with a :js-sdk:`sync
@@ -153,7 +153,7 @@ waiting for Device Sync to open:
 Use Realm Provider Hooks
 ------------------------
 
-Once you have wrapped your component with your ``RealmProvider``, your component
+Once you have wrapped your component with your ``<RealmProvider>``, your component
 and its child components will have access to the ``useRealm()``,
 ``useObject()``, and ``useQuery()`` hooks.
 
@@ -230,8 +230,8 @@ Using the App Provider
 ----------------------
 
 To use Realm features such as authentication and sync, use the
-``AppProvider`` to initiate a new :js-sdk:`Realm.App <Realm.App.html>`. Wrap the
-``AppProvider`` outside of the ``RealmProvider`` and any components which need
+``<AppProvider>`` to initiate a new :js-sdk:`Realm.App <Realm.App.html>`. Wrap the
+``<AppProvider>`` outside of the ``<RealmProvider>`` and any components which need
 access to the :ref:`useApp <react-native-use-app-hook>` hook.
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-provider.tsx
@@ -258,10 +258,10 @@ then use the app instance to log in with email/password authentication.
 Using the User Provider
 -----------------------
 
-The ``UserProvider`` provides a :js-sdk:`Realm user <Realm.User.html>` for its
+The ``<UserProvider>`` provides a :js-sdk:`Realm user <Realm.User.html>` for its
 child components to access.
 
-The ``UserProvider``: 
+The ``<UserProvider>``: 
 
 - contains an optional ``fallback`` property that renders a Login component when
   the user has not authenticated.
@@ -269,9 +269,9 @@ The ``UserProvider``:
   no fallback property.
 
 In the following example, we pass a Login component to the fallback property of
-``UserProvider``. Once the user has logged in, the Login component disappears
+``<UserProvider>``. Once the user has logged in, the Login component disappears
 from the view, and the ``App`` is rendered. We wrap the ``App`` in a
-``RealmProvider`` with a sync configuration to give the ``App`` access to a
+``<RealmProvider>`` with a sync configuration to give the ``App`` access to a
 synced realm. If the user logs out, the application falls back to
 the Login component. 
 
@@ -281,7 +281,7 @@ the Login component.
 
 .. note:: The User is Automatically Set for the Sync Configuration
 
-   When the ``UserProvider`` wraps the ``RealmProvider``, the ``RealmProvider``
+   When the ``<UserProvider>`` wraps the ``<RealmProvider>``, the ``<RealmProvider>``
    automatically sets the logged-in user for your sync configuration. This means
    you do not need to specify your user in your sync configuration object.
 
@@ -302,10 +302,10 @@ component and display the logged-in user's ``_id``.
 Summary
 -------
 - You can set up Realm React on an existing application by installing it through npm or on a new application through the Realm Expo template.
-- A Realm ``Context`` opens a realm and contains a ``RealmProvider`` and a set of pre-built hooks. 
-- A ``RealmProvider`` provides access to the configured realm using hooks to display and modify data.
-- The pre-built ``RealmProvider`` hooks provide functionality, including interacting with a realm and finding realm object(s).
-- The ``AppProvider`` instantiates a new App and provides its child components access to the App instance. 
+- A Realm ``Context`` opens a realm and contains a ``<RealmProvider>`` and a set of pre-built hooks. 
+- A ``<RealmProvider>`` provides access to the configured realm using hooks to display and modify data.
+- The pre-built ``<RealmProvider>`` hooks provide functionality, including interacting with a realm and finding realm object(s).
+- The ``<AppProvider>`` instantiates a new App and provides its child components access to the App instance. 
 - You can use the ``useApp()`` hook to access the instantiated App within child components.
-- The ``UserProvider`` renders it's child components if the user has logged in and renders a fallback component if the user has not logged in.
-- You can use the ``useUser()`` hook to gain access to the logged-in user within any child components of the ``UserProvider``.
+- The ``<UserProvider>`` renders it's child components if the user has logged in and renders a fallback component if the user has not logged in.
+- You can use the ``useUser()`` hook to gain access to the logged-in user within any child components of the ``<UserProvider>``.
