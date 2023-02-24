@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: ['@react-native-community'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier', 'plugin:testing-library/react'],
   env: {
     jest: true,
   },
