@@ -8,9 +8,6 @@ import {render, waitFor} from '@testing-library/react-native';
 let higherScopeCatsLen: number;
 // :remove-end:
 
-// TODO: when running this file, calling this throws the error:
-// 'Realm for Node does not support this method.'
-Realm.copyBundledRealmFiles();
 
 const {RealmProvider, useQuery} = createRealmContext({
   schema: [Cat.schema],
