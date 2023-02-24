@@ -22,9 +22,8 @@ Set an error handler by registering an error callback as part of the
 If you're using ``@realm/react``, pass the ``SyncConfiguration`` object
 to the ``sync`` property of a ``<RealmProvider>``.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-handle-sync-errors.js
-   :language: javascript
-   :end-before: const realm = await Realm.open(config);
+.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.handle-sync-error.tsx
+   :language: typescript
 
 .. include:: /includes/sync-errors-in-app-services.rst
 
@@ -151,8 +150,8 @@ Include these properties in the ``ClientResetConfiguration``:
 
 The following example implements recover unsynced changes mode:
 
-.. literalinclude:: /examples/generated/node/client-reset.snippet.recover-unsynced-changes.js
-   :language: js
+.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.recover-unsynced-changes.tsx
+   :language: typescript
 
 .. _react-native-recover-discard-unsynced-changes:
 
@@ -188,8 +187,8 @@ Include these properties in the ``ClientResetConfiguration``:
 
 The following example implements recover unsynced changes mode:
 
-.. literalinclude:: /examples/generated/node/client-reset.snippet.recover-or-discard-unsynced-changes.js
-   :language: js
+.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.recover-or-discard-unsynced-changes.tsx
+   :language: typescript
 
 .. _react-native-manual-client-reset-fallback:
 
@@ -212,9 +211,8 @@ arguments:
 The following example demonstrates how you can manually handle this error case by
 discarding all unsynced changes:
 
-.. literalinclude:: /examples/generated/node/client-reset.snippet.recovery-fallback.js
-   :language: js
-   :end-before: realm = await Realm.open(config);
+.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.manual-client-reset-fallback.tsx
+   :language: typescript
 
 .. _react-native-discard-unsynced-changes:
 
@@ -250,8 +248,8 @@ Include these properties in the ``ClientResetConfiguration``:
 
 The following example implements discard unsynced changes mode:
 
-.. literalinclude:: /examples/generated/node/client-reset.snippet.discard-unsynced-changes.js
-   :language: javascript
+.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.discard-unsynced-changes.tsx
+   :language: typescript
 
 .. _react-native-discard-unsynced-changes-after-breaking-schema-changes:
 
@@ -265,8 +263,8 @@ implementation in the SyncConfiguration ``error()`` callback. The following
 example demonstrates how you can manually handle this error case by
 discarding all unsynced changes:
 
-.. literalinclude:: /examples/generated/node/client-reset.snippet.discard-unsynced-changes-after-destructive-schema-changes.js
-   :language: javascript
+.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.discard-after-breaking-schema-changes.tsx
+   :language: typescript
 
 .. note:: Discard with Recovery
 
@@ -297,8 +295,8 @@ Include these properties in the ``ClientResetConfiguration``:
   If you don't set the ``onManual`` error handler, the client reset error falls
   back to the general sync error handler.
 
-.. literalinclude:: /examples/generated/node/client-reset.snippet.manual-client-reset-onmanual.js
-   :language: js
+.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.manual.tsx
+   :language: typescript
 
 Manual Data Recovery
 ````````````````````
