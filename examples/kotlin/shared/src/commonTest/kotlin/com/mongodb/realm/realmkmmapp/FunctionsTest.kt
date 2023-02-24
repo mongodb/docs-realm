@@ -5,6 +5,7 @@ import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.ext.call
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class FunctionsTest: RealmTest() {
 
@@ -23,8 +24,8 @@ class FunctionsTest: RealmTest() {
             val response = user.functions.call<Int>("sum", 1, 2)
 
             print(response) // prints: 3
+            assertEquals(3, response) // :remove:
         }
         // :snippet-end:
-
     }
 }
