@@ -11,7 +11,7 @@ import {
 import Realm from "realm";
 
 // Instantiate Realm app
-const realm = new Realm.App({
+const app = new Realm.App({
   id: REALM_APP_ID, // :remove:
   // :uncomment-start:
   // id: "<Your App ID>",
@@ -38,7 +38,7 @@ export default function GoogleSignInButton() {
 
       // use Google ID token to sign into Realm
       const credential = Realm.Credentials.google({ idToken });
-      const user = await realm.logIn(credential);
+      const user = await app.logIn(credential);
       console.log("signed in as Realm user", user.id);
     } catch (error) {
       // handle errors

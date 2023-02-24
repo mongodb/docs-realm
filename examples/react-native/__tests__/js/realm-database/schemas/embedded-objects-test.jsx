@@ -3,8 +3,8 @@ import {Button, TextInput, View, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Address from '../../Models/Address';
-import Contact from '../../Models/Contact';
+import Address from '../../temp/Address';
+import Contact from '../../temp/Contact';
 
 const realmConfig = {
   schema: [Address, Contact],

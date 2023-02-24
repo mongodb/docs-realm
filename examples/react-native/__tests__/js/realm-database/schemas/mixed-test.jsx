@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Cat from '../../models/Cat';
+import Cat from '../../temp/Cat';
 
 jest.setTimeout(30000);
 

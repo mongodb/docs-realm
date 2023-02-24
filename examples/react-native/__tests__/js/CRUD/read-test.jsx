@@ -3,8 +3,8 @@ import {View, Text} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Person from '../models/Person';
-import Task from '../models/Task';
+import Person from '../temp/Person';
+import Task from '../temp/Task';
 
 const realmConfig = {
   schema: [Person, Task],
