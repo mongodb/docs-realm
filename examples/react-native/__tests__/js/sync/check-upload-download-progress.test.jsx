@@ -1,4 +1,3 @@
-// TODO: create JS only version
 // :snippet-start: check-upload-download-progress
 import React from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
