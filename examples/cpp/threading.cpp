@@ -1,20 +1,25 @@
+// :replace-start: {
+//   "terms": {
+//     "ThreadingItem_": ""
+//   }
+// }
 #include <catch2/catch_test_macros.hpp>
 #include <string>
 #include "testHelpers.hpp"
 #include <cpprealm/sdk.hpp>
 
-struct Item : realm::object<Item> {
+struct ThreadingExample_Item : realm::object<ThreadingExample_Item> {
     realm::persisted<std::string> name;
 
-    static constexpr auto schema = realm::schema("Threading_Item",
-        realm::property<&Item::name>("name")
+    static constexpr auto schema = realm::schema("ThreadingExample_Item",
+        realm::property<&ThreadingExample_Item::name>("name")
     );
 };
 
 TEST_CASE("thread safe reference", "[write]") {
-    auto realm = realm::open<Item>();
+    auto realm = realm::open<ThreadingExample_Item>();
 
-    auto item = Item {
+    auto item = ThreadingExample_Item {
         .name = "Save the cheerleader",
     };
 
@@ -28,15 +33,15 @@ TEST_CASE("thread safe reference", "[write]") {
 
     // :snippet-start: thread-safe-reference
     // Put an object instance into a thread safe reference
-    auto threadSafeItem = realm::thread_safe_reference<Item>{item};
+    auto threadSafeThreadingExample_Item = realm::thread_safe_reference<ThreadingExample_Item>{item};
     
     // Move the thread safe reference to a background thread
-    auto thread = std::thread([threadSafeItem = std::move(threadSafeItem)]() mutable {
+    auto thread = std::thread([threadSafeThreadingExample_Item = std::move(threadSafeThreadingExample_Item)]() mutable {
         // Open the realm again on the background thread
-        auto realm = realm::open<Item>();
+        auto realm = realm::open<ThreadingExample_Item>();
         
-        // Resolve the Item instance via the thread safe reference
-        auto item = realm.resolve(std::move(threadSafeItem));
+        // Resolve the ThreadingExample_Item instance via the thread safe reference
+        auto item = realm.resolve(std::move(threadSafeThreadingExample_Item));
 
         // ... use item ...
     });
@@ -79,3 +84,5 @@ TEST_CASE("scheduler", "[write]") {
     // :uncomment-end:
     // :snippet-end:
 }
+// :replace-end:
+
