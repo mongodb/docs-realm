@@ -33,7 +33,7 @@ The following are key impacts to consider when encrypting a realm.
 Storing & Reusing Keys
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You **must** pass the same encryption key every time you open the encrypted realm. 
+You **must** pass the same encryption key every time you open the encrypted realm.
 If you don't provide a key or specify the wrong key for an encrypted
 realm, the Realm SDK throws an error.
 
@@ -48,12 +48,12 @@ Reads and writes on encrypted realms can be up to 10% slower than unencrypted re
 Encryption and Atlas Device Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can encrypt a :ref:`synced realm <react-native-open-a-synced-realm>`. 
+You can encrypt a :ref:`synced realm <react-native-open-a-synced-realm>`.
 
 .. include:: /includes/encrypt-atlas-device-sync.rst
 
 If you need unique keys for each user of your application, you can use an OAuth provider or
-use one of the :ref:`Realm authentication providers <users-and-authentication>` 
+use one of the :ref:`Realm authentication providers <users-and-authentication>`
 and an :ref:`authentication trigger<authentication-triggers>`
 to create a 64-bit key and store that key in a :ref:`user object <user-objects>`.
 
@@ -68,11 +68,6 @@ Example
 The following code demonstrates how to generate an encryption key and
 open an encrypted realm:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/Encrypt/encrypt.js
-         :language: javascript
+.. literalinclude:: /examples/generated/react-native/ts/encrypted-realm.test.snippet.encrypted-realm.tsx
+   :language: typescript
 
