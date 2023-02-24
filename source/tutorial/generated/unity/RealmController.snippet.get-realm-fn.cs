@@ -1,1 +1,0 @@
-return Realm.GetInstance();

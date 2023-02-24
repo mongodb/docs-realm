@@ -1,0 +1,75 @@
+.. _cpp-manage-sync-session:
+
+=======================================
+Manage a Sync Session - C++ SDK (Alpha)
+=======================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+When you use Atlas Device Sync, the Realm C++ SDK syncs data with Atlas
+in the background using a sync session. The sync session starts when
+you open a synced realm.
+
+The sync session manages the following:
+
+- Uploading and downloading changes to the realm
+- Monitoring sync state
+
+Prerequisites
+-------------
+
+Before you can manage a sync session state, you must:
+
+#. :ref:`Configure Flexible Sync on the Atlas App Services backend <enable-flexible-sync>`
+#. :ref:`Open a Synced Realm <cpp-open-synced-realm>`
+
+.. _cpp-get-sync-session:
+
+Get the Sync Session
+--------------------
+
+You can use the public member function :cpp-sdk:`get_sync_session() 
+<structrealm_1_1db.html#a79c5e6e92896703a54693be35720ae12>` to get a 
+:cpp-sdk:`sync_session 
+<structrealm_1_1internal_1_1bridge_1_1sync__session.html>` 
+object for any synced realm. The SDK returns this object as an optional. 
+It is a lightweight handle that you can pass around by value.
+
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.sync-session.cpp
+   :language: cpp
+
+.. _cpp-sync-wait-for-changes:
+
+Wait for Changes to Upload and Download
+---------------------------------------
+
+To wait for all changes to upload to Atlas from your synced realm,
+use the public member function ``.wait_for_upload_completion()``. 
+
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.wait-for-upload.cpp
+   :language: cpp
+
+To wait for all changes from Atlas
+to download to your synced realm, use the public member function 
+``wait_for_download_completion()``. Refresh the realm after downloading 
+any changes to be sure it reflects the most recent data.
+
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.wait-for-download.cpp
+   :language: cpp
+
+.. _cpp-check-sync-state:
+
+Check the Sync State
+--------------------
+
+You can use the :cpp-sdk:`sync_session 
+<structrealm_1_1internal_1_1bridge_1_1sync__session.html>`'s public 
+member function ``state()`` to check whether the sync session is active.
+This returns an enum whose value reflects possible Device Sync states.
+
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.sync-state.cpp
+   :language: cpp

@@ -38,7 +38,6 @@ which you can :ref:`find in the App Services UI <find-your-app-id>`.
    To learn how to initialize the App client, see
    :ref:`cpp-connect-to-backend`.
 
-
 Authentication & User Management
 --------------------------------
 
@@ -59,6 +58,19 @@ APIs, you can implement the following functionality:
 
    To learn how to provide custom user data, refer to :ref:`cpp-custom-user-data`.
 
+Device Sync
+-----------
+
+Device Sync adds data synchronization between an App Services backend and
+client devices on top of all of the functionality of Realm Database.
+When you use Realm Database with Sync, realms exist on device
+in the same way as a non-synced Realm Database. However, changes to
+the data stored in those realms synchronize between all client
+devices through a backend App Services instance. That backend also stores
+realm data in a cloud-based Atlas cluster running MongoDB.
+
+To get started with Sync, refer to :ref:`Device Sync <cpp-sync>`.
+
 Calling Functions
 -----------------
 
@@ -75,57 +87,3 @@ logic client-side.
 .. tip::
 
    To learn how to call Functions, see :ref:`Call a Function <cpp-call-a-function>`.
-
-.. _cpp-realm-sync:
-
-Sync Data
----------
-
-Atlas Device Sync automatically synchronizes data between client applications and 
-an :ref:`App Services backend <realm-cloud>`. When a client 
-device is online, Sync asynchronously synchronizes data in a 
-background thread between the device and your backend App. 
-
-When you use Sync in your client application, your implementation must match 
-the Sync Mode you select in your backend App configuration. The Realm C++ SDK
-only supports Flexible Sync.
-
-.. seealso::
-
-   :ref:`enable-realm-sync`
-
-.. _cpp-flexible-sync-fundamentals:
-
-Flexible Sync
-~~~~~~~~~~~~~
-
-When you select :ref:`Flexible Sync <flexible-sync>` for your backend App 
-configuration, your client implementation must include subscriptions to 
-queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works 
-by synchronizing data that matches query subscriptions you maintain in the 
-client application. 
-
-A subscription set contains a set of queries. Flexible Sync returns 
-documents matching those queries, where the user has the appropriate 
-:ref:`permissions <flexible-sync-rules-and-permissions>` to read and/or 
-read and write the documents. If documents match the query, but the client 
-does not have the permission to read or write them, they do not sync to 
-the client application.
-
-You can form queries using :ref:`Realm Query Language <realm-query-language>`.
-
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
-
-Subscription sets are based on a specific type of :ref:`Realm object 
-<cpp-object-model>`. You might have multiple subscriptions if you 
-have many types of Realm objects.
-
-To use Flexible Sync in your client application, open a synced realm 
-with a flexible sync configuration. Then, manage subscriptions
-to determine which documents to sync. For more information, refer to
-:ref:`cpp-manage-flexible-sync-subscriptions`.
-
-Group Updates for Improved Performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: /includes/sync-memory-performance.rst
