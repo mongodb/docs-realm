@@ -48,9 +48,9 @@ Opening a synced realm starts a :js-sdk:`sync session <Realm.App.Sync.Session.ht
 You can pause and resume the realm's sync session. If you have more than one
 open realm, pause does not affect the other realms' sync sessions.
 
-To pause synchronization, use the :js-sdk:`syncSession.pause()
+To pause synchronization, use the :js-sdk:`Realm.syncSession.pause()
 <Realm.App.Sync.Session.html#~pause>` method. To resume synchronization, use the
-:js-sdk:`syncSession.resume() <Realm.App.Sync.Session.html#~resume>` method.
+:js-sdk:`Realm.syncSession.resume() <Realm.App.Sync.Session.html#~resume>` method.
 
 .. literalinclude:: /examples/generated/react-native/ts/pause-unpause-sync-session.test.snippet.pause-unpause-sync-session.tsx
    :language: typescript
@@ -64,16 +64,16 @@ Check Upload & Download Progress for a Sync Session
 ---------------------------------------------------
 
 To check the upload and download progress for a sync session, add a progress
-notification using the :js-sdk:`syncSession.addProgressNotification() <Realm.App.Sync.Session.html#.addProgressNotification>` method.
+notification using the :js-sdk:`Realm.syncSession.addProgressNotification() <Realm.App.Sync.Session.html#.addProgressNotification>` method.
 
-The ``syncSession.addProgressNotification()`` method takes in the following three parameters:
+The ``Realm.syncSession.addProgressNotification()`` method takes in the following three parameters:
 
 - A ``direction`` parameter.
   Set to ``"upload"`` to register notifications for uploading data.
   Set to ``"download"`` to register notifications for downloading data.
 - A ``mode`` parameter. Set to ``"reportIndefinitely"``
   for the notifications to continue until the callback is unregistered using
-  :js-sdk:`syncSession.removeProgressNotification() <Realm.App.Sync.Session.html#.removeProgressNotification>`.
+  :js-sdk:`Realm.syncSession.removeProgressNotification() <Realm.App.Sync.Session.html#.removeProgressNotification>`.
   Set to ``"forCurrentlyOutstandingWork"`` for the notifications to continue
   until only the currently transferable bytes are synced.
 - A callback function parameter that has the arguments ``transferred`` and ``transferable``.
