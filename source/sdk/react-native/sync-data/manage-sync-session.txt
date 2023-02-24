@@ -33,7 +33,7 @@ Access Sync Session
 -------------------
 
 Access a synced realm in a component with the ``useRealm()`` hook.
-Access the sync session with the synced realm's :js-sdk:`Realm.syncSession
+Access the sync session with the realm's :js-sdk:`Realm.syncSession
 <Realm.html#syncSession>` property.
 
 .. literalinclude:: /examples/generated/react-native/ts/access-sync-session.test.snippet.access-sync-session.tsx
@@ -45,9 +45,8 @@ Pause or Resume a Sync Session
 ------------------------------
 
 Opening a synced realm starts a :js-sdk:`sync session <Realm.App.Sync.Session.html>`.
-You can pause and resume the sync session on the realm. Pausing a sync
-session only pauses that realm's sync session. If you have more than one
-open realm, pause does not affect the sync sessions for other realms.
+You can pause and resume the realm's sync session. If you have more than one
+open realm, pause does not affect the other realms' sync sessions.
 
 To pause synchronization, use the :js-sdk:`syncSession.pause()
 <Realm.App.Sync.Session.html#~pause>` method. To resume synchronization, use the
@@ -109,13 +108,13 @@ Check the Network Connection
 
 Realm's *offline-first* design means that you generally don't need to
 check the current network connection state since data syncs in the background
-when connection is available.
+when a connection is available.
 That said, the Realm SDK provides methods to get the current state of the network
 connection to the server.
 
 To check the current state of the connection to the server, call
 :js-sdk:`Realm.syncSession.isConnected() <Realm.App.Sync.Session.html#isConnected>`.
-This method returns a boolean that is ``true`` if there is network connection and
+This method returns a boolean that is ``true`` if there is a network connection and
 the sync session is active.
 
 To listen for connection state changes, call :js-sdk:`Realm.syncSession.addConnectionNotification()
