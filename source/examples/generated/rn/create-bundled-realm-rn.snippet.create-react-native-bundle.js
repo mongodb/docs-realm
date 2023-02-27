@@ -1,3 +1,6 @@
+import Realm from "realm";
+import { Dog } from "./schemas";
+
 // open realm
 const config = {
   schema: [Dog],
