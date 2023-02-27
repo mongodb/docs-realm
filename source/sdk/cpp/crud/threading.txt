@@ -150,10 +150,6 @@ use a custom scheduler, you can implement :cpp-sdk:`realm::scheduler
 <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` you use to
 configure the realm. Realm will use the scheduler you pass to it.
 
-For convenience, the C++ SDK provides an implementation called
-:cpp-sdk:`NoPlatformScheduler <structrealm_1_1NoPlatformScheduler.html>` that
-automatically loops and handles events on a background thread.
-
 .. literalinclude:: /examples/generated/cpp/threading.snippet.scheduler.cpp
    :language: cpp
 
