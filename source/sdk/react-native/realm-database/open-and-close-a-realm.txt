@@ -21,6 +21,13 @@ This page details how to configure and open a realm using the React Native SDK.
 
 .. _react-native-realm-file:
 
+.. note:: Automatic Compaction of Realm File Size
+
+   As of React Native version 11.3.0 and up, Realm files are automatically compacted in the 
+   background by continuously reallocating data in the file and removing 
+   unused file space. The Realm file will only be automatically compacted when
+   the file is not being accessed.
+
 Key Concept: Realm Files
 ------------------------
 
