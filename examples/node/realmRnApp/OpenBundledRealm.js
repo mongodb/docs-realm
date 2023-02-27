@@ -1,40 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import Realm from 'realm';
-import {Text} from 'react-native';
+// :snippet-start: open-bundle-realm-rn
+import React from 'react';
+import {createRealmContext, Realm} from '@realm/react';
+import {Dog} from './schema';
 
-const Dog = {
-  name: 'Dog',
-  properties: {
-    name: 'string',
-    age: 'int',
-    type: 'string',
-  },
-};
+Realm.copyBundledRealmFiles();
+
+const realmContext = createRealmContext({schema: [Dog], path: 'bundle.realm'});
+const {RealmProvider} = realmContext;
 
 export default function OpenBundledRealm() {
-  const [numDogs, setNumDogs] = useState(0);
-
-  useEffect(() => {
-    let realm;
-    if (!numDogs) {
-      (async () => {
-        // :snippet-start: open-bundle-realm-rn
-        Realm.copyBundledRealmFiles();
-
-        realm = await Realm.open({
-          schema: [Dog],
-          path: 'bundle.realm',
-        });
-        // :snippet-end:
-        const dogCount = realm.objects('Dog').length;
-        setNumDogs(dogCount);
-      })();
-    }
-    return () => !realm?.isClosed && realm?.close();
-  }, [numDogs]);
-  useEffect(() => {
-    console.log(numDogs);
-  }, [numDogs]);
-
-  return <Text>{numDogs}</Text>;
+  return (
+    <RealmProvider>
+      {/* Rest of app has access to objects pre-populated
+          in the bundled realm. */}
+      <RestOfApp />
+    </RealmProvider>
+  );
+}
+// :snippet-end:
+function RestOfApp() {
+  return <></>;
 }
