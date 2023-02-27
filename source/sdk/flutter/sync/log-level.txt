@@ -11,7 +11,7 @@ Set the Client Log Level - Flutter SDK
    :class: singlecol
 
 You can set the realm sync client log level. You might want to do this
-to log different amounts of data depending on where you app is running.
+to log different amounts of data depending on the app's environment.
 
 To learn more about all available logging levels, refer to the
 :flutter-sdk:`RealmLogLevel documentation <realm/RealmLogLevel-class.html>`.
@@ -25,8 +25,6 @@ to a `Logger <https://pub.dev/documentation/logger/latest/logger/Logger-class.ht
 with it's ``level`` property set to one of the ``Logger`` levels provided by
 ``RealmLogLevel``. You must also import ``Logger`` from the `logging <https://pub.dev/packages/logger>`__
 package, which is installed when you add the Realm package to your app.
-
-Set the log level for realms using Device Sync:
 
 .. literalinclude:: /examples/generated/flutter/sync_log_level_test.snippet.log-level.dart
    :language: dart
