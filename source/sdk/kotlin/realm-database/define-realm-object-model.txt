@@ -124,6 +124,19 @@ For more information, refer to :ref:`Primary Keys <kotlin-primary-keys>`.
   :language: kotlin
   :emphasize-lines: 2-3
 
+Map a Property to a Different Name 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To indicate a property be persisted under a different name, 
+use the ``@PersistedName`` annotation. 
+This is useful when open a Realm across different bindings
+where code style conventions can differ. 
+For more information, refer to :ref:`Remap a Property <kotlin-remap-a-property>`.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 15-16
+
 Ignore Properties from Realm Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

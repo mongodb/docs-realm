@@ -11,4 +11,7 @@ class Cat : RealmObject {
 
     @Ignore
     var tempId: Int = 0 // Ignored property
+
+    @PersistedName("latin_name") // Remapped property
+    var species: String? = null
 }

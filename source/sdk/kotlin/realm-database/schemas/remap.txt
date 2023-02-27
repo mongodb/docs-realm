@@ -1,0 +1,30 @@
+.. _kotlin-remap-a-property:
+
+=============================
+Remap a Property - Kotlin SDK
+=============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+By default, Realm Database uses the name defined in the model class
+to represent fields internally. 
+In some cases, you might want to change this behavior:
+
+- To make it easier to work across platforms where naming conventions differ.
+- To change a field name in Kotlin without forcing a :ref:`migration <kotlin-migrations>`.
+
+To map a different property name in your code than is stored in
+Realm Database, use the `@PersistedName <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-persisted-name/index.html>`__
+annotation in the :ref:`object schema <kotlin-object-schema>`:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.persisted-name.kt
+   :language: kotlin
+
+Note that migrations must use the internal name when creating classes and 
+properties, and any schema errors reported will use the internal name. 
+
+You can query by both the internal name and the remapped name.
