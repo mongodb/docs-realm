@@ -212,11 +212,9 @@ describe("Sync Changes Between Devices", () => {
       schema: [DogSchema], // predefined schema
       sync: {
         user: app.currentUser,
-        partitionValue: "MyPartitionValue",
+        flexible: true,
         error: (_session, error) => {
-          (error) => {
-            console.log(error.name, error.message);
-          };
+          console.log(error.name, error.message);
         },
       },
     };
