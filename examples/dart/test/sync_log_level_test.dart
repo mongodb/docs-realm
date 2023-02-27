@@ -12,7 +12,6 @@ main() {
   Realm.logger = Logger('Realm Error Logger')..level = RealmLogLevel.error;
 
   // ...rest of app
-
   // :remove-start:
   test("Add custom sync logger", () async {
     expect(Realm.logger.name, 'Realm Error Logger');
