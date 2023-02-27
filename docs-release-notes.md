@@ -1,3 +1,37 @@
+# February 24, 2023
+
+## C++ SDK
+- Model Data/Object Types and Schemas: New "Define an Asymmetric Object" section with info and tested, Bluehawked code example
+- CRUD/Create: New "Create an Asymmetric Object" section with info and tested, Bluehawked code example
+- React to Changes: New section showing how to unregister a notification token
+- Sync Data: New section with landing page derived from other SDKs
+  - Manage Sync Subscriptions: Moved from top-level ToC into section
+  - Manage Sync Sessions: New page with info and tested, Bluehawked code examples
+  - Stream Data to Atlas: New page with info about Asymmetric Sync and tested, Bluehawked code examples
+
+## Flutter SDK
+- Sync Device Data/Write Data to a Synced Realm: Remove mentions of Device Sync permissions after rules unification release
+
+## Kotlin SDK
+- Realm Database/Manage Realm Database Files
+  - Open & Close a Realm: New "Copy Data into a New Realm" section with info and tested, Bluehawked code examples for using the `writeCopyTo()` API
+  - Bundle a Realm: New page with info and tested, Bluehawked code examples for bundling a local or synced realm with an app
+- Atlas App Services/Authenticate Users: Add "Custom Function" and "Retrieve Current User" sections to page with Bluehawked code examples 
+
+## .NET SDK
+- Working with Unity: Remove outdated Unity tutorial and link from page
+
+## Swift SDK
+- SwiftUI/React to Changes: New "Sort Observed Results" section with tested, Bluehawked code example
+- Sync Data
+  - Write to a Synced Realm: Remove mentions of Device Sync permissions after rules unification release
+  - Handle Sync Errors: Add a link to the page on setting the client log level
+  - Set the Client Log Level: New "Set a Custom Logger" section with Bluehawked code example
+
+## Other
+- Various Snyk dependency updates
+- Update Atlas App Services firewall IP addresses
+
 # February 17, 2023
 
 ## C++ SDK
