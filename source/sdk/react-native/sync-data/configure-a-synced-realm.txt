@@ -1,0 +1,165 @@
+.. _react-native-open-a-synced-realm:
+.. _react-native-realms:
+.. _react-native-synced-realm:
+
+===========================================
+Configure a Synced Realm - React Native SDK
+===========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. 
+
+For more information about synced realms, including directions on how to set up
+sync in an App Services App, see :ref:`Atlas Device Sync Overview <sync>`.
+
+Prerequisites
+-------------
+
+Before you open a realm with Flexible Sync in a React Native application:
+
+#. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
+   You must configure Flexible Sync in the backend before you can use it with your
+   client application.
+#. :ref:`Initialize the App client <react-native-connect-to-mongodb-realm-backend-app>`.
+#. :ref:`Authenticate a user <react-native-authenticate-users>` in your client project.
+
+Open a Flexible Sync Realm
+--------------------------
+
+This section covers Flexible Sync realms. Flexible Sync is the preferred mode for
+new apps that use :ref:`Atlas Device Sync <sync>`. 
+
+For information about realms using the older Partition-Based Sync,
+refer to :ref:`Partition-Based Sync <react-native-partition-realms>`.
+
+By default, Realm syncs all data from the server before returning.
+If you want to sync data in the background, read the :ref:`Open a Synced Realm
+While Offline <react-native-open-synced-realm-offline>` section.
+
+Nest <RealmProvider> within <AppProvider> and <UserProvider>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To use a Flexible Sync realm with ``@realm/react``, you must nest ``<RealmProvider>``
+within ``<UserProvider>``. And ``<UserProvider>`` must be nested in ``<AppProvider>``. 
+This ensures that ``<RealmProvider>`` has all of the context it needs, like a 
+logged-in user.
+
+Call ``createRealmContext()`` with 
+your :js-sdk:`realm configuration <Realm.html#~Configuration>` to access ``RealmProvider`` in the return value.
+
+The following example shows how to use these providers together in your app:
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
+   :language: javascript
+
+For more information about configuring and using ``<AppProvider>``, check
+out the :ref:`Connect To Atlas App Services page <react-native-app-client-configuration>`.
+
+You can also find information about ``<UserProvider>`` on the
+:ref:`Authenticate Users page <react-native-authenticate-users>`.
+
+.. _react-native-flexible-sync-open-realm:
+
+Configure a Flexible Sync Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To configure a Flexible Sync realm, use ``@realm/react``'s ``createRealmContext()`` 
+function and its returned ``<RealmProvider>``.
+
+In a ``<RealmProvider>`` that's nested in a ``<UserProvider>``, add a ``sync`` 
+property with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
+object that contains ``flexible: true``.
+
+Note that ``<UserProvider>`` automatically passes an authenticated user
+to ``<RealmProvider>``.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
+   :language: javascript
+
+.. important:: Flexible Sync Requires a Subscription
+
+   You can't use a Flexible Sync realm until you add at least one subscription.
+   To learn how to add subscriptions, refer to :ref:`<react-native-sync-add-subscription>`.
+
+.. _react-native-open-synced-realm-offline:
+
+Access a Synced Realm While Offline
+-----------------------------------
+
+The following subsections show how to use background synchronization to access a
+realm while offline. To do this, use a cached user and an
+:js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object. 
+
+Within ``<RealmProvider>``'s sync configuration, set the optional ``newRealmFileBehavior`` 
+and ``existingRealmFileBehavior`` fields to your ``OpenRealmBehaviorConfiguration`` 
+object to enable background synchronization. 
+
+You can open a realm immediately with background sync or after a timeout.
+
+.. note:: Initial login requires a network connection
+
+   When a user signs up for your app, or logs in for the first time with an 
+   existing account on a client, the client must have a network connection.
+   Checking for cached user credentials lets you open a realm offline, but
+   only if the user has previously logged in while online.
+
+.. _react-native-open-immediately-with-background-sync:
+
+Access Immediately with Background Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You may want to sync changes in the background to display partial data to the
+user while the synced realm downloads data from the server, preventing the
+user experience from being blocked. We recommend syncing changes in the
+background for applications in which the user's device may go offline. To sync
+changes in the background, open a synced realm synchronously.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync-offline.test.snippet.offline-config.tsx
+         :language: javascript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/configure-realm-sync-offline.test.snippet.offline-config.jsx
+         :language: javascript
+
+.. _react-native-open-after-timeout-with-background-sync:
+
+Access After Timeout with Background Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you want to sync data but you're in an environment where it's uncertain if
+the user has an Internet connection, specify a ``timeOut``. This
+automatically opens the realm when either: 
+
+- the timeout period elapses.
+- the realm has completely downloaded.
+
+If the realm doesn't finish downloading before the timeout, the initial
+Sync continues in the background.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync-timeout.test.snippet.timeout-config.tsx
+         :language: javascript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/configure-realm-sync-timeout.test.snippet.timeout-config.jsx
+         :language: javascript

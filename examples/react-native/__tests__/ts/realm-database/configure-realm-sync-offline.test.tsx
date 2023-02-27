@@ -1,4 +1,4 @@
-// :snippet-start: configure-realm-sync-full
+// :snippet-start: offline-config
 import React from 'react';
 import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
 // :remove-start:
@@ -31,13 +31,19 @@ const realmContext = createRealmContext({
 });
 const {RealmProvider} = realmContext;
 
-function AppWrapperSync() {
+function AppWrapperOfflineSync() {
+  const realmAccessBehavior: Realm.OpenRealmBehaviorConfiguration = {
+    type: Realm.OpenRealmBehaviorType.OpenImmediately,
+  };
+
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
           sync={{
             flexible: true,
+            newRealmFileBehavior: realmAccessBehavior,
+            existingRealmFileBehavior: realmAccessBehavior,
             onError: console.error,
           }}>
           <RestOfApp />
@@ -47,27 +53,6 @@ function AppWrapperSync() {
   );
 }
 // :snippet-end:
-
-// NOTE: Currently not testing the partition-based sync code. The App Services
-// App we're using is for Flexible Sync and I don't think PB-based needs its
-// own testing right now.
-function AppWrapperPartitionSync() {
-  return (
-    <AppProvider id={APP_ID}>
-      <UserProvider>
-        {/* :snippet-start: partition-based-config */}
-        <RealmProvider
-          sync={{
-            partitionValue: 'testPartition',
-            onError: console.error,
-          }}>
-          <RestOfApp />
-        </RealmProvider>
-        {/* :snippet-end: */}
-      </UserProvider>
-    </AppProvider>
-  );
-}
 
 function LogIn() {
   const app = useApp();
@@ -154,8 +139,8 @@ afterEach(async () => {
   await user.logOut();
 });
 
-test('Instantiate AppWrapperSync and test sync', async () => {
-  render(<AppWrapperSync />);
+test('Instantiate AppWrapperOfflineSync and test sync', async () => {
+  render(<AppWrapperOfflineSync />);
 
   await waitFor(
     () => {

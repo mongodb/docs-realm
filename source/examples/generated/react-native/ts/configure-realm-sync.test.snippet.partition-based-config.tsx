@@ -1,7 +1,7 @@
 <RealmProvider
   sync={{
-    flexible: true,
+    partitionValue: 'testPartition',
     onError: console.error,
   }}>
-  <MyApp />
+  <RestOfApp />
 </RealmProvider>
