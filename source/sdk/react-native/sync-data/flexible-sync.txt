@@ -47,10 +47,10 @@ refer to the :ref:`Flexible Sync RQL Limitations
 Define Your Subscriptions with Hooks
 ------------------------------------
 
-The ``@realm/react`` library provides hooks that streamline how you define 
+The ``@realm/react`` library provides the ``useQuery()`` and ``useObject()`` hooks that streamline how you define 
 subscriptions in the React Native SDK.
 
-Then, use the hooks in components that are nested within ``<RealmProvider>``.
+In order to use the hooks, components must be nested within the ``<RealmProvider>``.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync.tsx
    :language: javascript
