@@ -1,9 +1,9 @@
 import 'package:test/test.dart';
-// :replace-start:
+// :replace-start: {
 //   "terms": {
-//     "realm_dart": "realm",
+//     "realm_dart": "realm"
 //   }
-// :replace-end:
+// }
 // :snippet-start: log-level
 import 'package:realm_dart/realm.dart';
 import 'package:logging/logging.dart';
@@ -19,4 +19,5 @@ main() {
   });
   // :remove-end:
 }
-  // :snippet-end:
+// :snippet-end:
+// :replace-end:
