@@ -66,8 +66,10 @@ This hook doesn't update any subscriptions on its own. You should pass a class
 that extends ``Realm.Object`` to this hook. Alternatively, you can pass a string
 that matches the name of your class.
 
-.. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.usequery.tsx
-   :language: javascript
+.. TODO: Add better example
+
+.. .. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.usequery.tsx
+..    :language: javascript
 
 Get a Specific Object with useObject()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,8 +81,10 @@ This hook doesn't update any subscriptions on its own. You should pass a class
 that extends ``Realm.Object`` to this hook. Alternatively, you can pass a string
 that matches the name of your class.
 
-.. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.useobject.tsx
-   :language: javascript
+.. TODO: Add better example
+
+.. .. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.useobject.tsx
+..    :language: javascript
 
 Manage Your Subscriptions
 -------------------------
@@ -137,7 +141,7 @@ To open a synced realm with initial subscriptions, you need to add an
 ``initialSubscriptions`` property to ``<RealmProvider>``'s 
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
 
-.. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.initial-subscriptions.tsx
+.. literalinclude:: /examples/generated/react-native/ts/initial-subscriptions.test.snippet.initial-subscriptions.tsx
    :language: javascript
 
 You **cannot** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
@@ -172,7 +176,7 @@ existing name will replace the existing query with the new query. However, if
 you set ``throwOnUpdate`` to true, adding a subscription with an existing name
 but a different query throws an exception.
 
-.. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.add-subscription.tsx
+.. literalinclude:: /examples/generated/react-native/ts/add-query-to-subs.test.snippet.add-query.tsx
    :language: javascript
 
 Get Subscriptions
@@ -182,7 +186,7 @@ Within a ``<RealmProvider>`` that's configured for Flexible Sync, you can access
 a collection of all subscriptions for your app. This is called a 
 :js-sdk:`SubscriptionSet <Realm.html#subscriptions>`.
 
-.. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.get-subscriptions.tsx
+.. literalinclude:: /examples/generated/react-native/ts/get-subscriptions.test.snippet.get-subscriptions.tsx
    :language: javascript
 
 You can use this ``SubscriptionSet`` to add queries to the list of subscriptions and
@@ -204,7 +208,7 @@ You can use subscription state to:
 - Find out when a subscription set is superseded, and you should obtain a
   new instance of the subscription set to write a subscription change
 
-.. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.get-sub-state.tsx
+.. literalinclude:: /examples/generated/react-native/ts/check-subs-status.test.snippet.check-sub-status.tsx
    :language: javascript
 
 Subscription State "Complete"
