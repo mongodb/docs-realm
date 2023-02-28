@@ -1,0 +1,87 @@
+.. _react-native-partition-realms:
+
+=======================================
+Partition-Based Sync - React Native SDK
+=======================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Partition-Based Sync is an older mode for using Atlas Device Sync with the Realm 
+React Native SDK.. We recommend using Flexible Sync for new apps. The information 
+on this page is for users who are still using Partition-Based Sync.
+
+For more information about Partition-Based Sync and how to configure it
+in Atlas App Services, refer to :ref:`Partition-Based Sync <partition-based-sync>`
+in the App Services documentation.
+
+.. _react-native-partition-sync-open-realm:
+
+Configure a Partition-Based Sync Realm
+--------------------------------------
+
+To open a Flexible Sync realm, use ``@realm/react``'s ``createRealmContext()`` 
+function and its returned ``<RealmProvider>``.
+
+In a ``<RealmProvider>`` that's nested in a ``<UserProvider>``, add a ``sync`` 
+property with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
+object that contains ``flexible: true``.
+
+Note that ``<UserProvider>`` automatically passes an authenticated user
+to ``<RealmProvider>``.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.partition-based-config.tsx
+   :language: javascript
+
+.. _react-native-open-existing-realm-different-configuration:
+.. _react-native-copy-data-and-open-new-realm:
+
+Copy Data and Open a New Realm
+------------------------------
+
+.. versionadded:: ``realm@10.14.0``
+
+To copy data from an existing realm to a new realm with different
+configuration options, pass the new configuration the
+:js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>` method.
+
+.. include:: /includes/note-writecopy-pbs-only.rst
+
+In the new realm's configuration, you *must* specify the ``path``. 
+
+If you write the copied realm to a realm file that already exists, the data is written object by object.
+The copy operation replaces objects if there already exists objects for given primary keys.
+The schemas of the realm you copy and the realm you are writing to must be 
+compatible for the copy operation to succeed.
+Only objects in the schemas of both configurations are copied over.
+
+The configuration change can include modifications to :js-sdk:`SyncConfiguration
+<Realm.App.Sync.html#~SyncConfiguration>`: 
+
+- Local realm to synced realm
+- Synced Realm to local realm
+
+The configuration change can also include changes to ``encryptionKey`` 
+property of the ``Configuration``: 
+
+- Encrypted realm to unencrypted realm
+- Unencrypted realm to encrypted realm
+
+.. example:: Convert Local Realm to Synced Realm
+
+   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
+      :language: javascript
+      :emphasize-lines: 15-16
+
+You can also combine changes to configuration. For example, you can open a
+local encrypted realm as a synced unencrypted realm or a unencrypted synced realm
+as an encrypted synced realm.
+
+.. example:: Convert Synced Encrypted to Local Unencrypted Realm
+
+   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
+      :language: javascript
+      :emphasize-lines: 19-20
