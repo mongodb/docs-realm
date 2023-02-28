@@ -11,15 +11,15 @@ Manage Flexible Sync Subscriptions - React Native SDK
    :class: singlecol
 
 Flexible Sync uses subscriptions and permissions to determine which
-data to sync with your App. The ``@realm/react`` library streamlines permissions
-and queries for you.
+data to sync with your App Services App using Atlas Device Sync. The ``@realm/react`` library streamlines permissions
+and queries.
 
 .. include:: /includes/note-flexible-sync-prerequisite.rst
 
 Prerequisites
 -------------
 
-To use Flexible Sync in a React Native client:
+Before you can add Flexible Sync subscriptions to a React Native client, you must:
 
 #. :ref:`Configure Flexible Sync <enable-flexible-sync>` on the Atlas App Services backend
 #. :ref:`Initialize the app client <react-native-app-client-configuration>` 
@@ -99,10 +99,10 @@ and add them to your Flexible Sync subscriptions.
    a :js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`
    as an argument.
 #. Within the callback function, call the 
-   :js-sdk:`add() <Realm.App.Sync.MutableSubscriptionSet.html#add>`
-   method on the ``MutableSubscriptionSet`` to add a query to the subscription.
+   :js-sdk:`MutableSubscriptionSet.add() <Realm.App.Sync.MutableSubscriptionSet.html#add>`
+   method to add a query to the subscription.
 
-The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
+``MutableSubscriptionSet.add()`` takes a ``query`` and a
 :js-sdk:`SubscriptionOptions <Realm.App.Sync.html#.SubscriptionOptions>` object.
 The subscription options include:
 
@@ -111,7 +111,7 @@ The subscription options include:
 
 If ``throwOnUpdate`` is false or undefined, adding a subscription with an
 existing name will replace the existing query with the new query. However, if
-you set ``throwOnUpdate`` to true, adding a subscription with an existing name
+you set ``throwOnUpdate: true``, adding a subscription with an existing name
 but a different query throws an exception.
 
 .. literalinclude:: /examples/generated/react-native/ts/add-query-to-subs.test.snippet.add-query.tsx
