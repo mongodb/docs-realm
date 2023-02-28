@@ -16,8 +16,8 @@ and queries for you.
 
 .. include:: /includes/note-flexible-sync-prerequisite.rst
 
-Before You Begin
-----------------
+Prerequisites
+-------------
 
 To use Flexible Sync in a React Native client:
 
@@ -44,48 +44,6 @@ To learn more about the limitations of using Realm Query Language with Flexible 
 refer to the :ref:`Flexible Sync RQL Limitations
 <react-native-flexible-sync-rql-limitations>` section.
 
-Define Your Subscriptions with Hooks
-------------------------------------
-
-The ``@realm/react`` library provides the ``useQuery()`` and ``useObject()`` hooks that streamline how you define 
-subscriptions in the React Native SDK.
-
-In order to use the hooks, components must be nested within the ``<RealmProvider>``.
-
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync.tsx
-   :language: javascript
-
-Get Collections with useQuery()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The ``useQuery()`` hook returns a ``Realm.Results`` collection that contains all 
-objects of a given type in your realm. The hook will automatically monitor the
-collection and re-render its parent component when changes to its objects are detected.
-
-This hook doesn't update any subscriptions on its own. You should pass a class 
-that extends ``Realm.Object`` to this hook. Alternatively, you can pass a string
-that matches the name of your class.
-
-.. TODO: Add better example
-
-.. .. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.usequery.tsx
-..    :language: javascript
-
-Get a Specific Object with useObject()
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The ``useObject()`` hook returns a single Realm object for a given type and
-primary key. The hook updates if any properties on the returned object change.
-
-This hook doesn't update any subscriptions on its own. You should pass a class 
-that extends ``Realm.Object`` to this hook. Alternatively, you can pass a string
-that matches the name of your class.
-
-.. TODO: Add better example
-
-.. .. literalinclude:: /examples/generated/react-native/ts/manage-subscriptions.test.snippet.useobject.tsx
-..    :language: javascript
-
 Manage Your Subscriptions
 -------------------------
 
@@ -100,11 +58,11 @@ access to the currently-opened realm.
 
 You can do the following with your subscriptions:
 
-- Get a list of all subscriptions
-- Add subscriptions
-- Check subscription state
-- Update a subscription with a new query
-- Remove subscriptions
+- :ref:`Add subscriptions <react-native-sync-add-subscription>`
+- :ref:`Configure a realm with initial subscriptions <react-native-sync-bootstrap-initial-subscriptions>`
+- :ref:`Get a list of all subscriptions <react-native-get-subscriptions>`
+- :ref:`Check the status of subscriptions <react-native-flexible-sync-wait-for-sync>`
+- :ref:`Remove subscriptions <react-native-remove-subscription>`
 
 When the data matches the subscription, and the authenticated user has the
 appropriate permissions, Device Sync syncs the backend data with the client app.
@@ -115,42 +73,22 @@ Subscription information is stored in the synced realm's database file.
 You must explicitly remove a subscription
 for it to stop attempting to sync matching data.
 
-You can specify a string name for your subscription. If you do not give your
-subscription a name, the name is set to ``null``.
+You should name your subscription. This makes updating your subscription easier.
+
+If you do not give your subscription a name, the name is set to ``null`` and 
+the subscription is based on the :ref:`Realm Query Language <react-native-query-data>`
+(RQL) string. If the RQL string changes and the subscription is not named, you 
+won't be able to update your subscription.
 
 When you create a subscription, Realm looks for data matching a query on a
 specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
-The examples in this section assume that you have a properly-configured ``<RealmProvider>``.
-
-.. _react-native-sync-bootstrap-initial-subscriptions:
-
-Configure a Realm with Initial Subscriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. TODO: treat initial subs as global subs
-
-You must have at least one subscription before you can read from or write to a
-Flexible Sync realm. For ``@realm/react``, this means you must provide an initial
-subscription for  Initial subscriptions let you define subscriptions as you
-:ref:`open a synced realm <react-native-open-a-synced-realm>`.
-
-To open a synced realm with initial subscriptions, you need to add an 
-``initialSubscriptions`` property to ``<RealmProvider>``'s 
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
-
-.. literalinclude:: /examples/generated/react-native/ts/initial-subscriptions.test.snippet.initial-subscriptions.tsx
-   :language: javascript
-
-You **cannot** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
-when setting initial subscriptions.
-
 .. _react-native-sync-add-subscription:
 
-Add a Query to the Set of Subscriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add a Subscription
+~~~~~~~~~~~~~~~~~~
 
 Compose queries using :ref:`Realm Query Language <react-native-query-data>`
 and add them to your Flexible Sync subscriptions.
@@ -178,6 +116,27 @@ but a different query throws an exception.
 
 .. literalinclude:: /examples/generated/react-native/ts/add-query-to-subs.test.snippet.add-query.tsx
    :language: javascript
+
+.. _react-native-sync-bootstrap-initial-subscriptions:
+
+Configure a Realm with Initial Subscriptions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You must have at least one subscription before you can read from or write to a
+Flexible Sync realm. Initial subscriptions let you define subscriptions when you
+:ref:`configure a synced realm <react-native-open-a-synced-realm>`.
+
+To open a synced realm with initial subscriptions, add an  ``initialSubscriptions`` 
+property to ``<RealmProvider>``'s 
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
+
+You **cannot** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
+when setting initial subscriptions.
+
+.. literalinclude:: /examples/generated/react-native/ts/initial-subscriptions.test.snippet.initial-subscriptions.tsx
+   :language: javascript
+
+.. _react-native-get-subscriptions:
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
@@ -226,6 +185,8 @@ include all documents that currently match the subscription.
 
 The Realm SDK does not provide a way to check whether all documents that match 
 a subscription have synced to the device.
+
+.. _react-native-remove-subscription:
 
 Remove Subscriptions
 ~~~~~~~~~~~~~~~~~~~~

@@ -19,8 +19,6 @@ function AppWrapper() {
         <RealmProvider
           sync={{
             flexible: true,
-            // Set initial subscription for all objects of type `Turtle`.
-            // You can add more than one subscription here.
             initialSubscriptions: {
               update(subs, realm) {
                 subs.add(realm.objects(Turtle));
