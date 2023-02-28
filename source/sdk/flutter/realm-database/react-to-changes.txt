@@ -121,8 +121,9 @@ which includes description of changes since the last notification.
 Register RealmList amd RealmSet Change Listeners
 ------------------------------------------------
 
-You can register a notification handler on a list or set of ``RealmObjects`` within another ``RealmObject``.
-Realm notifies your handler when any of the object's properties change.
+You can register a notification handler on a list or set of any of the
+supported data types within another ``RealmObject``.
+Realm notifies your handler when any of the items in the set or list change.
 The handler receives a :flutter-sdk:`RealmListChanges <realm/RealmListChanges-class.html>` object
 for ``RealmList`` and :flutter-sdk:`RealmSetChanges <realm/RealmSetChanges-class.html>` object
 for ``RealmSet``.
@@ -158,7 +159,7 @@ These objects include description of changes since the last notification.
      - Indexes of the items in the list which moved.
 
    * - ``list`` / ``set``
-     - *RealmList<T as RealmObject>* / *RealmSet<T as RealmObject>*
+     - *RealmList<T>* / *RealmSet<T>*
      - ``RealmList`` being monitored for changes if listening to a ``RealmList``.
        ``RealmSet`` being monitored for changes if listening to a ``RealmSet``.
 
