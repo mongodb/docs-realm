@@ -1,16 +1,10 @@
 import React from 'react';
-import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
-// import object model
-import Turtle from '../Models/Turtle';
+import {AppProvider, UserProvider} from '@realm/react';
+// get realm context from createRealmContext()
+import {RealmContext} from '../RealmConfig';
 import {Text, FlatList} from 'react-native';
 
-const config = {
-  // Pass in imported object models
-  schema: [Turtle],
-};
-
-const RealmContext = createRealmContext(config);
-const {RealmProvider} = RealmContext;
+const {RealmProvider, useQuery} = RealmContext;
 
 function AppWrapper() {
   return (
@@ -21,7 +15,7 @@ function AppWrapper() {
             flexible: true,
             initialSubscriptions: {
               update(subs, realm) {
-                subs.add(realm.objects(Turtle));
+                subs.add(realm.objects('Turtle'));
               },
             },
             onError: console.log,
@@ -34,12 +28,11 @@ function AppWrapper() {
 }
 
 function SubscriptionManager() {
-  const {useQuery} = RealmContext;
 
   // Pass object model to useQuery to get all objects of type `Turtle`.
   // These results automatically update with changes from other devices
   // because we created a subscription with `initialSubscriptions`.
-  const allTurtles = useQuery(Turtle);
+  const allTurtles = useQuery('Turtle');
 
   return (
     <FlatList

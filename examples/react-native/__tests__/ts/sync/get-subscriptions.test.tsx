@@ -1,13 +1,17 @@
+// :replace-start: {
+//   "terms": {
+//     "SubscriptionRealmContext": "RealmContext"
+//   }
+// }
 // :snippet-start: get-subscriptions
 import React, {useEffect} from 'react';
-import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
-// import object model
-import Turtle from '../Models/Turtle';
-import Bird from '../Models/Bird';
+import {AppProvider, UserProvider} from '@realm/react';
+// get realm context from createRealmContext()
+import {SubscriptionRealmContext} from '../RealmConfig';
 import {Text, FlatList} from 'react-native';
 // :remove-start:
 import {App, Credentials} from 'realm';
-import {useApp, Realm} from '@realm/react';
+import {useApp} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
 
 const APP_ID = 'js-flexible-oseso';
@@ -23,15 +27,8 @@ function LogIn() {
 
   return <></>;
 }
-// :remove-end:
 
-const config = {
-  // Pass in imported object models
-  schema: [Turtle, Bird],
-};
-
-const RealmContext = createRealmContext(config);
-const {RealmProvider} = RealmContext;
+const {RealmProvider} = SubscriptionRealmContext;
 
 function AppWrapper() {
   return (
@@ -42,7 +39,7 @@ function AppWrapper() {
             flexible: true,
             initialSubscriptions: {
               update(subs, realm) {
-                subs.add(realm.objects(Turtle));
+                subs.add(realm.objects('Turtle'));
               },
             },
             onError: console.log,
@@ -53,9 +50,11 @@ function AppWrapper() {
     </AppProvider>
   );
 }
+// :remove-end:
+
+const {useRealm, useQuery} = SubscriptionRealmContext;
 
 function SubscriptionManager() {
-  const {useRealm, useQuery} = RealmContext;
   const realm = useRealm();
 
   // Returns a subscription set that contains all subscriptions.
@@ -63,7 +62,7 @@ function SubscriptionManager() {
 
   // Pass object model to useQuery and filter results.
   // This does not create a subscription.
-  const seenBirds = useQuery(Bird).filtered('haveSeen == true');
+  const seenBirds = useQuery('Bird').filtered('haveSeen == true');
 
   useEffect(() => {
     realm.subscriptions.update(mutableSubs => {
@@ -82,13 +81,13 @@ function SubscriptionManager() {
   );
 }
 // :snippet-end:
+// :replace-end:
 
 afterEach(async () => {
   await App.getApp(APP_ID).currentUser?.logOut();
-  Realm.deleteFile(config);
 });
 
-test('Instantiate AppWrapper and children correctly', async () => {
+test('Instantiate AppWrapper and test number of subscriptions', async () => {
   render(<AppWrapper />);
   await waitFor(
     () => {

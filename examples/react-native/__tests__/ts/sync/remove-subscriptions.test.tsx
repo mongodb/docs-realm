@@ -1,11 +1,16 @@
+// :replace-start: {
+//   "terms": {
+//     "SubscriptionRealmContext": "RealmContext"
+//   }
+// }
 // :snippet-start: remove-subscriptions-full
 import React, {useEffect} from 'react';
-import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
-// import object model
-import Turtle from '../Models/Turtle';
+import {AppProvider, UserProvider} from '@realm/react';
+// get realm context from createRealmContext()
+import {SubscriptionRealmContext} from '../RealmConfig';
 // :remove-start:
 import {App, Credentials} from 'realm';
-import {useApp, Realm} from '@realm/react';
+import {useApp} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
 
 const APP_ID = 'js-flexible-oseso';
@@ -23,13 +28,7 @@ function LogIn() {
 }
 // :remove-end:
 
-const config = {
-  // Pass in imported object models
-  schema: [Turtle],
-};
-
-const RealmContext = createRealmContext(config);
-const {RealmProvider} = RealmContext;
+const {RealmProvider, useRealm} = SubscriptionRealmContext;
 
 function AppWrapper() {
   return (
@@ -40,7 +39,7 @@ function AppWrapper() {
             flexible: true,
             initialSubscriptions: {
               update(subs, realm) {
-                subs.add(realm.objects(Turtle));
+                subs.add(realm.objects('Turtle'));
               },
             },
             onError: console.log,
@@ -53,7 +52,6 @@ function AppWrapper() {
 }
 
 function SubscriptionManager() {
-  const {useRealm} = RealmContext;
   const realm = useRealm();
 
   useEffect(() => {
@@ -66,17 +64,18 @@ function SubscriptionManager() {
   });
 
   return (
-    <></>
+    // ...
+    <></> // :remove:
   );
 }
 // :snippet-end:
+// :replace-end:
 
 afterEach(async () => {
   await App.getApp(APP_ID).currentUser?.logOut();
-  Realm.deleteFile(config);
 });
 
-test('Instantiate AppWrapper and children correctly', async () => {
+test('Instantiate AppWrapper and test number of subscriptions', async () => {
   render(<AppWrapper />);
   await waitFor(
     () => {

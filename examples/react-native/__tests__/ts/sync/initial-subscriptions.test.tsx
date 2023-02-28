@@ -1,13 +1,18 @@
+// :replace-start: {
+//   "terms": {
+//     "SubscriptionRealmContext": "RealmContext"
+//   }
+// }
 // :snippet-start: initial-subscriptions
 import React from 'react';
-import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
-// import object model
-import Turtle from '../Models/Turtle';
+import {AppProvider, UserProvider} from '@realm/react';
+// get realm context from createRealmContext()
+import {SubscriptionRealmContext} from '../RealmConfig';
 import {Text, FlatList} from 'react-native';
 // :remove-start:
 import {useEffect} from 'react';
 import {App, Credentials} from 'realm';
-import {useApp, Realm} from '@realm/react';
+import {useApp} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
 
 const APP_ID = 'js-flexible-oseso';
@@ -25,13 +30,7 @@ function LogIn() {
 }
 // :remove-end:
 
-const config = {
-  // Pass in imported object models
-  schema: [Turtle],
-};
-
-const RealmContext = createRealmContext(config);
-const {RealmProvider} = RealmContext;
+const {RealmProvider, useQuery} = SubscriptionRealmContext;
 
 function AppWrapper() {
   return (
@@ -42,7 +41,7 @@ function AppWrapper() {
             flexible: true,
             initialSubscriptions: {
               update(subs, realm) {
-                subs.add(realm.objects(Turtle));
+                subs.add(realm.objects('Turtle'));
               },
             },
             onError: console.log,
@@ -55,10 +54,9 @@ function AppWrapper() {
 }
 
 function SubscriptionManager() {
-  const {useQuery} = RealmContext;
   // :remove-start:
   // Test logic only in this section.
-  const {useRealm} = RealmContext;
+  const {useRealm} = SubscriptionRealmContext;
   const realm = useRealm();
   const allSubscriptions = realm.subscriptions;
 
@@ -68,7 +66,7 @@ function SubscriptionManager() {
   // Pass object model to useQuery to get all objects of type `Turtle`.
   // These results automatically update with changes from other devices
   // because we created a subscription with `initialSubscriptions`.
-  const allTurtles = useQuery(Turtle);
+  const allTurtles = useQuery('Turtle');
 
   return (
     <FlatList
@@ -79,13 +77,13 @@ function SubscriptionManager() {
   );
 }
 // :snippet-end:
+// :replace-end:
 
 afterEach(async () => {
   await App.getApp(APP_ID).currentUser?.logOut();
-  Realm.deleteFile(config);
 });
 
-test('Instantiate AppWrapper and children correctly', async () => {
+test('Instantiate AppWrapper and test number of subscriptions', async () => {
   render(<AppWrapper />);
   await waitFor(
     () => {

@@ -1,44 +1,25 @@
 import React, {useEffect} from 'react';
-import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
-// import object model
-import Turtle from '../Models/Turtle';
+import {AppProvider, UserProvider} from '@realm/react';
 import {Text, View} from 'react-native';
+// get realm context from createRealmContext()
+import {RealmContext} from '../RealmConfig';
 
-const config = {
-  // Pass in imported object models
-  schema: [Turtle],
-};
-
-const RealmContext = createRealmContext(config);
-const {RealmProvider} = RealmContext;
-
-function AppWrapper() {
-  return (
-    <AppProvider id={APP_ID}>
-      <UserProvider fallback={LogIn}>
-        <RealmProvider
-          sync={{
-            flexible: true,
-            initialSubscriptions: {
-              update(subs, realm) {
-                subs.add(realm.objects(Turtle));
-              },
-            },
-            onError: console.log,
-          }}>
-          <SubscriptionManager />
-        </RealmProvider>
-      </UserProvider>
-    </AppProvider>
-  );
-}
+const {useRealm, useQuery} = RealmContext;
 
 function SubscriptionManager() {
-  const {useRealm} = RealmContext;
   const realm = useRealm();
+  const seenBirds = useQuery('Bird').filtered('haveSeen == true');
+
+  useEffect(() => {
+    realm.subscriptions.update(mutableSubs => {
+      // Create subscription for filtered results.
+      mutableSubs.add(seenBirds);
+    });
+  });
 
   // Returns state of all subscriptions, not individual subscriptions.
-  // In this case, it's just the subscription for `Turtle` objects.
+  // In this case, it's just the subscription for `Bird` objects where
+  // `haveSeen` is true.
   const allSubscriptionState = realm.subscriptions.state;
 
   return (
