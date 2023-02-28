@@ -1,1 +1,0 @@
-const allSubscriptions = realm.subscriptions;
