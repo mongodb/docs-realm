@@ -30,15 +30,17 @@ application runs in a resource-constrained environment, you may want to
 compact when you reach a certain file size or when the file size negatively 
 impacts performance.
 
-.. note:: Automatic Compaction
+Automatic Compaction
+--------------------
 
-   As of Flutter version 0.9.0 and up, Realm files are automatically compacted in the 
-   background by continuously reallocating data in the file and removing 
-   unused file space. The Realm file will only be automatically compacted when
-   the file is not being accessed.
+As of Flutter version 0.9.0 and up, Realm files are automatically compacted in the 
+background by continuously reallocating data in the file and removing 
+unused file space. Files are automatically compacted once free space is twice the size
+of Realm user data in the file. Automatic compaction will only take place when
+the file is not being accessed. 
 
-Compaction Strategies
----------------------
+Manual Compaction Strategies
+----------------------------
 
 You can compact a realm file using either of two strategies:
 
@@ -52,10 +54,17 @@ You can compact a realm file using either of two strategies:
   environment. This is a property on realm's :flutter-sdk:`LocalConfiguration 
   <realm/LocalConfiguration-class.html>`, and only works with non-Synced realms.
 
+.. note:: When To Use Manual Compaction
+
+   Automatic compaction begins once free space in the file is twice the 
+   size of user data in the file. Use the following manual compaction strategies 
+   if this automatic compaction threshold is not sufficient for your application. 
+
+
 .. _flutter-realm-compact:
 
 Realm.compact() Static Method
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can compact a realm file by calling :flutter-sdk:`Realm.compact() 
 <realm/Realm/compact.html>`. This method takes a :flutter-sdk:`Configuration 
@@ -78,7 +87,7 @@ open realm.
 .. _flutter-should-compact-callback:
 
 Conditionally Compact on Open
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
