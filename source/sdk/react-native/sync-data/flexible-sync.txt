@@ -116,6 +116,7 @@ but a different query throws an exception.
 
 .. literalinclude:: /examples/generated/react-native/ts/add-query-to-subs.test.snippet.add-query.tsx
    :language: javascript
+   :emphasize-lines: 37, 40-43
 
 .. _react-native-sync-bootstrap-initial-subscriptions:
 
@@ -135,6 +136,7 @@ when setting initial subscriptions.
 
 .. literalinclude:: /examples/generated/react-native/ts/initial-subscriptions.test.snippet.initial-subscriptions.tsx
    :language: javascript
+   :emphasize-lines: 21-26, 42
 
 .. _react-native-get-subscriptions:
 
@@ -147,6 +149,7 @@ a collection of all subscriptions for your app. This is called a
 
 .. literalinclude:: /examples/generated/react-native/ts/get-subscriptions.test.snippet.get-subscriptions.tsx
    :language: javascript
+   :emphasize-lines: 43
 
 You can use this ``SubscriptionSet`` to add queries to the list of subscriptions and
 update existing subscriptions.
@@ -169,6 +172,7 @@ You can use subscription state to:
 
 .. literalinclude:: /examples/generated/react-native/ts/check-subs-status.test.snippet.check-sub-status.tsx
    :language: javascript
+   :emphasize-lines: 42
 
 Subscription State "Complete"
 `````````````````````````````
@@ -202,7 +206,11 @@ When you remove a subscription query, the server also removes synced data from
 the client device.
 
 If you're using ``@realm/react``, these examples assume you're working with a
-component that's nested inside ``<RealmProvider>``.
+component that's nested inside ``<RealmProvider>``, like the following example:
+
+.. literalinclude:: /examples/generated/react-native/ts/remove-subscriptions.test.snippet.remove-subscriptions-full.tsx
+   :language: javascript
+   :emphasize-lines: 40-44
 
 Remove a Subscription by Query
 ``````````````````````````````
