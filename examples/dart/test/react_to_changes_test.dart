@@ -121,6 +121,9 @@ void main() {
         // after deletions and insertions are accounted for
         changes.moved; // indexes of moved Realm objects
         changes.list; // the full RealmList of Realm objects
+        // `true` after call to fellowshipOfTheRing.members.clear().
+        // Otherwise false.
+        changes.isCleared;
       });
       // :snippet-end:
       await Future<void>.delayed(Duration(milliseconds: 10));

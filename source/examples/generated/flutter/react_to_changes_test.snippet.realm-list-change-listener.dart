@@ -7,4 +7,7 @@ final fellowshipSubscription =
   // after deletions and insertions are accounted for
   changes.moved; // indexes of moved Realm objects
   changes.list; // the full RealmList of Realm objects
+  // `true` after call to fellowshipOfTheRing.members.clear().
+  // Otherwise false.
+  changes.isCleared;
 });

@@ -80,6 +80,10 @@ which includes description of changes since the last notification.
      - *RealmResults<T as RealmObject>*
      - Results collection being monitored for changes.
 
+   * - ``isCleared``
+     - *boolean*
+     - ``true`` when a collection has been cleared by calling its ``clear()`` method.
+
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
    :language: dart
 
@@ -116,14 +120,18 @@ which includes description of changes since the last notification.
    :language: dart
 
 .. _flutter-realm-list-change-listener:
+.. _flutter-realm-set-change-listener:
 
-Register a RealmList Change Listener
-------------------------------------
+Register RealmList amd RealmSet Change Listeners
+------------------------------------------------
 
-You can register a notification handler on a list of ``RealmObjects`` within another ``RealmObject``.
+You can register a notification handler on a list or set of ``RealmObjects`` within another ``RealmObject``.
 Realm notifies your handler when any of the object's properties change.
-The handler receives a :flutter-sdk:`RealmListChanges <realm/RealmListChanges-class.html>` object,
-which includes description of changes since the last notification.
+The handler receives a :flutter-sdk:`RealmListChanges <realm/RealmListChanges-class.html>` object
+for ``RealmList`` and :flutter-sdk:`RealmSetChanges <realm/RealmSetChanges-class.html>` object
+for ``RealmSet``.
+These objects include description of changes since the last notification.
+
 ``RealmListChanges`` contains the following properties:
 
 .. list-table::
@@ -153,13 +161,16 @@ which includes description of changes since the last notification.
      - *List<int>*
      - Indexes of the items in the list which moved.
 
-   * - ``list``
-     - *RealmList<T as RealmObject>*
-     - RealmList being monitored for changes.
+   * - ``list`` / ``set``
+     - *RealmList<T as RealmObject>* / *RealmSet<T as RealmObject>*
+     - ``RealmList`` being monitored for changes if listening to a ``RealmList``.
+       ``RealmSet`` being monitored for changes if listening to a ``RealmSet``.
 
-.. important::
-
-   You can only apply a change listener to a ``RealmList<T as RealmObject>``.
+   * - ``isCleared``
+     - *boolean*
+     - ``true`` when a collection has been cleared by calling its
+       :flutter-sdk:`RealmList.clear() <realm/RealmList-class.html>` or
+       :flutter-sdk:`RealmSet.clear() <realm/RealmSet-class.html>` method.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
    :language: dart
