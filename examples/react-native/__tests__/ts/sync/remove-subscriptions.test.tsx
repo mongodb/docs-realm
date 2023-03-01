@@ -4,11 +4,12 @@
 //   }
 // }
 // :snippet-start: remove-subscriptions-full
-import React, {useEffect} from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
+import {useEffect} from 'react';
 // get realm context from createRealmContext()
 import {SubscriptionRealmContext} from '../RealmConfig';
 // :remove-start:
+import React from 'react';
+import {AppProvider, UserProvider} from '@realm/react';
 import {App, Credentials} from 'realm';
 import {useApp} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
@@ -26,9 +27,7 @@ function LogIn() {
 
   return <></>;
 }
-// :remove-end:
-
-const {RealmProvider, useRealm} = SubscriptionRealmContext;
+const {RealmProvider} = SubscriptionRealmContext;
 
 function AppWrapper() {
   return (
@@ -50,6 +49,10 @@ function AppWrapper() {
     </AppProvider>
   );
 }
+
+// :remove-end:
+
+const {useRealm} = SubscriptionRealmContext;
 
 function SubscriptionManager() {
   const realm = useRealm();

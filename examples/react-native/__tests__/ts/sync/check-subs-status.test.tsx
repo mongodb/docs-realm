@@ -5,11 +5,11 @@
 // }
 // :snippet-start: check-sub-status
 import React, {useEffect} from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
 import {Text, View} from 'react-native';
 // get realm context from createRealmContext()
 import {SubscriptionRealmContext} from '../RealmConfig';
 // :remove-start:
+import {AppProvider, UserProvider} from '@realm/react';
 import {App, Credentials} from 'realm';
 import {useApp, Realm} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';

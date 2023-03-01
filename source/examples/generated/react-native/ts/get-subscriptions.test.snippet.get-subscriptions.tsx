@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
 // get realm context from createRealmContext()
 import {RealmContext} from '../RealmConfig';
 import {Text, FlatList} from 'react-native';
