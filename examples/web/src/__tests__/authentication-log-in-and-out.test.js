@@ -2,6 +2,8 @@ import * as Realm from "realm-web";
 import { getIdToken } from "firebase/auth";
 import { APP_ID } from "../realm.config.json";
 
+// TODO: investigate all the TODOs on this and see if can remove or what
+
 const app = new Realm.App({ id: APP_ID });
 jest.setTimeout(15000);
 describe("Log in user", () => {
@@ -117,7 +119,7 @@ describe("Log in user", () => {
   test.skip("Firebase with Custom JWT", async () => {
     const realmApp = app;
     const firebaseUser = {};
-    // :snippet-start: custom-jwt-firebase
+    // :NOT-snippet-start: custom-jwt-firebase
     // ... log user into Firebase & initialize Realm app
 
     // Using modular Firebase Web v9 SDK method auth.getIdToken()
@@ -125,7 +127,7 @@ describe("Log in user", () => {
     const token = await getIdToken(firebaseUser);
     const credentials = Realm.Credentials.jwt(token);
     const realmUser = await realmApp.logIn(credentials);
-    // :snippet-end:
+    // :NOT-snippet-end:
   });
   // TODO
   describe.skip("Facebook OAuth", () => {
@@ -164,14 +166,14 @@ describe("Log in user", () => {
   // TODO
   describe.skip("Google OAuth", () => {
     test("Built-in Google OAuth", () => {
-      // :snippet-start: builtin-google-oauth
+      // :NOT-snippet-start: builtin-google-oauth
       // TODO: add abstracted example
-      // :snippet-end:
+      // :NOT-snippet-end:
     });
     test("Google Onetap OAuth", () => {
-      // :snippet-start: google-onetap-oauth
+      // :NOT-snippet-start: google-onetap-oauth
       // TODO: Add abstracted example
-      // :snippet-end:
+      // :NOT-snippet-end:
     });
   });
   // TODO
