@@ -37,9 +37,9 @@ Avoid synchronous writes on the UI thread if you write on a background thread:
   You can write to a realm from any thread, but there can be only one writer at
   a time. Consequently, synchronous write transactions block each other. A
   synchronous write on the UI thread may result in your app appearing
-  unresponsive while it waits for a write on a background thread to complete. If
-  you are using :ref:`Device Sync <sync>`, avoid synchronous writes on the UI
-  thread as Sync writes on a background thread.
+  unresponsive while it waits for a write on a background thread to complete. 
+  :ref:`Device Sync <sync>` writes on a background thread, so you should
+  avoid synchronous writes on the UI thread with synced realms.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realm instances are **thread-confined**: that
