@@ -14,7 +14,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        74a363814de3bf28cd191306b9af65222fc18d0c
+  GIT_TAG        74a363814de3bf28cd191306b9af65222fc18d0c 
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
@@ -28,6 +28,7 @@ add_executable(examples
   flexible-sync.cpp 
   quick-start.cpp 
   supported-types.cpp
+  threading.cpp
 )
 
 target_link_libraries(examples PRIVATE Catch2::Catch2WithMain)
