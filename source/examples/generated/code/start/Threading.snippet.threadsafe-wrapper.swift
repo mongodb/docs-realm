@@ -13,17 +13,15 @@ try! realm.write {
 print("Person's name: \(personRef?.name ?? "unknown")")
 
 // Pass the reference to a background thread
-DispatchQueue(label: "background").async {
-    autoreleasepool {
-        let realm = try! Realm()
-        try! realm.write {
-            // Resolve within the transaction to ensure you get the
-            // latest changes from other threads. If the person
-            // object was deleted, personRef will be nil.
-            guard let person = personRef else {
-                return // person was deleted
-            }
-            person.name = "Jane Doe"
+DispatchQueue(label: "background", autoreleaseFrequency: .workItem).async {
+    let realm = try! Realm()
+    try! realm.write {
+        // Resolve within the transaction to ensure you get the
+        // latest changes from other threads. If the person
+        // object was deleted, personRef will be nil.
+        guard let person = personRef else {
+            return // person was deleted
         }
+        person.name = "Jane Doe"
     }
 }
