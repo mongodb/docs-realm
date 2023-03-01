@@ -33,16 +33,20 @@ impacts performance.
 Automatic Compaction
 --------------------
 
-As of Flutter version 0.9.0 and up, Realm files are automatically compacted in the 
-background by continuously reallocating data in the file and removing 
-unused file space. Files are automatically compacted once free space is twice the size
-of Realm user data in the file. Automatic compaction will only take place when
+.. versionadded:: 0.9.0
+
+The SDK automatically compacts Realm files in the background by continuously reallocating data 
+and removing unused file space. Automatic compaction only takes place when
 the file is not being accessed. 
 
 Manual Compaction Strategies
 ----------------------------
 
-You can compact a realm file using either of two strategies:
+In most circumstances, automatic compaction will be sufficient for minimizing
+the Realm file size. Manual compaction can be used if automatic compaction does not meet 
+applicaiton needs, such as if your SDK does not support automatic compaction.
+
+Use either of the following two strategies to compaxct a realm file manually:
 
 - :ref:`Realm.compact() <flutter-realm-compact>` static method: Use this 
   method to compact a realm. You can use this to compact a Flexible Sync realm.
@@ -53,13 +57,6 @@ You can compact a realm file using either of two strategies:
   conditions that are relevant to your performance needs or runtime 
   environment. This is a property on realm's :flutter-sdk:`LocalConfiguration 
   <realm/LocalConfiguration-class.html>`, and only works with non-Synced realms.
-
-.. note:: When To Use Manual Compaction
-
-   Automatic compaction begins once free space in the file is twice the 
-   size of user data in the file. Use the following manual compaction strategies 
-   if this automatic compaction threshold is not sufficient for your application. 
-
 
 .. _flutter-realm-compact:
 
