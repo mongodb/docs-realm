@@ -1,30 +1,28 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.kotlin.Realm
-import io.realm.kotlin.RealmConfiguration
-import io.realm.kotlin.ext.realmListOf
-import io.realm.kotlin.internal.platform.runBlocking
-import io.realm.kotlin.mongodb.App
-import io.realm.kotlin.mongodb.Credentials
-import io.realm.kotlin.mongodb.sync.SyncConfiguration
-import io.realm.kotlin.types.*
-import io.realm.kotlin.types.annotations.Ignore
-import io.realm.kotlin.types.annotations.Index
-import io.realm.kotlin.types.annotations.PrimaryKey
-import kotlinx.datetime.Instant
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import io.realm.kotlin.ext.query
-import io.realm.kotlin.ext.backlinks
-import io.realm.kotlin.ext.realmListOf
-import io.realm.kotlin.ext.realmSetOf
-import io.realm.kotlin.log.RealmLogger
-import io.realm.kotlin.query.RealmResults
-import kotlinx.coroutines.*
 //import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.launch
 //import kotlinx.coroutines.runBlocking
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.ext.backlinks
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.ext.realmSetOf
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.query.RealmResults
+import io.realm.kotlin.types.*
+import io.realm.kotlin.types.annotations.Ignore
+import io.realm.kotlin.types.annotations.Index
+import io.realm.kotlin.types.annotations.PersistedName
+import io.realm.kotlin.types.annotations.PrimaryKey
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
 import org.mongodb.kbson.ObjectId
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 // :replace-start: {
 //    "terms": {
@@ -96,9 +94,14 @@ class Post: RealmObject {
 }
 // :snippet-end:
 
+// :snippet-start: persisted-name
 class Horse : RealmObject {
     val _id: ObjectId = ObjectId()
+    val name: String =""
+    @PersistedName("rider_name") // Name persisted to realm
+    val riderName: Knight? = null // Kotlin name used in code
 }
+// :snippet-end:
 
 // :snippet-start: optional
 class Knight : RealmObject {
@@ -158,6 +161,9 @@ class Cat3 : RealmObject {
 
     @Ignore
     var tempId: Int = 0 // Ignored property
+
+    @PersistedName("latin_name") // Remapped property
+    var species: String? = null
 }
 // :snippet-end:
 
@@ -353,5 +359,6 @@ class SchemaTest: RealmTest() {
         }
 
     }
+
 }
 // :replace-end:

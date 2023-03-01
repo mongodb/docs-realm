@@ -1,0 +1,40 @@
+.. _kotlin-remap-a-property:
+
+=============================
+Remap a Property - Kotlin SDK
+=============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+By default, Realm Database uses the name defined in the model class
+to represent fields internally. 
+In some cases, you might want to change this behavior:
+
+- To make it easier to work across platforms where naming conventions differ. 
+  For example, if your Device Sync schema property names use snake case, 
+  while your project uses camel case.
+- To change a field name in Kotlin without forcing a :ref:`migration <kotlin-migrations>`.
+
+To map a different property name in your code than is stored in
+Realm Database, use the `@PersistedName <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-persisted-name/index.html>`__
+annotation in the :ref:`object schema <kotlin-object-schema>` and specify the 
+property ``name`` that you want persisted to the realm. 
+If you write to a synced realm, the Sync schema sees the values stored using the
+persisted property name.
+
+In this example, ``riderName`` is the Kotlin property name used in the code 
+throughout the project to perform CRUD operations and ``rider_name`` is the 
+persisted name used to store values in Realm Database:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.persisted-name.kt
+   :language: kotlin
+
+Note that migrations must use the persisted property name when creating classes and 
+properties, and any schema errors reported will also use the persisted name. 
+
+You can query by both the Kotlin name used in the code
+and by the persisted name stored in Realm Database.
