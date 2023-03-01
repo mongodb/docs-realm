@@ -36,31 +36,26 @@ simplify this for you.
 
 .. _dotnet-threading-three-rules:
 
-Three Rules to Keep in Mind
----------------------------
-
-Realm enables simple and safe multithreaded code when you
-follow these three rules:
+Three Rules to Follow
+---------------------
+Before exploring Realm's tools for multithreaded apps, you need to
+understand and follow these three rules:
 
 Don't lock to read:
-  Realm Database's :ref:`Multiversion Concurrency Control (MVCC)
-  <dotnet-mvcc>` architecture eliminates the need to lock for read operations. The
-  values you read will never be corrupted or in a
-  partially-modified state. You can freely read from realms
-  on any thread without the need for locks or mutexes.
-  Unnecessarily locking would be a performance bottleneck
-  since each thread might need to wait its turn before
-  reading.
+  Realm Database's :ref:`Multiversion Concurrency Control (MVCC) <dotnet-mvcc>`
+  architecture eliminates the need to lock for read operations. The values you
+  read will never be corrupted or in a partially-modified state. You can freely
+  read from the same Realm file on any thread without the need for locks or
+  mutexes. Unnecessarily locking would be a performance bottleneck since each
+  thread might need to wait its turn before reading.
 
-Avoid synchronous writes on the UI thread if you write on a background thread:
-  You can :ref:`write <dotnet-realm-database-writes>` to a
-  realm from any thread, but there can be only one
-  writer at a time. Consequently, synchronous write transactions block
-  each other. A synchronous write on the UI thread may result in your
-  app appearing unresponsive while it waits for a write on a
-  background thread to complete. If you are using
-  :ref:`Device Sync <sync>`, avoid synchronous writes on
-  the UI thread as Sync writes on a background
+Avoid synchronous writes on the UI thread:
+  You can :ref:`write <dotnet-realm-database-writes>` to a Realm file from any
+  thread, but there can be only one writer at a time. Consequently, synchronous
+  write transactions block each other. A synchronous write on the UI thread may
+  result in your app appearing unresponsive while it waits for a write on a
+  background thread to complete. If you are using :ref:`Device Sync <sync>`,
+  avoid synchronous writes on the UI thread as Sync writes on a background
   thread. Instead, use ``realm.WriteAsync``.
 
 Don't pass live objects, collections, or realms to other threads:
@@ -77,32 +72,29 @@ Don't pass live objects, collections, or realms to other threads:
 Communication Across Threads
 ----------------------------
 
-To access the same realm file from different threads, you must initialize a 
-new realm to get a different realm instance for every thread of 
-your app. As long as you specify the same configuration, all realm instances 
-will map to the same file on disk.
+To access the same Realm file from different threads, you must instantiate a
+realm instance on every thread that needs access. As long as you specify the same
+configuration, all realm instances will map to the same file on disk.
 
-One of the key rules when working with Realm Database in a
-multithreaded environment is that objects are
-thread-confined: **you cannot access the instances of a
-realm, collection, or object that originated on other
-threads.** Realm Database's :ref:`Multiversion Concurrency Control
-(MVCC) <dotnet-mvcc>` architecture means that there could be many
-active versions of an object at any time. Thread-confinement
-ensures that all instances in that thread are of the same
-internal version.
+One of the key rules when working with Realm Database in a multithreaded
+environment is that objects are thread-confined: **you cannot access the
+instances of a realm, collection, or object that originated on other threads.**
+Realm Database's :ref:`Multiversion Concurrency Control (MVCC) <dotnet-mvcc>`
+architecture means that there could be many active versions of an object at any
+time. Thread-confinement ensures that all instances in that thread are of the
+same internal version.
  
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To modify the data on two threads, :ref:`query <dotnet-client-query-engine>`
+- To modify an object on two threads, :ref:`query <dotnet-client-query-engine>`
   for the object on both threads.
 
 - To react to changes made on any thread, use Realm Database's
   :ref:`notifications <dotnet-client-notifications>`.
 
-- To see changes from other threads in the realm on the current
-  thread, :ref:`refresh <dotnet-refreshing-realms>` your realm instance.
+- To see changes that happened on another thread in the current thread's realm
+  instance, :ref:`refresh <dotnet-refreshing-realms>` your realm instance.
 
 - To send a fast, read-only view of the object to other threads,
   :ref:`"freeze" <dotnet-frozen-objects>` the object.
@@ -115,7 +107,7 @@ several options depending on your use case:
 Refreshing Realms
 -----------------
 
-On the main UI thread (or any thread with a run loop), realm 
+On the main UI thread (or any thread with a run loop), Realm 
 automatically refreshes objects at the start of every run loop iteration. 
 Between run loop iterations, you will be working on the snapshot, so 
 individual methods always see a consistent view and never have to worry 
