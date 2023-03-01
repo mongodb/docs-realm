@@ -29,30 +29,3 @@ strongly typed handling logic.
 
 .. include:: /includes/sync-errors-in-app-services.rst
 
-.. _dotnet-reset-a-client-realm-file:
-
-.. Reset a Client Realm File
-.. -------------------------
-
-
-.. _dotnet-set-the-client-log-level:
-
-Set the Client Log Level
-------------------------
-To control which messages are logged by the client logger, use
-:dotnet-sdk:`LogLevel <reference/Realms.Logging.LogLevel.html>`:
-
-.. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.set-log-level.cs
-   :language: csharp
-
-.. include:: /includes/tip-sync-log-levels.rst
-
-
-.. _dotnet-customize-logging-function:
-
-Customize the Logging Function
-------------------------------
-To set a custom logger function, set :dotnet-sdk:`Logger.Default <reference/Realms.Logging.Logger.html>` to a custom Logger function. 
-
-.. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.customize-logging-function.cs
-   :language: csharp
