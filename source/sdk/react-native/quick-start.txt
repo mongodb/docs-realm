@@ -11,30 +11,31 @@ Quick Start - React Native SDK
    :depth: 2
    :class: singlecol
 
-This page contains information to quickly get Realm Database
-integrated into your app.
+This Quick Start demonstrates how to use Realm Database with the React Native SDK
+and ``@realm/react`` library.
 
-Before you begin:
-
-- Install the :ref:`Realm React Native SDK <react-native-install>` and 
-  ``@realm/react`` library
+Before you begin, ensure you have :ref:`installed the 
+Realm React Native SDK <react-native-install>` and ``@realm/react`` library.
 
 About the @realm/react Library
 ------------------------------
 
-The :github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` library
-provides state-aware React hooks for Realm data. This means you don't need to manually
-add and remove listeners. The hooks watch the Realm data and re-render components
-as needed.
+:github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is an 
+additional library that works with and relies on the React Native SDK. 
+
+It provides state-aware React hooks for Realm data. This means you don't need to 
+manually add and remove listeners. The hooks watch the Realm data and re-render 
+components as needed.
 
 The React Native SDK documentation defaults to using ``@realm/react`` for examples 
-and when describing concepts.
+and describing concepts.
 
-Set Up Your App
----------------
+Set Up Your Realm App
+---------------------
 
-After you install the Realm React Native SDK and ``@realm/react``, you're ready
-to start coding. For a typical Realm app, you should start with the following:
+After installing the Realm React Native SDK and ``@realm/react``, there are a
+few more things to set up before you can access your realm and work with local
+data.
 
 - Import hooks from ``@realm/react``
 - Define an object model
@@ -57,12 +58,13 @@ At the top of your source files where you want to use Realm, import the
 Define an Object Model
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Your application's :ref:`object model <react-native-object-schemas>` defines the data
-that you can store within Realm Database. An object model is made up of object types.
+In Realm Database, all data is a type of object. Becuase of this, your 
+application's :ref:`object model <react-native-object-schemas>` defines the data
+that you can store within a realm. An object model is made up of object types.
 
 To define a basic Realm object type, create a class that contains a static 
 ``schema`` field. Within this field, define the object's ``name``, ``properties``,
-and ``primaryKey``. 
+and ``primaryKey``. You can add other properties, but these three are required.
 
 The type name and primary key must be unique among object types in a realm.
 
@@ -76,21 +78,72 @@ The type name and primary key must be unique among object types in a realm.
 Configure a Realm
 ~~~~~~~~~~~~~~~~~
 
-The ``@realm/react`` library exposes realms in your application using 
-`React Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
-components. You can access realms with React hooks.
+.. TODO: write intro that links to configure page and adds a little context.
+   Maybe include the numbered list and link to the individual sections?
+   Include a full example.
 
-To configure and open a local realm, create a Context with the realm's configuration. The 
-Context exports a ``<RealmProvider>`` component that exposes a configured realm. 
-All child components of ``<RealmProvider>`` can access the realm using hooks.
-
-.. TODO: realm reactify
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.open-a-realm.js
+.. TODO: add full example generated snippet
+.. literalinclude:: 
   :language: javascript
 
-Work With Objects
------------------
+.. TODO: update configure a realm page with this better approach.
+
+To configure and access a local realm:
+
+#. Import your object models
+#. Create a :js-sdk:`Configuration object <Realm.html#~Configuration>`
+#. Create a realm context
+#. Expose and access a realm
+
+Import Object Models
+````````````````````
+
+To properly-configure a realm, you need to let the realm know what kind of data
+the realm will contain. You do this by ensure your realm has access to your
+data models. Import them where you want to create a realm context.
+
+.. TODO: add import generated snippet
+.. literalinclude:: 
+  :language: javascript
+
+Create a Configuration Object
+`````````````````````````````
+.. Include info about passing models into schema property
+
+The Configuration object defines the parameters of a realm and identifies it.
+When creating a configuration object, make sure to pass your data models into
+the ``schema`` property.
+
+.. TODO: add configuration object generated snippet
+.. literalinclude:: 
+  :language: javascript
+
+Create a Realm Context
+``````````````````````
+
+A realm context is a `React Context object <https://reactjs.org/docs/context.html>`__
+that contains context for your realm.
+
+To create a realm context, pass a Configuration object into ``createRealmContext()``.
+
+.. TODO: add configuration object generated snippet
+.. literalinclude:: 
+  :language: javascript
+
+Expose and access a realm
+`````````````````````````
+
+To expose a realm, you need a realm context. From that context, extract
+``RealmProvider``. This provider contains your realm's context. Components
+nested within ``<RealmProvider>`` have access to hooks that let you read, write,
+and update data.
+
+.. TODO: add realm context generated snippet
+.. literalinclude:: 
+  :language: javascript
+
+Work With Data
+--------------
 
 .. TODO: present this as parent section to all things objects
 
@@ -188,6 +241,14 @@ Prerequisites
 - :ref:`Flexible Sync <enable-flexible-sync>` enabled with :ref:`Development Mode <development-mode>`
   on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
 
+.. TODO: figure out where to put this.
+
+To configure and access a synced realm:
+
+#. Initialize the App using <AppProvider>
+#. Authenticate a User with <UserProvider>
+#. Configure a Synced Realm with <RealmProvider>
+
 Initialize the App using <AppProvider>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -213,20 +274,14 @@ without providing any identifying information:
 .. literalinclude:: /examples/generated/node/quickstart.snippet.anonymous-login.js
   :language: javascript
 
-Define an Object Model
-~~~~~~~~~~~~~~~~~~~~~~
-
-Object models for synced realms work the same way as :ref:`local-only Realms 
-<react-native-quickstart-local-define-an-object-model>`. Define your object model 
-just as you would for a local-only Realm.
-
-.. TODO: realm/reactify
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
-  :language: javascript
-
 Configure a Synced Realm with <RealmProvider>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. TODO: Make this mirror the local realm setup
+  #. Import your object models
+  #. Create a :js-sdk:`Configuration object <Realm.html#~Configuration>` (but with flexible: true and s sync conf object)
+  #. Create a synced realm context
+  #. Expose and access a synced realm
 
 After you have initialized your App, authenticated a user, and
 defined your object model, you can create a :js-sdk:`SyncConfiguration
