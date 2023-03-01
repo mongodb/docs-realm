@@ -54,7 +54,7 @@ Communication Across Threads
 ----------------------------
 
 To access the same realm file from different threads, you must instantiate a
-realm instance for every thread of your app. As long as you specify the same
+realm instance on every thread that needs access. As long as you specify the same
 configuration, all realm instances will map to the same file on disk.
 
 One of the key rules when working with Realm Database in a multithreaded
