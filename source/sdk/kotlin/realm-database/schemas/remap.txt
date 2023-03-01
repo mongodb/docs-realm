@@ -21,12 +21,20 @@ In some cases, you might want to change this behavior:
 
 To map a different property name in your code than is stored in
 Realm Database, use the `@PersistedName <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-persisted-name/index.html>`__
-annotation in the :ref:`object schema <kotlin-object-schema>`:
+annotation in the :ref:`object schema <kotlin-object-schema>` and specify the 
+property ``name`` that you want persisted to the realm. 
+If you write to a synced realm, the Sync schema sees the values stored using the
+persisted property name.
+
+In this example, ``riderName`` is the Kotlin property name used in the code 
+throughout the project to perform CRUD operations and ``rider_name`` is the 
+persisted name used to store values in Realm Database:
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.persisted-name.kt
    :language: kotlin
 
-Note that migrations must use the internal name when creating classes and 
-properties, and any schema errors reported will use the internal name. 
+Note that migrations must use the persisted property name when creating classes and 
+properties, and any schema errors reported will also use the persisted name. 
 
-You can query by both the internal name and the remapped name.
+You can query by both the Kotlin name used in the code
+and by the persisted name stored in Realm Database.
