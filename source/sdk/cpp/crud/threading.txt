@@ -29,17 +29,17 @@ Don't lock to read:
   Realm Database's :ref:`Multiversion Concurrency Control (MVCC) <cpp-mvcc>`
   architecture eliminates the need to lock for read operations. The values you
   read will never be corrupted or in a partially-modified state. You can freely
-  read from realms on any thread without the need for locks or mutexes.
-  Unnecessarily locking would be a performance bottleneck since each thread
-  might need to wait its turn before reading.
+  read from the same Realm file on any thread without the need for locks or
+  mutexes. Unnecessarily locking would be a performance bottleneck since each
+  thread might need to wait its turn before reading.
 
 Avoid synchronous writes on the UI thread if you write on a background thread:
-  You can write to a realm from any thread, but there can be only one writer at
-  a time. Consequently, synchronous write transactions block each other. A
-  synchronous write on the UI thread may result in your app appearing
-  unresponsive while it waits for a write on a background thread to complete. 
-  :ref:`Device Sync <sync>` writes on a background thread, so you should
-  avoid synchronous writes on the UI thread with synced realms.
+  You can write to a Realm file from any thread, but there can be only one
+  writer at a time. Consequently, synchronous write transactions block each
+  other. A synchronous write on the UI thread may result in your app appearing
+  unresponsive while it waits for a write on a background thread to complete.
+  :ref:`Device Sync <sync>` writes on a background thread, so you should avoid
+  synchronous writes on the UI thread with synced realms.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realm instances are **thread-confined**: that
@@ -53,7 +53,7 @@ Don't pass live objects, collections, or realms to other threads:
 Communication Across Threads
 ----------------------------
 
-To access the same realm file from different threads, you must instantiate a
+To access the same Realm file from different threads, you must instantiate a
 realm instance on every thread that needs access. As long as you specify the same
 configuration, all realm instances will map to the same file on disk.
 
@@ -74,31 +74,33 @@ on your use case:
 - To react to changes made on any thread, use Realm Database's
   :ref:`notifications <cpp-react-to-changes>`.
 
-- To see changes from other threads in the realm on the current
-  thread, :ref:`refresh <cpp-refreshing-realms>` your realm instance.
+- To see changes that happened on another thread in the current thread's realm
+  instance, :ref:`refresh <cpp-refreshing-realms>` your realm instance.
 
-- To share an instance of a realm or specific object with another thread, 
-  share a :ref:`thread_safe_reference <cpp-thread-safe-reference>` to the 
-  realm or object.
+- To share an instance of a realm or specific object with another thread, share
+  a :ref:`thread_safe_reference <cpp-thread-safe-reference>` to the realm
+  instance or object.
 
 .. _cpp-thread-safe-reference:
 
 Pass Instances Across Threads
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Instances of ``realm::realm``, ``realm::results``, and ``realm::object`` (when
-managed) are *thread-confined*. That means you may only use them on the thread
-where you created them.
+Instances of ``realm::realm``, ``realm::results``, and ``realm::object`` are
+*thread-confined*. That means you may only use them on the thread where you
+created them.
 
-You can pass thread-confined instances to another thread as follows:
+You can copy thread-confined instances to another thread as follows:
 
 1. Initialize a :cpp-sdk:`thread_safe_reference 
    <structrealm_1_1thread__safe__reference_3_01db_3_01Ts_8_8_8_01_4_01_4.html>` 
    with the thread-confined object.
-#. Pass the reference to the other thread or queue.
-#. Resolve the reference on the other thread. If the referred object is a realm
+#. Pass the reference to the target thread.
+#. Resolve the reference on the target thread. If the referred object is a realm
    instance, resolve it by calling ``.resolve()``; otherwise, move the reference
-   to ``realm.resolve()``. Use the returned object as normal.
+   to ``realm.resolve()``. The returned object is now thread-confined on the
+   target thread, as if it had been created on the target thread instead of the
+   original thread.
 
 .. important::
 
@@ -113,8 +115,7 @@ You can pass thread-confined instances to another thread as follows:
 Another way to work with an object on another thread is to query for it
 again on that thread. But if the object does not have a primary
 key, it is not trivial to query for it. You can use ``thread_safe_reference`` 
-on any object, regardless of whether it has a primary key. You can also 
-use it with lists and results.
+on any object, regardless of whether it has a primary key.
 
 .. _ios-use-realm-across-threads:
 
