@@ -4,26 +4,27 @@ import { APP_ID } from "../realm.config.json";
 const app = new Realm.App({ id: APP_ID });
 
 describe("Manage email/password users", () => {
-  test("Register new user", async () => {
-    //delete user if exists
-    try {
-      await app.logIn(
-        Realm.Credentials.emailPassword("someone@example.com", "Pa55w0rd")
-      );
+  beforeEach(async () => {
+    if (app.currentUser) {
       await app.deleteUser(app.currentUser);
-    } catch (err) {
-      console.log(err);
+      await app.currentUser?.logOut();
     }
+  });
+  afterEach(async () => {
+    if (app.currentUser) {
+      await app.deleteUser(app.currentUser);
+      await app.currentUser?.logOut();
+    }
+  });
+  test("Register new user", async () => {
     // :snippet-start: register-new-user
     const email = "someone@example.com";
-    const password = "Pa55w0rd";
+    const password = "Pa55w0rd!";
     await app.emailPasswordAuth.registerUser({ email, password });
     // :snippet-end:
     const user = await app.logIn(
       Realm.Credentials.emailPassword(email, password)
     );
-
-    await app.deleteUser(user);
   });
   test.skip("Confirm new user email address", async () => {
     const params = new URLSearchParams(window.location.search);
