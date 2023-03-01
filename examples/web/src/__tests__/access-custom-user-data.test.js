@@ -7,8 +7,8 @@ const app = new Realm.App({ id: APP_ID });
 // TODO: add custom user data tests
 describe("Custom User Data", () => {
   const CLUSTER_NAME = "mongodb-atlas";
-  const DATABASE_NAME = "demo_db";
-  const COLLECTION_NAME = "custom_user_data";
+  const DATABASE_NAME = "custom-user-data-database";
+  const COLLECTION_NAME = "custom-user-data";
   beforeAll(async () => {
     try {
       await app.emailPasswordAuth.registerUser({
@@ -43,12 +43,11 @@ describe("Custom User Data", () => {
     expect(customData instanceof Object).toBe(true);
   });
   test("Refresh custom user data", async () => {
-    const now = new Date();
-    const nonce = now.getTime();
+    const now = Date.now();
     const cudCollection = getCustomUserDataCollection();
     await cudCollection.updateOne(
       { userId: app.currentUser.id },
-      { $set: { userId: app.currentUser.id, nonce } },
+      { $set: { userId: app.currentUser.id, nonce: now } },
       { upsert: true }
     );
     await app.currentUser.refreshCustomData();
