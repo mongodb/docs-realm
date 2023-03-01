@@ -14,7 +14,9 @@ By default, Realm Database uses the name defined in the model class
 to represent fields internally. 
 In some cases, you might want to change this behavior:
 
-- To make it easier to work across platforms where naming conventions differ.
+- To make it easier to work across platforms where naming conventions differ. 
+  For example, if your Device Sync schema property names use snake case, 
+  while your project uses camel case.
 - To change a field name in Kotlin without forcing a :ref:`migration <kotlin-migrations>`.
 
 To map a different property name in your code than is stored in
