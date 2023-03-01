@@ -103,10 +103,6 @@ on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
          :language: java
          :copyable: false
 
-
-.. |pause_func_name| replace:: ``.stop()``
-.. include:: /includes/note-details-about-pause.rst
-
 To resume a currently paused sync session, call
 :java-sdk:`start() <io/realm/mongodb/sync/SyncSession.html#start-->`
 on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
@@ -126,6 +122,11 @@ on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
       .. literalinclude:: /examples/generated/java/sync/SyncDataTest.snippet.resume-sync-session.java
          :language: java
          :copyable: false
+
+When to Pause a Sync Session
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/when-to-pause-sync.rst
 
 .. _java-check-network-connection:
 

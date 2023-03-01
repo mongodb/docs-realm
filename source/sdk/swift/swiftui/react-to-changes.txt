@@ -44,6 +44,20 @@ you can remove a dog from an observed list of dogs using ``onDelete``.
    supports, see: :ref:`Read - Swift SDK <swift-crud-read>` and :ref:`Filter 
    Data - Swift SDK <ios-filter-data>`.
 
+Sort Observed Results
+~~~~~~~~~~~~~~~~~~~~~
+
+The :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>`
+property wrapper can take a :swift-sdk:`SortDescriptor 
+<Structs/SortDescriptor.html>` parameter to sort the query results.
+
+.. literalinclude:: /examples/generated/swiftui/FilterData.snippet.sort-descriptor.swift
+   :language: swift
+
+.. tip::
+
+   You cannot use a computed property as a ``SortDescriptor`` for ``@ObservedResults``.
+
 .. _swiftui-observe-sectioned-results:
 
 Observe Sectioned Results
