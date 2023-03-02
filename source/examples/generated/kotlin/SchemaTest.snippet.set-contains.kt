@@ -1,1 +1,1 @@
-Log.v("Does Kermit eat earth worms?: ${set.contains(earthWormsSnack)}") // true
+Log.v("Does Kermit eat earthworms?: ${set.contains(earthWormsSnack)}") // true

@@ -1,4 +1,7 @@
 realm.write {
+    val myFrog: Frog = realm.query<Frog>("name = 'Kermit'").first().find()!!
+    val set = findLatest(myFrog)!!.favoriteSnacks
+
     val cricketsSnack = this.copyToRealm(Snack().apply {
         name = "crickets"
     })
@@ -10,4 +13,4 @@ realm.write {
     })
 
     set.addAll(setOf(cricketsSnack, earthWormsSnack, waxWormsSnack))
-}
+    }

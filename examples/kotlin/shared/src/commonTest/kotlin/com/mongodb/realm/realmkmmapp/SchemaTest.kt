@@ -1,7 +1,5 @@
 package com.mongodb.realm.realmkmmapp
 
-//import kotlinx.coroutines.Dispatchers
-//import kotlinx.coroutines.launch
 //import kotlinx.coroutines.runBlocking
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
@@ -255,87 +253,73 @@ class SchemaTest: RealmTest() {
         }
     }
     @Test
-    @kotlin.test.Ignore
     fun createRealmSetTypes() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(Frog2::class, Snack::class))
-                .directory("/tmp/") // default location for jvm is... in the project root
                 .build()
             val realm = Realm.open(config)
-            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            Log.v("Successfully opened realm: ${realm.configuration.path}")
 
             // :snippet-start: add-item-to-realm-set
             realm.write {
-                // create a Frog object named 'Kermit' that will have a RealmSet of favorite snacks
+                // Create a Frog object named 'Kermit' that will have a RealmSet of favorite snacks
                 val frog = this.copyToRealm(Frog2().apply {
                     name = "Kermit"
                 })
-                // get the RealmSet of favorite snacks from the Frog object we just created
+                // Get the RealmSet of favorite snacks from the Frog object we just created
                 val set = frog.favoriteSnacks
 
-                // create a Snack object for the Frog to add to Kermit's favorite snacks
+                // Create a Snack object for the Frog to add to Kermit's favorite snacks
                 val fliesSnack = this.copyToRealm(Snack().apply {
                     name = "flies"
                 })
 
                 // Add the flies to the RealmSet of Kermit's favorite snacks
                 set.add(fliesSnack)
+                assertEquals(1, set.size) // :remove:
             }
             // :snippet-end:
 
-            val myFrog = realm.query<Frog2>("name = 'Kermit'").first().find()
-            val set = myFrog?.favoriteSnacks
+            // :snippet-start: add-all-to-realm-set
+            realm.write {
+                val myFrog: Frog2 = realm.query<Frog2>("name = 'Kermit'").first().find()!!
+                val set = findLatest(myFrog)!!.favoriteSnacks
 
-            if (set != null) {
-                assertEquals(1, set.size)
+                val cricketsSnack = this.copyToRealm(Snack().apply {
+                    name = "crickets"
+                })
+                val earthWormsSnack = this.copyToRealm(Snack().apply {
+                    name = "earthworms"
+                })
+                val waxWormsSnack = this.copyToRealm(Snack().apply {
+                    name = "waxworms"
+                })
 
-                // :snippet-start: add-all-to-realm-set
-                realm.write {
-                    val cricketsSnack = this.copyToRealm(Snack().apply {
-                        name = "crickets"
-                    })
-                    val earthWormsSnack = this.copyToRealm(Snack().apply {
-                        name = "earthworms"
-                    })
-                    val waxWormsSnack = this.copyToRealm(Snack().apply {
-                        name = "waxworms"
-                    })
-
-                    set.addAll(setOf(cricketsSnack, earthWormsSnack, waxWormsSnack))
-                }
+                set.addAll(setOf(cricketsSnack, earthWormsSnack, waxWormsSnack))
+                println("$set") // :remove:
+                assertEquals(4, set.size) // :remove:
+                // :uncomment-start:
+                //}
+                // :uncomment-end:
                 // :snippet-end:
 
-                assertEquals(4, set.size)
-            }
-
-            val fliesSnack = realm.query<Snack>("name = 'flies'").first().find()
-            val cricketsSnack = realm.query<Snack>("name = 'crickets'").first().find()
-            val earthWormsSnack = realm.query<Snack>("name = 'earthworms'").first().find()
-            val waxWormsSnack = realm.query<Snack>("name = 'waxworms'").first().find()
-
-
-            if (set != null) {
                 // :snippet-start: set-contains
-                Log.v("Does Kermit eat earth worms?: ${set.contains(earthWormsSnack)}") // true
+                Log.v("Does Kermit eat earthworms?: ${set.contains(earthWormsSnack)}") // true
                 // :snippet-end:
-
 
                 // :snippet-start: set-contains-multiple-items
-                val setOfFrogSnacks = setOf(cricketsSnack, earthWormsSnack, waxWormsSnack)
-                val containsAllSnacks = set.containsAll(setOfFrogSnacks)
-                Log.v("Does Kermit eat crickets, earth worms, and wax worms?: $containsAllSnacks") // true
+                val containsAllSnacks = set.containsAll(set)
+                Log.v("Does Kermit eat crickets, earthworms, and wax worms?: $containsAllSnacks") // true
                 // :snippet-end:
 
                 // :snippet-start: remove-item-from-set
-                realm.write {
-                    set.remove(fliesSnack)
-                }
+                val fliesSnack = realm.query<Snack>("name = 'flies'").first().find()
+
+                set.remove(fliesSnack)
                 // :snippet-end:
 
                 // :snippet-start: remove-multiple-items-from-set
-                realm.write {
-                    set.removeAll(setOfFrogSnacks)
-                }
+                set.removeAll(set)
                 // :snippet-end:
             }
 
@@ -350,15 +334,10 @@ class SchemaTest: RealmTest() {
                     }
             }
             // :snippet-end:
-
-            // :snippet-start: cancel-job
-            // :uncomment-start:
-            // job.cancel()
-            // :uncomment-end:
-            // :snippet-end:
+            job.cancel()
+            realm.close()
+            Realm.deleteRealm(config)
         }
-
     }
-
 }
 // :replace-end:

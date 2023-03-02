@@ -1,3 +1,1 @@
-realm.write {
-    set.removeAll(setOfFrogSnacks)
-}
+set.removeAll(set)

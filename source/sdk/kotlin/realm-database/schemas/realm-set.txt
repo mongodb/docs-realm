@@ -29,7 +29,12 @@ any ``RealmSet`` instances that contain the object.
 Define a RealmSet
 -----------------
 
-To define a property as a ``RealmSet``, specify its type within the schema.
+To define a property as a ``RealmSet<T>``, where T is any of the supported 
+:ref:`data types <kotlin-supported-types>` or a 
+`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
+Sets of ``RealmObject`` cannot have null elements. 
+All other types of ``RealmSet<T>`` can be nullable (``RealmSet<T?>``).
+
 Instantiate an unmanaged ``RealmSet`` by setting the field's default value
 using the `realmSetOf()
 <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-set-of.html>`__ method.
@@ -39,7 +44,6 @@ field that is a ``RealmSet`` of ``Snack`` objects.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.define-a-realm-set.kt
    :language: kotlin
-   :copyable: false
 
 Add an Item to a RealmSet
 -------------------------
@@ -53,7 +57,6 @@ In the following example, we get the ``favoriteSnacks`` set, then add a new
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-item-to-realm-set.kt
    :language: kotlin
-   :copyable: false
 
 Add Many Items to a RealmSet
 ----------------------------
@@ -71,7 +74,6 @@ elements to the ``set.addAll()`` method to add them to our ``Frog`` object's fav
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-all-to-realm-set.kt
    :language: kotlin
-   :copyable: false
 
 Check if the RealmSet Contains an Item
 --------------------------------------
@@ -83,7 +85,6 @@ The method returns true if the set contains the element.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.set-contains.kt
    :language: kotlin
-   :copyable: false
 
 Check if the RealmSet Contains Multiple Items
 ---------------------------------------------
@@ -100,7 +101,6 @@ the read-only set to ``set.containsAll()``.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.set-contains-multiple-items.kt
    :language: kotlin
-   :copyable: false
 
 Remove an Item from a RealmSet
 ------------------------------
@@ -110,7 +110,6 @@ To remove an item from a ``RealmSet``, pass the element you wish to delete to `s
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.remove-item-from-set.kt
    :language: kotlin
-   :copyable: false
 
 Remove Multiple Items from a RealmSet
 -------------------------------------
@@ -122,7 +121,6 @@ In the following example, we delete the set of favorite snacks we created earlie
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.remove-multiple-items-from-set.kt
    :language: kotlin
-   :copyable: false
 
 Notifications
 -------------
@@ -142,12 +140,10 @@ In the following example, we react to changes on the ``favoriteSnacks`` set of o
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.react-to-changes-from-the-set.kt
    :language: kotlin
-   :copyable: false
 
 The ``Flow`` runs indefinitely until you `cancel the enclosing coroutine
 <https://kotlinlang.org/docs/cancellation-and-timeouts.html>`__ or until you
 delete the parent object.
 
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.cancel-job.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-unsubscribe-to-changes.kt
    :language: kotlin
-   :copyable: false
