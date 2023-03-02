@@ -129,7 +129,6 @@ describe("Log in user", () => {
     const realmUser = await realmApp.logIn(credentials);
     // :NOT-snippet-end:
   });
-  // TODO
   describe.skip("Facebook OAuth", () => {
     test("Built-in Facebook OAuth", () => {
       // :snippet-start: builtin-facebook-oauth
@@ -163,7 +162,7 @@ describe("Log in user", () => {
       // :snippet-end:
     });
   });
-  // TODO
+  // NOTE: no snippets for this b/c have full HTML examples on the page
   describe.skip("Google OAuth", () => {
     test("Built-in Google OAuth", () => {
       // :NOT-snippet-start: builtin-google-oauth
@@ -176,7 +175,6 @@ describe("Log in user", () => {
       // :NOT-snippet-end:
     });
   });
-  // TODO
   describe.skip("Apple OAuth", () => {
     test("Built-in Apple OAuth", () => {
       // :snippet-start: builtin-apple-oauth
