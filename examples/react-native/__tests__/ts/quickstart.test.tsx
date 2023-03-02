@@ -1,13 +1,17 @@
 // :snippet-start: quickstart-setup
 import React, {useState} from 'react';
-import {Realm, createRealmContext} from '@realm/react';
-import {FlatList, Pressable, Text, View} from 'react-native';
+import Realm from 'realm';
+// :snippet-start: setup-import-hooks
+import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
+// :snippet-end:
 // :remove-start:
+import {FlatList, Pressable, Text, View} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
 let numberOfProfiles: number;
 let primaryKey: Realm.BSON.UUID;
 // :remove-end:
 
+// :snippet-start: setup-define-model
 class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.UUID;
   name!: string;
@@ -21,14 +25,18 @@ class Profile extends Realm.Object<Profile> {
     },
   };
 }
+// :snippet-end:
 
+// :snippet-start: configure-config-object
 const realmConfig: Realm.Configuration = {
   schema: [Profile],
 };
-
+// :snippet-end:
+// :snippet-start: configure-realm-context
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
-
+// :snippet-end:
+// :snippet-start: configure-expose-realm
 function AppWrapper() {
   return (
     <RealmProvider>
@@ -36,6 +44,7 @@ function AppWrapper() {
     </RealmProvider>
   );
 }
+// :snippet-end:
 // :snippet-end:
 
 function ProfileFinder() {
