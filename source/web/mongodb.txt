@@ -178,10 +178,6 @@ Find Multiple Documents
 
 You can find multiple documents using :js-sdk:`collection.find() <Realm.MongoDBCollection.html#find>`.
 
-The following snippet finds all documents that describe perennial plants in the
-:ref:`collection of documents that describe plants for sale in a group of stores
-<web-mongodb-example-dataset>`:
-
 The following snippet finds all documents in a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <web-mongodb-example-dataset>` that contain a field named
@@ -194,6 +190,11 @@ Running this snippet produces output resembling the following:
 
 .. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.find-multiple-documents-result.js
    :language: javascript
+
+You **cannot** use the ``.skip()`` operator with the Realm SDK.
+To paginate results, you can use range queries with the ``.sort()`` and ``.limit()``,
+as described in :manual:`Using Range Queries </reference/method/cursor.skip/#pagination-example>`
+documentation in the MongoDB Manual.
 
 .. _web-mongodb-count:
 
