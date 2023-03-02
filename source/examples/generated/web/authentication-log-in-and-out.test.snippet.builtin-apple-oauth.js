@@ -4,7 +4,7 @@ const redirectUri = "https://app.example.com/handleOAuthLogin";
 const credentials = Realm.Credentials.apple(redirectUri);
 
 // Calling logIn() opens an Apple authentication screen in a new window.
-const user = app.logIn(credentials);
+const user = await app.logIn(credentials);
 
 // The logIn() promise will not resolve until you call `handleAuthRedirect()`
 // from the new window after the user has successfully authenticated.
