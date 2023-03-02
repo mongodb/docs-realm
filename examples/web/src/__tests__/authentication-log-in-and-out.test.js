@@ -2,8 +2,6 @@ import * as Realm from "realm-web";
 import { getIdToken } from "firebase/auth";
 import { APP_ID } from "../realm.config.json";
 
-// TODO: investigate all the TODOs on this and see if can remove or what
-
 const app = new Realm.App({ id: APP_ID });
 jest.setTimeout(15000);
 describe("Log in user", () => {
