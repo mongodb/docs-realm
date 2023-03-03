@@ -1,6 +1,6 @@
 // :snippet-start: rql-data-models
-const TaskModel = {
-  name: "Task",
+const ItemModel = {
+  name: "Item",
   properties: {
     id: "objectId",
     name: "string",
@@ -17,7 +17,7 @@ const TaskModel = {
     projects: {
       type: "linkingObjects",
       objectType: "Project",
-      property: "tasks",
+      property: "items",
     },
   },
   primaryKey: "id",
@@ -28,11 +28,11 @@ const ProjectModel = {
   properties: {
     id: "objectId",
     name: "string",
-    tasks: "Task[]",
+    items: "Item[]",
     quota: "int?",
   },
   primaryKey: "id",
 };
 // :snippet-end:
 
-export { TaskModel, ProjectModel };
+export { ItemModel, ProjectModel };

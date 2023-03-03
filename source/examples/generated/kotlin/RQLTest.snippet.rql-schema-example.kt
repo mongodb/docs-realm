@@ -1,4 +1,4 @@
-class Task(): RealmObject {
+class Item(): RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     lateinit var name: String
@@ -12,6 +12,6 @@ class Project(): RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     lateinit var name: String
-    lateinit var tasks: RealmList<Task>
+    lateinit var items: RealmList<Item>
     var quota: Int? = null
 }

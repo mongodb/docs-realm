@@ -1,9 +1,9 @@
-  "tasks.@avg.priority > 5"
+  "items.@avg.priority > 5"
 
-  "tasks.@max.priority < 5"
+  "items.@max.priority < 5"
 
-  "tasks.@min.priority > 5"
+  "items.@min.priority > 5"
 
-  "tasks.@count > 5"
+  "items.@count > 5"
 
-  "tasks.@sum.progressMinutes > 100"
+  "items.@sum.progressMinutes > 100"

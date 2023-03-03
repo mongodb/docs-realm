@@ -21,7 +21,7 @@ public class Item : RealmObject
     public int ProgressMinutes { get; set; } = 0;
 
     [MapTo("projects")]
-    [Backlink(nameof(Project.RqlItems))]
+    [Backlink(nameof(Project.Items))]
     public IQueryable<Project> Projects { get; }
 }
 
@@ -36,7 +36,7 @@ public class Project : RealmObject
     public string Name { get; set; }
 
     [MapTo("items")]
-    public IList<Item> RqlItems { get; }
+    public IList<Item> Items { get; }
 
     [MapTo("quota")]
     public int Quota { get; set; }

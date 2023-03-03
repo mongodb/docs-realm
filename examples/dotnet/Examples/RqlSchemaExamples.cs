@@ -10,7 +10,8 @@ namespace Examples.RqlSchemaExamples
     //  "terms": {
     //   "RqlTask": "Item",
     //   "RqlProject": "Project",
-    //   "RqlTasks": "Items"}
+    //   "RqlTasks": "Items",
+    //   "RqlItems": "Items"}
     // }
     public class RqlTask : RealmObject
     {

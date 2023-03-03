@@ -28,10 +28,15 @@ Some SDKs also support idiomatic APIs for querying realms in their language.
 Query with Realm SDKs
 ---------------------
 
-For further reading on SDK-specific methods for querying realms, select the tab
-below for your SDK.
+For further reading on SDK-specific methods for querying realms, see the documentation
+for your SDK: 
 
 .. tabs::
+
+   .. tab:: Flutter SDK
+      :tabid: flutter
+
+      - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
 
    .. tab:: Java SDK
       :tabid: java
@@ -39,15 +44,10 @@ below for your SDK.
       - :ref:`Query Engine - Java SDK <java-client-query-engine>`
       - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
 
-   .. tab:: Swift SDK
-      :tabid: swift
+   .. tab:: Kotlin SDK
+      :tabid: kotlin
 
-      - :ref:`Filter Data - Swift SDK <ios-client-query-engine>`
-
-      .. note:: Swift SDK does not support Realm Query Language
-
-         The Swift SDK does not support querying with Realm Query Language.
-         You can instead use NSPredicate to query Realm.
+      - :ref:`Filter Data - Kotlin SDK <kotlin-filter-data>`
 
    .. tab:: .NET SDK
       :tabid: dotnet
@@ -66,16 +66,11 @@ below for your SDK.
       - :ref:`Query Engine - React Native SDK <react-native-client-query-engine>`
       - :ref:`Filter Queries - React Native SDK <react-native-filter-queries>`
 
-   .. tab:: Kotlin SDK
-      :tabid: kotlin
+.. note:: Swift SDK does not support Realm Query Language
 
-      - :ref:`Filter Data - Kotlin SDK <kotlin-filter-data>`
-
-   .. tab:: Flutter SDK
-      :tabid: flutter
-
-      - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
-
+   The Swift SDK does not support querying with Realm Query Language.
+   You can instead use NSPredicate to query Realm. Refer to 
+   :ref:`Filter Data - Swift SDK <ios-client-query-engine>.
 
 You can also use Realm Query Language to browse for data in
 :ref:`Realm Studio <realm-studio>`. Realm Studio is a visual tool
@@ -84,16 +79,16 @@ to view, edit, and design Realm Database files.
 Examples on This Page
 ---------------------
 
-Many of the examples in this page use a simple data set for a task list app.
-The two Realm object types are ``Project`` and ``Task``.
+Many of the examples in this page use a simple data set for a to-do list app.
+The two Realm object types are ``Project`` and ``Item``.
 
-- A ``Task`` has a name, assignee's name, and completed flag.
+- An ``Item`` has a name, assignee's name, and completed flag.
   There is also an arbitrary number for priority (higher is more important)
   and a count of minutes spent working on it.
-- A ``Project`` has zero or more ``Tasks`` and an optional quota
-  for minimum number of tasks expected to be completed.
+- A ``Project`` has zero or more ``Items`` and an optional quota
+  for minimum number of to-do items expected to be completed.
 
-See the schema for these two classes, ``Project`` and ``Task``, below:
+See the schema for these two classes, ``Project`` and ``Item``, below:
 
 .. tabs::
 
@@ -107,20 +102,20 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
 
              .. code-block:: java
 
-               public class Task extends RealmObject {
+               public class Item extends RealmObject {
                  ObjectId id = new ObjectId();
                  String name;
                  Boolean isComplete = false;
                  String assignee;
                  Integer priority = 0;
                  Integer progressMinutes = 0;
-                 @LinkingObjects("tasks")
+                 @LinkingObjects("items")
                  final RealmResults<Project> projects = null;
                } 
                public class Project extends RealmObject {
                  ObjectId id = new ObjectId();
                  String name;
-                 RealmList<Task> tasks;
+                 RealmList<Item> items;
                  Integer quota = null;
                }
 
@@ -129,7 +124,7 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
 
             .. code-block:: kotlin
 
-               open class Task(): RealmObject() {
+               open class Item(): RealmObject() {
                  var id: ObjectId = new ObjectId()
                  lateinit var name: String
                  var isComplete: Boolean = false
@@ -141,7 +136,7 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
                open class Project(): RealmObject() {
                  var id: ObjectId = new ObjectId()
                  lateinit var name: String
-                 lateinit var tasks: RealmList<Task>
+                 lateinit var items: RealmList<Item>
                  var quota: Int? = null
                }
 
@@ -150,20 +145,20 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
 
       .. code-block:: swift
 
-         class Task {
+         class Item {
              @Persisted(primaryKey: true) var id: ObjectId
              @Persisted var name: string
              @Persisted var isComplete: bool
              @Persisted var assignee: string?
              @Persisted var priority: int
              @Persisted var progressMinutes: int
-             @Persisted(originProperty: "tasks") var projects: LinkingObjects<Project>
+             @Persisted(originProperty: "items") var projects: LinkingObjects<Project>
          }
 
          class Project {
              @Persisted(primaryKey: true) var id: ObjectId
              @Persisted var name: string
-             @Persisted var tasks: List<Task>
+             @Persisted var items: List<Item>
              @Persisted var quota: int?
          }
 
@@ -342,13 +337,13 @@ values.
 
    The following example uses Realm Query Language's comparison operators to:
 
-   - Find high priority tasks by comparing the value of the ``priority``
+   - Find high priority to-do items by comparing the value of the ``priority``
      property value with a threshold number, above which priority can be considered high.
-   - Find long-running tasks by seeing if the ``progressMinutes`` property
+   - Find long-running to-do items by seeing if the ``progressMinutes`` property
      is at or above a certain value.
-   - Find unassigned tasks by finding tasks where the ``assignee`` property
+   - Find unassigned to-do items by finding items where the ``assignee`` property
      is equal to ``null``.
-   - Find tasks within a certain time range by finding tasks where the
+   - Find to-do items within a certain time range by finding items where the
      ``progressMinutes`` property is between two numbers.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.comparison-operators.js
@@ -383,7 +378,7 @@ Make compound predicates using logical operators.
 .. example::
 
    We can use the query language's logical operators to find
-   all of Ali's completed tasks. That is, we find all tasks
+   all of Ali's completed to-do items. That is, we find all items
    where the ``assignee`` property value is equal to 'Ali' AND
    the ``isComplete`` property value is ``true``:
 
@@ -674,14 +669,14 @@ single value.
 
 .. example::
 
-   These examples all query for projects containing tasks that meet
+   These examples all query for projects containing to-do items that meet
    this criteria:
 
-   - Projects with average task priority above 5.
-   - Projects with a task whose priority is less than 5.
-   - Projects with a task whose priority is greater than 5.
-   - Projects with more than 5 tasks.
-   - Projects with long-running tasks.
+   - Projects with average item priority above 5.
+   - Projects with an item whose priority is less than 5.
+   - Projects with an item whose priority is greater than 5.
+   - Projects with more than 5 items.
+   - Projects with long-running items.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.aggregate-operators.js
       :language: javascript
@@ -717,7 +712,7 @@ If the predicate returns true, the object is included in the output collection.
 
 .. example::
 
-   This example uses collection operators to find projects that contain tasks
+   This example uses collection operators to find projects that contain to-do items
    matching certain criteria:
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.set-operators.js
@@ -946,12 +941,12 @@ Sort and limit the results collection of your query using additional operators.
 
 .. example::
 
-   Use the query engine's sort, distinct, and limit operators to find tasks
+   Use the query engine's sort, distinct, and limit operators to find to-do items
    where the assignee is Ali:
 
    - Sorted by priority in descending order
    - Enforcing uniqueness by name
-   - Limiting the results to 5 tasks
+   - Limiting the results to 5 items
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.sort-distinct-limit.js
       :language: javascript
