@@ -175,16 +175,20 @@ Find, Sort, and Filter Objects
 
 .. TODO: Refine the content in this section
 
-There are a couple of ways to find a Realm object.
+``@realm/react`` provides a couple of hooks to help you find a Realm collection
+or object.
 
-- ``useQuery``
-- ``useObject``
+.. TODO: maybe refactor to a table. List realm/react, realm method, and their
+   shared return?
 
-If you need to find an object, but can't use these hooks, try these Realm
-methods.
+- ``useQuery()``. Returns ``Realm.Results`` for the object type that you pass to it.
+  If you can't use this hook, try the Realm method
+  :js-sdk:`Realm.objects() <Realm.html#objects>`.
+- ``useObject()``. Returns ``Realm.Object`` for the object type and primary key 
+  that you pass to it. If you can't use this hook, try the Realm method
+  :js-sdk:`realm.objectForPrimaryKeys() <Realm.html#objectForPrimaryKey>`.
 
-- :js-sdk:`Realm.create() <Realm.html#objects>`
-- :js-sdk:`realm.delete() <Realm.html#objectForPrimaryKey>`
+.. TODO: Expand on RQL here or link elsewhere
 
 After finding a collection, you can filter or sort the results using Realm
 Query Language (RQL) logic.
@@ -206,7 +210,7 @@ and delete Realm objects. For example:
 - :js-sdk:`realm.delete() <Realm.html#delete>`
 
 These methods rely on you previously finding objects or collections to pass to 
-them. They should be used alongside the``useQuery()`` and ``useObject`` hooks.
+them. They should be used alongside the``useQuery()`` and ``useObject()`` hooks.
 
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-crud.tsx
   :language: javascript
