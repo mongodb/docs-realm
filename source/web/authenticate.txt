@@ -35,7 +35,6 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.anon-auth.js
     :language: javascript
-    :emphasize-lines: 3, 6
 
 .. _web-login-email-password:
 
@@ -51,7 +50,6 @@ password and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.email-password-auth.js
     :language: javascript
-    :emphasize-lines: 3, 6
 
 .. _web-login-api-key:
 
@@ -66,7 +64,6 @@ API key and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.api-key-auth.js
     :language: javascript
-    :emphasize-lines: 3, 6
 
 .. _web-login-custom-function:
 
@@ -82,7 +79,6 @@ with a payload object and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.custom-function-auth.js
     :language: javascript
-    :emphasize-lines: 3, 6
 
 .. _web-login-custom-jwt:
 
@@ -99,7 +95,6 @@ and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.custom-jwt.js
     :language: javascript
-    :emphasize-lines: 3, 6
 
 
 .. _web-login-facebook:
@@ -129,16 +124,19 @@ require you to install the Facebook SDK. The built in flow follows three main st
    specify a URL for your app that is also listed as a redirect URI in the
    provider configuration.
 
+   .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.builtin-facebook-oauth.js
+      :language: javascript
+
 2. A new window opens to a Facebook authentication screen and the user
    authenticates and authorizes your app in that window. Once complete, the new
    window redirects to the URL specified in the credential.
 
-3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
+3. You call ``Realm.handleAuthRedirect()`` on the redirected page, which stores the
    user's Atlas App Services access token and closes the window. Your original app window will
    automatically detect the access token and finish logging the user in.
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.builtin-facebook-oauth.js
-   :language: javascript
+   .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.builtin-facebook-oauth-redirect.js
+      :language: javascript
 
 .. _web-facebook-auth-token:
 
@@ -195,7 +193,7 @@ is a Google SDK that lets users sign up to or log in to a website with one click
     This example shows how to set up Google Authentication with App Services in
     a very basic web app. The app only contains an ``index.html`` file.
 
-    .. code-block:: html
+    .. code-block:: xml
       :caption: index.html
 
       <!DOCTYPE html>
@@ -257,7 +255,7 @@ require you to install a Google SDK. The built-in flow follows three main steps:
    authenticates and authorizes your app in that window. Once complete, the new
    window redirects to the URL specified in the credential.
 
-#. Call ``handleAuthRedirect()`` on the redirected page, which stores the
+#. Call ``Realm.handleAuthRedirect()`` on the redirected page, which stores the
    user's App Services access token and closes the window. Your original app window will
    automatically detect the access token and finish logging the user in.
 
@@ -270,9 +268,9 @@ require you to install a Google SDK. The built-in flow follows three main steps:
 
       .
       ├── auth.html
-      ├── index.html
+      └── index.html
 
-    .. code-block:: html
+    .. code-block:: xml
       :caption: index.html
 
       <!DOCTYPE html>
@@ -311,7 +309,7 @@ require you to install a Google SDK. The built-in flow follows three main steps:
         </script>
       </html>
 
-    .. code-block:: html
+    .. code-block:: xml
       :caption: auth.html
 
       <!DOCTYPE html>
@@ -367,16 +365,19 @@ steps:
    specify a URL for your app that is also listed as a redirect URI in the
    provider configuration.
 
+   .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.builtin-apple-oauth.js
+      :language: javascript
+
 2. A new window opens to an Apple authentication screen and the user
    authenticates and authorizes your app in that window. Once complete, the new
    window redirects to the URL specified in the credential.
 
-3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
+3. You call ``Realm.handleAuthRedirect()`` on the redirected page, which stores the
    user's App Services access token and closes the window. Your original app window will
    automatically detect the access token and finish logging the user in.
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.builtin-apple-oauth.js
-
+   .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.builtin-apple-oath-handle-redirect.js
+      :language: javascript
 
 .. _web-apple-auth-token:
 
