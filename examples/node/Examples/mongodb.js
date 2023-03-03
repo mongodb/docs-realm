@@ -10,11 +10,11 @@ const ObjectId = (value) => new Realm.BSON.ObjectId(value);
 // prettier-ignore
 const PLANTS = [
   // :snippet-start: plants-collection-documents
-  { _id: ObjectId("5f87976b7b800b285345a8b4"), name: "venus flytrap", sunlight: "full", color: "white", type: "perennial", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b5"), name: "sweet basil", sunlight: "partial", color: "green", type: "annual", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b6"), name: "thai basil", sunlight: "partial", color: "green", type: "perennial", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b7"), name: "helianthus", sunlight: "full", color: "yellow", type: "annual", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b8"), name: "petunia", sunlight: "full", color: "purple", type: "annual", _partition: "Store 47" }
+  { _id: ObjectId("5f87976b7b800b285345a8c4"), name: "venus flytrap", sunlight: "full", color: "white", type: "perennial", _partition: "Store 42" },
+  { _id: ObjectId("5f87976b7b800b285345a8c5"), name: "sweet basil", sunlight: "partial", color: "green", type: "annual", _partition: "Store 42" },
+  { _id: ObjectId("5f87976b7b800b285345a8c6"), name: "thai basil", sunlight: "partial", color: "green", type: "perennial", _partition: "Store 42" },
+  { _id: ObjectId("5f87976b7b800b285345a8c7"), name: "helianthus", sunlight: "full", color: "yellow", type: "annual", _partition: "Store 42" },
+  { _id: ObjectId("5f87976b7b800b285345a8c8"), name: "petunia", sunlight: "full", color: "purple", type: "annual", _partition: "Store 47" }
   // :snippet-end:
 ];
 
@@ -30,12 +30,11 @@ function getPlantsCollection() {
 
 beforeAll(async () => {
   await app.logIn(Realm.Credentials.anonymous());
-  const plants = getPlantsCollection();
-  await plants.insertMany(PLANTS);
+  await getPlantsCollection().insertMany(PLANTS);
 });
 afterAll(async () => {
-  const plants = getPlantsCollection();
-  await plants.deleteMany({});
+  await getPlantsCollection().deleteMany({});
+  await app.currentUser?.logOut();
 });
 
 describe("Create Documents", () => {
@@ -126,7 +125,7 @@ describe("Read Documents", () => {
     expect(venusFlytrap).toEqual(
       // :snippet-start: find-a-single-document-result
       {
-        _id: ObjectId("5f87976b7b800b285345a8b4"),
+        _id: ObjectId("5f87976b7b800b285345a8c4"),
         name: "venus flytrap",
         sunlight: "full",
         color: "white",
@@ -148,8 +147,8 @@ describe("Read Documents", () => {
     expect(perennials).toEqual(
       // :snippet-start: find-multiple-documents-result
       [
-        { _id: ObjectId("5f87976b7b800b285345a8b4"), name: 'venus flytrap', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 42' },
-        { _id: ObjectId("5f87976b7b800b285345a8b6"), name: 'thai basil', sunlight: 'partial', color: 'green', type: 'perennial', _partition: 'Store 42' },
+        { _id: ObjectId("5f87976b7b800b285345a8c4"), name: 'venus flytrap', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 42' },
+        { _id: ObjectId("5f87976b7b800b285345a8c6"), name: 'thai basil', sunlight: 'partial', color: 'green', type: 'perennial', _partition: 'Store 42' },
         { _id: ObjectId("5f879f83fc9013565c23360e"), name: 'lily of the valley', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 47' },
         { _id: ObjectId("5f87a0defc9013565c233611"), name: 'rhubarb', sunlight: 'full', color: 'red', type: 'perennial', _partition: 'Store 47' },
         { _id: ObjectId("5f87a0dffc9013565c233612"), name: 'wisteria lilac', sunlight: 'partial', color: 'purple', type: 'perennial', _partition: 'Store 42' },
@@ -340,7 +339,7 @@ describe("Aggregate Documents", () => {
     // ... can keep paginating for as many plants as there are in the collection
     // :snippet-end:
     expect(pageOneResults.length).toBe(3);
-    expect(pageTwoResults.length).toBe(2);
+    expect(pageTwoResults.length).toBe(3);
   });
 });
 
@@ -360,8 +359,8 @@ describe("Aggregation Stages", () => {
     expect(perennials).toEqual(
       // :snippet-start: filter-documents-result
       [
-        { "_id": ObjectId("5f87976b7b800b285345a8b4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "sunlight": "full", "type": "perennial" },
-        { "_id": ObjectId("5f87976b7b800b285345a8b6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "sunlight": "partial", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "sunlight": "full", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "sunlight": "partial", "type": "perennial" },
         { "_id": ObjectId("5f87a0dffc9013565c233612"), "_partition": "Store 42", "color": "purple", "name": "wisteria lilac", "sunlight": "partial", "type": "perennial" },
         { "_id": ObjectId("5f87a0dffc9013565c233613"), "_partition": "Store 42", "color": "yellow", "name": "daffodil", "sunlight": "full", "type": "perennial" },
         { "_id": ObjectId("5f1f63055512f2cb67f460a3"), "_partition": "Store 47", "color": "green", "name": "sweet basil", "sunlight": "full", "type": "perennial" }
@@ -442,9 +441,9 @@ describe("Aggregation Stages", () => {
     expect(result).toEqual(
       // :snippet-start: add-fields-to-documents-result
       [
-        { "_id": ObjectId("5f87976b7b800b285345a8b4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
-        { "_id": ObjectId("5f87976b7b800b285345a8b6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "storeNumber": "42", "sunlight": "partial", "type": "perennial" },
-        { "_id": ObjectId("5f87976b7b800b285345a8b7"), "_partition": "Store 42", "color": "yellow", "name": "helianthus", "storeNumber": "42", "sunlight": "full", "type": "annual" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "storeNumber": "42", "sunlight": "partial", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c7"), "_partition": "Store 42", "color": "yellow", "name": "helianthus", "storeNumber": "42", "sunlight": "full", "type": "annual" },
         { "_id": ObjectId("5f87a0dffc9013565c233612"), "_partition": "Store 42", "color": "purple", "name": "wisteria lilac", "storeNumber": "42", "sunlight": "partial", "type": "perennial" },
         { "_id": ObjectId("5f87a0dffc9013565c233613"), "_partition": "Store 42", "color": "yellow", "name": "daffodil", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
         { "_id": ObjectId("5f1f63055512f2cb67f460a3"), "_partition": "Store 47", "color": "green", "name": "sweet basil", "storeNumber": "47", "sunlight": "full", "type": "perennial" }
