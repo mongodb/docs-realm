@@ -140,28 +140,6 @@ See the schema for these two classes, ``Project`` and ``Item``, below:
                  var quota: Int? = null
                }
 
-   .. tab:: Swift SDK
-      :tabid: swift
-
-      .. code-block:: swift
-
-         class Item {
-             @Persisted(primaryKey: true) var id: ObjectId
-             @Persisted var name: string
-             @Persisted var isComplete: bool
-             @Persisted var assignee: string?
-             @Persisted var priority: int
-             @Persisted var progressMinutes: int
-             @Persisted(originProperty: "items") var projects: LinkingObjects<Project>
-         }
-
-         class Project {
-             @Persisted(primaryKey: true) var id: ObjectId
-             @Persisted var name: string
-             @Persisted var items: List<Item>
-             @Persisted var quota: int?
-         }
-
    .. tab:: .NET SDK
       :tabid: dotnet
 
