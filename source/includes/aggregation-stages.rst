@@ -80,7 +80,7 @@ in the MongoDB Manual.
    The following example paginates through a collection of documents in descending
    order.
 
-   .. literalinclude:: 
+   .. literalinclude:: /examples/generated/node/mongodb.snippet.paginate.js
       :language: javascript
 
 .. literalinclude:: TODO
