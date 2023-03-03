@@ -2,7 +2,7 @@
 part 'models.g.dart';
 
 @RealmModel()
-class _Task {
+class _Item {
   @MapTo("_id")
   @PrimaryKey()
   late ObjectId id;
@@ -21,6 +21,6 @@ class _Project {
   late ObjectId id;
 
   late String name;
-  late List<_Task> tasks;
+  late List<_Item> items;
   int? quota;
 }
