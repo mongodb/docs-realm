@@ -131,7 +131,7 @@ require you to install the Facebook SDK. The built in flow follows three main st
    authenticates and authorizes your app in that window. Once complete, the new
    window redirects to the URL specified in the credential.
 
-3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
+3. You call ``Realm.handleAuthRedirect()`` on the redirected page, which stores the
    user's Atlas App Services access token and closes the window. Your original app window will
    automatically detect the access token and finish logging the user in.
 
@@ -255,7 +255,7 @@ require you to install a Google SDK. The built-in flow follows three main steps:
    authenticates and authorizes your app in that window. Once complete, the new
    window redirects to the URL specified in the credential.
 
-#. Call ``handleAuthRedirect()`` on the redirected page, which stores the
+#. Call ``Realm.handleAuthRedirect()`` on the redirected page, which stores the
    user's App Services access token and closes the window. Your original app window will
    automatically detect the access token and finish logging the user in.
 
@@ -372,7 +372,7 @@ steps:
    authenticates and authorizes your app in that window. Once complete, the new
    window redirects to the URL specified in the credential.
 
-3. You call ``handleAuthRedirect()`` on the redirected page, which stores the
+3. You call ``Realm.handleAuthRedirect()`` on the redirected page, which stores the
    user's App Services access token and closes the window. Your original app window will
    automatically detect the access token and finish logging the user in.
 
