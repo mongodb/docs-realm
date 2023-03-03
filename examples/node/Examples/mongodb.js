@@ -18,9 +18,9 @@ const PLANTS = [
   // :snippet-end:
 ];
 
-let app;
+const app = new Realm.App({ id: "example-testers-kvjdy" });
 
-async function getPlantsCollection() {
+function getPlantsCollection() {
   // :snippet-start: plants-collection-handle
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
   const plants = mongodb.db("example").collection("plants");
@@ -29,16 +29,18 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
-  app = new Realm.App({ id: "example-testers-kvjdy" });
   await app.logIn(Realm.Credentials.anonymous());
-  const plants = await getPlantsCollection();
-  await plants.deleteMany({});
+  const plants = getPlantsCollection();
   await plants.insertMany(PLANTS);
+});
+afterAll(async () => {
+  const plants = getPlantsCollection();
+  await plants.deleteMany({});
 });
 
 describe("Create Documents", () => {
   test("Insert a Single Document", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: insert-a-single-document
     const result = await plants.insertOne({
       // :remove-start:
@@ -61,7 +63,7 @@ describe("Create Documents", () => {
     );
   });
   test("Insert Multiple Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: insert-multiple-documents
     const result = await plants.insertMany([
       {
@@ -115,7 +117,7 @@ describe("Create Documents", () => {
 
 describe("Read Documents", () => {
   test("Find a Single Document", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: find-a-single-document
     const venusFlytrap = await plants.findOne({ name: "venus flytrap" });
     console.log("venusFlytrap", venusFlytrap);
@@ -136,7 +138,7 @@ describe("Read Documents", () => {
   });
 
   test("Find Multiple Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: find-multiple-documents
     const perennials = await plants.find({ type: "perennial" });
     console.log("perennials", perennials);
@@ -158,7 +160,7 @@ describe("Read Documents", () => {
   });
 
   test("Count Documents in the Collection", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: count-documents-in-the-collection
     const numPlants = await plants.count();
     console.log(`There are ${numPlants} plants in the collection`);
@@ -174,7 +176,7 @@ describe("Read Documents", () => {
 
 describe("Update Documents", () => {
   test("Update a Single Document", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: update-a-single-document
     const result = await plants.updateOne(
       { name: "petunia" },
@@ -191,7 +193,7 @@ describe("Update Documents", () => {
   });
 
   test("Update Multiple Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: update-multiple-documents
     const result = await plants.updateMany(
       { _partition: "Store 47" },
@@ -207,7 +209,7 @@ describe("Update Documents", () => {
     );
   });
   test("Upsert Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: upsert-documents
     const result = await plants.updateOne(
       {
@@ -238,7 +240,7 @@ describe("Update Documents", () => {
 });
 describe("Delete Documents", () => {
   test("Delete a Single Document", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: delete-a-single-document
     const result = await plants.deleteOne({ color: "green" });
     console.log(result);
@@ -251,7 +253,7 @@ describe("Delete Documents", () => {
     );
   });
   test("Delete Multiple Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: delete-multiple-documents
     const result = await plants.deleteMany({
       _partition: "Store 51",
@@ -269,7 +271,7 @@ describe("Delete Documents", () => {
 
 describe("Aggregate Documents", () => {
   test("Aggregate Documents in a Collection", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: aggregate-documents-in-a-collection
     const result = await plants.aggregate([
       {
@@ -291,11 +293,60 @@ describe("Aggregate Documents", () => {
       // :snippet-end:
     );
   });
+  test("Paginate documents", async () => {
+    const plants = getPlantsCollection();
+    // :snippet-start: paginate
+    async function paginateCollectionAscending(
+      collection,
+      startValue,
+      nPerPage,
+      start
+    ) {
+      const results = await collection.aggregate([
+        { $match: { name: { [start ? "$gte" : "$gt"]: startValue } } },
+        { $sort: { name: 1 } },
+        { $limit: nPerPage },
+      ]);
+
+      return results;
+    }
+    // Number of results to show on each page
+    let resultsPerPage = 3;
+    // Get smallest element in collection
+    const startValue = (
+      await plants.aggregate([
+        { $match: {} },
+        { $sort: { name: 1 } },
+        { $limit: 1 },
+      ])
+    )[0].name;
+    console.log("start val:", startValue);
+
+    const pageOneResults = await paginateCollectionAscending(
+      plants,
+      startValue,
+      resultsPerPage,
+      true
+    );
+
+    const pageTwoStartValue = pageOneResults[pageOneResults.length - 1].name;
+    const pageTwoResults = await paginateCollectionAscending(
+      plants,
+      pageTwoStartValue,
+      resultsPerPage,
+      false
+    );
+
+    // ... can keep paginating for as many plants as there are in the collection
+    // :snippet-end:
+    expect(pageOneResults.length).toBe(3);
+    expect(pageTwoResults.length).toBe(2);
+  });
 });
 
 describe("Aggregation Stages", () => {
   test("Filter Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: filter-documents
     const perennials = await plants.aggregate([
       { $match: { type: { $eq: "perennial" } } },
@@ -320,7 +371,7 @@ describe("Aggregation Stages", () => {
   });
 
   test("Group Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: group-documents
     const result = await plants.aggregate([
       {
@@ -344,7 +395,7 @@ describe("Aggregation Stages", () => {
   });
 
   test("Project Document Fields", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: project-document-fields
     const result = await plants.aggregate([
       {
@@ -374,7 +425,7 @@ describe("Aggregation Stages", () => {
     )
   });
   test("Add Fields to Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: add-fields-to-documents
     const result = await plants.aggregate([
       {
@@ -402,7 +453,7 @@ describe("Aggregation Stages", () => {
     )
   });
   test("Unwind Array Values", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: unwind-array-values
     const result = await plants.aggregate([
       { $group: { _id: "$type", colors: { $addToSet: "$color" } } },
@@ -428,7 +479,7 @@ describe("Aggregation Stages", () => {
 
 describe("Watch for Changes", () => {
   test("Watch for Changes in a Collection", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: watch-a-collection
     // :state-start: start
     try {
@@ -475,7 +526,7 @@ describe("Watch for Changes", () => {
   });
 
   test("Watch for Changes in a Collection with a Filter", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: watch-a-collection-with-filter
     // :state-start: start
     try {

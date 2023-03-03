@@ -67,6 +67,25 @@ with a ``$``.
          :language: js
          :visible: false
 
+Paginate Documents
+~~~~~~~~~~~~~~~~~~
+
+To paginate results, you can use range aggregation queries with the ``$match``,
+``$sort``, and ``$limit`` operators. To learn more about paginating documents,
+refer to :manual:`Using Range Queries </reference/method/cursor.skip/#pagination-example>`
+in the MongoDB Manual.
+
+.. example::
+
+   The following example paginates through a collection of documents in descending
+   order.
+
+   .. literalinclude:: 
+      :language: javascript
+
+.. literalinclude:: TODO
+   :language: javascript
+
 Project Document Fields
 ~~~~~~~~~~~~~~~~~~~~~~~
 
