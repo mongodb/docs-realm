@@ -21,9 +21,8 @@ About the @realm/react Library
 ------------------------------
 
 :github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is an 
-additional library that works with and relies on the React Native SDK. 
-
-It provides state-aware React hooks for Realm data. This means you don't need to 
+additional library that works with and relies on the React Native SDK. It 
+provides state-aware React hooks for Realm data. This means you don't need to 
 manually add and remove listeners. The hooks watch the Realm data and re-render 
 components as needed.
 
@@ -35,7 +34,7 @@ Set Up Your Realm App
 
 After installing the Realm React Native SDK and ``@realm/react``, there are a
 few more things to set up before you can access your realm and work with local
-data.
+data:
 
 - Import hooks from ``@realm/react``
 - Define an object model
@@ -67,6 +66,8 @@ and ``primaryKey``. You can add other properties, but these three are required.
 
 The type name and primary key must be unique among object types in a realm.
 
+.. TODO: Update the JS example below after creating JS version of quickstart.
+
 .. tabs-realm-languages::
 
    .. tab::
@@ -81,8 +82,6 @@ The type name and primary key must be unique among object types in a realm.
       .. literalinclude:: /examples/generated/react-native/js/Profile.snippet.js-profile-schema.js
          :language: javascript
 
-.. TODO: Update the JS example above after creating JS version of quickstart.
-
 .. _react-native-quickstart-local-open-a-realm:
 
 Configure a Realm
@@ -91,8 +90,9 @@ Configure a Realm
 .. TODO: write intro that links to configure page and adds a little context.
    Maybe include the numbered list and link to the individual sections?
 
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
-  :language: javascript
+Before you can work with any data, you need to configure a realm. With
+``@realm/react``, anything nested inside ``RealmProvider`` will be able to
+access your realm's data and features.
 
 .. TODO: update configure a realm page with this better approach.
 
@@ -101,7 +101,12 @@ To configure and access a local realm:
 #. Import object models
 #. Create a :js-sdk:`Configuration object <Realm.html#~Configuration>`
 #. Create a realm context
-#. Expose and access a realm
+#. Expose a realm
+
+A properly-configured basic realm might look like this:
+
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
+  :language: javascript
 
 Import Object Models
 ````````````````````
@@ -150,30 +155,17 @@ and update data.
 Work With Data
 --------------
 
-.. TODO: present this as parent section to all things objects
+Realm gives you many tools to work with the :ref:`Realm objects
+<react-native-object-types>` you define in your app's 
+object modal.
 
-Realm gives you many tools to work with the Realm :ref:`objects
-<react-native-object-types>`. you define in your app's 
-object modal. You need an open realm to read or write to your objects. This 
-means that object hooks and methods only work in components that are
-nested inside of ``<RealmProvider>``;
+To use those tools, you need an open realm. This means that object hooks and 
+methods only work in components that are nested inside of ``<RealmProvider>``;
+Within a nested component, the ``useRealm()`` hook gives you access to all
+the methods available for your realm.
 
 Any changes to a Realm object must occur within a 
 :ref:`Write transaction <react-native-write-transactions>` block.
-
-.. _react-native-quickstart-local-create-realm-objects:
-
-Create Realm Objects
-~~~~~~~~~~~~~~~~~~~~
-
-To create a Realm object, call :js-sdk:`Realm.create() <Realm.html#create>` 
-and pass in your object class, followed by an object that defines the new 
-object's properties.
-
-.. TODO: realm reactify
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.create-realm-objects.js
-  :language: javascript
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
 .. _react-native-quickstart-local-watch-a-collection:
@@ -181,37 +173,42 @@ object's properties.
 Find, Sort, and Filter Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. TODO: Add info about useQuery and link to a page with more info.
-.. TODO: Potentially combine this section with the following two sections.
+.. TODO: Refine the content in this section
 
-.. The following code demonstrates how to:
+There are a couple of ways to find a Realm object.
 
-.. - Query for all instances of the "Task" object type.
-.. - Filter the query to retrieve only the tasks that are "Open".
-.. - Sort the tasks by the name in an ascending order.
+- ``useQuery``
+- ``useObject``
 
-.. TODO: realm/reactify
+If you need to find an object, but can't use these hooks, try these Realm
+methods.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.find-sort-and-filter-objects.js
+- :js-sdk:`Realm.create() <Realm.html#objects>`
+- :js-sdk:`realm.delete() <Realm.html#objectForPrimaryKey>`
+
+After finding a collection, you can filter or sort the results using Realm
+Query Language (RQL) logic.
+
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-find.tsx
   :language: javascript
 
+.. _react-native-quickstart-local-create-realm-objects:
 .. _react-native-quickstart-local-modify-an-object:
 .. _react-native-quickstart-local-delete-an-object:
 
-Modify or Delete an Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create, Modify, and Delete Realm Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To modify an object, find it and then write to its properties.
+After instantiating ``useRealm()``, you can use Realm methods to create, modify,
+and delete Realm objects. For example:
 
-.. TODO: add modify generated snippet
-.. literalinclude:: 
-  :language: javascript
+- :js-sdk:`Realm.create() <Realm.html#create>`
+- :js-sdk:`realm.delete() <Realm.html#delete>`
 
-To delete an object, find it and then pass it to :js-sdk:`realm.delete()
-<Realm.html#delete>`.
+These methods rely on you previously finding objects or collections to pass to 
+them. They should be used alongside the``useQuery()`` and ``useObject`` hooks.
 
-.. TODO: add delete generated snippet
-.. literalinclude:: 
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-crud.tsx
   :language: javascript
 
 .. _react-native-quickstart-local-close-a-realm:

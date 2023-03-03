@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Realm from 'realm';
 import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
 
@@ -21,10 +21,11 @@ const realmConfig: Realm.Configuration = {
 };
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
+
 function AppWrapper() {
   return (
     <RealmProvider>
-      <ProfileFinder />
+      <RestOfApp />
     </RealmProvider>
   );
 }

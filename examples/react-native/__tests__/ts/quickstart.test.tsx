@@ -1,10 +1,11 @@
 // :snippet-start: quickstart-setup
-import React, {useState} from 'react';
+import React from 'react';
 import Realm from 'realm';
 // :snippet-start: setup-import-hooks
 import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
 // :snippet-end:
 // :remove-start:
+import {useState} from 'react';
 import {FlatList, Pressable, Text, View} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
 let numberOfProfiles: number;
@@ -36,23 +37,31 @@ const realmConfig: Realm.Configuration = {
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
 // :snippet-end:
+
 // :snippet-start: configure-expose-realm
 function AppWrapper() {
   return (
     <RealmProvider>
-      <ProfileFinder />
+      <RestOfApp />
     </RealmProvider>
   );
 }
 // :snippet-end:
 // :snippet-end:
 
-function ProfileFinder() {
+function RestOfApp() {
+  const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
+  // :snippet-start: objects-crud
+  // :replace-start: {
+  //    "terms": {
+  //       "selectedProfileId": "primaryKey"
+  //    }
+  // }
   const realm = useRealm();
+  // :snippet-start: objects-find
   const profiles = useQuery(Profile);
-  const specificProfile = useObject(Profile, primaryKey);
-
-  const [selectedProfileId, setSelectedProfileId] = useState('');
+  const activeProfile = useObject(Profile, selectedProfileId);
+  // :snippet-end:
 
   const addProfile = (name: string) => {
     realm.write(() => {
@@ -63,12 +72,19 @@ function ProfileFinder() {
     });
   };
 
-  const getProfile = () => {
-    return realm.objectForPrimaryKey(
-      Profile,
-      new Realm.BSON.UUID(selectedProfileId),
-    );
+  const changeProfileName = (newName: string) => {
+    realm.write(() => {
+      activeProfile!.name = newName;
+    });
   };
+
+  const deleteProfile = () => {
+    realm.write(() => {
+      realm.delete(activeProfile);
+    });
+  };
+  // :replace-end:
+  // :snippet-end:
 
   // Check profile length to confirm this is the same sync realm as
   // that set up in beforeEach(). Then set numberOfProfiles to the length.
@@ -85,14 +101,14 @@ function ProfileFinder() {
           keyExtractor={item => item._id.toHexString()}
           renderItem={({item}) => {
             return (
-              <Pressable onPress={setSelectedProfileId(item._id.toHexString())}>
+              <Pressable onPress={setSelectedProfileId(item._id)}>
                 <Text>{item.name}</Text>
               </Pressable>
             );
           }}
         />
       </View>
-      <View>{getProfile()?._id}</View>
+      <Text>{activeProfile?._id.toHexString()}</Text>
     </View>
   );
 }

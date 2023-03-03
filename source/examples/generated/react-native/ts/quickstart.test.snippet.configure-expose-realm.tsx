@@ -1,7 +1,7 @@
 function AppWrapper() {
   return (
     <RealmProvider>
-      <ProfileFinder />
+      <RestOfApp />
     </RealmProvider>
   );
 }
