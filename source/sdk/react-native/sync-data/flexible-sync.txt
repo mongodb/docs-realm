@@ -73,18 +73,6 @@ Subscription information is stored in the synced realm's database file.
 You must explicitly remove a subscription
 for it to stop attempting to sync matching data.
 
-You should name your subscription. This makes updating your subscription easier.
-
-If you do not give your subscription a name, the name is set to ``null`` and 
-the subscription is based on the :ref:`Realm Query Language <react-native-query-data>`
-(RQL) string. If the RQL string changes and the subscription is not named, you 
-won't be able to update your subscription.
-
-When you create a subscription, Realm looks for data matching a query on a
-specific object type. In your Flexible Sync subscriptions, you can have
-subscriptions on several different object types or several queries on the same
-object type.
-
 .. _react-native-get-subscriptions:
 
 Access Subscriptions
@@ -122,6 +110,18 @@ To add a query to a subscription:
 
 ``MutableSubscriptionSet.add()`` takes a ``query`` and a
 :js-sdk:`SubscriptionOptions <Realm.App.Sync.html#.SubscriptionOptions>` object.
+In ``SubscriptionOptions``, you should name your subscription. This makes 
+updating your subscription easier.
+
+If you do not give your subscription a name, the name is set to ``null`` and 
+the subscription is based on the :ref:`Realm Query Language <react-native-query-data>`
+(RQL) string. If the RQL string changes and the subscription is not named, you 
+won't be able to update your subscription.
+
+When you create a subscription, Realm looks for data matching a query on a
+specific object type. In your Flexible Sync subscriptions, you can have
+subscriptions on several different object types or several queries on the same
+object type.
 
 If you're using ``@realm/react`` with a Flexible Sync realm, note that ``useQuery()``
 needs an active subscription to return results. If no subscription has been added

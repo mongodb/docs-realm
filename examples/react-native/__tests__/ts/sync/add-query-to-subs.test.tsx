@@ -59,7 +59,7 @@ function SubscriptionManager() {
   useEffect(() => {
     realm.subscriptions.update(mutableSubs => {
       // Create subscription for filtered results.
-      mutableSubs.add(seenBirds);
+      mutableSubs.add(seenBirds, {name:'seenBirds'});
     });
     numSubs = realm.subscriptions.length; // :remove:
   });
