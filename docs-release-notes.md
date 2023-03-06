@@ -1,3 +1,65 @@
+# March 3, 2023
+
+## C++ SDK
+- Model Data/Object Types and Schemas: Note that class names are limited to a maximum of 57 UTF-8 characters
+- CRUD/Threading: New page based on other SDK threading pages, with wording improvements and tested, Bluehawked code examples
+
+## Flutter SDK
+- Install Realm for Flutter: New "Supported Platforms" section
+- Realm Database
+  - Model Data/Define a Realm Object Schema: Note that class names are limited to a maximum of 57 UTF-8 characters
+  - React to Changes: Add `RealmSet` to `RealmList` change listener section, add `isCleared` documentation
+- Sync Device Data
+  - Manage Sync Session: Add a "When to Pause a Sync Session" section to the "Pause" documentation with use cases and caveats for pausing sync in the client
+  - Set Sync Log Level: New page with tested, Bluehawked code example showing how to set the log level
+
+## Java SDK
+- Usage Examples
+  - Define a Realm Object Schema: Note that class names are limited to a maximum of 57 UTF-8 characters
+  - Sync Changes Between Devices: Add a "When to Pause a Sync Session" section to the "Pause" documentation with use cases and caveats for pausing sync in the client
+
+## Kotlin SDK
+- Realm Database
+  - Define an Object Model
+    - Note that class names are limited to a maximum of 57 UTF-8 characters
+    - New "Map a Property to a Different Name" section with Bluehawked code example showing how to use the `@PersistedName` annotation to remap a property name
+  - Schemas/Remap a Field: New page with Bluehawked code example showing how to use the `@PersistedName` annotation to remap a property name
+- Atlas App Services
+  - Overview: Add sections for Device Sync and Call Atlas Functions 
+  - Call an Atlas Function: New page with tested, Bluehawked code example showing how to call an Atlas function from the Kotlin SDK
+
+## .NET SDK
+- Model Data/Define an Object Model: Note that class names are limited to a maximum of 57 UTF-8 characters
+- CRUD/Threading: Wording improvements ported from new C++ Threading page
+- Sync Data/Suspend or Resume a Sync Session: Add a "When to Pause a Sync Session" section with use cases and caveats for pausing sync in the client
+
+## Node.js SDK
+- Usage Examples
+  - Define a Realm Object Schema: Note that class names are limited to a maximum of 57 UTF-8 characters
+  - Sync Changes Between Devices: Add a "When to Pause a Sync Session" section to the "Pause" documentation with use cases and caveats for pausing sync in the client
+
+## React Native SDK
+- Realm Database/Define a Realm Object Model: Note that class names are limited to a maximum of 57 UTF-8 characters
+- Sync Data/Pause or Resume a Sync Session: Add a "When to Pause a Sync Session" section with use cases and caveats for pausing sync in the client
+
+## Swift SDK
+- CRUD/Threading
+  - Wording improvements ported from new C++ Threading page
+  - Remove autorelease blocks in code examples showing DispatchQueues, update to `autoreleaseFrequency` parameter
+- Sync Data/Suspend or Resume a Sync Session: Add a "When to Pause a Sync Session" section with use cases and caveats for pausing sync in the client
+
+## Web SDK
+- User Management/Authenticate Users
+  - Change Google Auth argument from redirect URI to redirect URL
+  - Remove try/catch blocks from code examples, switch to consistent `await` syntax in all examples
+
+## Other
+- Realm Query Language: Rename `Task` model to `Item` in examples to avoid naming collisions in some programming languages and match Template App
+- Internal
+  - Update realm-web unit test suite:
+    - Update dependencies
+    - Switch to existing shared backend App Services App used by other SDKs
+
 # February 24, 2023
 
 ## C++ SDK
