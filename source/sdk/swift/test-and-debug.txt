@@ -120,10 +120,13 @@ variables in Xcode's UI, this doesn't yet work for Swift. Those
 variables will show incorrect data. Instead, use LLDB's ``po``
 command to inspect the contents of data stored in a realm.
 
+Troubleshooting
+---------------
+
 .. _ios-resolve-build-issues:
 
 Resolve Build Issues
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 Some developers experience build issues after installing the Realm Swift SDK via
 CocoaPods or Carthage. Common causes of these issues include:
@@ -214,7 +217,7 @@ and clean the Xcode build folder.
 .. _ios-schema-discovery-issues:
 
 Issues Opening Realm Before Loading the UI
-------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You may open a realm and immediately see crashes with error messages 
 related to properties being optional or required. Issues with your 
@@ -243,3 +246,19 @@ use a property, and there aren't any objects in memory that could have
 bad data. If you get errors related to properties *after* the UI loads,
 this is probably not due to invalid schema. Instead, those errors are 
 likely a result of incorrect, wrongly-typed or missing data.
+
+.. _ios-no-properties-defined-for-model:
+
+No Properties are Defined for Model
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Realm Swift SDK uses the Swift language reflection feature to determine
+the properties in your model at runtime. If you get a crash similar to:
+
+.. code-block:: shell
+
+   Terminating app due to uncaught exception 'RLMException', reason: 'No properties are defined for 'ObjectName'.
+
+Confirm that your project has not disabled reflection metadata. If you set 
+``SWIFT_REFLECTION_METADATA_LEVEL = none``, Realm cannot discover children
+of types, such as properties and enums.

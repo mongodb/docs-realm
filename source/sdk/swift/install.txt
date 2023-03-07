@@ -29,6 +29,9 @@ meets the following prerequisites:
 - When using Xcode 13, a target of iOS 9.0 or higher, macOS 10.9 or higher, tvOS 9.0 or higher, or watchOS 2.0 or higher.
 - If using Swift Package Manager with Xcode 13, target of iOS 11+ or macOS 10.10+ is required.
 - When using Xcode 14, a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
+- Reflection is enabled in your project. The Realm Swift SDK uses reflection to 
+  determine your model's properties. Your project must not set 
+  ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or Realm cannot see properties in your model.
 
 .. note::
 
