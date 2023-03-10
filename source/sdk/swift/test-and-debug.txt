@@ -253,13 +253,13 @@ No Properties are Defined for Model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Realm Swift SDK uses the Swift language reflection feature to determine
-the properties in your model at runtime. If you get a crash similar to:
+the properties in your model at runtime. If you get a crash similar to
+the following, confirm that your project has not disabled reflection metadata:
 
 .. code-block:: shell
    :copyable: false
 
    Terminating app due to uncaught exception 'RLMException', reason: 'No properties are defined for 'ObjectName'.
 
-Confirm that your project has not disabled reflection metadata. If you set 
-``SWIFT_REFLECTION_METADATA_LEVEL = none``, Realm cannot discover children
-of types, such as properties and enums.
+If you set ``SWIFT_REFLECTION_METADATA_LEVEL = none``, Realm cannot 
+discover children of types, such as properties and enums.
