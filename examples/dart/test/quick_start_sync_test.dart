@@ -1,6 +1,18 @@
-// :snippet-start: quick-start-sync-complete
 import 'sync_schemas.dart';
 import 'package:realm_dart/realm.dart';
+
+part 'quick_start_sync_test.g.dart';
+
+@RealmModel()
+class _Todo {
+  @MapTo('_id')
+  @PrimaryKey()
+  late ObjectId id;
+  bool isComplete = false;
+  late String summary;
+  @MapTo('owner_id')
+  late String ownerId;
+}
 
 void main() async {
   const YOUR_APP_ID_HERE = 'flutter-flexible-luccm'; // :remove:
@@ -36,4 +48,3 @@ void main() async {
   print('Bye bye :)');
   Realm.shutdown();
 }
-// :snippet-end:
