@@ -479,8 +479,6 @@ describe("Aggregation Stages", () => {
 describe("Watch for Changes", () => {
   test("Watch for Changes in a Collection", async () => {
     const plants = getPlantsCollection();
-    // :snippet-start: watch-a-collection
-    // :state-start: start
     try {
       const watching = plants.watch();
       const next = watching.next();
@@ -494,40 +492,44 @@ describe("Watch for Changes", () => {
     }
     expect.assertions(1);
     return;
-    // :state-end:
-    // :state-uncomment-start: final
-    // for await (const change of plants.watch()) {
-    //   switch (change.operationType) {
-    //     case "insert": {
-    //       const { documentKey, fullDocument } = change;
-    //       console.log(`new document: ${documentKey}`, fullDocument);
-    //       break;
-    //     }
-    //     case "update": {
-    //       const { documentKey, fullDocument } = change;
-    //       console.log(`updated document: ${documentKey}`, fullDocument);
-    //       break;
-    //     }
-    //     case "replace": {
-    //       const { documentKey, fullDocument } = change;
-    //       console.log(`replaced document: ${documentKey}`, fullDocument);
-    //       break;
-    //     }
-    //     case "delete": {
-    //       const { documentKey } = change;
-    //       console.log(`deleted document: ${documentKey}`);
-    //       break;
-    //     }
-    //   }
-    // }
-    // :state-uncomment-end:
-    // :snippet-end:
+    // NOTE: not sure why, but previously the above code was in a bluehawk start
+    // state with the below code in a bluehawk final state and commented out,
+    // while only the below code was in the docs.
+    // to making running `bluehawk snip easier`, shifting below code into an
+    // uncalled function. Probably something to do with the .watch() method interacting
+    // weirdly with the Jest unit testing suite.
+    async function realExample() {
+      // :snippet-start: watch-a-collection
+      for await (const change of plants.watch()) {
+        switch (change.operationType) {
+          case "insert": {
+            const { documentKey, fullDocument } = change;
+            console.log(`new document: ${documentKey}`, fullDocument);
+            break;
+          }
+          case "update": {
+            const { documentKey, fullDocument } = change;
+            console.log(`updated document: ${documentKey}`, fullDocument);
+            break;
+          }
+          case "replace": {
+            const { documentKey, fullDocument } = change;
+            console.log(`replaced document: ${documentKey}`, fullDocument);
+            break;
+          }
+          case "delete": {
+            const { documentKey } = change;
+            console.log(`deleted document: ${documentKey}`);
+            break;
+          }
+        }
+      }
+      // :snippet-end:
+    }
   });
 
   test("Watch for Changes in a Collection with a Filter", async () => {
     const plants = getPlantsCollection();
-    // :snippet-start: watch-a-collection-with-filter
-    // :state-start: start
     try {
       const watching = plants.watch({
         filter: {
@@ -546,20 +548,26 @@ describe("Watch for Changes", () => {
     }
     expect.assertions(1);
     return;
-    // :state-end:
-    // :state-uncomment-start: final
-    // for await (const change of plants.watch({
-    //   filter: {
-    //     operationType: "insert",
-    //     "fullDocument.type": "perennial",
-    //   },
-    // })) {
-    //   // The change event will always represent a newly inserted perennial
-    //   const { documentKey, fullDocument } = change;
-    //   console.log(`new document: ${documentKey}`, fullDocument);
-    // }
-    // :state-uncomment-end:
-    // :snippet-end:
-    /* eslint-enable no-unreachable */
+
+    // NOTE: not sure why, but previously the above code was in a bluehawk start
+    // state with the below code in a bluehawk final state and commented out,
+    // while only the below code was in the docs.
+    // to making running `bluehawk snip easier`, shifting below code into an
+    // uncalled function. Probably something to do with the .watch() method interacting
+    // weirdly with the Jest unit testing suite.
+    async function docsExample() {
+      // :snippet-start: watch-a-collection-with-filter
+      for await (const change of plants.watch({
+        filter: {
+          operationType: "insert",
+          "fullDocument.type": "perennial",
+        },
+      })) {
+        // The change event will always represent a newly inserted perennial
+        const { documentKey, fullDocument } = change;
+        console.log(`new document: ${documentKey}`, fullDocument);
+      }
+      // :snippet-end:
+    }
   });
 });
