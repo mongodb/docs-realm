@@ -13,6 +13,7 @@ let primaryKey: Realm.BSON.UUID;
 // :remove-end:
 
 // :snippet-start: setup-define-model
+// Define your object model
 class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.UUID;
   name!: string;
@@ -29,16 +30,19 @@ class Profile extends Realm.Object<Profile> {
 // :snippet-end:
 
 // :snippet-start: configure-config-object
+// Create a configuration object
 const realmConfig: Realm.Configuration = {
   schema: [Profile],
 };
 // :snippet-end:
 // :snippet-start: configure-realm-context
+// Create a realm context
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
 // :snippet-end:
 
 // :snippet-start: configure-expose-realm
+// Expose a realm
 function AppWrapper() {
   return (
     <RealmProvider>
@@ -51,7 +55,6 @@ function AppWrapper() {
 
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
-  // :snippet-start: objects-crud
   // :replace-start: {
   //    "terms": {
   //       "selectedProfileId": "primaryKey"
@@ -63,6 +66,7 @@ function RestOfApp() {
   const activeProfile = useObject(Profile, selectedProfileId);
   // :snippet-end:
 
+  // :snippet-start: objects-create
   const addProfile = (name: string) => {
     realm.write(() => {
       realm.create('Profile', {
@@ -71,20 +75,24 @@ function RestOfApp() {
       });
     });
   };
+  // :snippet-end:
 
+  // :snippet-start: objects-modify
   const changeProfileName = (newName: string) => {
     realm.write(() => {
       activeProfile!.name = newName;
     });
   };
+  // :snippet-end:
 
+  // :snippet-start: objects-delete
   const deleteProfile = () => {
     realm.write(() => {
       realm.delete(activeProfile);
     });
   };
-  // :replace-end:
   // :snippet-end:
+  // :replace-end:
 
   // Check profile length to confirm this is the same sync realm as
   // that set up in beforeEach(). Then set numberOfProfiles to the length.

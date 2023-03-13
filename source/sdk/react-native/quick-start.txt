@@ -18,10 +18,11 @@ Before you begin, install :ref:`install the Realm React Native SDK <react-native
 About the @realm/react Library
 ------------------------------
 
-:github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is a  library used in the React Native SDK. It provides state-aware React hooks for Realm data.
-This means you don't need to 
-manually add and remove listeners. The hooks watch the Realm data and re-render 
-components as needed.
+:github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is a
+library used in the React Native SDK. It provides state-aware React hooks for Realm data.
+
+This means you don't need to manually add and remove listeners. The hooks watch
+the Realm data and re-render components as needed.
 
 The React Native SDK documentation uses``@realm/react`` for examples 
 and describing concepts.
@@ -39,11 +40,14 @@ data:
 
 .. _react-native-quickstart-local-import-realm:
 
-Import Hooks From @realm/react
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Import Context and Providers From @realm/react
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 At the top of your source files where you want to use Realm, import the
-``@realm/react`` hooks.
+``@realm/react`` context and providers.
+
+``AppProvider`` and ``UserProvider`` are only necessary if you want to use
+:ref:`Atlas Device Sync <react-native-realm-sync>` or other App Services.
 
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.setup-import-hooks.tsx
   :language: javascript
@@ -53,15 +57,17 @@ At the top of your source files where you want to use Realm, import the
 Define an Object Model
 ~~~~~~~~~~~~~~~~~~~~~~
 
-In Realm Database, all data is a type of object. Becuase of this, your 
-application's :ref:`object model <react-native-object-schemas>` defines the data
+Your application's :ref:`object model <react-native-object-schemas>` defines the data
 that you can store within a realm. An object model is made up of object types.
 
-To define a Realm object type, create a class that contains a static 
-``schema`` field. Within the ``schema`` object, define the object's ``name``, ``properties``,
-and ``primaryKey``. You can add other properties, but these three are required.
+To define a Realm object type:, 
 
-The type name and primary key must be unique among object types in a realm.
+#. Create a class that extends ``Realm.Object``.
+   For TypeScript, include the class name as a type. This allows the ``Realm.Object``
+   constructor to return a typed instance of the class.
+#. Add a ``schema`` field.
+#. For the ``schema`` value, create an object that contains ``properties`` and 
+   ``name`` properties. The name value must be unique among object types in a realm.
 
 .. TODO: Update the JS example below after creating JS version of quickstart.
 
@@ -89,72 +95,41 @@ Configure a Realm
 
 Before you can work with any data, you need to configure a realm. With
 ``@realm/react``, anything nested inside ``RealmProvider`` will be able to
-access your realm's data and features.
+access your realm's data.
+
+To properly configure a realm, tell the realm what kind of data
+it will contain. To do this, ensure your realm has access to your data models.
+
+In the example below, we write our models in the same file where we configure a 
+realm, but it's common to write them elswhere and import them where you want to 
+create a realm context.
 
 .. TODO: update configure a realm page with this better approach.
 
 To configure and access a local realm:
 
-#. Import object models
-#. Create the realm's :js-sdk:`Configuration <Realm.html#~Configuration>` object
-#. Create a realm context with ``createRealmContext``
-#. Expose a realm with the ``<RealmProvider>``
+#. Create the realm's :js-sdk:`Configuration <Realm.html#~Configuration>` object.
+   The Configuration object defines the parameters of a realm and identifies it.
+   When creating a configuration object, make sure to pass your data models into
+   the ``schema`` property.
+#. Create a realm context with ``createRealmContext``. A realm context is a 
+   `React Context object <https://reactjs.org/docs/context.html>`__ that contains
+   context for your realm.
+#. Expose a realm with the ``<RealmProvider>``. To expose a realm, you need a 
+   realm context. From that context, extract ``RealmProvider``. This provider 
+   contains your realm's context. Components nested within ``<RealmProvider>`` 
+   have access to hooks that let you read, write, and update data.
 
-A properly-configured basic realm might look like this:
+A properly-configured realm might look like this:
 
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
-  :language: javascript
-
-Import Object Models
-````````````````````
-
-To properly-configure a realm, you need to let the realm know what kind of data
-the realm will contain. You do this by ensuring your realm has access to your
-data models. 
-
-You can write your models in the same file as your realm, but it's common to 
-write them elswhere and import them where you want to create a realm context.
-
-Create a Configuration Object
-`````````````````````````````
-
-The Configuration object defines the parameters of a realm and identifies it.
-When creating a configuration object, make sure to pass your data models into
-the ``schema`` property.
-
-.. TODO: create JS version and add tab
-
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.configure-config-object.tsx
-  :language: javascript
-
-Create a Realm Context
-``````````````````````
-
-A realm context is a `React Context object <https://reactjs.org/docs/context.html>`__
-that contains context for your realm.
-
-To create a realm context, pass a Configuration object into ``createRealmContext()``.
-
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.configure-realm-context.tsx
-  :language: javascript
-
-Expose and access a realm
-`````````````````````````
-
-To expose a realm, you need a realm context. From that context, extract
-``RealmProvider``. This provider contains your realm's context. Components
-nested within ``<RealmProvider>`` have access to hooks that let you read, write,
-and update data.
-
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.configure-expose-realm.tsx
   :language: javascript
 
 Work With Data
 --------------
 
-Realm gives you many tools to work with the :ref:`Realm objects
-<react-native-object-types>` you define in your app's 
-object modal.
+After you have a data model and a configured realm, you can create, update, or 
+delete :ref:`Realm objects <react-native-object-types>`.
 
 To use those tools, you need an open realm. This means that object hooks and 
 methods only work in components that are nested inside of ``<RealmProvider>``;
@@ -180,9 +155,9 @@ or object.
 - ``useQuery()``. Returns ``Realm.Results`` for the object type that you pass to it.
   If you can't use this hook, try the Realm method
   :js-sdk:`Realm.objects() <Realm.html#objects>`.
-- ``useObject()``. Returns a ``Realm.Object`` for the object type and primary key 
+- ``useObject()``. Returns one ``Realm.Object`` for the object type and primary key 
   that you pass to it. If you can't use this hook, try the Realm method
-  :js-sdk:`realm.objectForPrimaryKeys() <Realm.html#objectForPrimaryKey>`.
+  :js-sdk:`Realm.objectForPrimaryKey() <Realm.html#objectForPrimaryKey>`.
 
 .. TODO: Expand on RQL here or link elsewhere
 
@@ -200,15 +175,34 @@ Create, Modify, and Delete Realm Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After instantiating ``useRealm()``, you can use Realm methods to create, modify,
-and delete Realm objects. For example:
+and delete Realm objects inside of a :js-sdk:`write transaction block <Realm.html#write>`.
 
-- :js-sdk:`Realm.create() <Realm.html#create>`
-- :js-sdk:`realm.delete() <Realm.html#delete>`
+For more information, refer to :ref:`Write Transactions <react-native-write-transactions>`.
 
-These methods rely on you previously finding objects or collections to pass to 
-them. They should be used alongside the``useQuery()`` and ``useObject()`` hooks.
+Create Objects
+``````````````
 
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-crud.tsx
+To create a new Realm Object, specify the object type, pass in the object's
+initialized values, and add it to the realm in a write transaction block:
+
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-create.tsx
+  :language: javascript
+
+Modify Objects
+``````````````
+
+To modify a Realm Object, update its properties in a write transaction block:
+
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-modify.tsx
+  :language: javascript
+
+Delete Objects
+``````````````
+
+To delete a Realm Object, call the :js-sdk:`Realm.delete() <Realm.html#delete>`
+method in a write transaction block:
+
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-delete.tsx
   :language: javascript
 
 .. _react-native-quickstart-local-close-a-realm:
