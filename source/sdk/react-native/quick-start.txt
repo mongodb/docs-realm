@@ -11,22 +11,19 @@ Quick Start - React Native SDK
    :depth: 2
    :class: singlecol
 
-This Quick Start demonstrates how to use Realm Database with the React Native SDK
-and ``@realm/react`` library.
+This page demonstrates how to use Realm Database using the React Native SDK.
 
-Before you begin, ensure you have :ref:`installed the 
-Realm React Native SDK <react-native-install>` and ``@realm/react`` library.
+Before you begin, install :ref:`install the Realm React Native SDK <react-native-install>`.
 
 About the @realm/react Library
 ------------------------------
 
-:github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is an 
-additional library that works with and relies on the React Native SDK. It 
-provides state-aware React hooks for Realm data. This means you don't need to 
+:github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is a  library used in the React Native SDK. It provides state-aware React hooks for Realm data.
+This means you don't need to 
 manually add and remove listeners. The hooks watch the Realm data and re-render 
 components as needed.
 
-The React Native SDK documentation defaults to using ``@realm/react`` for examples 
+The React Native SDK documentation uses``@realm/react`` for examples 
 and describing concepts.
 
 Set Up Your Realm App
@@ -60,8 +57,8 @@ In Realm Database, all data is a type of object. Becuase of this, your
 application's :ref:`object model <react-native-object-schemas>` defines the data
 that you can store within a realm. An object model is made up of object types.
 
-To define a basic Realm object type, create a class that contains a static 
-``schema`` field. Within this field, define the object's ``name``, ``properties``,
+To define a Realm object type, create a class that contains a static 
+``schema`` field. Within the ``schema`` object, define the object's ``name``, ``properties``,
 and ``primaryKey``. You can add other properties, but these three are required.
 
 The type name and primary key must be unique among object types in a realm.
@@ -99,9 +96,9 @@ access your realm's data and features.
 To configure and access a local realm:
 
 #. Import object models
-#. Create a :js-sdk:`Configuration object <Realm.html#~Configuration>`
-#. Create a realm context
-#. Expose a realm
+#. Create the realm's :js-sdk:`Configuration <Realm.html#~Configuration>` object
+#. Create a realm context with ``createRealmContext``
+#. Expose a realm with the ``<RealmProvider>``
 
 A properly-configured basic realm might look like this:
 
@@ -161,8 +158,7 @@ object modal.
 
 To use those tools, you need an open realm. This means that object hooks and 
 methods only work in components that are nested inside of ``<RealmProvider>``;
-Within a nested component, the ``useRealm()`` hook gives you access to all
-the methods available for your realm.
+In a component wrapped with a ``<RealmProvider>``, the ``useRealm()`` hook gives you access to your realm that you can use to work with the database.
 
 Any changes to a Realm object must occur within a 
 :ref:`Write transaction <react-native-write-transactions>` block.
@@ -184,14 +180,14 @@ or object.
 - ``useQuery()``. Returns ``Realm.Results`` for the object type that you pass to it.
   If you can't use this hook, try the Realm method
   :js-sdk:`Realm.objects() <Realm.html#objects>`.
-- ``useObject()``. Returns ``Realm.Object`` for the object type and primary key 
+- ``useObject()``. Returns a ``Realm.Object`` for the object type and primary key 
   that you pass to it. If you can't use this hook, try the Realm method
   :js-sdk:`realm.objectForPrimaryKeys() <Realm.html#objectForPrimaryKey>`.
 
 .. TODO: Expand on RQL here or link elsewhere
 
 After finding a collection, you can filter or sort the results using Realm
-Query Language (RQL) logic.
+Query Language (RQL).
 
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-find.tsx
   :language: javascript
