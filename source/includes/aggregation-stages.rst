@@ -83,9 +83,6 @@ in the MongoDB Manual.
    .. literalinclude:: /examples/generated/node/mongodb.snippet.paginate.js
       :language: javascript
 
-.. literalinclude:: TODO
-   :language: javascript
-
 Project Document Fields
 ~~~~~~~~~~~~~~~~~~~~~~~
 
