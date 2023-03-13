@@ -1,4 +1,3 @@
-import 'sync_schemas.dart';
 import 'package:realm_dart/realm.dart';
 
 part 'quick_start_sync_test.g.dart';
