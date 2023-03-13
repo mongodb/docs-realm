@@ -10,7 +10,7 @@ final config = Configuration.flexibleSync(user, [Car.schema]);
 final realm = Realm(config);
 
 // Add subscription that match the data being added
-    // and your app's backend permissions.
+// and your app's backend permissions.
 realm.subscriptions.update((mutableSubscriptions) {
   mutableSubscriptions.add(realm.all<Car>());
 });
