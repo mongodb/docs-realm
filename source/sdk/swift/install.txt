@@ -31,7 +31,9 @@ meets the following prerequisites:
 - When using Xcode 14, a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
 - Reflection is enabled in your project. The Realm Swift SDK uses reflection to 
   determine your model's properties. Your project must not set 
-  ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or Realm cannot see properties in your model.
+  ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or Realm cannot see properties 
+  in your model. Reflection is enabled by default if your project does 
+  not specifically set a level for this setting. 
 
 .. note::
 

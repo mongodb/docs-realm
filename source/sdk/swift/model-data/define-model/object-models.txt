@@ -164,7 +164,8 @@ Properties are also the mechanism for establishing :ref:`relationships
 The Realm Swift SDK uses reflection to determine the properties
 in your models at runtime. Your project must not set 
 ``SWIFT_REFLECTION_METADATA_LEVEL = none``, or Realm cannot discover 
-children of types, such as properties and enum cases.
+children of types, such as properties and enum cases. Reflection is enabled 
+by default if your project does not specifically set a level for this setting.
 
 .. _ios-build-view-models-with-realm:
 
