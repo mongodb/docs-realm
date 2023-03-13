@@ -295,6 +295,8 @@ describe("Aggregate Documents", () => {
   test("Paginate documents", async () => {
     const plants = getPlantsCollection();
     // :snippet-start: paginate
+    // Paginates through list of plants
+    // in ascending order by plant name (A -> Z)
     async function paginateCollectionAscending(
       collection,
       startValue,
@@ -319,7 +321,6 @@ describe("Aggregate Documents", () => {
         { $limit: 1 },
       ])
     )[0].name;
-    console.log("start val:", startValue);
 
     const pageOneResults = await paginateCollectionAscending(
       plants,
