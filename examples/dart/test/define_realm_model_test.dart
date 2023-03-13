@@ -4,10 +4,6 @@ import 'package:test/scaffolding.dart';
 
 part 'define_realm_model_test.g.dart';
 
-// TODO: the snippet source/examples/generated/flutter/define_realm_model_test.snippet.define-model.dart
-// doesn't come from the source code. there was a bit of hackery making it so.
-// fix to create.
-
 @RealmModel()
 class _Car {
   @PrimaryKey()
