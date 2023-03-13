@@ -110,8 +110,8 @@ To add a query to a subscription:
 
 ``MutableSubscriptionSet.add()`` takes a ``query`` and a
 :js-sdk:`SubscriptionOptions <Realm.App.Sync.html#.SubscriptionOptions>` object.
-In ``SubscriptionOptions``, you should name your subscription. This makes 
-updating your subscription easier.
+In ``SubscriptionOptions``, you should name your subscription by adding a string
+value to ``SubscriptionOptions.name``. This makes updating the subscription easier.
 
 If you do not give your subscription a name, the name is set to ``null`` and 
 the subscription is based on the :ref:`Realm Query Language <react-native-query-data>`
