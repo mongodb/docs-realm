@@ -1,14 +1,19 @@
+// :snippet-start: quickstart-setup
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
-import {useEffect} from 'react';
 import Realm from 'realm';
+// :snippet-start: setup-import-hooks
+import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
+// :snippet-end:
+// :remove-start:
+import {useState} from 'react';
+import {FlatList, Pressable, Text, View} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
-import {useApp} from '@realm/react';
-import {Text} from 'react-native';
-
-const APP_ID = 'js-flexible-oseso';
 let numberOfProfiles;
+let primaryKey
+// :remove-end:
 
+// :snippet-start: setup-define-model
+// Define your object model
 class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
@@ -19,69 +24,72 @@ class Profile extends Realm.Object {
     },
   };
 }
+// :snippet-end:
 
-const realmContext = createRealmContext({
+// :snippet-start: configure-config-object
+// Create a configuration object
+const realmConfig = {
   schema: [Profile],
-});
-const {RealmProvider} = realmContext;
+};
+// :snippet-end:
+// :snippet-start: configure-realm-context
+// Create a realm context
+const {RealmProvider, useRealm, useObject, useQuery} =
+  createRealmContext(realmConfig);
+// :snippet-end:
 
-function AppWrapperSync() {
+// :snippet-start: configure-expose-realm
+// Expose a realm
+function AppWrapper() {
   return (
-    <AppProvider id={APP_ID}>
-      <UserProvider fallback={LogIn}>
-        <RealmProvider
-          sync={{
-            flexible: true,
-            onError: console.error,
-          }}>
-          <RestOfApp />
-        </RealmProvider>
-      </UserProvider>
-    </AppProvider>
+    <RealmProvider>
+      <RestOfApp />
+    </RealmProvider>
   );
 }
-
-// NOTE: Currently not testing the partition-based sync code. The App Services
-// App we're using is for Flexible Sync and I don't think PB-based needs its
-// own testing right now.
-function AppWrapperPartitionSync() {
-  return (
-    <AppProvider id={APP_ID}>
-      <UserProvider>
-        {/* :snippet-start: partition-based-config */}
-        <RealmProvider
-          sync={{
-            partitionValue: 'testPartition',
-            onError: console.error,
-          }}>
-          <RestOfApp />
-        </RealmProvider>
-        {/* :snippet-end: */}
-      </UserProvider>
-    </AppProvider>
-  );
-}
-
-function LogIn() {
-  const app = useApp();
-
-  useEffect(() => {
-    app.logIn(Realm.Credentials.anonymous());
-  }, []);
-
-  return <></>;
-}
+// :snippet-end:
+// :snippet-end:
 
 function RestOfApp() {
-  const {useRealm, useQuery} = realmContext;
+  const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
+  // :replace-start: {
+  //    "terms": {
+  //       "selectedProfileId": "primaryKey"
+  //    }
+  // }
   const realm = useRealm();
+  // :snippet-start: objects-find
   const profiles = useQuery(Profile);
+  const activeProfile = useObject(Profile, selectedProfileId);
+  // :snippet-end:
 
-  useEffect(() => {
-    realm.subscriptions.update((subs, myRealm) => {
-      subs.add(myRealm.objects('Profile'));
+  // :snippet-start: objects-create
+  const addProfile = (name) => {
+    realm.write(() => {
+      realm.create('Profile', {
+        name: name,
+        _id: new Realm.BSON.UUID(),
+      });
     });
-  });
+  };
+  // :snippet-end:
+
+  // :snippet-start: objects-modify
+  const changeProfileName = (newName) => {
+    realm.write(() => {
+      activeProfile.name = newName;
+    });
+  };
+  // :snippet-end:
+
+  // :snippet-start: objects-delete
+  const deleteProfile = () => {
+    realm.write(() => {
+      realm.delete(activeProfile);
+    });
+  };
+  // :snippet-end:
+  // :replace-end:
 
   // Check profile length to confirm this is the same sync realm as
   // that set up in beforeEach(). Then set numberOfProfiles to the length.
@@ -90,50 +98,45 @@ function RestOfApp() {
   }
 
   return (
-    <>
-      <Text>Rest of the app!</Text>
-    </>
+    <View>
+      <View>
+        <Text>Select a profile to view details</Text>
+        <FlatList
+          data={profiles.sorted('name')}
+          keyExtractor={item => item._id.toHexString()}
+          renderItem={({item}) => {
+            return (
+              <Pressable onPress={setSelectedProfileId(item._id)}>
+                <Text>{item.name}</Text>
+              </Pressable>
+            );
+          }}
+        />
+      </View>
+      <Text>{activeProfile?._id.toHexString()}</Text>
+    </View>
   );
 }
 
-const app = new Realm.App(APP_ID);
-const createConfig = user => {
-  return {
-    schema: [Profile],
-    sync: {
-      user: user,
-      flexible: true,
-      onError: console.error,
-    },
-  };
-};
-
 beforeEach(async () => {
-  const user = await app.logIn(Realm.Credentials.anonymous());
-  const config = createConfig(user);
-  const realm = await Realm.open(config);
-
-  realm.subscriptions.update((subs, myRealm) => {
-    subs.add(myRealm.objects('Profile'));
-  });
+  const realm = await Realm.open(realmConfig);
+  const id = new Realm.BSON.UUID();
 
   realm.write(() => {
     // Create a profile object.
     realm.create('Profile', {
       name: 'TestProfile',
-      _id: new Realm.BSON.UUID(),
+      _id: id,
     });
   });
 
-  realm.close();
+  primaryKey = id;
 
-  await user.logOut();
+  realm.close();
 });
 
 afterEach(async () => {
-  const user = await app.logIn(Realm.Credentials.anonymous());
-  const config = createConfig(user);
-  const realm = await Realm.open(config);
+  const realm = await Realm.open(realmConfig);
 
   realm.write(() => {
     // Clean up. Delete all objects in the realm.
@@ -143,12 +146,10 @@ afterEach(async () => {
   numberOfProfiles = 0;
 
   realm.close();
-
-  await user.logOut();
 });
 
 test('Instantiate AppWrapperSync and test sync', async () => {
-  render(<AppWrapperSync />);
+  render(<AppWrapper />);
 
   await waitFor(
     () => {

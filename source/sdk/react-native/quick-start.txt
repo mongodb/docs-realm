@@ -69,8 +69,6 @@ To define a Realm object type:,
 #. For the ``schema`` value, create an object that contains ``properties`` and 
    ``name`` properties. The name value must be unique among object types in a realm.
 
-.. TODO: Update the JS example below after creating JS version of quickstart.
-
 .. tabs-realm-languages::
 
    .. tab::
@@ -82,16 +80,13 @@ To define a Realm object type:,
    .. tab::
       :tabid: javascript
 
-      .. literalinclude:: /examples/generated/react-native/js/Profile.snippet.js-profile-schema.js
+      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.setup-define-model.jsx
          :language: javascript
 
 .. _react-native-quickstart-local-open-a-realm:
 
 Configure a Realm
 ~~~~~~~~~~~~~~~~~
-
-.. TODO: write intro that links to configure page and adds a little context.
-   Maybe include the numbered list and link to the individual sections?
 
 Before you can work with any data, you need to configure a realm. With
 ``@realm/react``, anything nested inside ``RealmProvider`` will be able to
@@ -103,8 +98,6 @@ it will contain. To do this, ensure your realm has access to your data models.
 In the example below, we write our models in the same file where we configure a 
 realm, but it's common to write them elswhere and import them where you want to 
 create a realm context.
-
-.. TODO: update configure a realm page with this better approach.
 
 To configure and access a local realm:
 
@@ -122,8 +115,19 @@ To configure and access a local realm:
 
 A properly-configured realm might look like this:
 
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
-  :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+   
+      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
+         :language: typescript
+   
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.quickstart-setup.jsx
+         :language: javascript
 
 Work With Data
 --------------
@@ -144,13 +148,8 @@ Any changes to a Realm object must occur within a
 Find, Sort, and Filter Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. TODO: Refine the content in this section
-
 ``@realm/react`` provides a couple of hooks to help you find a Realm collection
 or object.
-
-.. TODO: maybe refactor to a table. List realm/react, realm method, and their
-   shared return?
 
 - ``useQuery()``. Returns ``Realm.Results`` for the object type that you pass to it.
   If you can't use this hook, try the Realm method
@@ -159,10 +158,8 @@ or object.
   that you pass to it. If you can't use this hook, try the Realm method
   :js-sdk:`Realm.objectForPrimaryKey() <Realm.html#objectForPrimaryKey>`.
 
-.. TODO: Expand on RQL here or link elsewhere
-
-After finding a collection, you can filter or sort the results using Realm
-Query Language (RQL).
+After finding a collection, you can filter or sort the results using 
+:ref:`Realm Query Language (RQL) <rql>`.
 
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-find.tsx
   :language: javascript
@@ -225,8 +222,6 @@ Prerequisites
 - :ref:`Anonymous authentication <anonymous-authentication>` enabled in the App Services UI
 - :ref:`Flexible Sync <enable-flexible-sync>` enabled with :ref:`Development Mode <development-mode>`
   on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
-
-.. TODO: figure out where to put this.
 
 Configure and Access a Flexible Sync realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
