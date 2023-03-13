@@ -2,4 +2,4 @@
 // to trigger the data written in the main process
 // to register in the secondary process.
 realm.refresh();
-realm.find<Person>('John');
+final john = realm.find<Person>('John');
