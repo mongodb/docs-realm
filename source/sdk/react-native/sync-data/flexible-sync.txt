@@ -123,8 +123,10 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
+Add a subscription with :js-sdk:`Realm.objects() <Realm.html#objects>`, which you can access with the ``useRealm()`` hook.
+
 If you're using ``@realm/react``, you can use the ``useQuery()`` hook instead of
-``Realm.objects``. However, ``useQuery()`` needs an active subscription to return
+``Realm.objects()``. However, ``useQuery()`` needs an active subscription to return
 results. If no subscription has been added yet, ``useQuery()`` returns an empty 
 result, which is not a valid ``query`` for ``MutableSubscriptionSet.add()``.
 
