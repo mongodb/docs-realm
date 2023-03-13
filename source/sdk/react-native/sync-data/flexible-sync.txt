@@ -123,10 +123,10 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
-If you're using ``@realm/react`` with a Flexible Sync realm, note that ``useQuery()``
-needs an active subscription to return results. If no subscription has been added
-yet, ``useQuery()`` returns an empty result, which is not a valid ``query`` for 
-``MutableSubscriptionSet.add()``.
+If you're using ``@realm/react``, you can use the ``useQuery()`` hook instead of
+``Realm.objects``. However, ``useQuery()`` needs an active subscription to return
+results. If no subscription has been added yet, ``useQuery()`` returns an empty 
+result, which is not a valid ``query`` for ``MutableSubscriptionSet.add()``.
 
 .. literalinclude:: /examples/generated/react-native/ts/add-query-to-subs.test.snippet.add-query.tsx
    :language: javascript

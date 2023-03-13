@@ -54,12 +54,12 @@ function SubscriptionManager() {
 
   // Pass object model to useQuery and filter results.
   // This does not create a subscription.
-  const seenBirds = useQuery('Bird').filtered('haveSeen == true');
+  const seenBirds = realm.objects('Bird').filtered('haveSeen == true');
 
   useEffect(() => {
     realm.subscriptions.update(mutableSubs => {
       // Create subscription for filtered results.
-      mutableSubs.add(seenBirds, {name:'seenBirds'});
+      mutableSubs.add(seenBirds, {name: 'seenBirds'});
     });
     numSubs = realm.subscriptions.length; // :remove:
   });
