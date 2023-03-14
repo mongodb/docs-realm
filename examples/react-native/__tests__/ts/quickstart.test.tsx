@@ -20,11 +20,11 @@ class Profile extends Realm.Object<Profile> {
 
   static schema = {
     name: 'Profile',
-    primaryKey: '_id',
     properties: {
       _id: 'uuid',
       name: 'string',
     },
+    primaryKey: '_id',
   };
 }
 // :snippet-end:

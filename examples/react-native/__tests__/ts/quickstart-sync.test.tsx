@@ -1,35 +1,42 @@
 import React from 'react';
-// imports for non-sync
-import {createRealmContext} from '@realm/react';
-// imports for sync
-import {AppProvider, UserProvider} from '@realm/react';
-import {useEffect} from 'react';
 import Realm from 'realm';
+import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
+import {useEffect} from 'react';
+import {useState} from 'react';
 import {render, waitFor} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
-import {Text} from 'react-native';
+import {FlatList, Pressable, Text, View} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
 let numberOfProfiles: number;
+let primaryKey: Realm.BSON.UUID;
 
+// Define your object model
 class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.UUID;
   name!: string;
 
   static schema = {
     name: 'Profile',
-    primaryKey: '_id',
     properties: {
       _id: 'uuid',
       name: 'string',
     },
+    primaryKey: '_id',
   };
 }
 
-const {RealmProvider, useRealm, useObject, useQuery} = createRealmContext({
+// Create a configuration object
+const realmConfig: Realm.Configuration = {
   schema: [Profile],
-});
+};
 
+// Create a realm context
+const {RealmProvider, useRealm, useObject, useQuery} =
+  createRealmContext(realmConfig);
+
+// :snippet-start: configure-expose-realm
+// Expose a sync realm
 function AppWrapperSync() {
   return (
     <AppProvider id={APP_ID}>
@@ -45,6 +52,7 @@ function AppWrapperSync() {
     </AppProvider>
   );
 }
+// :snippet-end:
 
 function LogIn() {
   const app = useApp();
@@ -57,81 +65,134 @@ function LogIn() {
 }
 
 function RestOfApp() {
-  const {useRealm, useQuery} = realmContext;
+  const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
+  console.log('... in RestOfApp');
   const realm = useRealm();
   const profiles = useQuery(Profile);
+  const activeProfile = useObject(Profile, selectedProfileId);
+
+  const addProfile = (name: string) => {
+    realm.write(() => {
+      realm.create('Profile', {
+        name: name,
+        _id: new Realm.BSON.UUID(),
+      });
+    });
+  };
+
+  const changeProfileName = (newName: string) => {
+    realm.write(() => {
+      activeProfile!.name = newName;
+    });
+  };
+
+  const deleteProfile = () => {
+    realm.write(() => {
+      realm.delete(activeProfile);
+    });
+  };
 
   // Check profile length to confirm this is the same sync realm as
   // that set up in beforeEach(). Then set numberOfProfiles to the length.
   if (profiles.length) {
     numberOfProfiles = profiles.length;
+    console.log(`Number of profiles ${numberOfProfiles}`);
   }
 
   return (
-    <>
-      <Text>Rest of the app!</Text>
-    </>
+    <View>
+      <View>
+        <Text>Select a profile to view details</Text>
+        <FlatList
+          data={profiles.sorted('name')}
+          keyExtractor={item => item._id.toHexString()}
+          renderItem={({item}) => {
+            return (
+              <Pressable onPress={setSelectedProfileId(item._id)}>
+                <Text>{item.name}</Text>
+              </Pressable>
+            );
+          }}
+        />
+      </View>
+      <Text>{activeProfile?._id.toHexString()}</Text>
+    </View>
   );
 }
 
-// const app = new Realm.App(APP_ID);
-// const createConfig = user => {
-//   return {
-//     schema: [Profile],
-//     sync: {
-//       user: user,
-//       flexible: true,
-//       onError: console.error,
-//     },
-//   };
-// };
+const app = new Realm.App(APP_ID);
+const createConfig = (user: Realm.User): Realm.ConfigurationWithSync => {
+  return {
+    schema: [Profile],
+    sync: {
+      user: user,
+      flexible: true,
+      onError: console.error,
+    },
+  };
+};
 
-// beforeEach(async () => {
-//   const user = await app.logIn(Realm.Credentials.anonymous());
-//   const config = createConfig(user);
-//   const realm = await Realm.open(config);
+beforeEach(async () => {
+  const user = await app.logIn(Realm.Credentials.anonymous());
+  const config = createConfig(user);
+  const realm = await Realm.open(config);
+  const id = new Realm.BSON.UUID();
 
-//   realm.subscriptions.update((subs, myRealm) => {
-//     subs.add(myRealm.objects('Profile'));
-//   });
+  console.log('...IN BEFOREEACH');
 
-//   realm.write(() => {
-//     // Create a profile object.
-//     realm.create('Profile', {
-//       name: 'TestProfile',
-//       _id: new Realm.BSON.UUID(),
-//     });
-//   });
+  realm.subscriptions.update((subs, myRealm) => {
+    subs.add(myRealm.objects('Profile'));
+  });
 
-//   realm.close();
+  realm.write(() => {
+    // Create a profile object.
+    realm.create('Profile', {
+      name: 'TestProfile',
+      _id: id,
+    });
+  });
 
-//   await user.logOut();
-// });
+  primaryKey = id;
 
-// afterEach(async () => {
-//   const user = await app.logIn(Realm.Credentials.anonymous());
-//   const config = createConfig(user);
-//   const realm = await Realm.open(config);
+  const profiles = realm.objects('Profile');
 
-//   realm.write(() => {
-//     // Clean up. Delete all objects in the realm.
-//     realm.deleteAll();
-//   });
+  console.log(`Profiles at end of BEFOREEACH: ${profiles.length}`);
 
-//   numberOfProfiles = 0;
+  realm.close();
 
-//   realm.close();
+  await user.logOut();
+});
 
-//   await user.logOut();
-// });
+afterEach(async () => {
+  const user = await app.logIn(Realm.Credentials.anonymous());
+  const config = createConfig(user);
+  const realm = await Realm.open(config);
 
-// test('Instantiate AppWrapperSync and test sync', async () => {
-//   render(<AppWrapperSync />);
+  console.log('...IN AFTEREACH');
 
-//   await waitFor(
-//     () => {
-//       expect(numberOfProfiles).toBe(1);
-//     },
-//     {timeout: 2000},
-//   );
-// });
+  realm.subscriptions.update((subs, myRealm) => {
+    subs.add(myRealm.objects('Profile'));
+  });
+
+  realm.write(() => {
+    // Clean up. Delete all objects in the realm.
+    realm.deleteAll();
+  });
+
+  numberOfProfiles = 0;
+
+  realm.close();
+
+  await user.logOut();
+});
+
+test('Instantiate AppWrapperSync and test sync', async () => {
+  render(<AppWrapperSync />);
+
+  await waitFor(
+    () => {
+      expect(numberOfProfiles).toBe(1);
+    },
+    {timeout: 2000},
+  );
+});
