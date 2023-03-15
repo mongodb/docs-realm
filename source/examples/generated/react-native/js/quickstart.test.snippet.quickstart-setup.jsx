@@ -1,16 +1,16 @@
 import React from 'react';
 import Realm from 'realm';
-import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
+import {createRealmContext} from '@realm/react';
 
 // Define your object model
 class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
-    primaryKey: '_id',
     properties: {
       _id: 'uuid',
       name: 'string',
     },
+    primaryKey: '_id',
   };
 }
 

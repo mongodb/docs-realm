@@ -6,9 +6,9 @@ import {createRealmContext} from '@realm/react';
 // :snippet-end:
 // :remove-start:
 import {useState} from 'react';
-import {FlatList, Pressable, Text, View} from 'react-native';
-import {render, waitFor} from '@testing-library/react-native';
-let numberOfProfiles: number;
+import {FlatList, Pressable, Text, View, Button} from 'react-native';
+import {render, fireEvent, waitFor} from '@testing-library/react-native';
+let higherOrderProfileName: string;
 let primaryKey: Realm.BSON.UUID;
 // :remove-end:
 
@@ -82,6 +82,10 @@ function RestOfApp() {
     realm.write(() => {
       profile.name = newName;
     });
+    // :remove-start:
+    // For testing. Set the profile name to indicate profile object has changed.
+    higherOrderProfileName = activeProfile!.name;
+    // :remove-end:
   };
   // :snippet-end:
 
@@ -94,12 +98,6 @@ function RestOfApp() {
   // :snippet-end:
   // :replace-end:
 
-  // Check profile length to confirm this is the same sync realm as
-  // that set up in beforeEach(). Then set numberOfProfiles to the length.
-  if (profiles.length) {
-    numberOfProfiles = profiles.length;
-  }
-
   return (
     <View>
       <View>
@@ -109,17 +107,58 @@ function RestOfApp() {
           keyExtractor={item => item._id.toHexString()}
           renderItem={({item}) => {
             return (
-              <Pressable onPress={setSelectedProfileId(item._id)}>
+              <Pressable onPress={() => {
+                setSelectedProfileId(item._id)
+              }}>
                 <Text>{item.name}</Text>
               </Pressable>
             );
           }}
         />
       </View>
-      <Text>{activeProfile?._id.toHexString()}</Text>
+      <View>
+        <Text>Active profile: {activeProfile?.name}</Text>
+        {/* :replace-start: {
+          "terms": {
+             "testID='test-use-app'": ""
+          }
+       } */}
+        <Button
+          onPress={()=> {
+            changeProfileName(activeProfile!, 'NewName')
+          }}
+          testID='test-change-name'
+          title='Change name'
+        />
+        {/* :replace-end: */}
+      </View>
     </View>
   );
 }
+
+beforeEach(async () => {
+  const realm = await Realm.open(realmConfig);
+  const id = new Realm.BSON.UUID();
+
+  realm.write(() => {
+    // Create a profile object.
+    realm.create('Profile', {
+      name: 'TestProfile',
+      _id: id,
+    });
+
+    realm.create('Profile', {
+      name: 'SecondProfile',
+      _id: new Realm.BSON.UUID,
+    });
+
+  });
+
+  primaryKey = id;
+  higherOrderProfileName = 'TestProfile';
+
+  realm.close();
+});
 
 afterEach(async () => {
   const realm = await Realm.open(realmConfig);
@@ -129,17 +168,18 @@ afterEach(async () => {
     realm.deleteAll();
   });
 
-  numberOfProfiles = 0;
-
   realm.close();
 });
 
-test('Instantiate AppWrapperSync and test sync', async () => {
-  render(<AppWrapper />);
+test('Instantiate AppWrapperSync and change object name', async () => {
+  const {findByTestId} = render(<AppWrapper />);
+  const button = await findByTestId('test-change-name');
+
+  fireEvent.press(button);
 
   await waitFor(
     () => {
-      expect(numberOfProfiles).toBe(1);
+      expect(higherOrderProfileName).toBe('NewName');
     },
     {timeout: 2000},
   );

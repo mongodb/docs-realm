@@ -1,13 +1,15 @@
 // :snippet-start: quickstart-setup
 import React from 'react';
 import Realm from 'realm';
+// :snippet-start: setup-import-hooks
 import {createRealmContext} from '@realm/react';
+// :snippet-end:
 // :remove-start:
 import {useState} from 'react';
-import {FlatList, Pressable, Text, View} from 'react-native';
-import {render, waitFor} from '@testing-library/react-native';
-let numberOfProfiles;
-let primaryKey
+import {FlatList, Pressable, Text, View, Button} from 'react-native';
+import {render, fireEvent, waitFor} from '@testing-library/react-native';
+let higherOrderProfileName;
+let primaryKey;
 // :remove-end:
 
 // :snippet-start: setup-define-model
@@ -30,10 +32,11 @@ const realmConfig = {
   schema: [Profile],
 };
 // :snippet-end:
-
+// :snippet-start: configure-realm-context
 // Create a realm context
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
+// :snippet-end:
 
 // :snippet-start: configure-expose-realm
 // Expose a realm
@@ -49,9 +52,16 @@ function AppWrapper() {
 
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
+  // :replace-start: {
+  //    "terms": {
+  //       "selectedProfileId": "primaryKey"
+  //    }
+  // }
   const realm = useRealm();
+  // :snippet-start: objects-find
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
+  // :snippet-end:
 
   // :snippet-start: objects-create
   const addProfile = (name) => {
@@ -65,26 +75,25 @@ function RestOfApp() {
   // :snippet-end:
 
   // :snippet-start: objects-modify
-  const changeProfileName = (newName) => {
+  const changeProfileName = (profile, newName) => {
     realm.write(() => {
-      activeProfile.name = newName;
+      profile.name = newName;
     });
+    // :remove-start:
+    // For testing. Set the profile name to indicate profile object has changed.
+    higherOrderProfileName = activeProfile.name;
+    // :remove-end:
   };
   // :snippet-end:
 
   // :snippet-start: objects-delete
-  const deleteProfile = () => {
+  const deleteProfile = (profile) => {
     realm.write(() => {
-      realm.delete(activeProfile);
+      realm.delete(profile);
     });
   };
   // :snippet-end:
-
-  // Check profile length to confirm this is the same sync realm as
-  // that set up in beforeEach(). Then set numberOfProfiles to the length.
-  if (profiles.length) {
-    numberOfProfiles = profiles.length;
-  }
+  // :replace-end:
 
   return (
     <View>
@@ -95,14 +104,31 @@ function RestOfApp() {
           keyExtractor={item => item._id.toHexString()}
           renderItem={({item}) => {
             return (
-              <Pressable onPress={setSelectedProfileId(item._id)}>
+              <Pressable onPress={() => {
+                setSelectedProfileId(item._id)
+              }}>
                 <Text>{item.name}</Text>
               </Pressable>
             );
           }}
         />
       </View>
-      <Text>{activeProfile?._id.toHexString()}</Text>
+      <View>
+        <Text>Active profile: {activeProfile?.name}</Text>
+        {/* :replace-start: {
+          "terms": {
+             "testID='test-use-app'": ""
+          }
+       } */}
+        <Button
+          onPress={()=> {
+            changeProfileName(activeProfile, 'NewName')
+          }}
+          testID='test-change-name'
+          title='Change name'
+        />
+        {/* :replace-end: */}
+      </View>
     </View>
   );
 }
@@ -117,9 +143,16 @@ beforeEach(async () => {
       name: 'TestProfile',
       _id: id,
     });
+
+    realm.create('Profile', {
+      name: 'SecondProfile',
+      _id: new Realm.BSON.UUID,
+    });
+
   });
 
   primaryKey = id;
+  higherOrderProfileName = 'TestProfile';
 
   realm.close();
 });
@@ -132,17 +165,18 @@ afterEach(async () => {
     realm.deleteAll();
   });
 
-  numberOfProfiles = 0;
-
   realm.close();
 });
 
-test('Instantiate AppWrapperSync and test sync', async () => {
-  render(<AppWrapper />);
+test('Instantiate AppWrapperSync and change object name', async () => {
+  const {findByTestId} = render(<AppWrapper />);
+  const button = await findByTestId('test-change-name');
+
+  fireEvent.press(button);
 
   await waitFor(
     () => {
-      expect(numberOfProfiles).toBe(1);
+      expect(higherOrderProfileName).toBe('NewName');
     },
     {timeout: 2000},
   );
