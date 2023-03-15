@@ -27,7 +27,7 @@ npm package for examples and describing concepts.
 Set Up Your Realm App
 ---------------------
 
-After installing the Realm React Native SDK and ``@realm/react``, there are a
+After installing the ``realm`` and ``@realm/react`` packages, there are a
 few more things to set up before you can access your realm and work with local
 data:
 
@@ -80,6 +80,9 @@ To define a Realm object type:,
       .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.setup-define-model.jsx
          :language: javascript
 
+For more information, refer to
+:ref:`Define a Realm Object Model <react-native-define-a-realm-object-model>`.
+
 .. _react-native-quickstart-local-open-a-realm:
 
 Configure a Realm
@@ -126,8 +129,10 @@ A properly-configured realm might look like this:
       .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.quickstart-setup.jsx
          :language: javascript
 
-Work With Data
---------------
+For more information, refer to :ref:`Configure a Realm <react-native-configure-realm>`.
+
+Work With Realm Objects
+-----------------------
 
 After you have a data model and a configured realm, you can create, update, or 
 delete :ref:`Realm objects <react-native-object-types>`.
@@ -158,6 +163,9 @@ After finding a collection, you can filter or sort the results using
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-find.tsx
   :language: javascript
 
+For more information, refer to the
+:ref:`Qeury Data <react-native-query-data>`.
+
 .. _react-native-quickstart-local-create-realm-objects:
 .. _react-native-quickstart-local-modify-an-object:
 .. _react-native-quickstart-local-delete-an-object:
@@ -179,13 +187,17 @@ initialized values, and add it to the realm in a write transaction block:
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-create.tsx
   :language: javascript
 
-Modify Objects
+For more information, refer to :ref:`CRUD - Create <react-native-create-objects>`.
+
+Update Objects
 ``````````````
 
-To modify a Realm Object, update its properties in a write transaction block:
+To update a Realm Object, update its properties in a write transaction block:
 
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-modify.tsx
   :language: javascript
+
+For more information, refer to :ref:`CRUD - Update <react-native-update-objects>`.
 
 Delete Objects
 ``````````````
@@ -196,6 +208,8 @@ method in a write transaction block:
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-delete.tsx
   :language: javascript
 
+For more information, refer to :ref:`CRUD - Delete <react-native-delete-objects>`.
+
 .. _react-native-quickstart-local-close-a-realm:
 
 Add Atlas Device Sync (Optional)
@@ -204,7 +218,7 @@ Add Atlas Device Sync (Optional)
 After getting your local-only realm running, you can add Atlas Device Sync
 so that your realm's data can sync with a MongoDB Atlas cluster and other client devices.
 
-To do this, you'll need to do a bit more set up:
+To do this, you need to set up a couple more things:
 
 - Create a backend in Atlas App Services (see the prerequisites below)
 - Configure a Flexible Sync realm instead of a local-only realm
@@ -225,6 +239,8 @@ To configure and access a synced realm:
 #. Initialize the App using ``<AppProvider>``
 #. Authenticate a User with ``<UserProvider>``
 #. Configure a Synced Realm with ``<RealmProvider>``
+
+For more information, refer to :ref:`Configure a Synced Realm <react-native-synced-realm>`.
 
 Initialize the App using <AppProvider>
 ``````````````````````````````````````
