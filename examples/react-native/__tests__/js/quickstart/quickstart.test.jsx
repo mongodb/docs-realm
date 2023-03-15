@@ -1,23 +1,18 @@
 // :snippet-start: quickstart-setup
 import React from 'react';
 import Realm from 'realm';
-// :snippet-start: setup-import-hooks
-import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
-// :snippet-end:
+import {createRealmContext} from '@realm/react';
 // :remove-start:
 import {useState} from 'react';
 import {FlatList, Pressable, Text, View} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
-let numberOfProfiles: number;
-let primaryKey: Realm.BSON.UUID;
+let numberOfProfiles;
+let primaryKey
 // :remove-end:
 
 // :snippet-start: setup-define-model
 // Define your object model
-class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.UUID;
-  name!: string;
-
+class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
     properties: {
@@ -31,15 +26,14 @@ class Profile extends Realm.Object<Profile> {
 
 // :snippet-start: configure-config-object
 // Create a configuration object
-const realmConfig: Realm.Configuration = {
+const realmConfig = {
   schema: [Profile],
 };
 // :snippet-end:
-// :snippet-start: configure-realm-context
+
 // Create a realm context
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
-// :snippet-end:
 
 // :snippet-start: configure-expose-realm
 // Expose a realm
@@ -55,19 +49,12 @@ function AppWrapper() {
 
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
-  // :replace-start: {
-  //    "terms": {
-  //       "selectedProfileId": "primaryKey"
-  //    }
-  // }
   const realm = useRealm();
-  // :snippet-start: objects-find
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
-  // :snippet-end:
 
   // :snippet-start: objects-create
-  const addProfile = (name: string) => {
+  const addProfile = (name) => {
     realm.write(() => {
       realm.create('Profile', {
         name: name,
@@ -78,9 +65,9 @@ function RestOfApp() {
   // :snippet-end:
 
   // :snippet-start: objects-modify
-  const changeProfileName = (newName: string) => {
+  const changeProfileName = (newName) => {
     realm.write(() => {
-      activeProfile!.name = newName;
+      activeProfile.name = newName;
     });
   };
   // :snippet-end:
@@ -92,7 +79,6 @@ function RestOfApp() {
     });
   };
   // :snippet-end:
-  // :replace-end:
 
   // Check profile length to confirm this is the same sync realm as
   // that set up in beforeEach(). Then set numberOfProfiles to the length.

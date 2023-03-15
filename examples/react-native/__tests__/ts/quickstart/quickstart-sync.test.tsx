@@ -1,20 +1,21 @@
-// :snippet-start: quickstart-setup
 import React from 'react';
 import Realm from 'realm';
-// :snippet-start: setup-import-hooks
 import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
-// :snippet-end:
-// :remove-start:
+import {useEffect} from 'react';
 import {useState} from 'react';
-import {FlatList, Pressable, Text, View} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
-let numberOfProfiles;
-let primaryKey
-// :remove-end:
+import {useApp} from '@realm/react';
+import {FlatList, Pressable, Text, View} from 'react-native';
 
-// :snippet-start: setup-define-model
+const APP_ID = 'js-flexible-oseso';
+let numberOfProfiles: number;
+let primaryKey: Realm.BSON.UUID;
+
 // Define your object model
-class Profile extends Realm.Object {
+class Profile extends Realm.Object<Profile> {
+  _id!: Realm.BSON.UUID;
+  name!: string;
+
   static schema = {
     name: 'Profile',
     properties: {
@@ -24,47 +25,60 @@ class Profile extends Realm.Object {
     primaryKey: '_id',
   };
 }
-// :snippet-end:
 
-// :snippet-start: configure-config-object
 // Create a configuration object
-const realmConfig = {
+const realmConfig: Realm.Configuration = {
   schema: [Profile],
 };
-// :snippet-end:
-// :snippet-start: configure-realm-context
+
 // Create a realm context
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
-// :snippet-end:
 
 // :snippet-start: configure-expose-realm
-// Expose a realm
-function AppWrapper() {
+// Expose a sync realm
+function AppWrapperSync() {
   return (
-    <RealmProvider>
-      <RestOfApp />
-    </RealmProvider>
+    <AppProvider id={APP_ID}>
+      <UserProvider fallback={LogIn}>
+        <RealmProvider
+          sync={{
+            flexible: true,
+            onError: console.error,
+            // To read or write to a sync realm, you need
+            // at least one sync subscription.
+            initialSubscriptions: {
+              update(subs, realm) {
+                subs.add(realm.objects('Profile'));
+              },
+            },
+          }}>
+          <RestOfApp />
+        </RealmProvider>
+      </UserProvider>
+    </AppProvider>
   );
 }
 // :snippet-end:
-// :snippet-end:
+
+function LogIn() {
+  const app = useApp();
+
+  useEffect(() => {
+    app.logIn(Realm.Credentials.anonymous());
+  }, []);
+
+  return <></>;
+}
 
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
-  // :replace-start: {
-  //    "terms": {
-  //       "selectedProfileId": "primaryKey"
-  //    }
-  // }
+  console.log('... in RestOfApp');
   const realm = useRealm();
-  // :snippet-start: objects-find
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
-  // :snippet-end:
 
-  // :snippet-start: objects-create
-  const addProfile = (name) => {
+  const addProfile = (name: string) => {
     realm.write(() => {
       realm.create('Profile', {
         name: name,
@@ -72,29 +86,24 @@ function RestOfApp() {
       });
     });
   };
-  // :snippet-end:
 
-  // :snippet-start: objects-modify
-  const changeProfileName = (newName) => {
+  const changeProfileName = (newName: string) => {
     realm.write(() => {
-      activeProfile.name = newName;
+      activeProfile!.name = newName;
     });
   };
-  // :snippet-end:
 
-  // :snippet-start: objects-delete
   const deleteProfile = () => {
     realm.write(() => {
       realm.delete(activeProfile);
     });
   };
-  // :snippet-end:
-  // :replace-end:
 
   // Check profile length to confirm this is the same sync realm as
   // that set up in beforeEach(). Then set numberOfProfiles to the length.
   if (profiles.length) {
     numberOfProfiles = profiles.length;
+    console.log(`Number of profiles ${numberOfProfiles}`);
   }
 
   return (
@@ -118,9 +127,29 @@ function RestOfApp() {
   );
 }
 
+const app = new Realm.App(APP_ID);
+const createConfig = (user: Realm.User): Realm.ConfigurationWithSync => {
+  return {
+    schema: [Profile],
+    sync: {
+      user: user,
+      flexible: true,
+      onError: console.error,
+    },
+  };
+};
+
 beforeEach(async () => {
-  const realm = await Realm.open(realmConfig);
+  const user = await app.logIn(Realm.Credentials.anonymous());
+  const config = createConfig(user);
+  const realm = await Realm.open(config);
   const id = new Realm.BSON.UUID();
+
+  console.log('...IN BEFOREEACH');
+
+  realm.subscriptions.update((subs, myRealm) => {
+    subs.add(myRealm.objects('Profile'));
+  });
 
   realm.write(() => {
     // Create a profile object.
@@ -132,11 +161,25 @@ beforeEach(async () => {
 
   primaryKey = id;
 
+  const profiles = realm.objects('Profile');
+
+  console.log(`Profiles at end of BEFOREEACH: ${profiles.length}`);
+
   realm.close();
+
+  await user.logOut();
 });
 
 afterEach(async () => {
-  const realm = await Realm.open(realmConfig);
+  const user = await app.logIn(Realm.Credentials.anonymous());
+  const config = createConfig(user);
+  const realm = await Realm.open(config);
+
+  console.log('...IN AFTEREACH');
+
+  realm.subscriptions.update((subs, myRealm) => {
+    subs.add(myRealm.objects('Profile'));
+  });
 
   realm.write(() => {
     // Clean up. Delete all objects in the realm.
@@ -146,10 +189,12 @@ afterEach(async () => {
   numberOfProfiles = 0;
 
   realm.close();
+
+  await user.logOut();
 });
 
 test('Instantiate AppWrapperSync and test sync', async () => {
-  render(<AppWrapper />);
+  render(<AppWrapperSync />);
 
   await waitFor(
     () => {
