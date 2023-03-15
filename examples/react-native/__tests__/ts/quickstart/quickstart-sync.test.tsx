@@ -45,8 +45,6 @@ function AppWrapperSync() {
           sync={{
             flexible: true,
             onError: console.error,
-            // To read or write to a sync realm, you need
-            // at least one sync subscription.
             initialSubscriptions: {
               update(subs, realm) {
                 subs.add(realm.objects('Profile'));
