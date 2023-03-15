@@ -78,17 +78,17 @@ function RestOfApp() {
   // :snippet-end:
 
   // :snippet-start: objects-modify
-  const changeProfileName = (newName: string) => {
+  const changeProfileName = (profile: Profile, newName: string) => {
     realm.write(() => {
-      activeProfile!.name = newName;
+      profile.name = newName;
     });
   };
   // :snippet-end:
 
   // :snippet-start: objects-delete
-  const deleteProfile = () => {
+  const deleteProfile = (profile: Profile) => {
     realm.write(() => {
-      realm.delete(activeProfile);
+      realm.delete(profile);
     });
   };
   // :snippet-end:
@@ -120,23 +120,6 @@ function RestOfApp() {
     </View>
   );
 }
-
-beforeEach(async () => {
-  const realm = await Realm.open(realmConfig);
-  const id = new Realm.BSON.UUID();
-
-  realm.write(() => {
-    // Create a profile object.
-    realm.create('Profile', {
-      name: 'TestProfile',
-      _id: id,
-    });
-  });
-
-  primaryKey = id;
-
-  realm.close();
-});
 
 afterEach(async () => {
   const realm = await Realm.open(realmConfig);

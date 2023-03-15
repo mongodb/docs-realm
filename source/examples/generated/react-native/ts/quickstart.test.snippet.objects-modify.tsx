@@ -1,5 +1,5 @@
-const changeProfileName = (newName: string) => {
+const changeProfileName = (profile: Profile, newName: string) => {
   realm.write(() => {
-    activeProfile!.name = newName;
+    profile.name = newName;
   });
 };

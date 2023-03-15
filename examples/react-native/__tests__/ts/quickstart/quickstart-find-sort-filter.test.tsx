@@ -30,7 +30,7 @@ const realmConfig: Realm.Configuration = {
 };
 
 // Create a realm context
-const {RealmProvider, useRealm, useObject, useQuery} =
+const {RealmProvider, useObject, useQuery} =
   createRealmContext(realmConfig);
 
 // Expose a realm
