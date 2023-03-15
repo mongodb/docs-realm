@@ -19,15 +19,9 @@ realm's great performance, concurrency, and safety benefits.
 
 Realm writes new data within unused space tracked inside 
 file. In some situations, unused space may comprise a significant 
-portion of a realm file. If file size grows large enough to 
-negatively impact performance, you can compact the realm to reduce
-its file size. 
-
-.. tip:: Implement Compacting in Your Production Application
-
-   Every production application should implement a :swift-sdk:`shouldCompactOnLaunch 
-   <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV21shouldCompactOnLaunchSbSi_SitcSgvp>` 
-   callback to periodically reduce the realm file size.
+portion of a realm file. Automatic compaction prevents a file from 
+growing to large. You can use manual compaction strategies depending on
+application needs.
 
 .. _ios-file-size:
 
@@ -108,17 +102,19 @@ autorelease pool when accessing realm from a dispatch queue.
 .. _ios-how-to-compact-a-realm:
 .. _ios-how-compacting-works:
 
-How to Reduce Realm File Size
------------------------------
+Automatic Compaction
+--------------------
 
-.. note:: Automatic Compaction
+.. versionadded:: 10.35.0
 
-   As of Swift version 10.35.0 and up, Realm files are automatically compacted in the 
-   background by continuously reallocating data in the file and removing 
-   unused file space. The Realm file will only be automatically compacted when
-   the file is not being accessed.
+.. include:: /includes/automatic-compaction.rst 
 
-Realm compacting works by:
+Manual Compaction
+-----------------
+
+.. include:: /includes/manual-compaction-note.rst
+
+Realm manual compacting works by:
 
 1. Reading the entire contents of the realm file
 2. Writing the contents to a new file at a different location
@@ -190,8 +186,8 @@ method. The destination file cannot already exist.
 
 .. _ios-when-to-compact-a-realm:
 
-When to Reduce Realm File Size
-------------------------------
+Tips for Using Manual Compaction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Compacting a realm can be an expensive operation that can block 
 the UI thread. Your application should not compact every time you open 
@@ -201,7 +197,7 @@ If your application runs in a resource-constrained environment,
 you may want to compact when you reach a certain file size or when the 
 file size negatively impacts performance.
 
-These recommendations can help you start optimizing compaction for your 
+These recommendations can help you optimize manual compaction for your 
 application:
 
 - Set the max file size to a multiple of your average realm state
@@ -234,8 +230,7 @@ compact realm files in your application.
 .. _ios-platform-file-size-limitations:
 
 Consider iOS File Size Limitations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+''''''''''''''''''''''''''''''''''
 A large realm file can impact the performance and reliability of
 your app. Any single realm file cannot be larger than the amount
 of memory your application would be allowed to map in iOS. This limit
@@ -250,9 +245,10 @@ Summary
 - Realm Database's architecture enables :ref:`threading-related benefits <ios-client-threading>`, 
   but can result in file size growth.
 
-- Use compacting to manage file size growth.
+- Automatic compaction manages file size growth when file is not being accessed. 
 
-- Define conditions for ``shouldCompactOnLaunch()`` to compact a realm.
+- Manual compaction strategies like ``shouldCompactOnLaunch()`` can be used in the occurrence that
+   automatic compaction does not meet application needs. 
 
 - Compacting cannot occur if another process is accessing the realm.
 

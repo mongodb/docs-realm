@@ -35,17 +35,12 @@ Automatic Compaction
 
 .. versionadded:: 0.9.0
 
-The SDK automatically compacts Realm files in the background by continuously reallocating data 
-and removing unused file space. Automatic compaction only takes place when
-the file is not being accessed. 
+.. include:: /includes/automatic-compaction.rst 
 
 Manual Compaction Strategies
 ----------------------------
 
-In most circumstances, automatic compaction is sufficient for minimizing
-the Realm file size. Manual compaction can be used if automatic compaction does not meet 
-application needs or if you're using an older version of the SDK that 
-does not support automatic compaction.
+.. include:: /includes/manual-compaction-note.rst
 
 Use either of the following two strategies to compact a realm file manually:
 
