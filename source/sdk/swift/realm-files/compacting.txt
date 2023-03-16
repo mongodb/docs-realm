@@ -20,7 +20,7 @@ realm's great performance, concurrency, and safety benefits.
 Realm writes new data within unused space tracked inside 
 file. In some situations, unused space may comprise a significant 
 portion of a realm file. Automatic compaction prevents a file from 
-growing to large. You can use manual compaction strategies depending on
+growing too large. You can use manual compaction strategies depending on
 application needs.
 
 .. _ios-file-size:
@@ -114,7 +114,7 @@ Manual Compaction
 
 .. include:: /includes/manual-compaction-note.rst
 
-Realm manual compacting works by:
+Realm manual compaction works by:
 
 1. Reading the entire contents of the realm file
 2. Writing the contents to a new file at a different location
@@ -245,9 +245,9 @@ Summary
 - Realm Database's architecture enables :ref:`threading-related benefits <ios-client-threading>`, 
   but can result in file size growth.
 
-- Automatic compaction manages file size growth when file is not being accessed. 
+- Automatic compaction manages file size growth when the file is not being accessed. 
 
-- Manual compaction strategies like ``shouldCompactOnLaunch()`` can be used in the occurrence that automatic compaction does not meet application needs. 
+- Manual compaction strategies like ``shouldCompactOnLaunch()`` can be used when automatic compaction does not meet application needs. 
 
 - Compacting cannot occur if another process is accessing the realm.
 
