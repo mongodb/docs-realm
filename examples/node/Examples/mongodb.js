@@ -317,7 +317,7 @@ describe("Aggregate Documents", () => {
       return results;
     }
     // Number of results to show on each page
-    let resultsPerPage = 3;
+    const resultsPerPage = 3;
 
     const pageOneResults = await paginateCollectionAscending(
       plants,
