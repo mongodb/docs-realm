@@ -26,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --runInBand",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "bluehawk": "bluehawk snip src -o $(git rev-parse --show-toplevel)/source/examples/generated/web"
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
+    "bluehawk": "^1.3.1",
     "lodash": "^4.17.21",
     "react-testing-library": "^8.0.1"
   }
