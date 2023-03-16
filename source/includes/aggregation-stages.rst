@@ -77,7 +77,7 @@ in the MongoDB Server documentation.
 
 .. example::
 
-   The following example paginates through a collection of documents in descending
+   The following example paginates through a collection of documents in ascending
    order.
 
    .. literalinclude:: /examples/generated/node/mongodb.snippet.paginate.js

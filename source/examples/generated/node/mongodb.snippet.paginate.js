@@ -5,26 +5,17 @@ async function paginateCollectionAscending(
   nPerPage,
   startValue
 ) {
-  const includeFirstElement = !startValue;
-
-  if (!startValue) {
-    startValue = (
-      await plants.aggregate([
-        { $match: {} },
-        { $sort: { name: 1 } },
-        { $limit: 1 },
-      ])
-    )[0].name;
-  }
-  const results = await collection.aggregate([
-    {
+  const pipeline = [{ $sort: { name: 1 } }, { $limit: nPerPage }];
+  // If not starting from the beginning of the collection,
+  // only match documents greater than the previous greatest value.
+  if (startValue !== undefined) {
+    pipeline.unshift({
       $match: {
-        name: { [includeFirstElement ? "$gte" : "$gt"]: startValue },
+        name: { $gt: startValue },
       },
-    },
-    { $sort: { name: 1 } },
-    { $limit: nPerPage },
-  ]);
+    });
+  }
+  const results = await collection.aggregate(pipeline);
 
   return results;
 }
