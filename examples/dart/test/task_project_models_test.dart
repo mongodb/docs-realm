@@ -8,7 +8,7 @@ part 'task_project_models_test.g.dart'; // :remove:
 // :uncomment-end:
 
 @RealmModel()
-class _Task {
+class _Item {
   @MapTo("_id")
   @PrimaryKey()
   late ObjectId id;
@@ -27,7 +27,7 @@ class _Project {
   late ObjectId id;
 
   late String name;
-  late List<_Task> tasks;
+  late List<_Item> items;
   int? quota;
 }
 // :snippet-end:

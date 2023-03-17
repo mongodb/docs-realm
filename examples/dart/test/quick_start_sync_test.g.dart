@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sync_schemas.dart';
+part of 'quick_start_sync_test.dart';
 
 // **************************************************************************
 // RealmObjectGenerator

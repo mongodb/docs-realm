@@ -1,10 +1,10 @@
 import Realm from "realm";
-import { TaskModel, ProjectModel } from "./schemas/rql-data-models";
+import { ItemModel, ProjectModel } from "./schemas/rql-data-models";
 
 describe("test models", () => {
   let realm;
   const config = {
-    schema: [TaskModel, ProjectModel],
+    schema: [ItemModel, ProjectModel],
     path: "testing.realm",
   };
   beforeEach(async () => {
@@ -23,33 +23,33 @@ describe("test models", () => {
   test("open realm with config", async () => {
     expect(realm.isClosed).toBe(false);
   });
-  test("Can create object of Task type", () => {
+  test("Can create object of Item type", () => {
     realm.write(() => {
-      realm.create("Task", {
+      realm.create("Item", {
         id: new Realm.BSON.ObjectId(),
         name: "get coffee",
       });
     });
-    const coffeeTask = realm.objects("Task")[0];
-    expect(coffeeTask.id instanceof Realm.BSON.ObjectId).toBe(true);
-    expect(coffeeTask.name).toBe("get coffee");
-    expect(coffeeTask.isComplete).toBe(false);
+    const coffeeItem = realm.objects("Item")[0];
+    expect(coffeeItem.id instanceof Realm.BSON.ObjectId).toBe(true);
+    expect(coffeeItem.name).toBe("get coffee");
+    expect(coffeeItem.isComplete).toBe(false);
   });
   test("Can create object of Project type", () => {
     realm.write(() => {
-      const teaTask = realm.create("Task", {
+      const teaItem = realm.create("Item", {
         id: new Realm.BSON.ObjectId(),
         name: "get tea",
       });
       realm.create("Project", {
         id: new Realm.BSON.ObjectId(),
         name: "beverages",
-        tasks: [teaTask],
+        items: [teaItem],
       });
     });
     const bevProject = realm.objects("Project")[0];
     expect(bevProject.id instanceof Realm.BSON.ObjectId).toBe(true);
     expect(bevProject.name).toBe("beverages");
-    expect(bevProject.tasks[0].name).toBe("get tea");
+    expect(bevProject.items[0].name).toBe("get tea");
   });
 });

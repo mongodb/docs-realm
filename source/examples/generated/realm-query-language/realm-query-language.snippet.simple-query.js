@@ -1,3 +1,3 @@
-const tasks = realm.objects("Task");
-// Gets all tasks where the 'priority' property is 7 or more.
-const importantTasks = tasks.filtered("priority >= 7");
+const items = realm.objects("Item");
+// Gets all items where the 'priority' property is 7 or more.
+const importantItems = items.filtered("priority >= 7");
