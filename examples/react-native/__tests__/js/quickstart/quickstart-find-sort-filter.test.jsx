@@ -5,15 +5,12 @@ import {createRealmContext} from '@realm/react';
 // :remove-start:
 import {Button} from 'react-native';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
-let higherOrderProfileName: string;
-let primaryKey: Realm.BSON.ObjectId;
+let higherOrderProfileName;
+let primaryKey;
 // :remove-end:
 
 // Define your object model
-class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.ObjectId;
-  name!: string;
-
+class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
     properties: {
@@ -25,7 +22,7 @@ class Profile extends Realm.Object<Profile> {
 }
 
 // Create a configuration object
-const realmConfig: Realm.Configuration = {
+const realmConfig = {
   schema: [Profile],
 };
 
@@ -42,8 +39,8 @@ function AppWrapper() {
 }
 
 const FindSortFilterComponent = () => {
-  const [activeProfile, setActiveProfile] = useState<Profile>();
-  const [allProfiles, setAllProfiles] = useState<Realm.Results<Profile>>();
+  const [activeProfile, setActiveProfile] = useState();
+  const [allProfiles, setAllProfiles] = useState();
   // :replace-start: {
   //    "terms": {
   //       "primaryKey": "[primaryKey]"
@@ -53,19 +50,19 @@ const FindSortFilterComponent = () => {
   // :replace-end:
   const profiles = useQuery(Profile);
 
-  const sortProfiles = (reversed: true | false) => {
+  const sortProfiles = (reversed) => {
     const sorted = profiles.sorted('name', reversed);
 
     setAllProfiles(sorted);
   };
 
-  const filterProfiles = (filter: 'BEGINSWITH' | 'ENDSWITH', letter: string) => {
+  const filterProfiles = (filter, letter) => {
     // Use [c] for case-insensitivity.
     const filtered = profiles.filtered(`name ${filter}[c] "${letter}"`);
 
     setAllProfiles(filtered);
     // For testing only. Ensures filtering works. // :remove:
-    higherOrderProfileName = filtered![0].name; // :remove:
+    higherOrderProfileName = filtered[0].name; // :remove:
   };
 
   // ... rest of component

@@ -3,10 +3,7 @@ import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 
 // Define your object model
-class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.ObjectId;
-  name!: string;
-
+class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
     properties: {
@@ -18,7 +15,7 @@ class Profile extends Realm.Object<Profile> {
 }
 
 // Create a configuration object
-const realmConfig: Realm.Configuration = {
+const realmConfig = {
   schema: [Profile],
 };
 
@@ -35,18 +32,18 @@ function AppWrapper() {
 }
 
 const FindSortFilterComponent = () => {
-  const [activeProfile, setActiveProfile] = useState<Profile>();
-  const [allProfiles, setAllProfiles] = useState<Realm.Results<Profile>>();
+  const [activeProfile, setActiveProfile] = useState();
+  const [allProfiles, setAllProfiles] = useState();
   const currentlyActiveProfile = useObject(Profile, [primaryKey]);
   const profiles = useQuery(Profile);
 
-  const sortProfiles = (reversed: true | false) => {
+  const sortProfiles = (reversed) => {
     const sorted = profiles.sorted('name', reversed);
 
     setAllProfiles(sorted);
   };
 
-  const filterProfiles = (filter: 'BEGINSWITH' | 'ENDSWITH', letter: string) => {
+  const filterProfiles = (filter, letter) => {
     // Use [c] for case-insensitivity.
     const filtered = profiles.filtered(`name ${filter}[c] "${letter}"`);
 
