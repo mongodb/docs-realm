@@ -1,2 +1,2 @@
 const profiles = useQuery(Profile);
-const activeProfile = useObject(Profile, primaryKey);
+const activeProfile = useObject(Profile, [primaryKey]);

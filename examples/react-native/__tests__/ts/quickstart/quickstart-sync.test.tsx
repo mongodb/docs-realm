@@ -9,17 +9,17 @@ import {FlatList, Pressable, Text, View} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
 let numberOfProfiles: number;
-let primaryKey: Realm.BSON.UUID;
+let primaryKey: Realm.BSON.ObjectId;
 
 // Define your object model
 class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.UUID;
+  _id!: Realm.BSON.ObjectId;
   name!: string;
 
   static schema = {
     name: 'Profile',
     properties: {
-      _id: 'uuid',
+      _id: 'objectId',
       name: 'string',
     },
     primaryKey: '_id',
@@ -80,7 +80,7 @@ function RestOfApp() {
     realm.write(() => {
       realm.create('Profile', {
         name: name,
-        _id: new Realm.BSON.UUID(),
+        _id: new Realm.BSON.ObjectId(),
       });
     });
   };
@@ -141,7 +141,7 @@ beforeEach(async () => {
   const user = await app.logIn(Realm.Credentials.anonymous());
   const config = createConfig(user);
   const realm = await Realm.open(config);
-  const id = new Realm.BSON.UUID();
+  const id = new Realm.BSON.ObjectId();
 
   console.log('...IN BEFOREEACH');
 

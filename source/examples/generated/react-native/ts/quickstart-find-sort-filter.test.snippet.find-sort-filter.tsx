@@ -4,13 +4,13 @@ import {createRealmContext} from '@realm/react';
 
 // Define your object model
 class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.UUID;
+  _id!: Realm.BSON.ObjectId;
   name!: string;
 
   static schema = {
     name: 'Profile',
     properties: {
-      _id: 'uuid',
+      _id: 'objectId',
       name: 'string',
     },
     primaryKey: '_id',
@@ -23,8 +23,7 @@ const realmConfig: Realm.Configuration = {
 };
 
 // Create a realm context
-const {RealmProvider, useObject, useQuery} =
-  createRealmContext(realmConfig);
+const {RealmProvider, useObject, useQuery} = createRealmContext(realmConfig);
 
 // Expose a realm
 function AppWrapper() {
@@ -35,29 +34,24 @@ function AppWrapper() {
   );
 }
 
-function FindSortFilterComponent(activeProfileId: Realm.BSON.UUID) {
+const FindSortFilterComponent = () => {
   const [activeProfile, setActiveProfile] = useState<Profile>();
   const [allProfiles, setAllProfiles] = useState<Realm.Results<Profile>>();
+  const currentlyActiveProfile = useObject(Profile, [primaryKey]);
+  const profiles = useQuery(Profile);
 
-  useEffect(() => {
-    const currentlyActiveProfile: Profile & Realm.Object = useObject(Profile, activeProfileId);
-
-    setActiveProfile(currentlyActiveProfile);
-  }, [activeProfileId]);
-  
   const sortProfiles = (reversed: true | false) => {
-    const sorted =
-      useQuery(Profile).sorted('name', reversed);
+    const sorted = profiles.sorted('name', reversed);
 
     setAllProfiles(sorted);
   };
 
-  const filterProfiles = (filter: 'BEGINSWITH' | 'ENDSWITH') => {
-    const filtered =
-      useQuery(Profile).filtered(`name ${filter}[c] "t"`);
+  const filterProfiles = (filter: 'BEGINSWITH' | 'ENDSWITH', letter: string) => {
+    // Use [c] for case-insensitivity.
+    const filtered = profiles.filtered(`name ${filter}[c] "${letter}"`);
 
     setAllProfiles(filtered);
   };
 
   // ... rest of component
-}
+};

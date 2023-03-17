@@ -1,12 +1,12 @@
 // Define your object model
 class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.UUID;
+  _id!: Realm.BSON.ObjectId;
   name!: string;
 
   static schema = {
     name: 'Profile',
     properties: {
-      _id: 'uuid',
+      _id: 'objectId',
       name: 'string',
     },
     primaryKey: '_id',

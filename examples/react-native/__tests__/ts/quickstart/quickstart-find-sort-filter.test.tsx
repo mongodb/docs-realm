@@ -3,21 +3,21 @@ import React, {useState, useEffect} from 'react';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 // :remove-start:
-import {FlatList, Pressable, Text, View} from 'react-native';
-import {render, waitFor} from '@testing-library/react-native';
-let numberOfProfiles: number;
-let primaryKey: Realm.BSON.UUID;
+import {Button} from 'react-native';
+import {render, fireEvent, waitFor} from '@testing-library/react-native';
+let higherOrderProfileName: string;
+let primaryKey: Realm.BSON.ObjectId;
 // :remove-end:
 
 // Define your object model
 class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.UUID;
+  _id!: Realm.BSON.ObjectId;
   name!: string;
 
   static schema = {
     name: 'Profile',
     properties: {
-      _id: 'uuid',
+      _id: 'objectId',
       name: 'string',
     },
     primaryKey: '_id',
@@ -30,8 +30,7 @@ const realmConfig: Realm.Configuration = {
 };
 
 // Create a realm context
-const {RealmProvider, useObject, useQuery} =
-  createRealmContext(realmConfig);
+const {RealmProvider, useObject, useQuery} = createRealmContext(realmConfig);
 
 // Expose a realm
 function AppWrapper() {
@@ -42,47 +41,92 @@ function AppWrapper() {
   );
 }
 
-function FindSortFilterComponent(activeProfileId: Realm.BSON.UUID) {
+const FindSortFilterComponent = () => {
   const [activeProfile, setActiveProfile] = useState<Profile>();
   const [allProfiles, setAllProfiles] = useState<Realm.Results<Profile>>();
+  // :replace-start: {
+  //    "terms": {
+  //       "primaryKey": "[primaryKey]"
+  //    }
+  // }
+  const currentlyActiveProfile = useObject(Profile, primaryKey);
+  // :replace-end:
+  const profiles = useQuery(Profile);
 
-  useEffect(() => {
-    const currentlyActiveProfile: Profile & Realm.Object = useObject(Profile, activeProfileId);
-
-    setActiveProfile(currentlyActiveProfile);
-  }, [activeProfileId]);
-  
   const sortProfiles = (reversed: true | false) => {
-    const sorted =
-      useQuery(Profile).sorted('name', reversed);
+    const sorted = profiles.sorted('name', reversed);
 
     setAllProfiles(sorted);
   };
 
-  const filterProfiles = (filter: 'BEGINSWITH' | 'ENDSWITH') => {
-    const filtered =
-      useQuery(Profile).filtered(`name ${filter}[c] "t"`);
+  const filterProfiles = (filter: 'BEGINSWITH' | 'ENDSWITH', letter: string) => {
+    // Use [c] for case-insensitivity.
+    const filtered = profiles.filtered(`name ${filter}[c] "${letter}"`);
 
     setAllProfiles(filtered);
+    // For testing only. Ensures filtering works. // :remove:
+    higherOrderProfileName = filtered![0].name; // :remove:
   };
 
   // ... rest of component
   // :remove-start:
-  return(
-    <></>
-  )
+  return (
+    <Button
+      onPress={() => {
+        filterProfiles('BEGINSWITH', 's');
+      }}
+      testID='test-change-name'
+      title='Filter profiles'
+    />
+  );
   // :remove-end:
-}
+};
 // :snippet-end:
 
-// TODO: Define test
-// test('Instantiate AppWrapperSync and test sync', async () => {
-//   render(<AppWrapper />);
+beforeEach(async () => {
+  const realm = await Realm.open(realmConfig);
+  const id = new Realm.BSON.ObjectId();
 
-//   await waitFor(
-//     () => {
-//       expect(numberOfProfiles).toBe(1);
-//     },
-//     {timeout: 2000},
-//   );
-// });
+  realm.write(() => {
+    // Create a profile object.
+    realm.create('Profile', {
+      name: 'TestProfile',
+      _id: id,
+    });
+
+    realm.create('Profile', {
+      name: 'SecondProfile',
+      _id: new Realm.BSON.ObjectId(),
+    });
+  });
+
+  primaryKey = id;
+  higherOrderProfileName = 'TestProfile';
+
+  realm.close();
+});
+
+afterEach(async () => {
+  const realm = await Realm.open(realmConfig);
+
+  realm.write(() => {
+    // Clean up. Delete all objects in the realm.
+    realm.deleteAll();
+  });
+
+  realm.close();
+});
+
+test('Instantiate AppWrapperSync and change object name', async () => {
+  const {findByTestId} = render(<AppWrapper />);
+  const button = await findByTestId('test-change-name');
+
+  fireEvent.press(button);
+
+  await waitFor(
+    () => {
+      expect(higherOrderProfileName).toBe('SecondProfile');
+    },
+    {timeout: 2000},
+  );
+});

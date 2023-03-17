@@ -18,7 +18,7 @@ class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
     properties: {
-      _id: 'uuid',
+      _id: 'objectId',
       name: 'string',
     },
     primaryKey: '_id',
@@ -68,7 +68,7 @@ function RestOfApp() {
     realm.write(() => {
       realm.create('Profile', {
         name: name,
-        _id: new Realm.BSON.UUID(),
+        _id: new Realm.BSON.ObjectId(),
       });
     });
   };
@@ -115,19 +115,13 @@ function RestOfApp() {
       </View>
       <View>
         <Text>Active profile: {activeProfile?.name}</Text>
-        {/* :replace-start: {
-          "terms": {
-             "testID='test-use-app'": ""
-          }
-       } */}
         <Button
           onPress={()=> {
             changeProfileName(activeProfile, 'NewName')
           }}
-          testID='test-change-name'
+          testID='test-change-name' // :remove:
           title='Change name'
         />
-        {/* :replace-end: */}
       </View>
     </View>
   );
@@ -135,7 +129,7 @@ function RestOfApp() {
 
 beforeEach(async () => {
   const realm = await Realm.open(realmConfig);
-  const id = new Realm.BSON.UUID();
+  const id = new Realm.BSON.ObjectId();
 
   realm.write(() => {
     // Create a profile object.
@@ -146,7 +140,7 @@ beforeEach(async () => {
 
     realm.create('Profile', {
       name: 'SecondProfile',
-      _id: new Realm.BSON.UUID,
+      _id: new Realm.BSON.ObjectId,
     });
 
   });
