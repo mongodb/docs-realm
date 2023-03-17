@@ -10,17 +10,17 @@ const ObjectId = (value) => new Realm.BSON.ObjectId(value);
 // prettier-ignore
 const PLANTS = [
   // :snippet-start: plants-collection-documents
-  { _id: ObjectId("5f87976b7b800b285345a8b4"), name: "venus flytrap", sunlight: "full", color: "white", type: "perennial", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b5"), name: "sweet basil", sunlight: "partial", color: "green", type: "annual", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b6"), name: "thai basil", sunlight: "partial", color: "green", type: "perennial", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b7"), name: "helianthus", sunlight: "full", color: "yellow", type: "annual", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b8"), name: "petunia", sunlight: "full", color: "purple", type: "annual", _partition: "Store 47" }
+  { _id: ObjectId("5f87976b7b800b285345a8c4"), name: "venus flytrap", sunlight: "full", color: "white", type: "perennial", _partition: "Store 42" },
+  { _id: ObjectId("5f87976b7b800b285345a8c5"), name: "sweet basil", sunlight: "partial", color: "green", type: "annual", _partition: "Store 42" },
+  { _id: ObjectId("5f87976b7b800b285345a8c6"), name: "thai basil", sunlight: "partial", color: "green", type: "perennial", _partition: "Store 42" },
+  { _id: ObjectId("5f87976b7b800b285345a8c7"), name: "helianthus", sunlight: "full", color: "yellow", type: "annual", _partition: "Store 42" },
+  { _id: ObjectId("5f87976b7b800b285345a8c8"), name: "petunia", sunlight: "full", color: "purple", type: "annual", _partition: "Store 47" }
   // :snippet-end:
 ];
 
-let app;
+const app = new Realm.App({ id: "example-testers-kvjdy" });
 
-async function getPlantsCollection() {
+function getPlantsCollection() {
   // :snippet-start: plants-collection-handle
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
   const plants = mongodb.db("example").collection("plants");
@@ -29,16 +29,17 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
-  app = new Realm.App({ id: "example-testers-kvjdy" });
   await app.logIn(Realm.Credentials.anonymous());
-  const plants = await getPlantsCollection();
-  await plants.deleteMany({});
-  await plants.insertMany(PLANTS);
+  await getPlantsCollection().insertMany(PLANTS);
+});
+afterAll(async () => {
+  await getPlantsCollection().deleteMany({});
+  await app.currentUser?.logOut();
 });
 
 describe("Create Documents", () => {
   test("Insert a Single Document", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: insert-a-single-document
     const result = await plants.insertOne({
       // :remove-start:
@@ -61,7 +62,7 @@ describe("Create Documents", () => {
     );
   });
   test("Insert Multiple Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: insert-multiple-documents
     const result = await plants.insertMany([
       {
@@ -115,7 +116,7 @@ describe("Create Documents", () => {
 
 describe("Read Documents", () => {
   test("Find a Single Document", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: find-a-single-document
     const venusFlytrap = await plants.findOne({ name: "venus flytrap" });
     console.log("venusFlytrap", venusFlytrap);
@@ -124,7 +125,7 @@ describe("Read Documents", () => {
     expect(venusFlytrap).toEqual(
       // :snippet-start: find-a-single-document-result
       {
-        _id: ObjectId("5f87976b7b800b285345a8b4"),
+        _id: ObjectId("5f87976b7b800b285345a8c4"),
         name: "venus flytrap",
         sunlight: "full",
         color: "white",
@@ -136,7 +137,7 @@ describe("Read Documents", () => {
   });
 
   test("Find Multiple Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: find-multiple-documents
     const perennials = await plants.find({ type: "perennial" });
     console.log("perennials", perennials);
@@ -146,8 +147,8 @@ describe("Read Documents", () => {
     expect(perennials).toEqual(
       // :snippet-start: find-multiple-documents-result
       [
-        { _id: ObjectId("5f87976b7b800b285345a8b4"), name: 'venus flytrap', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 42' },
-        { _id: ObjectId("5f87976b7b800b285345a8b6"), name: 'thai basil', sunlight: 'partial', color: 'green', type: 'perennial', _partition: 'Store 42' },
+        { _id: ObjectId("5f87976b7b800b285345a8c4"), name: 'venus flytrap', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 42' },
+        { _id: ObjectId("5f87976b7b800b285345a8c6"), name: 'thai basil', sunlight: 'partial', color: 'green', type: 'perennial', _partition: 'Store 42' },
         { _id: ObjectId("5f879f83fc9013565c23360e"), name: 'lily of the valley', sunlight: 'full', color: 'white', type: 'perennial', _partition: 'Store 47' },
         { _id: ObjectId("5f87a0defc9013565c233611"), name: 'rhubarb', sunlight: 'full', color: 'red', type: 'perennial', _partition: 'Store 47' },
         { _id: ObjectId("5f87a0dffc9013565c233612"), name: 'wisteria lilac', sunlight: 'partial', color: 'purple', type: 'perennial', _partition: 'Store 42' },
@@ -158,7 +159,7 @@ describe("Read Documents", () => {
   });
 
   test("Count Documents in the Collection", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: count-documents-in-the-collection
     const numPlants = await plants.count();
     console.log(`There are ${numPlants} plants in the collection`);
@@ -174,7 +175,7 @@ describe("Read Documents", () => {
 
 describe("Update Documents", () => {
   test("Update a Single Document", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: update-a-single-document
     const result = await plants.updateOne(
       { name: "petunia" },
@@ -191,7 +192,7 @@ describe("Update Documents", () => {
   });
 
   test("Update Multiple Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: update-multiple-documents
     const result = await plants.updateMany(
       { _partition: "Store 47" },
@@ -207,7 +208,7 @@ describe("Update Documents", () => {
     );
   });
   test("Upsert Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: upsert-documents
     const result = await plants.updateOne(
       {
@@ -238,7 +239,7 @@ describe("Update Documents", () => {
 });
 describe("Delete Documents", () => {
   test("Delete a Single Document", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: delete-a-single-document
     const result = await plants.deleteOne({ color: "green" });
     console.log(result);
@@ -251,7 +252,7 @@ describe("Delete Documents", () => {
     );
   });
   test("Delete Multiple Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: delete-multiple-documents
     const result = await plants.deleteMany({
       _partition: "Store 51",
@@ -269,7 +270,7 @@ describe("Delete Documents", () => {
 
 describe("Aggregate Documents", () => {
   test("Aggregate Documents in a Collection", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: aggregate-documents-in-a-collection
     const result = await plants.aggregate([
       {
@@ -291,11 +292,59 @@ describe("Aggregate Documents", () => {
       // :snippet-end:
     );
   });
+  test("Paginate documents", async () => {
+    const plants = getPlantsCollection();
+    // :snippet-start: paginate
+    // Paginates through list of plants
+    // in ascending order by plant name (A -> Z)
+    async function paginateCollectionAscending(
+      collection,
+      nPerPage,
+      startValue
+    ) {
+      const pipeline = [{ $sort: { name: 1 } }, { $limit: nPerPage }];
+      // If not starting from the beginning of the collection,
+      // only match documents greater than the previous greatest value.
+      if (startValue !== undefined) {
+        pipeline.unshift({
+          $match: {
+            name: { $gt: startValue },
+          },
+        });
+      }
+      const results = await collection.aggregate(pipeline);
+
+      return results;
+    }
+    // Number of results to show on each page
+    const resultsPerPage = 3;
+
+    const pageOneResults = await paginateCollectionAscending(
+      plants,
+      resultsPerPage
+    );
+
+    const pageTwoStartValue = pageOneResults[pageOneResults.length - 1].name;
+    const pageTwoResults = await paginateCollectionAscending(
+      plants,
+      resultsPerPage,
+      pageTwoStartValue
+    );
+
+    // ... can keep paginating for as many plants as there are in the collection
+    // :snippet-end:
+    expect(pageOneResults.length).toBe(3);
+    expect(pageTwoResults.length).toBe(3);
+    expect(pageOneResults[0].name).toBe("daffodil");
+    expect(pageTwoResults[pageTwoResults.length - 1].name).toBe(
+      "wisteria lilac"
+    );
+  });
 });
 
 describe("Aggregation Stages", () => {
   test("Filter Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: filter-documents
     const perennials = await plants.aggregate([
       { $match: { type: { $eq: "perennial" } } },
@@ -309,8 +358,8 @@ describe("Aggregation Stages", () => {
     expect(perennials).toEqual(
       // :snippet-start: filter-documents-result
       [
-        { "_id": ObjectId("5f87976b7b800b285345a8b4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "sunlight": "full", "type": "perennial" },
-        { "_id": ObjectId("5f87976b7b800b285345a8b6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "sunlight": "partial", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "sunlight": "full", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "sunlight": "partial", "type": "perennial" },
         { "_id": ObjectId("5f87a0dffc9013565c233612"), "_partition": "Store 42", "color": "purple", "name": "wisteria lilac", "sunlight": "partial", "type": "perennial" },
         { "_id": ObjectId("5f87a0dffc9013565c233613"), "_partition": "Store 42", "color": "yellow", "name": "daffodil", "sunlight": "full", "type": "perennial" },
         { "_id": ObjectId("5f1f63055512f2cb67f460a3"), "_partition": "Store 47", "color": "green", "name": "sweet basil", "sunlight": "full", "type": "perennial" }
@@ -320,7 +369,7 @@ describe("Aggregation Stages", () => {
   });
 
   test("Group Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: group-documents
     const result = await plants.aggregate([
       {
@@ -344,7 +393,7 @@ describe("Aggregation Stages", () => {
   });
 
   test("Project Document Fields", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: project-document-fields
     const result = await plants.aggregate([
       {
@@ -374,7 +423,7 @@ describe("Aggregation Stages", () => {
     )
   });
   test("Add Fields to Documents", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: add-fields-to-documents
     const result = await plants.aggregate([
       {
@@ -391,9 +440,9 @@ describe("Aggregation Stages", () => {
     expect(result).toEqual(
       // :snippet-start: add-fields-to-documents-result
       [
-        { "_id": ObjectId("5f87976b7b800b285345a8b4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
-        { "_id": ObjectId("5f87976b7b800b285345a8b6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "storeNumber": "42", "sunlight": "partial", "type": "perennial" },
-        { "_id": ObjectId("5f87976b7b800b285345a8b7"), "_partition": "Store 42", "color": "yellow", "name": "helianthus", "storeNumber": "42", "sunlight": "full", "type": "annual" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "storeNumber": "42", "sunlight": "partial", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8c7"), "_partition": "Store 42", "color": "yellow", "name": "helianthus", "storeNumber": "42", "sunlight": "full", "type": "annual" },
         { "_id": ObjectId("5f87a0dffc9013565c233612"), "_partition": "Store 42", "color": "purple", "name": "wisteria lilac", "storeNumber": "42", "sunlight": "partial", "type": "perennial" },
         { "_id": ObjectId("5f87a0dffc9013565c233613"), "_partition": "Store 42", "color": "yellow", "name": "daffodil", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
         { "_id": ObjectId("5f1f63055512f2cb67f460a3"), "_partition": "Store 47", "color": "green", "name": "sweet basil", "storeNumber": "47", "sunlight": "full", "type": "perennial" }
@@ -402,7 +451,7 @@ describe("Aggregation Stages", () => {
     )
   });
   test("Unwind Array Values", async () => {
-    const plants = await getPlantsCollection();
+    const plants = getPlantsCollection();
     // :snippet-start: unwind-array-values
     const result = await plants.aggregate([
       { $group: { _id: "$type", colors: { $addToSet: "$color" } } },
@@ -428,9 +477,7 @@ describe("Aggregation Stages", () => {
 
 describe("Watch for Changes", () => {
   test("Watch for Changes in a Collection", async () => {
-    const plants = await getPlantsCollection();
-    // :snippet-start: watch-a-collection
-    // :state-start: start
+    const plants = getPlantsCollection();
     try {
       const watching = plants.watch();
       const next = watching.next();
@@ -444,40 +491,44 @@ describe("Watch for Changes", () => {
     }
     expect.assertions(1);
     return;
-    // :state-end:
-    // :state-uncomment-start: final
-    // for await (const change of plants.watch()) {
-    //   switch (change.operationType) {
-    //     case "insert": {
-    //       const { documentKey, fullDocument } = change;
-    //       console.log(`new document: ${documentKey}`, fullDocument);
-    //       break;
-    //     }
-    //     case "update": {
-    //       const { documentKey, fullDocument } = change;
-    //       console.log(`updated document: ${documentKey}`, fullDocument);
-    //       break;
-    //     }
-    //     case "replace": {
-    //       const { documentKey, fullDocument } = change;
-    //       console.log(`replaced document: ${documentKey}`, fullDocument);
-    //       break;
-    //     }
-    //     case "delete": {
-    //       const { documentKey } = change;
-    //       console.log(`deleted document: ${documentKey}`);
-    //       break;
-    //     }
-    //   }
-    // }
-    // :state-uncomment-end:
-    // :snippet-end:
+    // NOTE: not sure why, but previously the above code was in a bluehawk start
+    // state with the below code in a bluehawk final state and commented out,
+    // while only the below code was in the docs.
+    // to making running `bluehawk snip easier`, shifting below code into an
+    // uncalled function. Probably something to do with the .watch() method interacting
+    // weirdly with the Jest unit testing suite.
+    async function realExample() {
+      // :snippet-start: watch-a-collection
+      for await (const change of plants.watch()) {
+        switch (change.operationType) {
+          case "insert": {
+            const { documentKey, fullDocument } = change;
+            console.log(`new document: ${documentKey}`, fullDocument);
+            break;
+          }
+          case "update": {
+            const { documentKey, fullDocument } = change;
+            console.log(`updated document: ${documentKey}`, fullDocument);
+            break;
+          }
+          case "replace": {
+            const { documentKey, fullDocument } = change;
+            console.log(`replaced document: ${documentKey}`, fullDocument);
+            break;
+          }
+          case "delete": {
+            const { documentKey } = change;
+            console.log(`deleted document: ${documentKey}`);
+            break;
+          }
+        }
+      }
+      // :snippet-end:
+    }
   });
 
   test("Watch for Changes in a Collection with a Filter", async () => {
-    const plants = await getPlantsCollection();
-    // :snippet-start: watch-a-collection-with-filter
-    // :state-start: start
+    const plants = getPlantsCollection();
     try {
       const watching = plants.watch({
         filter: {
@@ -496,20 +547,26 @@ describe("Watch for Changes", () => {
     }
     expect.assertions(1);
     return;
-    // :state-end:
-    // :state-uncomment-start: final
-    // for await (const change of plants.watch({
-    //   filter: {
-    //     operationType: "insert",
-    //     "fullDocument.type": "perennial",
-    //   },
-    // })) {
-    //   // The change event will always represent a newly inserted perennial
-    //   const { documentKey, fullDocument } = change;
-    //   console.log(`new document: ${documentKey}`, fullDocument);
-    // }
-    // :state-uncomment-end:
-    // :snippet-end:
-    /* eslint-enable no-unreachable */
+
+    // NOTE: not sure why, but previously the above code was in a bluehawk start
+    // state with the below code in a bluehawk final state and commented out,
+    // while only the below code was in the docs.
+    // to making running `bluehawk snip easier`, shifting below code into an
+    // uncalled function. Probably something to do with the .watch() method interacting
+    // weirdly with the Jest unit testing suite.
+    async function docsExample() {
+      // :snippet-start: watch-a-collection-with-filter
+      for await (const change of plants.watch({
+        filter: {
+          operationType: "insert",
+          "fullDocument.type": "perennial",
+        },
+      })) {
+        // The change event will always represent a newly inserted perennial
+        const { documentKey, fullDocument } = change;
+        console.log(`new document: ${documentKey}`, fullDocument);
+      }
+      // :snippet-end:
+    }
   });
 });
