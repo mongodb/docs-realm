@@ -8,6 +8,8 @@
 
 @implementation CustomUserDataObjc
 
+// This test is currently failing with Thread Foo: signal SIGABRT
+// and a message to report as a Core error. Temporarily disabling until we can investigate.
 - (void)testCreateCustomUserData {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
@@ -75,6 +77,8 @@
     }];
 }
 
+// This test is currently failing with Thread Foo: signal SIGABRT
+// and a message to report as a Core error. Temporarily disabling until we can investigate.
 - (void)testUpdateCustomUserData {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
