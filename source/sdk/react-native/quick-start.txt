@@ -13,7 +13,7 @@ Quick Start - React Native SDK
 
 This page demonstrates how to use Realm Database using the React Native SDK.
 
-Before you begin, install :ref:`install the Realm React Native SDK <react-native-install>`.
+Before you begin, :ref:`install the Realm React Native SDK <react-native-install>`.
 
 About the @realm/react Library
 ------------------------------
@@ -21,7 +21,7 @@ About the @realm/react Library
 :github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is a
 library used in the React Native SDK. It provides state-aware React hooks for Realm data. The hooks watch the Realm data and re-render components as needed.
 
-The React Native SDK documentation uses``@realm/react``
+The React Native SDK documentation uses the ``@realm/react``
 npm package for examples and describing concepts.
 
 Set Up Your Realm App
@@ -55,16 +55,17 @@ Define an Object Model
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Your application's :ref:`object model <react-native-object-schemas>` defines the data
-that you can store within a realm. An object model is made up of object types.
+that you can store within a realm. An object model is made up of Realm object types.
 
-To define a Realm object type:, 
+To define a Realm object type: 
 
 #. Create a class that extends ``Realm.Object``.
-   For TypeScript, include the class name as a type. This allows the ``Realm.Object``
-   constructor to return a typed instance of the class.
+   For TypeScript, include the class name as a type.
+   This lets you use the class with other Realm SDK methods
+   that accept ``Realm.Object`` types.
 #. Add a ``schema`` field.
 #. For the ``schema`` value, create an object that contains ``properties`` and 
-   ``name`` properties. The name value must be unique among object types in a realm.
+   ``name`` properties. The name value must be unique among object types in a Realm object model.
 
 .. tabs-realm-languages::
 
@@ -89,11 +90,11 @@ Configure a Realm
 ~~~~~~~~~~~~~~~~~
 
 Before you can work with any data, you need to configure a realm. With
-``@realm/react``, anything nested inside ``RealmProvider`` will be able to
+``@realm/react``, anything nested inside a ``<RealmProvider>`` component can
 access your realm's data.
 
-To properly configure a realm, tell the realm what kind of data
-it will contain. To do this, ensure your realm has access to your data models.
+To configure a realm, specify what kind of data
+it will contain.
 
 In the example below, we write our models in the same file where we configure a 
 realm, but it's common to write them elswhere and import them where you want to 
@@ -102,12 +103,12 @@ create a realm context.
 To configure and access a local realm:
 
 #. Create the realm's :js-sdk:`Configuration <Realm.html#~Configuration>` object.
-   The Configuration object defines the parameters of a realm and identifies it.
-   When creating a configuration object, make sure to pass your data models into
-   the ``schema`` property.
+   You must include your Realm object models in the ``schema`` property.
+   You can also include optional configuration properties,
+   like making the realm read only or adding Atlas Device Sync.
 #. Create a realm context with ``createRealmContext``. A realm context is a 
    `React Context object <https://reactjs.org/docs/context.html>`__ that contains
-   context for your realm.
+   React providers and hooks for working with your realm.
 #. Expose a realm with the ``<RealmProvider>``. To expose a realm, you need a 
    realm context. From that context, extract ``RealmProvider``. This provider 
    contains your realm's context. Components nested within ``<RealmProvider>`` 
@@ -134,15 +135,14 @@ For more information, refer to :ref:`Configure a Realm <react-native-configure-r
 Work With Realm Objects
 -----------------------
 
-After you have a data model and a configured realm, you can create, update, or 
+After you have a data model and a configured realm, you can create, read, update, or 
 delete :ref:`Realm objects <react-native-object-types>`.
 
-To use those tools, you need an open realm. This means that object hooks and 
-methods only work in components that are nested inside of ``<RealmProvider>``;
-In a component wrapped with a ``<RealmProvider>``, the ``useRealm()`` hook gives you access to your realm that you can use to work with the database.
+You must nest any components that perform these operations inside of a ``<RealmProvider>``. The ``useRealm()`` hook gives you access to your realm
+so you can use to perform read and write operations.
 
-Any changes to a Realm object must occur within a 
-:ref:`Write transaction <react-native-write-transactions>` block.
+Any write operations to object in the realm must occur within a 
+:ref:`Realm.write() transaction <react-native-write-transactions>` block.
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
 .. _react-native-quickstart-local-watch-a-collection:
@@ -150,11 +150,11 @@ Any changes to a Realm object must occur within a
 Find, Sort, and Filter Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``@realm/react`` provides a couple of hooks to help you find a Realm collection
-or object.
+``@realm/react`` provides hooks to help you find a collection of Realm objects
+or a single Realm object.
 
-- ``useQuery()``. Returns :js-sdk:`Realm.Results <Realm.Results.html>` for the object type that you pass to it.
-- ``useObject()``. Returns one :js-sdk:`Realm.Object <Realm.Object.html>` for the object type and primary key 
+- ``useQuery()``: Takes ``Realm.Object`` type as argument. Returns :js-sdk:`Realm.Results <Realm.Results.html>` with all objects in the realm for the type that you pass to it.
+- ``useObject()``. Takes ``Realm.Object`` type and primary key as arguments. Returns the Realm object for that primary key.
   that you pass to it.
 
 After finding a collection, you can filter or sort the results using 
@@ -229,7 +229,7 @@ Add Atlas Device Sync (Optional)
 After getting your local-only realm running, you can add Atlas Device Sync
 so that your realm's data can sync with a MongoDB Atlas cluster and other client devices.
 
-To do this, you need to set up a couple more things:
+To use Device Sync, you need to set up a couple more things:
 
 - Create a backend in Atlas App Services (see the prerequisites below)
 - Configure a Flexible Sync realm instead of a local-only realm
@@ -270,8 +270,10 @@ Use ``UserProvider`` to handle sections of your app that need an authenticated u
 
 To authenticate and log in a user, provide a ``fallback`` prop for ``<UserProvider>``. This
 could be a log in screen component or a simple function that calls :js-sdk:`App.logIn()
-<Realm.App.html#logIn>`. After a user has succesfully authenticated, they can
-access the parts of your app nested within ``<UserProvider>``.
+<Realm.App.html#logIn>`. Users can only
+access the parts of your app nested within ``<UserProvider>``
+after they have authenticated. If there's no authenticated user,
+the ``fallback`` component renders and nested components do not.
 
 When :ref:`anonymous authentication <anonymous-authentication>` is enabled,
 users can immediately log into your app without providing any identifying
