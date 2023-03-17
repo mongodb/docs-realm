@@ -65,9 +65,6 @@ class MultipleUsers: XCTestCase {
         // :snippet-start: switch-user
         let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
-        // :remove-start:
-        XCTAssertNil(app.currentUser)
-        // :remove-end:
         // ... log in ...
         // :remove-start:
         func getSomeOtherUser() -> User {

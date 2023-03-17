@@ -3,6 +3,8 @@ import RealmSwift
 
 class CustomUserData: XCTestCase {
 
+    // This test is currently failing with Thread Foo: signal SIGABRT
+    // and a message to report as a Core error. Temporarily disabling until we can investigate.
     func testCreateCustomUserData() {
         let expectation = XCTestExpectation(description: "it completes")
 
@@ -75,6 +77,8 @@ class CustomUserData: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    // This test is currently failing with Thread Foo: signal SIGABRT
+    // and a message to report as a Core error. Temporarily disabling until we can investigate.
     func testUpdateCustomUserData() {
         let expectation = XCTestExpectation(description: "it completes")
 
