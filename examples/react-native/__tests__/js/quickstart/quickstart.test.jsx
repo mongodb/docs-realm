@@ -1,9 +1,7 @@
 // :snippet-start: quickstart-setup
 import React from 'react';
 import Realm from 'realm';
-// :snippet-start: setup-import-hooks
 import {createRealmContext} from '@realm/react';
-// :snippet-end:
 // :remove-start:
 import {useState} from 'react';
 import {FlatList, Pressable, Text, View, Button} from 'react-native';
@@ -26,19 +24,15 @@ class Profile extends Realm.Object {
 }
 // :snippet-end:
 
-// :snippet-start: configure-config-object
 // Create a configuration object
 const realmConfig = {
   schema: [Profile],
 };
-// :snippet-end:
-// :snippet-start: configure-realm-context
+
 // Create a realm context
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
-// :snippet-end:
 
-// :snippet-start: configure-expose-realm
 // Expose a realm
 function AppWrapper() {
   return (
@@ -47,8 +41,6 @@ function AppWrapper() {
     </RealmProvider>
   );
 }
-// :snippet-end:
-// :snippet-end:
 
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
@@ -58,10 +50,8 @@ function RestOfApp() {
   //    }
   // }
   const realm = useRealm();
-  // :snippet-start: objects-find
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
-  // :snippet-end:
 
   // :snippet-start: objects-create
   const addProfile = (name) => {

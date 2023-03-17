@@ -25,6 +25,8 @@ function LogIn() {
   const app = useApp();
 
   async function logInUser() {
+    // When anonymous authentication is enabled, users can immediately log
+    // into your app without providing any identifying information.
     await app.logIn(Realm.Credentials.anonymous());
     higherScopedUser = app.currentUser; // :remove:
   }

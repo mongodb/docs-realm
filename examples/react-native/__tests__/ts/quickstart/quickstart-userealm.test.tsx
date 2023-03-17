@@ -1,9 +1,7 @@
 // :snippet-start: quickstart-setup
 import React from 'react';
 import Realm from 'realm';
-// :snippet-start: setup-import-hooks
 import {createRealmContext} from '@realm/react';
-// :snippet-end:
 // :remove-start:
 import {useState} from 'react';
 import {FlatList, Pressable, Text, View, Button} from 'react-native';
@@ -12,7 +10,6 @@ let higherOrderProfileName: string;
 let primaryKey: Realm.BSON.ObjectId;
 // :remove-end:
 
-// :snippet-start: setup-define-model
 // Define your object model
 class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.ObjectId;
@@ -27,7 +24,6 @@ class Profile extends Realm.Object<Profile> {
     primaryKey: '_id',
   };
 }
-// :snippet-end:
 
 // Create a configuration object
 const realmConfig: Realm.Configuration = {
@@ -46,7 +42,6 @@ function AppWrapper() {
     </RealmProvider>
   );
 }
-// :snippet-end:
 
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
@@ -59,7 +54,6 @@ function RestOfApp() {
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
 
-  // :snippet-start: objects-create
   const addProfile = (name: string) => {
     realm.write(() => {
       realm.create('Profile', {
@@ -68,28 +62,10 @@ function RestOfApp() {
       });
     });
   };
-  // :snippet-end:
-
-  // :snippet-start: objects-modify
-  const changeProfileName = (profile: Profile, newName: string) => {
-    realm.write(() => {
-      profile.name = newName;
-    });
-    // :remove-start:
-    // For testing. Set the profile name to indicate profile object has changed.
-    higherOrderProfileName = activeProfile!.name;
-    // :remove-end:
-  };
-  // :snippet-end:
-
-  // :snippet-start: objects-delete
-  const deleteProfile = (profile: Profile) => {
-    realm.write(() => {
-      realm.delete(profile);
-    });
-  };
-  // :snippet-end:
   // :replace-end:
+  // :snippet-end:
+
+  // ... rest of component
 
   return (
     <View>

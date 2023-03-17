@@ -10,15 +10,12 @@ import {useApp} from '@realm/react';
 import {FlatList, Pressable, Text, View} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
-let numberOfProfiles: number;
-let primaryKey: Realm.BSON.ObjectId;
+let numberOfProfiles;
+let primaryKey;
 // :remove-end:
 
 // Define your object model
-class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.ObjectId;
-  name!: string;
-
+class Profile extends Realm.Object {
   static schema = {
     name: 'Profile',
     properties: {
@@ -30,7 +27,7 @@ class Profile extends Realm.Object<Profile> {
 }
 
 // Create a configuration object
-const realmConfig: Realm.Configuration = {
+const realmConfig = {
   schema: [Profile],
 };
 
@@ -78,7 +75,7 @@ function RestOfApp() {
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
 
-  const addProfile = (name: string) => {
+  const addProfile = (name) => {
     realm.write(() => {
       realm.create('Profile', {
         name: name,
@@ -87,9 +84,9 @@ function RestOfApp() {
     });
   };
 
-  const changeProfileName = (newName: string) => {
+  const changeProfileName = (newName) => {
     realm.write(() => {
-      activeProfile!.name = newName;
+      activeProfile.name = newName;
     });
   };
 
@@ -128,7 +125,7 @@ function RestOfApp() {
 }
 
 const app = new Realm.App(APP_ID);
-const createConfig = (user: Realm.User): Realm.ConfigurationWithSync => {
+const createConfig = (user) => {
   return {
     schema: [Profile],
     sync: {
