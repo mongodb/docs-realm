@@ -14,11 +14,6 @@ The size of a Realm Database file is always larger than the total size of
 the objects stored within it. This architecture enables some of realm's 
 performance, concurrency, and safety benefits.
 
-Realm writes new data within unused space tracked inside the file. In some 
-situations, a realm file may contain a significant amount of unused space. 
-If file size grows large enough to negatively impact performance, you can 
-compact the realm to reduce its file size.
-
 Realm writes new data within unused space tracked inside a
 file. In some situations, unused space may comprise a significant 
 portion of a realm file. Realm's default behavior is to automatically 
@@ -36,10 +31,10 @@ Automatic Compaction
 Manual Compaction Strategies
 ----------------------------
 
-Manual compaction can be used for applications that 
-require stricter management of file size to improve performance.
-If automatic compaction is deemed insufficient, a production application 
-should implement manual compaction to periodically reduce the realm file size.
+If automatic compaction is deemed insufficient, manual compaction 
+can be used for applications that require stricter management 
+of file size to improve performance. A production application should 
+implement manual compaction to periodically reduce the realm file size.
 
 Compacting a realm can be an expensive operation that can block the UI thread. 
 Optimize compacting to balance frequency with performance gains. If your 
