@@ -116,43 +116,33 @@ const movies = [
     runtime: 169,
   },
 ];
+const app = new Realm.App(GRAPHQL_APP_ID);
+beforeAll(async () => {
+  const user = await app.logIn(Realm.Credentials.anonymous());
+  await user
+    .mongoClient("mongodb-atlas")
+    .db("example")
+    .collection("movies")
+    .deleteMany({});
+  await setTimeout(function () {
+    return;
+  }, 1000);
+  await user
+    .mongoClient("mongodb-atlas")
+    .db("example")
+    .collection("movies")
+    .insertMany(movies);
+});
+afterAll(async () => {
+  const user = await app.logIn(Realm.Credentials.anonymous());
+  await user
+    .mongoClient("mongodb-atlas")
+    .db("example")
+    .collection("movies")
+    .deleteMany({});
+  await user.logOut();
+});
 describe("Queries and mutations", () => {
-  const app = new Realm.App(GRAPHQL_APP_ID);
-  // for some reason these tests running multiple times w/o this 🤷.
-  // my guess is it has something to do with the CRA testing framework
-  let [ranBeforeOnce, ranAfterOnce] = [false, false];
-  beforeAll(async () => {
-    if (!ranBeforeOnce) {
-      const user = await app.logIn(Realm.Credentials.anonymous());
-      await user
-        .mongoClient("mongodb-atlas")
-        .db("example")
-        .collection("movies")
-        .deleteMany({});
-      await setTimeout(function () {
-        return;
-      }, 1000);
-      await user
-        .mongoClient("mongodb-atlas")
-        .db("example")
-        .collection("movies")
-        .insertMany(movies);
-      ranBeforeOnce = true;
-    }
-  });
-  afterAll(async () => {
-    if (!ranAfterOnce) {
-      const user = await app.logIn(Realm.Credentials.anonymous());
-      await user
-        .mongoClient("mongodb-atlas")
-        .db("example")
-        .collection("movies")
-        .deleteMany({});
-      await user.logOut();
-      ranAfterOnce = true;
-    }
-  });
-
   let clicked = false;
   const mocks = [
     {
