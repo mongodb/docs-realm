@@ -188,8 +188,27 @@ The hook returns several objects in an array:
 .. literalinclude:: /examples/generated/web/apollo-graphql-queries-mutations.test.snippet.run-mutation.jsx
   :language: javascript
 
+.. _graphql-apollo-paginate:
+
+Paginate Data
+-------------
+
+You can paginate data in your queries with the types provided by your API's
+generated GraphQL schema. You can paginate data with the Apollo GraphQL client
+using the  ``useQuery()`` and ``useLazyQueryHook()`` hooks.
+
+The Atlas GraphQL API **does not** have an ``offset`` operator, like the
+:graphql:`GraphQL documentation recommends for pagination <learn/pagination/#pagination-and-edges>`.
+
+The following example uses the ``useQuery()`` hook and a GraphQL query that
+can query data in ascending and descending order, depending on the variables
+you pass to it.
+
+.. literalinclude:: /examples/generated/web/GraphQLPagination.snippet.paginate.jsx
+   :language: javascript
+
 Refresh Access Tokens
--------------------------
+---------------------
 
 When using Realm GraphQL and an Apollo Client, access tokens expire 30 minutes after they're granted. 
 You can refresh user access tokens with the Realm Web SDK's ``refreshAccessToken()`` method.
