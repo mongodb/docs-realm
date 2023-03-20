@@ -175,7 +175,6 @@ describe("Queries and mutations", () => {
       },
       result: function () {
         clicked = true;
-        console.log("hey you kno i been clicked");
         return {
           data: {
             updateOneMovie: {
