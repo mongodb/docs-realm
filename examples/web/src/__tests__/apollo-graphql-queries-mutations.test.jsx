@@ -97,7 +97,6 @@ const movies = [
     year: 2014,
     runtime: 114,
   },
-
   {
     _id: 5,
     title: "Valkyrie",
@@ -176,6 +175,7 @@ describe("Queries and mutations", () => {
       },
       result: function () {
         clicked = true;
+        console.log("hey you kno i been clicked");
         return {
           data: {
             updateOneMovie: {
@@ -202,17 +202,19 @@ describe("Queries and mutations", () => {
   });
 
   it("Run a mutation", async () => {
-    const component = TestRenderer.create(
+    render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <MovieList movies={movies} />
       </MockedProvider>
     );
-    await TestRenderer.act(async () => {
-      const buttons = await component.root.findAllByType("button");
-      buttons[0].props.onClick();
-    });
-
-    expect(clicked).toBe(true);
+    const buttons = await screen.findAllByText("Update Title");
+    fireEvent.click(buttons[0]);
+    await waitFor(
+      async () => {
+        expect(clicked).toBe(true);
+      },
+      { timeout: 3000 }
+    );
   });
 
   it("Paginate results", async () => {
@@ -231,7 +233,6 @@ describe("Queries and mutations", () => {
     await waitFor(async () => {
       const headingNodes = await screen.findAllByRole("heading");
       const headings = headingNodes.map((node) => node.innerHTML).join(",");
-      console.log({ headings });
       expect(headings).toBe(page1Headings);
     });
     fireEvent.click(nextButton);
@@ -244,11 +245,12 @@ describe("Queries and mutations", () => {
       },
       { timeout: 3000 }
     );
-    nextButton = await screen.findByText("Next Page →");
-    await waitFor(() => {
+    await waitFor(async () => {
+      previousButton = await screen.findByText("← Previous Page");
       expect(previousButton).not.toBeDisabled();
     });
-    await waitFor(() => {
+    await waitFor(async () => {
+      nextButton = await screen.findByText("Next Page →");
       // The 'Next Page' button is disabled on last page
       expect(nextButton).toBeDisabled();
     });

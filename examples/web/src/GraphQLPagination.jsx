@@ -85,7 +85,6 @@ function PaginateMovies() {
   }
 
   function goToPrevPage() {
-    console.log("go back!");
     setVariables({
       nextTitle: data.movies[0].title,
       prevTitle: undefined,
