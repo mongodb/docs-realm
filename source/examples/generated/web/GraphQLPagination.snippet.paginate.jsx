@@ -1,18 +1,3 @@
-import React, { useEffect, useState } from "react";
-import * as Realm from "realm-web";
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
-import { useQuery } from "@apollo/client";
-import gql from "graphql-tag";
-import config from "./realm.config.json";
-
-const { GRAPHQL_APP_ID, GRAPHQL_ENDPOINT } = config;
-
-// :snippet-start: paginate
 const PAGINATE_MOVIES = gql`
   query PaginateMovies(
     $prevTitle: String
@@ -21,8 +6,7 @@ const PAGINATE_MOVIES = gql`
     $sortDirection: MovieSortByInput!
   ) {
     movies(
-      # Can add other query filters here if you'd like.
-      # For example, could filter for only movies released after year 2000.
+      # Can add other query filters here if you'd like
       query: { title_gt: $prevTitle, title_lt: $nextTitle }
       limit: $limit
       sortBy: $sortDirection
@@ -46,7 +30,6 @@ function PaginateMovies() {
   const [firstTitle, setFirstTitle] = useState();
   const { data, error, loading } = useQuery(PAGINATE_MOVIES, {
     variables,
-    fetchPolicy: "no-cache", // :remove:
   });
   const [pagePreviousDisabled, setPagePreviousDisabled] = useState(true);
   const [pageNextDisabled, setPageNextDisabled] = useState(false);
@@ -128,32 +111,3 @@ function PaginateMovies() {
     </div>
   );
 }
-// :snippet-end:
-const app = new Realm.App(GRAPHQL_APP_ID);
-app.logIn(Realm.Credentials.anonymous());
-// Configure the ApolloClient to connect to your app's GraphQL endpoint
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: GRAPHQL_ENDPOINT,
-    fetch: async (uri, options) => {
-      const accessToken = app.currentUser.accessToken;
-      options.headers.Authorization = `Bearer ${accessToken}`;
-      return fetch(uri, options);
-    },
-  }),
-  cache: new InMemoryCache(),
-});
-function AppWithApollo() {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    app.logIn(Realm.Credentials.anonymous()).then(setUser);
-  }, [user?.id]);
-
-  return user ? (
-    <ApolloProvider client={client}>
-      <PaginateMovies />
-    </ApolloProvider>
-  ) : null;
-}
-
-export default AppWithApollo;

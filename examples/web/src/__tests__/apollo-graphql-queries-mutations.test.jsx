@@ -1,20 +1,14 @@
 import TestRenderer from "react-test-renderer";
 import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import React, { useEffect, useState } from "react";
+import AppWithApolloPagination from "../GraphQLPagination";
 import * as Realm from "realm-web";
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
 // :snippet-start: import-dependencies-query
 // import whichever Apollo hooks you're using
 import { useQuery, useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 // :snippet-end:
-import { GRAPHQL_APP_ID, GRAPHQL_ENDPOINT } from "../realm.config.json";
+import { GRAPHQL_APP_ID } from "../realm.config.json";
 
 // :snippet-start: run-query
 
@@ -74,118 +68,6 @@ function MovieList({ movies }) {
         </li>
       ))}
     </ul>
-  );
-}
-// :snippet-end:
-
-// :snippet-start: paginate
-
-const PAGINATE_MOVIES = gql`
-  # :snippet-start: paginate-query
-  query PaginateMovies(
-    $prevTitle: String
-    $nextTitle: String
-    $limit: Int!
-    $sortDirection: MovieSortByInput!
-  ) {
-    movies(
-      # Can add other query filters here if you'd like
-      query: { title_gt: $prevTitle, title_lt: $nextTitle }
-      limit: $limit
-      sortBy: $sortDirection
-    ) {
-      _id
-      title
-      year
-    }
-  }
-  # :snippet-end:
-`;
-
-const resultsPerPage = 5;
-
-function PaginateMovies() {
-  const [variables, setVariables] = useState({
-    prevTitle: undefined,
-    nextTitle: undefined,
-    limit: resultsPerPage,
-    sortDirection: "TITLE_ASC",
-  });
-  const [firstTitle, setFirstTitle] = useState();
-  const { data, error, loading } = useQuery(PAGINATE_MOVIES, {
-    variables,
-    fetchPolicy: "no-cache", // :remove:
-  });
-  const [pagePreviousDisabled, setPagePreviousDisabled] = useState(true);
-  const [pageNextDisabled, setPageNextDisabled] = useState(false);
-
-  useEffect(() => {
-    if (data?.movies?.length && firstTitle === undefined) {
-      setFirstTitle(data.movies[0].title);
-      setPagePreviousDisabled(false);
-    }
-    if (data?.movies?.length < resultsPerPage) {
-      setPageNextDisabled(true);
-    }
-    if (
-      variables.prevTitle === undefined ||
-      data?.movies[0]?.title === firstTitle
-    ) {
-      setPagePreviousDisabled(true);
-    }
-  }, [data, data?.movies?.length, firstTitle, variables.prevTitle]);
-  if (loading) {
-    console.log("LOADING::", loading);
-    return <div>loading</div>;
-  }
-  if (error) {
-    console.log("ERR::", error);
-    return <div>encountered an error: {error.message}</div>;
-  }
-
-  function goToNextPage() {
-    setVariables({
-      nextTitle: undefined,
-      prevTitle: data.movies[data.movies.length - 1].title,
-      limit: resultsPerPage,
-      sortDirection: "TITLE_ASC",
-    });
-  }
-
-  function goToPrevPage() {
-    console.log("go back!");
-    setVariables({
-      nextTitle: data.movies[0].title,
-      prevTitle: undefined,
-      limit: resultsPerPage,
-      sortDirection: "TITLE_DESC",
-    });
-  }
-  console.log("DATA::", data);
-  return (
-    <div>
-      <h1>Movies</h1>
-      {data?.movies?.length ? (
-        data.movies.map((movie) => (
-          <div key={movie._id}>
-            <h3>{movie.title}</h3>
-            <p>Director: {" " + movie.director}</p>
-            <p>Year Published: {" " + movie.year}</p>
-            <br />
-          </div>
-        ))
-      ) : (
-        <p>No movies in system</p>
-      )}
-      <div>
-        <button disabled={pagePreviousDisabled} onClick={goToPrevPage}>
-          &larr; Previous Page
-        </button>
-        <button disabled={pageNextDisabled} onClick={goToNextPage}>
-          Next Page &rarr;
-        </button>
-      </div>
-    </div>
   );
 }
 // :snippet-end:
@@ -259,18 +141,18 @@ describe("Queries and mutations", () => {
       ranBeforeOnce = true;
     }
   });
-  // afterAll(async () => {
-  //   if (!ranAfterOnce) {
-  //     const user = await app.logIn(Realm.Credentials.anonymous());
-  //     await user
-  //       .mongoClient("mongodb-atlas")
-  //       .db("example")
-  //       .collection("movies")
-  //       .deleteMany({});
-  //     await user.logOut();
-  //     ranAfterOnce = true;
-  //   }
-  // });
+  afterAll(async () => {
+    if (!ranAfterOnce) {
+      const user = await app.logIn(Realm.Credentials.anonymous());
+      await user
+        .mongoClient("mongodb-atlas")
+        .db("example")
+        .collection("movies")
+        .deleteMany({});
+      await user.logOut();
+      ranAfterOnce = true;
+    }
+  });
 
   let clicked = false;
   const mocks = [
@@ -288,7 +170,7 @@ describe("Queries and mutations", () => {
       request: {
         query: UPDATE_MOVIE_TITLE,
         variables: {
-          oldTitle: "Saving Private Ryan",
+          oldTitle: "Defiance",
           newTitle: "Some New Title",
         },
       },
@@ -306,48 +188,35 @@ describe("Queries and mutations", () => {
     },
   ];
 
-  const component = TestRenderer.create(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <Movies />
-    </MockedProvider>
-  );
-  // TODO: fix this now very broken test
-  // it("Run a query", async () => {
-  //   const tree = component.toJSON();
-  //   expect(tree.children).toContain("loading");
-  //   await new Promise((resolve) => setTimeout(resolve, 10));
-  //   const divs = await component.root.findAllByType("div");
-  //   expect(divs.length).toBe(8);
-  // });
+  it("Run a query", async () => {
+    const component = TestRenderer.create(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <Movies />
+      </MockedProvider>
+    );
+    const tree = component.toJSON();
+    expect(tree.children).toContain("loading");
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    const divs = await component.root.findAllByType("div");
+    expect(divs.length).toBe(7);
+  });
 
-  // it("Run a mutation", async () => {
-  //   await TestRenderer.act(async () => {
-  //     const buttons = await component.root.findAllByType("button");
-  //     buttons[0].props.onClick();
-  //   });
-  //   await new Promise((resolve) => setTimeout(resolve, 10));
-  //   expect(clicked).toBe(true);
-  // });
+  it("Run a mutation", async () => {
+    const component = TestRenderer.create(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MovieList movies={movies} />
+      </MockedProvider>
+    );
+    await TestRenderer.act(async () => {
+      const buttons = await component.root.findAllByType("button");
+      buttons[0].props.onClick();
+    });
+
+    expect(clicked).toBe(true);
+  });
 
   it("Paginate results", async () => {
-    // Connect to your MongoDB Realm app
-    const app = new Realm.App(GRAPHQL_APP_ID);
-
-    // Configure the ApolloClient to connect to your app's GraphQL endpoint
-    const client = new ApolloClient({
-      link: new HttpLink({
-        uri: GRAPHQL_ENDPOINT,
-        headers: {
-          Authorization: `Bearer ${app.currentUser.accessToken}`,
-        },
-      }),
-      cache: new InMemoryCache(),
-    });
-    const AppWithApollo = () => (
-      <ApolloProvider client={client}>
-        <PaginateMovies />
-      </ApolloProvider>
-    );
+    const AppWithApollo = () => <AppWithApolloPagination />;
 
     render(<AppWithApollo />);
     let nextButton, previousButton;
@@ -357,6 +226,14 @@ describe("Queries and mutations", () => {
       },
       { timeout: 3000 }
     );
+    const page1Headings =
+      "Movies,Defiance,Dunkirk,Enemy at the Gates,Operation Mincemeat,Saving Private Ryan";
+    await waitFor(async () => {
+      const headingNodes = await screen.findAllByRole("heading");
+      const headings = headingNodes.map((node) => node.innerHTML).join(",");
+      console.log({ headings });
+      expect(headings).toBe(page1Headings);
+    });
     fireEvent.click(nextButton);
     await waitFor(
       async () => {
@@ -367,24 +244,25 @@ describe("Queries and mutations", () => {
       },
       { timeout: 3000 }
     );
-    // TODO: not working :/
-    // await waitFor(() => {
-    //   // The 'Next Page' button is disabled on last page
-    //   expect(nextButton).toBeDisabled();
-    // });
-    previousButton = await screen.findByText("← Previous Page");
     nextButton = await screen.findByText("Next Page →");
     await waitFor(() => {
       expect(previousButton).not.toBeDisabled();
     });
     await waitFor(() => {
+      // The 'Next Page' button is disabled on last page
       expect(nextButton).toBeDisabled();
     });
+
     fireEvent.click(previousButton);
+    await waitFor(async () => {
+      previousButton = await screen.findByText("← Previous Page");
+      // The 'Previous Page' button is disabled on first page
+      expect(previousButton).toBeDisabled();
+    });
     await waitFor(async () => {
       const headingNodes = await screen.findAllByRole("heading");
       const headings = headingNodes.map((node) => node.innerHTML).join(",");
-      console.log({ headings });
+      expect(headings).toBe(page1Headings);
     });
   });
 });
