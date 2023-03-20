@@ -17,11 +17,14 @@ The size of a Realm Database file is always larger than the total
 size of the objects stored within it. This architecture enables some of 
 realm's great performance, concurrency, and safety benefits. 
 
-Realm writes new data within unused space tracked inside 
+Realm writes new data within unused space tracked inside a
 file. In some situations, unused space may comprise a significant 
-portion of a realm file. Automatic compaction prevents a file from 
-growing too large. You can use manual compaction strategies depending on
-application needs.
+portion of a realm file. Realm's default behavior is to automatically 
+compact a Realm database file to prevent it from growing too large. 
+You can use manual compaction strategies when 
+automatic compaction is not sufficient for your use case 
+or you're using a version of the SDK that doesn't have automatic 
+compaction.
 
 .. _ios-file-size:
 

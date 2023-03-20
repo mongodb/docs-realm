@@ -10,11 +10,6 @@ Reduce Realm File Size - Flutter SDK
    :depth: 2
    :class: singlecol
 
-If you want to reduce the size of a realm file to improve performance, you 
-can compact the realm. Compacting a realm reduces the amount of unused 
-empty space within the realm. Every production application should implement 
-compaction to periodically reduce the realm file size.
-
 The size of a Realm Database file is always larger than the total size of 
 the objects stored within it. This architecture enables some of realm's 
 performance, concurrency, and safety benefits.
@@ -24,11 +19,12 @@ situations, a realm file may contain a significant amount of unused space.
 If file size grows large enough to negatively impact performance, you can 
 compact the realm to reduce its file size.
 
-Compacting a realm can be an expensive operation that can block the UI thread. 
-Optimize compacting to balance frequency with performance gains. If your 
-application runs in a resource-constrained environment, you may want to 
-compact when you reach a certain file size or when the file size negatively 
-impacts performance.
+Realm writes new data within unused space tracked inside a
+file. In some situations, unused space may comprise a significant 
+portion of a realm file. Realm's default behavior is to automatically 
+compact a Realm database file to prevent it from growing too large. 
+You can use manual compaction strategies when 
+automatic compaction is not sufficient for your use case.
 
 Automatic Compaction
 --------------------
@@ -40,7 +36,16 @@ Automatic Compaction
 Manual Compaction Strategies
 ----------------------------
 
-.. include:: /includes/manual-compaction-note.rst
+Manual compaction can be used for applications that 
+require stricter management of file size to improve performance.
+If automatic compaction is deemed insufficient, a production application 
+should implement manual compaction to periodically reduce the realm file size.
+
+Compacting a realm can be an expensive operation that can block the UI thread. 
+Optimize compacting to balance frequency with performance gains. If your 
+application runs in a resource-constrained environment, you may want to 
+compact when you reach a certain file size or when the file size negatively 
+impacts performance.
 
 Use either of the following two strategies to compact a realm file manually:
 
