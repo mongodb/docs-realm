@@ -1,8 +1,8 @@
 .. _react-native-use-realm-react:
 
-===============
-Use Realm React
-===============
+======================
+@realm/react Reference
+======================
 
 .. contents:: On this page
    :local:
@@ -10,16 +10,15 @@ Use Realm React
    :depth: 3
    :class: singlecol
 
-Overview
---------
-:npm:`Realm React <package/@realm/react>` is an npm package that provides an easy-to-use API to perform
-common Realm operations, such as querying or writing to a realm
-and listening to realm objects.
+:npm:`@realm/react <package/@realm/react>` is an npm package that provides
+an easy-to-use API to perform common Realm operations, such as querying
+or writing to a realm and listening to realm objects.
 
 Realm React helps you avoid creating boilerplate code, such as creating
 your own listeners and state management. Realm React provides access to
-Realm database through a set of hooks that update React state when the Realm data changes. This means that components using these hooks
-will re-render on any changes to data in the realm.
+Realm database through a set of hooks that update React state when the Realm data changes.
+This means that components using these hooks re-render on any changes to data
+in the realm.
 
 .. include:: /includes/note-realmreact-version-requirements-for-realmjs.rst
 
@@ -27,6 +26,7 @@ will re-render on any changes to data in the realm.
 
 Setup Realm React
 -----------------
+
 To set up Realm React, you can either start from scratch with a new application
 using the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`
 or install Realm React for an existing `React Native application
@@ -34,33 +34,32 @@ or install Realm React for an existing `React Native application
 
 .. tabs::
 
-   tabs:
-     - id: create-a-new-app-with-realm-hooks-preconfigured
-       name: Create a New App with Realm React
-       content: |
-         If you don't have an existing application, we recommend developing it with
-         the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`.
-         The Realm Expo template allows you to bootstrap your application with
-         `Expo <https://docs.expo.dev/>`_ and Realm React preconfigured.
+   .. tab:: Create a New App with Realm React
+      :tabid: create-a-new-app-with-realm-hooks-preconfigured
 
-         To initialize the Realm Expo template, read the :ref:`Quick Start
-         with Expo <react-native-client-bootstrap-with-expo>` documentation.
+      If you don't have an existing application, we recommend developing it with
+      the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`.
+      The Realm Expo template allows you to bootstrap your application with
+      `Expo <https://docs.expo.dev/>`_ and Realm React preconfigured.
 
-     - id: use-npm-to-add-realm-hooks-to-an-old-app
-       name: Add Realm React to an Existing App
-       content: |
-         To install Realm React on an existing React Native application, run the
-         following command in your terminal from the root of your application
-         where your ``package.json`` file is located:
+      To initialize the Realm Expo template, read the :ref:`Quick Start with Expo
+      <react-native-client-bootstrap-with-expo>` documentation.
 
-         .. code-block:: shell
+   .. tab:: Add Realm React to an Existing App
+      :tabid: use-npm-to-add-realm-hooks-to-an-old-app
 
-            npm install @realm/react
+      To install Realm React on an existing React Native application, run the
+      following command in your terminal from the root of your application
+      where your ``package.json`` file is located:
+
+      .. code-block:: shell
+
+         npm install @realm/react
 
 .. _react-native-realm-context:
 
-Create a Realm Context
-----------------------
+createRealmContext()
+--------------------
 
 The ``createRealmContext()`` method creates a :reactjs:`React Context
 <docs/context.html>` object for a realm with a given :js-sdk:`Realm.Configuration
@@ -99,24 +98,23 @@ to the classes you have created. Pass the configuration object to the
 
 .. _react-native-realm-provider:
 
-Using the Realm Provider
-------------------------
+<RealmProvider>
+---------------
 
-Wrap the component needing access to Realm Database, typically the top layer
+Wrap the component needing access to Realm Database, typically near the top
 of your application, with the ``<RealmProvider>`` component included in the
-``Context`` object, which was returned from ``createRealmContext``.  The
+``Context`` object, which was returned from ``createRealmContext()``.  The
 ``<RealmProvider>`` provides child components access to the configured
 Realm through the hooks included in the ``Context`` object.
 
-.. tip:: Choosing Which Components to Wrap inside the Realm Provider
-   
-   For simple use-cases, you may want to wrap your entire application in the
-   ``<RealmProvider>`` component, such as the example below. For additional security,
-   you may only want to give access to the opened realm to specific screens, or
-   after the user has logged-in.
+For simple use-cases, you may want to wrap your entire application in the
+``<RealmProvider>`` component, such as the example below. For additional security,
+you may only want to give access to the opened realm to specific screens, or
+after the user has logged-in.
 
 Usage
 ~~~~~
+
 Import the ``Context`` object that you created. In the example below, the
 ``Context`` object is called ``TaskContext`` since it refers to the Realm ``Context`` of
 the Task. You can :mdn:`Destructure
@@ -142,16 +140,16 @@ You can dynamically update the Realm configuration by setting
 component. The props you set on the ``<RealmProvider>`` will overwrite any
 property passed into ``createRealmContext()``.
 
-In the following example, we update the RealmProvider with a :js-sdk:`sync
+In the following example, we update the ``<RealmProvider>`` with a :js-sdk:`sync
 configuration <Realm.App.Sync.html#~SyncConfiguration>` and a ``fallback``
 property that is used to render a temporary ``LoadingSpinner`` component while
-waiting for Device Sync to open:
+waiting for Device Sync to fully synchronize data before opening the realm:
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
     :language: typescript
 
-Use Realm Provider Hooks
-------------------------
+The Realm Hooks
+---------------
 
 Once you have wrapped your component with your ``<RealmProvider>``, your component
 and its child components will have access to the ``useRealm()``,
@@ -159,15 +157,16 @@ and its child components will have access to the ``useRealm()``,
 
 Import the ``Task`` model and ``Context`` object that you created. In the example below, the
 ``Context`` object, called ``TaskContext``, refers to the ``Context`` of
-the Task. :mdn:`Destructure
-<Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the ``TaskContext`` object to get its hooks. 
+the Task. :mdn:`Destructure <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
+the ``TaskContext`` object to get its hooks.
 
 .. literalinclude:: /examples/generated/expo/App.snippet.get-access-to-the-hooks.tsx
     :language: typescript
 
-useRealm
-~~~~~~~~
+.. _react-native-use-realm-hook:
+
+useRealm()
+~~~~~~~~~~
 
 The ``useRealm()`` hook returns the opened realm instance.
 
@@ -177,16 +176,17 @@ returned by the ``useRealm()`` hook in the following example.
 .. literalinclude:: /examples/generated/expo/App.snippet.example-userealm-hook-usage.tsx
     :language: typescript
 
-The :js-sdk:`Realm.create() <Realm.html#create>` call invokes the ``Task.generate()`` method defined in the ``Task`` class.  This method instantiates
-a JavaScript object with default values for the ``_id``, ``isComplete``, and
-``createdAt`` properties.
+The :js-sdk:`Realm.create() <Realm.html#create>` call invokes the ``Task.generate()``
+method defined in the ``Task`` class.  This method instantiates a JavaScript object
+with default values for the ``_id``, ``isComplete``, and ``createdAt`` properties.
 
-.. seealso::
-  
-   Read the :ref:`Write Transactions <react-native-write-transactions>` documentation to learn more about modifying Realm data. 
+To learn more about modifying Realm data, refer to :ref:`Write Transactions
+<react-native-write-transactions>`.
 
-useObject
-~~~~~~~~~
+.. _react-native-use-object-hook:
+
+useObject()
+~~~~~~~~~~~
 
 The ``useObject()`` hook returns a Realm object for a given
 :ref:`primary key <react-native-primary-keys>`. You can invoke it with the class
@@ -202,8 +202,10 @@ and its description is rendered in the UI.
 .. literalinclude:: /examples/generated/expo/SampleTask.snippet.example-useobject-hook-usage.tsx
     :language: typescript
 
-useQuery
-~~~~~~~~
+.. _react-native-use-query-hook:
+
+useQuery()
+~~~~~~~~~~
 
 The ``useQuery()`` hook returns a collection of realm objects of a given type.
 Like ``useObject``, it is either invoked with the Object Schema class or the model
@@ -218,16 +220,14 @@ of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
     :language: typescript
     :emphasize-lines: 2, 6
 
-.. tip::
-
-   To learn how to render a :ref:`filtered <react-native-filter-results>` or
-   :ref:`sorted <react-native-sort-results>` list of tasks, read the :ref:`CRUD
-   - Read <react-native-read-objects>` docs.
+To learn how to render a :ref:`filtered <react-native-filter-results>` or
+:ref:`sorted <react-native-sort-results>` list of tasks, read the :ref:`CRUD - Read
+<react-native-read-objects>` docs.
 
 .. _react-native-app-provider:
 
-Using the App Provider
-----------------------
+<AppProvider>
+-------------
 
 To use Realm features such as authentication and sync, use the
 ``<AppProvider>`` to initiate a new :js-sdk:`Realm.App <Realm.App.html>`. Wrap the
@@ -240,8 +240,8 @@ access to the :ref:`useApp <react-native-use-app-hook>` hook.
 
 .. _react-native-use-app-hook:
 
-useApp
-~~~~~~
+useApp()
+~~~~~~~~
 
 The ``useApp()`` hook provides access to the :js-sdk:`Realm.App <Realm.App.html>`
 instance.
@@ -255,40 +255,39 @@ then use the app instance to log in with email/password authentication.
 
 .. _react-native-user-provider:
 
-Using the User Provider
------------------------
+<User Provider>
+---------------
 
 The ``<UserProvider>`` provides a :js-sdk:`Realm user <Realm.User.html>` for its
 child components to access.
 
-The ``<UserProvider>``: 
+The ``<UserProvider>``:
 
 - contains an optional ``fallback`` property that renders a Login component when
   the user has not authenticated.
 - renders its child components only if the user is logged in or has
   no fallback property.
 
+When the ``<UserProvider>`` wraps the ``<RealmProvider>``, the ``<RealmProvider>``
+automatically sets the logged-in user for your sync configuration. This means
+you do not need to specify your user in your sync configuration object.
+
 In the following example, we pass a Login component to the fallback property of
 ``<UserProvider>``. Once the user has logged in, the Login component disappears
 from the view, and the ``App`` is rendered. We wrap the ``App`` in a
 ``<RealmProvider>`` with a sync configuration to give the ``App`` access to a
 synced realm. If the user logs out, the application falls back to
-the Login component. 
+the Login component.
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-and-user-provider.tsx
     :language: typescript
     :emphasize-lines: 1, 6
 
-.. note:: The User is Automatically Set for the Sync Configuration
+.. _react-native-use-user-hook:
 
-   When the ``<UserProvider>`` wraps the ``<RealmProvider>``, the ``<RealmProvider>``
-   automatically sets the logged-in user for your sync configuration. This means
-   you do not need to specify your user in your sync configuration object.
+useUser()
+~~~~~~~~~
 
-.. _react-native-user-provider-hooks:
-
-useUser
-~~~~~~~
 The ``useUser()`` hook provides access to the logged-in user.
 
 In the following example, we call ``useApp()`` within a ``SampleTask``
@@ -297,15 +296,3 @@ component and display the logged-in user's ``_id``.
 .. literalinclude:: /examples/generated/expo/SampleSyncedTask.snippet.useUser-hook-usage.tsx
     :language: typescript
     :emphasize-lines: 1, 5, 11
-
-
-Summary
--------
-- You can set up Realm React on an existing application by installing it through npm or on a new application through the Realm Expo template.
-- A Realm ``Context`` opens a realm and contains a ``<RealmProvider>`` and a set of pre-built hooks. 
-- A ``<RealmProvider>`` provides access to the configured realm using hooks to display and modify data.
-- The pre-built ``<RealmProvider>`` hooks provide functionality, including interacting with a realm and finding realm object(s).
-- The ``<AppProvider>`` instantiates a new App and provides its child components access to the App instance. 
-- You can use the ``useApp()`` hook to access the instantiated App within child components.
-- The ``<UserProvider>`` renders it's child components if the user has logged in and renders a fallback component if the user has not logged in.
-- You can use the ``useUser()`` hook to gain access to the logged-in user within any child components of the ``<UserProvider>``.
