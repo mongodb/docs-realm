@@ -1,3 +1,41 @@
+# March 17, 2023
+
+## Java SDK
+
+- Usage Examples/Bundle a Realm: Change "advanced backend compaction" and related link to "trimming" where discussing client maximum offline time
+
+## .NET SDK
+
+- Realm Files/Bundle a Realm: Change "advanced backend compaction" and related link to "trimming" where discussing client maximum offline time
+
+## Node.js
+
+- Usage Examples/Query MongoDB: Add a new "Paginate Documents" section with information and a tested, Bluehawked code example to the "Aggregation Stages" documentation
+- Advanced Guides/Bundle a Realm: Change "advanced backend compaction" and related link to "trimming" where discussing client maximum offline time
+
+## React Native SDK
+
+- Realm Database/Bundle a Realm: Change "advanced backend compaction" and related link to "trimming" where discussing client maximum offline time
+- Atlas App Services/Query MongoDB: Add a new "Paginate Documents" section with information and a tested, Bluehawked code example to the "Aggregation Stages" documentation
+
+## Swift SDK
+
+- Install Realm: Add a prerequisite about requiring reflection to be enabled in the project
+- Realm Files/Bundle a Realm: Change "advanced backend compaction" and related link to "trimming" where discussing client maximum offline time
+- Model Data/Define an Object Model/Object Models: Add information to the "Key Concept: Properties" section about Realm using reflection to determine the properties in your models at runtime
+- Test and Debug: Add a "No Properties are Defined for Model" section to "Troubleshooting" with information about resolving this crash when it is related to disabling reflection metadata
+- Sync Data/Write to a Synced Realm: Add a new "Compensating Write Error Information" section with details and a Bluehawked code example about the new `.writeRejected` error code and the `RLMCompensatingWriteInfo` object
+
+## Web SDK
+
+- Query MongoDB: Add a new "Paginate Documents" section with information and a tested, Bluehawked code example to the "Aggregation Stages" documentation
+
+## Other
+
+- Internal
+  - Remove unused Bluehawk snippet markup from Flutter test suite, clean up unused code example files
+  - Snyk dependency updates
+
 # March 10, 2023
 
 ## Other
