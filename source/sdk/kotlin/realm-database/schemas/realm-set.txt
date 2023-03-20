@@ -29,11 +29,10 @@ any ``RealmSet`` instances that contain the object.
 Define a RealmSet
 -----------------
 
-To define a property as a ``RealmSet<T>``, where T is any of the supported 
-:ref:`data types <kotlin-supported-types>` or a 
+To define a property as a ``RealmSet<T>``, specify its type within the schema, 
+where T is any of the supported :ref:`data types <kotlin-supported-types>` or a 
 `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
-Sets of ``RealmObject`` cannot have null elements. 
-All other types of ``RealmSet<T>`` can be nullable (``RealmSet<T?>``).
+Note that T can be nullable (``RealmSet<T?>``) unless it is of type ``RealmObject``.
 
 Instantiate an unmanaged ``RealmSet`` by setting the field's default value
 using the `realmSetOf()
