@@ -43,9 +43,6 @@ Import Context From @realm/react
 At the top of your source files where you want to use Realm, import the
 ``@realm/react`` context and providers.
 
-``AppProvider`` and ``UserProvider`` are only necessary if you want to use
-:ref:`Atlas Device Sync <react-native-realm-sync>` or other App Services.
-
 .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.setup-import-hooks.tsx
   :language: javascript
 
@@ -90,8 +87,7 @@ Configure a Realm
 ~~~~~~~~~~~~~~~~~
 
 Before you can work with data, you need to configure a realm. This means you need
-to set up context and providers from ``@realm/react``. To learn more about
-the different providers refer to :ref:`Configure a Realm <react-native-configure-realm>`.
+to set up context and providers from ``@realm/react``. To learn more, refer to :ref:`Configure a Realm <react-native-configure-realm>`.
 
 To configure and access a local realm:
 
@@ -99,7 +95,7 @@ To configure and access a local realm:
    You must include your Realm object models in the ``schema`` property.
    You can also include optional configuration properties,
    like making the realm read only or adding Atlas Device Sync.
-#. Create a realm context with ``createRealmContext``. A realm context is a 
+#. Create a realm context with ``createRealmContext()``. A realm context is a 
    `React Context object <https://reactjs.org/docs/context.html>`__ that contains
    React providers and hooks for working with your realm.
 #. Expose a realm with ``<RealmProvider>``. To expose a realm, you need a 
@@ -130,7 +126,7 @@ You must nest any components that perform these operations inside of a
 ``<RealmProvider>``. The ``useRealm()`` hook enables you to perform read and 
 write operations in your realm.
 
-Any write operations to object in the realm must occur within a 
+All write operations to object in the realm must occur within a 
 :ref:`Realm.write() transaction <react-native-write-transactions>` block.
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
@@ -151,7 +147,7 @@ or a single Realm object.
 After finding a collection, you can filter or sort the results using 
 :ref:`Realm Query Language (RQL) <rql>`.
 
-To learn more, refer to the :ref:`Qeury Data <react-native-query-data>`.
+To learn more, refer to the :ref:`Query Data <react-native-query-data>`.
 
 .. tabs-realm-languages::
 
@@ -176,8 +172,8 @@ To learn more, refer to the :ref:`Qeury Data <react-native-query-data>`.
 Create, Modify, and Delete Realm Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After instantiating ``useRealm()``, you can use Realm methods to create, modify,
-and delete Realm objects inside of a :js-sdk:`write transaction block <Realm.html#write>`.
+After accessing the realm with ``useRealm()``, you can create, modify,
+and delete objects inside of the realm in a :js-sdk:`Realm.write() transaction block <Realm.html#write>`.
 
 To learn more, refer to :ref:`Write Transactions <react-native-write-transactions>`.
 
@@ -200,8 +196,8 @@ To learn more, refer to :ref:`Write Transactions <react-native-write-transaction
 Create Objects
 ``````````````
 
-To create a new Realm Object, specify the object type, pass in the object's
-initialized values, and add it to the realm in a write transaction block.
+To create a new Realm object, specify the object type, pass in the object's
+initial values, and add it to the realm in a write transaction block.
 
 To learn more, refer to :ref:`CRUD - Create <react-native-create-objects>`.
 
@@ -282,7 +278,7 @@ Prerequisites
 - :ref:`Anonymous authentication <anonymous-authentication>` enabled in the App 
   Services UI
 - :ref:`Flexible Sync <enable-flexible-sync>` enabled with 
-  :ref:`Development Mode <development-mode>` on.
+  :ref:`Development Mode <development-mode>` on
 
 Configure and Access a Synced Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -298,7 +294,7 @@ To learn more, refer to :ref:`Configure a Synced Realm <react-native-synced-real
 Initialize the App using <AppProvider>
 ``````````````````````````````````````
 
-To use App Services features, such as authentication and sync, you must first access
+To use App Services features, such as authentication and Device Sync, you must first access
 your App Services App using your App ID. You can :ref:`find your App ID <find-your-app-id>`
 in the App Services UI.
 
@@ -309,7 +305,7 @@ in the App Services UI.
 Authenticate a User with <UserProvider>
 ```````````````````````````````````````
 
-Use ``UserProvider`` to handle sections of your app that need an authenticated user.
+Use the ``<UserProvider>`` to handle sections of your app that need an authenticated user.
 
 To authenticate and log in a user, provide a ``fallback`` prop for ``<UserProvider>``. 
 This could be a log in screen component or a simple function that calls 
@@ -328,18 +324,18 @@ Configure a Synced Realm with <RealmProvider>
 
 After you have initialized your App, authenticated a user, and defined your
 object model, you can configure a synced realm. This is similar to configuring
-a local realm; however, you need to add some additional properties to
+a local realm. However, you need to add some additional props to the
 ``<RealmProvider>``.
 
 #. Create the realm's :js-sdk:`Configuration <Realm.html#~Configuration>` object.
    The Configuration object defines the parameters of a realm and identifies it.
    When creating a configuration object, make sure to pass your data models into
    the ``schema`` property.
-#. Create a realm context with ``createRealmContext``. A realm context is a 
+#. Create a realm context with ``createRealmContext()``. A realm context is a 
    `React Context object <https://reactjs.org/docs/context.html>`__ that contains
-   context for your realm.
-#. Expose a realm with the ``<RealmProvider>``. To expose a realm, extract
-   ``RealmProvider`` from the realm context.
+   app-wide access to your realm.
+#. Extract the ``<RealmProvider>`` from the realm context, and then expose it
+   to your app.
 #. Add the ``sync`` property to ``<RealmProvider>`` and pass it a
    :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
    This sync object must contain ``flexible: true``.
