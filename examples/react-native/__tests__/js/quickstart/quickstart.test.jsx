@@ -41,6 +41,7 @@ function AppWrapper() {
     </RealmProvider>
   );
 }
+// :snippet-end:
 
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);

@@ -18,6 +18,7 @@ class Profile extends Realm.Object {
 const realmConfig = {
   schema: [Profile],
 };
+
 // Create a realm context
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
