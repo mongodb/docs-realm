@@ -24,11 +24,9 @@ function AppWrapper() {
 }
 
 function RealmWrapper({children}) {
-  const user = useUser();
   return (
     <RealmProvider
       sync={{
-        user,
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {

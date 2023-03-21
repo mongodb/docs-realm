@@ -33,7 +33,6 @@ function RealmWrapper({children}: RealmWrapperProps) {
   return (
     <RealmProvider
       sync={{
-        user,
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {

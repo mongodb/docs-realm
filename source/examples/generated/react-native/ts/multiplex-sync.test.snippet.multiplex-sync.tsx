@@ -18,7 +18,6 @@ type RealmWrapperProps = {
 };
 
 function RealmWrapper({children}: RealmWrapperProps) {
-  const user = useUser();
   const app = useApp();
 
   React.useEffect(() => {
@@ -26,6 +25,6 @@ function RealmWrapper({children}: RealmWrapperProps) {
   }, []);
 
   return (
-    <RealmProvider sync={{user, flexible: true}}>{children}</RealmProvider>
+    <RealmProvider sync={{flexible: true}}>{children}</RealmProvider>
   );
 }
