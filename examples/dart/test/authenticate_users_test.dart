@@ -181,8 +181,8 @@ void main() {
     });
 
     group('Password reset', () {
-      test("Call a password reset function", () async {
-        // :snippet-start: password-reset-function
+      test("Call a password reset function - expect success", () async {
+        // :snippet-start: password-reset-function-success
         // The password reset function takes any number of
         // arguments. You might ask the user to provide answers to
         // security questions, for example, to verify the user
@@ -197,6 +197,29 @@ void main() {
         await authProvider.callResetPasswordFunction(
             "lisa@example.com", "n3wSt0ngP4ssw0rd!",
             functionArgs: args);
+        // :snippet-end:
+      });
+      test("Call a password reset function - expect pending", () async {
+        // :snippet-start: password-reset-function-pending
+        // The password reset function takes any number of
+        // arguments.
+        final args = [];
+
+        EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+        await authProvider.callResetPasswordFunction(
+            "lisa@example.com", "n3wSt0ngP4ssw0rd!",
+            functionArgs: args);
+
+        // ... Later...
+
+        // Token and tokenId are parameters you can access
+        // in the App Services function context. You could send
+        // this to the user via email, SMS, or some other method.
+        final token = "someToken";
+        final tokenId = "someTokenId";
+
+        await authProvider.completeResetPassword(
+            "n3wSt0ngP4ssw0rd!", token, tokenId);
         // :snippet-end:
       });
       test("Send a password reset email", () async {
