@@ -33,29 +33,19 @@ few more things to set up before you can access your realm and work with local
 data:
 
 - Define your object models
-- Create a realm context object and set up providers
-- Import hooks from ``createRealmContext`` to access and modify realm data
-
-.. _react-native-quickstart-local-import-realm:
-
-Import Context From @realm/react
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-At the top of your source files where you want to use Realm, import the
-``@realm/react`` context and providers.
-
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.setup-import-hooks.tsx
-  :language: javascript
+- Configure a realm by creating a realm context object, extracting hooks, and 
+  setting up providers
 
 .. _react-native-quickstart-local-define-an-object-model:
 
-Define an Object Model
-~~~~~~~~~~~~~~~~~~~~~~
+Define Object Models
+~~~~~~~~~~~~~~~~~~~~
 
-Your application's :ref:`object model <react-native-object-schemas>` defines the data
-that you can store within a realm. An object model is made up of Realm object types.
+Your application's :ref:`object models <react-native-object-schemas>` define the data
+types that you can store within a realm. Each object model becomes a Realm
+object type.
 
-**To define a Realm object type: **
+**To define a Realm object model:**
 
 #. Create a class that extends :js-sdk:`Realm.Object <Realm.Object.html>`.
    For TypeScript, include the class name as a type.
@@ -83,10 +73,16 @@ To learn more, refer to
       .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.setup-define-model.jsx
          :language: javascript
 
+.. _react-native-quickstart-local-import-realm:
 .. _react-native-quickstart-local-open-a-realm:
 
 Configure a Realm
 ~~~~~~~~~~~~~~~~~
+
+At the top of your source files where you want to use Realm, .
+
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.setup-import-hooks.tsx
+  :language: javascript
 
 Before you can work with data, you need to configure a realm. This means you need
 to set up context and providers from ``@realm/react``. To learn more, refer to 
@@ -94,6 +90,7 @@ to set up context and providers from ``@realm/react``. To learn more, refer to
 
 **To configure and access a local realm:** 
 
+#. Import ``createRealmContext()`` from ``@realm/react``.
 #. Create a realm :js-sdk:`Configuration <Realm.html#~Configuration>` object.
    You must include your Realm object models in the ``schema`` property.
    You can also include optional configuration properties,
