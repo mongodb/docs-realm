@@ -123,11 +123,9 @@ After you have a data model and a configured realm, you can create, read, update
 delete Realm objects.
 
 You must nest any components that perform these operations inside of a 
-``<RealmProvider>``. The ``useRealm()`` hook enables you to perform read and 
+``<RealmProvider>``. The ``useRealm()``, ``useQuery()``, and ``useObject()`` hooks enables you to perform read and 
 write operations in your realm.
 
-All write operations to object in the realm must occur within a 
-:ref:`Realm.write() transaction <react-native-write-transactions>` block.
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
 .. _react-native-quickstart-local-watch-a-collection:
@@ -372,8 +370,9 @@ Next: Check out the Template Apps and Tutorial
 
 If you are interested in a guided experience, you can read our
 :ref:`Realm React Native SDK tutorial <react-native-tutorial>`. This tutorial
-implements and expands on a customizable :ref:`template app <template-apps>` 
-built on a Flexible Sync Realm database.
+implements and expands on a base React Native app
+built with Realm database and Device Sync.
 
 You could also use the template app to experiment with the React Native SDK on 
-your own.
+your own. To set up the template app, refer to :ref:`template-apps`
+in the Atlas App Services documentation.
