@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
-import {RealmContext} from '../../RealmConfig';
-import {SecondRealmContext} from '../../RealmConfig';
+import {RealmContext} from '../RealmConfig';
+import {SecondRealmContext} from '../RealmConfig';
 
 function TwoRealmsWrapper() {
   const {RealmProvider: RealmProvider} = RealmContext;

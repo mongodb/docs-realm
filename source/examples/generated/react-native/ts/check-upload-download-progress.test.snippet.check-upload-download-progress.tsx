@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 import {Text} from 'react-native';
 
 function CheckUploadProgress() {
   const realm = useRealm();
-  const [uploadProgressPercent, setUploadProgressPercent] = React.useState(0);
+  const [uploadProgressPercent, setUploadProgressPercent] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const progressNotificationCallback: Realm.ProgressNotificationCallback = (
       transferred,
       transferable,

@@ -13,8 +13,8 @@ const ContactInfo = ({contactName}) => {
   };
   return (
     <View>
-      <Text>{contactName}</Text>
-      <Button onPress={deleteContact} title='Delete Contact' />
+      <Text testID='contactNameText'>{contactName}</Text>
+      <Button testID='deleteContactBtn' onPress={deleteContact} title='Delete Contact' />
     </View>
   );
 };

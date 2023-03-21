@@ -1,5 +1,5 @@
 // :snippet-start: delete-user
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {useApp, useUser} from '@realm/react';
 // :remove-start:
 import {UserProvider} from '@realm/react';
@@ -22,10 +22,10 @@ function AppWrapper() {
 }
 
 function MyApp() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app.logIn(Credentials.anonymous()).then(user => user && setLoggedIn(true));
   }, []);
   // ...

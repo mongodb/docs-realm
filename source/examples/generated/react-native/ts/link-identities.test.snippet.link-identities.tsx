@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppProvider, UserProvider, useApp, useUser} from '@realm/react';
 import Realm from 'realm';
 import {View, Button, Text, TextInput} from 'react-native';
@@ -21,7 +21,7 @@ function AppWrapper() {
 function AnonymousLogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app.logIn(Realm.Credentials.anonymous());
   }, []);
   return null;
@@ -32,8 +32,8 @@ function AnonymousLogIn() {
 function SignUpUser() {
   const app = useApp();
   const user = useUser();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   // Link email/password credentials to anonymous user
   // when creating and logging in email/password user.

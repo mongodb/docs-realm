@@ -1,5 +1,5 @@
 // :snippet-start: user-api-key
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useUser} from '@realm/react';
 // :remove-start:
 import {useApp} from '@realm/react';
@@ -34,7 +34,7 @@ function AppWrapper() {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app.logIn(credentials);
   }, []);
   return <></>;

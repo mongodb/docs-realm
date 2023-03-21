@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 
 function ToggleSyncSession() {
   const realm = useRealm();
-  const [isPaused, setIsPaused] = React.useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   async function toggleSyncSession() {
     if (isPaused) {

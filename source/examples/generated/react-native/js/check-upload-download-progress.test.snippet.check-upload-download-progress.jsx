@@ -5,9 +5,9 @@ import {Text} from 'react-native';
 
 function CheckUploadProgress() {
   const realm = useRealm();
-  const [uploadProgressPercent, setUploadProgressPercent] = React.useState(0);
+  const [uploadProgressPercent, setUploadProgressPercent] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const progressNotificationCallback = (transferred, transferable) => {
       // Convert decimal to percent with no decimals
       // (e.g. 0.6666... -> 67)

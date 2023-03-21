@@ -6,9 +6,7 @@ const TaskList = () => {
   const highPriorityTasks = tasks.filtered('priority >= 4');
 
   // filter for tasks that have just-started or short-running progress
-  const lowProgressTasks = tasks.filtered(
-    '1 <= progressMinutes && progressMinutes < 10',
-  );
+  const lowProgressTasks = tasks.filtered('1 <= progressMinutes && progressMinutes < 10');
   console.log('highPriorityTasks', highPriorityTasks.length);
 
   console.log('lowProgressTasks', lowProgressTasks.length);

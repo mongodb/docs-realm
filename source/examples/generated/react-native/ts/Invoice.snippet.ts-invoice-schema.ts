@@ -1,5 +1,5 @@
 class Invoice extends Realm.Object<Invoice> {
-  _id!: string;
+  _id!: Realm.BSON.ObjectId;
   item!: string;
   quantity!: number;
   price!: number;

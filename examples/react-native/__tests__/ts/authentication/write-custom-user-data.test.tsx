@@ -1,5 +1,5 @@
 // :snippet-start: write-custom-user-data
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useApp, useUser} from '@realm/react';
 // :remove-start:
 import {UserProvider} from '@realm/react';
@@ -32,7 +32,7 @@ function AppWrapper() {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app.logIn(credentials);
   }, []);
   return <></>;

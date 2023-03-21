@@ -1,5 +1,5 @@
 // :snippet-start: access-sync-session
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 // :remove-start:
@@ -51,7 +51,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));

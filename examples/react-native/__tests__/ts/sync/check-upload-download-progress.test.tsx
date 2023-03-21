@@ -1,5 +1,5 @@
 // :snippet-start: check-upload-download-progress
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 import {Text} from 'react-native';
@@ -49,7 +49,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));
@@ -73,9 +73,9 @@ let functionCalled = false;
 function CheckUploadProgress() {
   const realm = useRealm();
   higherScopedRealm = realm; // :remove:
-  const [uploadProgressPercent, setUploadProgressPercent] = React.useState(0);
+  const [uploadProgressPercent, setUploadProgressPercent] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // :remove-start:
     // Add data on component first render to trigger progress notification callback
     // to run.

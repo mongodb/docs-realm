@@ -1,5 +1,5 @@
 // :snippet-start: multiplex-sync
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 import {AppProvider, UserProvider, useUser, useApp, Realm} from '@realm/react';
 // :remove-start:
@@ -28,7 +28,7 @@ type RealmWrapperProps = {
 function RealmWrapper({children}: RealmWrapperProps) {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     Realm.App.Sync.enableSessionMultiplexing(app);
   }, []);
 
@@ -39,7 +39,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));

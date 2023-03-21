@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 import {Text} from 'react-native';
 
 function CheckNetworkConnection() {
   const realm = useRealm();
-  const [isConnected, setIsConnected] = React.useState(
+  const [isConnected, setIsConnected] = useState(
     realm.syncSession?.isConnected(),
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const connectionNotificationCallback = (newState, oldState) => {
       console.log('Current connection state: ' + newState);
       console.log('Previous connection state: ' + oldState);

@@ -1,5 +1,5 @@
 // :snippet-start: pause-unpause-sync-session
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 // :remove-start:
@@ -50,7 +50,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));
@@ -64,7 +64,7 @@ let higherScopedRealm: Realm;
 function ToggleSyncSession() {
   const realm = useRealm();
   higherScopedRealm = realm; // :remove:
-  const [isPaused, setIsPaused] = React.useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   async function toggleSyncSession() {
     if (isPaused) {

@@ -30,13 +30,9 @@ const TaskList = () => {
         <Text>{task.name}</Text>
       ))}
 
-      <Text>
-        Tasks sorted by priority descending, and name alphabetically:
-      </Text>
+      <Text>Tasks sorted by priority descending, and name alphabetically:</Text>
       {tasksByPriorityDescendingAndName.map(task => (
-        <Text>
-          {task.name}
-        </Text>
+        <Text>{task.name}</Text>
       ))}
 
       <Text>Tasks sorted by assignee name:</Text>
