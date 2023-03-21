@@ -35,8 +35,6 @@ function AppWrapper() {
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
   const realm = useRealm();
-  const profiles = useQuery(Profile);
-  const activeProfile = useObject(Profile, [primaryKey]);
 
   const addProfile = (name) => {
     realm.write(() => {
@@ -46,3 +44,7 @@ function RestOfApp() {
       });
     });
   };
+
+  // ... rest of component
+
+}

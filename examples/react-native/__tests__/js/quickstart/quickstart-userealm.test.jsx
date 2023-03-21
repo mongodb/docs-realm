@@ -48,8 +48,6 @@ function RestOfApp() {
   //    }
   // }
   const realm = useRealm();
-  const profiles = useQuery(Profile);
-  const activeProfile = useObject(Profile, selectedProfileId);
 
   const addProfile = (name) => {
     realm.write(() => {
@@ -60,10 +58,13 @@ function RestOfApp() {
     });
   };
   // :replace-end:
-  // :snippet-end:
 
   // ... rest of component
 
+  // :remove-start:
+  const profiles = useQuery(Profile);
+  const activeProfile = useObject(Profile, selectedProfileId);
+  
   return (
     <View>
       <View>
@@ -94,7 +95,9 @@ function RestOfApp() {
       </View>
     </View>
   );
+  // :remove-end:
 }
+  // :snippet-end:
 
 beforeEach(async () => {
   const realm = await Realm.open(realmConfig);
