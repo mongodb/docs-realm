@@ -3,8 +3,8 @@ import {Button, TextInput} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Dog from '../temp/Dog';
-import Person from '../temp/Person';
+import Dog from '../Models/Dog';
+import Person from '../Models/Person';
 
 const realmConfig = {
   schema: [Dog, Person],
@@ -51,7 +51,11 @@ describe('Create Data Tests', () => {
       return (
         <>
           <TextInput onChangeText={setDogName} value={dogName} />
-          <Button onPress={() => handleAddDog()} title='Add Dog' testID='handleAddDogBtn' />
+          <Button
+            onPress={() => handleAddDog()}
+            title='Add Dog'
+            testID='handleAddDogBtn'
+          />
         </>
       );
     };
@@ -67,7 +71,10 @@ describe('Create Data Tests', () => {
     const {getByTestId} = render(<App />);
 
     // press the "Add Dog" button
-    const handleAddDogBtn = await waitFor(() => getByTestId('handleAddDogBtn'), {timeout: 5000});
+    const handleAddDogBtn = await waitFor(
+      () => getByTestId('handleAddDogBtn'),
+      {timeout: 5000},
+    );
     await act(async () => {
       fireEvent.press(handleAddDogBtn);
     });

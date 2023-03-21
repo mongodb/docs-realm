@@ -11,7 +11,7 @@ import {SubscriptionRealmContext} from '../RealmConfig';
 // :remove-start:
 import {AppProvider, UserProvider} from '@realm/react';
 import {App, Credentials} from 'realm';
-import {useApp, Realm} from '@realm/react';
+import {useApp} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
 
 const APP_ID = 'js-flexible-oseso';
@@ -45,18 +45,22 @@ function AppWrapper() {
     </AppProvider>
   );
 }
+let realm: Realm;
 // :remove-end:
 
 const {useRealm, useQuery} = SubscriptionRealmContext;
 
 function SubscriptionManager() {
   const realm = useRealm();
-  const seenBirds = useQuery('Bird').filtered('haveSeen == true');
 
   useEffect(() => {
-    realm.subscriptions.update(mutableSubs => {
+    realm.subscriptions.update((mutableSubs, realm) => {
+      // :remove-start:
+      // make sure only one subscription
+      mutableSubs.removeAll();
+      // :remove-end:
       // Create subscription for filtered results.
-      mutableSubs.add(seenBirds);
+      mutableSubs.add(realm.objects('Bird').filtered('haveSeen == true'));
     });
     numSubs = realm.subscriptions.length; // :remove:
   });

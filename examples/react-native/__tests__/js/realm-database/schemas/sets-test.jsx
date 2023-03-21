@@ -3,7 +3,7 @@ import {Button, TextInput, View, Text, Alert} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Character from '../../temp/Character';
+import Character from '../../Models/Character';
 
 const realmConfig = {
   schema: [Character],
@@ -93,8 +93,12 @@ describe('Set schema', () => {
     const {getAllByTestId} = render(<App />);
     await waitFor(
       () => {
-        expect(getAllByTestId('characterName')[2]).toHaveTextContent('AdventurousPlayer');
-        expect(getAllByTestId('characterName')[3]).toHaveTextContent('HealerPlayer');
+        expect(getAllByTestId('characterName')[2]).toHaveTextContent(
+          'AdventurousPlayer',
+        );
+        expect(getAllByTestId('characterName')[3]).toHaveTextContent(
+          'HealerPlayer',
+        );
       },
       {timeout: 5000},
     );
@@ -110,7 +114,9 @@ describe('Set schema', () => {
     const AddInventoryToCharacter = ({characterName}) => {
       const realm = useRealm();
       const [inventoryItem, setInventoryItem] = useState('');
-      const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
+      const character = useQuery(Character).filtered(
+        `name = '${characterName}'`,
+      )[0];
 
       const addInventoryItem = () => {
         realm.write(() => {
@@ -120,8 +126,16 @@ describe('Set schema', () => {
 
       return (
         <View>
-          <TextInput testID='inventoryInput' onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
-          <Button testID='addInventoryItemBtn' title='Add Inventory Item' onPress={addInventoryItem} />
+          <TextInput
+            testID='inventoryInput'
+            onChangeText={text => setInventoryItem(text)}
+            value={inventoryItem}
+          />
+          <Button
+            testID='addInventoryItemBtn'
+            title='Add Inventory Item'
+            onPress={addInventoryItem}
+          />
         </View>
       );
     };
@@ -137,9 +151,12 @@ describe('Set schema', () => {
     const inventoryInput = await waitFor(() => getByTestId('inventoryInput'), {
       timeout: 5000,
     });
-    const addInventoryItemBtn = await waitFor(() => getByTestId('addInventoryItemBtn'), {
-      timeout: 5000,
-    });
+    const addInventoryItemBtn = await waitFor(
+      () => getByTestId('addInventoryItemBtn'),
+      {
+        timeout: 5000,
+      },
+    );
     await act(() => {
       fireEvent.changeText(inventoryInput, 'Cape');
     });
@@ -147,7 +164,9 @@ describe('Set schema', () => {
       fireEvent.press(addInventoryItemBtn);
     });
     // Test that the cape has been added to the character's inventory
-    expect(assertionRealm.objects(Character)[0].inventory.has('Cape')).toBeTruthy();
+    expect(
+      assertionRealm.objects(Character)[0].inventory.has('Cape'),
+    ).toBeTruthy();
   });
   it('should check if a set has specific items and check the size of the set', async () => {
     // :snippet-start: check-set-items-and-size
@@ -160,7 +179,9 @@ describe('Set schema', () => {
     // }
     const QueryCharacterInventory = ({characterName}) => {
       const [inventoryItem, setInventoryItem] = useState('');
-      const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
+      const character = useQuery(Character).filtered(
+        `name = '${characterName}'`,
+      )[0];
 
       const queryCharacterInventory = () => {
         const characterDoesHaveItem = character.inventory.has(inventoryItem);
@@ -173,9 +194,19 @@ describe('Set schema', () => {
       return (
         <View>
           <Text>{character.name}</Text>
-          <Text testID='inventoryLength'>Total number of inventory items: {character.inventory.size}</Text>
-          <TextInput testID='inventoryInput' onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
-          <Button testID='queryCharacterInventoryBtn' title='Query for Inventory' onPress={queryCharacterInventory} />
+          <Text testID='inventoryLength'>
+            Total number of inventory items: {character.inventory.size}
+          </Text>
+          <TextInput
+            testID='inventoryInput'
+            onChangeText={text => setInventoryItem(text)}
+            value={inventoryItem}
+          />
+          <Button
+            testID='queryCharacterInventoryBtn'
+            title='Query for Inventory'
+            onPress={queryCharacterInventory}
+          />
         </View>
       );
     };
@@ -187,18 +218,26 @@ describe('Set schema', () => {
       </RealmProvider>
     );
     const {getByTestId} = render(<App />);
-    const inventoryLength = await waitFor(() => getByTestId('inventoryLength'), {
-      timeout: 5000,
-    });
+    const inventoryLength = await waitFor(
+      () => getByTestId('inventoryLength'),
+      {
+        timeout: 5000,
+      },
+    );
     // test that PlayerZero has an inventory of length 3
-    expect(inventoryLength).toHaveTextContent('Total number of inventory items: 3');
+    expect(inventoryLength).toHaveTextContent(
+      'Total number of inventory items: 3',
+    );
 
     const inventoryInput = await waitFor(() => getByTestId('inventoryInput'), {
       timeout: 5000,
     });
-    const queryCharacterInventoryBtn = await waitFor(() => getByTestId('queryCharacterInventoryBtn'), {
-      timeout: 5000,
-    });
+    const queryCharacterInventoryBtn = await waitFor(
+      () => getByTestId('queryCharacterInventoryBtn'),
+      {
+        timeout: 5000,
+      },
+    );
     // mock the alert function
     jest.spyOn(Alert, 'alert');
 
@@ -224,7 +263,9 @@ describe('Set schema', () => {
     const RemoveInventoryFromCharacter = ({characterName}) => {
       const realm = useRealm();
       const [inventoryItem, setInventoryItem] = useState('');
-      const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
+      const character = useQuery(Character).filtered(
+        `name = '${characterName}'`,
+      )[0];
 
       const removeInventoryItem = () => {
         realm.write(() => {
@@ -239,9 +280,21 @@ describe('Set schema', () => {
       return (
         <View>
           <Text>{character.name}</Text>
-          <TextInput testID='inventoryInput' onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
-          <Button testID='removeInventoryItemBtn' title='Remove Inventory Item' onPress={removeInventoryItem} />
-          <Button testID='removeAllInventoryBtn' title='Remove All Inventory' onPress={removeAllInventory} />
+          <TextInput
+            testID='inventoryInput'
+            onChangeText={text => setInventoryItem(text)}
+            value={inventoryItem}
+          />
+          <Button
+            testID='removeInventoryItemBtn'
+            title='Remove Inventory Item'
+            onPress={removeInventoryItem}
+          />
+          <Button
+            testID='removeAllInventoryBtn'
+            title='Remove All Inventory'
+            onPress={removeAllInventory}
+          />
         </View>
       );
     };
@@ -257,12 +310,18 @@ describe('Set schema', () => {
     const inventoryInput = await waitFor(() => getByTestId('inventoryInput'), {
       timeout: 5000,
     });
-    const removeInventoryItemBtn = await waitFor(() => getByTestId('removeInventoryItemBtn'), {
-      timeout: 5000,
-    });
-    const removeAllInventoryBtn = await waitFor(() => getByTestId('removeAllInventoryBtn'), {
-      timeout: 5000,
-    });
+    const removeInventoryItemBtn = await waitFor(
+      () => getByTestId('removeInventoryItemBtn'),
+      {
+        timeout: 5000,
+      },
+    );
+    const removeAllInventoryBtn = await waitFor(
+      () => getByTestId('removeAllInventoryBtn'),
+      {
+        timeout: 5000,
+      },
+    );
 
     // Test that the sword has been removed from the character's inventory when the removeInventoryItemBtn is pressed
     await act(() => {
@@ -271,7 +330,9 @@ describe('Set schema', () => {
     await act(() => {
       fireEvent.press(removeInventoryItemBtn);
     });
-    expect(assertionRealm.objects(Character)[0].inventory.has('sword')).toBeFalsy();
+    expect(
+      assertionRealm.objects(Character)[0].inventory.has('sword'),
+    ).toBeFalsy();
 
     // Test that the character's inventory is empty when the removeAllInventoryBtn is pressed
     await act(() => {
@@ -293,7 +354,9 @@ describe('Set schema', () => {
       const [inventoryItem, setInventoryItem] = useState('');
       const [inventory, setInventory] = useState([]);
 
-      const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
+      const character = useQuery(Character).filtered(
+        `name = '${characterName}'`,
+      )[0];
 
       const addInventoryItem = () => {
         realm.write(() => {
@@ -306,8 +369,16 @@ describe('Set schema', () => {
         <View>
           <Text>{character.name}</Text>
           <Text>Add an item to the inventory:</Text>
-          <TextInput testID='inventoryInput' onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
-          <Button testID='addInventoryItemBtn' title='Add Inventory Item' onPress={addInventoryItem} />
+          <TextInput
+            testID='inventoryInput'
+            onChangeText={text => setInventoryItem(text)}
+            value={inventoryItem}
+          />
+          <Button
+            testID='addInventoryItemBtn'
+            title='Add Inventory Item'
+            onPress={addInventoryItem}
+          />
 
           <Text>Ordered Inventory:</Text>
           {inventory.map(item => (
@@ -334,9 +405,12 @@ describe('Set schema', () => {
     const inventoryInput = await waitFor(() => getByTestId('inventoryInput'), {
       timeout: 5000,
     });
-    const addInventoryItemBtn = await waitFor(() => getByTestId('addInventoryItemBtn'), {
-      timeout: 5000,
-    });
+    const addInventoryItemBtn = await waitFor(
+      () => getByTestId('addInventoryItemBtn'),
+      {
+        timeout: 5000,
+      },
+    );
 
     await act(() => {
       fireEvent.changeText(inventoryInput, 'cape');
@@ -358,18 +432,24 @@ describe('Set schema', () => {
     });
     // test that there are 3 inventory items rendered
 
-    const inventoryItems = await waitFor(() => getAllByTestId('inventoryItem'), {
-      timeout: 5000,
-    });
+    const inventoryItems = await waitFor(
+      () => getAllByTestId('inventoryItem'),
+      {
+        timeout: 5000,
+      },
+    );
     // test that the newly added inventory items have been rendered to the ui
     expect(inventoryItems[0].props.children).toEqual('cape');
     expect(inventoryItems[1].props.children).toEqual('bow');
     expect(inventoryItems[2].props.children).toEqual('dagger');
 
     // test the unordered inventory items
-    const unorderedInventoryItems = await waitFor(() => getAllByTestId('unorderedInventoryItem'), {
-      timeout: 5000,
-    });
+    const unorderedInventoryItems = await waitFor(
+      () => getAllByTestId('unorderedInventoryItem'),
+      {
+        timeout: 5000,
+      },
+    );
     // Since we can't be certain of the order of the unordered inventory items, we'll test that the items are present
     expect(unorderedInventoryItems.length).toEqual(3);
   });

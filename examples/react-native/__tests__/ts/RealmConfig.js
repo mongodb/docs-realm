@@ -13,7 +13,7 @@ import Turtle from './Models/Turtle';
 
 export const RealmContext = createRealmContext({
   // Pass all of your models into the schema value.
-  schema: [Invoice, Business],
+  schema: [Business, Address],
 });
 // :snippet-end:
 
@@ -36,4 +36,9 @@ export const SyncedRealmContext = createRealmContext({
 
 export const SubscriptionRealmContext = createRealmContext({
   schema: [Bird, Turtle],
+});
+
+export const Context = createRealmContext({
+  // Pass all of your models into the schema value.
+  schema: [Profile],
 });

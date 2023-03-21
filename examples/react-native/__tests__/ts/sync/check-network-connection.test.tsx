@@ -1,11 +1,11 @@
 // :snippet-start: check-network-connection
 import React, {useState, useEffect} from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 import {Text} from 'react-native';
 // :remove-start:
-const {RealmProvider} = SyncedRealmContext;
-import {AppProvider, UserProvider, useUser} from '@realm/react';
+const {RealmProvider} = Context;
+import {AppProvider, UserProvider} from '@realm/react';
 import Realm from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
@@ -34,7 +34,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {
-            subs.add(realm.objects('Invoice'));
+            subs.add(realm.objects('Profile'));
           },
         },
         onError: (_, err) => {

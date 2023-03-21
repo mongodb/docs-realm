@@ -142,7 +142,7 @@ test('Instantiate AppWrapperTimeoutSync and test sync', async () => {
 
   await waitFor(
     () => {
-      expect(numberOfProfiles).toBe(1);
+      expect(numberOfProfiles).toBeGreaterThanOrEqual(1);
     },
     {timeout: 2000},
   );

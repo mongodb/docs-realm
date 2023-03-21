@@ -2,8 +2,8 @@
 // sync tests. Probably should be tested at some future point, but doesn't need
 // to occur during this initial @realm/react-ification.
 import React, {useEffect} from 'react';
-import {Context} from '../RealmConfig';
-const {RealmProvider, useRealm} = Context;
+import {SyncedRealmContext} from '../RealmConfig';
+const {RealmProvider, useRealm} = SyncedRealmContext;
 import {AppProvider, UserProvider} from '@realm/react';
 import Realm from 'realm';
 import {useApp} from '@realm/react';
@@ -46,7 +46,7 @@ function RealmWithErrorHandling() {
 const syncConfigWithRecoverDiscardClientReset = {
   flexible: true,
   clientReset: {
-    mode: Realm.ClientResetMode.RecoverOrDiscardUnsyncedChanges,
+    mode: 'recoverOrDiscardUnsyncedChanges',
     onBefore: realm => {
       // This block could be used for custom recovery, reporting, debugging etc.
     },
@@ -71,7 +71,7 @@ function RealmWithRecoverOrDiscardUnsyncedChangesClientReset() {
 const syncConfigWithRecoverClientReset = {
   flexible: true,
   clientReset: {
-    mode: Realm.ClientResetMode.RecoverUnsyncedChanges,
+    mode: 'recoverUnsyncedChanges',
     onBefore: realm => {
       // This block could be used for custom recovery, reporting, debugging etc.
     },
@@ -98,7 +98,7 @@ let realm; // value assigned in <RestOfApp> with useRealm()
 const syncConfigWithClientResetFallback = {
   flexible: true,
   clientReset: {
-    mode: Realm.ClientResetMode.RecoverOrDiscardUnsyncedChanges, // or "recoverUnsyncedChanges"
+    mode: 'recoverOrDiscardUnsyncedChanges', // or "recoverUnsyncedChanges"
     // can also include `onBefore` and `onAfter` callbacks
     onFallback: (_session, path) => {
       try {
@@ -143,7 +143,7 @@ function RestOfApp() {
 const syncConfigWithDiscardClientReset = {
   flexible: true,
   clientReset: {
-    mode: Realm.ClientResetMode.DiscardUnsyncedChanges,
+    mode: 'discardUnsyncedChanges',
     onBefore: realm => {
       console.log('Beginning client reset for ', realm.path);
     },
@@ -190,7 +190,7 @@ async function handleSyncError(session, syncError) {
 const syncConfigWithDiscardAfterBreakingSchemaChanges = {
   flexible: true,
   clientReset: {
-    mode: Realm.ClientResetMode.DiscardUnsyncedChanges,
+    mode: 'discardUnsyncedChanges',
     onBefore: realm => {
       // NOT used with destructive schema changes
       console.log('Beginning client reset for ', realm.path);

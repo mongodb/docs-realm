@@ -30,7 +30,7 @@ function RealmWrapper({children}) {
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {
-            subs.add(realm.objects('Invoice'));
+            subs.add(realm.objects('Profile'));
           },
         },
         onError: (_, err) => {
@@ -107,8 +107,8 @@ function CheckNetworkConnection() {
 test('Test connection state', async () => {
   render(<AppWrapper />);
   await waitFor(() => {
-    higherScopedRealm.syncSession?.pause();
-    higherScopedRealm.syncSession?.resume();
+    higherScopedRealm?.syncSession?.pause();
+    higherScopedRealm?.syncSession?.resume();
   });
   await promise.then(res => {
     expect(higherScopedConnectionStates).toStrictEqual([

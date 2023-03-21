@@ -3,7 +3,7 @@ import {Button, TextInput, View} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Profile from '../../temp/Profile';
+import Profile from '../../Models/Profile';
 
 const realmConfig = {
   schema: [Profile],
@@ -59,8 +59,16 @@ describe('uuid schema', () => {
       };
       return (
         <View>
-          <TextInput testID='nameInput' placeholder='Name' onChangeText={setName} />
-          <Button testID='createProfileButton' title='Create Profile' onPress={createProfile} />
+          <TextInput
+            testID='nameInput'
+            placeholder='Name'
+            onChangeText={setName}
+          />
+          <Button
+            testID='createProfileButton'
+            title='Create Profile'
+            onPress={createProfile}
+          />
         </View>
       );
       // :replace-end:
@@ -78,7 +86,10 @@ describe('uuid schema', () => {
     const nameInput = await waitFor(() => getByTestId('nameInput'), {
       timeout: 5000,
     });
-    const createProfileButton = await waitFor(() => getByTestId('createProfileButton'), {timeout: 5000});
+    const createProfileButton = await waitFor(
+      () => getByTestId('createProfileButton'),
+      {timeout: 5000},
+    );
 
     await act(() => {
       fireEvent.changeText(nameInput, 'Steve Rogers');

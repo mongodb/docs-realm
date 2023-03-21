@@ -24,7 +24,7 @@ async function handleSyncError(session, syncError) {
 const syncConfigWithDiscardAfterBreakingSchemaChanges = {
   flexible: true,
   clientReset: {
-    mode: Realm.ClientResetMode.DiscardUnsyncedChanges,
+    mode: 'discardUnsyncedChanges',
     onBefore: realm => {
       // NOT used with destructive schema changes
       console.log('Beginning client reset for ', realm.path);

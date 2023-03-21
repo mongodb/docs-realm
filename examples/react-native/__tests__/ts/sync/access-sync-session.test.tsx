@@ -1,9 +1,9 @@
 // :snippet-start: access-sync-session
 import React, {useEffect} from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 // :remove-start:
-const {RealmProvider} = SyncedRealmContext;
+const {RealmProvider} = Context;
 import {AppProvider, UserProvider, useUser} from '@realm/react';
 import Realm from 'realm';
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
@@ -36,7 +36,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {
-            subs.add(realm.objects('Invoice'));
+            subs.add(realm.objects('Profile'));
           },
         },
         onError: (_, err) => {

@@ -1,5 +1,5 @@
 // :snippet-start: check-upload-download-progress
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 import {Text} from 'react-native';
@@ -28,11 +28,6 @@ function RealmWrapper({children}) {
     <RealmProvider
       sync={{
         flexible: true,
-        initialSubscriptions: {
-          update(subs, realm) {
-            subs.add(realm.objects('Profile'));
-          },
-        },
         onError: (_, err) => {
           console.log('error is:', err);
         },
@@ -76,17 +71,22 @@ function CheckUploadProgress() {
     // Add data on component first render to trigger progress notification callback
     // to run.
     if (!functionCalled) {
-      realm.write(() => {
-        realm.create('Profile', {
-          _id: new Realm.BSON.UUID(),
-          name: 'joey',
-        });
-        realm.create('Profile', {
-          _id: new Realm.BSON.UUID(),
-          name: 'ross',
-        });
+      realm.subscriptions.update((subs, realm) => {
+        subs.add(realm.objects('Profile'));
       });
-      functionCalled = true;
+      realm.subscriptions.waitForSynchronization().then(() => {
+        realm.write(() => {
+          realm.create('Profile', {
+            _id: new Realm.BSON.UUID(),
+            name: 'joey',
+          });
+          realm.create('Profile', {
+            _id: new Realm.BSON.UUID(),
+            name: 'ross',
+          });
+        });
+        functionCalled = true;
+      });
     }
     // :remove-end:
     const progressNotificationCallback = (transferred, transferable) => {

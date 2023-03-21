@@ -1,7 +1,7 @@
 const syncConfigWithDiscardClientReset = {
   flexible: true,
   clientReset: {
-    mode: Realm.ClientResetMode.DiscardUnsyncedChanges,
+    mode: 'discardUnsyncedChanges',
     onBefore: realm => {
       console.log('Beginning client reset for ', realm.path);
     },

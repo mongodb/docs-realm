@@ -3,7 +3,7 @@ let realm; // value assigned in <RestOfApp> with useRealm()
 const syncConfigWithClientResetFallback = {
   flexible: true,
   clientReset: {
-    mode: Realm.ClientResetMode.RecoverOrDiscardUnsyncedChanges, // or "recoverUnsyncedChanges"
+    mode: 'recoverOrDiscardUnsyncedChanges', // or "recoverUnsyncedChanges"
     // can also include `onBefore` and `onAfter` callbacks
     onFallback: (_session, path) => {
       try {

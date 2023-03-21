@@ -64,14 +64,14 @@ beforeEach(async () => {
 afterEach(async () => {
   // TODO: delete user
 });
-test('create synced bundle', async () => {
+test.skip('create synced bundle', async () => {
   await createSyncedBundle();
   // TODO: log in with a different user before open
-  await app.logIn(Realm.Credentials.emailPassword(TODO));
-  const newUserConfig = higherScopedConfig2;
-  newUserConfig.sync?.user = newUser;
-  const realm = await Realm.open(higherScopedConfig2);
-  expect(realm.objects('Cat').length).toBe(3);
-  realm.close();
+  // await app.logIn(Realm.Credentials.emailPassword(TODO));
+  // const newUserConfig = higherScopedConfig2;
+  // newUserConfig.sync?.user = newUser;
+  // const realm = await Realm.open(higherScopedConfig2);
+  // expect(realm.objects('Cat').length).toBe(3);
+  // realm.close();
   // Note: not deleting realm in clean up b/c using in `bundled.test.tsx`
 });

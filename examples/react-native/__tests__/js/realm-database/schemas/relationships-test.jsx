@@ -3,8 +3,8 @@ import {View, Text} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import User from '../../temp/User';
-import Post from '../../temp/Post';
+import User from '../../Models/User';
+import Post from '../../Models/Post';
 
 const realmConfig = {
   schema: [User, Post],
@@ -95,7 +95,8 @@ describe('relationships tests', () => {
       const post = useObject(Post, _id);
       const user = post?.linkingObjects('User', 'posts')[0];
 
-      if (!post || !user) return <Text>The post or user could not be found</Text>;
+      if (!post || !user)
+        return <Text>The post or user could not be found</Text>;
       return (
         <View>
           <Text testID='postTitle'>Post title: {post.title}</Text>
@@ -116,8 +117,12 @@ describe('relationships tests', () => {
     const {getByTestId} = render(<App />);
 
     await waitFor(() => {
-      expect(getByTestId('postTitle')).toHaveTextContent('Post title: My First Post');
-      expect(getByTestId('userName')).toHaveTextContent('Post created by: John Doe');
+      expect(getByTestId('postTitle')).toHaveTextContent(
+        'Post title: My First Post',
+      );
+      expect(getByTestId('userName')).toHaveTextContent(
+        'Post created by: John Doe',
+      );
     });
   });
 
@@ -132,7 +137,9 @@ describe('relationships tests', () => {
     const PostsByYoungUsers = () => {
       const posts = useQuery(Post);
       const postsByYoungUsers = useMemo(() => {
-        return posts.filtered('@links.User.posts.birthdate >= 2000-01-01@00:00:00:0');
+        return posts.filtered(
+          '@links.User.posts.birthdate >= 2000-01-01@00:00:00:0',
+        );
       }, [posts]);
 
       if (!posts) return <Text>The post was not found.</Text>;
@@ -159,9 +166,12 @@ describe('relationships tests', () => {
     const {getByTestId} = render(<App />);
 
     await waitFor(() => {
-      expect(getByTestId('Post 0')).toHaveTextContent('I am not a child but I am not old either');
-      expect(getByTestId('Post 1')).toHaveTextContent('My favorite food is pizza');
+      expect(getByTestId('Post 0')).toHaveTextContent(
+        'I am not a child but I am not old either',
+      );
+      expect(getByTestId('Post 1')).toHaveTextContent(
+        'My favorite food is pizza',
+      );
     });
   });
-
 });

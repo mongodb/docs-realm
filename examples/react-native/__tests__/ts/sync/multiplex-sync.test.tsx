@@ -1,10 +1,10 @@
 // :snippet-start: multiplex-sync
 import React, {useEffect} from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
+import {Context} from '../RealmConfig';
 import {AppProvider, UserProvider, useUser, useApp, Realm} from '@realm/react';
 // :remove-start:
-const {RealmProvider} = SyncedRealmContext;
-import {render, waitFor, fireEvent} from '@testing-library/react-native';
+const {RealmProvider} = Context;
+import {render, waitFor} from '@testing-library/react-native';
 const APP_ID = 'js-flexible-oseso';
 const testId = 'test-multiplex-sync-session';
 
@@ -56,5 +56,7 @@ function RestOfApp() {
 
 test('Multiplex sync', async () => {
   render(<AppWrapper />);
-  expect(hasRealmBeenOpened).toBe(true);
+  await waitFor(async () => {
+    expect(hasRealmBeenOpened).toBe(true);
+  });
 });

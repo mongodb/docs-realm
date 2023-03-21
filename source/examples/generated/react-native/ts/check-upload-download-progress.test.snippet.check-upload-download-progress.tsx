@@ -22,8 +22,8 @@ function CheckUploadProgress() {
 
     // Listen for changes to connection state
     realm.syncSession?.addProgressNotification(
-      'upload',
-      'reportIndefinitely',
+      Realm.ProgressDirection.Upload,
+      Realm.ProgressMode.ReportIndefinitely,
       progressNotificationCallback,
     );
 
