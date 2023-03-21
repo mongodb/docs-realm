@@ -31,40 +31,41 @@ const realmConfig = {
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
 
+// :replace-start: {
+//    "terms": {
+//       "primaryKey": "[primaryKey]"
+//    }
+// }
 // Expose a realm
 function AppWrapper() {
   return (
     <RealmProvider>
-      <RestOfApp />
+      <RestOfApp objectPrimaryKey={primaryKey} />
     </RealmProvider>
   );
 }
+// :replace-end:
 
-function RestOfApp() {
-  const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
-  // :replace-start: {
-  //    "terms": {
-  //       "selectedProfileId": "[primaryKey]"
-  //    }
-  // }
+function RestOfApp({objectPrimaryKey}) {
+  const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
   const realm = useRealm();
 
-  const addProfile = (name) => {
+  const changeProfileName = (profile, newName) => {
     realm.write(() => {
-      realm.create('Profile', {
-        name: name,
-        _id: new Realm.BSON.ObjectId(),
-      });
+      profile.name = newName;
     });
+    // :remove-start:
+    // For testing. Set the profile name to indicate profile object has changed.
+    higherOrderProfileName = activeProfile.name;
+    // :remove-end:
   };
-  // :replace-end:
 
   // ... rest of component
 
   // :remove-start:
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
-  
+
   return (
     <View>
       <View>
@@ -74,9 +75,10 @@ function RestOfApp() {
           keyExtractor={item => item._id.toHexString()}
           renderItem={({item}) => {
             return (
-              <Pressable onPress={() => {
-                setSelectedProfileId(item._id)
-              }}>
+              <Pressable
+                onPress={() => {
+                  setSelectedProfileId(item._id);
+                }}>
                 <Text>{item.name}</Text>
               </Pressable>
             );
@@ -86,10 +88,10 @@ function RestOfApp() {
       <View>
         <Text>Active profile: {activeProfile?.name}</Text>
         <Button
-          onPress={()=> {
-            changeProfileName(activeProfile, 'NewName')
+          onPress={() => {
+            changeProfileName(activeProfile, 'NewName');
           }}
-          testID='test-change-name' // :remove:
+          testID='test-change-name'
           title='Change name'
         />
       </View>
@@ -97,7 +99,7 @@ function RestOfApp() {
   );
   // :remove-end:
 }
-  // :snippet-end:
+// :snippet-end:
 
 beforeEach(async () => {
   const realm = await Realm.open(realmConfig);
@@ -112,9 +114,8 @@ beforeEach(async () => {
 
     realm.create('Profile', {
       name: 'SecondProfile',
-      _id: new Realm.BSON.ObjectId,
+      _id: new Realm.BSON.ObjectId(),
     });
-
   });
 
   primaryKey = id;

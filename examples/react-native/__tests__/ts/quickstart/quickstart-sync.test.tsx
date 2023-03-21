@@ -73,7 +73,6 @@ function LogIn() {
 
 function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
-  console.log('... in RestOfApp');
   const realm = useRealm();
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
@@ -103,7 +102,6 @@ function RestOfApp() {
   // that set up in beforeEach(). Then set numberOfProfiles to the length.
   if (profiles.length) {
     numberOfProfiles = profiles.length;
-    console.log(`Number of profiles ${numberOfProfiles}`);
   }
 
   return (
@@ -145,8 +143,6 @@ beforeEach(async () => {
   const realm = await Realm.open(config);
   const id = new Realm.BSON.ObjectId();
 
-  console.log('...IN BEFOREEACH');
-
   realm.subscriptions.update((subs, myRealm) => {
     subs.add(myRealm.objects('Profile'));
   });
@@ -161,10 +157,6 @@ beforeEach(async () => {
 
   primaryKey = id;
 
-  const profiles = realm.objects('Profile');
-
-  console.log(`Profiles at end of BEFOREEACH: ${profiles.length}`);
-
   realm.close();
 
   await user.logOut();
@@ -174,8 +166,6 @@ afterEach(async () => {
   const user = await app.logIn(Realm.Credentials.anonymous());
   const config = createConfig(user);
   const realm = await Realm.open(config);
-
-  console.log('...IN AFTEREACH');
 
   realm.subscriptions.update((subs, myRealm) => {
     subs.add(myRealm.objects('Profile'));

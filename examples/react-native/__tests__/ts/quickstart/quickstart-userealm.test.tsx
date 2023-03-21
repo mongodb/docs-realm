@@ -34,17 +34,27 @@ const realmConfig: Realm.Configuration = {
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
 
+  // :replace-start: {
+//    "terms": {
+//       "primaryKey": "[primaryKey]"
+//    }
+// }
 // Expose a realm
 function AppWrapper() {
   return (
     <RealmProvider>
-      <RestOfApp />
+      <RestOfApp objectPrimaryKey={primaryKey} />
     </RealmProvider>
   );
 }
+// :replace-end:
 
-function RestOfApp() {
-  const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
+type RestOfAppProps = {
+  objectPrimaryKey: Realm.BSON.ObjectId;
+};
+
+const RestOfApp: React.FC<RestOfAppProps> = ({objectPrimaryKey}) => {
+  const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
   // :replace-start: {
   //    "terms": {
   //       "selectedProfileId": "[primaryKey]"
@@ -52,13 +62,14 @@ function RestOfApp() {
   // }
   const realm = useRealm();
 
-  const addProfile = (name: string) => {
+  const changeProfileName = (profile: Profile, newName: string) => {
     realm.write(() => {
-      realm.create('Profile', {
-        name: name,
-        _id: new Realm.BSON.ObjectId(),
-      });
+      profile.name = newName;
     });
+    // :remove-start:
+    // For testing. Set the profile name to indicate profile object has changed.
+    higherOrderProfileName = activeProfile!.name;
+    // :remove-end:
   };
   // :replace-end:
 

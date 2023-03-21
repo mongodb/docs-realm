@@ -30,21 +30,22 @@ const {RealmProvider, useRealm, useObject, useQuery} =
 function AppWrapper() {
   return (
     <RealmProvider>
-      <RestOfApp />
+      <RestOfApp objectPrimaryKey={[primaryKey]} />
     </RealmProvider>
   );
 }
 
-function RestOfApp() {
-  const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
+type RestOfAppProps = {
+  objectPrimaryKey: Realm.BSON.ObjectId;
+};
+
+const RestOfApp: React.FC<RestOfAppProps> = ({objectPrimaryKey}) => {
+  const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
   const realm = useRealm();
 
-  const addProfile = (name: string) => {
+  const changeProfileName = (profile: Profile, newName: string) => {
     realm.write(() => {
-      realm.create('Profile', {
-        name: name,
-        _id: new Realm.BSON.ObjectId(),
-      });
+      profile.name = newName;
     });
   };
 

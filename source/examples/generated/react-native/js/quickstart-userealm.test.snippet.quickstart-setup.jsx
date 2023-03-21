@@ -27,21 +27,18 @@ const {RealmProvider, useRealm, useObject, useQuery} =
 function AppWrapper() {
   return (
     <RealmProvider>
-      <RestOfApp />
+      <RestOfApp objectPrimaryKey={[primaryKey]} />
     </RealmProvider>
   );
 }
 
-function RestOfApp() {
-  const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
+function RestOfApp({objectPrimaryKey}) {
+  const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
   const realm = useRealm();
 
-  const addProfile = (name) => {
+  const changeProfileName = (profile, newName) => {
     realm.write(() => {
-      realm.create('Profile', {
-        name: name,
-        _id: new Realm.BSON.ObjectId(),
-      });
+      profile.name = newName;
     });
   };
 
