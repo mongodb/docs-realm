@@ -35,7 +35,7 @@ If automatic compaction is deemed insufficient, manual compaction
 can be used for applications that require stricter management 
 of file size to improve performance. A production application should 
 implement manual compaction to periodically reduce the realm file size
-if automatic compaction is not used.
+if it does not use automatic compaction.
 
 Compacting a realm can be an expensive operation that can block the UI thread. 
 Optimize compacting to balance frequency with performance gains. If your 
