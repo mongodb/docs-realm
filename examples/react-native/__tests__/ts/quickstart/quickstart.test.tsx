@@ -1,9 +1,7 @@
 // :snippet-start: quickstart-setup
 import React from 'react';
 import Realm from 'realm';
-// :snippet-start: setup-import-hooks
 import {createRealmContext} from '@realm/react';
-// :snippet-end:
 // :remove-start:
 import {useState} from 'react';
 import {FlatList, Pressable, Text, View, Button} from 'react-native';
