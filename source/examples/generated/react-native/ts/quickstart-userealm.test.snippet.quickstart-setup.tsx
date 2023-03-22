@@ -30,7 +30,7 @@ const {RealmProvider, useRealm, useObject, useQuery} =
 function AppWrapper() {
   return (
     <RealmProvider>
-      <RestOfApp objectPrimaryKey={[primaryKey]} />
+      <RestOfApp objectPrimaryKey={YOUR_PRIMARY_KEY} />
     </RealmProvider>
   );
 }
@@ -39,7 +39,7 @@ type RestOfAppProps = {
   objectPrimaryKey: Realm.BSON.ObjectId;
 };
 
-const RestOfApp: React.FC<RestOfAppProps> = ({objectPrimaryKey}) => {
+const RestOfApp = ({objectPrimaryKey}: RestOfAppProps) => {
   const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
   const realm = useRealm();
 

@@ -27,7 +27,7 @@ const {RealmProvider, useRealm, useObject, useQuery} =
 function AppWrapper() {
   return (
     <RealmProvider>
-      <RestOfApp objectPrimaryKey={[primaryKey]} />
+      <RestOfApp objectPrimaryKey={YOUR_PRIMARY_KEY} />
     </RealmProvider>
   );
 }

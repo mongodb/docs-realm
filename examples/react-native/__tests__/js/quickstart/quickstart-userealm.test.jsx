@@ -7,7 +7,7 @@ import {useState} from 'react';
 import {FlatList, Pressable, Text, View, Button} from 'react-native';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 let higherOrderProfileName;
-let primaryKey;
+const YOUR_PRIMARY_KEY= new Realm.BSON.ObjectId();
 // :remove-end:
 
 // Define your object model
@@ -31,20 +31,14 @@ const realmConfig = {
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
 
-// :replace-start: {
-//    "terms": {
-//       "primaryKey": "[primaryKey]"
-//    }
-// }
 // Expose a realm
 function AppWrapper() {
   return (
     <RealmProvider>
-      <RestOfApp objectPrimaryKey={primaryKey} />
+      <RestOfApp objectPrimaryKey={YOUR_PRIMARY_KEY} />
     </RealmProvider>
   );
 }
-// :replace-end:
 
 function RestOfApp({objectPrimaryKey}) {
   const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
@@ -103,13 +97,12 @@ function RestOfApp({objectPrimaryKey}) {
 
 beforeEach(async () => {
   const realm = await Realm.open(realmConfig);
-  const id = new Realm.BSON.ObjectId();
 
   realm.write(() => {
     // Create a profile object.
     realm.create('Profile', {
       name: 'TestProfile',
-      _id: id,
+      _id: YOUR_PRIMARY_KEY,
     });
 
     realm.create('Profile', {
@@ -118,7 +111,6 @@ beforeEach(async () => {
     });
   });
 
-  primaryKey = id;
   higherOrderProfileName = 'TestProfile';
 
   realm.close();

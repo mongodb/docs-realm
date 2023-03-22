@@ -7,7 +7,7 @@ import {useState} from 'react';
 import {FlatList, Pressable, Text, View, Button} from 'react-native';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 let higherOrderProfileName: string;
-let primaryKey: Realm.BSON.ObjectId;
+const YOUR_PRIMARY_KEY = new Realm.BSON.ObjectId();
 // :remove-end:
 
 // Define your object model
@@ -34,32 +34,21 @@ const realmConfig: Realm.Configuration = {
 const {RealmProvider, useRealm, useObject, useQuery} =
   createRealmContext(realmConfig);
 
-  // :replace-start: {
-//    "terms": {
-//       "primaryKey": "[primaryKey]"
-//    }
-// }
 // Expose a realm
 function AppWrapper() {
   return (
     <RealmProvider>
-      <RestOfApp objectPrimaryKey={primaryKey} />
+      <RestOfApp objectPrimaryKey={YOUR_PRIMARY_KEY} />
     </RealmProvider>
   );
 }
-// :replace-end:
 
 type RestOfAppProps = {
   objectPrimaryKey: Realm.BSON.ObjectId;
 };
 
-const RestOfApp: React.FC<RestOfAppProps> = ({objectPrimaryKey}) => {
+const RestOfApp = ({objectPrimaryKey}: RestOfAppProps) => {
   const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
-  // :replace-start: {
-  //    "terms": {
-  //       "selectedProfileId": "[primaryKey]"
-  //    }
-  // }
   const realm = useRealm();
 
   const changeProfileName = (profile: Profile, newName: string) => {
@@ -71,7 +60,6 @@ const RestOfApp: React.FC<RestOfAppProps> = ({objectPrimaryKey}) => {
     higherOrderProfileName = activeProfile!.name;
     // :remove-end:
   };
-  // :replace-end:
 
   // ... rest of component
 
@@ -115,13 +103,12 @@ const RestOfApp: React.FC<RestOfAppProps> = ({objectPrimaryKey}) => {
 
 beforeEach(async () => {
   const realm = await Realm.open(realmConfig);
-  const id = new Realm.BSON.ObjectId();
 
   realm.write(() => {
     // Create a profile object.
     realm.create('Profile', {
       name: 'TestProfile',
-      _id: id,
+      _id: YOUR_PRIMARY_KEY,
     });
 
     realm.create('Profile', {
@@ -131,7 +118,6 @@ beforeEach(async () => {
 
   });
 
-  primaryKey = id;
   higherOrderProfileName = 'TestProfile';
 
   realm.close();
