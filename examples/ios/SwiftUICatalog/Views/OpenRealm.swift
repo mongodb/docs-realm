@@ -55,12 +55,10 @@ struct OpenPartitionBasedSyncRealmView: View {
 // :snippet-start: open-realm-view-flex-sync
 /// This view opens a synced realm.
 struct OpenFlexibleSyncRealmView: View {
-    // :snippet-start: flex-sync-property-wrapper
     // We've injected a `flexibleSyncConfiguration` as an environment value,
     // so `@AsyncOpen` here opens a realm using that configuration.
     // :snippet-start: fs-property-wrapper-sans-config-comment
     @AsyncOpen(appId: flexibleSyncAppId, timeout: 4000) var asyncOpen
-    // :snippet-end:
     // :snippet-end:
     
     var body: some View {

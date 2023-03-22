@@ -9,15 +9,7 @@ import SwiftUI
 
 let APP_SERVICES_APP_ID_HERE = "example-testers-kvjdy"
 
-// :snippet-start: mongodb-realm
-// MARK: Atlas App Services (Optional)
-
-// The Atlas App Services app. Change YOUR_APP_SERVICES_APP_ID_HERE to your App Services app ID.
-// If you don't have an App Services app and don't wish to use Sync for now,
-// you can change this to:
-//   let app: RealmSwift.App? = nil
 let partitionBasedSyncApp: RealmSwift.App? = RealmSwift.App(id: APP_SERVICES_APP_ID_HERE)
-// :snippet-end:
 
 let flexibleSyncApp: RealmSwift.App? = RealmSwift.App(id: "swift-flexible-vkljj")
 
@@ -40,8 +32,6 @@ struct SwiftUICatalogApp: SwiftUI.App {
         "OpenFSRealm": { AnyView(OpenFlexibleSyncRealmView()) },
         "OpenPBSRealm": { AnyView(OpenPartitionBasedSyncRealmView()) },
         "PassRealmObjects": { AnyView(SetUpDogsView()) },
-        "PBSContentView": { AnyView(PartitionBasedSyncContentView(thisApp: partitionBasedSyncApp!))},
-        "PBSOrLocalRealm": { AnyView(PartitionBasedSyncOrLocalRealmView()) },
         "ProfileView": { AnyView(ProfileView(profile: personProfile.first!)) },
         "SearchableDogsView": { AnyView(SearchableDogsView().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs)) },
         "SectionedResultsList": { AnyView(SectionedDogsView().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs))},
