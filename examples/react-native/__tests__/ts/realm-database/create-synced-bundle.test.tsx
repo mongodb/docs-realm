@@ -1,5 +1,5 @@
 // TODO: to be fully implemented in DOCSP-28176
-// :snippet-start: create-bundle
+// :not-snippet-start: create-bundle
 import Realm from 'realm';
 import Cat from '../Models/Cat';
 
@@ -54,7 +54,7 @@ async function createSyncedBundle() {
 // :uncomment-start:
 // createSyncedBundle();
 // :uncomment-end:
-// :snippet-end:
+// :not-snippet-end:
 const app = new Realm.App(APP_ID);
 beforeEach(async () => {
   Realm.deleteFile(higherScopedConfig1);
