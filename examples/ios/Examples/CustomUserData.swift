@@ -28,12 +28,12 @@ class CustomUserData: XCTestCase {
                     switch result {
                     case .failure(let error):
                         print("Failed to insert document: \(error.localizedDescription)")
-                        // :remove-start:
-                        XCTAssertEqual(error.localizedDescription, "no rule exists for namespace 'my_database.users'")
-                        expectation.fulfill()
-                        // :remove-end:
                     case .success(let newObjectId):
                         print("Inserted custom user data document with object ID: \(newObjectId)")
+                        // :remove-start:
+                        XCTAssertNotNil(newObjectId)
+                        expectation.fulfill()
+                        // :remove-end:
                     }
                 }
             }
@@ -101,14 +101,14 @@ class CustomUserData: XCTestCase {
                     switch result {
                     case .failure(let error):
                         print("Failed to update: \(error.localizedDescription)")
-                        // :remove-start:
-                        XCTAssertEqual(error.localizedDescription, "no rule exists for namespace 'my_database.users'")
-                        expectation.fulfill()
-                        // :remove-end:
                         return
                     case .success(let updateResult):
                         // User document updated.
                         print("Matched: \(updateResult.matchedCount), updated: \(updateResult.modifiedCount)")
+                        // :remove-start:
+                        XCTAssertEqual(updateResult.matchedCount, 1)
+                        expectation.fulfill()
+                        // :remove-end:
                     }
                 }
             }
