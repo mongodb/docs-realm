@@ -31,6 +31,7 @@ class CustomUserData: XCTestCase {
                     case .success(let newObjectId):
                         print("Inserted custom user data document with object ID: \(newObjectId)")
                         // :remove-start:
+                        XCTAssertNotNil(newObjectId)
                         expectation.fulfill()
                         // :remove-end:
                     }
