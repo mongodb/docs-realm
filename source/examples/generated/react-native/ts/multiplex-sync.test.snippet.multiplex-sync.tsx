@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
+import {Context} from '../RealmConfig';
 import {AppProvider, UserProvider, useUser, useApp, Realm} from '@realm/react';
 function AppWrapper() {
   return (
@@ -19,10 +19,7 @@ type RealmWrapperProps = {
 
 function RealmWrapper({children}: RealmWrapperProps) {
   const app = useApp();
-
-  useEffect(() => {
-    Realm.App.Sync.enableSessionMultiplexing(app);
-  }, []);
+  Realm.App.Sync.enableSessionMultiplexing(app);
 
   return <RealmProvider sync={{flexible: true}}>{children}</RealmProvider>;
 }

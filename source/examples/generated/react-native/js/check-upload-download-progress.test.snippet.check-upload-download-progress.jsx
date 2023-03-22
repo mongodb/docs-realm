@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 import {Text} from 'react-native';
@@ -19,8 +19,8 @@ function CheckUploadProgress() {
 
     // Listen for changes to connection state
     realm.syncSession?.addProgressNotification(
-      'upload',
-      'reportIndefinitely',
+      Realm.ProgressDirection.Upload,
+      Realm.ProgressMode.ReportIndefinitely,
       progressNotificationCallback,
     );
 

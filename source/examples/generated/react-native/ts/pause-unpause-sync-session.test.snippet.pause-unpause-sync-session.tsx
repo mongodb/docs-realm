@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 
 function ToggleSyncSession() {
   const realm = useRealm();

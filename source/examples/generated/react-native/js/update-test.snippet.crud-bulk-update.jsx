@@ -16,7 +16,11 @@ const TaskDashboard = () => {
           {task.name} has {task.progressMinutes} minutes progressed
         </Text>;
       })}
-      <Button onPress={resetProgressOnAllTasks} title='Reset Progress' />
+      <Button
+        onPress={resetProgressOnAllTasks}
+        title='Reset Progress'
+       
+      />
     </>
   );
 };

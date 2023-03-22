@@ -10,3 +10,4 @@ class Person extends Realm.Object<Person> {
     },
   };
 }
+

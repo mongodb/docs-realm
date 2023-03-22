@@ -1,6 +1,8 @@
 const HomeInfo = ({homeOwnerName}) => {
   const realm = useRealm();
-  const homeOwner = useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
+  const homeOwner = useQuery(HomeOwner).filtered(
+    `name == '${homeOwnerName}'`,
+  )[0];
 
   const deleteExtraHomeInfo = () => {
     realm.write(() => {
@@ -13,7 +15,11 @@ const HomeInfo = ({homeOwnerName}) => {
     <View>
       <Text>{homeOwner.name}</Text>
       <Text>{homeOwner.home.address}</Text>
-      <Button onPress={deleteExtraHomeInfo} title='Delete extra home info' />
+      <Button
+        onPress={deleteExtraHomeInfo}
+        title='Delete extra home info'
+       
+      />
     </View>
   );
 };

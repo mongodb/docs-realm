@@ -7,12 +7,11 @@ const {useRealm, useQuery} = RealmContext;
 
 function SubscriptionManager() {
   const realm = useRealm();
-  const seenBirds = useQuery('Bird').filtered('haveSeen == true');
 
   useEffect(() => {
-    realm.subscriptions.update(mutableSubs => {
+    realm.subscriptions.update((mutableSubs, realm) => {
       // Create subscription for filtered results.
-      mutableSubs.add(seenBirds);
+      mutableSubs.add(realm.objects('Bird').filtered('haveSeen == true'));
     });
   });
 

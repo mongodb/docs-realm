@@ -15,7 +15,11 @@ const TaskItem = ({_id}) => {
         <Text>Task: {myTask.name}</Text>
         <Text>Progress made (in minutes):</Text>
         <Text>{myTask.progressMinutes}</Text>
-        <Button onPress={() => incrementTaskProgress()} title='Increment Task Progress' />
+        <Button
+          onPress={() => incrementTaskProgress()}
+          title='Increment Task Progress'
+         
+        />
       </>
     );
   } else {

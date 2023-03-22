@@ -11,6 +11,7 @@ const config: Realm.Configuration = {
   schema: [Cat.schema],
   // Add encryption key to realm configuration
   encryptionKey: key,
+  path: Date.now().toString() + '.realm', // :remove
 };
 
 const {RealmProvider, useQuery} = createRealmContext(config);

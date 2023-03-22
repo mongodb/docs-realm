@@ -5,5 +5,5 @@ import Business from './Models/Business';
 
 export const RealmContext = createRealmContext({
   // Pass all of your models into the schema value.
-  schema: [Invoice, Business],
+  schema: [Business, Address],
 });

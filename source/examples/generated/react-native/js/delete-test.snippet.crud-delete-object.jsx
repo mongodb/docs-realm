@@ -13,7 +13,11 @@ const DogList = () => {
         return (
           <>
             <Text>{dog.name}</Text>
-            <Button onPress={() => deleteDog(dog)} title='Delete Dog' />
+            <Button
+              onPress={() => deleteDog(dog)}
+              title='Delete Dog'
+             
+            />
           </>
         );
       })}

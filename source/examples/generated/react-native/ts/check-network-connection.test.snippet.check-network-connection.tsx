@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 import {Text} from 'react-native';
 
 function CheckNetworkConnection() {

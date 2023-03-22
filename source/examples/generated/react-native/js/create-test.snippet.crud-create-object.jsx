@@ -11,7 +11,11 @@ const CreateDogInput = () => {
   return (
     <>
       <TextInput onChangeText={setDogName} value={dogName} />
-      <Button onPress={() => handleAddDog()} title='Add Dog' />
+      <Button
+        onPress={() => handleAddDog()}
+        title='Add Dog'
+       
+      />
     </>
   );
 };
