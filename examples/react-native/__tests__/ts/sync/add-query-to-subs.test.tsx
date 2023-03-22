@@ -47,19 +47,22 @@ function AppWrapper() {
 }
 // :remove-end:
 
-const {useRealm, useQuery} = SubscriptionRealmContext;
+const {useRealm} = SubscriptionRealmContext;
 
 function SubscriptionManager() {
   const realm = useRealm();
-
-  // Pass object model to useQuery and filter results.
-  // This does not create a subscription.
   const seenBirds = realm.objects('Bird').filtered('haveSeen == true');
 
   useEffect(() => {
-    realm.subscriptions.update(mutableSubs => {
+    realm.subscriptions.update((mutableSubs, realm) => {
+      mutableSubs.removeAll(); // :remove:
+      // Create subscription query
+      const seenBirdsSubQuery = realm
+        .objects('Bird')
+        .filtered('haveSeen == true');
+
       // Create subscription for filtered results.
-      mutableSubs.add(seenBirds, {name: 'seenBirds'});
+      mutableSubs.add(seenBirdsSubQuery, {name: 'seenBirds'});
     });
     numSubs = realm.subscriptions.length; // :remove:
   });

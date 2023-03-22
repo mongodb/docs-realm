@@ -110,8 +110,9 @@ function CheckNetworkConnection() {
 // :snippet-end:
 
 test('Test connection state', async () => {
-  render(<AppWrapper />);
-  await waitFor(() => {
+  const {getByText} = render(<AppWrapper />);
+  await waitFor(async () => {
+    await getByText('Connected to Network');
     higherScopedRealm.syncSession?.pause();
     higherScopedRealm.syncSession?.resume();
   });

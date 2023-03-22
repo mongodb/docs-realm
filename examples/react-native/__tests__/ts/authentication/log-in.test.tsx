@@ -61,8 +61,13 @@ afterEach(async () => await Realm.App.getApp(APP_ID).currentUser?.logOut());
 
 test('Log in user', async () => {
   const {getByTestId} = render(<AppWrapper />);
-  const button = await waitFor(() => getByTestId(testId));
-  fireEvent.press(button);
+  await waitFor(
+    async () => {
+      const button = await getByTestId(testId);
+      fireEvent.press(button);
+    },
+    {timeout: 1000},
+  );
   await waitFor(() => {
     expect(restOfAppRendered).toBe(true);
     expect(higherScopedUser).toBeInstanceOf(Realm.User);

@@ -27,10 +27,7 @@ type RealmWrapperProps = {
 
 function RealmWrapper({children}: RealmWrapperProps) {
   const app = useApp();
-
-  useEffect(() => {
-    Realm.App.Sync.enableSessionMultiplexing(app);
-  }, []);
+  Realm.App.Sync.enableSessionMultiplexing(app);
 
   return <RealmProvider sync={{flexible: true}}>{children}</RealmProvider>;
 }

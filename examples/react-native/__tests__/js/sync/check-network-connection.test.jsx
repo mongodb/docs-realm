@@ -1,11 +1,11 @@
 // :snippet-start: check-network-connection
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 import {Text} from 'react-native';
 // :remove-start:
 const {RealmProvider} = SyncedRealmContext;
-import {AppProvider, UserProvider, useUser} from '@realm/react';
+import {AppProvider, UserProvider} from '@realm/react';
 import Realm from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
@@ -105,10 +105,11 @@ function CheckNetworkConnection() {
 // :snippet-end:
 
 test('Test connection state', async () => {
-  render(<AppWrapper />);
-  await waitFor(() => {
-    higherScopedRealm?.syncSession?.pause();
-    higherScopedRealm?.syncSession?.resume();
+  const {getByText} = render(<AppWrapper />);
+  await waitFor(async () => {
+    await getByText('Connected to Network');
+    higherScopedRealm.syncSession?.pause();
+    higherScopedRealm.syncSession?.resume();
   });
   await promise.then(res => {
     expect(higherScopedConnectionStates).toStrictEqual([
