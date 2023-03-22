@@ -1,4 +1,5 @@
-auto token = todo.observe([&](auto&& change) {
+auto token = todo.observe([&](auto &&change)
+                          {
     try {
         if (change.error) {
             rethrow_exception(change.error);
@@ -12,5 +13,4 @@ auto token = todo.observe([&](auto&& change) {
         }
     } catch (std::exception const& e) {
         std::cerr << "Error: " << e.what() << "\n";
-    }
-});
+    } });

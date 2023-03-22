@@ -1,4 +1,5 @@
-struct Company : realm::object<Company> {
+struct Company : realm::object<Company>
+{
     realm::persisted<int64_t> _id;
     realm::persisted<std::string> name;
     // To-many relationships are a list, represented here as a
@@ -7,7 +8,7 @@ struct Company : realm::object<Company> {
     realm::persisted<std::vector<Employee>> employees;
 
     static constexpr auto schema = realm::schema("Company",
-        realm::property<&Company::_id, true>("_id"),
-        realm::property<&Company::name>("name"),
-        realm::property<&Company::employees>("employees"));
+                                                 realm::property<&Company::_id, true>("_id"),
+                                                 realm::property<&Company::name>("name"),
+                                                 realm::property<&Company::employees>("employees"));
 };

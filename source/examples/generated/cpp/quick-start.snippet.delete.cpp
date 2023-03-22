@@ -1,3 +1,2 @@
-realm.write([&realm, &todo] {
-    realm.remove(todo);
-});
+realm.write([&realm, &todo]
+            { realm.remove(todo); });

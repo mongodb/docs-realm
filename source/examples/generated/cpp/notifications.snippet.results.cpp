@@ -1,7 +1,8 @@
 // Get a results collection to observe
 auto dogs = realm.objects<Dog>();
 //  Set up the listener & observe results notifications.
-auto token = dogs.observe([&](auto&& changes) {
+auto token = dogs.observe([&](auto &&changes)
+                          {
     try {
         if (changes.collection_root_was_deleted) {
             std::cout << "The collection was deleted.\n";
@@ -19,19 +20,17 @@ auto token = dogs.observe([&](auto&& changes) {
         }
     } catch (std::exception const& e) {
         std::cerr << "Error: " << e.what() << "\n";
-    }
-});
+    } });
 
 // Delete and then add an object to see deletions and insertions.
-realm.write([&dog1, &dog2, &realm] {
+realm.write([&dog1, &dog2, &realm]
+            {
     realm.remove(dog1);
-    realm.add(dog2);
-});
+    realm.add(dog2); });
 
 // Modify an object to see a modification.
-realm.write([&dog2, &realm] {
-    dog2.age = 2;
-});
+realm.write([&dog2, &realm]
+            { dog2.age = 2; });
 
 // Refresh the realm after the change to trigger the notification.
 realm.refresh();

@@ -1,14 +1,14 @@
 auto realm = realm::open<Person, Dog>();
 
-auto dog = Dog { .name = "Max" };
+auto dog = Dog{.name = "Max"};
 
 // Create an object in the realm.
-realm.write([&realm, &dog] {
-    realm.add(dog);
-});
+realm.write([&realm, &dog]
+            { realm.add(dog); });
 
 //  Set up the listener & observe object notifications.
-auto token = dog.observe([&](auto&& change) {
+auto token = dog.observe([&](auto &&change)
+                         {
     try {
         if (change.error) {
             rethrow_exception(change.error);
@@ -24,18 +24,15 @@ auto token = dog.observe([&](auto&& change) {
         }
     } catch (std::exception const& e) {
         std::cerr << "Error: " << e.what() << "\n";
-    }
-});
+    } });
 
 // Update the dog's name to see the effect.
-realm.write([&dog, &realm] {
-    dog.name = "Wolfie";
-});
+realm.write([&dog, &realm]
+            { dog.name = "Wolfie"; });
 
 // Deleting the object triggers a delete notification.
-realm.write([&dog, &realm] {
-    realm.remove(dog);
-});
+realm.write([&dog, &realm]
+            { realm.remove(dog); });
 // Refresh the realm after the change to trigger the notification.
 realm.refresh();
 

@@ -1,10 +1,10 @@
 #include <catch2/catch_test_macros.hpp>
 #include <string>
-#include "testHelpers.hpp"
 #include <cpprealm/sdk.hpp>
 
 // :snippet-start: models
-struct Item : realm::object<Item> {
+struct Item : realm::object<Item>
+{
     realm::persisted<std::string> name;
     realm::persisted<bool> isComplete;
     realm::persisted<std::optional<std::string>> assignee;
@@ -12,44 +12,43 @@ struct Item : realm::object<Item> {
     realm::persisted<int64_t> progressMinutes;
 
     static constexpr auto schema = realm::schema("Item",
-        realm::property<&Item::name>("name"),
-        realm::property<&Item::isComplete>("isComplete"),
-        realm::property<&Item::assignee>("assignee"),
-        realm::property<&Item::priority>("priority"),
-        realm::property<&Item::progressMinutes>("progressMinutes"));
+                                                 realm::property<&Item::name>("name"),
+                                                 realm::property<&Item::isComplete>("isComplete"),
+                                                 realm::property<&Item::assignee>("assignee"),
+                                                 realm::property<&Item::priority>("priority"),
+                                                 realm::property<&Item::progressMinutes>("progressMinutes"));
 };
 
-struct Project : realm::object<Project> {
+struct Project : realm::object<Project>
+{
     realm::persisted<std::string> name;
     realm::persisted<std::vector<Item>> items;
 
     static constexpr auto schema = realm::schema("Project",
-        realm::property<&Project::name>("name"),
-        realm::property<&Project::items>("items"));
+                                                 realm::property<&Project::name>("name"),
+                                                 realm::property<&Project::items>("items"));
 };
 // :snippet-end:
 
-TEST_CASE("set up tests", "[write]") {
+TEST_CASE("set up tests", "[write]")
+{
     // :snippet-start: set-up-filter-data-tests
     auto realm = realm::open<Project, Item>();
 
-    auto item1 = Item {
+    auto item1 = Item{
         .name = "Save the cheerleader",
         .assignee = std::string("Peter"),
         .isComplete = false,
         .priority = 6,
-        .progressMinutes = 30
-    };
+        .progressMinutes = 30};
 
-    auto project = Project {
-        .name = "New project"
-    };
+    auto project = Project{
+        .name = "New project"};
 
     project.items.push_back(item1);
 
-    realm.write([&project, &realm] {
-        realm.add(project);
-    });
+    realm.write([&project, &realm]
+                { realm.add(project); });
 
     auto items = realm.objects<Item>();
     auto projects = realm.objects<Project>();
@@ -62,21 +61,17 @@ TEST_CASE("set up tests", "[write]") {
     CHECK(projects.size() >= 1);
 
     // :snippet-start: comparison-operators
-    auto highPriorityItems = items.where([](auto const& item) {
-        return item.priority > 5;
-    });
+    auto highPriorityItems = items.where([](auto const &item)
+                                         { return item.priority > 5; });
 
-    auto quickItems = items.where([](auto const& item) {
-        return item.progressMinutes > 1 && item.progressMinutes < 30;
-    });
+    auto quickItems = items.where([](auto const &item)
+                                  { return item.progressMinutes > 1 && item.progressMinutes < 30; });
 
-    auto unassignedItems = items.where([](auto const& item) {
-        return item.assignee == std::nullopt;
-    });
+    auto unassignedItems = items.where([](auto const &item)
+                                       { return item.assignee == std::nullopt; });
 
-    auto aliOrJamieItems = items.where([](auto const& item) {
-        return item.assignee == std::string("Ali") || item.assignee == std::string("Jamie");
-    });
+    auto aliOrJamieItems = items.where([](auto const &item)
+                                       { return item.assignee == std::string("Ali") || item.assignee == std::string("Jamie"); });
     // :snippet-end:
 
     CHECK(highPriorityItems.size() >= 1);
@@ -85,20 +80,17 @@ TEST_CASE("set up tests", "[write]") {
     CHECK(aliOrJamieItems.size() == 0);
 
     // :snippet-start: logical-operators
-    auto completedItemsForAli = items.where([](auto const& item) {
-        return item.assignee == std::string("Ali") && item.isComplete == true;
-    });
+    auto completedItemsForAli = items.where([](auto const &item)
+                                            { return item.assignee == std::string("Ali") && item.isComplete == true; });
     // :snippet-end:
     CHECK(completedItemsForAli.size() == 0);
 
     // :snippet-start: string-operators
-    auto containIe = items.where([](auto const& item) {
-        return item.name.contains("ie");
-    });
+    auto containIe = items.where([](auto const &item)
+                                 { return item.name.contains("ie"); });
     // :snippet-end:
     CHECK(containIe.size() == 0);
 
-    realm.write([&project, &realm] {
-        realm.remove(project);
-    });
+    realm.write([&project, &realm]
+                { realm.remove(project); });
 }

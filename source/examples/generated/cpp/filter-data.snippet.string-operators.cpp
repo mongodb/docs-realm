@@ -1,3 +1,2 @@
-auto containIe = items.where([](auto const& item) {
-    return item.name.contains("ie");
-});
+auto containIe = items.where([](auto const &item)
+                             { return item.name.contains("ie"); });

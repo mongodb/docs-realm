@@ -1,6 +1,9 @@
-struct Employee : realm::object<Employee> {
-    enum class WorkLocation {
-        HOME, OFFICE
+struct Employee : realm::object<Employee>
+{
+    enum class WorkLocation
+    {
+        HOME,
+        OFFICE
     };
 
     realm::persisted<int64_t> _id;
@@ -9,8 +12,8 @@ struct Employee : realm::object<Employee> {
     realm::persisted<std::map<std::string, WorkLocation>> locationByDay;
 
     static constexpr auto schema = realm::schema("Employee",
-        realm::property<&Employee::_id, true>("_id"),
-        realm::property<&Employee::firstName>("firstName"),
-        realm::property<&Employee::lastName>("lastName"),
-        realm::property<&Employee::locationByDay>("locationByDay"));
+                                                 realm::property<&Employee::_id, true>("_id"),
+                                                 realm::property<&Employee::firstName>("firstName"),
+                                                 realm::property<&Employee::lastName>("lastName"),
+                                                 realm::property<&Employee::locationByDay>("locationByDay"));
 };
