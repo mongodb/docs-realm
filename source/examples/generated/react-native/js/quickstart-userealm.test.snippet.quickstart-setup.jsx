@@ -35,11 +35,10 @@ function AppWrapper() {
 function RestOfApp({objectPrimaryKey}) {
   const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
   const realm = useRealm();
-  const activeProfile = useObject(Profile, selectedProfileId);
 
-  const changeProfileName = (profile, newName) => {
+  const changeProfileName = (profileToChange, newName) => {
     realm.write(() => {
-      profile.name = newName;
+      profileToChange.name = newName;
     });
   };
 

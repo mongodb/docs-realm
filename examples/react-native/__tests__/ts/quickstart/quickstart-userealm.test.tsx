@@ -50,11 +50,10 @@ type RestOfAppProps = {
 const RestOfApp = ({objectPrimaryKey}: RestOfAppProps) => {
   const [selectedProfileId, setSelectedProfileId] = useState(objectPrimaryKey);
   const realm = useRealm();
-  const activeProfile = useObject(Profile, selectedProfileId);
 
-  const changeProfileName = (profile: Profile, newName: string) => {
+  const changeProfileName = (profileToChange: Profile, newName: string) => {
     realm.write(() => {
-      profile.name = newName;
+      profileToChange.name = newName;
     });
     // :remove-start:
     // For testing. Set the profile name to indicate profile object has changed.
@@ -66,6 +65,7 @@ const RestOfApp = ({objectPrimaryKey}: RestOfAppProps) => {
 
   // :remove-start:
   const profiles = useQuery(Profile);
+  const activeProfile = useObject(Profile, selectedProfileId);
   
   return (
     <View>
