@@ -10,18 +10,8 @@ Quick Start for Unity - .NET SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 This page contains information on how to install and integrate Realm into
 your Unity project. 
-
-.. note:: Known Issue When Developing With Unity on Windows
-
-   On Windows, if you are using Device Sync, your project may crash when running
-   multiple instances of your project since multiple processes are attempting to
-   access the same synced realm. If you are using a local realm, you are
-   able to run multiple instances of your project without crashes. 
 
 Prerequisites
 -------------
@@ -265,6 +255,13 @@ This means you cannot write data to a Realm while the player application is quit
 If you need to store some data just before the app exits, consider using the 
 `Application.wantsToQuit <https://docs.unity3d.com/ScriptReference/Application-wantsToQuit.html>`_ 
 event instead.
+
+.. note:: Known Issue When Developing With Unity on Windows
+
+   On Windows, if you are using Device Sync, your project may crash when running
+   multiple instances of your project since multiple processes are attempting to
+   access the same synced realm. If you are using a local realm, you are
+   able to run multiple instances of your project without crashes. 
 
 Additional Examples
 -------------------
