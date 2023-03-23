@@ -10,6 +10,7 @@
 
 import React from 'react';
 import {SafeAreaView, Text} from 'react-native';
+import RealmApp from './src/bundle-example';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         This is the Examples application. You probably want to run the unit
         tests. From your terminal, run "npm run test"
       </Text>
+      <RealmApp />
     </SafeAreaView>
   );
 };

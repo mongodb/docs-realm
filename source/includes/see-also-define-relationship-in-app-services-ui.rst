@@ -1,4 +1,3 @@
 .. seealso::
 
-   With Device Sync, you can also :ref:`define your relationships 
-   <define-a-relationship>` in the App Services UI.
+   Alternatively, you can :ref:`define your relationships <define-a-relationship>` in your App Services app.

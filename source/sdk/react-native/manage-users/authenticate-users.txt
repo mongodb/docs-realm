@@ -10,6 +10,48 @@ Authenticate Users - React Native SDK
    :depth: 2
    :class: singlecol
 
+The SDK provides an API for authenticating users using any enabled
+authentication provider. Instantiate a :js-sdk:`Realm.Credentials <Realm.Credentials.html>`
+object and pass it to :js-sdk:`Realm.App.logIn() <Realm.App.html#logIn>`
+to authenticate and obtain a :js-sdk:`Realm.User <Realm.User.html>` object.
+The ``Realm.Credentials`` class exposes factory methods that correspond to
+each of the authentication providers.
+
+Prerequisites
+-------------
+
+Before you can authenticate a user, you must:
+
+- :ref:`Create an App Services App <create-a-realm-app>`
+- Enable one or more :ref:`authentication providers <authentication-providers>`
+  in the App.
+- :ref:`Install the React Native SDK <react-native-install>`
+
+.. _react-native-configure-authentication:
+
+Configure User Authentication in Client
+---------------------------------------
+
+Configure user authentication with the ``@realm/react`` ``<AppProvider>``
+and ``<UserProvider>`` components and ``useApp()`` and ``useUser()`` hooks.
+
+To set up user authentication:
+
+#. Wrap all components you want to use with App Services in an ``<AppProvider>`` component.
+#. Inside of ``<AppProvider>``, wrap all components that you want to have access
+   to an authenticated user with a ``<UserProvider>`` component.
+#. In ``<UserProvider>``, include a ``fallback`` prop with another component
+   that logs a user in. The app renders this component if there
+   is no authenticated user.
+#. In the component passed to the ``<UserProvider>.fallback`` prop, authenticate a user
+   with ``Realm.App.logIn()``, which you can access with the ``useApp()`` hook.
+
+Components wrapped by ``<UserProvider>`` only render if your app has
+an authenticated user. These components can access the authenticated user
+with the ``useUser()`` hook.
+
+.. literalinclude:: /examples/generated/react-native/ts/log-in.test.snippet.log-in-user.tsx
+   :language: ts
 
 Log In
 ------
@@ -22,15 +64,11 @@ object.
 User Sessions
 ~~~~~~~~~~~~~
 
-Atlas App Services manages sessions with access tokens and refresh tokens. Client
-SDKs supply the logic to manage tokens, and provide them with requests.
+The React Native SDK communicates with Atlas App Services to manage sessions
+with access tokens and refresh tokens.
 
-For web browsers, the JavaScript SDK stores these tokens in
-`HTML5 local storage <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API>`_.
-
-.. seealso::
-
-   :ref:`<user-sessions>`
+To learn more about session management, refer to  :ref:`<user-sessions>`
+in the App Services documentation.
 
 .. _react-native-anonymous-login:
 .. _react-native-login-anonymous:
@@ -43,19 +81,8 @@ to your application with temporary accounts that have no associated information.
 
 To log in, create an anonymous credential and pass it to ``App.logIn()``:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
+   :language: javascript
 
 .. _react-native-email-password-login:
 .. _react-native-login-email-password:
@@ -70,19 +97,9 @@ password.
 To log in, create an email/password credential with the user's email address and
 password and pass it to ``App.logIn()``:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.email-password-login.js
-         :language: javascript
+.. literalinclude:: /examples/generated/node/authenticate.snippet.email-password-login.js
+   :language: javascript
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.email-password-login.ts
-         :language: typescript
 
 .. _react-native-api-key-login:
 .. _react-native-login-api-key:
@@ -96,19 +113,8 @@ server processes to access your app directly or on behalf of a user.
 To log in with an API key, create an API Key credential with a server or user
 API key and pass it to ``App.logIn()``:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.server-api-key-login.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.server-api-key-login.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/authenticate.snippet.server-api-key-login.js
+   :language: javascript
 
 .. _react-native-custom-jwt-login:
 .. _react-native-login-custom-jwt:
@@ -123,19 +129,8 @@ returns a :ref:`JSON web token <json-web-tokens>`.
 To log in, create a Custom JWT credential with a JWT from the external system
 and pass it to ``App.logIn()``:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.custom-jwt-login.js
-         :language: javascript
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.custom-jwt-login.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/authenticate.snippet.custom-jwt-login.js
+   :language: javascript
 
 .. _react-native-custom-function-login:
 .. _react-native-login-custom-function:
@@ -150,19 +145,8 @@ provider allows you to handle user authentication by running a :ref:`function
 To log in with the custom function provider, create a Custom Function credential
 with a payload object and pass it to ``App.logIn()``:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.custom-function-login.js
-         :language: javascript
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.custom-function-login.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/authenticate.snippet.custom-function-login.js
+   :language: javascript
 
 .. _react-native-facebook-login:
 .. _react-native-login-facebook:
@@ -174,7 +158,9 @@ The :ref:`Facebook <facebook-authentication>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
 account.
 
-.. include:: /includes/note-enable-facebook-auth.rst
+To log a user in with their existing Facebook account, you must configure and
+enable the :ref:`Facebook authentication provider <facebook-authentication>`
+for your App Services App.
 
 .. include:: /includes/note-facebook-profile-picture-url.rst
 
@@ -183,35 +169,16 @@ to handle the user authentication and redirect flow from a client application.
 Once authenticated, the Facebook SDK returns an access token that you can send
 to your React Native app and use to finish logging the user in to your app.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Get the access token from a client application using the Facebook SDK
-         const accessToken = getFacebookAccessToken();
+.. code-block:: javascript
 
-         // Log the user in to your app
-         const credentials = Realm.Credentials.facebook(accessToken);
-         app.logIn(credentials).then(user => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+   // Get the access token from a client application using the Facebook SDK
+   const accessToken = getFacebookAccessToken();
 
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // Get the access token from a client application using the Facebook SDK
-         const accessToken = getFacebookAccessToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.facebook(accessToken);
-         app.logIn(credentials).then((user: Realm.User) => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+   // Log the user in to your app
+   const credentials = Realm.Credentials.facebook(accessToken);
+   app.logIn(credentials).then(user => {
+   console.log(`Logged in with id: ${user.id}`);
+   });
 
 .. _react-native-google-login:
 .. _react-native-login-google:
@@ -222,11 +189,8 @@ Google User
 The :ref:`Google <google-authentication>` authentication provider allows you to
 authenticate users with their existing Google account.
 
-.. note:: Enable the Google Auth Provider
-   
-   To authenticate a Google user, you must configure the :ref:`Google
-   authentication provider <google-authentication>`.
-
+To authenticate a Google user, you must configure the :ref:`Google
+authentication provider <google-authentication>` for your App Services App.
 
 There is no official Sign in with Google integration with React Native. The simplest
 approach to integrating Sign in With Google into your React Native app
@@ -240,7 +204,7 @@ Regardless of implementation, you must retrieve an ID token from the Google Auth
 Use that ID token to log into Realm.
 
 .. code-block:: javascript
-   
+
    // Get the Google OAuth 2.0 access token
    const idToken = getGoogleAccessToken();
 
@@ -276,10 +240,8 @@ Apple User
 The :ref:`Apple <apple-id-authentication>` authentication provider allows you to
 authenticate users through Sign-in With Apple.
 
-.. note:: Enable the Apple Auth Provider
-   
-   To authenticate an Apple user, you must configure the :ref:`Apple
-   authentication provider <apple-id-authentication>`.
+To authenticate an Apple user, you must configure the :ref:`Apple
+authentication provider <apple-id-authentication>` for your App Services App.
 
 You can use the :apple:`official Sign in with Apple JS SDK
 <documentation/sign_in_with_apple/sign_in_with_apple_js>` to handle the user
@@ -287,35 +249,16 @@ authentication and redirect flow from a client application. Once authenticated,
 the Apple JS SDK returns an ID token that you can send to your React Native app and
 use to finish logging the user in to your app.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Get the access token from a client application using the Apple JS SDK
-         const idToken = getAppleIdToken();
+.. code-block:: javascript
 
-         // Log the user in to your app
-         const credentials = Realm.Credentials.apple(idToken);
-         app.logIn(credentials).then(user => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+   // Get the access token from a client application using the Apple JS SDK
+   const idToken = getAppleIdToken();
 
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // Get the access token from a client application using the Apple JS SDK
-         const idToken: string = getAppleIdToken();
-
-         // Log the user in to your app
-         const credentials = Realm.Credentials.apple(idToken);
-         app.logIn(credentials).then((user: Realm.User) => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+   // Log the user in to your app
+   const credentials = Realm.Credentials.apple(idToken);
+   app.logIn(credentials).then(user => {
+      console.log(`Logged in with id: ${user.id}`);
+   });
 
 .. include:: /includes/authorization-appleidcredential-string.rst
 
@@ -363,16 +306,5 @@ To log any user out, call the ``User.logOut()`` on their user instance.
 
 .. include:: /includes/log-out-queries-in-progress.rst
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.logout.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.logout.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/authenticate.snippet.logout.js
+   :language: javascript

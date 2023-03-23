@@ -18,11 +18,27 @@ Overview
 To define a default value, set the value of the property to an object with a
 ``type`` field and a ``default`` field.
 
-.. example::
-   
-   The following ``Car`` object schema specifies a default value of ``0`` for
-   the ``miles`` property:
- 
-   .. literalinclude:: /examples/Schemas/DefaultValues.js
-      :language: javascript
-      :emphasize-lines: 6
+Example
+~~~~~~~
+
+In the following example of a ``Car`` class, we define a ``miles`` property with
+a default value of 0.
+
+.. tabs-realm-languages::
+
+    .. tab::
+       :tabid: typescript
+
+       .. literalinclude:: /examples/generated/react-native/ts/Car.snippet.ts-car-schema.ts
+          :language: typescript
+          :emphasize-lines: 4, 11
+          :linenos:
+
+
+    .. tab::
+       :tabid: javascript
+
+       .. literalinclude:: /examples/generated/react-native/js/Car.snippet.js-car-schema.js
+          :language: javascript
+          :emphasize-lines: 7
+          :linenos:

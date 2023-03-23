@@ -18,13 +18,27 @@ To use a different property name in your code than is stored in
 Realm Database, set ``mapTo`` to the name of the property as it appears in
 your code.
 
-.. example::
-   
-   A developer opens a realm using the following ``Dog`` object schema.
-   Realm Database stores each dog's first name with the snake case
-   ``first_name`` property. The schema maps the property to ``firstName`` for
-   objects used in JavaScript code.
-   
-   .. literalinclude:: /examples/Schemas/Mapped.js
-      :language: javascript
-      :emphasize-lines: 5
+Example
+~~~~~~~
+
+In the following example of an ``Employee`` class, we remap the ``first_name``
+property to ``firstName``. 
+
+.. tabs-realm-languages::
+
+    .. tab::
+       :tabid: typescript
+
+       .. literalinclude:: /examples/generated/react-native/ts/Employee.snippet.ts-employee-schema.ts
+          :language: typescript
+          :emphasize-lines: 3, 9
+          :linenos:
+
+
+    .. tab::
+       :tabid: javascript
+
+       .. literalinclude:: /examples/generated/react-native/js/Employee.snippet.js-employee-schema.js
+          :language: javascript
+          :emphasize-lines: 6
+          :linenos:

@@ -1,0 +1,13 @@
+diff --git a/node_modules/@realm/react/dist/RealmProvider.js b/node_modules/@realm/react/dist/RealmProvider.js
+index e7b1c2a..59c4dae 100644
+--- a/node_modules/@realm/react/dist/RealmProvider.js
++++ b/node_modules/@realm/react/dist/RealmProvider.js
+@@ -92,7 +92,7 @@ export function createRealmProvider(realmConfig, RealmContext) {
+             // need to open a new Realm.
+             const shouldInitRealm = realmRef === null;
+             const initRealm = async () => {
+-                const openRealm = await Realm.open(configuration.current);
++                const openRealm = await Realm.open(configuration.current).catch(console.log);
+                 setRealm(openRealm);
+             };
+             if (shouldInitRealm) {

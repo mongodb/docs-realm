@@ -11,6 +11,10 @@ const Dog = {
 // afterAll(() => Realm.deleteFile({ path: "bundle.realm" }));
 test("create bundled realm", async () => {
   // :snippet-start: create-react-native-bundle
+  // :uncomment-start:
+  // import Realm from "realm";
+  // import { Dog } from "./schemas";
+  // :uncomment-end:
   // open realm
   const config = {
     schema: [Dog],
