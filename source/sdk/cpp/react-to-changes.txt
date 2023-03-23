@@ -35,7 +35,7 @@ objects that contain information about what fields changed, the new values
 of those fields (except on List properties), and potentially the old values 
 of the fields.
 
-.. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-property-changes.cpp
+.. literalinclude:: /examples/generated/cpp/notifications.snippet.property-changes.cpp
     :language: cpp
 
 When you make changes, :cpp-sdk:`refresh() <structrealm_1_1db.html>` the 
@@ -43,7 +43,7 @@ realm to emit a notification.
 
 .. example::
 
-   .. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-object.cpp
+   .. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
       :language: cpp
 
 .. _cpp-register-a-results-collection-change-listener:
@@ -73,7 +73,7 @@ Results collection notifications provide a :cpp-sdk:`results_change
 reports the index of the objects that are deleted, added, or modified.
 It can also notify you if the collection was deleted.
 
-.. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-results.cpp
+.. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
    :language: cpp
 
 .. _cpp-stop-watching-for-changes:
@@ -85,7 +85,7 @@ Observation stops when the token returned by an ``observe`` call becomes
 invalid. You can explicitly invalidate a token by calling its
 ``unregister()`` member function.
 
-.. literalinclude:: /examples/generated/cpp/examples.snippet.notifications-unregister.cpp
+.. literalinclude:: /examples/generated/cpp/notifications.snippet.unregister.cpp
    :language: cpp
 
 .. important:: Retain Tokens as Long as You Want to Observe

@@ -16,20 +16,20 @@ auto random_string() {
     return std::to_string(random_number());
 }
 
-auto const INSERT_APP_ID_HERE = "cpp-tester-uliix";
+static const std::string APP_ID = "cpp-tester-uliix";
 
 TEST_CASE("create and log in an email/password user", "[realm][sync]") {
     // :snippet-start: register-user
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
 
-    auto user_email = "testUser" + random_string() + "@example.com";
-    auto user_password = "password1234";
+    auto userEmail = "testUser" + random_string() + "@example.com";
+    auto userPassword = "password1234";
 
-    app.register_user(user_email, user_password).get_future().get();
+    app.register_user(userEmail, userPassword).get_future().get();
     // :snippet-end:
 
     // :snippet-start: log-user-in
-    auto user = app.login(realm::App::credentials::username_password(user_email, user_password))
+    auto user = app.login(realm::App::credentials::username_password(userEmail, userPassword))
         .get_future().get();
     // :snippet-end:
     REQUIRE(!user.access_token().empty());
@@ -42,7 +42,7 @@ TEST_CASE("create and log in an email/password user", "[realm][sync]") {
 
 TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
     // :snippet-start: anonymous-login
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
 
     auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
     // :snippet-end:
@@ -57,7 +57,7 @@ TEST_CASE("test custom function authentication", "[realm][sync]") {
     // The parameter details vary depending on how you define your custom authentication function.
     realm::bson::BsonDocument params = {{ "username", "bob" }};
 
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
 
     auto user = app.login(realm::App::credentials::function(params)).get_future().get();
     // :snippet-end:
@@ -67,7 +67,7 @@ TEST_CASE("test custom function authentication", "[realm][sync]") {
 }
 
 TEST_CASE("test get user access token", "[realm][sync]") {
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
 
     auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
 
@@ -90,7 +90,7 @@ void testAPIKeyAuthSyntax() {
     auto API_KEY = "this was tested with a valid API key when written";
 
     // :snippet-start: api-key
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
 
     auto user = app.login(realm::App::credentials::api_key(API_KEY)).get_future().get();
     // :snippet-end:
@@ -100,7 +100,7 @@ void testCustomJWTAuthSyntax() {
     // :snippet-start: custom-jwt
     auto token = "<jwt>";
 
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
 
     auto user = app.login(realm::App::credentials::custom(token)).get_future().get();
     // :snippet-end:
@@ -108,7 +108,7 @@ void testCustomJWTAuthSyntax() {
 
 void testSignInWithFacebookAuthSyntax() {
     // :snippet-start: facebook
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
 
     auto accessToken = "<token>";
 
@@ -118,7 +118,7 @@ void testSignInWithFacebookAuthSyntax() {
 
 void testSignInWithAppleAuthSyntax() {
     // :snippet-start: apple
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
 
     auto idToken = "<token>";
 
@@ -128,24 +128,24 @@ void testSignInWithAppleAuthSyntax() {
 
 void testSignInWithGoogleAuthCodeSyntax() {
     auto myAuthCode = "some auth code string";
-    auto auth_code = realm::App::credentials::auth_code{myAuthCode};
+    auto authCode = realm::App::credentials::auth_code{ myAuthCode };
 
     // :snippet-start: google-auth-code
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
     
     // The auth_code below is the user's server auth code you got from Google
-    auto user = app.login(realm::App::credentials::google(auth_code)).get_future().get();
+    auto user = app.login(realm::App::credentials::google(authCode)).get_future().get();
     // :snippet-end:
 }
 
 void testSignInWithGoogleIdTokenSyntax() {
     auto myIdToken = "some ID token string";
-    auto id_token = realm::App::credentials::id_token{myIdToken};
+    auto idToken = realm::App::credentials::id_token{ myIdToken };
 
     // :snippet-start: google-id-token
-    auto app = realm::App(INSERT_APP_ID_HERE);
+    auto app = realm::App(APP_ID);
     
     // The id_token below is the user's OpenID Connect id_token you got from the Google OAuth response
-    auto user = app.login(realm::App::credentials::google(id_token)).get_future().get();
+    auto user = app.login(realm::App::credentials::google(idToken)).get_future().get();
     // :snippet-end:
 }

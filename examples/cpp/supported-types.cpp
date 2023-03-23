@@ -2,7 +2,6 @@
 #include <chrono>
 #include <string>
 #include <vector>
-#include "testHelpers.hpp"
 #include <cpprealm/sdk.hpp>
 
 struct AllTypesObject : realm::object<AllTypesObject> { 

@@ -1,4 +1,4 @@
-auto app = realm::App(INSERT_APP_ID_HERE);
+auto app = realm::App(APP_ID);
 
 auto accessToken = "<token>";
 

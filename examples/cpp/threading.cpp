@@ -4,9 +4,6 @@
 //   }
 // }
 #include <catch2/catch_test_macros.hpp>
-#include <string>
-#include <thread>
-#include "testHelpers.hpp"
 #include <cpprealm/sdk.hpp>
 
 struct ThreadingExample_Item : realm::object<ThreadingExample_Item> {
@@ -114,4 +111,3 @@ TEST_CASE("scheduler", "[write]") {
     // :snippet-end:
 }
 // :replace-end:
-
