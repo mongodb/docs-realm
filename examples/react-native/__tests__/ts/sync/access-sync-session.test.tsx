@@ -1,9 +1,9 @@
 // :snippet-start: access-sync-session
-import React from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import React, {useEffect} from 'react';
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 // :remove-start:
-const {RealmProvider} = SyncedRealmContext;
+const {RealmProvider} = Context;
 import {AppProvider, UserProvider, useUser} from '@realm/react';
 import Realm from 'realm';
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
@@ -33,11 +33,10 @@ function RealmWrapper({children}: RealmWrapperProps) {
   return (
     <RealmProvider
       sync={{
-        user,
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {
-            subs.add(realm.objects('Invoice'));
+            subs.add(realm.objects('Profile'));
           },
         },
         onError: (_, err) => {
@@ -52,7 +51,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));

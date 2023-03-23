@@ -74,7 +74,7 @@ describe('relationships tests', () => {
       });
       user3.posts.push(post5);
       user3.posts.push(post6);
-    })
+    });
   });
 
   afterAll(() => {
@@ -116,8 +116,12 @@ describe('relationships tests', () => {
     const {getByTestId} = render(<App />);
 
     await waitFor(() => {
-      expect(getByTestId('postTitle')).toHaveTextContent('Post title: My First Post');
-      expect(getByTestId('userName')).toHaveTextContent('Post created by: John Doe');
+      expect(getByTestId('postTitle')).toHaveTextContent(
+        'Post title: My First Post',
+      );
+      expect(getByTestId('userName')).toHaveTextContent(
+        'Post created by: John Doe',
+      );
     });
   });
 
@@ -132,7 +136,9 @@ describe('relationships tests', () => {
     const PostsByYoungUsers = () => {
       const posts = useQuery(Post);
       const postsByYoungUsers = useMemo(() => {
-        return posts.filtered('@links.User.posts.birthdate >= 2000-01-01@00:00:00:0');
+        return posts.filtered(
+          '@links.User.posts.birthdate >= 2000-01-01@00:00:00:0',
+        );
       }, [posts]);
 
       if (!posts) return <Text>The post was not found.</Text>;
@@ -159,8 +165,12 @@ describe('relationships tests', () => {
     const {getByTestId} = render(<App />);
 
     await waitFor(() => {
-      expect(getByTestId('Post 0')).toHaveTextContent('I am not a child but I am not old either');
-      expect(getByTestId('Post 1')).toHaveTextContent('My favorite food is pizza');
+      expect(getByTestId('Post 0')).toHaveTextContent(
+        'I am not a child but I am not old either',
+      );
+      expect(getByTestId('Post 1')).toHaveTextContent(
+        'My favorite food is pizza',
+      );
     });
   });
 });

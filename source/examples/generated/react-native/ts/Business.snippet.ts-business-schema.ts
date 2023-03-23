@@ -2,7 +2,6 @@ class Business extends Realm.Object {
   _id!: string;
   name!: string;
   addresses!: Realm.List<Address>;
-  
   static schema = {
     name: "Business",
     primaryKey: "_id",

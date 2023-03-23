@@ -1,6 +1,6 @@
-import React from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import React, {useEffect} from 'react';
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 
 function AccessSyncSession() {
   const realm = useRealm();

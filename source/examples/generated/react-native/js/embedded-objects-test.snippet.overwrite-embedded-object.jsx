@@ -22,11 +22,26 @@ const OverwriteContact = ({contactName}) => {
     <View>
       <Text>{contact.name}</Text>
       <Text>Enter the new address:</Text>
-      <TextInput value={street} onChangeText={setStreet} placeholder='Street' />
+      <TextInput
+        value={street}
+        onChangeText={setStreet}
+        placeholder='Street'
+      />
       <TextInput value={city} onChangeText={setCity} placeholder='City' />
-      <TextInput value={country} onChangeText={setCountry} placeholder='Country' />
-      <TextInput value={postalCode} onChangeText={setPostalCode} placeholder='Postal Code' />
-      <Button onPress={updateAddress} title='Overwrite Address' />
+      <TextInput
+        value={country}
+        onChangeText={setCountry}
+        placeholder='Country'
+      />
+      <TextInput
+        value={postalCode}
+        onChangeText={setPostalCode}
+        placeholder='Postal Code'
+      />
+      <Button
+        onPress={updateAddress}
+        title='Overwrite Address'
+      />
     </View>
   );
 };

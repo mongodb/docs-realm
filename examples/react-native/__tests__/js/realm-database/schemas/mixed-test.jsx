@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Cat from '../../temp/Cat';
+import Cat from '../../Models/Cat';
 
 jest.setTimeout(30000);
 
@@ -14,7 +14,7 @@ const realmConfig = {
 
 const {RealmProvider, useRealm, useQuery} = createRealmContext(realmConfig);
 
-let assertionRealm;
+let assertionRealm: Realm;
 
 describe('Mixed Tests', () => {
   beforeEach(async () => {
@@ -93,19 +93,19 @@ describe('Mixed Tests', () => {
 
     const {getAllByTestId} = render(<App />);
 
-    const catItems = await waitFor(() => getAllByTestId('catItem'), {
-      timeout: 5000,
-    });
-
     // Test that 5 Cat Items have been added to the UI,
     // and 5 matching Cat objects have been created in the assertionRealm
     // (since there was already 1 cat object 'clover' created in the beforeEach)
     // + the 4 new Cats
-    setTimeout(() => {
-      expect(catItems.length).toBe(5);
-      const cats = assertionRealm.objects(Cat);
-      expect(cats.length).toBe(5);
-    }, 5500);
+    await waitFor(
+      async () => {
+        const catItems = await getAllByTestId('catItem');
+        expect(catItems.length).toBe(5);
+        const cats = assertionRealm.objects(Cat);
+        expect(cats.length).toBe(5);
+      },
+      {timeout: 5500},
+    );
   });
   it('should query for objects with a mixed value', async () => {
     // :snippet-start: query-mixed-object
@@ -142,6 +142,8 @@ describe('Mixed Tests', () => {
     const {getByTestId} = render(<App />);
     const catBirthDate = await waitFor(() => getByTestId('catBirthDate'));
     // Expect catBirthDate in the UI to be the same value we set in the beforeEach (which is clover's birthday 'January 21, 2016')
-    expect(new Date(catBirthDate.props.children)).toStrictEqual(new Date('January 21, 2016'));
+    expect(new Date(catBirthDate.props.children)).toStrictEqual(
+      new Date('January 21, 2016'),
+    );
   });
 });

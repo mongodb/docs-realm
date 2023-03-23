@@ -1,6 +1,8 @@
 const QueryCharacterInventory = ({characterName}) => {
   const [inventoryItem, setInventoryItem] = useState('');
-  const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
+  const character = useQuery(Character).filtered(
+    `name = '${characterName}'`,
+  )[0];
 
   const queryCharacterInventory = () => {
     const characterDoesHaveItem = character.inventory.has(inventoryItem);
@@ -13,9 +15,17 @@ const QueryCharacterInventory = ({characterName}) => {
   return (
     <View>
       <Text>{character.name}</Text>
-      <Text>Total number of inventory items: {character.inventory.size}</Text>
-      <TextInput onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
-      <Button testID='queryCharacterInventoryBtn' title='Query for Inventory' onPress={queryCharacterInventory} />
+      <Text>
+        Total number of inventory items: {character.inventory.size}
+      </Text>
+      <TextInput
+        onChangeText={text => setInventoryItem(text)}
+        value={inventoryItem}
+      />
+      <Button
+        title='Query for Inventory'
+        onPress={queryCharacterInventory}
+      />
     </View>
   );
 };

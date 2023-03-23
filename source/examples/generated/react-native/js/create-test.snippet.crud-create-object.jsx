@@ -1,3 +1,4 @@
+
 const CreateDogInput = () => {
   const [dogName, setDogName] = useState('Fido');
   const realm = useRealm();
@@ -14,7 +15,6 @@ const CreateDogInput = () => {
       <Button
         onPress={() => handleAddDog()}
         title='Add Dog'
-       
       />
     </>
   );

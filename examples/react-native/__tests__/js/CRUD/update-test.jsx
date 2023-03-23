@@ -3,15 +3,16 @@ import {Button, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Person from '../temp/Person';
-import Task from '../temp/Task';
+import Person from '../Models/Person';
+import Task from '../Models/Task';
 
 const realmConfig = {
   schema: [Task, Person],
   deleteRealmIfMigrationNeeded: true,
 };
 
-const {RealmProvider, useRealm, useObject, useQuery} = createRealmContext(realmConfig);
+const {RealmProvider, useRealm, useObject, useQuery} =
+  createRealmContext(realmConfig);
 
 let assertionRealm;
 
@@ -53,8 +54,7 @@ describe('Update Data Tests', () => {
     // :snippet-start: crud-update-object
     // :replace-start: {
     //  "terms": {
-    //   " testID='progressMinutes'": "",
-    //   " testID='handleIncrementBtn'": ""
+    //   " testID='progressMinutes'": ""
     //   }
     // }
     const TaskItem = ({_id}) => {
@@ -74,7 +74,11 @@ describe('Update Data Tests', () => {
             <Text>Task: {myTask.name}</Text>
             <Text>Progress made (in minutes):</Text>
             <Text testID='progressMinutes'>{myTask.progressMinutes}</Text>
-            <Button onPress={() => incrementTaskProgress()} title='Increment Task Progress' testID='handleIncrementBtn' />
+            <Button
+              onPress={() => incrementTaskProgress()}
+              title='Increment Task Progress'
+              testID='handleIncrementBtn' // :remove:
+            />
           </>
         );
       } else {
@@ -92,8 +96,14 @@ describe('Update Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const handleIncrementBtn = await waitFor(() => getByTestId('handleIncrementBtn'), {timeout: 5000});
-    const progressMinutesText = await waitFor(() => getByTestId('progressMinutes'), {timeout: 5000});
+    const handleIncrementBtn = await waitFor(
+      () => getByTestId('handleIncrementBtn'),
+      {timeout: 5000},
+    );
+    const progressMinutesText = await waitFor(
+      () => getByTestId('progressMinutes'),
+      {timeout: 5000},
+    );
 
     const paintTask = assertionRealm.objectForPrimaryKey(Task, 92140);
 
@@ -124,12 +134,20 @@ describe('Update Data Tests', () => {
       realm.write(() => {
         // Add a new Task to the realm. Since no task with ID 1234
         // has been added yet, this adds the instance to the realm.
-        myTask = realm.create('Task', {_id: 1234, name: 'Wash the car', progressMinutes: 0}, 'modified');
+        myTask = realm.create(
+          'Task',
+          {_id: 1234, name: 'Wash the car', progressMinutes: 0},
+          'modified',
+        );
 
         // If an object exists, setting the third parameter (`updateMode`) to
         // "modified" only updates properties that have changed, resulting in
         // faster operations.
-        myTask = realm.create('Task', {_id: 1234, name: 'Wash the car', progressMinutes: 5}, 'modified');
+        myTask = realm.create(
+          'Task',
+          {_id: 1234, name: 'Wash the car', progressMinutes: 5},
+          'modified',
+        );
       });
       return (
         <>
@@ -149,7 +167,10 @@ describe('Update Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const progressMinutesText = await waitFor(() => getByTestId('progressMinutes'), {timeout: 5000});
+    const progressMinutesText = await waitFor(
+      () => getByTestId('progressMinutes'),
+      {timeout: 5000},
+    );
     const carWashTask = assertionRealm.objectForPrimaryKey(Task, 1234);
 
     // Test that the the 'Wash the car' task was upserted, and progressMinutesText is now displaying 5 minutes progressed
@@ -159,11 +180,6 @@ describe('Update Data Tests', () => {
 
   it('should bulk update an object', async () => {
     // :snippet-start: crud-bulk-update
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='resetProgressOnAllTasksBtn'": ""
-    //   }
-    // }
     const TaskDashboard = () => {
       const realm = useRealm();
       const tasks = useQuery(Task);
@@ -182,11 +198,14 @@ describe('Update Data Tests', () => {
               {task.name} has {task.progressMinutes} minutes progressed
             </Text>;
           })}
-          <Button onPress={resetProgressOnAllTasks} title='Reset Progress' testID='resetProgressOnAllTasksBtn' />
+          <Button
+            onPress={resetProgressOnAllTasks}
+            title='Reset Progress'
+            testID='resetProgressOnAllTasksBtn' // :remove:
+          />
         </>
       );
     };
-    // :replace-end:
     // :snippet-end:
 
     const App = () => (
@@ -196,7 +215,10 @@ describe('Update Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const resetProgressOnAllTasksBtn = await waitFor(() => getByTestId('resetProgressOnAllTasksBtn'), {timeout: 5000});
+    const resetProgressOnAllTasksBtn = await waitFor(
+      () => getByTestId('resetProgressOnAllTasksBtn'),
+      {timeout: 5000},
+    );
 
     await act(async () => {
       fireEvent.press(resetProgressOnAllTasksBtn);

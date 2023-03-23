@@ -38,12 +38,6 @@ describe('uuid schema', () => {
 
   it('should be able to create a new uuid', async () => {
     // :snippet-start: create-uuid-object
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='nameInput'": "",
-    //   " testID='createProfileButton'": ""
-    //   }
-    // }
     const CreateProfileInput = () => {
       const realm = useRealm();
       const [name, setName] = useState('');
@@ -59,11 +53,18 @@ describe('uuid schema', () => {
       };
       return (
         <View>
-          <TextInput testID='nameInput' placeholder='Name' onChangeText={setName} />
-          <Button testID='createProfileButton' title='Create Profile' onPress={createProfile} />
+          <TextInput
+            testID='nameInput' // :remove:
+            placeholder='Name'
+            onChangeText={setName}
+          />
+          <Button
+            testID='createProfileButton' // :remove:
+            title='Create Profile'
+            onPress={createProfile}
+          />
         </View>
       );
-      // :replace-end:
       // :snippet-end:
     };
     const App = () => (
@@ -78,7 +79,10 @@ describe('uuid schema', () => {
     const nameInput = await waitFor(() => getByTestId('nameInput'), {
       timeout: 5000,
     });
-    const createProfileButton = await waitFor(() => getByTestId('createProfileButton'), {timeout: 5000});
+    const createProfileButton = await waitFor(
+      () => getByTestId('createProfileButton'),
+      {timeout: 5000},
+    );
 
     await act(() => {
       fireEvent.changeText(nameInput, 'Steve Rogers');

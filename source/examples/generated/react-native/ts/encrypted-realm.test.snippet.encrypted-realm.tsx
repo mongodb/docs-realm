@@ -11,6 +11,7 @@ const config: Realm.Configuration = {
   schema: [Cat.schema],
   // Add encryption key to realm configuration
   encryptionKey: key,
+  path: Date.now().toString() + '.realm', // :remove
 };
 
 const {RealmProvider, useQuery} = createRealmContext(config);
@@ -23,7 +24,7 @@ function App() {
   );
 }
 
-// Work work realm as normal once it's been opened.
+// Work with realm as normal once it's been opened.
 function ListCats() {
   const cats = useQuery<Cat>('Cat');
   return (

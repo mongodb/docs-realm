@@ -3,8 +3,8 @@ import {Button, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Dog from '../temp/Dog';
-import Person from '../temp/Person';
+import Dog from '../Models/Dog';
+import Person from '../Models/Person';
 
 const realmConfig = {
   schema: [Dog, Person],
@@ -34,11 +34,6 @@ describe('Delete Data Tests', () => {
   });
   it('should delete an object', async () => {
     // :snippet-start: crud-delete-object
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='deleteDog'": ""
-    //   }
-    // }
     const DogList = () => {
       const realm = useRealm();
       const myDogs = useQuery(Dog);
@@ -54,14 +49,17 @@ describe('Delete Data Tests', () => {
             return (
               <>
                 <Text>{dog.name}</Text>
-                <Button onPress={() => deleteDog(dog)} title='Delete Dog' testID='deleteDog' />
+                <Button
+                  onPress={() => deleteDog(dog)}
+                  title='Delete Dog'
+                  testID='deleteDog' // :remove:
+                />
               </>
             );
           })}
         </>
       );
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
@@ -90,7 +88,7 @@ describe('Delete Data Tests', () => {
     //  "terms": {
     //   " testID='dogItem'": ""
     //   }
-    // }
+    //  }
     const DogList = () => {
       const realm = useRealm();
       const myDogs = useQuery(Dog);
@@ -116,8 +114,16 @@ describe('Delete Data Tests', () => {
               </>
             );
           })}
-          <Button onPress={() => deleteAllYoungDogObjects()} title='Delete Young Dog Objects' testID='deleteYoungDogs' />
-          <Button onPress={() => deleteAllDogObjects()} title='Delete All Dog Objects' testID='deleteAllDogs' />
+          <Button
+            onPress={() => deleteAllYoungDogObjects()}
+            title='Delete Young Dog Objects'
+            testID='deleteYoungDogs' // :remove:
+          />
+          <Button
+            onPress={() => deleteAllDogObjects()}
+            title='Delete All Dog Objects'
+            testID='deleteAllDogs' // :remove:
+          />
         </>
       );
     };
@@ -130,10 +136,18 @@ describe('Delete Data Tests', () => {
     );
     const {getByTestId, getAllByTestId} = render(<App />);
 
-    await waitFor(() => getAllByTestId('dogItem'), {timeout: 5000}); // even though we don't use this as variable, react-native-testing-library requires us to waitFor() this to avoid the following error: "Unable to find an element with testID: dogItem"
+    // even though we don't use this as variable, react-native-testing-library
+    // requires us to waitFor() this to avoid the following error:
+    // "Unable to find an element with testID: dogItem"
+    await waitFor(() => getAllByTestId('dogItem'), {timeout: 5000});
 
-    // Test that the young Dog objects (Bronson, Bowie) have been deleted from the realm + from the UI when the "Delete All Dog Objects" is pressed, leaving 1 dog object (Blaise) remaining
-    const deleteYoungDogsBtn = await waitFor(() => getByTestId('deleteYoungDogs'), {timeout: 5000});
+    // Test that the young Dog objects (Bronson, Bowie) have been deleted
+    // from the realm + from the UI when the "Delete All Dog Objects" is pressed,
+    // leaving 1 dog object (Blaise) remaining
+    const deleteYoungDogsBtn = await waitFor(
+      () => getByTestId('deleteYoungDogs'),
+      {timeout: 5000},
+    );
     await act(async () => {
       fireEvent.press(deleteYoungDogsBtn);
     });
@@ -151,11 +165,6 @@ describe('Delete Data Tests', () => {
   });
   it('should delete all objects', async () => {
     // :snippet-start: crud-delete-all-objects
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='deleteAllData'": ""
-    //   }
-    // }
     const DeleteProfileSettingsScreen = () => {
       const realm = useRealm();
 
@@ -168,11 +177,14 @@ describe('Delete Data Tests', () => {
       return (
         <>
           <Text>Delete all data in your profile:</Text>
-          <Button onPress={deleteAllData} title='Delete all data' testID='deleteAllData' />
+          <Button
+            onPress={deleteAllData}
+            title='Delete all data'
+            testID='deleteAllData' // :remove:
+          />
         </>
       );
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>

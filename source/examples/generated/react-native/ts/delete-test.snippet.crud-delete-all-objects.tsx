@@ -13,7 +13,6 @@ const DeleteProfileSettingsScreen = () => {
       <Button
         onPress={deleteAllData}
         title='Delete all data'
-       
       />
     </>
   );

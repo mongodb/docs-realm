@@ -1,7 +1,9 @@
 const AddInventoryToCharacter = ({characterName}) => {
   const realm = useRealm();
   const [inventoryItem, setInventoryItem] = useState('');
-  const character = useQuery(Character).filtered(`name = '${characterName}'`)[0];
+  const character = useQuery(Character).filtered(
+    `name = '${characterName}'`,
+  )[0];
 
   const addInventoryItem = () => {
     realm.write(() => {
@@ -11,8 +13,14 @@ const AddInventoryToCharacter = ({characterName}) => {
 
   return (
     <View>
-      <TextInput onChangeText={text => setInventoryItem(text)} value={inventoryItem} />
-      <Button title='Add Inventory Item' onPress={addInventoryItem} />
+      <TextInput
+        onChangeText={text => setInventoryItem(text)}
+        value={inventoryItem}
+      />
+      <Button
+        title='Add Inventory Item'
+        onPress={addInventoryItem}
+      />
     </View>
   );
 };

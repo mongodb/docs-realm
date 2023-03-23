@@ -1,4 +1,6 @@
-const CatInfoCard = ({catName}: {catName: string}) => {
+type CatInfoCardProps = {catName: string};
+
+const CatInfoCard = ({catName}: CatInfoCardProps) => {
   // To query for the cat's birthDate, filter for their name to retrieve the realm object.
   // Use dot notation to access the birthDate property.
   const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];

@@ -1,13 +1,13 @@
-import React from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import React, {useEffect, useState} from 'react';
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 import {Text} from 'react-native';
 
 function CheckUploadProgress() {
   const realm = useRealm();
-  const [uploadProgressPercent, setUploadProgressPercent] = React.useState(0);
+  const [uploadProgressPercent, setUploadProgressPercent] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const progressNotificationCallback: Realm.ProgressNotificationCallback = (
       transferred,
       transferable,
@@ -22,8 +22,8 @@ function CheckUploadProgress() {
 
     // Listen for changes to connection state
     realm.syncSession?.addProgressNotification(
-      'upload',
-      'reportIndefinitely',
+      Realm.ProgressDirection.Upload,
+      Realm.ProgressMode.ReportIndefinitely,
       progressNotificationCallback,
     );
 

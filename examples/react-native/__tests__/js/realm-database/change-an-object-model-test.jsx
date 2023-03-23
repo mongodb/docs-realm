@@ -78,7 +78,8 @@ describe('Change an Object Model Tests', () => {
 
     const config = {
       schema: [MyPerson],
-      // increment the 'schemaVersion', since 'fullName' has replaced 'firstName' and 'lastName' in the schema
+      // increment the 'schemaVersion', since 'fullName' has replaced
+      // 'firstName' and 'lastName' in the schema
       schemaVersion: 2,
       migration: (oldRealm, newRealm) => {
         // only apply this change if upgrading to schemaVersion 2
@@ -94,7 +95,8 @@ describe('Change an Object Model Tests', () => {
         }
       },
     };
-    // pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
+    // pass the configuration object with the updated
+    // 'schemaVersion' and 'migration' function to createRealmContext()
     createRealmContext(config);
     // :replace-end:
     // :snippet-end:

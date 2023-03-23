@@ -33,11 +33,7 @@ describe('Create Data Tests', () => {
   });
   it('should create a new object', async () => {
     // :snippet-start: crud-create-object
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='handleAddDogBtn'": ""
-    //   }
-    // }
+
     const CreateDogInput = () => {
       const [dogName, setDogName] = useState('Fido');
       const realm = useRealm();
@@ -51,11 +47,14 @@ describe('Create Data Tests', () => {
       return (
         <>
           <TextInput onChangeText={setDogName} value={dogName} />
-          <Button onPress={() => handleAddDog()} title='Add Dog' testID='handleAddDogBtn' />
+          <Button
+            onPress={() => handleAddDog()}
+            title='Add Dog'
+            testID='handleAddDogBtn' // :remove:
+          />
         </>
       );
     };
-    // :replace-end:
     // :snippet-end:
 
     // render an App component, giving the CreateDogInput component access to the @realm/react hooks:
@@ -67,7 +66,10 @@ describe('Create Data Tests', () => {
     const {getByTestId} = render(<App />);
 
     // press the "Add Dog" button
-    const handleAddDogBtn = await waitFor(() => getByTestId('handleAddDogBtn'), {timeout: 5000});
+    const handleAddDogBtn = await waitFor(
+      () => getByTestId('handleAddDogBtn'),
+      {timeout: 5000},
+    );
     await act(async () => {
       fireEvent.press(handleAddDogBtn);
     });

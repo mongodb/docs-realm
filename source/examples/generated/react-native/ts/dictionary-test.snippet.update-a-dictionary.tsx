@@ -1,7 +1,9 @@
 const UpdateHome = ({homeOwnerName}: {homeOwnerName: string}) => {
   const [address, setAddress] = useState('');
   const realm = useRealm();
-  const homeOwner = useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
+  const homeOwner = useQuery(HomeOwner).filtered(
+    `name == '${homeOwnerName}'`,
+  )[0];
 
   const updateAddress = () => {
     // Update the home object with the new address
@@ -16,8 +18,15 @@ const UpdateHome = ({homeOwnerName}: {homeOwnerName: string}) => {
   return (
     <View>
       <Text>{homeOwner.name}</Text>
-      <TextInput value={address} onChangeText={setAddress} placeholder='Enter new address' />
-      <Button onPress={updateAddress} title='Update Address' />
+      <TextInput
+        value={address}
+        onChangeText={setAddress}
+        placeholder='Enter new address'
+      />
+      <Button
+        onPress={updateAddress}
+        title='Update Address'
+      />
     </View>
   );
 };

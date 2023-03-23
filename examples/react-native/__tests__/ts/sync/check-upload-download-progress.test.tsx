@@ -1,10 +1,10 @@
 // :snippet-start: check-upload-download-progress
-import React from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import React, {useEffect, useState} from 'react';
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 import {Text} from 'react-native';
 // :remove-start:
-const {RealmProvider} = SyncedRealmContext;
+const {RealmProvider} = Context;
 import {AppProvider, UserProvider, useUser} from '@realm/react';
 import Realm from 'realm';
 import {render} from '@testing-library/react-native';
@@ -28,17 +28,10 @@ type RealmWrapperProps = {
 };
 
 function RealmWrapper({children}: RealmWrapperProps) {
-  const user = useUser()!;
   return (
     <RealmProvider
       sync={{
-        user,
         flexible: true,
-        initialSubscriptions: {
-          update(subs, realm) {
-            subs.add(realm.objects('Profile'));
-          },
-        },
         onError: (_, err) => {
           console.log('error is:', err);
         },
@@ -51,7 +44,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));
@@ -75,24 +68,29 @@ let functionCalled = false;
 function CheckUploadProgress() {
   const realm = useRealm();
   higherScopedRealm = realm; // :remove:
-  const [uploadProgressPercent, setUploadProgressPercent] = React.useState(0);
+  const [uploadProgressPercent, setUploadProgressPercent] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // :remove-start:
     // Add data on component first render to trigger progress notification callback
     // to run.
     if (!functionCalled) {
-      realm.write(() => {
-        realm.create('Profile', {
-          _id: new Realm.BSON.UUID(),
-          name: 'joey',
-        });
-        realm.create('Profile', {
-          _id: new Realm.BSON.UUID(),
-          name: 'ross',
-        });
+      realm.subscriptions.update((subs, realm) => {
+        subs.add(realm.objects('Profile'));
       });
-      functionCalled = true;
+      realm.subscriptions.waitForSynchronization().then(() => {
+        realm.write(() => {
+          realm.create('Profile', {
+            _id: new Realm.BSON.UUID(),
+            name: 'joey',
+          });
+          realm.create('Profile', {
+            _id: new Realm.BSON.UUID(),
+            name: 'ross',
+          });
+        });
+        functionCalled = true;
+      });
     }
     // :remove-end:
     const progressNotificationCallback: Realm.ProgressNotificationCallback = (
@@ -115,8 +113,8 @@ function CheckUploadProgress() {
 
     // Listen for changes to connection state
     realm.syncSession?.addProgressNotification(
-      'upload',
-      'reportIndefinitely',
+      Realm.ProgressDirection.Upload,
+      Realm.ProgressMode.ReportIndefinitely,
       progressNotificationCallback,
     );
 

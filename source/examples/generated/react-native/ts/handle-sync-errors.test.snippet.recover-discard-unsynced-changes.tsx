@@ -1,7 +1,7 @@
 const syncConfigWithRecoverDiscardClientReset = {
   flexible: true,
   clientReset: {
-    mode: 'recoverOrDiscardUnsyncedChanges',
+    mode: Realm.ClientResetMode.RecoverOrDiscardUnsyncedChanges,
     onBefore: realm => {
       // This block could be used for custom recovery, reporting, debugging etc.
     },

@@ -1,3 +1,4 @@
+
 const TaskDashboard = () => {
   const realm = useRealm();
   const tasks = useQuery(Task);
@@ -19,7 +20,6 @@ const TaskDashboard = () => {
       <Button
         onPress={resetProgressOnAllTasks}
         title='Reset Progress'
-       
       />
     </>
   );

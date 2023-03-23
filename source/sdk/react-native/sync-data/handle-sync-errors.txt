@@ -150,8 +150,20 @@ Include these properties in the ``ClientResetConfiguration``:
 
 The following example implements recover unsynced changes mode:
 
-.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.recover-unsynced-changes.tsx
-   :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.recover-unsynced-changes.tsx
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/handle-sync-errors.test.snippet.recover-unsynced-changes.jsx
+        :language: typescript
+
 
 .. _react-native-recover-discard-unsynced-changes:
 
@@ -187,8 +199,19 @@ Include these properties in the ``ClientResetConfiguration``:
 
 The following example implements recover unsynced changes mode:
 
-.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.recover-discard-unsynced-changes.tsx
-   :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.recover-discard-unsynced-changes.tsx
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/handle-sync-errors.test.snippet.recover-discard-unsynced-changes.jsx
+        :language: javascript
 
 .. _react-native-manual-client-reset-fallback:
 
@@ -211,8 +234,19 @@ arguments:
 The following example demonstrates how you can manually handle this error case by
 discarding all unsynced changes:
 
-.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.manual-client-reset-fallback.tsx
-   :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.manual-client-reset-fallback.tsx
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/handle-sync-errors.test.snippet.manual-client-reset-fallback.jsx
+        :language: javascript
 
 .. _react-native-discard-unsynced-changes:
 
@@ -248,8 +282,19 @@ Include these properties in the ``ClientResetConfiguration``:
 
 The following example implements discard unsynced changes mode:
 
-.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.discard-unsynced-changes.tsx
-   :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.discard-unsynced-changes.tsx
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/handle-sync-errors.test.snippet.discard-unsynced-changes.jsx
+        :language: javascript
 
 .. _react-native-discard-unsynced-changes-after-breaking-schema-changes:
 
@@ -263,8 +308,19 @@ implementation in the SyncConfiguration ``error()`` callback. The following
 example demonstrates how you can manually handle this error case by
 discarding all unsynced changes:
 
-.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.discard-after-breaking-schema-changes.tsx
-   :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.discard-after-breaking-schema-changes.tsx
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/handle-sync-errors.test.snippet.discard-after-breaking-schema-changes.jsx
+        :language: javascript
 
 .. note:: Discard with Recovery
 
@@ -295,8 +351,19 @@ Include these properties in the ``ClientResetConfiguration``:
   If you don't set the ``onManual`` error handler, the client reset error falls
   back to the general sync error handler.
 
-.. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.manual.tsx
-   :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.manual.tsx
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/handle-sync-errors.test.snippet.manual.jsx
+        :language: javascript
 
 Manual Data Recovery
 ````````````````````
@@ -306,4 +373,3 @@ of code, schema concessions, and custom conflict resolution logic.
 If you need to implement your own custom client reset logic,
 see the :ref:`Advanced Guide to Manual Client Reset Data Recovery
 <react-native-advanced-manual-client-reset-data-recovery>`.
-

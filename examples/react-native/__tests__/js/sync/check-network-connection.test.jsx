@@ -1,11 +1,11 @@
 // :snippet-start: check-network-connection
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {SyncedRealmContext} from '../RealmConfig';
 const {useRealm} = SyncedRealmContext;
 import {Text} from 'react-native';
 // :remove-start:
 const {RealmProvider} = SyncedRealmContext;
-import {AppProvider, UserProvider, useUser} from '@realm/react';
+import {AppProvider, UserProvider} from '@realm/react';
 import Realm from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
@@ -24,15 +24,13 @@ function AppWrapper() {
 }
 
 function RealmWrapper({children}) {
-  const user = useUser();
   return (
     <RealmProvider
       sync={{
-        user,
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {
-            subs.add(realm.objects('Invoice'));
+            subs.add(realm.objects('Profile'));
           },
         },
         onError: (_, err) => {
@@ -47,7 +45,7 @@ function RealmWrapper({children}) {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));
@@ -70,11 +68,11 @@ const promise = new Promise(function (resolve) {
 function CheckNetworkConnection() {
   const realm = useRealm();
   higherScopedRealm = realm; // :remove:
-  const [isConnected, setIsConnected] = React.useState(
+  const [isConnected, setIsConnected] = useState(
     realm.syncSession?.isConnected(),
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const connectionNotificationCallback = (newState, oldState) => {
       console.log('Current connection state: ' + newState);
       console.log('Previous connection state: ' + oldState);
@@ -107,8 +105,9 @@ function CheckNetworkConnection() {
 // :snippet-end:
 
 test('Test connection state', async () => {
-  render(<AppWrapper />);
-  await waitFor(() => {
+  const {getByText} = render(<AppWrapper />);
+  await waitFor(async () => {
+    await getByText('Connected to Network');
     higherScopedRealm.syncSession?.pause();
     higherScopedRealm.syncSession?.resume();
   });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useApp, useUser} from '@realm/react';
 
 function WriteCustomUserData() {

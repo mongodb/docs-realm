@@ -18,7 +18,6 @@ const TaskItem = ({_id}: {_id: number}) => {
         <Button
           onPress={() => incrementTaskProgress()}
           title='Increment Task Progress'
-         
         />
       </>
     );

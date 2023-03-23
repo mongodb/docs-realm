@@ -42,11 +42,6 @@ describe('Dictionary Tests', () => {
   });
   it('should create an object with a dictionary value', async () => {
     // :snippet-start: create-object-with-dictionary-value
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='submitHomeOwnerBtn'": ""
-    //   }
-    // }
     const CreateHomeOwner = () => {
       const [homeOwnerName, setHomeOwnerName] = useState('John Smith');
       const [address, setAddress] = useState('1 Home Street');
@@ -57,7 +52,8 @@ describe('Dictionary Tests', () => {
         realm.write(() => {
           new HomeOwner(realm, {
             name: homeOwnerName,
-            // For the dictionary field, 'home', set the value to a regular javascript object
+            // For the dictionary field, 'home', set the value
+            // to a regular JavaScript object
             home: {
               address,
             },
@@ -66,13 +62,19 @@ describe('Dictionary Tests', () => {
       };
       return (
         <View>
-          <TextInput value={homeOwnerName} onChangeText={text => setHomeOwnerName(text)} />
+          <TextInput
+            value={homeOwnerName}
+            onChangeText={text => setHomeOwnerName(text)}
+          />
           <TextInput value={address} onChangeText={text => setAddress(text)} />
-          <Button title='Submit Home Owner' testID='submitHomeOwnerBtn' onPress={submitHomeOwner} />
+          <Button
+            title='Submit Home Owner'
+            testID='submitHomeOwnerBtn' // :remove:
+            onPress={submitHomeOwner}
+          />
         </View>
       );
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
@@ -80,14 +82,19 @@ describe('Dictionary Tests', () => {
       </RealmProvider>
     );
     const {findByTestId} = render(<App />);
-    const submitHomeOwnerBtn = await waitFor(() => findByTestId('submitHomeOwnerBtn'), {
-      timeout: 5000,
-    });
+    const submitHomeOwnerBtn = await waitFor(
+      () => findByTestId('submitHomeOwnerBtn'),
+      {
+        timeout: 5000,
+      },
+    );
     await act(async () => {
       fireEvent.press(submitHomeOwnerBtn);
     });
     // check if the new HomeOwner object has been created
-    const homeOwner = assertionRealm.objects(HomeOwner).filtered("name == 'John Smith'")[0];
+    const homeOwner = assertionRealm
+      .objects(HomeOwner)
+      .filtered("name == 'John Smith'")[0];
     expect(homeOwner.name).toBe('John Smith');
     expect(homeOwner.home.address).toBe('1 Home Street');
   });
@@ -111,7 +118,9 @@ describe('Dictionary Tests', () => {
 
       // run the `.filtered()` method on all the returned homeOwners to
       // find the house with the address "Summerhill St."
-      const summerHillHouse = homeOwners.filtered('home["address"] = "Summerhill St."')[0].home;
+      const summerHillHouse = homeOwners.filtered(
+        'home["address"] = "Summerhill St."',
+      )[0].home;
 
       // run the `.filtered()` method on all the returned homeOwners to
       // find the first house that has any field with a value of 'red'
@@ -155,13 +164,17 @@ describe('Dictionary Tests', () => {
     // test that 4 home items are rendered, since there are 4 HomeOwner realm objects
     expect(homeItem.length).toBe(4);
 
-    const homeWithAPriceItem = await waitFor(() => getAllByTestId('homeWithAPriceItem'));
+    const homeWithAPriceItem = await waitFor(() =>
+      getAllByTestId('homeWithAPriceItem'),
+    );
 
     // test that there is only one home with a price that is rendered, and its address is '200 lake street'
     expect(homeWithAPriceItem.length).toBe(1);
     expect(homeWithAPriceItem[0].props.children).toBe('200 lake street');
 
-    const summerHillHouseColor = await waitFor(() => getByTestId('summerHillHouseColor'));
+    const summerHillHouseColor = await waitFor(() =>
+      getByTestId('summerHillHouseColor'),
+    );
     // test that the summer hill house has rendered properly in the UI by checking its color
     expect(summerHillHouseColor.props.children).toBe('pink');
 
@@ -174,14 +187,15 @@ describe('Dictionary Tests', () => {
     // :replace-start: {
     //  "terms": {
     //   " testID='homeOwnerName'": "",
-    //   " testID='updateAddressBtn'": "",
     //   "3 jefferson lane": ""
     //   }
     // }
     const UpdateHome = ({homeOwnerName}: {homeOwnerName: string}) => {
       const [address, setAddress] = useState('3 jefferson lane');
       const realm = useRealm();
-      const homeOwner = useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
+      const homeOwner = useQuery(HomeOwner).filtered(
+        `name == '${homeOwnerName}'`,
+      )[0];
 
       const updateAddress = () => {
         // Update the home object with the new address
@@ -196,8 +210,16 @@ describe('Dictionary Tests', () => {
       return (
         <View>
           <Text testID='homeOwnerName'>{homeOwner.name}</Text>
-          <TextInput value={address} onChangeText={setAddress} placeholder='Enter new address' />
-          <Button onPress={updateAddress} title='Update Address' testID='updateAddressBtn' />
+          <TextInput
+            value={address}
+            onChangeText={setAddress}
+            placeholder='Enter new address'
+          />
+          <Button
+            onPress={updateAddress}
+            title='Update Address'
+            testID='updateAddressBtn' // :remove:
+          />
         </View>
       );
     };
@@ -213,9 +235,13 @@ describe('Dictionary Tests', () => {
     // Test that the homeOwner object has been found, by checking that 'Anna Smith' has rendered properly
     expect(homeOwnerName.props.children).toBe('Anna Smith');
 
-    const updateAddressBtn = await waitFor(() => getByTestId('updateAddressBtn'));
+    const updateAddressBtn = await waitFor(() =>
+      getByTestId('updateAddressBtn'),
+    );
     // Test that the home owner's home has been updated by checking its address and year renovated before and after the updateAddressBtn has been pressed
-    const annaSmithHome = assertionRealm.objects(HomeOwner).filtered('name == "Anna Smith"')[0].home;
+    const annaSmithHome = assertionRealm
+      .objects(HomeOwner)
+      .filtered('name == "Anna Smith"')[0].home;
     expect(annaSmithHome.address).toBe('2 jefferson lane');
     expect(annaSmithHome.yearRenovated).toBe(1994);
     await act(async () => {
@@ -226,14 +252,12 @@ describe('Dictionary Tests', () => {
   });
   it('should delete members of a dictionary', async () => {
     // :snippet-start: delete-members-of-a-dictionary
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='deleteExtraHomeInfoBtn'": ""
-    //   }
-    // }
+
     const HomeInfo = ({homeOwnerName}: {homeOwnerName: string}) => {
       const realm = useRealm();
-      const homeOwner = useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)[0];
+      const homeOwner = useQuery(HomeOwner).filtered(
+        `name == '${homeOwnerName}'`,
+      )[0];
 
       const deleteExtraHomeInfo = () => {
         realm.write(() => {
@@ -246,11 +270,14 @@ describe('Dictionary Tests', () => {
         <View>
           <Text>{homeOwner.name}</Text>
           <Text>{homeOwner.home.address}</Text>
-          <Button onPress={deleteExtraHomeInfo} title='Delete extra home info' testID='deleteExtraHomeInfoBtn' />
+          <Button
+            onPress={deleteExtraHomeInfo}
+            title='Delete extra home info'
+            testID='deleteExtraHomeInfoBtn' // :remove:
+          />
         </View>
       );
     };
-    // :replace-end:
     // :snippet-end:
 
     const App = () => (
@@ -260,9 +287,15 @@ describe('Dictionary Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const deleteExtraHomeInfoBtn = await waitFor(() => getByTestId('deleteExtraHomeInfoBtn'));
-    // Test that the home owner's home had her 'yearRenovated' & 'color' removed by checking its address and year renovated before and after the deleteExtraHomeInfoBtn has been pressed
-    const annaSmithHome = assertionRealm.objects(HomeOwner).filtered('name == "Anna Smith"')[0].home;
+    const deleteExtraHomeInfoBtn = await waitFor(() =>
+      getByTestId('deleteExtraHomeInfoBtn'),
+    );
+    // Test that the home owner's home had her 'yearRenovated' & 'color' removed
+    // by checking its address and year renovated before and after
+    // the deleteExtraHomeInfoBtn has been pressed
+    const annaSmithHome = assertionRealm
+      .objects(HomeOwner)
+      .filtered('name == "Anna Smith"')[0].home;
     expect(annaSmithHome.yearRenovated).toBe(1994);
     expect(annaSmithHome.color).toBe('blue');
     await act(async () => {

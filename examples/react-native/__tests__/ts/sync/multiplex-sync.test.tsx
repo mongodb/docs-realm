@@ -1,10 +1,10 @@
 // :snippet-start: multiplex-sync
-import React from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
+import React, {useEffect} from 'react';
+import {Context} from '../RealmConfig';
 import {AppProvider, UserProvider, useUser, useApp, Realm} from '@realm/react';
 // :remove-start:
-const {RealmProvider} = SyncedRealmContext;
-import {render, waitFor, fireEvent} from '@testing-library/react-native';
+const {RealmProvider} = Context;
+import {render, waitFor} from '@testing-library/react-native';
 const APP_ID = 'js-flexible-oseso';
 const testId = 'test-multiplex-sync-session';
 
@@ -26,23 +26,17 @@ type RealmWrapperProps = {
 };
 
 function RealmWrapper({children}: RealmWrapperProps) {
-  const user = useUser();
   const app = useApp();
+  Realm.App.Sync.enableSessionMultiplexing(app);
 
-  React.useEffect(() => {
-    Realm.App.Sync.enableSessionMultiplexing(app);
-  }, []);
-
-  return (
-    <RealmProvider sync={{user, flexible: true}}>{children}</RealmProvider>
-  );
+  return <RealmProvider sync={{flexible: true}}>{children}</RealmProvider>;
 }
 // :snippet-end:
 
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));
@@ -59,5 +53,7 @@ function RestOfApp() {
 
 test('Multiplex sync', async () => {
   render(<AppWrapper />);
-  expect(hasRealmBeenOpened).toBe(true);
+  await waitFor(async () => {
+    expect(hasRealmBeenOpened).toBe(true);
+  });
 });

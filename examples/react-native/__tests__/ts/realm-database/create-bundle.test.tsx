@@ -1,4 +1,5 @@
-// :snippet-start: create-bundle
+// TODO: Include this test/snippet when better docs on bundled realms for RN
+// :not-snippet-start: create-bundle
 import Realm from 'realm';
 import Cat from '../Models/Cat';
 // :remove-start:
@@ -27,7 +28,7 @@ async function createBundle() {
 // :uncomment-start:
 // createBundle();
 // :uncomment-end:
-// :snippet-end:
+// :not-snippet-end:
 beforeEach(() => {
   Realm.deleteFile(higherScopedConfig);
 });

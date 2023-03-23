@@ -30,8 +30,14 @@ const CreateContact = () => {
       <TextInput value={street} onChangeText={text => setStreet(text)} />
       <TextInput value={city} onChangeText={text => setCity(text)} />
       <TextInput value={country} onChangeText={text => setCountry(text)} />
-      <TextInput value={postalCode} onChangeText={text => setPostalCode(text)} />
-      <Button title='Submit Contact' onPress={submitContact} />
+      <TextInput
+        value={postalCode}
+        onChangeText={text => setPostalCode(text)}
+      />
+      <Button
+        title='Submit Contact'
+        onPress={submitContact}
+      />
     </View>
   );
 };

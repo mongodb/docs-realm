@@ -38,6 +38,7 @@ function AppWrapper() {
             flexible: true,
             initialSubscriptions: {
               update(subs, realm) {
+                subs.removeAll();
                 subs.add(realm.objects('Turtle'));
               },
             },
@@ -81,8 +82,13 @@ afterEach(async () => {
 test('Instantiate AppWrapper and test number of subscriptions', async () => {
   render(<AppWrapper />);
   await waitFor(
-    () => {
-      expect(numSubs).toBe(0);
+    async () => {
+      await new Promise(resolve =>
+        setTimeout(() => {
+          expect(numSubs).toBe(0);
+          resolve(true);
+        }, 1000),
+      );
     },
     {timeout: 2000},
   );

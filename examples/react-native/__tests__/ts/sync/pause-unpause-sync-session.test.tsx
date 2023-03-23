@@ -1,10 +1,10 @@
 // :snippet-start: pause-unpause-sync-session
-import React from 'react';
-import {SyncedRealmContext} from '../RealmConfig';
-const {useRealm} = SyncedRealmContext;
+import React, {useEffect, useState} from 'react';
+import {Context} from '../RealmConfig';
+const {useRealm} = Context;
 // :remove-start:
 import {AppProvider, UserProvider, useUser} from '@realm/react';
-const {RealmProvider} = SyncedRealmContext;
+const {RealmProvider} = Context;
 import Realm from 'realm';
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
@@ -29,15 +29,13 @@ type RealmWrapperProps = {
 };
 
 function RealmWrapper({children}: RealmWrapperProps) {
-  const user = useUser();
   return (
     <RealmProvider
       sync={{
-        user,
         flexible: true,
         initialSubscriptions: {
           update(subs, realm) {
-            subs.add(realm.objects('Invoice'));
+            subs.add(realm.objects('Profile'));
           },
         },
         onError: (_, err) => {
@@ -52,7 +50,7 @@ function RealmWrapper({children}: RealmWrapperProps) {
 function LogIn() {
   const app = useApp();
 
-  React.useEffect(() => {
+  useEffect(() => {
     app
       .logIn(Realm.Credentials.anonymous())
       .then(user => console.debug('logged in ', user.id));
@@ -66,7 +64,7 @@ let higherScopedRealm: Realm;
 function ToggleSyncSession() {
   const realm = useRealm();
   higherScopedRealm = realm; // :remove:
-  const [isPaused, setIsPaused] = React.useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   async function toggleSyncSession() {
     if (isPaused) {
