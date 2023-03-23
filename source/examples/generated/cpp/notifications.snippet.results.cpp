@@ -19,7 +19,7 @@ auto token = dogs.observe([&](auto&& changes) {
         }
     } catch (std::exception const& e) {
         std::cerr << "Error: " << e.what() << "\n";
-    } 
+    }
 });
 
 // Delete and then add an object to see deletions and insertions.

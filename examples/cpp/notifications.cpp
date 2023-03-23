@@ -56,7 +56,7 @@ TEST_CASE("object notification", "[notification]") {
             // :snippet-end:
         } catch (std::exception const& e) {
             std::cerr << "Error: " << e.what() << "\n";
-        } 
+        }
     });
 
     // Update the dog's name to see the effect.
@@ -112,7 +112,7 @@ TEST_CASE("results notification", "[notification]") {
             }
         } catch (std::exception const& e) {
             std::cerr << "Error: " << e.what() << "\n";
-        } 
+        }
     });
 
     // Delete and then add an object to see deletions and insertions.

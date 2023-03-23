@@ -24,7 +24,7 @@ auto token = dog.observe([&](auto&& change) {
         }
     } catch (std::exception const& e) {
         std::cerr << "Error: " << e.what() << "\n";
-    } 
+    }
 });
 
 // Update the dog's name to see the effect.
