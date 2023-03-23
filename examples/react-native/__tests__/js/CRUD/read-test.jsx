@@ -90,12 +90,8 @@ describe('Read Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-<<<<<<< Updated upstream
-    // test that the 'useObject()' method worked and the correct sentence is rendered as expected
-=======
     // test that the 'useObject()' method worked and the correct sentence
     // is rendered as expected
->>>>>>> Stashed changes
     const taskItemSentence = await waitFor(
       () => getByTestId('task-item-sentence'),
       {timeout: 5000},

@@ -54,7 +54,7 @@ describe('Update Data Tests', () => {
     // :snippet-start: crud-update-object
     // :replace-start: {
     //  "terms": {
-    //   " testID='progressMinutes'": "",
+    //   " testID='progressMinutes'": ""
     //   }
     // }
     const TaskItem = ({_id}) => {
@@ -77,11 +77,7 @@ describe('Update Data Tests', () => {
             <Button
               onPress={() => incrementTaskProgress()}
               title='Increment Task Progress'
-<<<<<<< Updated upstream
-              testID='handleIncrementBtn'
-=======
               testID='handleIncrementBtn' // :remove:
->>>>>>> Stashed changes
             />
           </>
         );
@@ -205,11 +201,7 @@ describe('Update Data Tests', () => {
           <Button
             onPress={resetProgressOnAllTasks}
             title='Reset Progress'
-<<<<<<< Updated upstream
-            testID='resetProgressOnAllTasksBtn'
-=======
             testID='resetProgressOnAllTasksBtn' // :remove:
->>>>>>> Stashed changes
           />
         </>
       );

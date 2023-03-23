@@ -62,7 +62,7 @@ describe('embedded objects tests', () => {
     //   "1 Goat Drive": "",
     //   "Cleveland": "",
     //   "USA": "",
-    //   "12345": "",
+    //   "12345": ""
     //   }
     // }
     const CreateContact = () => {

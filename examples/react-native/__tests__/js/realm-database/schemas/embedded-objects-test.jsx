@@ -62,7 +62,7 @@ describe('embedded objects tests', () => {
     //   "1 Goat Drive": "",
     //   "Cleveland": "",
     //   "USA": "",
-    //   "12345": "",
+    //   "12345": ""
     //   }
     //  }
 
@@ -103,11 +103,7 @@ describe('embedded objects tests', () => {
           />
           <Button
             title='Submit Contact'
-<<<<<<< Updated upstream
-            testID='submitContactBtn'
-=======
             testID='submitContactBtn' // :remove:
->>>>>>> Stashed changes
             onPress={submitContact}
           />
         </View>
@@ -182,7 +178,7 @@ describe('embedded objects tests', () => {
     // :snippet-start: delete-embedded-object
     // :replace-start: {
     //  "terms": {
-    //   " testID = 'contactNameText'": "",
+    //   " testID = 'contactNameText'": ""
     //   }
     // }
     const ContactInfo = ({contactName}) => {
@@ -200,11 +196,7 @@ describe('embedded objects tests', () => {
         <View>
           <Text testID='contactNameText'>{contactName}</Text>
           <Button
-<<<<<<< Updated upstream
-            testID='deleteContactBtn'
-=======
             testID='deleteContactBtn' // :remove:
->>>>>>> Stashed changes
             onPress={deleteContact}
             title='Delete Contact'
           />
@@ -269,11 +261,7 @@ describe('embedded objects tests', () => {
             placeholder='Enter New Street Address'
           />
           <Button
-<<<<<<< Updated upstream
-            testID='updateContactBtn'
-=======
             testID='updateContactBtn' // :remove:
->>>>>>> Stashed changes
             onPress={updateStreet}
             title='Update Street Address'
           />
@@ -354,11 +342,7 @@ describe('embedded objects tests', () => {
             placeholder='Postal Code'
           />
           <Button
-<<<<<<< Updated upstream
-            testID='overwriteContactBtn'
-=======
             testID='overwriteContactBtn' // :remove:
->>>>>>> Stashed changes
             onPress={updateAddress}
             title='Overwrite Address'
           />

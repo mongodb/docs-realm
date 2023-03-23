@@ -173,7 +173,7 @@ describe('Set schema', () => {
     // :snippet-start: check-set-items-and-size
     // :replace-start: {
     //  "terms": {
-    //   " testID='inventoryLength'": "",
+    //   " testID='inventoryLength'": ""
     //   }
     // }
     const QueryCharacterInventory = ({characterName}) => {
