@@ -1,6 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
 #include <string>
-#include "testHelpers.hpp"
 #include <cpprealm/sdk.hpp>
 
 // :snippet-start: models

@@ -21,11 +21,15 @@ FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples 
   asymmetric-sync.cpp
-  authentication.cpp 
-  define-object-model.cpp 
-  examples.cpp 
+  authentication.cpp
+  call-function.cpp
+  crud.cpp
+  custom-user-data.cpp
+  define-object-model.cpp
   filter-data.cpp 
-  flexible-sync.cpp 
+  flexible-sync.cpp
+  notifications.cpp
+  open-realm.cpp
   quick-start.cpp 
   supported-types.cpp
   threading.cpp

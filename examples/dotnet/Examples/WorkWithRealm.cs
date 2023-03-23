@@ -71,6 +71,10 @@ namespace Examples
                 "<security-question-1-answer>",
                 "<security-question-2-answer>");
             //:snippet-end:
+            // :snippet-start: reset-password-function-pending
+            await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
+                userEmail, myNewPassword);
+            //:snippet-end:
 
             user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
 

@@ -1,6 +1,4 @@
 #include <catch2/catch_test_macros.hpp>
-#include <string>
-#include <thread>
 #include <future>
 #include <cpprealm/sdk.hpp>
 
@@ -10,7 +8,7 @@
 //   }
 // }
 
-static std::string APP_ID = "cpp-tester-uliix";
+static const std::string APP_ID = "cpp-tester-uliix";
 
 struct FlexibleSync_Dog : realm::object<FlexibleSync_Dog> {
     realm::persisted<realm::object_id> _id{realm::object_id::generate()};

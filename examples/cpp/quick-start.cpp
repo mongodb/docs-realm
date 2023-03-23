@@ -1,7 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include <thread>
 #include <future>
-#include <string>
 // :snippet-start: includes
 #include <cpprealm/sdk.hpp>
 // :snippet-end:

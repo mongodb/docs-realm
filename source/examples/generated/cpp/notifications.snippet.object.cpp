@@ -36,6 +36,7 @@ realm.write([&dog, &realm] {
 realm.write([&dog, &realm] {
     realm.remove(dog);
 });
+
 // Refresh the realm after the change to trigger the notification.
 realm.refresh();
 

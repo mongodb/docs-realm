@@ -1,6 +1,4 @@
 #include <catch2/catch_test_macros.hpp>
-#include <string>
-#include <iostream>
 #include <cpprealm/sdk.hpp>
 
 // :replace-start: {

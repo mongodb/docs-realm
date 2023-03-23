@@ -7,21 +7,6 @@ let dogPreviewRealm = SwiftUI_Dog.previewRealmJustDogs
 let config = Realm.Configuration(schemaVersion: 2)
 // :snippet-end:
 
-struct PartitionBasedSyncOrLocalRealmView: View {
-    var app: RealmSwift.App?
-    
-    var body: some View {
-        // Using Sync?
-        if let app = app {
-            PartitionBasedSyncContentView(thisApp: app)
-        } else {
-            LocalOnlyContentView()
-                .environment(\.realm, dogPreviewRealm)
-        }
-    }
-}
-
-// :snippet-start: sync-or-local-realm
 struct FlexibleSyncOrLocalRealmView: View {
     var app: RealmSwift.App?
     
@@ -42,4 +27,3 @@ struct FlexibleSyncOrLocalRealmView: View {
         }
     }
 }
-// :snippet-end:

@@ -28,12 +28,12 @@
             completion:^(id<RLMBSON> newObjectId, NSError *error) {
                 if (error != nil) {
                     NSLog(@"Failed to insert: %@", error);
-                    // :remove-start:
-                    XCTAssertEqualObjects([error localizedDescription], @"no rule exists for namespace 'my_database.users'");
-                    [expectation fulfill];
-                    // :remove-end:
                 }
                 NSLog(@"Inserted custom user data document with object ID: %@", newObjectId);
+                // :remove-start:
+                XCTAssertNotNil(newObjectId);
+                [expectation fulfill];
+                // :remove-end:
         }];
     }];
     // :snippet-end:
@@ -99,12 +99,12 @@
             completion:^(RLMUpdateResult *updateResult, NSError *error) { 
                 if (error != nil) {
                     NSLog(@"Failed to insert: %@", error);
-                    // :remove-start:
-                    XCTAssertEqualObjects([error localizedDescription], @"no rule exists for namespace 'my_database.users'");
-                    [expectation fulfill];
-                    // :remove-end:
                 }
-                NSLog(@"Matched: %lu, modified: %lu", [updateResult matchedCount], [updateResult modifiedCount]); 
+                NSLog(@"Matched: %lu, modified: %lu", [updateResult matchedCount], [updateResult modifiedCount]);
+                // :remove-start:
+                XCTAssertEqual([updateResult matchedCount], 1);
+                [expectation fulfill];
+                // :remove-end:
         }];
     }];
     // :snippet-end:
