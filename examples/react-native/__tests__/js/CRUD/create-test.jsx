@@ -50,11 +50,7 @@ describe('Create Data Tests', () => {
           <Button
             onPress={() => handleAddDog()}
             title='Add Dog'
-<<<<<<< Updated upstream
-            testID='handleAddDogBtn'
-=======
             testID='handleAddDogBtn' // :remove:
->>>>>>> Stashed changes
           />
         </>
       );

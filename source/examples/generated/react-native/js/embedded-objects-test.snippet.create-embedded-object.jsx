@@ -36,7 +36,6 @@ const CreateContact = () => {
       />
       <Button
         title='Submit Contact'
-       
         onPress={submitContact}
       />
     </View>

@@ -14,12 +14,10 @@ const CreateProfileInput = () => {
   return (
     <View>
       <TextInput
-       
         placeholder='Name'
         onChangeText={setName}
       />
       <Button
-       
         title='Create Profile'
         onPress={createProfile}
       />

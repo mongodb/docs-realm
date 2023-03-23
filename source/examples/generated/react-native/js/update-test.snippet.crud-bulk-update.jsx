@@ -19,7 +19,6 @@ const TaskDashboard = () => {
       <Button
         onPress={resetProgressOnAllTasks}
         title='Reset Progress'
-       
       />
     </>
   );

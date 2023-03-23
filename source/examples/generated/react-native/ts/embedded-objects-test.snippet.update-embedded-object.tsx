@@ -14,8 +14,15 @@ const UpdateContact = ({contactName}: {contactName: string}) => {
   return (
     <View>
       <Text>{contact.name}</Text>
-      <TextInput value={street} onChangeText={setStreet} placeholder='Enter New Street Address' />
-      <Button onPress={updateStreet} title='Update Street Address' />
+      <TextInput
+        value={street}
+        onChangeText={setStreet}
+        placeholder='Enter New Street Address'
+      />
+      <Button
+        onPress={updateStreet}
+        title='Update Street Address'
+      />
     </View>
   );
 };

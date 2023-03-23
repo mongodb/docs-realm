@@ -19,17 +19,14 @@ const RemoveInventoryFromCharacter = ({characterName}) => {
     <View>
       <Text>{character.name}</Text>
       <TextInput
-       
         onChangeText={text => setInventoryItem(text)}
         value={inventoryItem}
       />
       <Button
-       
         title='Remove Inventory Item'
         onPress={removeInventoryItem}
       />
       <Button
-       
         title='Remove All Inventory'
         onPress={removeAllInventory}
       />

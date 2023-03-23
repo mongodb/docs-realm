@@ -121,20 +121,12 @@ describe('Set schema', () => {
       return (
         <View>
           <TextInput
-<<<<<<< Updated upstream
-            testID='inventoryInput'
-=======
             testID='inventoryInput' // :remove:
->>>>>>> Stashed changes
             onChangeText={text => setInventoryItem(text)}
             value={inventoryItem}
           />
           <Button
-<<<<<<< Updated upstream
-            testID='addInventoryItemBtn'
-=======
             testID='addInventoryItemBtn' // :remove:
->>>>>>> Stashed changes
             title='Add Inventory Item'
             onPress={addInventoryItem}
           />
@@ -197,20 +189,12 @@ describe('Set schema', () => {
             Total number of inventory items: {character.inventory.size}
           </Text>
           <TextInput
-<<<<<<< Updated upstream
-            testID='inventoryInput'
-=======
             testID='inventoryInput' // :remove:
->>>>>>> Stashed changes
             onChangeText={text => setInventoryItem(text)}
             value={inventoryItem}
           />
           <Button
-<<<<<<< Updated upstream
-            testID='queryCharacterInventoryBtn'
-=======
             testID='queryCharacterInventoryBtn' // :remove:
->>>>>>> Stashed changes
             title='Query for Inventory'
             onPress={queryCharacterInventory}
           />
@@ -281,29 +265,17 @@ describe('Set schema', () => {
         <View>
           <Text>{character.name}</Text>
           <TextInput
-<<<<<<< Updated upstream
-            testID='inventoryInput'
-=======
             testID='inventoryInput' // :remove:
->>>>>>> Stashed changes
             onChangeText={text => setInventoryItem(text)}
             value={inventoryItem}
           />
           <Button
-<<<<<<< Updated upstream
-            testID='removeInventoryItemBtn'
-=======
             testID='removeInventoryItemBtn' // :remove:
->>>>>>> Stashed changes
             title='Remove Inventory Item'
             onPress={removeInventoryItem}
           />
           <Button
-<<<<<<< Updated upstream
-            testID='removeAllInventoryBtn'
-=======
             testID='removeAllInventoryBtn' // :remove:
->>>>>>> Stashed changes
             title='Remove All Inventory'
             onPress={removeAllInventory}
           />
@@ -355,7 +327,7 @@ describe('Set schema', () => {
     // :snippet-start: traverse-a-set
     // :replace-start: {
     //  "terms": {
-    //   " testID='inventoryItem'": ""
+    //   " testID='inventoryItem'": "",
     //   " testID='unorderedInventoryItem'": ""
     //   }
     // }
@@ -380,20 +352,12 @@ describe('Set schema', () => {
           <Text>{character.name}</Text>
           <Text>Add an item to the inventory:</Text>
           <TextInput
-<<<<<<< Updated upstream
-            testID='inventoryInput'
-=======
             testID='inventoryInput' // :remove:
->>>>>>> Stashed changes
             onChangeText={text => setInventoryItem(text)}
             value={inventoryItem}
           />
           <Button
-<<<<<<< Updated upstream
-            testID='addInventoryItemBtn'
-=======
             testID='addInventoryItemBtn' // :remove:
->>>>>>> Stashed changes
             title='Add Inventory Item'
             onPress={addInventoryItem}
           />

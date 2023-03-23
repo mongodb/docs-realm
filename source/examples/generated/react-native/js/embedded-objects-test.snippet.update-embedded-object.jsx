@@ -20,7 +20,6 @@ const UpdateContact = ({contactName}) => {
         placeholder='Enter New Street Address'
       />
       <Button
-       
         onPress={updateStreet}
         title='Update Street Address'
       />

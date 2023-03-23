@@ -8,7 +8,8 @@ const CreateHomeOwner = () => {
     realm.write(() => {
       new HomeOwner(realm, {
         name: homeOwnerName,
-        // For the dictionary field, 'home', set the value to a regular javascript object
+        // For the dictionary field, 'home', set the value
+        // to a regular JavaScript object
         home: {
           address,
         },
@@ -17,9 +18,15 @@ const CreateHomeOwner = () => {
   };
   return (
     <View>
-      <TextInput value={homeOwnerName} onChangeText={text => setHomeOwnerName(text)} />
+      <TextInput
+        value={homeOwnerName}
+        onChangeText={text => setHomeOwnerName(text)}
+      />
       <TextInput value={address} onChangeText={text => setAddress(text)} />
-      <Button title='Submit Home Owner' onPress={submitHomeOwner} />
+      <Button
+        title='Submit Home Owner'
+        onPress={submitHomeOwner}
+      />
     </View>
   );
 };

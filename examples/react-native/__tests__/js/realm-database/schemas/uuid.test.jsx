@@ -54,20 +54,12 @@ describe('uuid schema', () => {
       return (
         <View>
           <TextInput
-<<<<<<< Updated upstream
-            testID='nameInput'
-=======
             testID='nameInput' // :remove:
->>>>>>> Stashed changes
             placeholder='Name'
             onChangeText={setName}
           />
           <Button
-<<<<<<< Updated upstream
-            testID='createProfileButton'
-=======
             testID='createProfileButton' // :remove:
->>>>>>> Stashed changes
             title='Create Profile'
             onPress={createProfile}
           />

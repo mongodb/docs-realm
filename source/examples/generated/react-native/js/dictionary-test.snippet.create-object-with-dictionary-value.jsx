@@ -1,3 +1,4 @@
+
 const CreateHomeOwner = () => {
   const [homeOwnerName, setHomeOwnerName] = useState('John Smith');
   const [address, setAddress] = useState('1 Home Street');
@@ -24,7 +25,6 @@ const CreateHomeOwner = () => {
       <TextInput value={address} onChangeText={text => setAddress(text)} />
       <Button
         title='Submit Home Owner'
-       
         onPress={submitHomeOwner}
       />
     </View>

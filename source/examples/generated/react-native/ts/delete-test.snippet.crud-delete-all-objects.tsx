@@ -10,7 +10,10 @@ const DeleteProfileSettingsScreen = () => {
   return (
     <>
       <Text>Delete all data in your profile:</Text>
-      <Button onPress={deleteAllData} title='Delete all data' />
+      <Button
+        onPress={deleteAllData}
+        title='Delete all data'
+      />
     </>
   );
 };

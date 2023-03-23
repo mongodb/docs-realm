@@ -19,12 +19,10 @@ const QueryCharacterInventory = ({characterName}) => {
         Total number of inventory items: {character.inventory.size}
       </Text>
       <TextInput
-       
         onChangeText={text => setInventoryItem(text)}
         value={inventoryItem}
       />
       <Button
-        testID='queryCharacterInventoryBtn'
         title='Query for Inventory'
         onPress={queryCharacterInventory}
       />

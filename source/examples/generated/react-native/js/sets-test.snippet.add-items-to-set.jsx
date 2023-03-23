@@ -14,12 +14,10 @@ const AddInventoryToCharacter = ({characterName}) => {
   return (
     <View>
       <TextInput
-       
         onChangeText={text => setInventoryItem(text)}
         value={inventoryItem}
       />
       <Button
-       
         title='Add Inventory Item'
         onPress={addInventoryItem}
       />

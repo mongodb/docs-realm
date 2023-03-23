@@ -13,7 +13,6 @@ const ContactInfo = ({contactName}) => {
     <View>
       <Text testID='contactNameText'>{contactName}</Text>
       <Button
-        testID='deleteContactBtn'
         onPress={deleteContact}
         title='Delete Contact'
       />

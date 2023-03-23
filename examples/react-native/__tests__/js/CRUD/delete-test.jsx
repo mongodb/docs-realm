@@ -52,11 +52,7 @@ describe('Delete Data Tests', () => {
                 <Button
                   onPress={() => deleteDog(dog)}
                   title='Delete Dog'
-<<<<<<< Updated upstream
-                  testID='deleteDog'
-=======
                   testID='deleteDog' // :remove:
->>>>>>> Stashed changes
                 />
               </>
             );
@@ -116,20 +112,12 @@ describe('Delete Data Tests', () => {
           <Button
             onPress={() => deleteAllYoungDogObjects()}
             title='Delete Young Dog Objects'
-<<<<<<< Updated upstream
-            testID='deleteYoungDogs'
-=======
             testID='deleteYoungDogs' // :remove:
->>>>>>> Stashed changes
           />
           <Button
             onPress={() => deleteAllDogObjects()}
             title='Delete All Dog Objects'
-<<<<<<< Updated upstream
-            testID='deleteAllDogs'
-=======
             testID='deleteAllDogs' // :remove:
->>>>>>> Stashed changes
           />
         </>
       );
@@ -147,13 +135,9 @@ describe('Delete Data Tests', () => {
     // "Unable to find an element with testID: dogItem"
     await waitFor(() => getAllByTestId('dogItem'), {timeout: 5000});
 
-<<<<<<< Updated upstream
-    // Test that the young Dog objects (Bronson, Bowie) have been deleted from the realm + from the UI when the "Delete All Dog Objects" is pressed, leaving 1 dog object (Blaise) remaining
-=======
     // Test that the young Dog objects (Bronson, Bowie) have been deleted
     // from the realm + from the UI when the "Delete All Dog Objects" is pressed,
     // leaving 1 dog object (Blaise) remaining
->>>>>>> Stashed changes
     const deleteYoungDogsBtn = await waitFor(
       () => getByTestId('deleteYoungDogs'),
       {timeout: 5000},
@@ -190,11 +174,7 @@ describe('Delete Data Tests', () => {
           <Button
             onPress={deleteAllData}
             title='Delete all data'
-<<<<<<< Updated upstream
-            testID='deleteAllData'
-=======
             testID='deleteAllData' // :remove:
->>>>>>> Stashed changes
           />
         </>
       );

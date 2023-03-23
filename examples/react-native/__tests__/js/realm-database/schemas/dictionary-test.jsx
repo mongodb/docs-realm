@@ -69,11 +69,7 @@ describe('Dictionary Tests', () => {
           <TextInput value={address} onChangeText={text => setAddress(text)} />
           <Button
             title='Submit Home Owner'
-<<<<<<< Updated upstream
-            testID='submitHomeOwnerBtn'
-=======
             testID='submitHomeOwnerBtn' // :remove:
->>>>>>> Stashed changes
             onPress={submitHomeOwner}
           />
         </View>
