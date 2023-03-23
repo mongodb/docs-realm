@@ -34,7 +34,7 @@ struct Person : realm::object<Person> {
 TEST_CASE("create a dog", "[write]") {
     // :snippet-start: create-an-object
     // Create a Realm object like a regular object.
-    auto dog = Dog{.name = "Rex", .age = 1};
+    auto dog = Dog { .name = "Rex", .age = 1 };
 
     std::cout << "dog: " << dog << "\n";
 
@@ -42,8 +42,8 @@ TEST_CASE("create a dog", "[write]") {
     auto realm = realm::open<Dog>();
 
     // Persist your data in a write transaction
-    realm.write([&realm, &dog] { 
-        realm.add(dog); 
+    realm.write([&realm, &dog] {
+        realm.add(dog);
     });
     // :snippet-end:
     auto dogsCount = realm.objects<Dog>().size();
@@ -61,7 +61,7 @@ TEST_CASE("create a dog", "[write]") {
 }
 
 TEST_CASE("update a dog", "[write][update]") {
-    auto dog = Dog{.name = "Maui", .age = 1};
+    auto dog = Dog { .name = "Maui", .age = 1 };
 
     auto realm = realm::open<Dog>();
 
@@ -74,8 +74,8 @@ TEST_CASE("update a dog", "[write][update]") {
         // Query for the object you want to update
         auto dogs = realm.objects<Dog>();
         // auto dogsNamedMaui = dogs.where("name == $0", {"Maui"});
-        auto dogsNamedMaui = dogs.where([](auto &dog) { 
-            return dog.name == "Maui"; 
+        auto dogsNamedMaui = dogs.where([](auto &dog) {
+            return dog.name == "Maui";
         });
         CHECK(dogsNamedMaui.size() >= 1);
         // Access an object in the results set.
@@ -89,8 +89,8 @@ TEST_CASE("update a dog", "[write][update]") {
 
         // Assign a new value to a member of the object in a write transaction
         int64_t newAge = 2;
-        realm.write([&realm, &maui, &newAge] { 
-            maui.age = newAge; 
+        realm.write([&realm, &maui, &newAge] {
+            maui.age = newAge;
         });
         // :snippet-end:
         auto updatedMaui = dogsNamedMaui[0];

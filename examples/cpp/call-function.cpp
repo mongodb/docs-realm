@@ -20,7 +20,7 @@ TEST_CASE("call a function", "[realm][sync]")
     auto arg2 = realm::bson::Bson("@companyemail.com");
 
     // Call an App Services function as the logged-in user
-    auto result = user.call_function("concatenate", {arg1, arg2}).get_future().get();
+    auto result = user.call_function("concatenate", { arg1, arg2 }).get_future().get();
 
     // Verify that the result has a value
     CHECK(result);
