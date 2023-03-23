@@ -10,7 +10,7 @@ const ContactList = () => {
   return (
     <View>
       <Text>John Smith's street address:</Text>
-      <Text testID='addressText'>{contactAddress}</Text>
+      <Text>{contactAddress}</Text>
     </View>
   );
 };

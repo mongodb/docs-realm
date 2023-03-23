@@ -11,7 +11,7 @@ const ContactInfo = ({contactName}: {contactName: string}) => {
   };
   return (
     <View>
-      <Text testID='contactNameText'>{contactName}</Text>
+      <Text>{contactName}</Text>
       <Button
         onPress={deleteContact}
         title='Delete Contact'

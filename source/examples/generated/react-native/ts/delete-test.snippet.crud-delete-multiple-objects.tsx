@@ -26,12 +26,10 @@ const DogList = () => {
       <Button
         onPress={() => deleteAllYoungDogObjects()}
         title='Delete Young Dog Objects'
-        testID='deleteYoungDogs'
       />
       <Button
         onPress={() => deleteAllDogObjects()}
         title='Delete All Dog Objects'
-        testID='deleteAllDogs'
       />
     </>
   );

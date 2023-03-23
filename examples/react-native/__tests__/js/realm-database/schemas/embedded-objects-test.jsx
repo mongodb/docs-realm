@@ -140,7 +140,7 @@ describe('embedded objects tests', () => {
     // :snippet-start: query-embedded-object
     // :replace-start: {
     //  "terms": {
-    //   " testID = 'addressText'": ""
+    //   " testID='addressText'": ""
     //   }
     // }
     const ContactList = () => {
@@ -178,7 +178,7 @@ describe('embedded objects tests', () => {
     // :snippet-start: delete-embedded-object
     // :replace-start: {
     //  "terms": {
-    //   " testID = 'contactNameText'": ""
+    //   " testID='contactNameText'": ""
     //   }
     // }
     const ContactInfo = ({contactName}) => {

@@ -84,6 +84,11 @@ describe('Delete Data Tests', () => {
   });
   it('should delete multiple objects', async () => {
     // :snippet-start: crud-delete-multiple-objects
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='dogItem'": ""
+    //   }
+    //  }
     const DogList = () => {
       const realm = useRealm();
       const myDogs = useQuery(Dog);
@@ -122,6 +127,7 @@ describe('Delete Data Tests', () => {
         </>
       );
     };
+    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>

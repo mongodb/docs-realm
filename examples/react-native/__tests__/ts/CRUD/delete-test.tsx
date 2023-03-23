@@ -117,12 +117,12 @@ describe('Delete Data Tests', () => {
           <Button
             onPress={() => deleteAllYoungDogObjects()}
             title='Delete Young Dog Objects'
-            testID='deleteYoungDogs'
+            testID='deleteYoungDogs' // :remove:
           />
           <Button
             onPress={() => deleteAllDogObjects()}
             title='Delete All Dog Objects'
-            testID='deleteAllDogs'
+            testID='deleteAllDogs' // :remove:
           />
         </>
       );

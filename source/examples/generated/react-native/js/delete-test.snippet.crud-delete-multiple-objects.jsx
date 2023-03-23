@@ -18,7 +18,7 @@ const DogList = () => {
       {myDogs.map(dog => {
         return (
           <>
-            <Text testID='dogItem'>{dog.name}</Text>
+            <Text>{dog.name}</Text>
             <Text>{dog.age}</Text>
           </>
         );
