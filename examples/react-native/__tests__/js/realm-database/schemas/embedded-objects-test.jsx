@@ -63,7 +63,6 @@ describe('embedded objects tests', () => {
     //   "Cleveland": "",
     //   "USA": "",
     //   "12345": "",
-    //   " testID='submitContactBtn'": ""
     //   }
     //  }
 
@@ -104,7 +103,11 @@ describe('embedded objects tests', () => {
           />
           <Button
             title='Submit Contact'
+<<<<<<< Updated upstream
             testID='submitContactBtn'
+=======
+            testID='submitContactBtn' // :remove:
+>>>>>>> Stashed changes
             onPress={submitContact}
           />
         </View>
@@ -180,7 +183,6 @@ describe('embedded objects tests', () => {
     // :replace-start: {
     //  "terms": {
     //   " testID = 'contactNameText'": "",
-    //   " testID = 'deleteContactBtn'": ""
     //   }
     // }
     const ContactInfo = ({contactName}) => {
@@ -198,7 +200,11 @@ describe('embedded objects tests', () => {
         <View>
           <Text testID='contactNameText'>{contactName}</Text>
           <Button
+<<<<<<< Updated upstream
             testID='deleteContactBtn'
+=======
+            testID='deleteContactBtn' // :remove:
+>>>>>>> Stashed changes
             onPress={deleteContact}
             title='Delete Contact'
           />
@@ -238,7 +244,6 @@ describe('embedded objects tests', () => {
     // :snippet-start: update-embedded-object
     // :replace-start: {
     //  "terms": {
-    //   " testID='updateContactBtn'": "",
     //   "3 jefferson lane": ""
     //   }
     // }
@@ -264,7 +269,11 @@ describe('embedded objects tests', () => {
             placeholder='Enter New Street Address'
           />
           <Button
+<<<<<<< Updated upstream
             testID='updateContactBtn'
+=======
+            testID='updateContactBtn' // :remove:
+>>>>>>> Stashed changes
             onPress={updateStreet}
             title='Update Street Address'
           />
@@ -298,7 +307,6 @@ describe('embedded objects tests', () => {
     // :snippet-start: overwrite-embedded-object
     // :replace-start: {
     //  "terms": {
-    //   " testID='overwriteContactBtn'": "",
     //   "12 Grimmauld Place": "",
     //   "London": "",
     //   "UK": "",
@@ -346,7 +354,11 @@ describe('embedded objects tests', () => {
             placeholder='Postal Code'
           />
           <Button
+<<<<<<< Updated upstream
             testID='overwriteContactBtn'
+=======
+            testID='overwriteContactBtn' // :remove:
+>>>>>>> Stashed changes
             onPress={updateAddress}
             title='Overwrite Address'
           />

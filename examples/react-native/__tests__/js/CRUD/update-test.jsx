@@ -55,7 +55,6 @@ describe('Update Data Tests', () => {
     // :replace-start: {
     //  "terms": {
     //   " testID='progressMinutes'": "",
-    //   " testID='handleIncrementBtn'": ""
     //   }
     // }
     const TaskItem = ({_id}) => {
@@ -78,7 +77,11 @@ describe('Update Data Tests', () => {
             <Button
               onPress={() => incrementTaskProgress()}
               title='Increment Task Progress'
+<<<<<<< Updated upstream
               testID='handleIncrementBtn'
+=======
+              testID='handleIncrementBtn' // :remove:
+>>>>>>> Stashed changes
             />
           </>
         );
@@ -181,11 +184,6 @@ describe('Update Data Tests', () => {
 
   it('should bulk update an object', async () => {
     // :snippet-start: crud-bulk-update
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='resetProgressOnAllTasksBtn'": ""
-    //   }
-    // }
     const TaskDashboard = () => {
       const realm = useRealm();
       const tasks = useQuery(Task);
@@ -207,12 +205,15 @@ describe('Update Data Tests', () => {
           <Button
             onPress={resetProgressOnAllTasks}
             title='Reset Progress'
+<<<<<<< Updated upstream
             testID='resetProgressOnAllTasksBtn'
+=======
+            testID='resetProgressOnAllTasksBtn' // :remove:
+>>>>>>> Stashed changes
           />
         </>
       );
     };
-    // :replace-end:
     // :snippet-end:
 
     const App = () => (

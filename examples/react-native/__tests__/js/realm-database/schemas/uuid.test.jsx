@@ -38,12 +38,6 @@ describe('uuid schema', () => {
 
   it('should be able to create a new uuid', async () => {
     // :snippet-start: create-uuid-object
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='nameInput'": "",
-    //   " testID='createProfileButton'": ""
-    //   }
-    // }
     const CreateProfileInput = () => {
       const realm = useRealm();
       const [name, setName] = useState('');
@@ -60,18 +54,25 @@ describe('uuid schema', () => {
       return (
         <View>
           <TextInput
+<<<<<<< Updated upstream
             testID='nameInput'
+=======
+            testID='nameInput' // :remove:
+>>>>>>> Stashed changes
             placeholder='Name'
             onChangeText={setName}
           />
           <Button
+<<<<<<< Updated upstream
             testID='createProfileButton'
+=======
+            testID='createProfileButton' // :remove:
+>>>>>>> Stashed changes
             title='Create Profile'
             onPress={createProfile}
           />
         </View>
       );
-      // :replace-end:
       // :snippet-end:
     };
     const App = () => (

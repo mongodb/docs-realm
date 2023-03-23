@@ -105,12 +105,6 @@ describe('Set schema', () => {
   });
   it('should add items to a set', async () => {
     // :snippet-start: add-items-to-set
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='inventoryInput'": "",
-    //   " testID='addInventoryItemBtn'": ""
-    //   }
-    // }
     const AddInventoryToCharacter = ({characterName}) => {
       const realm = useRealm();
       const [inventoryItem, setInventoryItem] = useState('');
@@ -127,19 +121,26 @@ describe('Set schema', () => {
       return (
         <View>
           <TextInput
+<<<<<<< Updated upstream
             testID='inventoryInput'
+=======
+            testID='inventoryInput' // :remove:
+>>>>>>> Stashed changes
             onChangeText={text => setInventoryItem(text)}
             value={inventoryItem}
           />
           <Button
+<<<<<<< Updated upstream
             testID='addInventoryItemBtn'
+=======
+            testID='addInventoryItemBtn' // :remove:
+>>>>>>> Stashed changes
             title='Add Inventory Item'
             onPress={addInventoryItem}
           />
         </View>
       );
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
@@ -173,8 +174,6 @@ describe('Set schema', () => {
     // :replace-start: {
     //  "terms": {
     //   " testID='inventoryLength'": "",
-    //   " testID='inventoryInput'": "",
-    //   " testID='addInventoryItemBtn'": ""
     //   }
     // }
     const QueryCharacterInventory = ({characterName}) => {
@@ -198,12 +197,20 @@ describe('Set schema', () => {
             Total number of inventory items: {character.inventory.size}
           </Text>
           <TextInput
+<<<<<<< Updated upstream
             testID='inventoryInput'
+=======
+            testID='inventoryInput' // :remove:
+>>>>>>> Stashed changes
             onChangeText={text => setInventoryItem(text)}
             value={inventoryItem}
           />
           <Button
+<<<<<<< Updated upstream
             testID='queryCharacterInventoryBtn'
+=======
+            testID='queryCharacterInventoryBtn' // :remove:
+>>>>>>> Stashed changes
             title='Query for Inventory'
             onPress={queryCharacterInventory}
           />
@@ -253,13 +260,6 @@ describe('Set schema', () => {
   });
   it('should remove one item from a set and remove all items from the set', async () => {
     // :snippet-start: remove-items-from-set
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='inventoryInput'": "",
-    //   " testID='removeInventoryItemBtn'": "",
-    //   " testID='removeAllInventoryBtn'": ""
-    //   }
-    // }
     const RemoveInventoryFromCharacter = ({characterName}) => {
       const realm = useRealm();
       const [inventoryItem, setInventoryItem] = useState('');
@@ -281,24 +281,35 @@ describe('Set schema', () => {
         <View>
           <Text>{character.name}</Text>
           <TextInput
+<<<<<<< Updated upstream
             testID='inventoryInput'
+=======
+            testID='inventoryInput' // :remove:
+>>>>>>> Stashed changes
             onChangeText={text => setInventoryItem(text)}
             value={inventoryItem}
           />
           <Button
+<<<<<<< Updated upstream
             testID='removeInventoryItemBtn'
+=======
+            testID='removeInventoryItemBtn' // :remove:
+>>>>>>> Stashed changes
             title='Remove Inventory Item'
             onPress={removeInventoryItem}
           />
           <Button
+<<<<<<< Updated upstream
             testID='removeAllInventoryBtn'
+=======
+            testID='removeAllInventoryBtn' // :remove:
+>>>>>>> Stashed changes
             title='Remove All Inventory'
             onPress={removeAllInventory}
           />
         </View>
       );
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
@@ -344,9 +355,8 @@ describe('Set schema', () => {
     // :snippet-start: traverse-a-set
     // :replace-start: {
     //  "terms": {
-    //   " testID='inventoryInput'": "",
-    //   " testID='removeInventoryItemBtn'": "",
-    //   " testID='removeAllInventoryBtn'": ""
+    //   " testID='inventoryItem'": ""
+    //   " testID='unorderedInventoryItem'": ""
     //   }
     // }
     const TraverseCharacterInventory = ({characterName}) => {
@@ -370,12 +380,20 @@ describe('Set schema', () => {
           <Text>{character.name}</Text>
           <Text>Add an item to the inventory:</Text>
           <TextInput
+<<<<<<< Updated upstream
             testID='inventoryInput'
+=======
+            testID='inventoryInput' // :remove:
+>>>>>>> Stashed changes
             onChangeText={text => setInventoryItem(text)}
             value={inventoryItem}
           />
           <Button
+<<<<<<< Updated upstream
             testID='addInventoryItemBtn'
+=======
+            testID='addInventoryItemBtn' // :remove:
+>>>>>>> Stashed changes
             title='Add Inventory Item'
             onPress={addInventoryItem}
           />

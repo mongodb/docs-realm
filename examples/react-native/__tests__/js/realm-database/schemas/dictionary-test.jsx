@@ -42,11 +42,7 @@ describe('Dictionary Tests', () => {
   });
   it('should create an object with a dictionary value', async () => {
     // :snippet-start: create-object-with-dictionary-value
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='submitHomeOwnerBtn'": ""
-    //   }
-    // }
+
     const CreateHomeOwner = () => {
       const [homeOwnerName, setHomeOwnerName] = useState('John Smith');
       const [address, setAddress] = useState('1 Home Street');
@@ -73,14 +69,17 @@ describe('Dictionary Tests', () => {
           <TextInput value={address} onChangeText={text => setAddress(text)} />
           <Button
             title='Submit Home Owner'
+<<<<<<< Updated upstream
             testID='submitHomeOwnerBtn'
+=======
+            testID='submitHomeOwnerBtn' // :remove:
+>>>>>>> Stashed changes
             onPress={submitHomeOwner}
           />
         </View>
       );
     };
-    // :replace-end:
-    // :snippet-end:
+`    // :snippet-end:
     const App = () => (
       <RealmProvider>
         <CreateHomeOwner />

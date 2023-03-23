@@ -34,11 +34,6 @@ describe('Delete Data Tests', () => {
   });
   it('should delete an object', async () => {
     // :snippet-start: crud-delete-object
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='deleteDog'": ""
-    //   }
-    // }
     const DogList = () => {
       const realm = useRealm();
       const myDogs = useQuery(Dog);
@@ -57,7 +52,11 @@ describe('Delete Data Tests', () => {
                 <Button
                   onPress={() => deleteDog(dog)}
                   title='Delete Dog'
+<<<<<<< Updated upstream
                   testID='deleteDog'
+=======
+                  testID='deleteDog' // :remove:
+>>>>>>> Stashed changes
                 />
               </>
             );
@@ -65,7 +64,6 @@ describe('Delete Data Tests', () => {
         </>
       );
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
@@ -90,11 +88,6 @@ describe('Delete Data Tests', () => {
   });
   it('should delete multiple objects', async () => {
     // :snippet-start: crud-delete-multiple-objects
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='dogItem'": ""
-    //   }
-    // }
     const DogList = () => {
       const realm = useRealm();
       const myDogs = useQuery(Dog);
@@ -123,17 +116,24 @@ describe('Delete Data Tests', () => {
           <Button
             onPress={() => deleteAllYoungDogObjects()}
             title='Delete Young Dog Objects'
+<<<<<<< Updated upstream
             testID='deleteYoungDogs'
+=======
+            testID='deleteYoungDogs' // :remove:
+>>>>>>> Stashed changes
           />
           <Button
             onPress={() => deleteAllDogObjects()}
             title='Delete All Dog Objects'
+<<<<<<< Updated upstream
             testID='deleteAllDogs'
+=======
+            testID='deleteAllDogs' // :remove:
+>>>>>>> Stashed changes
           />
         </>
       );
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
@@ -142,9 +142,18 @@ describe('Delete Data Tests', () => {
     );
     const {getByTestId, getAllByTestId} = render(<App />);
 
-    await waitFor(() => getAllByTestId('dogItem'), {timeout: 5000}); // even though we don't use this as variable, react-native-testing-library requires us to waitFor() this to avoid the following error: "Unable to find an element with testID: dogItem"
+    // even though we don't use this as variable, react-native-testing-library
+    // requires us to waitFor() this to avoid the following error:
+    // "Unable to find an element with testID: dogItem"
+    await waitFor(() => getAllByTestId('dogItem'), {timeout: 5000});
 
+<<<<<<< Updated upstream
     // Test that the young Dog objects (Bronson, Bowie) have been deleted from the realm + from the UI when the "Delete All Dog Objects" is pressed, leaving 1 dog object (Blaise) remaining
+=======
+    // Test that the young Dog objects (Bronson, Bowie) have been deleted
+    // from the realm + from the UI when the "Delete All Dog Objects" is pressed,
+    // leaving 1 dog object (Blaise) remaining
+>>>>>>> Stashed changes
     const deleteYoungDogsBtn = await waitFor(
       () => getByTestId('deleteYoungDogs'),
       {timeout: 5000},
@@ -166,11 +175,6 @@ describe('Delete Data Tests', () => {
   });
   it('should delete all objects', async () => {
     // :snippet-start: crud-delete-all-objects
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='deleteAllData'": ""
-    //   }
-    // }
     const DeleteProfileSettingsScreen = () => {
       const realm = useRealm();
 
@@ -186,12 +190,15 @@ describe('Delete Data Tests', () => {
           <Button
             onPress={deleteAllData}
             title='Delete all data'
+<<<<<<< Updated upstream
             testID='deleteAllData'
+=======
+            testID='deleteAllData' // :remove:
+>>>>>>> Stashed changes
           />
         </>
       );
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
