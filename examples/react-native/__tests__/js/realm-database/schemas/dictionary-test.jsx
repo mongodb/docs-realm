@@ -75,7 +75,7 @@ describe('Dictionary Tests', () => {
         </View>
       );
     };
-`    // :snippet-end:
+    // :snippet-end:
     const App = () => (
       <RealmProvider>
         <CreateHomeOwner />
