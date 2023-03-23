@@ -21,7 +21,7 @@ Set the Log Level
 
 To configure the log level, set the
 `RealmLogger.level <{+kotlin-local-prefix+}io.realm.kotlin.log/-realm-logger/index.html#-1564414662%2FProperties%2F-1651551339>`__ property
-to one of the available ``LogLevel`` enums.
+to one of the logger levels provided by ``LogLevel``.
 
 See the `LogLevel <{+kotlin-local-prefix+}io.realm.kotlin.log/-log-level/index.html>`__ documentation for a description of each 
 available log level. 
@@ -37,9 +37,8 @@ You must set the log level *before* you open a synced realm.
 Set a Custom Logger
 -------------------
 
-You can pipe Device Sync logs to a custom logger by setting the 
-``customLoggers`` parameter on the 
-``SyncConfiguration`` builder.
+You can pipe Device Sync logs to a custom `RealmLogger <{+kotlin-local-prefix+}io.realm.kotlin.log/-realm-logger/index.html>`__ object
+by setting the ``customLoggers`` parameter on the ``SyncConfiguration`` builder.
 If you don't specify this parameter, the Kotlin SDK outputs log 
 strings to the default system logger (LogCat on Android, NSLog on iOS).
 

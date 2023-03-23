@@ -364,9 +364,8 @@ class SyncTest: RealmTest() {
             realm.close()
         }
     }
-
     @Test
-    fun setLCustomLoggerTest() {
+    fun setCustomLoggerTest() {
         val credentials = Credentials.anonymous()
         val customLogger = createDefaultSystemLogger("TEST", LogLevel.ALL)
         runBlocking {
