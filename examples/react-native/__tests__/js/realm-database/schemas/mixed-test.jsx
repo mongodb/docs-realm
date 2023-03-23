@@ -114,9 +114,7 @@ describe('Mixed Tests', () => {
     //   " testID='catBirthDate'": ""
     //   }
     // }
-    type CatInfoCardProps = {catName: string};
-
-    const CatInfoCard = ({catName}: CatInfoCardProps) => {
+    const CatInfoCard = ({catName}) => {
       // To query for the cat's birthDate, filter for their name to retrieve the realm object.
       // Use dot notation to access the birthDate property.
       const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];
