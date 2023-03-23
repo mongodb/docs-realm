@@ -4,14 +4,11 @@
 #include <vector>
 #include <cpprealm/sdk.hpp>
 
-struct AllTypesObject : realm::object<AllTypesObject>
-{
+struct AllTypesObject : realm::object<AllTypesObject> { 
     using SomeType = std::string;
 
-    enum class Enum
-    {
-        one,
-        two
+    enum class Enum {
+        one, two
     };
 
     // :snippet-start: required-bool
@@ -79,48 +76,47 @@ struct AllTypesObject : realm::object<AllTypesObject>
     // :snippet-end:
 
     static constexpr auto schema = realm::schema("AllTypesObject",
-                                                 realm::property<&AllTypesObject::boolName>("boolName"),
-                                                 realm::property<&AllTypesObject::optBoolName>("optBoolName"),
-                                                 realm::property<&AllTypesObject::intName>("intName"),
-                                                 realm::property<&AllTypesObject::optIntName>("optIntName"),
-                                                 realm::property<&AllTypesObject::doubleName>("doubleName"),
-                                                 realm::property<&AllTypesObject::optDoubleName>("optDoubleName"),
-                                                 realm::property<&AllTypesObject::stringName>("stringName"),
-                                                 realm::property<&AllTypesObject::optStringName>("optStringName"),
-                                                 realm::property<&AllTypesObject::enumName>("enumName"),
-                                                 realm::property<&AllTypesObject::optEnumName>("optEnumName"),
-                                                 realm::property<&AllTypesObject::binaryDataName>("binaryDataName"),
-                                                 realm::property<&AllTypesObject::optBinaryDataName>("optBinaryDataName"),
-                                                 realm::property<&AllTypesObject::uuidName>("uuidName"),
-                                                 realm::property<&AllTypesObject::optUuidName>("optUuidName"),
-                                                 realm::property<&AllTypesObject::mixedName>("mixedName"),
-                                                 realm::property<&AllTypesObject::mapName>("mapName"),
-                                                 realm::property<&AllTypesObject::listTypeName>("listTypeName"));
+        realm::property<&AllTypesObject::boolName>("boolName"),
+        realm::property<&AllTypesObject::optBoolName>("optBoolName"),
+        realm::property<&AllTypesObject::intName>("intName"),
+        realm::property<&AllTypesObject::optIntName>("optIntName"),
+        realm::property<&AllTypesObject::doubleName>("doubleName"),
+        realm::property<&AllTypesObject::optDoubleName>("optDoubleName"),
+        realm::property<&AllTypesObject::stringName>("stringName"),
+        realm::property<&AllTypesObject::optStringName>("optStringName"),
+        realm::property<&AllTypesObject::enumName>("enumName"),
+        realm::property<&AllTypesObject::optEnumName>("optEnumName"),
+        realm::property<&AllTypesObject::binaryDataName>("binaryDataName"),
+        realm::property<&AllTypesObject::optBinaryDataName>("optBinaryDataName"),
+        realm::property<&AllTypesObject::uuidName>("uuidName"),
+        realm::property<&AllTypesObject::optUuidName>("optUuidName"),
+        realm::property<&AllTypesObject::mixedName>("mixedName"),
+        realm::property<&AllTypesObject::mapName>("mapName"),
+        realm::property<&AllTypesObject::listTypeName>("listTypeName"));
 };
 
-TEST_CASE("required supported types", "[write]")
-{
+TEST_CASE("required supported types", "[write]") {
 
     auto realm = realm::open<AllTypesObject>();
 
-    SECTION("Test code example functions as intended")
-    {
-        auto allRequiredTypesObject = AllTypesObject{
+    SECTION("Test code example functions as intended") {
+        auto allRequiredTypesObject = AllTypesObject { 
             .boolName = true,
             .intName = 1,
             .doubleName = 1.1,
             .stringName = "Fluffy",
             .mixedName = realm::mixed("mixed data"),
             .enumName = AllTypesObject::Enum::one,
-            .binaryDataName = std::vector<uint8_t>{0, 1, 2},
+            .binaryDataName = std::vector<uint8_t>{0,1,2},
             .uuidName = realm::uuid(),
-            .objectIdName = realm::object_id::generate()};
+            .objectIdName = realm::object_id::generate()
+        };
 
-        realm.write([&realm, &allRequiredTypesObject]
-                    {
+        realm.write([&realm, &allRequiredTypesObject] {
             realm.add(allRequiredTypesObject);
             allRequiredTypesObject.listTypeName.push_back("Rex");
-            allRequiredTypesObject.mapName["some key"] = "some value"; });
+            allRequiredTypesObject.mapName["some key"] = "some value";
+        });
 
         auto allTypeObjects = realm.objects<AllTypesObject>();
         auto specificAllTypeObjects = allTypeObjects[0];
@@ -129,30 +125,29 @@ TEST_CASE("required supported types", "[write]")
         REQUIRE(specificAllTypeObjects.doubleName == 1.1);
         REQUIRE(specificAllTypeObjects.stringName == "Fluffy");
         REQUIRE(*specificAllTypeObjects.enumName == AllTypesObject::Enum::one);
-        REQUIRE(specificAllTypeObjects.binaryDataName == std::vector<uint8_t>{0, 1, 2});
+        REQUIRE(specificAllTypeObjects.binaryDataName == std::vector<uint8_t>{0,1,2});
         REQUIRE(*specificAllTypeObjects.mixedName == realm::mixed("mixed data"));
         REQUIRE(specificAllTypeObjects.mapName["some key"] == "some value");
         REQUIRE(specificAllTypeObjects.listTypeName[0] == "Rex");
 
-        realm.write([&realm, &allRequiredTypesObject]
-                    { realm.remove(allRequiredTypesObject); });
+        realm.write([&realm, &allRequiredTypesObject] {
+            realm.remove(allRequiredTypesObject);
+        });
     }
 }
 
-TEST_CASE("optional supported types", "[write]")
-{
+TEST_CASE("optional supported types", "[write]") {
 
     auto realm = realm::open<AllTypesObject>();
 
-    SECTION("Test code example functions as intended")
-    {
-        auto allRequiredAndOptionalTypesObject = AllTypesObject{
+    SECTION("Test code example functions as intended") {
+        auto allRequiredAndOptionalTypesObject = AllTypesObject {
             .boolName = true,
             .intName = 1,
             .doubleName = 1.1,
             .stringName = "Fluffy",
             .enumName = AllTypesObject::Enum::one,
-            .binaryDataName = std::vector<uint8_t>{0, 1, 2},
+            .binaryDataName = std::vector<uint8_t>{0,1,2},
             .uuidName = realm::uuid(),
             .objectIdName = realm::object_id::generate(),
             .mixedName = realm::mixed("mixed data"),
@@ -163,13 +158,14 @@ TEST_CASE("optional supported types", "[write]")
             .optEnumName = AllTypesObject::Enum::two,
             .optUuidName = realm::uuid(),
             .optObjectIdName = realm::object_id::generate(),
-            .optBinaryDataName = std::vector<uint8_t>{3, 4, 5}};
+            .optBinaryDataName = std::vector<uint8_t>{3,4,5}
+        };
 
-        realm.write([&realm, &allRequiredAndOptionalTypesObject]
-                    {
+        realm.write([&realm, &allRequiredAndOptionalTypesObject] {
             realm.add(allRequiredAndOptionalTypesObject);
             allRequiredAndOptionalTypesObject.listTypeName.push_back("Rex");
-            allRequiredAndOptionalTypesObject.mapName["some key"] = "some value"; });
+            allRequiredAndOptionalTypesObject.mapName["some key"] = "some value";
+        });
 
         auto allTypeObjects = realm.objects<AllTypesObject>();
         auto specificAllTypeObjects = allTypeObjects[0];
@@ -178,7 +174,7 @@ TEST_CASE("optional supported types", "[write]")
         REQUIRE(specificAllTypeObjects.doubleName == 1.1);
         REQUIRE(specificAllTypeObjects.stringName == "Fluffy");
         REQUIRE(*specificAllTypeObjects.enumName == AllTypesObject::Enum::one);
-        REQUIRE(specificAllTypeObjects.binaryDataName == std::vector<uint8_t>{0, 1, 2});
+        REQUIRE(specificAllTypeObjects.binaryDataName == std::vector<uint8_t>{0,1,2});
         REQUIRE(*specificAllTypeObjects.mixedName == realm::mixed("mixed data"));
         REQUIRE(specificAllTypeObjects.mapName["some key"] == "some value");
         REQUIRE(specificAllTypeObjects.listTypeName[0] == "Rex");
@@ -187,9 +183,10 @@ TEST_CASE("optional supported types", "[write]")
         REQUIRE(specificAllTypeObjects.optDoubleName == 42.42);
         REQUIRE(specificAllTypeObjects.optStringName == "Maui");
         REQUIRE(*specificAllTypeObjects.optEnumName == AllTypesObject::Enum::two);
-        REQUIRE(*specificAllTypeObjects.optBinaryDataName == std::vector<uint8_t>{3, 4, 5});
+        REQUIRE(*specificAllTypeObjects.optBinaryDataName == std::vector<uint8_t>{3,4,5});
 
-        realm.write([&realm, &allRequiredAndOptionalTypesObject]
-                    { realm.remove(allRequiredAndOptionalTypesObject); });
+        realm.write([&realm, &allRequiredAndOptionalTypesObject] {
+            realm.remove(allRequiredAndOptionalTypesObject);
+        });
     }
 }

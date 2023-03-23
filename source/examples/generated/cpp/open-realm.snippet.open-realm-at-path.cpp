@@ -6,4 +6,4 @@ path = path.append("dog_objects");
 // Add the .realm extension
 path = path.replace_extension("realm");
 // Open a realm at the path
-auto realm = realm::open<Dog>({path});
+auto realm = realm::open<Dog>({ path });

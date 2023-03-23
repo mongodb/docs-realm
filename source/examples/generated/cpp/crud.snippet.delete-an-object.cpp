@@ -1,2 +1,3 @@
-realm.write([&realm, &dog]
-            { realm.remove(dog); });
+realm.write([&realm, &dog] { 
+    realm.remove(dog); 
+});

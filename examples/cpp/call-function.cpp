@@ -3,7 +3,7 @@
 #include <future>
 #include <cpprealm/sdk.hpp>
 
-static std::string APP_ID = "cpp-tester-uliix";
+static const std::string APP_ID = "cpp-tester-uliix";
 
 TEST_CASE("call a function", "[realm][sync]")
 {

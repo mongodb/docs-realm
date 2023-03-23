@@ -7,5 +7,6 @@ std::cout << "dog: " << dog << "\n";
 auto realm = realm::open<Dog>();
 
 // Persist your data in a write transaction
-realm.write([&realm, &dog]
-            { realm.add(dog); });
+realm.write([&realm, &dog] { 
+    realm.add(dog); 
+});

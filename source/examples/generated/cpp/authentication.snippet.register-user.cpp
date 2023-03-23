@@ -1,6 +1,6 @@
-auto app = realm::App(INSERT_APP_ID_HERE);
+auto app = realm::App(APP_ID);
 
-auto user_email = "testUser" + random_string() + "@example.com";
-auto user_password = "password1234";
+auto userEmail = "testUser" + random_string() + "@example.com";
+auto userPassword = "password1234";
 
-app.register_user(user_email, user_password).get_future().get();
+app.register_user(userEmail, userPassword).get_future().get();
