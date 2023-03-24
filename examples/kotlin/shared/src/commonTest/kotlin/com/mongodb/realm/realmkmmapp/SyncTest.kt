@@ -2,9 +2,9 @@ package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
-import io.realm.kotlin.internal.platform.createDefaultSystemLogger
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.log.LogLevel
+import io.realm.kotlin.log.RealmLogger
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.subscriptions
@@ -359,6 +359,7 @@ class SyncTest: RealmTest() {
                 .build()
 
             // Open the synced realm
+            // Synced realm writes logs according to the log level set above
             val realm = Realm.open(config)
             // :snippet-end:
             realm.close()
@@ -366,10 +367,26 @@ class SyncTest: RealmTest() {
     }
     @Test
     fun setCustomLoggerTest() {
+        class CustomLogger : RealmLogger {
+            override var tag: String = ""
+            override val level: LogLevel = LogLevel.NONE
+            var logLevel: LogLevel = LogLevel.NONE
+            var message: String? = null
+
+            override fun log(level: LogLevel, throwable: Throwable?, message: String?, vararg args: Any?) {
+                this.logLevel = level
+                this.message = message
+            }
+        }
+
         val credentials = Credentials.anonymous()
-        val customLogger = createDefaultSystemLogger("TEST", LogLevel.ALL)
+
         runBlocking {
             // :snippet-start: set-custom-logger
+            val customLogger = CustomLogger()
+            customLogger.tag = "Engineering debugging"
+            customLogger.message = "${customLogger.logLevel}: ${customLogger.message}"
+
             // Access your app
             val app = App.create(yourFlexAppId)
             val user = app.login(credentials)
@@ -377,7 +394,7 @@ class SyncTest: RealmTest() {
             // Access the configuration builder for the app
             val config = SyncConfiguration.Builder(user, setOf(Toad::class))
 
-                // Set the custom logger and log level
+                // Set the custom logger and applicable log level
                 // Must be set BEFORE you open a synced realm
                 .log(LogLevel.ALL, customLoggers = listOf(customLogger))
 

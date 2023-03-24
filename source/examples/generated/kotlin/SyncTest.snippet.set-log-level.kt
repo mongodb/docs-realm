@@ -15,4 +15,5 @@ val config = SyncConfiguration.Builder(user, setOf(Toad::class))
     .build()
 
 // Open the synced realm
+// Synced realm writes logs according to the log level set above
 val realm = Realm.open(config)
