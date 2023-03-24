@@ -6,7 +6,7 @@ import {createRealmContext} from '@realm/react';
 import {Button} from 'react-native';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 let higherOrderProfileName;
-let primaryKey;
+const YOUR_PRIMARY_KEY= new Realm.BSON.ObjectId();
 // :remove-end:
 
 // Define your object model
@@ -33,21 +33,15 @@ const {RealmProvider, useObject, useQuery} = createRealmContext(realmConfig);
 function AppWrapper() {
   return (
     <RealmProvider>
-      <FindSortFilterComponent />
+      <FindSortFilterComponent objectPrimaryKey={YOUR_PRIMARY_KEY} />
     </RealmProvider>
   );
 }
 
-const FindSortFilterComponent = () => {
+const FindSortFilterComponent = ({objectPrimaryKey}) => {
   const [activeProfile, setActiveProfile] = useState();
   const [allProfiles, setAllProfiles] = useState();
-  // :replace-start: {
-  //    "terms": {
-  //       "primaryKey": "[primaryKey]"
-  //    }
-  // }
-  const currentlyActiveProfile = useObject(Profile, primaryKey);
-  // :replace-end:
+  const currentlyActiveProfile = useObject(Profile, objectPrimaryKey);
   const profiles = useQuery(Profile);
 
   const sortProfiles = (reversed) => {
@@ -82,13 +76,12 @@ const FindSortFilterComponent = () => {
 
 beforeEach(async () => {
   const realm = await Realm.open(realmConfig);
-  const id = new Realm.BSON.ObjectId();
 
   realm.write(() => {
     // Create a profile object.
     realm.create('Profile', {
       name: 'TestProfile',
-      _id: id,
+      _id: YOUR_PRIMARY_KEY,
     });
 
     realm.create('Profile', {
@@ -97,7 +90,6 @@ beforeEach(async () => {
     });
   });
 
-  primaryKey = id;
   higherOrderProfileName = 'TestProfile';
 
   realm.close();
