@@ -10,6 +10,14 @@ Open a Realm - Kotlin SDK
    :depth: 2
    :class: singlecol
 
+.. note:: Automatic Compaction of Realm File Size
+
+  .. versionadded:: 1.6.0
+
+  Realm automatically compacts files in the background by continuously 
+  reallocating data in the file and removing unused file space. Realm will 
+  automatically compact the file only when the file is not being accessed.
+
 Open a Realm
 ------------
 
