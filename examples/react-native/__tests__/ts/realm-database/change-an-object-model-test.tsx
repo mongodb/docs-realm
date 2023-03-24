@@ -1,8 +1,15 @@
+import React from 'react';
+import {View, Text} from 'react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
+import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Person from '../Models/Person';
 
+// TODO: Refactor test to render <RealmProvider> and use `expect` to test that
+// changes are made.
+
 describe('Change an Object Model Tests', () => {
+
   it('should add a property to a schema', () => {
     // :snippet-start: add-a-property-to-schema
     // :replace-start: {
@@ -31,10 +38,50 @@ describe('Change an Object Model Tests', () => {
       // increment the 'schemaVersion', since 'age' has been added to the schema
       schemaVersion: 2,
     };
+
     // pass the configuration object with the updated 'schemaVersion' to createRealmContext()
-    createRealmContext(config);
+    const {RealmProvider} = createRealmContext(config);
     // :replace-end:
     // :snippet-end:
+
+    const {useRealm} = createRealmContext(config);
+
+    // render an App component, giving the CreateDogInput component access to the @realm/react hooks:
+    const App = () => (
+      <RealmProvider>
+        <RestOfApp />
+      </RealmProvider>
+    );
+
+    const RestOfApp = () => {
+      const realm = useRealm();
+
+      // TODO: check the realm schema to see if `age` property is added.
+
+      return (
+        <View>
+          <Text>This is the rest of the app!</Text>
+        </View>
+      )
+    };
+
+    render(<App />);
+
+    // press the "Add Dog" button
+    const handleAddDogBtn = await waitFor(
+      () => getByTestId('handleAddDogBtn'),
+      {timeout: 5000},
+    );
+
+    await act(async () => {
+      fireEvent.press(handleAddDogBtn);
+    });
+
+    // check if the new Dog object has been created
+    const myDog = assertionRealm.objects(Dog).filtered("name == 'Fido'")[0];
+    
+    expect(myDog.name).toBe('Fido');
+    expect(myDog.age).toBe(1);
   });
 
   it('should delete a property from a schema', () => {
@@ -56,16 +103,19 @@ describe('Change an Object Model Tests', () => {
         },
       };
     }
+
     const config = {
       schema: [MyPerson],
       // increment the 'schemaVersion', since 'lastName' has been removed from the schema
       schemaVersion: 2,
     };
+
     // pass the configuration object with the updated 'schemaVersion' to createRealmContext()
     createRealmContext(config);
     // :replace-end:
     // :snippet-end:
   });
+
   it('should rename a property', async () => {
     // :snippet-start: rename-a-property-of-a-schema
     // :replace-start: {
@@ -105,6 +155,7 @@ describe('Change an Object Model Tests', () => {
         }
       },
     };
+
     // pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
     createRealmContext(config);
     // :replace-end:
@@ -158,6 +209,7 @@ describe('Change an Object Model Tests', () => {
         }
       },
     };
+
     // pass the configuration object with the updated
     // 'schemaVersion' and 'migration' function to createRealmContext()
     createRealmContext(config);
