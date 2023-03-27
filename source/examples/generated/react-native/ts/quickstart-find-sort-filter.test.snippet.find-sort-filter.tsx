@@ -29,15 +29,19 @@ const {RealmProvider, useObject, useQuery} = createRealmContext(realmConfig);
 function AppWrapper() {
   return (
     <RealmProvider>
-      <FindSortFilterComponent />
+      <FindSortFilterComponent objectPrimaryKey={YOUR_PRIMARY_KEY} />
     </RealmProvider>
   );
 }
 
-const FindSortFilterComponent = () => {
+type FindSortFilterComponentProps = {
+  objectPrimaryKey: Realm.BSON.ObjectId;
+};
+
+const FindSortFilterComponent = ({objectPrimaryKey}: FindSortFilterComponentProps) => {
   const [activeProfile, setActiveProfile] = useState<Profile>();
   const [allProfiles, setAllProfiles] = useState<Realm.Results<Profile>>();
-  const currentlyActiveProfile = useObject(Profile, [primaryKey]);
+  const currentlyActiveProfile = useObject(Profile, objectPrimaryKey);
   const profiles = useQuery(Profile);
 
   const sortProfiles = (reversed: true | false) => {

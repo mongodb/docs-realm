@@ -121,7 +121,6 @@ describe('Read Data Tests', () => {
       const lowProgressTasks = tasks.filtered(
         '1 <= progressMinutes && progressMinutes < 10',
       );
-      console.log('highPriorityTasks', highPriorityTasks.length);
 
       console.log('lowProgressTasks', lowProgressTasks.length);
 
