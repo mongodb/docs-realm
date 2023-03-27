@@ -1,10 +1,12 @@
 class Person extends Realm.Object<Person> {
+  _id!: string;
   fullName!: string;
   age!: number;
 
   static schema = {
     name: 'Person',
     properties: {
+      _id: 'string',
       // rename the 'firstName' and 'lastName' property, to 'fullName' in the schema
       fullName: 'string',
       age: 'int',
@@ -15,10 +17,10 @@ class Person extends Realm.Object<Person> {
 const config = {
   schema: [Person],
   // increment the 'schemaVersion', since 'fullName' has replaced 'firstName' and 'lastName' in the schema
-  schemaVersion: 2,
+  schemaVersion: 4,
   migration: (oldRealm: Realm, newRealm: Realm) => {
-    // only apply this change if upgrading to schemaVersion 2
-    if (oldRealm.schemaVersion < 2) {
+    // only apply this change if upgrading schemaVersion
+    if (oldRealm.schemaVersion < 4) {
       const oldObjects = oldRealm.objects(Person);
       const newObjects = newRealm.objects(Person);
       // loop through all objects and set the fullName property in the new schema
@@ -30,5 +32,6 @@ const config = {
     }
   },
 };
+
 // pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
-createRealmContext(config);
+const {RealmProvider} = createRealmContext(config);

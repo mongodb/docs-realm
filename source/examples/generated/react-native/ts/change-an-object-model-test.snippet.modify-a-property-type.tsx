@@ -1,33 +1,30 @@
-class Task extends Realm.Object<Task> {
+
+class Person extends Realm.Object<Person> {
   _id: Realm.BSON.ObjectId = new Realm.BSON.ObjectId();
-  name!: string;
-  priority?: number;
-  progressMinutes?: number;
-  assignee?: Person;
+  firstName!: string;
+  lastName!: string;
+  age!: number;
 
   static schema = {
-    name: 'Task',
+    name: 'Person',
     properties: {
       // update the data type of '_id' to be 'objectId' within the schema
       _id: 'objectId',
-      name: 'string',
-      priority: 'int?',
-      progressMinutes: 'int?',
-      assignee: 'Person?',
+      firstName: 'string',
+      lastName: 'string',
     },
-    primaryKey: '_id',
   };
 }
 
 const config = {
-  schema: [Task],
+  schema: [Person],
   // increment the 'schemaVersion', since the property type of '_id'
   // has been modified
-  schemaVersion: 2,
+  schemaVersion: 5,
   migration: (oldRealm: Realm, newRealm: Realm) => {
     if (oldRealm.schemaVersion < 2) {
-      const oldObjects = oldRealm.objects(Task);
-      const newObjects = newRealm.objects(Task);
+      const oldObjects = oldRealm.objects(Person);
+      const newObjects = newRealm.objects(Person);
       // loop through all objects and set the _id property
       // in the new schema
       for (const objectIndex in oldObjects) {
@@ -38,6 +35,7 @@ const config = {
     }
   },
 };
-// pass the configuration object with the updated
+
+// Pass the configuration object with the updated
 // 'schemaVersion' and 'migration' function to createRealmContext()
-createRealmContext(config);
+const {RealmProvider} = createRealmContext(config);
