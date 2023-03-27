@@ -14,22 +14,20 @@ This Quick Start demonstrates how to use Realm Database with the Realm .NET SDK.
 It then demonstrates adding Device Sync with Atlas App Services to your app. 
 Before you begin, ensure you have :ref:`Installed the .NET SDK <dotnet-install>`.
 
+Install Realm
+-------------
+
+.. include:: /includes/dotnet-install-realm.rst
+
 Import Realm
 ------------
-In the shared code project of your solution, go to :guilabel:`Manage NuGet
-Packages`. In the NuGet Package Manager, switch to the Browse tab and then
-search for **Realm**. Select the latest version of the Realm package, and then 
-click :guilabel:`Add Package`. 
 
-.. figure:: /images/add-realm-via-nuget.png
-   :alt: Adding Realm via Nuget
-
-At the top of each C# file that uses Realm, add the following ``using``
-statement:
+Add the following line to the top of your source files to use Realm:
 
 .. code-block:: csharp
 
    using Realms;
+
 
 Define Your Object Model
 ------------------------
