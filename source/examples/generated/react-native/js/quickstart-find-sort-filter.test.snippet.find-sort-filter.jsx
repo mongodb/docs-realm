@@ -26,15 +26,15 @@ const {RealmProvider, useObject, useQuery} = createRealmContext(realmConfig);
 function AppWrapper() {
   return (
     <RealmProvider>
-      <FindSortFilterComponent />
+      <FindSortFilterComponent objectPrimaryKey={YOUR_PRIMARY_KEY} />
     </RealmProvider>
   );
 }
 
-const FindSortFilterComponent = () => {
+const FindSortFilterComponent = ({objectPrimaryKey}) => {
   const [activeProfile, setActiveProfile] = useState();
   const [allProfiles, setAllProfiles] = useState();
-  const currentlyActiveProfile = useObject(Profile, [primaryKey]);
+  const currentlyActiveProfile = useObject(Profile, objectPrimaryKey);
   const profiles = useQuery(Profile);
 
   const sortProfiles = (reversed) => {
