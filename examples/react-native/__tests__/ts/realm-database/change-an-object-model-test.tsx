@@ -4,6 +4,20 @@ import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 import {render} from '@testing-library/react-native';
 
+// Replace incremented schema versions in Bluehawk output. The incrementing
+// is necessary for testing, but confusing outside that context. Also remove
+// useRealm instantiation, for the same reason.
+// :replace-start: {
+//    "terms": {
+//       "schemaVersion: 3": "schemaVersion: 2",
+//       "schemaVersion: 4": "schemaVersion: 2",
+//       "schemaVersion: 5": "schemaVersion: 2",
+//       "oldRealm.schemaVersion < 4": "oldRealm.schemaVersion < 2",
+//       "oldRealm.schemaVersion < 5": "oldRealm.schemaVersion < 2",
+//        "RealmProvider, useRealm": "RealmProvider"
+//    }
+// }
+
 class Person extends Realm.Object<Person> {
   _id!: string;
   firstName!: string;
@@ -27,10 +41,8 @@ const config = {
 describe('Change an Object Model Tests', () => {
 
   it('should establish a base realm', async () => {
-
     // Establish base realm and schema to check modifications against.
     Realm.open(config).then(realm => {
-
       // Write initial object to local realm
       realm.write(() => {
         realm.create('Person', {
@@ -77,14 +89,8 @@ describe('Change an Object Model Tests', () => {
       schemaVersion: 2,
     };
 
-    // :replace-start: {
-    //    "terms": {
-    //       "RealmProvider, useRealm": "RealmProvider"
-    //    }
-    // }
     // pass the configuration object with the updated 'schemaVersion' to createRealmContext()
     const {RealmProvider, useRealm} = createRealmContext(config);
-    // :replace-end:
     // :snippet-end:
 
     const App = () => (
@@ -133,14 +139,8 @@ describe('Change an Object Model Tests', () => {
       schemaVersion: 3,
     };
 
-    // :replace-start: {
-    //    "terms": {
-    //       "RealmProvider, useRealm": "RealmProvider"
-    //    }
-    // }
     // pass the configuration object with the updated 'schemaVersion' to createRealmContext()
     const {RealmProvider, useRealm} = createRealmContext(config);
-    // :replace-end:
     // :snippet-end:
 
     const App = () => (
@@ -203,14 +203,8 @@ describe('Change an Object Model Tests', () => {
       },
     };
 
-    // :replace-start: {
-    //    "terms": {
-    //       "RealmProvider, useRealm": "RealmProvider"
-    //    }
-    // }
     // pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
     const {RealmProvider, useRealm} = createRealmContext(config);
-    // :replace-end:
     // :snippet-end:
 
     const App = () => (
@@ -246,7 +240,7 @@ describe('Change an Object Model Tests', () => {
       firstName!: string;
       lastName!: string;
       age!: number;
-    
+
       static schema = {
         name: 'Person',
         properties: {
@@ -264,7 +258,7 @@ describe('Change an Object Model Tests', () => {
       // has been modified
       schemaVersion: 5,
       migration: (oldRealm: Realm, newRealm: Realm) => {
-        if (oldRealm.schemaVersion < 2) {
+        if (oldRealm.schemaVersion < 5) {
           const oldObjects = oldRealm.objects(Person);
           const newObjects = newRealm.objects(Person);
           // loop through all objects and set the _id property
@@ -278,15 +272,9 @@ describe('Change an Object Model Tests', () => {
       },
     };
 
-    // :replace-start: {
-    //    "terms": {
-    //       "RealmProvider, useRealm": "RealmProvider"
-    //    }
-    // }
     // Pass the configuration object with the updated
     // 'schemaVersion' and 'migration' function to createRealmContext()
     const {RealmProvider, useRealm} = createRealmContext(config);
-    // :replace-end:
     // :snippet-end:
 
     const App = () => (
@@ -321,3 +309,4 @@ describe('Change an Object Model Tests', () => {
     expect(realmExists).toBe(false);
   });
 });
+// :replace-end:

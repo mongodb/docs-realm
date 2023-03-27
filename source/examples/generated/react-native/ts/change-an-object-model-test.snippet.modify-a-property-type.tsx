@@ -20,7 +20,7 @@ const config = {
   schema: [Person],
   // increment the 'schemaVersion', since the property type of '_id'
   // has been modified
-  schemaVersion: 5,
+  schemaVersion: 2,
   migration: (oldRealm: Realm, newRealm: Realm) => {
     if (oldRealm.schemaVersion < 2) {
       const oldObjects = oldRealm.objects(Person);
