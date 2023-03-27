@@ -1,6 +1,8 @@
-import Realm, { BSON } from "realm";
+import { Realm, BSON, Credentials, App } from "realm";
+import { jest } from "@jest/globals";
+import { REALM_APP_ID } from "./config";
 
-const ObjectId = (value: string) => new Realm.BSON.ObjectId(value);
+const ObjectId = (value: string) => new BSON.ObjectId(value);
 
 jest.useFakeTimers();
 
@@ -26,17 +28,13 @@ const PLANTS = [
   // :snippet-end:
 ];
 
-let app: Realm.App;
+let app: App;
 
 async function getPlantsCollection() {
   if (!app.currentUser) {
     throw new Error("Must be logged in to get plants collection.");
   }
-  // :snippet-start: collection-type
-  type Document = Realm.Services.MongoDB.Document;
-  type MongoDBCollection<T extends Document> =
-    Realm.Services.MongoDB.MongoDBCollection<T>;
-  // :snippet-end:
+
   // :snippet-start: plants-collection-handle
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
   const plants = mongodb.db("example").collection<Plant>("plants");
@@ -45,15 +43,15 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
-  app = new Realm.App({ id: "example-testers-kvjdy" });
-  await app.logIn(Realm.Credentials.anonymous());
+  app = new App({ id: REALM_APP_ID });
+  await app.logIn(Credentials.anonymous());
   const plants = await getPlantsCollection();
   await plants.deleteMany({});
   await plants.insertMany(PLANTS);
 });
 
 beforeEach(async () => {
-  await app.logIn(Realm.Credentials.anonymous());
+  await app.logIn(Credentials.anonymous());
 });
 afterEach(async () => {
   await app.currentUser?.logOut();
@@ -63,8 +61,6 @@ describe("Create Documents", () => {
   test("Insert a Single Document", async () => {
     const plants = await getPlantsCollection();
     // :snippet-start: insert-a-single-document
-    type InsertOneResult =
-      Realm.Services.MongoDB.InsertOneResult<BSON.ObjectId>;
     const result = await plants.insertOne({
       // :remove-start:
       _id: new BSON.ObjectId("5f879f83fc9013565c23360e"),
@@ -336,9 +332,9 @@ describe("Aggregation Stages", () => {
   test("Filter Documents", async () => {
     const plants = await getPlantsCollection();
     // :snippet-start: filter-documents
-    const perennials = await plants.aggregate([
+    const perennials = (await plants.aggregate([
       { $match: { type: { $eq: "perennial" } } },
-    ]);
+    ])) as Plant[];
     console.log(perennials);
     // :snippet-end:
     perennials.forEach((plant: Plant) => {

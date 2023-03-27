@@ -1,4 +1,4 @@
-import Realm from "realm";
+import { Realm, App, Credentials } from "realm";
 import fs from "fs";
 
 const DogSchema = {
@@ -13,8 +13,8 @@ describe("Sync Changes Between Devices", () => {
   // this test is skipped because we currently are unable to test Synced Realms
   // via jest, to track the progress of this issue see: https://jira.mongodb.org/browse/RJS-1008
   test.skip("should perform a client reset", async () => {
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
+    const app = new App({ id: "<Your App ID>" });
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
     // :snippet-start: sync-changes-between-devices-perform-a-client-reset
     let realm = await Realm.open(config);
@@ -26,7 +26,7 @@ describe("Sync Changes Between Devices", () => {
           realm.close();
 
           console.log(`Error ${error.message}, need to reset ${realmPath}…`);
-          Realm.App.Sync.initiateClientReset(app, realmPath); // pass your realm app instance, and realm path to initiateClientReset()
+          App.Sync.initiateClientReset(app, realmPath); // pass your realm app instance, and realm path to initiateClientReset()
           console.log(`Creating backup from ${error.config.path}…`);
           // Move backup file to a known location for a restore
           fs.renameSync(error.config.path, realmPath + "~");
@@ -53,8 +53,8 @@ describe("Sync Changes Between Devices", () => {
   // via jest, to track the progress of this issue see: https://jira.mongodb.org/browse/RJS-1008
   test.skip("should pause or resume a sync session", async () => {
     let timesConnectionStateHasChanged = 0; // inititally the connection state has never been changed
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
+    const app = new App({ id: "<Your App ID>" });
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
     // :snippet-start: sync-changes-between-devices-pause-or-resume-sync-session
     const OpenRealmBehaviorConfiguration = {
@@ -90,8 +90,8 @@ describe("Sync Changes Between Devices", () => {
   // via jest, to track the progress of this issue see: https://jira.mongodb.org/browse/RJS-1008
   // react native only (not node)
   test.skip("should check the connection state", async () => {
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
+    const app = new App({ id: "<Your App ID>" });
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
     // :snippet-start: sync-changes-between-devices-check-network-connection
     var config = {
@@ -114,8 +114,8 @@ describe("Sync Changes Between Devices", () => {
   // via jest, to track the progress of this issue see: https://jira.mongodb.org/browse/RJS-1008
   test.skip("should check upload & download progress for a sync session", async () => {
     let progressNotificationHasBeenTriggered = false;
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
+    const app = new App({ id: "<Your App ID>" });
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
     // :snippet-start: sync-changes-between-devices-check-upload-and-download-progress
     const OpenRealmBehaviorConfiguration = {
@@ -170,8 +170,8 @@ describe("Sync Changes Between Devices", () => {
     realm.close();
   });
   test.skip("should sync changes in the background", async () => {
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
+    const app = new App({ id: "<Your App ID>" });
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
 
     // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject
@@ -203,8 +203,8 @@ describe("Sync Changes Between Devices", () => {
     expect(realm).toBe(new Realm(config));
   });
   test.skip("should handle sync errors", async () => {
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
+    const app = new App({ id: "<Your App ID>" });
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
 
     // :snippet-start: sync-changes-between-devices-handle-sync-errors

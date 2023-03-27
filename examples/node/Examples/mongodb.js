@@ -1,11 +1,12 @@
-import Realm from "realm";
-import BSON from "bson";
+import { BSON, Credentials, App } from "realm";
+import { jest } from "@jest/globals";
+import { REALM_APP_ID } from "./config";
 
 jest.useFakeTimers();
 
 // const alphabetized = (fieldName, arr) =>
 //   arr.sort((l, r) => (l[fieldName][0] < r[fieldName][0] ? -1 : 1));
-const ObjectId = (value) => new Realm.BSON.ObjectId(value);
+const ObjectId = (value) => new BSON.ObjectId(value);
 
 // prettier-ignore
 const PLANTS = [
@@ -18,7 +19,7 @@ const PLANTS = [
   // :snippet-end:
 ];
 
-const app = new Realm.App({ id: "example-testers-kvjdy" });
+const app = new App({ id: REALM_APP_ID });
 
 function getPlantsCollection() {
   // :snippet-start: plants-collection-handle
@@ -29,7 +30,7 @@ function getPlantsCollection() {
 }
 
 beforeAll(async () => {
-  await app.logIn(Realm.Credentials.anonymous());
+  await app.logIn(Credentials.anonymous());
   await getPlantsCollection().insertMany(PLANTS);
 });
 afterAll(async () => {

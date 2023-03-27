@@ -1,12 +1,14 @@
-import Realm from "realm";
+import { App, Credentials, User } from "realm";
+import { jest } from "@jest/globals";
+import { REALM_APP_ID } from "./config.js";
 
 // :snippet-start: get-app-instance
 // :replace-start: {
 //   "terms": {
-//     "example-testers-kvjdy": "<yourAppId>"
+//     REALM_APP_ID: "<yourAppId>"
 //   }
 // }
-const app = Realm.App.getApp("example-testers-kvjdy");
+const app = new App(REALM_APP_ID);
 // :replace-end:
 // :snippet-end:
 
@@ -19,7 +21,7 @@ describe("user authentication", () => {
   test("anonymous login", async () => {
     // :snippet-start: anonymous-login
     // Create an anonymous credential
-    const credentials = Realm.Credentials.anonymous();
+    const credentials = Credentials.anonymous();
     try {
       const user = await app.logIn(credentials);
       // :remove-start:
@@ -44,7 +46,7 @@ describe("user authentication", () => {
     });
     // :snippet-start: email-password-login
     // Create an email/password credential
-    const credentials = Realm.Credentials.emailPassword(
+    const credentials = Credentials.emailPassword(
       // :remove-start:
       username,
       // :remove-end:
@@ -77,7 +79,7 @@ describe("user authentication", () => {
       throw new Error("Could not find a Realm Server API Key.");
     }
     // Create an api key credential
-    const credentials = Realm.Credentials.apiKey(apiKey);
+    const credentials = Credentials.apiKey(apiKey);
     try {
       const user = await app.logIn(credentials);
       console.log("Successfully logged in!", user.id);
@@ -93,7 +95,9 @@ describe("user authentication", () => {
   test("custom function login", async () => {
     // :snippet-start: custom-function-login
     // Create a custom function credential
-    const credentials = Realm.Credentials.function({ username: "ilovemongodb" });
+    const credentials = Credentials.function({
+      username: "ilovemongodb",
+    });
     try {
       const user = await app.logIn(credentials);
       // :remove-start:
@@ -118,7 +122,7 @@ describe("user authentication", () => {
       //     "typ": "JWT",
       //   },
       //   payload: {
-      //     "aud": "example-testers-kvjdy",
+      //     "aud": REALM_APP_ID,
       //     "sub": "example-user",
       //     "exp": 1918062398,
       //     "name": "Joe Jasper",
@@ -131,7 +135,7 @@ describe("user authentication", () => {
     // :snippet-start: custom-jwt-login
     // Create a custom jwt credential
     const jwt = await authenticateWithExternalSystem();
-    const credentials = Realm.Credentials.jwt(jwt);
+    const credentials = Credentials.jwt(jwt);
     try {
       const user = await app.logIn(credentials);
       // :remove-start:
@@ -148,11 +152,11 @@ describe("user authentication", () => {
   });
 
   test("logout", async () => {
-    const emailPasswordCredentials = Realm.Credentials.emailPassword(
+    const emailPasswordCredentials = Credentials.emailPassword(
       "joe.jasper@example.com",
       "passw0rd"
     );
-    const functionCredentials = Realm.Credentials.function({
+    const functionCredentials = Credentials.function({
       username: "ilovemongodb",
     });
     try {
@@ -193,14 +197,14 @@ describe("User Sessions", () => {
     const email = "stanley.session@example.com";
     const password = "pa55w0rd!";
     try {
-      await app.logIn(Realm.Credentials.emailPassword(email, password));
+      await app.logIn(Credentials.emailPassword(email, password));
     } catch (err) {
       await app.emailPasswordAuth.registerUser({ email, password });
-      await app.logIn(Realm.Credentials.emailPassword(email, password));
+      await app.logIn(Credentials.emailPassword(email, password));
     }
     // :snippet-start: get-user-access-token
     // Gets a valid user access token to authenticate requests
-    async function getValidAccessToken(user: Realm.User) {
+    async function getValidAccessToken(user: User) {
       // An already logged in user's access token might be stale. To
       // guarantee that the token is valid, refresh it if necessary.
       await user.refreshCustomData();

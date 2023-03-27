@@ -1,5 +1,5 @@
 // :snippet-start: import-realm
-import Realm from "realm";
+import { Realm, App, Credentials } from "realm";
 // :snippet-end:
 
 describe("QuickStart Local", () => {
@@ -165,7 +165,6 @@ describe("QuickStart Local", () => {
 });
 
 describe("Quickstart Sync", () => {
-
   test.skip("should open a FS realm with initial subscriptions", async () => {
     // :snippet-start: open-realm-with-subscriptions
     // :snippet-start: anonymous-login
@@ -176,16 +175,15 @@ describe("Quickstart Sync", () => {
     //   }
     // }
     // Initialize your App.
-    const app = new Realm.App({
+    const app = new App({
       id: "flexsyncjstest-smixl",
     });
     // :replace-end:
     // :snippet-end:
-    
-    // Authenticate an anonymous user.
-    await app.logIn(Realm.Credentials.anonymous());
-    // :snippet-end:
 
+    // Authenticate an anonymous user.
+    await app.logIn(Credentials.anonymous());
+    // :snippet-end:
 
     // Define an object model
     const TaskSchema = {
@@ -200,7 +198,7 @@ describe("Quickstart Sync", () => {
       },
       primaryKey: "_id",
     };
-    
+
     // Create a `SyncConfiguration` object.
     const config = {
       schema: [TaskSchema],

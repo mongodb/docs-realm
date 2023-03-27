@@ -1,4 +1,4 @@
-import Realm, { BSON } from "realm";
+import { Realm, BSON, Credentials } from "realm";
 
 const app = new Realm.App({ id: "asymmetric-sync-emuon" });
 
@@ -7,7 +7,7 @@ describe("Asymmetric Sync", () => {
 
   test.skip("define an asymmetric object", async () => {
     console.log("ran this file 'Asymmetric Sync'");
-    const credentials = Realm.Credentials.anonymous();
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
 
     // :snippet-start: asymmetric-sync

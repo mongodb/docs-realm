@@ -1,6 +1,8 @@
-import Realm from "realm";
+import { Realm, Credentials, App } from "realm";
+import { jest } from "@jest/globals";
+import { REALM_APP_ID } from "./config.js";
 
-const app = new Realm.App({ id: "example-testers-kvjdy" });
+const app = new App({ id: REALM_APP_ID });
 
 describe("user authentication", () => {
   afterEach(async () => {
@@ -11,7 +13,7 @@ describe("user authentication", () => {
   test("anonymous login", async () => {
     // :snippet-start: anonymous-login
     // Create an anonymous credential
-    const credentials = Realm.Credentials.anonymous();
+    const credentials = Credentials.anonymous();
     try {
       const user = await app.logIn(credentials);
       // :remove-start:
@@ -44,7 +46,7 @@ describe("user authentication", () => {
 
     // :snippet-start: email-password-login
     // Create an email/password credential
-    const credentials = Realm.Credentials.emailPassword(
+    const credentials = Credentials.emailPassword(
       // :remove-start:
       username,
       // :remove-end:
@@ -70,12 +72,12 @@ describe("user authentication", () => {
     // :snippet-start: confirm-email-pass-user
     const token = "someToken";
     const tokenId = "someTokenId";
-    
+
     try {
       await app.emailPasswordAuth.confirmUser({ token, tokenId });
       // User email address confirmed.
       console.log("Successfully confirmed user.");
-    } catch (err){
+    } catch (err) {
       console.log(`User confirmation failed: ${err}`);
     }
     // :snippet-end:
@@ -87,7 +89,7 @@ describe("user authentication", () => {
     await app.emailPasswordAuth.resendConfirmation({ email });
     // :snippet-end:
   });
-  
+
   test.skip("retry a user confirmation function", async () => {
     // :snippet-start: retry-user-confirmation-function
     const email = "someone@example.com";
@@ -97,7 +99,7 @@ describe("user authentication", () => {
 
   test.skip("send password reset email", async () => {
     // :snippet-start: send-pass-reset-email
-    const email = "someone@example.com"
+    const email = "someone@example.com";
     await app.emailPasswordAuth.sendResetPasswordEmail({ email });
     // :snippet-end:
   });
@@ -110,13 +112,21 @@ describe("user authentication", () => {
     // Additional arguments for the reset function
     const args = [];
 
-    await app.emailPasswordAuth.callResetPasswordFunction({ email, password }, args);
+    await app.emailPasswordAuth.callResetPasswordFunction(
+      { email, password },
+      args
+    );
     // :snippet-end:
   });
-  
+
   test.skip("complete password reset", async () => {
+    const [token, tokenId] = ["", ""]; // so no compile error
     // :snippet-start: complete-pass-reset
-    await app.emailPasswordAuth.resetPassword({ password: "newPassw0rd", token, tokenId });
+    await app.emailPasswordAuth.resetPassword({
+      password: "newPassw0rd",
+      token,
+      tokenId,
+    });
     // :snippet-end:
   });
 
@@ -172,7 +182,7 @@ describe("user authentication", () => {
       throw new Error("Could not find a Realm Server API Key.");
     }
     // Create an api key credential
-    const credentials = Realm.Credentials.apiKey(apiKey);
+    const credentials = Credentials.apiKey(apiKey);
     try {
       const user = await app.logIn(credentials);
       console.log("Successfully logged in!", user.id);
@@ -186,7 +196,7 @@ describe("user authentication", () => {
   test("custom function login", async () => {
     // :snippet-start: custom-function-login
     // Create a custom function credential
-    const credentials = Realm.Credentials.function({
+    const credentials = Credentials.function({
       username: "ilovemongodb",
     });
     try {
@@ -211,7 +221,7 @@ describe("user authentication", () => {
       //     "typ": "JWT",
       //   },
       //   payload: {
-      //     "aud": "example-testers-kvjdy",
+      //     "aud": REALM_APP_ID,
       //     "sub": "example-user",
       //     "exp": 1918062398,
       //     "name": "Joe Jasper",
@@ -224,7 +234,7 @@ describe("user authentication", () => {
     // :snippet-start: custom-jwt-login
     // Create a custom jwt credential
     const jwt = await authenticateWithExternalSystem();
-    const credentials = Realm.Credentials.jwt(jwt);
+    const credentials = Credentials.jwt(jwt);
     try {
       const user = await app.logIn(credentials);
       // :remove-start:
@@ -239,11 +249,11 @@ describe("user authentication", () => {
   });
 
   test("logout", async () => {
-    const emailPasswordCredentials = Realm.Credentials.emailPassword(
+    const emailPasswordCredentials = Credentials.emailPassword(
       "someone@example.com",
       "passw0rd"
     );
-    const functionCredentials = Realm.Credentials.function({
+    const functionCredentials = Credentials.function({
       username: "ilovemongodb",
     });
     try {
@@ -266,9 +276,10 @@ describe("user authentication", () => {
   });
 
   test("Delete user", async () => {
-    const credentials = Realm.Credentials.anonymous();
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
     const uid = app.currentUser.id;
+    console.log("uid::", uid);
     const preDeleteMatchesLen = Object.keys(app.allUsers).filter(
       (id) => id === uid
     ).length;
@@ -294,18 +305,18 @@ describe("user authentication", () => {
 
     // :snippet-start: user-metadata
     try {
-    // :replace-start: {
-    //    "terms": {
-    //       "email": "<email>",
-    //       "password": "<password>"
-    //    }
-    // }
+      // :replace-start: {
+      //    "terms": {
+      //       "email": "<email>",
+      //       "password": "<password>"
+      //    }
+      // }
       await app.logIn(Realm.Credentials.emailPassword(email, password));
-    // :replace-end:
+      // :replace-end:
     } catch (err) {
       console.error("Failed to log in", err.message);
     }
-    
+
     const userEmail = app.currentUser.profile.email;
     // :snippet-end:
 
@@ -337,4 +348,4 @@ describe("User Sessions", () => {
     const token = await getValidAccessToken(app.currentUser);
     expect(token).not.toBe(undefined);
   });
-})
+});

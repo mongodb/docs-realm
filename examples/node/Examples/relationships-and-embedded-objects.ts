@@ -1,7 +1,6 @@
-import Realm from "realm";
-import BSON from "bson";
+import { Realm, App, BSON, Credentials } from "realm";
 
-const app = new Realm.App({ id: "playground-kmcdm" });
+const app = new App({ id: "playground-kmcdm" });
 
 describe("Relationships and Embedded Objects Tests", () => {
   test("should obtain an inverse relationship dynamically", async () => {
@@ -26,7 +25,7 @@ describe("Relationships and Embedded Objects Tests", () => {
       },
     };
     // :remove-start:
-    const appUser = await app.logIn(Realm.Credentials.anonymous());
+    const appUser = await app.logIn(Credentials.anonymous());
     const realm = await Realm.open({
       schema: [User, Task],
       sync: {
@@ -39,11 +38,11 @@ describe("Relationships and Embedded Objects Tests", () => {
       task: { linkingObjects: (arg0: string, arg1: string) => any[] } | null;
     realm.write(() => {
       user = realm.create("User", {
-        _id: new BSON.ObjectID(),
+        _id: new BSON.ObjectId(),
         name: "Joe Smith",
       });
       task = realm.create("Task", {
-        _id: new BSON.ObjectID(),
+        _id: new BSON.ObjectId(),
         text: "go grocery shopping",
         status: "Open",
       });

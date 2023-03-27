@@ -1,6 +1,7 @@
-import Realm, { BSON } from "realm";
+import { BSON, Credentials, App } from "realm";
+import { REALM_APP_ID } from "./config.js";
 
-const app = new Realm.App({ id: "example-testers-kvjdy" });
+const app = new App({ id: REALM_APP_ID });
 
 describe("user custom data", () => {
   test("email/password login", async () => {
@@ -12,10 +13,7 @@ describe("user custom data", () => {
       password: "passw0rd",
     });
 
-    const credentials = Realm.Credentials.emailPassword(
-      username,
-      "passw0rd"
-    );
+    const credentials = Credentials.emailPassword(username, "passw0rd");
 
     try {
       const user = await app.logIn(credentials);
@@ -30,17 +28,19 @@ describe("user custom data", () => {
   test("associate existing custom user data with new user", async () => {
     const user = app.currentUser;
     const mongo = user.mongoClient("mongodb-atlas");
-    const collection = mongo.db("custom-user-data-database").collection("custom-user-data");
+    const collection = mongo
+      .db("custom-user-data-database")
+      .collection("custom-user-data");
 
     // This specific custom user data document is persistent and not cleaned
     // up by other tests.
     const filter = { _id: BSON.ObjectId("63c1b6ed977bcf8bccc74f66") };
-    const update = { $set: { userId: user.id }};
+    const update = { $set: { userId: user.id } };
     const result = await collection.updateOne(filter, update);
 
     const updatedDocument = await collection.findOne(filter);
 
-    expect(updatedDocument.userId).toBe(user.id);
+    expect(updatedDocument?.userId).toBe(user.id);
 
     await user.refreshCustomData();
   });
@@ -52,18 +52,20 @@ describe("user custom data", () => {
     // :snippet-end:
     expect(customUserData.favoriteColor).toBe("blue");
   });
-  
+
   test("write custom user data", async () => {
     // :snippet-start: write-custom-user-data
     // A user must be logged in to use a mongoClient
     const user = app.currentUser;
     const mongo = user.mongoClient("mongodb-atlas");
-    const collection = mongo.db("custom-user-data-database").collection("custom-user-data");
-    
+    const collection = mongo
+      .db("custom-user-data-database")
+      .collection("custom-user-data");
+
     // Query for the user object of the logged in user
-    const filter = { userId: user.id};
+    const filter = { userId: user.id };
     // Set the logged in user's favorite color to pink
-    const update = { $set: { favoriteColor: "pink" }};
+    const update = { $set: { favoriteColor: "pink" } };
     // Insert document if it doesn't already exist
     const options = { upsert: true };
 
@@ -75,10 +77,10 @@ describe("user custom data", () => {
     console.log(updatedCustomUserData);
     // :snippet-end:
     expect(updatedCustomUserData.favoriteColor).toBe("pink");
-    
+
     // Reset `favoriteColor` to "blue" so that the test works properly when
     // run again.
-    const resetUpdate = { $set: { favoriteColor: "blue" }};
+    const resetUpdate = { $set: { favoriteColor: "blue" } };
     await collection.updateOne(filter, resetUpdate);
     await user.refreshCustomData();
   });

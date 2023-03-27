@@ -1,5 +1,4 @@
-import Realm from "realm";
-import BSON from "bson";
+import { Realm, BSON, Credentials, App } from "realm";
 
 describe("Node Landing Page", () => {
   test("should define a realm object schema", async () => {
@@ -27,19 +26,19 @@ describe("Node Landing Page", () => {
     let cat1, cat2, cat3;
     realm.write(() => {
       cat1 = realm.create("Cat", {
-        _id: new BSON.ObjectID(),
+        _id: new BSON.ObjectId(),
         name: "Lacy",
         age: 13,
         type: "Calico",
       });
       cat2 = realm.create("Cat", {
-        _id: new BSON.ObjectID(),
+        _id: new BSON.ObjectId(),
         name: "Max",
         age: 8,
         type: "Tabby",
       });
       cat3 = realm.create("Cat", {
-        _id: new BSON.ObjectID(),
+        _id: new BSON.ObjectId(),
         name: "Clover",
         age: 4,
         type: "Calico",
@@ -79,14 +78,14 @@ describe("Node Landing Page", () => {
     console.log(`Clover the cat is ${cloverCat.age} years old`);
     // :snippet-end:
     expect(cloverCat.age).toBe(5);
-    expect(cloverCat.name).toBe('Clover');
+    expect(cloverCat.name).toBe("Clover");
 
     // :snippet-start:  node-landing-watch-for-object-updates
     // insert a cat into the database
     let aliceCat;
     realm.write(() => {
       aliceCat = realm.create("Cat", {
-        _id: new BSON.ObjectID(),
+        _id: new BSON.ObjectId(),
         name: "Alice",
         age: 14,
         type: "Calico",
@@ -151,8 +150,8 @@ describe("Node Landing Page", () => {
     realmInstanceB.close();
   });
   test.skip("should automatically sync data between realms", async () => {
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
+    const app = new App({ id: "<Your App ID>" });
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
     const Cat = {
       name: "Cat",

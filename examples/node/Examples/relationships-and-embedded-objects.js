@@ -1,7 +1,6 @@
-import Realm from "realm";
-import BSON from "bson";
+import { Realm, BSON, App, Credentials } from "realm";
 
-const app = new Realm.App({ id: "playground-kmcdm" });
+const app = new App({ id: "playground-kmcdm" });
 
 describe("Relationships and Embedded Objects Tests", () => {
   test.skip("should obtain an inverse relationship dynamically", async () => {
@@ -26,7 +25,7 @@ describe("Relationships and Embedded Objects Tests", () => {
       },
     };
     // :remove-start:
-    await app.logIn(Realm.Credentials.anonymous());
+    await app.logIn(Credentials.anonymous());
     const realm = await Realm.open({
       schema: [User, Task],
       sync: {

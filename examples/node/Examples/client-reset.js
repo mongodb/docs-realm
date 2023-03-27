@@ -1,13 +1,13 @@
-import Realm from "realm";
+import { Realm, App, Credentials } from "realm";
 import { ObjectId } from "bson";
-
-const REALM_APP_ID = "myapp-zufnj";
+import { jest } from "@jest/globals";
+import { REALM_APP_ID } from "./config.js";
 
 let realm;
 let app;
 beforeEach(async () => {
-  app = new Realm.App({ id: REALM_APP_ID });
-  await app.logIn(new Realm.Credentials.anonymous());
+  app = new App({ id: REALM_APP_ID });
+  await app.logIn(new Credentials.anonymous());
 });
 afterEach(async () => {
   if (realm && !realm.isClosed) {
@@ -170,7 +170,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
                 Realm.deleteFile(path);
 
                 // Perform client reset
-                Realm.App.Sync.initiateClientReset(app, path);
+                App.Sync.initiateClientReset(app, path);
 
                 // Navigate the user back to the main page or reopen the
                 // the Realm and reinitialize the current page
@@ -215,7 +215,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
             console.log("error type is ClientReset....");
             const path = realm.path; // realm.path will not be accessible after realm.close()
             realm.close();
-            Realm.App.Sync.initiateClientReset(app, path);
+            App.Sync.initiateClientReset(app, path);
 
             // Download Realm from the server.
             // Ensure that the backend state is fully downloaded before proceeding,
@@ -335,8 +335,8 @@ describe("Manual client reset", () => {
       },
     };
     // :snippet-end:
-    const app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
+    const app = new App({ id: REALM_APP_ID });
+    await app.logIn(new Credentials.anonymous());
     let realm = await Realm.open(config);
     // :snippet-start: last-synced-realm
     const LastSyncedSchema = {
@@ -378,7 +378,7 @@ describe("Manual client reset", () => {
         realm.close(); // you must close all realms before proceeding
 
         // pass your realm app instance and realm path to initiateClientReset()
-        Realm.App.Sync.initiateClientReset(app, realmPath);
+        App.Sync.initiateClientReset(app, realmPath);
 
         // Redownload the realm
         realm = await Realm.open(config);

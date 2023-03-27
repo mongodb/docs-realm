@@ -1,5 +1,4 @@
-import Realm from "realm";
-import BSON from "bson";
+import { Realm, BSON } from "realm";
 
 let realm;
 // :snippet-start: define-embedded-objects
@@ -59,7 +58,7 @@ describe("Node.js Data Types", () => {
       name: "Person",
       properties: {
         name: "string",
-        home: "{}",
+        home: "mixed{}",
       },
     };
     // :snippet-end:
@@ -200,8 +199,9 @@ describe("Node.js Data Types", () => {
     // :snippet-start: query-objects-with-mixed-values
     // To query for Blaise's birthDate, filter for his name to retrieve the realm object.
     // Use dot notation to access the birthDate property.
-    let blaiseBirthDate = realm.objects("Dog").filtered(`name = 'Blaise'`)[0]
-      .birthDate;
+    let blaiseBirthDate = realm
+      .objects("Dog")
+      .filtered(`name = 'Blaise'`)[0].birthDate;
     console.log(`Blaise's birth date is ${blaiseBirthDate}`);
     // :snippet-end:
     expect(blaiseBirthDate).toEqual(new Date("August 17, 2020"));
@@ -320,7 +320,7 @@ describe("Node.js Data Types", () => {
   });
   test("should work with UUID", async () => {
     // :snippet-start: work-with-uuid
-    const { UUID } = Realm.BSON;
+    const { UUID } = BSON;
     const ProfileSchema = {
       name: "Profile",
       primaryKey: "_id",

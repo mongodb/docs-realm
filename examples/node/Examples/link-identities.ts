@@ -1,20 +1,22 @@
-import Realm from "realm";
+import { App, Credentials, User } from "realm";
+import { REALM_APP_ID } from "./config";
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const randomEmail = require("random-email"); // random-email does not have typescript @types/random-email
 
-let app: Realm.App;
+let app: App;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let anonUser: any;
 const email = randomEmail({ domain: "example.com" });
 const password = "Pa55w0rd";
 
-const credentials = Realm.Credentials.emailPassword(email, password);
+const credentials = Credentials.emailPassword(email, password);
 
 beforeAll(async () => {
-  app = new Realm.App({ id: "tutsbrawl-qfxxj" });
+  app = new App({ id: REALM_APP_ID });
 
   async function loginAnonymously() {
-    const anonymousCredentials = Realm.Credentials.anonymous();
+    const anonymousCredentials = Credentials.anonymous();
     anonUser = await app.logIn(anonymousCredentials);
     return anonUser;
   }
@@ -34,7 +36,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  async function deleteAnonUser(anonUser: Realm.User) {
+  async function deleteAnonUser(anonUser: User) {
     // logging out of an anonymous user will delete the user
     await anonUser
       .logOut()
@@ -60,12 +62,8 @@ afterAll(async () => {
 describe("Linking Identities Tests", () => {
   test.skip("links anon identity with email/pass identity", async () => {
     // :snippet-start: link-identities
-    async function linkAccounts(
-      user: Realm.User,
-      email: string,
-      password: string
-    ) {
-      const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
+    async function linkAccounts(user: User, email: string, password: string) {
+      const emailPasswordUserCredentials = Credentials.emailPassword(
         email,
         password
       );
@@ -76,9 +74,9 @@ describe("Linking Identities Tests", () => {
     }
     // :snippet-end:
 
-    const anonUser = await app.logIn(Realm.Credentials.anonymous());
+    const anonUser = await app.logIn(Credentials.anonymous());
     anonUser.logOut();
-    const freshAnonUser = await app.logIn(Realm.Credentials.anonymous());
+    const freshAnonUser = await app.logIn(Credentials.anonymous());
     expect(linkAccounts(freshAnonUser, email, password)).resolves.toStrictEqual(
       await app.logIn(credentials)
     );

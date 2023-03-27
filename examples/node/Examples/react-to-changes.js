@@ -1,4 +1,4 @@
-import Realm from "realm";
+import { Realm } from "realm";
 
 const DogSchema = {
   name: "Dog",
@@ -73,7 +73,7 @@ describe("React to Changes", () => {
     // Define a listener callback function for changes to any Dog
     function onDogsChange(dogs, changes) {
       // Handle deleted Dog objects
-      changes.deletions.forEach((index) => {
+      changes.deletions?.forEach((index) => {
         // You cannot directly access deleted objects,
         // but you can update a UI list, etc. based on the index.
         console.log(`Looks like Dog #${index} has left the realm.`);
@@ -83,7 +83,7 @@ describe("React to Changes", () => {
       });
 
       // Handle newly added Dog objects
-      changes.insertions.forEach((index) => {
+      changes.insertions?.forEach((index) => {
         const insertedDog = dogs[index];
         console.log(`Welcome our new friend, ${insertedDog.name}!`);
         // :remove-start:
@@ -91,7 +91,7 @@ describe("React to Changes", () => {
         // :remove-end:
       });
       // Handle Dog objects that were modified
-      changes.modifications.forEach((index) => {
+      changes.modifications?.forEach((index) => {
         const modifiedDog = dogs[index];
         console.log(`Hey ${modifiedDog.name}, you look different!`);
         // :remove-start:

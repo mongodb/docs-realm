@@ -1,4 +1,4 @@
-import Realm, { BSON } from "realm";
+import { Realm, BSON } from "realm";
 import { ItemModel, ProjectModel } from "./schemas/rql-data-models";
 
 describe("Realm Query Language Reference", () => {
@@ -12,11 +12,11 @@ describe("Realm Query Language Reference", () => {
     // populate test objects
     realm.write(() => {
       realm.create("Project", {
-        id: new Realm.BSON.ObjectId(),
+        id: new BSON.ObjectId(),
         name: "New Project",
         items: [
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Write tests",
             isComplete: false,
             assignee: "Alex",
@@ -24,7 +24,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 125,
           },
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Run tests",
             isComplete: false,
             assignee: "Ali",
@@ -32,7 +32,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 10,
           },
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Bluehawk Tests",
             isComplete: false,
             assignee: null,
@@ -42,12 +42,12 @@ describe("Realm Query Language Reference", () => {
         ],
       });
       const proj1 = realm.create("Project", {
-        id: new Realm.BSON.ObjectId(),
+        id: new BSON.ObjectId(),
         name: "Project with High Quota",
         quota: 12,
         items: [
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Create a ticket",
             isComplete: true,
             assignee: "Nick",
@@ -55,7 +55,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 8,
           },
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Schedule a meeting",
             isComplete: true,
             assignee: "Chris",
@@ -63,7 +63,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 10,
           },
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Get coffee",
             isComplete: false,
             assignee: "Dachary",
@@ -74,13 +74,13 @@ describe("Realm Query Language Reference", () => {
       });
 
       const proj2 = realm.create("Project", {
-        id: new Realm.BSON.ObjectId(),
+        id: new BSON.ObjectId(),
         name: "Another project",
         items: [proj1.items[2]],
       });
 
       realm.create("Item", {
-        id: new Realm.BSON.ObjectId(),
+        id: new BSON.ObjectId(),
         name: "Assign me to a project",
         isComplete: false,
         assignee: "Nick",
@@ -283,7 +283,7 @@ describe("Realm Query Language Reference", () => {
   test("list comparisons", () => {
     realm.write(() => {
       realm.create("Project", {
-        id: new Realm.BSON.ObjectId(),
+        id: new BSON.ObjectId(),
         name: "List Query Project",
         items: [
           {
@@ -390,7 +390,7 @@ describe("Realm Query Language Reference", () => {
       );
       expect(shallowResultLinkingObjects.length).toBe(1);
       expect(shallowResultLinkingObjects[0].name).toBe("Get coffee");
-      
+
       const shallowResultAtLinks = realm.objects("Item").filtered(
         // :remove-end:
         // Find items that are not referenced by any project
@@ -426,12 +426,12 @@ describe("Realm Query Language Reference", () => {
   test("subquery queries", () => {
     realm.write(() => {
       realm.create("Project", {
-        id: new Realm.BSON.ObjectId(),
+        id: new BSON.ObjectId(),
         name: "Project with Quota",
         quota: 2,
         items: [
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Write tests",
             isComplete: true,
             assignee: "Alex",
@@ -439,7 +439,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 125,
           },
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Run tests",
             isComplete: true,
             assignee: "Ali",
@@ -447,7 +447,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 10,
           },
           {
-            id: new Realm.BSON.ObjectId(),
+            id: new BSON.ObjectId(),
             name: "Bluehawk Tests",
             isComplete: false,
             assignee: null,
@@ -539,8 +539,8 @@ describe("Realm Query Language Reference", () => {
     const path = "oidUuid.realm";
     const oidValueString = "6001c033600510df3bbfd864";
     const uuid1String = "d1b186e1-e9e0-4768-a1a7-c492519d47ee";
-    const oidValue = new Realm.BSON.ObjectId(oidValueString);
-    const uuid1 = new Realm.BSON.UUID(uuid1String);
+    const oidValue = new BSON.ObjectId(oidValueString);
+    const uuid1 = new BSON.UUID(uuid1String);
     beforeAll(async () => {
       realm = await Realm.open({ schema: [OidUuid], path });
       const obj1 = {
@@ -548,8 +548,8 @@ describe("Realm Query Language Reference", () => {
         id: uuid1,
       };
       const obj2 = {
-        _id: new Realm.BSON.ObjectId(),
-        id: new Realm.BSON.UUID(),
+        _id: new BSON.ObjectId(),
+        id: new BSON.UUID(),
       };
       realm.write(() => {
         realm.create("OidUuid", obj1);
@@ -773,8 +773,8 @@ describe("Realm Query Language Reference", () => {
   });
   describe("Dictionary operators", () => {
     const Dictionary = {
-      name: "Dictionary",
-      properties: { dict: "{}" },
+      name: "MyDictionary",
+      properties: { dict: "mixed{}" },
     };
 
     let realm;
@@ -785,17 +785,17 @@ describe("Realm Query Language Reference", () => {
         path,
       });
       realm.write(() => {
-        realm.create("Dictionary", {
+        realm.create("MyDictionary", {
           dict: {
             foo: "bar",
           },
         });
-        realm.create("Dictionary", {
+        realm.create("MyDictionary", {
           dict: {
             isTrue: false,
           },
         });
-        realm.create("Dictionary", {
+        realm.create("MyDictionary", {
           dict: {
             baz: "Biz",
             num: 1.0, // Note: Realm treats this as a double internally
@@ -808,7 +808,7 @@ describe("Realm Query Language Reference", () => {
       Realm.deleteFile({ path });
     });
     test("Dictionary operators", () => {
-      const dictionaries = realm.objects("Dictionary");
+      const dictionaries = realm.objects("MyDictionary");
 
       const fooKey = dictionaries.filtered(
         // :snippet-start: dictionary-operators

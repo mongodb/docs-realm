@@ -1,6 +1,6 @@
-import Realm from "realm";
+import { Realm, Credentials, App } from "realm";
 import nock from "nock";
-
+import { REALM_APP_ID } from "./config";
 describe("Open and Close a Realm", () => {
   test("should open and close a local realm", async () => {
     // :snippet-start: open-local-realm-with-car-schema
@@ -78,7 +78,8 @@ describe("Open and Close a Realm", () => {
       // :replace-end:
       // :snippet-end:
 
-      const parseRealmFilePath = path => path.substring(path.lastIndexOf("/") + 1);
+      const parseRealmFilePath = (path) =>
+        path.substring(path.lastIndexOf("/") + 1);
 
       expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
 
@@ -117,10 +118,10 @@ describe("Open and Close a Realm", () => {
       },
     };
 
-    const app = new Realm.App({ id: "demo_app-cicfi" });
+    const app = new App({ id: REALM_APP_ID });
 
     try {
-      await app.logIn(new Realm.Credentials.anonymous());
+      await app.logIn(new Credentials.anonymous());
     } catch (err) {
       console.error("failed to login user", err.message);
     }
@@ -155,7 +156,7 @@ describe("Open and Close a Realm", () => {
       },
     };
 
-    const app = new Realm.App({ id: "demo_app-cicfi" });
+    const app = new App({ id: "demo_app-cicfi" });
 
     // :snippet-start: use-cached-user-to-login
     // Log the user into the backend app.
@@ -166,7 +167,7 @@ describe("Open and Close a Realm", () => {
       // cached, this returns the existing user.
       if (app.currentUser) return app.currentUser;
       // If the device has no cached user credentials, log them in.
-      const credentials = Realm.Credentials.anonymous();
+      const credentials = Credentials.anonymous();
       return await app.logIn(credentials);
     };
     // :snippet-end:
@@ -217,7 +218,7 @@ describe("Open and Close a Realm", () => {
       },
     };
 
-    const app = new Realm.App({ id: "demo_app-cicfi" });
+    const app = new App({ id: "demo_app-cicfi" });
 
     // Log the user into the backend app.
     // The first time you login, the user must have a network connection.
@@ -227,7 +228,7 @@ describe("Open and Close a Realm", () => {
       // cached, this returns the existing user.
       if (app.currentUser) return app.currentUser;
       // If the device has no cached user credentials, log them in.
-      const credentials = Realm.Credentials.anonymous();
+      const credentials = Credentials.anonymous();
       return await app.logIn(credentials);
     };
 
@@ -269,9 +270,9 @@ describe("Convert Realm using writeCopyTo()", () => {
     },
     primaryKey: "_id",
   };
-  const app = new Realm.App({ id: "demo_app-cicfi" });
+  const app = new App({ id: "demo_app-cicfi" });
   beforeEach(async () => {
-    await app.logIn(Realm.Credentials.anonymous());
+    await app.logIn(Credentials.anonymous());
   });
   afterEach(async () => {
     if (app.currentUser) {
@@ -372,7 +373,7 @@ describe("Convert Realm using writeCopyTo()", () => {
       },
       primaryKey: "_id",
     };
-    await app.logIn(Realm.Credentials.anonymous());
+    await app.logIn(Credentials.anonymous());
     // :snippet-start: sync-encrypted-to-local-unencrypted
     const encryptionKey = new Int8Array(64); // Create a secure key
     // ... store key ...

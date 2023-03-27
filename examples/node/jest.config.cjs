@@ -6,7 +6,7 @@ module.exports = {
   projects: [
     {
       displayName: "JavaScript",
-      moduleFileExtensions: ["js"],
+      moduleFileExtensions: ["js", "mjs"],
       testMatch: ["<rootDir>/Examples/**/*.js"],
       setupFilesAfterEnv: ["<rootDir>/testSetup.js"],
       modulePathIgnorePatterns: [

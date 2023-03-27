@@ -1,18 +1,19 @@
-import Realm from "realm";
+import { App, Credentials } from "realm";
 import randomEmail from "random-email";
+import { REALM_APP_ID } from "./config.js";
 
 let app;
 let anonUser;
 const email = randomEmail({ domain: "example.com" });
 const password = "Pa55w0rd";
 
-const credentials = Realm.Credentials.emailPassword(email, password);
+const credentials = Credentials.emailPassword(email, password);
 
 beforeAll(async () => {
-  app = new Realm.App({ id: "tutsbrawl-qfxxj" });
+  app = new App({ id: REALM_APP_ID });
 
   async function loginAnonymously() {
-    const anonymousCredentials = Realm.Credentials.anonymous();
+    const anonymousCredentials = Credentials.anonymous();
     anonUser = await app.logIn(anonymousCredentials);
     return anonUser;
   }
@@ -69,7 +70,7 @@ describe("Linking Identities Tests", () => {
   test.skip("links anon identity with email/pass identity", async () => {
     // :snippet-start: link-identities
     async function linkAccounts(user, email, password) {
-      const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
+      const emailPasswordUserCredentials = Credentials.emailPassword(
         email,
         password
       );
@@ -80,9 +81,9 @@ describe("Linking Identities Tests", () => {
     }
     // :snippet-end:
 
-    const anonUser = await app.logIn(Realm.Credentials.anonymous());
+    const anonUser = await app.logIn(Credentials.anonymous());
     anonUser.logOut();
-    const freshAnonUser = await app.logIn(Realm.Credentials.anonymous());
+    const freshAnonUser = await app.logIn(Credentials.anonymous());
     expect(linkAccounts(freshAnonUser, email, password)).resolves.toStrictEqual(
       await app.logIn(credentials)
     );

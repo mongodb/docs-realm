@@ -1,4 +1,4 @@
-import Realm from "realm";
+import { Realm, App, Credentials } from "realm";
 
 const TaskSchema = {
   name: "Task",
@@ -23,11 +23,11 @@ const TeamSchema = {
   primaryKey: "_id",
 };
 
-const app = new Realm.App({ id: "flexsyncjstest-smixl" });
+const app = new App({ id: "flexsyncjstest-smixl" });
 
 describe("Flexible Sync Tests", () => {
   test.skip("should open a FS realm, get subscriptions, subscribe to Queryable Fields, check state, update a subscription, remove a subscription(s)", async () => {
-    await app.logIn(Realm.Credentials.anonymous());
+    await app.logIn(Credentials.anonymous());
     // :snippet-start: open-flexible-sync-realm
     const realm = await Realm.open({
       schema: [TaskSchema, TeamSchema],
@@ -115,7 +115,7 @@ describe("Flexible Sync Tests", () => {
     // :snippet-end:
   });
   test.skip("should open a FS realm with initial subscriptions", async () => {
-    await app.logIn(Realm.Credentials.anonymous());
+    await app.logIn(Credentials.anonymous());
 
     // :snippet-start: create-initial-subscriptions-on-fs-realm
     const config = {
@@ -158,7 +158,7 @@ describe("Flexible Sync Tests", () => {
   });
 
   test.skip("should rerun the initial subscription on open", async () => {
-    await app.logIn(Realm.Credentials.anonymous());
+    await app.logIn(Credentials.anonymous());
 
     // :snippet-start: rerun-initial-subscriptions-on-open
     // Set the date a week ago and the date a week from now, as those are the dates we'll use

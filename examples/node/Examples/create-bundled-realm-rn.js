@@ -1,4 +1,5 @@
-import Realm from "realm";
+import { Realm } from "realm";
+import { REALM_APP_ID } from "./config.js";
 
 const Dog = {
   name: "Dog",
