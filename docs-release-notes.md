@@ -1,3 +1,60 @@
+# March 24, 2023
+
+## C++ SDK
+
+- Manage Users/Manage Email/Password Users: Minor tweaks based on what's currently supported
+
+## Flutter SDK
+
+- Realm Database/Manage Realm Database Files/Reduce Realm File Size
+  - Note that you can compact either a non-synced or synced realm
+  - Add information about automatic compaction, clarify details for manual compaction
+- Manage Users/Email/Password Users: Update details around password reset, particularly around calling a password reset function
+
+## Kotlin SDK
+
+- Realm Database
+  - Schemas/RealmSet: Minor clarifications, update the code example to fix a failing test
+  - Manage Realm Database Files/Open & Close a Realm: Add a note about automatic compaction
+- Sync/Set the Client Log Level: New page with tested, Bluehawked code examples showing how to set the log level and how to set a custom logger
+- Update the Kotlin SDK version to 1.7.0
+- Add Partition-Based Sync code examples for configuring and opening a realm that were erroneously deleted
+
+## .NET SDK
+
+- Quick Start: Add a line about quick start demonstrating adding Device Sync
+- Quick Start for Unity: Rename "Integrate Realm with Unity" to "Quick Start for Unity", move it higher in the Table of Contents, move a note about multiprocess-sync-related crashes
+- Realm Files/Reduce Realm File Size: Add information about automatic compaction, clarify details for manual compaction
+- Manage Users/Manage Email/Password Users: Update details around password reset, particularly around calling a password reset function
+- Use Realm in a Console App: Add details around Device Sync, update code example
+- Compatibility: Add `tvOS` to the list of supported platforms
+
+## Node.js SDK
+
+- Usage Examples/Manage Email/Password Users: Update details around password reset, particularly around calling a password reset function
+
+## React Native SDK
+
+- Major rewrite across the SDK to use `@realm/react` in all code examples and accompanying text
+- Manage Users/Manage Email/Password Users: Update details around password reset, particularly around calling a password reset function
+
+## Swift SDK
+
+- Realm Files/Reduce Realm File Size: Add information about automatic compaction, clarify details for manual compaction
+- Manage Users/Manage Email/Password Users: Update details around password reset, particularly around calling a password reset function
+- Sync Data/Handle Sync Errors: Fix an incorrect API reference link
+
+## Web SDK
+
+- Apollo GraphQL Client (React): Add a section with tested, Bluehawked code examples showing how to paginate data
+
+## Other
+
+- Internal
+  - Add redirects to fix SEO-impact 404s
+  - C++, Swift, and SwiftUI code example & unit test cleanup
+  - Remove unused JS code snippets
+
 # March 17, 2023
 
 ## Java SDK
