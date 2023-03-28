@@ -41,8 +41,11 @@ Read Operations
 ---------------
 
 Read operations are queries to find your data stored in Realm Database. Use the
-``@realm/react`` hooks to find specific objects and get collections by object
-type.
+``@realm/react`` hooks ``useObject()`` and ``useQuery()`` to find specific objects 
+and get collections by object type.
+
+These hooks return live objects, which are automatically updated. When an object
+returned by a hook is updated, the parent component is re-rendered.
 
 .. _react-native-find-a-specific-object-by-primary-key:
 
@@ -81,7 +84,7 @@ name and priority in the UI.
 Query for an Object Type and Filter Results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Query operations return a collection of Realm objects that match the query as a
+The ``useQuery()`` hook returns a collection of Realm objects that match the query as a
 :js-sdk:`Realm.Results <Realm.Results.html>` object. A basic query matches all
 objects of a given type in a realm, but you can also apply a filter to the
 collection to find specific objects.
