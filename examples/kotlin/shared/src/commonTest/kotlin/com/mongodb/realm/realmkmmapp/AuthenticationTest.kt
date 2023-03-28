@@ -181,7 +181,6 @@ class AuthenticationTest: RealmTest() {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: access-token-get
             val token = user.accessToken
-
             // :snippet-end:
             // :snippet-start: access-token-refresh
             // Gets the current refresh token for the user
@@ -228,7 +227,6 @@ class AuthenticationTest: RealmTest() {
 
             // Now when you access the custom data, it's the
             // updated value returned from refreshCustomData()
-            Log.v("$customUserData")
             // :snippet-end:
 
             // :snippet-start: write-custom-user-data

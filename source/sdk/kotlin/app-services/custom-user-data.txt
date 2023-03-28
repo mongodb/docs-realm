@@ -38,8 +38,9 @@ in App Services:
 Read a User's Custom Data
 -------------------------
 
-You can retrieve custom user data of a currently logged-in user through that user's 
-``User`` object:
+You can retrieve custom user data of a currently logged-in user using the 
+`User.customDataAsBsonDocument() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/index.html?_ga=2.49412835.435931992.1679924388-638302271.1666007294#1591200691%2FExtensions%2F645295071>`__ 
+extension function:
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.read-custom-user-data.kt
    :language: kotlin
@@ -57,8 +58,8 @@ function to request the latest version of a user's custom data.
 
 .. _kotlin-write-custom-user-data:
 
-Write Custom User Data with an Atlas Functions
-----------------------------------------------
+Write Custom User Data with Atlas Functions
+-------------------------------------------
 
 You can write to custom user data with an Atlas Function. 
 Atlas Functions are server-side JavaScript functions that are built into your backend App.
@@ -118,8 +119,8 @@ The Kotlin SDK code to call this Function:
 
 .. _kotlin-delete-custom-user-data:
 
-Delete a User's Custom Data
----------------------------
+Delete a User's Custom Data with Atlas Functions
+------------------------------------------------
 
 Custom user data is stored in a document linked to the user object. 
 :ref:`Deleting a user <kotlin-delete-users>` does *not* delete the custom user data. 
@@ -128,7 +129,7 @@ You might need to fully delete user data to ensure legal compliance
 
 To delete custom user data, you must manually delete the user's custom data document.
 
-You can delete custom user data using :ref:`an Atlas Function <functions>`.
+You can delete custom user data using an Atlas Function.
 Currently, it is not possible to delete custom user data directly from the Realm Kotlin SDK.
 
 In this example, the Atlas Function does not require any arguments.
