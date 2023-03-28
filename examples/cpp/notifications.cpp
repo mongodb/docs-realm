@@ -113,23 +113,19 @@ TEST_CASE("collection notification", "[notification]") {
     // :snippet-start: collection
     //  Set up the listener & observe a collection.
     auto token = person.dogs.observe([&](auto&& changes) {
-        try {
-            if (changes.collection_root_was_deleted) {
-                std::cout << "The collection was deleted.\n";
-            } else {
-                // Handle deletions, then insertions, then modifications.
-                for (auto& collectionChange : changes.deletions) {
-                    std::cout << "The object at index " << std::to_string(collectionChange) << " was removed\n";
-                }
-                for (auto& collectionChange : changes.insertions) {
-                    std::cout << "The object at index " << std::to_string(collectionChange) << " was inserted\n";
-                }
-                for (auto& collectionChange : changes.modifications) {
-                    std::cout << "The object at index " << std::to_string(collectionChange) << " was modified\n";
-                }
+        if (changes.collection_root_was_deleted) {
+            std::cout << "The collection was deleted.\n";
+        } else {
+            // Handle deletions, then insertions, then modifications.
+            for (auto& collectionChange : changes.deletions) {
+                std::cout << "The object at index " << std::to_string(collectionChange) << " was removed\n";
             }
-        } catch (std::exception const& e) {
-            std::cerr << "Error: " << e.what() << "\n";
+            for (auto& collectionChange : changes.insertions) {
+                std::cout << "The object at index " << std::to_string(collectionChange) << " was inserted\n";
+            }
+            for (auto& collectionChange : changes.modifications) {
+                std::cout << "The object at index " << std::to_string(collectionChange) << " was modified\n";
+            }
         }
     });
 
