@@ -236,7 +236,7 @@ describe('Change an Object Model Tests', () => {
     // :snippet-start: modify-a-property-type
 
     class Person extends Realm.Object<Person> {
-      _id: Realm.BSON.ObjectId = new Realm.BSON.ObjectId();
+      _id: Realm.BSON.ObjectId;
       firstName!: string;
       lastName!: string;
       age!: number;
