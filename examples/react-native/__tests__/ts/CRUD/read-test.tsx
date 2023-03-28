@@ -122,8 +122,6 @@ describe('Read Data Tests', () => {
         '1 <= progressMinutes && progressMinutes < 10',
       );
 
-      console.log('lowProgressTasks', lowProgressTasks.length);
-
       return (
         <>
           <Text>Your high priority tasks:</Text>
