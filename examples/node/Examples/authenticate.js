@@ -279,7 +279,6 @@ describe("user authentication", () => {
     const credentials = Credentials.anonymous();
     await app.logIn(credentials);
     const uid = app.currentUser.id;
-    console.log("uid::", uid);
     const preDeleteMatchesLen = Object.keys(app.allUsers).filter(
       (id) => id === uid
     ).length;
