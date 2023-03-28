@@ -1,7 +1,7 @@
 import { Realm, App, Credentials } from "realm";
 import { ObjectId } from "bson";
 import { jest } from "@jest/globals";
-import { REALM_APP_ID } from "./config.js";
+import { REALM_APP_ID } from "../config.js";
 
 let realm;
 let app;

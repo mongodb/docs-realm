@@ -1,6 +1,6 @@
 import { App, Credentials, User } from "realm";
 import { jest } from "@jest/globals";
-import { REALM_APP_ID } from "./config.js";
+import { REALM_APP_ID } from "../config.js";
 
 // :snippet-start: get-app-instance
 // :replace-start: {

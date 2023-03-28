@@ -1,6 +1,6 @@
 import { Realm, BSON, Credentials, App } from "realm";
 import { jest } from "@jest/globals";
-import { REALM_APP_ID } from "./config";
+import { REALM_APP_ID } from "../config";
 
 const ObjectId = (value: string) => new BSON.ObjectId(value);
 

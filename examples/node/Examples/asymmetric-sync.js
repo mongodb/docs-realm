@@ -1,6 +1,6 @@
-import { Realm, BSON, Credentials } from "realm";
+import { Realm, BSON, Credentials, App } from "realm";
 
-const app = new Realm.App({ id: "asymmetric-sync-emuon" });
+const app = new App({ id: "asymmetric-sync-emuon" });
 
 describe("Asymmetric Sync", () => {
   afterEach(async () => {});

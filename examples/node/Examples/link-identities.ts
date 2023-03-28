@@ -1,5 +1,5 @@
 import { App, Credentials, User } from "realm";
-import { REALM_APP_ID } from "./config";
+import { REALM_APP_ID } from "../config";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const randomEmail = require("random-email"); // random-email does not have typescript @types/random-email

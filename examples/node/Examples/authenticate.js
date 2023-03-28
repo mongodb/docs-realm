@@ -1,6 +1,6 @@
 import { Realm, Credentials, App } from "realm";
 import { jest } from "@jest/globals";
-import { REALM_APP_ID } from "./config.js";
+import { REALM_APP_ID } from "../config";
 
 const app = new App({ id: REALM_APP_ID });
 

@@ -1,5 +1,5 @@
 import { App, Credentials } from "realm";
-import { REALM_APP_ID } from "./config.js";
+import { REALM_APP_ID } from "../config.js";
 
 const appId = REALM_APP_ID; // Set your Realm app ID here.
 const appConfig = {

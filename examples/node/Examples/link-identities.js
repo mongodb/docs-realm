@@ -1,6 +1,6 @@
 import { App, Credentials } from "realm";
 import randomEmail from "random-email";
-import { REALM_APP_ID } from "./config.js";
+import { REALM_APP_ID } from "../config";
 
 let app;
 let anonUser;

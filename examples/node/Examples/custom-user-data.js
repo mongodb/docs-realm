@@ -1,5 +1,5 @@
 import { BSON, Credentials, App } from "realm";
-import { REALM_APP_ID } from "./config.js";
+import { REALM_APP_ID } from "../config.js";
 
 const app = new App({ id: REALM_APP_ID });
 

@@ -1,6 +1,6 @@
 import { BSON, Credentials, App } from "realm";
 import { jest } from "@jest/globals";
-import { REALM_APP_ID } from "./config";
+import { REALM_APP_ID } from "../config";
 
 jest.useFakeTimers();
 

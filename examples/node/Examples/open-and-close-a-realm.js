@@ -1,6 +1,6 @@
 import { Realm, Credentials, App } from "realm";
 import nock from "nock";
-import { REALM_APP_ID } from "./config";
+import { REALM_APP_ID } from "../config";
 describe("Open and Close a Realm", () => {
   test("should open and close a local realm", async () => {
     // :snippet-start: open-local-realm-with-car-schema
