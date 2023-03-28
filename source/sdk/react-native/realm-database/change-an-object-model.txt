@@ -236,11 +236,11 @@ callback function of the :js-sdk:`Configuration
 .. example::
    
    A realm using :ref:`schema version <react-native-schema-version>` ``1`` has a
-   ``Task`` object type. The original schema had an ``_id`` with a property type of
-   ``int``. You later decide that the ``Task`` class's ``_id`` field should
+   ``Person`` object type. The original schema had an ``_id`` with a property type of
+   ``int``. You later decide that the ``Person`` class's ``_id`` field should
    be of type ``ObjectId``, and updates the schema.
 
-   To migrate the realm to conform to the updated ``Task`` schema, create a
+   To migrate the realm to conform to the updated ``Person`` schema, create a
    ``Configuration`` object and set the realm's schema version to ``2``, and
    define a migration function to convert the integer type to an ``Object ID``
    type. Finally, pass the configuration object to the
