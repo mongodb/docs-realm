@@ -2,6 +2,7 @@ final carId = ObjectId();
 final ownerId = app.currentUser!.id;
 
 realm.write(() {
+  // WRITE REVERTED BY QUERY SUBSCRIPTION COMPENSATING WRITE
   // `oldCar` is initially written to the realm, then later removed
   // in a compensating write when the server processes the write.
   // This is because the `miles` property of `oldCar` doesn't match
