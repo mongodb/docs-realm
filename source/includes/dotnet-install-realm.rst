@@ -31,13 +31,9 @@ Follow these steps to add the Realm .NET SDK to your project.
          .. step:: Add the Realm Package
 
             In the search bar, search for **Realm**. Select the
-            result and click :guilabel:`Add Package`. When prompted,
-            select all projects and click :guilabel:`Ok`.
-
-            .. figure:: /images/vs-mac-nuget-search.png
-               :alt: Search for Realm and add it to your project(s).
-               :lightbox:
-
+            result and click :guilabel:`Add Package`. If you are using Xamarin, 
+            you may be prompted to select which projects use the Realm 
+            package. Select all of the projects, and then click :guilabel:`Ok`.
 
    .. tab:: Visual Studio on Windows
       :tabid: vs-win
