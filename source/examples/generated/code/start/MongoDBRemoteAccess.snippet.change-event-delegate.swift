@@ -20,6 +20,5 @@ class MyChangeStreamDelegate: ChangeEventDelegate {
         guard let changeEvent = changeEvent else { return }
         guard let document = changeEvent.documentValue else { return }
         print("Change event document received: \(document)")
-        
     }
 }

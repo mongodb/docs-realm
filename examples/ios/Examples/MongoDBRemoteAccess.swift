@@ -627,7 +627,6 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
             guard let changeEvent = changeEvent else { return }
             guard let document = changeEvent.documentValue else { return }
             print("Change event document received: \(document)")
-            
             changeExpectation?.fulfill() // :remove:
         }
     }
