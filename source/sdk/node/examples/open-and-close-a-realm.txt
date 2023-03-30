@@ -129,8 +129,6 @@ To copy data from an existing realm to a new realm with different
 configuration options, pass the new configuration the
 :js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>` method.
 
-.. include:: /includes/note-writecopy-pbs-only.rst
-
 In the new realm's configuration, you *must* specify the ``path``. 
 
 If you write the copied realm to a realm file that already exists, the data is written object by object.
@@ -144,6 +142,11 @@ The configuration change can include modifications to :js-sdk:`SyncConfiguration
 
 - Local realm to synced realm
 - Synced Realm to local realm
+- Synced Realm to a Synced Realm for a different user
+
+.. include:: /includes/note-writecopy-local-to-sync.rst
+
+.. include:: /includes/note-writecopy-same-type-sync-only.rst
 
 The configuration change can also include changes to ``encryptionKey`` 
 property of the ``Configuration``: 
@@ -170,7 +173,7 @@ as an encrypted synced realm.
 .. seealso:: 
 
    - :ref:`Open a Flexible Synced Realm - Node.js SDK <node-flexible-sync-open-realm>`
-   - :ref:`Open a Partition-Based Synced Realm - Node.js SDK <node-encrypt-a-realm>`
+   - :ref:`Open a Partition-Based Synced Realm - Node.js SDK <node-partition-sync-open-realm>`
    - :ref:`Encrypt a Realm - Node.js SDK <node-partition-sync-open-realm>`
 
 .. _node-close-a-realm:

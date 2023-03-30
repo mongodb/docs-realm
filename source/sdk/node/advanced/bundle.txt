@@ -126,6 +126,8 @@ from your bundled realm in the realm you've just opened.
 Bundle a Synchronized Realm
 ---------------------------
 
+.. include:: /includes/note-writecopy-same-type-sync-only.rst
+
 Generally, bundling a synchronized realm works the same as bundling a local-only realm. 
 However, there are some limitations to bundling realms that use Device Sync.
 
@@ -135,8 +137,9 @@ However, there are some limitations to bundling realms that use Device Sync.
    .. literalinclude:: /examples/generated/node/bundle-a-realm.snippet.fully-sync-before-copy.js
       :language: javascript
 
-#. When opening a bundled synchronized realm, you must use the same partition key 
-   that was used in the original realm. If you use a different partition key, the SDK throws
+#. When opening a bundled synchronized realm that uses Partition-Based Sync, 
+   you must use the same partition key that was used in the original realm
+   configuration. If you use a different partition key, the SDK throws
    an error when opening the bundled realm. 
 
 .. warning:: Synchronized Realm Bundling and Client Maximum Offline Time

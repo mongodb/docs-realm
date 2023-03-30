@@ -106,6 +106,30 @@ With cached credentials, you can:
 - Open a synced realm after downloading changes from your App. 
   This requires the user to have an active internet connection.
 
+.. _ios-flexible-sync-open-realm:
+
+Open a Synced Realm for Flexible Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.22.0
+
+When you use Flexible Sync, use the ``flexibleSyncConfiguration()``
+to open a synced realm. 
+
+.. include:: /includes/swift-concurrency-mainactor.rst
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flex-sync-open-realm.swift
+   :language: swift
+
+.. important:: Flexible Sync Requires a Subscription
+
+   If your app uses bidirectional, standard Device Sync, you can't use a 
+   Flexible Sync realm until you add at least one subscription. To learn 
+   how to add subscriptions, see: :ref:`<ios-sync-add-subscription>`.
+
+   This does not apply to :ref:`Asymmetric Sync <optimize-asymmetric-sync>`.
+   You cannot create a subscription for an ``AsymmetricObject``.
+
 .. _ios-partition-based-sync-open-realm:
 
 Open a Synced Realm for Partition-Based Sync
@@ -160,30 +184,6 @@ This enables you to specify a partition value whose data should sync to the real
       .. literalinclude:: /examples/generated/code/start/Sync.snippet.init-synced-realm.m
          :language: swift
 
-.. _ios-flexible-sync-open-realm:
-
-Open a Synced Realm for Flexible Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 10.22.0
-
-When you use Flexible Sync, use the ``flexibleSyncConfiguration()``
-to open a synced realm. 
-
-.. include:: /includes/swift-concurrency-mainactor.rst
-
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flex-sync-open-realm.swift
-   :language: swift
-
-.. important:: Flexible Sync Requires a Subscription
-
-   If your app uses bidirectional, standard Device Sync, you can't use a 
-   Flexible Sync realm until you add at least one subscription. To learn 
-   how to add subscriptions, see: :ref:`<ios-sync-add-subscription>`.
-
-   This does not apply to :ref:`Asymmetric Sync <optimize-asymmetric-sync>`.
-   You cannot create a subscription for an ``AsymmetricObject``.
-
 .. _ios-open-synced-realm-as-different-sync-user:
 
 Open a Synced Realm as a Different Sync User
@@ -202,7 +202,7 @@ configuration.
 After you copy the realm for the new Sync user's configuration, you can 
 open the copy as a synced realm for that user. 
 
-.. include:: /includes/note-writecopy-pbs-only.rst
+.. include:: /includes/note-writecopy-same-type-sync-only.rst
 
 .. include:: /includes/swift-concurrency-mainactor.rst
 
@@ -228,7 +228,7 @@ synced realm. Any changes you make to the synced realm will reflect
 in the synced realm file, and they will also propogate to other devices and
 the App Services backend.
 
-.. include:: /includes/note-writecopy-pbs-only.rst
+.. include:: /includes/note-writecopy-local-to-sync.rst
 
 .. include:: /includes/swift-concurrency-mainactor.rst
 
@@ -262,6 +262,8 @@ After you copy the realm for use without Sync, you can open the copy as a
 non-synced realm. Any changes you make to the non-synced realm reflect 
 only in the local realm file. No changes propogate to other devices or
 the App Services backend.
+
+.. include:: /includes/note-writecopy-local-to-sync.rst
 
 .. include:: /includes/swift-concurrency-mainactor.rst
 
