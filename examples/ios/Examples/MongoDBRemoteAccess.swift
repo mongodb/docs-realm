@@ -1,3 +1,9 @@
+// :replace-start: {
+//   "terms": {
+//     "(testCase: self)": "()"
+//   }
+// }
+
 import XCTest
 import RealmSwift
 
@@ -566,13 +572,131 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-//    TODO: Write examples for watching for changes
-//
-//    func testWatchForChangesInMDBCollection() {
-//
-//    }
+    // :snippet-start: change-event-delegate
+    class MyChangeStreamDelegate: ChangeEventDelegate {
+        // :remove-start:
+        private let testCase: XCTestCase
+        private let openExpectation: XCTestExpectation
+        private let closeExpectation: XCTestExpectation
+        private var changeExpectation: XCTestExpectation?
+
+        public init(testCase: XCTestCase) {
+            self.testCase = testCase
+            openExpectation = testCase.expectation(description: "Open watch stream")
+            closeExpectation = testCase.expectation(description: "Close watch stream")
+        }
+
+        public func waitForOpen() {
+            testCase.wait(for: [openExpectation], timeout: 20.0)
+        }
+
+        public func waitForClose() {
+            testCase.wait(for: [closeExpectation], timeout: 20.0)
+        }
+
+        public func expectEvent() {
+            XCTAssertNil(changeExpectation)
+            changeExpectation = testCase.expectation(description: "Watch change event")
+        }
+
+        public func waitForEvent() throws {
+            try testCase.wait(for: [XCTUnwrap(changeExpectation)], timeout: 20.0)
+            changeExpectation = nil
+        }
+        // :remove-end:
+        
+        func changeStreamDidOpen(_ changeStream: RealmSwift.ChangeStream) {
+            print("Change stream opened: \(changeStream)")
+            openExpectation.fulfill() // :remove:
+        }
+        
+        func changeStreamDidClose(with error: Error?) {
+            if let anError = error {
+                print("Change stream closed with error: \(anError.localizedDescription)")
+            } else {
+                print("Change stream closed")
+            }
+            closeExpectation.fulfill() // :remove:
+        }
+        
+        func changeStreamDidReceive(error: Error) {
+            print("Received error: \(error.localizedDescription)")
+        }
+        
+        func changeStreamDidReceive(changeEvent: RealmSwift.AnyBSON?) {
+            guard let changeEvent = changeEvent else { return }
+            guard let document = changeEvent.documentValue else { return }
+            print("Change event document received: \(document)")
+            
+            changeExpectation?.fulfill() // :remove:
+        }
+    }
+    // :snippet-end:
+    
+    func testWatchForChangesInMDBCollection() {
+        let expectation = XCTestExpectation(description: "Get notifications when documents are inserted")
+
+        // :snippet-start: watch-collection
+        app.login(credentials: Credentials.anonymous) { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .failure(let error):
+                    print("Login failed: \(error)")
+                case .success(let user):
+                    print("Login as \(user) succeeded!")
+                    // Continue below
+                }
+                
+                let client = app.currentUser!.mongoClient("mongodb-atlas")
+
+                let database = client.database(named: "ios")
+
+                let collection = database.collection(withName: "CoffeeDrinks")
+                
+                let queue = DispatchQueue(label: "io.realm.watchQueue")
+                let delegate =  MyChangeStreamDelegate(testCase: self)
+                let changeStream = collection.watch(delegate: delegate, queue: queue)
+
+                let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
+
+                delegate.waitForOpen() // :remove:
+                
+                sleep(5) // :remove:
+                
+                delegate.expectEvent() // :remove:
+                collection.insertOne(drink) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let objectId):
+                        XCTAssertNotNil(objectId)
+                        print("Successfully inserted a document with id: \(objectId)")
+                    }
+                    sleep(5) // :remove:
+                }
+                // :remove-start:
+                do {
+                    try delegate.waitForEvent()
+                } catch {
+                    print("Error waiting for event: \(error.localizedDescription)")
+                }
+                // :remove-end:
+                changeStream.close()
+                // :remove-start:
+                sleep(5)
+                delegate.waitForClose()
+                sleep(5)
+                expectation.fulfill()
+                // :remove-end:
+            }
+        }
+        // :snippet-end:
+        wait(for: [expectation], timeout: 75)
+    }
 //
 //    func testWatchForChangesInMDBCollectionWithFilter() {
 //
 //    }
 }
+// :replace-end:

@@ -15,6 +15,6 @@ RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
             if (error != nil) {
                 NSLog(@"Failed to insert: %@", error);
             }
-            NSLog(@"Matched: %lu, modified: %lu", [updateResult matchedCount], [updateResult modifiedCount]); 
+            NSLog(@"Matched: %lu, modified: %lu", [updateResult matchedCount], [updateResult modifiedCount]);
     }];
 }];
