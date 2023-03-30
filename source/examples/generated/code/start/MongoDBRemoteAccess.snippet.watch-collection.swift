@@ -19,8 +19,6 @@ app.login(credentials: Credentials.anonymous) { (result) in
         let changeStream = collection.watch(delegate: delegate, queue: queue)
 
         let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
-
-        
         
         collection.insertOne(drink) { result in
             switch result {
@@ -28,7 +26,6 @@ app.login(credentials: Credentials.anonymous) { (result) in
                 print("Call to MongoDB failed: \(error.localizedDescription)")
                 return
             case .success(let objectId):
-                XCTAssertNotNil(objectId)
                 print("Successfully inserted a document with id: \(objectId)")
             }
         }

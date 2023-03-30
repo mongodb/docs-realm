@@ -658,19 +658,17 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 let changeStream = collection.watch(delegate: delegate, queue: queue)
 
                 let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
-
                 delegate.waitForOpen() // :remove:
-                
                 sleep(5) // :remove:
-                
                 delegate.expectEvent() // :remove:
+                
                 collection.insertOne(drink) { result in
                     switch result {
                     case .failure(let error):
                         print("Call to MongoDB failed: \(error.localizedDescription)")
                         return
                     case .success(let objectId):
-                        XCTAssertNotNil(objectId)
+                        XCTAssertNotNil(objectId) // :remove:
                         print("Successfully inserted a document with id: \(objectId)")
                     }
                     sleep(5) // :remove:
