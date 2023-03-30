@@ -454,11 +454,26 @@ documents.
 The following snippet watches for changes to specific documents in the
 ``CoffeeDrinks`` collection:
 
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-with-filter.swift
+   :language: swift
+   :copyable: false
 
+It uses this delegate:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.change-event-delegate.swift
+   :language: swift
+   :copyable: false
 
 Running this snippet produces output resembling the following:
 
+.. code-block:: console
+   :copyable: false
 
+   Login as <RLMUser: 0x600003198780> succeeded!
+   Change stream opened: <RLMChangeStream: 0x600000418240>
+   Successfully updated the document
+   Change event document received: ["fullDocument": Optional(RealmSwift.AnyBSON.document(["_partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), "_id": Optional(RealmSwift.AnyBSON.objectId(6426121ec505cc40eb9f6de2)), "containsDairy": Optional(RealmSwift.AnyBSON.string("true"))])), "_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("826426122A000000102B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F696400646426121EC505CC40EB9F6DE20004"))])), "ns": Optional(RealmSwift.AnyBSON.document(["db": Optional(RealmSwift.AnyBSON.string("ios")), "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))])), "updateDescription": Optional(RealmSwift.AnyBSON.document(["removedFields": Optional(RealmSwift.AnyBSON.array([])), "updatedFields": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("true"))]))])), "operationType": Optional(RealmSwift.AnyBSON.string("update")), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426121ec505cc40eb9f6de2))])), "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-30 22:50:18 +0000))]
+   Change stream closed
 
 .. _swift-mongodb-watch-with-filter:
 

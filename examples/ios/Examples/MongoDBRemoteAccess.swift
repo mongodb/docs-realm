@@ -691,9 +691,90 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
         // :snippet-end:
         wait(for: [expectation], timeout: 75)
     }
-//
-//    func testWatchForChangesInMDBCollectionWithFilter() {
-//
-//    }
+
+    func testWatchForChangesInMDBCollectionWithFilter() {
+        let expectation = XCTestExpectation(description: "Get notifications when documents are inserted")
+
+        // :snippet-start: watch-collection-with-filter
+        app.login(credentials: Credentials.anonymous) { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .failure(let error):
+                    print("Login failed: \(error)")
+                case .success(let user):
+                    print("Login as \(user) succeeded!")
+                    // Continue below
+                }
+                
+                let client = app.currentUser!.mongoClient("mongodb-atlas")
+
+                let database = client.database(named: "ios")
+
+                let collection = database.collection(withName: "CoffeeDrinks")
+                // :remove-start:
+                let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
+                var drinkObjectId: ObjectId = ObjectId()
+                print("The drink objectId on initialization is: \(drinkObjectId)")
+                collection.insertOne(drink) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let objectId):
+                        XCTAssertNotNil(objectId)
+                        print("Successfully inserted a document with id: \(objectId)")
+                        let objectIdValue = objectId.objectIdValue
+                        guard let unwrappedObjectIdValue = objectIdValue else { return }
+                        print("The unwrapped objectID value is: \(unwrappedObjectIdValue)")
+                        drinkObjectId.self = unwrappedObjectIdValue
+                    }
+                    sleep(5)
+                }
+                sleep(7)
+                print("The objectId value is now: \(drinkObjectId)")
+                // :remove-end:
+                
+                let queue = DispatchQueue(label: "io.realm.watchQueue")
+                let delegate =  MyChangeStreamDelegate(testCase: self)
+                let changeStream = collection.watch(filterIds: [drinkObjectId], delegate: delegate, queue: queue)
+
+                // :remove-start:
+                delegate.waitForOpen()
+                sleep(5)
+                delegate.expectEvent()
+                // :remove-end:
+                let queryFilter: Document = ["_id": AnyBSON(drinkObjectId) ]
+                let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
+
+                collection.updateOneDocument(filter: queryFilter, update: documentUpdate) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let updateResult):
+                        XCTAssertNotNil(updateResult) // :remove:
+                        print("Successfully updated the document")
+                    }
+                    sleep(5) // :remove:
+                }
+                // :remove-start:
+                do {
+                    try delegate.waitForEvent()
+                } catch {
+                    print("Error waiting for event: \(error.localizedDescription)")
+                }
+                // :remove-end:
+                changeStream.close()
+                // :remove-start:
+                sleep(5)
+                delegate.waitForClose()
+                sleep(5)
+                expectation.fulfill()
+                // :remove-end:
+            }
+        }
+        // :snippet-end:
+        wait(for: [expectation], timeout: 75)
+    }
 }
 // :replace-end:
