@@ -870,5 +870,64 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
         // :snippet-end:
         wait(for: [expectation], timeout: 75)
     }
+    
+#if swift(>=5.8)
+    // Per Thomas in the SDK test suite:
+    // wait(for:) doesn't work in async functions because it blocks the calling
+    // thread and doesn't let async tasks run. Xcode 14.3 introduced a new async
+    // version of it which does work, but there doesn't appear to be a workaround
+    // for older Xcode versions.
+    func testAsyncStreamWatchForChangesInMDBCollection() async throws {
+        // :snippet-start: watch-collection-async-sequence
+        let user = try await app.login(credentials: Credentials.anonymous)
+        // Set up the client, database, and collection.
+        let mongoClient = user.mongoClient("mongodb-atlas")
+        let database = mongoClient.database(named: "ios")
+        let collection = database.collection(withName: "CoffeeDrinks")
+        // :remove-start:
+        // Populate test data
+        let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 43"]
+        let objectId = try await collection.insertOne(drink)
+        XCTAssertNotNil(objectId) // :remove:
+        print("Successfully inserted a document with id: \(objectId)")
+        let objectIdValue = objectId.objectIdValue
+        guard let unwrappedObjectIdValue = objectIdValue else { return }
+        
+        let openEx = expectation(description: "open watch stream")
+        // :remove-end:
+        
+        // Set up a task you'll later await to keep the change stream open,
+        // and you can cancel it when you're done watching for events.
+        let task = Task {
+            // Open the change stream.
+            let changeEvents = collection.changeEvents(onOpen: {
+                openEx.fulfill() // :remove:
+                print("Successfully opened change stream")
+            })
+            // Await events in the change stream.
+            for try await event in changeEvents {
+                let doc = event.documentValue!
+                // :remove-start:
+                let objectId = doc["documentKey"]??.documentValue?["_id"]??.objectIdValue
+                if let unwrappedObjectId = objectId {
+                    XCTAssertEqual(unwrappedObjectId, objectIdValue)
+                }
+                // :remove-end:
+                print("Received event: \(event.documentValue!)")
+            }
+        }
+        await fulfillment(of: [openEx], timeout: 2.0) // :remove:
+        
+        // Updating a document in the collection triggers a change event.
+        let queryFilter: Document = ["_id": AnyBSON(objectId) ]
+        let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
+        try await collection.updateOneDocument(filter: queryFilter, update: documentUpdate)
+        sleep(2) // :remove:
+        // Cancel the task when you're done watching the stream.
+        task.cancel()
+        _ = await task.result
+        // :snippet-end:
+    }
+#endif
 }
 // :replace-end:
