@@ -94,23 +94,20 @@ For more information, see :ref:`Asynchronous Writes <dotnet-async-writes>`.
 Resolving a 'AddDefaultTypes should be called before creating a Realm instance' Exception
 -----------------------------------------------------------------------------------------
 
-You may see a ``System.NotSupportedException`` with the message
-"AddDefaultTypes should be called before creating a Realm instance". This typically
-happens when you have multiple projects containing Realm models and you open a Realm
-instance before all of them have been loaded in memory.
+You may see a ``System.NotSupportedException`` with the message "AddDefaultTypes should be called before creating a Realm instance". This can happen when you have multiple projects containing Realm models and you open a Realm instance before all of them have been loaded in memory.
 
 Explanation of the causes
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.NET uses lazy loading to improve performance. An assembly is not loaded until one or more of the types it contains is needed. However, Realm relies on the `module initializer <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/module-initializers>`_ to register all of the types in its default schema. When you first open a realm, the default schema gets locked, and any attempt to modify the realm will results in the exception above.
+.NET uses lazy loading to improve performance. An assembly is not loaded until one or more of the types it contains is needed. However, Realm relies on the `module initializer <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/module-initializers>`_ to register all of the types in its default schema. When you first open a realm, the default schema gets locked, and any attempt to register more types will result in the exception above.
 
 Resolution
 ~~~~~~~~~~~~~~
 
-There are 3 ways to resolve this issue. 
-1. You can place your realm models in the same assembly as your realm.
+There are 3 ways to resolve this issue.
+1. You can place your realm models in the same assembly where you call `Realm.GetInstance`.
 2. You can pre-load the assembly that contains your realm objects by creating a static method on the assembly, and then call that method from your app code:
-    
+
     .. code-block:: csharp
       // In your models assembly
       public static class MyAssemblyLoader
@@ -122,7 +119,7 @@ There are 3 ways to resolve this issue.
       {
           MyAssemblyLoader.LoadMe();
       }
-    
+
 3. You can explicitly specify the Realm schema when initializing the realm:
     .. code-block:: csharp
        var config = new RealmConfiguration
