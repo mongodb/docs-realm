@@ -90,3 +90,53 @@ worker threads. If you have set ``SynchronizationContext.Current`` in a
 worker thread, call the ``Write()`` method instead of ``WriteAsync()``.
 
 For more information, see :ref:`Asynchronous Writes <dotnet-async-writes>`.
+
+Resolving a 'AddDefaultTypes should be called before creating a Realm instance' Exception
+-----------------------------------------------------------------------------------------
+
+You may see a ``System.NotSupportedException`` with the message
+"AddDefaultTypes should be called before creating a Realm instance". This typically
+happens when you have multiple projects containing Realm models and you open a Realm
+instance before all of them have been loaded in memory.
+
+Explanation of the causes
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The .NET assembly loader is a lazy one, so will only load assemblies when the types defined
+in them are needed. At the same time, Realm relies on the
+`module initializer <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/module-initializers>`_
+to register the assembly types in the default schema. When you first open a Realm without
+specifying the schema, the default schema gets locked in and attempts to modify it will results
+in the exception above.
+
+How to resolve
+~~~~~~~~~~~~~~
+
+The easiest way to resolve this is to force load the assembly that contains your models prior
+to opening the Realm instance. This can be done by referencing any of the types defined in that
+assembly - for example, you can add a dummy void method that gets invoked as soon as your app
+is loaded.
+
+  .. code-block:: csharp
+
+      // In your models assembly
+      public static class MyAssemblyLoader
+      {
+          public static void LoadMe() {}
+      }
+
+      // In your app
+      public void Initialize()
+      {
+          MyAssemblyLoader.LoadMe();
+      }
+
+Alternatively, you can explicitly specify the Realm schema instead of relying on the default
+schema discovery:
+
+  .. code-block:: csharp
+
+      var config = new RealmConfiguration
+      {
+          Schema = new[] { typeof(Person), typeof(Company), ... }
+      }
