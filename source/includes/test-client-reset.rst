@@ -4,9 +4,9 @@ You can manually test your application's client reset handling by
 When you terminate and re-enable Sync, clients that have previously connected 
 with Sync are unable to connect until after they perform a client reset. 
 Terminating Sync deletes the metadata from the server that allows the 
-client to synchronize. The client must start fresh by downloading a new 
+client to synchronize. The client must download a new 
 copy of the realm from the server. The server sends a client reset error 
-to these clients, enabling you to manually trigger the client reset condition.
+to these clients. So, when you terminate Sync, you trigger the client reset condition.
 
 To test client reset handling: 
 
