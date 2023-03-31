@@ -102,41 +102,30 @@ instance before all of them have been loaded in memory.
 Explanation of the causes
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The .NET assembly loader is a lazy one, so will only load assemblies when the types defined
-in them are needed. At the same time, Realm relies on the
-`module initializer <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/module-initializers>`_
-to register the assembly types in the default schema. When you first open a Realm without
-specifying the schema, the default schema gets locked in and attempts to modify it will results
-in the exception above.
+.NET uses lazy loading to improve performance. An assembly is not loaded until one or more of the types it contains is needed. However, Realm relies on the `module initializer <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/module-initializers>`_ to register all of the types in its default schema. When you first open a realm, the default schema gets locked, and any attempt to modify the realm will results in the exception above.
 
-How to resolve
+Resolution
 ~~~~~~~~~~~~~~
 
-The easiest way to resolve this is to force load the assembly that contains your models prior
-to opening the Realm instance. This can be done by referencing any of the types defined in that
-assembly - for example, you can add a dummy void method that gets invoked as soon as your app
-is loaded.
-
-  .. code-block:: csharp
-
+There are 3 ways to resolve this issue. 
+1. You can place your realm models in the same assembly as your realm.
+2. You can pre-load the assembly that contains your realm objects by creating a static method on the assembly, and then call that method from your app code:
+    
+    .. code-block:: csharp
       // In your models assembly
       public static class MyAssemblyLoader
       {
           public static void LoadMe() {}
       }
-
       // In your app
       public void Initialize()
       {
           MyAssemblyLoader.LoadMe();
       }
-
-Alternatively, you can explicitly specify the Realm schema instead of relying on the default
-schema discovery:
-
-  .. code-block:: csharp
-
-      var config = new RealmConfiguration
-      {
-          Schema = new[] { typeof(Person), typeof(Company), ... }
-      }
+    
+3. You can explicitly specify the Realm schema when initializing the realm:
+    .. code-block:: csharp
+       var config = new RealmConfiguration
+       {
+           Schema = new[] { typeof(Person), typeof(Company), ... }
+       }
