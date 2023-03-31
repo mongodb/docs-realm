@@ -384,6 +384,173 @@ Running this snippet produces this output:
 
    Successfully deleted 3 documents.
 
+.. _swift-mongodb-watch:
+
+Watch for Changes
+-----------------
+
+You can :manual:`watch </reference/method/db.collection.watch/>` a collection 
+for change notifications that MongoDB emits whenever a document in the 
+collection is created, modified, or deleted. Each notification specifies a 
+document that changed, how it changed, and the full document after the 
+operation that caused the event.
+
+.. include:: /includes/serverless-watch-note.rst
+
+Watch for Changes in a Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a stream of changes made to a collection by calling 
+:swift-sdk:`collection.watch() 
+<Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE5watch7Combine10PublishersOACE14WatchPublisherVyFz>`.
+This function creates a publisher that emits a AnyBSON change event when 
+the MongoDB collection changes. 
+
+You can optionally watch a filtered list of ``_ids`` in the collection with 
+:swift-sdk:`collection.watch(filterIds:) 
+<Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE5watch9filterIds7Combine10PublishersOACE14WatchPublisherVSayAC8ObjectIdCG_tF>`,
+or apply a ``$match`` filter to incoming change events with :swift-sdk:`collection.watch(matchFilter:) 
+<Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE5watch11matchFilter7Combine10PublishersOACE14WatchPublisherVSDySSAC7AnyBSONOSgG_tF>`.
+
+The ``.watch()`` method can take a :swift-sdk:`ChangeEventDelegate 
+<Protocols/ChangeEventDelegate.html>` to subscribe to changes on a stream.
+
+The following snippet watches for changes to any documents in the
+``CoffeeDrinks`` collection:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection.swift
+   :language: swift
+   :copyable: false
+
+It uses this :swift-sdk:`ChangeEventDelegate <Protocols/ChangeEventDelegate.html>`:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.change-event-delegate.swift
+   :language: swift
+   :copyable: false
+
+Running this snippet produces this output:
+
+.. code-block:: console
+   :copyable: false
+
+   Login as <RLMUser: 0x600003908880> succeeded!
+   Change stream opened: <RLMChangeStream: 0x600000c9a1c0>
+   Change event document received: ["clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-30 21:42:44 +0000)), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(642602546207d8b9ce866ec4))])), "_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("8264260254000000012B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F69640064642602546207D8B9CE866EC40004"))])), "operationType": Optional(RealmSwift.AnyBSON.string("insert")), "fullDocument": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("false")), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "_id": Optional(RealmSwift.AnyBSON.objectId(642602546207d8b9ce866ec4)), "_partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))])), "ns": Optional(RealmSwift.AnyBSON.document(["coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks")), "db": Optional(RealmSwift.AnyBSON.string("ios"))]))]
+   Successfully inserted a document with id: objectId(642602546207d8b9ce866ec4)
+   Change stream closed
+
+.. _swift-mongodb-watch-with-list-of-ids:
+
+Watch for Changes in a Collection to Specific IDs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can watch for changes in a collection to a specific list of objects by
+passing in their ``_id``. Call :swift-sdk:`collection.watch(filterIds: ) 
+<Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE5watch9filterIds7Combine10PublishersOACE14WatchPublisherVSayAC8ObjectIdCG_tF>`
+with an array of ObjectIds to receive only change events that apply to those
+documents.
+
+The following snippet watches for changes to specific documents in the
+``CoffeeDrinks`` collection:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-with-filter.swift
+   :language: swift
+   :copyable: false
+
+It uses this :swift-sdk:`ChangeEventDelegate <Protocols/ChangeEventDelegate.html>`:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.change-event-delegate.swift
+   :language: swift
+   :copyable: false
+
+Running this snippet produces this output:
+
+.. code-block:: console
+   :copyable: false
+
+   Login as <RLMUser: 0x600003198780> succeeded!
+   Change stream opened: <RLMChangeStream: 0x600000418240>
+   Successfully updated the document
+   Change event document received: ["fullDocument": Optional(RealmSwift.AnyBSON.document(["_partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), "_id": Optional(RealmSwift.AnyBSON.objectId(6426121ec505cc40eb9f6de2)), "containsDairy": Optional(RealmSwift.AnyBSON.string("true"))])), "_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("826426122A000000102B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F696400646426121EC505CC40EB9F6DE20004"))])), "ns": Optional(RealmSwift.AnyBSON.document(["db": Optional(RealmSwift.AnyBSON.string("ios")), "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))])), "updateDescription": Optional(RealmSwift.AnyBSON.document(["removedFields": Optional(RealmSwift.AnyBSON.array([])), "updatedFields": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("true"))]))])), "operationType": Optional(RealmSwift.AnyBSON.string("update")), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426121ec505cc40eb9f6de2))])), "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-30 22:50:18 +0000))]
+   Change stream closed
+
+.. _swift-mongodb-watch-with-filter:
+
+Watch for Changes in a Collection with a Filter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a stream of changes made to documents in a collection that
+fulfill certain criteria by calling :swift-sdk:`collection.watch(matchFilter: )
+<Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE5watch11matchFilter7Combine10PublishersOACE14WatchPublisherVSDySSAC7AnyBSONOSgG_tF>`.
+This method accepts a ``Document`` parameter that is
+used as the query of a :manual:`$match operator
+</reference/operator/aggregation/match/>` to process each
+:ref:`database event <database-events>` that occurs while watching the
+collection.
+
+The following snippet watches for changes to documents in the
+``CoffeeDrink`` collection, but only triggers the provided callback for
+events corresponding to documents belonging to the partition named
+"Store 42":
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-with-match.swift
+   :language: swift
+   :copyable: false
+
+It uses this :swift-sdk:`ChangeEventDelegate <Protocols/ChangeEventDelegate.html>`:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.change-event-delegate.swift
+   :language: swift
+   :copyable: false
+
+Running this snippet produces this output:
+
+.. code-block:: console
+   :copyable: false
+
+   Login as <RLMUser: 0x60000183d7e0> succeeded!
+   Change stream opened: <RLMChangeStream: 0x600002d580c0>
+   Change event document received: ["fullDocument": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426e0feedf76ba4a8969b34)), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "_partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "containsDairy": Optional(RealmSwift.AnyBSON.string("true")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))])), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426e0feedf76ba4a8969b34))])), "updateDescription": Optional(RealmSwift.AnyBSON.document(["updatedFields": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("true"))])), "removedFields": Optional(RealmSwift.AnyBSON.array([]))])), "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-31 13:33:03 +0000)), "operationType": Optional(RealmSwift.AnyBSON.string("update")), "ns": Optional(RealmSwift.AnyBSON.document(["db": Optional(RealmSwift.AnyBSON.string("ios")), "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))])), "_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("826426E10F0000000F2B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F696400646426E0FEEDF76BA4A8969B340004"))]))]
+   Successfully updated the document
+   Change stream closed
+
+
+.. _swift-mongodb-watch-async-sequence:
+
+Watch a Collection as an Async Sequence
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.37.0
+
+You can open an async sequence to watch for changes to a collection. In an 
+async context, call :swift-sdk:`changeEvents() 
+<Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE12changeEvents7Combine22AsyncThrowingPublisherVyAE10PublishersOACE05WatchJ0VGvp>` 
+on a collection to open a change stream. This provides an async sequence of 
+AnyBSON values containing information about each change to the MongoDB 
+collection.
+
+You can optionally provide a :swift-sdk:`changeEvents(onOpen: ) 
+<Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE12changeEvents6onOpen7Combine22AsyncThrowingPublisherVyAF10PublishersOACE05WatchL0VGyyYbc_tF>`
+callback which is invoked when the watch stream has initialized on the server.
+
+The ``changeEvents()`` API can take ``filterIds`` or a ``matchFilter``
+to watch a subset of documents in a collection, similar to the examples above.
+
+The following snippet watches for changes to any documents in the
+``CoffeeDrinks`` collection as an async sequence:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-async-sequence.swift
+   :language: swift
+   :copyable: false
+
+Running this snippet produces this output:
+
+.. code-block:: console
+   :copyable: false
+
+   Successfully opened change stream
+   Received event: ["_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("82642722F9000000052B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F69640064642722F800B264566E25B5CC0004"))])), "updateDescription": Optional(RealmSwift.AnyBSON.document(["updatedFields": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("true"))])), "removedFields": Optional(RealmSwift.AnyBSON.array([]))])), "ns": Optional(RealmSwift.AnyBSON.document(["db": Optional(RealmSwift.AnyBSON.string("ios")), "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))])), "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-31 18:14:17 +0000)), "fullDocument": Optional(RealmSwift.AnyBSON.document(["beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "_id": Optional(RealmSwift.AnyBSON.objectId(642722f800b264566e25b5cc)), "containsDairy": Optional(RealmSwift.AnyBSON.string("true")), "_partition": Optional(RealmSwift.AnyBSON.string("Store 43"))])), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(642722f800b264566e25b5cc))])), "operationType": Optional(RealmSwift.AnyBSON.string("update"))]
+
 .. _ios-mongodb-aggregation-pipelines:
 
 Aggregate Documents
