@@ -41,6 +41,7 @@ existing realm and open the new realm.
    :language: csharp
    :copyable: true
 
+.. include:: /includes/note-writecopy-local-to-sync.rst
 
 Convert a Synced Realm to a Non-Synced Realm
 --------------------------------------------
@@ -52,6 +53,8 @@ and
 :dotnet-sdk:`WaitForDownloadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`.
 Then we call ``WriteCopy()`` to copy the data to the non-synced realm. At this 
 point, we can delete the synced realm and start using the non-synced realm.
+
+.. include:: /includes/note-writecopy-local-to-sync.rst
 
 .. literalinclude:: /examples/generated/dotnet/Convert.snippet.sync-to-nosync.cs
    :language: csharp
