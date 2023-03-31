@@ -17,18 +17,19 @@ app.login(credentials: Credentials.anonymous) { (result) in
         // both of which are optional arguments.
         let queue = DispatchQueue(label: "io.realm.watchQueue")
         let delegate =  MyChangeStreamDelegate()
-        let changeStream = collection.watch(delegate: delegate, queue: queue)
+        let matchFilter = [ "fullDocument._partition": AnyBSON("Store 42") ]
+        let changeStream = collection.watch(matchFilter: matchFilter, delegate: delegate, queue: queue)
+        // An update to a relevant document triggers a change event.
+        let queryFilter: Document = ["_id": AnyBSON(drinkObjectId) ]
+        let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
 
-        // Adding a document triggers a change event.
-        let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
-        
-        collection.insertOne(drink) { result in
+        collection.updateOneDocument(filter: queryFilter, update: documentUpdate) { result in
             switch result {
             case .failure(let error):
                 print("Call to MongoDB failed: \(error.localizedDescription)")
                 return
-            case .success(let objectId):
-                print("Successfully inserted a document with id: \(objectId)")
+            case .success(let updateResult):
+                print("Successfully updated the document")
             }
         }
         // After you're done watching for events, close the change stream.

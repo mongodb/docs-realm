@@ -429,7 +429,7 @@ It uses this delegate:
    :language: swift
    :copyable: false
 
-Running this snippet produces output resembling the following:
+Running this snippet produces this output:
 
 .. code-block:: console
    :copyable: false
@@ -464,7 +464,7 @@ It uses this delegate:
    :language: swift
    :copyable: false
 
-Running this snippet produces output resembling the following:
+Running this snippet produces this output:
 
 .. code-block:: console
    :copyable: false
@@ -494,9 +494,26 @@ The following snippet watches for changes to documents in the
 events corresponding to documents belonging to the partition named
 "Store 42":
 
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-with-match.swift
+   :language: swift
+   :copyable: false
 
+It uses this delegate:
 
-Running this snippet produces output resembling the following:
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.change-event-delegate.swift
+   :language: swift
+   :copyable: false
+
+Running this snippet produces this output:
+
+.. code-block:: console
+   :copyable: false
+
+   Login as <RLMUser: 0x60000183d7e0> succeeded!
+   Change stream opened: <RLMChangeStream: 0x600002d580c0>
+   Change event document received: ["fullDocument": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426e0feedf76ba4a8969b34)), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "_partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "containsDairy": Optional(RealmSwift.AnyBSON.string("true")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))])), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426e0feedf76ba4a8969b34))])), "updateDescription": Optional(RealmSwift.AnyBSON.document(["updatedFields": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("true"))])), "removedFields": Optional(RealmSwift.AnyBSON.array([]))])), "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-31 13:33:03 +0000)), "operationType": Optional(RealmSwift.AnyBSON.string("update")), "ns": Optional(RealmSwift.AnyBSON.document(["db": Optional(RealmSwift.AnyBSON.string("ios")), "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))])), "_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("826426E10F0000000F2B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F696400646426E0FEEDF76BA4A8969B340004"))]))]
+   Successfully updated the document
+   Change stream closed
 
 
 .. _swift-mongodb-watch-async-sequence:

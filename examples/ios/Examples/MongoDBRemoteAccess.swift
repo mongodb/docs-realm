@@ -646,20 +646,24 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                     // Continue below
                 }
                 
+                // Set up the client, database, and collection.
                 let client = app.currentUser!.mongoClient("mongodb-atlas")
-
                 let database = client.database(named: "ios")
-
                 let collection = database.collection(withName: "CoffeeDrinks")
                 
+                // Watch the collection. In this example, we use a queue and delegate,
+                // both of which are optional arguments.
                 let queue = DispatchQueue(label: "io.realm.watchQueue")
                 let delegate =  MyChangeStreamDelegate(testCase: self)
                 let changeStream = collection.watch(delegate: delegate, queue: queue)
 
+                // :remove-start:
+                delegate.waitForOpen()
+                sleep(5)
+                delegate.expectEvent()
+                // :remove-end:
+                // Adding a document triggers a change event.
                 let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
-                delegate.waitForOpen() // :remove:
-                sleep(5) // :remove:
-                delegate.expectEvent() // :remove:
                 
                 collection.insertOne(drink) { result in
                     switch result {
@@ -670,7 +674,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         XCTAssertNotNil(objectId) // :remove:
                         print("Successfully inserted a document with id: \(objectId)")
                     }
-                    sleep(5) // :remove:
+                    sleep(3) // :remove:
                 }
                 // :remove-start:
                 do {
@@ -679,11 +683,12 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                     print("Error waiting for event: \(error.localizedDescription)")
                 }
                 // :remove-end:
+                // After you're done watching for events, close the change stream.
                 changeStream.close()
                 // :remove-start:
-                sleep(5)
+                sleep(3)
                 delegate.waitForClose()
-                sleep(5)
+                sleep(3)
                 expectation.fulfill()
                 // :remove-end:
             }
@@ -693,7 +698,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
     }
 
     func testWatchForChangesInMDBCollectionWithFilter() {
-        let expectation = XCTestExpectation(description: "Get notifications when documents are inserted")
+        let expectation = XCTestExpectation(description: "Get a notification when a specific document is updated")
 
         // :snippet-start: watch-collection-with-filter
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -706,15 +711,14 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                     // Continue below
                 }
                 
+                // Set up the client, database, and collection.
                 let client = app.currentUser!.mongoClient("mongodb-atlas")
-
                 let database = client.database(named: "ios")
-
                 let collection = database.collection(withName: "CoffeeDrinks")
                 // :remove-start:
+                // Populate test data so we have something to watch
                 let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
                 var drinkObjectId: ObjectId = ObjectId()
-                print("The drink objectId on initialization is: \(drinkObjectId)")
                 collection.insertOne(drink) { result in
                     switch result {
                     case .failure(let error):
@@ -725,24 +729,26 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         print("Successfully inserted a document with id: \(objectId)")
                         let objectIdValue = objectId.objectIdValue
                         guard let unwrappedObjectIdValue = objectIdValue else { return }
-                        print("The unwrapped objectID value is: \(unwrappedObjectIdValue)")
                         drinkObjectId.self = unwrappedObjectIdValue
                     }
-                    sleep(5)
+                    sleep(2)
                 }
-                sleep(7)
-                print("The objectId value is now: \(drinkObjectId)")
+                sleep(3)
                 // :remove-end:
                 
+                // Watch the collection. In this example, we use a queue and delegate,
+                // both of which are optional arguments.
+                // `filterIds` is an array of specific document ObjectIds you want to watch.
                 let queue = DispatchQueue(label: "io.realm.watchQueue")
                 let delegate =  MyChangeStreamDelegate(testCase: self)
                 let changeStream = collection.watch(filterIds: [drinkObjectId], delegate: delegate, queue: queue)
 
                 // :remove-start:
                 delegate.waitForOpen()
-                sleep(5)
+                sleep(3)
                 delegate.expectEvent()
                 // :remove-end:
+                // An update to a relevant document triggers a change event.
                 let queryFilter: Document = ["_id": AnyBSON(drinkObjectId) ]
                 let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
 
@@ -764,6 +770,94 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                     print("Error waiting for event: \(error.localizedDescription)")
                 }
                 // :remove-end:
+                // After you're done watching for events, close the change stream.
+                changeStream.close()
+                // :remove-start:
+                sleep(3)
+                delegate.waitForClose()
+                sleep(3)
+                expectation.fulfill()
+                // :remove-end:
+            }
+        }
+        // :snippet-end:
+        wait(for: [expectation], timeout: 75)
+    }
+    
+    func testWatchForChangesInMDBCollectionWithMatch() {
+        let expectation = XCTestExpectation(description: "Get notifications for documents that match a filter")
+
+        // :snippet-start: watch-collection-with-match
+        app.login(credentials: Credentials.anonymous) { (result) in
+            DispatchQueue.main.async {
+                switch result {
+                case .failure(let error):
+                    print("Login failed: \(error)")
+                case .success(let user):
+                    print("Login as \(user) succeeded!")
+                    // Continue below
+                }
+                
+                // Set up the client, database, and collection.
+                let client = app.currentUser!.mongoClient("mongodb-atlas")
+                let database = client.database(named: "ios")
+                let collection = database.collection(withName: "CoffeeDrinks")
+                // :remove-start:
+                // Populate test data so we have something to watch
+                let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
+                var drinkObjectId: ObjectId = ObjectId()
+                collection.insertOne(drink) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let objectId):
+                        XCTAssertNotNil(objectId)
+                        print("Successfully inserted a document with id: \(objectId)")
+                        let objectIdValue = objectId.objectIdValue
+                        guard let unwrappedObjectIdValue = objectIdValue else { return }
+                        drinkObjectId.self = unwrappedObjectIdValue
+                    }
+                    sleep(3)
+                }
+                sleep(3)
+                // :remove-end:
+                
+                // Watch the collection. In this example, we use a queue and delegate,
+                // both of which are optional arguments.
+                let queue = DispatchQueue(label: "io.realm.watchQueue")
+                let delegate =  MyChangeStreamDelegate(testCase: self)
+                let matchFilter = [ "fullDocument._partition": AnyBSON("Store 42") ]
+                let changeStream = collection.watch(matchFilter: matchFilter, delegate: delegate, queue: queue)
+                // :remove-start:
+                sleep(3)
+                delegate.waitForOpen()
+                sleep(3)
+                delegate.expectEvent()
+                // :remove-end:
+                // An update to a relevant document triggers a change event.
+                let queryFilter: Document = ["_id": AnyBSON(drinkObjectId) ]
+                let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
+
+                collection.updateOneDocument(filter: queryFilter, update: documentUpdate) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let updateResult):
+                        XCTAssertNotNil(updateResult) // :remove:
+                        print("Successfully updated the document")
+                    }
+                    sleep(3) // :remove:
+                }
+                // :remove-start:
+                do {
+                    try delegate.waitForEvent()
+                } catch {
+                    print("Error waiting for event: \(error.localizedDescription)")
+                }
+                // :remove-end:
+                // After you're done watching for events, close the change stream.
                 changeStream.close()
                 // :remove-start:
                 sleep(5)
