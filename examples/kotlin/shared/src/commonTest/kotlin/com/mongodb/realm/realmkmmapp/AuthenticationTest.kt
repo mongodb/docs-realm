@@ -223,7 +223,10 @@ class AuthenticationTest: RealmTest() {
 
             // :snippet-start: refresh-custom-user-data
             // Returns the updated custom data object
-            val updatedCustomData = user.refreshCustomData()
+            user.refreshCustomData()
+            
+            val userData = user.customDataAsBsonDocument()
+            displayUserName(userData[USER_NAME]) 
 
             // Now when you access the custom data, it's the
             // updated value returned from refreshCustomData()
