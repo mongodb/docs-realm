@@ -199,8 +199,7 @@ class EventLibrary: XCTestCase {
         }
     }
 
-    // TODO: realm.events is nil as of v 10.37.0. Temporarily skipping until this is addressed in the SDK.
-    func SKIP_testRecordReadAndWriteEvents() {
+    func testRecordReadAndWriteEvents() {
         let expectation = XCTestExpectation(description: "Populate a read and write event")
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {
@@ -223,7 +222,6 @@ class EventLibrary: XCTestCase {
             }
         }
 
-        // This test is currently failing with unexpectedly found nil in ln 228 - temporarily disabling
         func recordReadAndWriteEvents(_ realm: Realm) {
             let events = realm.events!
             let writeEventScope = events.beginScope(activity: "write object")
@@ -291,9 +289,7 @@ class EventLibrary: XCTestCase {
         wait(for: [expectation], timeout: 25)
     }
 
-    // TODO: realm.events is nil as of v 10.37.0. Temporarily skipping until this is addressed in the SDK.
-    // This test is currently failing with unexpectedly found nil in ln 313 - temporarily disabling
-    func SKIP_testRecordCustomEvents() {
+    func testRecordCustomEvents() {
         let expectation = XCTestExpectation(description: "Record a custom event")
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {
@@ -324,9 +320,7 @@ class EventLibrary: XCTestCase {
         wait(for: [expectation], timeout: 20)
     }
 
-    // TODO: realm.events is nil as of v 10.37.0. Temporarily skipping until this is addressed in the SDK.
-    // This test is currently failing with unexpectedly found nil in ln 360 - temporarily disabling
-    func SKIP_testEmbeddedObject() {
+    func testEmbeddedObject() {
         let expectation = XCTestExpectation(description: "Test Embedded Objects")
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {

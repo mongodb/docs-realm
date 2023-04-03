@@ -32,6 +32,7 @@ add_executable(examples
   open-realm.cpp
   quick-start.cpp 
   supported-types.cpp
+  sync-errors.cpp
   threading.cpp
 )
 

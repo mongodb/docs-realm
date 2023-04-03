@@ -1,0 +1,33 @@
+.. _cpp-handle-sync-errors:
+
+====================================
+Handle Sync Errors - C++ SDK (Alpha)
+====================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _cpp-sync-error-handler:
+
+Handle Sync Errors
+------------------
+
+While developing an application that uses Device Sync, you should set an error
+handler. This error handler detects and can respond to any failed sync-related
+API calls.
+
+Set an error handler on the :cpp-sdk:`sync_config 
+<structrealm_1_1internal_1_1bridge_1_1realm_1_1sync__config.html>`. When
+an error occurs, the C++ SDK calls the error handler with the 
+:cpp-sdk:`sync_error <structrealm_1_1internal_1_1bridge_1_1sync__error.html>` 
+object and the :cpp-sdk:`sync_session 
+<structrealm_1_1internal_1_1bridge_1_1sync__session.html>` where the error
+occurred.
+
+.. literalinclude:: /examples/generated/cpp/sync-errors.snippet.create-error-handler.cpp
+   :language: cpp
+
+.. include:: /includes/sync-errors-in-app-services.rst

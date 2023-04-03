@@ -152,7 +152,7 @@ subscription or does not match the user's permissions, the following occurs:
 #. Upon sync, the server applies the rules and permissions.
    The server determines that the user does not have authorization to perform the write.
 #. The server sends a revert operation, called a "compensating write", back to the client.
-#. The client's realm reverts the illegal write operation by deleting the illegal object from the realm.
+#. The client's realm reverts the illegal write operation.
 
 Any client-side writes to a given object between an illegal write to that object
 and the corresponding compensating write will be lost.
@@ -237,8 +237,7 @@ If you want to write an object that does not match the query subscription,
 you must open a different realm where the object matches the query 
 subscription. Alternately, you could write the object to a :ref:`non-synced 
 realm <swift-synced-realms-vs-non-synced-realms>` that does not enforce 
-permissions or subscription queries. There is no way to write an object 
-to a Flexible Sync realm that does not match the query subscription.
+permissions or subscription queries.
 
 Code Example
 ++++++++++++

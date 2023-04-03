@@ -23,4 +23,4 @@ findFiles(){
     done < <(find "`dirname $0`"/../source/images -type f -exec basename {} \;)
 }
 findFiles
-echo "--done--"
+echo "--done--" 1>&2;
