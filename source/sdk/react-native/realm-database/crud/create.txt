@@ -34,12 +34,10 @@ The example on this page uses the following schema:
 Create a New Object
 -------------------
 
-To add an object to a realm instance, instantiate the :js-sdk:`Realm Object
-<Realm.Object.html>` as you would any other object by using the :mdn:`new
-<Web/JavaScript/Reference/Operators/new>` operator to create a new Realm object
-inside of a write transaction. If the :ref:`schema <react-native-realm-schema>`
-includes the object type and the object conforms to the schema, then Realm
-Database stores the object.
+To add a new Realm object to a realm instance, use :js-sdk:`realm.create()
+<Realm.html#create>` inside of a write transaction. If the
+:ref:`schema <react-native-realm-schema>` includes the object type and the
+object conforms to the schema, then Realm Database stores the object.
 
 In the following example of a ``CreateDogInput`` component, we:
 
