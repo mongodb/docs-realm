@@ -1,8 +1,8 @@
 .. _dotnet-handle-sync-errors:
 
-=======================================
-Handle Sync Errors - .NET SDK
-=======================================
+==========================================
+Handle Sync Errors and Timeouts - .NET SDK
+==========================================
 
 .. contents:: On this page
    :local:
@@ -11,8 +11,10 @@ Handle Sync Errors - .NET SDK
    :class: singlecol
 
 
-Device Sync represents errors via :dotnet-sdk:`SessionExceptions <reference/Realms.Sync.Exceptions.SessionException.html>`. In
-addition to the standard exception properties, you have access to an :dotnet-sdk:`ErrorCode <reference/Realms.Sync.Exceptions.ErrorCode.html>`
+Device Sync represents errors via 
+:dotnet-sdk:`SessionExceptions <reference/Realms.Sync.Exceptions.SessionException.html>`. 
+In addition to the standard exception properties, you have access to an 
+:dotnet-sdk:`ErrorCode <reference/Realms.Sync.Exceptions.ErrorCode.html>`
 that contains information about the type of the error and allows you to have
 strongly typed handling logic.
 
@@ -49,4 +51,15 @@ Customize the Logging Function
 To set a custom logger function, set :dotnet-sdk:`Logger.Default <reference/Realms.Logging.Logger.html>` to a custom Logger function. 
 
 .. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.customize-logging-function.cs
+   :language: csharp
+
+Customize Timeouts
+------------------
+During Sync sessions, events may timeout without throwing an exception. You can 
+set the :dotnet-sdk:`CancelAsyncOperationsOnNonFatalErrors <reference/Realms.Sync.SyncConfigurationBase.html#Realms_Sync_SyncConfigurationBase_CancelAsyncOperationsOnNonFatalErrors>` 
+to ``true`` so that these events throw an exception that you can then handle.
+The following code shows an example of setting the ``CancelAsyncOperationsOnNonFatalErrors`` 
+property, and 3 events that will throw an exception if they timeout:
+
+.. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.cancelasync.cs
    :language: csharp
