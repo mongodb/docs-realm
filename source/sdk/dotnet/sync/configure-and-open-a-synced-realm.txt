@@ -183,14 +183,14 @@ on the
 :dotnet-sdk:`AppConfiguration <reference/Realms.Sync.AppConfiguration.html>` 
 object. You can set the following Sync timeout properties:
 
-- ConnectTimeout: the maximum amount of time to allow for a connection to become 
+- ``ConnectTimeout``: the amount of time to allow for a connection to become 
   fully established.
-- ConnectionLingerTime: the amount of time to keep a connection open after all 
+- ``ConnectionLingerTime``: the amount of time to keep a connection open after all 
   sessions have been abandoned.
-- PingKeepAlivePeriod: the amount of time between each heartbeat ping message
-- PongKeepAliveTimeout: how long to wait for a response to a heartbeat ping 
-  before concluding that the connection has dropped.
-- FastReconnectLimit: the maximum amount of time since the loss of a previous 
+- ``PingKeepAlivePeriod``: the amount of time between each heartbeat ping message
+- ``PongKeepAliveTimeout``: the amount of time to wait for a response to a 
+   heartbeat ping before concluding that the connection has dropped.
+- ``FastReconnectLimit``: the amount of time since the loss of a previous 
   connection for a new connection to be considered a "fast reconnect".
 
 .. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.appconfigsettings.cs

@@ -53,8 +53,8 @@ To set a custom logger function, set :dotnet-sdk:`Logger.Default <reference/Real
 .. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.customize-logging-function.cs
    :language: csharp
 
-Customize Timeouts
-------------------
+handle Timeouts
+---------------
 During Sync sessions, events may timeout without throwing an exception. You can 
 set the :dotnet-sdk:`CancelAsyncOperationsOnNonFatalErrors <reference/Realms.Sync.SyncConfigurationBase.html#Realms_Sync_SyncConfigurationBase_CancelAsyncOperationsOnNonFatalErrors>` 
 to ``true`` so that these events throw an exception that you can then handle.
