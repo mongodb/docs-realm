@@ -2,15 +2,16 @@ const CreateInitialCharacters = () => {
   const realm = useRealm();
   useEffect(() => {
     realm.write(() => {
-      new Character(realm, {
+      realm.create('Character', {
         _id: new Realm.BSON.ObjectId(),
         name: 'AdventurousPlayer',
         inventory: ['elixir', 'compass', 'glowing shield'],
         levelsCompleted: [4, 9],
       });
     });
+
     realm.write(() => {
-      new Character(realm, {
+      realm.create('Character', {
         _id: new Realm.BSON.ObjectId(),
         name: 'HealerPlayer',
         inventory: ['estus flask', 'gloves', 'rune'],

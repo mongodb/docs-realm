@@ -25,7 +25,7 @@ describe('embedded objects tests', () => {
     assertionRealm.write(() => {
       assertionRealm.delete(assertionRealm.objects(Contact));
 
-      new Contact(assertionRealm, {
+      assertionRealm.create('Contact', {
         name: 'John Smith',
         _id: new Realm.BSON.ObjectID(),
         address: {
@@ -36,7 +36,7 @@ describe('embedded objects tests', () => {
         },
       });
 
-      new Contact(assertionRealm, {
+      assertionRealm.create('Contact', {
         name: 'Jane Doe',
         _id: new Realm.BSON.ObjectID(),
         address: {
@@ -83,7 +83,8 @@ describe('embedded objects tests', () => {
             country,
             postalCode,
           };
-          new Contact(realm, {
+
+          realm.create('Contact', {
             _id: new Realm.BSON.ObjectID(),
             name,
             address, // Embed the address in the Contact object

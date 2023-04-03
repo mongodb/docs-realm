@@ -25,10 +25,10 @@ describe('Read Data Tests', () => {
       assertionRealm.delete(assertionRealm.objects('Person'));
       assertionRealm.delete(assertionRealm.objects('Task'));
 
-      const annieObj = new Person(assertionRealm, {name: 'Annie', age: 54});
-      const bobObj = new Person(assertionRealm, {name: 'Bob', age: 29});
+      const annieObj = assertionRealm.create('Person', {name: 'Annie', age: 54});
+      const bobObj = assertionRealm.create('Person', {name: 'Bob', age: 29});
 
-      new Task(assertionRealm, {
+      assertionRealm.create('Task', {
         _id: 142339,
         name: 'Wash the dishes',
         priority: 3,
@@ -37,7 +37,7 @@ describe('Read Data Tests', () => {
       });
 
       // high priority, high progress
-      new Task(assertionRealm, {
+      assertionRealm.create('Task', {
         _id: 204191,
         name: 'Do the laundry',
         priority: 4,
@@ -46,7 +46,7 @@ describe('Read Data Tests', () => {
       });
 
       // low priority, low progress
-      new Task(assertionRealm, {
+      assertionRealm.create('Task', {
         _id: 214810,
         name: 'Gym Workout',
         priority: 3,

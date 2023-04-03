@@ -5,7 +5,7 @@ const TaskItem = ({_id}: {_id: number}) => {
   const incrementTaskProgress = () => {
     if (myTask) {
       realm.write(() => {
-        myTask.progressMinutes += 1;
+        myTask.progressMinutes! += 1;
       });
     }
   };
