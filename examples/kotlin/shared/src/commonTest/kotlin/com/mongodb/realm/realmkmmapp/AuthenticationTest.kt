@@ -8,6 +8,11 @@ import io.realm.kotlin.mongodb.ext.customDataAsBsonDocument
 import org.mongodb.kbson.BsonDocument
 import kotlin.test.Test
 
+// :replace-start: {
+//   "terms": {
+//     "updatedUserData2": "updatedUserData"
+//   }
+// }
 class AuthenticationTest: RealmTest() {
 
     @Test
@@ -222,14 +227,12 @@ class AuthenticationTest: RealmTest() {
             // :snippet-end:
 
             // :snippet-start: refresh-custom-user-data
-            // Returns the updated custom data object
+            // Update the custom data object
             user.refreshCustomData()
-            
-            val userData = user.customDataAsBsonDocument()
-            displayUserName(userData[USER_NAME]) 
 
             // Now when you access the custom data, it's the
-            // updated value returned from refreshCustomData()
+            // updated data object
+            val updatedUserData = user.customDataAsBsonDocument()
             // :snippet-end:
 
             // :snippet-start: write-custom-user-data
@@ -242,7 +245,8 @@ class AuthenticationTest: RealmTest() {
 
             // Refreshed custom user data contains updated
             // `favoriteColor` value added in above Atlas Function call
-            val updatedCustomUserData = user.refreshCustomData()
+            user.refreshCustomData()
+            val updatedUserData2 = user.customDataAsBsonDocument()
             // :snippet-end:
             // :snippet-start: delete-custom-user-data
             val deleteResponse = user.functions
@@ -263,3 +267,4 @@ class AuthenticationTest: RealmTest() {
             }
         }
     }
+// :replace-end:

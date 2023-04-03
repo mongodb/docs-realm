@@ -7,4 +7,5 @@ val functionResponse = user.functions
 
 // Refreshed custom user data contains updated
 // `favoriteColor` value added in above Atlas Function call
-val updatedCustomUserData = user.refreshCustomData()
+user.refreshCustomData()
+val updatedUserData = user.customDataAsBsonDocument()

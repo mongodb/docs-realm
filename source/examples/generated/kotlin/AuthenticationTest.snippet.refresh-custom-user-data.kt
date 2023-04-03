@@ -1,5 +1,6 @@
-// Returns the updated custom data object
-val updatedCustomData = user.refreshCustomData()
+// Update the custom data object
+user.refreshCustomData()
 
 // Now when you access the custom data, it's the
-// updated value returned from refreshCustomData()
+// updated data object
+val updatedUserData = user.customDataAsBsonDocument()
