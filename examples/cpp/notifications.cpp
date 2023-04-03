@@ -2,6 +2,12 @@
 #include <string>
 #include <cpprealm/sdk.hpp>
 
+// :replace-start: {
+//   "terms": {
+//     "ToMany_": ""
+//   }
+// }
+
 struct Dog : realm::object<Dog> {
     realm::persisted<std::string> name;
     realm::persisted<int64_t> age;
@@ -23,6 +29,17 @@ struct Person : realm::object<Person> {
         realm::property<&Person::age>("age"),
         realm::property<&Person::dog>("dog"));
 };
+
+// :snippet-start: collection-model
+struct ToMany_Person : realm::object<ToMany_Person> {
+    realm::persisted<std::string> name;
+    realm::persisted<std::vector<Dog>> dogs;
+
+    static constexpr auto schema = realm::schema("ToMany_Person",
+        realm::property<&ToMany_Person::name>("name"),
+        realm::property<&ToMany_Person::dogs>("dogs"));
+};
+// :snippet-end:
 
 TEST_CASE("object notification", "[notification]") {
     // :snippet-start: object
@@ -77,6 +94,64 @@ TEST_CASE("object notification", "[notification]") {
     token.unregister();
     // :snippet-end:
     // :snippet-end:
+}
+
+TEST_CASE("collection notification", "[notification]") {
+    auto realm = realm::open<ToMany_Person, Dog>();
+
+    auto person = ToMany_Person { .name = "Dachary" };
+    auto dog1 = Dog { .name = "Ben" };
+    auto dog2 = Dog { .name = "Lita" };
+
+    person.dogs.push_back(dog1);
+
+    // Create an object in the realm.
+    realm.write([&realm, &person] { 
+        realm.add(person);
+    });
+
+    // :snippet-start: collection
+    //  Set up the listener & observe a collection.
+    auto token = person.dogs.observe([&](auto&& changes) {
+        if (changes.collection_root_was_deleted) {
+            std::cout << "The collection was deleted.\n";
+        } else {
+            // Handle deletions, then insertions, then modifications.
+            for (auto& collectionChange : changes.deletions) {
+                std::cout << "The object at index " << std::to_string(collectionChange) << " was removed\n";
+            }
+            for (auto& collectionChange : changes.insertions) {
+                std::cout << "The object at index " << std::to_string(collectionChange) << " was inserted\n";
+            }
+            for (auto& collectionChange : changes.modifications) {
+                std::cout << "The object at index " << std::to_string(collectionChange) << " was modified\n";
+            }
+        }
+    });
+
+    // Remove an object from the collection, and then add an object to see 
+    // deletions and insertions.
+    realm.write([&person, &dog2, &realm] {
+        person.dogs.clear();
+        person.dogs.push_back(dog2);
+    });
+
+    // Modify an object to see a modification.
+    realm.write([&dog2, &realm] {
+        dog2.age = 2;
+    });
+
+    // Refresh the realm after the change to trigger the notification.
+    realm.refresh();
+
+    // Unregister the token when done observing.
+    token.unregister();
+    // :snippet-end:
+    // Clean up after the test
+    realm.write([&person, &dog2, &realm] { 
+        realm.remove(dog2); 
+        realm.remove(person);
+    });
 }
 
 TEST_CASE("results notification", "[notification]") {
@@ -137,3 +212,5 @@ TEST_CASE("results notification", "[notification]") {
         realm.remove(dog2); 
     });
 }
+
+// :replace-end:

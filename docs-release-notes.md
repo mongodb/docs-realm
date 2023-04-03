@@ -1,3 +1,120 @@
+# March 31, 2023
+
+## C++ SDK
+
+- React to Changes: Add a "Register a Collection Change Listener" section with tested, Bluehawked code examples
+- Sync Data/Handle Sync Errors: New page with tested, Bluehawked code example showing how to set a Sync error handler
+
+## Flutter SDK
+
+- Sync Device Data
+  - Write Data to a Synced Realm: Add more details around compensating writes that don't match a query subscription vs. don't match permissions
+  - Handle Sync Errors: Add a new "Test Client Reset Handling" section with details about terminating & re-enabling Sync to test client reset handling
+
+## Java SDK
+
+- Usage Examples
+  - Bundle a Realm: Add a shared include about writeCopy only supporting same-type Sync configurations
+  - Reset a Client Realm: Add a new "Test Client Reset Handling" section with details about terminating & re-enabling Sync to test client reset handling
+
+## Kotlin SDK
+
+- Realm Database/Manage Realm Database Files/Open & Close a Realm: Note that writeCopy only supports same-type Sync configurations
+
+## .NET SDK
+
+- Move "Install Realm" procedure to a shared include used on both Install and Quick Start pages
+- Realm Files/Bundle a Realm: Add a shared include about writeCopy only supporting same-type Sync configurations
+- Sync Data
+  - Client Resets: Add a new "Test Client Reset Handling" section with details about terminating & re-enabling Sync to test client reset handling
+  - Convert Between Non-Synced Realms and Synced Realms: Add a shared include about using writeCopy to convert between local and synced realms only supporting Partition-Based Sync
+
+## Node.js SDK
+
+- Usage Examples
+  - Open & Close a Realm
+    - Add a shared include about writeCopy only supporting same-type Sync configurations
+    - Add a shared include about using writeCopy to convert between local and synced realms only supporting Partition-Based Sync
+    - Fix a link
+  - Reset a Client Realm: Add a new "Test Client Reset Handling" section with details about terminating & re-enabling Sync to test client reset handling
+- Advanced Guides/Bundle a Realm: Add a shared include about writeCopy only supporting same-type Sync configurations
+
+## React Native SDK
+
+- Sync Data
+  - Handle Sync Errors: Add a new "Test Client Reset Handling" section with details about terminating & re-enabling Sync to test client reset handling
+  - Partition-Based Sync: Add a shared include about writeCopy only supporting same-type Sync configurations
+- Test and Debug/Debugging with Flipper: Remove unnecessary and potentially outdated screenshots
+- Minor refinements in code examples and code example highlighting throughout section
+
+## Swift SDK
+
+- Application Services/Query MongoDB: Add a "Watch for Changes" section with details & tested, Bluehawked code examples showing how to watch a collection for changes, filter and match on a `collection.watch()`, and watch a collection as an async sequence
+- Sync Data
+  - Configure & Open a Synced Realm
+    - Move section about opening a Flexible Sync realm above the section about opening a Partition-Based Sync realm
+    - Add a shared include about writeCopy only supporting same-type Sync configurations
+    - Add a shared include about using writeCopy to convert between local and synced realms only supporting Partition-Based Sync
+  - Handle Sync Errors: Add a new "Test Client Reset Handling" section with details about terminating & re-enabling Sync to test client reset handling
+  - Write to a Synced Realm: Minor wording improvements based on corresponding Flutter page updates
+
+# March 24, 2023
+
+## C++ SDK
+
+- Manage Users/Manage Email/Password Users: Minor tweaks based on what's currently supported
+
+## Flutter SDK
+
+- Realm Database/Manage Realm Database Files/Reduce Realm File Size
+  - Note that you can compact either a non-synced or synced realm
+  - Add information about automatic compaction, clarify details for manual compaction
+- Manage Users/Email/Password Users: Update details around password reset, particularly around calling a password reset function
+
+## Kotlin SDK
+
+- Realm Database
+  - Schemas/RealmSet: Minor clarifications, update the code example to fix a failing test
+  - Manage Realm Database Files/Open & Close a Realm: Add a note about automatic compaction
+- Sync/Set the Client Log Level: New page with tested, Bluehawked code examples showing how to set the log level and how to set a custom logger
+- Update the Kotlin SDK version to 1.7.0
+- Add Partition-Based Sync code examples for configuring and opening a realm that were erroneously deleted
+
+## .NET SDK
+
+- Quick Start: Add a line about quick start demonstrating adding Device Sync
+- Quick Start for Unity: Rename "Integrate Realm with Unity" to "Quick Start for Unity", move it higher in the Table of Contents, move a note about multiprocess-sync-related crashes
+- Realm Files/Reduce Realm File Size: Add information about automatic compaction, clarify details for manual compaction
+- Manage Users/Manage Email/Password Users: Update details around password reset, particularly around calling a password reset function
+- Use Realm in a Console App: Add details around Device Sync, update code example
+- Compatibility: Add `tvOS` to the list of supported platforms
+
+## Node.js SDK
+
+- Usage Examples/Manage Email/Password Users: Update details around password reset, particularly around calling a password reset function
+
+## React Native SDK
+
+- Major rewrite across the SDK to use `@realm/react` in all code examples and accompanying text
+- Manage Users/Manage Email/Password Users: Update details around password reset, particularly around calling a password reset function
+
+## Swift SDK
+
+- Realm Files/Reduce Realm File Size: Add information about automatic compaction, clarify details for manual compaction
+- Manage Users/Manage Email/Password Users: Update details around password reset, particularly around calling a password reset function
+- Sync Data/Handle Sync Errors: Fix an incorrect API reference link
+
+## Web SDK
+
+- Apollo GraphQL Client (React): Add a section with tested, Bluehawked code examples showing how to paginate data
+
+## Other
+
+- Internal
+  - Add redirects to fix SEO-impact 404s
+  - C++, Swift, and SwiftUI code example & unit test cleanup
+  - Remove unused JS code snippets
+
 # March 17, 2023
 
 ## Java SDK

@@ -10,124 +10,94 @@ Manage Flexible Sync Subscriptions - React Native SDK
    :depth: 3
    :class: singlecol
 
-
-Overview
---------
-
 Flexible Sync uses subscriptions and permissions to determine which
-data to sync with your App.
-
-To use Flexible Sync in a React Native client:
-
-- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
-- :ref:`Initialize the app <react-native-app-client-configuration>`
-- :ref:`Authenticate a user <react-native-login-anonymous>` in
-  your client project.
-- :ref:`Open the synced Realm with a Flexible Sync configuration <react-native-flexible-sync-open-realm>`
-- :ref:`Add subscriptions to the client application <react-native-sync-subscribe-to-queryable-fields>`
-
-You can add, update, and remove query subscriptions to determine which data 
-syncs to the client device.
+data to sync with your App Services App using Atlas Device Sync. The ``@realm/react`` library streamlines permissions
+and queries.
 
 .. include:: /includes/note-flexible-sync-prerequisite.rst
 
-.. note:: Realm JS SDK Version Requirement
+Prerequisites
+-------------
 
-   In addition to the requirements above, you must use :github:`Realm JS version
-   10.12.0 <realm/realm-js/releases>` or greater in order to use Flexible Sync
-   in your React Native application.
+Before you can add Flexible Sync subscriptions to a React Native client, you must:
 
-.. important:: Flexible Sync Query Limitations
-
-    You cannot use all queries with Flexible Sync subscriptions. 
-    Refer to the :ref:`Flexible Sync RQL Limitations documentation <react-native-flexible-sync-rql-limitations>`
-    for information on which query types are not supported. 
+#. :ref:`Configure Flexible Sync <enable-flexible-sync>` on the Atlas App Services backend
+#. :ref:`Initialize the app client <react-native-app-client-configuration>` 
+#. :ref:`Authenticate a user <react-native-login-anonymous>` in the client
+#. :ref:`Configure a synced Realm <react-native-flexible-sync-open-realm>` in the client
 
 .. _react-native-sync-subscribe-to-queryable-fields:
 
-Subscribe to Queryable Fields
------------------------------
+Align Subscriptions with Backend App
+------------------------------------
 
-When configuring Flexible Sync on the backend, you specify which fields
-your client application can query. In the client application, use the 
-``Subscriptions`` API to manage a set of subscriptions to specific queries on 
-queryable fields.
+Your client-side subscription queries must align with the Device Sync configuration
+in your backend App Services App.
 
-You can:
+Subscription queries return all objects of a type. You can filter results
+with a Realm Query Language query that includes one or more queryable fields.
 
-- Get a list of all subscriptions
-- Add subscriptions
-- Check subscription state
-- Update a subscription with a new query
-- Remove individual subscriptions or all subscriptions of a type
+To learn more about configuring queryable fields, refer to 
+:ref:`Queryable Fields <queryable-fields>` in the App Services documentation.
 
-When data matches the subscription and has appropriate permissions, it syncs
-between devices and the backend application.
+To learn more about the limitations of using Realm Query Language with Flexible Sync,
+refer to the :ref:`Flexible Sync RQL Limitations
+<react-native-flexible-sync-rql-limitations>` section.
 
-A Realm subscription in JavaScript has:
+Manage Your Subscriptions
+-------------------------
 
-- A created and updated date 
-- A name
-- An object type
-- A query string 
+In your client application, use the
+:js-sdk:`Realm.subscriptions <Realm.html#subscriptions>` property to
+manage a set of subscriptions to specific queries on
+:ref:`queryable fields <queryable-fields>`.
 
-You can specify a string name for your subscription. If you do not give your
-subscription a name, the name is set to :mdn:`null
-<Web/JavaScript/Reference/Global_Objects/null>`.
+If you're using ``@realm/react``, you can manage realm subscriptions inside of
+a :ref:`properly-configured RealmProvider <react-native-open-a-synced-realm>`. 
+The ``useRealm()`` gives you access to the currently-opened realm.
 
-When you create a subscription, Realm looks for data matching a query on a
-specific object type. In your Flexible Sync subscriptions, you can have
-subscriptions on several different object types or several queries on the same
-object type.
+You can do the following with your subscriptions:
 
-.. example::
+- :ref:`Add subscriptions <react-native-sync-add-subscription>`
+- :ref:`Configure a realm with initial subscriptions <react-native-sync-bootstrap-initial-subscriptions>`
+- :ref:`Get a list of all subscriptions <react-native-get-subscriptions>`
+- :ref:`Check the status of subscriptions <react-native-flexible-sync-wait-for-sync>`
+- :ref:`Remove subscriptions <react-native-remove-subscription>`
 
-  In the following example, queries are created to subscribe to:
+When the data matches the subscription, and the authenticated user has the
+appropriate permissions, Device Sync syncs the backend data with the client app.
 
-  - A filtered list of completed tasks that have taken over 120 ``progressMinutes``
-  - A filtered list of completed tasks
+Subscription sets persist across sessions even if you no longer include
+the subscription in your code.
+Subscription information is stored in the synced realm's database file.
+You must explicitly remove a subscription
+for it to stop attempting to sync matching data.
 
-  Notice that queries that you subscribe to using Flexible Sync are
-  syntactically the same as :ref:`querying a realm <react-native-read-operations>`
-  and that the queries below will create an overlapping result set.
+.. _react-native-get-subscriptions:
 
-  .. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-queries-to-subscribe-to.js
-     :language: javascript
+Access Subscriptions
+~~~~~~~~~~~~~~~~~~~~
 
-.. important:: Object Links
+Within a ``<RealmProvider>`` that's configured for Flexible Sync, you can access
+a collection of all subscriptions for your app. This is called a 
+:js-sdk:`SubscriptionSet <Realm.html#subscriptions>`.
 
-   You must add both an object and its linked object to the subscription 
-   set to see a linked object.
-   
-   If your subscription results contain an object with a property that links 
-   to an object not contained in the results, the link appears to be null.
-   There is no way to distinguish whether that property's value is 
-   legitimately null, or whether the object it links to exists but is out of
-   view of the query subscription.
-
-Get Subscriptions
-~~~~~~~~~~~~~~~~~
-When using a flexible synced realm, you can access a ``SubscriptionSet``, a
-collection of subscriptions, through the :js-sdk:`realm.subscriptions <Realm.html#subscriptions>` property.
-
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.get-subscriptions.js
-    :language: javascript
+.. literalinclude:: /examples/generated/react-native/ts/get-subscriptions.test.snippet.get-subscriptions.tsx
+   :language: javascript
+   :emphasize-lines: 12
 
 You can use this ``SubscriptionSet`` to add queries to the list of subscriptions and
-update existing subscriptions, as shown in the examples below.
+update existing subscriptions.
 
 .. _react-native-sync-add-subscription:
 
-Add a Query to the List Of Subscriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add a Subscription
+~~~~~~~~~~~~~~~~~~
 
-Compose queries to add to your Flexible Sync subscriptions using the
-:ref:`query engine <react-native-client-query-engine>`:  
+Compose queries using :ref:`Realm Query Language <react-native-query-data>`
+and add them to your Flexible Sync subscriptions.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-queries-to-subscribe-to.js
-     :language: javascript
-
-Add queries to your subscriptions list to sync the query's data. To do so, perform the following: 
+To add a query to a subscription:
 
 #. Create a transaction by passing a callback function to the
    :js-sdk:`SubscriptionSet.update() <Realm.App.Sync.SubscriptionSet.html#update>`
@@ -135,50 +105,64 @@ Add queries to your subscriptions list to sync the query's data. To do so, perfo
    a :js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`
    as an argument.
 #. Within the callback function, call the 
-   :js-sdk:`add() <Realm.App.Sync.MutableSubscriptionSet.html#add>`
-   method on the ``MutableSubscriptionSet`` to add a query to the subscription.
+   :js-sdk:`MutableSubscriptionSet.add() <Realm.App.Sync.MutableSubscriptionSet.html#add>`
+   method to add a query to the subscription.
 
-The following example shows how to subscribe to the queries created above.
-
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.subscribe-to-queryable-fields.js
-     :language: javascript
-     
-The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
+``MutableSubscriptionSet.add()`` takes a ``query`` and a
 :js-sdk:`SubscriptionOptions <Realm.App.Sync.html#.SubscriptionOptions>` object.
-The subscription options include:
+In ``SubscriptionOptions``, you should name your subscription by adding a string
+value to ``SubscriptionOptions.name``. This makes updating the subscription easier.
 
-- a ``name`` string field
-- a ``throwOnUpdate`` boolean field.
+If you do not give your subscription a name, the name is set to ``null`` and 
+the subscription is based on the :ref:`Realm Query Language <react-native-query-data>`
+(RQL) string. If the RQL string changes and the subscription is not named, you 
+won't be able to update your subscription.
 
-If ``throwOnUpdate`` is false or undefined, adding a subscription with an
-existing name will replace the existing query with the new query. However, if
-you set ``throwOnUpdate`` to true, adding a subscription with an existing name
-but a different query throws an exception.
+When you create a subscription, Realm looks for data matching a query on a
+specific object type. In your Flexible Sync subscriptions, you can have
+subscriptions on several different object types or several queries on the same
+object type.
+
+Add a subscription with :js-sdk:`Realm.objects() <Realm.html#objects>`, which you can access with the ``useRealm()`` hook.
+
+If you're using ``@realm/react``, you can use the ``useQuery()`` hook instead of
+``Realm.objects()``. However, ``useQuery()`` needs an active subscription to return
+results. If no subscription has been added yet, ``useQuery()`` returns an empty 
+result, which is not a valid ``query`` for ``MutableSubscriptionSet.add()``.
+
+.. literalinclude:: /examples/generated/react-native/ts/add-query-to-subs.test.snippet.add-query.tsx
+   :language: javascript
+   :emphasize-lines: 10, 13-21
 
 .. _react-native-sync-bootstrap-initial-subscriptions:
 
-Bootstrap the Realm with Initial Subscriptions
-``````````````````````````````````````````````
-
-.. versionadded:: 10.18.0
+Configure a Realm with Initial Subscriptions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You must have at least one subscription before you can read from or write to a
-realm with Flexible Sync enabled. You can bootstrap a realm with an initial subscription set when you open
-it with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
-and Flexible Sync enabled. Include the ``initialSubscriptions`` field into the
-``SyncConfiguration``. Within the ``initialSubscriptions`` object, add an ``update``
-field set to a callback in which you can subscribe to queries to bootstrap your
-application:
+Flexible Sync realm. Initial subscriptions let you define subscriptions when you
+:ref:`configure a synced realm <react-native-open-a-synced-realm>`.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-initial-subscriptions-on-fs-realm.js
+To open a synced realm with initial subscriptions, add an  ``initialSubscriptions`` 
+property to ``<RealmProvider>``'s 
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
+
+You **cannot** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
+when setting initial subscriptions. Instead, use the :ref:`Node.js read and write
+operations <node-read-operations>`.
+
+.. literalinclude:: /examples/generated/react-native/ts/initial-subscriptions.test.snippet.initial-subscriptions.tsx
    :language: javascript
+   :emphasize-lines: 16-20, 35
 
 .. _react-native-flexible-sync-wait-for-sync:
 
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can check the subscription state to see if the server has acknowledged the
-subscription and the device has downloaded the data locally.
+
+You can check the :js-sdk:`state <Realm.App.Sync.SubscriptionSet.html#state>` of
+a ``SubscriptionSet`` to see if the server has acknowledged all subscriptions and 
+the device has downloaded the data locally.
 
 You can use subscription state to:
 
@@ -187,37 +171,31 @@ You can use subscription state to:
 - Find out when a subscription set is superseded, and you should obtain a
   new instance of the subscription set to write a subscription change
 
-To the status of subscriptions, log the value of the subscription's
-:js-sdk:`state <Realm.App.Sync.SubscriptionSet.html#state>`.
+.. literalinclude:: /examples/generated/react-native/ts/check-subs-status.test.snippet.check-sub-status.tsx
+   :language: javascript
+   :emphasize-lines: 21
 
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.log-subscription-state.js 
-    :language: javascript
+Subscription State "Complete"
+`````````````````````````````
 
-.. include:: /includes/note-sync-state-complete.rst
+The subscription set state "complete" does not mean "sync is done" or "all 
+documents have been synced". "Complete" means the following two things have happened:
 
-Update Subscriptions with a New Query
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can update a named subscription with a new query. To update a subscriptions
-query, pass the new query and a subscription option with the name of the
-subscription that you want to update to the
-``MutableSubscriptionSet.add()`` method. Like adding a new subscription,
-you must update a subscription within a transaction by calling
-``subscriptions.update()`` method.
+- The subscription has become the active subscription set that is currently being 
+  synchronized with the server.
+- The documents that matched the subscription at the time the subscription was 
+  sent to the server are now on the local device. Note that this does not necessarily 
+  include all documents that currently match the subscription.
 
-In the following example, long-running tasks are re-defined to be any tasks that
-have taken more than 180 minutes. 
+The Realm SDK does not provide a way to check whether all documents that match 
+a subscription have synced to the device.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.update-subscriptions.js
-    :language: javascript
-
-.. note::
- 
-   Attempting to update a subscription that has the
-   ``SubscriptionOptions.throwOnUpdate`` field set to true, throw an exception.
+.. _react-native-remove-subscription:
 
 Remove Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
-To remove subscriptions from the subscription set, you can:
+
+You can remove subscriptions in several ways:
 
 - Remove a single subscription with the given query
 - Remove a single subscription with the given name 
@@ -227,58 +205,62 @@ To remove subscriptions from the subscription set, you can:
 When you remove a subscription query, the server also removes synced data from
 the client device.
 
+Examples on this page assume you're working with ``@realm/react`` and a 
+:ref:`properly-configured RealmProvider <react-native-open-a-synced-realm>`.
+
+.. literalinclude:: /examples/generated/react-native/ts/remove-subscriptions.test.snippet.remove-subscriptions-full.tsx
+   :language: javascript
+   :emphasize-lines: 11-15
+
 Remove a Subscription by Query
 ``````````````````````````````
-You can remove a specific subscription by query by executing a transaction on
-the subscriptions set. Pass the query to the :js-sdk:`remove()
-<Realm.App.Sync.MutableSubscriptionSet.html#remove>` method on the
-``MutableSubscriptionSet`` within a transaction.
 
-In the following example, the subscription to tasks with an owner named 'Ben' is
-removed from the subscriptions set.
+You can remove a specific subscription by query by executing a transaction on
+the subscriptions set. Pass the query to :js-sdk:`MutableSubscriptionSet.remove()
+<Realm.App.Sync.MutableSubscriptionSet.html#remove>` within a write transaction.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
     :language: javascript
 
 Remove a Subscription by Name
 `````````````````````````````
+
 To remove a specific subscription by name, execute a transaction on the
-subscriptions set. Within the transaction, pass the name to the
-:js-sdk:`removeByName()
-<Realm.App.Sync.MutableSubscriptionSet.html#removeByName>` method on the
-``MutableSubscriptionSet``.
+subscriptions set. Within the transaction, pass the name to
+:js-sdk:`MutableSubscriptionSet.removeByName()
+<Realm.App.Sync.MutableSubscriptionSet.html#removeByName>`.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-subscription-by-name.js
     :language: javascript
 
 Remove a Subscription by Reference
 ``````````````````````````````````
+
 If you have a reference to a subscription, you can remove that subscription. To
 do so, execute a transaction on the subscriptions set. Within the transaction,
-pass the reference variable to the :js-sdk:`removeSubscription
-<Realm.App.Sync.MutableSubscriptionSet.html#removeSubscription>` method on the
-``MutableSubscriptionSet``.
+pass the reference variable to :js-sdk:`MutableSubscriptionSet.removeSubscription()
+<Realm.App.Sync.MutableSubscriptionSet.html#removeSubscription>`.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-subscription-by-reference.js
     :language: javascript
 
 Remove All Subscriptions on an Object Type
 ``````````````````````````````````````````
+
 To remove all subscriptions on a specific object type, execute a transaction on
 the subscriptions set. Within the transaction, pass the object type as a string
-to the :js-sdk:`removeByObjectType
-<Realm.App.Sync.MutableSubscriptionSet.html#removeByObjectType>` method on the
-``MutableSubscriptionSet``.
+to :js-sdk:`MutableSubscriptionSet.removeByObjectType()
+<Realm.App.Sync.MutableSubscriptionSet.html#removeByObjectType>`.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions-of-object-type.js
     :language: javascript
 
 Remove All Subscriptions
 ````````````````````````
+
 To remove all subscriptions from the subscriptions set, execute a transaction on
-the subscriptions set. Call the :js-sdk:`removeAll()
-<Realm.App.Sync.MutableSubscriptionSet.html#removeAll>` method on the
-``MutableSubscriptionSet`` within the transaction
+the subscriptions set. Call :js-sdk:`MutableSubscriptionSet.removeAll()
+<Realm.App.Sync.MutableSubscriptionSet.html#removeAll>` within a write transaction.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions.js
     :language: javascript

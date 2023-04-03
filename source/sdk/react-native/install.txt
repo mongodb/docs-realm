@@ -42,9 +42,8 @@ meets the following prerequisites:
 .. note:: Realm JS version 10.6.0 Supports Mac Catalyst
 
    For `React Native version 0.64 and below
-   <https://reactnative.dev/versions>`__, building your Realm React
-   Native application requires additional steps in order to :doc:`build your
-   application when using Mac Catalyst
+   <https://reactnative.dev/versions>`__, you must take additional steps  to
+   :doc:`build your application when using Mac Catalyst
    </sdk/react-native/integrations/mac-catalyst>`.
 
 Installation
@@ -126,21 +125,20 @@ and add the Realm React Native SDK to it.
 
             .. include:: /includes/react-native-enable-typescript.rst
 
-         .. step:: Install the Realm React Library
+         .. step:: Install the @realm/react Library
 
-
-            :npm:`Realm React <package/@realm/react>` is an npm package that provides an easy-to-use API to perform
+            :npm:`@realm/react <package/@realm/react>` is an npm package that provides an easy-to-use API to perform
             common Realm operations, such as querying or writing to a realm
             and listening to realm objects.
 
-            Realm React helps you avoid creating boilerplate code, such as creating
-            your own listeners and state management. Realm React provides access to
+            ``@realm/react`` helps you avoid creating boilerplate code, such as creating
+            your own listeners and state management. ``@realm/react`` provides access to
             Realm database through a set of hooks that update React state when the Realm data changes. This means that components using these hooks
             will re-render on any changes to data in the realm.
 
             .. include:: /includes/note-realmreact-version-requirements-for-realmjs.rst
 
-            In your React Native project directory, add Realm React to your project with the following command:
+            In your React Native project directory, add ``@realm/react`` to your project with the following command:
 
             .. code-block:: shell
 
@@ -155,9 +153,9 @@ and add the Realm React Native SDK to it.
    .. tab:: Older React Native Versions
       :tabid: rn-pre-v-60
 
-      .. note:: Realm React Version Requirement
+      .. note:: @realm/react Version Requirement
          
-         The :npm:`Realm React <package/@realm/react>` library requires react-native version ``>= 0.59``. If you are developing using older versions of React Native, you can use Realm JS without ``Realm React``. Since the React Native SDK documentation makes heavy use of the ``Realm React`` package, you may want to refer to the :ref:`Node.js SDK documentation <node-intro>`
+         The :npm:`@realm/react <package/@realm/react>` library requires react-native version ``>= 0.59``. If you are developing using older versions of React Native, you can use Realm JS without ``@realm/react``. Since the React Native SDK documentation makes heavy use of the ``@realm/react`` package, you may want to refer to the :ref:`Node.js SDK documentation <node-intro>`
 
       .. procedure::
 

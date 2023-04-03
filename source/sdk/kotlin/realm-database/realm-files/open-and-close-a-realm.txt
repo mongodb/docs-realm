@@ -10,6 +10,14 @@ Open a Realm - Kotlin SDK
    :depth: 2
    :class: singlecol
 
+.. note:: Automatic Compaction of Realm File Size
+
+  .. versionadded:: 1.6.0
+
+  Realm automatically compacts files in the background by continuously 
+  reallocating data in the file and removing unused file space. Realm will 
+  automatically compact the file only when the file is not being accessed.
+
 Open a Realm
 ------------
 
@@ -96,10 +104,13 @@ You can copy data to a realm that uses different sync configurations:
 
 - Local realm to Partition-Based Sync realm 
 - Synced realm to local realm
+- Synced realm to a synced realm for a different user
 
 .. warning:: 
 
-  You *cannot* copy data from a local realm to a Flexible Sync realm.
+  You *cannot* copy data from a local realm to a Flexible Sync realm. You
+  cannot copy between different sync configuration types, for example
+  Partition-Based Sync to Flexible Sync.
 
 You can also combine changes to the configuration. For example, you can copy data from an 
 unencrypted, in-memory synced realm to an encrypted local realm.
