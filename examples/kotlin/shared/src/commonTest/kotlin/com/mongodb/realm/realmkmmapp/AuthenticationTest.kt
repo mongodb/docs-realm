@@ -3,8 +3,16 @@ package com.mongodb.realm.realmkmmapp
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.ext.call
+import io.realm.kotlin.mongodb.ext.customDataAsBsonDocument
+import org.mongodb.kbson.BsonDocument
 import kotlin.test.Test
 
+// :replace-start: {
+//   "terms": {
+//     "updatedUserData2": "updatedUserData"
+//   }
+// }
 class AuthenticationTest: RealmTest() {
 
     @Test
@@ -60,7 +68,7 @@ class AuthenticationTest: RealmTest() {
     }
 
     @Test
-    fun deleteUserTest(){
+    fun deleteUserTest() {
         val email = getRandom()
         val password = getRandom()
         // :snippet-start: user-delete
@@ -209,13 +217,54 @@ class AuthenticationTest: RealmTest() {
     }
 
     @Test
-    fun logoutTest() {
-        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-            val user = app.login(Credentials.anonymous())
-            // :snippet-start: log-out
-            user.logOut()
+    fun customUserDataTest() {
+        val app: App = App.create(FLEXIBLE_APP_ID)
+        runBlocking {
+            app.login(Credentials.anonymous())
+            // :snippet-start: read-custom-user-data
+            val user = app.currentUser!!
+            val customUserData = user.customDataAsBsonDocument()
             // :snippet-end:
+
+            // :snippet-start: refresh-custom-user-data
+            // Update the custom data object
+            user.refreshCustomData()
+
+            // Now when you access the custom data, it's the
+            // updated data object
+            val updatedUserData = user.customDataAsBsonDocument()
+            // :snippet-end:
+
+            // :snippet-start: write-custom-user-data
+            // Write the custom user data through a call
+            // to the `writeCustomUserData` function
+            val functionResponse = user.functions
+                .call<BsonDocument>("writeCustomUserData",
+                    mapOf("userId" to user.id, "favoriteColor" to "blue")
+                )
+
+            // Refreshed custom user data contains updated
+            // `favoriteColor` value added in above Atlas Function call
+            user.refreshCustomData()
+            val updatedUserData2 = user.customDataAsBsonDocument()
+            // :snippet-end:
+            // :snippet-start: delete-custom-user-data
+            val deleteResponse = user.functions
+                .call<BsonDocument>("deleteCustomUserData")
+            // :snippet-end:
+
+            user.logOut()
         }
     }
-}
+        @Test
+        fun logoutTest() {
+            val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+            runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+                val user = app.login(Credentials.anonymous())
+                // :snippet-start: log-out
+                user.logOut()
+                // :snippet-end:
+            }
+        }
+    }
+// :replace-end:
