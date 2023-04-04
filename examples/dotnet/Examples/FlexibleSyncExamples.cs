@@ -11,6 +11,7 @@ namespace Examples
 {
     public class FlexibleSyncExamples
     {
+
         public async Task TestUseFlexibleSync()
         {
             var app = App.Create(Config.fsAppId);
@@ -88,7 +89,45 @@ namespace Examples
 
         }
 
+        [Test]
+        public async Task TestCancelAsyncOperationsOnNonFatalErrors()
+        {
+            var app = App.Create(Config.fsAppId);
+            var user = await app.LogInAsync(Credentials.Anonymous());
+
+            // :snippet-start: appconfigsettings
+            AppConfiguration configuration = new AppConfiguration(Config.fsAppId)
+            {
+                SyncTimeoutOptions = new SyncTimeoutOptions()
+                {
+                    ConnectTimeout = TimeSpan.FromMinutes(2),
+                    ConnectionLingerTime = TimeSpan.FromSeconds(30),
+                    PingKeepAlivePeriod = TimeSpan.FromMinutes(1),
+                    PongKeepAliveTimeout = TimeSpan.FromMinutes(1),
+                    FastReconnectLimit = TimeSpan.FromMinutes(1),
+                },
+            };
+
+            // :snippet-end:
+            // :snippet-start: cancelasync
+            var config = new FlexibleSyncConfiguration(app.CurrentUser)
+            {
+                CancelAsyncOperationsOnNonFatalErrors = true,
+            };
+
+            // These operations will throw an exception
+            // on timeout or other transient sync session errors.
+            // :uncomment-start:
+            //var realm = await Realm.GetInstanceAsync(config);
+
+            //var session = realm.SyncSession;
+            //await session.WaitForUploadAsync();
+            //await session.WaitForDownloadAsync();
+            // :uncomment-end:
+            // :snippet-end:
+        }
     }
+
     partial class MyTask : IRealmObject
     {
         [PrimaryKey]
