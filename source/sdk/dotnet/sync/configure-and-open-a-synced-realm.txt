@@ -101,8 +101,6 @@ With cached credentials, you can:
 - Open a synced realm after downloading changes from your App. 
   This requires the user to have an active internet connection.
 
-
-
 .. _dotnet-flexible-sync-open-realm:
 
 Open a Synced Realm with a Flexible Sync Configuration
@@ -174,6 +172,28 @@ If none is found, it uses the process outlined about to obtain a user. If the
 device already has a ``user``, it opens the synced realm with that user:
 
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.check-if-offline.cs
+   :language: csharp
+
+Configuring Timeouts with AppConfiguration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For granular control of your app connection, you can set the 
+:dotnet-sdk:`SyncTimeoutOptions <reference/Realms.Sync.SyncTimeoutOptions.html>` 
+on the 
+:dotnet-sdk:`AppConfiguration <reference/Realms.Sync.AppConfiguration.html>` 
+object. You can set the following Sync timeout properties:
+
+- ``ConnectTimeout``: the amount of time to allow for a connection to become 
+  fully established.
+- ``ConnectionLingerTime``: the amount of time to keep a connection open after all 
+  sessions have been abandoned.
+- ``PingKeepAlivePeriod``: the amount of time between each heartbeat ping message
+- ``PongKeepAliveTimeout``: the amount of time to wait for a response to a 
+  heartbeat ping before concluding that the connection has dropped.
+- ``FastReconnectLimit``: the amount of time since the loss of a previous 
+  connection for a new connection to be considered a "fast reconnect".
+
+.. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.appconfigsettings.cs
    :language: csharp
 
 
