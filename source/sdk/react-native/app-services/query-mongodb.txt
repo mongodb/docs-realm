@@ -372,8 +372,12 @@ and :npm:`@babel/plugin-proposal-async-generator-functions
 **To use ``collection.watch()``:** 
 
 #. Install dependencies.
-   ``npm install react-native-polyfill-globals text-encoding;``
-   ``npm install --save-dev @babel/plugin-proposal-async-generator-functions``
+
+   .. code-block:: bash
+   
+      npm install react-native-polyfill-globals text-encoding
+      npm install --save-dev @babel/plugin-proposal-async-generator-functions
+
 #. Import polyfills in ``index.js``.
 
    .. literalinclude:: /examples/generated/react-native/ts/index.snippet.watch-polyfills.js
@@ -387,8 +391,13 @@ and :npm:`@babel/plugin-proposal-async-generator-functions
 Watch for All Changes in a Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+With the ``@realm/react`` package, make sure you have 
+:ref:`configured user authentication <react-native-configure-authentication>`
+for your app.
+
 To watch for all changes in a collection, call :js-sdk:`collection.watch()
-<Realm.MongoDBCollection.html#watch>` with no arguments:
+<Realm.MongoDBCollection.html#watch>` with no arguments. This call must be inside
+of ``UserProvider`` with an authenticated user.
 
 .. tabs-realm-languages::
       
@@ -403,9 +412,6 @@ To watch for all changes in a collection, call :js-sdk:`collection.watch()
       
       .. literalinclude:: /examples/generated/react-native/js/mongodb-watch.test.snippet.mongodb-watch.jsx
          :language: javascript
-
-.. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.js
-   :language: javascript
 
 .. _react-native-watch-for-specific-changes-in-a-collection:
 .. _react-native-mongodb-watch-a-collection-with-filter:
