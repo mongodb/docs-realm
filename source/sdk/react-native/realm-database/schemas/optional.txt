@@ -11,17 +11,14 @@ Specify an Optional Property - React Native SDK
    :depth: 2
    :class: singlecol
 
-
-Overview
---------
-
-To mark a property as optional, append a question mark ``?`` to its type.
+To mark a property as optional, append a question mark ``?`` to its type. You can
+also add ``optional`` to more complicated properties and set it to ``true`` or
+``false``.
 
 Example
 ~~~~~~~
 In the following example of a ``Dog`` class, the ``age`` property of type
-``int`` is optional. The ``owners`` property is a more complicated object that's
-also optional.
+``int`` is optional.
 
 .. tabs-realm-languages::
       
@@ -30,7 +27,7 @@ also optional.
       
       .. literalinclude:: /examples/generated/react-native/ts/Dog.snippet.ts-dog-schema.ts
          :language: typescript
-         :emphasize-lines: 4, 11
+         :emphasize-lines: 3, 4, 13, 15
          :linenos:
 
    .. tab::
@@ -38,5 +35,5 @@ also optional.
       
       .. literalinclude:: /examples/generated/react-native/js/Dog.snippet.js-dog-schema.js
          :language: javascript
-         :emphasize-lines: 7
+         :emphasize-lines: 9, 11
          :linenos:
