@@ -68,24 +68,17 @@ When you have a logged-in user, you can:
 - :ref:`Log the user out <kotlin-logout>`
 - :ref:`Delete a user <kotlin-delete-users>`
 
-.. TODO: Add bullets for changing active user in a multi-user app and removing user 
-.. the device when Work with Multiple Users page is added
-
 On successful login, the Kotlin SDK caches credentials on the device. You
 can bypass the login flow and access the cached user. Use this to open a
 realm or call an Atlas Function upon subsequent app opens.
 
-User Object
-~~~~~~~~~~~
+.. _kotlin-get-user-data:
 
-App Services manages sessions with access tokens and refresh tokens.
+Get User Data
+-------------
+
+App Services manages :ref:`user sessions <user-sessions>` with access tokens and refresh tokens.
 Client SDKs supply the logic to manage tokens, and provide them with requests.
-
-.. TODO: uncomment out text and add link to bullet list when user metadata page is added
-
-.. Some authentication providers enable developers to access user metadata, such
-.. as full name or email address. When you configure these metadata fields on
-.. the App Services application, you can read this metadata from your client app.
 
 To learn more about the user object that App Services provides the Kotlin SDK,
 refer to the following documentation:
@@ -94,12 +87,11 @@ refer to the following documentation:
 - `User <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/index.html>`__ 
   in the Kotlin SDK API reference documentation.
 
-.. _kotlin-app-work-with-custom-user-data:
+Read and Update Custom User Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Custom User Data
-----------------
+You can :ref:`associate custom data <custom-user-data>` with a user, 
+such as a preferred language or local timezone, and read it from your client application.
 
-You can associate custom data with a user, such as a preferred language
-or local timezone, and read it from your client application.
 For more information on working with custom user data,
 refer to :ref:`Custom User Data <kotlin-custom-user-data>`.
