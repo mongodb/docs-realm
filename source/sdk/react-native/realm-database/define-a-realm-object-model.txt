@@ -81,14 +81,17 @@ To learn the various types that a Realm Object Model accepts, how to specify
 optional fields, define relationships, embedded objects, primary keys, and more,
 check out the :ref:`Schemas <react-native-schemas-overview>` section.
 
-TypeScript and Required properties
+TypeScript and Required Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We recommend initializing Realm objects with ``Realm.create()``, but if you use
-``new`` with your model's class instead, you need to be aware of a few things.
+We recommend :ref:`creating Realm objects <react-native-create-a-new-object>` 
+with :js-sdk:`Realm.create() <Realm.html#create>`, but you can also use the
+``new`` operator for your object model's class.
 
-You must define your model on itself as a generic, along with any required
-properties to get the full benefits of TypeScript.
+If you use ``new``, you must add your class as a generic, along with any
+required properties, when extending ``Realm.Object``. This enables full
+TypeScript support for your object model.
 
 .. literalinclude:: /examples/generated/react-native/ts/BookReqProperties.snippet.book-model-req-properties.ts
    :language: javascript
+   :emphasize-lines: 1
