@@ -1,13 +1,17 @@
 class Dog extends Realm.Object<Dog> {
   name!: string;
-  owner?: Person;
+  owner?: Realm.List<Person>;
   age?: number;
 
   static schema = {
     name: 'Dog',
     properties: {
       name: 'string',
-      owner: 'Person?',
+      owners: {
+        type: 'list',
+        objectType: 'Person',
+        optional: true,
+      },
       age: 'int?',
     },
   };

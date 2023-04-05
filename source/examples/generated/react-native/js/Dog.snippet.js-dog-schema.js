@@ -3,7 +3,11 @@ class Dog extends Realm.Object {
     name: 'Dog',
     properties: {
       name: 'string',
-      owner: 'Person?',
+      owners: {
+        type: 'list',
+        objectType: 'Person',
+        optional: true,
+      },
       age: 'int?',
     },
   };
