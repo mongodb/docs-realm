@@ -362,14 +362,12 @@ the operation that caused the event.
 that allows you to asynchronously pull :manual:`change events
 </reference/change-events/>` for operations as they occur.
 
-.. TODO: Verify and refine
-
 ``collection.watch()`` requires some set up to work with a React Native client
-app. You need :npm:`react-native-polyfill-globals </packagereact-native-polyfill-globals/>`
+app. You need the :npm:`react-native-polyfill-globals </packagereact-native-polyfill-globals/>`
 and :npm:`@babel/plugin-proposal-async-generator-functions 
-</package/@babel/plugin-proposal-async-generator-functions>`.
+</package/@babel/plugin-proposal-async-generator-functions>` packages.
 
-**To use ``collection.watch()``:** 
+**To use collection.watch():** 
 
 #. Install dependencies.
 

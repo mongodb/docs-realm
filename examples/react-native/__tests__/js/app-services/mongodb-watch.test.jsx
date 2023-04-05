@@ -43,10 +43,10 @@ function NotificationSetter() {
   const user = useUser();
 
   useEffect(() => {
-    const plants =
-      user.mongoClient('mongodb-atlas').db('example').collection <
-      Plant >
-      'plants';
+    const plants = user
+      .mongoClient('mongodb-atlas')
+      .db('example')
+      .collection('plants');
 
     // Set up notifications
     watchForAllChanges(plants);
@@ -58,33 +58,26 @@ function NotificationSetter() {
       switch (change.operationType) {
         case 'insert': {
           const {documentKey, fullDocument} = change;
-          console.log(
-            `new document: ${JSON.stringify(documentKey, null, 2)}`,
-            fullDocument,
-          );
+          // ... do something with the change information.
+          console.log(`new document: ${documentKey}`, fullDocument); // :remove:
           break;
         }
         case 'update': {
           const {documentKey, fullDocument} = change;
-          console.log(
-            `updated document: $${JSON.stringify(documentKey, null, 2)}`,
-            fullDocument,
-          );
+          // ... do something with the change information.
+          console.log(`new document: ${documentKey}`, fullDocument); // :remove:
           break;
         }
         case 'replace': {
           const {documentKey, fullDocument} = change;
-          console.log(
-            `replaced document: ${JSON.stringify(documentKey, null, 2)}`,
-            fullDocument,
-          );
+          // ... do something with the change information.
+          console.log(`new document: ${documentKey}`, fullDocument); // :remove:
           break;
         }
         case 'delete': {
           const {documentKey} = change;
-          console.log(
-            `deleted document: ${JSON.stringify(documentKey, null, 2)}`,
-          );
+          // ... do something with the change information.
+          console.log(`new document: ${documentKey}`); // :remove:
           break;
         }
       }

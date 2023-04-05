@@ -34,38 +34,22 @@ function NotificationSetter() {
       switch (change.operationType) {
         case 'insert': {
           const {documentKey, fullDocument} = change;
-          console.log(`new document: ${JSON.stringify(
-            documentKey,
-            null,
-            2,
-          )}`, fullDocument);
+          // ... do something with the change information.
           break;
         }
         case 'update': {
           const {documentKey, fullDocument} = change;
-          console.log(`updated document: $${JSON.stringify(
-            documentKey,
-            null,
-            2,
-          )}`, fullDocument);
+          // ... do something with the change information.
           break;
         }
         case 'replace': {
           const {documentKey, fullDocument} = change;
-          console.log(`replaced document: ${JSON.stringify(
-            documentKey,
-            null,
-            2,
-          )}`, fullDocument);
+          // ... do something with the change information.
           break;
         }
         case 'delete': {
           const {documentKey} = change;
-          console.log(`deleted document: ${JSON.stringify(
-              documentKey,
-              null,
-              2,
-            )}`);
+          // ... do something with the change information.
           break;
         }
       }
