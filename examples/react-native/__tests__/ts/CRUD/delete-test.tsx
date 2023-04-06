@@ -32,6 +32,7 @@ describe('Delete Data Tests', () => {
       assertionRealm.create('Person', {name: 'Jane Doe', age: 20});
     });
   });
+
   it('should delete an object', async () => {
     // :snippet-start: crud-delete-object
     const DogList = () => {
@@ -43,6 +44,7 @@ describe('Delete Data Tests', () => {
           realm.delete(deletableDog);
         });
       };
+
       return (
         <>
           {myDogs.map(dog => {
@@ -84,6 +86,7 @@ describe('Delete Data Tests', () => {
     expect(assertionRealm.objects('Dog').length).toBe(2);
     expect(getAllByTestId('deleteDog').length).toBe(2);
   });
+
   it('should delete multiple objects', async () => {
     // :snippet-start: crud-delete-multiple-objects
     // :replace-start: {
@@ -106,6 +109,7 @@ describe('Delete Data Tests', () => {
           realm.delete(myDogs);
         });
       };
+
       return (
         <>
           {myDogs.map(dog => {
@@ -145,9 +149,11 @@ describe('Delete Data Tests', () => {
       () => getByTestId('deleteYoungDogs'),
       {timeout: 5000},
     );
+
     await act(async () => {
       fireEvent.press(deleteYoungDogsBtn);
     });
+
     expect(assertionRealm.objects('Dog').length).toBe(1);
     expect(getAllByTestId('dogItem').length).toBe(1);
 
@@ -155,11 +161,15 @@ describe('Delete Data Tests', () => {
     const deleteAllDogs = await waitFor(() => getByTestId('deleteAllDogs'), {
       timeout: 5000,
     });
+
     await act(async () => {
       fireEvent.press(deleteAllDogs);
     });
+
     expect(assertionRealm.objects('Dog').length).toBe(0);
+
   });
+
   it('should delete all objects', async () => {
     // :snippet-start: crud-delete-all-objects
     const DeleteProfileSettingsScreen = () => {
@@ -197,6 +207,7 @@ describe('Delete Data Tests', () => {
     await act(async () => {
       fireEvent.press(deleteAllDataBtn);
     });
+    
     expect(assertionRealm.objects('Dog').length).toBe(0);
     expect(assertionRealm.objects('Person').length).toBe(0);
   });

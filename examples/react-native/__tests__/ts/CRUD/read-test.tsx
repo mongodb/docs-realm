@@ -55,6 +55,7 @@ describe('Read Data Tests', () => {
       });
     });
   });
+
   afterAll(() => {
     if (!assertionRealm.isClosed) {
       assertionRealm.close();
@@ -95,6 +96,7 @@ describe('Read Data Tests', () => {
       () => getByTestId('task-item-sentence'),
       {timeout: 5000},
     );
+
     expect(taskItemSentence.props.children.join('')).toBe(
       'Wash the dishes is a task with the priority of: 3',
     );
@@ -148,6 +150,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('high-priority-element'),
       {timeout: 5000},
     );
+
     expect(highPriorityTasksUIList[0].children[0].toString()).toBe(
       'Do the laundry',
     ); // Since only the 'Do the laundry' task is high priority
@@ -157,10 +160,12 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('low-progress-element'),
       {timeout: 5000},
     );
+
     // test that both 'Wash the dishes' and 'Gym Workout' rendered because they are both low progress tasks
     expect(lowProgressTasksUIList[0].children[0].toString()).toBe(
       'Wash the dishes',
     );
+
     expect(lowProgressTasksUIList[1].children[0].toString()).toBe(
       'Gym Workout',
     );
@@ -240,6 +245,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('all-tasks-item'),
       {timeout: 5000},
     );
+
     expect(allTasksUIList[0].children[0].toString()).toBe('Wash the dishes');
     expect(allTasksUIList[1].children[0].toString()).toBe('Do the laundry');
     expect(allTasksUIList[2].children[0].toString()).toBe('Gym Workout');
@@ -249,6 +255,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('tasks-by-name-item'),
       {timeout: 5000},
     );
+
     expect(taskByNameUIList[0].children[0].toString()).toBe('Do the laundry');
     expect(taskByNameUIList[1].children[0].toString()).toBe('Gym Workout');
     expect(taskByNameUIList[2].children[0].toString()).toBe('Wash the dishes');
@@ -258,6 +265,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('tasks-by-name-descending-item'),
       {timeout: 5000},
     );
+
     expect(taskByNameDescendingUIList[0].children[0].toString()).toBe(
       'Wash the dishes',
     );
@@ -273,6 +281,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('tasks-by-priority-descending-and-name-item'),
       {timeout: 5000},
     );
+
     expect(
       tasksByPriorityDescendingAndNameUIList[0].children[0].toString(),
     ).toBe('Do the laundry');
@@ -288,6 +297,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('tasks-by-assignee-name-item'),
       {timeout: 5000},
     );
+    
     expect(tasksByAssigneeNameUIList[0].children[0].toString()).toBe(
       'Wash the dishes',
     );
