@@ -25,19 +25,21 @@ describe('Update Data Tests', () => {
     assertionRealm.write(() => {
       assertionRealm.delete(assertionRealm.objects('Task'));
 
-      new Task(assertionRealm, {
+      assertionRealm.create('Task', {
         _id: 92140,
         priority: 4,
         progressMinutes: 0,
         name: 'Paint the walls',
       });
-      new Task(assertionRealm, {
+
+      assertionRealm.create('Task', {
         _id: 87432,
         priority: 2,
         progressMinutes: 0,
         name: 'Complete math homework',
       });
-      new Task(assertionRealm, {
+
+      assertionRealm.create('Task', {
         _id: 93479,
         priority: 2,
         progressMinutes: 30,
@@ -97,12 +99,10 @@ describe('Update Data Tests', () => {
     const {getByTestId} = render(<App />);
 
     const handleIncrementBtn = await waitFor(
-      () => getByTestId('handleIncrementBtn'),
-      {timeout: 5000},
+      () => getByTestId('handleIncrementBtn')
     );
     const progressMinutesText = await waitFor(
-      () => getByTestId('progressMinutes'),
-      {timeout: 5000},
+      () => getByTestId('progressMinutes')
     );
 
     const paintTask = assertionRealm.objectForPrimaryKey(Task, 92140);
@@ -111,9 +111,9 @@ describe('Update Data Tests', () => {
     expect(paintTask.progressMinutes).toBe(0);
     expect(progressMinutesText.children.toString()).toBe('0');
 
-    await act(async () => {
-      fireEvent.press(handleIncrementBtn);
-    });
+    fireEvent.press(handleIncrementBtn);
+
+    await waitFor(() => {expect(progressMinutesText.children.toString()).toBe('1')});
 
     // Test that the  progress value in the realm and in the UI after incrementing is 1 minutes
     expect(paintTask.progressMinutes).toBe(1);

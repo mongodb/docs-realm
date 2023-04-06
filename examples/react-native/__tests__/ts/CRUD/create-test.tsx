@@ -40,7 +40,7 @@ describe('Create Data Tests', () => {
 
       const handleAddDog = () => {
         realm.write(() => {
-          new Dog(realm, {name: dogName, age: 1});
+          realm.create('Dog', {name: dogName, age: 1});
         });
       };
 
