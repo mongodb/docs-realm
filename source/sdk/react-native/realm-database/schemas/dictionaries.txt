@@ -12,8 +12,6 @@ Dictionaries - React Native SDK
 
 .. versionadded:: ``realm@10.5.0``
 
-Overview
---------
 You can use the :js-sdk:`Realm.Dictionary <Realm.Dictionary.html>` data type to
 manage a collection of unique String keys paired with values. The ``dictionary``
 data maps to the Javascript :mdn:`Object
@@ -53,14 +51,8 @@ integers or ``"string{}"`` to specify that dictionary values must be strings.
 Create an Object with a Dictionary Value
 ----------------------------------------
 
-To create an object with a dictionary value, use the :mdn:`new
-<Web/JavaScript/Reference/Operators/new>` operator within a :ref:`write
-transaction <react-native-write-transactions>`. 
-
-Example
-~~~~~~~
-
-In the following ``CreateHomeOwner`` example, we create a new object with a dictionary property.
+In the following ``CreateHomeOwner`` example, we :ref:`create a new object 
+<react-native-create-a-new-object>` with a dictionary property.
 
 The ``CreateHomeOwner`` component does the following:
 
@@ -69,23 +61,10 @@ The ``CreateHomeOwner`` component does the following:
 - Create a component method ``SubmitHomeOwner()`` that performs a write transaction and creates a new ``HomeOwner`` object based on the ``TextInput`` values for the homeowner's name and address, respectively.
 - Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``SubmitHomeOwner()``
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.create-object-with-dictionary-value.tsx
-         :language: typescript
-         :emphasize-lines: 4, 8-17
-         :linenos:
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/dictionary-test.snippet.create-object-with-dictionary-value.jsx
-         :language: javascript
-         :emphasize-lines: 4, 8-16
-         :linenos:
+.. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.create-object-with-dictionary-value.tsx
+   :language: typescript
+   :emphasize-lines: 4, 8-17
+   :linenos:
 
 Query for Objects with a Dictionary Property
 --------------------------------------------
