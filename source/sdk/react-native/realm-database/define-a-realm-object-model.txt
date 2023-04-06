@@ -90,7 +90,8 @@ with :js-sdk:`Realm.create() <Realm.html#create>`, but you can also use the
 
 If you use ``new``, you must add your class as a generic, along with any
 required properties, when extending ``Realm.Object``. This enables full
-TypeScript support for your object model.
+TypeScript support for your object model, including type errors when required
+fields are not defined.
 
 .. literalinclude:: /examples/generated/react-native/ts/BookReqProperties.snippet.book-model-req-properties.ts
    :language: javascript
