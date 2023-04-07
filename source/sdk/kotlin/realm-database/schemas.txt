@@ -1,6 +1,17 @@
-====================
-Schemas - Kotlin SDK
-====================
+.. _kotlin-model-data:
+
+=======================
+Model Data - Kotlin SDK
+=======================
+
+.. toctree::
+   :titlesonly:
+   
+   Define an Object Model </sdk/kotlin/realm-database/schemas/define-realm-object-model>
+   Data Types </sdk/kotlin/realm-database/schemas/supported-types>
+   Property Annotations </sdk/kotlin/realm-database/schemas/property-annotations>
+   Relationships </sdk/kotlin/realm-database/schemas/relationships>
+   Change an Object Model </sdk/kotlin/realm-database/schemas/change-an-object-model>
 
 .. contents:: On this page
    :local:
@@ -8,17 +19,47 @@ Schemas - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-.. toctree::
-   :titlesonly:
-   
-   Supported Types </sdk/kotlin/realm-database/schemas/supported-types>
-   Timestamps </sdk/kotlin/realm-database/schemas/timestamps>
-   Primary Keys </sdk/kotlin/realm-database/schemas/primary-key>
-   Ignore a Field </sdk/kotlin/realm-database/schemas/ignore>
-   Index a Field </sdk/kotlin/realm-database/schemas/index>
-   Optional Fields </sdk/kotlin/realm-database/schemas/optional>
-   Remap a Field </sdk/kotlin/realm-database/schemas/remap>
-   Relationships </sdk/kotlin/realm-database/schemas/relationships>
-   Embedded Objects </sdk/kotlin/realm-database/schemas/embedded-objects>
-   RealmSet </sdk/kotlin/realm-database/schemas/realm-set>
-   UUID </sdk/kotlin/realm-database/schemas/uuid>
+Realm Database applications model data as objects composed of
+field-value pairs that each contain one or more supported data types.
+
+Realm Objects
+-------------
+
+Realm objects are regular Kotlin classes, and you can work with them 
+as you would any other class instance. 
+
+Every Realm object conforms to a specific **object type**, which is a class
+that defines the properties and relationships for objects of that type.
+The SDK guarantees that all objects in a realm conform to the schema for their object type
+and validates objects whenever they are created, modified, or deleted.
+
+To learn more about defining Realm objects, refer to
+:ref:`Define a Realm Object Model <kotlin-define-object-model>`.
+
+Realm Object Properties
+-----------------------
+
+When you define your Realm object model, you specify a set of of properties
+to include in the schema. You can define properties with the following characteristics:
+
+- Its data type
+- If it is optional or required
+- If it is a primary key
+- If it is indexed
+- If the property defines a relationship to another Realm object type
+
+To learn more about property options when defining Realm objects,
+refer to the following documentation:
+
+- :ref:`Data Types <kotlin-supported-types>`
+- :ref:`Relationships <kotlin-relationships>`
+- :ref:`Property Annotations <kotlin-property-annotations>`
+
+Updating a Realm Object Schema
+------------------------------
+
+You can update your Realm Database schema over time as your application changes.
+The steps to update the schema and your data vary depending on the type of schema change.
+
+To learn more about the ways to update your schema,
+refer to :ref:`Change an Object Model <kotlin-change-object-model>`.

@@ -13,7 +13,7 @@ Bootstrap with Expo - React Native SDK
 Overview
 --------
 
-The :npm:`Realm Expo template <package/@realm/expo-template-ts>`
+The :npm:`Realm Expo template <package/@realm/expo-template>`
 provides a fully working React Native application that you can use to bootstrap
 your app development project with Realm. This documentation covers how to
 initialize and work with the Realm Expo template.
@@ -42,31 +42,14 @@ Initialize the Template
 -----------------------
 To initialize a React Native application using the Realm Expo template use the Expo CLI.
 
-.. tabs-realm-languages::
+Use ``expo init``  with the flag ``--template @realm/expo-template`` to initialize a
+React Native application using the Realm Expo Template. 
 
-   .. tab::
-      :tabid: javascript
+Run the following command in your terminal: 
 
-      Use ``expo init``  with the flag ``--template @realm/expo-template-js`` to initialize a
-      React Native application using the Realm Expo template with JavaScript. 
+.. code-block:: shell
 
-      Run the following command in your terminal: 
-
-      .. code-block:: shell
-      
-         expo init MyAwesomeRealmAppJS --template @realm/expo-template-js
-
-   .. tab::
-      :tabid: typescript
-
-      Use ``expo init``  with the flag ``--template @realm/expo-template-ts`` to initialize a
-      React Native application using the Realm Expo template with TypeScript. 
-
-      Run the following command in your terminal: 
-
-      .. code-block:: shell
-
-         expo init MyAwesomeRealmApp --template @realm/expo-template-ts
+   expo init MyAwesomeRealmApp --template @realm/expo-template
 
 Explore The File Structure
 --------------------------
