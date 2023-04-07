@@ -1,8 +1,8 @@
 .. _kotlin-supported-types:
 
-============================
-Supported Types - Kotlin SDK
-============================
+=======================
+Data Types - Kotlin SDK
+=======================
 
 .. contents:: On this page
    :local:
@@ -10,7 +10,16 @@ Supported Types - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-Realm Database supports the following field data types:
+
+The Kotlin SDK supports Kotlin data types, a limited subset of
+`BSON <https://bsonspec.org/>`__ types, and :wikipedia:`UUID <Universally_unique_identifier>`.
+
+.. _kotlin-data-types:
+
+Supported Types
+---------------
+
+Realm supports the following field data types:
 
 - ``String``
 - ``Byte``
@@ -41,16 +50,6 @@ Realm Database supports the following field data types:
   delegate used to define an inverse relationship between 
   `RealmObjects <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
 
-.. note:: Importing ``ObjectId`` in the Realm Kotlin SDK ``version 1.5.x`` or Higher
-
-   With the :github:`Realm Kotlin Kotlin version 1.5.0
-   <realm/realm-kotlin/blob/main/CHANGELOG.md#150-2022-11-11>` you must import
-   ``ObjectId`` from :github:`org.mongodb.kbson.ObjectId <mongodb/kbson>`. If
-   you were using an older SDK version and wish to upgrade, replace your old
-   import statements as `io.realm.kotlin.types.ObjectId
-   <{+kotlin-local-prefix+}io.realm.kotlin.types/#-1137254501%2FClasslikes%2F-1651551339>`__
-   has been deprecated. 
-
 Realm Database stores all non-decimal numeric types as ``Long`` values.
 Similarly, Realm Database stores all decimal numeric types as ``Double``
 values.
@@ -61,9 +60,244 @@ Realm Database does not support fields with modifiers ``final`` and
 constructors, you must declare a public constructor with no arguments.
 
 Updating Strings and Byte Arrays
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since Realm Database operates on fields as a whole, it's not possible
 to directly update individual elements of strings or byte arrays. Instead,
 you'll need to read the whole field, make your modification to individual
 elements, and then write the entire field back again in a transaction block.
+
+.. _kotlin-timestamps:
+
+Timestamps
+~~~~~~~~~~
+
+You cannot store Kotlin's built-in ``Date`` or ``Instant`` types in Realm
+Database. Instead, use the
+`RealmInstant <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-instant/index.html>`__
+type, which stores time information as a UNIX epoch timestamp.
+
+If you need timestamp data in a form other than ``RealmInstant``, you
+can add conversion code to your model class based on the following
+example:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.timestamp-workaround.kt
+   :language: kotlin
+
+.. _kotlin-reference-realm-object:
+
+Reference Realm Objects
+-----------------------
+
+You can also reference one or more Realm objects from another. Learn more in the
+:ref:`relationship properties documentation <kotlin-relationships>`.
+
+.. _kotlin-collections:
+
+Collections
+-----------
+
+A Realm collection contains zero or more instances of a
+:ref:`Realm supported data type <kotlin-data-types>`.
+In a Realm collection, all objects in a collection are of the same type.
+
+.. _kotlin-realm-set:
+
+RealmSet
+~~~~~~~~
+
+You can use the `RealmSet()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__ data type
+to manage a collection of unique keys. ``RealmSet`` implements Kotlin's
+``Set`` interface, so it works just like the built-in ``HashSet`` class,
+except managed ``RealmSet`` instances persist their contents to a
+realm. 
+
+``RealmSet`` instances that contain Realm objects only store references to those
+objects, so deleting a Realm object from a realm also deletes that object from
+any ``RealmSet`` instances that contain the object.
+
+Define a RealmSet
+`````````````````
+
+To define a property as a ``RealmSet<T>``, specify its type within the schema, 
+where T is any of the supported :ref:`data types <kotlin-supported-types>` or a 
+`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
+Note that T can be nullable (``RealmSet<T?>``) unless it is of type ``RealmObject``.
+
+Instantiate an unmanaged ``RealmSet`` by setting the field's default value
+using the `realmSetOf()
+<{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-set-of.html>`__ method.
+
+In the following example, we define a ``Frog`` schema with a ``favoriteSnacks``
+field that is a ``RealmSet`` of ``Snack`` objects.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.define-a-realm-set.kt
+   :language: kotlin
+
+Add an Item to a RealmSet
+`````````````````````````
+
+To add an item to a ``RealmSet``, pass the object you wish to add to the `set.add()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-153241610%2FFunctions%2F-1651551339>`__ 
+method.
+
+In the following example, we get the ``favoriteSnacks`` set, then add a new
+``Snack`` object to the set of favorite snacks.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-item-to-realm-set.kt
+   :language: kotlin
+
+Add Many Items to a RealmSet
+````````````````````````````
+
+To add multiple items to a ``RealmSet``, pass the elements you wish to add to
+the `set.addAll()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-800009087%2FFunctions%2F-1651551339>`__
+method.
+
+In the following example, we create several ``Snack`` objects and use the
+`setOf
+<https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/set-of.html>`__
+method to create a read-only set of the given elements. We then pass these
+elements to the ``set.addAll()`` method to add them to our ``Frog`` object's favorite snacks.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-all-to-realm-set.kt
+   :language: kotlin
+
+Check if the RealmSet Contains an Item
+``````````````````````````````````````
+
+To check if the ``RealmSet`` contains a particular item, pass the element to
+`set.contains()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#607101300%2FFunctions%2F-1651551339>`__.
+The method returns true if the set contains the element.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.set-contains.kt
+   :language: kotlin
+
+Check if the RealmSet Contains Multiple Items
+`````````````````````````````````````````````
+
+To check if the ``RealmSet`` contains multiple items, pass the elements to
+`set.containsAll()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#1318510207%2FFunctions%2F-1651551339>`__.
+The method returns true if the set contains the specified elements.
+
+In the following example, we pass the ``Snack`` objects we created earlier to
+the ``setOf()`` method to create a read-only set of favorite snacks. Then we
+check if the ``RealmSet`` contains all of these ``Snack`` objects by passing
+the read-only set to ``set.containsAll()``.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.set-contains-multiple-items.kt
+   :language: kotlin
+
+Remove an Item from a RealmSet
+``````````````````````````````
+
+To remove an item from a ``RealmSet``, pass the element you wish to delete to `set.remove()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-1503494415%2FFunctions%2F-1651551339>`__
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.remove-item-from-set.kt
+   :language: kotlin
+
+Remove Multiple Items from a RealmSet
+`````````````````````````````````````
+
+To remove multiple items from a ``RealmSet``, pass the elements you wish to delete to
+`set.removeAll() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#430447804%2FFunctions%2F-1651551339>`__
+
+In the following example, we delete the set of favorite snacks we created earlier.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.remove-multiple-items-from-set.kt
+   :language: kotlin
+
+Notifications
+`````````````
+
+You can register a notification handler on a ``RealmSet``. Realm notifies your
+handler when the set changes. To register a change listener on a single
+object, generate a ``Flow`` from the ``RealmSet`` with `asFlow()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/as-flow.html>`__.
+Next, use the ``collect()`` method to handle events on that ``Flow``. The ``Flow``
+emits an `initialSet()
+<{+kotlin-local-prefix+}io.realm.kotlin.notifications/-initial-set/index.html>`__
+once subscribed and an `updatedSet()
+<{+kotlin-local-prefix+}io.realm.kotlin.notifications/-updated-set/index.html>`__
+on change.
+
+In the following example, we react to changes on the ``favoriteSnacks`` set of our ``Frog`` object.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.react-to-changes-from-the-set.kt
+   :language: kotlin
+
+The ``Flow`` runs indefinitely until you `cancel the enclosing coroutine
+<https://kotlinlang.org/docs/cancellation-and-timeouts.html>`__ or until you
+delete the parent object.
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-unsubscribe-to-changes.kt
+   :language: kotlin
+
+.. _kotlin-additional-types:
+
+Additional Supported Data Types
+-------------------------------
+
+.. _kotlin-objectid:
+
+ObjectId
+~~~~~~~~
+
+.. note:: Importing ``ObjectId`` in the Realm Kotlin SDK ``version 1.5.x`` or Higher
+
+   With the :github:`Realm Kotlin Kotlin version 1.5.0
+   <realm/realm-kotlin/blob/main/CHANGELOG.md#150-2022-11-11>` you must import
+   ``ObjectId`` from :github:`org.mongodb.kbson.ObjectId <mongodb/kbson>`. If
+   you were using an older SDK version and wish to upgrade, replace your old
+   import statements as `io.realm.kotlin.types.ObjectId
+   <{+kotlin-local-prefix+}io.realm.kotlin.types/#-1137254501%2FClasslikes%2F-1651551339>`__
+   has been deprecated. 
+
+``ObjectId`` is a MongoDB-specific 12-byte unique value which you can use as an
+identifier for objects. ``ObjectId`` is :ref:`indexable <kotlin-index>` 
+and can be used as a :ref:`primary key <kotlin-primary-keys>`. 
+
+To define a property as an ObjectId, set its type as ``ObjectId`` in
+your :ref:`object model <kotlin-define-object-model>`.
+
+.. _kotlin-uuid:
+
+UUID
+~~~~
+
+``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
+<Universally_unique_identifier>`. You can use ``UUID`` as an identifier for
+objects. ``UUID`` is :ref:`indexable <kotlin-index>` and can be used as a 
+:ref:`primary key <kotlin-primary-keys>`. 
+
+Realm Database creates UUIDs with the `RealmUUID <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/index.html>`__ type that:
+
+- conform to `RFC 4122 version 4 <https://www.rfc-editor.org/rfc/rfc4122.htm>`_
+- are created with random bytes
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.uuid.kt
+   :language: kotlin
+   :copyable: false
+
+.. include:: /includes/note-using-uuid-instead-of-objectid.rst
+
+Create a UUID from a String
+```````````````````````````
+
+To generate a new ``RealmUUID`` from a UUID formatted string, pass the string to `RealmUUID.from() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/-companion/from.html>`__:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.create-uuid-from-string.kt
+   :language: kotlin
+
+Create a Random UUID
+````````````````````
+
+To generate a random ``RealmUUID``, call `RealmUUID.random() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/-companion/random.html>`__:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.create-uuid-random.kt
+   :language: kotlin
