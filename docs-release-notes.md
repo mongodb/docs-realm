@@ -26,7 +26,7 @@
 
 ## Other
 
-- Checked all images and updated those that were outdated.
+- Review all images and update those that were outdated.
 - Rename Asymmetric Sync to Data Ingest.
 
 # March 31, 2023
