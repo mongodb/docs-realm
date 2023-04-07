@@ -1,8 +1,8 @@
-.. _kotlin-write-transactions:
+.. _kotlin-read-write-data:
 
-===============================
-Write Transactions - Kotlin SDK
-===============================
+==============================
+Read & Write Data - Kotlin SDK
+==============================
 
 .. contents:: On this page
    :local:
@@ -15,6 +15,11 @@ to persist objects. You can **create** objects in a realm,
 **update** objects in a realm, and eventually **delete**
 objects from a realm. Because these operations modify the
 state of the realm, we call them writes.
+
+.. _kotlin-write-transactions:
+
+Write Transactions
+------------------
 
 Realm handles writes in terms of **transactions**. A
 transaction is a list of read and write operations that
@@ -68,4 +73,322 @@ the transaction immediately after the callback.
 
    .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.run-a-transaction.kt
       :language: kotlin
-      :copyable: false
+
+Read Operations
+---------------
+
+.. tip:: `find()` is Synchronous
+   
+   `find() <{+kotlin-local-prefix+}io.realm.query/find.html>`__
+   runs a synchronous query on the thread it is called from.
+   As a result, avoid using :file:`find()` on the UI thread or in
+   logic that could delay the UI thread. 
+   
+   Prefer `asFlow()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__ in
+   time-sensitive environments.
+
+.. _kotlin-find-object-by-primary-key:
+
+Find Object by Primary Key
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To find an object with a specific primary key value, open a realm
+and query the primary key field for the desired primary key value
+using `realm.query()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+Specify the object type as a type parameter passed to :file:`query()`:
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.find-object-by-primary-key.kt
+   :language: kotlin
+
+.. _kotlin-find-objects-of-a-type:
+
+Find Objects of a Type
+~~~~~~~~~~~~~~~~~~~~~~
+
+To find all objects of a type, open a realm
+and pass the type as a type parameter to `realm.query()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__:
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.find-all-objects-of-a-type.kt
+   :language: kotlin
+
+.. _kotlin-filter-data:
+
+Filter Results
+~~~~~~~~~~~~~~
+
+Filter results to retrieve a specific segment
+of objects with `realm.query()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+In the argument of ``realm.query()``, use Realm Query Language to perform filtering.
+Realm Query Language is a string-based query language that you can use to retrieve
+objects from a realm.
+Specify the object type as a type parameter passed to :file:`query()`.
+
+For more information on constructing queries, refer to the
+:ref:`Realm Query Language reference documentation <rql>`.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.filter.kt
+   :language: kotlin
+
+.. _kotlin-sort-queries:
+
+Sort Results
+~~~~~~~~~~~~
+
+To sort results, specify a sort in the query passed to
+`realm.query()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__
+with the :file:`SORT` keyword. Similarly, use :file:`DISTINCT`
+to constrain results to unique values of a field, and
+:file:`LIMIT` to cap the number of results. The SDK
+provides convenience methods on :file:`RealmQuery` so you don't have
+to manually write the keywords:
+
+- `realmQuery.sort() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/sort.html>`__
+- `realmQuery.distinct() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/distinct.html>`__
+- `realmQuery.limit() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/limit.html>`__
+
+When used on the same query in both RQL and method form, :file:`SORT`,
+:file:`DISTINCT`, and :file:`LIMIT` execute in the order they're added
+to the query. This can impact the results returned from your query.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.sort.kt
+   :language: kotlin
+
+.. _kotlin-iteration:
+
+Iterate Results
+~~~~~~~~~~~~~~~
+
+You can iterate through results using :file:`Flows`.
+
+.. seealso::
+
+   To learn more about Kotlin Flows, check out `the kotlinx.coroutines documentation on Flows
+   <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/>`__.
+
+To convert your results into a :file:`Flow`, call `realmQuery.asFlow()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__.
+Then iterate through the results with `flow.collect()
+<https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__:
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.iteration.kt
+   :language: kotlin
+   
+Write Operations
+----------------
+
+.. note::
+
+   You can only insert new objects into a realm within a
+   :ref:`write transaction <kotlin-write-transactions>`.
+
+.. _kotlin-create-a-new-object:
+
+Create Objects
+~~~~~~~~~~~~~~
+
+Instantiate Realm objects as you would any other object. In a
+transaction, you can add the object to the realm if the
+realm's schema includes the object
+type. When you add an instance to the realm, it becomes
+*managed* by that realm.
+
+To persist a new object to a realm:
+
+1. Instantiate a new object instance with the class constructor. You
+   can use an `apply block
+   <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html>`__
+   to configure multiple properties at once.
+
+#. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Pass the new object instance to `copyToRealm()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__
+   to persist the object data to the realm. This method returns a
+   **managed** instance of the object. You can modify the persisted
+   object through the returned instance.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.create-a-new-object.kt
+   :language: kotlin
+
+Update Objects
+~~~~~~~~~~~~~~
+
+.. note::
+
+   You can only modify objects in a realm within a
+   :ref:`write transaction <kotlin-write-transactions>`.
+
+.. _kotlin-modify-an-object:
+
+Update Object Properties
+````````````````````````
+
+To modify an object stored within a realm:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+   To ensure your query returns the correct object, filter with unique
+   identifying information such as a primary key value.
+
+#. Change an object property within the
+   :ref:`write transaction <kotlin-write-transactions>`. The SDK
+   automatically persists changes to the realm.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.modify-an-object.kt
+   :language: kotlin
+
+.. _kotlin-upsert-an-object:
+
+Upsert Objects
+``````````````
+
+The **upsert** operation either inserts a new instance of an object or
+updates an existing object that meets certain criteria.
+
+To upsert into a realm:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+   Filter your criteria with unique identifying criteria for the
+   object you want to upsert.
+
+#. Insert a new object with the same primary key as the object returned
+   by the previous query (if it exists) with `copyToRealm()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__.
+   If an object matching your filter already exists, realm updates the
+   existing object. If no object exists that matches your filter, realm
+   inserts a new object.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.upsert-an-object.kt
+   :language: kotlin
+
+.. _kotlin-update-collection:
+
+Update a Collection
+```````````````````
+
+To update a collection of objects in a realm:
+
+1. Query a realm for a collection of objects
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+
+#. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Update elements of the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/index.html>`__
+   returned by the query.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.update-a-collection.kt
+   :language: kotlin
+
+.. _kotlin-delete-objects:
+
+Delete Objects
+~~~~~~~~~~~~~~
+
+.. note::
+
+   You can only delete objects from a realm within a
+   :ref:`write transaction <kotlin-write-transactions>`.
+
+.. _kotlin-delete-an-object:
+
+Delete an Object
+````````````````
+
+To delete an object from a realm:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm for the object you want to delete
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+   Filter the set of returned objects by specifying a query. To ensure
+   your query returns the correct object, filter with unique identifying
+   information such as a primary key value.
+
+#. Pass the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__
+   returned by the query to `mutableRealm.delete() <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/delete.html>`__
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-an-object.kt
+   :language: kotlin
+
+.. _kotlin-delete-multiple-objects:
+
+Delete Multiple Objects
+```````````````````````
+
+To delete multiple objects from a realm at the same time:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm for the objects you want to delete
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+   Filter the set of returned objects by specifying a query.
+
+#. Delete the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/index.html>`__
+   returned by the query with `realmResults.delete()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/delete.html>`__.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-multiple-objects.kt
+   :language: kotlin
+
+.. _kotlin-delete-all-objects-of-a-type:
+
+Delete All Objects of a Type
+````````````````````````````
+
+To delete all objects of a type from a realm:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm for all objects of that type
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+
+#. Delete the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__
+   returned by the query with `mutableRealm.delete()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/index.html#-181441016%2FFunctions%2F-1651551339>`__.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-all-objects-of-a-type.kt
+   :language: kotlin
