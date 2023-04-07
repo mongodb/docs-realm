@@ -2,32 +2,37 @@
 
 ## Kotlin SDK
 
-- Add new Custom User Data page
+- Custom User Data: Add new Custom User Data page
 - Update information architecture
-  - Create new Manage Users section and migrate relevant content from the App Services
-  section.
-  - Restructure the App Services section.
-  - Restructure the Sync section.
-  - Restructure the Model data section.
+  - Manage Users: Create new Manage Users section and migrate relevant content 
+    from the App Services section.
+  - Atlas App Services: Restructure the App Services section.
+  - Device Sync: Restructure the Sync section.
+  - Model Data and others: Restructure the Model Data section.
+  - Install Realm: Update the Install section to a landing page of its own.
 
 ## .NET SDK
 
-- Add code and explanation for new Sync Timeout options and handling events that
-  timeout.
+- Configure & Open a Synced Realm: Add code and explanation for new Sync Timeout
+  options and handling events that timeout.
 
 ## React Native SDK
 
-- Lots of small updates to content and code examples to make them easier to read
-  and follow.
-- Refactor examples to use `realm.create(objectType, {...})` instead of calling
-  the model class with `new ObjectType(realm, {...})`.
-- Add information about TypeScript and required properties for object models.
-- Update references to the Expo template so that they go to the latest version.
+- Pages throughout the React Native SDK docs: Lots of small updates to content
+  and code examples to make them easier to read and follow.
+- Pages throughout the React Native SDK docs: Refactor examples to use 
+  `realm.create(objectType, {...})` instead of calling the model class with
+  `new ObjectType(realm, {...})`.
+- Define a Realm Object Model: Add information about TypeScript and required
+  properties for object models.
+- Bootstrap with Expo: Update references to the Expo template so that they go
+  to the latest version.
 
 ## Other
 
-- Review all images and update those that were outdated.
-- Rename Asymmetric Sync to Data Ingest.
+- Pages throughout the docs set: Review all images and update those that were
+  outdated.
+- Pages throughout the docs set: Rename Asymmetric Sync to Data Ingest.
 
 # March 31, 2023
 
