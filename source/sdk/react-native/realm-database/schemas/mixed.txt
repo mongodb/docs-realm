@@ -11,8 +11,6 @@ Mixed - React Native SDK
 
 .. versionadded:: ``realm@10.5.0``
 
-Overview
---------
 The mixed data type is a realm property type that can hold any valid Realm data
 type except a collection. You can create collections (lists, sets, and
 dictionaries) of type ``mixed``, but a ``mixed`` type itself cannot be a
@@ -25,6 +23,7 @@ declare a Mixed property as optional.
 
 Realm Object Models
 -------------------
+
 To :ref:`set a property of your object model
 <react-native-define-a-realm-object-schema>` as ``Mixed``, set the property's type to
 "``mixed``".
@@ -46,6 +45,7 @@ To :ref:`set a property of your object model
 
 Create an Object With a Mixed Value
 -----------------------------------
+
 Create an object with a mixed value by using the :mdn:`new
 <Web/JavaScript/Reference/Operators/new>` operator within a :ref:`write
 transaction <react-native-write-transactions>`.
@@ -85,6 +85,7 @@ The ``CreateCatsInput`` component does the following:
 
 Query for Objects with a Mixed Value
 ------------------------------------
+
 To query for objects with a mixed value, run the 
 :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method and
 pass in a :ref:`filter <react-native-filter-queries>` for a non-mixed field. You can
@@ -119,5 +120,12 @@ The ``CatInfoCard`` component does the following:
          :language: javascript
          :emphasize-lines: 4-5
          :linenos:
+
+TypeScript and Mixed Properties
+-------------------------------
+
+To get complete type information from mixed properties, you can use
+:js-sdk:`Object.getPropertyType() <Realm.Object.html#getPropertyType>`. This
+method gives you the underlying type of a property value.
 
 
