@@ -61,9 +61,18 @@ to create a 64-bit key and store that key in a :ref:`user object <user-objects>`
 Accessing an Encrypted Realm from Multiple Processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/encrypt-mult-processes.rst
+.. versionchanged:: 10.38.0
 
-As an alternative, you can store data that you want to encrypt as 
+
+Prior to Realm Swift SDK version 10.38.0, Realm did not support opening
+the same encrypted realm from multiple processes. Attempting to do so 
+throws this error:
+``Encrypted interprocess sharing is currently unsupported.``
+
+If your app uses Realm Swift SDK version 10.37.2 or older and needs to
+access a realm from multiple processes, use an unencrypted realm.
+
+Alternately, you can store data that you want to encrypt as 
 ``NSData`` properties on realm objects. Then, you can encrypt and 
 decrypt individual fields. 
 
