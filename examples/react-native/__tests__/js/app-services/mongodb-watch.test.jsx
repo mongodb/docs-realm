@@ -6,7 +6,7 @@ import {useUser, useApp, AppProvider, UserProvider} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
 
 const APP_ID = 'example-testers-kvjdy';
-let higherScopedVenusFlyTrap;
+let higherScopedOperationType;
 const higherScopedPlantId = new Realm.BSON.ObjectID('5f87976b7b800b285345a8b4');
 
 // Note: have to create and wait for this promise because
@@ -42,6 +42,38 @@ function NotificationSetter() {
   // Get currently logged in user
   const user = useUser();
 
+  const watchForAllChanges = async (
+    plants,
+  ) => {
+    // Watch for changes to the plants collection
+    for await (const change of plants.watch()) {
+      higherScopedOperationType = change.operationType; // :remove:
+      switch (change.operationType) {
+        case 'insert': {
+          const {documentKey, fullDocument} = change;
+          // ... do something with the change information.
+          break;
+        }
+        case 'update': {
+          const {documentKey, fullDocument} = change;
+          // ... do something with the change information.
+          break;
+        }
+        case 'replace': {
+          const {documentKey, fullDocument} = change;
+          // ... do something with the change information.
+          break;
+        }
+        case 'delete': {
+          const {documentKey} = change;
+          // ... do something with the change information.
+          break;
+        }
+      }
+    }
+    promiseResolve(true); // :remove:
+  };
+
   useEffect(() => {
     const plants = user
       .mongoClient('mongodb-atlas')
@@ -51,40 +83,6 @@ function NotificationSetter() {
     // Set up notifications
     watchForAllChanges(plants);
   }, [user, watchForAllChanges]);
-
-  const watchForAllChanges = async plants => {
-    // Watch for changes to the plants collection
-    for await (const change of plants.watch()) {
-      switch (change.operationType) {
-        case 'insert': {
-          const {documentKey, fullDocument} = change;
-          // ... do something with the change information.
-          console.log(`new document: ${documentKey}`, fullDocument); // :remove:
-          break;
-        }
-        case 'update': {
-          const {documentKey, fullDocument} = change;
-          // ... do something with the change information.
-          console.log(`new document: ${documentKey}`, fullDocument); // :remove:
-          break;
-        }
-        case 'replace': {
-          const {documentKey, fullDocument} = change;
-          // ... do something with the change information.
-          console.log(`new document: ${documentKey}`, fullDocument); // :remove:
-          break;
-        }
-        case 'delete': {
-          const {documentKey} = change;
-          // ... do something with the change information.
-          console.log(`new document: ${documentKey}`); // :remove:
-          break;
-        }
-      }
-    }
-    promiseResolve(true); // :remove:
-  };
-
   // ... rest of component
 
   return <></>; // :remove:
@@ -99,10 +97,10 @@ describe('MongoDB Watch', () => {
 
     await app.logIn(Realm.Credentials.anonymous());
 
-    plants =
-      app.currentUser.mongoClient('mongodb-atlas').db('example').collection <
-      Plant >
-      'plants';
+    plants = app
+      .currentUser.mongoClient('mongodb-atlas')
+      .db('example')
+      .collection('plants');
   });
 
   afterAll(async () => {
@@ -111,7 +109,6 @@ describe('MongoDB Watch', () => {
   });
 
   it('should insert a plant document', async () => {
-    console.log(`${performance.now()} | TEST START: insert`);
     render(<AppWrapper />);
 
     try {
@@ -127,71 +124,55 @@ describe('MongoDB Watch', () => {
       console.log(error);
     }
 
-    const response = await plants.findOne({name: 'venus flytrap'}); // :remove:
-    higherScopedVenusFlyTrap = response; // :remove:
-
-    await waitFor(() =>
-      expect(higherScopedVenusFlyTrap?.name).toBe('venus flytrap'),
-    );
+    await waitFor(() => expect(higherScopedOperationType).toBe('insert'));
   });
 
   it('should update a plant document', async () => {
-    console.log(`${performance.now()} | TEST START: update`);
     render(<AppWrapper />);
 
     try {
-      await plants.updateOne(
-        {
-          _id: higherScopedPlantId,
-          name: 'venus flytrap',
-          sunlight: 'full',
-          type: 'perennial',
-          _partition: 'Store 42',
-        },
-        {
-          $set: {color: 'green'},
-        },
-      );
+      await plants.updateOne({
+        _id: higherScopedPlantId,
+        name: 'venus flytrap',
+        sunlight: 'full',
+        type: 'perennial',
+        _partition: 'Store 42',
+      }, {
+        $set: {color: 'green',}
+      });
     } catch (error) {
       console.log(error);
     }
 
-    const response = await plants.findOne({name: 'venus flytrap'}); // :remove:
-    higherScopedVenusFlyTrap = response; // :remove:
-
-    await waitFor(() => expect(higherScopedVenusFlyTrap?.color).toBe('green'));
+    await waitFor(() =>
+      expect(higherScopedOperationType).toBe('update')
+    );
   });
 
   it('should replace a plant document', async () => {
-    console.log(`${performance.now()} | TEST START: replace`);
     render(<AppWrapper />);
 
     try {
-      await plants.findOneAndReplace(
-        {
-          _id: higherScopedPlantId,
-        },
-        {
-          _id: higherScopedPlantId,
-          name: 'venus flytrap',
-          sunlight: 'full',
-          color: 'white',
-          type: 'perennial',
-          _partition: 'Store 42',
-        },
-      );
+      await plants.findOneAndReplace({
+        _id: higherScopedPlantId,
+      }, {
+        _id: higherScopedPlantId,
+        name: 'venus flytrap',
+        sunlight: 'full',
+        color: 'white',
+        type: 'perennial',
+        _partition: 'Store 42',
+      });
     } catch (error) {
       console.log(error);
     }
 
-    const response = await plants.findOne({name: 'venus flytrap'}); // :remove:
-    higherScopedVenusFlyTrap = response; // :remove:
-
-    await waitFor(() => expect(higherScopedVenusFlyTrap?.color).toBe('white'));
+    await waitFor(() =>
+      expect(higherScopedOperationType).toBe('replace')
+    );
   });
 
   it('should delete a plant document', async () => {
-    console.log(`${performance.now()} | TEST START: delete`);
     render(<AppWrapper />);
 
     try {
@@ -200,11 +181,7 @@ describe('MongoDB Watch', () => {
       console.error(error);
     }
 
-    // Should return null
-    const response = await plants.findOne({name: 'venus flytrap'}); // :remove:
-    higherScopedVenusFlyTrap = response; // :remove:
-
-    await waitFor(() => expect(higherScopedVenusFlyTrap).toBe(null));
+    await waitFor(() => expect(higherScopedOperationType).toBe('delete'));
   });
 });
 

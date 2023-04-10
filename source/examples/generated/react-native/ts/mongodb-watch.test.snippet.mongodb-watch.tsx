@@ -16,16 +16,6 @@ function NotificationSetter() {
   // Get currently logged in user
   const user = useUser();
 
-  useEffect(() => {
-    const plants = user!
-      .mongoClient('mongodb-atlas')
-      .db('example')
-      .collection<Plant>('plants');
-
-    // Set up notifications
-    watchForAllChanges(plants);
-  }, [user, watchForAllChanges]);
-
   const watchForAllChanges = async (
     plants: Realm.Services.MongoDB.MongoDBCollection<Plant>,
   ) => {
@@ -56,6 +46,15 @@ function NotificationSetter() {
     }
   };
 
+  useEffect(() => {
+    const plants = user!
+      .mongoClient('mongodb-atlas')
+      .db('example')
+      .collection<Plant>('plants');
+
+    // Set up notifications
+    watchForAllChanges(plants);
+  }, [user, watchForAllChanges]);
   // ... rest of component
 
 }

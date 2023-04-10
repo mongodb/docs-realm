@@ -16,17 +16,9 @@ function NotificationSetter() {
   // Get currently logged in user
   const user = useUser();
 
-  useEffect(() => {
-    const plants = user
-      .mongoClient('mongodb-atlas')
-      .db('example')
-      .collection('plants');
-
-    // Set up notifications
-    watchForAllChanges(plants);
-  }, [user, watchForAllChanges]);
-
-  const watchForAllChanges = async plants => {
+  const watchForAllChanges = async (
+    plants,
+  ) => {
     // Watch for changes to the plants collection
     for await (const change of plants.watch()) {
       switch (change.operationType) {
@@ -54,6 +46,15 @@ function NotificationSetter() {
     }
   };
 
+  useEffect(() => {
+    const plants = user
+      .mongoClient('mongodb-atlas')
+      .db('example')
+      .collection('plants');
+
+    // Set up notifications
+    watchForAllChanges(plants);
+  }, [user, watchForAllChanges]);
   // ... rest of component
 
 }
