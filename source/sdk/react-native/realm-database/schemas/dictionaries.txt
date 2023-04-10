@@ -15,15 +15,24 @@ Dictionaries - React Native SDK
 You can use the :js-sdk:`Realm.Dictionary <Realm.Dictionary.html>` data type to
 manage a collection of unique String keys paired with values. The ``dictionary``
 data maps to the Javascript :mdn:`Object
-<Web/JavaScript/Reference/Global_Objects/Object>` type. 
+<Web/JavaScript/Reference/Global_Objects/Object>` type.
+
+For example, creating a ``HomeOwner`` Realm object where the ``home`` property
+is defined as a ``dictionary`` type could look like this:
+
+.. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.dictionary-example.tsx
+   :language: javascript
+   :emphasize-lines: 3
 
 Realm Object Models
 -------------------
 
-To define a dictionary of mixed values in your schema, set the data type
-of your field to an empty object, ``"{}"``. Alternatively, add the data type before the brackets to create a
-dictionary with values of a specific type. For instance, ``"int{}"`` to specify that dictionary values must be
-integers or ``"string{}"`` to specify that dictionary values must be strings.
+To define a dictionary of mixed values in a :ref:`Realm object model
+<react-native-define-a-realm-object-model>`, set the data type
+of your field to an empty object, ``"{}"``. Alternatively, add the data type
+before the brackets to create a dictionary with values of a specific type. For
+instance, ``"int{}"`` to specify that dictionary values must be integers or
+``"string{}"`` to specify that dictionary values must be strings.
 
 .. tabs-realm-languages::
 
