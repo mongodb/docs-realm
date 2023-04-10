@@ -357,12 +357,31 @@ document in the collection is added, modified, or deleted. Each notification
 specifies a document that changed, how it changed, and the full document after
 the operation that caused the event.
 
-.. note::
+``collection.watch()`` returns an :mdn:`async generator
+<Web/JavaScript/Reference/Statements/for-await...of#Iterating_over_async_generators>`
+that allows you to asynchronously pull :manual:`change events
+</reference/change-events/>` for operations as they occur.
 
-   ``collection.watch()`` returns an :mdn:`async generator
-   <Web/JavaScript/Reference/Statements/for-await...of#Iterating_over_async_generators>`
-   that allows you to asynchronously pull :manual:`change events
-   </reference/change-events/>` for operations as they occur.
+``collection.watch()`` requires some set up to work with a React Native client
+app. To watch a collection for changes, you must first install the
+:npm:`react-native-polyfill-globals </packagereact-native-polyfill-globals/>`
+and :npm:`@babel/plugin-proposal-async-generator-functions 
+</package/@babel/plugin-proposal-async-generator-functions>` packages.
+
+**To use collection.watch():** 
+
+#. Install dependencies.
+
+   .. code-block:: bash
+   
+      npm install react-native-polyfill-globals text-encoding
+      npm install --save-dev @babel/plugin-proposal-async-generator-functions
+
+#. Import polyfills in a higher scope than where you need to use them. For
+   example, in ``index.js``.
+
+   .. literalinclude:: /examples/generated/react-native/ts/index.snippet.watch-polyfills.js
+      :language: javascript
 
 .. include:: /includes/serverless-watch-note.rst
 
@@ -372,11 +391,27 @@ the operation that caused the event.
 Watch for All Changes in a Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To watch for all changes in a collection, call :js-sdk:`collection.watch()
-<Realm.MongoDBCollection.html#watch>` with no arguments:
+With the ``@realm/react`` package, make sure you have 
+:ref:`configured user authentication <react-native-configure-authentication>`
+for your app.
 
-.. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.js
-   :language: javascript
+To watch for all changes in a collection, call :js-sdk:`collection.watch()
+<Realm.MongoDBCollection.html#watch>` with no arguments. This call must be
+wrapped by a ``UserProvider`` with an authenticated user.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/mongodb-watch.test.snippet.mongodb-watch.tsx
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/mongodb-watch.test.snippet.mongodb-watch.jsx
+         :language: javascript
 
 .. _react-native-watch-for-specific-changes-in-a-collection:
 .. _react-native-mongodb-watch-a-collection-with-filter:

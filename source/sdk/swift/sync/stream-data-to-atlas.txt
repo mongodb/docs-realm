@@ -15,17 +15,17 @@ Overview
 
 .. versionadded:: 10.29.0
 
-You can use :ref:`Asymmetric Sync <optimize-asymmetric-sync>` to stream 
+You can use :ref:`Data Ingest <optimize-data-ingest>` to stream 
 data from the client application to a Flexible Sync-enabled Atlas App Services
 App.
 
 You might want to sync data unidirectionally in IoT applications, such as
-a weather sensor sending data to the cloud. Asymmetric sync is also useful 
+a weather sensor sending data to the cloud. Data Ingest is also useful 
 for writing other types of immutable data where you do not require conflict 
 resolution, such as creating invoices from a retail app or logging application 
 events.
 
-Asymmetric Sync is optimized to provide performance improvements for heavy
+Data Ingest is optimized to provide performance improvements for heavy
 client-side *insert-only* workloads.
 
 Sync Data Unidirectionally from a Client Application
@@ -35,8 +35,7 @@ Sync Data Unidirectionally from a Client Application
 
    .. step:: Define an AsymmetricObject
 
-      You can data unidirectionally when that object is an 
-      ``AsymmetricObject``.
+      You can sync data unidirectionally when that object is an ``AsymmetricObject``.
       Define an AsymmetricObject by deriving from :swift-sdk:`AsymmetricObject 
       <Extensions/AsymmetricObject.html>`:
 
@@ -56,7 +55,7 @@ Sync Data Unidirectionally from a Client Application
       .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.connect-and-authenticate.swift
          :language: swift
 
-      Asymmetric Sync is a feature of Flexible Sync, so the App you connect 
+      Data Ingest is a feature of Flexible Sync, so the App you connect 
       to must use :ref:`Flexible Sync <flexible-sync>`.
 
    .. step:: Open a Realm
@@ -69,7 +68,7 @@ Sync Data Unidirectionally from a Client Application
       .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.open-asymmetric-sync-realm.swift
          :language: swift
 
-      Unlike bidirectional Sync, Asymmetric Sync does not use a 
+      Unlike bidirectional Sync, Data Ingest does not use a 
       :ref:`Flexible Sync subscription <swift-manage-flexible-sync-subscriptions>`.
 
       .. tip:: Mixed Object and AsymmetricObject Types in Projects

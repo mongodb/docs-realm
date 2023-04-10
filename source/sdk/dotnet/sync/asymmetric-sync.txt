@@ -1,8 +1,8 @@
-.. _dotnet-asymmetric-sync:
+.. _dotnet-data-ingest:
 
-===================================
-Unidirectional Data Sync - .NET SDK
-===================================
+=====================================
+Unidirectional Data Ingest - .NET SDK
+=====================================
 
 .. contents:: On this page
    :local:
@@ -14,17 +14,17 @@ Overview
 --------
 .. versionadded:: 10.17.0
 
-You can use :ref:`Asymmetric Sync <optimize-asymmetric-sync>` to stream 
+You can use :ref:`Data Ingest <optimize-data-ingest>` to stream 
 data from a client application to a Flexible Sync-enabled Atlas App Services
 App.
 
 For example, you might want to sync data unidirectionally in IoT applications, 
-such as a weather sensor sending data to the cloud. Asymmetric sync is also useful 
+such as a weather sensor sending data to the cloud. Data Ingest is also useful 
 for writing other types of immutable data where you do not require conflict 
 resolution, such as creating invoices from a retail app or logging application 
 events.
 
-Asymmetric Sync is optimized to provide performance improvements for heavy
+Data Ingest is optimized to provide performance improvements for heavy
 client-side *insert-only* workloads.
 
 .. important::
@@ -40,7 +40,7 @@ within the same realm.
 Sync Data Unidirectionally from a Client Application
 ----------------------------------------------------
 
-Before you set up Asymmetric sync, you need to understand the following rules:
+Before you set up Data Ingest, you need to understand the following rules:
 
 - The C# objects that you will sync with Atlas must derive from the 
   :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>` class.
