@@ -121,8 +121,7 @@ describe('Mixed Tests', () => {
       // To query for the cat's birthDate, filter for their name to retrieve the realm object.
       // Use dot notation to access the birthDate property.
       const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];
-      const catBirthDateType = cat.getPropertyType('birthDate');
-      const catBirthDate: catBirthDateType = cat.birthDate;
+      const catBirthDate= cat.birthDate;
 
       if (cat) {
         return (
