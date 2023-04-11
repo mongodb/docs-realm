@@ -1,0 +1,95 @@
+.. _kotlin-update-objects:
+
+=================================
+Update Realm Objects - Kotlin SDK
+=================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. note::
+
+   You can only modify objects in a realm within a
+   :ref:`write transaction <kotlin-write-transactions>`.
+
+.. _kotlin-modify-an-object:
+
+Update Object Properties
+------------------------
+
+To modify an object stored within a realm:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+   To ensure your query returns the correct object, filter with unique
+   identifying information such as a primary key value.
+
+#. Change an object property within the
+   :ref:`write transaction <kotlin-write-transactions>`. The SDK
+   automatically persists changes to the realm.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.modify-an-object.kt
+   :language: kotlin
+
+.. _kotlin-upsert-an-object:
+
+Upsert Objects
+--------------
+
+The **upsert** operation either inserts a new instance of an object or
+updates an existing object that meets certain criteria.
+
+To upsert into a realm:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+   Filter your criteria with unique identifying criteria for the
+   object you want to upsert.
+
+#. Insert a new object with the same primary key as the object returned
+   by the previous query (if it exists) with `copyToRealm()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__.
+   If an object matching your filter already exists, realm updates the
+   existing object. If no object exists that matches your filter, realm
+   inserts a new object.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.upsert-an-object.kt
+   :language: kotlin
+
+.. _kotlin-update-collection:
+
+Update a Collection
+-------------------
+
+To update a collection of objects in a realm:
+
+1. Query a realm for a collection of objects
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+
+#. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Update elements of the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/index.html>`__
+   returned by the query.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.update-a-collection.kt
+   :language: kotlin
