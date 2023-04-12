@@ -31,7 +31,7 @@ describe('Mixed Tests', () => {
       });
       assertionRealm.create('Cat', {
         name: 'Yoshi',
-        birthDate: 11222020,
+        birthDate: 'November 22nd, 2020',
       });
     });
   });
@@ -158,45 +158,42 @@ describe('Mixed Tests', () => {
 
   it('should type check mixed property', async () => {
     let higherScopeCat: Cat;
+
     // :snippet-start: type-check
     // :replace-start: {
     //  "terms": {
     //   " testID='catBirthDate'": ""
     //   }
     // }
+    const isString = (
+      val: Mixed,
+      name: string,
+      object: Realm.Object,
+    ): val is Realm.Types.String => {
+      return object.getPropertyType(name) === 'string';
+    };
+
     type CatInfoCardProps = {catName: string};
 
     const CatInfoCard = ({catName}: CatInfoCardProps) => {
       // To query for the cat's birthDate, filter for their name to retrieve the realm object.
       // Use dot notation to access the birthDate property.
       const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];
-      const catBirthDate = isInteger(cat.birthDate, 'birthDate', cat)
+      const catBirthDate = isString(cat.birthDate, 'birthDate', cat)
         ? cat.birthDate
-        : null;
+        : cat.birthDate.toString();
 
-      console.log(isInteger(cat.birthDate, 'birthDate', cat))
-      higherScopeCat = cat;
-
+      higherScopeCat = cat; // :remove:
       if (cat) {
         return (
           <>
             <Text>{catName}</Text>
-            <Text testID='catBirthDate'>{String(catBirthDate)}</Text>
+            <Text testID='catBirthDate'>{catBirthDate}</Text>
           </>
         );
       } else {
         return <Text>Cat not found</Text>;
       }
-    };
-
-    const isInteger = (
-      val: Mixed,
-      name: string,
-      object: Realm.Object,
-    ): val is Realm.Types.Int => {
-      console.log(object[name])
-      console.log(object.getPropertyType(name))
-      return object.getPropertyType(name) === 'integer';
     };
     // :replace-end:
     // :snippet-end:
@@ -209,6 +206,8 @@ describe('Mixed Tests', () => {
     const {findByTestId} = render(<App />);
     const catBirthDate = await findByTestId('catBirthDate');
     // Expect catBirthDate in the UI to be the same value we set in the beforeEach (which is clover's birthday 'January 21, 2016')
-    expect(isInteger(higherScopeCat.birthDate, 'birthDate', higherScopeCat)).toBe(true);
+    expect(
+      isString(higherScopeCat.birthDate, 'birthDate', higherScopeCat),
+    ).toBe(true);
   });
 });
