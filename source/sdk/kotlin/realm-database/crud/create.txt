@@ -1,14 +1,19 @@
 .. _kotlin-create-a-new-object:
 
-================================
-Create a New Object - Kotlin SDK
-================================
+=================================
+Create Realm Objects - Kotlin SDK
+=================================
 
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. note::
+
+   You can only insert new objects into a realm within a
+   :ref:`write transaction <kotlin-write-transactions>`.
 
 Instantiate Realm objects as you would any other object. In a
 transaction, you can add the object to the realm if the
@@ -36,9 +41,3 @@ To persist a new object to a realm:
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.create-a-new-object.kt
    :language: kotlin
-   :copyable: false
-
-.. note::
-
-   You can only insert new objects into a realm within a
-   :ref:`write transaction <kotlin-write-transactions>`.

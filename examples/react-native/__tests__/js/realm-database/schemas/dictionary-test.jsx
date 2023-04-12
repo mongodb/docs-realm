@@ -4,9 +4,10 @@ import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 import HomeOwner from '../../Models/HomeOwner';
+import Pet from '../../Models/Pet';
 
 const realmConfig = {
-  schema: [HomeOwner],
+  schema: [HomeOwner, Pet],
   deleteRealmIfMigrationNeeded: true,
 };
 

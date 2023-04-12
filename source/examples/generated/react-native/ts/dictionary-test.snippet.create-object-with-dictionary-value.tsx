@@ -4,9 +4,9 @@ const CreateHomeOwner = () => {
   const realm = useRealm();
 
   const submitHomeOwner = () => {
-    // Create a HomeOwner within a Write Transaction
+    // Create a HomeOwner realm object within a Write Transaction
     realm.write(() => {
-      new HomeOwner(realm, {
+      realm.create('HomeOwner', {
         name: homeOwnerName,
         // For the dictionary field, 'home', set the value
         // to a regular JavaScript object
