@@ -1,0 +1,83 @@
+.. _kotlin-handle-sync-errors:
+
+===============================
+Handle Sync Errors - Kotlin SDK
+===============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+While developing an application that uses :ref:`Device Sync <sync>`, you should set an error
+handler. This error handler will detect and respond to any failed sync-related
+API calls.
+
+.. include:: /includes/sync-errors-in-app-services.rst
+
+Handle Sync Errors
+-------------------
+
+Set an error handler through the 
+`SyncConfiguration.errorHandler <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html#872059509%2FProperties%2F645295071>`__
+property when creating a synced realm. 
+When an error occurs, the Kotlin SDK calls the error handler with the error object
+and the `SyncSession <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/index.html>`__ 
+that the error occurred on. 
+
+If you do not specify an error handler, the default behavior is to print the 
+sync error to the console. 
+
+For information about setting a client log level or customizing the logger, refer 
+to :ref:`kotlin-client-log-level`.
+
+Sync Exceptions
+~~~~~~~~~~~~~~~
+
+A `SyncException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-sync-exception/index.html>`__ 
+occurs when Device Sync fails. 
+
+Unrecoverable Sync Errors
+`````````````````````````
+
+An `UnrecoverableSyncException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-unrecoverable-sync-exception/index.html>`__ occurs when Device Sync 
+fails catastrophically.
+This usually means a bug in the client or connected App.
+
+When an unrecoverable sync error occurs, you should surface the problem
+to the end user. Let them know that Device Sync won't work until the
+problem is solved. It's best to send yourself an alert so you can check
+the backend App logs and fix the problem as soon as possible.
+
+Wrong Sync Type Errors
+``````````````````````
+
+A `WrongSyncTypeException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-wrong-sync-type-exception/index.html>`__
+occurs when the client and App use different sync protocols. 
+
+The SDK supports two kinds of sync: :ref:`flexible sync <enable-flexible-sync>` 
+and :ref:`partition based <sync-partitions>` sync. 
+When a client connects to an App using a sync type that does not match the App's sync type, a wrong sync type error occurs.
+
+To recover from a wrong sync type error, update the client to use a sync
+type that matches the backend. This will most likely require the user
+to update to a new version of your app containing the fix. 
+
+Bad Flexible Sync Query Errors
+``````````````````````````````
+
+A `BadFlexibleSyncQueryException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-bad-flexible-sync-query-exception/index.html>`__ 
+occurs when you try to subscribe to a flexible sync query that is not supported
+by the App backend. 
+This can happen when you:
+
+- query a field not specified as a **queryable field** in your flexible
+  sync configuration
+- create a flexible sync query using operators unsupported by flexible
+  sync
+
+To recover from a bad flexible sync query error, update your client to
+use a sync query compatible with your App configuration. This will most
+likely require the user to update to a new version of your app containing
+the fix.
