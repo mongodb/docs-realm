@@ -165,6 +165,8 @@ describe('Mixed Tests', () => {
     //   " testID='catBirthDate'": ""
     //   }
     // }
+    // Use Type Predicates and Object.getPropertyType() to
+    // create a runtime type check for Mixed properties.
     const isString = (
       val: Mixed,
       name: string,
@@ -176,9 +178,8 @@ describe('Mixed Tests', () => {
     type CatInfoCardProps = {catName: string};
 
     const CatInfoCard = ({catName}: CatInfoCardProps) => {
-      // To query for the cat's birthDate, filter for their name to retrieve the realm object.
-      // Use dot notation to access the birthDate property.
       const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];
+      // Use the type check to handle your data.
       const catBirthDate = isString(cat.birthDate, 'birthDate', cat)
         ? cat.birthDate
         : cat.birthDate.toString();
