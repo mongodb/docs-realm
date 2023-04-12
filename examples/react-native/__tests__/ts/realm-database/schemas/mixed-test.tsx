@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
-import Realm from 'realm';
+import Realm, {Mixed} from 'realm';
 import {createRealmContext} from '@realm/react';
 import Cat from '../../Models/Cat';
 
@@ -29,6 +29,10 @@ describe('Mixed Tests', () => {
         name: 'Clover',
         birthDate: new Date('January 21, 2016'),
       });
+      assertionRealm.create('Cat', {
+        name: 'Yoshi',
+        birthDate: 11222020,
+      });
     });
   });
   afterAll(() => {
@@ -36,6 +40,7 @@ describe('Mixed Tests', () => {
       assertionRealm.close();
     }
   });
+
   it('should create an object with a mixed value', async () => {
     // :snippet-start: create-mixed-object
     // :replace-start: {
@@ -101,13 +106,14 @@ describe('Mixed Tests', () => {
     await waitFor(
       async () => {
         const catItems = await getAllByTestId('catItem');
-        expect(catItems.length).toBe(5);
+        expect(catItems.length).toBe(6);
         const cats = assertionRealm.objects(Cat);
-        expect(cats.length).toBe(5);
+        expect(cats.length).toBe(6);
       },
       {timeout: 5500},
     );
   });
+
   it('should query for objects with a mixed value', async () => {
     // :snippet-start: query-mixed-object
     // :replace-start: {
@@ -148,5 +154,61 @@ describe('Mixed Tests', () => {
     expect(new Date(catBirthDate.props.children)).toStrictEqual(
       new Date('January 21, 2016'),
     );
+  });
+
+  it('should type check mixed property', async () => {
+    let higherScopeCat: Cat;
+    // :snippet-start: type-check
+    // :replace-start: {
+    //  "terms": {
+    //   " testID='catBirthDate'": ""
+    //   }
+    // }
+    type CatInfoCardProps = {catName: string};
+
+    const CatInfoCard = ({catName}: CatInfoCardProps) => {
+      // To query for the cat's birthDate, filter for their name to retrieve the realm object.
+      // Use dot notation to access the birthDate property.
+      const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];
+      const catBirthDate = isInteger(cat.birthDate, 'birthDate', cat)
+        ? cat.birthDate
+        : null;
+
+      console.log(isInteger(cat.birthDate, 'birthDate', cat))
+      higherScopeCat = cat;
+
+      if (cat) {
+        return (
+          <>
+            <Text>{catName}</Text>
+            <Text testID='catBirthDate'>{String(catBirthDate)}</Text>
+          </>
+        );
+      } else {
+        return <Text>Cat not found</Text>;
+      }
+    };
+
+    const isInteger = (
+      val: Mixed,
+      name: string,
+      object: Realm.Object,
+    ): val is Realm.Types.Int => {
+      console.log(object[name])
+      console.log(object.getPropertyType(name))
+      return object.getPropertyType(name) === 'integer';
+    };
+    // :replace-end:
+    // :snippet-end:
+
+    const App = () => (
+      <RealmProvider>
+        <CatInfoCard catName='Yoshi' />
+      </RealmProvider>
+    );
+    const {findByTestId} = render(<App />);
+    const catBirthDate = await findByTestId('catBirthDate');
+    // Expect catBirthDate in the UI to be the same value we set in the beforeEach (which is clover's birthday 'January 21, 2016')
+    expect(isInteger(higherScopeCat.birthDate, 'birthDate', higherScopeCat)).toBe(true);
   });
 });

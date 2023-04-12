@@ -121,12 +121,17 @@ The ``CatInfoCard`` component does the following:
          :emphasize-lines: 4-5
          :linenos:
 
-Mixed Properties and Types
---------------------------
+Mixed Properties and Type Checking
+----------------------------------
 
 Because mixed properties can be more than one type, you can't rely on the
 property's value being a specific type.
 
-To get a mixed property's type, you can use :js-sdk:`Object.getPropertyType()
-<Realm.Object.html#getPropertyType>`. This method gives you the underlying type
-of a property value.
+With :js-sdk:`Object.getPropertyType() <Realm.Object.html#getPropertyType>`, you
+can get a mixed property's underlying type. This allows you build your own type
+checking.
+
+.. literalinclude:: /examples/generated/react-native/js/mixed-test.snippet.query-mixed-object.jsx
+   :language: javascript
+   :emphasize-lines: 4-5
+
