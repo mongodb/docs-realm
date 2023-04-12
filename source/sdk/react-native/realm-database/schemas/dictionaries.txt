@@ -27,12 +27,15 @@ is defined as a ``dictionary`` type could look like this:
 Realm Object Models
 -------------------
 
-To define a dictionary of mixed values in a :ref:`Realm object model
-<react-native-define-a-realm-object-model>`, set the data type
-of your field to an empty object, ``"{}"``. Alternatively, add the data type
-before the brackets to create a dictionary with values of a specific type. For
-instance, ``"int{}"`` to specify that dictionary values must be integers or
-``"string{}"`` to specify that dictionary values must be strings.
+You can define define a dictionary of mixed values for a :ref:`Realm object model
+<react-native-define-a-realm-object-model>` in three ways:
+
+- set the data type of your field to an empty object, ``"{}"``. 
+- Add the data type before the brackets to create a dictionary with values of a
+  specific type. For example, ``"int{}"`` to specify that dictionary values must
+  be integers or ``"string{}"`` to specify that dictionary values must be strings.
+- Define the object type explicitly. This is necessary for using object Types in
+  your Realm as ditionary values.
 
 .. tabs-realm-languages::
 
@@ -47,7 +50,7 @@ instance, ``"int{}"`` to specify that dictionary values must be integers or
 
       .. literalinclude:: /examples/generated/react-native/ts/HomeOwner.snippet.ts-homeowner-schema.ts
          :language: typescript
-         :emphasize-lines: 16
+         :emphasize-lines: 16, 19
 
    .. tab::
       :tabid: javascript
