@@ -8,12 +8,18 @@ interface Home extends Realm.Dictionary {
 class HomeOwner extends Realm.Object<HomeOwner> {
   name!: string;
   home!: Home;
+  pets?: Pet[];
 
   static schema = {
     name: 'HomeOwner',
     properties: {
       name: 'string',
       home: '{}',
+      pets: {
+        type: 'dictionary',
+        objectType: 'Pet',
+        optional: true
+      },
     },
   };
 }

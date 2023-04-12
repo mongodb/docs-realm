@@ -4,9 +4,10 @@ import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 import HomeOwner from '../../Models/HomeOwner';
+import Pet from '../../Models/Pet';
 
 const realmConfig = {
-  schema: [HomeOwner],
+  schema: [HomeOwner, Pet],
   deleteRealmIfMigrationNeeded: true,
 };
 
@@ -37,10 +38,18 @@ describe('Dictionary Tests', () => {
         home: {address: '1 washington street', color: 'red'},
       });
 
+      // :snippet-start: dictionary-example
+      // :replace-start: {
+      //    "terms": {
+      //       "assertionRealm": "realm"
+      //    }
+      // }
       assertionRealm.create('HomeOwner', {
         name: 'Anna Smith',
         home: {address: '2 jefferson lane', yearRenovated: 1994, color: 'blue'},
       });
+      // :replace-end:
+      // :snippet-end:
     });
   });
   it('should create an object with a dictionary value', async () => {
@@ -51,7 +60,7 @@ describe('Dictionary Tests', () => {
       const realm = useRealm();
 
       const submitHomeOwner = () => {
-        // Create a HomeOwner within a Write Transaction
+        // Create a HomeOwner realm object within a Write Transaction
         realm.write(() => {
           realm.create('HomeOwner', {
             name: homeOwnerName,
