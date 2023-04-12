@@ -1,5 +1,5 @@
 class SushiPlatter : RealmObject {
-    val _id: ObjectId = ObjectId()
-    val name: String = ""
-    val fish: Fish? = null
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var fish: Fish? = null
 }
