@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, TextInput, View, Text} from 'react-native';
+import {Button, TextInput, View, Text, FlatList} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
@@ -29,10 +29,10 @@ describe('embedded objects tests', () => {
         name: 'John Smith',
         _id: new Realm.BSON.ObjectID(),
         address: {
-          street: '1 Home Street',
-          city: 'New York City',
+          street: '3731 Hummingbird Way',
+          city: 'Hays',
           country: 'USA',
-          postalCode: '12345',
+          postalCode: '67601',
         },
       });
 
@@ -40,20 +40,33 @@ describe('embedded objects tests', () => {
         name: 'Jane Doe',
         _id: new Realm.BSON.ObjectID(),
         address: {
-          street: '2 Home Street',
-          city: 'Kansas City',
+          street: '3871 Sigley Road',
+          city: 'Hays',
           country: 'USA',
-          postalCode: '54321',
+          postalCode: '67601',
+        },
+      });
+
+      assertionRealm.create('Contact', {
+        name: 'Arthur Dent',
+        _id: new Realm.BSON.ObjectID(),
+        address: {
+          street: '4226 Timber Oak Drive',
+          city: 'Cambria',
+          country: 'USA',
+          postalCode: '93428',
         },
       });
     });
   });
+
   afterAll(() => {
     // close realm
     if (!assertionRealm.isClosed) {
       assertionRealm.close();
     }
   });
+
   it('should create and read an embedded object', async () => {
     // :snippet-start: create-embedded-object
     // :replace-start: {
@@ -111,6 +124,7 @@ describe('embedded objects tests', () => {
     };
     // :replace-end:
     // :snippet-end:
+
     const App = () => (
       <RealmProvider>
         <CreateContact />
@@ -123,19 +137,23 @@ describe('embedded objects tests', () => {
         timeout: 5000,
       },
     );
+
     await act(async () => {
       fireEvent.press(submitContactBtn);
     });
+
     // check if the new Contact object has been created
     const contact = assertionRealm
       .objects(Contact)
       .filtered("name == 'LeBron James'")[0];
+
     expect(contact.name).toBe('LeBron James');
     expect(contact.address.street).toBe('1 Goat Drive');
     expect(contact.address.city).toBe('Cleveland');
     expect(contact.address.country).toBe('USA');
     expect(contact.address.postalCode).toBe('12345');
   });
+
   it('should query for an embedded object', async () => {
     // :snippet-start: query-embedded-object
     // :replace-start: {
@@ -144,19 +162,19 @@ describe('embedded objects tests', () => {
     //   }
     // }
     const ContactList = () => {
+      const [postalCode, setPostalCode] = useState();
       // Query for all Contact objects
       const contacts = useQuery(Contact);
 
-      // Run the `.filtered()` method on all the returned Contacts to find the
-      // contact with the name "John Smith" and the corresponding street address
-      const contactAddress = contacts.filtered("name == 'John Smith'")[0]
-        .address.street;
+      // Run the `.filtered()` method on all the returned Contacts to get
+      // contacts with a specific postal code.
+      const contactsInArea = contacts.filtered(`postalCode == ${postalCode}`);
+
 
       return (
-        <View>
-          <Text>John Smith's street address:</Text>
-          <Text testID='addressText'>{contactAddress}</Text>
-        </View>
+        <FlatList
+          data={contactsInArea}
+        >
       );
     };
     // :replace-end:
@@ -172,8 +190,10 @@ describe('embedded objects tests', () => {
     const contactAddress = await waitFor(() => getByTestId('addressText'), {
       timeout: 5000,
     });
-    expect(contactAddress.props.children).toBe('1 Home Street');
+
+    expect(contactAddress.props.children).toBe('3731 Hummingbird Way');
   });
+
   it('should delete an embedded object', async () => {
     // :snippet-start: delete-embedded-object
     // :replace-start: {
@@ -205,6 +225,7 @@ describe('embedded objects tests', () => {
     };
     // :replace-end:
     // :snippet-end:
+
     const App = () => (
       <RealmProvider>
         <ContactInfo contactName='John Smith' />
@@ -217,6 +238,7 @@ describe('embedded objects tests', () => {
         timeout: 5000,
       },
     );
+
     expect(contactNameText.props.children).toBe('John Smith');
 
     const deleteContactBtn = await waitFor(
@@ -225,11 +247,14 @@ describe('embedded objects tests', () => {
         timeout: 5000,
       },
     );
+
     await act(async () => {
       fireEvent.press(deleteContactBtn);
     });
+
     // check if the new Contact object has been deleted
     const contact = assertionRealm.objects(Contact);
+
     expect(contact.length).toBe(1);
   });
   it('should update an embedded object', async () => {
@@ -270,6 +295,7 @@ describe('embedded objects tests', () => {
     };
     // :replace-end:
     // :snippet-end:
+
     const App = () => (
       <RealmProvider>
         <UpdateContact contactName='John Smith' />
@@ -282,15 +308,19 @@ describe('embedded objects tests', () => {
         timeout: 5000,
       },
     );
+
     await act(async () => {
       fireEvent.press(updateContactBtn);
     });
+
     // check if the new Contact object has been updated
     const contact = assertionRealm
       .objects(Contact)
       .filtered("name == 'John Smith'")[0];
+
     expect(contact.address.street).toBe('3 jefferson lane');
   });
+
   it('should overwrite an embedded object', async () => {
     // :snippet-start: overwrite-embedded-object
     // :replace-start: {
@@ -351,6 +381,7 @@ describe('embedded objects tests', () => {
     };
     // :replace-end:
     // :snippet-end:
+
     const App = () => (
       <RealmProvider>
         <OverwriteContact contactName='John Smith' />
@@ -363,13 +394,16 @@ describe('embedded objects tests', () => {
         timeout: 5000,
       },
     );
+
     await act(async () => {
       fireEvent.press(overwriteContactBtn);
     });
+
     // check if the new Contact object has been overwritten
     const contact = assertionRealm
       .objects(Contact)
       .filtered("name == 'John Smith'")[0];
+
     expect(contact.address.street).toBe('12 Grimmauld Place');
     expect(contact.address.city).toBe('London');
     expect(contact.address.country).toBe('UK');
