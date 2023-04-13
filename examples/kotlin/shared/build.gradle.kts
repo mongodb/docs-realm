@@ -18,7 +18,7 @@ kotlin {
                 implementation(libs.realm.sync)
                 implementation(libs.kotlinx.coroutines)
                 implementation("io.github.aakira:napier:2.4.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 api("co.touchlab:kermit:0.1.8")
             }
         }
@@ -70,11 +70,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 28
-        targetSdk = 31
+        targetSdk = 33
     }
 }
 dependencies {

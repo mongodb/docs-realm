@@ -1,5 +1,5 @@
 class Sushi : RealmObject {
-    val _id: ObjectId = ObjectId()
-    val name: String = ""
-    val fishes: RealmList<Fish> = realmListOf<Fish>()
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var fishes: RealmList<Fish> = realmListOf<Fish>()
 }
