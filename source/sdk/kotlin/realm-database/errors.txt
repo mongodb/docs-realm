@@ -19,8 +19,10 @@ application should handle when using the Kotlin SDK:
   `RealmException <{+kotlin-local-prefix+}io.realm.kotlin.exceptions/-realm-exception/index.html>`__.
 - **app errors** occur when network communication with Atlas App Services
   fails. These errors generate an
-  `AppException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-app-exception/index.html>`__. For more information, refer to 
+  `AppException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-app-exception/index.html>`__.
+  For more information on app errors, refer to 
   :ref:`Handle App Errors <kotlin-app-errors>`.
+  For more information on sync-specific app errors, refer to :ref:`Handle Sync Errors <kotlin-handle-sync-errors>`.
 
 .. _kotlin-realm-errors:
 
@@ -33,22 +35,13 @@ When possible, the SDK uses existing platform exceptions, like
 `IllegalStateException <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-state-exception/index.html>`__.
 
 Typically, these errors result from bad database logic, such as a query
-missing an argument or attempting to write outside of a write transaction.
-
-.. _kotlin-ephemeral-errors:
+missing an argument, attempting to write outside of a write transaction, or 
+deleting an object that does not exist.
 
 However, some errors are **ephemeral**: they occur because of failures outside of
-the client or SDK's control. For example, a failed login attempt due to a network error.
-
-Other errors require logic fixes. Examples include:
-
-- writing to a realm outside of a write transaction
-- a failed login attempt due to incorrect credentials
-- deleting an object that does not exist
-
-When an ephemeral error occurs, you should retry the operation that
-caused the error. If the operation still fails when you retry it,
-investigate logic fixes.
+the client or SDK's control. When an ephemeral error occurs, you should retry the operation that
+caused the error. 
+If the operation still fails when you retry it, investigate logic fixes.
 
 You can handle errors in the SDK with Kotlin's built-in
 `runCatching <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run-catching.html>`__
