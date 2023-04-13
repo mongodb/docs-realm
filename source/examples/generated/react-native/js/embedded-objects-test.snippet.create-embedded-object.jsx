@@ -1,4 +1,3 @@
-
 const CreateContact = () => {
   const [name, setContactName] = useState('');
   const [street, setStreet] = useState('');
@@ -17,7 +16,7 @@ const CreateContact = () => {
         country,
         postalCode,
       };
-      
+
       realm.create('Contact', {
         _id: new Realm.BSON.ObjectID(),
         name,

@@ -155,43 +155,53 @@ describe('embedded objects tests', () => {
   });
 
   it('should query for an embedded object', async () => {
+    let higherScopedContactsInArea;
     // :snippet-start: query-embedded-object
     // :replace-start: {
     //  "terms": {
     //   " testID='addressText'": ""
     //   }
     // }
-    const ContactList = () => {
-      const [postalCode, setPostalCode] = useState();
+    const ContactList = ({postalCode}: {postalCode: string}) => {
       // Query for all Contact objects
       const contacts = useQuery(Contact);
 
       // Run the `.filtered()` method on all the returned Contacts to get
       // contacts with a specific postal code.
-      const contactsInArea = contacts.filtered(`postalCode == ${postalCode}`);
+      const contactsInArea = contacts.filtered(`address.postalCode == '${postalCode}'`);
+      higherScopedContactsInArea = contactsInArea; // :remove:
 
-
-      return (
-        <FlatList
-          data={contactsInArea}
-        >
-      );
+      if (contactsInArea.length) {
+        return (
+          <>
+            <FlatList
+              testID='contactsList'
+              data={contactsInArea}
+              renderItem={({item}) => {
+                <Text>{item.name}</Text>
+              }}
+            />
+          </>
+        );
+      } else {
+        return <Text>No contacts found in this area.</Text>;
+      }
     };
     // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
-        <ContactList />
+        <ContactList postalCode='67601' />
       </RealmProvider>
     );
-    const {getByTestId} = render(<App />);
+    
+    const {findByTestId} = render(<App />);
+    
+    // Wait for app to render. It's rendered when we can find
+    // `contactsList`.
+    const contactsList = await findByTestId('contactsList');
 
-    // test that querying for name works
-    const contactAddress = await waitFor(() => getByTestId('addressText'), {
-      timeout: 5000,
-    });
-
-    expect(contactAddress.props.children).toBe('3731 Hummingbird Way');
+    expect(higherScopedContactsInArea.length).toBe(2);
   });
 
   it('should delete an embedded object', async () => {
@@ -201,24 +211,46 @@ describe('embedded objects tests', () => {
     //   " testID='contactNameText'": ""
     //   }
     // }
-    const ContactInfo = ({contactName}: {contactName: string}) => {
+    type ContactInfoProps = {
+      contactCity: string;
+      postalCode: string;
+    };
+
+    const ContactInfo = ({contactCity, postalCode}: ContactInfoProps) => {
       const contacts = useQuery(Contact);
-      const toDelete = contacts.filtered(`name == '${contactName}'`)[0];
+      const parentsToDelete = contacts.filtered(`address.city == '${contactCity}'`);
+      const embeddedToDelete = contacts.filtered(`address.postalCode == '${postalCode}'`);
       const realm = useRealm();
 
-      const deleteContact = () => {
+      const deleteParentObject = () => {
         realm.write(() => {
-          // Deleting the contact also deletes the embedded address of that contact
-          realm.delete(toDelete);
+          // Delete all objects that match the filter.
+          // Also deletes embedded objects.
+          realm.delete(parentsToDelete);
         });
       };
+
+      const deleteEmbeddedObject = () => {
+        realm.write(() => {
+          embeddedToDelete.forEach((contact) => {
+            // Delete just the embedded object.
+            realm.delete(contact.address)
+          })
+        });
+      };
+
       return (
         <View>
-          <Text testID='contactNameText'>{contactName}</Text>
+          <Text testID='contactCityText'>{contactCity}</Text>
           <Button
             testID='deleteContactBtn' // :remove:
-            onPress={deleteContact}
+            onPress={deleteParentObject}
             title='Delete Contact'
+          />
+          <Button
+            testID='deleteAddressBtn' // :remove:
+            onPress={deleteEmbeddedObject}
+            title='Delete Address'
           />
         </View>
       );
@@ -228,35 +260,32 @@ describe('embedded objects tests', () => {
 
     const App = () => (
       <RealmProvider>
-        <ContactInfo contactName='John Smith' />
+        <ContactInfo contactCity='Cambria' postalCode='67601' />
       </RealmProvider>
     );
+
     const {findByTestId} = render(<App />);
-    const contactNameText = await waitFor(
-      () => findByTestId('contactNameText'),
-      {
-        timeout: 5000,
-      },
-    );
 
-    expect(contactNameText.props.children).toBe('John Smith');
+    // Wait for app to render
+    const contactNameText = await findByTestId('contactCityText')
 
-    const deleteContactBtn = await waitFor(
-      () => findByTestId('deleteContactBtn'),
-      {
-        timeout: 5000,
-      },
-    );
+    expect(contactNameText.props.children).toBe('Cambria');
+
+    const deleteContactBtn = await findByTestId('deleteContactBtn');
+    const deleteAddressBtn = await findByTestId('deleteAddressBtn');
 
     await act(async () => {
       fireEvent.press(deleteContactBtn);
+      fireEvent.press(deleteAddressBtn);
     });
 
     // check if the new Contact object has been deleted
-    const contact = assertionRealm.objects(Contact);
+    const contacts = assertionRealm.objects(Contact);
 
-    expect(contact.length).toBe(1);
+    expect(contacts.length).toBe(2);
+    expect(contacts[0].address).toBe(null);
   });
+
   it('should update an embedded object', async () => {
     // :snippet-start: update-embedded-object
     // :replace-start: {
@@ -348,6 +377,7 @@ describe('embedded objects tests', () => {
             country,
             postalCode,
           };
+          
           contact.address = address;
         });
       };

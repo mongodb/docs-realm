@@ -15,6 +15,7 @@ const OverwriteContact = ({contactName}) => {
         country,
         postalCode,
       };
+      
       contact.address = address;
     });
   };

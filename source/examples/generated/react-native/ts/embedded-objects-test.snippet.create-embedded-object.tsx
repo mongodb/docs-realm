@@ -16,7 +16,8 @@ const CreateContact = () => {
         country,
         postalCode,
       };
-      new Contact(realm, {
+
+      realm.create('Contact', {
         _id: new Realm.BSON.ObjectID(),
         name,
         address, // Embed the address in the Contact object
