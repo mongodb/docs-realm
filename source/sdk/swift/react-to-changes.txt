@@ -323,6 +323,22 @@ does support this for code compatibility.
    Objective-C<realm/realm-swift/tree/master/examples/ios/objc/RACTableView>`
    , and :github:`ReactKit from Swift<realm/realm-swift/tree/v2.3.0/examples/ios/swift-2.2/ReactKit>`.
 
+.. _swift-react-to-changes-actor-confined-realm:
+
+React to Changes in an Actor-Confined Realm
+-------------------------------------------
+
+You can observe notifications on an actor-confined realm using Swift's 
+async/await syntax. Calling ``await object.observe()`` or 
+``await collection.observe`` registers a block to be called each time the 
+object or collection changes.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.observe-collection-on-actor.swift
+   :language: swift
+
+For more information about change notifications on actor-confined realms, refer to
+:ref:`swift-observe-notifications-on-actor-confined-realm`.
+
 .. _ios-react-to-changes-to-a-class-projection:
 
 React to Changes to a Class Projection

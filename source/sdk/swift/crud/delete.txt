@@ -245,3 +245,27 @@ To delete the value of an AnyRealmValue, set it to ``.none``.
 
 .. literalinclude:: /examples/generated/code/start/DeleteRealmObjects.snippet.mixed-data-type.swift
    :language: swift
+
+.. _swift-delete-object-async:
+
+Delete an Object Asynchronously
+-------------------------------
+
+You can use Swift concurrency features to asynchronously delete objects 
+using an actor-confined realm. 
+
+This function from the example ``RealmActor`` :ref:`defined on the 
+Actor-Isolated Realms page <swift-define-realm-actor>` shows how you might
+delete an object in an actor-confined realm:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.delete-async.swift
+   :language: swift
+
+And you might perform this deletion using Swift's async syntax:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.delete-object.swift
+   :language: swift
+
+This operation does not block or perform I/O on the calling thread. For
+more information about writing to realm using Swift concurrency features, 
+refer to :ref:`swift-actor-isolated-realm`.
