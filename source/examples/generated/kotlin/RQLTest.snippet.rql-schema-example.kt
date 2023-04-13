@@ -12,6 +12,6 @@ class Project(): RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var name: String = ""
-    var items: RealmList<Item>? = null
+    var items: RealmList<Item> = realmListOf<Item>()
     var quota: Int? = null
 }
