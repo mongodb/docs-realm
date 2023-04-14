@@ -4,7 +4,9 @@ const ContactList = ({postalCode}: {postalCode: string}) => {
 
   // Run the `.filtered()` method on all the returned Contacts to get
   // contacts with a specific postal code.
-  const contactsInArea = contacts.filtered(`address.postalCode == '${postalCode}'`);
+  const contactsInArea = contacts.filtered(
+    `address.postalCode == '${postalCode}'`,
+  );
 
   if (contactsInArea.length) {
     return (
@@ -13,7 +15,7 @@ const ContactList = ({postalCode}: {postalCode: string}) => {
           testID='contactsList'
           data={contactsInArea}
           renderItem={({item}) => {
-            <Text>{item.name}</Text>
+            <Text>{item.name}</Text>;
           }}
         />
       </>

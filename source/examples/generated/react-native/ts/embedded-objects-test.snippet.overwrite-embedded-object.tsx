@@ -1,9 +1,13 @@
-const OverwriteContact = ({contactName}: {contactName: string}) => {
+const OverwriteContact = ({
+  contactId,
+}: {
+  contactId: Realm.BSON.ObjectId;
+}) => {
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [postalCode, setPostalCode] = useState('');
-  const contact = useQuery(Contact).filtered(`name == '${contactName}'`)[0];
+  const contact = useObject(Contact, contactId);
   const realm = useRealm();
 
   const updateAddress = () => {
@@ -15,13 +19,14 @@ const OverwriteContact = ({contactName}: {contactName: string}) => {
         country,
         postalCode,
       };
-      
-      contact.address = address;
+
+      contact!.address = address;
     });
   };
+
   return (
     <View>
-      <Text>{contact.name}</Text>
+      <Text>{contact!.name}</Text>
       <Text>Enter the new address:</Text>
       <TextInput
         value={street}

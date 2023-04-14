@@ -6,12 +6,19 @@ import {createRealmContext} from '@realm/react';
 import Address from '../../Models/Address';
 import Contact from '../../Models/Contact';
 
+const primaryKeys = {
+  contact1: new Realm.BSON.ObjectID(),
+  contact2: new Realm.BSON.ObjectID(),
+  contact3: new Realm.BSON.ObjectID(),
+};
+
 const realmConfig = {
   schema: [Address, Contact],
   deleteRealmIfMigrationNeeded: true,
 };
 
-const {RealmProvider, useQuery, useRealm} = createRealmContext(realmConfig);
+const {RealmProvider, useQuery, useObject, useRealm} =
+  createRealmContext(realmConfig);
 
 let assertionRealm;
 
@@ -27,7 +34,7 @@ describe('embedded objects tests', () => {
 
       assertionRealm.create('Contact', {
         name: 'John Smith',
-        _id: new Realm.BSON.ObjectID(),
+        _id: primaryKeys.contact1,
         address: {
           street: '3731 Hummingbird Way',
           city: 'Hays',
@@ -38,7 +45,7 @@ describe('embedded objects tests', () => {
 
       assertionRealm.create('Contact', {
         name: 'Jane Doe',
-        _id: new Realm.BSON.ObjectID(),
+        _id: primaryKeys.contact2,
         address: {
           street: '3871 Sigley Road',
           city: 'Hays',
@@ -49,7 +56,7 @@ describe('embedded objects tests', () => {
 
       assertionRealm.create('Contact', {
         name: 'Arthur Dent',
-        _id: new Realm.BSON.ObjectID(),
+        _id: primaryKeys.contact3,
         address: {
           street: '4226 Timber Oak Drive',
           city: 'Cambria',
@@ -157,7 +164,9 @@ describe('embedded objects tests', () => {
 
       // Run the `.filtered()` method on all the returned Contacts to get
       // contacts with a specific postal code.
-      const contactsInArea = contacts.filtered(`address.postalCode == '${postalCode}'`);
+      const contactsInArea = contacts.filtered(
+        `address.postalCode == '${postalCode}'`,
+      );
       higherScopedContactsInArea = contactsInArea; // :remove:
 
       if (contactsInArea.length) {
@@ -167,7 +176,7 @@ describe('embedded objects tests', () => {
               testID='contactsList'
               data={contactsInArea}
               renderItem={({item}) => {
-                <Text>{item.name}</Text>
+                <Text>{item.name}</Text>;
               }}
             />
           </>
@@ -183,9 +192,9 @@ describe('embedded objects tests', () => {
         <ContactList postalCode='67601' />
       </RealmProvider>
     );
-    
+
     const {findByTestId} = render(<App />);
-    
+
     // Wait for app to render. It's rendered when we can find
     // `contactsList`.
     const contactsList = await findByTestId('contactsList');
@@ -202,8 +211,12 @@ describe('embedded objects tests', () => {
     // }
     const ContactInfo = ({contactCity, postalCode}) => {
       const contacts = useQuery(Contact);
-      const parentsToDelete = contacts.filtered(`address.city == '${contactCity}'`);
-      const embeddedToDelete = contacts.filtered(`address.postalCode == '${postalCode}'`);
+      const parentsToDelete = contacts.filtered(
+        `address.city == '${contactCity}'`,
+      );
+      const embeddedToDelete = contacts.filtered(
+        `address.postalCode == '${postalCode}'`,
+      );
       const realm = useRealm();
 
       const deleteParentObject = () => {
@@ -216,10 +229,10 @@ describe('embedded objects tests', () => {
 
       const deleteEmbeddedObject = () => {
         realm.write(() => {
-          embeddedToDelete.forEach((contact) => {
+          embeddedToDelete.forEach(contact => {
             // Delete just the embedded object.
-            realm.delete(contact.address)
-          })
+            realm.delete(contact.address);
+          });
         });
       };
 
@@ -251,7 +264,7 @@ describe('embedded objects tests', () => {
     const {findByTestId} = render(<App />);
 
     // Wait for app to render
-    const contactNameText = await findByTestId('contactCityText')
+    const contactNameText = await findByTestId('contactCityText');
 
     expect(contactNameText.props.children).toBe('Cambria');
 
@@ -278,9 +291,10 @@ describe('embedded objects tests', () => {
     //   }
     // }
     // Find the contact you want to update
-    const UpdateContact = ({contactName}) => {
+    const UpdateContact = ({contactId}) => {
       const [street, setStreet] = useState('3 jefferson lane');
-      const contact = useQuery(Contact).filtered(`name == '${contactName}'`)[0];
+      // CHANGE TO USEOBJECT
+      const contact = useObject(Contact, contactId);
       const realm = useRealm();
 
       const updateStreet = () => {
@@ -290,6 +304,7 @@ describe('embedded objects tests', () => {
           contact.address.street = street;
         });
       };
+
       return (
         <View>
           <Text>{contact.name}</Text>
@@ -311,25 +326,22 @@ describe('embedded objects tests', () => {
 
     const App = () => (
       <RealmProvider>
-        <UpdateContact contactName='John Smith' />
+        <UpdateContact contactId={primaryKeys.contact1} />
       </RealmProvider>
     );
+
     const {findByTestId} = render(<App />);
-    const updateContactBtn = await waitFor(
-      () => findByTestId('updateContactBtn'),
-      {
-        timeout: 5000,
-      },
-    );
+    const updateContactBtn = await findByTestId('updateContactBtn');
 
     await act(async () => {
       fireEvent.press(updateContactBtn);
     });
 
     // check if the new Contact object has been updated
-    const contact = assertionRealm
-      .objects(Contact)
-      .filtered("name == 'John Smith'")[0];
+    const contact = assertionRealm.objectForPrimaryKey(
+      Contact,
+      primaryKeys.contact1,
+    );
 
     expect(contact.address.street).toBe('3 jefferson lane');
   });
@@ -344,13 +356,16 @@ describe('embedded objects tests', () => {
     //   "E1 7AA": ""
     //   }
     // }
-    const OverwriteContact = ({contactName}) => {
+    const OverwriteContact = ({contactId}) => {
       const [street, setStreet] = useState('12 Grimmauld Place');
       const [city, setCity] = useState('London');
       const [country, setCountry] = useState('UK');
       const [postalCode, setPostalCode] = useState('E1 7AA');
-      const contact = useQuery(Contact).filtered(`name == '${contactName}'`)[0];
+      const contact = useObject(Contact, contactId);
       const realm = useRealm();
+
+      console.log(contactId);
+      console.log(contact);
 
       const updateAddress = () => {
         realm.write(() => {
@@ -361,7 +376,7 @@ describe('embedded objects tests', () => {
             country,
             postalCode,
           };
-          
+
           contact.address = address;
         });
       };
@@ -398,25 +413,21 @@ describe('embedded objects tests', () => {
 
     const App = () => (
       <RealmProvider>
-        <OverwriteContact contactName='John Smith' />
+        <OverwriteContact contactId={primaryKeys.contact1} />
       </RealmProvider>
     );
     const {findByTestId} = render(<App />);
-    const overwriteContactBtn = await waitFor(
-      () => findByTestId('overwriteContactBtn'),
-      {
-        timeout: 5000,
-      },
-    );
+    const overwriteContactBtn = await findByTestId('overwriteContactBtn');
 
     await act(async () => {
       fireEvent.press(overwriteContactBtn);
     });
 
     // check if the new Contact object has been overwritten
-    const contact = assertionRealm
-      .objects(Contact)
-      .filtered("name == 'John Smith'")[0];
+    const contact = assertionRealm.objectForPrimaryKey(
+      Contact,
+      primaryKeys.contact1,
+    );
 
     expect(contact.address.street).toBe('12 Grimmauld Place');
     expect(contact.address.city).toBe('London');

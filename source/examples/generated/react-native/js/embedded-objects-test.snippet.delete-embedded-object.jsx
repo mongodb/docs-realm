@@ -1,7 +1,11 @@
 const ContactInfo = ({contactCity, postalCode}) => {
   const contacts = useQuery(Contact);
-  const parentsToDelete = contacts.filtered(`address.city == '${contactCity}'`);
-  const embeddedToDelete = contacts.filtered(`address.postalCode == '${postalCode}'`);
+  const parentsToDelete = contacts.filtered(
+    `address.city == '${contactCity}'`,
+  );
+  const embeddedToDelete = contacts.filtered(
+    `address.postalCode == '${postalCode}'`,
+  );
   const realm = useRealm();
 
   const deleteParentObject = () => {
@@ -14,10 +18,10 @@ const ContactInfo = ({contactCity, postalCode}) => {
 
   const deleteEmbeddedObject = () => {
     realm.write(() => {
-      embeddedToDelete.forEach((contact) => {
+      embeddedToDelete.forEach(contact => {
         // Delete just the embedded object.
-        realm.delete(contact.address)
-      })
+        realm.delete(contact.address);
+      });
     });
   };
 
