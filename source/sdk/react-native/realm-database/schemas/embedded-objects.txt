@@ -104,7 +104,7 @@ To create an embedded object, assign an instance of the embedded object
 to a parent object's property.
 
 Example
-```````
+~~~~~~~
 
 In the following ``CreateContact`` example, we create a new ``Contact`` object 
 with an embedded ``Address`` object.
@@ -134,7 +134,7 @@ You can use dot notation to filter or sort a :ref:`collection
 property value.
 
 Example
-``````` 
+~~~~~~~
 
 In the following ``ContactList`` example, we filter and query an embedded 
 ``Address`` object.
@@ -171,7 +171,7 @@ To update a property in an embedded object, modify the property in a
 write transaction.
 
 Example
-``````` 
+~~~~~~~
 
 In the following ``UpdateContact`` example, we update the ``street`` property for 
 an embedded ``Address`` object.
@@ -216,7 +216,7 @@ To overwrite an embedded object, reassign the embedded object property
 of a party to a new instance in a write transaction.
 
 Example
-``````` 
+~~~~~~~
 
 In the following ``OverwriteContact`` example, we overwrite an embedded ``Address`` object.
 
@@ -243,7 +243,7 @@ The ``OverwriteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.overwrite-embedded-object.tsx
          :language: typescript
-         :emphasize-lines: 6-7, 10-19
+         :emphasize-lines: 8, 14-21
          :linenos:
 
    .. tab::
@@ -251,7 +251,7 @@ The ``OverwriteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.overwrite-embedded-object.jsx
          :language: javascript
-         :emphasize-lines: 6-7, 10-19
+         :emphasize-lines: 6, 12-19
          :linenos:
 
 Delete an Embedded Object
@@ -260,7 +260,7 @@ Realm Uses Cascading Deletes for Embedded Objects. To delete an embedded object,
 delete the embedded object's parent. 
 
 Example
-```````
+~~~~~~~
 
 In the following ``DeleteContact`` example, we delete an embedded object and its 
 parent object.
@@ -283,7 +283,7 @@ The ``DeleteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.delete-embedded-object.tsx
          :language: typescript
-         :emphasize-lines: 8, 9, 13-17, 21-26
+         :emphasize-lines: 8-10, 11-13, 20, 26-29
          :linenos:
 
    .. tab::
@@ -291,5 +291,5 @@ The ``DeleteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.delete-embedded-object.jsx
          :language: javascript
-         :emphasize-lines: 3, 4, 8-12, 16-21
+         :emphasize-lines: 3-5, 6-8, 15, 21-24
          :linenos:
