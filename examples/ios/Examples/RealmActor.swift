@@ -229,6 +229,89 @@ class RealmActorTests: XCTestCase {
         }
     }
     
+    func testOpenActorConfinedRealmWithConfig() async throws {
+        try await mainThreadFunction()
+        // :snippet-start: actor-confined-realm-with-config
+        @MainActor
+        func mainThreadFunction() async throws {
+            let username = "GordonCole"
+            
+            // Customize the default realm config
+            var config = Realm.Configuration.defaultConfiguration
+            config.fileURL!.deleteLastPathComponent()
+            config.fileURL!.appendPathComponent(username)
+            config.fileURL!.appendPathExtension("realm")
+            
+            // Open an actor-confined realm with a specific configuration
+            let realm = try await Realm(configuration: config, actor: MainActor.shared)
+            
+            try await useTheRealm(realm: realm)
+        }
+        // :snippet-end:
+        @MainActor
+        func useTheRealm(realm: Realm) async throws {
+            let todoItems = realm.objects(RealmActor_Todo.self)
+            XCTAssertEqual(todoItems.count, 0) // :remove:
+            print("Todo item count is: \(todoItems.count)")
+            
+            try! realm.write {
+                realm.create(RealmActor_Todo.self, value: [
+                    "name": "Write code example showing a config",
+                    "owner": "Dachary",
+                    "status": "In Progress"
+                ])
+            }
+            await realm.asyncRefresh()
+            XCTAssertEqual(todoItems.count, 1) // :remove:
+            print("Todo item count is now: \(todoItems.count)")
+        }
+    }
+    
+    func testOpenActorConfinedSyncedRealm() async throws {
+        try await mainThreadFunction()
+        // :snippet-start: actor-confined-synced-realm
+        @MainActor
+        func mainThreadFunction() async throws {
+            // Initialize the app client and authenticate a user
+            let app = App(id: APPID)
+            let user = try await app.login(credentials: Credentials.anonymous)
+            
+            // Configure the synced realm
+            var flexSyncConfig = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
+                subs.append(QuerySubscription<RealmActor_Todo>(name: "all_todos"))})
+            flexSyncConfig.objectTypes = [RealmActor_Todo.self]
+            
+            // Open and use the synced realm
+            let realm = try await Realm(configuration: flexSyncConfig, actor: MainActor.shared, downloadBeforeOpen: .always)
+            try await useTheSyncedRealm(realm: realm)
+        }
+        // :snippet-end:
+        @MainActor
+        func useTheSyncedRealm(realm: Realm) async throws {
+            let todoItems = realm.objects(RealmActor_Todo.self)
+            XCTAssertEqual(todoItems.count, 0) // :remove:
+            print("Todo item count at start of test is: \(todoItems.count)")
+
+            try! realm.write {
+                realm.create(RealmActor_Todo.self, value: [
+                    "name": "Write synced realm code example",
+                    "owner": "Dachary",
+                    "status": "In Progress"
+                ])
+            }
+            sleep(2)
+            XCTAssertEqual(todoItems.count, 1)
+            print("Todo item count after adding an item is: \(todoItems.count)")
+            print("The first todo ID is: \(todoItems.first!._id)")
+            try! realm.write {
+                realm.deleteAll()
+            }
+            sleep(2)
+            print("Todo item count after deleting is: \(todoItems.count)")
+            XCTAssertEqual(todoItems.count, 0)
+        }
+    }
+    
     func testAwaitBackgroundActor() async throws {
         try await mainThreadFunction()
         
