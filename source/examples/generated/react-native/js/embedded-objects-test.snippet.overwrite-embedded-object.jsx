@@ -6,9 +6,6 @@ const OverwriteContact = ({contactId}) => {
   const contact = useObject(Contact, contactId);
   const realm = useRealm();
 
-  console.log(contactId);
-  console.log(contact);
-
   const updateAddress = () => {
     realm.write(() => {
       // Within a write transaction, overwrite the embedded object with the new address

@@ -373,10 +373,8 @@ describe('embedded objects tests', () => {
     //   "E1 7AA": ""
     //   }
     // }
-    const OverwriteContact = ({
-      contactId,
-    }: {
-      contactId: Realm.BSON.ObjectId;
+    const OverwriteContact = ({contactId}: {
+      contactId: Realm.BSON.ObjectId
     }) => {
       const [street, setStreet] = useState('12 Grimmauld Place');
       const [city, setCity] = useState('London');
