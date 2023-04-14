@@ -68,16 +68,6 @@ describe('embedded objects tests', () => {
   });
 
   it('should create and read an embedded object', async () => {
-    // :snippet-start: create-embedded-object
-    // :replace-start: {
-    //  "terms": {
-    //   "LeBron James": "",
-    //   "1 Goat Drive": "",
-    //   "Cleveland": "",
-    //   "USA": "",
-    //   "12345": ""
-    //   }
-    // }
     const CreateContact = () => {
       const [name, setContactName] = useState('LeBron James');
       const [street, setStreet] = useState('1 Goat Drive');
@@ -100,7 +90,8 @@ describe('embedded objects tests', () => {
           realm.create('Contact', {
             _id: new Realm.BSON.ObjectID(),
             name,
-            address, // Embed the address in the Contact object
+            // Embed the address in the Contact object
+            address,
           });
         });
       };
@@ -116,14 +107,12 @@ describe('embedded objects tests', () => {
           />
           <Button
             title='Submit Contact'
-            testID='submitContactBtn' // :remove:
+            testID='submitContactBtn'
             onPress={submitContact}
           />
         </View>
       );
     };
-    // :replace-end:
-    // :snippet-end:
 
     const App = () => (
       <RealmProvider>
