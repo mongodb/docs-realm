@@ -100,7 +100,7 @@ class RealmActorTests: XCTestCase {
         func createObject() async throws {
             // Because this function is not isolated to this actor,
             // you must await operations completed on the actor
-            try await actor.createTodo(name: "Write a new documentation page", owner: "Dachary", status: "In Progress")
+            try await actor.createTodo(name: "Take the ring to Mount Doom", owner: "Frodo", status: "In Progress")
             let taskCount = await actor.count
             print("The actor currently has \(taskCount) tasks")
             XCTAssertEqual(taskCount, 1) // :remove:
@@ -120,8 +120,8 @@ class RealmActorTests: XCTestCase {
             // realm synchronously in this context without async/await keywords
             try actor.realm.write {
                 actor.realm.create(RealmActor_Todo.self, value: [
-                    "name": "Write new code examples",
-                    "owner": "Dachary",
+                    "name": "Keep it secret",
+                    "owner": "Frodo",
                     "status": "In Progress"
                 ])
             }
@@ -141,8 +141,8 @@ class RealmActorTests: XCTestCase {
         func createObject(in actor: isolated RealmActor) async throws {
             try actor.realm.write {
                 actor.realm.create(RealmActor_Todo.self, value: [
-                    "name": "Write an example of updating an object on a RealmActor",
-                    "owner": "Dachary",
+                    "name": "Keep it safe",
+                    "owner": "Frodo",
                     "status": "In Progress"
                 ])
             }
@@ -154,7 +154,7 @@ class RealmActorTests: XCTestCase {
         try await createObject(in: actor)
         
         let todo = await actor.realm.objects(RealmActor_Todo.self).where {
-            $0.name == "Write an example of updating an object on a RealmActor"
+            $0.name == "Keep it safe"
         }.first!
         // :snippet-end:
         
@@ -171,14 +171,13 @@ class RealmActorTests: XCTestCase {
         func createObject(in actor: isolated RealmActor) async throws -> RealmActor_Todo {
             return try actor.realm.write {
                 return actor.realm.create(RealmActor_Todo.self, value: [
-                    "name": "Write an example of deleting an object on a RealmActor",
-                    "owner": "Dachary",
+                    "name": "Keep Mr. Frodo safe from that Gollum",
+                    "owner": "Sam",
                     "status": "In Progress"
                 ])
             }
         }
         // :snippet-start: delete-object
-        
         let actor = try await RealmActor()
         
         let todo = try await createObject(in: actor)
@@ -218,13 +217,13 @@ class RealmActorTests: XCTestCase {
             
             try! realm.write {
                 realm.create(RealmActor_Todo.self, value: [
-                    "name": "Write async/await code examples",
-                    "owner": "Dachary",
+                    "name": "Go to see the elves",
+                    "owner": "Sam",
                     "status": "In Progress"
                 ])
             }
             await realm.asyncRefresh()
-            XCTAssertEqual(todoItems.count, 1) // :remove:
+            XCTAssertEqual(todoItems.count, 1)
             print("Todo item count is now: \(todoItems.count)")
         }
     }
@@ -234,7 +233,7 @@ class RealmActorTests: XCTestCase {
         // :snippet-start: actor-confined-realm-with-config
         @MainActor
         func mainThreadFunction() async throws {
-            let username = "GordonCole"
+            let username = "Galadriel"
             
             // Customize the default realm config
             var config = Realm.Configuration.defaultConfiguration
@@ -251,19 +250,23 @@ class RealmActorTests: XCTestCase {
         @MainActor
         func useTheRealm(realm: Realm) async throws {
             let todoItems = realm.objects(RealmActor_Todo.self)
-            XCTAssertEqual(todoItems.count, 0) // :remove:
+            XCTAssertEqual(todoItems.count, 0)
             print("Todo item count is: \(todoItems.count)")
             
             try! realm.write {
                 realm.create(RealmActor_Todo.self, value: [
-                    "name": "Write code example showing a config",
-                    "owner": "Dachary",
+                    "name": "Diminish and go into the West",
+                    "owner": "Galadriel",
                     "status": "In Progress"
                 ])
             }
             await realm.asyncRefresh()
-            XCTAssertEqual(todoItems.count, 1) // :remove:
+            XCTAssertEqual(todoItems.count, 1)
             print("Todo item count is now: \(todoItems.count)")
+            try realm.write {
+                realm.deleteAll()
+            }
+            XCTAssertEqual(todoItems.count, 0)
         }
     }
     
@@ -289,13 +292,13 @@ class RealmActorTests: XCTestCase {
         @MainActor
         func useTheSyncedRealm(realm: Realm) async throws {
             let todoItems = realm.objects(RealmActor_Todo.self)
-            XCTAssertEqual(todoItems.count, 0) // :remove:
+            XCTAssertEqual(todoItems.count, 0)
             print("Todo item count at start of test is: \(todoItems.count)")
 
             try! realm.write {
                 realm.create(RealmActor_Todo.self, value: [
-                    "name": "Write synced realm code example",
-                    "owner": "Dachary",
+                    "name": "Keep the ring-bearer safe",
+                    "owner": "Aragorn",
                     "status": "In Progress"
                 ])
             }
@@ -327,8 +330,8 @@ class RealmActorTests: XCTestCase {
             let realm = try await Realm(actor: BackgroundActor.shared)
             try await realm.asyncWrite {
                 _ = realm.create(RealmActor_Todo.self, value: [
-                    "name": "Write async/await code examples",
-                    "owner": "Dachary",
+                    "name": "Pledge fealty and service to Gondor",
+                    "owner": "Pippin",
                     "status": "In Progress"
                 ])
             }
@@ -352,7 +355,7 @@ class RealmActorTests: XCTestCase {
         let actor = try await RealmActor()
         
         // Add a todo to the realm so the collection has something to observe
-        try await actor.createTodo(name: "Write a code example for actor observability", owner: "Dachary", status: "In Progress")
+        try await actor.createTodo(name: "Arrive safely in Bree", owner: "Merry", status: "In Progress")
         let todoCount = await actor.count
         print("The actor currently has \(todoCount) tasks")
         XCTAssertEqual(todoCount, 1) // :remove:
@@ -398,14 +401,14 @@ class RealmActorTests: XCTestCase {
         let actor = try await RealmActor()
         
         // Add a todo to the realm so we can observe it
-        try await actor.createTodo(name: "Write a code example for observing an object on an actor", owner: "Dachary", status: "In Progress")
+        try await actor.createTodo(name: "Scour the Shire", owner: "Merry", status: "In Progress")
         let todoCount = await actor.count
         print("The actor currently has \(todoCount) tasks")
         XCTAssertEqual(todoCount, 1) // :remove:
         
         // Get an object
         let todo = await actor.realm.objects(RealmActor_Todo.self).where {
-            $0.name == "Write a code example for observing an object on an actor"
+            $0.name == "Scour the Shire"
         }.first!
         
         // Register a notification token, providing the actor

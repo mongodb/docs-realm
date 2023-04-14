@@ -1,7 +1,7 @@
 let actor = try await RealmActor()
 
 // Add a todo to the realm so the collection has something to observe
-try await actor.createTodo(name: "Write a code example for actor observability", owner: "Dachary", status: "In Progress")
+try await actor.createTodo(name: "Arrive safely in Bree", owner: "Merry", status: "In Progress")
 let todoCount = await actor.count
 print("The actor currently has \(todoCount) tasks")
 

@@ -1,13 +1,13 @@
 let actor = try await RealmActor()
 
 // Add a todo to the realm so we can observe it
-try await actor.createTodo(name: "Write a code example for observing an object on an actor", owner: "Dachary", status: "In Progress")
+try await actor.createTodo(name: "Scour the Shire", owner: "Merry", status: "In Progress")
 let todoCount = await actor.count
 print("The actor currently has \(todoCount) tasks")
 
 // Get an object
 let todo = await actor.realm.objects(Todo.self).where {
-    $0.name == "Write a code example for observing an object on an actor"
+    $0.name == "Scour the Shire"
 }.first!
 
 // Register a notification token, providing the actor

@@ -1,6 +1,6 @@
 @MainActor
 func mainThreadFunction() async throws {
-    let username = "GordonCole"
+    let username = "Galadriel"
     
     // Customize the default realm config
     var config = Realm.Configuration.defaultConfiguration

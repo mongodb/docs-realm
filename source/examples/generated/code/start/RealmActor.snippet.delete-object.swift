@@ -1,4 +1,3 @@
-
 let actor = try await RealmActor()
 
 let todo = try await createObject(in: actor)

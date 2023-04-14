@@ -3,8 +3,8 @@ func createObject(in actor: isolated RealmActor) async throws {
     // realm synchronously in this context without async/await keywords
     try actor.realm.write {
         actor.realm.create(Todo.self, value: [
-            "name": "Write new code examples",
-            "owner": "Dachary",
+            "name": "Keep it secret",
+            "owner": "Frodo",
             "status": "In Progress"
         ])
     }

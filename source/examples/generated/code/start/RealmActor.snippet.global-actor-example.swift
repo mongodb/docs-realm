@@ -9,8 +9,8 @@ func backgroundThreadFunction() async throws {
     let realm = try await Realm(actor: BackgroundActor.shared)
     try await realm.asyncWrite {
         _ = realm.create(Todo.self, value: [
-            "name": "Write async/await code examples",
-            "owner": "Dachary",
+            "name": "Pledge fealty and service to Gondor",
+            "owner": "Pippin",
             "status": "In Progress"
         ])
     }
