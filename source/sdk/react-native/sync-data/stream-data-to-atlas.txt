@@ -26,8 +26,9 @@ invoice data to be recorded rapidly by store employees. The client specifies
 that invoice data does not need to be read after employees have recorded it.
 
 To satisfy this requirement, define an invoice collection with the
-``asymmetric`` property set to ``true``. This object cannot be read because
-it only sends data in one direction: to the backend of your App Services App.
+``asymmetric`` property set to ``true``. You cannot subscribe to this object or
+query it because it only sends data in one direction: to the backend of your
+App Services App.
 
 To learn more about Data Ingest, read :ref:`Optimize Sync with Data Ingest
 <optimize-data-ingest>`.
