@@ -364,8 +364,8 @@ interface.
 Initiate a client reset using ``ClientResetRequiredException.executeClientReset()``. 
     
 Before you use this method, you must close all instances of the realm that you are resetting.
-Any writes to the realm file between this callback and the client reset has been 
-executed will not be synced. 
+Any writes to the realm file made after the manual recovery callback and before 
+the client reset being executed will not be synced. 
 
 If the client reset isn't executed manually, it will be automatically executed the 
 next time all realm instances have been closed and re-opened (typically when the 
@@ -373,10 +373,6 @@ app is restarted).
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.manual-recovery.kt
    :language: kotlin
-
-.. important:: 
-
-  Any writes to the realm will not be synced. 
 
 .. _kotlin-test-client-reset-handling:
 
