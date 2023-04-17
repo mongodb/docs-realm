@@ -25,10 +25,10 @@ In the following example of a retail app, a client requires large amounts of
 invoice data to be recorded rapidly by store employees. The client specifies
 that invoice data does not need to be read after employees have recorded it.
 
-To satisfy this requirement, define an invoice collection with the
-``asymmetric`` property set to ``true``. You cannot subscribe to this object or
-query it because it only sends data in one direction: to the backend of your
-App Services App.
+To satisfy this requirement, define an invoice object with the
+``asymmetric`` property set to ``true``. You cannot add a Flexible Sync
+subscription to this object. Objects that use Data Ingest are for *insert-only*
+workloads.
 
 To learn more about Data Ingest, read :ref:`Optimize Sync with Data Ingest
 <optimize-data-ingest>`.
