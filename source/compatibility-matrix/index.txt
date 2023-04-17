@@ -1,0 +1,66 @@
+:noprevnext:
+:orphan:
+
+.. meta::
+   :robots: noindex, nosnippet
+
+.. _realm-file-version-compatibility:
+
+================================
+Realm File Version Compatibility
+================================
+
+The Realm SDKs provide language-specific APIs for using Realm Core mobile 
+database. Realm Core provides a versioned release that is consumed by and 
+packaged with Realm SDKs. Different versions of Realm SDKS use different 
+versions of Realm Core. Sometimes, these versions contain new features 
+that are not backward-compatible with older file versions.
+
+This matrix details when SDKs adopt new Realm Core versions. Additionally, 
+it notes which Realm Studio releases support which Realm Core versions. 
+It does not attempt to convey any information about backward compatibility. 
+For that information, consult the SDK's release notes.
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+
+   * - Realm Core
+     - Dart/Flutter SDK
+     - Kotlin SDK
+     - .NET SDK
+     - Node.js/ RN / Web SDK
+     - Swift SDK
+     - Realm Studio
+
+   * - 13.9.0
+     - N/A
+     - N/A
+     - N/A
+     - N/A
+     - 10.38.0
+     - 14.0.0
+
+   * - 13.8.0
+     - N/A
+     - N/A
+     - N/A
+     - 11.7.0
+     - 10.31.1
+     - 13.0.2
+
+   * - 13.6.0
+     - 1.0.3
+     - N/A
+     - 10.21.0
+     - N/A
+     - 10.37.0
+     - 13.0.2
+
+   * - 13.5.0
+     - N/A
+     - 1.7.0
+     - N/A
+     - N/A
+     - N/A
+     - 13.0.2
