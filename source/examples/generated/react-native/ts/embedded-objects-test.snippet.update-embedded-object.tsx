@@ -1,7 +1,6 @@
 // Find the contact you want to update
 const UpdateContact = ({contactId}: {contactId: Realm.BSON.ObjectId}) => {
   const [street, setStreet] = useState('');
-  // CHANGE TO USEOBJECT
   const contact = useObject(Contact, contactId);
   const realm = useRealm();
 

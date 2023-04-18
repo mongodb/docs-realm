@@ -310,7 +310,6 @@ describe('embedded objects tests', () => {
     // Find the contact you want to update
     const UpdateContact = ({contactId}: {contactId: Realm.BSON.ObjectId}) => {
       const [street, setStreet] = useState('3 jefferson lane');
-      // CHANGE TO USEOBJECT
       const contact = useObject(Contact, contactId);
       const realm = useRealm();
 
