@@ -1,0 +1,205 @@
+.. _react-native-declare-properties:
+
+============================================
+Declare Object Properties - React Native SDK
+============================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _react-native-specify-a-primary-key:
+.. _react-native-primary-keys:
+
+Define a Primary Key
+--------------------
+
+To specify a property as an object type's primary key, set the schema's
+``primaryKey`` field to the property name.
+
+.. note::
+   
+   A **primary key** is a property that uniquely identifies an
+   object. Realm Database automatically :ref:`indexes <react-native-indexes>`
+   primary key properties, which allows you to read and modify objects based
+   on their primary key efficiently.
+   
+   If an object type has a primary key, then all objects of that type must
+   include the primary key property with a unique value among objects of
+   the same type in a realm. An object type can have only one primary
+   key. You cannot change the primary key property for an object type after any
+   object of that type is added to a realm, and you cannot modify an object's
+   primary key value.
+
+In the following example of a ``Task`` class, we specify the ``_id`` property as
+the primary key.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Task.snippet.ts-task-schema.ts
+         :language: typescript
+         :emphasize-lines: 2, 12, 18
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Task.snippet.js-task-schema.js
+         :language: javascript
+         :emphasize-lines: 5, 11
+         :linenos:
+
+.. _react-native-remap-a-property:
+
+Remap a Property
+----------------
+
+To use a different property name in your code than is stored in
+Realm Database, set ``mapTo`` to the name of the property as it appears in
+your code.
+
+Example
+~~~~~~~
+
+In the following example of an ``Employee`` class, we remap the ``first_name``
+property to ``firstName``. 
+
+.. tabs-realm-languages::
+
+    .. tab::
+       :tabid: typescript
+
+       .. literalinclude:: /examples/generated/react-native/ts/Employee.snippet.ts-employee-schema.ts
+          :language: typescript
+          :emphasize-lines: 3, 9
+          :linenos:
+
+
+    .. tab::
+       :tabid: javascript
+
+       .. literalinclude:: /examples/generated/react-native/js/Employee.snippet.js-employee-schema.js
+          :language: javascript
+          :emphasize-lines: 6
+          :linenos:
+
+.. _react-native-specify-an-optional-property:
+.. _react-native-optional-properties:
+
+Define an Optional Property
+----------------------------
+
+To mark a property as optional, append a question mark ``?`` to its type. You can
+also add ``optional`` to more complicated properties and set it to ``true`` or
+``false``.
+
+Example
+~~~~~~~
+In the following example of a ``Dog`` class, the ``age`` property of type
+``int`` is optional.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/Dog.snippet.ts-dog-schema.ts
+         :language: typescript
+         :emphasize-lines: 3, 4, 13, 15
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/Dog.snippet.js-dog-schema.js
+         :language: javascript
+         :emphasize-lines: 9, 11
+         :linenos:
+
+.. _react-native-define-a-default-property-value:
+.. _react-native-default-values:
+
+Define a Default Property Value
+-------------------------------
+
+To define a default value, set the value of the property to an object with a
+``type`` field and a ``default`` field.
+
+In the following example of a ``Car`` class, we define a ``miles`` property with
+a default value of ``0``. 
+
+.. versionadded:: 11.1.0
+
+In Realm.js v11.1.0 and later, you can use a function to define a dynamic
+default value, like the ``timestamp`` property in the example below.
+
+.. tabs-realm-languages::
+
+    .. tab::
+       :tabid: typescript
+
+       .. literalinclude:: /examples/generated/react-native/ts/Car.snippet.ts-car-schema.ts
+          :language: typescript
+          :emphasize-lines: 4, 11
+          :linenos:
+
+
+    .. tab::
+       :tabid: javascript
+
+       .. literalinclude:: /examples/generated/react-native/js/Car.snippet.js-car-schema.js
+          :language: javascript
+          :emphasize-lines: 7
+          :linenos:
+
+.. _react-native-index-a-property:
+.. _react-native-indexes:
+
+Index a Property
+----------------
+
+If you frequently run :ref:`read operations <react-native-read-operations>` 
+based on a specific property, you can index the property to optimize 
+performance. Realm supports indexing for string, integer, boolean, ``Date``, 
+``UUID``, and ``ObjectId`` properties. 
+
+.. note::
+
+   An **index** significantly increases the speed of certain read operations at
+   the cost of slightly slower write times and additional storage and memory
+   overhead. Realm Database stores indexes on disk, which makes your realm files
+   larger. Each index entry is a minimum of 12 bytes. The ordering of the index
+   entries supports efficient equality matches and range-based query operations. 
+
+Usage
+-----
+To index a given property, set the property's ``indexed`` field to ``true``.
+
+Example
+~~~~~~~
+
+In the following example of a ``Book`` class, we define an index on the ``name``
+property.
+    
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Book.snippet.ts-book-schema.ts
+         :language: typescript
+         :emphasize-lines: 8
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Book.snippet.js-book-schema.js
+         :language: javascript
+         :emphasize-lines: 5
+         :linenos:

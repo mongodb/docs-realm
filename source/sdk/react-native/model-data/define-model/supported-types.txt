@@ -1,0 +1,798 @@
+.. _react-native-supported-types:
+
+==================================
+Supported Types - React Native SDK
+==================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+.. _react-nativedata-types-field-types:
+.. _react-native-supported-property-types:
+
+Supported Property Types
+------------------------
+
+Realm Database supports the following field data types:
+
+- ``bool`` maps to the JavaScript :mdn:`Boolean 
+  <Web/JavaScript/Reference/Global_Objects/Boolean>` type
+- ``int`` maps to the JavaScript :mdn:`Number 
+  <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, Realm
+  Database stores ``int`` with 64 bits.
+- ``float`` maps to the JavaScript :mdn:`Number 
+  <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, Realm
+  Database stores ``float`` with 32 bits.
+- ``double`` maps to the JavaScript :mdn:`Number 
+  <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, Realm
+  Database stores ``double`` with 64 bits.
+- ``string`` maps to the JavaScript :mdn:`String 
+  <Web/JavaScript/Reference/Global_Objects/String>` type.
+- ``decimal128`` for high precision numbers.
+- ``objectId`` maps to BSON :manual:`ObjectId </reference/method/ObjectId/>` type.
+- ``data`` maps to the JavaScript :mdn:`ArrayBuffer 
+  <Web/JavaScript/Reference/Global_Objects/ArrayBuffer>` type.
+- ``date`` maps to the JavaScript :mdn:`Date 
+  <Web/JavaScript/Reference/Global_Objects/Date>` type.
+- ``list`` maps to the JavaScript :mdn:`Array 
+  <Web/JavaScript/Reference/Global_Objects/Array>` type. You can also specify
+  that a field contains a list of primitive value type by appending ``[]`` to
+  the type name.
+- ``linkingObjects`` is a special type used to define an inverse relationship.
+- ``dictionary`` used to manage a collection of unique String keys paired with
+  values. The ``Dictionary`` data type is available in the
+  :github:`realm-js@10.5.0 release <realm/realm-js/releases/tag/v10.5.0>`.
+- ``set`` is based on the JavaScript :mdn:`Set 
+  <Web/JavaScript/Reference/Global_Objects/Set>` type. ``Realm Set`` is
+  available in the :github:`realm-js@10.5.0 release <realm/realm-js/releases/tag/v10.5.0>`.
+- ``mixed`` is a property type that can hold different data types. The ``Mixed``
+  data type is available in the :github:`realm-js@10.5.0 release 
+  <realm/realm-js/releases/tag/v10.5.0>`.
+- ``uuid`` is a universally unique identifier from :js-sdk:`Realm.BSON 
+  <Realm.html#.BSON>`. The ``UUID`` data type is available in the 
+  :github:`realm-js@10.5.0 release <realm/realm-js/releases/tag/v10.5.0>`.
+
+.. _react-native-data-types-collections:
+
+Collections
+-----------
+
+Realm has several types to represent groups of objects,
+which we call **collections**. A collection is an object that contains
+zero or more instances of one :ref:`Realm type
+<react-native-object-types>`.
+
+You can filter and sort any collection using Realm Database's
+:ref:`query engine <react-native-client-query-engine>`. Collections are
+:ref:`live <react-native-live-objects>`, so they always reflect the current state
+of the realm instance on the current thread. You can also
+listen for changes in the collection by subscribing to :ref:`collection
+notifications <react-native-register-a-collection-change-listener>`.
+
+.. _react-native-realm-results:
+
+Results
+~~~~~~~
+
+A :js-sdk:`Results <Realm.Results.html>` collection represents the
+lazily-evaluated results of a query operation. Results are immutable:
+you cannot add or remove elements to or from the results collection.
+Results have an associated query that determines their contents.
+
+.. seealso::
+
+   :ref:`Reads <react-native-realm-database-reads>`
+
+.. _react-native-realm-list:
+
+Lists
+~~~~~
+
+A :js-sdk:`List <Realm.List.html>` represents a :ref:`to-many
+relationship <react-native-to-many-relationship>` between two Realm
+types. Lists are mutable: within a write transaction, you can add and
+remove elements to and from a list. Lists are not associated with a
+query and are declared as a property of an :ref:`object model
+<react-native-object-schemas>`.
+
+.. seealso::
+
+   :ref:`To-Many Relationships <react-native-to-many-relationship>`
+
+.. _react-native-lazy-evaluated-results:
+
+Results are Lazily Evaluated
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm Database only runs a query when you request the
+results of that query. This lazy evaluation enables you to write
+elegant, highly-performant code for handling large data sets and complex
+queries.
+
+.. _react-native-live-collections:
+
+Collections are Live
+~~~~~~~~~~~~~~~~~~~~
+
+Like :ref:`live objects <react-native-live-objects>`, Realm collections
+are usually **live**:
+
+- Live results collections always reflect the current results of the associated query.
+- Live lists always reflect the current state of the relationship on the realm instance.
+
+A collection is **not** live when: 
+
+- it is a :ref:`results collection <react-native-realm-results>` that you are iterating through using a :mdn:`for..in <Web/JavaScript/Reference/Statements/for...in>` or :mdn:`for..of <Web/JavaScript/Reference/Statements/for...of>` statement. Both statements will continue to iterate through objects in the collection even if you have deleted or modified the collection's objects to exclude them from the filter that produced the results collection.
+- the collection is a frozen :js-sdk:`Results.snapshot() <Realm.Collection.html#snapshot>`.
+
+Combined with :ref:`collection notifications
+<react-native-change-notifications>`, live collections enable
+reactive code. For example, suppose your view displays the
+results of a query. You can keep a reference to the results
+collection in your view class, then read the results
+collection as needed without having to refresh it or
+validate that it is up-to-date.
+
+.. important:: Indexes may change
+
+   Since results update themselves automatically, do not
+   store the positional index of an object in the collection
+   or the count of objects in a collection. The stored index
+   or count value could be outdated by the time you use
+   it.
+
+.. _react-native-working-with-collections:
+
+Working With Collections
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _react-native-limiting-query-results:
+
+Limiting Query Results
+``````````````````````
+
+As a result of lazy evaluation, you do not need any special
+mechanism to limit query results with Realm Database. For example, if
+your query matches thousands of objects, but you only want
+to load the first ten, access only the first ten
+elements of the results collection.
+
+.. _react-native-realm-result-pagination:
+
+Pagination
+``````````
+
+Thanks to lazy evaluation, the common task of pagination
+becomes quite simple. For example, suppose you have a
+results collection associated with a query that matches
+thousands of objects in your realm. You display one hundred
+objects per page. To advance to any page, simply access the
+elements of the results collection starting at the index
+that corresponds to the target page.
+
+.. _react-native-data-types-dictionaries:
+
+Dictionaries
+------------
+
+.. versionadded:: ``realm@10.5.0``
+
+You can use the :js-sdk:`Realm.Dictionary <Realm.Dictionary.html>` data type to
+manage a collection of unique String keys paired with values. The ``dictionary``
+data maps to the Javascript :mdn:`Object
+<Web/JavaScript/Reference/Global_Objects/Object>` type.
+
+For example, creating a ``HomeOwner`` Realm object where the ``home`` property
+is defined as a ``dictionary`` type could look like this:
+
+.. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.dictionary-example.tsx
+   :language: javascript
+   :emphasize-lines: 3
+
+Realm Object Models
+~~~~~~~~~~~~~~~~~~~
+
+You can define define a dictionary of mixed values for a :ref:`Realm object model
+<react-native-define-a-realm-object-model>` in three ways:
+
+- set the data type of your field to an empty object, ``"{}"``. 
+- Add the data type before the brackets to create a dictionary with values of a
+  specific type. For example, ``"int{}"`` to specify that dictionary values must
+  be integers or ``"string{}"`` to specify that dictionary values must be strings.
+- Define the object type explicitly. This is necessary for using object Types in
+  your Realm as ditionary values.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      Use an `interface
+      <https://www.typescriptlang.org/docs/handbook/2/objects.html>`__ that
+      extends the ``Realm.Dictionary`` type to define the syntax for your
+      dictionary object. All of your Realm Objects for this class must follow
+      the syntax specified in the interface.
+
+      .. literalinclude:: /examples/generated/react-native/ts/HomeOwner.snippet.ts-homeowner-schema.ts
+         :language: typescript
+         :emphasize-lines: 17, 19
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/HomeOwner.snippet.js-homeowner-schema.js
+         :language: javascript
+         :emphasize-lines: 6, 8
+
+
+Create an Object with a Dictionary Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the following ``CreateHomeOwner`` example, we :ref:`create a new object 
+<react-native-create-a-new-object>` with a dictionary property.
+
+The ``CreateHomeOwner`` component does the following:
+
+- Create React `state <https://reactjs.org/docs/react-component.html#state>`__ that represents the homeowner's name and address, respectively.
+- Get access to an open realm instance by calling the ``useRealm()`` hook within the component.
+- Create a component method ``SubmitHomeOwner()`` that performs a write transaction and creates a new ``HomeOwner`` object based on the ``TextInput`` values for the homeowner's name and address, respectively.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``SubmitHomeOwner()``
+
+.. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.create-object-with-dictionary-value.tsx
+   :language: typescript
+   :emphasize-lines: 4, 8-17
+   :linenos:
+
+Query for Objects with a Dictionary Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To filter a query, run :js-sdk:`collection.filtered()
+<Realm.Collection.html#filtered>` to specify a subset of results based on the
+value(s) of one or more object properties. You can specify results based on the value of a 
+dictionary's properties by using :mdn:`bracket notation <Web/JavaScript/Reference/Operators/Property_accessors>`.
+
+You can also determine whether a results collection has a certain key or value
+by using ``<dictionary>.@keys`` or ``<dictionary>.@values``. For instance, if
+you had a ``HomeOwner`` collection with a nested ``home`` dictionary, you could
+return all ``HomeOwner`` objects with a ``home`` with a ``"price"`` property by
+running the query: ``home.@keys = "price"``.
+
+In the following ``HomeList`` example, we query for objects that have dictionary properties.
+
+The ``HomeList`` component does the following:
+
+- Performs a query for all homeowners by passing the ``HomeOwner`` class to the ``useQuery`` hook.
+- Performs a query for homeowners with a listed price by passing ``collection.filtered()`` the query: ``home.@keys = "price"``.
+- Performs a query for the summer hill house by running ``collection.filtered()`` using bracket notation to find the first homeowner with an address set to "Summerhill St." and getting their home by using dot syntax. 
+- Performs a query for all homeowners with any field with a value of red by passing ``collection.filtered()`` the query: ``'home.@values = "red"'``. We then get the first homeowner's home.
+- Display the results of our queries in the UI by rendering information about the homes
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.query-objects-with-dictionary.tsx
+         :language: typescript
+         :emphasize-lines: 3, 7, 11, 17
+         :linenos:
+
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/dictionary-test.snippet.query-objects-with-dictionary.jsx
+         :language: javascript
+         :emphasize-lines: 3, 7, 11, 17
+         :linenos:
+
+Update a Dictionary
+~~~~~~~~~~~~~~~~~~~
+
+Update a dictionary's property by using the :js-sdk:`dictionary.set() <Realm.Dictionary.html#set>` method or dot notation to set its property to a new value.
+
+In the following ``UpdateHome`` example, we update a dictionary's property. 
+
+The ``UpdateHome`` component does the following:
+
+- Create a React `state <https://reactjs.org/docs/react-component.html#state>`__ variable that represents the home address.
+- Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Create a component method ``updateAddress()`` that performs a write transaction and uses ``dictionary.set()`` to set the home's address to the value of the ``address`` state variable. It also uses dot syntax to set the ``yearRenovated`` to ``2004``.
+- Render a ``TextInput`` that displays and changes the ``address`` state variable.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Update Address" button that calls ``updateAddress()``
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.update-a-dictionary.tsx
+         :language: typescript
+         :emphasize-lines: 3-6, 10-15
+         :linenos:
+
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/dictionary-test.snippet.update-a-dictionary.jsx
+         :language: javascript
+         :emphasize-lines: 3-6, 10-15
+         :linenos:
+
+
+Delete Members of a Dictionary
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To delete members of a dictionary, use the :js-sdk:`dictionary.remove() <Realm.Dictionary.html#remove>` method with an array of properties to remove from the dictionary.
+
+In the following ``HomeInfo`` example, we delete members of a dictionary.
+
+The ``HomeInfo`` component does the following:
+
+- Get access to an open realm instance by calling the ``useRealm()`` hook within the component. 
+- Retrieve the first homeowner that matches the name passed into the component as a prop. We do this by getting the first value returned from the query: ``useQuery(HomeOwner).filtered(`name == '${homeOwnerName}'`)``.
+- Create a component method ``deleteExtraHomeInfo()`` that performs a write transaction and calls ``dictionary.remove()`` to remove the ``yearRenovated`` and ``color`` properties.
+- Render the homeowner's name and home address in the UI.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Delete extra home info" button that calls ``deleteExtraHomeInfo()``.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.delete-members-of-a-dictionary.tsx
+         :language: typescript
+         :emphasize-lines: 2-5, 8-11
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/dictionary-test.snippet.delete-members-of-a-dictionary.jsx
+         :language: javascript
+         :emphasize-lines: 2-5, 8-11
+         :linenos:
+
+.. _react-native-data-types-sets:
+
+Sets
+----
+
+.. versionadded:: ``realm@10.5.0``
+
+A **Realm Set** is a special object that allows you to store a
+collection of unique values. **Realm Sets** are based on JavaScript
+:mdn:`sets <Web/JavaScript/Reference/Global_Objects/Set>`, but can only contain
+values of a single type and can only be modified within a write transaction.
+Sets allow you to perform math operations such as finding the union,
+intersection, or difference between two sets. To learn more about performing
+these operations, see the MDN docs for :mdn:`Implementing basic set operations
+<Web/JavaScript/Reference/Global_Objects/Set#implementing_basic_set_operations>`.
+   
+.. _react-native-define-set-objects:
+
+Realm Object Models
+~~~~~~~~~~~~~~~~~~~
+
+To define a property type as a ``Realm Set``, specify the data type
+you want in the set, followed by ``<>``. For instance, for a set made of integer
+values, specify ``"int<>"``. 
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/Character.snippet.ts-character-schema.ts
+         :language: typescript
+         :emphasize-lines: 4-5, 13-14
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/Character.snippet.js-character-schema.js
+         :language: javascript
+         :emphasize-lines: 8-9
+         :linenos:
+
+.. _react-native-create-set-objects:
+
+Create an Object With a Set
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create an object with a **Realm Set** property, you must create
+the object within a write transaction. When defining your Realm
+object, initialize the **Realm Set** by passing an empty array or an
+array with your initial values.
+
+In the following example of a ``CreateInitialCharacters`` component, we create
+``Character`` objects with ``Set`` properties.
+
+The ``CreateInitialCharacters`` component does the following:
+
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Uses React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once by passing ``useEffect``, an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__, as a second argument. Within the anonymous function, we create two different ``Character`` objects by using the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator to create new realm objects within a write transaction. We set each character's ``inventory`` and ``levelsCompleted`` sets as an array with initial values.
+- Retrieves all characters in the realm instance by passing the ``Character`` class to the ``useQuery()`` hook.
+- Displays each character's name in the UI as a ``Text`` element.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/sets-test.snippet.create-set-object.tsx
+         :language: typescript
+         :emphasize-lines: 8-9, 16-17
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/sets-test.snippet.create-set-object.jsx
+         :language: javascript
+         :emphasize-lines: 8-9, 16-17
+         :linenos:
+
+.. _react-native-add-items-to-set:
+
+Add Items to a Set
+~~~~~~~~~~~~~~~~~~
+
+To add an item to a set, pass the new value to the ``<Realm.Set>.add()`` method within a write transaction.
+
+In the following example of a ``AddInventoryToCharacter`` component, we add new ``Set`` elements to the character's inventory.
+
+The ``AddInventoryToCharacter`` component does the following:
+
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventoryItem" that represents the new inventory item to add to the inventory set.
+- Retrieves the character by passing the ``Character`` class to the ``useQuery()`` hook and running the :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method on the result to filter for characters with the name matching the ``characterName`` `prop <https://reactjs.org/docs/components-and-props.html>`__. Then we set the variable ``character`` to the first matching result.
+- Creates a component method ``addInventoryItem()`` that performs a write transaction that adds an inventory item to the character's inventory by passing the ``inventoryItem`` state variable to the :js-sdk:`Realm.Set.add() <Realm.Set.html#add>` method.
+- Renders a ``TextInput`` that changes the ``inventoryItem`` state variable, and a ``Button`` that calls the ``addInventoryItem()`` method.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/sets-test.snippet.add-items-to-set.tsx
+         :language: typescript
+         :emphasize-lines: 8-10
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/sets-test.snippet.add-items-to-set.jsx
+         :language: javascript
+         :emphasize-lines: 4-6
+         :linenos:
+
+.. _react-native-check-if-set-has-items:
+.. _react-native-check-set-size:
+.. _react-native-check-set-size-and-has-items:
+
+Check Set For Specific Items and Set Size
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You may want to check for information about your set, such as the set's size or
+if it contains specific item.
+
+To determine if a set contains a particular value, pass the value to the ``<Realm.Set>.has()`` method. The
+``set.has()`` method will return true if the set contains the value specified.
+
+To discover how many items are in a set, you can check the set's ``size`` property.
+
+In the following example of a ``QueryCharacterInventory`` component, we check the character's inventory size and if it has a specific item.
+
+The ``QueryCharacterInventory`` component does the following:
+
+- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventoryItem" that represents the inventory item that you want to search the character's inventory for.
+- Uses the ``useQuery`` hook to perform a query for all characters, and filter the results to only include the characters with the name matching the ``characterName`` passed to the component as a `prop <https://reactjs.org/docs/components-and-props.html>`__. Then we get the first matching result.
+- Retrieves the character by passing the ``Character`` class to the ``useQuery()`` hook and running the :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method on the result to filter for characters with the name matching the ``characterName`` `prop <https://reactjs.org/docs/components-and-props.html>`__. Then we set the variable ``character`` to the first matching result.
+- Creates a component method ``queryCharacterInventory`` that passes the ``inventoryItem`` state variable to the :js-sdk:`Realm.Set.has() <Realm.Set.html#has>` method to check if the character's inventory contains the item. If the character's inventory contains the item, the method `alerts <https://reactnative.dev/docs/alert>`__ that the character has the item. If the character's inventory does not contain the item, the method alerts that the character does not have the item.
+- Renders the character's name, and renders the inventory size using the ``size`` property of the character's inventory. It also renders a ``TextInput`` that changes the ``inventoryItem`` state variable, and a ``Button`` that calls the ``queryCharacterInventory`` method.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/sets-test.snippet.check-set-items-and-size.tsx
+         :language: typescript
+         :emphasize-lines: 7-9, 12-13
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/sets-test.snippet.check-set-items-and-size.jsx
+         :language: javascript
+         :emphasize-lines: 3-5, 8
+         :linenos:
+
+.. _react-native-remove-specific-item-from-set:
+.. _react-native-remove-all-items-from-set:
+.. _react-native-remove-set-info:
+
+Remove Set Information
+~~~~~~~~~~~~~~~~~~~~~~
+
+You may want to remove a specific item or all items from a set.
+
+To remove a specific value from a set, pass the value to the ``<Realm.Set>.delete()`` method within a write transaction.
+
+To clear the set, run the ``<Realm.Set>.clear()`` method within a write transaction.
+
+In the following example of a ``RemoveInventoryFromCharacter`` component, we remove a specific item from the set and clear the set of all items.
+
+The ``RemoveInventoryFromCharacter`` component does the following:
+
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventoryItem" that represents the inventory item to remove from the inventory set.
+- Creates a component method ``removeInventoryItem`` that passes the ``inventoryItem`` state variable to the :js-sdk:`Realm.Set.delete() <Realm.Set.html#delete>` method to remove the item from the character's inventory.
+- Creates a component method ``removeAllInventory`` that calls the :js-sdk:`Realm.Set.clear() <Realm.Set.html#clear>` method to remove all items from the character's inventory.
+- Renders a ``TextInput`` that changes the ``inventoryItem`` state variable, and two ``Button`` components that call the ``removeInventoryItem`` and ``removeAllInventory`` methods, respectively. 
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/sets-test.snippet.remove-items-from-set.tsx
+         :language: typescript
+         :emphasize-lines: 8-10, 13-15
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/sets-test.snippet.remove-items-from-set.jsx
+         :language: javascript
+         :emphasize-lines: 4-6, 9-11
+         :linenos:
+
+.. _react-native-traverse-set:
+
+Traverse a Set
+~~~~~~~~~~~~~~
+
+You can traverse a set to access each item in the set. To traverse a set, use
+the ``<Realm.Set>.map()`` method or alternative :mdn:`iteration method
+<Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>`. 
+
+However, by default the order of the items in a set is not guaranteed. To
+traverse a set in order, you can store the set's items in a `state variable
+<https://reactjs.org/docs/hooks-state.html>`__ and update that state variable
+when you add new items to the set.
+
+In the following example of a ``TraverseCharacterInventory`` component, a
+character starts with no inventory items. When the user adds items to the
+inventory set, the component displays each item in the set in both an ordered
+and unordered list.
+
+The ``TraverseCharacterInventory`` component does the following:
+
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
+- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventoryItem" that represents the new inventory item to add to the inventory set.
+- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "inventory" that will hold the character's inventory items in order of insertion.
+- Retrieves the character by passing the ``Character`` class to the ``useQuery()`` hook and running the :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method on the result to filter for characters with the name matching the ``characterName`` `prop <https://reactjs.org/docs/components-and-props.html>`__. Then we set the variable ``character`` to the first matching result.
+- Creates a component method ``addInventoryItem()`` that performs a write transaction that adds an inventory item to the character's inventory by passing the ``inventoryItem`` state variable to the :js-sdk:`Realm.Set.add() <Realm.Set.html#add>` method. After the write transaction, the method adds the ``inventoryItem`` to the ``inventory`` array state variable.
+- Renders a ``TextInput`` that changes the ``inventoryItem`` state variable, and a ``Button`` that calls the ``addInventoryItem()`` method.
+- Renders a list of the character's inventory items in the order they were added to the set by iterating through the ``inventory`` array state variable.
+- Renders a unordered list of the character's inventory by iterating through ``character.inventory``.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/sets-test.snippet.traverse-a-set.tsx
+         :language: typescript
+         :emphasize-lines: 10-12, 15-17
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/sets-test.snippet.traverse-a-set.jsx
+         :language: javascript
+         :emphasize-lines: 6-8, 11-13
+         :linenos:
+
+.. _react-nativedata-types-mixed:
+
+Mixed
+-----
+
+.. versionadded:: ``realm@10.5.0``
+
+The Mixed data type is a realm property type that can hold any valid Realm data
+type except a collection. You can create collections (lists, sets, and
+dictionaries) of type ``mixed``, but a ``mixed`` type itself cannot be a
+collection. 
+
+The Mixed type is indexable, but you can't use it as a primary key.
+
+Properties using the Mixed type can hold null values and cannot be defined
+as optional. All instances of the JavaScript ``Number`` type in a Realm Mixed
+type are mapped to the Realm ``double`` type.
+
+Realm Object Models
+~~~~~~~~~~~~~~~~~~~
+
+To :ref:`set a property of your object model
+<react-native-define-a-realm-object-schema>` as Mixed, set the property's type to
+``mixed``.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Cat.snippet.ts-cat-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Cat.snippet.js-cat-schema.js
+         :language: javascript
+
+
+Create an Object With a Mixed Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Create an object with a Mixed value by using the :mdn:`new
+<Web/JavaScript/Reference/Operators/new>` operator within a :ref:`write
+transaction <react-native-write-transactions>`.
+
+In the following ``CreateCatsInput`` example, we create several ``Cat`` realm
+objects with a Mixed type for the ``birthDate`` field. 
+
+The ``CreateCatsInput`` component does the following:
+
+- Get access to the opened realm instance by calling the ``useRealm()`` hook. 
+- Use React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook to call an anonymous function only once by passing ``useEffect`` an `empty dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__ as a second argument.
+- Within the anonymous function, we create four different ``Cat`` objects by using the ``new`` operator to create a new realm object within a write transaction. Each of the ``Cat`` objects uses a different data type for the ``birthDate`` property. 
+- Use the ``useQuery()`` hook to retrieve all ``Cat`` objects.
+- `Map <https://reactjs.org/docs/lists-and-keys.html>`__ through the cats to render a list of ``Text`` components displaying each cat's ``name`` and ``birthDate``.
+
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/mixed-test.snippet.create-mixed-object.tsx
+         :language: typescript
+         :emphasize-lines: 2, 6-23
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/mixed-test.snippet.create-mixed-object.jsx
+         :language: javascript
+         :emphasize-lines: 2, 6-23
+         :linenos:
+
+Query for Objects with a Mixed Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To query for objects with a Mixed value, run the 
+:js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method and
+pass in a :ref:`filter <react-native-filter-queries>` for a non-Mixed field. You can
+then print the value of the Mixed property or the entire object itself.
+
+In the following ``CatInfoCard`` example, we query for a ``Cat`` object using the
+cat's name.
+
+The ``CatInfoCard`` component does the following:
+
+- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use ``filtered()`` to filter the results to receive only the cats whose names match the name passed as a prop. We then get the first matching cat and store it as a const variable. 
+- Use dot notation to retrieve the Mixed property, ``birthDate``. 
+- Display the cat's name and birthdate in the render method if Realm finds the cat. If there is no cat that matches the name passed into the component as a prop, we render text that says "Cat not found".
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/mixed-test.snippet.query-mixed-object.tsx
+         :language: typescript
+         :emphasize-lines: 6-7
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/mixed-test.snippet.query-mixed-object.jsx
+         :language: javascript
+         :emphasize-lines: 4-5
+         :linenos:
+
+Mixed Properties and Type Checking
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because Mixed properties can be more than one type, you can't rely on the
+property's value being a specific type.
+
+With :js-sdk:`Object.getPropertyType() <Realm.Object.html#getPropertyType>`, you
+can get a Mixed property's underlying type. This allows you build your own type
+checking.
+
+.. literalinclude:: /examples/generated/react-native/ts/mixed-test.snippet.type-check.tsx
+   :language: javascript
+   :emphasize-lines: 3-9, 16-18
+
+.. _react-native-data-types-uuid:
+
+UUID
+----
+
+``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
+<Universally_unique_identifier>`. ``UUID`` is bundled with the Realm package as
+part of BSON (``Realm.BSON.UUID``).
+
+You can use ``UUID`` as an unique identifier for
+objects. ``UUID`` is :ref:`indexable <react-native-indexes>`, and you can use it as a
+:ref:`primary key <react-native-primary-keys>`.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Profile.snippet.ts-profile-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Profile.snippet.js-profile-schema.js
+         :language: javascript
+
+Usage
+~~~~~
+
+To define a property as a ``UUID``, set its type to ``"uuid"`` in your
+:ref:`object model <react-native-object-schemas>`. Create a Realm object within
+a write transaction. To set any unique identifier properties of your object to a
+random value, call ``new UUID()``. Alternatively, pass a string to ``new
+UUID()`` to set the unique identifier property to a specific value.
+
+In the following ``CreateProfileInput`` example, we create a ``Profile``
+:js-sdk:`Realm.Object <Realm.Object.html>` with a ``uuid`` type for the ``_id``
+field. 
+
+The ``CreateProfileInput`` component does the following:
+
+- Gets access to the opened realm instance by calling the ``useRealm()`` hook. 
+- Creates a name `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "name" that represents the name of the profile.
+- Creates a ``createProfile`` method that performs a write transaction. Within that write transaction, we :ref:`create <react-native-create-a-new-object>` a ``Profile`` object with the ``name`` value of the "name" state variable and an ``_id`` value of a new ``UUID`` object.
+- Renders a ``TextInput`` component that allows the user to enter a name for the profile. When the user presses the "Create Profile" button, the ``createProfile`` method is called and creates a ``Profile`` object.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/uuid.test.snippet.create-uuid-object.tsx
+         :language: typescript
+         :emphasize-lines: 2, 7-12
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/uuid.test.snippet.create-uuid-object.jsx
+         :language: javascript
+         :emphasize-lines: 2, 7-12
+         :linenos:
+
