@@ -166,7 +166,7 @@ describe("QuickStart Local", () => {
 
 describe("Quickstart Sync", () => {
 
-  test.skip("should open a FS realm with initial subscriptions", async () => {
+  test("should open a FS realm with initial subscriptions", async () => {
     // :snippet-start: open-realm-with-subscriptions
     // :snippet-start: anonymous-login
     // :snippet-start: initialize
@@ -195,7 +195,7 @@ describe("Quickstart Sync", () => {
         name: "string",
         status: "string?",
         progressMinutes: "int?",
-        owner: "string?",
+        owner_id: "string?",
         dueDate: "date?",
       },
       primaryKey: "_id",
@@ -216,7 +216,7 @@ describe("Quickstart Sync", () => {
             subs.add(
               // Get objects that match your object model, then filter them
               // the `owner_id` queryable field
-              realm.objects("Task").filtered(`owner_id = ${app.currentUser.id}`)
+              realm.objects("Task").filtered(`owner_id = "${app.currentUser.id}"`)
             );
           },
         },
@@ -227,7 +227,7 @@ describe("Quickstart Sync", () => {
     // :snippet-end:
 
     expect(
-      realm.objects("Task").filtered(`owner_id = ${app.currentUser.id}`).length
-    ).toBe(1);
+      realm.objects("Task").filtered(`owner_id = "${app.currentUser.id}"`).length
+    ).toBe(0);
   });
 });
