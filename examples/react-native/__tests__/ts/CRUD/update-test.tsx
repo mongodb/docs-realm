@@ -24,19 +24,21 @@ describe('Update Data Tests', () => {
     // delete every object in the realmConfig in the Realm to make test idempotent
     assertionRealm.write(() => {
       assertionRealm.delete(assertionRealm.objects('Task'));
-      new Task(assertionRealm, {
+      assertionRealm.create('Task', {
         _id: 92140,
         priority: 4,
         progressMinutes: 0,
         name: 'Paint the walls',
       });
-      new Task(assertionRealm, {
+
+      assertionRealm.create('Task', {
         _id: 87432,
         priority: 2,
         progressMinutes: 0,
         name: 'Complete math homework',
       });
-      new Task(assertionRealm, {
+
+      assertionRealm.create('Task', {
         _id: 93479,
         priority: 2,
         progressMinutes: 30,
@@ -44,11 +46,13 @@ describe('Update Data Tests', () => {
       });
     });
   });
+
   afterAll(() => {
     if (!assertionRealm.isClosed) {
       assertionRealm.close();
     }
   });
+
   it('should update an object', async () => {
     // :snippet-start: crud-update-object
     // :replace-start: {
@@ -63,10 +67,11 @@ describe('Update Data Tests', () => {
       const incrementTaskProgress = () => {
         if (myTask) {
           realm.write(() => {
-            myTask.progressMinutes += 1;
+            myTask.progressMinutes! += 1;
           });
         }
       };
+
       if (myTask) {
         return (
           <>
@@ -96,26 +101,24 @@ describe('Update Data Tests', () => {
     const {getByTestId} = render(<App />);
 
     const handleIncrementBtn = await waitFor(
-      () => getByTestId('handleIncrementBtn'),
-      {timeout: 5000},
+      () => getByTestId('handleIncrementBtn')
     );
     const progressMinutesText = await waitFor(
-      () => getByTestId('progressMinutes'),
-      {timeout: 5000},
+      () => getByTestId('progressMinutes')
     );
 
     const paintTask = assertionRealm.objectForPrimaryKey(Task, 92140);
 
     // Test that the initial progress value in the realm and in the UI is 0 minutes
-    expect(paintTask.progressMinutes).toBe(0);
+    expect(paintTask!.progressMinutes).toBe(0);
     expect(progressMinutesText.children.toString()).toBe('0');
 
-    await act(async () => {
-      fireEvent.press(handleIncrementBtn);
-    });
+    fireEvent.press(handleIncrementBtn);
+
+    await waitFor(() => {expect(progressMinutesText.children.toString()).toBe('1')});
 
     // Test that the  progress value in the realm and in the UI after incrementing is 1 minutes
-    expect(paintTask.progressMinutes).toBe(1);
+    expect(paintTask!.progressMinutes).toBe(1);
     expect(progressMinutesText.children.toString()).toBe('1');
   });
 
@@ -129,11 +132,10 @@ describe('Update Data Tests', () => {
     const CreateTaskItem = () => {
       const realm = useRealm();
 
-      let myTask: Realm.Object;
-      realm.write(() => {
+      const myTask: Realm.Object = realm.write(() => {
         // Add a new Task to the realm. Since no Task with ID 1234
         // has been added yet, this adds the instance to the realm.
-        myTask = realm.create(
+        realm.create(
           'Task',
           {_id: 1234, name: 'Wash the car', progressMinutes: 0},
           'modified',
@@ -142,12 +144,13 @@ describe('Update Data Tests', () => {
         // If an object exists, setting the third parameter (`updateMode`) to
         // "modified" only updates properties that have changed, resulting in
         // faster operations.
-        myTask = realm.create(
+        return realm.create(
           'Task',
           {_id: 1234, name: 'Wash the car', progressMinutes: 5},
           'modified',
         );
       });
+
       return (
         <>
           <Text>{myTask.name}</Text>
@@ -191,6 +194,7 @@ describe('Update Data Tests', () => {
           }
         });
       };
+
       return (
         <>
           {tasks.map(task => {
@@ -226,6 +230,7 @@ describe('Update Data Tests', () => {
 
     // Test that the resetProgressOnAllTasks() method has been called and all Task objects have been bulk updated
     const tasks = assertionRealm.objects('Task');
+
     for (const task of tasks) {
       expect(task.progressMinutes).toBe(0);
     }

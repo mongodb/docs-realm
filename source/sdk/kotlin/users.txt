@@ -1,0 +1,97 @@
+=============================
+Manage Users - Kotlin SDK
+=============================
+
+.. toctree::
+   :titlesonly:
+
+   Register Users </sdk/kotlin/users/register-users>
+   Authenticate Users </sdk/kotlin/users/authenticate-users>
+   Link User Identities </sdk/kotlin/users/link-credentials>
+   Create & Manage User API Keys </sdk/kotlin/users/manage-user-api-keys>
+   Custom User Data </sdk/kotlin/users/custom-user-data>
+   Delete Users </sdk/kotlin/users/delete-users>
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+To access Atlas App Services and use Atlas Device Sync with the Realm Kotlin SDK,
+you must first authenticate a user with an App Services authentication provider.
+
+For more information on configuring App Services Authentication,
+refer to :ref:`App Services Authentication <users-and-authentication>` in the
+Atlas App Services documentation.
+
+.. _kotlin-creating-and-deleting-users:
+
+Create and Delete Users
+-----------------------
+
+For all authentication providers other than email/password authentication,
+App Services automatically :ref:`registers a user <kotlin-register>`
+the first time a user authenticates.
+When using the email/password authentication provider, you must
+:ref:`manually register a user <kotlin-manage-email-password-users>`.
+If a user authenticates via more than one method,
+you can :ref:`link the user identities <kotlin-link-user-identities>`
+for each method to a single user account.
+
+You can also :ref:`delete users <kotlin-delete-users>`. Deleting a user
+removes metadata attached to the user from App Services, but does not delete user-entered
+data from the backend.
+
+.. include:: /includes/apple-account-deletion-requirements.rst
+
+.. _kotlin-access-the-app-client:
+
+Log Users In and Out
+--------------------
+
+Use one or more :ref:`authentication providers <auth-providers>` to :ref:`log
+users in and out <kotlin-authenticate>` of your client app. You can:
+
+- Log users in with an existing social account, such as Apple, Facebook,
+  or Google.
+- Create new user accounts with App Services email/password management
+  or your own custom function or custom JWT user management.
+- Enable anonymous users to let users access your App Services App without persisting
+  user data.
+
+When you have a logged-in user, you can:
+
+- :ref:`Open a synced realm <kotlin-open-a-synced-realm>` with the user's
+  configuration object
+- :ref:`Run a backend function <kotlin-call-function>` as the logged-in user
+- :ref:`Log the user out <kotlin-logout>`
+- :ref:`Delete the user's account <kotlin-delete-users>`
+
+On successful login, the Kotlin SDK caches credentials on the device. You
+can bypass the login flow and access the cached user. Use this to open a
+realm or call an Atlas Function upon subsequent app opens.
+
+.. _kotlin-get-user-data:
+
+Get User Data
+-------------
+
+App Services manages :ref:`user sessions <user-sessions>` with access tokens and refresh tokens.
+Client SDKs supply the logic to manage tokens, and provide them with requests.
+
+To learn more about the user object that App Services provides the Kotlin SDK,
+refer to the following documentation:
+
+- :ref:`User Objects <user-objects>` in the App Services documentation.
+- `User <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/index.html>`__ 
+  in the Kotlin SDK API reference documentation.
+
+Read and Update Custom User Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can :ref:`associate custom data <custom-user-data>` with a user, 
+such as a preferred language or local timezone, and read it from your client application.
+
+For more information on working with custom user data,
+refer to :ref:`Custom User Data <kotlin-custom-user-data>`.

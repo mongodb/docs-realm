@@ -1,0 +1,184 @@
+.. _kotlin-property-annotations:
+
+=================================
+Property Annotations - Kotlin SDK
+=================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can use annotations to add functionality to properties in your Realm 
+:ref:`object models <kotlin-object-schema>`.
+
+.. _kotlin-optional:
+
+Required and Optional Properties
+--------------------------------
+
+In Kotlin, value types are implicitly non-nullable. 
+You can make properties optional (nullable) using the built-in ``?`` Kotlin operator.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 8
+
+Default Field Values
+--------------------
+
+You can assign a default value to a property in the property declaration.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 10
+
+.. _kotlin-primary-keys:
+
+Specify a Primary Key
+---------------------
+
+You can specify a property as the object type's primary key using the 
+`@PrimaryKey <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-primary-key/index.html>`__
+annotation:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 2-3
+
+Realm Database treats fields marked with the ``@PrimaryKey`` annotation
+as primary keys for their corresponding :ref:`object schema <kotlin-object-schema>`. 
+The primary key is a unique identifier for an object in a realm.
+No other objects of the same type may share an object's primary key.
+
+Important aspects of primary keys:
+
+- You can define only one primary key per object schema.
+- You cannot change the primary key field for an object type after
+  adding any object of that type to a realm.
+- Primary key values must be unique across all instances of an object
+  in a realm. Attempting to insert a duplicate primary key value results
+  in an error.
+- Primary key values are immutable. To change the primary key value of
+  an object, you must delete the original object and insert a new object
+  with a different primary key value.
+- Primary keys are nullable. ``null`` can only be the primary key of one object
+  in a collection.
+- Realm automatically indexes primary keys, so you can efficiently 
+  read and modify objects based on their primary key.
+
+You can create a primary key with any of the following types:
+
+- ``String``
+- ``Byte``
+- ``Char``
+- ``Short``
+- ``Int``
+- ``Long``
+- ``ObjectId``
+- ``RealmUUID``
+ 
+.. _kotlin-remap-a-property:
+
+Map a Property to a Different Name
+----------------------------------
+
+By default, Realm Database uses the name defined in the model class
+to represent fields internally. 
+In some cases, you might want to change this behavior:
+
+- To make it easier to work across platforms where naming conventions differ. 
+  For example, if your Device Sync schema property names use snake case, 
+  while your project uses camel case.
+- To change a field name in Kotlin without forcing a :ref:`migration <kotlin-migrations>`.
+
+To map a different property name in your code than is stored in
+Realm Database, use the `@PersistedName <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-persisted-name/index.html>`__
+annotation in the :ref:`object schema <kotlin-object-schema>` and specify the 
+property ``name`` that you want persisted to the realm. 
+If you write to a synced realm, the Sync schema sees the values stored using the
+persisted property name.
+
+In this example, ``species`` is the Kotlin property name used in the code 
+throughout the project to perform CRUD operations and ``latin_name`` is the 
+persisted name used to store values in Realm Database:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 15-16
+
+Note that migrations must use the persisted property name when creating classes and 
+properties, and any schema errors reported will also use the persisted name. 
+
+You can query by both the Kotlin name used in the code
+and by the persisted name stored in Realm Database.
+
+.. _kotlin-ignore:
+
+Ignore Properties from Realm Schema
+-----------------------------------
+
+By default, Realm manages properties defined in your Realm object model. 
+
+- Managed properties are stored or updated in the database.
+- Ignored properties are *not* stored to the database. They behave exactly like 
+  normal properties, but they can't be used in queries and don't trigger Realm 
+  notifications.
+ 
+You can mix managed and ignored properties within a class. 
+
+To ignore a property and prevent it from persisting in Realm Database or being included
+in the ``RealmObject`` :ref:`object schema <kotlin-object-schema>`, use the 
+`@Ignore <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-ignore/index.html>`__
+annotation:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 12-13
+
+.. _kotlin-indices:
+
+Index Properties
+----------------
+
+Indexes speed up some queries at the cost of slightly slower write times and
+additional storage and memory overhead. Realm Database stores indexes on disk,
+which makes your realm files larger. Each index entry is
+a minimum of 12 bytes.
+
+To create an index on a property, use the `@Index
+<{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-index/index.html>`__
+annotation in the :ref:`object schema <kotlin-object-schema>`:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
+  :language: kotlin
+  :emphasize-lines: 5-6
+
+.. note:: 
+
+   :ref:`Primary keys <kotlin-primary-keys>` are indexed by default.
+
+Indexes support the efficient execution of queries in Realm Database.
+Without indexes, Realm Database must perform a *collection scan*, i.e.
+scan every document in a collection, to select those documents that
+match a query. If an appropriate index exists for a query, Realm
+Database can use the index to limit the number of documents that it
+must inspect.
+
+Indexes are special data structures that store a small portion of a realm's data
+in an easy to traverse form. The index stores the value of a specific field
+ordered by the value of the field. The ordering of the index entries supports
+efficient equality matches and range-based query operations. 
+
+You can index fields with the following types:
+
+- ``String``
+- ``Byte``
+- ``Short``
+- ``Int``
+- ``Long``
+- ``Boolean``
+- ``RealmInstant``
+- ``ObjectId``
+- ``RealmUUID``

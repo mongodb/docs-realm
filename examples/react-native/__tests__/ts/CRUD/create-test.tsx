@@ -26,11 +26,13 @@ describe('Create Data Tests', () => {
       assertionRealm.delete(assertionRealm.objects('Person'));
     });
   });
+
   afterAll(() => {
     if (!assertionRealm.isClosed) {
       assertionRealm.close();
     }
   });
+
   it('should create a new object', async () => {
     // :snippet-start: crud-create-object
 
@@ -40,7 +42,7 @@ describe('Create Data Tests', () => {
 
       const handleAddDog = () => {
         realm.write(() => {
-          new Dog(realm, {name: dogName, age: 1});
+          realm.create('Dog', {name: dogName, age: 1});
         });
       };
 
@@ -70,12 +72,14 @@ describe('Create Data Tests', () => {
       () => getByTestId('handleAddDogBtn'),
       {timeout: 5000},
     );
+
     await act(async () => {
       fireEvent.press(handleAddDogBtn);
     });
 
     // check if the new Dog object has been created
     const myDog = assertionRealm.objects(Dog).filtered("name == 'Fido'")[0];
+    
     expect(myDog.name).toBe('Fido');
     expect(myDog.age).toBe(1);
   });

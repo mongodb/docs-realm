@@ -1,23 +1,80 @@
+import React from 'react';
+import {View, Text} from 'react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Person from '../Models/Person';
+import {render} from '@testing-library/react-native';
+
+// Replace incremented schema versions in Bluehawk output. The incrementing
+// is necessary for testing, but confusing outside that context. Also remove
+// useRealm instantiation, for the same reason.
+// :replace-start: {
+//    "terms": {
+//       "schemaVersion: 3": "schemaVersion: 2",
+//       "schemaVersion: 4": "schemaVersion: 2",
+//       "schemaVersion: 5": "schemaVersion: 2",
+//       "oldRealm.schemaVersion < 4": "oldRealm.schemaVersion < 2",
+//       "oldRealm.schemaVersion < 5": "oldRealm.schemaVersion < 2",
+//        "RealmProvider, useRealm": "RealmProvider"
+//    }
+// }
+
+class Person extends Realm.Object<Person> {
+  _id!: string;
+  firstName!: string;
+  lastName!: string;
+  age!: number;
+
+  static schema = {
+    name: 'Person',
+    properties: {
+      _id: 'string',
+      firstName: 'string',
+      lastName: 'string',
+    },
+  };
+}
+
+const config = {
+  schema: [Person],
+};
 
 describe('Change an Object Model Tests', () => {
-  it('should add a property to a schema', () => {
+
+  it('should establish a base realm', async () => {
+    // Establish base realm and schema to check modifications against.
+    Realm.open(config).then(realm => {
+      // Write initial object to local realm
+      realm.write(() => {
+        realm.create('Person', {
+          _id: '1239feaae9',
+          firstName: 'Bilbo',
+          lastName: 'Baggins',
+        });
+      });
+
+      expect(realm.schemaVersion).toBe(0);
+
+      realm.close();
+    });
+
+    const realmExists = Realm.exists(config);
+
+    expect(realmExists).toBe(true);
+  });
+
+  it('should add a property to a schema', async () => {
     // :snippet-start: add-a-property-to-schema
-    // :replace-start: {
-    //  "terms": {
-    //   "MyPerson": "Person"
-    //   }
-    // }
-    class MyPerson extends Realm.Object<MyPerson> {
+
+    class Person extends Realm.Object<Person> {
+      _id!: string;
       firstName!: string;
       lastName!: string;
       age!: number;
 
       static schema = {
-        name: 'MyPerson',
+        name: 'Person',
         properties: {
+          _id: 'string',
           firstName: 'string',
           lastName: 'string',
           // add a new property, 'age' to the schema
@@ -27,59 +84,99 @@ describe('Change an Object Model Tests', () => {
     }
 
     const config = {
-      schema: [MyPerson],
+      schema: [Person],
       // increment the 'schemaVersion', since 'age' has been added to the schema
       schemaVersion: 2,
     };
+
     // pass the configuration object with the updated 'schemaVersion' to createRealmContext()
-    createRealmContext(config);
-    // :replace-end:
+    const {RealmProvider, useRealm} = createRealmContext(config);
     // :snippet-end:
+
+    const App = () => (
+      <RealmProvider>
+        <RestOfApp />
+      </RealmProvider>
+    );
+
+    const RestOfApp = () => {
+      const realm = useRealm();
+
+      // This test assumes only one object model exists.
+      expect(realm.schema[0]).toHaveProperty('properties.age');
+      expect(realm.schemaVersion).toBe(2);
+
+      return (
+        <View>
+          <Text>This is the rest of the app!</Text>
+        </View>
+      );
+    };
+
+    render(<App />);
   });
 
   it('should delete a property from a schema', () => {
     // :snippet-start: delete-a-property-from-a-schema
-    // :replace-start: {
-    //  "terms": {
-    //   "MyPerson": "Person"
-    //   }
-    // }
-    class MyPerson extends Realm.Object<MyPerson> {
+    class Person extends Realm.Object<Person> {
+      _id!: string;
       firstName!: string;
       age!: number;
 
       static schema = {
-        name: 'MyPerson',
+        name: 'Person',
         properties: {
+          _id: 'string',
           firstName: 'string',
           age: 'int',
         },
       };
     }
+
     const config = {
-      schema: [MyPerson],
+      schema: [Person],
       // increment the 'schemaVersion', since 'lastName' has been removed from the schema
-      schemaVersion: 2,
+      schemaVersion: 3,
     };
+
     // pass the configuration object with the updated 'schemaVersion' to createRealmContext()
-    createRealmContext(config);
-    // :replace-end:
+    const {RealmProvider, useRealm} = createRealmContext(config);
     // :snippet-end:
+
+    const App = () => (
+      <RealmProvider>
+        <RestOfApp />
+      </RealmProvider>
+    );
+
+    const RestOfApp = () => {
+      const realm = useRealm();
+
+      // This test assumes only one object model exists.
+      expect(realm.schema[0]).not.toHaveProperty('properties.lastName');
+      expect(realm.schemaVersion).toBe(3);
+
+      return (
+        <View>
+          <Text>This is the rest of the app!</Text>
+        </View>
+      );
+    };
+
+    render(<App />);
   });
+
   it('should rename a property', async () => {
     // :snippet-start: rename-a-property-of-a-schema
-    // :replace-start: {
-    //  "terms": {
-    //   "MyPerson": "Person"
-    //   }
-    // }
-    class MyPerson extends Realm.Object<MyPerson> {
+    class Person extends Realm.Object<Person> {
+      _id!: string;
       fullName!: string;
       age!: number;
 
       static schema = {
-        name: 'MyPerson',
+        name: 'Person',
         properties: {
+          _id: 'string',
           // rename the 'firstName' and 'lastName' property, to 'fullName' in the schema
           fullName: 'string',
           age: 'int',
@@ -88,14 +185,14 @@ describe('Change an Object Model Tests', () => {
     }
 
     const config = {
-      schema: [MyPerson],
+      schema: [Person],
       // increment the 'schemaVersion', since 'fullName' has replaced 'firstName' and 'lastName' in the schema
-      schemaVersion: 2,
+      schemaVersion: 4,
       migration: (oldRealm: Realm, newRealm: Realm) => {
-        // only apply this change if upgrading to schemaVersion 2
-        if (oldRealm.schemaVersion < 2) {
-          const oldObjects = oldRealm.objects(MyPerson);
-          const newObjects = newRealm.objects(MyPerson);
+        // only apply this change if upgrading schemaVersion
+        if (oldRealm.schemaVersion < 4) {
+          const oldObjects = oldRealm.objects(Person);
+          const newObjects = newRealm.objects(Person);
           // loop through all objects and set the fullName property in the new schema
           for (const objectIndex in oldObjects) {
             const oldObject = oldObjects[objectIndex];
@@ -105,49 +202,65 @@ describe('Change an Object Model Tests', () => {
         }
       },
     };
+
     // pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
-    createRealmContext(config);
-    // :replace-end:
+    const {RealmProvider, useRealm} = createRealmContext(config);
     // :snippet-end:
+
+    const App = () => (
+      <RealmProvider>
+        <RestOfApp />
+      </RealmProvider>
+    );
+
+    const RestOfApp = () => {
+      const realm = useRealm();
+
+      // This test assumes only one object model exists.
+      expect(realm.schema[0]).not.toHaveProperty('properties.lastName');
+      expect(realm.schema[0]).not.toHaveProperty('properties.firstName');
+      expect(realm.schema[0]).toHaveProperty('properties.fullName');
+      expect(realm.schemaVersion).toBe(4);
+
+      return (
+        <View>
+          <Text>This is the rest of the app!</Text>
+        </View>
+      );
+    };
+
+    render(<App />);
   });
 
   it('should modify a property type', () => {
     // :snippet-start: modify-a-property-type
-    // :replace-start: {
-    //  "terms": {
-    //   "MyTask": "Task"
-    //   }
-    // }
-    class MyTask extends Realm.Object<MyTask> {
-      _id: Realm.BSON.ObjectId = new Realm.BSON.ObjectId();
-      name!: string;
-      priority?: number;
-      progressMinutes?: number;
-      assignee?: Person;
+
+    class Person extends Realm.Object<Person> {
+      _id: Realm.BSON.ObjectId;
+      firstName!: string;
+      lastName!: string;
+      age!: number;
 
       static schema = {
-        name: 'MyTask',
+        name: 'Person',
         properties: {
           // update the data type of '_id' to be 'objectId' within the schema
           _id: 'objectId',
-          name: 'string',
-          priority: 'int?',
-          progressMinutes: 'int?',
-          assignee: 'Person?',
+          firstName: 'string',
+          lastName: 'string',
         },
-        primaryKey: '_id',
       };
     }
 
     const config = {
-      schema: [MyTask],
+      schema: [Person],
       // increment the 'schemaVersion', since the property type of '_id'
       // has been modified
-      schemaVersion: 2,
+      schemaVersion: 5,
       migration: (oldRealm: Realm, newRealm: Realm) => {
-        if (oldRealm.schemaVersion < 2) {
-          const oldObjects = oldRealm.objects(MyTask);
-          const newObjects = newRealm.objects(MyTask);
+        if (oldRealm.schemaVersion < 5) {
+          const oldObjects = oldRealm.objects(Person);
+          const newObjects = newRealm.objects(Person);
           // loop through all objects and set the _id property
           // in the new schema
           for (const objectIndex in oldObjects) {
@@ -158,10 +271,42 @@ describe('Change an Object Model Tests', () => {
         }
       },
     };
-    // pass the configuration object with the updated
+
+    // Pass the configuration object with the updated
     // 'schemaVersion' and 'migration' function to createRealmContext()
-    createRealmContext(config);
-    // :replace-end:
+    const {RealmProvider, useRealm} = createRealmContext(config);
     // :snippet-end:
+
+    const App = () => (
+      <RealmProvider>
+        <RestOfApp />
+      </RealmProvider>
+    );
+
+    const RestOfApp = () => {
+      const realm = useRealm();
+
+      // This test assumes only one object model exists.
+      expect(realm.schema[0].properties._id.type).toBe('objectId');
+      expect(realm.schemaVersion).toBe(5);
+
+      return (
+        <View>
+          <Text>This is the rest of the app!</Text>
+        </View>
+      );
+    };
+
+    render(<App />);
+  });
+
+  it('should remove local realm file', () => {
+    // Delete any existing local file
+    Realm.deleteFile(config);
+
+    const realmExists = Realm.exists(config);
+
+    expect(realmExists).toBe(false);
   });
 });
+// :replace-end:

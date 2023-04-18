@@ -24,7 +24,7 @@ describe('uuid schema', () => {
     assertionRealm.write(() => {
       assertionRealm.delete(assertionRealm.objects(Profile));
 
-      new Profile(assertionRealm, {
+      assertionRealm.create('Profile', {
         name: 'Tony Stark',
         _id: new Realm.BSON.UUID(),
       });
@@ -45,7 +45,7 @@ describe('uuid schema', () => {
       // createProfile creates a new 'Profile' Realm Object with a new UUID based on user input
       const createProfile = () => {
         realm.write(() => {
-          new Profile(realm, {
+          realm.create('Profile', {
             name,
             _id: new Realm.BSON.UUID(),
           });

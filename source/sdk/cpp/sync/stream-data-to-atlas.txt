@@ -13,17 +13,17 @@ Stream Data to Atlas - C++ SDK (Alpha)
 Overview
 --------
 
-You can use :ref:`Asymmetric Sync <optimize-asymmetric-sync>` to stream 
+You can use :ref:`Data Ingest <optimize-data-ingest>` to stream 
 data from the client application to a Flexible Sync-enabled Atlas App Services
 App.
 
 You might want to sync data unidirectionally in IoT applications, such as
-a weather sensor sending data to the cloud. Asymmetric Sync is also useful 
+a weather sensor sending data to the cloud. Data Ingest is also useful 
 for writing other types of immutable data where you do not require conflict 
 resolution, such as creating invoices from a retail app or logging application 
 events.
 
-Asymmetric Sync is optimized to provide performance improvements for heavy
+Data Ingest is optimized to provide performance improvements for heavy
 client-side *insert-only* workloads.
 
 Sync Data Unidirectionally from a Client Application
@@ -61,7 +61,7 @@ Sync Data Unidirectionally from a Client Application
       .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.open-synced-realm-for-asymmetric-sync.cpp
          :language: cpp
 
-      Unlike bidirectional Sync, Asymmetric Sync does not use a 
+      Unlike bidirectional Sync, Data Ingest does not use a 
       :ref:`Flexible Sync subscription <cpp-manage-flexible-sync-subscriptions>`.
 
       .. tip:: Mixed Object and Asymmetric Object Types

@@ -1,5 +1,6 @@
 package com.mongodb.realm.realmkmmapp
 
+import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
@@ -10,7 +11,7 @@ class RQLTest: RealmTest() {
     class Item(): RealmObject {
         @PrimaryKey
         var _id: ObjectId = ObjectId()
-        lateinit var name: String
+        var name: String = ""
         var isComplete: Boolean = false
         var assignee: String? = null
         var priority: Int = 0
@@ -20,8 +21,8 @@ class RQLTest: RealmTest() {
     class Project(): RealmObject {
         @PrimaryKey
         var _id: ObjectId = ObjectId()
-        lateinit var name: String
-        lateinit var items: RealmList<Item>
+        var name: String = ""
+        var items: RealmList<Item> = realmListOf<Item>()
         var quota: Int? = null
     }
     // :snippet-end:

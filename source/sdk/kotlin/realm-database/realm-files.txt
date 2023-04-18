@@ -1,8 +1,16 @@
 .. _kotlin-realm-files:
 
-========================================
-Manage Realm Database Files - Kotlin SDK
-========================================
+===============================
+Manage Realm Files - Kotlin SDK
+===============================
+
+.. toctree::
+   :titlesonly:
+   
+   Configure & Open a Realm </sdk/kotlin/realm-database/realm-files/open-and-close-a-realm>
+   Delete a Realm </sdk/kotlin/realm-database/realm-files/delete-a-realm>
+   Encrypt a Realm </sdk/kotlin/realm-database/realm-files/encrypt-a-realm>
+   Bundle a Realm </sdk/kotlin/realm-database/realm-files/bundle-a-realm>
 
 .. contents:: On this page
    :local:
@@ -10,15 +18,36 @@ Manage Realm Database Files - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-.. toctree::
-   :titlesonly:
-   
-   Open & Close a Realm </sdk/kotlin/realm-database/realm-files/open-and-close-a-realm>
-   Delete a Realm </sdk/kotlin/realm-database/realm-files/delete-a-realm>
-   Encrypt a Realm </sdk/kotlin/realm-database/realm-files/encrypt-a-realm>
-   Bundle a Realm </sdk/kotlin/realm-database/realm-files/bundle-a-realm>
+A **realm** is the core data structure used to organize data in
+Realm Database. A realm is a collection of the objects that you use
+in your application, called Realm objects, as well as additional metadata
+that describe the objects. To learn how to define a Realm object, see
+:ref:`Define a Realm Object Schema <flutter-define-realm-object-schema>`.
 
-- :doc:`Open & Close a Realm </sdk/kotlin/realm-database/realm-files/open-and-close-a-realm>`
-- :doc:`Delete a Realm </sdk/kotlin/realm-database/realm-files/delete-a-realm>`
-- :doc:`Encrypt a Realm </sdk/kotlin/realm-database/realm-files/encrypt-a-realm>`
-- :doc:`Bundle a Realm </sdk/kotlin/realm-database/realm-files/bundle-a-realm>`
+When you :ref:`open a realm <kotlin-open-and-close-a-realm>`, you can include configuration that specifies additional details
+about how to configure the realm file. This includes things like:
+
+- Pass a file path or in-memory identifier to customize how the realm is stored on device
+- Provide a logged-in user and Sync details to use Sync with the realm
+- Specify the realm use only a subset of your app's classes
+- Whether and when to compact a realm to reduce its file size
+- Pass an encryption key to encrypt a realm
+- Provide a schema version or migration block when making schema changes
+
+.. _kotlin-realm-file:
+
+Realm Files
+-----------
+
+Realm Database stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at a specific
+path that you can define when you open the realm.
+You can open, view, and edit the contents of these files with
+:ref:`realm-studio`.
+
+Realm Database also creates additional files for each realm.
+To learn more about these files, see :ref:`Realm Database Internals
+<kotlin-realm-database-internals>`. Deleting these files has important implications.
+
+For more information about deleting ``.realm`` or auxiliary files, refer to
+:ref:`Delete a Realm <kotlin-delete-a-realm>`.

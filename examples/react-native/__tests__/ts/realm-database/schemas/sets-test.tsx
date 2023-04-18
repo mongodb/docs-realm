@@ -24,14 +24,14 @@ describe('Set schema', () => {
     assertionRealm.write(() => {
       assertionRealm.delete(assertionRealm.objects(Character));
 
-      new Character(assertionRealm, {
+      assertionRealm.create('Character', {
         _id: new Realm.BSON.ObjectId(),
         name: 'PlayerZero',
         levelsCompleted: [1, 2, 3],
         inventory: ['sword', 'shield', 'potion'],
       });
 
-      new Character(assertionRealm, {
+      assertionRealm.create('Character', {
         _id: new Realm.BSON.ObjectID(),
         name: 'PlayerOne',
         inventory: [],
@@ -55,15 +55,16 @@ describe('Set schema', () => {
       const realm = useRealm();
       useEffect(() => {
         realm.write(() => {
-          new Character(realm, {
+          realm.create('Character', {
             _id: new Realm.BSON.ObjectId(),
             name: 'AdventurousPlayer',
             inventory: ['elixir', 'compass', 'glowing shield'],
             levelsCompleted: [4, 9],
           });
         });
+
         realm.write(() => {
-          new Character(realm, {
+          realm.create('Character', {
             _id: new Realm.BSON.ObjectId(),
             name: 'HealerPlayer',
             inventory: ['estus flask', 'gloves', 'rune'],

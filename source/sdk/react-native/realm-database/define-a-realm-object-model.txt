@@ -8,25 +8,25 @@ Define a Realm Object Model - React Native SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
 .. _react-native-object-types:
 .. _react-native-object-schemas:
 .. _react-native-object-models:
 
-Key Concept: Object Types & Schemas
------------------------------------
-
 Every Realm object conforms to a specific **object type**. Object types are
 classes you define that contain the properties and :ref:`relationships <react-native-relationships>`
-for objects of that type using a pre-defined schema. Realm guarantees that all
-objects in a realm conform to the schema for their object type and validates
-objects whenever they're created, modified, or deleted.
+for objects of that type using a pre-defined schema.
+
+Realm guarantees that all objects in a realm conform to the schema for their
+object type and validates objects whenever they're created, modified, or deleted.
 
 Realm objects are fundamentally similar to a common JavaScript object but they
 also bring along a few additional features like schema validation and :ref:`live
-queries <react-native-live-queries>`. The React Native SDK memory maps Realm objects directly
+queries <react-native-live-queries>`.
+
+The React Native SDK memory maps Realm objects directly
 to native JavaScript objects, which means there's no need to use a special data
 access library, such as an :wikipedia:`ORM <Object-relational_mapping>`.
 Instead, you can work with Realm objects as you would any other object.
@@ -54,7 +54,7 @@ schemas to ``<RealmProvider>`` or ``createRealmContext()``.
 .. _react-native-define-a-new-object-type:
 
 Define an Object Type
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 To define a Realm object type, create a class that extends ``Realm.Object``. 
 Define the type's ``name`` and ``properties`` in a static property called ``schema``. 
@@ -81,3 +81,18 @@ To learn the various types that a Realm Object Model accepts, how to specify
 optional fields, define relationships, embedded objects, primary keys, and more,
 check out the :ref:`Schemas <react-native-schemas-overview>` section.
 
+TypeScript and Required Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We recommend :ref:`creating Realm objects <react-native-create-a-new-object>` 
+with :js-sdk:`Realm.create() <Realm.html#create>`, but you can also use the
+``new`` operator for your object model's class.
+
+If you use ``new``, you must add your class as a generic, along with any
+required properties, when extending ``Realm.Object``. This enables full
+TypeScript support for your object model, including type errors when required
+fields are not defined.
+
+.. literalinclude:: /examples/generated/react-native/ts/BookReqProperties.snippet.book-model-req-properties.ts
+   :language: javascript
+   :emphasize-lines: 1
