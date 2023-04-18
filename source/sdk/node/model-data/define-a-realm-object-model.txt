@@ -10,51 +10,6 @@ Define a Realm Object Schema - Node.js SDK
    :depth: 2
    :class: singlecol
 
-.. _node-object-types:
-.. _node-object-schemas:
-
-Object Types & Schemas
-----------------------
-
-Every Realm object conforms to a specific **object type**, which is essentially
-a class that defines the properties and :ref:`relationships
-<node-client-relationships>` for objects of that type using a pre-defined
-schema. Realm guarantees that all objects in a realm conform to
-the schema for their object type and validates objects whenever they're created,
-modified, or deleted.
-
-Realm objects are fundamentally similar to a common JavaScript object but they
-also bring along a few additional features like schema validation and :ref:`live
-queries <node-live-queries>`. The Node.js SDK memory maps Realm objects directly
-to native JavaScript objects, which means there's no need to use a special data
-access library, such as an :wikipedia:`ORM <Object-relational_mapping>`.
-Instead, you can work with Realm objects as you would any other object.
-
-The following class contains a schema that defines a ``Car`` object type with 
-``id``, ``make``, ``model``, and ``miles`` properties. It also defines a primary key.
-
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-object-properties.js
-   :language: javascript
-
-.. _node-realm-schema:
-
-Realm Schema
-------------
-
-A **realm schema** is a list of valid :ref:`object schemas
-<node-object-schemas>` that a realm may contain. Every Realm object must conform
-to an object type that's included in its realm's schema.
-
-If a realm already contains data when you open it, Realm Database
-validates each object to ensure that an object schema was provided for its type
-and that it meets all of the constraints specified in the schema.
-
-A realm that contains basic data about cars and manufacturers might use a
-schema like the following:
-
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-many.js
-   :language: javascript
-
 .. _node-define-realm-object-type:
 
 Define a Realm Object Type
