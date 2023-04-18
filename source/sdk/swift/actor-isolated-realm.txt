@@ -12,9 +12,9 @@ Actor-Isolated Realms - Swift SDK
 
 Starting with Realm Swift SDK version [VERSION], Realm supports actor-isolated
 realm instances. You can safely use an actor-isolated realm with Swift concurrency
-language features as an alternative to managing threading or dispatch queues.
+language features instead of managing threads or dispatch queues.
 
-With an actor-isolated Realm, you can use Swift's async/await syntax to:
+With an actor-isolated realm, you can use Swift's async/await syntax to:
 
 - Open a realm
 - Write to a realm
@@ -37,7 +37,7 @@ In addition, we strongly recommend enabling these settings in your project:
 - ``OTHER_SWIFT_FLAGS=-Xfrontend-enable-actor-data-race-checks``: enables 
   runtime actor data-race detection
 
-About the Examples On This Page
+About the Examples on This Page
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The examples on this page use the following model:
@@ -123,7 +123,7 @@ Write to an Actor-Confined Realm
 Actor-isolated realms can use Swift async/await syntax for asynchronous
 writes. Using ``try await realm.writeAsync { ... }`` suspends the current task,
 acquires the write lock without blocking the current thread, and then invokes
-the block. Realm writes the data to disk on a background thread, and resumes 
+the block. Realm writes the data to disk on a background thread and resumes 
 the task when that completes. 
 
 This function from the example ``RealmActor`` defined above shows how you might
@@ -160,7 +160,7 @@ The SDK asynchronously calls the block on the given actor's executor.
 
 For write transactions performed on different threads or in different
 processes, the SDK calls the block when the managing realm is (auto)refreshed 
-to a version including the changes. For local write, the SDK calls the block
+to a version including the changes. For local writes, the SDK calls the block
 at some point in the future after the write transaction is committed.
 
 Like :ref:`non-actor-confined notifications <ios-react-to-changes>`, you can 
@@ -174,7 +174,7 @@ the most recent data and deliver any applicable notifications.
 
 .. warning:: 
 
-   You cannot call the ``observe`` method cannot during a write transaction, 
+   You cannot call the ``observe`` method during a write transaction
    or when the containing realm is read-only.
 
 .. _swift-actor-collection-change-listener:
