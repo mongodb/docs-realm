@@ -1,9 +1,9 @@
-const OverwriteContact = ({contactName}) => {
+const OverwriteContact = ({contactId}) => {
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [postalCode, setPostalCode] = useState('');
-  const contact = useQuery(Contact).filtered(`name == '${contactName}'`)[0];
+  const contact = useObject(Contact, contactId);
   const realm = useRealm();
 
   const updateAddress = () => {
@@ -15,6 +15,7 @@ const OverwriteContact = ({contactName}) => {
         country,
         postalCode,
       };
+
       contact.address = address;
     });
   };

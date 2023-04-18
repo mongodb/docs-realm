@@ -12,9 +12,6 @@ Embedded Objects - React Native SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 An embedded object is a special type of :ref:`Realm object <react-native-object-schemas>`
 that models complex data about a specific object. Embedded objects are similar
 to :ref:`relationships <react-native-relationships>`, but they provide additional
@@ -62,7 +59,7 @@ in the same way as you would define a relationship:
 
        .. literalinclude:: /examples/generated/react-native/ts/Contact.snippet.ts-contact-schema.ts
           :language: typescript
-          :emphasize-lines: 12
+          :emphasize-lines: 13
           :linenos:
 
        .. literalinclude:: /examples/generated/react-native/ts/Business.snippet.ts-business-schema.ts
@@ -80,12 +77,12 @@ in the same way as you would define a relationship:
 
        .. literalinclude:: /examples/generated/react-native/js/Contact.snippet.js-contact-schema.js
           :language: javascript
-          :emphasize-lines: 8
+          :emphasize-lines: 9
           :linenos:
 
        .. literalinclude:: /examples/generated/react-native/js/Business.snippet.js-business-schema.js
           :language: javascript
-          :emphasize-lines: 8
+          :emphasize-lines: 9
           :linenos:
 
 .. important::
@@ -107,7 +104,7 @@ To create an embedded object, assign an instance of the embedded object
 to a parent object's property.
 
 Example
-```````
+~~~~~~~
 
 In the following ``CreateContact`` example, we create a new ``Contact`` object 
 with an embedded ``Address`` object.
@@ -124,23 +121,10 @@ The ``CreateContact`` component does the following:
 - Adds an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the
   "Submit Contact" button that calls ``submitContact()``.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.create-embedded-object.tsx
-         :language: typescript
-         :emphasize-lines: 7, 10-24
-         :linenos:
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.create-embedded-object.jsx
-         :language: javascript
-         :emphasize-lines: 7, 10-24
-         :linenos:
+.. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.create-embedded-object.tsx
+   :language: typescript
+   :emphasize-lines: 13-25
+   :linenos:
 
 Query a Collection on Embedded Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,7 +134,7 @@ You can use dot notation to filter or sort a :ref:`collection
 property value.
 
 Example
-``````` 
+~~~~~~~
 
 In the following ``ContactList`` example, we filter and query an embedded 
 ``Address`` object.
@@ -169,7 +153,7 @@ The ``ContactList`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.query-embedded-object.tsx
          :language: typescript
-         :emphasize-lines: 3, 7-8
+         :emphasize-lines: 3, 7-9
          :linenos:
 
    .. tab::
@@ -177,7 +161,7 @@ The ``ContactList`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.query-embedded-object.jsx
          :language: javascript
-         :emphasize-lines: 3, 7-8
+         :emphasize-lines: 3, 7-9
          :linenos:
 
 Update an Embedded Object Property
@@ -187,7 +171,7 @@ To update a property in an embedded object, modify the property in a
 write transaction.
 
 Example
-``````` 
+~~~~~~~
 
 In the following ``UpdateContact`` example, we update the ``street`` property for 
 an embedded ``Address`` object.
@@ -214,7 +198,7 @@ The ``UpdateContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.update-embedded-object.tsx
          :language: typescript
-         :emphasize-lines: 4-5, 8-12
+         :emphasize-lines: 4, 11
          :linenos:
 
    .. tab::
@@ -222,7 +206,7 @@ The ``UpdateContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.update-embedded-object.jsx
          :language: javascript
-         :emphasize-lines: 4-5, 8-12
+         :emphasize-lines: 4, 11
          :linenos:
 
 Overwrite an Embedded Object
@@ -232,7 +216,7 @@ To overwrite an embedded object, reassign the embedded object property
 of a party to a new instance in a write transaction.
 
 Example
-``````` 
+~~~~~~~
 
 In the following ``OverwriteContact`` example, we overwrite an embedded ``Address`` object.
 
@@ -259,7 +243,7 @@ The ``OverwriteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.overwrite-embedded-object.tsx
          :language: typescript
-         :emphasize-lines: 6-7, 10-19
+         :emphasize-lines: 8, 14-21
          :linenos:
 
    .. tab::
@@ -267,7 +251,7 @@ The ``OverwriteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.overwrite-embedded-object.jsx
          :language: javascript
-         :emphasize-lines: 6-7, 10-19
+         :emphasize-lines: 6, 12-19
          :linenos:
 
 Delete an Embedded Object
@@ -276,7 +260,7 @@ Realm Uses Cascading Deletes for Embedded Objects. To delete an embedded object,
 delete the embedded object's parent. 
 
 Example
-```````
+~~~~~~~
 
 In the following ``DeleteContact`` example, we delete an embedded object and its 
 parent object.
@@ -299,7 +283,7 @@ The ``DeleteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/ts/embedded-objects-test.snippet.delete-embedded-object.tsx
          :language: typescript
-         :emphasize-lines: 2-4, 7-12
+         :emphasize-lines: 8-10, 11-13, 20, 26-29
          :linenos:
 
    .. tab::
@@ -307,5 +291,5 @@ The ``DeleteContact`` component does the following:
 
       .. literalinclude:: /examples/generated/react-native/js/embedded-objects-test.snippet.delete-embedded-object.jsx
          :language: javascript
-         :emphasize-lines: 2-4, 7-12
+         :emphasize-lines: 3-5, 6-8, 15, 21-24
          :linenos:

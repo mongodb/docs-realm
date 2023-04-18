@@ -11,7 +11,10 @@ class Character extends Realm.Object<Character> {
       _id: 'objectId',
       name: 'string',
       levelsCompleted: 'int<>',
-      inventory: 'string<>',
+      inventory: {
+        type: 'set',
+        objectType: 'string',
+      },
     },
   };
 }
