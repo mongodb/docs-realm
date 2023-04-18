@@ -173,12 +173,6 @@ If you have code which uses ``await Realm()`` and works in 5.6, marking
 the function as ``@MainActor`` will make it work with Swift 5.7. It will 
 function how it did - unintentionally - in 5.6.
 
-The Swift SDK team is working on improving support for actor isolation.
-If you have specific feature requests related to actor isolation,
-check the status of similar feature requests or leave feedback through the 
-`MongoDB Feedback Engine for Realm 
-<https://feedback.mongodb.com/forums/923521-realm>`_.
-
 Errors Related to Concurrency Code
 ----------------------------------
 
@@ -189,8 +183,8 @@ thread-isolation issues described on this page.
 To avoid threading-related issues in code that uses Swift concurrency features:
 
 - Upgrade to a version of the Realm Swift SDK that supports actor-confined realms,
-  and use this to bypass threading-related issues. For more information, refer to
-  :ref:`swift-actor-isolated-realm`.
+  and use this as an alternative to manually managing threading. For more 
+  information, refer to :ref:`swift-actor-isolated-realm`.
 - Do not change execution contexts when accessing a realm. If you open a realm 
   on the main thread to provide data for your UI, annotate subsequent functions
   where you access the realm asynchronously with ``@MainActor`` to ensure it

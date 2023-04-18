@@ -159,7 +159,7 @@ a block to be called each time the object or collection changes.
 The SDK asynchronously calls the block on the given actor's executor.
 
 For write transactions performed on different threads or in different
-processes, the SDK calls the block when the managing realm is (auto)refreshed 
+processes, the SDK calls the block when the realm is (auto)refreshed 
 to a version including the changes. For local writes, the SDK calls the block
 at some point in the future after the write transaction is committed.
 
