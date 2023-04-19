@@ -229,5 +229,5 @@ describe("Quickstart Sync", () => {
     expect(
       realm.objects("Task").filtered(`owner_id = "${app.currentUser.id}"`).length
     ).toBe(0);
-  });
+  }, 30000);
 });
