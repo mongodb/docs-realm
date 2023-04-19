@@ -1,19 +1,20 @@
 // Find the contact you want to update
-const UpdateContact = ({contactName}: {contactName: string}) => {
+const UpdateContact = ({contactId}: {contactId: Realm.BSON.ObjectId}) => {
   const [street, setStreet] = useState('');
-  const contact = useQuery(Contact).filtered(`name == '${contactName}'`)[0];
+  const contact = useObject(Contact, contactId);
   const realm = useRealm();
 
   const updateStreet = () => {
     // Modify the property of the embedded Address object in a write transaction
     realm.write(() => {
       // Update the address directly through the contact
-      contact.address.street = street;
+      contact!.address.street = street;
     });
   };
+
   return (
     <View>
-      <Text>{contact.name}</Text>
+      <Text>{contact!.name}</Text>
       <TextInput
         value={street}
         onChangeText={setStreet}

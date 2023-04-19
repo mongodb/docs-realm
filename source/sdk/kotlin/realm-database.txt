@@ -1,8 +1,21 @@
 .. _kotlin-realm-database:
+.. _kotlin-realm-database-overview:
 
 ===========================
 Realm Database - Kotlin SDK
 ===========================
+
+.. toctree::
+   :titlesonly:
+   
+   Frozen Architecture </sdk/kotlin/realm-database/frozen-arch> 
+   Model Data </sdk/kotlin/realm-database/schemas>
+   Manage Realm Files </sdk/kotlin/realm-database/realm-files>
+   Read & Write Data </sdk/kotlin/realm-database/write-transactions>
+   React to Changes </sdk/kotlin/realm-database/react-to-changes>
+   Serialization </sdk/kotlin/realm-database/serialization>
+   Handle Realm Errors </sdk/kotlin/realm-database/errors>
+   Database Internals </sdk/kotlin/realm-database/database-internals>
 
 .. contents:: On this page
    :local:
@@ -10,17 +23,85 @@ Realm Database - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-.. toctree::
-   :titlesonly:
-   
-   Overview </sdk/kotlin/realm-database/overview>
-   Frozen Architecture </sdk/kotlin/realm-database/frozen-arch> 
-   Model Data </sdk/kotlin/realm-database/schemas>
-   Manage Realm Database Files </sdk/kotlin/realm-database/realm-files>
-   Write Transactions </sdk/kotlin/realm-database/write-transactions>
-   Create </sdk/kotlin/realm-database/create>
-   Read </sdk/kotlin/realm-database/read>
-   Update </sdk/kotlin/realm-database/update>
-   Delete </sdk/kotlin/realm-database/delete>
-   React to Changes </sdk/kotlin/realm-database/react-to-changes>
-   Serialization </sdk/kotlin/realm-database/serialization>
+Realm Database is a reactive, object-oriented, cross-platform,
+mobile database:
+
+- **Reactive**: query the current state of data
+  and subscribe to state changes like the result of a query, or even
+  changes to a single object.
+
+- **Object-oriented**: organizes data as objects, rather than rows,
+  documents, or columns.
+
+- **Cross-platform**: use the same database on iOS, Android,
+  Linux, macOS, or Windows. Just define a schema for each SDK you use.
+
+- **Mobile**: designed for the low-power, battery-sensitive, real-time
+  environment of a mobile device.
+
+Realm Database is a cross-platform and mobile-optimized alternative to other
+mobile databases such as `SQLite <https://www.sqlite.org/index.html>`__,
+:apple:`Core Data <documentation/coredata>`, and :android:`Room
+<jetpack/androidx/releases/room>`.
+
+You can also synchronize data between Realm Database and MongoDB Atlas using
+Atlas Device Sync. To learn more about using Realm Database with Device Sync,
+refer to :ref:`kotlin-sync`.
+
+Realm Database supports the following popular database features.
+
+Schemas
+-------
+
+Every realm object has a schema. That schema is defined via a native
+object in your SDK's language. Object schemas can include embedded lists
+and relations between object instances. To learn more,
+refer to :ref:`Define a Realm Object Model <kotlin-define-object-model>`.
+
+Each realm uses a versioned schema. When that schema changes, you
+must define a migration to move object data between schema versions.
+Non-breaking schema changes, also referred to as additive schema changes, 
+happen automatically. However, your SDK may require you to increase the 
+local schema version to begin using the updated schema in your app. 
+Breaking schema changes, also called destructive schema changes, require 
+a migration function.
+
+To learn more about schema versioning and migrations,
+refer to  
+:ref:`Change an Object Model <kotlin-change-object-model>`.
+
+Persistent or In-Memory Realms
+------------------------------
+
+You can use Realm Database to store data persistently on disk, or
+ephemerally in memory. Ephemeral realms can be useful in situations
+where you don't need to persist data between application instances, such
+as when a user works in a temporary workspace.
+
+To learn more, refer to :ref:`Configure and Open a Realm <kotlin-open-and-close-a-realm>`.
+
+Queries
+-------
+
+You can query Realm Database using platform-native queries or a
+raw query language that works across platforms.
+
+To learn more about querying Realm Database, refer to :ref:`Read & Write Data <kotlin-write-transactions>`.
+
+Encryption
+----------
+
+Realm Database supports on-device realm encryption. Since
+memory mapping does not support encryption, encrypted realms use a
+simulated in-library form of memory mapping instead.
+
+To learn more, refer to :ref:`Encrypt a Realm <kotlin-encrypt-a-realm>`.
+
+Indexes
+-------
+
+Indexes are implemented as trees containing values of a given property
+instead of a unique internal object key. This means that indexes only
+support one column, and thus only one property, at a time.
+
+To learn more, refer to :ref:`Index Properties <kotlin-indices>`.

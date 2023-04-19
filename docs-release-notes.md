@@ -1,10 +1,55 @@
+# April 14, 2023
+
+## C++ SDK
+
+- Add a link to the Table of Contents pointing to the realm-cpp repository example projects
+
+## Kotlin SDK
+
+- Realm Database
+  - Realm Database: Change this section container to a landing page, move content from "Overview" page onto this landing page
+  - Rename the "Open and Close a Realm" page to "Configure & Open a Realm"
+  - Rename the "Write Transactions" page to "Read & Write Data" and make it a landing page for the CRUD section
+    - Merge the subsections of Create/Read/Update/Delete into a single page for each subsection
+  - Manage Realm Files: Change the this section container to a landing page containing overview content
+  - Database Internals: New page containing an include shared across all SDKs about Realm's database engine, file format, and design
+  - Handle Realm Errors: New page with information about realm error exception types
+- Sync Device Data
+  - Handle Sync Errors: New page with Sync-specific error handling information moved from Errors/App Errors page
+- Atlas App Services
+  - Handle App Errors: New page with App-specific error handling information moved from errors/App Errors page
+- Code examples throughout the docs: change `val` to `var` for any persisted fields
+
+## .NET SDK
+
+- Troubleshooting: Add troubleshooting info about the `AddDefaultTypes should be called before creating a Realm instance` exception
+
+## Node.js SDK
+
+- Advanced Guides/Encrypt a Realm: Update docs for encrypted realm multiprocess support
+
+## React Native SDK
+
+- Realm Database
+  - Schemas/Dictionaries: Incorporate SDK engineering feedback to add and update examples and clarify details
+  - Encrypt a Realm: Update docs for encrypted realm multiprocess support
+- Atlas App Services/Query MongoDB: Update `.watch()` examples to use React Native Polyfills
+
+## Swift SDK
+
+- Realm Files/Encrypt a Realm: Update docs for encrypted realm multiprocess support
+
+## Other
+
+- Internal: Update Kotlin SDK version in docs test suite to 1.7.0
+
 # April 07, 2023
 
 ## Kotlin SDK
 
 - Custom User Data: Add new Custom User Data page
 - Update information architecture
-  - Manage Users: Create new Manage Users section and migrate relevant content 
+  - Manage Users: Create new Manage Users section and migrate relevant content
     from the App Services section.
   - Atlas App Services: Restructure the App Services section.
   - Device Sync: Restructure the Sync section.
@@ -20,7 +65,7 @@
 
 - Pages throughout the React Native SDK docs: Lots of small updates to content
   and code examples to make them easier to read and follow.
-- Pages throughout the React Native SDK docs: Refactor examples to use 
+- Pages throughout the React Native SDK docs: Refactor examples to use
   `realm.create(objectType, {...})` instead of calling the model class with
   `new ObjectType(realm, {...})`.
 - Define a Realm Object Model: Add information about TypeScript and required

@@ -1,0 +1,52 @@
+.. _react-native-define-an-asymmetric-object:
+.. _react-native-stream-data-to-atlas:
+
+===============================================
+Stream Data to Atlas - React Native SDK
+===============================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can use :ref:`Data Ingest <optimize-data-ingest>` to stream
+data from the client application to a Flexible Sync-enabled Atlas App Services
+App.
+
+Data Ingest is optimized to provide performance improvements for heavy
+client-side *insert-only* workloads.
+
+Example
+~~~~~~~
+   
+In the following example of a retail app, a client requires large amounts of
+invoice data to be recorded rapidly by store employees. The client specifies
+that invoice data does not need to be read after employees have recorded it.
+
+To satisfy this requirement, define an invoice object with the
+``asymmetric`` property set to ``true``. You cannot add a Flexible Sync
+subscription to this object. Objects that use Data Ingest are for *insert-only*
+workloads.
+
+To learn more about Data Ingest, read :ref:`Optimize Sync with Data Ingest
+<optimize-data-ingest>`.
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/Invoice.snippet.ts-invoice-schema.ts
+         :language: typescript
+         :emphasize-lines: 10
+         :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/Invoice.snippet.js-invoice-schema.js
+         :language: javascript
+         :emphasize-lines: 5
+         :linenos:

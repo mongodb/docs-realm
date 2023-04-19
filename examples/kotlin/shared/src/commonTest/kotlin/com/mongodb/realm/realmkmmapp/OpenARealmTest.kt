@@ -10,7 +10,6 @@ import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
-import org.mongodb.kbson.BsonObjectId
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
@@ -26,7 +25,7 @@ class OpenARealmTest: RealmTest() {
 
     class Toad: RealmObject {
         @PrimaryKey
-        var _id: ObjectId = BsonObjectId()
+        var _id: ObjectId = ObjectId()
         var name: String = ""
     }
     @Test
@@ -88,10 +87,7 @@ class OpenARealmTest: RealmTest() {
             // Create the synced realm configuration
             val syncConfig = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
-                    add(
-                        realm.query<Toad>("name == $0", "name value"),
-                        "subscription name"
-                    )
+                    add(realm.query<Toad>(),"subscription name")
                 }
                 .build()
 

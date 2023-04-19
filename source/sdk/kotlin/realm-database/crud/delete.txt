@@ -1,0 +1,96 @@
+.. _kotlin-delete-objects:
+
+=================================
+Delete Realm Objects - Kotlin SDK
+=================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. note::
+
+   You can only delete objects from a realm within a
+   :ref:`write transaction <kotlin-write-transactions>`.
+
+To delete a realm database file, refer to :ref:`Delete a Realm <kotlin-delete-a-realm>`.
+
+.. _kotlin-delete-an-object:
+
+Delete an Object
+----------------
+
+To delete an object from a realm:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm for the object you want to delete
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+   Filter the set of returned objects by specifying a query. To ensure
+   your query returns the correct object, filter with unique identifying
+   information such as a primary key value.
+
+#. Pass the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__
+   returned by the query to `mutableRealm.delete() <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/delete.html>`__
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-an-object.kt
+   :language: kotlin
+
+.. _kotlin-delete-multiple-objects:
+
+Delete Multiple Objects
+-----------------------
+
+To delete multiple objects from a realm at the same time:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm for the objects you want to delete
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+   Filter the set of returned objects by specifying a query.
+
+#. Delete the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/index.html>`__
+   returned by the query with `realmResults.delete()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/delete.html>`__.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-multiple-objects.kt
+   :language: kotlin
+
+.. _kotlin-delete-all-objects-of-a-type:
+
+Delete All Objects of a Type
+----------------------------
+
+To delete all objects of a type from a realm:
+
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Query the transaction's mutable realm for all objects of that type
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+   Specify the object type as a type parameter passed to :file:`query()`.
+
+#. Delete the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__
+   returned by the query with `mutableRealm.delete()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/index.html#-181441016%2FFunctions%2F-1651551339>`__.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-all-objects-of-a-type.kt
+   :language: kotlin

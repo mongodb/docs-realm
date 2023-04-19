@@ -33,13 +33,13 @@ import kotlin.test.assertEquals
 // :snippet-start: primary-key
 class Lizard : RealmObject {
     @PrimaryKey
-    val _id: ObjectId = ObjectId()
+    var _id: ObjectId = ObjectId()
 }
 // :snippet-end:
 
 // :snippet-start: ignore
 class ShoppingCart : RealmObject {
-    val _id: ObjectId = ObjectId()
+    var _id: ObjectId = ObjectId()
 
     @Ignore
     val items: List<String> = listOf()
@@ -49,28 +49,28 @@ class ShoppingCart : RealmObject {
 // :snippet-start: index
 class Movie : RealmObject {
     @Index
-    val _id: ObjectId = ObjectId()
-    val starring: List<String> = listOf()
+    var _id: ObjectId = ObjectId()
+    var starring: RealmList<String> = realmListOf()
 }
 // :snippet-end:
 
 class Fish : RealmObject {
-    val _id: ObjectId = ObjectId()
+    var _id: ObjectId = ObjectId()
 }
 
 // :snippet-start: to-many-relationship
 class Sushi : RealmObject {
-    val _id: ObjectId = ObjectId()
-    val name: String = ""
-    val fishes: RealmList<Fish> = realmListOf<Fish>()
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var fishes: RealmList<Fish> = realmListOf<Fish>()
 }
 // :snippet-end:
 
 // :snippet-start: to-one-relationship
 class SushiPlatter : RealmObject {
-    val _id: ObjectId = ObjectId()
-    val name: String = ""
-    val fish: Fish? = null
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var fish: Fish? = null
 }
 // :snippet-end:
 
@@ -78,8 +78,8 @@ class SushiPlatter : RealmObject {
 class User: RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
-    lateinit var name: String
-    val posts: RealmList<Post>? = null
+    var name: String = ""
+    var posts: RealmList<Post>? = null
 }
 // :snippet-end:
 
@@ -87,25 +87,25 @@ class User: RealmObject {
 class Post: RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
-    lateinit var title: String
+    var title: String = ""
     val user: RealmResults<User> by backlinks(User::posts)
 }
 // :snippet-end:
 
 // :snippet-start: persisted-name
 class Horse : RealmObject {
-    val _id: ObjectId = ObjectId()
-    val name: String =""
+    var _id: ObjectId = ObjectId()
+    var name: String =""
     @PersistedName("rider_name") // Name persisted to realm
-    val riderName: Knight? = null // Kotlin name used in code
+    var riderName: Knight? = null // Kotlin name used in code
 }
 // :snippet-end:
 
 // :snippet-start: optional
 class Knight : RealmObject {
-    val _id: ObjectId = ObjectId()
-    val name: String = ""
-    val mount: Horse? = null
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var mount: Horse? = null
 }
 // :snippet-end:
 
@@ -253,6 +253,7 @@ class SchemaTest: RealmTest() {
         }
     }
     @Test
+    @kotlin.test.Ignore // ignored until bugfix in 1.7.1 release
     fun createRealmSetTypes() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(Frog2::class, Snack::class))

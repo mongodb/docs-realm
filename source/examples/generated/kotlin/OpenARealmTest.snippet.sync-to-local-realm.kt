@@ -6,10 +6,7 @@ runBlocking {
     // Create the synced realm configuration
     val syncConfig = SyncConfiguration.Builder(user, setOf(Toad::class))
         .initialSubscriptions { realm ->
-            add(
-                realm.query<Toad>("name == $0", "name value"),
-                "subscription name"
-            )
+            add(realm.query<Toad>(),"subscription name")
         }
         .build()
 

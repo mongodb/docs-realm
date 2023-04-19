@@ -4,6 +4,11 @@ class HomeOwner extends Realm.Object {
     properties: {
       name: 'string',
       home: '{}',
+      pets: {
+        type: 'dictionary',
+        objectType: 'Pet',
+        optional: true
+      },
     },
   };
 }

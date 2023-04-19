@@ -14,7 +14,8 @@ class Contact extends Realm.Object {
     properties: {
       _id: "objectId",
       name: "string",
-      address: "Address", // Embed a single object
+      // Embed a single object
+      address: "Address",
     },
   };
 }
