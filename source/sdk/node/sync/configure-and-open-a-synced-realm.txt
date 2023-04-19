@@ -1,8 +1,9 @@
-.. _node-open-close-realm:
+.. _node-open-a-synced-realm:
+.. _node-sync-changes-between-devices:
 
-==================================
-Open & Close a Realm - Node.js SDK
-==================================
+======================================
+Configure a Synced Realm - Node.js SDK
+======================================
 
 .. contents:: On this page
    :local:
@@ -10,18 +11,41 @@ Open & Close a Realm - Node.js SDK
    :depth: 2
    :class: singlecol
 
-.. _node-open-a-local-realm:
+.. _node-synced-realm:
 
-Open a Local Realm
-------------------
+Synced Realms
+-------------
 
-.. include:: /includes/js-open-a-local-realm.rst
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. Synced realms use a different
+configuration than local-only realms and require an Atlas App Services backend to handle
+the synchronization process.
 
-.. _node-open-an-in-memory-realm:
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Atlas Device Sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+received out of order.
 
-.. include:: /includes/js-open-an-in-memory-realm.rst
+.. tip:: Learn How to Configure and Use Sync
+   
+   For more information on synced realms, including directions on how to set up
+   sync in a Realm app, see :ref:`Atlas Device Sync Overview <sync>`.
 
-.. _node-open-a-synced-realm:
+.. _node-sync-changes-prereq:
+
+Prerequisites
+-------------
+
+Before you configure a realm with Flexible Sync in a Node.js application:
+
+#. :ref:`Enable Flexible Sync on the backend <enable-flexible-sync>`.
+   You must configure Flexible Sync in the backend before you can use it with your
+   client application.
+#. :ref:`Initialize the App client <node-connect-to-mongodb-realm-backend-app>`.
+#. :ref:`Authenticate a user <node-authenticate-users>` in your client project.
 
 Open a Synced Realm
 -------------------
@@ -117,68 +141,37 @@ realm sync continues in the background.
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-config.js
   :language: javascript
 
-.. _node-open-existing-realm-different-configuration:
-.. _node-copy-data-and-open-new-realm:
+.. _node-sync-changes-in-the-background:
 
-Copy Data and Open a New Realm
+Sync Changes in the Background
 ------------------------------
 
-.. versionadded:: 10.14.0
+You may want to sync changes in the background to display partial data to the
+user while the synced realm downloads data from the server, preventing the
+user experience from being blocked. We recommend syncing changes in the
+background for applications in which the user's device may go offline. To sync
+changes in the background, open a synced realm synchronously.
 
-To copy data from an existing realm to a new realm with different
-configuration options, pass the new configuration the
-:js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>` method.
+Create a :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
+``type`` to ``"openImmediately"``. 
 
-In the new realm's configuration, you *must* specify the ``path``. 
-
-If you write the copied realm to a realm file that already exists, the data is written object by object.
-The copy operation replaces objects if there already exists objects for given primary keys.
-The schemas of the realm you copy and the realm you are writing to must be 
-compatible for the copy operation to succeed.
-Only objects in the schemas of both configurations are copied over.
-
-The configuration change can include modifications to :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>`: 
-
-- Local realm to synced realm
-- Synced Realm to local realm
-- Synced Realm to a Synced Realm for a different user
-
-.. include:: /includes/note-writecopy-local-to-sync.rst
-
-.. include:: /includes/note-writecopy-same-type-sync-only.rst
-
-The configuration change can also include changes to ``encryptionKey`` 
-property of the ``Configuration``: 
-
-- Encrypted realm to unencrypted realm
-- Unencrypted realm to encrypted realm
-
-.. example:: Convert Local Realm to Synced Realm
-
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
       :language: javascript
-      :emphasize-lines: 15-16
 
-You can also combine changes to configuration. For example, you can open a
-local encrypted realm as a synced unencrypted realm or a unencrypted synced realm
-as an encrypted synced realm.
+Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
+include the ``sync`` property defining a :js-sdk:`SyncConfiguration
+<Realm.App.Sync.html#~SyncConfiguration>` object. Set this
+``OpenRealmBehaviorConfiguration`` object as the value for
+the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
+``SyncConfiguration``. 
 
-.. example:: Convert Synced Encrypted to Local Unencrypted Realm
-
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
       :language: javascript
-      :emphasize-lines: 19-20
 
-.. seealso:: 
+Finally,  call :js-sdk:`Realm.open() <Realm.html#.open>`
+to open a synced realm. This will create a sync session and begin
+downloading any existing data from the server in the background.
 
-   - :ref:`Open a Flexible Synced Realm - Node.js SDK <node-flexible-sync-open-realm>`
-   - :ref:`Open a Partition-Based Synced Realm - Node.js SDK <node-partition-sync-open-realm>`
-   - :ref:`Encrypt a Realm - Node.js SDK <node-partition-sync-open-realm>`
-
-.. _node-close-a-realm:
-
-Close a Realm
--------------
-
-.. include:: /includes/js-close-a-realm.rst
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-open-realm.js
+      :language: javascript
