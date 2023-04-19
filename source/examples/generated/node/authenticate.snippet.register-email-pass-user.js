@@ -1,4 +1,4 @@
 await app.emailPasswordAuth.registerUser({
   email: "someone@example.com",
-  password: "passw0rd",
+  password: "Pa55w0rd!",
 });
