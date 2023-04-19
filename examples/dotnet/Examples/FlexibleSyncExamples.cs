@@ -126,7 +126,23 @@ namespace Examples
             // :uncomment-end:
             // :snippet-end:
         }
+        public void WeeSnippetForDocs()
+        {
+            var realm = Realm.GetInstance();
+            // :snippet-start: example_sub
+            realm.Subscriptions.Update(() =>
+            {
+                var completedItemsQuery = realm
+                    .All<MyTask>()
+                    .Where(i => i.Status == "completed");
+                realm.Subscriptions
+                    .Add(completedItemsQuery,
+                        new SubscriptionOptions() { Name = "completedItems" });
+            });
+            // :snippet-end:
+        }
     }
+
 
     partial class MyTask : IRealmObject
     {
