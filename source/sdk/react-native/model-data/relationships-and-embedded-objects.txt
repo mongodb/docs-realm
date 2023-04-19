@@ -1,62 +1,14 @@
 .. _react-native-relationships:
 
-================================
-Relationships - React Native SDK
-================================
+===================================================
+Relationships & Embedded Objects - React Native SDK
+===================================================
 
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 1
    :class: singlecol
-
-Overview
---------
-
-You can define relationships between objects in a realm. Realm models
-relationships as object properties that point to other objects of a
-given type in the realm. You define a relationship at the type level by
-declaring a property in the type's schema where the value is another
-object type.
-
-Querying a relationship is just as performant as a regular property.
-Relationships are direct references to other objects, so you don't need
-to use joins and complex models to define and use them like you would in
-a relational database. Instead, you can access related objects by
-reading and writing to the relationship property directly.
-
-There are three primary types of relationships between objects:
-
-- :ref:`One-to-One Relationship <react-native-to-one-relationship>`
-- :ref:`One-to-Many Relationship <react-native-to-many-relationship>`
-- :ref:`Inverse Relationship <react-native-inverse-relationship>`
-
-.. note:: Realm vs Other Databases
-   
-   Objects often contain direct references to other objects.
-   When working with objects and references,
-   you typically copy data from database storage into application memory.
-   This situation leaves the developer with a choice of what to copy
-   into memory:
-   
-   - You can copy all referenced objects into memory ahead of time.
-     This means that all referenced data is always available quickly
-     but can use up a lot of resources. If a system has limited memory,
-     this may not be viable.
-   
-   - You can copy just a foreign key value for each object. Later, you
-     can use the key to look up the full object when you need it.
-     These "lazy" lookups are more memory-efficient than copying all
-     referenced objects ahead of time. However, they require you to
-     maintain more query code and use runtime lookups that can slow
-     your app down.
-
-   Realm's query architecture avoids the tradeoff between memory usage
-   and computational overhead. Instead, Realm queries can directly
-   reference :ref:`related objects <react-native-relationships>` and
-   their properties on disk.
-
-.. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
 
 .. _react-native-to-one-relationship:
 
@@ -97,7 +49,6 @@ specify the property type as the related Realm object type.
          .. literalinclude:: /examples/generated/react-native/js/Pet.snippet.js-pet-schema.js
             :language: typescript
             :linenos:
-
 
 .. _react-native-to-many-relationship:
 
@@ -273,3 +224,90 @@ information, see :ref:`Backlink Queries <rql-backlinks>`.
             :language: typescript
             :emphasize-lines: 4-6
             :linenos:
+
+.. _react-native-embedded-objects:
+
+Embedded Objects
+----------------
+
+An embedded object is a special type of :ref:`Realm object <react-native-object-schemas>`
+that models complex data about a specific object. Embedded objects are similar
+to :ref:`relationships <react-native-relationships>`, but they provide additional
+constraints and map more naturally to the denormalized :manual:`MongoDB document
+model </core/data-modeling-introduction/>`.
+
+Realm enforces unique ownership constraints that treat each embedded object as
+nested data inside a single, specific parent object. An embedded object
+inherits the lifecycle of its parent object and cannot exist as an independent
+Realm object. This means that embedded objects cannot have a primary key and
+that Realm automatically deletes embedded objects if their parent object is
+deleted.
+
+.. tip:: Embedded object types are reusable and composable
+
+   You can use the same embedded object type in multiple parent object types, and
+   you can embed objects inside other embedded objects. You can even
+   recursively reference an embedded object type as an optional property in its
+   own definition.
+
+.. note:: Realm Uses Cascading Deletes for Embedded Objects
+   
+   When you delete a Realm object, Realm automatically deletes any
+   embedded objects referenced by that object. Any objects that your
+   application must persist after the deletion of their parent object
+   should use :ref:`relationships <react-native-relationships>`
+   instead.
+
+Realm Object Models
+~~~~~~~~~~~~~~~~~~~
+
+To define an embedded object, set ``embedded``
+to ``true``. You can reference an embedded object type from parent object types
+in the same way as you would define a relationship:
+
+.. tabs-realm-languages::
+
+    .. tab::
+       :tabid: typescript
+
+       .. literalinclude:: /examples/generated/react-native/ts/Address.snippet.ts-address-schema.ts
+          :language: typescript
+          :emphasize-lines: 9
+          :linenos:
+
+       .. literalinclude:: /examples/generated/react-native/ts/Contact.snippet.ts-contact-schema.ts
+          :language: typescript
+          :emphasize-lines: 13
+          :linenos:
+
+       .. literalinclude:: /examples/generated/react-native/ts/Business.snippet.ts-business-schema.ts
+          :language: typescript
+          :emphasize-lines: 12
+          :linenos:
+
+    .. tab::
+       :tabid: javascript
+
+       .. literalinclude:: /examples/generated/react-native/js/Address.snippet.js-address-schema.js
+          :language: javascript
+          :emphasize-lines: 4
+          :linenos:
+
+       .. literalinclude:: /examples/generated/react-native/js/Contact.snippet.js-contact-schema.js
+          :language: javascript
+          :emphasize-lines: 9
+          :linenos:
+
+       .. literalinclude:: /examples/generated/react-native/js/Business.snippet.js-business-schema.js
+          :language: javascript
+          :emphasize-lines: 9
+          :linenos:
+
+.. important::
+   
+   Embedded objects cannot have a :ref:`primary key <react-native-primary-keys>`.
+
+JSON Schema
+~~~~~~~~~~~
+
+.. include:: /includes/embedded-object-json-schema.rst
