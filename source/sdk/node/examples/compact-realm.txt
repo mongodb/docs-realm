@@ -10,9 +10,6 @@ Reduce Realm File Size - Node.js SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 .. include:: /includes/compaction-introduction.rst
 
 Automatic Compaction
@@ -49,14 +46,14 @@ for the configuration. The following code example shows how to do this:
 Realm.compact() Method
 ~~~~~~~~~~~~~~~~~~~~~~
 Alternatively, you can compact a realm file without first obtaining an instance 
-to the realm by calling the 
+of the realm by calling the 
 :js-sdk:`compact() <Realm.html#compact>`
-method. The following example shows how to do this:
+method:
 
 .. literalinclude:: /examples/generated/node/compacting.snippet.compactNode.js
    :language: javascript
 
-The ``compact`` method will return true if the operation is successful.
+The ``compact()`` method will return true if the operation is successful.
 
 Make a Compacted Copy
 ~~~~~~~~~~~~~~~~~~~~~
@@ -69,7 +66,7 @@ method. The destination file cannot already exist.
 
 .. important::
 
-   Avoid calling this method within a :ref:`write transaction
+   Avoid calling ``writeCopyTo()`` within a :ref:`write transaction
    <node-write-transactions>`. If called within a write transaction, this
    method copies the absolute latest data. This includes any
    **uncommitted** changes you made in the transaction before this
