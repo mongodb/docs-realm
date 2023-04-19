@@ -22,8 +22,15 @@ const app = new Realm.App({ id: "example-testers-kvjdy" });
 
 function getPlantsCollection() {
   // :snippet-start: plants-collection-handle
+  // :replace-start: {
+  //   "terms": {
+  //     "mongodb-atlas": "mongodb-atlas",
+  //     "js-example": "example"
+  //   }
+  // }
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
-  const plants = mongodb.db("example").collection("plants");
+  const plants = mongodb.db("js-example").collection("plants");
+  // :replace-end:
   // :snippet-end:
   return plants;
 }
