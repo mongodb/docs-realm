@@ -36,9 +36,3 @@ opening the realm to avoid these inconsistencies.
 The :ref:`partition value <partition-value>` specifies which subset of your data to sync.
 This is typically a user ID, project ID, store ID, or some other category identifier in
 your app that has particular relevance to the current user. 
-
-.. seealso::
-
-   - :ref:`Partitions <sync-partitions>`
-   
-   - :ref:`Fundamentals: Realms <java-realms>`
