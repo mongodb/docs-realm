@@ -1,8 +1,9 @@
 .. _node-modify-an-object-schema:
+.. _node-schema-versions-and-migrations:
 
-=====================================
-Modify an Object Schema - Node.js SDK
-=====================================
+====================================
+Change an Object Model - Node.js SDK
+====================================
 
 .. contents:: On this page
    :local:
@@ -10,8 +11,39 @@ Modify an Object Schema - Node.js SDK
    :depth: 2
    :class: singlecol
 
+.. _node-schema-version:
 
-.. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
+Schema Version
+--------------
+
+A **schema version** identifies the state of a :ref:`realm schema
+<node-realm-schema>` at some point in time. Realm Database tracks the
+schema version of each realm and uses it to map the objects in each
+realm to the correct schema.
+
+Schema versions are ascending integers that you can optionally include
+in the realm configuration when you open a realm. If a client
+application does not specify a version number when it opens a realm then
+the realm defaults to version ``0``.
+
+.. important:: Increment Versions Monotonically
+   
+   Migrations must update a realm to a
+   higher schema version. Realm Database will throw an error if a client
+   application opens a realm with a schema version that is lower than
+   the realm's current version or if the specified schema version is the
+   same as the realm's current version but includes different
+   :ref:`object schemas <node-object-schemas>`.
+
+.. _node-migrations:
+
+Migrations
+----------
+
+A **migration** is a function that updates a realm and any objects it
+contains from one schema version to a newer
+version. Migrations give you the flexibility to change your object schemas over
+time to accommodate new features and refactors.
 
 .. tip:: Bypass Migration During Development
 
@@ -21,6 +53,18 @@ Modify an Object Schema - Node.js SDK
    automatically when a schema mismatch would require a migration. 
 
    Never release an app to production with this flag set to ``true``.
+
+Whenever you open an existing realm with a schema version greater than the
+realm's current version, Realm runs a migration function that you define.
+The function has access to the realm's version number and incrementally
+updates objects in the realm to conform to the new schema.
+
+Realm automatically migrates certain changes, such as new and deleted
+properties, but does not automatically set values for new properties unless the
+updated object schema specifies a default value. You can define additional logic
+in the migration function to further customize property values.
+
+.. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
 
 .. _node-add-a-property:
 

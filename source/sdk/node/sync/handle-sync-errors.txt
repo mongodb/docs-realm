@@ -1,0 +1,44 @@
+.. _node-handle-sync-errors:
+
+================================
+Handle Sync Errors - Node.js SDK
+================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+.. _node-set-error-handler:
+
+Set an Error Handler
+--------------------
+
+While developing an application that uses Device Sync, you should set an error
+handler. This error handler will detect and respond to any failed sync-related
+API calls. 
+
+Set an error handler by registering an error callback as part of the :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-handle-sync-errors.js
+   :language: javascript
+
+.. include:: /includes/sync-errors-in-app-services.rst
+
+.. _node-perform-a-client-reset:
+
+Perform a Client Reset
+----------------------
+
+You can customize behavior in the event of a :ref:`client reset
+<node-client-resets>` error with a custom error handler function:
+
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-perform-a-client-reset.js
+   :language: javascript
+
+.. tip::
+
+   To see how to recover unsynced local changes in a client reset, check out
+   this :github:`example on GitHub
+   <mongodb/realm-practice/blob/main/node/index.js#L49>`.

@@ -1,8 +1,20 @@
-.. _node-realm-sync:
+=======================================
+Sync Data Between Devices - Node.js SDK
+=======================================
 
-===============================
-Atlas Device Sync - Node.js SDK
-===============================
+.. toctree::
+   :titlesonly:
+
+   Configure & Open a Synced Realm </sdk/node/sync/configure-and-open-a-synced-realm>
+   Manage Flexible Sync Subscriptions </sdk/node/sync/flexible-sync>
+   Handle Sync Errors </sdk/node/sync/handle-sync-errors>
+   Client Reset </sdk/node/sync/reset-a-client-realm>
+   Manual Client Reset Data Recovery </sdk/node/sync/client-reset-data-recovery>
+   Pause or Resume a Sync Session </sdk/node/sync/pause-resume-sync>
+   Check Upload & Download Progress </sdk/node/sync/sync-progress>
+   Check the Network Connection </sdk/node/sync/network-connection>
+   Set the Client Log Level </sdk/node/sync/log-level>
+   Multiplex Sync Sessions </sdk/node/sync/multiplex-sync-sessions>
 
 .. contents:: On this page
    :local:
@@ -10,8 +22,7 @@ Atlas Device Sync - Node.js SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
+.. _node-realm-sync:
 
 Atlas Device Sync automatically synchronizes data between client applications and 
 an :ref:`Atlas App Services backend <realm-cloud>`. When a client 
@@ -22,8 +33,8 @@ When you use Sync in your client application, your implementation must match
 the Sync Mode you select in your backend App configuration. The Sync Mode
 options are:
 
-- Partition-Based Sync
 - Flexible Sync
+- Partition-Based Sync
 
 You can only use one Sync Mode for your application. You cannot mix 
 Partition-Based Sync and Flexible Sync within the same App.
@@ -31,20 +42,6 @@ Partition-Based Sync and Flexible Sync within the same App.
 .. seealso::
 
    :ref:`enable-realm-sync`
-
-.. _node-partition-based-sync-fundamentals:
-
-Partition-Based Sync
---------------------
-
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend App configuration, your client implementation must include a 
-partition value. This is the value of the :ref:`partition key 
-<partition-key>` field you select when you configure Partition-Based Sync. 
-
-The partition value determines which data the client application can access.
-
-You pass in the partition value when you open a synced realm.
 
 .. _node-flexible-sync-fundamentals:
 
@@ -79,3 +76,17 @@ Group Updates for Improved Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/sync-memory-performance.rst
+
+.. _node-partition-based-sync-fundamentals:
+
+Partition-Based Sync
+--------------------
+
+When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
+backend App configuration, your client implementation must include a 
+partition value. This is the value of the :ref:`partition key 
+<partition-key>` field you select when you configure Partition-Based Sync. 
+
+The partition value determines which data the client application can access.
+
+You pass in the partition value when you open a synced realm.
