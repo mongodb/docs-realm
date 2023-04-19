@@ -321,8 +321,11 @@ to a single value.
             :language: java
             :copyable: false
 
+Filter, Sort, Limit, Unique, and Chain Queries
+----------------------------------------------
+
 About the Examples in This Section
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The examples in this section use two Realm object types: ``Teacher``
 and ``Student``.
@@ -360,7 +363,7 @@ See the schema for these two classes below:
 .. _java-client-filters:
 
 Filters
--------
+~~~~~~~
 
 You can build filters using the operator methods of the
 :wikipedia:`fluent interface <Fluent_interface>` exposed by the
@@ -407,7 +410,7 @@ objects using the :ref:`RealmResults <java-results-collections>` type.
 .. _java-link-queries:
 
 Link Queries
-~~~~~~~~~~~~
+`````````````
 
 When referring to an object property, you can use **dot notation** to refer
 to child properties of that object. You can refer to the properties of
@@ -454,7 +457,7 @@ You can even use dot notation to query inverse relationships:
 .. _java-sort-results:
 
 Sort Results
-------------
+~~~~~~~~~~~~
 
 .. important::
 
@@ -503,7 +506,7 @@ properties in order.
 .. _java-limit-results:
 
 Limit Results
--------------
+~~~~~~~~~~~~~
 
 You can cap the number of query results to a specific maximum number
 using the :java-sdk:`limit() <io/realm/RealmQuery.html#limit-long->`
@@ -549,7 +552,7 @@ underlying data changes.
 .. _java-unique-results:
 
 Unique Results
---------------
+~~~~~~~~~~~~~~
 
 You can reduce query results to unique values for a given field or fields
 using the :java-sdk:`distinct()
@@ -578,7 +581,7 @@ you can specify multiple fields to resolve ties.
 .. _java-chain-queries:
 
 Chain Queries
--------------
+~~~~~~~~~~~~~
 
 You can apply additional filters to a results collection by calling the
 :java-sdk:`where() <io/realm/RealmResults.html#where-->` method:
