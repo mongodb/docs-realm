@@ -12,9 +12,6 @@ Change an Object Model - React Native SDK
 
 .. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
 
-Overview
---------
-
 When updating your object schema, you must increment the schema version 
 and perform a migration. 
 
@@ -43,8 +40,8 @@ in a ``migration`` function. This might include changes such as:
 
 .. _react-native-schema-version:
 
-Key Concept: Schema Version
----------------------------
+Schema Version
+--------------
 
 A **schema version** identifies the state of a :ref:`realm schema
 <react-native-realm-schema>` at some point in time. Realm Database tracks the
@@ -65,8 +62,8 @@ realm defaults to version ``0``.
 
 .. _react-native-migrations:
 
-Key Concept: Migrations
------------------------
+Migrations
+----------
 
 A **migration** is a function that updates a realm and any objects it contains
 from one :ref:`schema version <react-native-schema-version>` to a newer version.
@@ -84,13 +81,10 @@ properties, but does not automatically set values for new properties unless the
 updated object schema specifies a default value. You can define additional logic
 in the migration function to further customize property values.
 
-Automatically Update Schema
----------------------------
-
 .. _react-native-add-a-property:
 
 Add a Property
-~~~~~~~~~~~~~~
+--------------
 
 To add a property to a schema, add the new property to the object's class and
 set a ``schemaVersion`` of the ``Configuration`` object.
@@ -125,7 +119,7 @@ set a ``schemaVersion`` of the ``Configuration`` object.
 .. _react-native-delete-a-property:
 
 Delete a Property
-~~~~~~~~~~~~~~~~~
+-----------------
 
 To delete a property from a schema, remove the property from the object's class
 and set a ``schemaVersion`` of the :js-sdk:`Configuration
@@ -160,14 +154,10 @@ existing objects.
            :emphasize-lines: 15
 
 .. _react-native-perform-a-schema-migration:
-
-Manually Migrate Schema
------------------------
-
 .. _react-native-rename-a-property:
 
 Rename a Property
-~~~~~~~~~~~~~~~~~
+-----------------
 
 To rename an object property, change the property name in the object schema and
 then create a realm configuration with an incremented :ref:`schema version
@@ -219,7 +209,8 @@ property, and then delete the old property.
    internal name, but let your code use a different name.  
 
 Modify a Property Type
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
+
 To modify a property's type, set the property type of the field that you wish to
 modify to the new data type. Then, set a ``schemaVersion``, and a ``migration``
 callback function of the :js-sdk:`Configuration

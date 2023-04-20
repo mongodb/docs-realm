@@ -10,8 +10,17 @@ CRUD - Read - React Native SDK
    :depth: 2
    :class: singlecol
 
-About the Examples on this Page
--------------------------------
+.. _react-native-read-operations:
+
+Read operations are queries to find your data stored in Realm Database. Use the
+following ``@realm/react`` hooks to read data in a realm:
+
+- ``useObject()``: Find a specific object by primary key.
+- ``useQuery()``: Get a collection of objects by object type.
+
+These hooks return live objects, which are automatically updated when the data in the realm changes. When objects returned by these hooks are updated,
+the component calling the hook rerenders.
+
 The examples on this page use the following schemas:
 
 .. tabs-realm-languages::
@@ -34,25 +43,10 @@ The examples on this page use the following schemas:
       .. literalinclude:: /examples/generated/react-native/js/Task.snippet.js-task-schema.js
          :language: typescript
 
-
-.. _react-native-read-operations:
-
-Read Operations
----------------
-
-Read operations are queries to find your data stored in Realm Database. Use the
-following ``@realm/react`` hooks to read data in a realm:
-
-- ``useObject()``: Find a specific object by primary key.
-- ``useQuery()``: Get a collection of objects by object type.
-
-These hooks return live objects, which are automatically updated when the data in the realm changes. When objects returned by these hooks are updated,
-the component calling the hook rerenders.
-
 .. _react-native-find-a-specific-object-by-primary-key:
 
 Find a Specific Object by Primary Key
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------
 
 If you know the :ref:`primary key <react-native-primary-keys>` for a given
 object, you can look it up directly by passing the class type and primary key to
@@ -84,7 +78,7 @@ name and priority in the UI.
 .. _react-native-filter-results:
 
 Query for an Object Type and Filter Results
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------------
 
 The ``useQuery()`` hook returns a collection of Realm objects that match the query as a
 :js-sdk:`Realm.Results <Realm.Results.html>` object. A basic query matches all
@@ -140,7 +134,7 @@ In the following example of a ``TaskList`` component, we:
 .. _react-native-sort-results:
 
 Query for an Object Type and Sort Results
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------
 
 A **sort** operation allows you to configure the order in which
 Realm Database returns queried objects. You can sort based on one or more
