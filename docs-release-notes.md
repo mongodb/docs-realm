@@ -1,3 +1,54 @@
+# April 21, 2023
+
+## Flutter SDK
+
+- Model Data/Update a Realm Object Schema: Fix "Delete a Schema" example referring to wrong model
+- Update primary key in models & tested code examples on various pages from a string to ObjectId: Quick Start, Data Types, React to Changes
+
+## Java SDK
+
+- Update Information Architecture to match other SDKs, including:
+  - Move "Fundamentals" content onto relevant topic-based pages and section landing pages
+  - Rearrange table of contents to present topic-based navigation instead of content-typed navigation
+  - Split long pages (Define an Object Model, Read & Write Data, Sync Changes Between Devices) into sections with smaller pages
+
+## .NET SDK
+
+- Sync Data/Write to a Synced Realm: New page similar to Flutter and Swift about determining which data synced & compensating writes
+
+## Node.js SDK
+
+- Quick Start: Fix an error in the Sync query code example
+- Realm Files/Reduce Realm File Size: New page about compacting a realm similar to other SDKs with Bluehawked tested code examples
+- Update Information Architecture to match other SDKs, including:
+  - Move "Fundamentals" content onto relevant topic-based pages and section landing pages
+  - Rearrange table of contents to present topic-based navigation instead of content-typed navigation
+  - Split long pages (Define an Object Model, Read & Write Data, Sync Changes Between Devices) into sections with smaller pages
+
+## React Native SDK
+
+- Minor Information Architecture refinements across SDK docs, including:
+  - Remove "Realm Database" section, move contents to top-level of table of contents
+  - Make "App Services" a landing page with the concept information formerly on the "App Services Overview" page
+  - Make "Manage Users" a landing page with concept information about working with the user object
+  - Make "Model Data" a landing page with concept information about Realm objects, schemas, and relationships
+  - Make a new "Realm Files" section with concept information on the landing page, move Bundle, Encrypt, and Open a Realm into this section
+  - Consolidate several "Schema" pages onto "Define an Object Model Page" (Default Value, Index, Optional, Primary Key, Remap)
+  - Consolidate Relationships and Embedded Objects content
+- Model Data/Data Types:
+  - Mixed: New section with tested, Bluehawked code example showing how to check a Mixed property's type
+  - UUID: Clarify `UUID` is bundled with the Realm package as part of BSON
+  - Sets: Capitalize `Set` data type, add links to API reference, clean up naming inconsistencies, update code examples
+  - Embedded Objects: Change heading levels, fix some code example highlighting
+- Sync/Stream Data to Atlas: Update feature naming to "Data Ingest," minor wording improvements
+
+## Swift SDK
+
+- Minor Information Architecture refinements to match other SDKs, including:
+  - Move concept content onto section landing pages for "Realm Files," "Model Data," "CRUD," "Sync Data"
+  - Remove "Key Concept" term from section headers
+  - Minor updates to Table of Contents
+
 # April 14, 2023
 
 ## C++ SDK
