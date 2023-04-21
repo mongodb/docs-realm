@@ -3,7 +3,8 @@ final realm = Realm(Configuration.local([Person.schema, Address.schema]));
 
 // Create an embedded object.
 final joesHome = Address("500 Dean Street", "Brooklyn", "NY", "USA");
-final joe = Person("Joe", address: joesHome);
+final joePrimaryKey = ObjectId();
+final joe = Person(joePrimaryKey, "Joe", address: joesHome);
 realm.write(() => realm.add(joe));
 
 // Update an embedded object property.
