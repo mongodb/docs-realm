@@ -40,7 +40,6 @@ async function getPlantsCollection() {
   // :snippet-start: plants-collection-handle
   // :replace-start: {
   //   "terms": {
-  //     "mongodb-atlas": "mongodb-atlas",
   //     "ts-example": "example"
   //   }
   // }
