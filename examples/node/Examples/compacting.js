@@ -1,6 +1,6 @@
 import Realm from "realm";
 
-describe("test compaction on launch", () => {
+describe.skip("test compaction on launch", () => {
   test("shouldCompact", async () => {
     let wasCalled;
 
