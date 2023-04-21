@@ -1,4 +1,5 @@
 .. _react-native-create-objects:
+.. _react-native-create-a-new-object:
 
 =================================
 CRUD - Create - React Native SDK
@@ -10,8 +11,10 @@ CRUD - Create - React Native SDK
    :depth: 2
    :class: singlecol
 
-About the Examples on this Page
--------------------------------
+To add a new Realm object to a realm instance, use :js-sdk:`realm.create()
+<Realm.html#create>` inside of a write transaction. If the
+:ref:`schema <react-native-realm-schema>` includes the object type and the
+object conforms to the schema, then Realm Database stores the object.
 
 The example on this page uses the following schema:
 
@@ -28,16 +31,6 @@ The example on this page uses the following schema:
       
       .. literalinclude:: /examples/generated/react-native/js/Dog.snippet.js-dog-schema.js
          :language: javascript
-
-.. _react-native-create-a-new-object:
-
-Create a New Object
--------------------
-
-To add a new Realm object to a realm instance, use :js-sdk:`realm.create()
-<Realm.html#create>` inside of a write transaction. If the
-:ref:`schema <react-native-realm-schema>` includes the object type and the
-object conforms to the schema, then Realm Database stores the object.
 
 In the following example of a ``CreateDogInput`` component, we:
 
