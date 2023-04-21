@@ -9,16 +9,23 @@ part of 'react_to_changes_test.dart';
 class Character extends _Character
     with RealmEntity, RealmObjectBase, RealmObject {
   Character(
+    ObjectId id,
     String name,
     String species,
     int age,
   ) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set(this, 'species', species);
     RealmObjectBase.set(this, 'age', age);
   }
 
   Character._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -47,7 +54,8 @@ class Character extends _Character
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Character._);
     return const SchemaObject(ObjectType.realmObject, Character, 'Character', [
-      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('species', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int),
     ]);
@@ -57,15 +65,22 @@ class Character extends _Character
 class Fellowship extends _Fellowship
     with RealmEntity, RealmObjectBase, RealmObject {
   Fellowship(
+    ObjectId id,
     String name, {
     Iterable<Character> members = const [],
   }) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set<RealmList<Character>>(
         this, 'members', RealmList<Character>(members));
   }
 
   Fellowship._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -92,7 +107,8 @@ class Fellowship extends _Fellowship
     RealmObjectBase.registerFactory(Fellowship._);
     return const SchemaObject(
         ObjectType.realmObject, Fellowship, 'Fellowship', [
-      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('members', RealmPropertyType.object,
           linkTarget: 'Character', collectionType: RealmCollectionType.list),
     ]);
