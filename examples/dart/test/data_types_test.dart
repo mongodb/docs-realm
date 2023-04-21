@@ -36,6 +36,8 @@ class _Address {
 @RealmModel()
 class _Person {
   @PrimaryKey()
+  late ObjectId id;
+
   late String name;
 
   // Embedded object in parent object schema
@@ -76,6 +78,8 @@ class _RealmValueExample {
 @RealmModel()
 class _Vehicle {
   @PrimaryKey()
+  late ObjectId id;
+
   late String nickname;
   late DateTime dateLastServiced;
 }
@@ -86,6 +90,8 @@ class _Vehicle {
 @RealmModel()
 class _Player {
   @PrimaryKey()
+  late ObjectId id;
+
   late String username;
   // `inventory` property of type RealmList<Item>
   // where Items are other RealmObjects
@@ -98,6 +104,8 @@ class _Player {
 @RealmModel()
 class _Item {
   @PrimaryKey()
+  late ObjectId id;
+
   late String name;
   late String description;
 }
@@ -188,10 +196,12 @@ main() {
     // :snippet-start: datetime-use
     // Create a Realm object with date in UTC, or convert with .toUtc() before storing
     final subaruOutback = realm.write<Vehicle>(() {
-      return realm.add(Vehicle('Subie', DateTime.utc(2022, 9, 18, 12, 30, 0)));
+      return realm.add(
+          Vehicle(ObjectId(), 'Subie', DateTime.utc(2022, 9, 18, 12, 30, 0)));
     });
 
-    final fordFusion = Vehicle('Fuse', DateTime(2022, 9, 18, 8, 30, 0).toUtc());
+    final fordFusion =
+        Vehicle(ObjectId(), 'Fuse', DateTime(2022, 9, 18, 8, 30, 0).toUtc());
     realm.write(() {
       realm.add(fordFusion);
     });
@@ -218,13 +228,14 @@ main() {
     final config = Configuration.local([Player.schema, Item.schema]);
     final realm = Realm(config);
     // :snippet-start: realmlist-use
-    final artemis = realm.write(() => realm.add(Player('Art3mis', inventory: [
-          Item('elvish sword', 'sword forged by elves'),
-          Item('body armor', 'protects player from damage'),
-        ], traits: [
-          'brave',
-          'kind'
-        ])));
+    final artemis =
+        realm.write(() => realm.add(Player(ObjectId(), 'Art3mis', inventory: [
+              Item(ObjectId(), 'elvish sword', 'sword forged by elves'),
+              Item(ObjectId(), 'body armor', 'protects player from damage'),
+            ], traits: [
+              'brave',
+              'kind'
+            ])));
 
     // Use RealmList methods to filter results
     RealmList<String> traits = artemis.traits;
@@ -248,14 +259,14 @@ main() {
     final config = Configuration.local([Player.schema, Item.schema]);
     final realm = Realm(config);
     final artemis = realm.write(() => realm.addAll([
-          Player('Art3mis', inventory: [
-            Item('elvish sword', 'sword forged by elves'),
-            Item('body armor', 'protects player from damage'),
+          Player(ObjectId(), 'Art3mis', inventory: [
+            Item(ObjectId(), 'elvish sword', 'sword forged by elves'),
+            Item(ObjectId(), 'body armor', 'protects player from damage'),
           ], traits: [
             'brave',
             'kind'
           ]),
-          Player('Percival')
+          Player(ObjectId(), 'Percival')
         ]));
     // :snippet-start: realmresults-use
     RealmResults<Player> players = realm.all<Player>();
@@ -274,16 +285,18 @@ main() {
 
     // Create an embedded object.
     final joesHome = Address("500 Dean Street", "Brooklyn", "NY", "USA");
-    final joe = Person("Joe", address: joesHome);
+    final joePrimaryKey = ObjectId();
+    final joe = Person(joePrimaryKey, "Joe", address: joesHome);
     realm.write(() => realm.add(joe));
-    expect(realm.find<Person>("Joe"), isNotNull); // :remove:
+    expect(realm.find<Person>(joePrimaryKey), isNotNull); // :remove:
 
     // Update an embedded object property.
     realm.write(() {
       joe.address?.street = "800 Park Place";
     });
     // :remove-start:
-    expect(realm.find<Person>("Joe")?.address?.street, "800 Park Place");
+    expect(
+        realm.find<Person>(joePrimaryKey)?.address?.street, "800 Park Place");
     // :remove-end:
 
     // Query a collection of embedded objects.
@@ -320,7 +333,7 @@ main() {
     realm.write(() => realm.delete(joe));
 
     // :snippet-end:
-    expect(realm.find<Person>("Joe"), isNull); // :remove:
+    expect(realm.find<Person>(joePrimaryKey), isNull); // :remove:
     expect(realm.dynamic.all("Address").length, 0);
     cleanUpRealm(realm);
   });

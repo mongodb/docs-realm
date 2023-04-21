@@ -153,14 +153,21 @@ class Address extends _Address
 
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
+    ObjectId id,
     String name, {
     Address? address,
   }) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set(this, 'address', address);
   }
 
   Person._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -186,7 +193,8 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Person._);
     return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
-      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('address', RealmPropertyType.object,
           optional: true, linkTarget: 'Address'),
     ]);
@@ -312,14 +320,21 @@ class RealmValueExample extends _RealmValueExample
 
 class Vehicle extends _Vehicle with RealmEntity, RealmObjectBase, RealmObject {
   Vehicle(
+    ObjectId id,
     String nickname,
     DateTime dateLastServiced,
   ) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'nickname', nickname);
     RealmObjectBase.set(this, 'dateLastServiced', dateLastServiced);
   }
 
   Vehicle._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get nickname =>
@@ -346,7 +361,8 @@ class Vehicle extends _Vehicle with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Vehicle._);
     return const SchemaObject(ObjectType.realmObject, Vehicle, 'Vehicle', [
-      SchemaProperty('nickname', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('nickname', RealmPropertyType.string),
       SchemaProperty('dateLastServiced', RealmPropertyType.timestamp),
     ]);
   }
@@ -354,10 +370,12 @@ class Vehicle extends _Vehicle with RealmEntity, RealmObjectBase, RealmObject {
 
 class Player extends _Player with RealmEntity, RealmObjectBase, RealmObject {
   Player(
+    ObjectId id,
     String username, {
     Iterable<Item> inventory = const [],
     Iterable<String> traits = const [],
   }) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'username', username);
     RealmObjectBase.set<RealmList<Item>>(
         this, 'inventory', RealmList<Item>(inventory));
@@ -366,6 +384,11 @@ class Player extends _Player with RealmEntity, RealmObjectBase, RealmObject {
   }
 
   Player._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get username =>
@@ -399,7 +422,8 @@ class Player extends _Player with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Player._);
     return const SchemaObject(ObjectType.realmObject, Player, 'Player', [
-      SchemaProperty('username', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('username', RealmPropertyType.string),
       SchemaProperty('inventory', RealmPropertyType.object,
           linkTarget: 'Item', collectionType: RealmCollectionType.list),
       SchemaProperty('traits', RealmPropertyType.string,
@@ -410,14 +434,21 @@ class Player extends _Player with RealmEntity, RealmObjectBase, RealmObject {
 
 class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
   Item(
+    ObjectId id,
     String name,
     String description,
   ) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set(this, 'description', description);
   }
 
   Item._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -443,7 +474,8 @@ class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Item._);
     return const SchemaObject(ObjectType.realmObject, Item, 'Item', [
-      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('description', RealmPropertyType.string),
     ]);
   }

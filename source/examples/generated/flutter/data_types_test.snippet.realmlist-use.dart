@@ -1,10 +1,11 @@
-final artemis = realm.write(() => realm.add(Player('Art3mis', inventory: [
-      Item('elvish sword', 'sword forged by elves'),
-      Item('body armor', 'protects player from damage'),
-    ], traits: [
-      'brave',
-      'kind'
-    ])));
+final artemis =
+    realm.write(() => realm.add(Player(ObjectId(), 'Art3mis', inventory: [
+          Item(ObjectId(), 'elvish sword', 'sword forged by elves'),
+          Item(ObjectId(), 'body armor', 'protects player from damage'),
+        ], traits: [
+          'brave',
+          'kind'
+        ])));
 
 // Use RealmList methods to filter results
 RealmList<String> traits = artemis.traits;

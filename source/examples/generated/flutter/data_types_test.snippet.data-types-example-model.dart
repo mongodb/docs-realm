@@ -25,6 +25,8 @@ class _Address {
 @RealmModel()
 class _Person {
   @PrimaryKey()
+  late ObjectId id;
+
   late String name;
 
   // Embedded object in parent object schema
