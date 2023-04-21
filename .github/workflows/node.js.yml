@@ -3,7 +3,7 @@ name: Node.js CI Realm Example App
 on:
   pull_request:
     paths:
-      - 'examples/node/**'
+      - "examples/node/**"
 
 jobs:
   build:
@@ -15,17 +15,17 @@ jobs:
         node-version: [14.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install Dependencies
-      working-directory: examples/node
-      run: npm install
-    - name: Test JavaScript
-      working-directory: examples/node
-      run: npm run test:js
-    - name: Test TypeScript
-      working-directory: examples/node
-      run: npm run test:ts
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        working-directory: examples/node
+        run: npm install
+      - name: Test JavaScript
+        working-directory: examples/node
+        run: npm run test:js
+      - name: Test TypeScript
+        working-directory: examples/node
+        run: npm run test:ts
