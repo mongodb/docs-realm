@@ -38,8 +38,14 @@ async function getPlantsCollection() {
     Realm.Services.MongoDB.MongoDBCollection<T>;
   // :snippet-end:
   // :snippet-start: plants-collection-handle
+  // :replace-start: {
+  //   "terms": {
+  //     "ts-example": "example"
+  //   }
+  // }
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
-  const plants = mongodb.db("example").collection<Plant>("plants");
+  const plants = mongodb.db("ts-example").collection<Plant>("plants");
+  // :replace-end:
   // :snippet-end:
   return plants;
 }
