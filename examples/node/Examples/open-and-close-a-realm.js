@@ -256,6 +256,45 @@ describe("Open and Close a Realm", () => {
       console.error("failed to open realm", err.message);
     }
   });
+
+  test("should open a realm without providing a schema", async () => {
+    const Address = {
+      name: "Address",
+      embedded: true,
+      properties: {
+        street: "string?",
+        city: "string?",
+        country: "string?",
+        postalCode: "string?",
+      },
+    };
+
+    const Business = {
+      name: "Business",
+      primaryKey: "_id",
+      properties: {
+        _id: "objectId",
+        name: "string",
+        addresses: { type: "list", objectType: "Address" },
+      },
+    };
+
+    const config = {
+      schema: [Business, Address],
+    };
+    const realmAtDefaultPathExits = Realm.exists(config);
+
+    // If there is no realm (with schema) on device, create one.
+    if (!realmAtDefaultPathExits) {
+      new Realm(config);
+    }
+
+    // :snippet-start: no-schema
+    const noSchemaRealm = new Realm();
+    // :snippet-end:
+
+    expect(noSchemaRealm instanceof Realm).toBe(true);
+  });
 });
 
 describe("Convert Realm using writeCopyTo()", () => {
