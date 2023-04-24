@@ -15,7 +15,18 @@ Open & Close a Realm - Node.js SDK
 Open a Local Realm
 ------------------
 
-.. include:: /includes/js-open-a-local-realm.rst
+To open a local (non-synced) realm, pass a :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object to the asynchronous method :js-sdk:`Realm.open()
+<Realm.html#.open>`.
+
+.. note:: Accessing the Default Realm Path
+
+   If the ``path`` property is not specified in your ``Configuration`` object,
+   the default path is used. You can access and change the default Realm path
+   using the ``Realm.defaultPath`` global property.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-realm-with-car-schema.js
+  :language: javascript
 
 Open a Realm Without Providing a Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,7 +44,20 @@ must always pass a schema when using a Synced realm.
 
 .. _node-open-an-in-memory-realm:
 
-.. include:: /includes/js-open-an-in-memory-realm.rst
+Open an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a realm that runs entirely in memory without being written to a file,
+add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object:
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-and-close-an-in-memory-realm.js
+   :language: javascript
+
+.. note:: 
+
+   In-memory realms may use disk space if memory is running low, but files
+   created by an in-memory realm are deleted when you close the realm.
 
 .. _node-open-existing-realm-different-configuration:
 .. _node-copy-data-and-open-new-realm:
