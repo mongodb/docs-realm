@@ -7,22 +7,22 @@ public partial class Person : IRealmObject
     public byte[] RequiredArray { get; set; }
     public byte[]? NullableArray { get; set; }
 
-    /* Collections */
+    /* Realm Objects */
+
+    public Dog? ANullableDog { get; set; }
+    public Dog ANonNullableDog { get; set; } // Compile-time error
+
+    /* Collections of Primatives */
+
     public IList<int> RequiredIntList { get; }
     public IList<int?> IntListWithNullableValues { get; }
+    public IList<int>? NullableListOfInts { get; } // Compile-time error
 
-    /* Realm Objects */
-    public Dog? MyDog { get; set; }
+    /* Collections of Realm Objects */
 
-    public Dog MyDog { get; set; } // Compile-time error
-    // Error: Type Dog does not support the assigned
-    // nullability annotation.
-
-    /* List of Realm Objects */
-    public IList<Dog> MyDogs { get; }
-
-    public IList<int>? NullableIntList { get; } // Compile-time error
-    // Error: Person.NullableIntList has type IList<int>?,
-    // that does not support the assigned nullability annotation.
+    public IList<Dog> AListOfNonNullableDogs { get; }
+    public IList<Dog?> AListOfNNullableDogs { get; } // Compile-time error
+    public IDictionary<string, Dog?> MyDictionaryOfNullableObjects { get; }
+    public IDictionary<string, Dog>? MyNullableDictionaryOfObjects { get; } // Compile-time error
 }
 

@@ -10,7 +10,6 @@
    :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
    :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
    :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`
-   base classes. Differences between using the base classes and interfaces will 
-   be described in this document, but note that in the future we may deprecate the 
+   base classes, but note that in the future we may deprecate the 
    base classes. You should use the interfaces for any new classes
    that you write.

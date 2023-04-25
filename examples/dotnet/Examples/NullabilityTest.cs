@@ -10,13 +10,13 @@ namespace Examples
     // :snippet-start: nullability
     // :replace-start: {
     //  "terms": {
-    //   "NullableFoo": "Person",
-    //   "NullableBar": "Dog"}
+    //   "Nullable_Foo": "Person",
+    //   "Nullable_Bar": "Dog"}
     // }
     // :uncomment-start:
     //#nullable enable
     // :uncomment-end:
-    public partial class NullableFoo : IRealmObject
+    public partial class Nullable_Foo : IRealmObject
     {
         /* Reference Types */
         public string RequiredName { get; set; }
@@ -24,32 +24,36 @@ namespace Examples
         public byte[] RequiredArray { get; set; }
         public byte[]? NullableArray { get; set; }
 
-        /* Collections */
+        /* Realm Objects */
+
+        public Nullable_Bar? ANullableNullable_Bar { get; set; }
+        // :uncomment-start:
+        //public Dog ANonNullableDog { get; set; } // Compile-time error
+        // :uncomment-end:
+
+        /* Collections of Primatives */
+
         public IList<int> RequiredIntList { get; }
         public IList<int?> IntListWithNullableValues { get; }
-
-        /* Realm Objects */
-        public NullableBar? MyNullableBar { get; set; }
-
         // :uncomment-start:
-        //public NullableBar MyNullableBar { get; set; } // Compile-time error
+        //public IList<int>? NullableListOfInts { get; } // Compile-time error
         // :uncomment-end:
-        // Error: Type Dog does not support the assigned
-        // nullability annotation.
 
-        /* List of Realm Objects */
-        public IList<NullableBar> MyNullableBars { get; }
+        /* Collections of Realm Objects */
 
+        public IList<Nullable_Bar> AListOfNonNullableNullable_Bars { get; }
         // :uncomment-start:
-        //public IList<int>? NullableIntList { get; } // Compile-time error
+        //public IList<Dog?> AListOfNNullableDogs { get; } // Compile-time error
+        // :uncomment-end:.
+        public IDictionary<string, Nullable_Bar?> MyDictionaryOfNullableObjects { get; }
+        // :uncomment-start:
+        //public IDictionary<string, Nullable_Bar>? MyNullableDictionaryOfObjects { get; } // Compile-time error
         // :uncomment-end:
-        // Error: Person.NullableIntList has type IList<int>?,
-        // that does not support the assigned nullability annotation.
     }
 
     //:replace-end:
     //:snippet-end:
-    public partial class NullableBar : IEmbeddedObject
+    public partial class Nullable_Bar : IEmbeddedObject
     {
     }
 }

@@ -266,11 +266,15 @@ following rules:
 - Both value and reference type properties are declared either nullable or not 
   by using ``?``.
 
-- If a reference type property is not nullable, then it is considered a required 
+- If a type property is not nullable, then it is considered a required 
   property. 
 
-- Collections (list, sets, and dictionaries) cannot be declared nullable, but 
-  their parameters may be.
+- Collections (list, sets, and dictionaries) cannot be declared nullable.
+   - If the collection is a list of primatives, they can be nullable.
+   - If the collection is a list of Realm objects, they cannot be nullable.
+
+- Dictionaries cannot be declared nullable, although their values, regardless 
+  of type, must be declared nullable.
 
 - Properties that link to a Realm object are inherently nullable, and so 
   you **must** define the property as nullable.
@@ -280,52 +284,8 @@ The following code snippet shows these rules:
 .. literalinclude:: /examples/generated/dotnet/NullabilityTest.snippet.nullability.cs
    :language: csharp
 
-
-TODO: this seems conflict with bullet 3!
-Lists, sets, and backlinks of objects cannot contain null values, and thus the type parameter must be non-nullable.
-Dictionaries of object values can contain null, and thus the type parameter must be nullable.
-
 .. note::
 
-   If your class derives from the ``RealmObject`` base class, the rules above do 
+   If your classes derive from the ``RealmObject`` base class, the rules above do 
    not apply to reference types. Instead, use the 
    :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute.
-
-.. _mvvm_data_binding:
-
-Data Binding and MVVM
----------------------
-When building a MAUI/Xamarin app using the 
-`MVVM <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm>`_ 
-pattern, you often want proper data binding *in both directions* between the 
-View and ViewModel: if a property value changes in the UI, the ViewModel should 
-be notified, and vice-versa. ViewModels typically implement 
-the `INotifyPropertyChange <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0>`_ 
-interface to ensure this. 
-
-However, when you bind UI elements to a :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
-this notification happens automatically, thus greatly simplifying your ViewModel code. 
-
-You can also bind a UI element to a realm :ref:`Live Query <dotnet-live-queries>`. 
-For example, if you bind a 
-`ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
-to a live query, then the list will update automatically when the results of the 
-query change; you do not need to implement the ``INotifyPropertyChange`` 
-interface.
-
-For example, if you bind a ListView to a query that returns all Product 
-objects, the list of available products updates automatically 
-when a product is added, changed, or removed from the realm:
-
-.. code-block:: csharp
-   :copyable: false
-
-   // Somewhere in your ViewModel
-   AllProducts = realm.All<Products>();
-
-.. code-block:: xaml
-   :copyable: false
-   
-   <!-- Somewhere in your View -->
-   <ListView ItemsSource="{Binding AllProducts}">
-
