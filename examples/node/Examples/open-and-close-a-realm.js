@@ -273,7 +273,7 @@ describe("Open and Close a Realm", () => {
     // :snippet-start: no-schema
     // Open the Realm with a schema
     const realm = new Realm({ schema: [Car] });
-    const schemaBefore = realm.schema;
+    const schemaBefore = realm.schema; // :remove:
 
     realm.close();
 

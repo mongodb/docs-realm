@@ -1,33 +1,19 @@
 // :snippet-start: configure-no-schema
 import React from 'react';
 import {createRealmContext} from '@realm/react';
-import {Text, FlatList} from 'react-native';
 // :remove-start:
+import {Text, FlatList} from 'react-native';
 import Business from '../Models/Business';
 import Address from '../Models/Address';
 import {Realm} from '@realm/react';
 import {render} from '@testing-library/react-native';
-// :remove-end:
 
-let higherScopeSchema: Realm.CanonicalObjectSchema[]; // :remove:
-// To access a realm at the default path, do not pass a config object.
-// Requires a realm that has already been created.
-const defaultPathLocalRealm = createRealmContext();
-// You can still access providers and hooks.
-const {RealmProvider, useRealm} = defaultPathLocalRealm;
+let higherScopeSchema: Realm.CanonicalObjectSchema[];
 
-function AppWrapper() {
-  return (
-    <RealmProvider>
-      <App />
-    </RealmProvider>
-  );
-}
-
-function App() {
+function RestOfApp() {
   const realm: Realm = useRealm();
   const realmSchemas = realm.schema;
-  higherScopeSchema = realm.schema; // :remove:
+  higherScopeSchema = realm.schema;
 
   return (
     <FlatList
@@ -38,6 +24,26 @@ function App() {
     />
   );
 }
+// :remove-end:
+
+// To access a realm at the default path,
+// do not pass a config object.
+// Requires a realm that has already been created.
+const defaultPathLocalRealm = createRealmContext();
+// You can still access providers and hooks.
+const {RealmProvider} = defaultPathLocalRealm;
+const {useRealm} = defaultPathLocalRealm; // :remove:
+
+function AppWrapper() {
+  return (
+    <RealmProvider>
+      <RestOfApp />
+    </RealmProvider>
+  );
+}
+// :remove-start:
+
+// :remove-end:
 // :snippet-end:
 
 describe('Test accessing no schema realm', () => {

@@ -1,30 +1,17 @@
 import React from 'react';
 import {createRealmContext} from '@realm/react';
-import {Text, FlatList} from 'react-native';
 
-// To access a realm at the default path, do not pass a config object.
+// To access a realm at the default path,
+// do not pass a config object.
+// Requires a realm that has already been created.
 const defaultPathLocalRealm = createRealmContext();
 // You can still access providers and hooks.
-const {RealmProvider, useRealm} = defaultPathLocalRealm;
+const {RealmProvider} = defaultPathLocalRealm;
 
 function AppWrapper() {
   return (
     <RealmProvider>
-      <App />
+      <RestOfApp />
     </RealmProvider>
-  );
-}
-
-function App() {
-  const realm = useRealm();
-  const realmSchemas = realm.schema;
-
-  return (
-    <FlatList
-      data={realmSchemas}
-      renderItem={({item}) => {
-        <Text>{item.name}</Text>;
-      }}
-    />
   );
 }
