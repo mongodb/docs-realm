@@ -63,7 +63,7 @@ copy of a realm to another file location with the :js-sdk:`Realm.writeCopyTo()
 
 .. important::
 
-   Avoid calling ``writeCopyTo()`` within a :ref:`write transaction <react-native-write-transaction>`. 
+   Avoid calling ``writeCopyTo()`` within a :ref:`write transaction <react-native-write-transactions>`. 
    If called within a write transaction, this
    method copies the absolute latest data. This includes any
    **uncommitted** changes you made in the transaction before this
