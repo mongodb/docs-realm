@@ -44,7 +44,13 @@ Before You Begin
 The Event Library stores data in an ``AuditEvent`` collection in your 
 linked Atlas data source. Enable :ref:`Development Mode <development-mode>`
 in your App Services App to let Atlas create the collection and infer
-the schema from the uploaded events.
+the schema from the uploaded events
+
+.. important:: Partition-Based Sync Required
+
+   The Event Library does not support recording ``AuditEvents`` using Flexible 
+   Sync. This functionality requires a Partition-Based Sync App Services App 
+   to record ``AuditEvent`` data.
 
 Enable Event Recording
 ----------------------
@@ -78,8 +84,10 @@ You can pass optional parameters to customize the ``EventConfiguration``:
 - ``partitionPrefix``: String prefix to append to the event partition value
 - ``logger``: Custom logger to use for events. If nil, defaults to the
   logger from the user realm.
-- ``errorHandler``: Custom error handler to use when opening the event realm. 
-  If nil, defaults to the error handler from the user realm.
+- ``errorHandler``: The custom error handler called if a Sync error occurs
+  when uploading event data. If ``nil``, the SDK logs the event and then calls
+  ``abort()``. Production apps should always define an event ``errorHandler`` 
+  unless aborting on the error is the desired behavior.
 
 .. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.event-configuration-with-params.swift
    :language: swift
