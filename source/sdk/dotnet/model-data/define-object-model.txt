@@ -136,26 +136,6 @@ attribute:
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
    :language: csharp
 
-
-.. _dotnet-required-field:
-.. _dotnet-optional-field:
-.. _dotnet-required-optional-property:
-
-Required and Optional Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In C#, value types are implicitly non-nullable, but can be made optional by appending 
-`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
-Reference types, such as ``string`` and ``byte[]``, are implicitly nullable and can be
-made required by annotating them with the ``[Required]`` attribute. Properties of types
-that inherit from ``IRealmObject`` or ``IEmbeddedObject`` are special and can always be
-null. Applying ``[Required]`` on such a property will result in a compilation error.
-
-You can use the ``[Required]`` attribute as seen in the following example:
-
-.. literalinclude:: /examples/generated/dotnet/Objects.snippet.required.cs
-   :language: csharp
-
 .. _dotnet-default-field-values:
 
 Default Field Values
@@ -262,6 +242,54 @@ Schema, you can update your configuration to include the specific classes you wa
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.subset.cs
    :language: csharp
+
+
+.. _dotnet-required-field:
+.. _dotnet-optional-field:
+.. _dotnet-required-optional-property:
+
+Required and Optional Properties
+--------------------------------
+
+In C#, value types are implicitly non-nullable, but can be made optional by appending 
+`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
+
+Beginning with C# 8.0, new projects are run in a 
+`nullable aware context <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types>`__.
+In this case, reference types, such as ``string`` and ``byte[]``, must also be declared 
+as nullable with ``?``.
+
+The Realm .NET SDK fully supports the nullable aware context and uses nullability 
+to determine whether a property is **required** or **optional**. The SDK uses the 
+following rules:
+
+- Both value and reference type properties are declared either nullable or not 
+  by using ``?``.
+
+- If a reference type property is not nullable, then it is considered a required 
+  property. 
+
+- Collections (list, sets, and dictionaries) cannot be declared nullable, but 
+  their parameters may be.
+
+- Properties that link to a Realm object are inherently nullable, and so 
+  you **must** define the property as nullable.
+
+The following code snippet shows these rules:
+
+.. literalinclude:: /examples/generated/dotnet/NullabilityTest.snippet.nullability.cs
+   :language: csharp
+
+
+TODO: this seems conflict with bullet 3!
+Lists, sets, and backlinks of objects cannot contain null values, and thus the type parameter must be non-nullable.
+Dictionaries of object values can contain null, and thus the type parameter must be nullable.
+
+.. note::
+
+   If your class derives from the ``RealmObject`` base class, the rules above do 
+   not apply to reference types. Instead, use the 
+   :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute.
 
 .. _mvvm_data_binding:
 
