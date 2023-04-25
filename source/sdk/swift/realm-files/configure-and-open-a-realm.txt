@@ -1,5 +1,4 @@
 .. _ios-configure-and-open-a-realm:
-.. _ios-realms:
 
 ====================================
 Configure & Open a Realm - Swift SDK
@@ -10,12 +9,6 @@ Configure & Open a Realm - Swift SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
-
-A **realm** is the core data structure used to organize data in
-Realm Database. A realm is a collection of the objects that you use 
-in your application, called Realm objects, as well as additional metadata 
-that describe the objects. To learn how to define a Realm object, see
-:ref:`Define an Object Model <ios-define-a-realm-object-schema>`.
 
 When you open a realm, you can pass a :swift-sdk:`Realm.Configuration 
 <Structs/Realm/Configuration.html>` that specifies additional details 
@@ -34,56 +27,6 @@ about how to configure the realm file. This includes things like:
    <ios-realm-sync>`. If you'd like to use Device Sync to sync data with
    other devices, see: :ref:`Configure & Open a Synced Realm 
    <ios-configure-and-open-a-synced-realm>`.
-
-.. _ios-realm-file:
-
-Key Concept: Realm Files
-------------------------
-
-Realm Database stores a binary encoded version of every object and type in a
-realm in a single ``.realm`` file. The file is located at :ref:`a specific 
-path <ios-default-and-file-url-realm>` that you can define when you open the 
-realm. You can open, view, and edit the contents of these files with 
-:ref:`realm-studio`.
-
-.. see:: Auxiliary Realm Files
-   
-   Realm Database creates additional files for each realm.
-   To learn more about these files, see :ref:`Realm Database Internals
-   <ios-realm-database>`. Deleting these files has important implications.
-   For more information about deleting ``.realm`` or auxiliary files, see: 
-   :ref:`Delete a Realm <swift-delete-a-realm>`
-
-.. _ios-in-memory-realm:
-
-In-Memory Realms
-~~~~~~~~~~~~~~~~
-
-You can also open a realm entirely in memory, which does not create a ``.realm``
-file or its associated auxiliary files. Instead the SDK stores objects in memory
-while the realm is open and discards them immediately when all instances are
-closed.
-
-.. see:: Open an In-Memory Realm
-
-   To open an in-memory realm, see :ref:`ios-open-an-in-memory-realm`.
-
-.. _ios-default-realm:
-
-Default Realm
-~~~~~~~~~~~~~
-
-Calling :swift-sdk:`Realm()<Structs/Realm.html>` or 
-:objc-sdk:`RLMRealm<Classes/RLMRealm.html>` opens the default realm. 
-This method returns a realm object that maps to a file named 
-``default.realm``. You can find this file:
-
-- iOS: in the Documents folder of your app
-- macOS: in the Application Support folder of your app
-
-.. see:: Open a Default Realm
-
-   To open a default realm, see :ref:`ios-default-and-file-url-realm`.
 
 .. _ios-open-a-local-realm:
 
@@ -266,7 +209,6 @@ Provide a Subset of Classes to a Realm
 
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.configure-object-types.m
          :language: objectivec
-
 
 .. _ios-realm-api-properties:
 

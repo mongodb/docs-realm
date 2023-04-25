@@ -15,7 +15,7 @@ const TaskSchema = {
     name: "string",
     status: "string?",
     progressMinutes: "int?",
-    owner: "string?",
+    owner_id: "string?",
     dueDate: "date?",
   },
   primaryKey: "_id",
@@ -36,7 +36,7 @@ const config = {
         subs.add(
           // Get objects that match your object model, then filter them
           // the `owner_id` queryable field
-          realm.objects("Task").filtered(`owner_id = ${app.currentUser.id}`)
+          realm.objects("Task").filtered(`owner_id = "${app.currentUser.id}"`)
         );
       },
     },

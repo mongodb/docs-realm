@@ -1,7 +1,7 @@
 // Get the API key from the local environment
-const apiKey = process.env?.realmApiKey;
+const apiKey = process.env?.appServicesApiKey;
 if (!apiKey) {
-  throw new Error("Could not find a Realm Server API Key.");
+  throw new Error("Could not find an App Services Server API Key.");
 }
 // Create an api key credential
 const credentials = Realm.Credentials.apiKey(apiKey);

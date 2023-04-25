@@ -1,7 +1,7 @@
 // Create an email/password credential
 const credentials = Realm.Credentials.emailPassword(
   "someone@example.com",
-  "passw0rd"
+  "Pa55w0rd!"
 );
 try {
   const user = await app.logIn(credentials);
