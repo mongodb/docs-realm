@@ -24,6 +24,8 @@ describe.skip("test compaction on launch", () => {
 
     let realm = await Realm.open(config);
 
+    console.debug("bytes " + realm.usedBytes);
+
     //:snippet-end:
     expect(wasCalled).toBe(true);
 
