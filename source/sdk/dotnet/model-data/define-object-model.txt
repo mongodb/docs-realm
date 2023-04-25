@@ -260,26 +260,27 @@ In this case, reference types, such as ``string`` and ``byte[]``, must also be d
 as nullable with ``?``.
 
 The Realm .NET SDK fully supports the nullable aware context and uses nullability 
-to determine whether a property is **required** or **optional**. The SDK uses the 
+to determine whether a property is required or optional. The SDK has the 
 following rules:
 
-- Both value and reference type properties are declared either nullable or not 
-  by using ``?``.
+- Realm assumes that both value and reference type properties are required if you 
+  do not designate them as nullable. If you designate them as nullable 
+  (by using ``?``), Realm considers them optional.
 
-- If a type property is not nullable, then it is considered a required 
-  property. 
+- You cannot declare collections (list, sets, and dictionaries) as nullable.
 
-- Collections (list, sets, and dictionaries) cannot be declared nullable.
-   - If the collection is a list of primatives, they can be nullable.
-   - If the collection is a list of Realm objects, they cannot be nullable.
+  - If the collection contains a list of primatives, the primatives *can* be 
+    nullable.
+  - If the collection contains a list of Realm objects, the objects *cannot* be 
+    nullable.
 
-- Dictionaries cannot be declared nullable, although their values, regardless 
-  of type, must be declared nullable.
+- You cannot declare dictionaries as nullable, but their values are inherently 
+  nullable and you must declare the values as such.
 
-- Properties that link to a Realm object are inherently nullable, and so 
-  you **must** define the property as nullable.
+- Properties that are Realm object types are inherently nullable, and so 
+  you must define the property as nullable.
 
-The following code snippet shows these rules:
+The following code snippet demonstrates these rules:
 
 .. literalinclude:: /examples/generated/dotnet/NullabilityTest.snippet.nullability.cs
    :language: csharp
