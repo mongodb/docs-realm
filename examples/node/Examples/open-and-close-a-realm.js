@@ -257,43 +257,33 @@ describe("Open and Close a Realm", () => {
     }
   });
 
-  test("should open a realm without providing a schema", async () => {
-    const Address = {
-      name: "Address",
-      embedded: true,
+  test("should re-open a realm without providing a schema", () => {
+    // Close and delete realm at the default path.
+    Realm.clearTestState();
+
+    const Car = {
+      name: "Car",
       properties: {
-        street: "string?",
-        city: "string?",
-        country: "string?",
-        postalCode: "string?",
+        make: "string",
+        model: "string",
+        miles: "int",
       },
     };
-
-    const Business = {
-      name: "Business",
-      primaryKey: "_id",
-      properties: {
-        _id: "objectId",
-        name: "string",
-        addresses: { type: "list", objectType: "Address" },
-      },
-    };
-
-    const config = {
-      schema: [Business, Address],
-    };
-    const realmAtDefaultPathExits = Realm.exists(config);
-
-    // If there is no realm (with schema) on device, create one.
-    if (!realmAtDefaultPathExits) {
-      new Realm(config);
-    }
 
     // :snippet-start: no-schema
-    const noSchemaRealm = new Realm();
+    // Open the Realm with a schema
+    const realm = new Realm({ schema: [Car] });
+    const schemaBefore = realm.schema;
+
+    realm.close();
+
+    // Reopen it without a schema
+    const reopenedRealm = new Realm();
     // :snippet-end:
 
-    expect(noSchemaRealm instanceof Realm).toBe(true);
+    // Expect the schemas to match
+    expect(reopenedRealm.schema.length).toBe(1);
+    expect(reopenedRealm.schema).toEqual(schemaBefore);
   });
 });
 
