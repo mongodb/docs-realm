@@ -17,27 +17,28 @@ Sync Data Unidirectionally from a Client Application
 
 .. procedure::
 
-   .. step:: Define an AsymmetricObject
+   .. step:: Define an Asymmetric Object
 
-      You can sync data unidirectionally when that object is an ``AsymmetricObject``.
-      Define an AsymmetricObject by deriving from :swift-sdk:`AsymmetricObject 
-      <Extensions/AsymmetricObject.html>`:
+      Asymmetric objects sync data unidirectionally. Define an asymmetric object
+      by setting ``asymmetric`` to ``true`` in your :js-sdk:`object model 
+      <Realm.html#~ObjectSchema>`:
 
-      .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.asymmetric-model.swift
-         :language: swift
+      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync.js
+         :language: javascript
+         :emphasize-lines: 4
 
-      For more information on how to define an AsymmetricObject, including
-      limitations when linking to other object types, see: 
-      :ref:`Define an AsymmetricObject <swift-define-asymmetric-object>`.
+      For more information on how to define an asymmetric object, see: 
+      :ref:`Define an Asymmetric Object <node-define-an-asymmetric-object>`.
 
    .. step:: Connect and Authenticate with an App Services App
 
       To stream data from the client to your backend App, you must 
-      :ref:`connect to an App Services backend <ios-init-appclient>` and
-      :ref:`authenticate a user <ios-authenticate-users>`.
+      :ref:`connect to an App Services backend 
+      <node-connect-to-mongodb-realm-backend-app>` and
+      :ref:`authenticate a user <node-authenticate-users>`.
 
-      .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.connect-and-authenticate.swift
-         :language: swift
+      .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
+         :language: javascript
 
       Data Ingest is a feature of Flexible Sync, so the App you connect 
       to must use :ref:`Flexible Sync <flexible-sync>`.
@@ -45,40 +46,27 @@ Sync Data Unidirectionally from a Client Application
    .. step:: Open a Realm
 
       After you have an authenticated user, you can open a synced realm
-      using a :swift-sdk:`flexibleSyncConfiguration() 
-      <Extensions/User.html#/s:So7RLMUserC10RealmSwiftE25flexibleSyncConfigurationAC0B0V0F0VyF>`.
-      Specify the ``AsymmetricObject`` types you want to sync.
+      using a Flexible Sync :js-sdk:`configuration object <Realm.html#~Configuration>`.
 
-      .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.open-asymmetric-sync-realm.swift
-         :language: swift
+      .. literalinclude:: /examples/generated/node/flexible-sync.snippet.open-flexible-sync-realm.js
+         :language: javascript
 
-      Unlike bidirectional Sync, Data Ingest does not use a 
-      :ref:`Flexible Sync subscription <swift-manage-flexible-sync-subscriptions>`.
-
-      .. tip:: Mixed Object and AsymmetricObject Types in Projects
-
-         Generally, Realm expects that you do not mix ``Object`` and 
-         ``AsymmetricObject`` types within a project. If your project does
-         contain both types, you must explicitly :ref:`pass a subset of 
-         classes in your Realm configuration 
-         <ios-provide-a-subset-of-classes-to-a-realm>` each time you open 
-         a Realm. 
+      Unlike bi-directional Sync, Data Ingest does not use a 
+      :ref:`Flexible Sync subscription <node-flexible-sync>`.
          
-         You cannot query an AsymmetricObject or write it to a local
-         realm, so AsymmetricObjects are incompatible with bi-directional
-         Flexible Sync, Partition-Based Sync, or local Realm use. Automatic 
-         schema discovery means that unless you explicitly pass a subset 
-         of classes to a realm in a mixed project, opening a realm can 
-         throw an error related to trying to use an incompatible object type.
+      You cannot query an asymmetric object or write it to a local
+      realm, so asymmetric objects are incompatible with bi-directional
+      Flexible Sync, Partition-Based Sync, or local Realm use.
 
    .. step:: Create Asymmetric Objects
 
-      Once you have an open Realm, you can create an ``AsymmetricObject`` inside
-      a write transaction using :swift-sdk:`create(_ type:, value:)
-      <Structs/Realm.html#/s:10RealmSwift0A0V6create_5valueyxm_yptSo0aB16AsymmetricObjectCRbzlF>`.
+      Once you have an open Realm, you can create an asymmetric object inside
+      a write transaction using :js-sdk:`Realm.create() <Realm.html#create>`.
+      When creating an asymmetric object, ``Realm.create()`` returns
+      ``undefined`` rather than the object itself.
 
-      .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
-         :language: swift
+      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.js
+         :language: javascript
       
       You cannot read these objects. Once created, they sync to the App 
       Services backend and the linked Atlas database.

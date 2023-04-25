@@ -38,14 +38,16 @@ describe("Asymmetric Sync", () => {
       });
     });
 
+    // :snippet-start: write-asymmetric-object
     realm.write(() => {
-      const invoice1 = realm.create("Invoice", {
+      realm.create("Invoice", {
         _id: new BSON.ObjectID(),
         item: "shirt",
         quantity: 30,
         price: 10,
       });
     });
+    // :snippet-end:
 
     // Clean up
     realm.close();
