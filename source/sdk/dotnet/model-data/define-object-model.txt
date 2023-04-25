@@ -267,7 +267,8 @@ following rules:
   do not designate them as nullable. If you designate them as nullable 
   (by using ``?``), Realm considers them optional.
 
-- You cannot declare collections (list, sets, and dictionaries) as nullable.
+- You cannot declare collections (list, sets, and dictionaries) as nullable. 
+  Therefore, Realm considers them required properties. 
 
   - If the collection contains a list of primatives, the primatives *can* be 
     nullable.

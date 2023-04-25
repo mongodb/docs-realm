@@ -2,6 +2,7 @@
 public partial class Person : IRealmObject
 {
     /* Reference Types */
+
     public string RequiredName { get; set; }
     public string? NullableName { get; set; }
     public byte[] RequiredArray { get; set; }
@@ -23,6 +24,7 @@ public partial class Person : IRealmObject
     public IList<Dog> AListOfNonNullableDogs { get; }
     public IList<Dog?> AListOfNNullableDogs { get; } // Compile-time error
     public IDictionary<string, Dog?> MyDictionaryOfNullableObjects { get; }
+    public IDictionary<string, Dog> MyDictionaryOfNonNullableObjects { get; }
     public IDictionary<string, Dog>? MyNullableDictionaryOfObjects { get; } // Compile-time error
 }
 

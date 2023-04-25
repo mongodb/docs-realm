@@ -19,6 +19,7 @@ namespace Examples
     public partial class Nullable_Foo : IRealmObject
     {
         /* Reference Types */
+
         public string RequiredName { get; set; }
         public string? NullableName { get; set; }
         public byte[] RequiredArray { get; set; }
@@ -46,6 +47,7 @@ namespace Examples
         //public IList<Dog?> AListOfNNullableDogs { get; } // Compile-time error
         // :uncomment-end:.
         public IDictionary<string, Nullable_Bar?> MyDictionaryOfNullableObjects { get; }
+        public IDictionary<string, Nullable_Bar> MyDictionaryOfNonNullableObjects { get; }
         // :uncomment-start:
         //public IDictionary<string, Nullable_Bar>? MyNullableDictionaryOfObjects { get; } // Compile-time error
         // :uncomment-end:
