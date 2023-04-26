@@ -247,12 +247,12 @@ You can define a
 `RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__,
 which is a specialized 
 `RealmMap <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-map/index.html>`__ 
-whose keys are strings. The RealmMap is an associative array that contains 
+where every key is a string. A ``RealmMap`` is an associative array that contains 
 key-value pairs with unique keys. 
 
-A RealmDictionary's value type may be any type of Realm primitive nullable 
-or non-nullable value. If a RealmDictionary's value is a ``RealmObject`` or
-``EmbeddedRealmObject``, the value must be declared nullable.
+A ``RealmDictionary`` may contain values of any Realm primitive type, either
+nullable or non-nullable. If a ``RealmDictionary``'s value is a ``RealmObject``
+or ``EmbeddedRealmObject``, the value must be declared nullable.
 
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.define-realm-dictionary-property.kt
    :language: kotlin
