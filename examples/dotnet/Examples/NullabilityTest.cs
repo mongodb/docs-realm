@@ -18,6 +18,12 @@ namespace Examples
     // :uncomment-end:
     public partial class Nullable_Foo : IRealmObject
     {
+        //:remove-start:
+
+        [PrimaryKey]
+        [MapTo("_id")]
+        public int Id { get; set; }
+        //:remove-end:
         /* Reference Types */
 
         public string RequiredName { get; set; }
@@ -57,6 +63,7 @@ namespace Examples
     //:snippet-end:
     public partial class Nullable_Bar : IEmbeddedObject
     {
+        public int Id { get; set; }
     }
 }
 
