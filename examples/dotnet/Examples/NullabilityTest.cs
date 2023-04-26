@@ -34,29 +34,21 @@ namespace Examples
         /* Realm Objects */
 
         public Nullable_Bar? ANullableNullable_Bar { get; set; }
-        // :uncomment-start:
-        //public Dog ANonNullableDog { get; set; } // Compile-time error
-        // :uncomment-end:
+        // public Dog ANonNullableDog { get; set; } // Compile-time error
 
         /* Collections of Primatives */
 
         public IList<int> RequiredIntList { get; }
         public IList<int?> IntListWithNullableValues { get; }
-        // :uncomment-start:
-        //public IList<int>? NullableListOfInts { get; } // Compile-time error
-        // :uncomment-end:
+        // public IList<int>? NullableListOfInts { get; } // Compile-time error
 
         /* Collections of Realm Objects */
 
         public IList<Nullable_Bar> AListOfNonNullableNullable_Bars { get; }
-        // :uncomment-start:
-        //public IList<Dog?> AListOfNNullableDogs { get; } // Compile-time error
-        // :uncomment-end:.
+        // public IList<Dog?> AListOfNNullableDogs { get; } // Compile-time error
         public IDictionary<string, Nullable_Bar?> MyDictionaryOfNullableObjects { get; }
         public IDictionary<string, Nullable_Bar> MyDictionaryOfNonNullableObjects { get; }
-        // :uncomment-start:
-        //public IDictionary<string, Nullable_Bar>? MyNullableDictionaryOfObjects { get; } // Compile-time error
-        // :uncomment-end:
+        // public IDictionary<string, Nullable_Bar>? MyNullableDictionaryOfObjects { get; } // Compile-time error
     }
 
     //:replace-end:

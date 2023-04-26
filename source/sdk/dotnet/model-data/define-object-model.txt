@@ -251,21 +251,22 @@ Schema, you can update your configuration to include the specific classes you wa
 Required and Optional Properties
 --------------------------------
 
-In C#, value types are implicitly non-nullable, but can be made optional by appending 
-`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
+In C#, value types are implicitly non-nullable, but can be made optional by using 
+the question mark (``?``) `notation 
+<https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
 
 Beginning with C# 8.0, new projects are run in a 
-`nullable aware context <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types>`__.
+`nullable-aware context <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types>`__.
 In this case, reference types, such as ``string`` and ``byte[]``, must also be declared 
 as nullable with ``?``.
 
-The Realm .NET SDK fully supports the nullable aware context and uses nullability 
+The Realm .NET SDK fully supports the nullable-aware context and uses nullability 
 to determine whether a property is required or optional. The SDK has the 
 following rules:
 
-- Realm assumes that both value and reference type properties are required if you 
+- Realm assumes that both value- and reference-type properties are required if you 
   do not designate them as nullable. If you designate them as nullable 
-  (by using ``?``), Realm considers them optional.
+  by using ``?``, Realm considers them optional.
 
 - You cannot declare collections (list, sets, and dictionaries) as nullable. 
   Therefore, Realm considers them required properties. 
