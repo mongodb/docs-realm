@@ -1,7 +1,7 @@
 import Realm from 'realm';
 
 describe("test compaction on launch", () => {
-    test("shouldCompact", async () => {
+    it("shouldCompact", async () => {
       let wasCalled;
   
       // TODO: Test that realm is compacted once it meets criteria
@@ -17,7 +17,7 @@ describe("test compaction on launch", () => {
   
         // Compact if the file is over 100MB in size and less than 50% 'used'
         const oneHundredMB = 100 * 1024 * 1024;
-        return totalBytes > oneHundredMB && usedBytes / totalBytes < 0.2;
+        return totalBytes > oneHundredMB && usedBytes / totalBytes < 0.5;
       };
       const config = { shouldCompact };
   
@@ -30,7 +30,7 @@ describe("test compaction on launch", () => {
       realm.close();
     });
   
-    test("compact", async () => {
+    it("compact", async () => {
       // TODO: Test that realm is compacted once it meets criteria
   
       //:snippet-start: compactNode
