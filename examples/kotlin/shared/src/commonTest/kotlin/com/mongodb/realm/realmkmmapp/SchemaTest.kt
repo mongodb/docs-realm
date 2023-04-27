@@ -30,30 +30,6 @@ import kotlin.test.assertEquals
 //    }
 // }
 
-// :snippet-start: primary-key
-class Lizard : RealmObject {
-    @PrimaryKey
-    var _id: ObjectId = ObjectId()
-}
-// :snippet-end:
-
-// :snippet-start: ignore
-class ShoppingCart : RealmObject {
-    var _id: ObjectId = ObjectId()
-
-    @Ignore
-    val items: List<String> = listOf()
-}
-// :snippet-end:
-
-// :snippet-start: index
-class Movie : RealmObject {
-    @Index
-    var _id: ObjectId = ObjectId()
-    var starring: RealmList<String> = realmListOf()
-}
-// :snippet-end:
-
 class Fish : RealmObject {
     var _id: ObjectId = ObjectId()
 }
@@ -89,23 +65,6 @@ class Post: RealmObject {
     var _id: ObjectId = ObjectId()
     var title: String = ""
     val user: RealmResults<User> by backlinks(User::posts)
-}
-// :snippet-end:
-
-// :snippet-start: persisted-name
-class Horse : RealmObject {
-    var _id: ObjectId = ObjectId()
-    var name: String =""
-    @PersistedName("rider_name") // Name persisted to realm
-    var riderName: Knight? = null // Kotlin name used in code
-}
-// :snippet-end:
-
-// :snippet-start: optional
-class Knight : RealmObject {
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    var mount: Horse? = null
 }
 // :snippet-end:
 

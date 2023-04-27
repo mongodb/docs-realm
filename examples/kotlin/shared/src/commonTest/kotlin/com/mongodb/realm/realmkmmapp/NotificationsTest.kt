@@ -160,7 +160,6 @@ class NotificationsTest: RealmTest() {
                             throw Exception("Some Error Occurred")
                         }
                     }
-
                 }
             }
             // :snippet-end:
@@ -204,7 +203,6 @@ class NotificationsTest: RealmTest() {
                         else -> {
                             throw Exception("Some Error Occurred")
                         }
-
                     }
                 }
             }

@@ -18,6 +18,9 @@ val job = CoroutineScope(Dispatchers.Default).launch {
             is DeletedList -> {
                 // if the list was deleted
             }
+            else -> {
+                throw Exception("Some Error Occurred")
+            }
         }
     }
 }

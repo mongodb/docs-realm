@@ -14,6 +14,9 @@ val job = CoroutineScope(Dispatchers.Default).launch {
                 // if the object has been deleted
                 changes.obj // returns null for deleted objects -- always reflects newest state
             }
+            else -> {
+                throw Exception("Some Error Occurred")
+            }
         }
     }
 }
