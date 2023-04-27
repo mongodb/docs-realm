@@ -251,36 +251,41 @@ Schema, you can update your configuration to include the specific classes you wa
 Required and Optional Properties
 --------------------------------
 
-In C#, value types are implicitly non-nullable, but can be made optional by using 
-the question mark (``?``) `notation 
+In C#, value types, such as ``int`` and ``bool``, are implicitly non-nullable.  
+However, they can be made optional by using the question mark (``?``) `notation 
 <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
 
-Beginning with C# 8.0, new projects are run in a 
-`nullable-aware context <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types>`__.
-In this case, reference types, such as ``string`` and ``byte[]``, must also be declared 
-as nullable with ``?``.
+Beginning with C# 8.0, nullable reference types were introduced. If your project 
+is using C# 8.0 or later, you can also declare reference types, such as ``string`` 
+and ``byte[]``, as nullable with ``?``. 
+
+.. note:: 
+
+   Beginning with .NET 6.0, the nullable context is enabled by default for new 
+   projects. For older projects, need to manually enable it. For more information, 
+   refer to `<https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types#setting-the-nullable-context>`__.
 
 The Realm .NET SDK fully supports the nullable-aware context and uses nullability 
 to determine whether a property is required or optional. The SDK has the 
 following rules:
 
-- Realm assumes that both value- and reference-type properties are required if you 
-  do not designate them as nullable. If you designate them as nullable 
+- Realm assumes that both value- and reference-type properties are required if
+  you do not designate them as nullable. If you designate them as nullable 
   by using ``?``, Realm considers them optional.
 
-- You cannot declare collections (list, sets, and dictionaries) as nullable. 
-  Therefore, Realm considers them required properties. 
+- You must declare properties that are Realm object types as nullable.
 
-  - If the collection contains a list of primatives, the primatives *can* be 
-    nullable.
-  - If the collection contains a list of Realm objects, the objects *cannot* be 
-    nullable.
+- You cannot declare collections (list, sets, backlinks, and dictionaries) as 
+  nullable, but their parameters may be:
 
-- You cannot declare dictionaries as nullable, but their values are inherently 
-  nullable and you must declare the values as such.
+  - For all types of collections, if the parameters are primitives 
+    (value- or reference-types), they can be required or nullable.
+  
+  - For lists, sets, and backlinks, if the parameters are Realm objects, they 
+    **cannot** be nullable.
 
-- Properties that are Realm object types are inherently nullable, and so 
-  you must define the property as nullable.
+  - For dictionaries with a value type of Realm object, you **must** declare 
+    the value type parameter as nullable. 
 
 The following code snippet demonstrates these rules:
 
@@ -289,6 +294,17 @@ The following code snippet demonstrates these rules:
 
 .. note::
 
-   If your classes derive from the ``RealmObject`` base class, the rules above do 
-   not apply to reference types. Instead, use the 
-   :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute.
+   If you are using the older schema type definition (your classes derive from 
+   the ``RealmObject`` base class), or you do not have nullability enabled, you 
+   will need to use the 
+   :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute 
+   for any required ``string`` and ``byte[]`` property.
+
+Ignoring Nullability
+~~~~~~~~~~~~~~~~~~~~
+You may prefer to have more flexibility in defining the nullability of properties 
+in your Realm objects. You can do so by setting ``realm.ignore_objects_nullability = true`` 
+in a `global configuration file <https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files>`__.
+
+If you enable ``realm.ignore_objects_nullability``, nullability annotations
+will be ignored.
