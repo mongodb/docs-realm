@@ -6,7 +6,7 @@ describe("test compaction on launch", () => {
   
       // TODO: Test that realm is compacted once it meets criteria
   
-      //:snippet-start: shouldCompactNode
+      //:snippet-start: shouldCompactRN
   
       const shouldCompact = (totalBytes, usedBytes) => {
         // totalBytes refers to the size of the file on disk in bytes (data + free space)
@@ -33,7 +33,7 @@ describe("test compaction on launch", () => {
     it("compact", async () => {
       // TODO: Test that realm is compacted once it meets criteria
   
-      //:snippet-start: compactNode
+      //:snippet-start: compactRN
       const realm = new Realm("my.realm");
       realm.compact();
       //:snippet-end:
