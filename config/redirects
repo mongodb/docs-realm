@@ -1043,7 +1043,7 @@ raw: ${prefix}/sdk/react-native/sync-data/pause-or-resume-sync-session ->  ${bas
 
 # Kotlin IA Revamp (https://jira.mongodb.org/browse/DOCSP-28779)
 
-raw: ${prefix}/sdk/kotlin/app-services/register-users -> ${base}/sdk/kotlin/users/register-users/
+raw: ${prefix}/sdk/kotlin/app-services/register-users -> ${base}/sdk/kotlin/users/manage-email-password-users/
 raw: ${prefix}/sdk/kotlin/app-services/authenticate-users -> ${base}/sdk/kotlin/users/authenticate-users/
 raw: ${prefix}/sdk/kotlin/app-services/link-credentials -> ${base}/sdk/kotlin/users/link-credentials/
 raw: ${prefix}/sdk/kotlin/app-services/manage-user-api-keys -> ${base}/sdk/kotlin/users/manage-user-api-keys/
@@ -1245,3 +1245,7 @@ raw: ${prefix}/sdk/swift/model-data/define-model/supported-types -> ${base}/sdk/
 # Temporarily remove Kotlin Bundle a Realm Page (https://jira.mongodb.org/browse/DOCSP-29107)
 
 raw: ${prefix}/sdk/kotlin/realm-database/realm-files/bundle-a-realm -> ${base}/sdk/kotlin/realm-database/realm-files/
+
+# Add Kotlin Manage Email/Password User Page (https://jira.mongodb.org/browse/DOCSP-28262)
+
+raw: ${prefix}/sdk/kotlin/users/register-users -> ${base}/sdk/kotlin/users/manage-email-password-users/
