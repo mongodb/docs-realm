@@ -6,7 +6,10 @@ import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.notifications.DeletedList
 import io.realm.kotlin.notifications.DeletedObject
+import io.realm.kotlin.notifications.InitialList
+import io.realm.kotlin.notifications.InitialObject
 import io.realm.kotlin.notifications.ListChange
+import io.realm.kotlin.notifications.PendingObject
 import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.notifications.SingleQueryChange
 import io.realm.kotlin.notifications.UpdatedList
@@ -156,8 +159,14 @@ class NotificationsTest: RealmTest() {
                             // if the object has been deleted
                             changes.obj // returns null for deleted objects -- always reflects newest state
                         }
-                        else -> {
-                            throw Exception("Some Error Occurred")
+                        is InitialObject -> {
+                            // Initial event observed on a RealmObject or EmbeddedRealmObject flow.
+                            // It contains a reference to the starting object state.
+                            changes.obj
+                        }
+                        is PendingObject -> {
+                            // Describes the initial state where a query result does not contain any elements.
+                            changes.obj
                         }
                     }
                 }
@@ -200,8 +209,10 @@ class NotificationsTest: RealmTest() {
                         is DeletedList -> {
                             // if the list was deleted
                         }
-                        else -> {
-                            throw Exception("Some Error Occurred")
+                        is InitialList -> {
+                            // Initial event observed on a RealmList flow. It contains a reference
+                            // to the starting list state.
+                            changes.list
                         }
                     }
                 }

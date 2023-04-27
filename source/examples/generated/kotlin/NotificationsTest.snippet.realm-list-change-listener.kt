@@ -18,8 +18,10 @@ val job = CoroutineScope(Dispatchers.Default).launch {
             is DeletedList -> {
                 // if the list was deleted
             }
-            else -> {
-                throw Exception("Some Error Occurred")
+            is InitialList -> {
+                // Initial event observed on a RealmList flow. It contains a reference
+                // to the starting list state.
+                changes.list
             }
         }
     }
