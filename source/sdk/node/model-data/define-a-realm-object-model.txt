@@ -307,9 +307,21 @@ that invoice data does not need to be read after employees have recorded it. To
 satisfy this requirement, the application developer defines an invoice
 collection with its ``asymmetric`` property set to ``true``. 
 
-.. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync.js
-   :language: javascript
-   :emphasize-lines: 4
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+   
+      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync-object.ts
+         :language: typescript
+         :emphasize-lines: 12
+   
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync-object.js
+         :language: javascript
+         :emphasize-lines: 6
 
 .. note:: Attempting to Read Asymmetric Objects
 
