@@ -1,3 +1,44 @@
+# April 28, 2023
+
+## C++ SDK
+
+- Manage Sync Sessions: Restore missing code example snippets
+
+## Kotlin SDK
+
+- Realm Database
+  - Model Data
+    - Data Types: New section with info & tested Bluehawked code example for defining an object with a `RealmDictionary`/`RealmMap` property
+    - Relationships: Fix copy in the "To-One Relationship" section to match the code example
+  - Manage Realm Files/Bundle a Realm: Temporarily remove the page pending the SDK's upcoming `assetFile` feature release
+  - Read & Write Data
+    - Create, Read, Update, and Delete pages: New sections with info & tested Bluehawked code examples for performing CRUD operations on a `RealmDictionary` property
+  - React to Changes: Genericize the `List` change listener documentation to `Collection` and add tabs with details for RealmList, RealmSet, and Map notifications
+- Manage Users: Minor updates to the "Create and Delete Users" section of the landing page
+  - Manage Email/Password Users: New page with info & tested Bluehawked code examples
+
+## Node.js SDK
+
+- Realm Files/Open & Close a Realm: New "Open a Realm Without Providing a Schema" section with info & tested Bluehawked code example
+- Manage Users/Authenticate Users: Minor updates to code examples for Realm/App Services naming & improved test resilience
+
+## React Native SDK
+
+- Realm Files
+  - Configure a Realm: New "Access a Realm Without Providing a Schema" section with info & tested Bluehawked code example
+  - Reduce Realm File Size: New page about compaction with info & Bluehawked code examples
+
+## Swift SDK
+
+- Sync Data/Record Realm Events: Note that Event Library requires Partition-Based Sync, fix incorrect info regarding the `EventConfiguration` `errorHandler`
+
+## Other
+
+- Get Help: Update the page with info about how to share docs feedback and add tabs for missing SDKs (C++, Flutter, Kotlin)
+- Internal
+  - Remove unused Bluehawk snippet markup from Kotlin test suite, clean up unused code example files
+  - Snyk dependency updates
+
 # April 21, 2023
 
 ## Flutter SDK
