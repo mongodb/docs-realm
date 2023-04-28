@@ -136,26 +136,6 @@ attribute:
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
    :language: csharp
 
-
-.. _dotnet-required-field:
-.. _dotnet-optional-field:
-.. _dotnet-required-optional-property:
-
-Required and Optional Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In C#, value types are implicitly non-nullable, but can be made optional by appending 
-`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
-Reference types, such as ``string`` and ``byte[]``, are implicitly nullable and can be
-made required by annotating them with the ``[Required]`` attribute. Properties of types
-that inherit from ``IRealmObject`` or ``IEmbeddedObject`` are special and can always be
-null. Applying ``[Required]`` on such a property will result in a compilation error.
-
-You can use the ``[Required]`` attribute as seen in the following example:
-
-.. literalinclude:: /examples/generated/dotnet/Objects.snippet.required.cs
-   :language: csharp
-
 .. _dotnet-default-field-values:
 
 Default Field Values
@@ -263,41 +243,68 @@ Schema, you can update your configuration to include the specific classes you wa
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.subset.cs
    :language: csharp
 
-.. _mvvm_data_binding:
 
-Data Binding and MVVM
----------------------
-When building a MAUI/Xamarin app using the 
-`MVVM <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm>`_ 
-pattern, you often want proper data binding *in both directions* between the 
-View and ViewModel: if a property value changes in the UI, the ViewModel should 
-be notified, and vice-versa. ViewModels typically implement 
-the `INotifyPropertyChange <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0>`_ 
-interface to ensure this. 
+.. _dotnet-required-field:
+.. _dotnet-optional-field:
+.. _dotnet-required-optional-property:
 
-However, when you bind UI elements to a :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
-this notification happens automatically, thus greatly simplifying your ViewModel code. 
+Required and Optional Properties
+--------------------------------
 
-You can also bind a UI element to a realm :ref:`Live Query <dotnet-live-queries>`. 
-For example, if you bind a 
-`ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
-to a live query, then the list will update automatically when the results of the 
-query change; you do not need to implement the ``INotifyPropertyChange`` 
-interface.
+In C#, value types, such as ``int`` and ``bool``, are implicitly non-nullable.  
+However, they can be made optional by using the question mark (``?``) `notation 
+<https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
 
-For example, if you bind a ListView to a query that returns all Product 
-objects, the list of available products updates automatically 
-when a product is added, changed, or removed from the realm:
+Beginning with C# 8.0, nullable reference types were introduced. If your project 
+is using C# 8.0 or later, you can also declare reference types, such as ``string`` 
+and ``byte[]``, as nullable with ``?``. 
 
-.. code-block:: csharp
-   :copyable: false
+.. note:: 
 
-   // Somewhere in your ViewModel
-   AllProducts = realm.All<Products>();
+   Beginning with .NET 6.0, the nullable context is enabled by default for new 
+   projects. For older projects, need to manually enable it. For more information, 
+   refer to `<https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types#setting-the-nullable-context>`__.
 
-.. code-block:: xaml
-   :copyable: false
-   
-   <!-- Somewhere in your View -->
-   <ListView ItemsSource="{Binding AllProducts}">
+The Realm .NET SDK fully supports the nullable-aware context and uses nullability 
+to determine whether a property is required or optional. The SDK has the 
+following rules:
 
+- Realm assumes that both value- and reference-type properties are required if
+  you do not designate them as nullable. If you designate them as nullable 
+  by using ``?``, Realm considers them optional.
+
+- You must declare properties that are Realm object types as nullable.
+
+- You cannot declare collections (list, sets, backlinks, and dictionaries) as 
+  nullable, but their parameters may be:
+
+  - For all types of collections, if the parameters are primitives 
+    (value- or reference-types), they can be required or nullable.
+  
+  - For lists, sets, and backlinks, if the parameters are Realm objects, they 
+    **cannot** be nullable.
+
+  - For dictionaries with a value type of Realm object, you **must** declare 
+    the value type parameter as nullable. 
+
+The following code snippet demonstrates these rules:
+
+.. literalinclude:: /examples/generated/dotnet/NullabilityTest.snippet.nullability.cs
+   :language: csharp
+
+.. note::
+
+   If you are using the older schema type definition (your classes derive from 
+   the ``RealmObject`` base class), or you do not have nullability enabled, you 
+   will need to use the 
+   :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute 
+   for any required ``string`` and ``byte[]`` property.
+
+Ignoring Nullability
+~~~~~~~~~~~~~~~~~~~~
+You may prefer to have more flexibility in defining the nullability of properties 
+in your Realm objects. You can do so by setting ``realm.ignore_objects_nullability = true`` 
+in a `global configuration file <https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files>`__.
+
+If you enable ``realm.ignore_objects_nullability``, nullability annotations
+will be ignored.
