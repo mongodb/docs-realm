@@ -11,17 +11,18 @@ class FunctionsTest: RealmTest() {
 
     @Test
     fun callFunction() {
-        val appID = FLEXIBLE_APP_ID
+        val appID = YOUR_APP_ID
+
         val credentials = Credentials.anonymous()
 
         // :snippet-start: call-function
         runBlocking {
             val app: App = App.create(appID)
-            val user = app.login(credentials)
+            val functionUser = app.login(credentials)
 
             // Access the Atlas Function through the authenticated user
             // Pass the Function name and all arguments
-            val response = user.functions.call<Int>("sum", 1, 2)
+            val response = functionUser.functions.call<Int>("sum", 1, 2)
 
             print(response) // prints: 3
             assertEquals(3, response) // :remove:

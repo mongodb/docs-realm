@@ -191,7 +191,13 @@ class AuthenticationTest: RealmTest() {
     fun customUserDataTest() {
         val app: App = App.create(FLEXIBLE_APP_ID)
         runBlocking {
-            app.login(Credentials.anonymous())
+            //app.login(Credentials.anonymous())
+            val email = getRandom()
+            val password = getRandom()
+
+            app.emailPasswordAuth.registerUser(email, password)
+            app.login(Credentials.emailPassword(email, password))
+
             // :snippet-start: read-custom-user-data
             val user = app.currentUser!!
             val customUserData = user.customDataAsBsonDocument()
