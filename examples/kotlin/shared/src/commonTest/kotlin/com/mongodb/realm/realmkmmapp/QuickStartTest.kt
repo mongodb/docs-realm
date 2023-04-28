@@ -20,69 +20,7 @@ import kotlinx.coroutines.runBlocking
 class QuickStartTest: RealmTest() {
 
     @Test
-    fun queryTest() {
-        // :snippet-start: landing-page-query
-        val config = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :remove-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :remove-end:
-            .build()
-        val realm = Realm.open(config)
-        val tadpoles: RealmQuery<Frog> = realm.query<Frog>("age > $0", 2)
-        Log.v("Tadpoles: ${tadpoles.count()}")
-        val numTadpolesNamedJasonFunderburker = tadpoles.query("name == $0", "Jason Funderburker").count()
-        Log.v("Tadpoles named Jason Funderburker: $numTadpolesNamedJasonFunderburker")
-        // :snippet-end:
-    }
-
-    @Test
-    fun updateTest() {
-        val configSetup = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :remove-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :remove-end:
-            .build()
-        val realmSetup = Realm.open(configSetup)
-        realmSetup.writeBlocking {
-            copyToRealm(Frog().apply {
-                name = "Benjamin Franklin"
-                age = 12
-                species = "bullfrog"
-                owner = null
-            })
-        }
-        // :snippet-start: landing-page-update
-        val config = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :remove-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :remove-end:
-            .build()
-        val realm = Realm.open(config)
-        // start a write transaction
-        realm.writeBlocking {
-            // get a frog from the database to update
-            val frog: Frog? = query<Frog>()
-                .query("name == $0 LIMIT(1)",
-                    "Benjamin Franklin")
-                .first()
-                .find()
-            // update the frog's properties
-            frog?.apply {
-                name = "George Washington"
-                species = "American bullfrog"
-            }
-        } // when the transaction completes, the frog's name and species
-        // are updated in the database
-        // :snippet-end:
-    }
-
-    @Test
     fun quickStartTest() {
-        // :snippet-start: quick-start
-
         // :snippet-start: quick-start-initialize-app
         val app = App.create(YOUR_APP_ID)
         // :snippet-end:
@@ -120,7 +58,6 @@ class QuickStartTest: RealmTest() {
         // :snippet-start: quick-start-open-a-local-realm
         // :uncomment-start:
         // val config = RealmConfiguration.create(schema = setOf(Item::class))
-        // val realm: Realm = Realm.open(config)
         // :uncomment-end:
         // :remove-start:
         val config = RealmConfiguration.Builder(schema = setOf(Item::class))
@@ -206,7 +143,6 @@ class QuickStartTest: RealmTest() {
             val writeTransactionItems = query<Item>().find()
             delete(writeTransactionItems.first())
         }
-        // :snippet-end:
         // :snippet-end:
 
         // :snippet-start: quick-start-unsubscribe-to-changes

@@ -55,6 +55,21 @@ add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
 In-memory realms may use disk space if memory is running low, but files created 
 by an in-memory realm are deleted when you close the realm.
 
+Access a Realm Without Providing a Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After a realm has been created on a device, you don't need to always pass in a
+schema to access the realm. Instead, you can call ``createRealmContext()`` with
+no arguments. The realm's schema is derived from the existing realm file at
+``Realm.defaultPath``.
+
+Accessing a realm without providing a schema only works for local realms. You
+must always pass a schema when using a Synced realm.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-no-schema.test.snippet.configure-no-schema.tsx
+   :language: javascript
+   :emphasize-lines: 7
+
 Encrypt a Realm
 ~~~~~~~~~~~~~~~
 

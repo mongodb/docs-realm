@@ -1,5 +1,4 @@
 import Profile from './Models/Profile';
-import {createRealmContext} from '@realm/react';
 import Invoice from './Models/Invoice';
 import Business from './Models/Business';
 import Address from './Models/Address';
