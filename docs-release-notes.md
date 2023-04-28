@@ -17,6 +17,13 @@
 - Manage Users: Minor updates to the "Create and Delete Users" section of the landing page
   - Manage Email/Password Users: New page with info & tested Bluehawked code examples
 
+## .NET SDK
+
+- Model Data
+  - Define an Object Model: Update info for C# nullable reference types and nullable-aware context, add a Bluehawked code example
+  - Data Binding: Move a section about data binding and MVVM from Define an Object Model to Data Binding page
+- React to Changes: Add a callout with info about binding data to the UI and a link to the the Data Binding page
+
 ## Node.js SDK
 
 - Realm Files/Open & Close a Realm: New "Open a Realm Without Providing a Schema" section with info & tested Bluehawked code example
