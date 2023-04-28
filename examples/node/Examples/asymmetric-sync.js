@@ -1,6 +1,7 @@
 import Realm, { BSON } from "realm";
 
 const app = new Realm.App({ id: "js-flexible-oseso" });
+const weatherSensorPrimaryKey = new BSON.ObjectID();
 
 // :snippet-start: asymmetric-sync-object
 class WeatherSensor extends Realm.Object {
@@ -46,7 +47,7 @@ describe("Asymmetric Sync", () => {
 
     realm.write(() => {
       realm.create(WeatherSensor, {
-        _id: new BSON.ObjectID(),
+        _id: weatherSensorPrimaryKey,
         deviceId: "WX1278UIT",
         temperatureInFahrenheit: 66.7,
         barometricPressureInHg: 29.65,
@@ -56,15 +57,20 @@ describe("Asymmetric Sync", () => {
 
     const weatherSensorCollection = await getWeatherSensors();
     const weatherSensor = await weatherSensorCollection.findOne({
-      deviceId: "WX1278UIT",
+      _id: weatherSensorPrimaryKey,
     });
 
-    expect(weatherSensor?.deviceId).toBe("WX1278UIT");
+    expect(weatherSensor?._id).toEqual(weatherSensorPrimaryKey);
 
     // Delete weather sensor documents.
     await weatherSensorCollection.deleteMany({
       deviceId: "WX1278UIT",
     });
+
+    const numberOfWeatherSensorDocuments =
+      await weatherSensorCollection.count();
+
+    expect(numberOfWeatherSensorDocuments).toBe(0);
 
     realm.close();
 
