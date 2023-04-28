@@ -78,7 +78,7 @@ describe("Asymmetric Sync", () => {
 
     realm.close();
 
-    async function getWeatherSensors(): Promise<
+    function getWeatherSensors(): Promise<
       Realm.Services.MongoDB.MongoDBCollection<WeatherSensor>
     > {
       return new Promise((resolve) => {

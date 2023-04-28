@@ -68,7 +68,7 @@ describe("Asymmetric Sync", () => {
 
     realm.close();
 
-    async function getWeatherSensors() {
+    function getWeatherSensors() {
       return new Promise((resolve) => {
         // Wait for weather sensor document to sync, then
         // use mongo client to verify it was created.
@@ -76,7 +76,7 @@ describe("Asymmetric Sync", () => {
           const mongodb = app.currentUser.mongoClient("mongodb-atlas");
           const asyncWeatherSensors = mongodb
             .db("JSFlexibleSyncDB")
-            .collection<WeatherSensor>("WeatherSensor");
+            .collection("WeatherSensor");
 
           resolve(asyncWeatherSensors);
         }, 400);
