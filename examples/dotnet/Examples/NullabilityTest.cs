@@ -55,13 +55,13 @@ namespace Examples
         // public IList<Nullable_Bar>? NullableListOfObjects { get; }  // Compile-time error
         // public IList<Dog?> ListOfNullableObjects { get; } // Compile-time error
 
-        public IDictionary<string, Nullable_Bar> DictionaryOfNonNullableObjects { get; }
-        // public IDictionary<string, Nullable_Bar?> DictionaryOfNullableObjects { get; } // Compile-time error
-        // public IDictionary<string, Nullable_Bar>? NullableDictionaryOfObjects { get; } // Compile-time error
-
         public ISet<Nullable_Backlink> SetOfNonNullableObjects { get; }
         // public ISet<Nullable_Bar>? NullableSetOfObjects { get; }  // Compile-time error
         // public ISet<Nullable_Bar?> SetOfNullableObjects { get; } // Compile-time error
+
+        public IDictionary<string, Nullable_Bar?> DictionaryOfNullableObjects { get; }
+        // public IDictionary<string, Nullable_Bar> DictionaryOfNonNullableObjects { get; } // Compile-time error
+        // public IDictionary<string, Nullable_Bar>? NullableDictionaryOfObjects { get; } // Compile-time error
 
         [Backlink(nameof(Nullable_Bar.Person))]
         public IQueryable<Nullable_Bar> MyDogs { get; }

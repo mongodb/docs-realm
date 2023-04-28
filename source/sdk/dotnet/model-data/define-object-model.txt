@@ -262,7 +262,7 @@ and ``byte[]``, as nullable with ``?``.
 .. note:: 
 
    Beginning with .NET 6.0, the nullable context is enabled by default for new 
-   projects. For older projects, need to manually enable it. For more information, 
+   projects. For older projects, you can manually enable it. For more information, 
    refer to `<https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types#setting-the-nullable-context>`__.
 
 The Realm .NET SDK fully supports the nullable-aware context and uses nullability 
@@ -307,4 +307,4 @@ in your Realm objects. You can do so by setting ``realm.ignore_objects_nullabili
 in a `global configuration file <https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files>`__.
 
 If you enable ``realm.ignore_objects_nullability``, nullability annotations
-will be ignored.
+will be ignored on Realm object properties, including collections of Realm objects.
