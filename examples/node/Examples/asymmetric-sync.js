@@ -3,13 +3,7 @@ import Realm, { BSON } from "realm";
 const app = new Realm.App({ id: "js-flexible-oseso" });
 
 // :snippet-start: asymmetric-sync-object
-class WeatherSensor extends Realm.Object<WeatherSensor> {
-  _id!: Realm.BSON.ObjectId;
-  deviceId!: string;
-  temperatureInFahrenheit!: number;
-  barometricPressureInHg!: number;
-  windSpeedInMph!: number;
-
+class WeatherSensor extends Realm.Object {
   static schema = {
     name: "WeatherSensor",
     // sync WeatherSensor objects one way from your device
@@ -42,7 +36,6 @@ describe("Asymmetric Sync", () => {
       return;
     }
 
-    // :snippet-start: open-realm
     const realm = await Realm.open({
       schema: [WeatherSensor],
       sync: {
@@ -50,9 +43,7 @@ describe("Asymmetric Sync", () => {
         flexible: true,
       },
     });
-    // :snippet-end:
 
-    // :snippet-start: write-asymmetric-object
     realm.write(() => {
       realm.create(WeatherSensor, {
         _id: new BSON.ObjectID(),
@@ -62,7 +53,6 @@ describe("Asymmetric Sync", () => {
         windSpeedInMph: 2,
       });
     });
-    // :snippet-end:
 
     const weatherSensorCollection = await getWeatherSensors();
     const weatherSensor = await weatherSensorCollection.findOne({
@@ -78,14 +68,12 @@ describe("Asymmetric Sync", () => {
 
     realm.close();
 
-    async function getWeatherSensors(): Promise<
-      Realm.Services.MongoDB.MongoDBCollection<WeatherSensor>
-    > {
+    async function getWeatherSensors() {
       return new Promise((resolve) => {
         // Wait for weather sensor document to sync, then
         // use mongo client to verify it was created.
         setTimeout(() => {
-          const mongodb = app.currentUser!.mongoClient("mongodb-atlas");
+          const mongodb = app.currentUser.mongoClient("mongodb-atlas");
           const asyncWeatherSensors = mongodb
             .db("JSFlexibleSyncDB")
             .collection<WeatherSensor>("WeatherSensor");

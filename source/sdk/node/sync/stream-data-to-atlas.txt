@@ -23,9 +23,21 @@ Sync Data Unidirectionally from a Client Application
       by setting ``asymmetric`` to ``true`` in your :js-sdk:`object model 
       <Realm.html#~ObjectSchema>`:
 
-      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync.js
-         :language: javascript
-         :emphasize-lines: 4
+      .. tabs-realm-languages::
+
+         .. tab::
+            :tabid: typescript
+         
+            .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync-object.ts
+               :language: typescript
+               :emphasize-lines: 12
+         
+         .. tab::
+            :tabid: javascript
+
+            .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync-object.js
+               :language: javascript
+               :emphasize-lines: 6
 
       For more information on how to define an asymmetric object, see: 
       :ref:`Define an Asymmetric Object <node-define-an-asymmetric-object>`.
@@ -48,8 +60,8 @@ Sync Data Unidirectionally from a Client Application
       After you have an authenticated user, you can open a synced realm
       using a Flexible Sync :js-sdk:`configuration object <Realm.html#~Configuration>`.
 
-      .. literalinclude:: /examples/generated/node/flexible-sync.snippet.open-flexible-sync-realm.js
-         :language: javascript
+      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.open-realm.ts
+         :language: typescript
 
       Unlike bi-directional Sync, Data Ingest does not use a 
       :ref:`Flexible Sync subscription <node-flexible-sync>`.
@@ -65,8 +77,8 @@ Sync Data Unidirectionally from a Client Application
       When creating an asymmetric object, ``Realm.create()`` returns
       ``undefined`` rather than the object itself.
 
-      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.js
-         :language: javascript
+      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         :language: typescript
       
       You cannot read these objects. Once created, they sync to the App 
       Services backend and the linked Atlas database.
