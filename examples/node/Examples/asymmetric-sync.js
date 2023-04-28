@@ -6,7 +6,7 @@ const app = new Realm.App({ id: "js-flexible-oseso" });
 class WeatherSensor extends Realm.Object {
   static schema = {
     name: "WeatherSensor",
-    // sync WeatherSensor objects one way from your device
+    // Sync WeatherSensor objects one way from your device
     // to your Atlas database.
     asymmetric: true,
     primaryKey: "_id",
