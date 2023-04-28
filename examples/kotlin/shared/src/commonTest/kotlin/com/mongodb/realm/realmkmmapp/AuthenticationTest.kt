@@ -88,35 +88,6 @@ class AuthenticationTest: RealmTest() {
     }
 
     @Test
-    fun confirmEmailPasswordUserTest() {
-        val token = getRandom()
-        val tokenId = getRandom()
-        // :snippet-start: confirm-email-password-user
-        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-            // :uncomment-start:
-            // app.emailPasswordAuth.confirmUser(token, tokenId)
-            // :uncomment-end:
-        }
-        // :snippet-end:
-    }
-
-    @Test
-    fun resetPasswordTest() {
-        val token = getRandom()
-        val tokenId = getRandom()
-        val newPassword = getRandom()
-        // :snippet-start: reset-password
-        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-            // :uncomment-start:
-            // app.emailPasswordAuth.resetPassword(token, tokenId, newPassword)
-            // :uncomment-end:
-        }
-        // :snippet-end:
-    }
-
-    @Test
     fun apiKeyAuthTest() {
         val email = getRandom()
         val password = getRandom()

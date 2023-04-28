@@ -1043,7 +1043,7 @@ raw: ${prefix}/sdk/react-native/sync-data/pause-or-resume-sync-session ->  ${bas
 
 # Kotlin IA Revamp (https://jira.mongodb.org/browse/DOCSP-28779)
 
-raw: ${prefix}/sdk/kotlin/app-services/register-users -> ${base}/sdk/kotlin/users/register-users/
+raw: ${prefix}/sdk/kotlin/app-services/register-users -> ${base}/sdk/kotlin/users/manage-email-password-users/
 raw: ${prefix}/sdk/kotlin/app-services/authenticate-users -> ${base}/sdk/kotlin/users/authenticate-users/
 raw: ${prefix}/sdk/kotlin/app-services/link-credentials -> ${base}/sdk/kotlin/users/link-credentials/
 raw: ${prefix}/sdk/kotlin/app-services/manage-user-api-keys -> ${base}/sdk/kotlin/users/manage-user-api-keys/
@@ -1235,9 +1235,17 @@ raw: ${prefix}/sdk/react-native/sync-data/overview -> ${base}/sdk/react-native/s
 
 raw: ${prefix}/sdk/react-native/migrate -> ${base}/sdk/react-native/migrate/index/
 
-# Match the Swift IA to other topic-based IAs ()
+# Match the Swift IA to other topic-based IAs (https://jira.mongodb.org/browse/DOCSP-29354)
 
 raw: ${prefix}/sdk/swift/model-data/define-model -> ${base}/sdk/swift/model-data/
 raw: ${prefix}/sdk/swift/model-data/define-model/object-models -> ${base}/sdk/swift/model-data/object-models/
 raw: ${prefix}/sdk/swift/model-data/define-model/relationships -> ${base}/sdk/swift/model-data/relationships/
 raw: ${prefix}/sdk/swift/model-data/define-model/supported-types -> ${base}/sdk/swift/model-data/supported-types/
+
+# Temporarily remove Kotlin Bundle a Realm Page (https://jira.mongodb.org/browse/DOCSP-29107)
+
+raw: ${prefix}/sdk/kotlin/realm-database/realm-files/bundle-a-realm -> ${base}/sdk/kotlin/realm-database/realm-files/
+
+# Add Kotlin Manage Email/Password User Page (https://jira.mongodb.org/browse/DOCSP-28262)
+
+raw: ${prefix}/sdk/kotlin/users/register-users -> ${base}/sdk/kotlin/users/manage-email-password-users/

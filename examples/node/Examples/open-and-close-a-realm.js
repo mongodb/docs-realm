@@ -256,6 +256,35 @@ describe("Open and Close a Realm", () => {
       console.error("failed to open realm", err.message);
     }
   });
+
+  test("should re-open a realm without providing a schema", () => {
+    // Close and delete realm at the default path.
+    Realm.clearTestState();
+
+    const Car = {
+      name: "Car",
+      properties: {
+        make: "string",
+        model: "string",
+        miles: "int",
+      },
+    };
+
+    // :snippet-start: no-schema
+    // Open the Realm with a schema
+    const realm = new Realm({ schema: [Car] });
+    const schemaBefore = realm.schema; // :remove:
+
+    realm.close();
+
+    // Reopen it without a schema
+    const reopenedRealm = new Realm();
+    // :snippet-end:
+
+    // Expect the schemas to match
+    expect(reopenedRealm.schema.length).toBe(1);
+    expect(reopenedRealm.schema).toEqual(schemaBefore);
+  });
 });
 
 describe("Convert Realm using writeCopyTo()", () => {

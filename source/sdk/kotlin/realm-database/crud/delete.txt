@@ -94,3 +94,19 @@ To delete all objects of a type from a realm:
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-all-objects-of-a-type.kt
    :language: kotlin
+
+.. _kotlin-delete-dictionary-keys-values:
+
+Delete Dictionary Keys/Values
+-----------------------------
+
+You can delete 
+`RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__ 
+entries in a few ways:
+
+- Use ``remove()`` to remove the key and the value
+- If the dictionary's value is nullable, you can set the value of the key to ``null`` to keep the key.
+- Use ``clear()`` to remove all keys and values
+
+.. literalinclude:: /examples/generated/kotlin/DeleteTest.snippet.delete-realm-dictionary.kt
+   :language: kotlin

@@ -41,3 +41,17 @@ To persist a new object to a realm:
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.create-a-new-object.kt
    :language: kotlin
+
+Create an Object with a Dictionary Property
+-------------------------------------------
+
+You can create objects with 
+`RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__
+properties. The ``RealmDictionary`` keys may only be strings, but values may be 
+any type of Realm-supported primitive, a ``RealmObject``, or an ``EmbeddedObject``.
+
+For more information about defining a dictionary property, refer to 
+:ref:`kotlin-define-realm-dictionary-type`.
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-dictionary.kt
+   :language: kotlin
