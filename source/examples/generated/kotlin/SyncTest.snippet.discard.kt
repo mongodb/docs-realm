@@ -1,4 +1,4 @@
-val strategy3 = object : DiscardUnsyncedChangesStrategy {
+val clientResetStrategy = object : DiscardUnsyncedChangesStrategy {
     override fun onBeforeReset(realm: TypedRealm) {
         Log.i("Client reset: attempting to automatically recover unsynced changes")
     }
