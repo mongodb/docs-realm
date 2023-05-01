@@ -1,7 +1,6 @@
 import Realm, { BSON } from "realm";
 
 const app = new Realm.App({ id: "js-flexible-oseso" });
-const weatherSensorPrimaryKey = new BSON.ObjectID();
 
 // :snippet-start: asymmetric-sync-object
 class WeatherSensor extends Realm.Object<WeatherSensor> {
@@ -42,6 +41,8 @@ describe("Asymmetric Sync", () => {
     if (!app.currentUser) {
       return;
     }
+
+    const weatherSensorPrimaryKey = new BSON.ObjectID();
 
     // :snippet-start: open-realm
     const realm = await Realm.open({
