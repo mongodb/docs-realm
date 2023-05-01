@@ -119,8 +119,10 @@ and any schema errors reported also use the persisted name.
       .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.class-persisted-name.kt
         :language: kotlin
 
-      Queries on class names remapped in this way must use the persisted name,
-      not the Kotlin name, when querying an inverse relationship.
+      .. important::
+        
+          Queries on class names remapped in this way must use the persisted name,
+          not the Kotlin name, when querying an inverse relationship.
 
    .. tab:: Remap a Property
       :tabid: property-persisted-name
