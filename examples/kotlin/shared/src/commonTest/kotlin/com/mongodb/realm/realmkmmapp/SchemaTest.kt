@@ -26,7 +26,8 @@ import kotlin.test.assertEquals
 //    "terms": {
 //       "Frog2": "Frog",
 //       "Cat2": "Cat",
-//       "Cat3": "Cat"
+//       "Cat3": "Cat",
+//       "PersistedName_": ""
 //    }
 // }
 
@@ -121,6 +122,15 @@ class Cat3 : RealmObject {
 
     @PersistedName("latin_name") // Remapped property
     var species: String? = null
+}
+// :snippet-end:
+
+// :snippet-start: class-persisted-name
+@PersistedName(name = "Feline")
+class PersistedName_Cat : RealmObject {
+    var name: String = ""
+    var color: String? = null
+    var age: Int = 0
 }
 // :snippet-end:
 
