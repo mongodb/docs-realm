@@ -47,6 +47,14 @@ You can set up the realm for these examples with the following code:
 .. literalinclude:: /examples/generated/cpp/filter-data.snippet.set-up-filter-data-tests.cpp
    :language: cpp
 
+.. note:: Sort Functionality for C++
+
+  The C++ SDK has not yet implemented sort functionality. You can use the 
+  `std::sort <https://en.cppreference.com/w/cpp/algorithm/sort>`__ function, 
+  which would pull results into memory. If the data 
+  set is large, ``std:sort`` might not work in a resource-constrained or 
+  performance-constrained environment.
+
 Filter Data
 -----------
 
