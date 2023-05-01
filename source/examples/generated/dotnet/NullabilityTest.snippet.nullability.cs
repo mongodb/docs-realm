@@ -29,13 +29,13 @@ public partial class Person : IRealmObject
     // public IList<Dog>? NullableListOfObjects { get; }  // Compile-time error
     // public IList<Dog?> ListOfNullableObjects { get; } // Compile-time error
 
-    public IDictionary<string, Dog> DictionaryOfNonNullableObjects { get; }
-    // public IDictionary<string, Dog?> DictionaryOfNullableObjects { get; } // Compile-time error
-    // public IDictionary<string, Dog>? NullableDictionaryOfObjects { get; } // Compile-time error
-
     public ISet<Dog> SetOfNonNullableObjects { get; }
     // public ISet<Dog>? NullableSetOfObjects { get; }  // Compile-time error
     // public ISet<Dog?> SetOfNullableObjects { get; } // Compile-time error
+
+    public IDictionary<string, Dog?> DictionaryOfNullableObjects { get; }
+    // public IDictionary<string, Dog> DictionaryOfNonNullableObjects { get; } // Compile-time error
+    // public IDictionary<string, Dog>? NullableDictionaryOfObjects { get; } // Compile-time error
 
     [Backlink(nameof(Dog.Person))]
     public IQueryable<Dog> MyDogs { get; }
