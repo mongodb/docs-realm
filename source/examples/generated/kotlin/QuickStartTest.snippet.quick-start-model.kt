@@ -1,6 +1,6 @@
 class Item() : RealmObject {
     @PrimaryKey
-    var _id: ObjectId = ObjectId.create()
+    var _id: ObjectId = ObjectId()
     var isComplete: Boolean = false
     var summary: String = ""
     var owner_id: String = ""
