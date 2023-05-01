@@ -24,7 +24,7 @@ import kotlin.time.Duration
 //     "yourAppId": "YOUR_APP_ID",
 //     "yourFlexAppId": "YOUR_APP_ID",
 //      "strategy2": "clientResetStrategy",
-//      "strategy3": "clientResetStrategy",
+//      "strategy3": "clientResetStrategy"
 //   }
 // }
 class SyncTest: RealmTest() {
