@@ -49,9 +49,9 @@ You can set up the realm for these examples with the following code:
 
 .. note:: Sort Functionality for the C++ SDK
 
-  The C++ SDK has not yet implemented sort functionality. Instead, use the 
-  `std::sort <https://en.cppreference.com/w/cpp/algorithm/sort>`__ function, 
-  which pulls results into memory. If the data 
+  The C++ SDK has not yet implemented sort functionality. Use
+  `std::sort <https://en.cppreference.com/w/cpp/algorithm/sort>`__ with
+  caution, as the function pulls results into memory. If the data 
   set is large, ``std:sort`` might not work in a resource-constrained or 
   performance-constrained environment.
 
