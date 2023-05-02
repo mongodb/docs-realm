@@ -431,8 +431,9 @@ class SyncTest: RealmTest() {
                 }
                 .errorHandler(syncErrorHandler) // Specify a sync error handler
                 .build()
-            // :snippet-end:
         }
+        // Proceed to open a realm...
+        // :snippet-end:
     }
     @Test
     fun clientResetTest() {
