@@ -87,6 +87,30 @@ to ``<RealmProvider>``.
    You can't use a Flexible Sync realm until you add at least one subscription.
    To learn how to add subscriptions, refer to :ref:`<react-native-sync-add-subscription>`.
 
+Write Synced Realm to Specific Path
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: ``realm@11.6.0``
+
+Using :js-sdk:`AppConfiguration.baseFilePath <Realm.App.html#~AppConfiguration>`,
+you can write a synced realm and its metadata to a specific device path.
+
+.. TODO: Work with this info
+
+If not set, current work directory is used.
+
+If Realm.Configuration.path is not set, the file is determined as before BUT 
+files are created in `baseFilePath` - including the directory `mongodb-realm`.
+
+If Realm.Configuation.path is a relative path, the Realm file is created
+relative to `baseFilePath` and metadata (`mongodb-realm`) in `baseFilePath`
+
+If Realm.Configuration.path is an absolute path, `path` is used for the Realm
+file and `baseFilePath` is used for metadata
+
+.. TODO: finish adding content and example.
+.. Should mention it's for sync only, including realm and metadata.
+
 .. _react-native-open-synced-realm-offline:
 
 Access a Synced Realm While Offline
