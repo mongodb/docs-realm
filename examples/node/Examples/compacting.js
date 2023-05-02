@@ -39,8 +39,6 @@ describe("test compaction on launch", () => {
   });
 
   test("compact", async () => {
-    // TODO: Test that realm is compacted once it meets criteria
-
     //:snippet-start: compactNode
     const realm = new Realm("my.realm");
     realm.compact();
