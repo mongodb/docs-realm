@@ -9,5 +9,5 @@ runBlocking {
         }
         .errorHandler(syncErrorHandler) // Specify a sync error handler
         .build()
+    // Proceed to open a realm...
 }
-// Proceed to open a realm...
