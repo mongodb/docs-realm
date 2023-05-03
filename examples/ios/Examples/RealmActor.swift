@@ -157,7 +157,6 @@ class RealmActorTests: XCTestCase {
             $0.name == "Keep it safe"
         }.first!
         // :snippet-end:
-        
         XCTAssertNotNil(todo) // :remove:
         
         try await actor.updateTodo(_id: todo._id, name: todo.name, owner: todo.owner, status: "Completed")

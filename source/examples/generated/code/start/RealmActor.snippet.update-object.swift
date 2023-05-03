@@ -6,5 +6,4 @@ let todo = await actor.realm.objects(Todo.self).where {
     $0.name == "Keep it safe"
 }.first!
 
-
 try await actor.updateTodo(_id: todo._id, name: todo.name, owner: todo.owner, status: "Completed")
