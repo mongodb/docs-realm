@@ -11,8 +11,45 @@ Set the Client Log Level - Swift SDK
    :depth: 2
    :class: singlecol
 
-Set the Client Log Level
-------------------------
+You can set or change your app's log level to develop or debug your 
+application. You might want to change the log level to log different 
+amounts of data depending on the app's environment.
+
+.. _swift-set-custom-logger:
+
+Realm Swift SDK v 10.39.0 and Later
+-----------------------------------
+
+Initialize an instance of a :swift-sdk:`Logger <Typealiases.html#/s:10RealmSwift6Loggera>` 
+and define the function to use for logging. The 
+:objc-sdk:`RLMLogLevel <Enums/RLMLogLevel.html>` enum represents the different
+levels of logging you can configure.
+
+.. literalinclude:: /examples/generated/code/start/Sync.snippet.set-log-level-logger.swift
+   :language: swift
+
+.. include:: /includes/tip-sync-log-levels.rst
+
+Set a Default Logger and Change Log Levels
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can set a logger as the default logger for your app with ``Logger.shared``. 
+After you set the default logger, you can change the log level during the app 
+lifecycle as needed.
+
+.. literalinclude:: /examples/generated/code/start/Sync.snippet.set-default-logger.swift
+   :language: swift
+
+.. tip:: Default log levels
+
+   The default log level is ``.info``. To disable all log messages, set the 
+   logger to ``Logger.shared.level = .off``. You can adjust logging as needed
+   throughout the app lifecycle.
+
+Realm Swift SDK v 10.38.3 and Earlier
+-------------------------------------
+
+These APIs and their associated types are deprecated in version 10.39.0.
 
 .. tabs-realm-languages::
 
@@ -24,7 +61,7 @@ Set the Client Log Level
       <Typealiases.html#/s:10RealmSwift11SyncManagera>` instance on your
       :swift-sdk:`App <Extensions/App.html>`.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.snippet.set-log-level.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.set-log-level-deprecated.swift
          :language: swift
 
    .. tab::
@@ -45,10 +82,8 @@ Set the Client Log Level
 
 .. include:: /includes/tip-sync-log-levels.rst
 
-.. _swift-set-custom-logger:
-
 Set a Custom Logger
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 You can pipe Device Sync logs to a custom logger by setting the ``logger`` 
 property on the ``SyncManager``. You must set this property before you 
@@ -57,5 +92,5 @@ open any synced realms.
 If you do not specify this property, the Realm Swift SDK outputs log strings
 to Apple System Logger.
 
-.. literalinclude:: /examples/generated/code/start/Sync.snippet.set-custom-logger.swift
+.. literalinclude:: /examples/generated/code/start/Sync.snippet.set-custom-logger-deprecated.swift
    :language: swift
