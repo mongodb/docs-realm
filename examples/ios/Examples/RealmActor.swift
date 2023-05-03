@@ -202,7 +202,7 @@ class RealmActorTests: XCTestCase {
         @MainActor
         func mainThreadFunction() async throws {
             // These are identical: the async init produces a
-            // MainActor-confined Realm if no actor is supplied
+            // MainActor-isolated Realm if no actor is supplied
             let realm1 = try await Realm()
             let realm2 = try await Realm(actor: MainActor.shared)
             
@@ -241,7 +241,7 @@ class RealmActorTests: XCTestCase {
             config.fileURL!.appendPathComponent(username)
             config.fileURL!.appendPathExtension("realm")
             
-            // Open an actor-confined realm with a specific configuration
+            // Open an actor-isolated realm with a specific configuration
             let realm = try await Realm(configuration: config, actor: MainActor.shared)
             
             try await useTheRealm(realm: realm)

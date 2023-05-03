@@ -8,7 +8,7 @@ func mainThreadFunction() async throws {
     config.fileURL!.appendPathComponent(username)
     config.fileURL!.appendPathExtension("realm")
     
-    // Open an actor-confined realm with a specific configuration
+    // Open an actor-isolated realm with a specific configuration
     let realm = try await Realm(configuration: config, actor: MainActor.shared)
     
     try await useTheRealm(realm: realm)
