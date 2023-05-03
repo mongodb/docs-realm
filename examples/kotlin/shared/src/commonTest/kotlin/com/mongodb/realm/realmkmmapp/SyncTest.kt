@@ -4,6 +4,7 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.log.LogLevel
+import io.realm.kotlin.log.RealmLog
 import io.realm.kotlin.log.RealmLogger
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
@@ -338,10 +339,73 @@ class SyncTest: RealmTest() {
     }
 
     @Test
-    fun setLogLevelTest() {
+    fun setLogLevelLogger() {
+        val email = getRandom()
+        val password = getRandom()
+
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            // :snippet-start: set-log-level-realmlog
+            // Set a log level using the global RealmLog singleton
+            RealmLog.level = LogLevel.TRACE
+
+            // Access your app and use realm
+            val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+            // :remove-start:
+            app.emailPasswordAuth.registerUser(email, password)
+            // :remove-end:
+            val user = app.login(Credentials.emailPassword(email, password))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
+                .initialSubscriptions { realm ->
+                    add(realm.query<Toad>("name == $0", "name value"),  "sync subscription")
+                }
+                .build()
+            val realm = Realm.open(config)
+
+            // You can change the log level at any point in your app's lifecycle as needed
+            RealmLog.level = LogLevel.INFO
+            // :snippet-end:
+            realm.close()
+        }
+    }
+
+    @Test
+    fun setLogLevelCustomLogger() {
+        val email = getRandom()
+        val password = getRandom()
+
+        // :snippet-start: define-custom-logger
+        class MyLogger() : RealmLogger {
+            override val tag: String = "CUSTOM_LOG_ENTRY"
+            override val level: LogLevel = LogLevel.DEBUG
+            override fun log(level: LogLevel,
+                             throwable: Throwable?,
+                             message: String?,
+                             vararg args: Any?) {
+                println(message) // Custom handling
+            }
+        }
+        // :snippet-end:
+
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            // :snippet-start: set-custom-realmlog-logger
+            // Set an instance of a custom logger
+            val myCustomLogger = MyLogger()
+            RealmLog.add(myCustomLogger)
+
+            // You can remove a specific logger
+            RealmLog.remove(myCustomLogger)
+
+            // Or remove all loggers, including the default system logger
+            RealmLog.removeAll()
+            // :snippet-end:
+        }
+    }
+
+    @Test
+    fun setLogLevelTestDeprecated() {
         val credentials = Credentials.anonymous()
         runBlocking {
-            // :snippet-start: set-log-level
+            // :snippet-start: set-log-level-deprecated
             // Access your app
             val app = App.create(yourFlexAppId)
             val user = app.login(credentials)
@@ -366,7 +430,7 @@ class SyncTest: RealmTest() {
         }
     }
     @Test
-    fun setCustomLoggerTest() {
+    fun setCustomLoggerTestDeprecated() {
         class CustomLogger : RealmLogger {
             override var tag: String = ""
             override val level: LogLevel = LogLevel.NONE
@@ -382,7 +446,7 @@ class SyncTest: RealmTest() {
         val credentials = Credentials.anonymous()
 
         runBlocking {
-            // :snippet-start: set-custom-logger
+            // :snippet-start: set-custom-logger-deprecated
             val customLogger = CustomLogger()
             customLogger.tag = "Engineering debugging"
             customLogger.message = "${customLogger.logLevel}: ${customLogger.message}"
