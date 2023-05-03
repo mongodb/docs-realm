@@ -98,6 +98,7 @@
 		9175294C28467FB700F8CB03 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9175294B28467FB700F8CB03 /* RealmSwift */; };
 		917529522846803200F8CB03 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 917529512846803200F8CB03 /* Realm */; };
 		917529542846803200F8CB03 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 917529532846803200F8CB03 /* RealmSwift */; };
+		91787E5429E594C100296021 /* RealmActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91787E5329E594C100296021 /* RealmActor.swift */; };
 		917CA79627ECADC200F9BDDC /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79527ECADC200F9BDDC /* FacebookCore */; };
 		917CA79827ECADC200F9BDDC /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79727ECADC200F9BDDC /* FacebookLogin */; };
 		917CA79B27ECB36700F9BDDC /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79A27ECB36700F9BDDC /* FacebookCore */; };
@@ -221,6 +222,7 @@
 		91713B3028AC41B700519F9D /* Authenticate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticate.swift; sourceTree = "<group>"; };
 		91713B3428AD2B0E00519F9D /* PassObjectsToView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassObjectsToView.swift; sourceTree = "<group>"; };
 		91713B3828AD2B3500519F9D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		91787E5329E594C100296021 /* RealmActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmActor.swift; sourceTree = "<group>"; };
 		917D8C9E26167B69001B7A61 /* TestingAndDebugging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestingAndDebugging.swift; sourceTree = "<group>"; };
 		917E73E526B8A9F80068242A /* MongoDBRemoteAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDBRemoteAccess.swift; sourceTree = "<group>"; };
 		917E73E626B8A9F80068242A /* MongoDBRemoteAccessAggregate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDBRemoteAccessAggregate.swift; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 				914AC1BC28A3EAE00005E3C3 /* QuickStartFlexSync.swift */,
 				91AB03172899660A00A272E8 /* ReadRealmObjects.swift */,
 				4847120125891A3B004BD6EF /* ReadWriteData.m */,
+				91787E5329E594C100296021 /* RealmActor.swift */,
 				48BF34172511095C004139AF /* RealmApp.swift */,
 				9126A02E27ED00A1002006D2 /* RealmPlayground.playground */,
 				48944D9725C0BD520092B8AC /* Relationships.m */,
@@ -807,6 +810,7 @@
 				48944D9025C08D500092B8AC /* ObjectModels.m in Sources */,
 				48F38B5425278ECB00DDEB65 /* CustomUserData.m in Sources */,
 				48924B8C2514FEFC00CC9567 /* TestSetup.swift in Sources */,
+				91787E5429E594C100296021 /* RealmActor.swift in Sources */,
 				915C666A27B41B0900E7BDB4 /* BundleRealms.swift in Sources */,
 				4847120225891A3B004BD6EF /* ReadWriteData.m in Sources */,
 				48C072062511B6DB004B02BB /* ManageEmailPasswordUsers.m in Sources */,
@@ -1091,6 +1095,8 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = "";
 			};
 			name = Debug;
 		};
@@ -1147,6 +1153,8 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
