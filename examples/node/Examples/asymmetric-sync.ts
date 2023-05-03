@@ -3,10 +3,16 @@ import Realm, { BSON } from "realm";
 const app = new Realm.App({ id: "js-flexible-oseso" });
 
 // :snippet-start: asymmetric-sync-object
-class WeatherSensor extends Realm.Object {
+class WeatherSensor extends Realm.Object<WeatherSensor> {
+  _id!: Realm.BSON.ObjectId;
+  deviceId!: string;
+  temperatureInFahrenheit!: number;
+  barometricPressureInHg!: number;
+  windSpeedInMph!: number;
+
   static schema = {
     name: "WeatherSensor",
-    // Sync WeatherSensor objects one way from your device
+    // sync WeatherSensor objects one way from your device
     // to your Atlas database.
     asymmetric: true,
     primaryKey: "_id",
@@ -38,6 +44,7 @@ describe("Asymmetric Sync", () => {
 
     const weatherSensorPrimaryKey = new BSON.ObjectID();
 
+    // :snippet-start: open-realm
     const realm = await Realm.open({
       schema: [WeatherSensor],
       sync: {
@@ -45,7 +52,14 @@ describe("Asymmetric Sync", () => {
         flexible: true,
       },
     });
+    // :snippet-end:
 
+    // :snippet-start: write-asymmetric-object
+    // :replace-start: {
+    //    "terms": {
+    //       "weatherSensorPrimaryKey": "new BSON.objectId()"
+    //    }
+    // }
     realm.write(() => {
       realm.create(WeatherSensor, {
         _id: weatherSensorPrimaryKey,
@@ -55,6 +69,8 @@ describe("Asymmetric Sync", () => {
         windSpeedInMph: 2,
       });
     });
+    // :replace-end:
+    // :snippet-end:
 
     const weatherSensorCollection = await getWeatherSensors();
     const weatherSensor = await weatherSensorCollection.findOne({
@@ -75,15 +91,17 @@ describe("Asymmetric Sync", () => {
 
     realm.close();
 
-    function getWeatherSensors() {
+    function getWeatherSensors(): Promise<
+      Realm.Services.MongoDB.MongoDBCollection<WeatherSensor>
+    > {
       return new Promise((resolve) => {
         // Wait for weather sensor document to sync, then
         // use mongo client to verify it was created.
         setTimeout(() => {
-          const mongodb = app.currentUser.mongoClient("mongodb-atlas");
+          const mongodb = app.currentUser!.mongoClient("mongodb-atlas");
           const asyncWeatherSensors = mongodb
             .db("JSFlexibleSyncDB")
-            .collection("WeatherSensor");
+            .collection<WeatherSensor>("WeatherSensor");
 
           resolve(asyncWeatherSensors);
         }, 400);

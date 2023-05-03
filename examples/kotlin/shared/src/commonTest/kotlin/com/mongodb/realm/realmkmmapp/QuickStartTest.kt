@@ -10,12 +10,29 @@ import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.notifications.UpdatedResults
 import io.realm.kotlin.query.RealmResults
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.mongodb.kbson.ObjectId
+import kotlin.test.assertEquals
+
+// :snippet-start: quick-start-model
+class Item() : RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId()
+    var isComplete: Boolean = false
+    var summary: String = ""
+    var owner_id: String = ""
+    constructor(ownerId: String = "") : this() {
+        owner_id = ownerId
+    }
+}
+// :snippet-end:
 
 class QuickStartTest: RealmTest() {
 
@@ -131,12 +148,18 @@ class QuickStartTest: RealmTest() {
             realm.query<Item>("isComplete == false")
                 .find()
         // :snippet-end:
+        assertEquals(itemsThatBeginWIthD.count(), 3)
+        assertEquals(incompleteItems.count(), 3)
         // :snippet-start: quick-start-update
         // change the first item with open status to complete to show that the todo item has been done
         realm.writeBlocking {
             findLatest(incompleteItems[0])?.isComplete = true
         }
         // :snippet-end:
+        val completeItems: RealmResults<Item> =
+            realm.query<Item>("isComplete == true")
+                .find()
+        assertEquals(completeItems.count(), 1)
         // :snippet-start: quick-start-delete
         // delete the first item in the realm
         realm.writeBlocking {
@@ -145,6 +168,11 @@ class QuickStartTest: RealmTest() {
         }
         // :snippet-end:
 
+        realm.writeBlocking {
+            deleteAll()
+        }
+        val allItems: RealmResults<Item> = realm.query<Item>().find()
+        assertEquals(allItems.count(), 0)
         // :snippet-start: quick-start-unsubscribe-to-changes
         job.cancel() // cancel the coroutine containing the listener
         // :snippet-end:
