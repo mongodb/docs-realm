@@ -2,11 +2,20 @@ package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.AuthenticationChange
 import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.LoggedIn
+import io.realm.kotlin.mongodb.LoggedOut
+import io.realm.kotlin.mongodb.Removed
 import io.realm.kotlin.mongodb.ext.call
 import io.realm.kotlin.mongodb.ext.customDataAsBsonDocument
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.mongodb.kbson.BsonDocument
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 // :replace-start: {
 //   "terms": {
@@ -227,15 +236,59 @@ class AuthenticationTest: RealmTest() {
             user.logOut()
         }
     }
-        @Test
-        fun logoutTest() {
-            val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-            runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-                val user = app.login(Credentials.anonymous())
-                // :snippet-start: log-out
-                user.logOut()
-                // :snippet-end:
-            }
+    @Test
+    fun logoutTest() {
+        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            val user = app.login(Credentials.anonymous())
+            // :snippet-start: log-out
+            user.logOut()
+            // :snippet-end:
         }
     }
+
+    @Test
+    fun authAsFlowTest() {
+        val email = getRandom()
+        val password = getRandom()
+        // :snippet-start: auth-change-listener
+        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            val authChanges = mutableSetOf<AuthenticationChange>()
+            // flow.collect() is blocking -- for this example we run it in a background context
+            val job = CoroutineScope(Dispatchers.Default).launch {
+                // Create a Flow of AuthenticationChange objects
+                app.authenticationChangeAsFlow().collect() { change: AuthenticationChange ->
+                    when (change) {
+                        is LoggedIn -> authChanges.add(change)
+                        is LoggedOut -> authChanges.add(change)
+                        is Removed -> authChanges.add(change)
+                    }
+                }
+            }
+            app.emailPasswordAuth.registerUser(email, password) // :remove:
+            // After logging in, you should see AuthenticationChange is LoggedIn
+            val user = app.login(Credentials.emailPassword(email, password))
+            // :remove-start:
+            delay(10)
+            assertTrue(authChanges.first() is LoggedIn)
+            // :remove-end:
+            if (authChanges.first() is LoggedIn) {
+                Log.v("User ${authChanges.first().user} is logged in")
+            }
+            authChanges.clear()
+            // After logging out, observe the AuthenticationChange
+            user.logOut()
+            // :remove-start:
+            delay(20)
+            assertTrue(authChanges.first() is LoggedOut)
+            // :remove-end:
+            if (authChanges.first() is LoggedOut) {
+                Log.v("User ${authChanges.first().user} is logged out")
+            }
+            job.cancel()
+        }
+        // :snippet-end:
+    }
+}
 // :replace-end:
