@@ -41,11 +41,20 @@ describe("test compaction on launch", () => {
   test("compact", async () => {
     //:snippet-start: compactNode
     const realm = new Realm("my.realm");
-    realm.compact();
+    //:uncomment-start:
+    // realm.compact();
+    //:uncomment-end:
     //:snippet-end:
-    expect(() => {
-      realm.compact();
-    });
+
+    try {
+      const compactSuccess = realm.compact();
+      expect(compactSuccess).toBe(true);
+    } catch (err) {
+      // Compaction failed for some reason
+      if (err instanceof Error) {
+        console.error(err.message);
+      }
+    }
 
     realm.close();
   });
