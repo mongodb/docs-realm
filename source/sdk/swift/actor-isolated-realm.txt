@@ -10,7 +10,7 @@ Actor-Isolated Realms - Swift SDK
    :depth: 2
    :class: singlecol
 
-Starting with Realm Swift SDK version [VERSION], Realm supports actor-isolated
+Starting with Realm Swift SDK version 10.39.0, Realm supports actor-isolated
 realm instances. You can safely use an actor-isolated realm with Swift concurrency
 language features instead of managing threads or dispatch queues.
 
@@ -28,7 +28,7 @@ Prerequisites
 
 To use Realm in a Swift actor, your project must:
 
-- Use Realm Swift SDK version [VERSION] or later
+- Use Realm Swift SDK version 10.39.0 or later
 - Use Swift 5.8/Xcode 14.3
 
 In addition, we strongly recommend enabling these settings in your project:
@@ -47,12 +47,12 @@ The examples on this page use the following model:
 
 .. _swift-open-actor-confined-realm:
 
-Open an Actor-Confined Realm
+Open an Actor-Isolated Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use the Swift async/await syntax to await opening a realm.
 
-Initializing a realm with ``try await Realm()`` opens a MainActor-confined 
+Initializing a realm with ``try await Realm()`` opens a MainActor-isolated
 realm. Alternately, you can explicitly specify an actor when opening a 
 realm with the ``await`` syntax.
 
@@ -60,7 +60,7 @@ realm with the ``await`` syntax.
    :language: swift
 
 You can specify a default configuration or customize your configuration when 
-opening an actor-confined realm:
+opening an actor-isolated realm:
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-confined-realm-with-config.swift
    :language: swift
@@ -68,7 +68,7 @@ opening an actor-confined realm:
 For more general information about configuring a realm, refer to 
 :ref:`ios-configure-and-open-a-realm`.
 
-You can open a synced realm as an actor-confined realm:
+You can open a synced realm as an actor-isolated realm:
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-confined-synced-realm.swift
    :language: swift
@@ -117,7 +117,7 @@ with Swift's async/await syntax.
 
 .. _swift-write-to-actor-confined-realm:
 
-Write to an Actor-Confined Realm
+Write to an Actor-Isolated Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Actor-isolated realms can use Swift async/await syntax for asynchronous
@@ -127,7 +127,7 @@ the block. Realm writes the data to disk on a background thread and resumes
 the task when that completes. 
 
 This function from the example ``RealmActor`` defined above shows how you might
-write to an actor-confined realm:
+write to an actor-isolated realm:
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.write-async.swift
    :language: swift
@@ -147,10 +147,10 @@ Asynchronous writes are only supported for actor-isolated Realms or in
 
 .. _swift-observe-notifications-on-actor-confined-realm:
 
-Observe Notifications on an Actor-Confined Realm
+Observe Notifications on an Actor-Isolated Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can observe notifications on an actor-confined realm using Swift's 
+You can observe notifications on an actor-isolated realm using Swift's 
 async/await syntax.
 
 Calling ``await object.observe()`` or ``await collection.observe`` registers 

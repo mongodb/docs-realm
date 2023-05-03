@@ -135,7 +135,7 @@ closed.
 Open a Realm with Swift Concurrency Features
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can use Swift's async/await syntax to open a MainActor-confined realm,
+You can use Swift's async/await syntax to open a MainActor-isolated realm,
 or specify an actor when opening a realm asynchronously:
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.await-main-actor-realm.swift
@@ -151,7 +151,7 @@ An actor-isolated realm may be used with either local or global actors.
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.global-actor-example.swift
    :language: swift
 
-For more information about working with actor-confined realms, refer to 
+For more information about working with actor-isolated realms, refer to 
 :ref:`swift-actor-isolated-realm`.
 
 .. _ios-close-a-realm:

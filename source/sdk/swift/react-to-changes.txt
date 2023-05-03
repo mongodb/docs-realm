@@ -325,10 +325,10 @@ does support this for code compatibility.
 
 .. _swift-react-to-changes-actor-confined-realm:
 
-React to Changes in an Actor-Confined Realm
+React to Changes in an Actor-Isolated Realm
 -------------------------------------------
 
-You can observe notifications on an actor-confined realm using Swift's 
+You can observe notifications on an actor-isolated realm using Swift's 
 async/await syntax. Calling ``await object.observe()`` or 
 ``await collection.observe`` registers a block to be called each time the 
 object or collection changes.
@@ -336,8 +336,8 @@ object or collection changes.
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.observe-collection-on-actor.swift
    :language: swift
 
-For more information about change notifications on actor-confined realms, refer to
-:ref:`swift-observe-notifications-on-actor-confined-realm`.
+For more information about change notifications on actor-isolated realms, 
+refer to :ref:`swift-observe-notifications-on-actor-confined-realm`.
 
 .. _ios-react-to-changes-to-a-class-projection:
 

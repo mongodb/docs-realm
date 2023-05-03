@@ -15,8 +15,7 @@ Delete Realm Objects
 --------------------
 
 Deleting Realm Objects must occur within write transactions. For
-more information about write trasactions, see: :ref:`Key Concept: 
-Transactions <ios-write-transactions>`.
+more information about write trasactions, see: :ref:`Transactions <ios-write-transactions>`.
 
 If you want to delete the Realm file itself, see: :ref:`Delete a Realm 
 <swift-delete-a-realm>`.
@@ -252,11 +251,11 @@ Delete an Object Asynchronously
 -------------------------------
 
 You can use Swift concurrency features to asynchronously delete objects 
-using an actor-confined realm. 
+using an actor-isolated realm. 
 
 This function from the example ``RealmActor`` :ref:`defined on the 
 Actor-Isolated Realms page <swift-define-realm-actor>` shows how you might
-delete an object in an actor-confined realm:
+delete an object in an actor-isolated realm:
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.delete-async.swift
    :language: swift
