@@ -2,14 +2,14 @@ The Realm Swift SDK public API contains types that fall into three broad
 categories:
 
 - Sendable
-- Not Sendable and not thread-confined
+- Not Sendable and not thread confined
 - Thread-confined
 
-Types that are not Sendable and not thread confined can be shared between
-threads, but require external synchronization.
+You can share types that are not Sendable and not thread confined between
+threads, but you must synchronize them.
 
-Thread-confined types, unless frozen, are confined to an isolation context
-and cannot be passed between these contexts even with synchronization.
+Thread-confined types, unless frozen, are confined to an isolation context.
+You cannot pass them between these contexts even with synchronization.
 
 .. list-table::
    :header-rows: 1
