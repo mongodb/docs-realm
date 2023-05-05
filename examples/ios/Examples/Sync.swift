@@ -318,8 +318,11 @@ class Sync: AnonymouslyLoggedInTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-    func testSetClientLogLevel() {
-        // :snippet-start: set-log-level
+    func testSetClientLogLevelDeprecated() {
+        // :snippet-start: set-log-level-deprecated
+        // This code example shows how to set the log level
+        // in Realm Swift 10.38.3 and lower. For 10.39.0 and higher,
+        // use the `Logger` API.
         // Access your app
         let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
@@ -329,6 +332,70 @@ class Sync: AnonymouslyLoggedInTestCase {
         // Set the logger to provide debug logs
         syncManager.logLevel = .debug
         // :snippet-end:
+    }
+    
+    func testDefineCustomLogger() {
+        // :snippet-start: set-log-level-logger
+        // Access your app
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
+        
+        var logs: String = "" // :remove:
+        // Create an instance of `Logger` and define the log function to invoke.
+        let logger = Logger(level: .detail) { level, message in
+            logs += "\(Date.now) \(level) \(message) \n" // :remove:
+            "REALM DEBUG: \(Date.now) \(level) \(message) \n"
+        }
+        // :snippet-end:
+        Logger.shared = logger
+        XCTAssert(logs.isEmpty)
+        
+        let expectation = XCTestExpectation(description: "Populate some log entries")
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success(let user):
+                print("Login as \(user) successful")
+                XCTAssert(!logs.isEmpty)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 5)
+    }
+    
+    func testSetDefaultLogger() {
+        // :snippet-start: set-default-logger
+        // Access your app
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
+        
+        var logs: String = "" // :remove:
+        let logger = Logger(level: .info) { level, message in
+            logs += "\(Date.now) \(level) \(message) \n" // :remove:
+            "REALM DEBUG: \(Date.now) \(level) \(message) \n"
+        }
+        
+        // Set a logger as the default
+        Logger.shared = logger
+        XCTAssert(logs.isEmpty) // :remove:
+        
+        // After setting a default logger, you can change
+        // the log level at any point during the app lifecycle
+        Logger.shared.level = .debug
+        // :snippet-end:
+        XCTAssert(logs.isEmpty)
+        
+        let expectation = XCTestExpectation(description: "Populate some log entries")
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success(let user):
+                print("Login as \(user) successful")
+                XCTAssert(!logs.isEmpty)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 5)
     }
     
     // Skipping this test in CI because it fails when you run it with the other tests
@@ -352,7 +419,7 @@ class Sync: AnonymouslyLoggedInTestCase {
                 }
             }
         }
-        // :snippet-start: set-custom-logger
+        // :snippet-start: set-custom-logger-deprecated
         let app = App(id: YOUR_APP_SERVICES_APP_ID)
         
         // Access the sync manager for the app
