@@ -1,14 +1,17 @@
 package com.mongodb.realm.realmkmmapp
 
+import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.Realm
+import io.realm.kotlin.TypedRealm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.log.LogLevel
 import io.realm.kotlin.log.RealmLogger
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.exceptions.ClientResetRequiredException
 import io.realm.kotlin.mongodb.subscriptions
-import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.mongodb.sync.*
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
@@ -19,7 +22,9 @@ import kotlin.time.Duration
 // :replace-start: {
 //   "terms": {
 //     "yourAppId": "YOUR_APP_ID",
-//     "yourFlexAppId": "YOUR_APP_ID"
+//     "yourFlexAppId": "YOUR_APP_ID",
+//      "strategy2": "clientResetStrategy",
+//      "strategy3": "clientResetStrategy"
 //   }
 // }
 class SyncTest: RealmTest() {
@@ -354,7 +359,7 @@ class SyncTest: RealmTest() {
                 .log(LogLevel.DEBUG)
 
                 .initialSubscriptions { realm ->
-                    add(realm.query<Toad>("name == $0", "name value"),  "sync subscription")
+                    add(realm.query<Toad>(),  "sync subscription")
                 }
                 .build()
 
@@ -399,7 +404,7 @@ class SyncTest: RealmTest() {
                 .log(LogLevel.ALL, customLoggers = listOf(customLogger))
 
                 .initialSubscriptions { realm ->
-                    add(realm.query<Toad>("name == $0", "name value"),  "sync subscription")
+                    add(realm.query<Toad>(),  "sync subscription")
                 }
                 .build()
 
@@ -410,5 +415,160 @@ class SyncTest: RealmTest() {
         }
     }
 
-}
+    @Test
+    fun syncErrorHandlerTest() {
+        val credentials = Credentials.anonymous()
+        val app = App.create(yourFlexAppId)
+        // :snippet-start: sync-error-handler
+        val syncErrorHandler = SyncSession.ErrorHandler {
+                session, error -> Log.e("Error message" + error.message.toString())
+        }
+        runBlocking {
+            val user = app.login(credentials)
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
+                .initialSubscriptions { realm ->
+                    add(realm.query<Toad>(), "subscription name")
+                }
+                .errorHandler(syncErrorHandler) // Specify a sync error handler
+                .build()
+            // Proceed to open a realm...
+        }
+        // :snippet-end:
+    }
+    @Test
+    fun clientResetTest() {
+        val credentials = Credentials.anonymous()
+        val app = App.create(yourFlexAppId)
+        // :snippet-start: recover-discard
+        val clientResetStrategy = object : RecoverOrDiscardUnsyncedChangesStrategy {
+            override fun onBeforeReset(realm: TypedRealm) {
+                Log.i("Client reset: attempting to automatically recover unsynced changes")
+            }
+            // Executed before the client reset begins.
+            // Can be used to notify the user that a reset will happen.
+
+            override fun onAfterRecovery(before: TypedRealm, after: MutableRealm) {
+                Log.i("Client reset: successfully recovered all unsynced changes")
+            }
+            // Executed if and only if the automatic recovery has succeeded.
+
+            override fun onAfterDiscard(before: TypedRealm, after: MutableRealm) {
+                Log.i("Client reset: recovery unsuccessful, attempting to manually recover any changes")
+                // ... Try to manually recover any unsynced data
+                manuallyRecoverUnsyncedData(before, after) 
+            }
+            // Executed if the automatic recovery has failed,
+            // but the discard unsynced changes fallback has completed successfully.
+
+            override fun onManualResetFallback(
+                session: SyncSession,
+                exception: ClientResetRequiredException
+            ) {
+                Log.i("Client reset: manual reset required")
+                // ... Handle the reset manually here
+            }
+            // Automatic reset failed.
+        }
+        // :snippet-end:
+
+        // :snippet-start: recover
+        val strategy2 = object : RecoverUnsyncedChangesStrategy {
+            override fun onBeforeReset(realm: TypedRealm) {
+                Log.i("Client reset: attempting to automatically recover unsynced changes")
+            }
+            // Executed before the client reset begins.
+            // Can be used to notify the user that a reset will happen.
+
+            override fun onAfterReset(before: TypedRealm, after: MutableRealm) {
+                Log.i("Client reset: successfully recovered all unsynced changes")
+            }
+            // Executed after the client reset is complete.
+            // Can be used to notify the user that the reset is done.
+
+            override fun onManualResetFallback(
+                session: SyncSession,
+                exception: ClientResetRequiredException
+            ) {
+                Log.i("Client reset: manual reset required")
+                // ... Handle the reset manually here
+            }
+            // Automatic reset failed.
+        }
+        // :snippet-end:
+
+        // :snippet-start: discard
+        val strategy3 = object : DiscardUnsyncedChangesStrategy {
+            override fun onBeforeReset(realm: TypedRealm) {
+                Log.i("Client reset: attempting to discard any unsynced changes")
+            }
+            // Executed before the client reset begins.
+            // Can be used to notify the user that a reset will happen.
+
+            override fun onAfterReset(before: TypedRealm, after: MutableRealm) {
+                Log.i("Client reset: attempting to manually recover any unsynced changes")
+                // ...Try to manually recover any unsynced data 
+                manuallyRecoverUnsyncedData(before, after) 
+            }
+            // Executed after the client reset is complete.
+            // Can be used to notify the user that the reset is done.
+
+            override fun onManualResetFallback(
+                session: SyncSession,
+                exception: ClientResetRequiredException
+            ) {
+                Log.i("Client reset: manual reset required")
+                // ... Handle the reset manually here
+            }
+            // Automatic reset failed.
+
+            override fun onError(
+                session: SyncSession,
+                exception: ClientResetRequiredException
+            ) {
+                // No-op
+            }
+            // Deprecated. onManualResetFallback() used instead.
+        }
+        // :snippet-end:
+        val manualReset = object : DiscardUnsyncedChangesStrategy {
+        // :snippet-start: fallback
+            override fun onManualResetFallback(
+                session: SyncSession,
+                exception: ClientResetRequiredException
+            ) {
+                Log.i("Client reset: manual reset required")
+    
+                // You *MUST* close any open Realm instance
+                closeAllRealmInstances();
+    
+                // `executeClientReset()` creates a backup
+                exception.executeClientReset();
+    
+                // (Optional) Send backup for analysis
+                handleBackup(recoveryFilePath);
+    
+                // ... Restore the App state by reopening the realm 
+                // or restarting the app
+            }
+            // :snippet-end:
+        }
+
+        runBlocking {
+            val user = app.login(credentials)
+            // :snippet-start: client-reset-strategy
+            // Specify your client reset strategy in the SyncConfiguration
+            // If you don't specify, defaults to RecoverOrDiscardUnsyncedChangesStrategy
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
+                .initialSubscriptions { realm ->
+                    add(realm.query<Toad>(), "subscription name")
+                }
+                .syncClientResetStrategy(clientResetStrategy) // Set your client reset strategy
+                .build()
+            // :snippet-end:
+            val realm = Realm.open(config)
+
+            realm.close()
+        }
+    }
+
 // :replace-end:
