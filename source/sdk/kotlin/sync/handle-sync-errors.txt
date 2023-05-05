@@ -376,20 +376,22 @@ Manually Recover Unsynced Changes
 
 Use the manually recover unsynced changes strategy for the infrequent cases where 
 you need to customize your data recovery process.
-We recommend using one of the :ref:`automatic client recovery strategies <kotlin-automatic-recovery>` 
-when possible, and *only* choosing the manually recover unsynced changes strategy if
-the automatic recovery logic is not suitable for your app and you can't discard 
-unsynced local data.
+We recommend using the :ref:`Discard unsynced changes <kotlin-discard-unsynced-changes>` 
+when possible to handle manual data recovery. 
+You should choose the manually recover unsynced changes strategy if the automatic 
+recovery logic is not suitable for your app *and* you can't discard unsynced local data.
 
 To use the manual recovery strategy, define your own client reset handler using the 
 `ManuallyRecoverUnsyncedChangesStrategy <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-manually-recover-unsynced-changes-strategy/index.html>`__
 interface.
 
-Initiate a client reset using ``ClientResetRequiredException.executeClientReset()``. 
-    
 Before you use this method, you *must* close all instances of the realm that you are resetting.
 Any writes to the realm file made after the manual recovery callback and before 
-the client reset being executed will not be synced. 
+the client reset being executed will not be synced.
+
+We recommend that you create a backup of the file and report the exception. 
+
+Initiate a client reset using ``ClientResetRequiredException.executeClientReset()``. 
 
 If the client reset isn't executed manually, it will be automatically executed the 
 next time all realm instances have been closed and re-opened (typically when the 
