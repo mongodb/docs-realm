@@ -139,7 +139,7 @@ interface and support automatic client resets:
    
 - :ref:`Discard unsynced changes <kotlin-discard-unsynced-changes>`:
   This strategy *permanently deletes* all local unsynced changes 
-  made since the last successful sync. If recovery fails, this 
+  made since the last successful sync. If the discard fails, this 
   handler falls back to manual recovery. This mode is recommended to handle any
   manual data recovery.
 
@@ -207,7 +207,7 @@ unsynced local changes automatically during a client reset.
 To recover unsynced changes, :ref:`Client Recovery <enable-or-disable-recovery-mode>`
 must be enabled in your App Services App (it is enabled by default).
 
-If the automatic recovery process fails, it falls back to to discard unsynced
+If the automatic recovery process fails, it falls back to a discard unsynced
 changes strategy. 
 If that process process fails, it falls back again to a manual reset strategy.
 
@@ -377,8 +377,8 @@ Manually Recover Unsynced Changes
 Use the manually recover unsynced changes strategy for the infrequent cases where 
 you need to customize your data recovery process.
 We recommend using the :ref:`Discard unsynced changes <kotlin-discard-unsynced-changes>` 
-when possible to handle manual data recovery. 
-You should choose the manually recover unsynced changes strategy if the automatic 
+strategy when possible to handle manual data recovery. 
+You should only choose the manually recover unsynced changes strategy if the automatic 
 recovery logic is not suitable for your app *and* you can't discard unsynced local data.
 
 To use the manual recovery strategy, define your own client reset handler using the 
@@ -388,8 +388,7 @@ interface.
 Before you use this method, you *must* close all instances of the realm that you are resetting.
 Any writes to the realm file made after the manual recovery callback and before 
 the client reset being executed will not be synced.
-
-We recommend that you create a backup of the file and report the exception. 
+We also recommend that you create a backup of the file and report the exception. 
 
 Initiate a client reset using ``ClientResetRequiredException.executeClientReset()``. 
 
