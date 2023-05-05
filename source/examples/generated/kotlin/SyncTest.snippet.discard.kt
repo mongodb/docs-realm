@@ -1,12 +1,14 @@
 val clientResetStrategy = object : DiscardUnsyncedChangesStrategy {
     override fun onBeforeReset(realm: TypedRealm) {
-        Log.i("Client reset: attempting to automatically recover unsynced changes")
+        Log.i("Client reset: attempting to discard any unsynced changes")
     }
     // Executed before the client reset begins.
     // Can be used to notify the user that a reset will happen.
 
     override fun onAfterReset(before: TypedRealm, after: MutableRealm) {
-        Log.i("Client reset: successfully recovered all unsynced changes")
+        Log.i("Client reset: attempting to manually recover any unsynced changes")
+        // ...Try to manually recover any unsynced data 
+        manuallyRecoverUnsyncedData(before, after) 
     }
     // Executed after the client reset is complete.
     // Can be used to notify the user that the reset is done.

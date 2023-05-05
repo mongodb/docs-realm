@@ -453,7 +453,9 @@ class SyncTest: RealmTest() {
             // Executed if and only if the automatic recovery has succeeded.
 
             override fun onAfterDiscard(before: TypedRealm, after: MutableRealm) {
-                Log.i("Client reset: recovery unsuccessful, all unsynced changes were discarded")
+                Log.i("Client reset: recovery unsuccessful, attempting to manually recover any changes")
+                // ... Try to manually recover any unsynced data
+                manuallyRecoverUnsyncedData(before, after) 
             }
             // Executed if the automatic recovery has failed,
             // but the discard unsynced changes fallback has completed successfully.
@@ -497,13 +499,15 @@ class SyncTest: RealmTest() {
         // :snippet-start: discard
         val strategy3 = object : DiscardUnsyncedChangesStrategy {
             override fun onBeforeReset(realm: TypedRealm) {
-                Log.i("Client reset: attempting to automatically recover unsynced changes")
+                Log.i("Client reset: attempting to discard any unsynced changes")
             }
             // Executed before the client reset begins.
             // Can be used to notify the user that a reset will happen.
 
             override fun onAfterReset(before: TypedRealm, after: MutableRealm) {
-                Log.i("Client reset: successfully recovered all unsynced changes")
+                Log.i("Client reset: attempting to manually recover any unsynced changes")
+                // ...Try to manually recover any unsynced data 
+                manuallyRecoverUnsyncedData(before, after) 
             }
             // Executed after the client reset is complete.
             // Can be used to notify the user that the reset is done.
@@ -526,6 +530,29 @@ class SyncTest: RealmTest() {
             // Deprecated. onManualResetFallback() used instead.
         }
         // :snippet-end:
+        val manualReset = object : DiscardUnsyncedChangesStrategy {
+        // :snippet-start: fallback
+            override fun onManualResetFallback(
+                session: SyncSession,
+                exception: ClientResetRequiredException
+            ) {
+                Log.i("Client reset: manual reset required")
+    
+                // You *MUST* close any open Realm instance
+                closeAllRealmInstances();
+    
+                // `executeClientReset()` creates a backup
+                exception.executeClientReset();
+    
+                // (Optional) Send backup for analysis
+                handleBackup(recoveryFilePath);
+    
+                // ... Restore the App state by reopening the realm 
+                // or restarting the app
+            }
+            // :snippet-end:
+        }
+
         runBlocking {
             val user = app.login(credentials)
             // :snippet-start: client-reset-strategy
@@ -543,47 +570,5 @@ class SyncTest: RealmTest() {
             realm.close()
         }
     }
-//    @Test
-//    fun manualClientFallbackTest() {
-//        val credentials = Credentials.anonymous()
-//        val app = App.create(yourFlexAppId)
-//
-//        runBlocking {
-//            val user = app.login(credentials)
-//            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-//                .syncClientResetStrategy(object : RecoverUnsyncedChangesStrategy {
-//                    override fun onBeforeReset(realm: TypedRealm) {
-//                        Log.i("Beginning client reset for " + realm.configuration.path)
-//                    }
-//                    override fun onAfterReset(before: TypedRealm, after: MutableRealm) {
-//                        Log.i("Finished client reset for " + before.configuration.path)
-//                    }
-//                    override fun onManualResetFallback(session: SyncSession, exception: ClientResetRequiredException) {
-//                        Log.i(
-//                            "Couldn't handle the client reset automatically." +
-//                                    " Falling back to manual client reset execution: "
-//                                    + exception.message
-//                        )
-//                        // Clemente: how do you close the realm before executing the reset in kotlin sdk??
-//                        // realm.close()
-//                        try {
-//                            Log.w("About to execute the client reset.")
-//                            // execute the client reset, moving the current realm to a backup file
-//                            exception.executeClientReset()
-//                            Log.w("Executed the client reset.")
-//                        } catch (exception: IllegalStateException) {
-//                            Log.e("Failed to execute the client reset: " + exception.message)
-//                        }
-//                            // ... resetDialog
-//
-//                        // ... open realm
-//                    }
-//                })
-//                .build()
-//            val realm = Realm.open(config) // :remove:
-//            // Close the realm before attempting the client reset
-//            realm.close()
-//        }
-//    }
-}
+
 // :replace-end:
