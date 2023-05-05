@@ -3,7 +3,7 @@ name: Kotlin SDK Example App
 on:
   pull_request:
     paths:
-      - "examples/kotlin/**"
+      - 'examples/kotlin/**'
 
 jobs:
   build:
@@ -15,6 +15,6 @@ jobs:
       - name: run jvm commonTests
         uses: actions/setup-java@v3
         with:
-          distribution: "zulu"
-          java-version: "11"
+          distribution: 'zulu'
+          java-version: '11'
       - run: cd examples/kotlin && ./gradlew jvmTest --stacktrace --info
