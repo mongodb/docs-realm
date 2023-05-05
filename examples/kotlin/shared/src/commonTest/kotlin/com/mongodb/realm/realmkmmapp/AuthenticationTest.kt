@@ -251,44 +251,45 @@ class AuthenticationTest: RealmTest() {
     fun authAsFlowTest() {
         val email = getRandom()
         val password = getRandom()
-        // :snippet-start: auth-change-listener
+        var appActivityFunCalled = false
+        var loginActivityFunCalled = false
+        fun proceedToAppActivity(user: io.realm.kotlin.mongodb.User) {
+            // Placeholder func for example
+            Log.v("User ${user.id.toString()} is logged in")
+            appActivityFunCalled = true
+        }
+        fun proceedToLoginActivity(user: io.realm.kotlin.mongodb.User) {
+            // Placeholder func for example
+            Log.v("User ${user.id.toString()} is logged out")
+            loginActivityFunCalled = true
+        }
+        fun proceedToRemovedUserActivity(user: io.realm.kotlin.mongodb.User) {
+            // Placeholder func for example
+        }
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-            val authChanges = mutableSetOf<AuthenticationChange>()
+        runBlocking { // use runBlocking sparingly -- it can delay UI interaction
             // flow.collect() is blocking -- for this example we run it in a background context
             val job = CoroutineScope(Dispatchers.Default).launch {
+                // :snippet-start: auth-change-listener
                 // Create a Flow of AuthenticationChange objects
                 app.authenticationChangeAsFlow().collect() { change: AuthenticationChange ->
                     when (change) {
-                        is LoggedIn -> authChanges.add(change)
-                        is LoggedOut -> authChanges.add(change)
-                        is Removed -> authChanges.add(change)
+                        is LoggedIn -> proceedToAppActivity(change.user)
+                        is LoggedOut -> proceedToLoginActivity(change.user)
+                        is Removed -> proceedToRemovedUserActivity(change.user)
                     }
                 }
+                // :snippet-end:
             }
-            app.emailPasswordAuth.registerUser(email, password) // :remove:
-            // After logging in, you should see AuthenticationChange is LoggedIn
+            app.emailPasswordAuth.registerUser(email, password)
             val user = app.login(Credentials.emailPassword(email, password))
-            // :remove-start:
             delay(10)
-            assertTrue(authChanges.first() is LoggedIn)
-            // :remove-end:
-            if (authChanges.first() is LoggedIn) {
-                Log.v("User ${authChanges.first().user} is logged in")
-            }
-            authChanges.clear()
-            // After logging out, observe the AuthenticationChange
+            assertTrue(appActivityFunCalled)
             user.logOut()
-            // :remove-start:
             delay(20)
-            assertTrue(authChanges.first() is LoggedOut)
-            // :remove-end:
-            if (authChanges.first() is LoggedOut) {
-                Log.v("User ${authChanges.first().user} is logged out")
-            }
+            assertTrue(loginActivityFunCalled)
             job.cancel()
         }
-        // :snippet-end:
     }
 }
 // :replace-end:
