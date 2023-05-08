@@ -1,6 +1,6 @@
 import Realm from "realm";
 
-describe.skip("test compaction on launch", () => {
+describe("test compaction on launch", () => {
   test("shouldCompact", async () => {
     let wasCalled;
 
@@ -17,29 +17,42 @@ describe.skip("test compaction on launch", () => {
 
       // Compact if the file is over 100MB in size and less than 50% 'used'
       const oneHundredMB = 100 * 1024 * 1024;
-      return totalBytes > oneHundredMB && usedBytes / totalBytes < 0.2;
-    };
-    const config = { shouldCompact };
 
+      return totalBytes > oneHundredMB && usedBytes / totalBytes < 0.5;
+    };
+    //:uncomment-start:
+    // const config = { shouldCompact };
+    //:uncomment-end:
+
+    //:remove-start:
+    const config = {
+      path: "realm-files/compacting-realm",
+      shouldCompact,
+    };
+    //:remove-end:
     let realm = await Realm.open(config);
 
     //:snippet-end:
-
     expect(wasCalled).toBe(true);
 
     realm.close();
   });
 
   test("compact", async () => {
-    // TODO: Test that realm is compacted once it meets criteria
-
     //:snippet-start: compactNode
     const realm = new Realm("my.realm");
-    realm.compact();
+
+    try {
+      const compactSuccess = realm.compact();
+      //:remove-start:
+      expect(compactSuccess).toBe(true);
+      //:remove-end:
+    } catch (err) {
+      if (err instanceof Error) {
+        // handle error for compacting
+      }
+    }
     //:snippet-end:
-    expect(() => {
-      realm.compact();
-    });
 
     realm.close();
   });
