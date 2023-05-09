@@ -152,18 +152,3 @@ properties and the value of ``Birthday`` based on ``Age``:
    :language: csharp
    :emphasize-lines: 3, 21, 25, 31
    :linenos:
-
-.. note:: Unity does not support the ``dynamic`` keyword when using ``IL2CPP``
-
-   Unity has various `scripting restrictions
-   <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ and does not
-   support the `dynamic keyword
-   <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_
-   when using `IL2CPP  <https://docs.unity3d.com/Manual/IL2CPP.html>`_.
-   Instead you can cast the Dynamic value to the type you want to use. In the
-   following example, the retrieved ``Person`` objects are explicitly converted to
-   an ``IQueryable<RealmObject>``. 
-
-   .. code-block:: csharp
-
-     var people = (IQueryable<RealmObject>)migration.OldRealm.DynamicApi.All("Person"); // store results of retrieved Person objects
