@@ -56,7 +56,7 @@ namespace Examples
                 realm.Add(testItem);
             });
 
-            // OR
+            // Or 
 
             var testItem2 =
                 await realm.WriteAsync(() =>
