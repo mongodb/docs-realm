@@ -92,6 +92,10 @@ namespace Examples.Models
         //:remove-end:
         [Indexed]
         public string Name { get; set; }
+
+        [Indexed(IndexType.FullText)]
+        public string Biography { get; set; }
+
         public IList<Dog_OMAS> Dogs { get; }
     }
     // :replace-end:

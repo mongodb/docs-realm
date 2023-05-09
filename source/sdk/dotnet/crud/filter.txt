@@ -3,9 +3,9 @@
 .. _dotnet-filter-results:
 .. _dotnet-client-query-engine:
 
-===============================
-Filter and Sort Data - .NET SDK
-===============================
+=======================================
+Query, Filter, and Sort Data - .NET SDK
+=======================================
 
 .. contents:: On this page
    :local:
@@ -13,8 +13,7 @@ Filter and Sort Data - .NET SDK
    :depth: 2
    :class: singlecol
 
-
-To filter data in your realm, use the Realm Database query engine. 
+To query, filter, and sort data in a realm, use the Realm query engine. 
 There are two ways to use the query engine with the .NET SDK:
 
 - :ref:`LINQ Syntax <dotnet-linq-syntax>`
@@ -231,6 +230,20 @@ table. Regex-like wildcards allow more flexibility in search.
    ``StringComparison.Ordinal``. For the ``Like()`` method, the second 
    parameter is a boolean value (where "true" means "case sensitive").
 
+.. _dotnet-linq-fts:
+
+Linq and Full Text Search
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use LINQ to query on properties that have Full Text Search (FTS) on 
+them. To query these properties, use
+:dotnet-sdk:`QueryMethods.FullTextSearch 
+<reference/Realms.QueryMethods.html#Realms_QueryMethods_FullTextSearch_System_String_System_String_>`.
+The following example queries the ``Person.Biography`` field for "scientist":
+
+.. literalinclude:: /examples/generated/dotnet/Indexing.snippet.linq-query-fts.cs
+   :language: csharp
+
 .. _dotnet-unsupported-linq:
 
 Unsupported LINQ Operators
@@ -275,25 +288,28 @@ The following LINQ operators are not currently supported by the Realm .NET SDK:
          - ``Intersect``
          - ``Except``
 
+.. _dotnet-full-text-querying:
+
+
 
 .. _dotnet-realm-query-language:
 
 Realm Query Language
 --------------------
-
-You can also use :dotnet-sdk:`Filter() <reference/Realms.CollectionExtensions.html?q=Filter>`
-to query realms using :ref:`Realm Query Language <realm-query-language>`.
-Realm Query Language is a string-based query language to access the query engine.
+You can also use the :ref:`Realm Query Language <realm-query-language>` (RQL) 
+to query realms. RQL is a string-based query language used to access the query 
+engine. When using RQL, you use the 
+:dotnet-sdk:`Filter() <reference/Realms.CollectionExtensions.html?q=Filter>`
+method: 
 
 .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.rql.cs
     :language: csharp
 
-You should use :ref:`.NET LINQ syntax <dotnet-linq-syntax>` for queries,
-unless your requirements extend beyond LINQ's current capabilities.
-Realm Query Language is able to perform operations that LINQ syntax is not,
-such as :ref:`aggregation <dotnet-realm-query-language-aggregation>`.
+.. important::
 
-.. include:: /includes/tip-realm-query-language-reference-examples.rst
+   You should use :ref:`.NET LINQ syntax <dotnet-linq-syntax>` for queries,
+   unless your requirements extend beyond LINQ's current capabilities, such as 
+   using :ref:`aggregation <dotnet-realm-query-language-aggregation>`.
 
 .. _dotnet-realm-query-language-aggregation:
 
@@ -315,6 +331,18 @@ The following examples show different ways to aggregate data:
 
 .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.aggregate.cs
   :language: csharp
+
+.. _dotnet-rql-fts:
+
+RQL and Full Text Search
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use RQL to query on properties that have Full Text Search (FTS) on 
+them. To query these properties, use the ``TEXT`` operator. The following example 
+queries the ``Person.Biography`` field for the string "scientist":
+
+.. literalinclude:: /examples/generated/dotnet/Indexing.snippet.rql-query-fts.cs
+   :language: csharp
 
 .. _dotnet-sort-query-results:
 .. _dotnet-sort-results:
