@@ -236,6 +236,30 @@ you must check the type before you do anything with the value.
 .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.mixed-data-type.swift
    :language: swift
 
+.. _swift-create-object-async:
+
+Create an Object Asynchronously
+-------------------------------
+
+You can use Swift concurrency features to write asynchronously to an 
+actor-isolated realm. 
+
+This function from the example ``RealmActor`` :ref:`defined on the 
+Actor-Isolated Realms page <swift-define-realm-actor>` shows how you might
+write to an actor-isolated realm:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.write-async.swift
+   :language: swift
+
+And you might perform this write using Swift's async syntax:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-isolated-realm-async.swift
+   :language: swift
+
+This operation does not block or perform I/O on the calling thread. For
+more information about writing to realm using Swift concurrency features, 
+refer to :ref:`swift-actor-isolated-realm`.
+
 .. _swift-create-asymmetric-object:
 
 Create an Asymmetric Object

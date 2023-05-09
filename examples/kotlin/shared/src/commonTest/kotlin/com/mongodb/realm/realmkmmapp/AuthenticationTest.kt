@@ -2,11 +2,20 @@ package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.AuthenticationChange
 import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.LoggedIn
+import io.realm.kotlin.mongodb.LoggedOut
+import io.realm.kotlin.mongodb.Removed
 import io.realm.kotlin.mongodb.ext.call
 import io.realm.kotlin.mongodb.ext.customDataAsBsonDocument
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.mongodb.kbson.BsonDocument
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 // :replace-start: {
 //   "terms": {
@@ -227,15 +236,60 @@ class AuthenticationTest: RealmTest() {
             user.logOut()
         }
     }
-        @Test
-        fun logoutTest() {
-            val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-            runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-                val user = app.login(Credentials.anonymous())
-                // :snippet-start: log-out
-                user.logOut()
-                // :snippet-end:
-            }
+    @Test
+    fun logoutTest() {
+        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            val user = app.login(Credentials.anonymous())
+            // :snippet-start: log-out
+            user.logOut()
+            // :snippet-end:
         }
     }
+
+    @Test
+    fun authAsFlowTest() {
+        val email = getRandom()
+        val password = getRandom()
+        var appActivityFunCalled = false
+        var loginActivityFunCalled = false
+        fun proceedToAppActivity(user: io.realm.kotlin.mongodb.User) {
+            // Placeholder func for example
+            Log.v("User ${user.id.toString()} is logged in")
+            appActivityFunCalled = true
+        }
+        fun proceedToLoginActivity(user: io.realm.kotlin.mongodb.User) {
+            // Placeholder func for example
+            Log.v("User ${user.id.toString()} is logged out")
+            loginActivityFunCalled = true
+        }
+        fun proceedToRemovedUserActivity(user: io.realm.kotlin.mongodb.User) {
+            // Placeholder func for example
+        }
+        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+        runBlocking { // use runBlocking sparingly -- it can delay UI interaction
+            // flow.collect() is blocking -- for this example we run it in a background context
+            val job = CoroutineScope(Dispatchers.Default).launch {
+                // :snippet-start: auth-change-listener
+                // Create a Flow of AuthenticationChange objects
+                app.authenticationChangeAsFlow().collect() { change: AuthenticationChange ->
+                    when (change) {
+                        is LoggedIn -> proceedToAppActivity(change.user)
+                        is LoggedOut -> proceedToLoginActivity(change.user)
+                        is Removed -> proceedToRemovedUserActivity(change.user)
+                    }
+                }
+                // :snippet-end:
+            }
+            app.emailPasswordAuth.registerUser(email, password)
+            val user = app.login(Credentials.emailPassword(email, password))
+            delay(10)
+            assertTrue(appActivityFunCalled)
+            user.logOut()
+            delay(20)
+            assertTrue(loginActivityFunCalled)
+            job.cancel()
+        }
+    }
+}
 // :replace-end:

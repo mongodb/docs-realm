@@ -1,3 +1,48 @@
+# May 5, 2023
+
+## C++ SDK
+
+- CRUD/Filter Data: Note that the C++ SDK has not yet implemented sort, and using `std::sort` pulls the results set into memory
+
+## Kotlin SDK
+
+- Quick Start: Fix the `Item` model code example showing deprecated `ObjectId.create()` method
+- Realm Database
+  - Model Data/Property Annotations: Update `@PersistedName` annotation section to show remapping a class name in 10.8.0
+  - Manage Realm Files/Encrypt a Realm: Note that v10.8.0 supports opening an encrypted realm in multiple processes
+- Sync Device Data
+  - Handle Sync Errors: Add a "Handle Client Reset" section similar to other SDKs
+  - Set the Client Log Level: Update documentation for new unified Realm logger API
+
+## .NET SDK
+
+- Model Data/Define an Object Model: Minor clarifications related to nullability
+
+## Node.js SDK
+
+- Sync Data/Stream Data to Atlas: New page with info & tested Bluehawked code examples showing how to use Data Ingest to stream data to Atlas
+
+## Swift SDK
+
+- Updates across documentation with info and tested, Bluehawked code examples showing how to use async/actor-isolated realms including:
+  - Realm Files/Configure & Open a Realm: New "Open a Realm with Swift Concurrency Features" section
+  - CRUD
+    - Create: New "Create an Object Asynchronously" section
+    - Read: New "Read an Object Asynchronously" section
+    - Update: New "Update an Object Asynchronously" section
+    - Delete: New "Delete an Object Asynchronously" section
+    - Threading: New "Actor-Isolated Realms" section pointing people to the new page for information
+  - React to Changes: New "React to Changes in an Actor-Confined Realm" section
+  - Actor-Isolated Realms: New page with details about using an actor-isolated realm
+  - Swift Concurrency: Updates throughout page referring to new actor/async functionality
+  - Sync Data/Configure and Open a Synced Realm: New section "Open a Synced Realm with Swift Concurrency Features"
+- Add a reference table of Sendable, Non-Sendable and Thread-Confined types to the Threading & Swift Concurrency pages
+- Sync Data/Set the Client Log Level: Update documentation for new unified Realm logger API
+
+## Other
+
+- Realm Query Language: Add a link from the page referring developers to the C++ Filter Data page for info about RQL operators supported in the C++ SDK Alpha
+
 # April 28, 2023
 
 ## C++ SDK

@@ -37,6 +37,14 @@ simplify this for you.
    <ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
    across threads.
 
+Actor-Isolated Realms
+---------------------
+
+This page describes how to manually manage realm files and objects across threads.
+Realm also supports using a :apple:`Swift actor <documentation/swift/actor>`
+to manage realm access using Swift concurrency features. For an overview 
+of Realm's actor support, refer to :ref:`swift-actor-isolated-realm`.
+
 .. _ios-threading-three-rules:
 
 Three Rules to Follow
@@ -588,3 +596,10 @@ Summary
   only one true latest version for each realm.
 
 - Realm Database commits in two stages to guarantee isolation and durability.
+
+.. _threading-page-sendable-thread-confined-reference:
+
+Sendable, Non-Sendable and Thread-Confined Types
+------------------------------------------------
+
+.. include:: /includes/swift-api-sendable-thread-confined-reference.rst
