@@ -80,8 +80,27 @@ In the SyncConfiguration, you must include include a ``user`` and ``flexible:tru
 Write Synced Realm to Specific Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. TODO: finish adding content and example.
-.. Should mention it's for sync only, including realm and metadata.
+.. versionadded:: ``realm@11.6.0``
+
+Using :js-sdk:`AppConfiguration.baseFilePath <Realm.App.html#~AppConfiguration>`,
+you can write a synced realm and its metadata to a specific device path.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.set-absolute-path.ts
+   :language: typescript
+
+If ``baseFilePath`` is not set, the current work directory is used. Where,
+exactly, your Realm file and metadata file are stored can vary depending on how
+you set :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`:
+
+- If ``Realm.Configuration.path`` is not set, your Realm file and metadata are
+  stored in a location following this pattern: 
+  ``<currentWorkingDirectory>/<baseFilePath>/mongodb-realm/``.
+- If ``Realm.Configuation.path`` is set to a relative path, the Realm file is
+  stored relative to ``baseFilePath``. Metadata is stored in 
+  ``<baseFilePath>/mongodb-realm``.
+- If ``Realm.Configuration.path`` is an absolute path, your Realm file is stored
+  at ``Realm.Configuration.path``. Metadata is stored in 
+  ``<baseFilePath>/mongodb-realm``.
 
 .. _node-partition-sync-open-realm:
 

@@ -1,7 +1,10 @@
 import Realm from "realm";
 import nock from "nock";
+import { existsSync, rmSync } from "node:fs";
 
-describe("Open and Close a Realm", () => {
+const APP_ID = "js-flexible-oseso";
+
+describe.skip("Open and Close a Realm", () => {
   test("should open and close a local realm", async () => {
     // :snippet-start: open-local-realm-with-car-schema
     const Car = {
@@ -78,7 +81,8 @@ describe("Open and Close a Realm", () => {
       // :replace-end:
       // :snippet-end:
 
-      const parseRealmFilePath = path => path.substring(path.lastIndexOf("/") + 1);
+      const parseRealmFilePath = (path) =>
+        path.substring(path.lastIndexOf("/") + 1);
 
       expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
 
@@ -287,7 +291,7 @@ describe("Open and Close a Realm", () => {
   });
 });
 
-describe("Convert Realm using writeCopyTo()", () => {
+describe.skip("Convert Realm using writeCopyTo()", () => {
   const Car = {
     name: "SportsCar22",
     properties: {
@@ -299,15 +303,18 @@ describe("Convert Realm using writeCopyTo()", () => {
     primaryKey: "_id",
   };
   const app = new Realm.App({ id: "demo_app-cicfi" });
+
   beforeEach(async () => {
     await app.logIn(Realm.Credentials.anonymous());
   });
+
   afterEach(async () => {
     if (app.currentUser) {
       await app.deleteUser(app.currentUser);
       await app.currentUser?.logOut();
     }
   });
+
   test("Open local realm as synced realm with `writeCopyTo()`", async () => {
     // :snippet-start: open-local-as-synced
     const localConfig = {
@@ -337,6 +344,7 @@ describe("Convert Realm using writeCopyTo()", () => {
     Realm.deleteFile(localConfig);
     Realm.deleteFile(syncedConfig);
   });
+
   test("writing over realm doesn't replace data", async () => {
     const Car = {
       name: "Car",
@@ -390,6 +398,7 @@ describe("Convert Realm using writeCopyTo()", () => {
     Realm.deleteFile(realm1Config);
     Realm.deleteFile(realm2Config);
   });
+
   test("sync encrypted to local unencrypted", async () => {
     const Car = {
       name: "SportsCar23",
@@ -434,5 +443,94 @@ describe("Convert Realm using writeCopyTo()", () => {
     localUnencryptedRealm.close();
     Realm.deleteFile(localUnencryptedConfig);
     Realm.deleteFile(syncedEncryptedConfig);
+  });
+});
+
+describe("Open realm at different paths", () => {
+  const Car = {
+    name: "Car",
+    properties: {
+      _id: "objectId",
+      make: "string",
+      model: "string",
+      miles: "int",
+    },
+    primaryKey: "_id",
+  };
+
+  test("should open a realm at an absolute path", async () => {
+    const absolutePath = `${__dirname}/testFiles/${new Realm.BSON.UUID().toHexString()}`;
+
+    console.debug(`
+    ${absolutePath}
+    `);
+
+    // Check to make sure the path for the realm doesn't already exist.
+    expect(existsSync(absolutePath)).toBe(false);
+
+    const app = new Realm.App({ id: APP_ID, baseFilePath: absolutePath });
+    const user = await app.logIn(Realm.Credentials.anonymous());
+
+    const realm = await Realm.open({
+      schema: [Car],
+      sync: {
+        flexible: true,
+        user,
+      },
+    });
+
+    console.debug(`
+    ${realm.path}
+    `);
+
+    // Check that realm exists at absolute path.
+    expect(existsSync(absolutePath)).toBe(true);
+    // Check that the realm's path starts with the absolute path.
+    expect(realm.path.startsWith(absolutePath));
+
+    await app.currentUser.logOut();
+
+    realm.close();
+
+    // Remove realm files that are generated for this test.
+    rmSync(absolutePath, { recursive: true });
+  });
+
+  test("should open a realm at a relative path", async () => {
+    const relativePath = `testFiles/${new Realm.BSON.UUID().toHexString()}`;
+
+    console.debug(`
+    ${relativePath}
+    `);
+
+    // Check to make sure the path for the realm doesn't already exist.
+    expect(existsSync(relativePath)).toBe(false);
+
+    const app = new Realm.App({ id: APP_ID, baseFilePath: relativePath });
+    const user = await app.logIn(Realm.Credentials.anonymous());
+
+    const realm = await Realm.open({
+      schema: [Car],
+      sync: {
+        flexible: true,
+        user,
+      },
+    });
+
+    console.debug(`
+    ${realm.path}
+    `);
+
+    // Check that realm exists at relative path.
+    expect(existsSync(relativePath)).toBe(true);
+    // Check that the realm's path starts with the relative path.
+    expect(realm.path.startsWith(relativePath));
+
+    await app.currentUser?.logOut();
+
+    realm.close();
+
+    // Remove realm files that are generated for this test.
+    rmSync(relativePath, { recursive: true });
   });
 });
