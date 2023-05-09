@@ -2,6 +2,7 @@
 using System.Linq;
 using MongoDB.Bson;
 using Realms;
+using Realms.Schema;
 
 namespace Examples
 {
@@ -20,34 +21,41 @@ namespace Examples
                     //   "PersonK": "Person",
                     //   "PersonM":"Person"}
                     // }
-                    var oldPeople = migration.OldRealm.DynamicApi.All("PersonK");
-                    var newPeople = migration.NewRealm.All<PersonM>();
+                    var oldVersionPeople = migration.OldRealm.DynamicApi.All("PersonK");
+                    var newVersionPeople = migration.NewRealm.All<PersonM>();
                     // :replace-end:
 
                     // Migrate Person objects
-                    for (var i = 0; i < newPeople.Count(); i++)
+                    for (var i = 0; i < newVersionPeople.Count(); i++)
                     {
-                        var oldPerson = oldPeople.ElementAt(i);
-                        var newPerson = newPeople.ElementAt(i);
+                        var oldVersionperson = oldVersionPeople.ElementAt(i);
+                        var newVersionPerson = newVersionPeople.ElementAt(i);
 
-                        // Changes from version 1 to 2 (adding LastName) will occur automatically when Realm detects the change
+                        // Changes from version 1 to 2 (adding LastName) will
+                        // occur automatically when Realm detects the change
 
-                        // Migrate Person from version 2 to 3: replace FirstName and LastName with FullName
+                        // Migrate Person from version 2 to 3:
+                        // Replace FirstName and LastName with FullName
                         // LastName doesn't exist in version 1
+                        var firstName = oldVersionperson.DynamicApi.Get<string>("FirstName");
+                        var lastName = oldVersionperson.DynamicApi.Get<string>("LastName");
+
                         if (oldSchemaVersion < 2)
                         {
-                            newPerson.FullName = oldPerson.FirstName;
+                            newVersionPerson.FullName = firstName;
                         }
                         else if (oldSchemaVersion < 3)
                         {
-                            newPerson.FullName = $"{oldPerson.FirstName} {oldPerson.LastName}";
+                            newVersionPerson.FullName = $"{firstName} {lastName}";
                         }
 
                         // Migrate Person from version 3 to 4: replace Age with Birthday
                         if (oldSchemaVersion < 4)
                         {
-                            var birthYear = DateTimeOffset.UtcNow.Year - oldPerson.Age;
-                            newPerson.Birthday = new DateTimeOffset(birthYear, 1, 1, 0, 0, 0, TimeSpan.Zero);
+                            var birthYear =
+                                DateTimeOffset.UtcNow.Year - oldVersionperson.DynamicApi.Get<int>("Age");
+                            newVersionPerson.Birthday =
+                                new DateTimeOffset(birthYear, 1, 1, 0, 0, 0, TimeSpan.Zero);
                         }
                     }
                 }
