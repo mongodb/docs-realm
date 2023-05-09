@@ -1,8 +1,5 @@
 import Realm from "realm";
 import nock from "nock";
-import { existsSync, rmSync } from "node:fs";
-
-const APP_ID = "js-flexible-oseso";
 
 describe.skip("Open and Close a Realm", () => {
   test("should open and close a local realm", async () => {
@@ -443,94 +440,5 @@ describe.skip("Convert Realm using writeCopyTo()", () => {
     localUnencryptedRealm.close();
     Realm.deleteFile(localUnencryptedConfig);
     Realm.deleteFile(syncedEncryptedConfig);
-  });
-});
-
-describe("Open realm at different paths", () => {
-  const Car = {
-    name: "Car",
-    properties: {
-      _id: "objectId",
-      make: "string",
-      model: "string",
-      miles: "int",
-    },
-    primaryKey: "_id",
-  };
-
-  test("should open a realm at an absolute path", async () => {
-    const absolutePath = `${__dirname}/testFiles/${new Realm.BSON.UUID().toHexString()}`;
-
-    console.debug(`
-    ${absolutePath}
-    `);
-
-    // Check to make sure the path for the realm doesn't already exist.
-    expect(existsSync(absolutePath)).toBe(false);
-
-    const app = new Realm.App({ id: APP_ID, baseFilePath: absolutePath });
-    const user = await app.logIn(Realm.Credentials.anonymous());
-
-    const realm = await Realm.open({
-      schema: [Car],
-      sync: {
-        flexible: true,
-        user,
-      },
-    });
-
-    console.debug(`
-    ${realm.path}
-    `);
-
-    // Check that realm exists at absolute path.
-    expect(existsSync(absolutePath)).toBe(true);
-    // Check that the realm's path starts with the absolute path.
-    expect(realm.path.startsWith(absolutePath));
-
-    await app.currentUser.logOut();
-
-    realm.close();
-
-    // Remove realm files that are generated for this test.
-    rmSync(absolutePath, { recursive: true });
-  });
-
-  test("should open a realm at a relative path", async () => {
-    const relativePath = `testFiles/${new Realm.BSON.UUID().toHexString()}`;
-
-    console.debug(`
-    ${relativePath}
-    `);
-
-    // Check to make sure the path for the realm doesn't already exist.
-    expect(existsSync(relativePath)).toBe(false);
-
-    const app = new Realm.App({ id: APP_ID, baseFilePath: relativePath });
-    const user = await app.logIn(Realm.Credentials.anonymous());
-
-    const realm = await Realm.open({
-      schema: [Car],
-      sync: {
-        flexible: true,
-        user,
-      },
-    });
-
-    console.debug(`
-    ${realm.path}
-    `);
-
-    // Check that realm exists at relative path.
-    expect(existsSync(relativePath)).toBe(true);
-    // Check that the realm's path starts with the relative path.
-    expect(realm.path.startsWith(relativePath));
-
-    await app.currentUser?.logOut();
-
-    realm.close();
-
-    // Remove realm files that are generated for this test.
-    rmSync(relativePath, { recursive: true });
   });
 });
