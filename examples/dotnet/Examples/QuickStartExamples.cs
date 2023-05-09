@@ -55,9 +55,23 @@ namespace Examples
             {
                 realm.Add(testItem);
             });
+
+            // OR
+
+            var testItem2 =
+                await realm.WriteAsync(() =>
+                {
+                    return realm.Add<Item>(new Item
+                    {
+                        Name = "Do this thing, too",
+                        Status = ItemStatus.InProgress.ToString(),
+                        Partition = "myPart"
+                    });
+                }
+            );
+
             // :snippet-end:
             testItemId = testItem.Id;
-
         }
 
 
