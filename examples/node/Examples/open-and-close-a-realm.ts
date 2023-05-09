@@ -54,7 +54,7 @@ describe("Open realm at different paths", () => {
     // Check to make sure the path for the realm doesn't already exist.
     expect(existsSync(customPath)).toBe(false);
 
-    // :snippet-start: set-absolute-path
+    // :snippet-start: set-relative-path
     const app = new Realm.App({ id: APP_ID, baseFilePath: customPath });
     const user = await app.logIn(Realm.Credentials.anonymous());
 
@@ -67,10 +67,10 @@ describe("Open realm at different paths", () => {
     });
     // :snippet-end:
 
-    // Check that realm exists at absolute path.
+    // Check that realm exists at relative path.
     expect(existsSync(customPath)).toBe(true);
 
-    // Check that the realm's path starts with the absolute path.
+    // Check that the realm's path starts with the relative path.
     expect(realm.path.startsWith(customPath));
 
     await app.currentUser?.logOut();
