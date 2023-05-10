@@ -100,9 +100,21 @@ To do so, set ``<AppProvider>.baseFilePath``. If ``baseFilePath`` is not set, th
 current work directory is used. You can also set ``<RealmProvider>.sync.path``
 for more control.
 
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-path.test.snippet.configure-realm-path.tsx
-   :language: typescript
-   :emphasize-lines: 16
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/configure-realm-path.test.snippet.configure-realm-path.tsx
+         :language: typescript
+         :emphasize-lines: 5, 16
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/configure-realm-path.test.snippet.configure-realm-path.jsx
+         :language: typescript
+         :emphasize-lines: 5, 12
 
 If ``baseFilePath`` is set, metadata is always stored in
 ``<baseFilePath>/mongodb-realm/``. If ``baseFilePath`` isn't sßet, then metadata
