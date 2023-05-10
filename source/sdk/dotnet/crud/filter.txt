@@ -40,20 +40,17 @@ You should use LINQ syntax for querying when possible, as it aligns with
 
 .. _dotnet-linq-syntax:
 
-LINQ Syntax
------------
+Query with LINQ
+---------------
 
 Realm Database's query engine implements standard `LINQ
 <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/introduction-to-linq-queries>`__
 syntax.
-See the scope of LINQ implemented on the `LINQ
-Support page <https://realm.io/docs/dotnet/latest/api/linqsupport.html>`__.
 
-There are several operators available to filter a
-:ref:`Realm collection <dotnet-client-collections>` with LINQ.
-Filters work by evaluating an operator expression for
-every object in the collection being
-filtered. If the expression resolves to ``true``, realm
+There are several operators available to filter a 
+:ref:`Realm collection <dotnet-client-collections>` with LINQ. 
+Filters work by evaluating an operator expression for every object in the 
+collection being filtered. If the expression resolves to ``true``, realm 
 includes the object in the results collection.
 
 An expression consists of one of the following:
@@ -64,7 +61,7 @@ An expression consists of one of the following:
 
 .. note:: 
 
-   Currently, the Realm .NET SDK does not support all of the LINQ operators. Refer 
+   The Realm .NET SDK does not currently support all of the LINQ operators. Refer 
    to the :ref:`<dotnet-unsupported-linq>` section for a list of those unsupported 
    operators.
 
@@ -232,8 +229,8 @@ table. Regex-like wildcards allow more flexibility in search.
 
 .. _dotnet-linq-fts:
 
-Linq and Full Text Search
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Full Text Search
+~~~~~~~~~~~~~~~~
 
 You can use LINQ to query on properties that have Full Text Search (FTS) on 
 them. To query these properties, use
@@ -294,8 +291,9 @@ The following LINQ operators are not currently supported by the Realm .NET SDK:
 
 .. _dotnet-realm-query-language:
 
-Realm Query Language
---------------------
+Query with Realm Query Language
+-------------------------------
+
 You can also use the :ref:`Realm Query Language <realm-query-language>` (RQL) 
 to query realms. RQL is a string-based query language used to access the query 
 engine. When using RQL, you use the 
@@ -334,8 +332,8 @@ The following examples show different ways to aggregate data:
 
 .. _dotnet-rql-fts:
 
-RQL and Full Text Search
-~~~~~~~~~~~~~~~~~~~~~~~~
+Full Text Search
+~~~~~~~~~~~~~~~~
 
 You can use RQL to query on properties that have Full Text Search (FTS) on 
 them. To query these properties, use the ``TEXT`` operator. The following example 
