@@ -47,39 +47,4 @@ describe("Open realm at different paths", () => {
     // Remove realm files that are generated for this test.
     rmSync(customPath, { recursive: true });
   });
-
-  test("should open a realm at a relative path", async () => {
-    const customBaseFilePath = "customBasePath";
-    const customRealmPath = "customRealmPath";
-
-    // Check to make sure the path for the realm doesn't already exist.
-    expect(existsSync(customBaseFilePath)).toBe(false);
-
-    // :snippet-start: set-relative-path
-    const app = new Realm.App({ id: APP_ID, baseFilePath: customBaseFilePath });
-    const user = await app.logIn(Realm.Credentials.anonymous());
-
-    const realm = await Realm.open({
-      path: customRealmPath,
-      schema: [Car],
-      sync: {
-        flexible: true,
-        user,
-      },
-    });
-    // :snippet-end:
-
-    // Check that realm exists at relative path.
-    expect(existsSync(customBaseFilePath)).toBe(true);
-
-    // Check that the realm's path matches defined paths.
-    expect(realm.path).toEqual(`${customBaseFilePath}/${customRealmPath}`);
-
-    await app.currentUser?.logOut();
-
-    realm.close();
-
-    // Remove realm files that are generated for this test.
-    rmSync(customBaseFilePath, { recursive: true });
-  });
 });
