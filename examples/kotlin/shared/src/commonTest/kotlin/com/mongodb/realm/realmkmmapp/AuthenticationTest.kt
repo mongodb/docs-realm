@@ -191,7 +191,7 @@ class AuthenticationTest: RealmTest() {
     fun customUserDataTest() {
         val app: App = App.create(FLEXIBLE_APP_ID)
         runBlocking {
-            app.login(Credentials.anonymous())
+            app.login(Credentials.anonymous(reuseExisting = false))
             // :snippet-start: read-custom-user-data
             val user = app.currentUser!!
             val customUserData = user.customDataAsBsonDocument()
@@ -219,6 +219,7 @@ class AuthenticationTest: RealmTest() {
             user.refreshCustomData()
             val updatedUserData2 = user.customDataAsBsonDocument()
             // :snippet-end:
+            Log.v(updatedUserData2.toString())
             // :snippet-start: delete-custom-user-data
             val deleteResponse = user.functions
                 .call<BsonDocument>("deleteCustomUserData")
