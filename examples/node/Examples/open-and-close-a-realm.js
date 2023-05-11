@@ -1,7 +1,7 @@
 import Realm from "realm";
 import nock from "nock";
 
-describe.skip("Open and Close a Realm", () => {
+describe("Open and Close a Realm", () => {
   test("should open and close a local realm", async () => {
     // :snippet-start: open-local-realm-with-car-schema
     const Car = {
@@ -89,7 +89,7 @@ describe.skip("Open and Close a Realm", () => {
     }
   });
 
-  test.skip("should open an in memory realm", async () => {
+  test("should open an in memory realm", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -108,7 +108,7 @@ describe.skip("Open and Close a Realm", () => {
     realm.close();
   });
 
-  test.skip("should open and close a synced realm with internet", async () => {
+  test("should open and close a synced realm with internet", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -146,7 +146,7 @@ describe.skip("Open and Close a Realm", () => {
     // :snippet-end:xw
   });
 
-  test.skip("should open and close a sycned realm without internet", async () => {
+  test("should open and close a sycned realm without internet", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -208,7 +208,7 @@ describe.skip("Open and Close a Realm", () => {
     nock.enableNetConnect();
   });
 
-  test.skip("Should open and close a realm with background sync", async () => {
+  test("Should open and close a realm with background sync", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -288,7 +288,7 @@ describe.skip("Open and Close a Realm", () => {
   });
 });
 
-describe.skip("Convert Realm using writeCopyTo()", () => {
+describe("Convert Realm using writeCopyTo()", () => {
   const Car = {
     name: "SportsCar22",
     properties: {
