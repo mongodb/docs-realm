@@ -1,11 +1,12 @@
+let user: Realm.User | undefined = undefined;
+
 // Create an anonymous credential
 const credentials = Realm.Credentials.anonymous();
+
 try {
-  const user = await app.logIn(credentials);
-  console.log("Successfully logged in!", user.id);
-  return user;
-} catch (err) {
-  if (err instanceof Error) {
-    console.error("Failed to log in", err.message);
+  user = await app.logIn(credentials);
+} catch (error) {
+  if (error instanceof Error) {
+    console.error("Failed to log in", error.message);
   }
 }

@@ -12,7 +12,5 @@ const credentials = Realm.Credentials.apiKey(apiKey);
 try {
   user = await app.logIn(credentials);
 } catch (error) {
-  if (error instanceof Error) {
-    console.error("Failed to log in", error.message);
-  }
+  console.error("Failed to log in", error.message);
 }
