@@ -367,20 +367,6 @@ This notification block fires for changes in:
 Notification Delivery
 ---------------------
 
-If you don't need strict guarantees around when notifications are delivered,
-subscribe to a dispatch queue instead of the main thread. If your notification
-logic does need strict guarantees, use care in how you write things in your
-notification handlers. Otherwise, you may trigger this error:
-
-.. code-block:: console
-   :copyable: false
-
-   Cannot register notification blocks from within write transactions.
-
-This issue occurs when you try to perform updates as a result of a 
-notification, but the notification occurs while a write transaction is in
-progress.
-
 Notification delivery can vary depending on whether or not the notification 
 occurs within a write transaction, and the relative threads of the write
 and the observation. When your application relies on the timing of 
