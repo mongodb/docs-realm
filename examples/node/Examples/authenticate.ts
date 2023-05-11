@@ -20,33 +20,11 @@ describe("USER AUTHENTICATION", () => {
     jest.runAllTimers();
   });
 
-  // TODO: Figure out why this afterAll causes the following error on tests:
-  // `AppError: invalid session: failed to find refresh token`
-  // afterAll(async () => {
-  //   if (!app.currentUser) {
-  //     const credentials = Realm.Credentials.anonymous();
-
-  //     await app.logIn(credentials);
-  //   }
-
-  //   await app.currentUser?.callFunction("deleteAllUsers");
-  // });
-
   test("anonymous login", async () => {
     // :snippet-start: anonymous-login
-    let user: Realm.User | undefined = undefined;
-
     // Create an anonymous credential
     const credentials = Realm.Credentials.anonymous();
-
-    try {
-      user = await app.logIn(credentials);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Failed to log in", error.message);
-        throw new Error("Anonymous login failed:" + error.message); // :remove:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
 
     expect(user?.id).not.toBe(undefined);
@@ -67,21 +45,12 @@ describe("USER AUTHENTICATION", () => {
     //       "testPassword": "\"Pa55w0rd!\""
     //    }
     // }
-    let user: Realm.User | undefined = undefined;
-
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
       testUsername,
       testPassword
     );
-    try {
-      user = await app.logIn(credentials);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Failed to log in", error.message);
-        throw new Error("Email/password login failed:" + error.message); // :remove:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :replace-end:
     // :snippet-end:
 
@@ -104,25 +73,16 @@ describe("USER AUTHENTICATION", () => {
     process.env.appServicesApiKey = serverApiKey;
 
     // :snippet-start: server-api-key-login
-    // Get the API key from the local environment
+    // Get the API key from the local environment.
     const apiKey = process.env?.appServicesApiKey;
-    let user: Realm.User | undefined = undefined;
 
     if (!apiKey) {
       throw new Error("Could not find a Server API Key.");
     }
 
-    // Create an api key credential
+    // Create an api key credential.
     const credentials = Realm.Credentials.apiKey(apiKey);
-
-    try {
-      user = await app.logIn(credentials);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Failed to log in", error.message);
-        throw new Error("API Key login failed:" + error.message); // :remove:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
 
     expect(user?.id).not.toBe(undefined);
@@ -132,21 +92,11 @@ describe("USER AUTHENTICATION", () => {
 
   test("custom function login", async () => {
     // :snippet-start: custom-function-login
-    let user: Realm.User | undefined = undefined;
-
-    // Create a custom function credential
+    // Create a custom function credential.
     const credentials = Realm.Credentials.function({
       username: "ilovemongodb",
     });
-
-    try {
-      user = await app.logIn(credentials);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Failed to log in", error.message);
-        throw new Error("Custom function login failed:" + error.message); // :remove:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
 
     expect(user?.id).not.toBe(undefined);
@@ -174,25 +124,36 @@ describe("USER AUTHENTICATION", () => {
       return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJleGFtcGxlLXRlc3RlcnMta3ZqZHkiLCJzdWIiOiJleGFtcGxlLXVzZXIiLCJuYW1lIjoiSm9lIEphc3BlciIsImV4cCI6MTkxODA2MjM5OH0.3wR1cJN4zlbbDh7IaYyDX0fasNEW3grJCdv_7lQFnPI";
     };
     // :snippet-start: custom-jwt-login
-    let user: Realm.User | undefined = undefined;
-
-    // Create a custom jwt credential
+    // Create a custom jwt credential.
     const jwt = await authenticateWithExternalSystem();
     const credentials = Realm.Credentials.jwt(jwt);
-
-    try {
-      user = await app.logIn(credentials);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Failed to log in", error.message);
-        throw new Error("Custom JWT login failed:" + error.message); // :remove:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
 
     expect(user?.id).not.toBe(undefined);
     expect(app.currentUser?.id).not.toBe(undefined);
     expect(user?.id).toBe(app.currentUser?.id);
+  });
+
+  test("logout", async () => {
+    // Ensure all users are logged out.
+    await Promise.all(Object.values(app.allUsers).map((user) => user.logOut()));
+
+    const credentials = Realm.Credentials.anonymous();
+    const user = await app.logIn(credentials);
+
+    // If login succeeds, user.id and currentUser.id should exist and match.
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user.id).toBe(app.currentUser?.id);
+
+    // :snippet-start: logout-current-user
+    // Log out the current user
+    await app.currentUser?.logOut();
+    // :snippet-end:
+
+    // There shouldn't be any current user.
+    expect(app.currentUser).toBe(null);
   });
 });
 
