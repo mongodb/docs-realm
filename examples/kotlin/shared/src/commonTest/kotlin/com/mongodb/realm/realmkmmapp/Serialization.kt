@@ -32,6 +32,15 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import io.realm.kotlin.types.RealmObject
 import kotlinx.coroutines.delay
+import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.modules.contextual
 import org.mongodb.kbson.BsonDocument
 import org.mongodb.kbson.BsonInt32
 import org.mongodb.kbson.BsonString
@@ -365,19 +374,28 @@ class SerializationTest: RealmTest() {
         }
     }
 
+    object DateAsIntsSerializer : KSerializer<LocalDateTime> {
+        override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.INT)
+        override fun serialize(encoder: Encoder, value: LocalDateTime) = encoder.encodeInt(value.dayOfYear)
+        override fun deserialize(decoder: Decoder): LocalDateTime = LocalDateTime(decoder.decodeInt(),decoder.decodeInt(),decoder.decodeInt(),decoder.decodeInt(),decoder.decodeInt())
+    }
+
     @OptIn(ExperimentalKBsonSerializerApi::class, ExperimentalRealmSerializerApi::class)
     @Test
     fun setEjsonEncoderInAppConfiguration() {
+        // :snippet-start: set-custom-ejson-serializer-for-app-configuration
         @Serializable
         class Serialization_Frogger(
-            val name: String
+            val name: String,
+            @Contextual
+            val date: LocalDateTime
         )
-        // :snippet-start: set-custom-ejson-serializer-for-app-configuration
+
         AppConfiguration.Builder(FLEXIBLE_APP_ID)
             .ejson(
                 EJson(
                     serializersModule = SerializersModule {
-                        contextual(Serialization_Frogger::class, Serialization_Frogger.serializer())
+                        contextual(DateAsIntsSerializer)
                     }
                 )
             )

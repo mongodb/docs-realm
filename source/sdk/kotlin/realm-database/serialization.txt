@@ -14,13 +14,6 @@ The Realm Kotlin SDK supports Kotlin Serialization. You can serialize specific
 Realm data types, or entire user-defined classes, depending on which serialization
 method you choose.
 
-This serialization support depends on the official Kotlin Serialization library.
-You must add `Kotlin Serialization <https://github.com/Kotlin/kotlinx.serialization>`__
-to your project. Use the same version used in your Realm Kotlin SDK version.
-Refer to the `Version Compatibility Matrix in the realm-kotlin GitHub repository
-<https://github.com/realm/realm-kotlin#version-compatibility-matrix>`__
-for information about the supported dependencies of each version.
-
 Realm Data Types Serializers
 -----------------------------
 
@@ -131,9 +124,9 @@ using a JSON encoder:
        |
        | ``realmDictionaryOf("hello" to "world")`` serializes to ``{"hello": "world"}``
    * - RealmInstant
-     - | Serializes using a map containing both ``epochSeconds`` and ``nanosecondsOfSecond``.
+     - | Serializes as a ``BsonDateTime``.
        |
-       | ``RealmInstant.now()`` serializes to ``{"epochSeconds": 5000, "nanosecondsOfSecond": 40}``
+       | ``RealmInstant.now()`` serializes to ``{"$date": {"$numberLong": "<millis>"}}``
    * - RealmList
      - | Serializes using a generic list.
        |
@@ -142,14 +135,14 @@ using a JSON encoder:
      - | Serializes using a generic list.
        |
        | ``realmSetOf("hello", world)`` serializes to ``["hello", "world"]``
-   * - RealmObjectId
-     - | Serializes using a list of 12 integer values.
+   * - BsonObjectId or ObjectId
+     - | Serializes as a ``BsonObjectId``.
        |
-       | ``ObjectId.create()`` serializes to ``[35, 35, 0, 0, 35, 35, 0, 0, 35, 35, 0, 0]``
+       | ``ObjectId.create()`` serializes to ``{"$oid": <ObjectId bytes as 24-character, big-endian hex string>}``
    * - RealmUUID
-     - | Serializes using a list of 16 integer values.
+     - | Serializes as a ``BsonBinary``.
        |
-       | ``RealmUUID.random()`` serializes to ``[35, 35, 0, 0, 35, 35, 0, 0, 35, 35, 0, 0, 35, 35, 0, 0]``
+       | ``RealmUUID.random()`` serializes to ``{ "$binary": {"base64": "<payload>", "subType": "<t>"}}``
 
 RealmObject
 ```````````
@@ -184,6 +177,20 @@ The APIs that use these encoders include:
 - App Services :ref:`Function calls <kotlin-call-function>`
 - Credentials with :ref:`custom function authentication <kotlin-login-custom-function>`
 - User profile and :ref:`custom user data <kotlin-custom-user-data>`
+
+Add KSerialization to Your Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Realm Kotlin SDK's EJSON serialization support depends on the official 
+Kotlin Serialization library. You must add 
+`Kotlin Serialization <https://github.com/Kotlin/kotlinx.serialization>`__
+to your project. Use the same version used in your Realm Kotlin SDK version.
+Refer to the `Version Compatibility Matrix in the realm-kotlin GitHub repository
+<https://github.com/realm/realm-kotlin#version-compatibility-matrix>`__
+for information about the supported dependencies of each version.
+
+The ``@Serializable`` annotation in the following examples comes from 
+the Kotlin Serialization framework.
 
 .. _kotlin-ejson-stable-encoder:
 
@@ -270,7 +277,8 @@ serializer in one of two ways:
 .. literalinclude:: /examples/generated/kotlin/Serialization.snippet.define-a-class-as-serializable.kt
     :language: kotlin
 
-You can set a custom ejson serializer for your app in the ``AppConfiguration``:
+You can set a custom ejson serializer for your app in the ``AppConfiguration``,
+as in a case where you want to use a contextual serializer:
 
 .. literalinclude:: /examples/generated/kotlin/Serialization.snippet.set-custom-ejson-serializer-for-app-configuration.kt
     :language: kotlin
