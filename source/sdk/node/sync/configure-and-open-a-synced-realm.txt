@@ -77,6 +77,37 @@ In the SyncConfiguration, you must include include a ``user`` and ``flexible:tru
    You can't use a Flexible Sync realm until you add at least one subscription.
    To learn how to add subscriptions, see: :ref:`<node-sync-add-subscription>`.
 
+Open Synced Realm at Specific Path
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: ``realm@11.6.0``
+
+Using :js-sdk:`AppConfiguration.baseFilePath <Realm.App.html#~AppConfiguration>`,
+and :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`, you can
+control where Realm and metadata files are stored on client devices.
+
+To do so, set ``<AppProvider>.baseFilePath``. If ``baseFilePath`` is not set, the
+current work directory is used. You can also set ``<RealmProvider>.sync.path``
+for more control.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.set-absolute-path.ts
+   :language: typescript
+   :emphasize-lines: 1
+
+If ``baseFilePath`` is set, metadata is always stored in
+``<baseFilePath>/mongodb-realm/``. If ``baseFilePath`` isn't sßet, then metadata
+is stored in ``<Realm.defaultPath>/mongodb-realm``.
+
+Where exactly your Realm file is stored can vary depending
+on how you set :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`:
+
+- ``Realm.Configuration.path`` is not set and ``baseFilePath`` is set. Your
+  Realm file is stored at ``baseFilePath``.
+- ``Realm.Configuation.path`` is set to a relative path. Your Realm file is
+  stored relative to ``baseFilePath``.
+- ``Realm.Configuration.path`` is an absolute path. Your Realm file is stored
+  at ``Realm.Configuration.path``.
+
 .. _node-partition-sync-open-realm:
 
 Open a Partition-Based Synced Realm
