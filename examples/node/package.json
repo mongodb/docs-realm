@@ -4,7 +4,7 @@
   "description": "Source for generated js/typescript code samples in the Realm Node.js client guide",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand --detectOpenHandles --forceExit",
     "test:js": "jest --selectProjects JavaScript --runInBand --detectOpenHandles --forceExit",
     "test:ts": "jest --selectProjects TypeScript --runInBand --detectOpenHandles --forceExit",
     "lint": "eslint Examples/*",
