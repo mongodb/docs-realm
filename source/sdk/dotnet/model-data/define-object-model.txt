@@ -136,12 +136,13 @@ property:
 .. _fts-indexes:
 
 Full-Text Search Indexes
-^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 In addition to standard indexes, Realm also supports Full-Text Search (FTS) indexes 
 on ``string`` properties. An FTS index enables 
 `simple term searches <https://learn.microsoft.com/en-us/sql/relational-databases/search/query-with-full-text-search?view=sql-server-ver16#Simple_Term>`__. 
-For more information on querying full-text indexes, see :ref:`dotnet-linq-fts` and 
-:ref:`dotnet-rql-fts`.
+For more information on querying full-text indexes, see :ref:`Full Text Search 
+(LINQ) <dotnet-linq-fts>` and :ref:`Full Text Search (RQL) <dotnet-rql-fts>`.
 
 To index an FTS property, use the :dotnet-sdk:`Indexed <reference/Realms.IndexedAttribute.html>`
 attribute with the :dotnet-sdk:`IndexType.FullText <reference/Realms.IndexType.html>` 

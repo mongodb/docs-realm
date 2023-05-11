@@ -1,6 +1,6 @@
 public partial class Person : IRealmObject
 {
-    [Indexed]
+    [Indexed(IndexType.General)]
     public string Name { get; set; }
 
     [Indexed(IndexType.FullText)]
