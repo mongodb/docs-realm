@@ -21,8 +21,13 @@ namespace Examples
             //  "terms": {
             //      "Person_Index": "Person"}
             // }
+            // Find all people with "scientist" and "Nobel" in their biography
             var scientists = realm.All<Person_Index>()
-                .Where(p => QueryMethods.FullTextSearch(p.Biography, "Scientist"));
+                .Where(p => QueryMethods.FullTextSearch(p.Biography, "scientist Nobel"));
+
+            // Find all people with "scientist" in their biography, but not "physics"
+            var scientistsButNotPhysicists = realm.All<Person_Index>()
+                .Where(p => QueryMethods.FullTextSearch(p.Biography, "scientist -physics"));
             // :replace-end:
             // :snippet-end:
 
@@ -31,8 +36,13 @@ namespace Examples
             //  "terms": {
             //      "Person_Index": "Person"}
             // }
+            // Find all people with "scientist" and "Nobel" in their biography
             var filteredScientists = realm.All<Person_Index>()
-                .Filter("Biography TEXT $0", "Scientist");
+                .Filter("Biography TEXT $0", "scientist Nobel");
+
+            // Find all people with "scientist" in their biography, but not "physics"
+            var filteredScientistsButNotPhysicists = realm.All<Person_Index>()
+                .Filter("Biography TEXT $0", "scientist -physics");
             // :replace-end:
             // :snippet-end:
 

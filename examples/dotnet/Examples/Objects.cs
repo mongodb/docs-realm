@@ -90,13 +90,32 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId ID { get; set; }
         //:remove-end:
-        [Indexed]
+        [Indexed(IndexType.General)]
         public string Name { get; set; }
 
         [Indexed(IndexType.FullText)]
         public string Biography { get; set; }
 
         public IList<Dog_OMAS> Dogs { get; }
+    }
+    // :replace-end:
+    // :snippet-end:
+
+    // :snippet-start: fts-index
+    // :replace-start: {
+    //  "terms": {
+    //      "Person_FTSIndex": "Person",
+    //      "Dog_OMAS": "Dog"}
+    // }
+    public partial class Person_FTSIndex : IRealmObject
+    {
+        //:remove-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId ID { get; set; }
+        //:remove-end:
+        [Indexed(IndexType.FullText)]
+        public string Biography { get; set; }
     }
     // :replace-end:
     // :snippet-end:

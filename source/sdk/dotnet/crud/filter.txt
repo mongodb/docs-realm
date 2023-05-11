@@ -232,11 +232,10 @@ table. Regex-like wildcards allow more flexibility in search.
 Full Text Search
 ~~~~~~~~~~~~~~~~
 
-You can use LINQ to query on properties that have Full Text Search (FTS) on 
-them. To query these properties, use
-:dotnet-sdk:`QueryMethods.FullTextSearch 
+You can use LINQ to query on properties that have :ref:`<fts-indexes>` (FTS) on 
+them. To query these properties, use :dotnet-sdk:`QueryMethods.FullTextSearch 
 <reference/Realms.QueryMethods.html#Realms_QueryMethods_FullTextSearch_System_String_System_String_>`.
-The following example queries the ``Person.Biography`` field for "scientist":
+The following examples query the ``Person.Biography`` field:
 
 .. literalinclude:: /examples/generated/dotnet/Indexing.snippet.linq-query-fts.cs
    :language: csharp
@@ -285,10 +284,6 @@ The following LINQ operators are not currently supported by the Realm .NET SDK:
          - ``Intersect``
          - ``Except``
 
-.. _dotnet-full-text-querying:
-
-
-
 .. _dotnet-realm-query-language:
 
 Query with Realm Query Language
@@ -305,9 +300,11 @@ method:
 
 .. important::
 
-   You should use :ref:`.NET LINQ syntax <dotnet-linq-syntax>` for queries,
-   unless your requirements extend beyond LINQ's current capabilities, such as 
-   using :ref:`aggregation <dotnet-realm-query-language-aggregation>`.
+   Because :ref:`LINQ <dotnet-linq-syntax>` provides compile-time error checking 
+   of queries, you should use it instead of RQL in most cases. If your requirements 
+   extend beyond LINQ's current capabilities, such as using 
+   :ref:`aggregation <dotnet-realm-query-language-aggregation>`, then you will 
+   need to use RQL.
 
 .. _dotnet-realm-query-language-aggregation:
 
@@ -335,9 +332,9 @@ The following examples show different ways to aggregate data:
 Full Text Search
 ~~~~~~~~~~~~~~~~
 
-You can use RQL to query on properties that have Full Text Search (FTS) on 
+You can use RQL to query on properties that have :ref:`<fts-indexes>` (FTS) on 
 them. To query these properties, use the ``TEXT`` operator. The following example 
-queries the ``Person.Biography`` field for the string "scientist":
+queries the ``Person.Biography`` field:
 
 .. literalinclude:: /examples/generated/dotnet/Indexing.snippet.rql-query-fts.cs
    :language: csharp

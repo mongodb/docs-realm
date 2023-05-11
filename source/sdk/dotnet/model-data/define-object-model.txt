@@ -99,7 +99,7 @@ Indexes
 ~~~~~~~
 
 **Indexes** significantly improve query times in a Realm database. Without 
-indexes, Realm performs a collection scan (i.e., scan every document in a 
+indexes, Realm performs a collection scan (i.e., it scans every document in a 
 collection) to select the documents that match the given query. However, if an 
 appropriate index exists for a query, Realm uses the index to limit the number of
 documents that it must inspect.
@@ -124,20 +124,31 @@ You can index properties with the following types:
    realm file, so adding an index to a property will increase disk space consumed
    by your realm file. Each index entry is a minimum of 12 bytes.
 
-Full Text Search Indexes
-^^^^^^^^^^^^^^^^^^^^^^^^
-In addition to standard indexes, Realm also supports Full Text Search (FTS) on 
-``string`` properties. An FTS index enables searching on keywords, 
-fuzzy text matching, and synonym searches. For more information on querying 
-full text indexes, see :ref:`dotnet-linq-fts` and :ref:`dotnet-rql-fts`.
-
-To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
+To index a property, use the :dotnet-sdk:`Indexed <reference/Realms.IndexedAttribute.html>`
 attribute. With the ``Indexed`` attribute, you can specify the type of index 
 on the property by using the :dotnet-sdk:`IndexType <reference/Realms.IndexType.html>` 
-enum. In the following example, we have a default index on the ``Name`` 
-property and a ``FullText`` index on the ``Biography`` property:
+enum. In the following example, we have a default ("General") index on the ``Name`` 
+property:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
+   :language: csharp
+
+.. _fts-indexes:
+
+Full-Text Search Indexes
+^^^^^^^^^^^^^^^^^^^^^^^^
+In addition to standard indexes, Realm also supports Full-Text Search (FTS) indexes 
+on ``string`` properties. An FTS index enables 
+`simple term searches <https://learn.microsoft.com/en-us/sql/relational-databases/search/query-with-full-text-search?view=sql-server-ver16#Simple_Term>`__. 
+For more information on querying full-text indexes, see :ref:`dotnet-linq-fts` and 
+:ref:`dotnet-rql-fts`.
+
+To index an FTS property, use the :dotnet-sdk:`Indexed <reference/Realms.IndexedAttribute.html>`
+attribute with the :dotnet-sdk:`IndexType.FullText <reference/Realms.IndexType.html>` 
+enum. In the following example, we have a ``FullText`` index on the 
+``Biography`` property:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.fts-index.cs
    :language: csharp
 
 .. _dotnet-default-field-values:
@@ -169,7 +180,7 @@ ignore that property. A property is ignored by default if it is not autoimplemen
 does not have a setter.
 
 Ignore a property from a Realm object model with the
-:dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` attribute:
+:dotnet-sdk:`Ignored <reference/Realms.IgnoredAttribute.html>` attribute:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.ignore.cs
    :language: csharp

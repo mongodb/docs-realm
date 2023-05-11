@@ -5,8 +5,6 @@ using NUnit.Framework;
 using static Examples.WorkWithRealm;
 using System.Linq;
 
-
-
 namespace Examples
 {
     //FYI the "#nullable enable" is commented out to get past VS auto-formatting moving it to the left.

@@ -28,7 +28,7 @@ namespace Examples
                     // Migrate Person objects
                     for (var i = 0; i < newVersionPeople.Count(); i++)
                     {
-                        var oldVersionperson = oldVersionPeople.ElementAt(i);
+                        var oldVersionPerson = oldVersionPeople.ElementAt(i);
                         var newVersionPerson = newVersionPeople.ElementAt(i);
 
                         // Changes from version 1 to 2 (adding LastName) will
@@ -37,8 +37,8 @@ namespace Examples
                         // Migrate Person from version 2 to 3:
                         // Replace FirstName and LastName with FullName
                         // LastName doesn't exist in version 1
-                        var firstName = oldVersionperson.DynamicApi.Get<string>("FirstName");
-                        var lastName = oldVersionperson.DynamicApi.Get<string>("LastName");
+                        var firstName = oldVersionPerson.DynamicApi.Get<string>("FirstName");
+                        var lastName = oldVersionPerson.DynamicApi.Get<string>("LastName");
 
                         if (oldSchemaVersion < 2)
                         {
@@ -53,7 +53,7 @@ namespace Examples
                         if (oldSchemaVersion < 4)
                         {
                             var birthYear =
-                                DateTimeOffset.UtcNow.Year - oldVersionperson.DynamicApi.Get<int>("Age");
+                                DateTimeOffset.UtcNow.Year - oldVersionPerson.DynamicApi.Get<int>("Age");
                             newVersionPerson.Birthday =
                                 new DateTimeOffset(birthYear, 1, 1, 0, 0, 0, TimeSpan.Zero);
                         }
