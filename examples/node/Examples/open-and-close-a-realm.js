@@ -78,7 +78,8 @@ describe("Open and Close a Realm", () => {
       // :replace-end:
       // :snippet-end:
 
-      const parseRealmFilePath = path => path.substring(path.lastIndexOf("/") + 1);
+      const parseRealmFilePath = (path) =>
+        path.substring(path.lastIndexOf("/") + 1);
 
       expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
 
@@ -88,7 +89,7 @@ describe("Open and Close a Realm", () => {
     }
   });
 
-  test.skip("should open an in memory realm", async () => {
+  test("should open an in memory realm", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -107,7 +108,7 @@ describe("Open and Close a Realm", () => {
     realm.close();
   });
 
-  test.skip("should open and close a synced realm with internet", async () => {
+  test("should open and close a synced realm with internet", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -145,7 +146,7 @@ describe("Open and Close a Realm", () => {
     // :snippet-end:xw
   });
 
-  test.skip("should open and close a sycned realm without internet", async () => {
+  test("should open and close a sycned realm without internet", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -207,7 +208,7 @@ describe("Open and Close a Realm", () => {
     nock.enableNetConnect();
   });
 
-  test.skip("Should open and close a realm with background sync", async () => {
+  test("Should open and close a realm with background sync", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -299,15 +300,18 @@ describe("Convert Realm using writeCopyTo()", () => {
     primaryKey: "_id",
   };
   const app = new Realm.App({ id: "demo_app-cicfi" });
+
   beforeEach(async () => {
     await app.logIn(Realm.Credentials.anonymous());
   });
+
   afterEach(async () => {
     if (app.currentUser) {
       await app.deleteUser(app.currentUser);
       await app.currentUser?.logOut();
     }
   });
+
   test("Open local realm as synced realm with `writeCopyTo()`", async () => {
     // :snippet-start: open-local-as-synced
     const localConfig = {
@@ -337,6 +341,7 @@ describe("Convert Realm using writeCopyTo()", () => {
     Realm.deleteFile(localConfig);
     Realm.deleteFile(syncedConfig);
   });
+
   test("writing over realm doesn't replace data", async () => {
     const Car = {
       name: "Car",
@@ -390,6 +395,7 @@ describe("Convert Realm using writeCopyTo()", () => {
     Realm.deleteFile(realm1Config);
     Realm.deleteFile(realm2Config);
   });
+
   test("sync encrypted to local unencrypted", async () => {
     const Car = {
       name: "SportsCar23",
