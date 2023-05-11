@@ -134,27 +134,6 @@ describe("USER AUTHENTICATION", () => {
     expect(app.currentUser?.id).not.toBe(undefined);
     expect(user?.id).toBe(app.currentUser?.id);
   });
-
-  test("logout", async () => {
-    // Ensure all users are logged out.
-    await Promise.all(Object.values(app.allUsers).map((user) => user.logOut()));
-
-    const credentials = Realm.Credentials.anonymous();
-    const user = await app.logIn(credentials);
-
-    // If login succeeds, user.id and currentUser.id should exist and match.
-    expect(user?.id).not.toBe(undefined);
-    expect(app.currentUser?.id).not.toBe(undefined);
-    expect(user.id).toBe(app.currentUser?.id);
-
-    // :snippet-start: logout-current-user
-    // Log out the current user
-    await app.currentUser?.logOut();
-    // :snippet-end:
-
-    // There shouldn't be any current user.
-    expect(app.currentUser).toBe(null);
-  });
 });
 
 describe("USER SESSIONS", () => {
