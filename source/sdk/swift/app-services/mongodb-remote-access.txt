@@ -229,9 +229,12 @@ with your preferred sort options. ``FindOptions`` has three parameters:
 :objc-sdk:`limit <Classes/RLMFindOptions.html#/c:objc(cs)RLMFindOptions(py)limit>`,
 :objc-sdk:`projection <Classes/RLMFindOptions.html#/c:objc(cs)RLMFindOptions(py)projection>`,
 and :objc-sdk:`sorting <Classes/RLMFindOptions.html#/c:objc(cs)RLMFindOptions(py)sorting>`.
-You can pass an array of key-value pairs where each key represents a field. 
-For each key, the value ``1`` sorts in descending order, or ``-1`` sorts 
-in ascending order.
+The ``sorting`` argument can be an array of key-value pairs where each key 
+represents a field. For each key, the value ``1`` sorts in descending order, 
+or ``-1`` sorts in ascending order.
+
+You then pass the ``FindOptions`` instance to the ``collection.find()`` method
+when running the query.
 
 This snippet finds all documents in a :ref:`collection of documents that 
 describe coffee drinks for sale in a group of stores <ios-mongodb-example-dataset>`, 
