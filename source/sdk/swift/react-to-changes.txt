@@ -381,10 +381,163 @@ This issue occurs when you try to perform updates as a result of a
 notification, but the notification occurs while a write transaction is in
 progress.
 
-The observe function takes a dispatch queue. If that's set, Realm delivers 
-notifications there instead of to the current thread. Realm's notification 
-system promises that notifications for writes on different threads are always 
-delivered synchronously as part of the refresh process. As long as you aren't 
-performing writes on the current thread, you can rely on the guarantee that 
-your app cannot see the value you read from an object change without 
-receiving a notification about the change in between the reads. 
+Notification delivery can vary depending on whether or not the notification 
+occurs within a write transaction, and the relative threads of the write
+and the observation. When your application relies on the timing of 
+notification delivery, such as when you use notifications to update a 
+``UITableView``, it's important to understand the specific behaviors for 
+the context in which your application code runs.
+
+Perform Writes Only on a Different Thread than the Observing Thread
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Reading an observed collection or object from inside a change notification 
+always accurately tells you what has changed in the collection passed to 
+the callback since the last time the callback was invoked.
+
+Reading collections or objects outside of change notifications always gives 
+you the exact same values as you saw in the most recent change notification 
+for that object.
+
+Reading objects other than the observed one *inside* a change notification 
+may see a different value prior to the notification for that change being 
+delivered. Refreshes happen at the realm level of granularity while change 
+notifications aren't batched together into a single callback. Inside a 
+callback, you may see changes which have pending notifications.
+
+Writes on different threads eventually become visible on the observing 
+thread. Explicitly calling ``refresh()`` blocks until the writes made on 
+other threads are visible and the appropriate notifications have been sent. 
+If you call ``refresh()`` from within a notification callback, it's a no-op.
+
+Perform Writes on the Observing Thread, Outside of Notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+At the start of the write transaction all behaviors above apply to this 
+context. Additionally, you can expect to always see the latest version of 
+the data.
+
+Inside a write transaction, the only changes you see are those you've made 
+so far within the write transaction.
+
+Between committing a write transaction and the next set of change 
+notifications being sent, you can see the changes you made in the write 
+transaction, but no other changes. Writes made on different threads do 
+not become visible until you receive the next set of notifications. 
+Performing another write on the same thread sends notifications for the 
+previous write first.
+
+Perform Writes Inside of Notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you perform writes within notifications, you see many of the same 
+behaviors above, with a few exceptions.
+
+Callbacks invoked before the one which perform a write behave normally. 
+While Realm invokes change callbacks in a stable order, this is not strictly 
+the order in which you added the observations.
+
+If beginning the write refreshes the realm, which can happen if another 
+thread is making writes, this triggers recursive notifications. These 
+nested notifications report the changes made since the last call to the 
+callback. For callbacks before the one making the write, this means the 
+inner notification reports only the changes made after the ones already 
+reported in the outer notification. If the callback making the write tries 
+to write again in the inner notification, Realm throws an exception. 
+The callbacks after the one making the write get a single notification for 
+both sets of changes.
+
+After the callback completes the write and returns, Realm does not invoke 
+any of the subsequent callbacks as they no longer have any changes to report. 
+Realm provides a notification later for the write as if the write had happened 
+outside of a notification.
+
+If beginning the write doesn't refresh the Realm, the write happens as 
+usual. However, Realm invokes the subsequent callbacks in an inconsistent 
+state. They continue to report the original change information, but the 
+observed object/collection now includes the changes from the write made 
+in the previous callback.
+
+If you try to perform manual checks and write handling to get more fine-grained
+notifications from within a write transaction, you can get notifications 
+nested more than two levels deep. This includes things like checking 
+``realm.isInWriteTransaction``, and if so making changes, calling 
+``realm.commitWrite()`` and then ``realm.beginWrite()``. The nested 
+notifications and potential for error make this manual manipulation 
+error-prone and difficult to debug.
+
+You can use the :ref:`writeAsync API <ios-async-write>` to sidestep complexity
+if you don't need fine-grained change information from inside your write block.
+Observing an async write similar to this provides notifications even if the 
+notification happens to be delivered inside a write transaction:
+
+.. code-block:: swift
+   :copyable: false
+
+   let token = dog.observe(keyPaths: [\Dog.age]) { change in
+      guard case let .change(dog, _) = change else { return }
+      dog.realm!.writeAsync {
+         dog.isPuppy = dog.age < 2
+      }
+   }
+
+However, because the write is async the realm may have changed between the 
+notification and when the write happens. In this case, the change information 
+passed to the notification may no longer be applicable.
+
+Updating a UITableView Based on Notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you only update a ``UITableView`` via notifications, in the time between 
+a write transaction and the next notification arriving, the TableView's 
+state is out of sync with the data. The TableView could have a pending update 
+scheduled, which can appear to cause delayed or inconsistent updates.
+
+You can address these behaviors in a few ways.
+
+The following examples use this very basic ``UITableViewController``.
+
+.. literalinclude:: /examples/Notifications/UITableViewController.swift
+   :language: swift
+   :copyable: false
+
+Update the UITableView Directly Without a Notification
+``````````````````````````````````````````````````````
+
+Updating the ``UITableView`` directly without waiting for a notification 
+provides the most responsive UI. This code updates the TableView immediately 
+instead of requiring a few hops between threads that adds a small amount of 
+lag to each update. The downside is that it requires frequent manual 
+updates to the view.
+
+.. literalinclude:: /examples/Notifications/UpdateTableSkipNotification.swift
+   :language: swift
+   :copyable: false
+
+Force a Refresh After a Write
+`````````````````````````````
+
+Forcing a ``refresh()`` after a write provides the notifications from the 
+write immediately rather than on a future run of the run loop. There's no 
+window for the TableView to read out-of-sync values. The downside is that 
+this means things that would normally happen on a background thread, 
+such as rerunning the query and re-sorting the results, instead happen on 
+the main thread. If the query and re-sorting the results are computationally 
+expensive, this can cause delays on the main thread.
+
+.. literalinclude:: /examples/Notifications/UpdateTableForceRefreshAfterWrite.swift
+   :language: swift
+   :copyable: false
+
+Perform the Write on a Background Thread
+`````````````````````````````````````````
+
+Performing a write on a background thread blocks the main thread for the 
+least amount of time. However, the code to perform a write on the background 
+requires more familiarity with Realm's threading model and Swift DispatchQueue 
+usage. Since the write doesn't happen on the main thread, the main thread 
+never sees the write before the notifications arrive.
+
+.. literalinclude:: /examples/Notifications/UpdateTableAsyncWrite.swift
+   :language: swift
+   :copyable: false
