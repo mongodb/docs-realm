@@ -5,6 +5,8 @@ using NUnit.Framework;
 using static Examples.WorkWithRealm;
 using System.Linq;
 
+#nullable enable
+
 namespace Examples
 {
     //FYI the "#nullable enable" is commented out to get past VS auto-formatting moving it to the left.
@@ -22,6 +24,20 @@ namespace Examples
     public partial class Nullable_Foo : IRealmObject
     {
         //:remove-start:
+        public Nullable_Foo()
+        {
+            NonNullableName = default!;
+            NonNullableArray = default!;
+            NonNullableInt = default!;
+            IntListWithNonNullableValues = null!;
+            IntListWithNullableValues = null!;
+            ListOfNonNullableObjects = null!;
+            SetOfNonNullableObjects = null!;
+            DictionaryOfNullableObjects = null!;
+
+            MyDogs = default!;
+        }
+
 
         [PrimaryKey]
         [MapTo("_id")]
@@ -75,7 +91,7 @@ namespace Examples
     public partial class Nullable_Bar : IEmbeddedObject
     {
         public int Id { get; set; }
-        public Nullable_Foo Person { get; set; }
+        public Nullable_Foo? Person { get; set; }
     }
 
     public partial class Nullable_Backlink : IRealmObject
@@ -84,6 +100,6 @@ namespace Examples
         [MapTo("_id")]
         public int Id { get; set; }
 
-        public Nullable_Foo Person { get; set; }
+        public Nullable_Foo? Person { get; set; }
     }
 }

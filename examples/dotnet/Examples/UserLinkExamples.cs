@@ -11,6 +11,7 @@ namespace Examples
 
         public async Task LinksAUser()
         {
+            app = App.Create("");
             {
                 // :snippet-start: link
                 // 1) A user logs on anonymously:

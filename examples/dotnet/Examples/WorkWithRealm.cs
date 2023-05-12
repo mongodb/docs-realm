@@ -327,7 +327,7 @@ namespace Examples
             {
                 realm = Realm.GetInstance("");
             }
-            private IQueryable<Item> items;
+            private IQueryable<Item> items = null;
             private void foo()
             {
                 //:snippet-start:unsubscribe

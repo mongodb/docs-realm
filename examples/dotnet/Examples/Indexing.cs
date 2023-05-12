@@ -12,7 +12,7 @@ namespace Examples
 
 
         [Test]
-        public async Task Index()
+        public void Index()
         {
             var realm = Realm.GetInstance();
 
