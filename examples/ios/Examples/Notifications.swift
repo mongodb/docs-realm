@@ -214,4 +214,140 @@ class Notifications: XCTestCase {
         // :snippet-end:
     }
 }
+
+// Note: the following examples aren't tested here, but are included to verify they compile
+// An SDK engineer provided them in GitHub: https://github.com/realm/realm-swift/issues/4818#issuecomment-1533843587
+class DemoObject: Object {
+    @Persisted var _id = ObjectId()
+    @Persisted var title = ""
+    @Persisted var date = Date()
+}
+
+// :snippet-start: notification-delivery-example-view-controller
+class TableViewController: UITableViewController {
+    let realm = try! Realm()
+    let results = try! Realm().objects(DemoObject.self).sorted(byKeyPath: "date")
+    var notificationToken: NotificationToken!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+
+        notificationToken = results.observe { (changes: RealmCollectionChange) in
+            switch changes {
+            case .initial:
+                self.tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                // Always apply updates in the following order: deletions, insertions, then modifications.
+                // Handling insertions before deletions may result in unexpected behavior.
+                self.tableView.beginUpdates()
+                self.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.endUpdates()
+            case .error(let err):
+                fatalError("\(err)")
+            }
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return results.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let object = results[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = object.title
+        return cell
+    }
+
+    func delete(at index: Int) throws {
+        try realm.write {
+            realm.delete(results[index])
+        }
+    }
+}
+// :snippet-end:
+
+class AlternateViewControllerAsyncWrite {
+    let results = try! Realm().objects(DemoObject.self).sorted(byKeyPath: "date")
+    // :snippet-start: update-table-async-write
+    func delete(at index: Int) throws {
+        func delete(at index: Int) throws {
+            @ThreadSafe var object = results[index]
+            DispatchQueue.global().async {
+                guard let object = object else { return }
+                let realm = object.realm!
+                try! realm.write {
+                    if !object.isInvalidated {
+                        realm.delete(object)
+                    }
+                }
+            }
+        }
+    }
+    // :snippet-end:
+}
+
+class AlternateViewControllerForceRefreshAfterWrite {
+    let realm = try! Realm()
+    let results = try! Realm().objects(DemoObject.self).sorted(byKeyPath: "date")
+    // :snippet-start: update-table-force-refresh-after-write
+    func delete(at index: Int) throws {
+        try realm.write {
+            realm.delete(results[index])
+        }
+        realm.refresh()
+    }
+    // :snippet-end:
+}
+
+class AlternateViewControllerUpdateTableSkipNotification: UITableViewController {
+    let realm = try! Realm()
+    let results = try! Realm().objects(DemoObject.self).sorted(byKeyPath: "date")
+    var notificationToken: NotificationToken!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+
+        notificationToken = results.observe { (changes: RealmCollectionChange) in
+            switch changes {
+            case .initial:
+                self.tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                self.tableView.beginUpdates()
+                self.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.endUpdates()
+            case .error(let err):
+                fatalError("\(err)")
+            }
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return results.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let object = results[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = object.title
+        return cell
+    }
+    
+    // :snippet-start: update-table-skip-notification
+    func delete(at index: Int) throws {
+        try realm.write(withoutNotifying: [notificationToken]) {
+            realm.delete(results[index])
+        }
+        tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+    }
+    // :snippet-end:
+}
 // :replace-end:
