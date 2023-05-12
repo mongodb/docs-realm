@@ -10,7 +10,7 @@ val config = SyncConfiguration.Builder(user, setOf(Toad::class))
     .log(LogLevel.DEBUG)
 
     .initialSubscriptions { realm ->
-        add(realm.query<Toad>(),  "sync subscription")
+        add(realm.query<Toad>(), "sync subscription")
     }
     .build()
 
