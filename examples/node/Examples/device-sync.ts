@@ -38,15 +38,15 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
     // Open realm with config that contains error handler.
     const realm = await Realm.open(config);
 
-    function handleSyncError(
+    const handleSyncError = (
       session: Realm.App.Sync.Session,
       error: Realm.SyncError | Realm.ClientResetError
-    ) {
+    ) => {
       // ... handle the error using session and error information.
       console.log(session);
       console.log(error);
       errorName = error.name; // :remove:
-    }
+    };
     // :snippet-end:
 
     // Set up so that we can attempt a write transaction to a collection
@@ -156,6 +156,83 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     expect(["disconnected", "connecting", "connected"]).toContain(
       connectionState
     );
+
+    realm.close();
+  });
+
+  test("check upload & download progress for a sync session", async () => {
+    let progressNotificationHasBeenTriggered = false;
+
+    // :snippet-start: check-network-progress
+    const behaviorConfiguration: Realm.OpenRealmBehaviorConfiguration = {
+      type: Realm.OpenRealmBehaviorType.OpenImmediately,
+    };
+
+    // :replace-start: {
+    //    "terms": {
+    //       "_partition": ""MyPartitionValue""
+    //    }
+    // }
+    const config: Realm.Configuration = {
+      schema: [DogSchema],
+      sync: {
+        user: app.currentUser!,
+        partitionValue: "_partition",
+        newRealmFileBehavior: behaviorConfiguration,
+        existingRealmFileBehavior: behaviorConfiguration,
+      },
+    };
+
+    const realm = await Realm.open(config);
+    // :remove-start:
+    // This hack is needed to wait for sync connection. For some reason,
+    // establishing the connection is very slow. I found 2000ms to work.
+    await new Promise((r) => setTimeout(r, 2000));
+    // :remove-end:
+
+    const handleNotifcationRemoval = (
+      transferred: number,
+      transferable: number
+    ) => {
+      console.log(`There were ${transferable} transferable bytes total.`);
+      console.log(`${transferred} bytes were transferred.`);
+    };
+    const handleNotifications = (transferred: number, transferable: number) => {
+      progressNotificationHasBeenTriggered = true; // :remove:
+      if (transferred === transferable) {
+        console.log(
+          `${transferred} bytes of ${transferable} were transferred.`
+        );
+
+        // Remove progress notification.
+        realm.syncSession?.removeProgressNotification(handleNotifcationRemoval);
+      }
+    };
+
+    realm.syncSession?.addProgressNotification(
+      Realm.ProgressDirection.Upload,
+      Realm.ProgressMode.ReportIndefinitely,
+      handleNotifications
+    );
+
+    // Upload a Realm object.
+    const dog = realm.write(() => {
+      return realm.create("Dog", {
+        _id: new Realm.BSON.ObjectID(),
+        _partition: "_partition",
+        name: "Fido",
+        age: 2,
+      });
+    });
+    // :replace-end:
+    // :snippet-end:
+
+    expect(progressNotificationHasBeenTriggered).toBe(true);
+
+    // Delete the dog from the realm.
+    realm.write(() => {
+      realm.delete(dog);
+    });
 
     realm.close();
   });
