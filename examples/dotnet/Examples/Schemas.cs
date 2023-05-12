@@ -37,7 +37,7 @@ namespace Examples
                         Property.Primitive("LastName",
                             RealmValueType.String,
                             isNullable: true,
-                            isIndexed: true)
+                            indexType: IndexType.General)
                     }
                 }
             };
