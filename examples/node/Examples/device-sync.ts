@@ -172,7 +172,7 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
 
     // :replace-start: {
     //    "terms": {
-    //       "_partition": ""MyPartitionValue""
+    //       "_partition": "MyPartitionValue"
     //    }
     // }
     const config: Realm.Configuration = {
