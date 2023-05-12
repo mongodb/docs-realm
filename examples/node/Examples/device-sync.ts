@@ -19,14 +19,8 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
     await app.logIn(credentials);
   });
 
-  // afterAll(async () => {
-  //   if (app.currentUser) {
-  //     app.deleteUser(app.currentUser);
-  //   }
-  // });
-
   // This test seems to be somewhat inconsistent - not always throwing an error.
-  test.skip("handle sync errors", async () => {
+  test("handle sync errors", async () => {
     let errorName: string | undefined = undefined;
 
     // :snippet-start: realm-error-handling
@@ -81,16 +75,12 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
 });
 
 /*
-ABOUT THESE SKIPPED TESTS
-These old sync "tests" have always been skipped. Apparently, there were
-some problems with Jest and synced realms in the past. These tests
-are all for Partition-Based Sync, which we're not actively documenting anymore.
-Becuase of that, we shouldn't spend time maintaining these test. Instead, the
-generated examples should be moved to a Partition-Based Sync page in the Node.js
-SDK docs.
-
-The skipped tests in this file have been updated for TypeScript, but not
-properly tested.
+ABOUT THE PARTITION-BASED SYNC TESTS
+The following tests are all for Partition-Based Sync, which we're not actively
+documenting anymore. I've updated them to TypeScript and made it so that they're
+actually runnable. Most likely, these won't be touched again in the future.
+Eventually, the generated examples should be moved to a dedicated Partition-Based Sync
+page in the Node.js SDK docs.
 */
 
 describe("CONFIGURE PARTITION-BASED SYNC", () => {
@@ -112,26 +102,19 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     await app.logIn(credentials);
   });
 
-  // afterAll(async () => {
-  //   if (app.currentUser) {
-  //     app.deleteUser(app.currentUser);
-  //   }
-  // });
-
   test("pause or resume a sync session", async () => {
     // :snippet-start: pause-sync-session
-    const OpenRealmBehaviorConfiguration: Realm.OpenRealmBehaviorConfiguration =
-      {
-        type: Realm.OpenRealmBehaviorType.OpenImmediately,
-      };
+    const behaviorConfiguration: Realm.OpenRealmBehaviorConfiguration = {
+      type: Realm.OpenRealmBehaviorType.OpenImmediately,
+    };
 
     const config: Realm.Configuration = {
       schema: [DogSchema],
       sync: {
         user: app.currentUser!,
         partitionValue: "MyPartitionValue",
-        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
-        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        newRealmFileBehavior: behaviorConfiguration,
+        existingRealmFileBehavior: behaviorConfiguration,
       },
     };
 
@@ -179,37 +162,34 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     realm.close();
   });
 
-  // test.skip("sync changes in the background", async () => {
-  //   const app = new Realm.App({ id: "<Your App ID>" });
-  //   const credentials = Realm.Credentials.anonymous();
-  //   await app.logIn(credentials);
+  test("sync changes in the background", async () => {
+    // :snippet-start: background-sync-behavior
+    const behaviorConfiguration: Realm.OpenRealmBehaviorConfiguration = {
+      type: Realm.OpenRealmBehaviorType.OpenImmediately,
+    };
+    // :snippet-end:
 
-  //   // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject
-  //   const OpenRealmBehaviorConfiguration = {
-  //     type: "openImmediately",
-  //   };
-  //   // :snippet-end:
+    // :snippet-start: background-sync-configuration
+    const config: Realm.Configuration = {
+      schema: [DogSchema],
+      sync: {
+        user: app.currentUser!,
+        partitionValue: "MyPartitionValue",
+        // The behavior to use when this is the first time opening a realm.
+        newRealmFileBehavior: behaviorConfiguration,
+        // The behavior to use when a realm file already exists locally,
+        // i.e. you have previously opened the realm.
+        existingRealmFileBehavior: behaviorConfiguration,
+      },
+    };
+    // :snippet-end:
 
-  //   // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-create-config
-  //   const config = {
-  //     schema: [DogSchema], // predefined schema
-  //     sync: {
-  //       user: app.currentUser,
-  //       partitionValue: "MyPartitionValue",
-  //       // The behavior to use when this is the first time opening a realm.
-  //       newRealmFileBehavior: OpenRealmBehaviorConfiguration,
-  //       // The behavior to use when a realm file already exists locally,
-  //       // i.e. you have previously opened the realm.
-  //       existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
-  //     },
-  //   };
-  //   // :snippet-end:
+    // :snippet-start: open-realm
+    const realm = await Realm.open(config);
+    // :snippet-end:
 
-  //   // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-open-realm
-  //   const realm = await Realm.open(config);
-  //   // :snippet-end:
-
-  //   // you can test that a realm has been open in general (but not if a realm has been open with a specific path or config)
-  //   expect(realm).toBe(new Realm(config));
-  // });
+    // Not sure if there's a way to test how a Realm is opened.
+    // Testing to see if it opened validates the config isn't broken.
+    expect(realm.isClosed).toBe(false);
+  });
 });
