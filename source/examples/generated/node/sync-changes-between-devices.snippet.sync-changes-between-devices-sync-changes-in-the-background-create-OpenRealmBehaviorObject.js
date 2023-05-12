@@ -1,3 +1,0 @@
-const OpenRealmBehaviorConfiguration = {
-  type: "openImmediately",
-};
