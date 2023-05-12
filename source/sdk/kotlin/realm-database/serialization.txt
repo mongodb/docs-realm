@@ -7,15 +7,15 @@ Serialization - Kotlin SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 The Realm Kotlin SDK supports Kotlin Serialization. You can serialize specific
-Realm data types, or entire user-defined classes, depending on which serialization
-method you choose.
+Realm data types using stable serializers, or user-defined classes with
+an experimental full-document serialization API.
 
-Realm Data Types Serializers
------------------------------
+Realm Data Type Serializers
+----------------------------
 
 The Realm Kotlin SDK provides serializers for the following data types for
 KSerializer:
@@ -143,21 +143,19 @@ using a JSON encoder:
      - | Serializes as a ``BsonBinary``.
        |
        | ``RealmUUID.random()`` serializes to ``{ "$binary": {"base64": "<payload>", "subType": "<t>"}}``
+   * - RealmObject
+     - Serializes using the polymorphic setup defined by the user. Do this via the SerializersModule:
 
-RealmObject
-```````````
-
-Serializes using the polymorphic setup defined by the user. Do this via the SerializersModule:
-
-.. code-block:: json
+       .. code-block:: json
+          :copyable: false
        
-   val json = Json {
-      serializersModule = SerializersModule {
-         polymorphic(RealmObject::class) {
-            subclass(SerializableSample::class)
-         }
-      }
-   }
+          val json = Json {
+              serializersModule = SerializersModule {
+                polymorphic(RealmObject::class) {
+                    subclass(SerializableSample::class)
+                }
+              }
+          }
 
 .. _kotlin-ejson-encoding-for-atlas:
 
@@ -203,7 +201,7 @@ arguments and results types with the stable encoder:
 - Valid argument types: Primitives, BSON, ``MutableRealmInt``, ``RealmUUID``,
   ``ObjectId``, ``RealmInstant``, ``RealmAny``, Array, Collection, and Map.
 
-- Results can only be deserialized to BSON, ``MutableRealmInt``, ``RealmUUID``, 
+- ``RealmResults`` can only be deserialized to BSON, ``MutableRealmInt``, ``RealmUUID``, 
   ``ObjectId``, ``RealmInstant``, ``RealmAny``, and primitive types.
 
 To return a collection or map, you can use ``BsonArray`` or ``BsonDocument``.
@@ -247,6 +245,11 @@ using the stable encoder as a ``BsonDocument``:
 Full-Document Encoder
 ~~~~~~~~~~~~~~~~~~~~~
 
+The full-document encoder enables you to serialize and deserialize user-defined
+classes. You can define and use custom KSerializers for your type with Atlas
+features that communicate directly with MongoDB Atlas using EJSON encoding.
+The full-document encoder supports contextual serializers.
+
 .. important:: This is experimental
 
    The current implementation of full document serialization is experimental.
@@ -277,7 +280,7 @@ serializer in one of two ways:
 .. literalinclude:: /examples/generated/kotlin/Serialization.snippet.define-a-class-as-serializable.kt
     :language: kotlin
 
-You can set a custom ejson serializer for your app in the ``AppConfiguration``,
+You can set a custom EJSON serializer for your app in the ``AppConfiguration``,
 as in a case where you want to use a contextual serializer:
 
 .. literalinclude:: /examples/generated/kotlin/Serialization.snippet.set-custom-ejson-serializer-for-app-configuration.kt
