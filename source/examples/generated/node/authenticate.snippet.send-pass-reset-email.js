@@ -1,2 +1,2 @@
-const email = "someone@example.com"
+const email = "someone@example.com";
 await app.emailPasswordAuth.sendResetPasswordEmail({ email });
