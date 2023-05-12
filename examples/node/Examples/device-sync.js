@@ -1,79 +1,155 @@
 import Realm from "realm";
-import fs from "fs";
 
-const DogSchema = {
-  name: "Dog",
-  properties: {
-    name: "string",
-    age: "int?",
-  },
-};
+describe("CONFIGURE FLEXIBLE SYNC", () => {
+  const app = new Realm.App({ id: "js-flexible-oseso" });
+  const DogSchema = {
+    name: "Dog",
+    properties: {
+      _id: "string",
+      name: "string",
+      age: "int?",
+    },
+    primaryKey: "_id",
+  };
 
-describe("Sync Changes Between Devices", () => {
-  // this test is skipped because we currently are unable to test Synced Realms
-  // via jest, to track the progress of this issue see: https://jira.mongodb.org/browse/RJS-1008
-  test.skip("should pause or resume a sync session", async () => {
-    let timesConnectionStateHasChanged = 0; // inititally the connection state has never been changed
-    const app = new Realm.App({ id: "<Your App ID>" });
+  beforeAll(async () => {
     const credentials = Realm.Credentials.anonymous();
+
     await app.logIn(credentials);
-    // :snippet-start: sync-changes-between-devices-pause-or-resume-sync-session
-    const OpenRealmBehaviorConfiguration = {
+  });
+
+  // This test seems to be somewhat inconsistent - not always throwing an error.
+  test("handle sync errors", async () => {
+    let errorName;
+
+    // :snippet-start: error-handling
+    const config = {
+      schema: [DogSchema],
+      sync: {
+        flexible: true,
+        user: app.currentUser,
+        onError: (session, syncError) => {
+          // Call your Sync error handler.
+          handleSyncError(session, syncError);
+        },
+      },
+    };
+
+    // Open realm with config that contains error handler.
+    const realm = await Realm.open(config);
+
+    function handleSyncError(session, error) {
+      // ... handle the error using session and error information.
+      console.log(session);
+      console.log(error);
+      errorName = error.name; // :remove:
+    }
+    // :snippet-end:
+
+    // Set up so that we can attempt a write transaction to a collection
+    // with denyAll permissions. This throws a SyncError
+    const dogs = realm.objects("Dog");
+
+    await realm.subscriptions.update((mutableSubs) => {
+      mutableSubs.add(dogs, {
+        name: "testDoggos",
+      });
+    });
+
+    realm.write(() => {
+      realm.create("Dog", {
+        _id: "third bestest boy",
+        name: "Bartemaeus",
+        age: 7,
+        treat: "ice cream",
+      });
+    });
+
+    expect(errorName).toBe("SyncError");
+  });
+});
+
+describe("CONFIGURE PARTITION-BASED SYNC", () => {
+  const app = new Realm.App({ id: "example-testers-kvjdy" });
+  const DogSchema = {
+    name: "Dog",
+    properties: {
+      _id: "objectId",
+      _partition: "string",
+      name: "string?",
+      age: "int?",
+    },
+    primaryKey: "_id",
+  };
+
+  beforeAll(async () => {
+    const credentials = Realm.Credentials.anonymous();
+
+    await app.logIn(credentials);
+  });
+
+  test("pause or resume a sync session", async () => {
+    // :snippet-start: pause-sync-session
+    const behaviorConfiguration = {
       type: "openImmediately",
     };
 
-    var config = {
-      schema: [DogSchema], // predefined schema
+    const config = {
+      schema: [DogSchema],
       sync: {
         user: app.currentUser,
         partitionValue: "MyPartitionValue",
-        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
-        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        newRealmFileBehavior: behaviorConfiguration,
+        existingRealmFileBehavior: behaviorConfiguration,
       },
     };
-    let realm = await Realm.open(config);
-    const syncSession = realm.syncSession;
 
-    // :remove-start:
-    syncSession.addConnectionNotification((newState, oldState) => {
-      timesConnectionStateHasChanged += 1;
-    });
-    // :remove-end:
-    // Pause synchronization
-    syncSession.pause();
-    // Later, resume synchronization
-    syncSession.resume();
+    const realm = await Realm.open(config);
+
+    const pauseSyncSession = () => {
+      realm.syncSession?.pause();
+    };
+
+    const resumeSyncSession = () => {
+      realm.syncSession?.resume();
+    };
     // :snippet-end:
-    expect(timesConnectionStateHasChanged).toBe(2); // connection state should've changed once for pausing and once for resuming
+
+    expect(realm.syncSession?.state).toBe(Realm.SessionState.Active);
+
+    pauseSyncSession();
+    expect(realm.syncSession?.state).toBe(Realm.SessionState.Inactive);
+
+    resumeSyncSession();
+    expect(realm.syncSession?.state).toBe(Realm.SessionState.Active);
+
     realm.close();
   });
-  // this test is skipped because we currently are unable to test Synced Realms
-  // via jest, to track the progress of this issue see: https://jira.mongodb.org/browse/RJS-1008
-  // react native only (not node)
-  test.skip("should check the connection state", async () => {
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
-    await app.logIn(credentials);
-    // :snippet-start: sync-changes-between-devices-check-network-connection
-    var config = {
-      schema: [DogSchema], // predefined schema
+
+  test("check the connection state", async () => {
+    // :snippet-start: check-network-connection
+    const config = {
+      schema: [DogSchema],
       sync: {
         user: app.currentUser,
         partitionValue: "MyPartitionValue",
       },
     };
-    let realm = await Realm.open(config);
-    const syncSession = realm.syncSession;
-    const connectionState = syncSession.connectionState();
+
+    const realm = await Realm.open(config);
+
+    const connectionState = realm.syncSession?.connectionState;
     // :snippet-end:
-    expect(["Disconnected", "Connecting", "Connected"]).toContain(
+
+    expect(["disconnected", "connecting", "connected"]).toContain(
       connectionState
     );
+
     realm.close();
   });
-  // this test is skipped because we currently are unable to test Synced Realms
-  // via jest, to track the progress of this issue see: https://jira.mongodb.org/browse/RJS-1008
-  test.skip("should check upload & download progress for a sync session", async () => {
+
+  // TODO: Convert to TS and fix
+  test.skip("check upload & download progress for a sync session", async () => {
     let progressNotificationHasBeenTriggered = false;
     const app = new Realm.App({ id: "<Your App ID>" });
     const credentials = Realm.Credentials.anonymous();
@@ -130,56 +206,37 @@ describe("Sync Changes Between Devices", () => {
     });
     realm.close();
   });
-  test.skip("should sync changes in the background", async () => {
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
-    await app.logIn(credentials);
 
-    // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject
-    const OpenRealmBehaviorConfiguration = {
+  test("sync changes in the background", async () => {
+    // :snippet-start: background-sync-behavior
+    const behaviorConfiguration = {
       type: "openImmediately",
     };
     // :snippet-end:
 
-    // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-create-config
+    // :snippet-start: background-sync-configuration
     const config = {
-      schema: [DogSchema], // predefined schema
+      schema: [DogSchema],
       sync: {
         user: app.currentUser,
         partitionValue: "MyPartitionValue",
         // The behavior to use when this is the first time opening a realm.
-        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        newRealmFileBehavior: behaviorConfiguration,
         // The behavior to use when a realm file already exists locally,
         // i.e. you have previously opened the realm.
-        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        existingRealmFileBehavior: behaviorConfiguration,
       },
     };
     // :snippet-end:
 
-    // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-open-realm
+    // :snippet-start: open-realm
     const realm = await Realm.open(config);
     // :snippet-end:
 
-    // you can test that a realm has been open in general (but not if a realm has been open with a specific path or config)
-    expect(realm).toBe(new Realm(config));
-  });
-  test.skip("should handle sync errors", async () => {
-    const app = new Realm.App({ id: "<Your App ID>" });
-    const credentials = Realm.Credentials.anonymous();
-    await app.logIn(credentials);
+    // Not sure if there's a way to test how a Realm is opened.
+    // Testing to see if it opened validates the config isn't broken.
+    expect(realm.isClosed).toBe(false);
 
-    // :snippet-start: sync-changes-between-devices-handle-sync-errors
-    var config = {
-      schema: [DogSchema], // predefined schema
-      sync: {
-        user: app.currentUser,
-        flexible: true,
-        error: (_session, error) => {
-          console.log(error.name, error.message);
-        },
-      },
-    };
-    const realm = await Realm.open(config);
-    // :snippet-end:
+    realm.close();
   });
 });

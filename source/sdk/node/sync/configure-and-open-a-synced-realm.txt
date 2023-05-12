@@ -156,8 +156,19 @@ Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
 ``type`` to ``"openImmediately"``. 
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
-      :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-behavior.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-behavior.js
+        :language: javascript
 
 Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
 include the ``sync`` property defining a :js-sdk:`SyncConfiguration

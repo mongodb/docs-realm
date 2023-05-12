@@ -1,5 +1,4 @@
 import Realm from "realm";
-import fs from "fs";
 
 describe("CONFIGURE FLEXIBLE SYNC", () => {
   const app = new Realm.App({ id: "js-flexible-oseso" });
@@ -23,7 +22,7 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
   test("handle sync errors", async () => {
     let errorName: string | undefined = undefined;
 
-    // :snippet-start: realm-error-handling
+    // :snippet-start: error-handling
     const config: Realm.Configuration = {
       schema: [DogSchema],
       sync: {
@@ -45,8 +44,7 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
     ) {
       // ... handle the error using session and error information.
       console.log(session);
-      console.debug(error);
-
+      console.log(error);
       errorName = error.name; // :remove:
     }
     // :snippet-end:
