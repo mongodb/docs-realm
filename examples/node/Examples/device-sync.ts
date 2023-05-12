@@ -191,5 +191,7 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     // Not sure if there's a way to test how a Realm is opened.
     // Testing to see if it opened validates the config isn't broken.
     expect(realm.isClosed).toBe(false);
+
+    realm.close();
   });
 });
