@@ -20,8 +20,9 @@ class Compacting: RealmTest() {
         var name: String = ""
     }
     @Test
-    fun shouldCompactTest() {
+    fun compactOnLaunchTest() {
 
+        // :snippet-start: compactOnLaunch
         val config = RealmConfiguration.Builder(setOf(King::class))
             .compactOnLaunch{ totalBytes, usedBytes ->
                 // totalBytes refers to the size of the file on disk in bytes (data + free space)
@@ -30,30 +31,44 @@ class Compacting: RealmTest() {
                 // Compact if the file is over 100MB in size and less than 50% 'used'
                 (totalBytes > 100 * 1024 * 1024) && ((usedBytes / totalBytes) < 0.5)
             }
+            // :remove-start:
             .directory("/tmp/")
+            // :remove-end:
             .build()
 
         val realm: Realm = Realm.open(config)
+        // :snippet-end:
 
         // check to make sure custom compaction standards are set
         var custom = false
         if (Realm.DEFAULT_COMPACT_ON_LAUNCH_CALLBACK != config.compactOnLaunchCallback) {
             custom = true
-            assertTrue(custom)
         }
+
+        assertTrue(custom)
 
         realm.close()
     }
 
     @Test
     fun compactRealmTest() {
+        // :snippet-start: compactRealm
         val config = RealmConfiguration.create(schema = setOf(Item::class))
-        Realm.compactRealm(config)
+        var compacted = Realm.compactRealm(config)
+        // :snippet-end:
 
-        var success = false
+        assertTrue(compacted)
 
+        // Set a maxFileSize equal to 20MB in bytes
+        val maxFileSize = 20 * 1024 * 1024
 
-
+        /* Check for the realm file size to be greater than the max file size,
+         * and the amount of bytes currently used to be less than 50% of the
+         * total realm file size */
+        return (totalBytes > (Double)maxFileSize) ||
+                ((Double)usedBytes / totalBytes > 0.5)
     }
-    
+
+
 }
+
