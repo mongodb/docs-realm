@@ -30,8 +30,8 @@ const handleNotifications = (transferred, transferable) => {
 };
 
 realm.syncSession?.addProgressNotification(
-  Realm.ProgressDirection.Upload,
-  Realm.ProgressMode.ReportIndefinitely,
+  "upload",
+  "reportIndefinitely",
   handleNotifications
 );
 

@@ -198,8 +198,8 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     };
 
     realm.syncSession?.addProgressNotification(
-      Realm.ProgressDirection.Upload,
-      Realm.ProgressMode.ReportIndefinitely,
+      "upload",
+      "reportIndefinitely",
       handleNotifications
     );
 
