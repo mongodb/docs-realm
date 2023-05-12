@@ -389,9 +389,10 @@ for that object.
 
 Reading objects other than the observed one *inside* a change notification 
 may see a different value prior to the notification for that change being 
-delivered. Refreshes happen at the realm level of granularity while change 
-notifications aren't batched together into a single callback. Inside a 
-callback, you may see changes that have pending notifications.
+delivered. Realm ``refresh`` brings the entire realm from 'old version' to 
+'latest version' in one operation. However, there might have been multiple 
+change notifications fired between 'old version' and 'latest version'. Inside 
+a callback, you may see changes that have pending notifications.
 
 Writes on different threads eventually become visible on the observing 
 thread. Explicitly calling ``refresh()`` blocks until the writes made on 
@@ -485,7 +486,7 @@ You can address these behaviors in a few ways.
 
 The following examples use this very basic ``UITableViewController``.
 
-.. literalinclude:: /examples/Notifications/UITableViewController.swift
+.. literalinclude:: /examples/generated/code/start/Notifications.snippet.notification-delivery-example-view-controller.swift
    :language: swift
    :copyable: false
 
@@ -498,7 +499,7 @@ instead of requiring hops between threads, which add a small amount of
 lag to each update. The downside is that it requires frequent manual 
 updates to the view.
 
-.. literalinclude:: /examples/Notifications/UpdateTableSkipNotification.swift
+.. literalinclude:: /examples/generated/code/start/Notifications.snippet.update-table-skip-notification.swift
    :language: swift
    :copyable: false
 
@@ -507,13 +508,14 @@ Force a Refresh After a Write
 
 Forcing a ``refresh()`` after a write provides the notifications from the 
 write immediately rather than on a future run of the run loop. There's no 
-window for the TableView to read out-of-sync values. The downside is that 
-this means things that would normally happen on a background thread, 
-such as rerunning the query and re-sorting the results, instead happen on 
-the main thread. If the query and re-sorting the results are computationally 
-expensive, this can cause delays on the main thread.
+window for the TableView to read out-of-sync values. 
 
-.. literalinclude:: /examples/Notifications/UpdateTableForceRefreshAfterWrite.swift
+The downside is that this means things we recommend doing in the background,
+such as writing, rerunning the query and re-sorting the results, happen 
+on the main thread. When these operations are computationally expensive, 
+this can cause delays on the main thread.
+
+.. literalinclude:: /examples/generated/code/start/Notifications.snippet.update-table-force-refresh-after-write.swift
    :language: swift
    :copyable: false
 
@@ -526,6 +528,6 @@ requires more familiarity with Realm's threading model and Swift DispatchQueue
 usage. Since the write doesn't happen on the main thread, the main thread 
 never sees the write before the notifications arrive.
 
-.. literalinclude:: /examples/Notifications/UpdateTableAsyncWrite.swift
+.. literalinclude:: /examples/generated/code/start/Notifications.snippet.update-table-async-write.swift
    :language: swift
    :copyable: false
