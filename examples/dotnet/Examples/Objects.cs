@@ -90,13 +90,14 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId ID { get; set; }
         //:remove-end:
-        [Indexed]
+        [Indexed(IndexType.General)]
         public string Name { get; set; }
-        public IList<Dog_OMAS> Dogs { get; }
+
+        [Indexed(IndexType.FullText)]
+        public string Biography { get; set; }
     }
     // :replace-end:
     // :snippet-end:
-
 
     public partial class Dog_Rel_One_to_One : IRealmObject
     {

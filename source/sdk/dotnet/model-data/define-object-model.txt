@@ -98,23 +98,10 @@ The following example demonstrates how to designate a primary key in an object s
 Indexes
 ~~~~~~~
 
-**Indexes** support the efficient execution of queries in
-Realm Database. Without indexes, Realm Database must perform a
-*collection scan*, i.e. scan every document in a collection, to select
-those documents that match a query. If an appropriate index exists for a
-query, Realm Database can use the index to limit the number of
-documents that it must inspect.
-
-Indexes are special data structures that store a small portion of a
-realm's data in an easy to traverse form. The index stores the value
-of a specific property ordered by the value of the property. The ordering of
-the index entries supports efficient equality matches and range-based
-query operations.
-
-Adding an index can speed up some queries at the cost of slightly slower write
-times and additional storage and memory overhead. Indexes require space in your
-realm file, so adding an index to a property will increase disk space consumed
-by your realm file. Each index entry is a minimum of 12 bytes.
+**Indexes** significantly improve query times in a Realm database. Without 
+indexes, Realm scans every document in a collection to select the documents 
+that match the given query. However, if an applicable index exists for a query, 
+Realm uses the index to limit the number of documents that it must inspect.
 
 You can index properties with the following types:
 
@@ -129,12 +116,51 @@ You can index properties with the following types:
 - ``ObjectId``
 - ``UUID``
 
+.. note::
 
-To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
-attribute:
+   Adding an index speeds up queries at the cost of slightly slower write
+   times and additional storage and memory overhead. Indexes require space in your
+   realm file, so adding an index to a property increases disk space consumed
+   by your realm file. Each index entry is a minimum of 12 bytes.
+
+To index a property, use the :dotnet-sdk:`Indexed <reference/Realms.IndexedAttribute.html>`
+attribute. With the ``Indexed`` attribute, you can specify the type of index 
+on the property by using the :dotnet-sdk:`IndexType <reference/Realms.IndexType.html>` 
+enum. In the following example, we have a default ("General") index on the ``Name`` 
+property:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
    :language: csharp
+   :emphasize-lines: 3-4
+
+.. note:: 
+
+   When you create an index, you are creating it on the local realm and not 
+   on an Atlas collection. If you need to query an Atlas collection directly 
+   and want to improve performance, refer to 
+   `Create, View, Drop, and Hide Indexes <https://www.mongodb.com/docs/atlas/atlas-ui/indexes/>`__.
+   
+.. _fts-indexes:
+
+Full-Text Search Indexes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to standard indexes, Realm also supports Full-Text Search (FTS) indexes 
+on ``string`` properties. While you can query a string field with or without a 
+standard index, an FTS index enables searching for multiple words and phrases and 
+excluding others. 
+
+For more information on querying full-text indexes, see :ref:`Full Text Search 
+(LINQ) <dotnet-linq-fts>` and :ref:`Full Text Search (RQL) <dotnet-rql-fts>`.
+
+To index an FTS property, use the :dotnet-sdk:`Indexed <reference/Realms.IndexedAttribute.html>`
+attribute with the :dotnet-sdk:`IndexType.FullText <reference/Realms.IndexType.html>` 
+enum. In the following example, we have a ``FullText`` index on the 
+``Biography`` property:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
+   :language: csharp
+   :emphasize-lines: 6-7
 
 .. _dotnet-default-field-values:
 
@@ -165,7 +191,7 @@ ignore that property. A property is ignored by default if it is not autoimplemen
 does not have a setter.
 
 Ignore a property from a Realm object model with the
-:dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` attribute:
+:dotnet-sdk:`Ignored <reference/Realms.IgnoredAttribute.html>` attribute:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.ignore.cs
    :language: csharp

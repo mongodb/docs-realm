@@ -49,8 +49,19 @@ Sync Data Unidirectionally from a Client Application
       <node-connect-to-mongodb-realm-backend-app>` and
       :ref:`authenticate a user <node-authenticate-users>`.
 
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
-         :language: javascript
+      .. tabs-realm-languages::
+   
+         .. tab::
+            :tabid: javascript
+            
+            .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
+               :language: javascript
+         
+         .. tab::
+            :tabid: typescript
+            
+            .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.ts
+               :language: typescript
 
       Data Ingest is a feature of Flexible Sync, so the App you connect 
       to must use :ref:`Flexible Sync <flexible-sync>`.

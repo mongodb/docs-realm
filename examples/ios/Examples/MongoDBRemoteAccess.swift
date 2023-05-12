@@ -236,6 +236,62 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 10)
     }
+    
+    func testFindAndSortManyDocuments() {
+        let expectation = XCTestExpectation(description: "Two documents are returned, sorted")
+
+        app.login(credentials: Credentials.anonymous) { (result) in
+            // Remember to dispatch back to the main thread in completion handlers
+            // if you want to do anything on the UI.
+            DispatchQueue.main.async {
+                switch result {
+                case .failure(let error):
+                    print("Login failed: \(error)")
+                case .success(let user):
+                    print("Login as \(user) succeeded!")
+                }
+                // mongodb-atlas is the cluster service name
+                let client = app.currentUser!.mongoClient("mongodb-atlas")
+
+                // Select the database
+                let database = client.database(named: "ios")
+
+                // Select the collection
+                let collection = database.collection(withName: "CoffeeDrinks")
+
+                // :snippet-start: find-and-sort
+                let queryFilter: Document = ["name": "Americano"]
+                let findOptions = FindOptions(0, nil, [["beanRegion": 1]])
+
+                collection.find(filter: queryFilter, options: findOptions) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let documents):
+                        print("Results: ")
+                        for document in documents {
+                            print("Coffee drink: \(document)")
+                        }
+                        // :remove-start:
+                        XCTAssertEqual(documents.count, 2)
+                        // Unwrap the value of the beanRegion in the first document to verify
+                        // the sort worked properly
+                        let firstDocument = documents[0]
+                        if let unwrappedBeanRegion = firstDocument["beanRegion"] {
+                            if let unwrappedAnyBson = unwrappedBeanRegion {
+                                XCTAssertEqual(unwrappedAnyBson, "San Marcos, Guatemala")
+                                expectation.fulfill()
+                            }
+                        }
+                        // :remove-end:
+                    }
+                }
+                // :snippet-end:
+            }
+        }
+        wait(for: [expectation], timeout: 10)
+    }
 
     func testCountDocuments() {
         let expectation = XCTestExpectation(description: "Returns a count of documents")
