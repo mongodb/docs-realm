@@ -20,8 +20,6 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
 
   // This test seems to be somewhat inconsistent - not always throwing an error.
   test("handle sync errors", async () => {
-    let errorName;
-
     // :snippet-start: error-handling
     const config = {
       schema: [DogSchema],
@@ -38,11 +36,11 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
     // Open realm with config that contains error handler.
     const realm = await Realm.open(config);
 
-    const handleSyncError = (session, error) => {
+    const handleSyncError = async (session, error) => {
       // ... handle the error using session and error information.
-      console.debug(session);
-      console.debug(error);
-      errorName = error.name; // :remove:
+      console.log(session);
+      console.log(error);
+      expect(error.name).toBe("SyncError"); // :remove:
     };
     // :snippet-end:
 
@@ -64,8 +62,6 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
         treat: "ice cream",
       });
     });
-
-    expect(errorName).toBe("SyncError");
   });
 });
 
@@ -106,8 +102,12 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
 
     const realm = await Realm.open(config);
 
-    console.debug("Connection state", realm.syncSession.connectionState)
-
+    // :remove-start:
+    // This hack is needed to wait for sync connection. For some reason,
+    // establishing the connection is very slow. I found 1000ms to work.
+    await new Promise((r) => setTimeout(r, 1000));
+    expect(realm.syncSession.connectionState).toBe("connected");
+    // :remove-end:
     const pauseSyncSession = () => {
       realm.syncSession?.pause();
     };
@@ -178,6 +178,7 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     // This hack is needed to wait for sync connection. For some reason,
     // establishing the connection is very slow. I found 2000ms to work.
     await new Promise((r) => setTimeout(r, 2000));
+    expect(realm.syncSession.connectionState).toBe("connected");
     // :remove-end:
 
     const handleNotifcationRemoval = (transferred, transferable) => {
