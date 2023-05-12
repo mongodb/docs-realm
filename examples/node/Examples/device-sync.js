@@ -247,9 +247,7 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     };
     // :snippet-end:
 
-    // :snippet-start: open-realm
     const realm = await Realm.open(config);
-    // :snippet-end:
 
     // Not sure if there's a way to test how a Realm is opened.
     // Testing to see if it opened validates the config isn't broken.
