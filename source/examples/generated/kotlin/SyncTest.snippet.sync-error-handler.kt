@@ -1,5 +1,5 @@
-val syncErrorHandler = SyncSession.ErrorHandler {
-        session, error -> Log.e("Error message" + error.message.toString())
+val syncErrorHandler = SyncSession.ErrorHandler { session, error ->
+    Log.e("Error message" + error.message.toString())
 }
 runBlocking {
     val user = app.login(credentials)
