@@ -37,9 +37,11 @@ Realm Configuration File
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can configure Realm to compact the realm file when opened by setting
-a callback for the :kotlin-sdk:`compactOnLaunch() <>` function
+a callback for the :kotlin-sdk:`compactOnLaunch() 
+</io.realm.kotlin/Configuration/SharedBuilder/compactOnLaunch>` function
 for the configuration. When you call ``compactOnLaunch()`` for the 
-configuration, the :kotlin-sdk:`DEFAULT_COMPACT_ON_LAUNCH_CALLBACK <>` 
+configuration, the :kotlin-sdk:`DEFAULT_COMPACT_ON_LAUNCH_CALLBACK 
+</io.realm.kotlin/Realm/Companion/DEFAULT_COMPACT_ON_LAUNCH_CALLBACK>` 
 will trigger if the file is above 50 MB and 50% or more of the space in 
 the realm file is unused. You can specify custom compaction settings 
 when calling ``compactOnLaunch()`` depending on your applications needs.
@@ -51,7 +53,7 @@ The following code example shows how to do this:
 Realm.compactRealm() Method
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Alternatively, you can compact a realm file whenever you'd like by calling 
-the :kotlin-sdk:`compactRealm() <>` method:
+the :kotlin-sdk:`compactRealm() </io.realm.kotlin/Realm/Companion/compactRealm>` method:
 
 .. literalinclude:: /examples/generated/kotlin/Compacting.snippet.compactRealm.kt
    :language: kotlin
@@ -61,7 +63,7 @@ and false if not.
 
 .. important::
 
-   :kotlin-sdk:`compactRealm() <compactRealm>` is not available on Windows (JVM), and will throw a 
+   :kotlin-sdk:`compactRealm() </io.realm.kotlin/Realm/Companion/compactRealm>` is not available on Windows (JVM), and will throw a 
    `NotImplementedError <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-not-implemented-error/>`_ there.
 
 Make a Compacted Copy
@@ -70,7 +72,7 @@ Make a Compacted Copy
 You can save a compacted (and optionally :ref:`encrypted
 <kotlin-encrypt-a-realm>`) copy of a realm to another file location
 with the :kotlin-sdk:`Realm.writeCopyTo()
-<Realm/writeCopyTo>`
+</io.realm.kotlin/Realm/writeCopyTo>`
 method. The destination file cannot already exist.
 
 .. important::
