@@ -58,15 +58,6 @@ class Compacting: RealmTest() {
         // :snippet-end:
 
         assertTrue(compacted)
-
-        // Set a maxFileSize equal to 20MB in bytes
-        val maxFileSize = 20 * 1024 * 1024
-
-        /* Check for the realm file size to be greater than the max file size,
-         * and the amount of bytes currently used to be less than 50% of the
-         * total realm file size */
-        return (totalBytes > (Double)maxFileSize) ||
-                ((Double)usedBytes / totalBytes > 0.5)
     }
 
 
