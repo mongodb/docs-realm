@@ -8,6 +8,9 @@ import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class Compacting: RealmTest() {
 
@@ -17,20 +20,40 @@ class Compacting: RealmTest() {
         var name: String = ""
     }
     @Test
-    fun openAndCloseARealmTest() {
-        runBlocking {
-            // :snippet-start: open-a-realm
-            val config = RealmConfiguration.Builder(setOf(King::class))
-                // :remove-start:
-                .directory("/tmp/") // default location for jvm is... in the project root
-                // :remove-end:
-                .build()
-            val realm = Realm.open(config)
-            Log.v("Successfully opened realm: ${realm.configuration.name}")
-            // :snippet-end:
-            // :snippet-start: close-a-realm
-            realm.close()
-            // :snippet-end:
+    fun shouldCompactTest() {
+
+        val config = RealmConfiguration.Builder(setOf(King::class))
+            .compactOnLaunch{ totalBytes, usedBytes ->
+                // totalBytes refers to the size of the file on disk in bytes (data + free space)
+                // usedBytes refers to the number of bytes used by data in the file
+
+                // Compact if the file is over 100MB in size and less than 50% 'used'
+                (totalBytes > 100 * 1024 * 1024) && ((usedBytes / totalBytes) < 0.5)
+            }
+            .directory("/tmp/")
+            .build()
+
+        val realm: Realm = Realm.open(config)
+
+        // check to make sure custom compaction standards are set
+        var custom = false
+        if (Realm.DEFAULT_COMPACT_ON_LAUNCH_CALLBACK != config.compactOnLaunchCallback) {
+            custom = true
+            assertTrue(custom)
         }
+
+        realm.close()
     }
+
+    @Test
+    fun compactRealmTest() {
+        val config = RealmConfiguration.create(schema = setOf(Item::class))
+        Realm.compactRealm(config)
+
+        var success = false
+
+
+
+    }
+    
 }
