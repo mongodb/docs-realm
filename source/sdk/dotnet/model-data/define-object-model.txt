@@ -99,10 +99,9 @@ Indexes
 ~~~~~~~
 
 **Indexes** significantly improve query times in a Realm database. Without 
-indexes, Realm performs a collection scan (i.e., it scans every document in a 
-collection) to select the documents that match the given query. However, if an 
-appropriate index exists for a query, Realm uses the index to limit the number of
-documents that it must inspect.
+indexes, Realm scans every document in a collection to select the documents 
+that match the given query. However, if an applicable index exists for a query, 
+Realm uses the index to limit the number of documents that it must inspect.
 
 You can index properties with the following types:
 
@@ -119,9 +118,9 @@ You can index properties with the following types:
 
 .. note::
 
-   Adding an index can speed up some queries at the cost of slightly slower write
+   Adding an index speeds up queries at the cost of slightly slower write
    times and additional storage and memory overhead. Indexes require space in your
-   realm file, so adding an index to a property will increase disk space consumed
+   realm file, so adding an index to a property increases disk space consumed
    by your realm file. Each index entry is a minimum of 12 bytes.
 
 To index a property, use the :dotnet-sdk:`Indexed <reference/Realms.IndexedAttribute.html>`
@@ -132,15 +131,25 @@ property:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
    :language: csharp
+   :emphasize-lines: 3-4
 
+.. note:: 
+
+   When you create an index, you are creating it on the local realm and not 
+   on an Atlas collection. If you need to query an Atlas collection directly 
+   and want to improve performance, refer to 
+   `Create, View, Drop, and Hide Indexes <https://www.mongodb.com/docs/atlas/atlas-ui/indexes/>`__.
+   
 .. _fts-indexes:
 
 Full-Text Search Indexes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to standard indexes, Realm also supports Full-Text Search (FTS) indexes 
-on ``string`` properties. An FTS index enables 
-`simple term searches <https://learn.microsoft.com/en-us/sql/relational-databases/search/query-with-full-text-search?view=sql-server-ver16#Simple_Term>`__. 
+on ``string`` properties. While you can query a string field with or without a 
+standard index, an FTS index enables searching for multiple words and phrases and 
+excluding others. 
+
 For more information on querying full-text indexes, see :ref:`Full Text Search 
 (LINQ) <dotnet-linq-fts>` and :ref:`Full Text Search (RQL) <dotnet-rql-fts>`.
 
@@ -149,8 +158,9 @@ attribute with the :dotnet-sdk:`IndexType.FullText <reference/Realms.IndexType.h
 enum. In the following example, we have a ``FullText`` index on the 
 ``Biography`` property:
 
-.. literalinclude:: /examples/generated/dotnet/Objects.snippet.fts-index.cs
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
    :language: csharp
+   :emphasize-lines: 6-7
 
 .. _dotnet-default-field-values:
 
