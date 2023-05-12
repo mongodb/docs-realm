@@ -1,3 +1,34 @@
+# May 12, 2023
+
+## Kotlin SDK
+
+- Realm Database/React to Changes: Mention and link to new "Authentication Changes as a Flow" section
+- Manage Users/Authenticate Users: New "Authentication Changes as a Flow" section with info & tested Bluehawked code example
+
+## .NET SDK
+
+- Model Data
+  - Define an Object Model: Improve "Indexes" wording, add a new "Full-Text Search Index" section with Bluehawked code example
+  - Change an Object Model: Remove note about Unity not supporting the `dynamic` keyword when using `IL2CPP`
+- CRUD/Query, Filter, and Sort Data: Rename page from "Filter and Sort Data", add new "Full Text Search" sections with Bluehawked code examples for both LINQ and RQL
+- Update code examples on many pages as needed for 11.0.0 release
+
+## Node.js SDK
+
+- Realm Files/Reduce Realm File Size: Update compaction code example, refine wording on `.compact()` method
+- Manage Users/Authenticate Users: Update docs code example tests and regenerate Bluehawked code examples
+- Sync Data/Configure & Open a Synced Realm: New "Open Synced Realm at a Specific Path" section with info & tested Bluehawked code example
+
+## React Native SDK
+
+- Sync Data/Configure a Synced Realm: New "Open Synced Realm at a Specific Path" section with info & tested Bluehawked code examples
+
+## Swift SDK
+
+- Model Data/Define an Object Model: Clarify `PersistableEnum` details
+- React to Changes: Update "Notification Delivery" section with details and Bluehawked `UITableViewController` code examples from realm-swift GitHub discussion
+- Application Services/Query MongoDB: New "Find and Sort Documents" section with info & tested Bluehawked code examples for the new `sorting` API
+
 # May 5, 2023
 
 ## C++ SDK
