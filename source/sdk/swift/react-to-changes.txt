@@ -367,34 +367,36 @@ This notification block fires for changes in:
 Notification Delivery
 ---------------------
 
-Notification delivery can vary depending on whether or not the notification 
-occurs within a write transaction, and the relative threads of the write
-and the observation. When your application relies on the timing of 
-notification delivery, such as when you use notifications to update a 
-``UITableView``, it's important to understand the specific behaviors for 
-the context in which your application code runs.
+Notification delivery can vary depending on:
+
+- Whether or not the notification occurs within a write transaction
+- The relative threads of the write and the observation 
+
+When your application relies on the timing of notification delivery, such 
+as when you use notifications to update a ``UITableView``, it's important 
+to understand the specific behaviors for your application code's context.
 
 Perform Writes Only on a Different Thread than the Observing Thread
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Reading an observed collection or object from inside a change notification 
 always accurately tells you what has changed in the collection passed to 
 the callback since the last time the callback was invoked.
 
 Reading collections or objects outside of change notifications always gives 
-you the exact same values as you saw in the most recent change notification 
+you the exact same values you saw in the most recent change notification 
 for that object.
 
 Reading objects other than the observed one *inside* a change notification 
 may see a different value prior to the notification for that change being 
 delivered. Refreshes happen at the realm level of granularity while change 
 notifications aren't batched together into a single callback. Inside a 
-callback, you may see changes which have pending notifications.
+callback, you may see changes that have pending notifications.
 
 Writes on different threads eventually become visible on the observing 
 thread. Explicitly calling ``refresh()`` blocks until the writes made on 
 other threads are visible and the appropriate notifications have been sent. 
-If you call ``refresh()`` from within a notification callback, it's a no-op.
+If you call ``refresh()`` within a notification callback, it's a no-op.
 
 Perform Writes on the Observing Thread, Outside of Notifications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -419,7 +421,7 @@ Perform Writes Inside of Notifications
 When you perform writes within notifications, you see many of the same 
 behaviors above, with a few exceptions.
 
-Callbacks invoked before the one which perform a write behave normally. 
+Callbacks invoked before the one that performed a write behave normally. 
 While Realm invokes change callbacks in a stable order, this is not strictly 
 the order in which you added the observations.
 
@@ -438,7 +440,7 @@ any of the subsequent callbacks as they no longer have any changes to report.
 Realm provides a notification later for the write as if the write had happened 
 outside of a notification.
 
-If beginning the write doesn't refresh the Realm, the write happens as 
+If beginning the write doesn't refresh the realm, the write happens as 
 usual. However, Realm invokes the subsequent callbacks in an inconsistent 
 state. They continue to report the original change information, but the 
 observed object/collection now includes the changes from the write made 
@@ -446,8 +448,8 @@ in the previous callback.
 
 If you try to perform manual checks and write handling to get more fine-grained
 notifications from within a write transaction, you can get notifications 
-nested more than two levels deep. This includes things like checking 
-``realm.isInWriteTransaction``, and if so making changes, calling 
+nested more than two levels deep. An example of a manual write handling is 
+checking ``realm.isInWriteTransaction``, and if so making changes, calling 
 ``realm.commitWrite()`` and then ``realm.beginWrite()``. The nested 
 notifications and potential for error make this manual manipulation 
 error-prone and difficult to debug.
@@ -492,7 +494,7 @@ Update the UITableView Directly Without a Notification
 
 Updating the ``UITableView`` directly without waiting for a notification 
 provides the most responsive UI. This code updates the TableView immediately 
-instead of requiring a few hops between threads that adds a small amount of 
+instead of requiring hops between threads, which add a small amount of 
 lag to each update. The downside is that it requires frequent manual 
 updates to the view.
 
