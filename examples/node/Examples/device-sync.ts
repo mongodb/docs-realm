@@ -118,7 +118,7 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
   //   }
   // });
 
-  test("should pause or resume a sync session", async () => {
+  test("pause or resume a sync session", async () => {
     // :snippet-start: pause-sync-session
     const OpenRealmBehaviorConfiguration: Realm.OpenRealmBehaviorConfiguration =
       {
@@ -157,32 +157,29 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     realm.close();
   });
 
-  // // this test is skipped because we currently are unable to test Synced Realms
-  // // via jest, to track the progress of this issue see: https://jira.mongodb.org/browse/RJS-1008
-  // // react native only (not node)
-  // test.skip("should check the connection state", async () => {
-  //   const app = new Realm.App({ id: "<Your App ID>" });
-  //   const credentials = Realm.Credentials.anonymous();
-  //   await app.logIn(credentials);
-  //   // :snippet-start: sync-changes-between-devices-check-network-connection
-  //   const config: Realm.Configuration = {
-  //     schema: [DogSchema], // predefined schema
-  //     sync: {
-  //       user: app.currentUser,
-  //       partitionValue: "MyPartitionValue",
-  //     },
-  //   };
-  //   let realm = await Realm.open(config);
-  //   const syncSession = realm.syncSession;
-  //   const connectionState = syncSession.connectionState();
-  //   // :snippet-end:
-  //   expect(["Disconnected", "Connecting", "Connected"]).toContain(
-  //     connectionState
-  //   );
-  //   realm.close();
-  // });
+  test("check the connection state", async () => {
+    // :snippet-start: check-network-connection
+    const config: Realm.Configuration = {
+      schema: [DogSchema],
+      sync: {
+        user: app.currentUser!,
+        partitionValue: "MyPartitionValue",
+      },
+    };
 
-  // test.skip("should sync changes in the background", async () => {
+    const realm = await Realm.open(config);
+
+    const connectionState = realm.syncSession?.connectionState;
+    // :snippet-end:
+
+    expect(["disconnected", "connecting", "connected"]).toContain(
+      connectionState
+    );
+
+    realm.close();
+  });
+
+  // test.skip("sync changes in the background", async () => {
   //   const app = new Realm.App({ id: "<Your App ID>" });
   //   const credentials = Realm.Credentials.anonymous();
   //   await app.logIn(credentials);
