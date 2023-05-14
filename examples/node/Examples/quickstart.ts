@@ -1,10 +1,17 @@
+// :snippet-start: import-realm
 import Realm from "realm";
+// :snippet-end:
 
 describe("QuickStart Local", () => {
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
     // :snippet-start: open-a-realm
     // :snippet-start: define-an-object-model
-    class Task extends Realm.Object {
+    class Task extends Realm.Object<Task> {
+      _id!: number;
+      name!: string;
+      status?: string;
+      owner_id?: string;
+
       static schema = {
         name: "Task",
         properties: {
@@ -34,6 +41,7 @@ describe("QuickStart Local", () => {
       });
     });
 
+    // :snippet-start: find-sort-and-filter-objects
     const specificTask = realm.objectForPrimaryKey(Task, 0);
 
     // Query realm for all instances of the "Task" type.
@@ -44,6 +52,7 @@ describe("QuickStart Local", () => {
 
     // Sort tasks by name in ascending order.
     const tasksByName = tasks.sorted("name");
+    // :snippet-end:
 
     expect(specificTask).toBeTruthy();
     expect(tasks.length).toBe(1);
@@ -52,7 +61,10 @@ describe("QuickStart Local", () => {
 
     // :snippet-start: watch-a-collection
     // Define the collection notification listener.
-    const listener = (tasks, changes) => {
+    const listener = (
+      tasks: Realm.Collection<Task>,
+      changes: Realm.CollectionChangeSet
+    ) => {
       // :remove-start:
       if (changes.newModifications.length > 0) {
         taskHasBeenModified = true;
@@ -123,14 +135,14 @@ describe("QuickStart Local", () => {
 
     realm.write(() => {
       // Modify an object.
-      task1.status = "InProgress";
+      task1!.status = "InProgress";
 
       // Delete an object.
       realm.delete(task2);
     });
     // :snippet-end:
 
-    expect(task1.status).toBe("InProgress");
+    expect(task1!.status).toBe("InProgress");
 
     // Wait 1 second until the collection listener has registered the
     // modification and deletion events.
@@ -154,19 +166,36 @@ describe("QuickStart Local", () => {
 describe("Quickstart Sync", () => {
   test("should open a Flexible Sync realm with initial subscriptions", async () => {
     // :snippet-start: open-realm-with-subscriptions
+    // :snippet-start: anonymous-login
+    // :snippet-start: initialize
+    // :replace-start: {
+    //   "terms": {
+    //     "js-flexible-oseso": "<yourAppId>"
+    //   }
+    // }
     // Initialize your App.
     const app = new Realm.App({
       id: "js-flexible-oseso",
     });
+    // :replace-end:
+    // :snippet-end:
     expect(app).toBeTruthy(); // :remove:
     expect(app.id).toBe("js-flexible-oseso"); // :remove:
 
     // Authenticate an anonymous user.
     const anonymousUser = await app.logIn(Realm.Credentials.anonymous());
+    // :snippet-end:
     expect(app.currentUser).toBeTruthy(); // :remove:
 
     // Define an object model
-    class Task extends Realm.Object {
+    class Task extends Realm.Object<Task> {
+      _id!: number;
+      name!: string;
+      status?: string;
+      progressMinutes?: string;
+      owner_id?: string;
+      dueDate?: Date;
+
       static schema = {
         name: "Task",
         properties: {
@@ -182,7 +211,7 @@ describe("Quickstart Sync", () => {
     }
 
     // Create a `SyncConfiguration` object.
-    const config = {
+    const config: Realm.Configuration = {
       schema: [Task],
       sync: {
         // Use the previously-authenticated anonymous user.

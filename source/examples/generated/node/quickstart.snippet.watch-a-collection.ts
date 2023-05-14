@@ -1,5 +1,8 @@
 // Define the collection notification listener.
-const listener = (tasks, changes) => {
+const listener = (
+  tasks: Realm.Collection<Task>,
+  changes: Realm.CollectionChangeSet
+) => {
   // Update UI in response to deleted objects.
   changes.deletions.forEach((index) => {
     // Deleted objects cannot be accessed directly,
