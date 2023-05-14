@@ -95,7 +95,7 @@ describe("Define Relationship Properties", () => {
         },
       };
     }
-
+    
     class Car extends Realm.Object {
       static schema = {
         name: "Car",
@@ -154,7 +154,7 @@ describe("Define Relationship Properties", () => {
         },
       };
     }
-
+    
     class Car extends Realm.Object {
       static schema = {
         name: "Car",
@@ -223,7 +223,7 @@ describe("Define Relationship Properties", () => {
         },
       };
     }
-
+    
     class Car extends Realm.Object {
       static schema = {
         name: "Car",
@@ -290,7 +290,7 @@ describe("Define Relationship Properties", () => {
         },
       };
     }
-
+    
     class Car extends Realm.Object {
       static schema = {
         name: "Car",
