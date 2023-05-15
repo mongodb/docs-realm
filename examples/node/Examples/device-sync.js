@@ -21,31 +21,28 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
   // This test seems to be somewhat inconsistent - not always throwing an error.
   test("handle sync errors", async () => {
     // :snippet-start: error-handling
-    const config = {
-      schema: [DogSchema],
-      sync: {
-        flexible: true,
-        user: app.currentUser,
-        onError: (session, syncError) => {
-          // Call your Sync error handler.
-          handleSyncError(session, syncError);
-        },
-      },
-    };
-
-    // Open realm with config that contains error handler.
-    const realm = await Realm.open(config);
-
     const handleSyncError = async (session, error) => {
       // ... handle the error using session and error information.
       console.log(session);
       console.log(error);
       expect(error.name).toBe("SyncError"); // :remove:
     };
+
+    const config = {
+      schema: [DogSchema],
+      sync: {
+        flexible: true,
+        user: app.currentUser,
+        onError: handleSyncError,
+      },
+    };
+
+    // Open realm with config that contains error handler.
+    const realm = await Realm.open(config);
     // :snippet-end:
 
-    // Set up so that we can attempt a write transaction to a collection
-    // with denyAll permissions. This throws a SyncError
+    // The rest of this is set up so that we can attempt a write transaction to
+    // a collection with denyAll permissions. This throws a SyncError.
     const dogs = realm.objects("Dog");
 
     await realm.subscriptions.update((mutableSubs) => {
@@ -62,6 +59,9 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
         treat: "ice cream",
       });
     });
+
+    // Give Sync some time to complete and return the error.
+    await new Promise((r) => setTimeout(r, 1000));
   });
 });
 
