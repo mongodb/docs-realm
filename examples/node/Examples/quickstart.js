@@ -34,6 +34,7 @@ describe("QuickStart Local", () => {
       });
     });
 
+    // Query for specific obect using primary key.
     const specificTask = realm.objectForPrimaryKey(Task, 0);
 
     // Query realm for all instances of the "Task" type.
@@ -90,6 +91,8 @@ describe("QuickStart Local", () => {
     // :snippet-end:
 
     // Add a couple of Tasks in a single, atomic transaction.
+    const allTasks = realm.objects(Task);
+
     realm.write(() => {
       realm.create(Task, {
         _id: 1,
@@ -113,8 +116,6 @@ describe("QuickStart Local", () => {
     let taskHasBeenModified = false;
     let taskHasBeenDeleted = false;
 
-
-    const allTasks = realm.objects(Task);
     const task1 = allTasks.find((task) => task._id == 1);
     expect(task1).toBeTruthy(); // :remove:
     const task2 = allTasks.find((task) => task._id == 2);
@@ -150,10 +151,16 @@ describe("QuickStart Local", () => {
 describe("Quickstart Sync", () => {
   test("should open a Flexible Sync realm with initial subscriptions", async () => {
     // :snippet-start: open-realm-with-subscriptions
+    // :replace-start: {
+    //   "terms": {
+    //     "js-flexible-oseso": "<yourAppId>"
+    //   }
+    // }
     // Initialize your App.
     const app = new Realm.App({
       id: "js-flexible-oseso",
     });
+    // :replace-end:
     expect(app).toBeTruthy(); // :remove:
     expect(app.id).toBe("js-flexible-oseso"); // :remove:
 

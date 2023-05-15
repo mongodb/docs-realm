@@ -1,3 +1,4 @@
+// Query for specific obect using primary key.
 const specificTask = realm.objectForPrimaryKey(Task, 0);
 
 // Query realm for all instances of the "Task" type.

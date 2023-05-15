@@ -1,6 +1,6 @@
 // Initialize your App.
 const app = new Realm.App({
-  id: "js-flexible-oseso",
+  id: "<yourAppId>",
 });
 
 // Authenticate an anonymous user.

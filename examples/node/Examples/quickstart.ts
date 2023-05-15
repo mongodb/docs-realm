@@ -42,6 +42,7 @@ describe("QuickStart Local", () => {
     });
 
     // :snippet-start: find-sort-and-filter-objects
+    // Query for specific obect using primary key.
     const specificTask = realm.objectForPrimaryKey(Task, 0);
 
     // Query realm for all instances of the "Task" type.
@@ -102,6 +103,8 @@ describe("QuickStart Local", () => {
     // :snippet-end:
 
     // :snippet-start: create-modify-delete
+    const allTasks = realm.objects(Task);
+
     // Add a couple of Tasks in a single, atomic transaction.
     realm.write(() => {
       realm.create(Task, {
@@ -127,7 +130,6 @@ describe("QuickStart Local", () => {
     let taskHasBeenDeleted = false;
     // :remove-end:
 
-    const allTasks = realm.objects(Task);
     const task1 = allTasks.find((task) => task._id == 1);
     expect(task1).toBeTruthy(); // :remove:
     const task2 = allTasks.find((task) => task._id == 2);

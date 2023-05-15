@@ -1,3 +1,5 @@
+const allTasks = realm.objects(Task);
+
 // Add a couple of Tasks in a single, atomic transaction.
 realm.write(() => {
   realm.create(Task, {
@@ -13,7 +15,6 @@ realm.write(() => {
   });
 });
 
-const allTasks = realm.objects(Task);
 const task1 = allTasks.find((task) => task._id == 1);
 const task2 = allTasks.find((task) => task._id == 2);
 
