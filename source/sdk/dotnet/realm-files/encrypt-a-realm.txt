@@ -76,8 +76,13 @@ to create a 64-bit key and store that key in :ref:`a user object <user-objects>`
 Accessing an Encrypted Realm from Multiple Process
 --------------------------------------------------
 
-Realm forbids opening the same encrypted realm from multiple processes.
-Attempting to do so will throw the error:
+.. versionchanged:: 11.0.0
+
+Starting with Realm .NET SDK version 11.0.0, Realm supports opening
+the same encrypted realm in multiple processes. 
+
+In earlier versions of the Realm .NET SDK, you cannot open the same 
+encrypted realm from multiple processes. Attempting to do so throws the error:
 "Encrypted interprocess sharing is currently unsupported."
 
 
