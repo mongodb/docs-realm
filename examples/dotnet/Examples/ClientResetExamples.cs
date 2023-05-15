@@ -22,6 +22,11 @@ namespace Examples
         Realm fsRealm;
         RealmUser fsUser;
 
+        public ClientResetExamples()
+        {
+            fsRealm = Realm.GetInstance();
+        }
+
         [Test]
         public async Task TestDiscardUnsyncedChangesHandler()
         // :snippet-start: DiscardUnsyncedChangesHandler
