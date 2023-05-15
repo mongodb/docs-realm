@@ -13,9 +13,9 @@ realm.write(() => {
   });
 });
 
-const task1 = tasks.find((task) => task._id == 1);
-
-const task2 = tasks.find((task) => task._id == 2);
+const allTasks = realm.objects(Task);
+const task1 = allTasks.find((task) => task._id == 1);
+const task2 = allTasks.find((task) => task._id == 2);
 
 realm.write(() => {
   // Modify an object.

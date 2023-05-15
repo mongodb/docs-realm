@@ -127,10 +127,10 @@ describe("QuickStart Local", () => {
     let taskHasBeenDeleted = false;
     // :remove-end:
 
-    const task1 = tasks.find((task) => task._id == 1);
+    const allTasks = realm.objects(Task);
+    const task1 = allTasks.find((task) => task._id == 1);
     expect(task1).toBeTruthy(); // :remove:
-
-    const task2 = tasks.find((task) => task._id == 2);
+    const task2 = allTasks.find((task) => task._id == 2);
     expect(task2).toBeTruthy(); // :remove:
 
     realm.write(() => {

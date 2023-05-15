@@ -89,7 +89,6 @@ describe("QuickStart Local", () => {
     tasks.addListener(listener);
     // :snippet-end:
 
-    // :snippet-start: create-modify-delete
     // Add a couple of Tasks in a single, atomic transaction.
     realm.write(() => {
       realm.create(Task, {
@@ -104,7 +103,7 @@ describe("QuickStart Local", () => {
         status: "Open",
       });
     });
-    // :remove-start:
+
     expect(tasks.length).toBe(3);
     expect(openTasks.length).toBe(3);
     expect(tasksByName[0].name).toBe("go exercise");
@@ -113,12 +112,12 @@ describe("QuickStart Local", () => {
 
     let taskHasBeenModified = false;
     let taskHasBeenDeleted = false;
-    // :remove-end:
 
-    const task1 = tasks.find((task) => task._id == 1);
+
+    const allTasks = realm.objects(Task);
+    const task1 = allTasks.find((task) => task._id == 1);
     expect(task1).toBeTruthy(); // :remove:
-
-    const task2 = tasks.find((task) => task._id == 2);
+    const task2 = allTasks.find((task) => task._id == 2);
     expect(task2).toBeTruthy(); // :remove:
 
     realm.write(() => {
@@ -128,7 +127,6 @@ describe("QuickStart Local", () => {
       // Delete an object.
       realm.delete(task2);
     });
-    // :snippet-end:
 
     expect(task1.status).toBe("InProgress");
 
@@ -144,10 +142,8 @@ describe("QuickStart Local", () => {
       realm.deleteAll();
     });
 
-    // :snippet-start: close-a-realm
     // Close the realm.
     realm.close();
-    // :snippet-end:
   });
 });
 
