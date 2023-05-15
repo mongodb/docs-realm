@@ -190,7 +190,7 @@ Include these properties in the ``ClientResetConfiguration``:
   Provides a copy of the realm.
 - ``onAfter``: Optional. Callback function invoked after the SDK successfully
   executes this mode. Provides instances of the realm before and after the client reset.
-- ``onFallback()``: Optional. Callback function which the SDK invokes
+- ``onFallback``: Optional. Callback function which the SDK invokes
   only if both the automatic recovery and and discarding changes fails.
   For more information, refer to the :ref:`Manual Client Reset Fallback section
   <node-manual-client-reset-fallback>`.
@@ -233,7 +233,7 @@ Discard Unsynced Changes Mode
 
 .. versionchanged:: 10.23.0 Mode renamed from "discardLocal" to "discardUnsyncedChanges". Both currently work, but in a future version, "discardLocal" will be removed. "clientResetBefore" and "clientResetAfter" callbacks renamed to "onBefore" and "onAfter", respectively.
 
-**Discard Unsynced Changes** mode  permanently deletes all
+**Discard Unsynced Changes** mode permanently deletes all
 local unsynced changes made since the last successful sync.
 You might use this mode when your app requires client recovery logic that is not
 consistent with :ref:`automatic Client Recovery <node-client-reset-recovery>`,
