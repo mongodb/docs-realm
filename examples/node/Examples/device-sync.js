@@ -20,12 +20,15 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
 
   // This test seems to be somewhat inconsistent - not always throwing an error.
   test("handle sync errors", async () => {
+    let errorThrown = false;
+
     // :snippet-start: error-handling
     const handleSyncError = async (session, error) => {
       // ... handle the error using session and error information.
       console.log(session);
       console.log(error);
       expect(error.name).toBe("SyncError"); // :remove:
+      errorThrown = true; // :remove:
     };
 
     const config = {
@@ -60,8 +63,10 @@ describe("CONFIGURE FLEXIBLE SYNC", () => {
       });
     });
 
-    // Give Sync some time to complete and return the error.
-    await new Promise((r) => setTimeout(r, 1000));
+    // Wait for server changes to sync.
+    await realm.syncSession?.downloadAllServerChanges();
+
+    expect(errorThrown).toBe(true);
   });
 });
 
@@ -103,9 +108,8 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
     const realm = await Realm.open(config);
 
     // :remove-start:
-    // This hack is needed to wait for sync connection. For some reason,
-    // establishing the connection is very slow. I found 1000ms to work.
-    await new Promise((r) => setTimeout(r, 1000));
+    // Wait for server changes to sync.
+    await realm.syncSession?.downloadAllServerChanges();
     expect(realm.syncSession.connectionState).toBe("connected");
     // :remove-end:
     const pauseSyncSession = () => {
@@ -175,9 +179,8 @@ describe("CONFIGURE PARTITION-BASED SYNC", () => {
 
     const realm = await Realm.open(config);
     // :remove-start:
-    // This hack is needed to wait for sync connection. For some reason,
-    // establishing the connection is very slow. I found 2000ms to work.
-    await new Promise((r) => setTimeout(r, 2000));
+    // Wait for server changes to sync.
+    await realm.syncSession?.downloadAllServerChanges();
     expect(realm.syncSession.connectionState).toBe("connected");
     // :remove-end:
 
