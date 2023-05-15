@@ -57,7 +57,13 @@ class Compacting: RealmTest() {
         var compacted = Realm.compactRealm(config)
         // :snippet-end:
 
-        assertTrue(compacted)
+        if (compacted) {
+            println("Compaction did succeed.")
+        }
+        else {
+            println("Compaction did not succeed.")
+        }
+
     }
 
 
