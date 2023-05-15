@@ -26,7 +26,7 @@ namespace Examples
         //:remove-start:
         public Nullable_Foo()
         {
-            NonNullableName = default!;
+            /*NonNullableName = default!;
             NonNullableArray = default!;
             NonNullableInt = default!;
             IntListWithNonNullableValues = null!;
@@ -34,8 +34,7 @@ namespace Examples
             ListOfNonNullableObjects = null!;
             SetOfNonNullableObjects = null!;
             DictionaryOfNullableObjects = null!;
-
-            MyDogs = default!;
+            MyDogs = default!;*/
         }
 
 
