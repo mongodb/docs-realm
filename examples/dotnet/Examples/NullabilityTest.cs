@@ -16,7 +16,8 @@ namespace Examples
     //  "terms": {
     //   "Nullable_Foo": "Person",
     //   "Nullable_Backlink" : "Dog",
-    //   "Nullable_Bar": "Dog"}
+    //   "Nullable_Bar": "Dog",
+    //   " = null!;" : ""}
     // }
     // :uncomment-start:
     //#nullable enable
@@ -26,15 +27,9 @@ namespace Examples
         //:remove-start:
         public Nullable_Foo()
         {
-            /*NonNullableName = default!;
+            NonNullableName = default!;
             NonNullableArray = default!;
             NonNullableInt = default!;
-            IntListWithNonNullableValues = null!;
-            IntListWithNullableValues = null!;
-            ListOfNonNullableObjects = null!;
-            SetOfNonNullableObjects = null!;
-            DictionaryOfNullableObjects = null!;
-            MyDogs = default!;*/
         }
 
 
@@ -60,26 +55,26 @@ namespace Examples
 
         /* Collections of Primitives */
 
-        public IList<int> IntListWithNonNullableValues { get; }
-        public IList<int?> IntListWithNullableValues { get; }
+        public IList<int> IntListWithNonNullableValues { get; } = null!;
+        public IList<int?> IntListWithNullableValues { get; } = null!;
         // public IList<int>? NullableListOfInts { get; } // Compile-time error
 
         /* Collections of Realm Objects */
 
-        public IList<Nullable_Bar> ListOfNonNullableObjects { get; }
+        public IList<Nullable_Bar> ListOfNonNullableObjects { get; } = null!;
         // public IList<Nullable_Bar>? NullableListOfObjects { get; }  // Compile-time error
         // public IList<Dog?> ListOfNullableObjects { get; } // Compile-time error
 
-        public ISet<Nullable_Backlink> SetOfNonNullableObjects { get; }
+        public ISet<Nullable_Backlink> SetOfNonNullableObjects { get; } = null!;
         // public ISet<Nullable_Bar>? NullableSetOfObjects { get; }  // Compile-time error
         // public ISet<Nullable_Bar?> SetOfNullableObjects { get; } // Compile-time error
 
-        public IDictionary<string, Nullable_Bar?> DictionaryOfNullableObjects { get; }
+        public IDictionary<string, Nullable_Bar?> DictionaryOfNullableObjects { get; } = null!;
         // public IDictionary<string, Nullable_Bar> DictionaryOfNonNullableObjects { get; } // Compile-time error
         // public IDictionary<string, Nullable_Bar>? NullableDictionaryOfObjects { get; } // Compile-time error
 
         [Backlink(nameof(Nullable_Bar.Person))]
-        public IQueryable<Nullable_Bar> MyDogs { get; }
+        public IQueryable<Nullable_Bar> MyDogs { get; } = null!;
 
         // [Backlink(nameof(Nullable_Bar.People))]
         // public IQueryable<Nullable_Bar?> MyDogs { get; } // Compile-time error
