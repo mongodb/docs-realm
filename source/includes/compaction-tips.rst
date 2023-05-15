@@ -1,4 +1,4 @@
-Manually compacting a realm can be an expensive operation. 
+Manually compacting a realm can be a resource-intensive operation. 
 Your application should not compact every time you open 
 a realm. Instead, try to optimize compacting so your application does 
 it just often enough to prevent the file size from growing too large. 

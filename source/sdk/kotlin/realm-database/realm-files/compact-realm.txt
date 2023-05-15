@@ -36,34 +36,34 @@ realm instance.
 Realm Configuration File
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can configure Realm to compact the realm file when opened by setting
-a callback for the :kotlin-sdk:`compactOnLaunch() 
+You can configure Realm to compact the realm file each time it is opened
+by setting a callback for the :kotlin-sdk:`compactOnLaunch 
 <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin/-configuration/
 -shared-builder/compact-on-launch.html?query=fun%20compactOnLaunch(callback:
 %20CompactOnLaunchCallback%20=%20Realm.DEFAULT_COMPACT_ON_LAUNCH_CALLBACK):%20S>` function
-for the configuration. When you call ``compactOnLaunch()`` for the 
+for the configuration. When you call ``compactOnLaunch`` for the 
 configuration, the :kotlin-sdk:`DEFAULT_COMPACT_ON_LAUNCH_CALLBACK 
 <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin/-realm/-companion/
 -d-e-f-a-u-l-t_-c-o-m-p-a-c-t_-o-n_-l-a-u-n-c-h_-c-a-l-l-b-a-c-k.html>` 
 will trigger if the file is above 50 MB and 50% or more of the space in 
 the realm file is unused. You can specify custom compaction settings 
-when calling ``compactOnLaunch()`` depending on your applications needs.
+when calling ``compactOnLaunch`` depending on your applications needs.
 The following code example shows how to do this:
 
 .. literalinclude:: /examples/generated/kotlin/Compacting.snippet.compactOnLaunch.kt
    :language: kotlin
 
-Realm.compactRealm() Method
+Realm.compactRealm Method
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Alternatively, you can compact a realm file without having to open it by calling 
-the :kotlin-sdk:`compactRealm() <library-base/-realm%20-kotlin%20-s-d-k/
+the :kotlin-sdk:`compactRealm <library-base/-realm%20-kotlin%20-s-d-k/
 io.realm.kotlin/-realm/-companion/compact-realm.html?query=fun%20compactRealm
 (configuration:%20Configuration):%20Boolean>` method:
 
 .. literalinclude:: /examples/generated/kotlin/Compacting.snippet.compactRealm.kt
    :language: kotlin
 
-The ``compactRealm()`` method will return true if the operation is successful 
+The ``compactRealm`` method will return true if the operation is successful 
 and false if not.
 
 .. important::
@@ -85,7 +85,7 @@ method. The destination file cannot already exist.
 
 .. important::
 
-   Avoid calling ``writeCopyTo()`` within a :ref:`write transaction
+   Avoid calling ``writeCopyTo`` within a :ref:`write transaction
    <kotlin-write-transactions>`. If called within a write transaction, this
    method copies the absolute latest data. This includes any
    **uncommitted** changes you made in the transaction before this
@@ -96,21 +96,7 @@ Tips for Manually Compacting a Realm
 
 .. include:: /includes/compaction-tips.rst
 
-These calculations might look like this:
 
-.. code-block:: kotlin
-
-   // Set a maxFileSize equal to 20MB in bytes
-   const maxFileSize = 20 * 1024 * 1024;
-
-   /* Check for the realm file size to be greater than the max file size, 
-    * and the amount of bytes currently used to be less than 50% of the
-    * total realm file size */
-   return (totalBytes > (Double)maxFileSize) ||
-      ((Double)usedBytes / totalBytes > 0.5);
-
-Experiment with conditions to find the right balance of how often to 
-compact realm files in your application.
 
 
 
