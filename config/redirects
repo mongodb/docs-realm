@@ -502,7 +502,7 @@ raw: ${prefix}/sdk/flutter/data-types -> ${base}/sdk/flutter/realm-database/data
 
 # JS Client Reset with Seamless loss (https://jira.mongodb.org/browse/DOCSP-19552)
 
-raw: ${prefix}/sdk/node/advanced/client-reset -> ${base}/sdk/node/sync/reset-a-client-realm/
+raw: ${prefix}/sdk/node/advanced/client-reset -> ${base}/sdk/node/sync/handle-sync-errors/
 raw: ${prefix}/sdk/react-native/advanced/client-reset -> ${base}/sdk/react-native/sync-data/handle-sync-errors/
 
 # "MongoDB Realm" -> "Atlas App Services" migration
@@ -1098,7 +1098,7 @@ raw: ${prefix}/sdk/node/examples/manage-email-password-users -> ${base}/sdk/node
 raw: ${prefix}/sdk/node/examples/manage-user-api-keys -> ${base}/sdk/node/users/manage-user-api-keys/
 raw: ${prefix}/sdk/node/examples/user-metadata -> ${base}/sdk/node/users/user-metadata/
 raw: ${prefix}/sdk/node/examples/flexible-sync -> ${base}/sdk/node/sync/flexible-sync/
-raw: ${prefix}/sdk/node/examples/reset-a-client-realm -> ${base}/sdk/node/sync/reset-a-client-realm/
+raw: ${prefix}/sdk/node/examples/reset-a-client-realm -> ${base}/sdk/node/sync/handle-sync-errors/
 raw: ${prefix}/sdk/node/examples/sync-changes-between-devices -> ${base}/sdk/node/sync/
 raw: ${prefix}/sdk/node/examples/define-a-realm-object-model -> ${base}/sdk/node/model-data/define-a-realm-object-model/
 raw: ${prefix}/sdk/node/examples/modify-an-object-schema -> ${base}/sdk/node/model-data/modify-an-object-schema/
@@ -1249,3 +1249,11 @@ raw: ${prefix}/sdk/kotlin/realm-database/realm-files/bundle-a-realm -> ${base}/s
 # Add Kotlin Manage Email/Password User Page (https://jira.mongodb.org/browse/DOCSP-28262)
 
 raw: ${prefix}/sdk/kotlin/users/register-users -> ${base}/sdk/kotlin/users/manage-email-password-users/
+
+# Minor Node IA update
+
+raw: ${prefix}/sdk/node/sync/reset-a-client-realm -> ${base}/sdk/node/sync/handle-sync-errors/
+raw: ${prefix}/sdk/node/sync/pause-resume-sync -> ${base}/sdk/node/sync/manage-sync-session/
+raw: ${prefix}/sdk/node/sync/sync-progress -> ${base}/sdk/node/sync/manage-sync-session/
+raw: ${prefix}/sdk/node/sync/network-connection -> ${base}/sdk/node/sync/manage-sync-session/
+raw: ${prefix}/sdk/node/sync/multiplex-sync-sessions -> ${base}/sdk/node/sync/manage-sync-session/

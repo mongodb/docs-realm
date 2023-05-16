@@ -187,22 +187,44 @@ Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
 ``type`` to ``"openImmediately"``. 
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
-      :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-behavior.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-behavior.js
+        :language: javascript
 
 Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
 include the ``sync`` property defining a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>` object. Set this
 ``OpenRealmBehaviorConfiguration`` object as the value for
 the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
-``SyncConfiguration``. 
+``SyncConfiguration``.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
-      :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-configuration.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-configuration.js
+        :language: javascript
 
 Finally,  call :js-sdk:`Realm.open() <Realm.html#.open>`
 to open a synced realm. This will create a sync session and begin
 downloading any existing data from the server in the background.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-open-realm.js
-      :language: javascript
+.. literalinclude:: /examples/generated/node/device-sync.snippet.open-realm.ts
+   :language: javascript
