@@ -1,5 +1,5 @@
 import Realm from "realm";
-import { existsSync, rmSync } from "node:fs";
+import { existsSync } from "node:fs";
 import nock from "nock";
 
 const APP_ID = "js-flexible-oseso";
@@ -81,12 +81,42 @@ describe("LOCAL REALM CONFIGURATIONS", () => {
 
     realm.close();
   });
+
+  test("open a realm at an absolute path", async () => {
+    const customPath = `${__dirname}/testFiles/${new Realm.BSON.UUID().toHexString()}`;
+
+    // Check to make sure the path for the realm doesn't already exist.
+    expect(existsSync(customPath)).toBe(false);
+
+    // :snippet-start: set-absolute-path
+    const app = new Realm.App({ id: APP_ID, baseFilePath: customPath });
+    const user = await app.logIn(Realm.Credentials.anonymous());
+
+    const realm = await Realm.open({
+      schema: [Car],
+      sync: {
+        flexible: true,
+        user,
+      },
+    });
+    // :snippet-end:
+
+    // Check that realm exists at absolute path.
+    expect(existsSync(customPath)).toBe(true);
+
+    // Check that the realm's path starts with the absolute path.
+    expect(realm.path.startsWith(customPath));
+
+    await app.currentUser?.logOut();
+
+    realm.close();
+  });
 });
 
 describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
   const app = new Realm.App({ id: "js-flexible-oseso" });
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     // Close and remove all realms in the default directory.
     Realm.clearTestState();
 
@@ -207,7 +237,7 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
 describe("PARTITION-BASED SYNC REALM CONFIGURATIONS", () => {
   const app = new Realm.App({ id: "example-testers-kvjdy" });
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     // Close and remove all realms in the default directory.
     Realm.clearTestState();
 
@@ -235,44 +265,71 @@ describe("PARTITION-BASED SYNC REALM CONFIGURATIONS", () => {
 
     expect(realm.isClosed).toBe(true);
   });
-});
 
-describe("CONFIGURE REALM PATHS", () => {
-  beforeAll(() => {
-    // Close and remove all realms in the default directory.
-    Realm.clearTestState();
-  });
-
-  test("open a realm at an absolute path", async () => {
-    const customPath = `${__dirname}/testFiles/${new Realm.BSON.UUID().toHexString()}`;
-
-    // Check to make sure the path for the realm doesn't already exist.
-    expect(existsSync(customPath)).toBe(false);
-
-    // :snippet-start: set-absolute-path
-    const app = new Realm.App({ id: APP_ID, baseFilePath: customPath });
-    const user = await app.logIn(Realm.Credentials.anonymous());
-
-    const realm = await Realm.open({
+  test("Open local realm as synced realm with `writeCopyTo()`", async () => {
+    // :snippet-start: open-local-as-synced
+    const localConfig: Realm.Configuration = {
       schema: [Car],
+      path: "localOnly.realm",
+    };
+    const localRealm = await Realm.open(localConfig);
+    expect(localRealm.isClosed).toBe(false); // :remove:
+
+    const syncedConfig: Realm.Configuration = {
+      schema: [Car],
+      path: "copyLocalToSynced.realm",
       sync: {
-        flexible: true,
-        user,
+        user: app.currentUser!,
+        partitionValue: "myPartition",
       },
-    });
+    };
+
+    localRealm.writeCopyTo(syncedConfig);
+    const syncedRealm = await Realm.open(syncedConfig);
     // :snippet-end:
 
-    // Check that realm exists at absolute path.
-    expect(existsSync(customPath)).toBe(true);
+    await syncedRealm.syncSession?.downloadAllServerChanges();
+    expect(syncedRealm.isClosed).toBe(false);
+    expect(syncedRealm.syncSession?.connectionState).toBe("connected");
 
-    // Check that the realm's path starts with the absolute path.
-    expect(realm.path.startsWith(customPath));
+    // clean up
+    localRealm.close();
+    syncedRealm.close();
+  });
 
-    await app.currentUser?.logOut();
+  test("sync encrypted to local unencrypted", async () => {
+    // :snippet-start: sync-encrypted-to-local-unencrypted
+    // Create a secure key.
+    const encryptionKey = new Int8Array(64);
+    // ... store key
 
-    realm.close();
+    const syncedEncryptedConfig: Realm.Configuration = {
+      schema: [Car],
+      path: "syncedEncrypted.realm",
+      sync: {
+        user: app.currentUser!,
+        partitionValue: "myPartition",
+      },
+      encryptionKey,
+    };
+    const syncedEncryptedRealm = await Realm.open(syncedEncryptedConfig);
+    expect(syncedEncryptedRealm.isClosed).toBe(false); // :remove:
 
-    // Remove realm files that are generated for this test.
-    rmSync(customPath, { recursive: true });
+    const localUnencryptedConfig: Realm.Configuration = {
+      schema: [Car],
+      path: "copyLocalUnencrypted.realm",
+    };
+
+    syncedEncryptedRealm.writeCopyTo(localUnencryptedConfig);
+    const localUnencryptedRealm = await Realm.open(syncedEncryptedConfig);
+    // :snippet-end:
+
+    expect(localUnencryptedRealm.isClosed).toBe(false);
+
+    // clean up
+    await syncedEncryptedRealm.syncSession?.uploadAllLocalChanges();
+    await syncedEncryptedRealm.syncSession?.downloadAllServerChanges();
+    syncedEncryptedRealm.close();
+    localUnencryptedRealm.close();
   });
 });
