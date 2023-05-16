@@ -90,7 +90,8 @@ describe("QuickStart Local", () => {
       });
 
       // Update UI in response to modified objects.
-      // `newModifications` contains object indexes from after they were modified.
+      // `newModifications` contains an index to the modified object's position
+      // in the collection after all deletions and insertions have been applied.
       changes.newModifications.forEach((index) => {
         const modifiedTask = tasks[index];
         console.log(`modifiedTask: ${JSON.stringify(modifiedTask, null, 2)}`);

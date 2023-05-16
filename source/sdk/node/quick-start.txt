@@ -11,9 +11,6 @@ Quick Start - Node.js SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 This page contains information to quickly get Realm Database
 integrated into your app.
 
@@ -23,6 +20,7 @@ If you haven't already, :ref:`install the Realm Node.js SDK <node-install>`.
 
 Import Realm
 ------------
+
 At the top of your source files where you want to use Realm, add
 the following line to import the SDK.
 
@@ -33,6 +31,7 @@ the following line to import the SDK.
 
 Define Your Object Model
 ------------------------
+
 Your application's :ref:`object model <node-object-schemas>` defines the data
 that you can store within Realm Database. 
 
@@ -67,6 +66,7 @@ The following code shows how to define an object model for a ``Task`` object. In
 
 Open a Realm
 ------------
+
 To open a realm, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to :js-sdk:`Realm.open()
 <Realm.html#.open>`.
@@ -117,12 +117,20 @@ transaction <node-write-transactions>`.
 
 Watch a Collection
 ------------------
+
 You can :ref:`watch a realm, collection, or object for changes
 <node-change-notifications>` by registering event handlers with the
 :js-sdk:`Realm.addListener() <Realm.html#addListener>`
 :js-sdk:`Object.addListener() <Realm.Object.html#addListener>`
 :js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
 methods.
+
+.. important:: Order Matters
+   
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
 
 In the following example, an application developer watches for changes to the
 ``Task`` collection.
@@ -145,6 +153,7 @@ In the following example, an application developer watches for changes to the
 
 Close a Realm
 -------------
+
 Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a realm instance to avoid memory leaks.
 
 .. literalinclude:: /examples/generated/node/quickstart.snippet.close-a-realm.ts
