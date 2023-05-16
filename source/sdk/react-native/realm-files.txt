@@ -61,3 +61,12 @@ You can also open a realm entirely in memory, which will not create a ``.realm``
 file or its associated auxiliary files. Instead the SDK stores objects in memory
 while the realm is open and discards them immediately when all instances are
 closed.
+
+Find a Realm File Path
+----------------------
+
+The realm file is located at a specific path that you can optionally define 
+when you open the realm.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.find-realm-file.ts
+  :language: typescript

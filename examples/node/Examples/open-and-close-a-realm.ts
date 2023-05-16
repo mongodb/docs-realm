@@ -3,8 +3,13 @@ import { existsSync, rmSync } from "node:fs";
 
 const APP_ID = "js-flexible-oseso";
 
-describe("Open realm at different paths", () => {
-  const Car = {
+class Car extends Realm.Object<Car> {
+  _id!: Realm.BSON.ObjectId;
+  make!: string;
+  model!: string;
+  miles!: number;
+
+  static schema = {
     name: "Car",
     properties: {
       _id: "objectId",
@@ -14,6 +19,59 @@ describe("Open realm at different paths", () => {
     },
     primaryKey: "_id",
   };
+}
+
+describe("CONFIGURE A REALM", () => {
+  beforeEach(() => {
+    // Close and remove all realms in the default directory.
+    Realm.clearTestState();
+  });
+
+  test("should open and close a local realm", async () => {
+    // :snippet-start: open-local
+    // Open a local realm file with a predefined Car object model
+    const realm = await Realm.open({
+      schema: [Car],
+    });
+    // :snippet-end:
+
+    expect(realm.isClosed).toBe(false);
+
+    // :snippet-start: close-local-realm
+    realm.close();
+    // :snippet-end:
+
+    expect(realm.isClosed).toBe(true);
+  });
+
+  test("should find realm at path", async () => {
+    // :snippet-start: find-realm-file
+    // Open a realm.
+    const realm = await Realm.open({
+      schema: [Car],
+    });
+    expect(realm.isClosed).toBe(false); // :remove:
+
+    // Get on-disk location of the Realm
+    const realmFileLocation = realm.path;
+
+    console.log(`Realm file is located at: ${realm.path}`);
+    // :snippet-end:
+
+    const parseRealmFilePath = (path: string) =>
+      path.substring(path.lastIndexOf("/") + 1);
+
+    expect(parseRealmFilePath(realmFileLocation)).toBe("default.realm");
+
+    realm.close();
+  });
+});
+
+describe("CONFIGURE REALM PATHS", () => {
+  beforeAll(() => {
+    // Close and remove all realms in the default directory.
+    Realm.clearTestState();
+  });
 
   test("should open a realm at an absolute path", async () => {
     const customPath = `${__dirname}/testFiles/${new Realm.BSON.UUID().toHexString()}`;

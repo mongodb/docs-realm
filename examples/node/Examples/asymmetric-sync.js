@@ -23,6 +23,9 @@ class WeatherSensor extends Realm.Object {
 
 describe("Asymmetric Sync", () => {
   beforeAll(async () => {
+    // Close and remove all realms in the default directory.
+    Realm.clearTestState();
+
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
   });
