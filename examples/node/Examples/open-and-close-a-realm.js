@@ -88,7 +88,6 @@ describe("Open and Close a Realm", () => {
       console.error(err);
     }
   });
-  // PICK UP HERE
   test("should open an in memory realm", async () => {
     const Car = {
       name: "Car",
