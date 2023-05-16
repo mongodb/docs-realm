@@ -7,7 +7,14 @@ const app = new Realm.App({
 const anonymousUser = await app.logIn(Realm.Credentials.anonymous());
 
 // Define an object model
-class Task extends Realm.Object {
+class Task extends Realm.Object<Task> {
+  _id!: number;
+  name!: string;
+  status?: string;
+  progressMinutes?: string;
+  owner_id?: string;
+  dueDate?: Date;
+
   static schema = {
     name: "Task",
     properties: {
@@ -23,7 +30,7 @@ class Task extends Realm.Object {
 }
 
 // Create a `SyncConfiguration` object.
-const config = {
+const config: Realm.Configuration = {
   schema: [Task],
   sync: {
     // Use the previously-authenticated anonymous user.

@@ -4,4 +4,4 @@ const app = new Realm.App({
 });
 
 // Authenticate an anonymous user.
-await app.logIn(Realm.Credentials.anonymous());
+const anonymousUser = await app.logIn(Realm.Credentials.anonymous());
