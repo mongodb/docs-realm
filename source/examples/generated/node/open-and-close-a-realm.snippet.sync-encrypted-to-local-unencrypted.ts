@@ -2,18 +2,18 @@
 const encryptionKey = new Int8Array(64);
 // ... store key
 
-const syncedEncryptedConfig = {
+const syncedEncryptedConfig: Realm.Configuration = {
   schema: [Car],
   path: "syncedEncrypted.realm",
   sync: {
-    user: app.currentUser,
+    user: app.currentUser!,
     partitionValue: "myPartition",
   },
   encryptionKey,
 };
 const syncedEncryptedRealm = await Realm.open(syncedEncryptedConfig);
 
-const localUnencryptedConfig = {
+const localUnencryptedConfig: Realm.Configuration = {
   schema: [Car],
   path: "copyLocalUnencrypted.realm",
 };

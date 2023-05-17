@@ -72,9 +72,19 @@ property of the ``Configuration``:
 
 .. example:: Convert Local Realm to Synced Realm
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
-      :language: javascript
-      :emphasize-lines: 15-16
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: typescript
+
+         .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.ts
+            :language: typescript
+
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
+            :language: javascript
 
 You can also combine changes to configuration. For example, you can open a
 local encrypted realm as a synced unencrypted realm or a unencrypted synced realm
@@ -82,6 +92,16 @@ as an encrypted synced realm.
 
 .. example:: Convert Synced Encrypted to Local Unencrypted Realm
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
-      :language: javascript
-      :emphasize-lines: 19-20
+      .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: typescript
+
+         .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.ts
+            :language: typescript
+
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
+            :language: javascript

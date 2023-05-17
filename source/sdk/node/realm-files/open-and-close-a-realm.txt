@@ -25,8 +25,8 @@ To open a local (non-synced) realm, pass a :js-sdk:`Realm.Configuration
    the SDK creates a realm at the default path. You can access and change 
    the default realm path using the ``Realm.defaultPath`` global property.
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-realm-with-car-schema.js
-  :language: javascript
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local.ts
+   :language: typescript
 
 Open a Realm Without Providing a Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,8 +50,8 @@ To create a realm that runs entirely in memory without being written to a file,
 add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object:
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-and-close-an-in-memory-realm.js
-   :language: javascript
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-in-memory.ts
+   :language: typescript
 
 .. note:: 
 
@@ -97,9 +97,19 @@ property of the ``Configuration``:
 
 .. example:: Convert Local Realm to Synced Realm
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
-      :language: javascript
-      :emphasize-lines: 15-16
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: typescript
+
+         .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.ts
+            :language: typescript
+
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
+            :language: javascript
 
 You can also combine changes to configuration. For example, you can open a
 local encrypted realm as a synced unencrypted realm or a unencrypted synced realm
@@ -107,9 +117,21 @@ as an encrypted synced realm.
 
 .. example:: Convert Synced Encrypted to Local Unencrypted Realm
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
-      :language: javascript
-      :emphasize-lines: 19-20
+   .. example:: Convert Local Realm to Synced Realm
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: typescript
+
+         .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.ts
+            :language: typescript
+
+      .. tab::
+         :tabid: javascript
+
+         .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
+            :language: javascript
 
 .. seealso:: 
 

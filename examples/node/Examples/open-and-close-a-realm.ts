@@ -37,7 +37,6 @@ describe("LOCAL REALM CONFIGURATIONS", () => {
     // :snippet-end:
 
     expect(realm.isClosed).toBe(false);
-
     // :snippet-start: close-local-realm
     realm.close();
     // :snippet-end:
@@ -127,7 +126,6 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
 
   test("open and close a synced realm without internet", async () => {
     await app.currentUser?.logOut();
-
     // :snippet-start: use-cached-user
     // Log user into your App Services App.
     // On first login, the user must have a network connection.
@@ -216,7 +214,7 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
     expect(realm.isClosed).toBe(true);
   });
 
-  test("should re-open a realm without providing a schema", () => {
+  test("re-open a realm without providing a schema", () => {
     // :snippet-start: no-schema
     // Open the Realm with a schema
     const realm = new Realm({ schema: [Car] });
