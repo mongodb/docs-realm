@@ -173,7 +173,6 @@ namespace Examples
             // :snippet-end:
         }
     }
-    // :snippet-start: notify-sample-class
     public partial class Container : IRealmObject
     {
         [PrimaryKey]
@@ -182,5 +181,4 @@ namespace Examples
         public IDictionary<string, int> IntDictionary { get; } = null!;
         public IList<string> StringList { get; } = null!;
     }
-    // :snippet-end:
 }
