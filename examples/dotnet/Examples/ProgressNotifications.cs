@@ -176,6 +176,8 @@ namespace Examples
     // :snippet-start: notify-sample-class
     public partial class Container : IRealmObject
     {
+        [PrimaryKey]
+        public string _id { get; set; }
         public ISet<string> StringSet { get; } = null!;
         public IDictionary<string, int> IntDictionary { get; } = null!;
         public IList<string> StringList { get; } = null!;
