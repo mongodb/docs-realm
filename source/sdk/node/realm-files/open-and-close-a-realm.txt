@@ -1,8 +1,8 @@
 .. _node-open-close-realm:
 
-======================================
-Configure & Open a Realm - Node.js SDK
-======================================
+==============================================
+Configure, Open, & Close a Realm - Node.js SDK
+==============================================
 
 .. contents:: On this page
    :local:
@@ -12,8 +12,8 @@ Configure & Open a Realm - Node.js SDK
 
 .. _node-open-a-local-realm:
 
-Open a Local Realm Without Sync
--------------------------------
+Open a Realm
+------------
 
 To open a local (non-synced) realm, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to the asynchronous method :js-sdk:`Realm.open()
@@ -39,7 +39,7 @@ Accessing a realm without providing a schema only works for local realms. You
 must always pass a schema when using a Synced realm.
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.no-schema.ts
-   :language: javascript
+   :language: typescript
 
 .. _node-open-an-in-memory-realm:
 
@@ -116,8 +116,6 @@ local encrypted realm as a synced unencrypted realm or a unencrypted synced real
 as an encrypted synced realm.
 
 .. example:: Convert Synced Encrypted to Local Unencrypted Realm
-
-   .. example:: Convert Local Realm to Synced Realm
 
    .. tabs-realm-languages::
 

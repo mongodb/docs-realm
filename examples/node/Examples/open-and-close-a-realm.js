@@ -1,5 +1,6 @@
 import Realm from "realm";
 import nock from "nock";
+import { REALM_APP_ID, PBS_REALM_APP_ID } from "../config.js";
 
 class Car extends Realm.Object {
   static schema = {
@@ -15,7 +16,7 @@ class Car extends Realm.Object {
 }
 
 describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
-  const app = new Realm.App({ id: "js-flexible-oseso" });
+  const app = new Realm.App({ id: REALM_APP_ID });
 
   beforeEach(async () => {
     // Close and remove all realms in the default directory.
@@ -114,7 +115,7 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
 });
 
 describe("PARTITION-BASED SYNC REALM CONFIGURATIONS", () => {
-  const app = new Realm.App({ id: "example-testers-kvjdy" });
+  const app = new Realm.App({ id: PBS_REALM_APP_ID });
 
   beforeEach(async () => {
     // Close and remove all realms in the default directory.
