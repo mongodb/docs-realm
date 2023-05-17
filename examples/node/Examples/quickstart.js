@@ -1,6 +1,11 @@
 import Realm from "realm";
 
 describe("QuickStart Local", () => {
+  beforeEach(() => {
+    // Close and remove all realms in the default directory.
+    Realm.clearTestState();
+  });
+
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
     // :snippet-start: open-a-realm
     // :snippet-start: define-an-object-model
@@ -150,6 +155,11 @@ describe("QuickStart Local", () => {
 });
 
 describe("Quickstart Sync", () => {
+  beforeEach(() => {
+    // Close and remove all realms in the default directory.
+    Realm.clearTestState();
+  });
+
   test("should open a Flexible Sync realm with initial subscriptions", async () => {
     // :snippet-start: open-realm-with-subscriptions
     // :replace-start: {

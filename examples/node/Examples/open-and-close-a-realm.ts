@@ -113,7 +113,7 @@ describe("LOCAL REALM CONFIGURATIONS", () => {
 });
 
 describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
-  const app = new Realm.App({ id: "js-flexible-oseso" });
+  const app = new Realm.App({ id: APP_ID });
 
   beforeEach(async () => {
     // Close and remove all realms in the default directory.

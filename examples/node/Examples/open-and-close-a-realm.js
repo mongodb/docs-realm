@@ -1,8 +1,6 @@
 import Realm from "realm";
 import nock from "nock";
 
-const APP_ID = "js-flexible-oseso";
-
 class Car extends Realm.Object {
   static schema = {
     name: "Car",
