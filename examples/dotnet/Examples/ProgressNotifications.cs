@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -141,5 +142,43 @@ namespace Examples
         }
         // :replace-end: 
         // :snippet-end:
+        public void CollectionChanges()
+        {
+            using var realm = Realm.GetInstance();
+            var container = realm.Write(() =>
+            {
+                return realm.Add(new Container());
+            });
+
+            // :snippet-start: notify-set-change
+            var set = container.StringSet.AsRealmCollection();
+            set.PropertyChanged += (sender, e) =>
+            {
+                Console.WriteLine($"Property changed on {sender}: {e.PropertyName}");
+            };
+            // :snippet-end:
+            // :snippet-start: notify-list-change
+            var list = container.StringList.AsRealmCollection();
+            list.PropertyChanged += (sender, e) =>
+            {
+                Console.WriteLine($"Property changed on {sender}: {e.PropertyName}");
+            };
+            // :snippet-end:
+            // :snippet-start: notify-dictionary-change
+            var dictionary = container.IntDictionary.AsRealmCollection();
+            dictionary.PropertyChanged += (sender, e) =>
+            {
+                Console.WriteLine($"Property changed on {sender}: {e.PropertyName}");
+            };
+            // :snippet-end:
+        }
     }
+    // :snippet-start: notify-sample-class
+    public partial class Container : IRealmObject
+    {
+        public ISet<string> StringSet { get; } = null!;
+        public IDictionary<string, int> IntDictionary { get; } = null!;
+        public IList<string> StringList { get; } = null!;
+    }
+    // :snippet-end:
 }

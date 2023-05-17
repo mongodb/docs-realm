@@ -1,0 +1,68 @@
+.. _dotnet-client-lists:
+
+================
+Lists - .NET SDK
+================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+One of the fundamental building blocks when working with any 
+database is the **collection**. A Realm collection implements 
+`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`_,
+and contains zero or more instances of a 
+:ref:`Realm type <dotnet-objects>`. Like a C# ``List``, 
+a Realm collection is homogenous (all objects in a collection are of 
+the same type.)
+
+Lists
+-----
+
+Realm objects can contain lists of any supported data type. 
+You create a collection by defining a getter-only property of type
+`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`_,
+where ``T`` can be any data type (except other collections). A list of realm 
+objects represents a :ref:`to-many relationship <dotnet-to-many-relationship>` 
+between two Realm types, the containing class and the type in the list. 
+
+Lists are mutable: within a write transaction, you can add and remove elements 
+on a list. 
+
+Lists and Nullability
+~~~~~~~~~~~~~~~~~~~~~
+
+Deleting an object from the database will remove it from any lists 
+where it existed. Therefore, a list of objects will never contain deleted objects.
+However, lists of primitive types can contain null values. If you do not 
+want to allow null values in a list, then either use non-nullable types in 
+the list declaration (for example, use ``IList<double>`` instead of 
+``IList<double?>``), or add the 
+:ref:`[Required]<dotnet-required-optional-property>` attribute if the list  
+contains nullable reference types, such as ``string`` or ``byte[]``.
+
+.. important:: Not Supported with Sync
+
+   Local-only Realm Databases support collections of nullable (optional) values, 
+   but ``Sync`` does not.
+   
+For more information, refer to :ref:`<dotnet-required-optional-property>`.
+
+
+Watching For Changes
+---------------------
+
+``IList`` implements the `INotifyPropertyChanged.PropertyChanged Event 
+<https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged>`__. 
+In the following code example, we have a ``Collection`` class with an 
+``IList<string>`` property named ``StringList``. We cast this property to an 
+:dotnet-sdk:`<reference/Realms.IRealmCollection-1.html>` and set an event handler 
+for the ``PropertyChanged`` event:
+
+.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.notify-list-change.cs
+   :language: csharp
+

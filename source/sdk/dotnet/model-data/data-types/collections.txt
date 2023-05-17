@@ -1,8 +1,8 @@
 .. _dotnet-client-collections:
 
-======================
-Collections - .NET SDK
-======================
+==============================
+Results Collections - .NET SDK
+==============================
 
 .. contents:: On this page
    :local:
@@ -27,52 +27,20 @@ current state of the realm instance on the current
 thread. You can also listen for changes in the collection by subscribing
 to :ref:`collection notifications <dotnet-collection-notifications>`.
 
-Realm Database has two kinds of collections: **Lists** and **Results**.
-
-.. _dotnet-property-lists:
-
-Lists
------
-
-Realm objects can contain lists of any supported data type. 
-You create a collection by defining a getter-only property of type
-`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1?view=net-5.0>`_,
-where ``T`` can be any data type (except other collections).
-
-Deleting an object from the database will remove it from any lists 
-where it existed. Therefore, a list of objects will never contain null objects.
-However, lists of primitive types can contain null values. If you do not 
-want to allow null values in a list, then either use non-nullable types in 
-the list declaration (for example, use ``IList<double>`` instead of 
-``IList<double?>``), or add the 
-:ref:`[Required]<dotnet-required-optional-property>` attribute if the list  
-contains nullable reference types, such as ``string`` or ``byte[]``.
-
-.. important:: Not Supported with Sync
-
-   Local-only Realm Databases support collections of nullable (optional) values, 
-   but ``Sync`` does not.
-   
-A **list** collection represents a :ref:`to-many
-relationship <dotnet-to-many-relationship>` between two Realm
-types. Lists are mutable: within a write transaction, you
-can add and remove elements on a list. 
-
-Querying Lists
-~~~~~~~~~~~~~~
-
-.. literalinclude:: /examples/generated/dotnet/DataTypesSectionExamples.snippet.query-lists.cs
-   :language: csharp:
-
-
 Results Collections
 -------------------
 
-A **results** collection represents the lazily-evaluated
-results of a query operation. Unlike a List, results are immutable: you
-cannot add or remove elements on the results collection.
-This is because the contents of a results collection are determined by a 
-query against the database.
+A Realm collection implements 
+`IList<T> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ilist-1>`_,
+and contains zero or more instances of a :ref:`Realm type <dotnet-objects>`. 
+Like any C# ``List``, all objects in a collection are of the same type.
+
+.. important::
+   
+   A results collection represents the lazily-evaluated results of a query operation. 
+   Unlike a List, results are immutable: you cannot add or remove elements on the 
+   results collection. This is because the contents of a results collection are 
+   determined by a query against the database.
 
 .. _dotnet-lazy-evaluated-results:
 
@@ -146,25 +114,3 @@ thousands of objects in your realm. You display one hundred
 objects per page. To advance to any page, simply access the
 elements of the results collection starting at the index
 that corresponds to the target page.
-
-.. _dotnet-list-vs-results:
-
-Summary
--------
-
-- A Realm **collection** is a homogenous container of zero
-  or more instances of one
-  :ref:`Realm type <dotnet-objects>`.
-
-- Collections are :ref:`live <dotnet-live-object>` and therefore are auto-updating, 
-  unless you have :ref:`frozen <dotnet-frozen-objects>` them or they are not 
-  part of a realm.
-
-- Lazy evaluation of results collections means there is no need to
-  design a special query to get limited or paginated results. Perform
-  the query and read from the results collection as needed.
-
-- There are two main kinds of collection: **lists** and **results**.
-  Lists define the :ref:`to-many relationships <dotnet-to-many-relationship>`
-  of your Realm types, while results represent the
-  lazily-loaded output of a :ref:`read operation <dotnet-realm-database-reads>`.
