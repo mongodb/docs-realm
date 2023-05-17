@@ -10,6 +10,46 @@ Set the Client Log Level - Node.js SDK
    :depth: 2
    :class: singlecol
 
+You can set or change your app's log level to develop or debug your 
+application. You might want to change the log level to log different 
+amounts of data depending on the app's environment.
+
+.. node-set-custom-logger:
+
+Realm Node.js SDK vTBD and Later
+--------------------------------
+
+Initialize an instance of a :js-sdk:`Logger <TBD>` 
+and define the function to use for logging. The 
+:js-sdk:`RLMLogLevel <TBD>` enum represents the different
+levels of logging you can configure.
+
+.. literalinclude:: /examples/generated/node/TBD
+   :language: typescript
+
+.. include:: /includes/tip-sync-log-levels.rst
+
+Set a Default Logger and Change Log Levels
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can set a logger as the default logger for your app with ``Logger.shared``. 
+After you set the default logger, you can change the log level during the app 
+lifecycle as needed.
+
+.. literalinclude:: /examples/generated/node/TBD
+   :language: typescript
+
+.. tip:: Default log levels
+
+   The default log level is ``.info``. To disable all log messages, set the 
+   logger to ``Logger.shared.level = .off``. You can adjust logging as needed
+   throughout the app lifecycle.
+
+Realm Node.js SDK vTBD and Earlier
+----------------------------------
+
+These APIs and their associated types are deprecated in version TBD.
+
 You can set the realm Sync client :js-sdk:`log level
 <Realm.App.Sync.html#~LogLevel>` by calling
 :js-sdk:`Realm.App.Sync.setLogLevel() <Realm.App.Sync.html#.setLogLevel>` with
