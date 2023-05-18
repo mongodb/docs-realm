@@ -1,0 +1,13 @@
+{
+  "name": "node-v12",
+  "version": "0.0.1",
+  "description": "Docs test suite and code generation repo for Realm Node.js SDK v12.",
+  "main": "index.js",
+  "scripts": {
+    "test:js": "jest --selectProjects JavaScript --runInBand --detectOpenHandles --forceExit && npm run delete-realm-files",
+    "test:ts": "jest --selectProjects TypeScript --runInBand --detectOpenHandles --forceExit && npm run delete-realm-files",
+    "delete-realm-files": "rm -rf *realm.lock *.realm *realm.note *realm.management mongodb-realm *.realm.fresh.lock realm-files myrealm"
+  },
+  "author": "",
+  "license": "ISC"
+}
