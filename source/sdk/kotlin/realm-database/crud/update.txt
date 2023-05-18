@@ -78,6 +78,15 @@ To upsert into a realm:
    existing object. If no object exists that matches your filter, realm
    inserts a new object.
 
+You can specify the 
+`UpdatePolicy <{+kotlin-local-prefix+}io.realm.kotlin/-update-policy/index.html>`__
+to use when you upsert an object with an existing primary key:
+
+- ``UpdatePolicy.ALL``: Update all properties on any existing objects 
+  identified with the same primary key.
+- ``UpdatePolicy.ERROR``: Disallow updating existing objects and instead 
+  throw an exception if an object already exists with the same primary key.
+
 .. literalinclude:: /examples/generated/kotlin/UpdateTest.snippet.upsert-an-object.kt
    :language: kotlin
 

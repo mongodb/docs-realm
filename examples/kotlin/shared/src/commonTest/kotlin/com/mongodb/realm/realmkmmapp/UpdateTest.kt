@@ -9,13 +9,9 @@ import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.types.RealmDictionary
 import io.realm.kotlin.types.RealmObject
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 // :replace-start: {
