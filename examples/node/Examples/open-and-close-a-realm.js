@@ -1,6 +1,6 @@
 import Realm from "realm";
 import nock from "nock";
-import { REALM_APP_ID, PBS_REALM_APP_ID } from "../config.js";
+import { APP_ID, PBS_APP_ID } from "../config.js";
 
 class Car extends Realm.Object {
   static schema = {
@@ -16,7 +16,7 @@ class Car extends Realm.Object {
 }
 
 describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
-  const app = new Realm.App({ id: REALM_APP_ID });
+  const app = new Realm.App({ id: APP_ID });
 
   beforeEach(async () => {
     // Close and remove all realms in the default directory.
@@ -37,10 +37,8 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
       // If the device has no cached user credentials, log in.
       if (!app.currentUser) {
         const credentials = Realm.Credentials.anonymous();
-        const user = await app.logIn(credentials);
+        await app.logIn(credentials);
         expect(app.currentUser).toBeTruthy(); // :remove:
-
-        return user;
       }
 
       // If the app is offline, but credentials are
@@ -86,10 +84,8 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
       // If the device has no cached user credentials, log in.
       if (!app.currentUser) {
         const credentials = Realm.Credentials.anonymous();
-        const user = await app.logIn(credentials);
+        await app.logIn(credentials);
         expect(app.currentUser).toBeTruthy(); // :remove:
-
-        return user;
       }
 
       // If the app is offline, but credentials are
@@ -123,7 +119,7 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
 });
 
 describe("PARTITION-BASED SYNC REALM CONFIGURATIONS", () => {
-  const app = new Realm.App({ id: PBS_REALM_APP_ID });
+  const app = new Realm.App({ id: PBS_APP_ID });
 
   beforeEach(async () => {
     // Close and remove all realms in the default directory.

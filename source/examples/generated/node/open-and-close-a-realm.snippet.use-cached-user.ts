@@ -4,12 +4,10 @@ const getUser = async () => {
   // If the device has no cached user credentials, log in.
   if (!app.currentUser) {
     const credentials = Realm.Credentials.anonymous();
-    const user = await app.logIn(credentials);
-
-    return user;
+    await app.logIn(credentials);
   }
 
   // If the app is offline, but credentials are
   // cached, return existing user.
-  return app.currentUser;
+  return app.currentUser!;
 };

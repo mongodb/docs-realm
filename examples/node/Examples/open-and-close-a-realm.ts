@@ -2,7 +2,7 @@ import Realm from "realm";
 import { existsSync } from "node:fs";
 import nock from "nock";
 
-import { REALM_APP_ID, PBS_REALM_APP_ID } from "../config.js";
+import { APP_ID, PBS_APP_ID } from "../config.js";
 
 class Car extends Realm.Object<Car> {
   _id!: Realm.BSON.ObjectId;
@@ -88,7 +88,7 @@ describe("LOCAL REALM CONFIGURATIONS", () => {
     expect(existsSync(customPath)).toBe(false);
 
     // :snippet-start: set-absolute-path
-    const app = new Realm.App({ id: REALM_APP_ID, baseFilePath: customPath });
+    const app = new Realm.App({ id: APP_ID, baseFilePath: customPath });
     const user = await app.logIn(Realm.Credentials.anonymous());
 
     const realm = await Realm.open({
@@ -113,7 +113,7 @@ describe("LOCAL REALM CONFIGURATIONS", () => {
 });
 
 describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
-  const app = new Realm.App({ id: REALM_APP_ID });
+  const app = new Realm.App({ id: APP_ID });
 
   beforeEach(async () => {
     // Close and remove all realms in the default directory.
@@ -134,15 +134,13 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
       // If the device has no cached user credentials, log in.
       if (!app.currentUser) {
         const credentials = Realm.Credentials.anonymous();
-        const user = await app.logIn(credentials);
+        await app.logIn(credentials);
         expect(app.currentUser).toBeTruthy(); // :remove:
-
-        return user;
       }
 
       // If the app is offline, but credentials are
       // cached, return existing user.
-      return app.currentUser;
+      return app.currentUser!;
     };
     // :snippet-end:
 
@@ -186,15 +184,13 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
       // If the device has no cached user credentials, log in.
       if (!app.currentUser) {
         const credentials = Realm.Credentials.anonymous();
-        const user = await app.logIn(credentials);
+        await app.logIn(credentials);
         expect(app.currentUser).toBeTruthy(); // :remove:
-
-        return user;
       }
 
       // If the app is offline, but credentials are
       // cached, return existing user.
-      return app.currentUser;
+      return app.currentUser!;
     };
 
     // :snippet-start: open-synced-background
@@ -241,7 +237,7 @@ describe("FLEXIBLE SYNC REALM CONFIGURATIONS", () => {
 });
 
 describe("PARTITION-BASED SYNC REALM CONFIGURATIONS", () => {
-  const app = new Realm.App({ id: PBS_REALM_APP_ID });
+  const app = new Realm.App({ id: PBS_APP_ID });
 
   beforeEach(async () => {
     // Close and remove all realms in the default directory.
