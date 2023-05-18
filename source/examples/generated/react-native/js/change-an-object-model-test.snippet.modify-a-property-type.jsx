@@ -1,4 +1,3 @@
-
 class Person extends Realm.Object {
   static schema = {
     name: 'Person',
@@ -16,9 +15,10 @@ const config = {
   // increment the 'schemaVersion', since the property type of '_id'
   // has been modified
   schemaVersion: 2,
-  migration: (oldRealm, newRealm) => {
+  onMigration: (oldRealm, newRealm) => {
     if (oldRealm.schemaVersion < 2) {
-      const oldObjects = oldRealm.objects(Person);
+      const oldObjects =
+        oldRealm.objects(Person);
       const newObjects = newRealm.objects(Person);
       // loop through all objects and set the _id property
       // in the new schema
