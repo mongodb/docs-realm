@@ -152,9 +152,10 @@ To bundle a synced realm, perform the following:
       This project uses the same :ref:`Realm object schema <kotlin-object-schema>` 
       as your production app.
 
-      :ref:`Open a synced realm <kotlin-open-a-synced-realm>`.
+      :ref:`Open the synced realm <kotlin-open-a-synced-realm>` that you want
+      to use as a seed realm. If it does not already contain data, add the 
+      relevant seed data. 
       
-      Add data to the synced realm. 
       You *must* wait for all local changes to synchronize with the Device Sync server. 
       Use `uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__ 
       and `downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__ 
