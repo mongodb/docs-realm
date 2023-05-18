@@ -8,7 +8,7 @@
    number of days specified by the client maximum offline time setting before
    the user syncs for the first time, the user experiences a client reset.
 
-   Applications experiencing a client reset will download the full state of the 
+   Applications that perform a client reset download the full state of the 
    realm from the application backend. This negates the 
    advantages of bundling a realm file. To prevent client resets and 
    preserve the advantages of realm file bundling:
