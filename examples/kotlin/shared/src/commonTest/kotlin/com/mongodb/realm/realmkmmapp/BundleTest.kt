@@ -6,39 +6,47 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.subscriptions
+import io.realm.kotlin.mongodb.sync.SubscriptionSetState
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.query.RealmResults
+import kotlinx.coroutines.delay
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.seconds
 
 class BundleTest: RealmTest() {
     @Test
     fun bundleSyncedRealm(){
-        val YOUR_APP_ID = "testfbkotlinapp-ykvds"
-        val credentials = Credentials.anonymous()
+        val credentials = Credentials.anonymous(reuseExisting = false)
 
-        // :snippet-start: bundle-synced-realm
         runBlocking {
-            val app = App.create(YOUR_APP_ID)
+            // :snippet-start: bundle-synced-realm-create-realm
+            val app = App.create(yourFlexAppId)
 
-            // Login with user that has the server-side permissions
-            // of the users of the bundled realm
+            // Login with user that has the server-side permissions to
+            // read and write the data you want in the asset realm
             val user = app.login(credentials)
 
-            // Create a SyncConfiguration to open the existing synced realm
-            val originalConfig = SyncConfiguration.Builder(user, setOf(Item::class))
-                .name("original.realm")
+            // Create a SyncConfiguration to open a synced realm to use as the asset realm
+            val assetRealmConfig = SyncConfiguration.Builder(user, setOf(Item::class))
+                .name("asset.realm")
                 // Add a subscription that matches the data being added
                 // and your app's backend permissions
                 .initialSubscriptions{ realm ->
                     add(
-                        realm.query<Item>("summary == $0", "summary value"), "subscription name")
+                        realm.query<Item>("isComplete == $0", false), "Incomplete Items")
                 }
                 .build()
-            val originalRealm = Realm.open(originalConfig)
+            val assetRealm = Realm.open(assetRealmConfig)
 
-            originalRealm.writeBlocking {
+            // :remove:
+            assetRealm.subscriptions.waitForSynchronization(10.seconds)
+            assertEquals(SubscriptionSetState.COMPLETE, assetRealm.subscriptions.state)
+            // :remove:
+
+            assetRealm.writeBlocking {
                 // :remove-start:
                 // delete to start fresh
                 val myItems: RealmResults<Item> = this.query<Item>().find()
@@ -46,97 +54,123 @@ class BundleTest: RealmTest() {
                 // :remove-end:
                 // Add seed data to the synced realm
                 copyToRealm(Item().apply {
-                    summary = "Do the laundry"
+                    summary = "Make sure the app has the data it needs"
                     isComplete = false
                 })
-
-                // Verify the data in the existing realm
-                // (this data should also be in the bundled realm we open later)
-                val originalItems: RealmResults<Item> = originalRealm.query<Item>().find()
-                for(item in originalItems) {
-                    Log.v("My Item: ${item.summary}")
-                }
             }
+            // Verify the data in the existing realm
+            // (this data should also be in the bundled realm we open later)
+            val assetItems: RealmResults<Item> = assetRealm.query<Item>().find()
+            for(item in assetItems) {
+                Log.v("Item in the assetRealm: ${item.summary}")
+            }
+            assertEquals(1, assetItems.count()) // :remove:
+
             // IMPORTANT: Sync all changes with server before copying the synced realm
-            originalRealm.syncSession.uploadAllLocalChanges(30.seconds)
-            originalRealm.syncSession.downloadAllServerChanges(30.seconds)
+            assetRealm.syncSession.uploadAllLocalChanges(30.seconds)
+            assetRealm.syncSession.downloadAllServerChanges(30.seconds)
+            // :snippet-end:
 
-            // Create a SyncConfiguration for the bundled copy with a file name
+            // :snippet-start: bundle-synced-realm-create-copy-config
+            // Create a SyncConfiguration for the bundled copy.
+            // The file name for this bundled copy is different than the initial realm file.
+            // The initialRealmFile value is the `name` property of the asset realm you're bundling.
             val copyConfig = SyncConfiguration.Builder(user, setOf(Item::class))
-                .name("bundled.realm")
+                .name("prefilled.realm")
+                .initialRealmFile("asset.realm")
                 .build()
-            Realm.deleteRealm(copyConfig) // :remove:
+            // :snippet-end:
 
+            // :snippet-start: bundle-synced-realm-copy-realm
             // Copy the synced realm with writeCopyTo()
-            originalRealm.writeCopyTo(copyConfig)
+            assetRealm.writeCopyTo(copyConfig)
 
-            // Get the path to the copy you just created
+            // Get the path to the copy you just created.
+            // You must move this file into the appropriate location for your app's platform.
             Log.v("Bundled realm location: ${copyConfig.path}")
 
-            originalRealm.close()
-            // :remove-start:
-            Realm.deleteRealm(copyConfig)
-            // :remove-end:
+            assetRealm.close()
+            // :snippet-end:
+
+            // :snippet-start: bundle-synced-realm-open-copied-realm
+            // After moving the bundled realm to the appropriate location for your app's platform,
+            // open and use the bundled realm as usual.
+            val copiedRealm = Realm.open(copyConfig)
+
+            // This should contain the same Items as in the asset realm
+            val copiedItems: RealmResults<Item> = copiedRealm.query<Item>().find()
+            for(item in copiedItems) {
+                Log.v("Item in the copiedRealm: ${item.summary}")
+            }
+
+            assertEquals(1, copiedItems.count()) // :remove:
+            copiedRealm.close()
+            // :snippet-end:
         }
-        // :snippet-end:
     }
     @Test
     fun bundleLocalRealm(){
-        // :snippet-start: bundle-local-realm
-        // Open an existing local realm
+        // :snippet-start: bundle-local-realm-create-realm
+        // Open a local realm to use as the asset realm
         val originalConfig = RealmConfiguration.Builder(schema = setOf(Item::class))
             .name("original.realm")
             .build()
         val originalRealm = Realm.open(originalConfig)
 
         originalRealm.writeBlocking {
+            // :remove-start:
+            // delete to start fresh
+            val myItems: RealmResults<Item> = this.query<Item>().find()
+            delete(myItems)
+            // :remove-end:
             // Add seed data to the original realm
             copyToRealm(Item().apply {
-                summary = "Do the dishes"
+                summary = "Write an awesome app"
                 isComplete = false
             })
         }
 
-        // Create a RealmConfiguration for the bundled copy
+        // Verify the data in the existing realm
+        // (this data should also be in the bundled realm we open later)
+        val originalItems: RealmResults<Item> = originalRealm.query<Item>().find()
+        for(item in originalItems) {
+            Log.v("Item in the originalRealm: ${item.summary}")
+        }
+        // :snippet-end:
+        assertEquals(1, originalItems.count())
+
+        // :snippet-start: bundle-local-realm-copy-config
+        // Create a RealmConfiguration for the bundled copy.
+        // The file name for this bundled copy is different than the initial realm file.
+        // The initialRealmFile value is the `name` property of the asset realm you're bundling.
         val copyConfig = RealmConfiguration.Builder(schema = setOf(Item::class))
             .name("bundled.realm")
+            .initialRealmFile("original.realm")
             .build()
-        Realm.deleteRealm(copyConfig) // :remove:
+        // :snippet-end:
+        Realm.deleteRealm(copyConfig)
 
+        // :snippet-start: bundle-local-realm-copy-realm
         // Copy the realm data
         originalRealm.writeCopyTo(copyConfig)
 
-        // Get the path to the copy you just created
+        // Get the path to the copy you just created.
+        // You must move this file into the appropriate location for your app's platform.
         Log.v("Bundled realm location: ${copyConfig.path}")
 
         originalRealm.close()
         // :snippet-end:
-    }
-    @Test
-    fun openARealmFromABundledFile(){
-        /*
-           realm file in src/main/assets/ folder required for this test
-           If that file is deleted manually, this test will fail & you will have to re-bundle your realm
-           into that folder.
-        */
 
-        // :snippet-start: open-from-bundled-file
-        // Open the bundled realm from the assets folder
-        val bundledConfig = RealmConfiguration.Builder(schema = setOf(Item::class))
-            .directory("src/main/assets")
-            .name("bundled.realm")
-            .build()
-        val bundledRealm = Realm.open(bundledConfig)
-
-        // Read and write to the bundled realm as normal
-        bundledRealm.writeBlocking {
-            copyToRealm(Item().apply {
-                summary = "Add another Item to the realm"
-                isComplete = true
-            })
+        // :snippet-start: bundle-local-realm-open-copied-realm
+        // After moving the bundled realm to the appropriate location for your app's platform,
+        // open and use the bundled realm as usual.
+        val bundledRealm = Realm.open(copyConfig)
+        val bundledItems: RealmResults<Item> = bundledRealm.query<Item>().find()
+        for(item in bundledItems) {
+            Log.v("Item in the bundledRealm: ${item.summary}")
         }
-        // :snippet-end:
+        assertEquals(1, bundledItems.count()) // :remove:
         bundledRealm.close()
-        Realm.deleteRealm(bundledConfig)
+        // :snippet-end:
     }
 }
