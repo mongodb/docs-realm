@@ -101,6 +101,7 @@ TEST_CASE("local quick start", "[realm][write]") {
         realm.remove(todo);
     });
     // :snippet-end:
+    token.unregister();
 }
 
 TEST_CASE("sync quick start", "[realm][write][sync]") {

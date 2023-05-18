@@ -63,20 +63,29 @@ TEST_CASE("scheduler", "[write]") {
             // ... Call in the processor thread(s) and block until return ...
         }
         
-        void invoke(std::function<void()> &&task) override {
+        void invoke(realm::Function<void()> &&task) override {
             // ... Add the task to the (lock-free) processor queue ...
+            // :remove-start:
+            // Had to implement some code in here in order to override invoke
+            // This is arbitrary code that isn't shown in the example just to
+            // get the tests to compile and run.
+            task.release(); 
+            // :remove-end:
         }
 
         [[nodiscard]] bool is_on_thread() const noexcept override {
             // ... Return true if the caller is on the same thread as a processor thread ...
+            return false; // :remove:
         }
 
         bool is_same_as(const realm::scheduler *other) const noexcept override {
             // ... Compare scheduler instances ...
+            return false; // :remove:
         }
 
         [[nodiscard]] bool can_invoke() const noexcept override {
             // ... Return true if the scheduler can accept tasks ...
+            return false; // :remove:
         }
         // ...
     };
