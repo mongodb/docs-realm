@@ -116,24 +116,7 @@ increasing your app's download file size. When you bundle a realm with your
 application, the only data users must download when opening the realm is 
 any changes that have occurred since preparing the seed realm. 
 
-However, two conditions may cause users to be unable to use your seed
-realm:
-
-- If the date when you prepared the seed realm is older than your :ref:`client 
-  maximum offline time <client-maximum-offline-time>` setting, Realm does not 
-  have the complete change set required to update the seed realm 
-  to a syncable state. In this case, users will receive a :ref:`client 
-  reset <client-resets>` and must re-download the entire realm, negating 
-  the benefit of bundling a seed realm. This setting only applies to Flexible Sync.
-- An app user does not have the necessary server-side permissions to view 
-  the data included in the seed realm. If a user doesn't have permission to 
-  view this data, it is removed from the device when the realm syncs with 
-  Atlas, negating the benefit of bundling a seed realm.
-
-If you cannot guarantee that your seed realm was prepared more recently 
-than the client maximum offline time setting or that the app user has 
-permissions to view the data included the seed realm, there is no 
-benefit to bundling a synced realm with your application download.
+.. include:: /includes/note-bundling-synced-realms.rst
 
 If your application uses :ref:`Flexible Sync <flexible-sync>`,
 you can populate your application with data using initial sync subscriptions 
