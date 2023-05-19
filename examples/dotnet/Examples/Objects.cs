@@ -48,25 +48,17 @@ namespace Examples.Models
     //:replace-end:
     // :snippet-end:
 
-    // :snippet-start: required
-    // :replace-start: {
-    //  "terms": {
-    //      "Person_Required": "Person",
-    //      "Dog_OMAS": "Dog"}
-    // }
     public partial class Person_Required : IRealmObject
     {
-        //:remove-start:
+
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:remove-end:
+
         [Required]
         public string Name { get; set; }
         public IList<Dog_OMAS> Dogs { get; }
     }
-    //:replace-end:
-    // :snippet-end:
 
     // :snippet-start: default
     // :replace-start: {
@@ -98,13 +90,14 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId ID { get; set; }
         //:remove-end:
-        [Indexed]
+        [Indexed(IndexType.General)]
         public string Name { get; set; }
-        public IList<Dog_OMAS> Dogs { get; }
+
+        [Indexed(IndexType.FullText)]
+        public string Biography { get; set; }
     }
     // :replace-end:
     // :snippet-end:
-
 
     public partial class Dog_Rel_One_to_One : IRealmObject
     {
@@ -146,7 +139,7 @@ namespace Examples.Models
         // ... other property declarations
         public IList<Dog_Rel_One_to_Many> Dogs { get; }
     }
-    
+
     partial class Dog_Inverse : IRealmObject
     {
         //:remove-start:

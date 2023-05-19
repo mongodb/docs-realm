@@ -15,6 +15,19 @@ and parallel code in a structured way. For a detailed overview of the
 Swift concurrency system, refer to the `Swift Programming Language Concurrency
 topic <https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html>`__.
 
+While the considerations on this page broadly apply to using realm with 
+Swift concurrency features, Realm Swift SDK version 10.39.0 adds support
+for actor-isolated realms. Actor-isolated realms support Swift concurrency 
+features including:
+
+- Opening an actor-isolated realm
+- Reading and writing from an actor-isolated realm
+- Getting notifications on actor-isolated objects and collections
+
+This provides support for using realm in a MainActor and background actor
+context, and supersedes much of the advice on this page regarding concurrency
+considerations. For more information, refer to :ref:`swift-actor-isolated-realm`.
+
 Realm Concurrency Caveats
 -------------------------
 
@@ -132,6 +145,14 @@ networking activities like managing users.
 Actor Isolation
 ---------------
 
+.. seealso:: Actor-Isolated Realms
+
+   The information in this section is applicable to Realm SDK versions earlier
+   than 10.39.0. Starting in Realm Swift SDK version 10.39.0 and newer, 
+   the SDK supports actor-isolated realms and related async functionality.
+
+   For more information, refer to :ref:`swift-actor-isolated-realm`. 
+
 Actor isolation provides the perception of confining Realm access to a 
 dedicated actor, and therefore seems like a safe way to manage Realm 
 access in an asynchronous context.
@@ -152,12 +173,6 @@ If you have code which uses ``await Realm()`` and works in 5.6, marking
 the function as ``@MainActor`` will make it work with Swift 5.7. It will 
 function how it did - unintentionally - in 5.6.
 
-The Swift SDK team is working on improving support for actor isolation.
-If you have specific feature requests related to actor isolation,
-check the status of similar feature requests or leave feedback through the 
-`MongoDB Feedback Engine for Realm 
-<https://feedback.mongodb.com/forums/923521-realm>`_.
-
 Errors Related to Concurrency Code
 ----------------------------------
 
@@ -167,20 +182,33 @@ thread-isolation issues described on this page.
 
 To avoid threading-related issues in code that uses Swift concurrency features:
 
+- Upgrade to a version of the Realm Swift SDK that supports actor-isolated realms,
+  and use this as an alternative to manually managing threading. For more 
+  information, refer to :ref:`swift-actor-isolated-realm`.
 - Do not change execution contexts when accessing a realm. If you open a realm 
   on the main thread to provide data for your UI, annotate subsequent functions
   where you access the realm asynchronously with ``@MainActor`` to ensure it
   always runs on the main thread. Remember that ``await`` marks a suspension 
   point that could change to a different thread.
-- Use the ``writeAsync`` API to :ref:`perform a background write 
-  <ios-async-write>`. This manages realm access in a thread-safe way without 
-  requiring you to write specialized code to do it yourself. This is a special
-  API that outsources aspects of the write process - where it is safe to do 
-  so - to run in an async context. You do not use this method with Swift's 
-  ``async/await`` syntax - use this method synchronously in your code.
-- If you want to explicitly write concurrency code where accessing a realm 
-  is done in a thread-safe way, you can explicitly :ref:`pass instances across 
-  threads <ios-thread-safe-reference>` or use :ref:`frozen objects 
-  <ios-frozen-objects>` where applicable to avoid threading-related crashes.
-  This does require a good understanding of Realm's threading model, as well
-  as being mindful of Swift concurrency threading behaviors.
+- Apps that do not use actor-isolated realms can use the ``writeAsync`` API to 
+  :ref:`perform a background write <ios-async-write>`. This manages realm 
+  access in a thread-safe way without requiring you to write specialized code 
+  to do it yourself. This is a special API that outsources aspects of the 
+  write process - where it is safe to do so - to run in an async context. 
+  Unless you are writing to an actor-isolated realm, you do not use this 
+  method with Swift's ``async/await`` syntax. Use this method synchronously 
+  in your code.
+- If you want to explicitly write concurrency code that is not actor-isolated 
+  where accessing a realm is done in a thread-safe way, you can explicitly 
+  :ref:`pass instances across threads <ios-thread-safe-reference>` or use 
+  :ref:`frozen objects <ios-frozen-objects>` where applicable to avoid 
+  threading-related crashes. This does require a good understanding of 
+  Realm's threading model, as well as being mindful of Swift concurrency 
+  threading behaviors.
+
+.. _concurrency-page-sendable-thread-confined-reference:
+
+Sendable, Non-Sendable and Thread-Confined Types
+------------------------------------------------
+
+.. include:: /includes/swift-api-sendable-thread-confined-reference.rst

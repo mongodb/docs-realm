@@ -154,14 +154,8 @@ namespace Examples
             //:snippet-start:collection-notifications
             // Watch for collection notifications.
             var subscriptionToken = realm.All<Dog>()
-                .SubscribeForNotifications((sender, changes, error) =>
+                .SubscribeForNotifications((sender, changes) =>
             {
-                if (error != null)
-                {
-                    // Show error message
-                    return;
-                }
-
                 if (changes == null)
                 {
                     // This is the case when the notification is called
@@ -201,7 +195,7 @@ namespace Examples
             // Call Dispose() when you are done observing the
             // collection.
             var token = realm.All<Dog>()
-                .SubscribeForNotifications((sender, changes, error) =>
+                .SubscribeForNotifications((sender, changes) =>
                 {
                     // etc.
                 });
@@ -282,9 +276,8 @@ namespace Examples
             //  "terms": {
             //   "token2": "token" }
             // }
-            var token2 = fido.Owners.SubscribeForNotifications((sender, changes, error) =>
+            var token2 = fido.Owners.SubscribeForNotifications((sender, changes) =>
             {
-                if (error != null) return;
                 if (changes == null) return;
             });
             token2.Dispose();
@@ -334,7 +327,7 @@ namespace Examples
             {
                 realm = Realm.GetInstance("");
             }
-            private IQueryable<Item> items;
+            private IQueryable<Item> items = null;
             private void foo()
             {
                 //:snippet-start:unsubscribe

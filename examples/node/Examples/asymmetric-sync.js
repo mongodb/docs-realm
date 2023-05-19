@@ -1,56 +1,96 @@
 import Realm, { BSON } from "realm";
 
-const app = new Realm.App({ id: "asymmetric-sync-emuon" });
+const app = new Realm.App({ id: "js-flexible-oseso" });
+
+// :snippet-start: asymmetric-sync-object
+class WeatherSensor extends Realm.Object {
+  static schema = {
+    name: "WeatherSensor",
+    // Sync WeatherSensor objects one way from your device
+    // to your Atlas database.
+    asymmetric: true,
+    primaryKey: "_id",
+    properties: {
+      _id: "objectId",
+      deviceId: "string",
+      temperatureInFahrenheit: "int",
+      barometricPressureInHg: "float",
+      windSpeedInMph: "float",
+    },
+  };
+}
+// :snippet-end:
 
 describe("Asymmetric Sync", () => {
-  afterEach(async () => {});
+  beforeAll(async () => {
+    // Close and remove all realms in the default directory.
+    Realm.clearTestState();
 
-  test.skip("define an asymmetric object", async () => {
-    console.log("ran this file 'Asymmetric Sync'");
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
+  });
 
-    // :snippet-start: asymmetric-sync
-    const InvoiceSchema = {
-      name: "Invoice",
-      // sync Invoice objects one way from your device to your Atlas database.
-      asymmetric: true,
-      primaryKey: "_id",
-      properties: {
-        _id: "objectId",
-        item: "string",
-        quantity: "int",
-        price: "int",
-      },
-    };
-    // :snippet-end:
+  afterAll(async () => {
+    app.currentUser?.logOut;
+  });
+
+  test("create asymmetric object", async () => {
+    if (!app.currentUser) {
+      return;
+    }
+
+    const weatherSensorPrimaryKey = new BSON.ObjectID();
 
     const realm = await Realm.open({
-      schema: [InvoiceSchema],
+      schema: [WeatherSensor],
       sync: {
         user: app.currentUser,
         flexible: true,
       },
     });
-    await realm.subscriptions.update((mutableSubs) => {
-      mutableSubs.add(realm.objects("Invoice"), {
-        name: "InvoiceSubscription",
-      });
-    });
 
     realm.write(() => {
-      const invoice1 = realm.create("Invoice", {
-        _id: new BSON.ObjectID(),
-        item: "shirt",
-        quantity: 30,
-        price: 10,
+      realm.create(WeatherSensor, {
+        _id: weatherSensorPrimaryKey,
+        deviceId: "WX1278UIT",
+        temperatureInFahrenheit: 66.7,
+        barometricPressureInHg: 29.65,
+        windSpeedInMph: 2,
       });
     });
 
-    // Clean up
+    const weatherSensorCollection = await getWeatherSensors();
+    const weatherSensor = await weatherSensorCollection.findOne({
+      _id: weatherSensorPrimaryKey,
+    });
+
+    expect(weatherSensor?._id).toEqual(weatherSensorPrimaryKey);
+
+    // Delete weather sensor documents.
+    await weatherSensorCollection.deleteMany({
+      deviceId: "WX1278UIT",
+    });
+
+    const numberOfWeatherSensorDocuments =
+      await weatherSensorCollection.count();
+
+    expect(numberOfWeatherSensorDocuments).toBe(0);
+
     realm.close();
+
+    function getWeatherSensors() {
+      return new Promise((resolve) => {
+        // Wait for weather sensor document to sync, then
+        // use mongo client to verify it was created.
+        setTimeout(() => {
+          const mongodb = app.currentUser.mongoClient("mongodb-atlas");
+          const asyncWeatherSensors = mongodb
+            .db("JSFlexibleSyncDB")
+            .collection("WeatherSensor");
+
+          resolve(asyncWeatherSensors);
+        }, 400);
+      });
+    }
   });
 });
-
-// Using this feature allows you to sync data unidirectionally from your client device directly to your Atlas database.
-// Designate the tables from your schema that you would like to sync unidirectionally.

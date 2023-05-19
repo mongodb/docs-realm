@@ -90,6 +90,7 @@ class UpdateRealmObjects: XCTestCase {
         // :snippet-end:
     }
 
+    @MainActor
     func testAsyncWriteQueryOnLocalThread() {
         let expectation = expectation(description: "Objects append")
 

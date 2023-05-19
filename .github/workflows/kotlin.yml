@@ -11,9 +11,10 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: run jvm commonTests
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
-    - run: cd examples/kotlin && ./gradlew jvmTest --stacktrace --info
+      - uses: actions/checkout@v3
+      - name: run jvm commonTests
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - run: cd examples/kotlin && ./gradlew jvmTest --stacktrace --info

@@ -218,6 +218,50 @@ Running this snippet produces this output:
       "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
       "beanRegion": Optional(RealmSwift.AnyBSON.string("San Marcos, Guatemala"))]
 
+.. _ios-mongodb-findAndSort:
+
+Find and Sort Documents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can sort documents in a collection by initializing an instance of 
+:swift-sdk:`FindOptions <Typealiases.html#/s:10RealmSwift11FindOptionsa>`
+with your preferred sort options. ``FindOptions`` has three parameters:
+:objc-sdk:`limit <Classes/RLMFindOptions.html#/c:objc(cs)RLMFindOptions(py)limit>`,
+:objc-sdk:`projection <Classes/RLMFindOptions.html#/c:objc(cs)RLMFindOptions(py)projection>`,
+and :objc-sdk:`sorting <Classes/RLMFindOptions.html#/c:objc(cs)RLMFindOptions(py)sorting>`.
+The ``sorting`` argument can be an array of key-value pairs where each key 
+represents a field. For each key, the value ``1`` sorts in descending order, 
+or ``-1`` sorts in ascending order.
+
+You then pass the ``FindOptions`` instance to the ``collection.find()`` method
+when running the query.
+
+This snippet finds all documents in a :ref:`collection of documents that 
+describe coffee drinks for sale in a group of stores <ios-mongodb-example-dataset>`, 
+where the document's ``name`` field contains the value "Americano", sorted 
+in descending order by the ``beanRegion`` field:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-and-sort.swift
+   :language: swift
+
+Running this snippet produces this output:
+
+.. code-block:: text
+
+   Results: 
+   Coffee drink: [
+      "creamer": Optional(RealmSwift.AnyBSON.string("false")), 
+      "name": Optional(RealmSwift.AnyBSON.string("Americano")), 
+      "partition": Optional(RealmSwift.AnyBSON.string("Store 47")), 
+      "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
+      "beanRegion": Optional(RealmSwift.AnyBSON.string("San Marcos, Guatemala"))]
+   Coffee drink: [
+      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
+      "creamer": Optional(RealmSwift.AnyBSON.string("false")), 
+      "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
+      "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
+      "name": Optional(RealmSwift.AnyBSON.string("Americano"))]
+
 .. _ios-mongodb-count:
 
 Count Documents in the Collection

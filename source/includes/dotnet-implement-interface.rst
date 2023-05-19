@@ -4,12 +4,15 @@
    :dotnet-sdk:`IRealmObject <reference/Realms.IRealmObject.html>`, 
    :dotnet-sdk:`IEmbeddedObject <reference/Realms.IEmbeddedObject.html>`, or 
    :dotnet-sdk:`IAsymmetricObject <reference/Realms.IAsymmetricObject.html>`
-   interface and should be declared ``partial`` classes.
+   interface and must be declared ``partial`` classes.
 
-   You can also derive from the 
+   In versions of the .NET SDK older than 10.18.0, objects derive from 
    :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
    :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
    :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`
-   base classes. However, in the future we may deprecate the 
-   base classes. You should use the interfaces for any new classes
-   that you write.
+   base classes. This approach to Realm model definition is still supported, but 
+   does not include new features such as the :ref:`nullability annotations 
+   <dotnet-required-optional-property>`. In a future SDK release, the 
+   base classes will become deprecated. You should use the interfaces for any 
+   new classes that you write and should consider migrating your existing 
+   classes.

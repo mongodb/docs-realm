@@ -1,3 +1,127 @@
+# May 12, 2023
+
+## Kotlin SDK
+
+- Realm Database/React to Changes: Mention and link to new "Authentication Changes as a Flow" section
+- Manage Users/Authenticate Users: New "Authentication Changes as a Flow" section with info & tested Bluehawked code example
+
+## .NET SDK
+
+- Model Data
+  - Define an Object Model: Improve "Indexes" wording, add a new "Full-Text Search Index" section with Bluehawked code example
+  - Change an Object Model: Remove note about Unity not supporting the `dynamic` keyword when using `IL2CPP`
+- CRUD/Query, Filter, and Sort Data: Rename page from "Filter and Sort Data", add new "Full Text Search" sections with Bluehawked code examples for both LINQ and RQL
+- Update code examples on many pages as needed for 11.0.0 release
+
+## Node.js SDK
+
+- Realm Files/Reduce Realm File Size: Update compaction code example, refine wording on `.compact()` method
+- Manage Users/Authenticate Users: Update docs code example tests and regenerate Bluehawked code examples
+- Sync Data/Configure & Open a Synced Realm: New "Open Synced Realm at a Specific Path" section with info & tested Bluehawked code example
+
+## React Native SDK
+
+- Sync Data/Configure a Synced Realm: New "Open Synced Realm at a Specific Path" section with info & tested Bluehawked code examples
+
+## Swift SDK
+
+- Model Data/Define an Object Model: Clarify `PersistableEnum` details
+- React to Changes: Update "Notification Delivery" section with details and Bluehawked `UITableViewController` code examples from realm-swift GitHub discussion
+- Application Services/Query MongoDB: New "Find and Sort Documents" section with info & tested Bluehawked code examples for the new `sorting` API
+
+# May 5, 2023
+
+## C++ SDK
+
+- CRUD/Filter Data: Note that the C++ SDK has not yet implemented sort, and using `std::sort` pulls the results set into memory
+
+## Kotlin SDK
+
+- Quick Start: Fix the `Item` model code example showing deprecated `ObjectId.create()` method
+- Realm Database
+  - Model Data/Property Annotations: Update `@PersistedName` annotation section to show remapping a class name in 10.8.0
+  - Manage Realm Files/Encrypt a Realm: Note that v10.8.0 supports opening an encrypted realm in multiple processes
+- Sync Device Data
+  - Handle Sync Errors: Add a "Handle Client Reset" section similar to other SDKs
+  - Set the Client Log Level: Update documentation for new unified Realm logger API
+
+## .NET SDK
+
+- Model Data/Define an Object Model: Minor clarifications related to nullability
+
+## Node.js SDK
+
+- Sync Data/Stream Data to Atlas: New page with info & tested Bluehawked code examples showing how to use Data Ingest to stream data to Atlas
+
+## Swift SDK
+
+- Updates across documentation with info and tested, Bluehawked code examples showing how to use async/actor-isolated realms including:
+  - Realm Files/Configure & Open a Realm: New "Open a Realm with Swift Concurrency Features" section
+  - CRUD
+    - Create: New "Create an Object Asynchronously" section
+    - Read: New "Read an Object Asynchronously" section
+    - Update: New "Update an Object Asynchronously" section
+    - Delete: New "Delete an Object Asynchronously" section
+    - Threading: New "Actor-Isolated Realms" section pointing people to the new page for information
+  - React to Changes: New "React to Changes in an Actor-Confined Realm" section
+  - Actor-Isolated Realms: New page with details about using an actor-isolated realm
+  - Swift Concurrency: Updates throughout page referring to new actor/async functionality
+  - Sync Data/Configure and Open a Synced Realm: New section "Open a Synced Realm with Swift Concurrency Features"
+- Add a reference table of Sendable, Non-Sendable and Thread-Confined types to the Threading & Swift Concurrency pages
+- Sync Data/Set the Client Log Level: Update documentation for new unified Realm logger API
+
+## Other
+
+- Realm Query Language: Add a link from the page referring developers to the C++ Filter Data page for info about RQL operators supported in the C++ SDK Alpha
+
+# April 28, 2023
+
+## C++ SDK
+
+- Manage Sync Sessions: Restore missing code example snippets
+
+## Kotlin SDK
+
+- Realm Database
+  - Model Data
+    - Data Types: New section with info & tested Bluehawked code example for defining an object with a `RealmDictionary`/`RealmMap` property
+    - Relationships: Fix copy in the "To-One Relationship" section to match the code example
+  - Manage Realm Files/Bundle a Realm: Temporarily remove the page pending the SDK's upcoming `assetFile` feature release
+  - Read & Write Data
+    - Create, Read, Update, and Delete pages: New sections with info & tested Bluehawked code examples for performing CRUD operations on a `RealmDictionary` property
+  - React to Changes: Genericize the `List` change listener documentation to `Collection` and add tabs with details for RealmList, RealmSet, and Map notifications
+- Manage Users: Minor updates to the "Create and Delete Users" section of the landing page
+  - Manage Email/Password Users: New page with info & tested Bluehawked code examples
+
+## .NET SDK
+
+- Model Data
+  - Define an Object Model: Update info for C# nullable reference types and nullable-aware context, add a Bluehawked code example
+  - Data Binding: Move a section about data binding and MVVM from Define an Object Model to Data Binding page
+- React to Changes: Add a callout with info about binding data to the UI and a link to the the Data Binding page
+
+## Node.js SDK
+
+- Realm Files/Open & Close a Realm: New "Open a Realm Without Providing a Schema" section with info & tested Bluehawked code example
+- Manage Users/Authenticate Users: Minor updates to code examples for Realm/App Services naming & improved test resilience
+
+## React Native SDK
+
+- Realm Files
+  - Configure a Realm: New "Access a Realm Without Providing a Schema" section with info & tested Bluehawked code example
+  - Reduce Realm File Size: New page about compaction with info & Bluehawked code examples
+
+## Swift SDK
+
+- Sync Data/Record Realm Events: Note that Event Library requires Partition-Based Sync, fix incorrect info regarding the `EventConfiguration` `errorHandler`
+
+## Other
+
+- Get Help: Update the page with info about how to share docs feedback and add tabs for missing SDKs (C++, Flutter, Kotlin)
+- Internal
+  - Remove unused Bluehawk snippet markup from Kotlin test suite, clean up unused code example files
+  - Snyk dependency updates
+
 # April 21, 2023
 
 ## Flutter SDK

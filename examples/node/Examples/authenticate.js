@@ -16,20 +16,12 @@ describe("user authentication", () => {
     // :snippet-start: anonymous-login
     // Create an anonymous credential
     const credentials = Realm.Credentials.anonymous();
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      console.error("Failed to log in", err.message);
-      // :remove-start:
-      throw new Error("Anonymous login failed:" + err.message);
-      // :remove-end:
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test("email/password login", async () => {
@@ -59,33 +51,25 @@ describe("user authentication", () => {
       testUsername,
       testPassword
     );
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      console.error("Failed to log in", err.message);
-      // :remove-start:
-      throw new Error("Email/password login failed:" + err.message);
-      // :remove-end:
-    }
+    const user = await app.logIn(credentials);
     // :replace-end:
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test.skip("confirm email/pass user", async () => {
     // :snippet-start: confirm-email-pass-user
     const token = "someToken";
     const tokenId = "someTokenId";
-    
+
     try {
       await app.emailPasswordAuth.confirmUser({ token, tokenId });
       // User email address confirmed.
       console.log("Successfully confirmed user.");
-    } catch (err){
+    } catch (err) {
       console.log(`User confirmation failed: ${err}`);
     }
     // :snippet-end:
@@ -97,7 +81,7 @@ describe("user authentication", () => {
     await app.emailPasswordAuth.resendConfirmation({ email });
     // :snippet-end:
   });
-  
+
   test.skip("retry a user confirmation function", async () => {
     // :snippet-start: retry-user-confirmation-function
     const email = "someone@example.com";
@@ -107,7 +91,7 @@ describe("user authentication", () => {
 
   test.skip("send password reset email", async () => {
     // :snippet-start: send-pass-reset-email
-    const email = "someone@example.com"
+    const email = "someone@example.com";
     await app.emailPasswordAuth.sendResetPasswordEmail({ email });
     // :snippet-end:
   });
@@ -120,13 +104,20 @@ describe("user authentication", () => {
     // Additional arguments for the reset function
     const args = [];
 
-    await app.emailPasswordAuth.callResetPasswordFunction({ email, password }, args);
+    await app.emailPasswordAuth.callResetPasswordFunction(
+      { email, password },
+      args
+    );
     // :snippet-end:
   });
-  
+
   test.skip("complete password reset", async () => {
     // :snippet-start: complete-pass-reset
-    await app.emailPasswordAuth.resetPassword({ password: "newPassw0rd", token, tokenId });
+    await app.emailPasswordAuth.resetPassword({
+      password: "newPassw0rd",
+      token,
+      tokenId,
+    });
     // :snippet-end:
   });
 
@@ -174,30 +165,32 @@ describe("user authentication", () => {
   });
 
   test("server api key login", async () => {
-    process.env.appServicesApiKey =
-      "yeXX078iJrxtez1s7UI6yqSqy2XBadEUnPPoKFit4XVG51HLRWoZcy2axlAaA8Qk";
+    // Need to log in to call App Services function.
+    const testCredentials = Realm.Credentials.anonymous();
+    const testUser = await app.logIn(testCredentials);
+    // Get a dynamically-generated server API key.
+    const serverApiKey = await testUser.callFunction("createServerKey");
+
+    await testUser.logOut();
+
+    process.env.appServicesApiKey = serverApiKey;
+
     // :snippet-start: server-api-key-login
     // Get the API key from the local environment
-    const apiKey = process.env.appServicesApiKey;
+    const apiKey = process.env?.appServicesApiKey;
+
     if (!apiKey) {
-      throw new Error("Could not find a Realm Server API Key.");
+      throw new Error("Could not find a Server API Key.");
     }
+
     // Create an api key credential
     const credentials = Realm.Credentials.apiKey(apiKey);
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser?.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      console.error("Failed to log in", err.message);
-      // :remove-start:
-      throw new Error("API Key login failed:" + err.message);
-      // :remove-end:
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test("custom function login", async () => {
@@ -206,24 +199,16 @@ describe("user authentication", () => {
     const credentials = Realm.Credentials.function({
       username: "ilovemongodb",
     });
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      console.error("Failed to log in", err.message);
-      // :remove-start:
-      throw new Error("Custom function login failed:" + err.message);
-      // :remove-end:
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test("custom jwt login", async () => {
-    const authenticateWithExternalSystem = () => {
+    const authenticateWithExternalSystem = async () => {
       // Simulates returning the following JWT information from an external auth service
       // JWT: {
       //   header: {
@@ -245,51 +230,33 @@ describe("user authentication", () => {
     // Create a custom jwt credential
     const jwt = await authenticateWithExternalSystem();
     const credentials = Realm.Credentials.jwt(jwt);
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      console.error("Failed to log in", err.message);
-      // :remove-start:
-      throw new Error("Custom JWT login failed:" + err.message);
-      // :remove-end:
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test("logout", async () => {
-    const emailPasswordCredentials = Realm.Credentials.emailPassword(
-      testUsername,
-      testPassword
-    );
-    const functionCredentials = Realm.Credentials.function({
-      username: "ilovemongodb",
-    });
+    // Ensure all users are logged out.
     await Promise.all(Object.values(app.allUsers).map((user) => user.logOut()));
-    try {
-      const emailPasswordUser = await app.logIn(emailPasswordCredentials);
-      const functionUser = await app.logIn(functionCredentials);
-      expect(functionUser.id).toBe(app.currentUser.id);
 
-      // :snippet-start: logout
-      // Log out the current user
-      await app.currentUser.logOut();
-      // :remove-start:
-      expect(emailPasswordUser.id).toBe(app.currentUser.id);
-      // :remove-end:
-      // Log out a specific user by ID
-      await app.allUsers[app.currentUser.id].logOut();
-      // :snippet-end:
-    } catch (err) {
-      console.error(err.message);
-      // :remove-start:
-      throw new Error("Logout failed:" + err.message);
-      // :remove-end:
-    }
+    const credentials = Realm.Credentials.anonymous();
+    const user = await app.logIn(credentials);
+
+    // If login succeeds, user.id and currentUser.id should exist and match.
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user.id).toBe(app.currentUser?.id);
+
+    // :snippet-start: logout-current-user
+    // Log out the current user
+    await app.currentUser?.logOut();
+    // :snippet-end:
+
+    // There shouldn't be any current user.
+    expect(app.currentUser).toBe(null);
   });
 
   test("Delete user", async () => {
@@ -321,11 +288,11 @@ describe("user authentication", () => {
       await app.logIn(
         Realm.Credentials.emailPassword(testUsername, testPassword)
       );
-    } catch (err) {
-      console.error("Failed to log in", err.message);
-      // :remove-start:
-      throw new Error("Read user metadata failed:" + err.message);
-      // :remove-end:
+    } catch (error) {
+      await app.emailPasswordAuth.registerUser({ testUsername, testPassword });
+      await app.logIn(
+        Realm.Credentials.emailPassword(testUsername, testPassword)
+      );
     }
 
     const userEmail = app.currentUser.profile.email;
@@ -341,10 +308,17 @@ describe("user authentication", () => {
 describe("User Sessions", () => {
   test("Get a User Access Token", async () => {
     try {
-      await app.logIn(Realm.Credentials.emailPassword(testUsername, testPassword));
+      await app.logIn(
+        Realm.Credentials.emailPassword(testUsername, testPassword)
+      );
     } catch (err) {
-      await app.emailPasswordAuth.registerUser({ email: testUsername, password: testPassword });
-      await app.logIn(Realm.Credentials.emailPassword(testUsername, testPassword));
+      await app.emailPasswordAuth.registerUser({
+        email: testUsername,
+        password: testPassword,
+      });
+      await app.logIn(
+        Realm.Credentials.emailPassword(testUsername, testPassword)
+      );
     }
     // :snippet-start: get-user-access-token
     // Gets a valid user access token to authenticate requests
@@ -358,4 +332,4 @@ describe("User Sessions", () => {
     const token = await getValidAccessToken(app.currentUser);
     expect(token).not.toBe(undefined);
   });
-})
+});

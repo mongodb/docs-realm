@@ -9,6 +9,7 @@ namespace Examples
 
         public void TestsCustomSetter()
         {
+            realm = Realm.GetInstance();
             // :snippet-start: pause-synced-realm
             var session = realm.SyncSession;
             session.Stop();

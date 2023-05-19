@@ -471,6 +471,25 @@ types during migration, and Realm converts the projected type to the persisted
 type. However, reading data during a migration gives the underlying persisted
 type.
 
+.. _swift-read-object-async:
+
+Read an Object Asynchronously
+-----------------------------
+
+When you use an actor-isolated realm, you can use Swift concurrency features
+to asynchronously query objects.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.read-objects.swift
+   :language: swift
+
+If you need to manually advance the state of an observed realm on the main 
+thread or an actor-isolated realm, call ``await realm.asyncRefresh()``. 
+This updates the realm and outstanding objects managed by the Realm to point to
+the most recent data and deliver any applicable notifications.
+
+For more information about working with realm using Swift concurrency features, 
+refer to :ref:`swift-actor-isolated-realm`.
+
 .. _ios-sort-query-results:
 
 Sort Query Results
