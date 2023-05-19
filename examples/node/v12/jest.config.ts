@@ -9,7 +9,7 @@ const config: Config = {
     {
       displayName: "JavaScript",
       moduleFileExtensions: ["js", "mjs"],
-      testMatch: ["<rootDir>/__tests__/**/*.js"],
+      testMatch: ["<rootDir>/compiled-js/**/*.js"],
       setupFilesAfterEnv: ["<rootDir>/jestSetup.ts"],
       modulePathIgnorePatterns: ["<rootDir>/__tests__/testFiles"],
     },

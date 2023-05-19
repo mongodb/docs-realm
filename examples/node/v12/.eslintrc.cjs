@@ -1,7 +1,7 @@
-export default {
+module.exports = {
   env: {
     node: true,
-    es2021: true,
+    es2022: true,
     "jest/globals": true,
   },
   extends: [
@@ -9,7 +9,7 @@ export default {
     "plugin:prettier/recommended",
   ],
   parserOptions: {
-    ecmaVersion: 2021,
+    // ecmaVersion: 2021,
     sourceType: "module",
   },
   plugins: ["jest", "prettier"],
