@@ -65,12 +65,6 @@ TEST_CASE("scheduler", "[write]") {
         
         void invoke(realm::Function<void()> &&task) override {
             // ... Add the task to the (lock-free) processor queue ...
-            // :remove-start:
-            // Had to implement some code in here in order to override invoke
-            // This is arbitrary code that isn't shown in the example just to
-            // get the tests to compile and run.
-            task.release(); 
-            // :remove-end:
         }
 
         [[nodiscard]] bool is_on_thread() const noexcept override {
