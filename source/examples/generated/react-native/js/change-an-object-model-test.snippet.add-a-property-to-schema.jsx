@@ -1,4 +1,3 @@
-
 class Person extends Realm.Object {
   static schema = {
     name: 'Person',
@@ -18,5 +17,6 @@ const config = {
   schemaVersion: 2,
 };
 
-// pass the configuration object with the updated 'schemaVersion' to createRealmContext()
+// pass the configuration object with the updated 'schemaVersion' to
+// createRealmContext()
 const {RealmProvider} = createRealmContext(config);

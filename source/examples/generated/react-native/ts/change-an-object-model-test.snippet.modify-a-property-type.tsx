@@ -1,6 +1,5 @@
-
 class Person extends Realm.Object<Person> {
-  _id: Realm.BSON.ObjectId = new Realm.BSON.ObjectId();
+  _id!: Realm.BSON.ObjectId;
   firstName!: string;
   lastName!: string;
   age!: number;
@@ -16,15 +15,32 @@ class Person extends Realm.Object<Person> {
   };
 }
 
-const config = {
+class OldObjectModel extends Realm.Object<OldObjectModel> {
+  _id!: string;
+  firstName!: string;
+  lastName!: string;
+  age!: number;
+
+  static schema = {
+    name: 'Person',
+    properties: {
+      _id: 'string',
+      firstName: 'string',
+      lastName: 'string',
+    },
+  };
+}
+
+const config: Realm.Configuration = {
   schema: [Person],
   // increment the 'schemaVersion', since the property type of '_id'
   // has been modified
   schemaVersion: 2,
-  migration: (oldRealm: Realm, newRealm: Realm) => {
+  onMigration: (oldRealm: Realm, newRealm: Realm) => {
     if (oldRealm.schemaVersion < 2) {
-      const oldObjects = oldRealm.objects(Person);
-      const newObjects = newRealm.objects(Person);
+      const oldObjects: Realm.Results<OldObjectModel> =
+        oldRealm.objects(OldObjectModel);
+      const newObjects: Realm.Results<Person> = newRealm.objects(Person);
       // loop through all objects and set the _id property
       // in the new schema
       for (const objectIndex in oldObjects) {
