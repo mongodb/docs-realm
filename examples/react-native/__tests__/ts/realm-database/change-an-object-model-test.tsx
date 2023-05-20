@@ -14,7 +14,7 @@ import {render, waitFor} from '@testing-library/react-native';
 //       "schemaVersion: 5": "schemaVersion: 2",
 //       "oldRealm.schemaVersion < 4": "oldRealm.schemaVersion < 2",
 //       "oldRealm.schemaVersion < 5": "oldRealm.schemaVersion < 2",
-//        "RealmProvider, useRealm": "RealmProvider"
+//       "RealmProvider, useRealm": "RealmProvider"
 //    }
 // }
 
