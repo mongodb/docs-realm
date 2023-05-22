@@ -1,7 +1,7 @@
 Realm.open({
   schema: [Person],
   schemaVersion: 2,
-  migration: (oldRealm, newRealm) => {
+  onMigration: (oldRealm, newRealm) => {
     // only apply this change if upgrading to schemaVersion 2
     if (oldRealm.schemaVersion < 2) {
       const oldObjects = oldRealm.objects('Person');
