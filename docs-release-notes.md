@@ -1,3 +1,56 @@
+# May 19, 2023
+
+## Java SDK
+
+- Realm Files/Bundle a Realm: Move the `trimming` note to a shared include across SDKs, clarify that it applies only to Flexible Sync
+
+## Kotlin SDK
+
+- Manage Realm Files/Reduce Realm File Size: New page documenting compaction in the Realm Kotlin SDK similar to other SDK docs
+- Internal: Add tests for authentication docs code examples
+
+## .NET SDK
+
+- Quick Start for Unity: Remove "`dynamic` Keyword Support" section
+- Realm Files
+  - Bundle a Realm: Move the `trimming` note to a shared include across SDKs, clarify that it applies only to Flexible Sync
+  - Encrypt a Realm: Note that v11.0.0 supports opening an encrypted realm in multiple processes
+- Add nullable annotations to code examples throughout docs
+
+## Node.js SDK
+
+- Quick Start: Add tested Bluehawked code examples for TypeScript, update JavaScript examples with improved tests
+- Realm Files
+  - Open & Close a Realm: Add tested Bluehawked code examples for TypeScript, update JavaScript examples with improved tests
+  - Bundle a Realm: Move the `trimming` note to a shared include across SDKs, clarify that it applies only to Flexible Sync
+- Manage Users/Authenticate Users: Update the code example for Offline Login with clearer syntax and improved tests
+- Sync Data
+  - Configure & Open a Synced Realm: Add tested Bluehawked code examples for TypeScript, update JavaScript examples with improved tests
+  - Manage a Sync Session: New page consolidating content from these pages:
+    - Check Network Connection
+    - Pause or Resume a Sync Session
+    - Check Upload & Download Progress
+    - Multiplex Sync Sessions
+  - Handle Sync Errors
+    - Add tested Bluehawked code example for TypeScript, update JavaScript example with improved tests
+    - Move Client Reset error information onto this page, remove separate Client Reset page
+- Internal: Snyk dependency updates for code example test suite
+
+## React Native SDK
+
+- Realm Files/Landing Page: Add "Find a Realm File Path" section with tested, Bluehawked code example
+- Manage Users/Authenticate Users: Update the code example for Offline Login with clearer syntax and improved tests
+- Sync Data/Partition-Based Sync: Add tested Bluehawked code examples for TypeScript, update JavaScript examples with improved tests
+
+## Swift SDK
+
+- Realm Files/Bundle a Realm: Move the `trimming` note to a shared include across SDKs, clarify that it applies only to Flexible Sync
+- Model Data/Supported Types: Remove incorrect optional syntax from `@Persisted` Property Cheat Sheet
+
+## Realm Studio
+
+- Open a Realm File: Update the JavaScript code example for finding a realm file
+
 # May 12, 2023
 
 ## Kotlin SDK
