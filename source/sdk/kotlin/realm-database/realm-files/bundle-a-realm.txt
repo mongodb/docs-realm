@@ -41,34 +41,40 @@ fails with an ``IllegalArgumentException``.
 
 .. _kotlin-bundle-local-realm:
 
-Bundle a Local Realm
---------------------
+Bundle a Non-Synced Realm
+-------------------------
 
 .. procedure::
 
-   .. step:: Create a Realm File for Bundling
+   .. step:: Populate an Asset Realm with Seed Data
 
-      Create a new temporary project to create and populate the seed realm. 
-      This project uses the same :ref:`Realm object schema <kotlin-object-schema>` 
-      as your production app.
+      Create a new temporary project to create and populate an asset realm 
+      with seed data. This project uses the same 
+      :ref:`Realm object schema <kotlin-object-schema>` as your production app.
 
       :ref:`Open an existing realm <kotlin-open-a-realm>` with the data you 
-      wish to seed, or create a new realm. Set the 
+      wish to seed, or create a new realm. Set a specific 
       `name <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/name.html>`__ 
-      property for your seed realm so you can refer to it by name as the initial
+      for your asset realm so you can refer to it by name as the initial
       data source for your app.
+
+      Populate the asset realm with the seed data you want to include 
+      in your production application.
 
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-create-realm.kt
          :language: kotlin
 
-   .. step:: Create a Configuration for the Bundled Realm Copy
+   .. step:: Create a Copy of the Asset Realm
+
+      Still in the temporary project, you must create a copy of the asset realm
+      that you can bundle with your production application.
 
       Create a `Configuration <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html>`__ 
-      that your app can use to open a copy of the seed realm. This configuration 
-      should have a different 
+      that your production app can use to open a copy of the asset realm. 
+      Set the ``initialRealmFile`` property in this configuration to the 
+      name of your asset realm. This configuration should have a different 
       `name <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/name.html>`__ 
-      property than the seed realm. Set the ``initialRealmFile`` property in this 
-      configuration to be the name of your seed realm.
+      property than the asset realm.
 
       You can optionally provide a ``sha256checkSum`` for the ``initialRealmFile``
       to verify the integrity of the realm file when opening it. 
@@ -79,28 +85,30 @@ Bundle a Local Realm
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-copy-config.kt
          :language: kotlin
 
-   .. step:: Bundle a Realm File in Your Production Application
-
       Copy the realm to a new file with the 
       `writeCopyTo() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__ 
       method. This method automatically compacts your realm to the smallest 
       possible size before copying.
 
+      You can get the path to the copied realm file using 
+      `Realm.configuration.path <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html#422583608%2FProperties%2F-1651551339>`__.
+
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-copy-realm.kt
          :language: kotlin
 
-      Now that you have a copy of the realm that contains the initial data, you
-      must bundle it with your production application.
+      Now that you have a copy of the asset realm, you can move it into 
+      your production application and use it there.
 
-      Save a copy of the realm file to the appropriate location for your app's
-      platform. For details, refer to :ref:`kotlin-asset-realm-location-by-platform`.
+   .. step:: Bundle and Open the Realm File in Your Production Application
 
-   .. step:: Open a Realm from a Bundled Realm File
+      Save the copy of the asset realm file to your production application. 
+      You must place this asset file in the appropriate location for your 
+      app's platform. For details, refer to :ref:`kotlin-asset-realm-location-by-platform`.
 
-      Now that you have a copy of the realm included with your app,
-      you can open it using the copied realm configuration you created.
-      It contains the data that was in the original realm at the time
-      you copied it.
+      Now that you have a copy of the realm bundled with your production app,
+      you can open it using the copied realm configuration you created. It 
+      contains the data that was in the asset realm at the time you 
+      copied it.
 
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-open-copied-realm.kt
          :language: kotlin
@@ -112,15 +120,15 @@ Bundle a Synced Realm
 
 Bundling a synced realm reduces the size of the data that users must 
 download on the initial open when using a synced realm, at the cost of 
-increasing your app's download file size. When you bundle a realm with your 
-application, the only data users must download when opening the realm is 
-any changes that have occurred since preparing the seed realm. 
+increasing your app's download file size. When you bundle an asset realm 
+with your application, the only data users must download when opening the 
+realm is any changes that have occurred since preparing the asset realm. 
 
 .. include:: /includes/note-bundling-synced-realms.rst
 
 If your application uses :ref:`Flexible Sync <flexible-sync>`,
 you can populate your application with data using initial sync subscriptions 
-as an alternative to bundling a synced realm. With initial subscriptions, 
+as an alternative to bundling a synced asset realm. With initial subscriptions, 
 you do not need to be concerned with data being older than the client maximum 
 offline time. To learn more about using sync subscriptions, refer to 
 :ref:`Subscriptions <kotlin-subscriptions>`.
@@ -129,31 +137,35 @@ To bundle a synced realm, perform the following:
 
 .. procedure::
    
-   .. step:: Create a Realm File for Bundling a Synced Realm
+   .. step:: Populate an Asset Realm with Seed Data
 
-      Create a new temporary project to create and populate the seed realm. 
+      Create a new temporary project to create and populate the asset realm. 
       This project uses the same :ref:`Realm object schema <kotlin-object-schema>` 
       as your production app.
 
       :ref:`Open the synced realm <kotlin-open-a-synced-realm>` that you want
-      to use as a seed realm. If it does not already contain data, add the 
-      relevant seed data. 
-      
-      You *must* wait for all local changes to synchronize with the Device Sync server. 
-      Use `uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__ 
+      to use as an asset realm.
+
+      Populate the asset realm with the seed data you want to include 
+      in your production application. You *must* wait for all local changes 
+      to synchronize with the Device Sync server. Use 
+      `uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__ 
       and `downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__ 
       to ensure all sync processes are completed.
 
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-synced-realm-create-realm.kt
          :language: kotlin
       
-   .. step:: Create a Configuration for the Bundled Realm Copy
+   .. step:: Create a Copy of the Asset Realm
 
-      Create a `Configuration <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__ 
-      that your app can use to open a copy of the seed realm. This 
-      configuration should have a different ``name`` property than the 
-      asset realm. Set the ``initialRealmFile`` property in this 
-      configuration to be the name of your seed realm.
+      Still in the temporary project, you must create a copy of the asset realm
+      that you can bundle with your production application.
+
+      Create a `SyncConfiguration <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__ 
+      that your app can use to open a copy of the asset realm. Set the 
+      ``initialRealmFile`` property in this configuration to the 
+      name of your asset realm. This configuration should have a different
+      ``name`` property than the asset realm.
 
       You can optionally provide a ``sha256checkSum`` for the ``initialRealmFile``
       to verify the integrity of the realm file when opening it. 
@@ -163,8 +175,6 @@ To bundle a synced realm, perform the following:
 
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-synced-realm-create-copy-config.kt
          :language: kotlin
-
-   .. step:: Bundle a Synced Realm File in your Production Application
 
       Create a new version of the synced realm using `writeCopyTo() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__ . 
       You *must* use ``writeCopyTo()`` to bundle a synced realm. 
@@ -177,17 +187,18 @@ To bundle a synced realm, perform the following:
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-synced-realm-copy-realm.kt
          :language: kotlin
 
-      Now that you have a copy of the seed realm that contains the initial 
-      data, you must bundle it with your production application.
+      Now that you have a copy of the asset realm, you can move it into 
+      your production application and use it there.
 
-      Save a copy of the realm file to the appropriate location for your app's
-      platform. For details, refer to :ref:`kotlin-asset-realm-location-by-platform`.
+   .. step:: Bundle and Open a Synced Realm File in your Production Application
 
-   .. step:: Open a Realm from a Bundled Synced Realm File
+      Save the copy of the asset realm file to your production application. 
+      You must place this asset file in the appropriate location for your 
+      app's platform. For details, refer to :ref:`kotlin-asset-realm-location-by-platform`.
 
-      Now that you have a copy of the realm included with your app,
+      Now that you have a copy of the asset realm bundled with your app,
       you can open it using the copied realm configuration you created.
-      It contains the data that was in the original realm at the time
+      It contains the data that was in the asset realm at the time
       you copied it.
 
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-synced-realm-open-copied-realm.kt
