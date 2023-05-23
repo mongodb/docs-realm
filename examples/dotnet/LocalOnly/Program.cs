@@ -7,7 +7,7 @@ namespace LocalOnly
 {
     class Program
     {
-        static ObjectId someGuitarId;
+        static ObjectId someGuitarId = ObjectId.Empty;
 
         static void Main(string[] args)
         {

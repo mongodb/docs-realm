@@ -7,23 +7,43 @@ class Person extends Realm.Object<Person> {
     name: 'Person',
     properties: {
       _id: 'string',
-      // rename the 'firstName' and 'lastName' property, to 'fullName' in the schema
+      // rename the 'firstName' and 'lastName' property, to 'fullName'
+      // in the schema
       fullName: 'string',
       age: 'int',
     },
   };
 }
 
-const config = {
+class OldObjectModel extends Realm.Object<OldObjectModel> {
+  _id!: string;
+  firstName!: string;
+  lastName!: string;
+  age!: number;
+
+  static schema = {
+    name: 'Person',
+    properties: {
+      _id: 'string',
+      firstName: 'string',
+      lastName: 'string',
+    },
+  };
+}
+
+const config: Realm.Configuration = {
   schema: [Person],
-  // increment the 'schemaVersion', since 'fullName' has replaced 'firstName' and 'lastName' in the schema
+  // increment the 'schemaVersion', since 'fullName' has replaced
+  // 'firstName' and 'lastName' in the schema
   schemaVersion: 2,
-  migration: (oldRealm: Realm, newRealm: Realm) => {
+  onMigration: (oldRealm: Realm, newRealm: Realm) => {
     // only apply this change if upgrading schemaVersion
     if (oldRealm.schemaVersion < 2) {
-      const oldObjects = oldRealm.objects(Person);
-      const newObjects = newRealm.objects(Person);
-      // loop through all objects and set the fullName property in the new schema
+      const oldObjects: Realm.Results<OldObjectModel> =
+        oldRealm.objects(OldObjectModel);
+      const newObjects: Realm.Results<Person> = newRealm.objects(Person);
+      // loop through all objects and set the fullName property in the
+      // new schema
       for (const objectIndex in oldObjects) {
         const oldObject = oldObjects[objectIndex];
         const newObject = newObjects[objectIndex];
@@ -33,5 +53,6 @@ const config = {
   },
 };
 
-// pass the configuration object with the updated 'schemaVersion' and 'migration' function to createRealmContext()
+// pass the configuration object with the updated 'schemaVersion' and
+// 'migration' function to createRealmContext()
 const {RealmProvider} = createRealmContext(config);

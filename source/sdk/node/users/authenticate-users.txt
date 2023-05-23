@@ -288,8 +288,8 @@ Offline Login
 
 .. include:: /includes/offline-login.rst
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.use-cached-user-to-login.js
-   :language: javascript
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.use-cached-user.ts
+   :language: typescript
 
 To learn how to use the cached user in the Sync Configuration and access a
 realm while offline, read the :ref:`Open a Synced Realm While Offline
@@ -325,16 +325,5 @@ To log any user out, call the ``User.logOut()`` on their user instance.
 
 .. include:: /includes/log-out-queries-in-progress.rst
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.logout.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.logout.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/authenticate.snippet.logout-current-user.js
+   :language: javascript

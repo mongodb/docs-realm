@@ -318,3 +318,26 @@ the app shuts down after the initial authentication, you do not need to call
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.retrieve-current-user.kt
    :language: kotlin
+
+.. _kotlin-authentication-change-listener:
+
+Authentication Changes as a Flow
+--------------------------------
+
+.. versionadded:: 10.8.0
+
+You can observe a flow of authentication change events by calling 
+`App.authenticationChangeAsFlow() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/authentication-change-as-flow.html>`__ .
+This flow emits 
+`AuthenticationChange <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-authentication-change/index.html>`__ 
+events of three possible states, represented as subclasses:
+
+- ``LoggedIn``: A user logs into the app.
+- ``LoggedOut``: A a user logs out of the app.
+- ``Removed``: A user is removed from the app, which also logs them out.
+
+These events contain a ``user`` property that provides a reference to the 
+``User`` object that has logged in, logged out, or been removed.
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.auth-change-listener.kt
+   :language: kotlin

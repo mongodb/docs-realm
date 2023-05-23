@@ -210,21 +210,6 @@ However, since Unity has some `scripting restrictions
 <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_, you should keep
 the following additional considerations in mind when developing your project:
 
-``dynamic`` Keyword Support
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Unity does not support the `dynamic keyword <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_ when using `IL2CPP  <https://docs.unity3d.com/Manual/IL2CPP.html>`_. This means all types used in C# scripts must be known at compile time. When you use the Realm .NET SDK with Unity, you must convert dynamic types to concrete types. To view the full list of limitations, see the Unity `scripting limitations <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ documentation. Although the Realm .NET SDK exposes the :dotnet-sdk:`Dynamic API<reference/Realms.Realm.Dynamic.html?q=dynamic>`, we recommend it only when performing migrations.
-
-.. example::
-
-   The following example shows a portion of a code block for performing a
-   :ref:`migration <dotnet-migration-function>` to illustrate the usage of the
-   :dotnet-sdk:`DynamicAPI <reference/Realms.Realm.Dynamic.html>`.
-
-   .. code-block:: csharp
-
-    var dynamicPeople = (IQueryable<RealmObject>)migration.OldRealm.All("Person");
-    var personName = dynamicPeople.First().DynamicApi.Get<string>("Name");
-
 Managed Code Stripping
 ~~~~~~~~~~~~~~~~~~~~~~
 Unity performs `managed code stripping <https://docs.unity3d.com/Manual/ManagedCodeStripping.html>`_, 

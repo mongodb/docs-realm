@@ -65,20 +65,22 @@ To upsert into a realm:
    `realm.writeBlocking()
    <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
 
-#. Query the transaction's mutable realm with `realm.query()
-   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
-   Specify the object type as a type parameter passed to :file:`query()`.
-   Filter your criteria with unique identifying criteria for the
-   object you want to upsert.
-
-#. Insert a new object with the same primary key as the object returned
-   by the previous query (if it exists) with `copyToRealm()
+#. Insert an object with a primary key using `copyToRealm()
    <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__.
-   If an object matching your filter already exists, realm updates the
-   existing object. If no object exists that matches your filter, realm
-   inserts a new object.
+   If an object matching the primary key already exists, the Kotlin SDK 
+   updates the existing object. If no object exists that matches the 
+   primary key, the Kotlin SDK inserts a new object.
 
-.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.upsert-an-object.kt
+You can specify the 
+`UpdatePolicy <{+kotlin-local-prefix+}io.realm.kotlin/-update-policy/index.html>`__
+to use when you upsert an object with an existing primary key:
+
+- ``UpdatePolicy.ALL``: Update all properties on any existing objects 
+  identified with the same primary key.
+- ``UpdatePolicy.ERROR``: Disallow updating existing objects and instead 
+  throw an exception if an object already exists with the same primary key.
+
+.. literalinclude:: /examples/generated/kotlin/UpdateTest.snippet.upsert-an-object.kt
    :language: kotlin
 
 .. _kotlin-update-collection:

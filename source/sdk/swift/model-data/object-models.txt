@@ -391,12 +391,12 @@ Declare Enum Properties
       :tabid: swift
 
       .. versionchanged:: 10.10.0 
-         Realm supports enums of any RawType. Protocol is now 
-         ``PersistableEnum`` rather than ``RealmEnum``.
+         Protocol is now ``PersistableEnum`` rather than ``RealmEnum``.
 
-      You can use enums with ``@Persisted`` by marking it as complying with the
+      You can use enums with ``@Persisted`` by marking them as complying with the
       :swift-sdk:`PersistableEnum <Protocols.html#/s:10RealmSwift15PersistableEnumP>` 
-      protocol. Realm supports enums of any RawType.
+      protocol. A ``PersistableEnum`` can be any ``RawRepresentable`` enum 
+      whose raw type is a type that :ref:`Realm supports <swift-supported-types>`.
 
       .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.realm-object-enum.swift
          :language: swift

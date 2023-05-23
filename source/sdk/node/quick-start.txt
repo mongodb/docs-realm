@@ -11,9 +11,6 @@ Quick Start - Node.js SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 This page contains information to quickly get Realm Database
 integrated into your app.
 
@@ -23,16 +20,18 @@ If you haven't already, :ref:`install the Realm Node.js SDK <node-install>`.
 
 Import Realm
 ------------
+
 At the top of your source files where you want to use Realm, add
 the following line to import the SDK.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.import-realm.js
+.. literalinclude:: /examples/generated/node/quickstart.snippet.import-realm.ts
   :language: javascript
 
 .. _node-quickstart-local-define-an-object-model:
 
 Define Your Object Model
 ------------------------
+
 Your application's :ref:`object model <node-object-schemas>` defines the data
 that you can store within Realm Database. 
 
@@ -49,31 +48,42 @@ The following code shows how to define an object model for a ``Task`` object. In
 - The ``status`` and ``onwer_id`` fields are optional, denoted by the question 
   mark immediately after the data type.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
-  :language: javascript
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/quickstart.snippet.define-an-object-model.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/quickstart.snippet.define-an-object-model.js
+          :language: javascript
 
 .. _node-quickstart-local-open-a-realm:
 
 Open a Realm
 ------------
+
 To open a realm, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to :js-sdk:`Realm.open()
 <Realm.html#.open>`.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.open-a-realm.js
-  :language: javascript
+.. tabs-realm-languages::
 
-.. _node-quickstart-local-create-realm-objects:
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/quickstart.snippet.open-a-realm.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
 
-Create Realm Objects
---------------------
-
-Once you have opened a realm, you can create :ref:`objects
-<node-object-types>` in it. All writes must occur within a :ref:`write
-transaction <node-write-transactions>`.
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.create-realm-objects.js
-  :language: javascript
+      .. literalinclude::  /examples/generated/node/quickstart.snippet.open-a-realm.js
+          :language: javascript
 
 .. _node-quickstart-local-find-sort-and-filter-objects:
 
@@ -86,43 +96,28 @@ The following code demonstrates how to:
 - Filter the query to retrieve only the tasks that are "Open".
 - Sort the tasks by the name in an ascending order.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.find-sort-and-filter-objects.js
-  :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart.snippet.find-sort-and-filter-objects.ts
+  :language: typescript
 
 .. _node-quickstart-local-modify-an-object:
-
-Modify an Object
-----------------
-As with writes, any changes to a Realm object must occur within a 
-:ref:`Write transaction <node-write-transactions>` block. 
-To modify an object, you update the object properties:
-
-In the following example, an application developer updates ``task1`` from the
-:ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
-example above. The developer begins progress on the "go grocery shopping
-task" and sets ``task1`` to "InProgress".
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.modify-an-object.js
-  :language: javascript
-
 .. _node-quickstart-local-delete-an-object:
+.. _node-quickstart-local-create-realm-objects:
 
-Delete an Object
-----------------
-You can delete an object by calling the :js-sdk:`realm.delete()
-<Realm.html#delete>` method within a write transaction block:
+Create, Modify, and Delete Realm Objects
+----------------------------------------
 
-In the following example, an application developer deletes ``task1`` from the
-:ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
-example above. 
+Once you have opened a realm, you can create, modify, and delete :ref:`objects
+<node-object-types>` in it. All write operations must occur within a :ref:`write
+transaction <node-write-transactions>`.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.delete-an-object.js
-  :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart.snippet.create-modify-delete.ts
+  :language: typescript
 
 .. _node-quickstart-local-watch-a-collection:
 
 Watch a Collection
 ------------------
+
 You can :ref:`watch a realm, collection, or object for changes
 <node-change-notifications>` by registering event handlers with the
 :js-sdk:`Realm.addListener() <Realm.html#addListener>`
@@ -130,20 +125,39 @@ You can :ref:`watch a realm, collection, or object for changes
 :js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
 methods.
 
+.. important:: Order Matters
+   
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
+
 In the following example, an application developer watches for changes to the
 ``Task`` collection.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.watch-a-collection.js
-  :language: javascript
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/quickstart.snippet.watch-a-collection.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/quickstart.snippet.watch-a-collection.js
+          :language: javascript
 
 .. _node-quickstart-local-close-a-realm:
 
 Close a Realm
 -------------
+
 Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a realm instance to avoid memory leaks.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.close-a-realm.js
-  :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart.snippet.close-a-realm.ts
+  :language: typescript
 
 Add Device Sync (Optional)
 --------------------------
@@ -168,8 +182,8 @@ To use App Services features, such as authentication and sync, you must first ac
 your App Services App using your App ID. You can :ref:`find your App ID <find-your-app-id>`
 in the App Services UI.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.js
-  :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.ts
+  :language: typescript
 
 .. _node-quick-start-authenticate:
 
@@ -181,8 +195,8 @@ To authenticate and log in a user, call :js-sdk:`App.logIn()
 <anonymous-authentication>` is enabled, users can immediately log into your app
 without providing any identifying information:
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.anonymous-login.js
-  :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart.snippet.anonymous-login.ts
+  :language: typescript
 
 Define an Object Model
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -191,8 +205,8 @@ Object models for synced realms work the same way as :ref:`local-only Realms
 <node-quickstart-local-define-an-object-model>`. Define your object model 
 just as you would for a local-only Realm.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
-  :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.ts
+  :language: typescript
 
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
@@ -212,8 +226,19 @@ Additionally, you need at least one subscription before you can read from or wri
 realm. Use ``Configuration.sync.initialSubscriptions`` to define the initial 
 subscription set when the Realm file is first opened.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.open-realm-with-subscriptions.js
-  :language: javascript
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/quickstart.snippet.open-realm-with-subscriptions.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/quickstart.snippet.open-realm-with-subscriptions.js
+          :language: javascript
 
 The syntax to :ref:`read <node-read-operations>`, :ref:`write <node-write-operations>`, 
 and :ref:`watch for changes <node-react-to-changes>` on a

@@ -13,7 +13,7 @@ class Person extends Realm.Object<Person> {
   };
 }
 
-const config = {
+const config: Realm.Configuration = {
   schema: [Person],
   // increment the 'schemaVersion', since 'lastName' has been removed from the schema
   schemaVersion: 2,

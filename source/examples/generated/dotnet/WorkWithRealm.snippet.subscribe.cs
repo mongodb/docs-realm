@@ -1,6 +1,5 @@
-var token = fido.Owners.SubscribeForNotifications((sender, changes, error) =>
+var token = fido.Owners.SubscribeForNotifications((sender, changes) =>
 {
-    if (error != null) return;
     if (changes == null) return;
 });
 token.Dispose();

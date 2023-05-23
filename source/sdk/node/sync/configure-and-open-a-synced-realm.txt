@@ -1,9 +1,9 @@
 .. _node-open-a-synced-realm:
 .. _node-sync-changes-between-devices:
 
-======================================
-Configure a Synced Realm - Node.js SDK
-======================================
+=============================================
+Configure & Open a Synced Realm - Node.js SDK
+=============================================
 
 .. contents:: On this page
    :local:
@@ -77,6 +77,37 @@ In the SyncConfiguration, you must include include a ``user`` and ``flexible:tru
    You can't use a Flexible Sync realm until you add at least one subscription.
    To learn how to add subscriptions, see: :ref:`<node-sync-add-subscription>`.
 
+Open Synced Realm at Specific Path
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: ``realm@11.6.0``
+
+Using :js-sdk:`AppConfiguration.baseFilePath <Realm.App.html#~AppConfiguration>`,
+and :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`, you can
+control where Realm and metadata files are stored on client devices.
+
+To do so, set ``<AppProvider>.baseFilePath``. If ``baseFilePath`` is not set, the
+current work directory is used. You can also set ``<RealmProvider>.sync.path``
+for more control.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.set-absolute-path.ts
+   :language: typescript
+   :emphasize-lines: 1
+
+If ``baseFilePath`` is set, metadata is always stored in
+``<baseFilePath>/mongodb-realm/``. If ``baseFilePath`` isn't sßet, then metadata
+is stored in ``<Realm.defaultPath>/mongodb-realm``.
+
+Where exactly your Realm file is stored can vary depending
+on how you set :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`:
+
+- ``Realm.Configuration.path`` is not set and ``baseFilePath`` is set. Your
+  Realm file is stored at ``baseFilePath``.
+- ``Realm.Configuation.path`` is set to a relative path. Your Realm file is
+  stored relative to ``baseFilePath``.
+- ``Realm.Configuration.path`` is an absolute path. Your Realm file is stored
+  at ``Realm.Configuration.path``.
+
 .. _node-partition-sync-open-realm:
 
 Open a Partition-Based Synced Realm
@@ -84,8 +115,19 @@ Open a Partition-Based Synced Realm
 
 .. include:: /includes/node-open-a-synced-realm.rst
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-online-with-car-schema.js
-   :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.js
+        :language: javascript
 
 .. _node-open-synced-realm-offline:
 
@@ -94,8 +136,8 @@ Open a Synced Realm While Offline
 
 .. include:: /includes/offline-login.rst
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.use-cached-user-to-login.js
-   :language: javascript
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.use-cached-user.ts
+   :language: typescript
 
 The following subsections show how to use background synchronization to access a
 realm while offline. To do this, use the cached user and an
@@ -118,10 +160,21 @@ Open Immediately with Background Sync
 
 If the user's device is not connected to the internet or you're uncertain of
 it's connection status, set the realm behavior's type to ``openImmediately``. This 
-syncs data from the server in the background. 
+syncs data from the server in the background.
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-with-background-sync.js
-      :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-background.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-background.js
+        :language: javascript
 
 .. _node-open-after-timeout-with-background-sync:
 
@@ -136,10 +189,21 @@ automatically opens the realm when either:
 - the realm has completely downloaded.
 
 If the realm doesn't finish downloading before the timeout, the initial
-realm sync continues in the background. 
+realm sync continues in the background.
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-config.js
-  :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-offline.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-offline.js
+        :language: javascript
 
 .. _node-sync-changes-in-the-background:
 
@@ -156,22 +220,44 @@ Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
 ``type`` to ``"openImmediately"``. 
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
-      :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-behavior.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-behavior.js
+        :language: javascript
 
 Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
 include the ``sync`` property defining a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>` object. Set this
 ``OpenRealmBehaviorConfiguration`` object as the value for
 the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
-``SyncConfiguration``. 
+``SyncConfiguration``.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
-      :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-configuration.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/device-sync.snippet.background-sync-configuration.js
+        :language: javascript
 
 Finally,  call :js-sdk:`Realm.open() <Realm.html#.open>`
 to open a synced realm. This will create a sync session and begin
 downloading any existing data from the server in the background.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-open-realm.js
-      :language: javascript
+.. literalinclude:: /examples/generated/node/device-sync.snippet.open-realm.ts
+   :language: javascript

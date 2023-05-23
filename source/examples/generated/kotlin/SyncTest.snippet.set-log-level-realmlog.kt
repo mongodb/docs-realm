@@ -6,7 +6,7 @@ val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
 val user = app.login(Credentials.emailPassword(email, password))
 val config = SyncConfiguration.Builder(user, setOf(Toad::class))
     .initialSubscriptions { realm ->
-        add(realm.query<Toad>("name == $0", "name value"),  "sync subscription")
+        add(realm.query<Toad>("name == $0", "name value"), "sync subscription")
     }
     .build()
 val realm = Realm.open(config)

@@ -14,7 +14,7 @@ const randomInt = Math.floor(Math.random() * Math.floor(200000));
 const testUsername = "someone" + randomInt.toString() + "@example.com";
 const testPassword = "Pa55w0rd!";
 
-describe("user authentication", () => {
+describe("USER AUTHENTICATION", () => {
   afterEach(async () => {
     await app.currentUser?.logOut();
     jest.runAllTimers();
@@ -24,22 +24,12 @@ describe("user authentication", () => {
     // :snippet-start: anonymous-login
     // Create an anonymous credential
     const credentials = Realm.Credentials.anonymous();
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser?.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error("Failed to log in", err.message);
-        // :remove-start:
-        throw new Error("Anonymous login failed:" + err.message);
-        // :remove-end:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test("email/password login", async () => {
@@ -47,6 +37,7 @@ describe("user authentication", () => {
       email: testUsername,
       password: testPassword,
     });
+
     // :snippet-start: email-password-login
     // :replace-start: {
     //    "terms": {
@@ -59,77 +50,62 @@ describe("user authentication", () => {
       testUsername,
       testPassword
     );
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser?.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error("Failed to log in", err.message);
-        // :remove-start:
-        throw new Error("Email/password login failed:" + err.message);
-        // :remove-end:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :replace-end:
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test("server api key login", async () => {
-    process.env.appServicesApiKey = "yeXX078iJrxtez1s7UI6yqSqy2XBadEUnPPoKFit4XVG51HLRWoZcy2axlAaA8Qk";
+    // Need to log in to call App Services function.
+    const testCredentials = Realm.Credentials.anonymous();
+    const testUser = await app.logIn(testCredentials);
+    // Get a dynamically-generated server API key.
+    const serverApiKey = (await testUser.callFunction(
+      "createServerKey"
+    )) as string;
+
+    await testUser.logOut();
+
+    process.env.appServicesApiKey = serverApiKey;
+
     // :snippet-start: server-api-key-login
-    // Get the API key from the local environment
+    // Get the API key from the local environment.
     const apiKey = process.env?.appServicesApiKey;
+
     if (!apiKey) {
-      throw new Error("Could not find an App Services Server API Key.");
+      throw new Error("Could not find a Server API Key.");
     }
-    // Create an api key credential
+
+    // Create an api key credential.
     const credentials = Realm.Credentials.apiKey(apiKey);
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser?.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error("Failed to log in", err.message);
-        // :remove-start:
-        throw new Error("API Key login failed:" + err.message);
-        // :remove-end:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test("custom function login", async () => {
     // :snippet-start: custom-function-login
-    // Create a custom function credential
-    const credentials = Realm.Credentials.function({ username: "ilovemongodb" });
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser?.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error("Failed to log in", err.message);
-        // :remove-start:
-        throw new Error("Custom function login failed:" + err.message);
-        // :remove-end:
-      }
-    }
+    // Create a custom function credential.
+    const credentials = Realm.Credentials.function({
+      username: "ilovemongodb",
+    });
+    const user = await app.logIn(credentials);
     // :snippet-end:
+
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 
   test("custom jwt login", async () => {
-    const authenticateWithExternalSystem = () => {
+    const authenticateWithExternalSystem = async () => {
       // Simulates returning the following JWT information from an external auth service
       // JWT: {
       //   header: {
@@ -148,65 +124,19 @@ describe("user authentication", () => {
       return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJleGFtcGxlLXRlc3RlcnMta3ZqZHkiLCJzdWIiOiJleGFtcGxlLXVzZXIiLCJuYW1lIjoiSm9lIEphc3BlciIsImV4cCI6MTkxODA2MjM5OH0.3wR1cJN4zlbbDh7IaYyDX0fasNEW3grJCdv_7lQFnPI";
     };
     // :snippet-start: custom-jwt-login
-    // Create a custom jwt credential
+    // Create a custom jwt credential.
     const jwt = await authenticateWithExternalSystem();
     const credentials = Realm.Credentials.jwt(jwt);
-    try {
-      const user = await app.logIn(credentials);
-      // :remove-start:
-      expect(user.id).toBe(app.currentUser?.id);
-      // :remove-end:
-      console.log("Successfully logged in!", user.id);
-      return user;
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error("Failed to log in", err.message);
-        // :remove-start:
-        throw new Error("Custom JWT login failed:" + err.message);
-        // :remove-end:
-      }
-    }
+    const user = await app.logIn(credentials);
     // :snippet-end:
-  });
 
-  test("logout", async () => {
-    const emailPasswordCredentials = Realm.Credentials.emailPassword(
-      testUsername,
-      testPassword
-    );
-    const functionCredentials = Realm.Credentials.function({
-      username: "ilovemongodb",
-    });
-    await Promise.all(Object.values(app.allUsers).map((user) => user.logOut()));
-    try {
-      const emailPasswordUser = await app.logIn(emailPasswordCredentials);
-      expect(emailPasswordUser.id).toBe(app.currentUser?.id);
-      const functionUser = await app.logIn(functionCredentials);
-      expect(functionUser.id).toBe(app.currentUser?.id);
-
-      // :snippet-start: logout
-      // Log out the current user
-      await app.currentUser?.logOut();
-      // :remove-start:
-      expect(emailPasswordUser.id).toBe(app.currentUser?.id);
-      // :remove-end:
-      // Log out a specific user by ID
-      if (app.currentUser) {
-        await app.allUsers[app.currentUser.id].logOut();
-      }
-      // :snippet-end:
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error("Failed to log out", err.message);
-        // :remove-start:
-        throw new Error("Logout failed:" + err.message);
-        // :remove-end:
-      }
-    }
+    expect(user?.id).not.toBe(undefined);
+    expect(app.currentUser?.id).not.toBe(undefined);
+    expect(user?.id).toBe(app.currentUser?.id);
   });
 });
 
-describe("User Sessions", () => {
+describe("USER SESSIONS", () => {
   afterEach(async () => {
     await app.currentUser?.logOut();
     jest.runAllTimers();
@@ -215,22 +145,27 @@ describe("User Sessions", () => {
   test("Get a User Access Token", async () => {
     const email = "someone@example.com";
     const password = "pa55w0rd!";
+
     try {
       await app.logIn(Realm.Credentials.emailPassword(email, password));
-    } catch (err) {
+    } catch (error) {
       await app.emailPasswordAuth.registerUser({ email, password });
       await app.logIn(Realm.Credentials.emailPassword(email, password));
     }
+
     // :snippet-start: get-user-access-token
     // Gets a valid user access token to authenticate requests
     async function getValidAccessToken(user: Realm.User) {
       // An already logged in user's access token might be stale. To
       // guarantee that the token is valid, refresh it if necessary.
       await user.refreshCustomData();
+
       return user.accessToken;
     }
     // :snippet-end:
+
     const token = await getValidAccessToken(app.currentUser!);
+
     expect(token).not.toBe(undefined);
   });
 });

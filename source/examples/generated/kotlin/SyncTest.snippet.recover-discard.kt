@@ -13,7 +13,7 @@ val clientResetStrategy = object : RecoverOrDiscardUnsyncedChangesStrategy {
     override fun onAfterDiscard(before: TypedRealm, after: MutableRealm) {
         Log.i("Client reset: recovery unsuccessful, attempting to manually recover any changes")
         // ... Try to manually recover any unsynced data
-        manuallyRecoverUnsyncedData(before, after) 
+        manuallyRecoverUnsyncedData(before, after)
     }
     // Executed if the automatic recovery has failed,
     // but the discard unsynced changes fallback has completed successfully.

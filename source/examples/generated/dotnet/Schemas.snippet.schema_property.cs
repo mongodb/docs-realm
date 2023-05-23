@@ -19,7 +19,7 @@ var manualConfig = new RealmConfiguration
             Property.Primitive("LastName",
                 RealmValueType.String,
                 isNullable: true,
-                isIndexed: true)
+                indexType: IndexType.General)
         }
     }
 };
