@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("io.realm.kotlin")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.0"
 }
 
 version = "1.0"
@@ -17,6 +18,7 @@ kotlin {
             dependencies {
                 implementation(libs.realm.sync)
                 implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.serialization)
                 implementation("io.github.aakira:napier:2.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 api("co.touchlab:kermit:0.1.8")
