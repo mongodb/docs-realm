@@ -2,6 +2,7 @@ package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.UpdatePolicy
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmDictionaryOf
 import io.realm.kotlin.internal.platform.runBlocking
@@ -15,7 +16,9 @@ import kotlin.test.assertTrue
 
 // :replace-start: {
 //    "terms": {
-//       "UpdateTest_": ""
+//       "UpdateTest_": "",
+//       "CRUDTest.": "",
+//       "frogObjectId": "ObjectId()"
 //    }
 // }
 
@@ -80,6 +83,60 @@ class UpdateTest: RealmTest() {
             assertTrue(thisFrogUpdated.favoritePondsByForest.containsValue("Lily Pad Pond"))
             assertTrue(thisFrogUpdated.favoritePondsByForest.containsKey("Sherwood Forest"))
             assertTrue(thisFrogUpdated.favoritePondsByForest["Sherwood Forest"] == "Miller Pond")
+            realm.close()
+        }
+    }
+
+    @Test
+    fun upsertAnObjectTest() {
+        val REALM_NAME = getRandom()
+
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(CRUDTest.Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .directory(TMP_PATH)
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            // insert an object that meets our example query
+            val frogObjectId = ObjectId()
+            realm.writeBlocking {
+                // Remove any existing matching frogs to start fresh
+                val frogs: RealmResults<CRUDTest.Frog> =
+                    this.query<CRUDTest.Frog>("name == 'Wirt'").find()
+                delete(frogs)
+                this.copyToRealm(CRUDTest.Frog().apply {
+                    _id = frogObjectId
+                    name = "Wirt"
+                    age = 45
+                    species = "Green"
+                    owner = "Jim"
+                })
+            }
+            val frogsMatchingId: RealmResults<CRUDTest.Frog> =
+                realm.query<CRUDTest.Frog>("_id == $0", frogObjectId).find()
+            assertEquals(1, frogsMatchingId.count())
+
+            // :snippet-start: upsert-an-object
+            realm.write {
+                // The ID of a particular frog can either already exist or be a new ObjectId
+                val frogId = frogObjectId
+                // If a frog matching the ID exists, update its properties, otherwise create it
+                this.copyToRealm(CRUDTest.Frog().apply {
+                    _id = frogId
+                    name = "Wirt"
+                    age = 4
+                    species = "Greyfrog"
+                    owner = "L'oric"
+                }, updatePolicy = UpdatePolicy.ALL)
+            }
+            // :snippet-end:
+            val updatedFrogsMatchingId: RealmResults<CRUDTest.Frog> =
+                realm.query<CRUDTest.Frog>("_id == $0", frogObjectId).find()
+            assertEquals(1, updatedFrogsMatchingId.count())
+            assertEquals(4, updatedFrogsMatchingId.first().age)
+            assertEquals("Greyfrog", updatedFrogsMatchingId.first().species)
+            assertEquals("L'oric", updatedFrogsMatchingId.first().owner)
             realm.close()
         }
     }
