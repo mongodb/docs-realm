@@ -1,11 +1,9 @@
 realm.write {
-    // Fetch a frog from the realm based on some query
-    val frog: Frog? =
-        this.query<Frog>("name == 'Wirt'").first().find()
-    val frogPrimaryKey = frog?._id ?: ObjectId()
-    // If a frog matching the query exists, update its properties, otherwise create it
+    // The ID of a particular frog can either already exist or be a new ObjectId
+    val frogId = ObjectId()
+    // If a frog matching the ID exists, update its properties, otherwise create it
     this.copyToRealm(Frog().apply {
-        _id = frogPrimaryKey
+        _id = frogId
         name = "Wirt"
         age = 4
         species = "Greyfrog"

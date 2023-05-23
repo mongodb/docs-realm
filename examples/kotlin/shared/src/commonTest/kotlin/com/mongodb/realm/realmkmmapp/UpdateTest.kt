@@ -17,7 +17,8 @@ import kotlin.test.assertTrue
 // :replace-start: {
 //    "terms": {
 //       "UpdateTest_": "",
-//       "CRUDTest.": ""
+//       "CRUDTest.": "",
+//       "frogObjectId": "ObjectId()"
 //    }
 // }
 
@@ -98,13 +99,14 @@ class UpdateTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // insert an object that meets our example query
+            val frogObjectId = ObjectId()
             realm.writeBlocking {
                 // Remove any existing matching frogs to start fresh
                 val frogs: RealmResults<CRUDTest.Frog> =
                     this.query<CRUDTest.Frog>("name == 'Wirt'").find()
                 delete(frogs)
                 this.copyToRealm(CRUDTest.Frog().apply {
-                    _id = ObjectId()
+                    _id = frogObjectId
                     name = "Wirt"
                     age = 45
                     species = "Green"
@@ -117,13 +119,11 @@ class UpdateTest: RealmTest() {
 
             // :snippet-start: upsert-an-object
             realm.write {
-                // Fetch a frog from the realm based on some query
-                val frog: CRUDTest.Frog? =
-                    this.query<CRUDTest.Frog>("name == 'Wirt'").first().find()
-                val frogPrimaryKey = frog?._id ?: ObjectId()
-                // If a frog matching the query exists, update its properties, otherwise create it
+                // The ID of a particular frog can either already exist or be a new ObjectId
+                val frogId = frogObjectId
+                // If a frog matching the ID exists, update its properties, otherwise create it
                 this.copyToRealm(CRUDTest.Frog().apply {
-                    _id = frogPrimaryKey
+                    _id = frogId
                     name = "Wirt"
                     age = 4
                     species = "Greyfrog"
