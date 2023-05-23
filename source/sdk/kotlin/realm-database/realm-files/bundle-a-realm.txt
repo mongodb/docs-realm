@@ -17,10 +17,11 @@ The Realm Kotlin SDK supports bundling realm database files with your
 application. This enables you to pre-populate a database with seed data 
 in your application download.
 
-.. tip:: Consider Initial Data Callback
+.. tip:: Consider Initial Data Callback or Initial Subscriptions
 
    You can also add data to your realm the first time an application opens it
-   using `InitialDataCallback <{+kotlin-local-prefix+}io.realm.kotlin/-initial-data-callback/index.html>`__.
+   using `InitialDataCallback <{+kotlin-local-prefix+}io.realm.kotlin/-initial-data-callback/index.html>`__
+   or `InitialSubscriptions <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/initial-subscriptions.html>`__.
 
 .. _kotlin-asset-realm-location-by-platform:
 
@@ -61,43 +62,25 @@ Bundle a Non-Synced Realm
       Populate the asset realm with the seed data you want to include 
       in your production application.
 
+      You can get the path to the asset realm file using 
+      `Realm.configuration.path <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html#422583608%2FProperties%2F-1651551339>`__.
+
       .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-create-realm.kt
          :language: kotlin
 
-   .. step:: Create a Copy of the Asset Realm
+      Now that you have an asset realm, you can move it into your production 
+      application and use it there.
 
-      Still in the temporary project, you must create a copy of the asset realm
-      that you can bundle with your production application.
+      .. tip:: Realms are compatible across SDKs
 
-      Create a `Configuration <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html>`__ 
-      that your production app can use to open a copy of the asset realm. 
-      Set the ``initialRealmFile`` property in this configuration to the 
-      name of your asset realm. This configuration should have a different 
-      `name <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/name.html>`__ 
-      property than the asset realm.
-
-      You can optionally provide a ``sha256checkSum`` for the ``initialRealmFile``
-      to verify the integrity of the realm file when opening it. 
-      If you provide a checksum that does not match the computed checksum 
-      of the asset file when you open the seed realm, ``Realm.open()`` 
-      fails with an ``IllegalArgumentException``.
-
-      .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-copy-config.kt
-         :language: kotlin
-
-      Copy the realm to a new file with the 
-      `writeCopyTo() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__ 
-      method. This method automatically compacts your realm to the smallest 
-      possible size before copying.
-
-      You can get the path to the copied realm file using 
-      `Realm.configuration.path <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html#422583608%2FProperties%2F-1651551339>`__.
-
-      .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-copy-realm.kt
-         :language: kotlin
-
-      Now that you have a copy of the asset realm, you can move it into 
-      your production application and use it there.
+         Realm files that use the same file format are compatible across SDKs. 
+         If you need to programmatically create asset realms to bundle with 
+         a production application, you can use the :ref:`Node.js SDK <node-intro>` 
+         for easy integration with CI pipelines. 
+         
+         You can find the file format supported by your SDK version in the 
+         changelog for your SDK. This may resemble something like 
+         "File format: Generates Realms with file format v23."
 
    .. step:: Bundle and Open the Realm File in Your Production Application
 
@@ -105,12 +88,22 @@ Bundle a Non-Synced Realm
       You must place this asset file in the appropriate location for your 
       app's platform. For details, refer to :ref:`kotlin-asset-realm-location-by-platform`.
 
-      Now that you have a copy of the realm bundled with your production app,
-      you can open it using the copied realm configuration you created. It 
+      Create a `Configuration <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/index.html>`__ 
+      that your production app can use to open a copy of the asset realm. 
+      Set the ``initialRealmFile`` property in this configuration to the 
+      name of your asset realm.
+
+      You can optionally provide a ``sha256checkSum`` for the ``initialRealmFile``
+      to verify the integrity of the realm file when opening it. 
+      If you provide a checksum that does not match the computed checksum 
+      of the asset file when you open the seed realm, ``Realm.open()`` 
+      fails with an ``IllegalArgumentException``.
+
+      With this configuration, you can open the bundled asset realm. It 
       contains the data that was in the asset realm at the time you 
       copied it.
 
-      .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-open-copied-realm.kt
+      .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm-open-bundled-realm.kt
          :language: kotlin
 
 .. _kotlin-bundle-synced-realm:
@@ -164,8 +157,7 @@ To bundle a synced realm, perform the following:
       Create a `SyncConfiguration <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__ 
       that your app can use to open a copy of the asset realm. Set the 
       ``initialRealmFile`` property in this configuration to the 
-      name of your asset realm. This configuration should have a different
-      ``name`` property than the asset realm.
+      name of your asset realm.
 
       You can optionally provide a ``sha256checkSum`` for the ``initialRealmFile``
       to verify the integrity of the realm file when opening it. 
