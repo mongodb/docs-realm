@@ -129,21 +129,20 @@ void main() {
       realm.write(() {
         realm.addAll([
           Person(ObjectId(), 'Luke'),
-          Person(ObjectId(), 'Leia'),
-          Person(ObjectId(), 'Han'),
-          Person(ObjectId(), 'Chewbacca')
+          Person(ObjectId(), 'Luke'),
+          Person(ObjectId(), 'Luke'),
+          Person(ObjectId(), 'Luke')
         ]);
       });
 
       final limitedPeopleResults =
-          realm.query<Person>('TRUEPREDICATE LIMIT(2)');
-      for (var person in limitedPeopleResults) {
-        print(person.name);
-      }
-      // prints 'Luke', 'Leia'
+          realm.query<Person>('name == \$0 SORT(name ASC) LIMIT(2)', ['Luke']);
+
+      // prints `2`
+      print(limitedPeopleResults.length);
       // :snippet-end:
-      expect(limitedPeopleResults.first.name, 'Luke');
-      expect(limitedPeopleResults.last.name, 'Leia');
+      expect(limitedPeopleResults.length, 2);
+
       cleanUpRealm(realm);
     });
   });
