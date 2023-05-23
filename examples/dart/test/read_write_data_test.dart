@@ -121,7 +121,33 @@ void main() {
       expect(alphabetizedPeople.last.name, 'Luke');
       cleanUpRealm(realm);
     });
+
+    test("Limit Results", () {
+      final config = Configuration.local([Person.schema, Team.schema]);
+      final realm = Realm(config);
+      // :snippet-start: limit
+      realm.write(() {
+        realm.addAll([
+          Person(ObjectId(), 'Luke'),
+          Person(ObjectId(), 'Leia'),
+          Person(ObjectId(), 'Han'),
+          Person(ObjectId(), 'Chewbacca')
+        ]);
+      });
+
+      final limitedPeopleResults =
+          realm.query<Person>('TRUEPREDICATE LIMIT(2)');
+      for (var person in limitedPeopleResults) {
+        print(person.name);
+      }
+      // prints 'Luke', 'Leia'
+      // :snippet-end:
+      expect(limitedPeopleResults.first.name, 'Luke');
+      expect(limitedPeopleResults.last.name, 'Leia');
+      cleanUpRealm(realm);
+    });
   });
+
   test('Return from write block', () {
     final config = Configuration.local([Person.schema]);
     final realm = Realm(config);
