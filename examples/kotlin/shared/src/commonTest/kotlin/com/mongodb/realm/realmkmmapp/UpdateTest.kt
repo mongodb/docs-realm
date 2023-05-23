@@ -113,9 +113,9 @@ class UpdateTest: RealmTest() {
                     owner = "Jim"
                 })
             }
-            val frogsNamedWirt: RealmResults<CRUDTest.Frog> =
-                realm.query<CRUDTest.Frog>("name == 'Wirt'").find()
-            assertEquals(1, frogsNamedWirt.count())
+            val frogsMatchingId: RealmResults<CRUDTest.Frog> =
+                realm.query<CRUDTest.Frog>("_id == $0", frogObjectId).find()
+            assertEquals(1, frogsMatchingId.count())
 
             // :snippet-start: upsert-an-object
             realm.write {
@@ -131,12 +131,12 @@ class UpdateTest: RealmTest() {
                 }, updatePolicy = UpdatePolicy.ALL)
             }
             // :snippet-end:
-            val updatedFrogsNamedWirt: RealmResults<CRUDTest.Frog> =
-                realm.query<CRUDTest.Frog>("name == 'Wirt'").find()
-            assertEquals(1, updatedFrogsNamedWirt.count())
-            assertEquals(4, updatedFrogsNamedWirt.first().age)
-            assertEquals("Greyfrog", updatedFrogsNamedWirt.first().species)
-            assertEquals("L'oric", updatedFrogsNamedWirt.first().owner)
+            val updatedFrogsMatchingId: RealmResults<CRUDTest.Frog> =
+                realm.query<CRUDTest.Frog>("_id == $0", frogObjectId).find()
+            assertEquals(1, updatedFrogsMatchingId.count())
+            assertEquals(4, updatedFrogsMatchingId.first().age)
+            assertEquals("Greyfrog", updatedFrogsMatchingId.first().species)
+            assertEquals("L'oric", updatedFrogsMatchingId.first().owner)
             realm.close()
         }
     }
