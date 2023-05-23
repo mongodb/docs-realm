@@ -8,7 +8,7 @@ realm.write(() {
 });
 
 final limitedPeopleResults =
-    realm.query<Person>('name == \$0 SORT(name ASC) LIMIT(2)', ['Luke']);
+    realm.query<Person>('name == \$0 LIMIT(2)', ['Luke']);
 
 // prints `2`
 print(limitedPeopleResults.length);
