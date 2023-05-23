@@ -196,13 +196,18 @@ Stable Encoder
 ~~~~~~~~~~~~~~
 
 The stable encoder does not support user-defined classes. You can use these
-arguments and results types with the stable encoder:
+argument types with the stable encoder:
 
-- Valid argument types: Primitives, BSON, ``MutableRealmInt``, ``RealmUUID``,
-  ``ObjectId``, ``RealmInstant``, ``RealmAny``, Array, Collection, and Map.
-
-- ``RealmResults`` can only be deserialized to BSON, ``MutableRealmInt``, ``RealmUUID``, 
-  ``ObjectId``, ``RealmInstant``, ``RealmAny``, and primitive types.
+- Primitives
+- BSON 
+- ``MutableRealmInt``
+- ``RealmUUID``
+- ``ObjectId``
+- ``RealmInstant``
+- ``RealmAny``
+- Array
+- Collection
+- Map
 
 To return a collection or map, you can use ``BsonArray`` or ``BsonDocument``.
 
