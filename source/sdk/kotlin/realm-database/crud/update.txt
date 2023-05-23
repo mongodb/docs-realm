@@ -65,17 +65,10 @@ To upsert into a realm:
    `realm.writeBlocking()
    <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
 
-#. Query the transaction's mutable realm with `realm.query()
-   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
-   Specify the object type as a type parameter passed to :file:`query()`.
-   Filter your criteria with unique identifying criteria for the
-   object you want to upsert.
-
-#. Insert a new object with the same primary key as the object returned
-   by the previous query (if it exists) with `copyToRealm()
+#. Insert an object with a primary key using `copyToRealm()
    <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__.
-   If an object matching your filter already exists, realm updates the
-   existing object. If no object exists that matches your filter, realm
+   If an object matching the primary key already exists, realm updates the
+   existing object. If no object exists that matches the primary key, realm
    inserts a new object.
 
 You can specify the 
