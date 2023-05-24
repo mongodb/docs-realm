@@ -12,21 +12,24 @@ struct LoggerDog : realm::object<LoggerDog> {
 
 // :snippet-start: create-custom-logger
 struct MyCustomLogger : realm::logger {
-    void do_log(realm::logger::level level, const std::string &msg) override {
-        std::cout << "Realm log entry: " << msg << "\n";
+    virtual void do_log(realm::logger::level level, const std::string &msg) override {
+        std::cout << "Realm log entry: " << msg << std::endl;
     }
 };
 // :snippet-end:
 
 TEST_CASE("open a realm with a logger", "[realm][logger]") {
     // :snippet-start: initialize-logger
-    auto logLevel = realm::logger::level::info;
     auto thisRealm = realm::open<LoggerDog>();
-    auto myLogger = MyCustomLogger();
+    auto myLogger = std::make_shared<MyCustomLogger>();
+    realm::set_default_logger(myLogger);
+    // :snippet-end:
+    // :snippet-start: set-default-log-level
+    auto logLevel = realm::logger::level::info;
     realm::set_default_level_threshold(logLevel);
-    //realm::set_default_logger(myLogger);
     // :snippet-end:
     SECTION("Test code example functions as intended + teardown") {
+        std::cout << "In logger test \n";
         // Write something to the realm to confirm this worked as expected.
         auto dog = LoggerDog { .name = "Ben", .age = 2 };
         thisRealm.write([&thisRealm, &dog] { 
@@ -40,5 +43,6 @@ TEST_CASE("open a realm with a logger", "[realm][logger]") {
         thisRealm.write([&thisRealm, &dog] { 
             thisRealm.remove(dog); 
         });
+        std::cout << "Leaving logger test \n";
     }
 }
