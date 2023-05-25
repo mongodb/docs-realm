@@ -28,6 +28,7 @@ add_executable(examples
   define-object-model.cpp
   filter-data.cpp 
   flexible-sync.cpp
+  logger.cpp
   notifications.cpp
   open-realm.cpp
   quick-start.cpp 
