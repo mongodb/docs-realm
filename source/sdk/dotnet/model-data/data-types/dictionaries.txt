@@ -56,15 +56,12 @@ using either a string query (:ref:`RQL <dotnet-realm-query-language>`) or LINQ.
 Watching For Changes
 ---------------------
 
-``IDictionary`` implements the `INotifyPropertyChanged.PropertyChanged Event 
-<https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged>`__. 
-In the following code example, we have a class named ``Collection`` with an 
+``IDictionary`` implements the `INotifyPropertyChanged.PropertyChanged 
+<https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged>`__  
+event. In the following code example, we have a class with an 
 ``IDictionary<string, int>`` property named ``IntDictionary``. We cast this 
 property to an :dotnet-sdk:`IRealmCollection <reference/Realms.IRealmCollection-1.html>` 
 and set an event handler for the ``PropertyChanged`` event:
 
 .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.notify-dictionary-change.cs
    :language: csharp
-   
-
-

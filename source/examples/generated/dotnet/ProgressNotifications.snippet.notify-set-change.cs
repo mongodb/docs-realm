@@ -1,5 +1,5 @@
-var set = container.StringSet.AsRealmCollection();
-set.PropertyChanged += (sender, e) =>
+var stringSet = container.StringSet.AsRealmCollection();
+stringSet.PropertyChanged += (sender, e) =>
 {
     Console.WriteLine($"Property changed on {sender}: {e.PropertyName}");
 };
