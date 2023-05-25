@@ -10,21 +10,17 @@ struct LoggerDog : realm::object<LoggerDog> {
         realm::property<&LoggerDog::age>("age"));
 };
 
-std::atomic<int> custom_logger_counter; 
-
 // :snippet-start: create-custom-logger
 struct MyCustomLogger : realm::logger {
     // This could be called from any thread, so may not output visibly to the console.
     // Handle output in a queue or other cross-thread context if needed.
     void do_log(realm::logger::level level, const std::string &msg) override {
         std::cout << "Realm log entry: " << msg << std::endl;
-        custom_logger_counter.fetch_add(1); // :remove:
     }
 };
 // :snippet-end:
 
 TEST_CASE("open a realm with a logger", "[realm][logger]") {
-    custom_logger_counter = 0;
     // :snippet-start: initialize-logger
     auto thisRealm = realm::open<LoggerDog>();
     auto myLogger = std::make_shared<MyCustomLogger>();
@@ -48,7 +44,5 @@ TEST_CASE("open a realm with a logger", "[realm][logger]") {
         thisRealm.write([&thisRealm, &dog] { 
             thisRealm.remove(dog); 
         });
-        std::cout << "Atomic int counter is: " << custom_logger_counter.load() << "\n";
-        //REQUIRE(x >= 1);
     }
 }
