@@ -505,7 +505,16 @@ guarantees a consistent order of results if you explicitly sort them.
    .. tab::
       :tabid: swift
 
-      To sort, call :swift-sdk:`Results.sorted(byKeyPath:ascending:)
+      .. versionadded:: 10.11.0
+
+      You can sort using the type-safe keyPath by calling
+      :swift-sdk:`Results.sorted(by: ) <Structs/Results.html>` with the 
+      keyPath name and optional sort order:
+
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.sort-type-safe.swift
+         :language: swift
+
+      To sort using the older API, call :swift-sdk:`Results.sorted(byKeyPath:ascending:)
       <Structs/Results.html#/s:10RealmSwift7ResultsV6sorted9byKeyPath9ascendingACyxGSS_SbtF>`
       with the desired key path to sort by.
 
