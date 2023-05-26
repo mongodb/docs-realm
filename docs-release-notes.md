@@ -1,3 +1,37 @@
+# May 26, 2023
+
+## C++ SDK
+
+- CRUD/Threading: Change `invoke()` override in custom scheduler code example to use `realm::Function` instead of `std::function` per SDK updates
+- Sync Data
+  - Handle Sync Errors: Remove `error_code` from `sync_error` per SDK updates
+  - Set the Sync Client Log Level: New page with info and code example for setting the Sync client log level
+- Logging: New page with info and code examples for setting the Realm log level and customizing the logging function
+
+## Flutter SDK
+
+- Read & Write Data: Add a "Limit Results" section with a tested Bluehawked code example showing how to limit results in the Realm Flutter SDK
+
+## Kotlin SDK
+
+- Realm Database
+  - Manage Realm Files/Bundle a Realm: Add this page back with info and tested Bluehawked code examples for bundling a realm using the new `assetFile` functionality in Kotlin SDK v1.9.0
+  - Read & Write Data/Update: Provide a more realistic code example in Upsert section per docs feedback, add info on `UpdatePolicy`
+  - Serialization: Add info and tested Bluehawked code examples for the stable Realm Data Type serializers and experimental Full Document Serialization
+- Sync Device Data/Configure & Open a Synced Realm: Add sections with tested Bluehawked code examples for waiting for download, conditionally waiting for download, and opening a synced realm offline
+- Atlas App Services/Call an Atlas Function: Add a link to Serialization documentation, note serialization limitations apply pre-v1.9.0
+- Manage Users
+  - Authenticate Users: Add a note to the Custom Function authentication with a link to serialization docs for serializing a custom function credential using an EJSON encoder
+  - Custom User Data: Add a note with a link to serialization docs for serializing custom user data using an EJSON encoder
+
+## React Native SDK
+
+- Model Data/Change an Object Model: Fix incorrect migration method name, update tests and code snippets
+
+## Swift SDK
+
+- CRUD/Read: Add a tested Bluehawked code example for Sort using the type-safe keyPath API per docs feedback
+
 # May 19, 2023
 
 ## Java SDK
