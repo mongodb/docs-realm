@@ -9,7 +9,6 @@ var pricklyPear = plants
 var pricklyPears = plants
     .Filter("Name == 'Prickly Pear'");
 
-
 // You can query collection properties in the same way
 var morePlants = realm.All<Inventory>().ElementAt(0).Plants;
 

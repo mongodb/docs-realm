@@ -196,7 +196,6 @@ namespace Examples
             var pricklyPears = plants
                 .Filter("Name == 'Prickly Pear'");
 
-
             // You can query collection properties in the same way
             var morePlants = realm.All<ListInventory>().ElementAt(0).Plants;
 
