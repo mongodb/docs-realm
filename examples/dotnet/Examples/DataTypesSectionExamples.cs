@@ -164,6 +164,7 @@ namespace Examples
             Assert.IsNotNull(pricklyPearPlants);
             Assert.IsNotNull(moreThan100);
         }
+
         [Test]
         public async Task WorkWithLists()
         {
@@ -184,21 +185,32 @@ namespace Examples
             //  "terms": {
             //   "ListInventory": "Inventory"}
             // }
-            var firstPlants = realm.All<ListInventory>().ElementAt(0).Plants;
-            // convert the Plant List to an IQueryable and apply a filter
-            // to find plants with a name of "Prickly Pear"
-            var pricklyPearCacti = firstPlants.AsQueryable().Where(plant => plant.Name == "Prickly Pear");
+            var plants = realm.All<Plant>();
 
-            // Alternatively, apply a filter directly on the plant list
-            var pricklyPearCactiCactiPlants = firstPlants.Filter("Name == 'Prickly Pear'");
+            // Use the Where operator to find items
+            // in the results collection
+            var pricklyPear = plants
+                .Where(plant => plant.Name == "Prickly Pear");
 
-            // Find all Inventory items that have a green colored plant
-            var greenPlants = realm.All<ListInventory>().Filter("Plants.Color CONTAINS[c] 'Green'");
+            // Or apply a filter to the results collection
+            var pricklyPears = plants
+                .Filter("Name == 'Prickly Pear'");
+
+            // You can query collection properties in the same way
+            var morePlants = realm.All<ListInventory>().ElementAt(0).Plants;
+
+            // Convert the Ilist<Plant> to an IQueryable and
+            // use the Where operator
+            var pricklyPearCacti = morePlants.AsQueryable()
+                .Where(plant => plant.Name == "Prickly Pear");
+
+            // Or apply a filter to the collection
+            var greenPlants = realm.All<ListInventory>()
+                .Filter("Plants.Color CONTAINS[c] 'Green'");
             // :replace-end:
-            //:snippet-end:
+            // :snippet-end:
 
             Assert.IsNotNull(pricklyPearCacti);
-            Assert.IsNotNull(pricklyPearCactiCactiPlants);
             Assert.AreEqual(1, greenPlants.Count());
         }
 
