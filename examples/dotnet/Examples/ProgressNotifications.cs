@@ -152,6 +152,12 @@ namespace Examples
 
             // :snippet-start: notify-set-change
             var stringSet = container.StringSet.AsRealmCollection();
+
+            stringSet.CollectionChanged += (sender, e) =>
+            {
+                Console.WriteLine($"Set {sender} changed: {e.Action}");
+            };
+
             stringSet.PropertyChanged += (sender, e) =>
             {
                 Console.WriteLine($"Property changed on {sender}: {e.PropertyName}");
@@ -159,6 +165,12 @@ namespace Examples
             // :snippet-end:
             // :snippet-start: notify-list-change
             var list = container.StringList.AsRealmCollection();
+
+            list.CollectionChanged += (sender, e) =>
+            {
+                Console.WriteLine($"List {sender} changed: {e.Action}");
+            };
+
             list.PropertyChanged += (sender, e) =>
             {
                 Console.WriteLine($"Property changed on {sender}: {e.PropertyName}");
@@ -170,12 +182,6 @@ namespace Examples
             dictionary.CollectionChanged += (sender, e) =>
             {
                 Console.WriteLine($"Collection {sender} changed: {e.Action}");
-                /* the event arg includes:
-                e.Action,
-                e.NewItems,
-                e.OldItems,
-                e.NewStartingIndex, and
-                e.OldStartingIndex */
             };
 
             dictionary.PropertyChanged += (sender, e) =>

@@ -57,12 +57,16 @@ The following code shows how to create, write to, and read from Sets.
 Watching For Changes
 ---------------------
 
-``ISet`` implements the `INotifyPropertyChanged.PropertyChanged 
-<https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged>`__
-event. In the following code example, we have a class with an 
-``ISet<string>`` property named ``StringSet``. We cast this property to an 
-:dotnet-sdk:`IRealmCollection <reference/Realms.IRealmCollection-1.html>` and 
-set an event handler for the ``PropertyChanged`` event:
+You can use the `INotifyCollectionChanged.CollectionChanged 
+<https://learn.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged>`__ 
+event on a set to watch for changes to the set, and the 
+`INotifyPropertyChanged.PropertyChanged 
+<https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged>`__  
+event to watch for changes to specific properties in the set. 
+
+In the following code example, we have a class with an 
+``ISet<string>`` property named ``StringSet``. We set up event 
+handlers for both the ``CollectionChanged`` and ``PropertyChanged`` events:
 
 .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.notify-set-change.cs
    :language: csharp
