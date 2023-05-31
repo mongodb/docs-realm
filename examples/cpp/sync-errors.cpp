@@ -35,7 +35,7 @@ TEST_CASE("set a sync error handler", "[error]") {
 
     // Setting an error handler on the sync_config gives you access to sync_session and sync_error
     dbConfig.sync_config().set_error_handler([](const realm::sync_session& session, const realm::sync_error& error) {
-        std::cerr << "A sync error occurred. Code: " << error.error_code() << " Message: " << error.message() << std::endl;
+        std::cerr << "A sync error occurred. Message: " << error.message() << std::endl;
     });
 
     auto syncRealmRef = realm::async_open<SyncError_Dog>(dbConfig).get_future().get();

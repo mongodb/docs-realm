@@ -101,17 +101,20 @@ TEST_CASE("local quick start", "[realm][write]") {
         realm.remove(todo);
     });
     // :snippet-end:
+    token.unregister();
 }
 
-TEST_CASE("sync quick start", "[realm][write][sync]") {
+TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
     // :snippet-start: connect-to-backend
     auto app = realm::App(APP_ID);
     // :snippet-end:
-    
+    // :snippet-start: set-sync-log-level
+    auto logLevel = realm::logger::level::info;
+    app.get_sync_manager().set_log_level(logLevel);
+    // :snippet-end:
     // :snippet-start: authenticate-user
     auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
     // :snippet-end:
-    
     // :snippet-start: open-synced-realm
     auto sync_config = user.flexible_sync_configuration();
     auto synced_realm_ref = realm::async_open<Sync_Todo>(sync_config).get_future().get();

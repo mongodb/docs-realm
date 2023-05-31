@@ -53,9 +53,19 @@ using either a string query (:ref:`RQL <dotnet-realm-query-language>`) or LINQ.
    :language: csharp
 
 
-Data Binding
-------------
-Like other Realm collections, ``IDictionary`` implements ``INotifyCollectionChanged``, 
-so you can use it in data-binding scenarios (for example, when 
-:ref:`watching for changes <dotnet-react-to-changes>`). 
+Watching For Changes
+---------------------
 
+You can use the `INotifyCollectionChanged.CollectionChanged 
+<https://learn.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged>`__ 
+event on a dictionary to watch for changes to the collection, and the 
+`INotifyPropertyChanged.PropertyChanged 
+<https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged.propertychanged>`__  
+event to watch for changes to specific properties in the dictionary. 
+
+In the following code example, we have a class with an ``IDictionary<string, int>`` 
+property named ``IntDictionary``. We set up event 
+handlers for both the ``CollectionChanged`` and ``PropertyChanged`` events:
+
+.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.notify-dictionary-change.cs
+   :language: csharp

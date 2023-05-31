@@ -12,6 +12,9 @@ import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.exceptions.ClientResetRequiredException
 import io.realm.kotlin.mongodb.subscriptions
+import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.mongodb.syncSession
+import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.mongodb.sync.*
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
@@ -19,6 +22,7 @@ import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 // :replace-start: {
 //   "terms": {
@@ -124,6 +128,216 @@ class SyncTest: RealmTest() {
             realm.close()
         }
         // :snippet-end:
+    }
+
+    @Test
+    fun openRealmWaitForInitialDownloadTest() {
+        val app = App.create(yourFlexAppId)
+        runBlocking {
+            val setupUser = app.login(Credentials.anonymous(reuseExisting = false))
+            val setupConfig = SyncConfiguration.Builder(setupUser, setOf(Toad::class))
+                .waitForInitialRemoteData(60.seconds)
+                .initialSubscriptions { realm ->
+                    add(
+                        realm.query<Toad>(
+                            "name == $0",
+                            "Jeremiah"
+                        ),
+                        "subscription name"
+                    )
+                }
+                .build()
+            val setupRealm = Realm.open(setupConfig)
+            Log.v("Successfully opened realm: ${setupRealm.configuration}")
+            setupRealm.syncSession.downloadAllServerChanges(30.seconds)
+            // Delete frogs to make this test successful on consecutive reruns
+            setupRealm.write {
+                // fetch all frogs from the realm
+                val toads: RealmResults<Toad> = this.query<Toad>().find()
+                // call delete on the results of a query to delete those objects permanently
+                delete(toads)
+                assertEquals(0, toads.size)
+            }
+
+            // Create an object to set up the test
+            setupRealm.write {
+                this.copyToRealm(Toad().apply {
+                    name = "Jeremiah"
+                })
+            }
+
+            setupRealm.syncSession.uploadAllLocalChanges(30.seconds)
+            val toads: RealmResults<Toad> = setupRealm.query<Toad>().find()
+            assertEquals(1, toads.size)
+            setupRealm.close()
+
+            val email = getRandom()
+            val password = getRandom()
+            app.emailPasswordAuth.registerUser(email, password)
+            // :snippet-start: wait-for-initial-download
+            val user = app.login(Credentials.emailPassword(email, password))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
+                .waitForInitialRemoteData(60.seconds)
+                .initialSubscriptions { realm ->
+                    add(
+                        realm.query<Toad>(
+                            "name == $0",
+                            "Jeremiah"
+                        ),
+                        "toads_named_jeremiah"
+                    )
+                }
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration}")
+
+            // Query the realm we opened after waiting for data to download, and see that it contains data
+            val downloadedToads: RealmResults<Toad> = realm.query<Toad>().find()
+            Log.v("After downloading initial data, downloadedToads.size is ${downloadedToads.size}")
+            assertEquals(1, downloadedToads.size) // :remove:
+            realm.close()
+            // :snippet-end:
+        }
+    }
+
+    @Test
+    fun openRealmConditionallyDownloadChangesTest() {
+        val app = App.create(yourFlexAppId)
+        runBlocking {
+            val email = getRandom()
+            val password = getRandom()
+            app.emailPasswordAuth.registerUser(email, password)
+            // :snippet-start: conditionally-wait-for-initial-download
+            val user = app.login(Credentials.emailPassword(email, password))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
+                .initialSubscriptions { realm ->
+                    add(
+                        realm.query<Toad>(
+                            "name == $0",
+                            "Lollihops"
+                        ),
+                        "toads_named_lollihops"
+                    )
+                }
+                .build()
+
+            // :remove-start:
+            val setupRealm = Realm.open(config)
+            // If we don't call `downloadAllServerChanges` twice, it does not download any existing
+            // relevant objects. Calling it once when there is no existing realm doesn't actually
+            // seem to download data. Will ping SDK team about this.
+            setupRealm.syncSession.downloadAllServerChanges(30.seconds)
+            setupRealm.syncSession.downloadAllServerChanges(30.seconds)
+            // Delete frogs to make this test successful on consecutive reruns
+            setupRealm.write {
+                // fetch all frogs from the realm
+                val toads: RealmResults<Toad> = this.query<Toad>().find()
+                // call delete on the results of a query to delete those objects permanently
+                delete(toads)
+                assertEquals(0, toads.size)
+            }
+
+            // Create an object to set up the test
+            setupRealm.write {
+                this.copyToRealm(Toad().apply {
+                    name = "Lollihops"
+                })
+            }
+
+            setupRealm.syncSession.uploadAllLocalChanges(30.seconds)
+            val toads: RealmResults<Toad> = setupRealm.query<Toad>().find()
+            assertEquals(1, toads.size)
+            setupRealm.close()
+
+            // Set a value for our conditional check so we can show the logic in the example
+            val downloadData = true
+            // :remove-end:
+            val realm = Realm.open(config)
+            // Conditionally download data before using the realm based on some business logic
+            if (downloadData) {
+                realm.syncSession.downloadAllServerChanges(30.seconds)
+            }
+
+            // Query the realm we opened after waiting for data to download, and see that it contains data
+            val downloadedToads: RealmResults<Toad> = realm.query<Toad>().find()
+            Log.v("After conditionally downloading data, downloadedToads.size is ${downloadedToads.size}")
+            assertEquals(1, downloadedToads.size) // :remove:
+            realm.close()
+            // :snippet-end:
+        }
+    }
+
+    @Test
+    fun openRealmOfflineTest() {
+        val app = App.create(yourFlexAppId)
+        runBlocking {
+            val setupUser = app.login(Credentials.anonymous(reuseExisting = false))
+            val config = SyncConfiguration.Builder(setupUser, setOf(Toad::class))
+                .initialSubscriptions { realm ->
+                    add(
+                        realm.query<Toad>(
+                            "name == $0",
+                            "Mr. Toad"
+                        ),
+                        "toads_named_mr_toad"
+                    )
+                }
+                .build()
+            val setupRealm = Realm.open(config)
+            Log.v("Successfully opened realm: ${setupRealm.configuration}")
+            setupRealm.syncSession.downloadAllServerChanges(30.seconds)
+            // Delete frogs to make this test successful on consecutive reruns
+            setupRealm.write {
+                // fetch all frogs from the realm
+                val toads: RealmResults<Toad> = this.query<Toad>().find()
+                // call delete on the results of a query to delete those objects permanently
+                delete(toads)
+                assertEquals(0, toads.size)
+                // Create an object to set up the test
+                this.copyToRealm(Toad().apply {
+                    name = "Mr. Toad"
+                })
+            }
+
+            setupRealm.syncSession.uploadAllLocalChanges(30.seconds)
+            val updatedToads: RealmResults<Toad> = setupRealm.query<Toad>().find()
+            assertEquals(1, updatedToads.size)
+            setupRealm.close()
+
+            val email = getRandom()
+            val password = getRandom()
+            // :snippet-start: open-realm-offline
+            // You can only open a synced realm offline if there is a cached user credential. If
+            // there is no app.currentUser, you must log them in, which requires a network connection.
+            if (app.currentUser == null) {
+                app.login(Credentials.emailPassword(email, password))
+            }
+            // If the app.currentUser isn't null, you can use the cached credential to open the synced
+            // realm even if the user is offline.
+            val user = app.currentUser!!
+            // :remove-start:
+            assertEquals(setupUser, user)
+            // There isn't a simple way to simulate an offline connection in a Kotlin unit test -
+            // doing this seems to involve mocking a server. So we trust that the SDK has tests
+            // this and aren't actually testing this with an offline connection.
+            // :remove-end:
+            val realm = Realm.open(config)
+
+            // Query the realm we opened, and see that it contains data
+            val offlineToads: RealmResults<Toad> = realm.query<Toad>().find()
+            Log.v("After opening a realm offline, offlineToads.size is ${offlineToads.size}")
+            assertEquals(1, offlineToads.size) // :remove:
+            realm.close()
+            // :snippet-end:
+            val teardownRealm = Realm.open(config)
+            teardownRealm.write {
+                deleteAll()
+            }
+            val teardownToads: RealmResults<Toad> = teardownRealm.query<Toad>().find()
+            teardownRealm.syncSession.downloadAllServerChanges(30.seconds)
+            teardownRealm.syncSession.uploadAllLocalChanges(30.seconds)
+            assertEquals(0, teardownToads.size)
+        }
     }
 
     @Test

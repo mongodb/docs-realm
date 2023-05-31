@@ -12,7 +12,7 @@ class FunctionsTest: RealmTest() {
     @Test
     fun callFunction() {
         val appID = FLEXIBLE_APP_ID
-        val credentials = Credentials.anonymous()
+        val credentials = Credentials.anonymous(reuseExisting = false)
 
         // :snippet-start: call-function
         runBlocking {
