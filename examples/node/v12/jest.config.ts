@@ -9,7 +9,7 @@ const config: Config = {
     {
       displayName: "JavaScript",
       moduleFileExtensions: ["js", "mjs"],
-      testMatch: ["<rootDir>/compiled-js/**/*.js"],
+      testMatch: ["<rootDir>/**/*.test.js"],
       setupFilesAfterEnv: ["<rootDir>/jestSetup.ts"],
       modulePathIgnorePatterns: ["<rootDir>/__tests__/testFiles"],
     },
@@ -19,7 +19,7 @@ const config: Config = {
       preset: "ts-jest/presets/js-with-ts",
       setupFilesAfterEnv: ["<rootDir>/jestSetup.ts"],
       modulePathIgnorePatterns: ["<rootDir>/__tests__/testFiles"],
-      testMatch: ["<rootDir>/__tests__/**/*.ts"],
+      testMatch: ["<rootDir>/__tests__/**/*.test.ts"],
       transform: {
         "^.+\\.ts$": "ts-jest",
       },
