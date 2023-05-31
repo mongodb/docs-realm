@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "generateJs": "detype __tests__ generatedJs",
     "test:js": "jest --selectProjects JavaScript --runInBand --detectOpenHandles --forceExit; npm run delete-realm-files",
     "test:ts": "NODE_OPTIONS=--experimental-vm-modules jest --selectProjects TypeScript --runInBand --detectOpenHandles --forceExit; npm run delete-realm-files",
     "delete-realm-files": "rm -rf *realm.lock *.realm *realm.note *realm.management mongodb-realm *.realm.fresh.lock realm-files myrealm"
@@ -23,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
     "babel-jest": "^29.5.0",
+    "detype": "^0.6.3",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-jest": "^27.2.1",

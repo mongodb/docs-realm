@@ -1,12 +1,15 @@
 #! /bin/bash
 
-PROJECT=$(git rev-parse --show-toplevel)
-NODE_EXAMPLES=$PROJECT/examples/node/v12
-GENERATED_EXAMPLES=$PROJECT/source/examples/generated/node
+PROJECT="$(git rev-parse --show-toplevel)"
+NODE_EXAMPLES="$PROJECT"/examples/node/v12
+GENERATED_EXAMPLES="$PROJECT"/source/examples/generated/node/v12
 
 # standard bluehawking
+rm -f "$GENERATED_EXAMPLES"/*
 echo "Bluehawking Node unit test examples..."
-bluehawk snip $NODE_EXAMPLES/__tests__ -o $GENERATED_EXAMPLES
+bluehawk snip "$NODE_EXAMPLES"/__tests__ -o "$GENERATED_EXAMPLES"
+
+npx detype "$GENERATED_EXAMPLES" "$GENERATED_EXAMPLES"
 
 # Bluehawk bundle example
 # echo "Bluehawking Flutter bundle example..."
