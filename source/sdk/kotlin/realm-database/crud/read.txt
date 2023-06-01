@@ -76,6 +76,20 @@ For more information on constructing queries, refer to the
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.filter.kt
    :language: kotlin
 
+.. _kotlin-filter-fts:
+
+Filter with Full Text Search
+----------------------------
+
+You can use Realm Query Language (RQL) to query on properties that 
+have :ref:`Full-Text Search Indexes <kotlin-fts-index>` (FTS) on them.
+To query these properties, use the ``TEXT`` predicate in your query. 
+
+In the following example, we query the ``Book.genre`` field:
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.kotlin-fts-query.kt
+  :language: kotlin
+
 .. _kotlin-sort-queries:
 
 Sort Results
