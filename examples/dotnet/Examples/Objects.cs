@@ -20,7 +20,7 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId Id { get; set; }
         public string Name { get; set; }
-        public Address10 Address { get; set; } // embed a single address
+        public Address10? Address { get; set; } // embed a single address
     }
 
 
@@ -43,7 +43,7 @@ namespace Examples.Models
         //[NotPrimaryKey]
         public string Name { get; set; }
         public int Age { get; set; }
-        public Person_Required Owner { get; set; }
+        public Person_Required? Owner { get; set; }
     }
     //:replace-end:
     // :snippet-end:
@@ -106,7 +106,7 @@ namespace Examples.Models
         public ObjectId ID { get; set; }
         //:remove-end:
         // ... other property declarations
-        public Person_Rel_One_to_One Owner { get; set; }
+        public Person_Rel_One_to_One? Owner { get; set; }
     }
 
     public partial class Person_Rel_One_to_One : IRealmObject
@@ -147,7 +147,7 @@ namespace Examples.Models
         public ObjectId ID { get; set; }
         //:remove-end:
         // To-one relationship from the Dog to its owner
-        public Person_Inverse Owner { get; set; }
+        public Person_Inverse? Owner { get; set; }
     }
 
     partial class Person_Inverse : IRealmObject

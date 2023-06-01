@@ -40,7 +40,7 @@ namespace LocalOnly
             //:snippet-end:
 
             //:snippet-start:update
-            var davidsStrat = realm.All<Guitar>().FirstOrDefault(
+            var davidsStrat = realm.All<Guitar>().First(
                 g => g.Owner == "D. Gilmour"
                 && g.Make == "Fender"
                 && g.Model == "Stratocaster");
