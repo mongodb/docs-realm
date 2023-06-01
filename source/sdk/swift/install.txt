@@ -25,15 +25,21 @@ Prerequisites
 Before getting started, ensure your development environment
 meets the following prerequisites:
 
-- `Xcode <https://developer.apple.com/xcode/>`__ version 13.1 or higher.
-- When using Xcode 13, a target of iOS 9.0 or higher, macOS 10.9 or higher, tvOS 9.0 or higher, or watchOS 2.0 or higher.
-- If using Swift Package Manager with Xcode 13, target of iOS 11+ or macOS 10.10+ is required.
-- When using Xcode 14, a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
+- Xcode 14.1-14.3.1 with a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
 - Reflection is enabled in your project. The Realm Swift SDK uses reflection to 
   determine your model's properties. Your project must not set 
   ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or Realm cannot see properties 
   in your model. Reflection is enabled by default if your project does 
   not specifically set a level for this setting. 
+
+.. versionchanged:: 10.40.0
+
+Swift SDK version 10.40.0 drops support for Xcode 13. For v10.39.01 and earlier,
+these Xcode 13 requirements apply:
+
+- `Xcode <https://developer.apple.com/xcode/>`__ version 13.1 or higher.
+- When using Xcode 13, a target of iOS 9.0 or higher, macOS 10.9 or higher, tvOS 9.0 or higher, or watchOS 2.0 or higher.
+- If using Swift Package Manager with Xcode 13, target of iOS 11+ or macOS 10.10+ is required.
 
 .. note::
 
@@ -151,7 +157,7 @@ Realm Swift SDK to your project.
                      :emphasize-lines: 6, 9, 14
 
                      # Uncomment the next line to define a global platform for your project
-                     # platform :ios, '9.0'
+                     # platform :ios, '11.0'
 
                      target 'MyRealmProject' do
                      # Comment the next line if you don't want to use dynamic frameworks
@@ -312,34 +318,6 @@ If you have build issues after using one of these methods to install
 Realm, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
 for information about resolving those issues in realm.
 
-OS Support (Xcode 13)
----------------------
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-   :class: index-table
-
-   * - Supported OS
-     - Realm Database
-     - Realm Apps
-
-   * - iOS 9.0+ (iOS 11+ if using Swift Package Manager)
-     - X
-     - X
-
-   * - macOS 10.9+ (macOS 10.10+ if using Swift Package Manager)
-     - X
-     - X
-
-   * - tvOS 9.0+
-     - X
-     - X
-
-   * - watchOS 2.0+
-     - X
-     - 
-
 OS Support (Xcode 14)
 ---------------------
 
@@ -350,7 +328,7 @@ OS Support (Xcode 14)
 
    * - Supported OS
      - Realm Database
-     - Realm Apps
+     - Atlas App Services
 
    * - iOS 11.0+
      - X

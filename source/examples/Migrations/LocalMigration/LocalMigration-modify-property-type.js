@@ -1,7 +1,7 @@
 const realm = await Realm.open({
     schema: [Dog],
     schemaVersion: 2,
-    migration: (oldRealm, newRealm) => {
+    onMigration: (oldRealm, newRealm) => {
         if(oldRealm.schemaVersion < 2){
             const oldObjects = oldRealm.objects('Dog');
             const newObjects = newRealm.objects('Dog');

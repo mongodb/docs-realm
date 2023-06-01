@@ -87,6 +87,21 @@ class ReadRealmObjects: XCTestCase {
             realm.deleteAll()
         }
     }
+    
+    func addTestDogs() {
+        let realm = try! Realm()
+        let dog = ReadExamples_Dog()
+        dog.name = "Maui"
+        dog.age = 2
+        
+        let dog2 = ReadExamples_Dog()
+        dog2.name = "Lita"
+        dog2.age = 11
+        
+        try! realm.write {
+            realm.add([dog, dog2])
+        }
+    }
 
     func testFindObjectByPrimaryKey() {
         // :snippet-start: find-a-specific-object-by-primary-key
@@ -171,6 +186,20 @@ class ReadRealmObjects: XCTestCase {
         // we sort the dogs by their favorite toys' names.
         let dogsSortedByFavoriteToyName = dogs.sorted(byKeyPath: "favoriteToy.name")
         // :snippet-end:
+    }
+    
+    func testTypeSafeSort() {
+        // :snippet-start: sort-type-safe
+        let realm = try! Realm()
+        addTestDogs() // :remove:
+        // Access all dogs in the realm
+        let dogs = realm.objects(ReadExamples_Dog.self)
+        XCTAssertEqual(2, dogs.count) // :remove:
+
+        // Sort by type-safe keyPath
+        let dogsSorted = dogs.sorted(by: \.name)
+        // :snippet-end:
+        XCTAssertEqual(dogsSorted.first!.name, "Lita")
     }
 
     func testFilter() {

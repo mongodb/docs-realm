@@ -548,56 +548,6 @@ class CRUDTest: RealmTest() {
     }
 
     @Test
-    fun upsertAnObjectTest() {
-        val REALM_NAME = getRandom()
-
-        runBlocking {
-            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
-                .name(REALM_NAME)
-                .directory(TMP_PATH)
-                .build()
-            val realm = Realm.open(config)
-            Log.v("Successfully opened realm: ${realm.configuration.name}")
-            // insert an object that meets our example query
-            realm.writeBlocking {
-                this.copyToRealm(Frog().apply {
-                    _id = ObjectId()
-                    name = "Wirt"
-                    age = 45
-                    species = "Green"
-                    owner = "Jim"
-                })
-            }
-            val asyncCall: Deferred<Unit> = async {
-                // :snippet-start: upsert-an-object
-                realm.write {
-                    // fetch a frog from the realm based on some query
-                    val frog: Frog? =
-                        this.query<Frog>("name == 'Wirt'").first().find()
-                    // if the query returned an object, update object from the query
-                    if (frog != null) {
-                        frog.age = 4
-                        frog.species = "Greyfrog"
-                        frog.owner = "L'oric"
-                    } else {
-                        // if the query returned no object, insert a new object with a new primary key.
-                        this.copyToRealm(Frog().apply {
-                            _id = ObjectId()
-                            name = "Wirt"
-                            age = 4
-                            species = "Greyfrog"
-                            owner = "L'oric"
-                        })
-                    }
-                }
-                // :snippet-end:
-            }
-            asyncCall.cancel() // :remove:
-            realm.close()
-        }
-    }
-
-    @Test
     fun updateCollectionTest() {
         runBlocking {
             val config =

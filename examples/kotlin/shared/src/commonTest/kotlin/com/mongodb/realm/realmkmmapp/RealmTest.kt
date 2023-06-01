@@ -13,7 +13,7 @@ import kotlin.test.BeforeTest
  */
 open class RealmTest {
     fun getRandom(): String {
-        return Random.nextLong(100000000).toString()
+        return Random.nextLong(from = 100000, until = 100000000000).toString()
     }
 
     fun getEncryptionKey(seed: Long? = null): ByteArray {
