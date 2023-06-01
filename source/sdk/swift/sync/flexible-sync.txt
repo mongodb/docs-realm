@@ -28,8 +28,10 @@ To use Flexible Sync in an iOS client:
 - :ref:`Open the synced Realm with a Flexible Sync configuration <ios-flexible-sync-open-realm>`
 - :ref:`Add subscriptions to the client application <ios-sync-subscribe-to-queryable-fields>`
 
-You can add, update, and remove query subscriptions to determine which data 
-syncs to the client device.
+You can manually add, update, and remove subscriptions to determine which 
+data syncs to the client device. In Realm Swift SDK version INSERT-VERSION-NUMBER-HERE
+and later, you can subscribe to queries instead of or in addition to manually
+managing subscriptions.
 
 If your app uses :ref:`Data Ingest <optimize-data-ingest>` to 
 unidirectionally sync :swift-sdk:`AsymmetricObjects 
@@ -57,6 +59,8 @@ cannot create subscriptions for those objects.
    Query Language. See :ref:`Flexible Sync RQL Limitations 
    <swift-flexible-sync-rql-limitations>` for details.
 
+.. _ios_flex_sync_about_examples:
+
 About the Examples on This Page
 -------------------------------
    
@@ -70,15 +74,104 @@ of ``members``.
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flexible-sync-models.swift
    :language: swift
 
+The examples on this page assume you have an authorized user and a 
+Flexible Sync configuration:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.initialize-app-authenticate-user.swift
+   :language: swift
+
+.. _swift-flexible-sync-results-subscribe-api:
+
+Subscribe to Queries
+--------------------
+
+.. versionadded:: INSERT-VERSION-NUMBER-HERE
+
+To simplify subscription management, Realm Swift SDK version INSERT-VERSION-NUMBER-HERE
+adds experimental APIs to subscribe and unsubscribe from a query's
+``Results`` set. These APIs abstract away the details of manually adding 
+and removing subscriptions.
+
+Subscribe to a Query
+~~~~~~~~~~~~~~~~~~~~
+
+With :ref:`an authenticated user and a Flexible Sync configuration 
+<ios_flex_sync_about_examples>`, you can open a synced realm and query for the 
+objects you want to read and write. You can ``.subscribe()`` to that query
+to create a Flexible Sync subscription for objects matching the query:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-unnamed.swift
+   :language: swift
+
+This creates an unnamed subscription and adds it to the ``MutableSubscriptionSet``,
+similar to :ref:`manually creating a subscription <ios-sync-add-subscription>`.
+
+Subscribe to a Query with a Subscription Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your app works with multiple subscriptions, or if you want to update
+a subscription, you may want to add a name when you subscribe to a query.
+
+You can later use this name to :ref:`update a subscription's query 
+<ios-update-subscriptions-with-new-query>`, :ref:`check for a subscription by 
+name <ios-check-existing-subscriptions-before-adding>`, or :ref:`remove the 
+query by name <ios-remove-query-by-name>`.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-with-name.swift
+   :language: swift
+
+Wait for a Query Subscription to Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you subscribe to a query's ``Results`` set, that set does not contain 
+objects until it syncs. If your app creates objects, you may not need to 
+download synced data before the user works with it. However, if your app
+requires data from the server before the user can work with it, you can
+specify that a subscription should ``waitForSync``:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-wait-for-sync.swift
+   :language: swift
+
+This option uses the ``RLMWaitForSyncMode`` enum, whose cases are:
+
+- .onCreation: Wait to download matching objects when your app creates the
+  subscription. Otherwise, return without waiting for new downloads. The 
+  app must have an internet connection when you add the subscription.
+- .always: Wait to download matching objects every time your app launches.
+  The app must have an internet connection at every launch.
+- .never: Never wait to download matching objects. The app needs an internet
+  connection for the user to authenticate the first time the app launches, but
+  can :ref:`open offline <ios-open-a-synced-realm-offline>` on subsequent 
+  launches using cached credentials.
+
+You can optionally specify a ``timeout`` value of type :apple:`TimeInterval 
+<foundation/timeinterval>`.
+
+Unsubscribe from a Query
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can unsubscribe from a query's ``Results`` set using the ``.unsubscribe()``
+API:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-api-unsubscribe.swift
+   :language: swift
+
+This removes the subscription from the ``MutableSubscriptionSet``,
+similar to :ref:`manually removing a subscription <ios-remove-query-by-name>`.
+
+A ``Results`` set may still contain objects after calling ``.unsubscribe()`` 
+if another subscription exists that contains overlapping objects. 
+
+Calling ``.unsubscribe()`` does not wait for objects to be removed from the
+realm. There is no API to wait for ``.unsubscribe()`` to sync with the server.
+
 .. _ios-sync-subscribe-to-queryable-fields:
 
-Subscribe to Queryable Fields
+Manually Manage Subscriptions
 -----------------------------
 
-When you configure Flexible Sync on the backend, you specify which fields
-your client application can query. In the client application, use the 
-``subscriptions`` API to manage a set of subscriptions to specific queries on 
-queryable fields.
+You can use the ``subscriptions`` API to manually manage a set of 
+subscriptions to specific queries on queryable fields.
 
 You can:
 
@@ -304,10 +397,13 @@ To remove subscriptions, you can:
 
 - Remove a single subscription query
 - Remove all subscriptions to a specific object type
+- Remove all unnamed subscriptions
 - Remove all subscriptions
 
 When you remove a subscription query, Realm asynchronously removes the
 synced data that matched the query from the client device.
+
+.. _ios-remove-query-by-name:
 
 Remove a Single Subscription
 ````````````````````````````
@@ -328,6 +424,20 @@ If you want to remove all subscriptions to a specific object type, use the
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-subscriptions-to-object-type.swift
    :language: swift
 
+Remove All Unnamed Subscriptions
+`````````````````````````````````
+
+.. versionadded:: INSERT-VERSION-NUMBER-HERE
+
+You may want to remove unnamed subscriptions that are transient or dynamically 
+generated, but leave named subscriptions in place.
+
+You can remove all unnamed subscriptions from the subscription set by 
+setting ``unnamedOnly`` to ``true`` when you call the ``removeAll`` method:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-unnamed-subscriptions.swift
+   :language: swift
+
 Remove All Subscriptions
 ````````````````````````
 
@@ -342,6 +452,21 @@ method in a subscription update block.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-subscriptions.swift
    :language: swift
+
+.. _swift-flex-sync-performance-considerations:
+
+Performance Considerations
+--------------------------
+
+API Efficiency
+~~~~~~~~~~~~~
+
+Managing multiple subscriptions with the ``.subscribe()`` and ``.unsubscribe()``
+APIs described in the :ref:`swift-flexible-sync-results-subscribe-api` section
+is less efficient than performing batch updates when you manually 
+manage subscriptions. For better performance when making multiple 
+subscription changes, use the ``subscriptions.update`` API described in the 
+:ref:`ios-sync-subscribe-to-queryable-fields` section.
 
 Group Updates for Improved Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

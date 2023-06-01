@@ -409,6 +409,200 @@ class FlexibleSync: XCTestCase {
             fatalError("Login failed: \(error.localizedDescription)")
         }
     }
+    
+    func aboutExamples() async throws {
+        // :snippet-start: initialize-app-authenticate-user
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                // Open the synced realm and manage Flexible Sync subscriptions
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+        // :snippet-end:
+    }
+    
+    func testSubscribeApiWithUnnamedSubscription() async throws {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                // :snippet-start: subscribe-to-results-unnamed
+                let realm = try await Realm(configuration: flexSyncConfig)
+                XCTAssertEqual(realm.subscriptions.count, 0) // :remove:
+                let results = try await realm.objects(FlexibleSync_Task.self)
+                    .where { $0.progressMinutes >= 60 }.subscribe()
+                // Go on to work with subscribed results
+                // :snippet-end:
+                XCTAssertEqual(realm.subscriptions.count, 1)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func testSubscribeApiWithNamedSubscription() async throws {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                // :snippet-start: subscribe-to-results-with-name
+                let realm = try await Realm(configuration: flexSyncConfig)
+                XCTAssertEqual(realm.subscriptions.count, 0) // :remove:
+                let results = try await realm.objects(FlexibleSync_Team.self)
+                    .where { $0.teamName == "Developer Education" }
+                    .subscribe(name: "team_developer_education")
+                // Go on to work with subscribed results
+                // :snippet-end:
+                XCTAssertEqual(realm.subscriptions.count, 1)
+                XCTAssertEqual(realm.subscriptions[0]?.name, "team_developer_education")
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func setupWaitForSyncTest() async throws {
+        let app = App(id: APPID)
+        
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            
+            // Set up test
+            do {
+                let setupRealm = try await Realm(configuration: flexSyncConfig)
+                let setupRealmSubscriptions = setupRealm.subscriptions
+                XCTAssertEqual(setupRealm.subscriptions.count, 0)
+                let developerEducationTeamResults = try await setupRealm.objects(FlexibleSync_Team.self).where { $0.teamName == "Developer Education" }.subscribe()
+                XCTAssertEqual(setupRealm.subscriptions.count, 1)
+                let developerEducationTeam = FlexibleSync_Team(value: ["teamName": "Developer Education"])
+                try setupRealm.write {
+                    setupRealm.add(developerEducationTeam)
+                    developerEducationTeam.members.append("Bob Smith")
+                }
+                XCTAssertEqual(developerEducationTeamResults.count, 1)
+                sleep(3)
+                try await setupRealmSubscriptions.update {
+                    setupRealmSubscriptions.removeAll()
+                }
+                XCTAssertEqual(setupRealmSubscriptions.count, 0)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func tearDownWaitForSyncTest() async throws {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            // Remove object for teardown
+            do {
+                let cleanupRealm = try await Realm(configuration: flexSyncConfig)
+                let cleanupDeveloperEducationResults = try await cleanupRealm.objects(FlexibleSync_Team.self).where { $0.teamName == "Developer Education" }.subscribe(waitForSync: .always)
+                XCTAssertEqual(cleanupDeveloperEducationResults.count, 1)
+                try cleanupRealm.write {
+                    cleanupRealm.deleteAll()
+                }
+                let resultsAfterCleanup = cleanupRealm.objects(FlexibleSync_Team.self).where { $0.teamName == "Developer Education" }
+                XCTAssertEqual(resultsAfterCleanup.count, 0)
+                sleep(3)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func testSubscribeApiWaitForSync() async throws {
+
+        do {
+            try await setupWaitForSyncTest()
+            
+            let app = App(id: APPID)
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            
+            do {
+                // :snippet-start: subscribe-wait-for-sync
+                let realm = try await Realm(configuration: flexSyncConfig)
+                XCTAssertEqual(realm.subscriptions.count, 0) // :remove:
+                let results = try await realm.objects(FlexibleSync_Team.self)
+                    .where { $0.members.contains("Bob Smith") }
+                    .subscribe(
+                        name: "bob_smith_teams",
+                        waitForSync: .onCreation)
+                // After waiting for sync, the results set contains all the objects
+                // that match the query - in our case, 1
+                print("The number of teams that have Bob Smith as a member is \(results.count)")
+                // :snippet-end:
+                XCTAssertEqual(realm.subscriptions.count, 1)
+                XCTAssertEqual(results.count, 1)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+            
+            try await tearDownWaitForSyncTest()
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func testSubscribeApiUnsubscribeSpecificSubscription() async throws {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                // :snippet-start: subscribe-api-unsubscribe
+                let realm = try await Realm(configuration: flexSyncConfig)
+                XCTAssertEqual(realm.subscriptions.count, 0) // :remove:
+                let results = try await realm.objects(FlexibleSync_Task.self).where { $0.completed == false }.subscribe()
+                // Go on to work with subscribed results.
+                XCTAssertEqual(realm.subscriptions.count, 1) // :remove:
+                
+                // Later...
+                results.unsubscribe()
+                // :snippet-end:
+                XCTAssertEqual(realm.subscriptions.count, 0)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
 
     func testUpdateSubscription() async {
         let app = App(id: APPID)
@@ -633,6 +827,38 @@ class FlexibleSync: XCTestCase {
                     return realm
                 }
                 // :snippet-end:
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func testRemoveAllUnnamedSubscriptions() async {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                // :snippet-start: remove-all-unnamed-subscriptions
+                let realm = try await Realm(configuration: flexSyncConfig)
+                XCTAssertEqual(realm.subscriptions.count, 0) // :remove:
+                // Add 2 subscriptions, one named and one unnamed.
+                let results = try await realm.objects(FlexibleSync_Team.self).where { $0.teamName == "Developer Education" }.subscribe(name: "team_developer_education")
+                let results2 = try await realm.objects(FlexibleSync_Task.self).where { $0.completed == false }.subscribe()
+                XCTAssertEqual(realm.subscriptions.count, 2) // :remove:
+                // Later, remove only the unnamed one
+                let subscriptions = realm.subscriptions
+                try await subscriptions.update {
+                    subscriptions.removeAll(unnamedOnly: true)
+                }
+                // :snippet-end:
+                // Removing unnamed subscriptions should leave us with one
+                XCTAssertEqual(realm.subscriptions.count, 1)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
