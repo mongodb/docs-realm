@@ -47,8 +47,7 @@ namespace Examples
             var testItem = new Item
             {
                 Name = "Do this thing",
-                Status = ItemStatus.Open.ToString(),
-                Partition = "myPart"
+                Status = ItemStatus.Open.ToString()
             };
 
             await realm.WriteAsync(() =>
@@ -64,8 +63,7 @@ namespace Examples
                     return realm.Add<Item>(new Item
                     {
                         Name = "Do this thing, too",
-                        Status = ItemStatus.InProgress.ToString(),
-                        Partition = "myPart"
+                        Status = ItemStatus.InProgress.ToString()
                     });
                 }
             );
@@ -123,7 +121,7 @@ namespace Examples
             App app = App.Create(myRealmAppId);
             using (var realm = Realm.GetInstance(config))
             {
-                var myItem = new Item() { Partition = "foo", Name = "foo2", Status = ItemStatus.Complete.ToString() };
+                var myItem = new Item() { Name = "foo2", Status = ItemStatus.Complete.ToString() };
                 realm.Write(() =>
                 {
                     realm.Add(myItem);

@@ -54,12 +54,10 @@ Don't lock to read:
 Avoid synchronous writes on the UI thread:
   You can :ref:`write <dotnet-realm-database-writes>` to a Realm file from any
   thread, but there can be only one writer at a time. Synchronous
-  write transactions block each other. 
-  
-  A synchronous write on the main thread may result in your app appearing 
-  unresponsive while it waits for a write on a background thread to complete. To 
-  prevent this, the SDK provides the 
-  :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_Realms_Realm__>`
+  write transactions block each other. So, a synchronous write on the main thread 
+  may result in your app appearing unresponsive while it waits for a write on a 
+  background thread to complete. To prevent this, the SDK provides the 
+  :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
   method. For more information, see :ref:`dotnet-async-writes`.
 
 Don't pass live objects, collections, or realms to other threads:
@@ -139,7 +137,7 @@ Realms are also refreshed when write transactions are committed with
 Asynchronous Writes
 -------------------
 
-The :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_Realms_Realm__>`
+The :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
 method provides a simple way to offload the UI thread. Realm will asynchronously 
 begin and commit the transaction, but the actual write block will execute 
 on the original thread. So, waiting for changes is asynchronous, but the callback 
@@ -147,7 +145,7 @@ is executed on the main thread. This means that objects and queries created
 before the write block can be used inside the block without relying on 
 threadsafe references. 
 
-The following example shows this:
+The following code shows two examples of creating an object with ``AsyncWrite()``. 
 
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
    :language: csharp

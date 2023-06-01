@@ -10,10 +10,6 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        [MapTo("_partition")]
-        [Required]
-        public string Partition { get; set; }
-
         [MapTo("assignee")]
         public User Assignee { get; set; }
 
