@@ -1,9 +1,11 @@
 import 'package:test/test.dart';
+import '../bin/models/car.dart';
 import 'dart:async';
 import 'dart:isolate';
 import 'package:realm_dart/src/realm_class.dart' show RealmInternal;
 import 'package:logging/logging.dart';
 import 'package:realm_dart/realm.dart';
+import './utils.dart';
 
 class LoggedMessage {
   final Level level;
@@ -75,6 +77,38 @@ void main() {
           actual,
           LoggedMessage(
               RealmLogLevel.info, "Custom Realm log entry for testing"));
+    });
+    test('Change the log level as needed', () async {
+      bool logMessageReceived = false;
+
+      Realm.logger.onRecord.listen((event) {
+        logMessageReceived = true;
+      });
+
+      void executeAppCode() {
+        // Placeholder
+      }
+
+      void executeComplexCodeToDebug() {
+        // Placeholder
+      }
+
+      // :snippet-start: change-log-level
+      // Set a default log level that's not too verbose
+      Realm.logger.level = RealmLogLevel.info;
+      executeAppCode();
+      // Later, change the log level to debug an issue when running specific code
+      Realm.logger.level = RealmLogLevel.trace;
+      executeComplexCodeToDebug();
+      // :snippet-end:
+
+      // Because we changed logging from .info to .trace, this should log a message.
+      RealmInternal.logMessageForTesting(RealmLogLevel.trace,
+          "This message should be logged because the log level was changed");
+
+      await Future.delayed(Duration(seconds: 2));
+
+      expect(logMessageReceived, isTrue);
     });
     test('Set the log level to off', () async {
       bool logMessageReceived = false;
