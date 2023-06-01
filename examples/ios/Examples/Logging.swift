@@ -31,35 +31,22 @@ class Logging: XCTestCase {
     
     func testChangeLogLevel() {
         let app = App(id: YOUR_APP_SERVICES_APP_ID)
-        let expectationForDetail = XCTestExpectation(description: "Populate some .detail log entries")
         let expectationForTrace = XCTestExpectation(description: "Populate some .trace log entries")
         
         var logs: String = ""
-        let logger = Logger(level: .detail) { level, message in
+        let logger = Logger(level: .warn) { level, message in
             logs += "REALM DEBUG: \(Date.now) \(level) \(message) \n"
         }
         XCTAssert(logs.isEmpty)
         Logger.shared = logger
         // :snippet-start: change-log-level
         // Set a log level that isn't too verbose
-        Logger.shared.level = .detail
-        // :remove-start:
-        app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success(let user):
-                print("Login as \(user) successful")
-                XCTAssertTrue(logs.contains("rawValue: 5")) // Detail
-                expectationForDetail.fulfill()
-            }
-        }
-        // :remove-end:
+        Logger.shared.level = .warn
         
         // Later, when trying to debug something, change the log level for more verbosity
         Logger.shared.level = .trace
         // :snippet-end:
-        
+
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {
             case .failure(let error):
@@ -70,7 +57,7 @@ class Logging: XCTestCase {
                 expectationForTrace.fulfill()
             }
         }
-        wait(for: [expectationForDetail, expectationForTrace], timeout: 5)
+        wait(for: [expectationForTrace], timeout: 5)
     }
 
     func testDefineCustomLogger() {
