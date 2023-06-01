@@ -115,17 +115,20 @@ namespace Examples
             });
 
 
-
+            // :snippet-start: modify
+            // :replace-start: {
+            //  "terms": {
+            //   "dog2": "dog",
+            //   "WriteDog" : "Dog" }
+            // }
+            var dog2 = realm.All<WriteDog>().First();
             realm.Write(() =>
             {
-                // Get a dog to update.
-                var dog = realm.All<WriteDog>().First();
-
-                // Update some properties on the instance.
-                // These changes are saved to the realm.
-                dog.Name = "Wolfie";
-                dog.Age += 1;
+                dog2.Name = "Wolfie";
+                dog2.Age += 1;
             });
+            // :replace-end:
+            // :snippet-end:
 
             realm.Write(() =>
             {
