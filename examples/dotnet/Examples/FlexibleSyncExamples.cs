@@ -74,7 +74,7 @@ namespace Examples
 
             realm.Subscriptions.Update(() =>
             {
-                // remove all subscriptions of the "Team" Class Name 
+                // remove all subscriptions of the "Team" Class Name
                 realm.Subscriptions.RemoveAll("Team");
 
                 // Alernatively, remove all subscriptions of the "Team" object type
@@ -151,7 +151,6 @@ namespace Examples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("status")]
@@ -177,7 +176,6 @@ namespace Examples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("description")]

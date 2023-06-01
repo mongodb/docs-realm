@@ -161,8 +161,8 @@ namespace Examples
                 }
                 //:snippet-end:
 
-                // Test that the query worked and that the Contacts returned 
-                // actually are from 'Los Angeles'. 
+                // Test that the query worked and that the Contacts returned
+                // actually are from 'Los Angeles'.
                 Assert.AreEqual(losAngelesContacts.FirstOrDefault()
                     .Address.City, "Los Angeles");
             }
@@ -206,14 +206,13 @@ namespace Examples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("_partition")]
-        [Required]
         public string Partition { get; set; }
 
         [MapTo("name")]
         public string Name { get; set; }
 
         [MapTo("address")]
-        public Address Address { get; set; } // embed a single address 
+        public Address Address { get; set; } // embed a single address
 
     }
     public partial class Business : IRealmObject
@@ -223,7 +222,6 @@ namespace Examples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("_partition")]
-        [Required]
         public string Partition { get; set; }
 
         [MapTo("name")]

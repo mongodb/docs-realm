@@ -183,7 +183,7 @@ namespace Examples
 
                 if (changes.IsCleared)
                 {
-                    // A special case if the collection has been cleared: 
+                    // A special case if the collection has been cleared:
                     // i.e., all items have been deleted by calling
                     // the Clear() method.
                 }
@@ -304,7 +304,7 @@ namespace Examples
         // :uncomment-start:
         //    ...
         //}
-        // 
+        //
         // :uncomment-end:
         private void HandleCollectionChanged(object sender,
             NotifyCollectionChangedEventArgs e)
@@ -363,7 +363,6 @@ namespace Examples
             [MapTo("_id")]
             public ObjectId Id { get; set; }
 
-            [Required]
             public string Name { get; set; }
         }
 
@@ -374,7 +373,6 @@ namespace Examples
             [MapTo("_id")]
             public ObjectId Id { get; set; }
 
-            [Required]
             public string Name { get; set; }
 
             public int Age { get; set; }

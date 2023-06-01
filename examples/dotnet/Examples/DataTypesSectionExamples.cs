@@ -149,7 +149,7 @@ namespace Examples
             // convert the Plant Set to an IQueryable and apply a filter
             var pricklyPear = inventory.PlantSet.AsRealmQueryable()
                 .Where(p => p.Name == "Prickly Pear");
-            // Alternatively, apply a filter directly on the Plant Set 
+            // Alternatively, apply a filter directly on the Plant Set
             var pricklyPearPlants = inventory.PlantSet
                 .Filter("Name == 'Prickly Pear'");
 
@@ -252,7 +252,6 @@ namespace Examples
         //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
-        [Required]
         public string Id { get; set; } = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
         //:remove-end:
         // A Set can contain any Realm-supported type, including
@@ -265,9 +264,6 @@ namespace Examples
         // Realms, but not with Sync
         public ISet<int?> NullableIntsSet { get; }
 
-        // For C# types that are implicitly nullable, you can
-        // use the [Required] attribute to prevent storing null values
-        [Required]
         public ISet<string> RequiredStrings { get; }
     }
     // :replace-end:
@@ -280,7 +276,7 @@ namespace Examples
         [PrimaryKey]
         [MapTo("_id")]
         public string Id { get; set; }
-        // The key must be of type string; the value can be 
+        // The key must be of type string; the value can be
         // of any Realm-supported type, including objects
         // that inherit from RealmObject or EmbeddedObject
         public IDictionary<string, Plant> Plants { get; }
@@ -291,9 +287,6 @@ namespace Examples
         // Realms, but not with Sync
         public IDictionary<string, int?> NullableIntDictionary { get; }
 
-        // For C# types that are implicitly nullable, you can
-        // use the [Required] attribute to prevent storing null values
-        [Required]
         public IDictionary<string, string> RequiredStringsDictionary { get; }
     }
     //:snippet-end:

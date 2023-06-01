@@ -13,11 +13,9 @@ namespace DataBinding
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("employee_id")]
-        [Required]
         public string EmployeeId { get; set; }
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("items")]
@@ -31,11 +29,9 @@ namespace DataBinding
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("owner_id")]
-        [Required]
         public string OwnerId { get; set; }
 
         [MapTo("summary")]
-        [Required]
         public string Summary { get; set; }
 
         [MapTo("isComplete")]

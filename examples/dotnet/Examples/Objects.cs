@@ -20,7 +20,7 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId Id { get; set; }
         public string Name { get; set; }
-        public Address10 Address { get; set; } // embed a single address 
+        public Address10 Address { get; set; } // embed a single address
     }
 
 
@@ -55,7 +55,6 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId ID { get; set; }
 
-        [Required]
         public string Name { get; set; }
         public IList<Dog_OMAS> Dogs { get; }
     }

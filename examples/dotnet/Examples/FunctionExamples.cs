@@ -66,7 +66,6 @@ namespace Examples
         public ObjectId Id { get; set; }
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         public MyClass()

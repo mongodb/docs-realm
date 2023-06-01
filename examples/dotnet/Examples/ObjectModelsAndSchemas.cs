@@ -18,7 +18,6 @@ namespace Examples
         [MapTo("_id")]
         public ObjectId Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         public int Age { get; set; }
@@ -32,7 +31,6 @@ namespace Examples
         [MapTo("_id")]
         public ObjectId Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
         // etc...
 
