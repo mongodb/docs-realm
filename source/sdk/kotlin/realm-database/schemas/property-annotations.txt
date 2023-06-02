@@ -222,11 +222,18 @@ For more information on querying full-text indexes, see
 
 To create a FTS index on a property, use the :kotlin-sdk:`@FullText
 <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
-/-full-text/index.html>` annotation. This will enable full-text queries
-on the property. In the following example, we marked the ``genre`` 
+/-full-text/index.html>` annotation. This enables full-text queries
+on the property. In the following example, we mark the ``genre`` 
 property with the FTS annotation:
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.kotlin-fts-property.kt
   :language: kotlin
   :emphasize-lines: 7-8
+
+.. note:: Character Limitations for FTS Index
+
+  For Full Text Search (FTS) indexes, only ASCII and Latin-1 alphanumerical 
+  chars are included in the index (most western languages). See the :kotlin-sdk:`@FullText 
+  <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations/
+  -full-text/index.html>` for more information on current FTS index constraints.
 

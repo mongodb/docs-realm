@@ -90,6 +90,23 @@ In the following example, we query the ``Book.genre`` field:
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.kotlin-fts-query.kt
   :language: kotlin
 
+FTS Index Feature Limitations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+FTS indexes support:
+
+- Boolean match word searches, not searches for relevance. 
+- Exclude results for a word by placing the ``-`` character
+   in front of the word. For example, a search for ``tabby -cat`` would 
+   include all search results for ``tabby`` excluding those that include the
+   word ``cat``.
+- Tokens are diacritics- and case-insensitive.
+- Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages). 
+
+For more information on features of the FTS index, see the API reference for 
+the :kotlin-sdk:`@FullText <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations/
+-full-text/index.html>` index annotation. 
+
 .. _kotlin-sort-queries:
 
 Sort Results
