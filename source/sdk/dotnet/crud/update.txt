@@ -11,66 +11,44 @@ Update Data - .NET SDK
    :class: singlecol
 
 
-.. _dotnet-modify-an-object:
+
 .. _dotnet-update:
 
 Overview
 --------
 
-Updates behave the same as other writes (like creating a new document).
-When updating documents, all writes must happen in a 
-transaction.
+Updates are the same as creating a new document. When updating documents, all 
+writes must happen in a :ref:`transaction <dotnet-write-transactions>`.
 
-.. example::
+Examples
+--------
 
-   The following code shows how to run a transaction with
-   the realm's write method. If the code in the callback
-   throws an exception, Realm Database cancels the transaction.
-   Otherwise, Realm Database commits the transaction.
-
-   .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-      :language: csharp
-
+.. _dotnet-modify-an-object:
 
 Modify an Object
-----------------
+~~~~~~~~~~~~~~~~
 
-.. example::
+The following example shows how to modify an existing object. In this example, 
+we are updating the ``Name`` and ``Age`` properties of a ``Dog`` object:
 
-   This code changes the dog's name to "Wolfie" and
-   increments the age by 1:
-
-   .. literalinclude:: /examples/CRUD/Update.cs
-      :language: csharp
-
-.. _dotnet-upsert:
-
-Upsert an Object
-----------------
-
-.. example::
-
-   This code demonstrates how to upsert an object with
-   realm. We create a new user named "Drew" and then update
-   their name to "Andy" via upsert:
-
-   .. literalinclude:: /examples/CRUD/Upsert.cs
-      :language: csharp
+.. literalinclude:: /examples/generated/dotnet/WriteExamples.snippet.modify.cs
+   :language: csharp
 
 .. _dotnet-batch-update:
 
 Update a Collection
 -------------------
 
-.. example::
+The following code demonstrates how to update a 
+collection. 
 
-   The following code demonstrates how to update a
-   collection. Thanks to the :ref:`implicit inverse
-   relationship <dotnet-inverse-relationship>` between the
-   Dog's ``owner`` property and the Person's ``dogs``
-   property, Realm Database automatically updates Ali's
-   list of dogs.
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.modify-collection.cs
+   :language: csharp
 
-   .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-      :language: csharp
+.. note::
 
+   Because realm uses :ref:`implicit inverse
+   relationships <dotnet-inverse-relationship>` between the
+   Dog's ``Owners`` property and the Person's ``Dogs``
+   property, Realm automatically updates Ali's
+   list of dogs at the same time we update the ``Dog``s' ``Owners`` list.

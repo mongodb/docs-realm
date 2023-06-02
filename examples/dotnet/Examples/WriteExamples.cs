@@ -122,13 +122,14 @@ namespace Examples
             //   "WriteDog" : "Dog" }
             // }
             var dog2 = realm.All<WriteDog>().First();
-            realm.Write(() =>
+            realm.WriteAsync(() =>
             {
                 dog2.Name = "Wolfie";
                 dog2.Age += 1;
             });
             // :replace-end:
             // :snippet-end:
+
 
             realm.Write(() =>
             {

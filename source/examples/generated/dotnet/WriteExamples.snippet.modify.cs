@@ -1,5 +1,5 @@
 var dog = realm.All<Dog>().First();
-realm.Write(() =>
+realm.WriteAsync(() =>
 {
     dog.Name = "Wolfie";
     dog.Age += 1;
