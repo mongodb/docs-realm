@@ -83,25 +83,28 @@ Filter with Full Text Search
 
 You can use Realm Query Language (RQL) to query on properties that 
 have :ref:`Full-Text Search Indexes <kotlin-fts-index>` (FTS) on them.
-To query these properties, use the ``TEXT`` predicate in your query. 
+To query these properties, use the ``TEXT`` predicate in your query.
+
+Exclude results for a word by placing the ``-`` character
+in front of the word. For example, a search for ``fiction -science`` would 
+include all search results for ``fiction`` excluding those that include the
+word ``science``.
 
 In the following example, we query the ``Book.genre`` field:
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.kotlin-fts-query.kt
   :language: kotlin
 
-FTS Index Feature Limitations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Full Text Search Tokenizer Details
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 FTS indexes support:
 
 - Boolean match word searches, not searches for relevance. 
-- Exclude results for a word by placing the ``-`` character
-  in front of the word. For example, a search for ``tabby -cat`` would 
-  include all search results for ``tabby`` excluding those that include the
-  word ``cat``.
 - Tokens are diacritics- and case-insensitive.
 - Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages). 
+- All other characters are considered whitespace. Words split by a hyphen 
+  (``-``) like ``full-text`` are split into two tokens. 
 
 For more information on features of the FTS index, see the API reference for 
 the :kotlin-sdk:`@FullText <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations/
