@@ -36,9 +36,15 @@ void main() {
         // :snippet-start: set-the-log-level
         Realm.logger.level = RealmLogLevel.trace;
         // :snippet-end:
+        // :snippet-start: attach-to-logger
         Realm.logger.onRecord.listen((event) {
+          // Do something with the log event - for example, print to console
+          print("Realm log message: '$event'");
+          // :remove-start:
           completer.complete(LoggedMessage(event.level, event.message));
+          // :remove-end:
         });
+        // :snippet-end:
 
         RealmInternal.logMessageForTesting(
             RealmLogLevel.trace, "Realm log message for log level testing");
