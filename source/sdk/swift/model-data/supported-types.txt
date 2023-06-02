@@ -647,19 +647,21 @@ collection represents a :ref:`to-many relationship <ios-to-many-relationship>`
 containing distinct values. A ``MutableSet`` supports the following types 
 (and their optional versions): 
 
-- Bool, 
-- Int, 
-- Int8, 
-- Int16, 
-- Int32, 
-- Int64, 
-- Float, 
-- Double, 
-- String, 
-- Data, 
-- Date, 
-- Decimal128, 
+- Bool
+- Data
+- Date
+- Decimal128
+- Double
+- Float
+- Int
+- Int8
+- Int16
+- Int32
+- Int64
+- Object
 - ObjectId
+- String
+- UUID
 
 Like Swift's :apple:`Set <documentation/swift/set>`, ``MutableSet`` is a 
 generic type that is parameterized on the type it stores. Unlike 
