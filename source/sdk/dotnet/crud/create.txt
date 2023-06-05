@@ -1,3 +1,6 @@
+.. _dotnet-write-operations:
+.. _dotnet-realm-database-writes:
+
 ============================
 Create Data - .NET SDK
 ============================
@@ -8,35 +11,34 @@ Create Data - .NET SDK
    :depth: 2
    :class: singlecol
 
-.. _dotnet-write-operations:
-.. _dotnet-realm-database-writes:
-
-Overview
---------
-
-When writing documents, all writes must happen in a 
-transaction.
-
-.. example::
-
-   The following code shows how to run a transaction with
-   the realm's write method. If the code in the callback
-   throws an exception, Realm Database cancels the transaction.
-   Otherwise, Realm Database commits the transaction.
-
-   .. literalinclude:: /examples/CRUD/BatchUpdate.cs
-      :language: csharp
-
 .. _dotnet-create-a-new-object:
 .. _dotnet-create-an-object:
 
-Create a New Object
--------------------
+Create a Realm Object
+---------------------
 
-.. example::
+When creating or updating documents, all writes must happen in a 
+:ref:`transaction <dotnet-write-transactions>`. 
 
-   This code demonstrates how to create an object with Realm Database:
+The following code shows two methods for creating a new Realm object. In the 
+first example, we create the object first, and then add it to the realm within 
+a :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
+method. In the second example, we create the document within the ``WriteAsync`` 
+block, which returns a realm object we can further work with.
 
-   .. literalinclude:: /examples/CRUD/Create.cs
-      :language: csharp
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
+   :language: csharp
 
+.. _dotnet-upsert:
+
+Upsert a Realm Object
+---------------------
+
+Upserting a document is the same as creating a new one, except you set the 
+optional ``update`` parameter to ``true``. In this example, we create a new 
+``Person`` object with a unique ``Id``. We then try to insert a person with the 
+same id. Because we have set the ``update`` parameter to ``true``, the existing 
+record is updated.
+
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.upsert.cs
+   :language: csharp
