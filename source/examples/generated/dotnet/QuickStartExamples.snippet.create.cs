@@ -1,8 +1,7 @@
 var testItem = new Item
 {
     Name = "Do this thing",
-    Status = ItemStatus.Open.ToString(),
-    Partition = "myPart"
+    Status = ItemStatus.Open.ToString()
 };
 
 await realm.WriteAsync(() =>
@@ -18,8 +17,7 @@ var testItem2 =
         return realm.Add<Item>(new Item
         {
             Name = "Do this thing, too",
-            Status = ItemStatus.InProgress.ToString(),
-            Partition = "myPart"
+            Status = ItemStatus.InProgress.ToString()
         });
     }
 );

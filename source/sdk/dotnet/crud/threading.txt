@@ -31,8 +31,10 @@ simplify this for you.
 
    Throughout this page, we refer to the "main thread" (or "UI thread") and 
    "background threads". To be more accurate, any mention of the main or UI thread 
-   refers to **any thread with a ``SynchronizationContext``**, while those threads 
-   without a SynchronizationContext are considered background threads.
+   refers to any thread with a 
+   `SynchronizationContext <https://learn.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext>`__, 
+   while those threads without a ``SynchronizationContext`` are considered 
+   background threads.
 
 .. _dotnet-threading-three-rules:
 
@@ -51,12 +53,12 @@ Don't lock to read:
 
 Avoid synchronous writes on the UI thread:
   You can :ref:`write <dotnet-realm-database-writes>` to a Realm file from any
-  thread, but there can be only one writer at a time. Consequently, synchronous
-  write transactions block each other. A synchronous write on the UI thread may
-  result in your app appearing unresponsive while it waits for a write on a
-  background thread to complete. If you are using :ref:`Device Sync <sync>`,
-  avoid synchronous writes on the UI thread as Sync writes on a background
-  thread. Instead, use ``realm.WriteAsync``.
+  thread, but there can be only one writer at a time. Synchronous
+  write transactions block each other. So, a synchronous write on the main thread 
+  may result in your app appearing unresponsive while it waits for a write on a 
+  background thread to complete. To prevent this, the SDK provides the 
+  :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
+  method. For more information, see :ref:`dotnet-async-writes`.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realm instances are
@@ -135,25 +137,25 @@ Realms are also refreshed when write transactions are committed with
 Asynchronous Writes
 -------------------
 
-The :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_Realms_Realm__>`
-method provides a simple way to offload the UI thread by performing writes in a 
-background thread. When run on the UI thread, Realm creates a 
-temporary realm instance that is passed to the Lambda function, performs the 
-write, disposes of the temporary instance, and then calls ``Realm.Refresh()`` on 
-the UI thread to update the realm. When ``WriteAsync()`` is 
-run in a background thread, Realm forwards the call to ``Write()`` on 
-the current background thread. 
+The :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
+method provides a simple way to offload the UI thread. Realm will asynchronously 
+begin and commit the transaction, but the actual write block will execute 
+on the original thread. So, waiting for changes is asynchronous, but the callback 
+is executed on the main thread. This means that objects and queries created  
+before the write block can be used inside the block without relying on 
+threadsafe references. 
+
+The following code shows two examples of creating an object with ``AsyncWrite()``. 
+
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
+   :language: csharp
 
 .. note::
 
-   In general, since realm writes are very fast, we recommend using the 
-   ``Write()`` method when only a few values change at a time (like responding 
-   to user interactions.) Conversely, the ``WriteAsync()`` method is useful in 
-   scenarios where there are hundreds or thousands of changes. For example, 
-   fetching objects from the network, or batch-updating multiple objects, can be 
-   time-consuming, and performing the changes synchronously might lead to 
-   interface jitters and a poor user experience. Using ``WriteAsync()`` 
-   prevents this.
+   If you call ``WriteAsync()`` in a background thread, Realm runs synchronously on 
+   the thread, so it is the equivalent of calling 
+   :dotnet-sdk:`Write() <reference/Realms.Realm.html#Realms_Realm_Write__1_System_Func___0__>`.
+
 
 .. _dotnet-frozen-objects:
 

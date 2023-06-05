@@ -1,3 +1,34 @@
+# June 2, 2023
+
+## C++ SDK
+
+- Install Realm: Update CMake install instructions to use release version tags instead of a pre-release commit hash
+
+## Flutter SDK
+
+- Install Realm for Flutter: Update `flutter pub run realm generate` to `dart run realm generate`
+- Quick Start: Update `flutter pub run realm generate` to `dart run realm generate`
+- Realm Database/Model Data/Define a Realm Object Schema: Update `flutter pub run realm generate` to `dart run realm generate`
+- Test & Debug: Update `flutter pub run realm install` to `dart run realm install`
+- Logging: New page with details and tested, Bluehawked code examples for the Realm logging functionality based on Core Logging
+- Sync Device Data/Set the Client Log Level: Note that the Sync logger is deprecated as of Realm Flutter SDK v1.1.0
+
+## .NET SDK
+
+- Model Data/Supported Data Types
+  - Data Types: Remove generic "Collections", add "Results Collections" and "Lists"
+  - Results Collections: Rename page from generic "Collections", move List content to new page, remove Summary section, clarify details about Results collections
+  - Lists: New page with content moved from former "Collections" page, clarify details about Lists and nullability, add a new "Watch for Changes" section with Bluehawked code example
+  - Dictionaries: Add a new "Watch for Changes" section with Bluehawked code example
+  - Sets: Add a new "Watch for Changes" section with Bluehawked code example
+
+## Swift SDK
+
+- Install Realm: Note Realm Swift SDK v10.40.0 drops support for Xcode 13, remove Xcode 13 support table
+- Model Data/Supported Types: Add missing supported types to `MutableSet` section
+- Logging: New page with details and tested, Bluehawked code examples for the Realm logging functionality based on Core Logging
+- Sync Data/Set the Client Log Level: Move the Logging info to the new page, note that the Sync logger is deprecated as of Realm Swift SDK v10.39.0
+
 # May 26, 2023
 
 ## C++ SDK

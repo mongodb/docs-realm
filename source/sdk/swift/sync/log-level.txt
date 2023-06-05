@@ -1,5 +1,6 @@
 .. _swift-set-client-log-level:
 .. _ios-set-the-client-log-level:
+.. _swift-sync-log-level:
 
 ====================================
 Set the Client Log Level - Swift SDK
@@ -15,41 +16,18 @@ You can set or change your app's log level to develop or debug your
 application. You might want to change the log level to log different 
 amounts of data depending on the app's environment.
 
-.. _swift-set-custom-logger:
+.. versionchanged:: 10.39.0: Deprecated in favor of Realm Logger
 
-Realm Swift SDK v 10.39.0 and Later
------------------------------------
+.. warning::
 
-Initialize an instance of a :swift-sdk:`Logger <Typealiases.html#/s:10RealmSwift6Loggera>` 
-and define the function to use for logging. The 
-:objc-sdk:`RLMLogLevel <Enums/RLMLogLevel.html>` enum represents the different
-levels of logging you can configure.
+   This page shows how to set a Sync client log level in Realm Swift SDK
+   versions 10.38.3 and earlier. Realm Swift SDK v10.39.0 supersedes this 
+   logging implementation with a Realm logger you can set and configure. 
+   For information on how to set a Realm logger in a later 
+   version, refer to :ref:`swift-logging`.
 
-.. literalinclude:: /examples/generated/code/start/Sync.snippet.set-log-level-logger.swift
-   :language: swift
-
-.. include:: /includes/tip-sync-log-levels.rst
-
-Set a Default Logger and Change Log Levels
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can set a logger as the default logger for your app with ``Logger.shared``. 
-After you set the default logger, you can change the log level during the app 
-lifecycle as needed.
-
-.. literalinclude:: /examples/generated/code/start/Sync.snippet.set-default-logger.swift
-   :language: swift
-
-.. tip:: Default log levels
-
-   The default Realm log level is ``.info``. To disable all log messages 
-   from Realm, set the logger to ``Logger.shared.level = .off``. You can 
-   adjust logging as needed throughout the app lifecycle.
-
-Realm Swift SDK v 10.38.3 and Earlier
--------------------------------------
-
-These APIs and their associated types are deprecated in version 10.39.0.
+Set the Sync Log Level
+----------------------
 
 .. tabs-realm-languages::
 
