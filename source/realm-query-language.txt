@@ -243,7 +243,7 @@ available data types:
 
    * - Date
      - YYYY-MM-DD@HH:mm:ss:nn (year-month-day@hours:minutes:seconds:nanoseconds)
-       Ts:n (s, seconds; n, nanoseconds)
+       Ts:n (T, designates the start of the time; ``s``, seconds; ``n``, nanoseconds)
        Date data type
      - "date < $0", 2022-08-14@12:02:44:00
 
@@ -374,6 +374,8 @@ values.
      is equal to ``null``.
    - Find to-do items within a certain time range by finding items where the
      ``progressMinutes`` property is between two numbers.
+   - Find to-do items with a certain amount of ``progressMinutes`` from the 
+     given list. 
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.comparison-operators.js
       :language: javascript
@@ -430,7 +432,7 @@ Regex-like wildcards allow more flexibility in search.
 
      .. code-block:: javascript
 
-        "name CONTAINS[c] 'a'"
+        "name CONTAINS[c] $0", 'a'
 
 .. list-table::
    :header-rows: 1
@@ -645,12 +647,20 @@ from the SDK language you are using to a query.
 
 You can also represent dates the following ways:
 
-- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
+- As a whole date: ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
   You can also use ``T`` instead of ``@`` to separate the date from the time.
-- ``Ts:n``, where ``s`` is the number of seconds and n the number of nanoseconds
-  since :wikipedia:`unix epoch <Unix_time>`.
+- As a time in seconds since the :wikipedia:`unix epoch <Unix_time>`: ``Ts:n``, where ``T`` designates the start of the time, 
+  ``s`` is the number of seconds, and ``n`` the number of nanoseconds.
 
 Date supports :ref:`comparison operators <rql-comparison-operators>`.
+
+.. example::
+
+   The following examples shows how to compare dates with their different
+   representations.
+
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-alt-representation.js
+      :language: js
 
 .. _rql-aggregate-operators:
 

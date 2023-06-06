@@ -116,7 +116,7 @@ describe("Realm Query Language Reference", () => {
 
     const highPriorityItems = items.filtered(
       // :snippet-start: comparison-operators
-      "priority > 5"
+      "priority > $0", 5
       // :remove-start:
     );
     expect(highPriorityItems.length).toBe(4);
@@ -124,7 +124,7 @@ describe("Realm Query Language Reference", () => {
     const longRunningItems = items.filtered(
       // :remove-end:
 
-      "progressMinutes > 120"
+      "progressMinutes > $0", 120
       // :remove-start:
     );
     expect(longRunningItems.length).toBe(1);
@@ -132,7 +132,7 @@ describe("Realm Query Language Reference", () => {
     const unassignedItems = items.filtered(
       // :remove-end:
 
-      "assignee == nil"
+      "assignee == $0", null
       // :remove-start:
     );
     expect(unassignedItems.length).toBe(1);
@@ -140,7 +140,7 @@ describe("Realm Query Language Reference", () => {
     const progressMinutesRange = items.filtered(
       // :remove-end:
 
-      "progressMinutes BETWEEN { 30,60 }"
+      "progressMinutes BETWEEN { $0 , $1 }", 30, 60
       // :remove-start:
     );
     expect(progressMinutesRange.length).toBe(1);
@@ -148,7 +148,7 @@ describe("Realm Query Language Reference", () => {
     const progressMinutesIn = items.filtered(
       // :remove-end:
 
-      "progressMinutes IN { 10, 20, 30, 40, 50, 60 }"
+      "progressMinutes IN { $0, $1, $2, $3, $4, $5 }", 10, 20, 30, 40, 50, 60
       // :snippet-end:
     );
     expect(progressMinutesIn.length).toBe(2);
@@ -160,7 +160,7 @@ describe("Realm Query Language Reference", () => {
 
     const aliComplete = items.filtered(
       // :snippet-start: logical-operators
-      "assignee == $0 AND isComplete == true", "Ali"
+      "assignee == $0 AND isComplete == $1", "Ali", true
       // :snippet-end:
     );
     expect(aliComplete.length).toBe(0);
@@ -169,7 +169,7 @@ describe("Realm Query Language Reference", () => {
     // :remove-start:
     const startWithE = projects.filtered(
       // :remove-end:
-      "name BEGINSWITH[c] 'e'"
+      "name BEGINSWITH[c] $0", 'e'
       // :remove-start:
     );
     expect(startWithE.length).toBe(0);
@@ -177,7 +177,7 @@ describe("Realm Query Language Reference", () => {
     const containIe = projects.filtered(
       // :remove-end:
 
-      "name CONTAINS 'ie'"
+      "name CONTAINS $0", 'ie'
       // :snippet-end:
     );
     expect(containIe.length).toBe(0);
@@ -185,9 +185,13 @@ describe("Realm Query Language Reference", () => {
 
   test("aggregate queries", () => {
     const projects = realm.objects("Project");
+
+    // :snippet-start: aggregate-operators
+    var priorityNum = 5;
+    // :remove-start:
     const averageItemPriorityAbove5 = projects.filtered(
-      // :snippet-start: aggregate-operators
-      "items.@avg.priority > 5"
+      // :remove-end:
+      "items.@avg.priority > $0", priorityNum
       // :remove-start:
     );
     expect(averageItemPriorityAbove5.length).toBe(3);
@@ -195,7 +199,7 @@ describe("Realm Query Language Reference", () => {
     const allItemsLowerPriority = projects.filtered(
       // :remove-end:
 
-      "items.@max.priority < 5"
+      "items.@max.priority < $0", priorityNum
       // :remove-start:
     );
     expect(allItemsLowerPriority.length).toBe(0);
@@ -203,7 +207,7 @@ describe("Realm Query Language Reference", () => {
     const allItemsHighPriority = projects.filtered(
       // :remove-end:
 
-      "items.@min.priority > 5"
+      "items.@min.priority > $0", priorityNum
       // :remove-start:
     );
     expect(allItemsHighPriority.length).toBe(1);
@@ -211,7 +215,7 @@ describe("Realm Query Language Reference", () => {
     const moreThan5Items = projects.filtered(
       // :remove-end:
 
-      "items.@count > 5"
+      "items.@count > $0", 5
       // :remove-start:
     );
     expect(moreThan5Items.length).toBe(0);
@@ -219,7 +223,7 @@ describe("Realm Query Language Reference", () => {
     const longRunningProjects = projects.filtered(
       // :remove-end:
 
-      "items.@sum.progressMinutes > 100"
+      "items.@sum.progressMinutes > $0", 100
       // :snippet-end:
     );
     expect(longRunningProjects.length).toBe(1);
@@ -230,7 +234,7 @@ describe("Realm Query Language Reference", () => {
     const noCompleteItems = projects.filtered(
       // :snippet-start: set-operators
       // Projects with no complete items.
-      "NONE items.isComplete == true"
+      "NONE items.isComplete == $0", true
       // :remove-start:
     );
 
@@ -238,14 +242,14 @@ describe("Realm Query Language Reference", () => {
       // :remove-end:
 
       // Projects that contain a item with priority 10
-      "ANY items.priority == 10"
+      "ANY items.priority == $0", 10
       // :remove-start:
     );
     const allItemsCompleted = projects.filtered(
       // :remove-end:
 
       // Projects that only contain completed items
-      "ALL items.isComplete == true"
+      "ALL items.isComplete == $0", true
       // :remove-start:
     );
     const assignedToAlexOrAli = projects.filtered(
@@ -754,7 +758,19 @@ describe("Realm Query Language Reference", () => {
         "timeCompleted < $0", someDate
         // :snippet-end:
       );
+
+      // :snippet-start: date-alt-representation
+      var date = new Date("2021-02-20@17:30:15:0");
+      // :remove-start:
+      const dateAlt1 = dates.filtered(
+        // :remove-end:
+        "timeCompleted > $0", date
+        // :remove-start:
+      );
+      // :remove-end:
+
       expect(dateParameterizedQuery.length).toBe(1);
+      expect(dateAlt1.length).toBe(2);
     });
   });
   describe("Dictionary operators", () => {
@@ -799,22 +815,22 @@ describe("Realm Query Language Reference", () => {
       const fooKey = dictionaries.filtered(
         // :snippet-start: dictionary-operators
         // Evaluates if there is a dictionary key with the name 'foo'
-        "ANY dict.@keys == 'foo'"
+        "ANY dict.@keys == $0", 'foo'
 
         // :remove-start:
       );
       const fooBarKeyValue = dictionaries.filtered(
         // :remove-end:
         // Evaluates if there is a dictionary key with key 'foo' and value 'bar
-        "dict['foo'] == 'bar'"
+        "dict['foo'] == $0", 'bar'
 
         // :remove-start:
       );
-
+      
       const numItemsInDict = dictionaries.filtered(
         // :remove-end:
         // Evaluates if there is a dictionary key with key 'foo' and value 'bar
-        "dict.@count > 1"
+        "dict.@count > $0", 1
 
         // :remove-start:
       );
