@@ -218,7 +218,7 @@ Include multiple parameters with ascending integers starting at ``$0``.
 Serialization
 ~~~~~~~~~~~~~
 
-The following table shows how a query looks when serialized for the
+The following table shows how a query should be formatted for the
 available data types:
 
 .. list-table::
@@ -239,7 +239,7 @@ available data types:
 
    * - Number
      - "age > $0", 5.50
-     - applies for ``int``, ``short``, ``long``, ``double``, ``Decimal128``, and ``float`` data types
+     - Applies for ``int``, ``short``, ``long``, ``double``, ``Decimal128``, and ``float`` data types
 
    * - Date
      - YYYY-MM-DD@HH:mm:ss:nn (year-month-day@hours:minutes:seconds:nanoseconds)
@@ -254,8 +254,22 @@ available data types:
    * - UUID
      - "id == $0", uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)
      - formatted as uuid(unique 16-byte value)
-    
 
+  * - Binary
+    - "value == $0", "binary"
+      "value == $0", ImJpbmFyeSI=
+    - For ASCII characters, RQL serializes the binary value like a string,
+      with quotes. For non-printable characters, 
+      RQL serializes the binary to a base 64 value.
+
+  * - RealmObject
+    - "link == $0", obj('class_Foo', 'primary key of object')
+    -
+
+  * - RealmSet
+    - "ANY items.name == {$0, $1}", "milk", "bread"
+    -
+    
 .. _rql-dot-notation:
 
 Dot Notation
