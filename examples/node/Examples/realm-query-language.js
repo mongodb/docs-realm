@@ -160,7 +160,7 @@ describe("Realm Query Language Reference", () => {
 
     const aliComplete = items.filtered(
       // :snippet-start: logical-operators
-      "assignee == 'Ali' AND isComplete == true"
+      "assignee == $0 AND isComplete == true", "Ali"
       // :snippet-end:
     );
     expect(aliComplete.length).toBe(0);
@@ -252,14 +252,14 @@ describe("Realm Query Language Reference", () => {
       // :remove-end:
 
       // Projects with at least one item assigned to either Alex or Ali
-      "ANY items.assignee IN { 'Alex', 'Ali' }"
+      "ANY items.assignee IN { $0 , $1 }", "Alex", "Ali"
       // :remove-start:
     );
     const notAssignedToAlexOrAli = projects.filtered(
       // :remove-end:
 
       // Projects with no items assigned to either Alex or Ali
-      "NONE items.assignee IN { 'Alex', 'Ali' }"
+      "NONE items.assignee IN { $0 , $1 }", "Alex", "Ali"
       // :snippet-end:
     );
     expect(noCompleteItems.length).toBe(2);
@@ -754,21 +754,7 @@ describe("Realm Query Language Reference", () => {
         "timeCompleted < $0", someDate
         // :snippet-end:
       );
-
-      const dateAlt1 = dates.filtered(
-        // :snippet-start: date-alt-representation
-        "timeCompleted > 2021-02-20@17:30:15:0"
-        // :remove-start:
-      );
-      const dateAlt2 = dates.filtered(
-        // :remove-end:
-        "timeCompleted > 2021-02-20@17:30:15:0"
-        // :snippet-end:
-      );
-
       expect(dateParameterizedQuery.length).toBe(1);
-      expect(dateAlt1.length).toBe(2);
-      expect(dateAlt2.length).toBe(2);
     });
   });
   describe("Dictionary operators", () => {

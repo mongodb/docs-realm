@@ -215,6 +215,47 @@ Include multiple parameters with ascending integers starting at ``$0``.
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.multiple-predicate.js
    :language: js
 
+Serialization
+~~~~~~~~~~~~~
+
+The following is a table of how a query will look when serialized for the
+available data types:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 33 34 33
+
+   * - Type
+     - Serialization Description
+     - Example
+
+   * - Boolean
+     - boolean
+     - "setting == $0", false
+
+   * - Int
+     - integer 
+     - "age > $0", 5
+
+   * - Double
+     - double 
+     - "height > $0", 5.5
+
+   * - Date
+     - YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn (year-month-day@hours:minutes:seconds:nanoseconds)
+       Ts:n (s, seconds; n, nanoseconds)
+       Date data type
+     - "date < $0", 2022-08-14@12:02:44:00
+
+   * - String
+     - string or char
+     - "name == $0", "George"
+
+   * - ObjectID
+     - ObjectId(value as hex)
+     - "_id == $0", ObjectId("507f1f77bcf86cd799439011")
+    
+
 .. _rql-dot-notation:
 
 Dot Notation
@@ -610,14 +651,6 @@ You can also represent dates the following ways:
   since :wikipedia:`unix epoch <Unix_time>`.
 
 Date supports :ref:`comparison operators <rql-comparison-operators>`.
-
-.. example::
-
-   The following example shows how to compare dates with their different
-   representations.
-
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-alt-representation.js
-      :language: js
 
 .. _rql-aggregate-operators:
 
