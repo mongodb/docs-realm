@@ -218,7 +218,7 @@ Include multiple parameters with ascending integers starting at ``$0``.
 Serialization
 ~~~~~~~~~~~~~
 
-The following is a table of how a query will look when serialized for the
+The following table shows how a query looks when serialized for the
 available data types:
 
 .. list-table::
@@ -226,34 +226,34 @@ available data types:
    :widths: 33 34 33
 
    * - Type
-     - Serialization Description
      - Example
+     - Note
 
    * - Boolean
-     - boolean
      - "setting == $0", false
+     - ``true`` or ``false`` values
 
-   * - Int
-     - integer 
-     - "age > $0", 5
+   * - String
+     - "name == $0", "George"
+     - Can be used for ``string`` or ``char`` data type
 
-   * - Double
-     - double 
-     - "height > $0", 5.5
+   * - Number
+     - "age > $0", 5.50
+     - applies for ``int``, ``short``, ``long``, ``double``, ``Decimal128``, and ``float`` data types
 
    * - Date
-     - YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn (year-month-day@hours:minutes:seconds:nanoseconds)
+     - YYYY-MM-DD@HH:mm:ss:nn (year-month-day@hours:minutes:seconds:nanoseconds)
        Ts:n (s, seconds; n, nanoseconds)
        Date data type
      - "date < $0", 2022-08-14@12:02:44:00
 
-   * - String
-     - string or char
-     - "name == $0", "George"
-
    * - ObjectID
-     - ObjectId(value as hex)
      - "_id == $0", ObjectId("507f1f77bcf86cd799439011")
+     - ObjectId(value as hex)
+
+   * - UUID
+     - "id == $0", uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)
+     - formatted as uuid(unique 16-byte value)
     
 
 .. _rql-dot-notation:
