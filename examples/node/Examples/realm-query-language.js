@@ -768,6 +768,7 @@ describe("Realm Query Language Reference", () => {
         // :remove-start:
       );
       // :remove-end:
+      // :snippet-end:
 
       expect(dateParameterizedQuery.length).toBe(1);
       expect(dateAlt1.length).toBe(2);
@@ -826,7 +827,6 @@ describe("Realm Query Language Reference", () => {
 
         // :remove-start:
       );
-      
       const numItemsInDict = dictionaries.filtered(
         // :remove-end:
         // Evaluates if there is a dictionary key with key 'foo' and value 'bar
