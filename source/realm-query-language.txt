@@ -219,7 +219,7 @@ Serialization
 ~~~~~~~~~~~~~
 
 The following table shows how a query should be formatted for the
-available data types:
+following data types:
 
 .. list-table::
   :header-rows: 1
@@ -242,21 +242,26 @@ available data types:
     - Applies for ``int``, ``short``, ``long``, ``double``, ``Decimal128``, and ``float`` data types
 
   * - :ref:`Date <rql-date-operators>`
-    - YYYY-MM-DD@HH:mm:ss:nn (year-month-day@hours:minutes:seconds:nanoseconds)
-      Ts:n (T, designates the start of the time; ``s``, seconds; ``n``, nanoseconds)
-      Date data type
     - "date < $0", 2022-08-14@12:02:44:00
+    - The date can be represented in the following formats:
+  
+      - YYYY-MM-DD@HH:mm:ss:nn 
+        (year-month-day@hours:minutes:seconds:nanoseconds)
+      - Ts:n 
+        (T, designates the start of the time; ``s``, seconds; ``n``, nanoseconds)
+      - Parameterized ``Date`` data type
 
   * - :ref:`ObjectID <rql-objectid-uuid-operators>`
     - "_id == $0", ObjectId("507f1f77bcf86cd799439011")
-    - ObjectId(value as hex)
+    - Formatted as ObjectId(unique value as hex)
 
   * - :ref:`UUID <rql-objectid-uuid-operators>`
     - "id == $0", uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)
-    - formatted as uuid(unique 16-byte value)
+    - Formatted as uuid(unique 16-byte value)
     
   * - Binary
     - "value == $0", "binary"
+
       "value == $0", ImJpbmFyeSI=
     - For ASCII characters, RQL serializes the binary value like a string,
       with quotes. For non-printable characters, 
@@ -264,11 +269,11 @@ available data types:
   
   * - RealmObject
     - "link == $0", obj('class_Foo', 'primary key of object')
-    -
+    - Need the class and primary key of the object
 
   * - RealmSet
     - "ANY items.name == {$0, $1}", "milk", "bread"
-    -
+    - Need a parameterized value for each member of the set
     
 .. _rql-dot-notation:
 
