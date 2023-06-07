@@ -1,4 +1,5 @@
 var priorityNum = 5;
+
   "items.@avg.priority > $0", priorityNum
 
   "items.@max.priority < $0", priorityNum
