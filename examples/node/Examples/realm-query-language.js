@@ -188,6 +188,7 @@ describe("Realm Query Language Reference", () => {
 
     // :snippet-start: aggregate-operators
     var priorityNum = 5;
+
     // :remove-start:
     const averageItemPriorityAbove5 = projects.filtered(
       // :remove-end:
@@ -761,6 +762,7 @@ describe("Realm Query Language Reference", () => {
 
       // :snippet-start: date-alt-representation
       var date = new Date("2021-02-20@17:30:15:0");
+
       // :remove-start:
       const dateAlt1 = dates.filtered(
         // :remove-end:
@@ -851,6 +853,8 @@ describe("Realm Query Language Reference", () => {
 
         // :remove-start:
       );
+
+
 
       // TODO: fails, unsure why
       const noFloats = dictionaries.filtered(

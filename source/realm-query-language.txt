@@ -231,15 +231,15 @@ following data types:
 
   * - Boolean
     - "setting == $0", false
-    - ``true`` or ``false`` values
+    - ``true`` or ``false`` values.
 
   * - :ref:`String <rql-string-operators>`
     - "name == $0", "George"
-    - Can be used for ``string`` or ``char`` data type
+    - Can be used for ``string`` or ``char`` data type.
 
   * - :ref:`Number <rql-arithmetic-operators>`
     - "age > $0", 5.50
-    - Applies for ``int``, ``short``, ``long``, ``double``, ``Decimal128``, and ``float`` data types
+    - Applies for ``int``, ``short``, ``long``, ``double``, ``Decimal128``, and ``float`` data types.
 
   * - :ref:`Date <rql-date-operators>`
     - "date < $0", 2022-08-14@12:02:44:00
@@ -249,15 +249,15 @@ following data types:
         (year-month-day@hours:minutes:seconds:nanoseconds)
       - Ts:n 
         (T, designates the start of the time; ``s``, seconds; ``n``, nanoseconds)
-      - Parameterized ``Date`` data type
+      - Parameterized ``Date`` object
 
   * - :ref:`ObjectID <rql-objectid-uuid-operators>`
     - "_id == $0", ObjectId("507f1f77bcf86cd799439011")
-    - Formatted as ObjectId(unique value as hex)
+    - Formatted as ObjectId(unique value as hex).
 
   * - :ref:`UUID <rql-objectid-uuid-operators>`
     - "id == $0", uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)
-    - Formatted as uuid(unique 16-byte value)
+    - Formatted as uuid(unique 16-byte value).
     
   * - Binary
     - "value == $0", "binary"
@@ -269,11 +269,11 @@ following data types:
   
   * - RealmObject
     - "link == $0", obj('class_Foo', 'primary key of object')
-    - Need the class and primary key of the object
+    - Need the class and primary key of the object.
 
   * - RealmSet
     - "ANY items.name == {$0, $1}", "milk", "bread"
-    - Need a parameterized value for each member of the set
+    - Need a parameterized value for each member of the set.
     
 .. _rql-dot-notation:
 
@@ -664,7 +664,7 @@ from the SDK language you are using to a query.
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-parameterized-query.js
    :language: js
 
-You can also represent dates the following ways:
+You can also represent dates the following ways in your query:
 
 - As a whole date: ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
   You can also use ``T`` instead of ``@`` to separate the date from the time.
@@ -675,8 +675,8 @@ Date supports :ref:`comparison operators <rql-comparison-operators>`.
 
 .. example::
 
-   The following examples shows how to compare dates with their different
-   representations.
+   The following examples shows how to use a parameterized query with
+   a date object: 
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-alt-representation.js
       :language: js
