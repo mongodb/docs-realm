@@ -1,4 +1,4 @@
-# June 9, 2023
+# June 8, 2023
 
 ## React Native SDK
 
@@ -12,7 +12,6 @@
 ## C++ SDK
 
 -  Update Alpha naming to Beta throughout the SDK
-
 
 ## Flutter SDK
 
