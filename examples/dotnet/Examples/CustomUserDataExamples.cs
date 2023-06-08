@@ -15,7 +15,7 @@ namespace Examples
     {
         App app;
         User user;
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.AppId;
         MongoClient mongoClient;
         MongoClient.Database dbTracker;
         MongoClient.Collection<CustomUserData> cudCollection;
@@ -29,7 +29,7 @@ namespace Examples
             user = await app.LogInAsync(Credentials.Anonymous());
 
             mongoClient = user.GetMongoClient("mongodb-atlas");
-            dbTracker = mongoClient.GetDatabase("tracker");
+            dbTracker = mongoClient.GetDatabase("dotnet_tests");
             cudCollection = dbTracker.GetCollection<CustomUserData>("user_data");
 
             var cud = new CustomUserData(user.Id)

@@ -17,7 +17,7 @@ namespace Examples
         App app;
         Realms.Sync.User user;
         PartitionSyncConfiguration config;
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.AppId;
 
         [OneTimeSetUp]
         public async Task Setup()
@@ -25,7 +25,7 @@ namespace Examples
             app = App.Create(myRealmAppId);
             // :snippet-start: open-synced-realm
             user = await app.LogInAsync(
-                Credentials.EmailPassword("foo@foo.com", "foobar"));
+                Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
             config = new PartitionSyncConfiguration("myPart", user);
             //:remove-start:
             // Internal Note: this is so we can have a more "global" instance

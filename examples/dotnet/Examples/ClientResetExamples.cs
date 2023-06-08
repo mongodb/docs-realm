@@ -17,7 +17,7 @@ namespace Examples
         App app;
         RealmUser user;
 
-        const string myRealmAppId = Config.fsAppId;
+        const string myRealmAppId = Config.FSAppId;
         App fsApp;
         Realm fsRealm;
         RealmUser fsUser;
@@ -80,7 +80,7 @@ namespace Examples
             //:remove-start:
             fsApp = App.Create(myRealmAppId);
             fsUser = fsApp.LogInAsync(
-                Credentials.EmailPassword("caleb@example.com", "foobar")).Result;
+                Credentials.EmailPassword(Config.Username, Config.Password)).Result;
             //:remove-end:
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
             fsConfig.ClientResetHandler =

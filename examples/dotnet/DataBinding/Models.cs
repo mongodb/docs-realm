@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using Realms;
 
+#nullable enable
+
 namespace DataBinding
 {
     //:snippet-start:binding-classes

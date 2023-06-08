@@ -13,7 +13,7 @@ namespace Examples
         App app;
         Realms.Sync.User user;
         PartitionSyncConfiguration config;
-        string myRealmAppId = Config.appid;
+        string myRealmAppId = Config.AppId;
 
         public class ProgressObj : RealmObject
         {
@@ -108,7 +108,7 @@ namespace Examples
             {
                 var realm = Realm.GetInstance(config);
                 var session = realm.SyncSession;
-                session.PropertyChanged += SyncSessionPropertyChanged;
+                session.PropertyChanged += SyncSessionPropertyChanged!;
                 realm.Dispose();
             }
             catch (Exception ex)

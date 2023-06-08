@@ -14,10 +14,10 @@ namespace Examples
 
         public async Task TestUseFlexibleSync()
         {
-            var app = App.Create(Config.fsAppId);
+            var app = App.Create(Config.FSAppId);
             var user = await app.LogInAsync(Credentials.Anonymous());
 
-            var config = new FlexibleSyncConfiguration(app.CurrentUser);
+            var config = new FlexibleSyncConfiguration(app.CurrentUser!);
             var realm = Realm.GetInstance(config);
 
             var subscriptions = realm.Subscriptions;
@@ -92,11 +92,11 @@ namespace Examples
         [Test]
         public async Task TestCancelAsyncOperationsOnNonFatalErrors()
         {
-            var app = App.Create(Config.fsAppId);
+            var app = App.Create(Config.FSAppId);
             var user = await app.LogInAsync(Credentials.Anonymous());
 
             // :snippet-start: appconfigsettings
-            AppConfiguration configuration = new AppConfiguration(Config.fsAppId)
+            AppConfiguration configuration = new AppConfiguration(Config.FSAppId)
             {
                 SyncTimeoutOptions = new SyncTimeoutOptions()
                 {
@@ -110,7 +110,7 @@ namespace Examples
 
             // :snippet-end:
             // :snippet-start: cancelasync
-            var config = new FlexibleSyncConfiguration(app.CurrentUser)
+            var config = new FlexibleSyncConfiguration(app.CurrentUser!)
             {
                 CancelAsyncOperationsOnNonFatalErrors = true,
             };

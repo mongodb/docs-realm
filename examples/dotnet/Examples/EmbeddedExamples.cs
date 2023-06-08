@@ -14,13 +14,13 @@ namespace Examples
         App app;
         User user;
         RealmConfiguration config;
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.AppId;
 
         [OneTimeSetUp]
         public void Setup()
         {
             app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            user = app.LogInAsync(Config.EPCreds).Result;
             config = new RealmConfiguration();
 
             // Synchronous here because setup and tear down don't support async
