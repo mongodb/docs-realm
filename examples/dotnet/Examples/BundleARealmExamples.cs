@@ -82,7 +82,7 @@ namespace Examples
             // :snippet-start: extract_and_copy_realm
             // :replace-start: {
             //  "terms": {
-            //   "Config.appid": "\"myRealmAppId\""}
+            //   "Config.AppId": "\"myRealmAppId\""}
             // }
             // If you are using a local realm
             var config = RealmConfiguration.DefaultConfiguration;

@@ -96,6 +96,10 @@ namespace Examples
             var user = await app.LogInAsync(Credentials.Anonymous());
 
             // :snippet-start: appconfigsettings
+            // :replace-start: {
+            //  "terms": {
+            //   "Config.FSAppId": "\"myRealmAppId\""}
+            // }
             AppConfiguration configuration = new AppConfiguration(Config.FSAppId)
             {
                 SyncTimeoutOptions = new SyncTimeoutOptions()
@@ -107,7 +111,7 @@ namespace Examples
                     FastReconnectLimit = TimeSpan.FromMinutes(1),
                 },
             };
-
+            // :replace-end:
             // :snippet-end:
             // :snippet-start: cancelasync
             var config = new FlexibleSyncConfiguration(app.CurrentUser!)

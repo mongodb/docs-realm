@@ -40,14 +40,14 @@ namespace LocalOnly
             //:snippet-end:
 
             //:snippet-start:update
-            var davidsStrat = realm.All<Guitar>().First(
+            var davidsStrat = realm.All<Guitar>().FirstOrDefault(
                 g => g.Owner == "D. Gilmour"
                 && g.Make == "Fender"
                 && g.Model == "Stratocaster");
 
             realm.Write(() =>
             {
-                davidsStrat.Price = 1700345.56;
+                davidsStrat!.Price = 1700345.56;
             });
             //:snippet-end:
 

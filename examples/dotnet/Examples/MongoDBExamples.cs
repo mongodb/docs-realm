@@ -29,9 +29,14 @@ namespace Examples
             config = new PartitionSyncConfiguration("myPart", user);
 
             // :snippet-start: mongo-setup
+            // :replace-start: {
+            //  "terms": {
+            //   "dotnet_tests": "inventory"}
+            // }
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("dotnet_tests");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
+            // :replace-end:
             // :snippet-end:
 
             await InsertsOne();

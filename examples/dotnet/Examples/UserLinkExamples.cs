@@ -23,7 +23,7 @@ namespace Examples
                 //    EmailPassword credential to link the existing anonymous
                 //    account:
                 var email = "caleb@mongodb.com";
-                var password = "shhhItsASektrit!";
+                var password = "MySekritPwd";
                 await app.EmailPasswordAuth.RegisterUserAsync(
                     email, password);
                 var officialUser = await anonUser.LinkCredentialsAsync(

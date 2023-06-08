@@ -32,7 +32,7 @@ namespace Examples
             {
                 // :snippet-start: logon_EP
                 var user = await app.LogInAsync(
-                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                    Credentials.EmailPassword("caleb@mongodb.com", "MySekritPwd"));
                 // :snippet-end:
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
@@ -50,7 +50,7 @@ namespace Examples
                 var functionParameters = new
                 {
                     username = "caleb",
-                    password = "shhhItsASektrit!",
+                    password = "MySekritPwd",
                     IQ = 42,
                     isCool = false
                 };

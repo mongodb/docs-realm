@@ -25,6 +25,10 @@ namespace Examples
         public async Task Creates()
         {
             // :snippet-start: create
+            // :replace-start: {
+            //  "terms": {
+            //   "dotnet_tests": "tracker"}
+            // }
             app = App.Create(myRealmAppId);
             user = await app.LogInAsync(Credentials.Anonymous());
 
@@ -40,6 +44,7 @@ namespace Examples
             };
 
             var insertResult = await cudCollection.InsertOneAsync(cud);
+            // :replace-end:
             // :snippet-end:
             Assert.AreEqual(user.Id, insertResult.InsertedId);
         }

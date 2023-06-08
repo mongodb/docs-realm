@@ -12,6 +12,5 @@ namespace Examples.Models
 
         [MapTo("image")]
         public string Image { get; set; }
-
     }
 }

@@ -25,7 +25,7 @@ namespace Examples
             app = App.Create(myRealmAppId);
             // :snippet-start: open-synced-realm
             user = await app.LogInAsync(
-                Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                Credentials.EmailPassword("caleb@mongodb.com", "MySekritPwd"));
             config = new PartitionSyncConfiguration("myPart", user);
             //:remove-start:
             // Internal Note: this is so we can have a more "global" instance
@@ -158,7 +158,7 @@ namespace Examples
             {
                 // App must be online for user to authenticate
                 user3 = await app.LogInAsync(
-                    Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
+                    Credentials.EmailPassword("caleb@mongodb.com", "MySekritPwd"));
                 config3 = new PartitionSyncConfiguration("_part", user3);
                 realm3 = await Realm.GetInstanceAsync(config3);
             }

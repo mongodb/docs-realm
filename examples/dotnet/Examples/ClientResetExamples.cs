@@ -57,7 +57,7 @@ namespace Examples
             };
 
             //:remove-start:
-            config.Schema = new[] { typeof(User) };
+            config.Schema = new[] { typeof(Examples.Models.Plant) };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :snippet-end:

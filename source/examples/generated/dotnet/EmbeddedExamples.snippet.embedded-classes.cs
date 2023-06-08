@@ -26,7 +26,7 @@ public partial class Contact : IRealmObject
     public string Name { get; set; }
 
     [MapTo("address")]
-    public Address Address { get; set; } // embed a single address
+    public Address? Address { get; set; } // embed a single address
 
 }
 public partial class Business : IRealmObject
