@@ -102,7 +102,7 @@ namespace Examples
                 using var bundledDbStream = Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("bundled.realm");
                 using var databaseFile = File.Create(config.DatabasePath);
-                bundledDbStream?.CopyTo(databaseFile);
+                bundledDbStream!.CopyTo(databaseFile);
             }
 
             // Open the Realm:

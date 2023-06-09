@@ -1,7 +1,5 @@
 ﻿using Realms;
 
-#nullable enable
-
 namespace Examples.Models
 {
     public class User : RealmObject

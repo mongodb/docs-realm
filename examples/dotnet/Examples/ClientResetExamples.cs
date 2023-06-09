@@ -18,9 +18,9 @@ namespace Examples
         RealmUser user;
 
         const string myRealmAppId = Config.FSAppId;
-        App fsApp;
-        Realm fsRealm;
-        RealmUser fsUser;
+        App fsApp = null!;
+        Realm fsRealm = null!;
+        RealmUser fsUser = null!;
 
         public ClientResetExamples()
         {

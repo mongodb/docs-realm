@@ -52,7 +52,7 @@ namespace Examples
                     username = "caleb",
                     password = "MySekritPwd",
                     IQ = 42,
-                    isCool = false
+                    hasPets = true
                 };
 
                 var user =

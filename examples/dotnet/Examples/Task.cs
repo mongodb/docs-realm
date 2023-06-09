@@ -2,8 +2,6 @@
 using MongoDB.Bson;
 using Realms;
 
-#nullable enable
-
 namespace Examples.Models
 {
     public class Item : RealmObject
@@ -16,10 +14,10 @@ namespace Examples.Models
         public User Assignee { get; set; }
 
         [MapTo("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [MapTo("status")]
-        public string? Status { get; set; }
+        public string Status { get; set; }
     }
     // :snippet-end:
     public enum ItemStatus

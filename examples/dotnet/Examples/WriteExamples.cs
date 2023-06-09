@@ -211,7 +211,7 @@ namespace Examples
 
         public int Age { get; set; }
         public string Breed { get; set; }
-        public WritePerson Owner { get; set; }
+        public WritePerson? Owner { get; set; } = null!;
     }
 
     public class WritePerson : RealmObject

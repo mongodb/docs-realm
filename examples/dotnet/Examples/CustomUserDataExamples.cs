@@ -18,7 +18,7 @@ namespace Examples
         const string myRealmAppId = Config.AppId;
         MongoClient mongoClient;
         MongoClient.Database dbTracker;
-        MongoClient.Collection<CustomUserData> cudCollection;
+        MongoClient.Collection<CustomUserData> userDataCollection;
 
 
         [OneTimeSetUp]
@@ -34,16 +34,16 @@ namespace Examples
 
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbTracker = mongoClient.GetDatabase("dotnet_tests");
-            cudCollection = dbTracker.GetCollection<CustomUserData>("user_data");
+            userDataCollection = dbTracker.GetCollection<CustomUserData>("user_data");
 
             var cud = new CustomUserData(user.Id)
             {
                 FavoriteColor = "pink",
                 LocalTimeZone = "+8",
-                IsCool = true
+                HasPets = true
             };
 
-            var insertResult = await cudCollection.InsertOneAsync(cud);
+            var insertResult = await userDataCollection.InsertOneAsync(cud);
             // :replace-end:
             // :snippet-end:
             Assert.AreEqual(user.Id, insertResult.InsertedId);
@@ -57,53 +57,53 @@ namespace Examples
 
             // Tip: define a class that represents the custom data
             // and use the gerneic overload of GetCustomData<>()
-            var cud = user.GetCustomData<CustomUserData>();
+            var customUserData = user.GetCustomData<CustomUserData>();
 
-            Console.WriteLine($"User is cool: {cud.IsCool}");
-            Console.WriteLine($"User's favorite color is {cud.FavoriteColor}");
-            Console.WriteLine($"User's timezone is {cud.LocalTimeZone}");
+            Console.WriteLine($"User has pets: {customUserData.HasPets}");
+            Console.WriteLine($"User's favorite color is {customUserData.FavoriteColor}");
+            Console.WriteLine($"User's timezone is {customUserData.LocalTimeZone}");
             // :snippet-end:
-            Assert.IsTrue(cud.IsCool);
+            Assert.IsTrue(customUserData.HasPets);
         }
 
         [Test, Order(1)]
         public async Task Updates()
         {
             // :snippet-start: update
-            var updateResult = await cudCollection.UpdateOneAsync(
+            var updateResult = await userDataCollection.UpdateOneAsync(
                 new BsonDocument("_id", user.Id),
-                new BsonDocument("$set", new BsonDocument("IsCool", false)));
+                new BsonDocument("$set", new BsonDocument("HasPets", false)));
 
             await user.RefreshCustomDataAsync();
-            var cud = user.GetCustomData<CustomUserData>();
+            var customUserData = user.GetCustomData<CustomUserData>();
 
-            Console.WriteLine($"User is cool: {cud.IsCool}");
-            Console.WriteLine($"User's favorite color is {cud.FavoriteColor}");
-            Console.WriteLine($"User's timezone is {cud.LocalTimeZone}");
+            Console.WriteLine($"User has pets: {customUserData.HasPets}");
+            Console.WriteLine($"User's favorite color is {customUserData.FavoriteColor}");
+            Console.WriteLine($"User's timezone is {customUserData.LocalTimeZone}");
             // :snippet-end:
             Assert.AreEqual(1, updateResult.ModifiedCount);
-            Assert.IsFalse(cud.IsCool);
+            Assert.IsFalse(customUserData.HasPets);
         }
 
         [OneTimeTearDown]
         public async Task TearDown()
         {
             // :snippet-start: delete
-            var deleteResult = await cudCollection.DeleteOneAsync(
+            var deleteResult = await userDataCollection.DeleteOneAsync(
                 new BsonDocument("_id", user.Id));
 
             // The `DeletedCount` should be 1
             Console.WriteLine(deleteResult.DeletedCount);
 
             // There should no longer be a custom user document for the user
-            var customData = await cudCollection.FindOneAsync(
+            var customData = await userDataCollection.FindOneAsync(
                 new BsonDocument("_id", user.Id));
 
             Console.WriteLine(customData == null);
 
             // :snippet-end:
 
-            //await cudCollection.DeleteManyAsync();
+            //await userDataCollection.DeleteManyAsync();
         }
 
     }
@@ -119,7 +119,7 @@ namespace Examples
 
         public string LocalTimeZone { get; set; }
 
-        public bool IsCool { get; set; }
+        public bool HasPets { get; set; }
 
         public CustomUserData(string id, string partition = "myPart")
         {
