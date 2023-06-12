@@ -1,4 +1,4 @@
-AppConfiguration configuration = new AppConfiguration(Config.fsAppId)
+AppConfiguration configuration = new AppConfiguration("myRealmAppId")
 {
     SyncTimeoutOptions = new SyncTimeoutOptions()
     {
@@ -9,4 +9,3 @@ AppConfiguration configuration = new AppConfiguration(Config.fsAppId)
         FastReconnectLimit = TimeSpan.FromMinutes(1),
     },
 };
-

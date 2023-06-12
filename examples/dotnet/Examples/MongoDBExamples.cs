@@ -15,7 +15,7 @@ namespace Examples
         App app;
         Realms.Sync.User user;
         PartitionSyncConfiguration config;
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.AppId;
 
         MongoClient mongoClient;
         MongoClient.Database dbPlantInventory;
@@ -25,13 +25,18 @@ namespace Examples
         public async Task Setup()
         {
             app = App.Create(myRealmAppId);
-            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+            user = await app.LogInAsync(Config.EPCreds);
             config = new PartitionSyncConfiguration("myPart", user);
 
             // :snippet-start: mongo-setup
+            // :replace-start: {
+            //  "terms": {
+            //   "dotnet_tests": "inventory"}
+            // }
             mongoClient = user.GetMongoClient("mongodb-atlas");
-            dbPlantInventory = mongoClient.GetDatabase("inventory");
+            dbPlantInventory = mongoClient.GetDatabase("dotnet_tests");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
+            // :replace-end:
             // :snippet-end:
 
             await InsertsOne();

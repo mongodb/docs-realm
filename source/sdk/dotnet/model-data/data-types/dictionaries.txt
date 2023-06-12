@@ -30,7 +30,9 @@ A dictionary of objects can contain null objects. Likewise, dictionaries
 of primitive types can also contain null values. If you do not 
 want to allow null values in a dictionary, then either use non-nullable types in 
 the dictionary declaration (for example, use ``IDictionary<string, double>`` 
-instead of ``IDictionary<string, double?>``), or add the 
+instead of ``IDictionary<string, double?>``). If you are using the older schema 
+type definition (your classes derive from the ``RealmObject`` base class),
+or you do not have nullability enabled, use the
 :ref:`[Required]<dotnet-required-optional-property>` attribute if the dictionary  
 contains nullable reference types, such as ``string`` or ``byte[]``.
 

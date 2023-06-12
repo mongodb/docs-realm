@@ -29,7 +29,7 @@ var subscriptionToken = realm.All<Dog>()
 
     if (changes.IsCleared)
     {
-        // A special case if the collection has been cleared: 
+        // A special case if the collection has been cleared:
         // i.e., all items have been deleted by calling
         // the Clear() method.
     }

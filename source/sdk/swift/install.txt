@@ -318,8 +318,16 @@ If you have build issues after using one of these methods to install
 Realm, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
 for information about resolving those issues in realm.
 
-OS Support (Xcode 14)
----------------------
+OS Support
+----------
+
+.. important::
+
+   There are special considerations when using realm with
+   tvOS. See :ref:`ios-tvos` for more information.
+
+Xcode 14
+~~~~~~~~
 
 .. list-table::
    :header-rows: 1
@@ -346,12 +354,53 @@ OS Support (Xcode 14)
      - X
      - 
 
-.. important::
+Xcode 15
+~~~~~~~~
 
-   There are special considerations when using Realm with
-   tvOS. See :ref:`ios-tvos` for more information.
+.. versionadded:: 10.40.1
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+   :class: index-table
+
+   * - Supported OS
+     - realm
+     - Atlas App Services
+
+   * - iOS 12.0+
+     - X
+     - X
+
+   * - macOS 10.13+
+     - X
+     - X
+
+   * - tvOS 11.0+
+     - X
+     - X
+
+   * - watchOS 4.0+
+     - X
+     - 
+
+Swift Concurrency Support
+-------------------------
+
+The Realm Swift SDK supports Swift's concurrency-related language features.
+For best practices on using Realm with Swift concurrency features, refer 
+to the documentation below.
 
 Async/Await Support
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/swift-async-await-support.rst
+
+For more information about async/await support in the Realm Swift SDK, refer
+to :ref:`Swift Concurrency: Async/Await APIs <swift-async-await-apis>`.
+
+Actor Support
+~~~~~~~~~~~~~
+
+The Realm Swift SDK supports actor-isolated realm instances. For more information,
+refer to :ref:`swift-actor-isolated-realm`.

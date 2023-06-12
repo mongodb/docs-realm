@@ -5,7 +5,6 @@ public class Player : RealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
-    [Required]
     public string Id { get; set; }
 
 
@@ -13,7 +12,6 @@ public class Player : RealmObject
     public IList<Stat> Stats { get; }
 
     [MapTo("name")]
-    [Required]
     public string Name { get; set; }
 }
-// :state-end: 
+// :state-end:
