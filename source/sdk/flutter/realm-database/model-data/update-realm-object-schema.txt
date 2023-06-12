@@ -14,7 +14,7 @@ Update a Realm Object Schema - Flutter SDK
 You can change the schema of a Realm object after you first create it.
 Depending on the type of changes you make to the schema, the changes can be either
 automatically applied or require a manual update to the new schema.
-Manual schema updates are called **migrations** in Realm Database.
+Manual schema updates are called **migrations** in Realm.
 
 You can automatically update a Realm object schema when you add or delete a property
 from a Realm object model. For more information, refer to the
@@ -34,8 +34,8 @@ For more information, refer to the :ref:`Manually Migrate Schema section
 
 .. important:: Modify Schema Properties of a Synced Realm
 
-   The contents on this page only apply to local Realm Databases.
-   Schema migration functions differently for Realm Database using Atlas Device Sync
+   The contents on this page only apply to local Realms.
+   Schema migration functions differently for Realm using Atlas Device Sync
    to synchronize data with MongoDB Atlas.
    Refer to the :ref:`Updating the Schema of a Synced Realm section <flutter-update-schema-of-synced-realm>`.
 
@@ -45,7 +45,7 @@ Schema Version
 --------------
 
 A **schema version** identifies the state of a :ref:`realm schema
-<flutter-realm-schema>` at some point in time. Realm Database tracks the
+<flutter-realm-schema>` at some point in time. Realm tracks the
 schema version of each realm and uses it to map the objects in each
 realm to the correct schema.
 
@@ -55,7 +55,7 @@ application does not specify a version number when it opens a realm then
 the realm defaults to version ``0``.
 
 Manual migrations must update a realm to a
-higher schema version. Realm Database throws an error if a client
+higher schema version. Realm throws an error if a client
 application opens a realm with a schema version that is lower than
 the realm's current version or if the specified schema version is the
 same as the realm's current version but includes different
@@ -66,7 +66,7 @@ object schemas.
 Automatically Update Schema
 ---------------------------
 
-Realm Database can automatically migrate added and deleted properties.
+Realm can automatically migrate added and deleted properties.
 You must update the schema version when you make these changes.
 
 .. _flutter-add-a-property:
@@ -130,7 +130,7 @@ Deleting a property does not impact existing objects.
 Manually Migrate Schema
 -----------------------
 
-For more complex schema updates, Realm Database requires you to manually migrate
+For more complex schema updates, Realm requires you to manually migrate
 old instances of a given object to the new schema.
 
 When you open the realm with the updated schema, you must do the following

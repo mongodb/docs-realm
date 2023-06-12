@@ -44,7 +44,7 @@ Schema Version
 
 A **schema version** identifies the state of a 
 :ref:`realm schema<kotlin-realm-schema>` at some point in time. 
-Realm Database tracks the schema version of each realm and uses it to map the
+Realm tracks the schema version of each realm and uses it to map the
 objects in each realm to the correct schema.
 
 Schema versions are ascending integers that you can optionally include
@@ -55,7 +55,7 @@ realm, then the realm defaults to version ``0``.
 .. important:: Increment Versions Monotonically
    
    Migrations must update a realm to a higher schema version. 
-   Realm Database will throw an error if a client
+   Realm will throw an error if a client
    application opens a realm with a schema version that is lower than
    the realm's current version or if the specified schema version is the
    same as the realm's current version but includes different
@@ -66,7 +66,7 @@ realm, then the realm defaults to version ``0``.
 Migration
 ---------
 
-Schema updates are called **migrations** in Realm Database.
+Schema updates are called **migrations** in Realm.
 A migration updates a realm and any objects it
 contains from one schema version to a newer version. 
 
@@ -95,7 +95,7 @@ Automatically Update Schema
 ---------------------------
 
 If your schema update adds or removes properties, 
-Realm Database can perform the migration automatically. 
+Realm can perform the migration automatically. 
 You only need to increment the ``schemaVersion``. 
 
 .. _kotlin-add-a-property:
@@ -173,7 +173,7 @@ Deleting a property will not impact existing objects.
 Manually Migrate Schema
 -----------------------
 
-For more complex schema updates, Realm Database requires you to manually 
+For more complex schema updates, Realm requires you to manually 
 migrate old instances of a given object to the new schema.
 
 When you open the realm with the updated schema, you must do the following

@@ -18,7 +18,7 @@ Testing
 Test Using a Default Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The easiest way to use and test Realm Database-backed applications 
+The easiest way to use and test Realm-backed applications 
 is to use the default realm. To avoid overriding application data or 
 leaking state between tests, set the default realm to a new file for 
 each test.
@@ -31,7 +31,7 @@ each test.
 Injecting Realm Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Another way to test Realm Database-related code is to have all the 
+Another way to test Realm-related code is to have all the 
 methods you'd like to test accept a realm instance as an argument. This 
 enables you to pass in different realms when running the app and when 
 testing it. 
@@ -54,7 +54,7 @@ If you want to work with a subset of an object's properties for testing,
 you can :ref:`create a class projection <ios-define-a-class-projection>`. 
 A class projection is a model abstraction where you can pass through, rename, 
 or exclude realm object properties. While this feature simplifies view 
-model implementation, it also simplifies testing with Realm Database.
+model implementation, it also simplifies testing with Realm.
 
 .. example::
 
@@ -77,9 +77,9 @@ model implementation, it also simplifies testing with Realm Database.
 Test Targets
 ~~~~~~~~~~~~
 
-Don't link the Realm Database framework directly to your test target. 
+Don't link the Realm framework directly to your test target. 
 This can cause your tests to fail with an exception message "Object type 
-'YourObject' is not managed by the Realm." Unlinking Realm Database 
+'YourObject' is not managed by the Realm." Unlinking Realm 
 from your test target should resolve this issue.
 
 Compile your model class files in your application or framework targets; 
@@ -89,8 +89,8 @@ duplicated when testing, which can lead to difficult-to-debug issues.
 Expose all the code that you need for testing to your unit test 
 targets. Use the ``public`` access modifier or :apple:`@testable <library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/04-writing_tests.html>`.
 
-Since you're using Realm Database as a dynamic framework, you'll 
-need to make sure your unit test target can find Realm Database. 
+Since you're using Realm as a dynamic framework, you'll 
+need to make sure your unit test target can find Realm. 
 Add the parent path to ``RealmSwift.framework`` to your unit test's 
 "Framework Search Paths".
 
@@ -112,7 +112,7 @@ realms. It supports Mac, Windows and Linux.
 LLDB
 ~~~~
 
-Debugging apps using Realm Database's Swift API must be done through 
+Debugging apps using Realm's Swift API must be done through 
 the LLDB console.
 
 Although the LLDB script allows inspecting the contents of your realm 

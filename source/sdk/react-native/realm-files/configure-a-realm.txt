@@ -73,13 +73,13 @@ must always pass a schema when using a Synced realm.
 Encrypt a Realm
 ~~~~~~~~~~~~~~~
 
-To encrypt a realm database file on disk, refer to 
+To encrypt a Realm file on disk, refer to 
 :ref:`Encrypt a Realm <react-native-encrypt-a-realm>`.
 
 Expose a Realm
 --------------
 
-``<RealmProvider>`` is a wrapper that exposes a Context with Realm Database to 
+``<RealmProvider>`` is a wrapper that exposes a Context with Realm to 
 its child components. All child components inside ``<RealmProvider>`` have access 
 to hooks that let you read, write, and update data. This is what a local-only 
 realm wrapper might look like:
@@ -99,7 +99,7 @@ You can open more than one realm at a time by creating additional Contexts and
 Key Concept: Realm Files
 ------------------------
 
-Realm Database stores a binary encoded version of every object and type in a
+Realm stores a binary encoded version of every object and type in a
 realm in a single ``.realm`` file. The file is located at a specific path that
 you define when you open the realm.
 
@@ -110,8 +110,8 @@ you define when you open the realm.
 
 .. note:: Auxiliary Realm Files
    
-   Realm Database creates additional files for each realm.
-   To learn more about these files, see :ref:`Realm Database Internals <react-native-realm-database>`.
+   Realm creates additional files for each realm.
+   To learn more about these files, see :ref:`Realm Internals <react-native-realm-database>`.
 
 .. warning:: Use Caution When Deleting Realm Files
    

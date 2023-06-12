@@ -2,7 +2,7 @@
 .. _kotlin-realm-database-overview:
 
 ===========================
-Realm Database - Kotlin SDK
+Realm - Kotlin SDK
 ===========================
 
 .. toctree::
@@ -23,7 +23,7 @@ Realm Database - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-Realm Database is a reactive, object-oriented, cross-platform,
+Realm is a reactive, object-oriented, cross-platform,
 mobile database:
 
 - **Reactive**: query the current state of data
@@ -39,16 +39,16 @@ mobile database:
 - **Mobile**: designed for the low-power, battery-sensitive, real-time
   environment of a mobile device.
 
-Realm Database is a cross-platform and mobile-optimized alternative to other
+Realm is a cross-platform and mobile-optimized alternative to other
 mobile databases such as `SQLite <https://www.sqlite.org/index.html>`__,
 :apple:`Core Data <documentation/coredata>`, and :android:`Room
 <jetpack/androidx/releases/room>`.
 
-You can also synchronize data between Realm Database and MongoDB Atlas using
-Atlas Device Sync. To learn more about using Realm Database with Device Sync,
+You can also synchronize data between Realm and MongoDB Atlas using
+Atlas Device Sync. To learn more about using Realm with Device Sync,
 refer to :ref:`kotlin-sync`.
 
-Realm Database supports the following popular database features.
+Realm supports the following popular database features.
 
 Schemas
 -------
@@ -73,7 +73,7 @@ refer to
 Persistent or In-Memory Realms
 ------------------------------
 
-You can use Realm Database to store data persistently on disk, or
+You can use Realm to store data persistently on disk, or
 ephemerally in memory. Ephemeral realms can be useful in situations
 where you don't need to persist data between application instances, such
 as when a user works in a temporary workspace.
@@ -83,15 +83,15 @@ To learn more, refer to :ref:`Configure and Open a Realm <kotlin-open-and-close-
 Queries
 -------
 
-You can query Realm Database using platform-native queries or a
+You can query Realm using platform-native queries or a
 raw query language that works across platforms.
 
-To learn more about querying Realm Database, refer to :ref:`Read & Write Data <kotlin-write-transactions>`.
+To learn more about querying Realm, refer to :ref:`Read & Write Data <kotlin-write-transactions>`.
 
 Encryption
 ----------
 
-Realm Database supports on-device realm encryption. Since
+Realm supports on-device realm encryption. Since
 memory mapping does not support encryption, encrypted realms use a
 simulated in-library form of memory mapping instead.
 

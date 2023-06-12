@@ -16,7 +16,7 @@ Register a Realm Change Listener
 --------------------------------
 
 You can register a notification handler on an entire :ref:`realm
-<ios-realms>`. Realm Database calls the notification
+<ios-realms>`. Realm calls the notification
 handler whenever any write transaction involving that Realm is
 committed. The handler receives no information about the change.
 
@@ -42,7 +42,7 @@ Register a Collection Change Listener
 You can register a notification handler on a collection within a
 realm.
 
-Realm Database notifies your handler:
+Realm notifies your handler:
 
 - After first retrieving the collection.
 - Whenever a write transaction adds, changes, or removes objects in the collection.
@@ -90,7 +90,7 @@ Register an Object Change Listener
 ----------------------------------
 
 You can register a notification handler on a specific object
-within a Realm. Realm Database notifies your handler:
+within a Realm. Realm notifies your handler:
 
 - When the object is deleted.
 - When any of the object's properties change.
@@ -260,7 +260,7 @@ Key-value Observation
 Key-value Observation Compliance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Realm Database objects are :apple:`key-value observing (KVO) 
+Realm objects are :apple:`key-value observing (KVO) 
 compliant<documentation/swift/cocoa_design_patterns/using_key-value_observing_in_swift>` 
 for most properties:
 

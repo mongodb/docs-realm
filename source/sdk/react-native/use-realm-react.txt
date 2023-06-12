@@ -16,7 +16,7 @@ writing to a realm, and listening to realm objects.
 
 ``@realm/react`` helps you avoid creating boilerplate code, such as creating
 your own listeners and state management. ``@realm/react`` provides access to
-Realm database through a set of hooks that update React state when the Realm data changes.
+Realm through a set of hooks that update React state when the Realm data changes.
 This means that components using these hooks re-render on any changes to data
 in the realm.
 
@@ -99,7 +99,7 @@ to the classes you have created. Pass the configuration object to the
 <RealmProvider>
 ---------------
 
-Wrap the component needing access to Realm Database, typically near the top
+Wrap the component needing access to Realm, typically near the top
 of your application, with the ``<RealmProvider>`` component included in the
 ``Context`` object, which was returned from ``createRealmContext()``.  The
 ``<RealmProvider>`` provides child components access to the configured

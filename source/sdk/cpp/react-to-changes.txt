@@ -16,7 +16,7 @@ Register an Object Change Listener
 ----------------------------------
 
 You can register a notification handler on a specific object
-within a realm. Realm Database notifies your handler:
+within a realm. Realm notifies your handler:
 
 - When the object is deleted.
 - When any of the object's properties change.
@@ -55,7 +55,7 @@ You can register a notification handler on a collection. A collection is
 a list property that can contain any :ref:`supported data type 
 <cpp-supported-property-types>`, including primitives or other objects.
 
-Realm Database notifies your handler whenever a write transaction 
+Realm notifies your handler whenever a write transaction 
 removes, adds, or changes objects in the collection.
 
 Notifications describe the changes since the prior notification with
@@ -93,7 +93,7 @@ Register a Results Collection Change Listener
 You can register a notification handler on a :cpp-sdk:`results collection
 <structrealm_1_1results.html>`.
 
-Realm Database notifies your handler whenever a write transaction 
+Realm notifies your handler whenever a write transaction 
 removes, adds, or changes objects in the collection.
 
 Notifications describe the changes since the prior notification with

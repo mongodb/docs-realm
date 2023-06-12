@@ -32,7 +32,7 @@ You can **create** objects in a realm,
 objects from a realm. Because these operations modify the
 state of the realm, we call them writes.
 
-Realm Database handles writes in terms of **transactions**. A
+Realm handles writes in terms of **transactions**. A
 transaction is a list of read and write operations that
 Realm treats as a single indivisible operation. In other
 words, a transaction is *all or nothing*: either all of the
@@ -63,7 +63,7 @@ When you are done with your transaction, Realm either
 
    Whenever you create, update, or delete a Realm object,
    your changes update the representation of that object in
-   Realm Database and emit
+   Realm and emit
    :ref:`notifications <java-react-to-changes>` to any subscribed
    listeners. As a result, you should only write to Realm
    objects when necessary to persist data.
@@ -76,7 +76,7 @@ Managed Objects
 ---------------
 
 **Managed objects** are live Realm objects that update
-based on changes to underlying data in Realm Database. Managed
+based on changes to underlying data in Realm. Managed
 objects can only come from an open realm, and receive updates
 as long as that realm remains open. Managed objects *cannot be passed
 between threads*.
