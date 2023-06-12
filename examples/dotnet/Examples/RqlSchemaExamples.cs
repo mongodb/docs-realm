@@ -20,7 +20,6 @@ namespace Examples.RqlSchemaExamples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("isComplete")]
@@ -47,7 +46,6 @@ namespace Examples.RqlSchemaExamples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("items")]

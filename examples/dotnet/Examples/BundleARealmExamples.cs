@@ -35,7 +35,7 @@ namespace Examples
         [Test]
         public async Task TestWriteCopySynced()
         {
-            var appConfig = new AppConfiguration(Config.appid);
+            var appConfig = new AppConfiguration(Config.AppId);
             var app = App.Create(appConfig);
             var user = await app.LogInAsync(Credentials.Anonymous());
 
@@ -82,13 +82,13 @@ namespace Examples
             // :snippet-start: extract_and_copy_realm
             // :replace-start: {
             //  "terms": {
-            //   "Config.appid": "\"myRealmAppId\""}
+            //   "Config.AppId": "\"myRealmAppId\""}
             // }
             // If you are using a local realm
             var config = RealmConfiguration.DefaultConfiguration;
 
             // If the realm file is a synced realm
-            var app = App.Create(Config.appid);
+            var app = App.Create(Config.AppId);
             var user = await app.LogInAsync(Credentials.Anonymous());
             config = new PartitionSyncConfiguration("myPartition", user);
             // :remove-start:
@@ -102,7 +102,7 @@ namespace Examples
                 using var bundledDbStream = Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("bundled.realm");
                 using var databaseFile = File.Create(config.DatabasePath);
-                bundledDbStream.CopyTo(databaseFile);
+                bundledDbStream!.CopyTo(databaseFile);
             }
 
             // Open the Realm:

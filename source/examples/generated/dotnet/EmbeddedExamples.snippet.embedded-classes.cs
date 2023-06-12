@@ -20,14 +20,13 @@ public partial class Contact : IRealmObject
     public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
     [MapTo("_partition")]
-    [Required]
     public string Partition { get; set; }
 
     [MapTo("name")]
     public string Name { get; set; }
 
     [MapTo("address")]
-    public Address Address { get; set; } // embed a single address 
+    public Address? Address { get; set; } // embed a single address
 
 }
 public partial class Business : IRealmObject
@@ -37,7 +36,6 @@ public partial class Business : IRealmObject
     public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
     [MapTo("_partition")]
-    [Required]
     public string Partition { get; set; }
 
     [MapTo("name")]

@@ -13,10 +13,8 @@ namespace Examples.Models
         public User Assignee { get; set; }
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("status")]
-        [Required]
         public string Status { get; set; }
     }

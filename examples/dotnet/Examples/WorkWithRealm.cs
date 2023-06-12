@@ -18,7 +18,7 @@ namespace Examples
     {
         App app;
         Realms.Sync.User user;
-        string myRealmAppId = Config.appid;
+        string myRealmAppId = Config.AppId;
 
         [OneTimeSetUp]
         public async System.Threading.Tasks.Task Setup()
@@ -30,7 +30,7 @@ namespace Examples
             };
 
             app = App.Create(appConfig);
-            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+            user = await app.LogInAsync(Config.EPCreds);
             return;
         }
 
@@ -76,7 +76,7 @@ namespace Examples
                 userEmail, myNewPassword);
             //:snippet-end:
 
-            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+            user = await app.LogInAsync(Config.EPCreds);
 
             // :snippet-start: delete-user
             await app.DeleteUserFromServerAsync(user);
@@ -137,7 +137,7 @@ namespace Examples
         [Test]
         public void Notifications()
         {
-            myRealmAppId = Config.appid;
+            myRealmAppId = Config.AppId;
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
 
@@ -183,7 +183,7 @@ namespace Examples
 
                 if (changes.IsCleared)
                 {
-                    // A special case if the collection has been cleared: 
+                    // A special case if the collection has been cleared:
                     // i.e., all items have been deleted by calling
                     // the Clear() method.
                 }
@@ -220,7 +220,7 @@ namespace Examples
 
             artist.PropertyChanged += (sender, eventArgs) =>
             {
-                var changedProperty = eventArgs.PropertyName;
+                var changedProperty = eventArgs.PropertyName!;
 
                 Debug.WriteLine(
                     $@"New value set for 'artist':
@@ -241,7 +241,7 @@ namespace Examples
         [Test]
         public void ChangeSetCleared()
         {
-            myRealmAppId = Config.appid;
+            myRealmAppId = Config.AppId;
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
 
@@ -304,9 +304,9 @@ namespace Examples
         // :uncomment-start:
         //    ...
         //}
-        // 
+        //
         // :uncomment-end:
-        private void HandleCollectionChanged(object sender,
+        private void HandleCollectionChanged(object? sender,
             NotifyCollectionChangedEventArgs e)
         {
             // Use e.Action to get the
@@ -327,7 +327,7 @@ namespace Examples
             {
                 realm = Realm.GetInstance("");
             }
-            private IQueryable<Item> items = null;
+            private IQueryable<Item> items = null!;
             private void foo()
             {
                 //:snippet-start:unsubscribe
@@ -351,7 +351,7 @@ namespace Examples
                 throw new NotImplementedException();
             }
 
-            private void OnItemsChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
+            private void OnItemsChangedHandler(object? sender, NotifyCollectionChangedEventArgs e)
             {
                 throw new NotImplementedException();
             }
@@ -363,7 +363,6 @@ namespace Examples
             [MapTo("_id")]
             public ObjectId Id { get; set; }
 
-            [Required]
             public string Name { get; set; }
         }
 
@@ -372,9 +371,8 @@ namespace Examples
         {
             [PrimaryKey]
             [MapTo("_id")]
-            public ObjectId Id { get; set; }
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-            [Required]
             public string Name { get; set; }
 
             public int Age { get; set; }
