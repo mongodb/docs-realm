@@ -36,6 +36,7 @@ Realm supports the following field data types:
 - ``Decimal128``
 - ``ObjectId`` 
 - ``RealmInstant``
+- ``RealmUUID``
 - Any ``RealmObject`` subclass
 - ``RealmList<T>``, where T is any of the supported data types or a   
   `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
@@ -45,7 +46,11 @@ Realm supports the following field data types:
   `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
   Sets of ``RealmObject`` cannot have null elements. 
   All other types of ``RealmSet<T>`` can be nullable (``RealmSet<T?>``).
-- ``RealmUUID``
+- ``RealmDictionary<T>``, where T is any type of Realm primitive nullable or 
+  non-nullable value (``RealmDictionary<T?>``), a
+  `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__,
+  or an `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__.
+  Dictionaries of ``RealmObject`` and ``EmbeddedRealmObject`` must be declared nullable. 
 - ``BacklinksDelegate<T>``, a `backlinks <{+kotlin-local-prefix+}io.realm.kotlin.ext/backlinks.html>`__
   delegate used to define an inverse relationship between 
   `RealmObjects <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 

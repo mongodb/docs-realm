@@ -10,7 +10,7 @@ namespace Examples
         [Test]
         public async System.Threading.Tasks.Task MultiUser()
         {
-            var app = App.Create(Config.appid);
+            var app = App.Create(Config.AppId);
 
             {
                 foreach (var user in app.AllUsers)

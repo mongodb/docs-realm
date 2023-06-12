@@ -23,6 +23,10 @@ Run these commands to setup the application:
    dart run realm_dart install
    ```
 
+   ```sh
+   dart run realm_dart install
+   ```
+
 1. Run the generator to generate the required Realm object definitions.
    (If asked "Found 4 declared outputs which already exist on disk.Delete these files?"
    use option 1. Delete):

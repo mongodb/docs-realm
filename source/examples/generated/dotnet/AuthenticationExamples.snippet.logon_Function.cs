@@ -1,9 +1,9 @@
 var functionParameters = new
 {
     username = "caleb",
-    password = "shhhItsASektrit!",
+    password = "MySekritPwd",
     IQ = 42,
-    isCool = false
+    hasPets = true
 };
 
 var user =

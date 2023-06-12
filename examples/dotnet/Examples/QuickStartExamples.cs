@@ -19,7 +19,7 @@ namespace Examples
         Realms.Sync.User user;
         PartitionSyncConfiguration config;
         App app;
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.AppId;
 
         [OneTimeSetUp]
         public async Task Setup()
@@ -28,8 +28,7 @@ namespace Examples
             app = App.Create(myRealmAppId);
             // :snippet-end:
 
-            user = await app.LogInAsync(
-                Credentials.EmailPassword("foo@foo.com", "foobar"));
+            user = await app.LogInAsync(Config.EPCreds);
             config = new PartitionSyncConfiguration("myPart", user);
             config.Schema = new[]
             {
@@ -98,17 +97,17 @@ namespace Examples
                 realm.Add(kerry, update: true);
             });
 
-            var aria = new Person { Id = id, Name = "Aria" };
+            var sarah = new Person { Id = id, Name = "Sarah" };
 
             // Based on the unique Id field, we have an existing person,
             // but with a different name. When `update` is true, you overwrite
-            // the original entry (i.e. Kerry -> Aria).
+            // the original entry (i.e. Kerry -> Sarah).
             await realm.WriteAsync(() =>
             {
-                realm.Add(aria, update: true);
+                realm.Add(sarah, update: true);
             });
             // :snippet-end:
-            Assert.IsTrue(kerry.Name == "Aria");
+            Assert.IsTrue(kerry.Name == "Sarah");
 
             var myid = ObjectId.GenerateNewId();
             // :snippet-start: modify-collection
@@ -135,9 +134,12 @@ namespace Examples
             // :snippet-end:
             var puppies = realm.All<Dog>().Where(dog => dog.Age < 2);
             var ali = realm.All<PersonN>().Where(p => p.Id == myid).FirstOrDefault();
-            foreach (var puppy in puppies)
+            if (ali != null)
             {
-                Assert.IsTrue(puppy.Owners.Contains(ali));
+                foreach (var puppy in puppies)
+                {
+                    Assert.IsTrue(puppy.Owners.Contains(ali));
+                }
             }
         }
 

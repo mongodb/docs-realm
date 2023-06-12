@@ -9,12 +9,12 @@ await realm.WriteAsync(() =>
     realm.Add(kerry, update: true);
 });
 
-var aria = new Person { Id = id, Name = "Aria" };
+var sarah = new Person { Id = id, Name = "Sarah" };
 
 // Based on the unique Id field, we have an existing person,
 // but with a different name. When `update` is true, you overwrite
-// the original entry (i.e. Kerry -> Aria).
+// the original entry (i.e. Kerry -> Sarah).
 await realm.WriteAsync(() =>
 {
-    realm.Add(aria, update: true);
+    realm.Add(sarah, update: true);
 });
