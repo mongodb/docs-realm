@@ -1,4 +1,4 @@
-var config = new FlexibleSyncConfiguration(app.CurrentUser)
+var config = new FlexibleSyncConfiguration(app.CurrentUser!)
 {
     CancelAsyncOperationsOnNonFatalErrors = true,
 };

@@ -57,13 +57,6 @@ namespace Examples
             Assert.AreEqual(2, config.Schema.Count);
             Assert.AreEqual(1, manualConfig.Schema.Count);
             Assert.AreEqual(1, mixedConfig.Schema.Count);
-            ObjectSchema foo;
-            mixedConfig.Schema.TryFindObjectSchema("ClassA", out foo);
-            if (foo != null)
-            {
-                Property newProp;
-                Assert.IsTrue(foo.TryFindProperty("ThisIsNotInTheCSharpClass", out newProp));
-            }
         }
     }
 

@@ -22,8 +22,8 @@ namespace Examples
                 //    register the new EmailPassword user, and then generate an
                 //    EmailPassword credential to link the existing anonymous
                 //    account:
-                var email = "caleb@example.com";
-                var password = "shhhItsASektrit!";
+                var email = "caleb@mongodb.com";
+                var password = "MySekritPwd";
                 await app.EmailPasswordAuth.RegisterUserAsync(
                     email, password);
                 var officialUser = await anonUser.LinkCredentialsAsync(
