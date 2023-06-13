@@ -223,57 +223,69 @@ following data types:
 
 .. list-table::
   :header-rows: 1
-  :widths: 26 37 37
+  :widths: 15 20 20 45
   
   * - Type
-    - Example
+    - Parameterized Example
+    - Serialized Example
     - Note
 
   * - Boolean
     - "setting == $0", false
+    - "setting == false"
     - ``true`` or ``false`` values.
 
   * - :ref:`String <rql-string-operators>`
     - "name == $0", "George"
+    - "name == 'George'"
     - Applies to ``string`` and ``char`` data type.
 
   * - :ref:`Number <rql-arithmetic-operators>`
     - "age > $0", 5.50
+    - "age > 5.50"
     - Applies to ``int``, ``short``, ``long``, ``double``, ``Decimal128``, and ``float`` data types.
 
   * - :ref:`Date <rql-date-operators>`
-    - "date < $0", 2022-08-14@12:02:44:00
-    - The date can be represented in the following formats:
+    - "date < $0", dateObject
+    - "date < 2021-02-20@17:30:15:0 "
+    - For parameterized date queries, you must pass in a date object. 
+      For serialized date queries, you can represented the date in the following formats:
   
-      - YYYY-MM-DD@HH:mm:ss:nn 
+      - As an explicit date and time: YYYY-MM-DD@HH:mm:ss:nn 
         (year-month-day@hours:minutes:seconds:nanoseconds)
-      - Ts:n 
+      - As a datetime relative to the :wikipedia:`Unix epoch <Unix_time>`:: Ts:n 
         (T, designates the start of the time; ``s``, seconds; ``n``, nanoseconds)
       - Parameterized ``Date`` object
 
   * - :ref:`ObjectID <rql-objectid-uuid-operators>`
-    - "_id == $0", ObjectId("507f1f77bcf86cd799439011")
-    - Formatted as ObjectId(unique value as hex).
+    - "_id == $0", oidValue
+    - "_id == oid(507f1f77bcf86cd799439011)"
+    - For parameterized ObjectId queries, you must pass in an ObjectId.
+      For serialized ObjectId queries, the string representation is ``oid(<ObjectId String>)``.
 
   * - :ref:`UUID <rql-objectid-uuid-operators>`
-    - "id == $0", uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)
-    - Formatted as uuid(unique 16-byte value).
+    - "id == $0", uuidValue
+    - "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
+    - For parameterized UUID queries, you must pass in a UUID.
+      For serialized UUID queries, the string representation is ``uuid(<UUID String>)``.
     
   * - Binary
     - "value == $0", "binary"
-
-      "value == $0", ImJpbmFyeSI=
+    - "value == 'binary'"
     - For ASCII characters, RQL serializes the binary value like a string,
       with quotes. For non-printable characters, 
       RQL serializes the binary to a base 64 value.
+
+  * - List
+    - "ANY items.name == {$0, $1}", "milk", "bread"
+    - "ANY items.name == {'milk', 'bread'}"
+    - Applies for list, collections, and sets. A parameterized value should be used
+      for each member of the list.
   
   * - RealmObject
     - "link == $0", obj('class_Foo', 'primary key of object')
-    - Need the class and primary key of the object.
-
-  * - RealmSet
-    - "ANY items.name == {$0, $1}", "milk", "bread"
-    - Need a parameterized value for each member of the set.
+    - ""link == obj('class_Foo', '*primary_key*')"
+    - To pass in a RealmObject, you need the class and primary key of the object.
     
 .. _rql-dot-notation:
 
@@ -664,12 +676,12 @@ from the SDK language you are using to a query.
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-parameterized-query.js
    :language: js
 
-You can also represent dates the following ways in your query:
+You can also specify dates in the following two ways:
 
-- As a whole date: ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
+- As a specific date (in UTC): ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
   You can also use ``T`` instead of ``@`` to separate the date from the time.
-- As a time in seconds since the :wikipedia:`unix epoch <Unix_time>`: ``Ts:n``, where ``T`` designates the start of the time, 
-  ``s`` is the number of seconds, and ``n`` the number of nanoseconds.
+- As a time in seconds since the :wikipedia:`Unix epoch <Unix_time>`: ``Ts:n``, where ``T`` designates the start of the time, 
+  ``s`` is the number of seconds, and ``n`` is the number of nanoseconds.
 
 Date supports :ref:`comparison operators <rql-comparison-operators>`.
 
