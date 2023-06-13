@@ -247,7 +247,7 @@ parameterized for the following data types:
 
   * - :ref:`Date <rql-date-operators>`
     - "date < $0", dateObject
-    - "date < 2021-02-20@17:30:15:0 "
+    - "date < 2021-02-20@17:30:15:0"
     - For parameterized date queries, you must pass in a date object. 
       For serialized date queries, you can represented the date in the following formats:
   
@@ -283,7 +283,7 @@ parameterized for the following data types:
       for each member of the list.
   
   * - RealmObject
-    - "link == $0", obj('class_Foo', 'primary key of object')
+    - "link == $0", obj("class_Foo", "primary key of object")
     - ""link == obj('class_Foo', '*primary_key*')"
     - To pass in a RealmObject, you need the class and primary key of the object.
     
