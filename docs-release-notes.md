@@ -1,30 +1,28 @@
 # June 8, 2023
 
-## React Native SDK
+## Flutter SDK
 
-- Remove 'Overview' headings from documentation pages for the SDK
+- Realm Database
+  - Model Data/Data Types: Add documentation for `Decimal128` type
+  - React to Changes: Add information about `isCleared` property for the query 
+  change listener
 
 ## Kotlin SDK
 
-- Data Types: Add `RealmDictionary` to list of supported data types
-- Serialization: Remove `ObjectId` serializer from the API
-
-## C++ SDK
-
--  Update Alpha naming to Beta throughout the SDK
-
-## Flutter SDK
-
-- React to Changes: Add information about `isCleared` property for the query change listener
-- Data Types: Add documentation for `Decimal128` type
+- Realm Database
+  - Model Data/Data Types: Add `RealmDictionary` to list of supported data types
+  - Serialization: Remove `ObjectId` serializer from the API
 
 ## .NET SDK
 
-- Update Async Guidance for `WriteAsync`
-  - Write Transactions: Update overview description of transactions
+- CRUD
   - Create: Add methods of creating a new Realm object in a `WriteAsync` transaction
-  - Threading: Added details of the benefits of `WriteAsync` for threading
+  - Threading: Add details of the benefits of `WriteAsync` for threading
+  - Transactions: Update overview description of transactions
 
+## React Native SDK
+
+- Remove 'Overview' headings from documentation pages for the SDK
 
 # June 2, 2023
 
