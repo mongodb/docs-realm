@@ -1,7 +1,7 @@
 Device Sync adds network synchronization between an App Services backend and
 client devices on top of all of the functionality of Realm.
-When you use Realm with Sync, realms exist on device
-just like when you only use Realm. However, changes to
+When you use Realm with Sync, realms exist on device,
+similar to using Realm without Sync. However, changes to
 the data stored in those realms synchronize between all client
 devices through a backend App Services instance. That backend also stores
 realm data in a cloud-based Atlas cluster running MongoDB.
