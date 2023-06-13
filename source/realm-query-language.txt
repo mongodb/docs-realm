@@ -251,9 +251,9 @@ parameterized for the following data types:
     - For parameterized date queries, you must pass in a date object. 
       For serialized date queries, you can represented the date in the following formats:
   
-      - As an explicit date and time: YYYY-MM-DD@HH:mm:ss:nn 
+      - As an explicit date and time- YYYY-MM-DD@HH:mm:ss:nn 
         (year-month-day@hours:minutes:seconds:nanoseconds)
-      - As a datetime relative to the :wikipedia:`Unix epoch <Unix_time>`:: Ts:n 
+      - As a datetime relative to the :wikipedia:`Unix epoch <Unix_time>`- Ts:n 
         (T, designates the start of the time; ``s``, seconds; ``n``, nanoseconds)
       - Parameterized ``Date`` object
 
@@ -678,9 +678,9 @@ from the SDK language you are using to a query.
 
 You can also specify dates in the following two ways:
 
-- As a specific date (in UTC): ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
+- As a specific date (in UTC)- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
   You can also use ``T`` instead of ``@`` to separate the date from the time.
-- As a time in seconds since the :wikipedia:`Unix epoch <Unix_time>`: ``Ts:n``, where ``T`` designates the start of the time, 
+- As a time in seconds since the :wikipedia:`Unix epoch <Unix_time>`- ``Ts:n``, where ``T`` designates the start of the time, 
   ``s`` is the number of seconds, and ``n`` is the number of nanoseconds.
 
 Date supports :ref:`comparison operators <rql-comparison-operators>`.
