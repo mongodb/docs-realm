@@ -192,13 +192,28 @@ have a primary key named ``_id``.
 Ignore a Property
 ~~~~~~~~~~~~~~~~~
 
-Your model may include properties that Realm Database does not store. Realm 
-ignores any members not declared as ``realm::persisted`` and not declared 
-in the schema.
+Your model may include properties that Realm Database does not store. 
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
-   :language: cpp
-   :emphasize-lines: 7
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      Realm ignores any members not declared as ``realm::persisted`` and not declared 
+      in the schema.
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
+         :language: cpp
+         :emphasize-lines: 7
+
+   .. tab:: Beta
+      :tabid: beta
+
+      Realm ignores any properties not included in the ``REALM_SCHEMA``.
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-employee-model.cpp
+         :language: cpp
+         :emphasize-lines: 8
 
 .. _cpp-embedded-object:
 

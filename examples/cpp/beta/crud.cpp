@@ -33,6 +33,23 @@ namespace realm::experimental {
     // :snippet-end:
     // :snippet-end:
 
+    // :snippet-start: beta-employee-model
+    struct Beta_Employee {
+        primary_key<int64_t> _id;
+        std::string firstName;
+        std::string lastName;
+        
+        // You can use this property as you would any other member
+        // Omitting it from the schema means Realm ignores it
+        std::string jobTitle_notPersisted;
+        
+        link<Beta_Dog> dog;
+    };
+    // The REALM_SCHEMA omits the `jobTitle_notPersisted` property
+    // Realm does not store and cannot retrieve a value for this property
+    REALM_SCHEMA(Beta_Employee, _id, firstName, lastName)
+    // :snippet-end:
+
     TEST_CASE("Beta define model example", "[write]") {
         auto relative_realm_path_directory = "beta_dog/";
         std::filesystem::create_directories(relative_realm_path_directory);
@@ -79,6 +96,41 @@ namespace realm::experimental {
         // :snippet-end:
         auto managedPeopleAfterDelete = realmInstance.objects<Beta_Person>();
         REQUIRE(managedPeopleAfterDelete.size() == 0);
+    }
+
+    TEST_CASE("Beta ignored property example", "[write]") {
+        auto relative_realm_path_directory = "beta_employee/";
+        std::filesystem::create_directories(relative_realm_path_directory);
+        std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+        path = path.append("employee_objects");
+        path = path.replace_extension("realm");
+        auto config = db_config();
+        config.set_path(path);
+        auto realmInstance = db(std::move(config));
+        
+        auto employee = Beta_Employee {
+            ._id = 12345,
+            .firstName = "Leslie",
+            .lastName = "Knope",
+            .jobTitle_notPersisted = "Deputy Director"
+        };
+        
+        realmInstance.write([&] {
+            realmInstance.add(std::move(employee));
+        });
+        
+        auto managedEmployees = realmInstance.objects<Beta_Employee>();
+        auto specificEmployee = managedEmployees[0];
+        REQUIRE(specificEmployee._id == static_cast<long long>(12345));
+        REQUIRE(specificEmployee.firstName == "Leslie");
+        REQUIRE(specificEmployee.lastName == "Knope");
+        REQUIRE(managedEmployees.size() == 1);
+
+        realmInstance.write([&] {
+            realmInstance.remove(specificEmployee);
+        });
+        auto managedEmployeesAfterDelete = realmInstance.objects<Beta_Employee>();
+        REQUIRE(managedEmployeesAfterDelete.size() == 0);
     }
 
 }
