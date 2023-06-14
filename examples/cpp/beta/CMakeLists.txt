@@ -20,7 +20,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-beta 
-  open-realm.cpp
+  crud.cpp
 )
 
 target_link_libraries(examples-beta PRIVATE Catch2::Catch2WithMain)

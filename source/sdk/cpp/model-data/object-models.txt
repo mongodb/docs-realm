@@ -85,26 +85,45 @@ key, and whether it forms a relationship with other object types.
 Define a New Object Type
 ------------------------
 
-You can define your models as classes or structs that inherit from 
-:cpp-sdk:`realm::object <structrealm_1_1object.html>`. The Realm C++ SDK
-uses `CRTP <https://en.cppreference.com/w/cpp/language/crtp>`__ to simplify
-working with Realm objects. With this implementation, you pass the object's
-type as a template paramater when you declare your object struct.
+.. tabs::
 
-You must declare any property you want to store (persist) in a realm as 
-:cpp-sdk:`realm::persisted <structrealm_1_1persisted.html>`. Your model 
-must also expose a public static constant expression (``constexpr``) member 
-called ``schema``. Use the :cpp-sdk:`realm::schema 
-<structrealm_1_1schemagen_1_1schema.html>` and :cpp-sdk:`realm::property 
-<structrealm_1_1schemagen_1_1property.html>` templates to describe your schema.
+   .. tab:: Alpha
+      :tabid: alpha
 
-Realm ignores any members not declared as ``realm::persisted`` and not 
-declared in the schema.
+      You can define your models as classes or structs that inherit from 
+      :cpp-sdk:`realm::object <structrealm_1_1object.html>`. The Realm C++ SDK
+      uses `CRTP <https://en.cppreference.com/w/cpp/language/crtp>`__ to simplify
+      working with Realm objects. With this implementation, you pass the object's
+      type as a template paramater when you declare your object struct.
 
-.. literalinclude:: /examples/generated/cpp/crud.snippet.define-models.cpp
-   :language: cpp
+      You must declare any property you want to store (persist) in a realm as 
+      :cpp-sdk:`realm::persisted <structrealm_1_1persisted.html>`. Your model 
+      must also expose a public static constant expression (``constexpr``) member 
+      called ``schema``. Use the :cpp-sdk:`realm::schema 
+      <structrealm_1_1schemagen_1_1schema.html>` and :cpp-sdk:`realm::property 
+      <structrealm_1_1schemagen_1_1property.html>` templates to describe your schema.
 
-.. include:: /includes/note-class-char-limit.rst
+      Realm ignores any members not declared as ``realm::persisted`` and not 
+      declared in the schema.
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.define-models.cpp
+         :language: cpp
+
+      .. include:: /includes/note-class-char-limit.rst
+
+   .. tab:: Beta
+      :tabid: beta
+
+      In the C++ SDK Beta, you can define your models or classes as regular 
+      C++ structs. Using the ``realm::experimental`` namespace, provide a
+      ``REALM_SCHEMA`` with the struct name and the names of any properties 
+      that you want Realm to persist. When you add the object to a realm, 
+      the SDK ignores any properties that you omit from the ``REALM_SCHEMA``.
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-realm-define-model.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-primary-key:
 
@@ -132,18 +151,41 @@ Primary keys are subject to the following limitations:
 If you are using :ref:`Device Sync <cpp-synced-realm>`, your models must 
 have a primary key named ``_id``.
 
-The Realm C++ SDK supports primary keys of the following types, required or optional:
+.. tabs::
 
-- ``realm::object_id``
-- ``realm::uuid``
-- ``realm::enum``
-- ``std::string``
+   .. tab:: Alpha
+      :tabid: alpha
 
-You set a property as a primary key by passing ``true`` to the second template parameter of the ``persisted`` template:
+      The Realm C++ Alpha SDK supports primary keys of the following types, required or optional:
 
-.. literalinclude:: /examples/generated/cpp/crud.snippet.define-a-schema.cpp
-   :language: cpp
-   :emphasize-lines: 2
+      - ``realm::object_id``
+      - ``realm::uuid``
+      - ``realm::enum``
+      - ``std::string``
+
+      Set a property as a primary key by passing ``true`` to the second template parameter of the ``persisted`` template:
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.define-a-schema.cpp
+         :language: cpp
+         :emphasize-lines: 2
+
+   .. tab:: Beta
+      :tabid: beta
+
+      The Realm C++ Beta SDK supports primary keys of the following types, required or optional:
+
+      - ``int64_t``
+      - ``realm::object_id``
+      - ``realm::uuid``
+      - ``std::string``
+
+      Set a property as a primary key with the ``primary_key`` template:
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-person-model.cpp
+         :language: cpp
+         :emphasize-lines: 2
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-ignore-property:
 
