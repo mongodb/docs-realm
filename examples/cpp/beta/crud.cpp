@@ -50,6 +50,23 @@ namespace realm::experimental {
     REALM_SCHEMA(Beta_Employee, _id, firstName, lastName)
     // :snippet-end:
 
+    // :snippet-start: beta-model-with-embedded-object
+    struct Beta_ContactDetails {
+        // Because ContactDetails is an embedded object, it cannot have its own _id
+        // It does not have a lifecycle outside of the top-level object
+        std::string emailAddress;
+        std::string phoneNumber;
+    };
+    REALM_EMBEDDED_SCHEMA(Beta_ContactDetails, emailAddress, phoneNumber)
+
+    struct Beta_Business {
+        realm::object_id _id;
+        std::string name;
+        link<Beta_ContactDetails> contactDetails;
+    };
+    REALM_SCHEMA(Beta_Business, _id, name, contactDetails)
+    // :snippet-end:
+
     TEST_CASE("Beta define model example", "[write]") {
         auto relative_realm_path_directory = "beta_dog/";
         std::filesystem::create_directories(relative_realm_path_directory);
@@ -133,5 +150,42 @@ namespace realm::experimental {
         REQUIRE(managedEmployeesAfterDelete.size() == 0);
     }
 
+    TEST_CASE("Beta embedded object example", "[write]") {
+        auto relative_realm_path_directory = "beta_business/";
+        std::filesystem::create_directories(relative_realm_path_directory);
+        std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+        path = path.append("business_objects");
+        path = path.replace_extension("realm");
+        auto config = db_config();
+        config.set_path(path);
+        auto realmInstance = db(std::move(config));
+        
+        auto objectId = realm::object_id::generate();
+        auto business = Beta_Business();
+        business._id = objectId;
+        business.name = "MongoDB";
+        business.contactDetails = Beta_ContactDetails {
+            .emailAddress = "email@example.com",
+            .phoneNumber = "123-456-7890"
+        };
+        
+        realmInstance.write([&] {
+            realmInstance.add(std::move(business));
+        });
+        
+        auto managedBusinesses = realmInstance.objects<Beta_Business>();
+        auto specificBusiness = managedBusinesses[0];
+        REQUIRE(specificBusiness._id == objectId);
+        REQUIRE(specificBusiness.name == "MongoDB");
+        REQUIRE(specificBusiness.contactDetails->emailAddress == "email@example.com");
+        REQUIRE(specificBusiness.contactDetails->phoneNumber == "123-456-7890");
+        REQUIRE(managedBusinesses.size() == 1);
+
+        realmInstance.write([&] {
+            realmInstance.remove(specificBusiness);
+        });
+        auto managedBusinessesAfterDelete = realmInstance.objects<Beta_Business>();
+        REQUIRE(managedBusinessesAfterDelete.size() == 0);
+    }
 }
 // :replace-end:

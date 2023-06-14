@@ -151,17 +151,21 @@ Primary keys are subject to the following limitations:
 If you are using :ref:`Device Sync <cpp-synced-realm>`, your models must 
 have a primary key named ``_id``.
 
+The Realm C++ SDK supports primary keys of the following types, and their 
+optional variants:
+
+- ``int64_t``
+- ``realm::object_id``
+- ``realm::uuid``
+- ``std::string``
+
+Additionally, a required ``realm::enum`` property can be a primary key, but
+``realm::enum`` cannot be optional if it is used as a primary key.
+
 .. tabs::
 
    .. tab:: Alpha
       :tabid: alpha
-
-      The Realm C++ Alpha SDK supports primary keys of the following types, required or optional:
-
-      - ``realm::object_id``
-      - ``realm::uuid``
-      - ``realm::enum``
-      - ``std::string``
 
       Set a property as a primary key by passing ``true`` to the second template parameter of the ``persisted`` template:
 
@@ -171,13 +175,6 @@ have a primary key named ``_id``.
 
    .. tab:: Beta
       :tabid: beta
-
-      The Realm C++ Beta SDK supports primary keys of the following types, required or optional:
-
-      - ``int64_t``
-      - ``realm::object_id``
-      - ``realm::uuid``
-      - ``std::string``
 
       Set a property as a primary key with the ``primary_key`` template:
 
@@ -215,6 +212,8 @@ Your model may include properties that Realm Database does not store.
          :language: cpp
          :emphasize-lines: 8
 
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
 .. _cpp-embedded-object:
 
 Define an Embedded Object
@@ -239,10 +238,28 @@ is embedded. This differs from a :ref:`to-one <cpp-to-one-relationship>`
 or :ref:`to-many <cpp-to-many-relationship>` relationship, in which the 
 related objects have independent lifecycles.
 
-To declare an object as an embedded object, inherit from 
-:cpp-sdk:`realm::embedded_object <structrealm_1_1embedded__object.html>`.
+.. tabs::
 
-.. include:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp.rst
+   .. tab:: Alpha
+      :tabid: alpha
+
+      To declare an object as an embedded object, inherit from 
+      :cpp-sdk:`realm::embedded_object <structrealm_1_1embedded__object.html>`.
+
+      .. include:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp.rst
+
+   .. tab:: Beta
+      :tabid: beta
+
+      Using the ``realm::experimental`` namespace, provide a
+      ``REALM_EMBEDDED_SCHEMA`` with the struct name and the names of 
+      any properties that you want Realm to persist. Set it as a ``link`` 
+      property from the parent object.
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-embedded-object.cpp
+         :language: cpp
+      
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-define-asymmetric-object:
 
@@ -251,11 +268,7 @@ Define an Asymmetric Object
 
 You can use :ref:`Data Ingest <optimize-data-ingest>` to sync an 
 object unidirectionally from your device to the database linked to your 
-Atlas App Services App. Define an asymmetric object by inheriting from 
-:cpp-sdk:`realm::asymmetric_object <structrealm_1_1asymmetric__object.html>`.
-
-.. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
-   :language: cpp
+Atlas App Services App.
 
 An ``asymmetric_object`` broadly has the same :ref:`supported types 
 <cpp-supported-property-types>` as ``realm::object``, with a few exceptions:
@@ -278,3 +291,27 @@ to the Atlas database linked to your App with Device Sync.
 
 For more information, see: :ref:`Create an Asymmetric Object 
 <cpp-create-asymmetric-object>`.
+
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      Define an asymmetric object by inheriting from 
+      :cpp-sdk:`realm::asymmetric_object <structrealm_1_1asymmetric__object.html>`.
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      In the C++ SDK Beta, define an asymmetric object the same way you would 
+      a regular C++ struct. Using the ``realm::experimental`` namespace, 
+      provide a ``REALM_ASYMMETRIC_SCHEMA`` with the struct name and the 
+      names of any properties that you want Realm to persist.
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-asymmetric-object.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst

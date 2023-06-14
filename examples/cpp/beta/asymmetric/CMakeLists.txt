@@ -19,9 +19,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
-add_executable(examples-beta 
-  crud.cpp
+add_executable(examples-beta-asymmetric 
+  asymmetric-sync.cpp
 )
 
-target_link_libraries(examples-beta PRIVATE Catch2::Catch2WithMain)
-target_link_libraries(examples-beta PRIVATE cpprealm)
+target_link_libraries(examples-beta-asymmetric PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(examples-beta-asymmetric PRIVATE cpprealm)
