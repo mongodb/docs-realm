@@ -21,6 +21,7 @@ FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-beta 
   crud.cpp
+  supported-types.cpp
 )
 
 target_link_libraries(examples-beta PRIVATE Catch2::Catch2WithMain)

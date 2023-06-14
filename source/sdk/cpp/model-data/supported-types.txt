@@ -20,104 +20,211 @@ Optionals use the class template
 Property Cheat Sheet
 ~~~~~~~~~~~~~~~~~~~~
 
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-   :widths: 20 40 40
+.. tabs::
 
-   * - Type
-     - Required
-     - Optional
-   * - Bool
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-bool.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-bool.cpp
-          :language: cpp
-          :copyable: false
-   * - Int64
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-int.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-int.cpp
-          :language: cpp
-          :copyable: false
-   * - Double
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-double.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-double.cpp
-          :language: cpp
-          :copyable: false
-   * - String
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-string.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-string.cpp
-          :language: cpp
-          :copyable: false
-   * - Enum
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-enum.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-enum.cpp
-          :language: cpp
-          :copyable: false
-   * - Binary Data
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-binary-data.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-binary-data.cpp
-          :language: cpp
-          :copyable: false
-   * - Date
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-date.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-date.cpp
-          :language: cpp
-          :copyable: false
-   * - UUID
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-uuid.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-uuid.cpp
-          :language: cpp
-          :copyable: false
-   * - Object ID
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-object-id.cpp
-          :language: cpp
-          :copyable: false
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-object-id.cpp
-          :language: cpp
-          :copyable: false
-   * - Mixed Data Type
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-mixed-type.cpp
-          :language: cpp
-          :copyable: false
-     - N/A
-   * - Map
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-map-type.cpp
-          :language: cpp
-          :copyable: false
-     - N/A
-   * - List
-     - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-list.cpp
-          :language: cpp
-          :copyable: false
-     - N/A
-   * - User-defined Object
-     - N/A
-     - .. code-block:: cpp
-          :copyable: false
+   .. tab:: Alpha
+      :tabid: alpha
 
-          realm::persisted<std::optional<MyClass>> opt_obj_name;
-   * - User-defined Embedded Object
-     - N/A
-     - .. code-block:: cpp
-          :copyable: false
+      .. list-table::
+         :header-rows: 1
+         :stub-columns: 1
+         :widths: 20 40 40
 
-          realm::persisted<std::optional<MyEmbeddedClass>> opt_embedded_object_name;
+         * - Type
+           - Required
+           - Optional
+         * - Bool
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-bool.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-bool.cpp
+                :language: cpp
+                :copyable: false
+         * - Int64
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-int.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-int.cpp
+                :language: cpp
+                :copyable: false
+         * - Double
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-double.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-double.cpp
+                :language: cpp
+                :copyable: false
+         * - String
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-string.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-string.cpp
+                :language: cpp
+                :copyable: false
+         * - Enum
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-enum.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-enum.cpp
+                :language: cpp
+                :copyable: false
+         * - Binary Data
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-binary-data.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-binary-data.cpp
+                :language: cpp
+                :copyable: false
+         * - Date
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-date.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-date.cpp
+                :language: cpp
+                :copyable: false
+         * - UUID
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-uuid.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-uuid.cpp
+                :language: cpp
+                :copyable: false
+         * - Object ID
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-object-id.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.optional-object-id.cpp
+                :language: cpp
+                :copyable: false
+         * - Mixed Data Type
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-mixed-type.cpp
+                :language: cpp
+                :copyable: false
+           - N/A
+         * - Map
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-map-type.cpp
+                :language: cpp
+                :copyable: false
+           - N/A
+         * - List
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.required-list.cpp
+                :language: cpp
+                :copyable: false
+           - N/A
+         * - User-defined Object
+           - N/A
+           - .. code-block:: cpp
+                :copyable: false
+
+                realm::persisted<std::optional<MyClass>> opt_obj_name;
+         * - User-defined Embedded Object
+           - N/A
+           - .. code-block:: cpp
+                :copyable: false
+
+                realm::persisted<std::optional<MyEmbeddedClass>> opt_embedded_object_name;
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. list-table::
+         :header-rows: 1
+         :stub-columns: 1
+         :widths: 20 40 40
+
+         * - Type
+           - Required
+           - Optional
+         * - Bool
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-bool.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-bool.cpp
+                :language: cpp
+                :copyable: false
+         * - Int64
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-int.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-int.cpp
+                :language: cpp
+                :copyable: false
+         * - Double
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-double.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-double.cpp
+                :language: cpp
+                :copyable: false
+         * - String
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-string.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-string.cpp
+                :language: cpp
+                :copyable: false
+         * - Enum
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-enum.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-enum.cpp
+                :language: cpp
+                :copyable: false
+         * - Binary Data
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-binary-data.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-binary-data.cpp
+                :language: cpp
+                :copyable: false
+         * - Date
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-date.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-date.cpp
+                :language: cpp
+                :copyable: false
+         * - UUID
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-uuid.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-uuid.cpp
+                :language: cpp
+                :copyable: false
+         * - Object ID
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-object-id.cpp
+                :language: cpp
+                :copyable: false
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-optional-object-id.cpp
+                :language: cpp
+                :copyable: false
+         * - Mixed Data Type
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-mixed-type.cpp
+                :language: cpp
+                :copyable: false
+           - N/A
+         * - Map
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-map-type.cpp
+                :language: cpp
+                :copyable: false
+           - N/A
+         * - List
+           - .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-required-list.cpp
+                :language: cpp
+                :copyable: false
+           - N/A
+         * - User-defined Object
+           - N/A
+           - .. code-block:: cpp
+                :copyable: false
+
+                link<MyClass> opt_obj_name;
+         * - User-defined Embedded Object
+           - N/A
+           - .. code-block:: cpp
+                :copyable: false
+
+                link<MyEmbeddedClass> opt_embedded_object_name;
 
 Supported Type Implementation Details
 `````````````````````````````````````
