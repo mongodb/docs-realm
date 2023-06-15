@@ -53,8 +53,9 @@ namespace realm::experimental {
         std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
         path = path.append("dog_objects");
         path = path.replace_extension("realm");
+        // :snippet-start: beta-create-to-one-relationship
         auto config = db_config();
-        config.set_path(path);
+        config.set_path(path); // :remove:
         auto realmInstance = db(std::move(config));
         
         auto favoriteToy = Beta_Relationship_FavoriteToy {
@@ -72,6 +73,7 @@ namespace realm::experimental {
         realmInstance.write([&] {
             realmInstance.add(std::move(dog));
         });
+        // :snippet-end:
         
         auto managedDogs = realmInstance.objects<Beta_Relationship_Dog>();
         auto specificDog = managedDogs[0];
@@ -88,14 +90,16 @@ namespace realm::experimental {
         auto managedDogsAfterDelete = realmInstance.objects<Beta_Relationship_Dog>();
         REQUIRE(managedDogsAfterDelete.size() == 0);
     }
+
     TEST_CASE("Beta define to-many relationship example", "[write]") {
         auto relative_realm_path_directory = "beta_relationship/";
         std::filesystem::create_directories(relative_realm_path_directory);
         std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
         path = path.append("dog_objects");
         path = path.replace_extension("realm");
+        // :snippet-start: beta-create-to-many-relationship
         auto config = db_config();
-        config.set_path(path);
+        config.set_path(path); // :remove:
         auto realmInstance = db(std::move(config));
         
         auto employee1 = Beta_Relationship_Employee {
@@ -115,12 +119,16 @@ namespace realm::experimental {
             .name = "Dunder Mifflin"
         };
         
+        // Use the `push_back` member function available to the
+        // `ListObjectPersistable<T>` template to append `Employee` objects to
+        // the `Company` `employees` list property. 
         company.employees.push_back(employee1);
         company.employees.push_back(employee2);
         
         realmInstance.write([&] {
             realmInstance.add(std::move(company));
         });
+        // :snippet-end:
         
         auto companies = realmInstance.objects<Beta_Relationship_Company>();
         auto namedDunderMifflin = companies.where([](auto &company) {
