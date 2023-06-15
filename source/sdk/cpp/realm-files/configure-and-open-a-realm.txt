@@ -92,21 +92,26 @@ in a specific location.
 Open the Default Realm
 ~~~~~~~~~~~~~~~~~~~~~~
 
-When opening a realm, you must specify which models are available by passing 
-the models into the template parameter list of the ``realm::open()`` function.
-Doing so without specifying an optional path opens the default realm in the 
-current directory.
+Opening a realm without specifying an optional path opens the default realm 
+in the current directory.
 
 .. tabs::
 
    .. tab:: Alpha
       :tabid: alpha
 
+      When opening a realm, you must specify which models are available by passing 
+      the models into the template parameter list of the ``realm::open()`` function.
+
       .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
          :language: cpp
 
    .. tab:: Beta
       :tabid: beta
+
+      When opening a realm using the ``realm::experimental`` namespace, the 
+      C++ SDK Beta can automatically infer which models are available in the
+      project. You don't need to manually specify the available models.
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm.cpp
          :language: cpp
