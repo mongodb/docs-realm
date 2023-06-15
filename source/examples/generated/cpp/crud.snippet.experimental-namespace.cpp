@@ -1,1 +1,1 @@
-namespace realm::experimental {
+using namespace realm::experimental;

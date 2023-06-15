@@ -1,4 +1,4 @@
-auto config = db_config();
+auto config = realm::db_config();
 auto realmInstance = db(std::move(config));
 
 auto employee1 = Employee {
@@ -20,7 +20,7 @@ auto company = Company {
 
 // Use the `push_back` member function available to the
 // `ListObjectPersistable<T>` template to append `Employee` objects to
-// the `Company` `employees` list property. 
+// the `Company` `employees` list property.
 company.employees.push_back(employee1);
 company.employees.push_back(employee2);
 

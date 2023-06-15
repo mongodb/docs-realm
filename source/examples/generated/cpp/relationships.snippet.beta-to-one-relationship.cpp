@@ -10,6 +10,6 @@ struct Dog {
     int64_t age;
     
     // Define a relationship as a link to another Realm object
-    link<FavoriteToy> favoriteToy;
+    realm::experimental::link<FavoriteToy> favoriteToy;
 };
 REALM_SCHEMA(Dog, _id, name, age, favoriteToy)
