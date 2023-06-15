@@ -1,9 +1,9 @@
-auto weatherSensorReading = realm::experimental::WeatherSensorReading {
+auto weatherSensorReading = WeatherSensorReading {
     .deviceId = "WX1278UIT",
     .temperatureInFahrenheit = 64.7,
     .windSpeedInMph = 7
 };
 
-asymmetricRealm.write([&]{
-    asymmetricRealm.add(std::move(weatherSensorReading));
+realm.write([&]{
+    realm.add(std::move(weatherSensorReading));
 });

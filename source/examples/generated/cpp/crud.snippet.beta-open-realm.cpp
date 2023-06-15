@@ -1,2 +1,2 @@
 auto config = db_config();
-auto realmInstance = db(std::move(config));
+auto realm = db(std::move(config));

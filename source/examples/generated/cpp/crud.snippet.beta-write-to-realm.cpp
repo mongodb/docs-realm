@@ -1,3 +1,3 @@
-realmInstance.write([&] {
-    realmInstance.add(std::move(person));
+realm.write([&] {
+    realm.add(std::move(person));
 });

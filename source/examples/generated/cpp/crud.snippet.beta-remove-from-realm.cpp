@@ -1,3 +1,3 @@
-realmInstance.write([&] {
-    realmInstance.remove(specificPerson);
+realm.write([&] {
+    realm.remove(specificPerson);
 });

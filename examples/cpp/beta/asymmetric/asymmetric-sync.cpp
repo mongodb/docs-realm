@@ -23,24 +23,28 @@ namespace realm::experimental {
     // :snippet-end:
 
     TEST_CASE("Beta asymmetric object example", "[write][sync]") {
+        // :snippet-start: beta-open-synced-realm
         auto app = realm::App(APP_ID);
+        // Ensure anonymous authentication is enabled in the App Services App
         auto user = app.login(realm::App::credentials::anonymous()).get();
-        auto asymmetricRealm = realm::experimental::db(user.flexible_sync_configuration());;
+        auto syncConfig = user.flexible_sync_configuration();
+        auto realm = db(syncConfig);
+        // :snippet-end:
         
         // Doing this for simplicity in testing, but should not be relevant to
         // dev code examples, so hiding it.
         const realm::object_id oid = realm::object_id::generate();
         
         // :snippet-start: beta-create-asymmetric-object
-        auto weatherSensorReading = realm::experimental::Beta_WeatherSensorReading {
+        auto weatherSensorReading = Beta_WeatherSensorReading {
             ._id = oid, // :remove:
             .deviceId = "WX1278UIT",
             .temperatureInFahrenheit = 64.7,
             .windSpeedInMph = 7
         };
         
-        asymmetricRealm.write([&]{
-            asymmetricRealm.add(std::move(weatherSensorReading));
+        realm.write([&]{
+            realm.add(std::move(weatherSensorReading));
         });
         // :snippet-end:
         

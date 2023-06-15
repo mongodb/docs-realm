@@ -76,7 +76,7 @@ namespace realm::experimental {
         // :snippet-start: beta-open-realm
         auto config = db_config();
         config.set_path(path); // :remove:
-        auto realmInstance = db(std::move(config));
+        auto realm = db(std::move(config));
         // :snippet-end:
         
         auto dog = Beta_Dog {
@@ -92,12 +92,12 @@ namespace realm::experimental {
         };
         
         // :snippet-start: beta-write-to-realm
-        realmInstance.write([&] {
-            realmInstance.add(std::move(person));
+        realm.write([&] {
+            realm.add(std::move(person));
         });
         // :snippet-end:
         
-        auto managedPeople = realmInstance.objects<Beta_Person>();
+        auto managedPeople = realm.objects<Beta_Person>();
         auto specificPerson = managedPeople[0];
         REQUIRE(specificPerson._id == static_cast<long long>(123));
         REQUIRE(specificPerson.name == "Dachary");
@@ -107,23 +107,29 @@ namespace realm::experimental {
         REQUIRE(managedPeople.size() == 1);
 
         // :snippet-start: beta-remove-from-realm
-        realmInstance.write([&] {
-            realmInstance.remove(specificPerson);
+        realm.write([&] {
+            realm.remove(specificPerson);
         });
         // :snippet-end:
-        auto managedPeopleAfterDelete = realmInstance.objects<Beta_Person>();
+        auto managedPeopleAfterDelete = realm.objects<Beta_Person>();
         REQUIRE(managedPeopleAfterDelete.size() == 0);
     }
 
     TEST_CASE("Beta ignored property example", "[write]") {
-        auto relative_realm_path_directory = "beta_employee/";
-        std::filesystem::create_directories(relative_realm_path_directory);
+        // :snippet-start: beta-open-realm-at-path
+        auto relative_realm_path_directory = "custom_path_directory/";
+        std::filesystem::create_directories(relative_realm_path_directory); // :remove:
+        // Construct a path
         std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+        // Add a name for the realm file
         path = path.append("employee_objects");
+        // Add the .realm extension
         path = path.replace_extension("realm");
+        // Set the path on the config, and open a realm at the path
         auto config = db_config();
         config.set_path(path);
         auto realmInstance = db(std::move(config));
+        // :snippet-end:
         
         auto employee = Beta_Employee {
             ._id = 12345,

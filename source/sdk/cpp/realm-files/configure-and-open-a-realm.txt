@@ -97,8 +97,21 @@ the models into the template parameter list of the ``realm::open()`` function.
 Doing so without specifying an optional path opens the default realm in the 
 current directory.
 
-.. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm.cpp
+         :language: cpp
+   
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. tip:: Building an Android App
 
@@ -115,8 +128,21 @@ Open a Realm at a File Path
 If you need to open a realm at a specific file path, you can pass a path 
 to the realm open template.
 
-.. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-realm-at-path.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-realm-at-path.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm-at-path.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. tip:: Building an Android App
 
@@ -141,13 +167,26 @@ To open a synced realm:
 #. Create a sync configuration.
 #. Open the user's synced realm with the configuration.
 
-To open a synced, pass the models you want the realm to manage into the 
-template parameter list of the :cpp-sdk:`async_open 
-<structrealm_1_1async__open__promise.html>` function, and pass the configuration 
-as an argument to the function.
+.. tabs::
 
-.. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-a-synced-realm.cpp
-   :language: cpp
+   .. tab:: Alpha
+      :tabid: alpha
+
+      To open a synced realm, pass the models you want the realm to manage into the 
+      template parameter list of the :cpp-sdk:`async_open 
+      <structrealm_1_1async__open__promise.html>` function, and pass the configuration 
+      as an argument to the function.
+
+      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-a-synced-realm.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-open-synced-realm.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. tip:: Building an Android App
 
