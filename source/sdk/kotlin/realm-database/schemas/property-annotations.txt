@@ -206,3 +206,40 @@ You can index fields with the following types:
 - ``RealmInstant``
 - ``ObjectId``
 - ``RealmUUID``
+
+.. _kotlin-fts-index:
+
+Full-Text Search Indexes
+------------------------
+
+In addition to standard indexes, Realm also supports Full-Text Search 
+(FTS) indexes on ``string`` properties. While you can query a string 
+field with or without a standard index, an FTS index enables searching 
+for multiple words and phrases and excluding others.
+
+For more information on querying full-text indexes, see 
+:ref:`Filter with Full Text Search <kotlin-filter-fts>`.
+
+To create a FTS index on a property, use the :kotlin-sdk:`@FullText
+<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
+/-full-text/index.html>` annotation. This enables full-text queries
+on the property. In the following example, we mark the ``genre`` 
+property with the FTS annotation:
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.kotlin-fts-property.kt
+  :language: kotlin
+  :emphasize-lines: 7-8
+
+You cannot combine :kotlin-sdk:`@Index 
+<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
+/-index/index.html>` and :kotlin-sdk:`@FullText
+<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
+/-full-text/index.html>` on the same property.
+
+.. note:: Character Limitations for Full-Text Search Indexes
+
+  For Full-Text Search (FTS) indexes, only ASCII and Latin-1 alphanumerical 
+  chars are included in the index (most western languages). See the :kotlin-sdk:`@FullText 
+  <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations/
+  -full-text/index.html>` for more information on current FTS index constraints.
+

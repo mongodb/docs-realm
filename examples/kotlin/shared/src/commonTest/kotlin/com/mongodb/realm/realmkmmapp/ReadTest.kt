@@ -8,6 +8,8 @@ import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.types.RealmDictionary
 import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.FullText
+import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -76,6 +78,55 @@ class ReadTest: RealmTest() {
             realm.close()
         }
     }
-}
+    // :replace-end:
 
-// :replace-end:
+    @Test
+    fun fullTextSearch () {
+        // :snippet-start: kotlin-fts-property
+        class Book() : RealmObject {
+            @PrimaryKey
+            var _id: ObjectId = ObjectId() // Primary key
+
+            var name: String = ""
+
+            @FullText // Marks the property with FTS
+            var genre: String = ""
+        }
+        // :snippet-end:
+
+        val config = RealmConfiguration.Builder(
+            schema = setOf(Book::class) // Pass the defined class as the object schema
+        )
+            .directory("/tmp/") // default location for jvm is... in the project root
+            .build()
+        val realmFts = Realm.open(config)
+        Log.v("Successfully opened realm: ${realmFts.configuration.name}")
+
+        realmFts.writeBlocking {
+            copyToRealm(Book().apply {
+                _id = ObjectId()
+                name = "Peaches"
+                genre = "fiction"
+            })
+        }
+
+        // :snippet-start: kotlin-fts-query
+        // Find all the books with science fiction as the genre
+        var scienceFiction = realmFts.query<Book>("genre TEXT 'science fiction'").find()
+
+        // Find all the books with fiction but not science in the genre
+        var fictionNotScience = realmFts.query<Book>("genre TEXT 'fiction -science'").find()
+        // :snippet-end:
+
+        assertEquals(0, scienceFiction.count())
+        assertEquals(1, fictionNotScience.count())
+
+        realmFts.writeBlocking {
+            // fetch all frogs from the realm
+            val books: RealmResults<Book> = this.query<Book>().find()
+            // call delete on the results of a query to delete those objects permanently
+            delete(books)
+        }
+        realmFts.close()
+    }
+}
