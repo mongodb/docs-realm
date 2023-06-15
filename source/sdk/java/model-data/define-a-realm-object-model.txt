@@ -31,7 +31,7 @@ Extend ``RealmObject``
 
 The following code block shows a Realm object that
 describes a Frog. This Frog class can be stored in
-Realm Database because it ``extends`` the ``RealmObject`` class.
+Realm because it ``extends`` the ``RealmObject`` class.
 
 .. tabs-realm-languages::
 
@@ -50,7 +50,7 @@ Implement ``RealmModel``
 
 The following code block shows a Realm object that
 describes a Frog. This Frog class can
-be stored in Realm Database because it ``implements`` the
+be stored in Realm because it ``implements`` the
 ``RealmModel`` class and uses the ``@RealmClass`` annotation:
 
 .. tabs-realm-languages::
@@ -131,7 +131,7 @@ types:
 Define an Embedded Object Field
 -------------------------------
 
-Realm Database provides the ability to nest objects within other
+Realm provides the ability to nest objects within other
 objects. This has several advantages:
 
 - If using Sync, objects translate into MongoDB documents that
@@ -160,7 +160,7 @@ another class:
       .. include:: /examples/generated/java/local/FlyEmbeddedExample.snippet.complete.java.rst
 
 Then, any time you reference that class from another class,
-Realm Database will embed the referenced class within the enclosing
+Realm will embed the referenced class within the enclosing
 class, as in the following example:
 
 .. tabs-realm-languages::
@@ -195,7 +195,7 @@ Primary Key
 
 .. versionadded:: 10.6.0
 
-   Realm Database automatically :ref:`indexes <java-indexes-fundamentals>`
+   Realm automatically :ref:`indexes <java-indexes-fundamentals>`
    primary key fields. Previously, Realm only indexed ``String`` primary
    keys automatically.
 
@@ -234,7 +234,7 @@ key value must be unique. Attempting to insert an object with an existing
 primary key into a realm will result in a
 :java-sdk:`RealmPrimaryKeyConstraintException <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
 
-Realm Database automatically :ref:`indexes <java-index-field>`
+Realm automatically :ref:`indexes <java-index-field>`
 primary key fields, which allows you to efficiently read and modify
 objects based on their primary key.
 
@@ -346,7 +346,7 @@ nullable, and cannot be made required.
    .. tab::
       :tabid: java
 
-      Nullable fields are optional by default in Realm Database, unless
+      Nullable fields are optional by default in Realm, unless
       otherwise specified with the :ref:`@Required <java-required-field>`
       annotation. The following types are nullable:
 
@@ -405,10 +405,10 @@ Index a Field
 ~~~~~~~~~~~~~
 
 **Indexes** support the efficient execution of queries in
-Realm Database. Without indexes, Realm Database must perform a
+Realm. Without indexes, Realm must perform a
 *collection scan*, i.e. scan every document in a collection, to select
 those documents that match a query. If an appropriate index exists for a
-query, Realm Database can use the index to limit the number of
+query, Realm can use the index to limit the number of
 documents that it must inspect.
 
 Indexes are special data structures that store a small portion of a
@@ -488,7 +488,7 @@ Ignore a field from a Realm object model with the
 Rename a Field
 ~~~~~~~~~~~~~~
 
-By default, Realm Database uses the name defined in the model class
+By default, Realm uses the name defined in the model class
 to represent fields internally. In some cases you might want to change
 this behavior:
 
@@ -517,7 +517,7 @@ annotation to rename a field:
       .. include:: /examples/generated/java/local/FrogRenameAFieldExample.snippet.complete.java.rst
 
 Alternatively, you can also assign a naming policy at the module or
-class levels to change the way that Realm Database interprets field
+class levels to change the way that Realm interprets field
 names.
 
 You can define a
@@ -558,13 +558,13 @@ at the class level, which overrides module level settings:
 Rename a Class
 ~~~~~~~~~~~~~~
 
-By default, Realm Database uses the name defined in the model class
+By default, Realm uses the name defined in the model class
 to represent classes internally. In some cases you might want to change
 this behavior:
 
 - To support multiple model classes with the same simple name in different packages.
 - To make it easier to work across platforms, since naming conventions differ.
-- To use a class name that is longer than the 57 character limit enforced by Realm Database.
+- To use a class name that is longer than the 57 character limit enforced by Realm.
 - To change a class name in Kotlin without forcing a migration.
 
 Use the :java-sdk:`@RealmClass <io/realm/annotations/RealmClass.html>`

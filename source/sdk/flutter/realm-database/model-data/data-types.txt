@@ -61,7 +61,7 @@ A Realm collection contains zero or more instances of a
 :ref:`Realm supported data type <flutter-data-types>`.
 In a Realm collection, all objects in a collection are of the same type.
 
-You can filter and sort any collection using Realm Database's
+You can filter and sort any collection using Realm's
 :ref:`query language <flutter-filter-results>`. Collections are
 :ref:`live objects <flutter-live-object>`, so they always reflect the
 current state of the realm instance. The contents of a collection update
@@ -70,7 +70,7 @@ when new elements are added to or deleted from the collection or from its Realm.
 You can also listen for changes in the collection by subscribing
 to :ref:`change notifications <flutter-react-to-changes>`.
 
-Realm Database has the following types of collections:
+Realm has the following types of collections:
 
 - :ref:`RealmList <flutter-realm-list>`
 - :ref:`RealmSet <flutter-realm-set>`
@@ -176,7 +176,7 @@ query against the database.
 
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>` and :flutter-sdk:`Realm.query()
 <realm/Realm/query.html>` return ``RealmResults``.
-For more information on querying Realm Database, refer to :ref:`Read Operations <flutter-read-data>`.
+For more information on querying Realm, refer to :ref:`Read Operations <flutter-read-data>`.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realmresults-use.dart
    :language: dart
@@ -186,7 +186,7 @@ For more information on querying Realm Database, refer to :ref:`Read Operations 
 Results are Lazily Evaluated
 ````````````````````````````
 
-Realm Database only runs a query when you actually request the
+Realm only runs a query when you actually request the
 results of that query, e.g. by accessing elements of the
 results collection. This lazy evaluation enables you to
 write elegant, highly performant code for handling large

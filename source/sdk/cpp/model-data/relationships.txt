@@ -13,14 +13,14 @@ Relationships - C++ SDK (Alpha)
 Key Concept: Relationships
 --------------------------
 
-Realm Database doesn't use bridge tables or explicit joins to define 
-relationships as you would in a relational database. Realm Database
+Realm doesn't use bridge tables or explicit joins to define 
+relationships as you would in a relational database. Realm
 handles relationships through embedded objects or reference properties to 
-other Realm Database objects. You read from and write to these 
+other Realm objects. You read from and write to these 
 properties directly. This makes querying relationships as performant as 
 querying against any other property.
 
-Realm Database supports **to-one**, **to-many**, and **inverse**
+Realm supports **to-one**, **to-many**, and **inverse**
 relationships. However, the C++ SDK Alpha does not yet support inverse 
 relationships. Realm also provides a special type of object, called an
 :ref:`embedded object <cpp-embedded-object>`, that is conceptually 
@@ -44,10 +44,10 @@ To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
 A **to-many** relationship means that an object relates to more than one 
-other object. In Realm Database, a to-many relationship is a list of 
+other object. In Realm, a to-many relationship is a list of 
 references to other objects. For example, a person might have many dogs.
 
-Realm Database represents a to-many relationship between two Realm
+Realm represents a to-many relationship between two Realm
 types as a list. Lists are mutable: within a write transaction, you can 
 add and remove elements to and from a list. Lists are not associated with 
 a query and are declared as a property of the object model.
@@ -57,7 +57,7 @@ a query and are declared as a property of the object model.
 Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
-Relationship definitions in Realm Database are unidirectional. An 
+Relationship definitions in Realm are unidirectional. An 
 **inverse relationship** links an object back to an object that refers 
 to it. The C++ SDK Alpha does not yet support inverse relationships.
 

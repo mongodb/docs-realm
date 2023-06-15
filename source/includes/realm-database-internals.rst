@@ -1,41 +1,41 @@
-Realm Database uses a completely unique database engine,
+Realm uses a completely unique database engine,
 file format, and design. This section describes some of the high-level
 details of those choices. This section applies to both the device-local
-version of Realm Database as well as the networked Device Sync version.
+version of Realm as well as the networked Device Sync version.
 Differences between the local database and the synchronized database are
 explained in the Atlas Device Sync section.
 
 Native Database Engine
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Realm Database is an entire database written from
+Realm is an entire database written from
 scratch in C++, instead of building on top of an underlying database
-engine like SQLite. Realm Database's underlying storage layer uses
+engine like SQLite. Realm's underlying storage layer uses
 :wikipedia:`B+ trees <B%2B_tree>` to organize objects. As a result,
-Realm Database controls optimizations from the storage level all
+Realm controls optimizations from the storage level all
 the way up to the access level.
 
-Realm Database stores data in **realms**: collections of
+Realm stores data in **realms**: collections of
 heterogeneous realm objects. You can think of each realm as a
 database. Each object in a realm is equivalent to a row
 in a SQL database table or a MongoDB document. Unlike SQL, realms do
 not separate different object types into individual tables.
 
-Realm Database stores objects as groups of property values. We call
+Realm stores objects as groups of property values. We call
 this column-based storage. This means that queries or writes for
 individual objects can be slower than row-based storage equivalents when
 unindexed, but querying a single field across multiple objects or
 fetching multiple objects can be much faster due to spatial locality and
 in-CPU vector operations.
 
-Realm Database uses a :wikipedia:`zero-copy <Zero-copy>` design to
+Realm uses a :wikipedia:`zero-copy <Zero-copy>` design to
 make queries faster than an ORM, and often faster than raw SQLite.
 
 
 Realm Files
 ~~~~~~~~~~~
 
-Realm Database persists data in files saved on device
+Realm persists data in files saved on device
 storage. The database uses several kinds of file:
 
 - **realm files**, suffixed with "realm", e.g. :file:`default.realm`:
@@ -50,7 +50,7 @@ storage. The database uses several kinds of file:
   internal state management.
 
 Realm files contain object data with the following data structures:
-Groups, Tables, Cluster Trees, and Clusters. Realm Database
+Groups, Tables, Cluster Trees, and Clusters. Realm
 organizes these data structures into a tree structure with the following
 form:
 
@@ -78,14 +78,14 @@ form:
 Since pointers refer to memory addresses, objects written to persistent
 files cannot store references as pointers. Instead, realm files
 refer to data using the offset from the beginning of the file. We call
-this a ref. As Realm Database uses memory mapping to read and
+this a ref. As Realm uses memory mapping to read and
 write data, database operations translate these refs from offsets to
 memory pointers when navigating database structures.
 
 Copy-on-Write: The Secret Sauce of Data Versioning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Realm Database uses a technique called **copy-on-write**, which
+Realm uses a technique called **copy-on-write**, which
 copies data to a new location on disk for every write operation instead
 of overwriting older data on disk. Once the new copy of data is fully
 written, the database updates existing references to that data. Older
@@ -94,7 +94,7 @@ actively in use by a client application.
 
 Because of copy-on-write, older copies of data remain valid, since all
 of the references in those copies still point to other valid data.
-Realm Database leverages this fact to offer multiple versions of
+Realm leverages this fact to offer multiple versions of
 data simultaneously to different threads in client applications. Most
 applications tie data refreshes to the repaint cycle of the looper
 thread that controls the UI, since data only needs to refresh as often
@@ -111,14 +111,14 @@ mutators read and write to disk via memory mapping. As a result, object
 data is never stored on the stack or heap of your app. By default, data
 is memory-mapped as read-only to prevent accidental writes.
 
-Realm Database uses operating system level paging, trusting each
+Realm uses operating system level paging, trusting each
 operating system to implement memory mapping and persistence better than
 a single library could on its own.
 
 Compaction
 ~~~~~~~~~~
 
-Realm Database automatically reuses free space that is no longer
+Realm automatically reuses free space that is no longer
 needed after database writes. However, realm files never shrink
 automatically, even if the amount of data stored in your realm
 decreases significantly. Compact your realm to optimize storage
@@ -126,17 +126,17 @@ space and decrease file size if possible.
 
 You should compact your realms occasionally to keep them at an
 optimal size. You can do this manually, or by configuring your
-realms to compact on launch. However, Realm Database
+realms to compact on launch. However, Realm
 reclaims unused space for future writes, so compaction is only an
 optimization to conserve space on-device.
 
 ACID Compliance
 ~~~~~~~~~~~~~~~
 
-Realm Database guarantees that transactions are :wikipedia:`ACID
+Realm guarantees that transactions are :wikipedia:`ACID
 <ACID>` compliant. This means that all committed write
 operations are guaranteed to be valid and that clients don't
-see transient states in the event of a system crash. Realm Database
+see transient states in the event of a system crash. Realm
 complies with ACID with the following design choices:
 
 - :wikipedia:`Atomicity <Atomicity_(database_systems)>`: groups

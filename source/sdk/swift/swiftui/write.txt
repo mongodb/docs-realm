@@ -32,7 +32,7 @@ In this example, we create a two-way binding with one of the state object's
 properties. ``$dog.favoriteToy`` creates a binding to the model Dog 
 object's ``favoriteToy`` property
 
-When the app user updates that field in this example, Realm Database
+When the app user updates that field in this example, Realm
 opens an implicit write transaction and saves the new value to the database.
 
 .. literalinclude:: /examples/generated/swiftui/QuickWrite.snippet.quick-write-property.swift
@@ -48,7 +48,7 @@ The ``$dogs.remove`` in the ``onDelete`` and the ``$dogs.append`` in the
 While a regular :ref:`Realm Results collection <ios-results-collections>`
 is immutable, ObservedResults is a mutable collection that allows you to 
 perform writes using the two-way binding. When you update the 
-bound collection, Realm Database opens an implicit write transaction and 
+bound collection, Realm opens an implicit write transaction and 
 saves the changes to the collection.
 
 .. literalinclude:: /examples/generated/swiftui/QuickWrite.snippet.update-observed-results.swift

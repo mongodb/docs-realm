@@ -16,7 +16,7 @@ Relationships are direct references to other objects in a realm, which
 means that you don't need bridge tables or explicit joins to define a
 relationship like you would in a relational database. Instead, you can
 access related objects by reading and writing to the property that
-defines the relationship. Realm Database executes read operations
+defines the relationship. Realm executes read operations
 lazily, so querying objects with relationship fields doesn't slow
 queries.
 
@@ -27,7 +27,7 @@ There are two primary types of relationships between objects:
 
 .. tip:: One-to vs. Many-to Relationships
 
-   In Realm Database, there is no way to limit object references from
+   In Realm, there is no way to limit object references from
    other objects within the same realm. As a result, there is no way to
    restrict a relationship to "one to one/one to many" instead of "many to
    one/many to many".
@@ -49,7 +49,7 @@ To-One Relationship
 
 A to-one relationship means that an object is related 
 to no more than one other object. Setting a relationship field to ``null``
-removes the connection between objects, but Realm Database does not
+removes the connection between objects, but Realm does not
 delete the referenced object.
 
 To set up a many-to-one or one-to-one relationship, create a field
@@ -100,7 +100,7 @@ as an inverse relationship.
 For example, the to-many relationship "User has many Posts" does not
 automatically create the inverse relationship "Post belongs to User". 
 
-Realm Database automatically updates implicit relationships whenever an
+Realm automatically updates implicit relationships whenever an
 object is added or removed in the specified relationship. You cannot manually
 add or remove items from a `backlinks collection
 <{+kotlin-local-prefix+}io.realm.kotlin.ext/backlinks.html>`__.

@@ -18,14 +18,14 @@ Register a Realm Change Listener
 
 To register a change listener for an entire realm, pass a callback function
 to the realm's :js-sdk:`addListener() <Realm.html#addListener>` method.
-Realm Database calls the listener asynchronously whenever an operation
+Realm calls the listener asynchronously whenever an operation
 adds, changes, or removes objects in the realm.
 
 To remove a realm listener, pass the callback to the realm's :js-sdk:`removeListener() <Realm.Collection.html#removeListener>` method.
 
 .. tip:: Use Object & Collection Listeners for Change Details
    
-   Realm Database does not pass any information about what changed to
+   Realm does not pass any information about what changed to
    realm listener callback functions. If you need to know more information
    about what changed in an object or collection, use :ref:`object listeners
    <react-native-object-listener>` and :ref:`collection listeners
@@ -47,7 +47,7 @@ Register a Collection Change Listener
 
 To register a change listener for a collection of Realm objects,
 pass a callback function to the collection's :js-sdk:`addListener()
-<Realm.Collection.html#addListener>` method. Realm Database calls the
+<Realm.Collection.html#addListener>` method. Realm calls the
 listener asynchronously when it's registered as well as whenever an operation
 adds, changes, or removes objects in the collection.
 
@@ -70,7 +70,7 @@ Register an Object Change Listener
 
 To register a change listener on a specific Realm object, pass a
 callback function to the object's :js-sdk:`addListener()
-<Realm.Object.html#addListener>` method. Realm Database calls the listener
+<Realm.Object.html#addListener>` method. Realm calls the listener
 if any of the object's properties change or if someone deletes the object.
 
 To remove an object listener, pass the callback to the object's

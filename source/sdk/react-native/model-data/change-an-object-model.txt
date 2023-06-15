@@ -16,7 +16,7 @@ When updating your object schema, you must increment the schema version
 and perform a migration. 
 
 If your schema update adds optional properties or removes properties, 
-Realm Database can perform the migration automatically. You only need to 
+Realm can perform the migration automatically. You only need to 
 increment the ``schemaVersion``. 
 
 For more complex schema updates, you must also manually specify the migration logic 
@@ -44,7 +44,7 @@ Schema Version
 --------------
 
 A **schema version** identifies the state of a :ref:`realm schema
-<react-native-realm-schema>` at some point in time. Realm Database tracks the
+<react-native-realm-schema>` at some point in time. Realm tracks the
 schema version of each realm and uses it to map the objects in each
 realm to the correct schema.
 
@@ -55,7 +55,7 @@ realm defaults to version ``0``.
 .. important:: Increment Versions Monotonically
    
    :ref:`Migrations <react-native-migrations>` must update a realm to a higher 
-   schema version. Realm Database throws an error if a client application 
+   schema version. Realm throws an error if a client application 
    uses a schema version that is lower than the realm's current version or if 
    the specified schema version is the same as the realm's current version but 
    includes a different schema.

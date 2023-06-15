@@ -21,7 +21,7 @@ Relationships are direct references to other objects in a realm, which
 means that you don't need bridge tables or explicit joins to define a
 relationship like you would in a relational database. Instead, you can
 access related objects by reading and writing to the property that
-defines the relationship. Realm Database executes read operations
+defines the relationship. Realm executes read operations
 lazily as they come in, so querying a relationship is just as performant
 as reading a regular property.
 
@@ -156,4 +156,4 @@ Summary
 - Relationships are direct references. You can access related objects
   directly through a relationship property without writing any type of join.
 
-- Realm Database supports to-one, to-many, and inverse relationships.
+- Realm supports to-one, to-many, and inverse relationships.

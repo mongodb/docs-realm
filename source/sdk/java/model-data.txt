@@ -80,13 +80,13 @@ Realm Objects
 Unlike normal Java objects, which contain their own data, a
 Realm object doesn't contain data. Instead,
 Realm objects read and write properties directly to
-Realm Database.
+Realm.
 
 Instances of Realm objects can be either **managed** or **unmanaged**.
 
 - **Managed** objects are:
 
-  - persisted in Realm Database
+  - persisted in Realm
 
   - always up to date
 
@@ -177,7 +177,7 @@ Schema Version
 --------------
 
 A **schema version** identifies the state of a :ref:`Realm Schema
-<java-realm-schema>` at some point in time. Realm Database tracks the schema
+<java-realm-schema>` at some point in time. Realm tracks the schema
 version of each realm and uses it to map the objects in each realm
 to the correct schema.
 
@@ -189,7 +189,7 @@ the realm defaults to version ``0``.
 .. important:: Increment Versions Monotonically
 
    :ref:`Migrations <java-client-migrations>` must update a realm to a
-   higher schema version. Realm Database throws an error if a client
+   higher schema version. Realm throws an error if a client
    application opens a realm with a schema version that is lower than
    the realm's current version or if the specified schema version is the
    same as the realm's current version but includes different

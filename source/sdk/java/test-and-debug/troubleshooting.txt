@@ -50,7 +50,7 @@ completely anonymous and helps us improve the product by flagging:
 - which version of the SDK you use
 - which operating system you use
 - if your application uses Kotlin
-- if your application uses local-only Realm Database or Sync
+- if your application uses local-only Realm or Sync
 
 Analytics do not run when your application runs on user devices - only
 when you compile your source code. To opt out of analytics, you can set
@@ -83,7 +83,7 @@ with the following fixes:
 Configurations Cannot be Different if Used to Open the Same File
 ----------------------------------------------------------------
 
-Realm Database runs checks whenever you open a realm file to
+Realm runs checks whenever you open a realm file to
 avoid corruption. In order to avoid accidentally opening a realm
 file with incompatible settings, the SDK uses Java's ``equals()`` method
 to compare ``RealmConfiguration`` objects. This prevents the SDK from

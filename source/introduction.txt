@@ -13,7 +13,7 @@ Introduction to Realm
 This introduction explains Realm for mobile application developers.
 After reading, you should understand:
 
-- What Realm Database is and what problems it solves.
+- What Realm is and what problems it solves.
 - Reasons to use Atlas Device Sync to synchronize application data with MongoDB.
 - Ways to use the Realm SDKs with Atlas App Services to work with your application
   data.
@@ -39,26 +39,26 @@ For instance, you can use a Java library on your Android client to serialize obj
 but that library likely wouldn't work on iOS. And this doesn't even take into account
 consistency across backend services.
 
-Realm Database
---------------
+Realm 
+-----
 
 Many of these challenges arise due to particularities of the mobile environment.
 These challenges include network reliability, local storage, and keeping UIs
 :wikipedia:`reactive <Reactive_user_interface>`.
-Realm Database solves many common mobile programming headaches:
+Realm solves many common mobile programming headaches:
 
-- **Local storage**: Realm Database runs right on client devices. Access objects
+- **Local storage**: Realm runs right on client devices. Access objects
   using the native query language for each platform. Storing, accessing, and updating
   your data is simple and lightweight.
-- **Network reliability**: Realm Database is offline-first. You
+- **Network reliability**: Realm is offline-first. You
   always read from and write to the local database, not over the network.
-  When Device Sync is enabled, Realm Database synchronizes
+  When Device Sync is enabled, Realm synchronizes
   data with App Services over the network in a background thread.
   The sync protocol resolves conflicts
   consistently on each client and in the
   linked Atlas cluster.
 - **Reactive UI**: Live objects always reflect
-  the latest data stored in Realm Database. You can
+  the latest data stored in Realm. You can
   subscribe to changes, letting you keep your UI consistently up to date.
 
 The Realm SDKs connect to local realms for Android, iOS,
@@ -127,14 +127,14 @@ Learn more about the Realm SDKs:
 Summary
 -------
 
-- Realm Database is an offline-first mobile object database in
+- Realm is an offline-first mobile object database in
   which you can directly access and store live objects without an
   :wikipedia:`ORM <Object-relational_mapping>`.
 - Live Objects always reflect the latest state of data in the database,
   which simplifies keeping your UI in sync with changes to your data.
 - Atlas Device Sync synchronizes data between client-side realms and the
   server-side MongoDB Atlas cluster linked to your app.
-  Realm Database synchronizes data in a background thread,
+  Realm synchronizes data in a background thread,
   abstracting away network usage so you don't have to worry about
   latency or dropped connections.
 - The Realm SDKs integrate with App Services to easily and securely work
