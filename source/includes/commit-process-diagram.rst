@@ -14,6 +14,6 @@
       C\ :sup:`1`),  while links to unmodified objects continue to
       point to the original versions (B, D).
 
-   #. After validating the commit, Realm updates the realm's
+   #. After validating the commit, Realm updates the
       pointer to the new latest version, V2. Realm then discards
       old nodes no longer connected to the tree.
