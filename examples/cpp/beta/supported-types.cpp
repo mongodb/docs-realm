@@ -220,8 +220,6 @@ namespace realm::experimental {
         }
     }
 
-    #if 0
-    // The beta is still working on Map functionality so skip this test for now
     TEST_CASE("test string map object", "[model][write]") {
         auto relative_realm_path_directory = "supported_types/";
         std::filesystem::create_directories(relative_realm_path_directory);
@@ -269,12 +267,12 @@ namespace realm::experimental {
                  maui.favoriteParkByCity.erase("New York");
             });
             CHECK(maui.favoriteParkByCity.find("New York") == maui.favoriteParkByCity.end());
+            // Clean up after test
+            realm.write([&] {
+                realm.remove(maui);
+            });
         }
-        // Clean up after test
-        realm.write([&] {
-            realm.remove(dog);
-        });
     }
-    #endif
+    
 }
 // :replace-end:

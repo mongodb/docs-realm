@@ -248,8 +248,6 @@ namespace realm::experimental {
         REQUIRE(updatedDogsCount < dogsCount);
     }
 
-    #if 0
-    // The beta is still working on Map functionality so skip this test for now
     TEST_CASE("test map object", "[write]") {
         auto relative_realm_path_directory = "crud/";
         std::filesystem::create_directories(relative_realm_path_directory);
@@ -261,22 +259,22 @@ namespace realm::experimental {
         config.set_path(path); // :remove:
         auto realm = db(std::move(config));
 
-        auto dog = Beta_Map_Employee {
+        auto employee = Beta_Map_Employee {
             ._id = 8675309,
             .firstName = "Tommy",
             .lastName = "Tutone"
         };
 
         employee.locationByDay = {
-            { "Monday", Employee::WorkLocation::HOME },
-            { "Tuesday", Employee::WorkLocation::OFFICE },
-            { "Wednesday", Employee::WorkLocation::HOME },
-            { "Thursday", Employee::WorkLocation::OFFICE }
+            { "Monday", Beta_Map_Employee::WorkLocation::HOME },
+            { "Tuesday", Beta_Map_Employee::WorkLocation::OFFICE },
+            { "Wednesday", Beta_Map_Employee::WorkLocation::HOME },
+            { "Thursday", Beta_Map_Employee::WorkLocation::OFFICE }
         };
 
         realm.write([&] {
             realm.add(std::move(employee));
-            employee.locationByDay["Friday"] = Employee::WorkLocation::HOME;
+            employee.locationByDay["Friday"] = Beta_Map_Employee::WorkLocation::HOME;
         });
         // :snippet-end:
         
@@ -290,10 +288,10 @@ namespace realm::experimental {
             REQUIRE(employeesNamedTommy.size() >= 1); // :remove:
             auto tommy = employeesNamedTommy[0];
             // You can iterate through keys and values and do something with them
-            for (auto [k, v] : tommy.locationByDay) {
-                if (k == "Monday") CHECK(v == Beta_Map_Employee::WorkLocation::HOME);
-                else if (k == "Tuesday") CHECK(v == Beta_Map_Employee::WorkLocation::OFFICE);
-            }
+//            for (auto [k, v] : tommy.locationByDay) {
+//                if (k == "Monday") CHECK(v == Beta_Map_Employee::WorkLocation::HOME);
+//                else if (k == "Tuesday") CHECK(v == Beta_Map_Employee::WorkLocation::OFFICE);
+//            }
             // You can get an iterator for an element matching a key using `find()`
             auto tuesdayIterator = tommy.locationByDay.find("Tuesday");
             CHECK(tuesdayIterator != tommy.locationByDay.end()); // :remove:
@@ -324,7 +322,5 @@ namespace realm::experimental {
             });
         }
     }
-    #endif
-
 }
 // :replace-end:

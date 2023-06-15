@@ -1,7 +1,7 @@
 auto config = db_config();
 auto realm = db(std::move(config));
 
-auto dog = Employee {
+auto employee = Employee {
     ._id = 8675309,
     .firstName = "Tommy",
     .lastName = "Tutone"
