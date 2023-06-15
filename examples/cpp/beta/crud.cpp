@@ -108,11 +108,9 @@ TEST_CASE("Beta define model example", "[write]") {
         .dog = dog
     };
     
-    // :snippet-start: beta-write-to-realm
     realm.write([&] {
         realm.add(std::move(person));
     });
-    // :snippet-end:
     
     auto managedPeople = realm.objects<Beta_Person>();
     auto specificPerson = managedPeople[0];
@@ -126,12 +124,10 @@ TEST_CASE("Beta define model example", "[write]") {
     REQUIRE(managedDogs.size() == 1);
     auto specificDog = managedDogs[0];
     
-    // :snippet-start: beta-remove-from-realm
     realm.write([&] {
         realm.remove(specificPerson);
         realm.remove(specificDog);
     });
-    // :snippet-end:
     auto managedPeopleAfterDelete = realm.objects<Beta_Person>();
     REQUIRE(managedPeopleAfterDelete.size() == 0);
     auto managedDogsAfterDelete = realm.objects<Beta_Dog>();
@@ -367,7 +363,6 @@ TEST_CASE("test map object", "[write]") {
     
     CHECK(employee.locationByDay["Friday"] == Beta_Map_Employee::WorkLocation::HOME);
     SECTION("Test code example functions as intended") {
-        // :snippet-start: beta-read-map-value
         auto employees = realm.objects<Beta_Map_Employee>();
         auto employeesNamedTommy = employees.where([](auto &employee) {
             return employee.firstName == "Tommy";
@@ -385,7 +380,7 @@ TEST_CASE("test map object", "[write]") {
         
         // You can access values for keys like any other map type
         auto mondayLocation = tommy.locationByDay["Monday"];
-        // :snippet-end:
+
         CHECK(tommy.locationByDay["Tuesday"] == Beta_Map_Employee::WorkLocation::OFFICE); // :remove:
         // :snippet-start: beta-update-map-value
         // You can check that a key exists using `find`
