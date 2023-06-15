@@ -122,14 +122,20 @@ TEST_CASE("Beta define model example", "[write]") {
     REQUIRE(specificPerson.dog->name == "Maui");
     REQUIRE(specificPerson.dog->age == static_cast<long long>(2));
     REQUIRE(managedPeople.size() == 1);
-
+    auto managedDogs = realm.objects<Beta_Dog>();
+    REQUIRE(managedDogs.size() == 1);
+    auto specificDog = managedDogs[0];
+    
     // :snippet-start: beta-remove-from-realm
     realm.write([&] {
         realm.remove(specificPerson);
+        realm.remove(specificDog);
     });
     // :snippet-end:
     auto managedPeopleAfterDelete = realm.objects<Beta_Person>();
     REQUIRE(managedPeopleAfterDelete.size() == 0);
+    auto managedDogsAfterDelete = realm.objects<Beta_Dog>();
+    REQUIRE(managedDogsAfterDelete.size() == 0);
 }
 
 TEST_CASE("Beta ignored property example", "[write]") {
@@ -204,17 +210,50 @@ TEST_CASE("Beta embedded object example", "[write]") {
     });
     // :snippet-end:
     
+    // :snippet-start: beta-update-embedded-object
     auto managedBusinesses = realm.objects<Beta_Business>();
-    auto specificBusiness = managedBusinesses[0];
-    REQUIRE(specificBusiness._id == objectId);
-    REQUIRE(specificBusiness.name == "MongoDB");
-    REQUIRE(specificBusiness.contactDetails->emailAddress == "email@example.com");
-    REQUIRE(specificBusiness.contactDetails->phoneNumber == "123-456-7890");
-    REQUIRE(managedBusinesses.size() == 1);
-
-    realm.write([&] {
-        realm.remove(specificBusiness);
+    REQUIRE(managedBusinesses.size() == 1); // :remove:
+    auto businessesNamedMongoDB = managedBusinesses.where([](auto &business) {
+        return business.name == "MongoDB";
     });
+    auto mongoDB = businessesNamedMongoDB[0];
+    // :remove-start:
+    REQUIRE(mongoDB._id == objectId);
+    REQUIRE(mongoDB.name == "MongoDB");
+    REQUIRE(mongoDB.contactDetails->emailAddress == "email@example.com");
+    REQUIRE(mongoDB.contactDetails->phoneNumber == "123-456-7890");
+    // :remove-end:
+    
+    realm.write([&] {
+        mongoDB.contactDetails->emailAddress = "info@example.com";
+    });
+    
+    std::cout << "New email address: " << mongoDB.contactDetails->emailAddress.value() << "\n";
+    // :snippet-end:
+    REQUIRE(mongoDB.contactDetails->emailAddress == "info@example.com");
+    // :snippet-start: beta-overwrite-embedded-object
+    auto businesses = realm.objects<Beta_Business>();
+    auto mongoDBBusinesses = businesses.where([](auto &business) {
+        return business.name == "MongoDB";
+    });
+    auto theMongoDB = mongoDBBusinesses[0];
+    
+    realm.write([&] {
+        auto newContactDetails = Beta_ContactDetails {
+            .emailAddress = "info@example.com",
+            .phoneNumber = "234-567-8901"
+        };
+        // Overwrite the embedded object
+        // TODO: This currently fails with `No viable overloaded `=`
+        //theMongoDB.contactDetails = newContactDetails;
+    });
+    // :snippet-end:
+    
+    //REQUIRE(mongoDB.contactDetails->phoneNumber == "234-567-8901");
+    realm.write([&] {
+        realm.remove(mongoDB);
+    });
+
     auto managedBusinessesAfterDelete = realm.objects<Beta_Business>();
     REQUIRE(managedBusinessesAfterDelete.size() == 0);
 }
@@ -246,6 +285,54 @@ TEST_CASE("create a dog", "[write]") {
     // :snippet-end:
     auto updatedDogsCount = realm.objects<Beta_Dog>().size();
     REQUIRE(updatedDogsCount < dogsCount);
+}
+
+TEST_CASE("update a dog", "[write][update]") {
+    auto mauiDog = Beta_Dog { .name = "Maui", .age = 1 };
+
+    auto relative_realm_path_directory = "beta_dog/";
+    std::filesystem::create_directories(relative_realm_path_directory);
+    std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+    path = path.append("dog_objects");
+    path = path.replace_extension("realm");
+    auto config = realm::db_config();
+    config.set_path(path);
+    auto realm = db(std::move(config));
+
+    realm.write([&] {
+        realm.add(std::move(mauiDog));
+    });
+    SECTION("Test code example functions as intended")
+    {
+        // :snippet-start: beta-update-an-object
+        // Query for the object you want to update
+        auto dogs = realm.objects<Beta_Dog>();
+        // auto dogsNamedMaui = dogs.where("name == $0", {"Maui"});
+        auto dogsNamedMaui = dogs.where([](auto &dog) {
+            return dog.name == "Maui";
+        });
+        CHECK(dogsNamedMaui.size() >= 1);
+        // Access an object in the results set.
+        auto maui = dogsNamedMaui[0];
+        // :remove-start:
+        REQUIRE(maui.age == static_cast<long long>(1));
+        // :remove-end:
+
+        std::cout << "Dog " << maui.name.value() << " is " << maui.age.value() << " years old\n";
+        
+        // Assign a new value to a member of the object in a write transaction
+        int64_t newAge = 2;
+        realm.write([&] {
+            maui.age = newAge;
+        });
+        // :snippet-end:
+        auto updatedMaui = dogsNamedMaui[0];
+        REQUIRE(updatedMaui.age == newAge);
+        // Clean up after test
+        realm.write([&] {
+            realm.remove(updatedMaui);
+        });
+    }
 }
 
 TEST_CASE("test map object", "[write]") {
