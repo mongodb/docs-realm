@@ -7,7 +7,8 @@
 
 // :replace-start: {
 //   "terms": {
-//     "Beta_": ""
+//     "Beta_": "",
+//     "Beta_Map_": ""
 //   }
 // }
 
@@ -90,7 +91,15 @@ namespace realm::experimental {
         mapName, listTypeName
     )
 
-    TEST_CASE("Test supported types", "[write]") {
+    // :snippet-start: beta-dog-map-model
+    struct Beta_Map_Dog {
+        std::string name;
+        std::map<std::string, std::string> favoriteParkByCity;
+    };
+    REALM_SCHEMA(Beta_Map_Dog, name, favoriteParkByCity)
+    // :snippet-end:
+
+    TEST_CASE("Test supported types", "[model][write]") {
         auto relative_realm_path_directory = "supported_types/";
         std::filesystem::create_directories(relative_realm_path_directory);
         std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
@@ -147,7 +156,7 @@ namespace realm::experimental {
             REQUIRE(allTypeObjectsAfterDeletingSpecificObject.size() == 0);
         }
         
-        SECTION("Optional supported types", "[write]") {
+        SECTION("Optional supported types", "[model][write]") {
             auto realm = db(std::move(config));
             auto date = std::chrono::time_point<std::chrono::system_clock>();
             auto uuid = realm::uuid();
@@ -210,5 +219,62 @@ namespace realm::experimental {
             });
         }
     }
+
+    #if 0
+    // The beta is still working on Map functionality so skip this test for now
+    TEST_CASE("test string map object", "[model][write]") {
+        auto relative_realm_path_directory = "supported_types/";
+        std::filesystem::create_directories(relative_realm_path_directory);
+        std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+        path = path.append("beta_dog_map_objects");
+        path = path.replace_extension("realm");
+        auto config = db_config();
+        config.set_path(path);
+        auto realm = db(std::move(config));
+
+        auto dog = Beta_Map_Dog {
+            .name = "Maui"
+        };
+
+        dog.favoriteParkByCity = {
+            { "Boston", "Fort Point" },
+            { "New York", "Central Park" }
+        };
+
+        SECTION("Test code example functions as intended") {
+            realm.write([&] {
+                realm.add(std::move(dog));
+            });
+
+            auto dogs = realm.objects<Beta_Map_Dog>();
+            auto dogsNamedMaui = dogs.where([](auto &dog) {
+                return dog.name == "Maui";
+            });
+            REQUIRE(dogsNamedMaui.size() >= 1);
+            auto maui = dogsNamedMaui[0];
+            for (auto [k, v] : maui.favoriteParkByCity) {
+                if (k == "Boston") CHECK(v == "Fort Point");
+                else if (k == "New York") CHECK(v == "Central Park");
+            }
+            // Use `find()` for read-only access as `operator[]` could create an entry
+            auto favoriteBostonPark = maui.favoriteParkByCity.find("Boston");
+            CHECK(favoriteBostonPark != maui.favoriteParkByCity.end());
+            auto favoriteNewYorkPark = maui.favoriteParkByCity["New York"];
+            CHECK(favoriteNewYorkPark == "Central Park");
+            realm.write([&] {
+                maui.favoriteParkByCity["New York"] = "Some other park";
+            });
+            CHECK(favoriteNewYorkPark == "Some other park");
+            realm.write([&] {
+                 maui.favoriteParkByCity.erase("New York");
+            });
+            CHECK(maui.favoriteParkByCity.find("New York") == maui.favoriteParkByCity.end());
+        }
+        // Clean up after test
+        realm.write([&] {
+            realm.remove(dog);
+        });
+    }
+    #endif
 }
 // :replace-end:
