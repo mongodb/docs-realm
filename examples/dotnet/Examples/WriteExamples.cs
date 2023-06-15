@@ -115,17 +115,21 @@ namespace Examples
             });
 
 
-
-            realm.Write(() =>
+            // :snippet-start: modify
+            // :replace-start: {
+            //  "terms": {
+            //   "dog2": "dog",
+            //   "WriteDog" : "Dog" }
+            // }
+            var dog2 = realm.All<WriteDog>().First();
+            realm.WriteAsync(() =>
             {
-                // Get a dog to update.
-                var dog = realm.All<WriteDog>().First();
-
-                // Update some properties on the instance.
-                // These changes are saved to the realm.
-                dog.Name = "Wolfie";
-                dog.Age += 1;
+                dog2.Name = "Wolfie";
+                dog2.Age += 1;
             });
+            // :replace-end:
+            // :snippet-end:
+
 
             realm.Write(() =>
             {
@@ -203,12 +207,11 @@ namespace Examples
         [MapTo("_id")]
         public int Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         public int Age { get; set; }
         public string Breed { get; set; }
-        public WritePerson Owner { get; set; }
+        public WritePerson? Owner { get; set; } = null!;
     }
 
     public class WritePerson : RealmObject

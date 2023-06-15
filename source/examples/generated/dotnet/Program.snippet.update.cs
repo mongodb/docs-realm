@@ -5,5 +5,5 @@ var davidsStrat = realm.All<Guitar>().FirstOrDefault(
 
 realm.Write(() =>
 {
-    davidsStrat.Price = 1700345.56;
+    davidsStrat!.Price = 1700345.56;
 });

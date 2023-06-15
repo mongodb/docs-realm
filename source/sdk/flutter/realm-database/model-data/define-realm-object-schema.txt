@@ -97,7 +97,7 @@ Create Model
 
             .. code-block::
 
-               flutter pub run realm generate
+               dart run realm generate
 
          .. tab:: Dart
             :tabid: dart
@@ -146,7 +146,7 @@ All synced objects in a realm must conform to the App Services Schema.
 
 Client applications provide a Object Schema when they open a realm. If a
 realm already contains data, then it already has a schema, and when it is opened,
-Realm Database validates the schema on the client against the existing schema.
+Realm validates the schema on the client against the existing schema.
 
 You can define App Services Schemas in the following ways:
 
@@ -195,7 +195,7 @@ Map Realm Model to Different Name
 ---------------------------------
 
 You can use the `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__
-annotation to map a Realm object model to a different model name in Realm Database.
+annotation to map a Realm object model to a different model name in Realm.
 This can be useful in the following scenarios:
 
 - Working with one realm from different Realm SDKs
@@ -226,7 +226,7 @@ Run the following command to generate ``RealmObjects``:
 
       .. code-block::
 
-         flutter pub run realm generate
+         dart run realm generate
 
    .. tab:: Dart
       :tabid: dart
@@ -268,7 +268,7 @@ include the ``--watch`` flag in your command.
 
       .. code-block::
 
-         flutter pub run realm generate --watch
+         dart run realm generate --watch
 
    .. tab:: Dart
       :tabid: dart
@@ -287,7 +287,7 @@ Cleaning the generator cache can be useful when debugging.
 
       .. code-block::
 
-         flutter pub run realm generate --clean
+         dart run realm generate --clean
 
    .. tab:: Dart
       :tabid: dart

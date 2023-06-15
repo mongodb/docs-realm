@@ -17,10 +17,10 @@ namespace Examples
         App app;
         RealmUser user;
 
-        const string myRealmAppId = Config.fsAppId;
-        App fsApp;
-        Realm fsRealm;
-        RealmUser fsUser;
+        const string myRealmAppId = Config.FSAppId;
+        App fsApp = null!;
+        Realm fsRealm = null!;
+        RealmUser fsUser = null!;
 
         public ClientResetExamples()
         {
@@ -57,7 +57,7 @@ namespace Examples
             };
 
             //:remove-start:
-            config.Schema = new[] { typeof(User) };
+            config.Schema = new[] { typeof(Examples.Models.Plant) };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :snippet-end:
@@ -80,7 +80,7 @@ namespace Examples
             //:remove-start:
             fsApp = App.Create(myRealmAppId);
             fsUser = fsApp.LogInAsync(
-                Credentials.EmailPassword("caleb@example.com", "foobar")).Result;
+                Credentials.EmailPassword(Config.Username, Config.Password)).Result;
             //:remove-end:
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
             fsConfig.ClientResetHandler =

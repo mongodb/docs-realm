@@ -1,3 +1,94 @@
+# June 8, 2023
+
+## Flutter SDK
+
+- Realm Database
+  - Model Data/Data Types: Add documentation for `Decimal128` type
+  - React to Changes: Add information about `isCleared` property for the query 
+  change listener
+
+## Kotlin SDK
+
+- Realm Database
+  - Model Data/Data Types: Add `RealmDictionary` to list of supported data types
+  - Serialization: Remove `ObjectId` serializer from the API
+
+## .NET SDK
+
+- CRUD
+  - Create: Add methods of creating a new Realm object in a `WriteAsync` transaction
+  - Threading: Add details of the benefits of `WriteAsync` for threading
+  - Transactions: Update overview description of transactions
+
+## React Native SDK
+
+- Remove 'Overview' headings from documentation pages for the SDK
+
+# June 2, 2023
+
+## C++ SDK
+
+- Install Realm: Update CMake install instructions to use release version tags instead of a pre-release commit hash
+
+## Flutter SDK
+
+- Install Realm for Flutter: Update `flutter pub run realm generate` to `dart run realm generate`
+- Quick Start: Update `flutter pub run realm generate` to `dart run realm generate`
+- Realm Database/Model Data/Define a Realm Object Schema: Update `flutter pub run realm generate` to `dart run realm generate`
+- Test & Debug: Update `flutter pub run realm install` to `dart run realm install`
+- Logging: New page with details and tested, Bluehawked code examples for the Realm logging functionality based on Core Logging
+- Sync Device Data/Set the Client Log Level: Note that the Sync logger is deprecated as of Realm Flutter SDK v1.1.0
+
+## .NET SDK
+
+- Model Data/Supported Data Types
+  - Data Types: Remove generic "Collections", add "Results Collections" and "Lists"
+  - Results Collections: Rename page from generic "Collections", move List content to new page, remove Summary section, clarify details about Results collections
+  - Lists: New page with content moved from former "Collections" page, clarify details about Lists and nullability, add a new "Watch for Changes" section with Bluehawked code example
+  - Dictionaries: Add a new "Watch for Changes" section with Bluehawked code example
+  - Sets: Add a new "Watch for Changes" section with Bluehawked code example
+
+## Swift SDK
+
+- Install Realm: Note Realm Swift SDK v10.40.0 drops support for Xcode 13, remove Xcode 13 support table
+- Model Data/Supported Types: Add missing supported types to `MutableSet` section
+- Logging: New page with details and tested, Bluehawked code examples for the Realm logging functionality based on Core Logging
+- Sync Data/Set the Client Log Level: Move the Logging info to the new page, note that the Sync logger is deprecated as of Realm Swift SDK v10.39.0
+
+# May 26, 2023
+
+## C++ SDK
+
+- CRUD/Threading: Change `invoke()` override in custom scheduler code example to use `realm::Function` instead of `std::function` per SDK updates
+- Sync Data
+  - Handle Sync Errors: Remove `error_code` from `sync_error` per SDK updates
+  - Set the Sync Client Log Level: New page with info and code example for setting the Sync client log level
+- Logging: New page with info and code examples for setting the Realm log level and customizing the logging function
+
+## Flutter SDK
+
+- Read & Write Data: Add a "Limit Results" section with a tested Bluehawked code example showing how to limit results in the Realm Flutter SDK
+
+## Kotlin SDK
+
+- Realm Database
+  - Manage Realm Files/Bundle a Realm: Add this page back with info and tested Bluehawked code examples for bundling a realm using the new `assetFile` functionality in Kotlin SDK v1.9.0
+  - Read & Write Data/Update: Provide a more realistic code example in Upsert section per docs feedback, add info on `UpdatePolicy`
+  - Serialization: Add info and tested Bluehawked code examples for the stable Realm Data Type serializers and experimental Full Document Serialization
+- Sync Device Data/Configure & Open a Synced Realm: Add sections with tested Bluehawked code examples for waiting for download, conditionally waiting for download, and opening a synced realm offline
+- Atlas App Services/Call an Atlas Function: Add a link to Serialization documentation, note serialization limitations apply pre-v1.9.0
+- Manage Users
+  - Authenticate Users: Add a note to the Custom Function authentication with a link to serialization docs for serializing a custom function credential using an EJSON encoder
+  - Custom User Data: Add a note with a link to serialization docs for serializing custom user data using an EJSON encoder
+
+## React Native SDK
+
+- Model Data/Change an Object Model: Fix incorrect migration method name, update tests and code snippets
+
+## Swift SDK
+
+- CRUD/Read: Add a tested Bluehawked code example for Sort using the type-safe keyPath API per docs feedback
+
 # May 19, 2023
 
 ## Java SDK

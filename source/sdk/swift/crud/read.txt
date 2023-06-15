@@ -12,8 +12,8 @@ CRUD - Read - Swift SDK
 
 .. _ios-read-from-realm:
 
-Key Concept: Read from Realm Database
--------------------------------------
+Key Concept: Read from a Realm
+------------------------------
 
 A read from a realm generally consists of the following
 steps:
@@ -36,7 +36,7 @@ Read Characteristics
 ~~~~~~~~~~~~~~~~~~~~
 
 When you design your app's data access patterns around the
-following three key characteristics of reads in Realm Database,
+following three key characteristics of reads in Realm,
 you can be confident you are reading data as
 efficiently as possible.
 
@@ -59,7 +59,7 @@ See also: :ref:`Collections are Live <ios-live-collections>`.
 Results Are Lazy
 ````````````````
 
-Realm Database only runs a query when you actually request the
+Realm only runs a query when you actually request the
 results of that query. This lazy evaluation enables you to write
 elegant, highly performant code for handling large data sets and complex
 queries. You can :ref:`chain several filter and sort operations
@@ -71,8 +71,8 @@ intermediate state.
 References Are Retained
 ```````````````````````
 
-One benefit of Realm Database's object model is that
-Realm Database automatically retains all of an object's
+One benefit of Realm's object model is that
+Realm automatically retains all of an object's
 :ref:`relationships <ios-client-relationships>` as direct
 references, so you can traverse your graph of relationships
 directly through the results of a query.
@@ -93,10 +93,10 @@ objects that are never accessed, but if you choose to only
 copy the foreign key, referenced object lookups can cause
 your application to slow down.
 
-Realm Database bypasses all of this using zero-copy
+Realm bypasses all of this using zero-copy
 live objects. Realm object accessors point
 directly into database storage using memory mapping, so there is no
-distinction between the objects in Realm Database and the results
+distinction between the objects in Realm and the results
 of your query in application memory. Because of this, you can traverse
 direct references across an entire realm from any query result.
 
@@ -106,7 +106,7 @@ Limiting Query Results
 ~~~~~~~~~~~~~~~~~~~~~~
 
 As a result of lazy evaluation, you do not need any special mechanism to
-limit query results with Realm Database. For example, if your query
+limit query results with Realm. For example, if your query
 matches thousands of objects, but you only want to load the first ten,
 simply access only the first ten elements of the results collection.
 
@@ -215,7 +215,7 @@ Filter Queries Based on Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A filter selects a subset of results based on the value(s) of one or
-more object properties. Realm Database provides a full-featured 
+more object properties. Realm provides a full-featured 
 :ref:`query engine <ios-client-query-engine>` that you can use to define filters.
 
 .. tabs::
@@ -225,7 +225,7 @@ more object properties. Realm Database provides a full-featured
 
       .. versionadded:: 10.19.0
 
-      To use the :ref:`Realm Database Swift Query API <ios-realm-swift-query-api>`, 
+      To use the :ref:`Realm Swift Query API <ios-realm-swift-query-api>`, 
       call :swift-sdk:`.where <Structs/Query.html>` with a closure that 
       contains a query expression as an argument.
 
@@ -268,7 +268,7 @@ Filter on Object ID Properties
 The types in your predicate must match the types of the
 properties. Avoid comparing
 :swift-sdk:`ObjectId <Classes/ObjectId.html>` properties to strings, as
-Realm Database does not automatically convert strings to ObjectIds.
+Realm does not automatically convert strings to ObjectIds.
 
 .. tabs::
 
@@ -287,7 +287,7 @@ Realm Database does not automatically convert strings to ObjectIds.
       :tabid: swift-nspredicate
 
       The following example shows the correct and incorrect way to write a
-      query with an ObjectId given the following Realm Database object:
+      query with an ObjectId given the following Realm object:
 
       .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.query-object-id.swift
          :language: swift
@@ -497,7 +497,7 @@ Sort Query Results
 
 A sort operation allows you to configure the order in which Realm
 Database returns queried objects. You can sort based on one or more
-properties of the objects in the results collection. Realm Database only
+properties of the objects in the results collection. Realm only
 guarantees a consistent order of results if you explicitly sort them.
 
 .. tabs-realm-languages::
@@ -505,7 +505,16 @@ guarantees a consistent order of results if you explicitly sort them.
    .. tab::
       :tabid: swift
 
-      To sort, call :swift-sdk:`Results.sorted(byKeyPath:ascending:)
+      .. versionadded:: 10.11.0
+
+      You can sort using the type-safe keyPath by calling
+      :swift-sdk:`Results.sorted(by: ) <Structs/Results.html>` with the 
+      keyPath name and optional sort order:
+
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.sort-type-safe.swift
+         :language: swift
+
+      To sort using the older API, call :swift-sdk:`Results.sorted(byKeyPath:ascending:)
       <Structs/Results.html#/s:10RealmSwift7ResultsV6sorted9byKeyPath9ascendingACyxGSS_SbtF>`
       with the desired key path to sort by.
 

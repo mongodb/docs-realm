@@ -12,7 +12,7 @@ Configure & Open a Realm - C++ SDK (Alpha)
    :class: singlecol
 
 A **realm** is the core data structure used to organize data in
-Realm Database. A realm is a collection of the objects that you use 
+Realm. A realm is a collection of the objects that you use 
 in your application, called Realm objects, as well as additional metadata 
 that describe the objects.
 
@@ -30,7 +30,7 @@ specifies details about how to configure the realm file. This can include:
 Key Concept: Realm Files
 ------------------------
 
-Realm Database stores a binary encoded version of every object and type in a
+Realm stores a binary encoded version of every object and type in a
 realm in a single ``.realm`` file. The file is located at :ref:`a specific 
 path <find-the-default-realm-path>` that you can define when you open the realm.
 You can open, view, and edit the contents of these files with 
@@ -38,8 +38,8 @@ You can open, view, and edit the contents of these files with
 
 .. see:: Auxiliary Realm Files
    
-   Realm Database creates additional files for each realm.
-   To learn more about these files, see :ref:`Realm Database Internals
+   Realm creates additional files for each realm.
+   To learn more about these files, see :ref:`Realm Internals
    <cpp-realm-database>`.
 
 .. _cpp-synced-realm:
@@ -63,7 +63,7 @@ received out of order.
 Synced Realms vs. Non-Synced Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Synced realms differ from non-synced local Realm Database in a 
+Synced realms differ from non-synced local Realm in a 
 few ways:
 
 - Synced realms attempt to sync changes with your backend App Services App,
@@ -75,8 +75,8 @@ few ways:
   realm requires the user to be online. Non-synced realms can always 
   be used offline.
 
-You can manually copy data from a non-synced Realm Database to a synced realm, 
-and vice versa, but you cannot sync a non-synced Realm Database.
+You can manually copy data from a non-synced realm to a synced realm, 
+and vice versa, but you cannot sync a non-synced realm.
 
 .. _cpp-open-non-sync-realm:
 

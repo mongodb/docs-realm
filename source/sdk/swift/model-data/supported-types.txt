@@ -21,7 +21,7 @@ zero or more instances of one :ref:`Realm type
 <ios-realm-objects>`. Realm collections are **homogenous**:
 all objects in a collection are of the same type.
 
-You can filter and sort any collection using Realm Database's
+You can filter and sort any collection using Realm's
 :ref:`query engine <ios-client-query-engine>`. Collections are
 :ref:`live <ios-live-object>`, so they always reflect the current state
 of the realm instance on the current thread. You can also
@@ -647,19 +647,21 @@ collection represents a :ref:`to-many relationship <ios-to-many-relationship>`
 containing distinct values. A ``MutableSet`` supports the following types 
 (and their optional versions): 
 
-- Bool, 
-- Int, 
-- Int8, 
-- Int16, 
-- Int32, 
-- Int64, 
-- Float, 
-- Double, 
-- String, 
-- Data, 
-- Date, 
-- Decimal128, 
+- Bool
+- Data
+- Date
+- Decimal128
+- Double
+- Float
+- Int
+- Int8
+- Int16
+- Int32
+- Int64
+- Object
 - ObjectId
+- String
+- UUID
 
 Like Swift's :apple:`Set <documentation/swift/set>`, ``MutableSet`` is a 
 generic type that is parameterized on the type it stores. Unlike 
@@ -788,7 +790,7 @@ Map Unsupported Types to Supported Types
 .. versionadded:: 10.20.0
 
 You can use Type Projection to persist unsupported types as supported types 
-in Realm Database. This enables you to work with Swift types that Realm 
+in Realm. This enables you to work with Swift types that Realm 
 does not support, but store them as types that Realm does support. You could 
 store a URL as a ``String``, for example, but read it from 
 Realm and use it in your application as though it were a URL.

@@ -16,12 +16,12 @@ Key Concept: Read Operations
 ----------------------------
 
 You can read back the data that you have
-:ref:`stored <java-realm-database-writes>` in Realm Database.
+:ref:`stored <java-realm-database-writes>` in Realm.
 The standard data access pattern across Realm
 SDKs is to find, filter, and sort objects, in that order. To
 get the best performance from Realm as your app grows and
 your queries become more complex, design your app's data
-access patterns around a solid understanding of Realm Database
+access patterns around a solid understanding of Realm
 :ref:`read characteristics <java-realm-read-characteristics>`.
 
 .. _java-realm-read-characteristics:
@@ -30,7 +30,7 @@ Read Characteristics
 ~~~~~~~~~~~~~~~~~~~~
 
 When you design your app's data access patterns around the
-following three key characteristics of reads in Realm Database,
+following three key characteristics of reads in Realm,
 you can be confident you are reading data as
 efficiently as possible.
 
@@ -50,7 +50,7 @@ disk.
 Results Are Lazy
 ~~~~~~~~~~~~~~~~
 
-Realm Database defers execution of a query until you access the
+Realm defers execution of a query until you access the
 results. You can chain several filter and sort operations
 without requiring extra work to process the intermediate
 state.
@@ -60,8 +60,8 @@ state.
 References Are Retained
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-One benefit of Realm Database's object model is that
-Realm Database automatically retains all of an object's
+One benefit of Realm's object model is that
+Realm automatically retains all of an object's
 :ref:`relationships <java-client-relationships>` as
 direct references, so you can traverse your graph of
 relationships directly through the results of a query.
@@ -82,10 +82,10 @@ objects that are never accessed, but if you choose to only
 copy the foreign key, referenced object lookups can cause
 your application to slow down.
 
-Realm Database bypasses all of this using zero-copy
+Realm bypasses all of this using zero-copy
 live objects. Realm object accessors point directly into
 database storage using memory mapping, so there is no distinction
-between the objects in Realm Database and the results of your query in
+between the objects in Realm and the results of your query in
 application memory. Because of this, you can traverse direct references
 across an entire realm from any query result.
 
@@ -129,7 +129,7 @@ See the schema for these two classes, ``Project`` and
 
 .. _java-read-from-realm:
 
-Read from Realm Database
+Read from Realm
 ------------------------
 
 A read from a realm generally consists of the following
@@ -208,7 +208,7 @@ Filter Queries Based on Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A **filter** selects a subset of results based on the
-value(s) of one or more object properties. Realm Database provides a
+value(s) of one or more object properties. Realm provides a
 full-featured :ref:`query engine <java-client-query-engine>` you
 can use to define filters. The most common use case is to
 find objects where a certain property matches a certain
@@ -248,11 +248,11 @@ Sort Query Results
 ~~~~~~~~~~~~~~~~~~
 
 A **sort** operation allows you to configure the order in
-which Realm Database returns queried objects. You can sort based on
+which Realm returns queried objects. You can sort based on
 one or more properties of the objects in the results
 collection.
 
-Realm Database only guarantees a consistent order of results when the
+Realm only guarantees a consistent order of results when the
 results are sorted.
 
 The following code sorts the projects by name in reverse

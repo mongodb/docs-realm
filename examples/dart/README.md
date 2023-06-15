@@ -11,12 +11,20 @@ make sure you have Flutter 2.8 and Dart 2.15 flutter --version Flutter 2.8.1 •
 Run these commands to setup the application:
 
 1. Disable Realm analytics. Set env variable `REALM_DISABLE_ANALYTICS=exists` either globally
-   (for example, in `.zshrc`) or locally to this terminal only. I suggest globally not to forget about it and
-   upload analytics unnecessarily.
+   (for example, in `.zshrc`) or locally to this terminal only. I suggest globally not to forget about it and upload analytics unnecessarily.
 1. Get all packages for the example project:
 
    ```sh
    dart pub get
+   ```
+1. Install Realm Dart SDK:
+
+   ```sh
+   dart run realm_dart install
+   ```
+
+   ```sh
+   dart run realm_dart install
    ```
 
 1. Run the generator to generate the required Realm object definitions.

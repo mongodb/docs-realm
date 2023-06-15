@@ -23,7 +23,7 @@ If you want to delete the Realm file itself, see: :ref:`Delete a Realm
 .. important:: Do not use objects after delete
 
    You cannot access or modify an object after you have deleted it from
-   a realm. If you try to use a deleted object, Realm Database throws an
+   a realm. If you try to use a deleted object, Realm throws an
    error.
 
 About The Examples On This Page
@@ -120,7 +120,7 @@ Delete an Object and Its Related Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes, you want to delete related objects when you delete the parent 
-object. We call this a **chaining delete**. Realm Database does not delete 
+object. We call this a **chaining delete**. Realm does not delete 
 the related objects for you. If you do not delete the objects yourself, 
 they remain orphaned in your realm. Whether or not this is a problem 
 depends on your application's needs.

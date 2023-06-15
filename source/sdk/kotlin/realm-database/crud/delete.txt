@@ -15,7 +15,7 @@ Delete Realm Objects - Kotlin SDK
    You can only delete objects from a realm within a
    :ref:`write transaction <kotlin-write-transactions>`.
 
-To delete a realm database file, refer to :ref:`Delete a Realm <kotlin-delete-a-realm>`.
+To delete a realm file, refer to :ref:`Delete a Realm <kotlin-delete-a-realm>`.
 
 .. _kotlin-delete-an-object:
 
@@ -63,9 +63,9 @@ To delete multiple objects from a realm at the same time:
    Filter the set of returned objects by specifying a query.
 
 #. Delete the set of `RealmResults
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/index.html>`__
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__
    returned by the query with `realmResults.delete()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/delete.html>`__.
+   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/delete.html>`__.
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-multiple-objects.kt
    :language: kotlin
