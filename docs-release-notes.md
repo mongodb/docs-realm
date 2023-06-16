@@ -1,11 +1,36 @@
+# June 16, 2023
+
+## Kotlin SDK
+
+- Realm
+  - Model Data/Property Annotations: Add a "Full-Text Search Indexes" section with info and tested, Bluehawked code example
+  - Read & Write Data/Read: Add a "Filter with Full-Text Search" section with info and tested, Bluehawked code example
+
+## .NET SDK
+
+- Remove the `[Required]` attribute in code examples throughout docs, minor wording improvements for clarity throughout examples
+
+## Node.js SDK
+
+- Quick Start: Typo fix
+
+## Swift SDK
+
+- Install Realm: Add Xcode 15 compatibility information, provide more info about Swift concurrency support
+
+## Other
+
+- Realm Query Language: Replace queries with parameterized queries throughout examples, add a section about query formatting for parameterized or serialized queries
+- Change "Realm Database" naming throughout docs pages to "Realm" and correct any incorrect usage of Realm vs. realm
+
 # June 8, 2023
 
 ## Flutter SDK
 
 - Realm Database
   - Model Data/Data Types: Add documentation for `Decimal128` type
-  - React to Changes: Add information about `isCleared` property for the query 
-  change listener
+  - React to Changes: Add information about `isCleared` property for the query
+    change listener
 
 ## Kotlin SDK
 
