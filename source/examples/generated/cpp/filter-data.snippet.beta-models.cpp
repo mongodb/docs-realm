@@ -1,14 +1,14 @@
-struct Beta_Item {
+struct Item {
     std::string name;
     bool isComplete;
     std::optional<std::string> assignee;
     int64_t priority;
     int64_t progressMinutes;
 };
-REALM_SCHEMA(Beta_Item, name, isComplete, assignee, priority, progressMinutes)
+REALM_SCHEMA(Item, name, isComplete, assignee, priority, progressMinutes)
 
-struct Beta_Project {
+struct Project {
     std::string name;
-    std::vector<realm::experimental::link<Beta_Item>> items;
+    std::vector<realm::experimental::link<Item>> items;
 };
-REALM_SCHEMA(Beta_Project, name, items)
+REALM_SCHEMA(Project, name, items)

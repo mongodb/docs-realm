@@ -1,7 +1,7 @@
 auto config = realm::db_config();
 auto realm = db(std::move(config));
 
-auto item1 = Beta_Item {
+auto item1 = Item {
     .name = "Save the cheerleader",
     .assignee = std::string("Peter"),
     .isComplete = false,
@@ -9,7 +9,7 @@ auto item1 = Beta_Item {
     .progressMinutes = 30
 };
 
-auto project = Beta_Project {
+auto project = Project {
     .name = "New project"
 };
 
@@ -19,5 +19,5 @@ realm.write([&] {
     realm.add(std::move(project));
 });
 
-auto items = realm.objects<Beta_Item>();
-auto projects = realm.objects<Beta_Project>();
+auto items = realm.objects<Item>();
+auto projects = realm.objects<Project>();

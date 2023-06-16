@@ -43,8 +43,21 @@ realm to emit a notification.
 
 .. example::
 
-   .. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
-      :language: cpp
+   .. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-object.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-register-a-collection-change-listener:
 
@@ -112,8 +125,23 @@ Results collection notifications provide a :cpp-sdk:`results_change
 reports the index of the objects that are deleted, added, or modified.
 It can also notify you if the collection was deleted.
 
-.. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
-   :language: cpp
+.. example::
+
+   .. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-results.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-stop-watching-for-changes:
 
