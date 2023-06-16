@@ -21,6 +21,7 @@ FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-beta 
   crud.cpp
+  filter-data.cpp
   relationships.cpp
   supported-types.cpp
 )
