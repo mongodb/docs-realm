@@ -16,13 +16,13 @@ jobs:
         with:
           filters: |
             alpha:
-              - "examples/cpp/alpha/**'
+              - 'examples/cpp/alpha/**'
             beta-asymmetric:
-              - "examples/cpp/beta/asymmetric/**"
+              - 'examples/cpp/beta/asymmetric/**'
             beta-local:
-              - "examples/cpp-beta/local/**"
+              - 'examples/cpp-beta/local/**'
             beta-sync:
-              - "examples/cpp/beta/sync/**"
+              - 'examples/cpp/beta/sync/**'
 
       - name: Realm C++ Alpha Tests
         if: steps.filter.outputs.alpha == 'true'
