@@ -6,15 +6,53 @@ on:
       - "examples/cpp/**"
 
 jobs:
-  build:
-    name: Run C++ Example Tests
+  tests:
     runs-on: macOS-12
 
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          cd examples/cpp
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            alpha:
+              - "examples/cpp/alpha/**'
+            beta-asymmetric:
+              - "examples/cpp/beta/asymmetric/**"
+            beta-local:
+              - "examples/cpp-beta/local/**"
+            beta-sync:
+              - "examples/cpp/beta/sync/**"
+
+      - name: Realm C++ Alpha Tests
+        if: steps.filter.outputs.alpha == 'true'
+        run: |
+          cd examples/cpp/alpha
           mkdir build && cd build
           cmake ..
           make
           ./examples
+      - name: Realm C++ Beta Asymmetric Tests
+        if: steps.filter.outputs.beta-asymmetric == 'true'
+        run: |
+          cd examples/cpp/beta/asymmetric
+          mkdir build && cd build
+          cmake ..
+          make
+          ./examples-beta-asymmetric
+      - name: Realm C++ Beta Local Tests
+        if: steps.filter.outputs.beta-local == 'true'
+        run: |
+          cd examples/cpp/beta/local
+          mkdir build && cd build
+          cmake ..
+          make
+          ./examples-beta-local
+      - name: Realm C++ Beta Flexible Sync Tests
+        if: steps.filter.outputs.beta-sync == 'true'
+        run: |
+          cd examples/cpp/beta/sync
+          mkdir build && cd build
+          cmake ..
+          make
+          ./examples-beta-sync

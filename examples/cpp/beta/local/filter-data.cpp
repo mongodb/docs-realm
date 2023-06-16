@@ -5,6 +5,12 @@
 
 using namespace realm::experimental;
 
+// :replace-start: {
+//   "terms": {
+//     "Beta_": ""
+//   }
+// }
+
 // :snippet-start: beta-models
 struct Beta_Item {
     std::string name;
@@ -102,3 +108,4 @@ TEST_CASE("set up tests", "[write]") {
     CHECK(projects.size() == 0);
     CHECK(items.size() == 0);
 }
+// :replace-end:

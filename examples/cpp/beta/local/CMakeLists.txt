@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(examples-beta)
+project(examples-beta-local)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -19,12 +19,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
-add_executable(examples-beta 
+add_executable(examples-beta-local
   crud.cpp
   filter-data.cpp
   relationships.cpp
   supported-types.cpp
 )
 
-target_link_libraries(examples-beta PRIVATE Catch2::Catch2WithMain)
-target_link_libraries(examples-beta PRIVATE cpprealm)
+target_link_libraries(examples-beta-local PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(examples-beta-local PRIVATE cpprealm)

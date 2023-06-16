@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(examples-beta-asymmetric)
+project(examples-beta-sync)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -14,14 +14,14 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        7b8f6898999292bd87ea036d4809b7274192543d 
+  GIT_TAG        c1571a3d19a4888c4ec2b361aa3666f2d0285d5a 
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
-add_executable(examples-beta-asymmetric 
-  asymmetric-sync.cpp
+add_executable(examples-beta-sync 
+  quick-start.cpp
 )
 
-target_link_libraries(examples-beta-asymmetric PRIVATE Catch2::Catch2WithMain)
-target_link_libraries(examples-beta-asymmetric PRIVATE cpprealm)
+target_link_libraries(examples-beta-sync PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(examples-beta-sync PRIVATE cpprealm)
