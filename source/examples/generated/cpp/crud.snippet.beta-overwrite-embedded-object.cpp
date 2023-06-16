@@ -10,6 +10,5 @@ realm.write([&] {
         .phoneNumber = "234-567-8901"
     };
     // Overwrite the embedded object
-    // TODO: This currently fails with `No viable overloaded `=`
-    //theMongoDB.contactDetails = newContactDetails;
+    theMongoDB.contactDetails = std::move(newContactDetails);
 });

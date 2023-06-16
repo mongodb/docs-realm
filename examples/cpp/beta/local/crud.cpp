@@ -240,12 +240,11 @@ TEST_CASE("Beta embedded object example", "[write]") {
             .phoneNumber = "234-567-8901"
         };
         // Overwrite the embedded object
-        // TODO: This currently fails with `No viable overloaded `=`
-        //theMongoDB.contactDetails = newContactDetails;
+        theMongoDB.contactDetails = std::move(newContactDetails);
     });
     // :snippet-end:
     
-    //REQUIRE(mongoDB.contactDetails->phoneNumber == "234-567-8901");
+    REQUIRE(mongoDB.contactDetails->phoneNumber == "234-567-8901");
     realm.write([&] {
         realm.remove(mongoDB);
     });
