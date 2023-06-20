@@ -1,4 +1,4 @@
-auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
+auto user = app.login(realm::App::credentials::anonymous()).get();
 
 // Functions take an argument of BsonArray, so initialize the custom data as a BsonDocument
 auto customDataBson = realm::bson::BsonDocument({{"userId", user.identifier()}, {"favoriteColor", "gold"}});

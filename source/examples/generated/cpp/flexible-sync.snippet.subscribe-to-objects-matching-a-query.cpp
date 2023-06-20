@@ -2,6 +2,6 @@ updateSubscriptionSuccess = syncedRealm.subscriptions().update([](realm::mutable
     subs.add<Dog>("puppies", [](auto &obj) {
         return obj.age < 3;
     });
-}).get_future().get();
+}).get();
 REQUIRE(updateSubscriptionSuccess == true);
 CHECK(syncedRealm.subscriptions().size() == 1);

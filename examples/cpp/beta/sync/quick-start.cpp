@@ -104,6 +104,10 @@ TEST_CASE("local quick start", "[realm][write]") {
     token.unregister();
 }
 
+// This test seems to be flaky. Sometimes I am getting an EXC BAD ACCESS
+// thread-related error with exit code 9 after all the tests pass.
+// After skipping and then un-skipping this test with #if 0/#endif, I can't
+// seem to replicate the issue. May require debugging in the future.
 TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
     auto app = realm::App(APP_ID);
     auto logLevel = realm::logger::level::info;
@@ -159,7 +163,6 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
     });
 
     syncSession->wait_for_upload_completion().get();
-
 }
 
 // :replace-end:

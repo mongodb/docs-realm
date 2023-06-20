@@ -7,12 +7,13 @@ static const std::string APP_ID = "cpp-tester-uliix";
 
 TEST_CASE("call a function", "[realm][sync]")
 {
-    // :snippet-start: call-a-function
+    // :snippet-start: beta-call-a-function
     // Connect to an App Services App and authenticate a user
     // :snippet-start: connect-app-services
     auto app = realm::App(APP_ID);
     // :snippet-end:
-    auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
+    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto user = app.login(realm::App::credentials::anonymous()).get();
     auto sync_config = user.flexible_sync_configuration();
 
     // If a function takes arguments, pass them as BSON

@@ -7,5 +7,4 @@ dbConfig.sync_config().set_error_handler([](const realm::sync_session& session, 
     std::cerr << "A sync error occurred. Message: " << error.message() << std::endl;
 });
 
-auto syncRealmRef = realm::async_open<Dog>(dbConfig).get_future().get();
-auto syncRealm = syncRealmRef.resolve();
+auto syncRealm = realm::experimental::db(dbConfig);
