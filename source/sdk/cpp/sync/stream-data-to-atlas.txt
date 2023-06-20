@@ -1,8 +1,8 @@
 .. _cpp-stream-data-to-atlas:
 
-=====================================
-Stream Data to Atlas - C++ SDK (Beta)
-=====================================
+======================================
+Stream Data to Atlas - C++ SDK Preview
+======================================
 
 .. contents:: On this page
    :local:
@@ -21,8 +21,8 @@ Sync Data Unidirectionally from a Client Application
 
       .. tabs::
 
-         .. tab:: Alpha
-            :tabid: alpha
+         .. tab:: Current
+            :tabid: current
 
             You can sync data unidirectionally when you inherit from 
             :cpp-sdk:`asymmetric_object <structrealm_1_1asymmetric__object.html>`.
@@ -34,8 +34,8 @@ Sync Data Unidirectionally from a Client Application
             limitations when linking to other object types, see: 
             :ref:`Define an Asymmetric Object <cpp-define-asymmetric-object>`.
 
-         .. tab:: Beta
-            :tabid: beta
+         .. tab:: Experimental
+            :tabid: experimental
 
             You can sync data unidirectionally when you declare an object's 
             schema as a ``REALM_ASYMMETRIC_SCHEMA``.
@@ -57,14 +57,14 @@ Sync Data Unidirectionally from a Client Application
 
       .. tabs::
 
-         .. tab:: Alpha
-            :tabid: alpha
+         .. tab:: Current
+            :tabid: current
 
             .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.connect-and-authenticate.cpp
                :language: cpp
 
-         .. tab:: Beta
-            :tabid: beta
+         .. tab:: Experimental
+            :tabid: experimental
 
             .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-connect-and-authenticate.cpp
                :language: cpp
@@ -75,8 +75,8 @@ Sync Data Unidirectionally from a Client Application
 
       .. tabs::
 
-         .. tab:: Alpha
-            :tabid: alpha
+         .. tab:: Current
+            :tabid: current
 
             After you have an authenticated user, you can open a synced realm
             using a ``flexibleSyncConfiguration()``. Specify the ``asymmetric_object`` 
@@ -88,8 +88,8 @@ Sync Data Unidirectionally from a Client Application
             Unlike bidirectional Sync, Data Ingest does not use a 
             :ref:`Flexible Sync subscription <cpp-manage-flexible-sync-subscriptions>`.
 
-         .. tab:: Beta
-            :tabid: beta
+         .. tab:: Experimental
+            :tabid: experimental
 
             After you have an authenticated user, you can open a synced realm
             using a ``flexibleSyncConfiguration()``.
@@ -119,14 +119,14 @@ Sync Data Unidirectionally from a Client Application
 
       .. tabs::
 
-         .. tab:: Alpha
-            :tabid: alpha
+         .. tab:: Current
+            :tabid: current
 
             .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
                :language: cpp
 
-         .. tab:: Beta
-            :tabid: beta
+         .. tab:: Experimental
+            :tabid: experimental
 
             .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-create-asymmetric-object.cpp
                :language: cpp

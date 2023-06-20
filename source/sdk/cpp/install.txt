@@ -1,8 +1,8 @@
 .. _cpp-install:
 
-==============================
-Install Realm - C++ SDK (Beta)
-==============================
+===============================
+Install Realm - C++ SDK Preview
+===============================
 
 .. contents:: On this page
    :local:
@@ -76,12 +76,12 @@ Install
       
       You can also view the commit hash that built the :cpp-sdk:`C++ API reference 
       documentation <>` at the top of the page next to the SDK name. For example:
-      ``Pre-alpha version main@ee900c16b9e02b85da599cc5a3eced50b7a89e0f``.
+      ``main@ee900c16b9e02b85da599cc5a3eced50b7a89e0f``.
 
       Set the minimum C++ standard to 17 with ``set(CMAKE_CXX_STANDARD 17)``.
 
       .. code-block:: cmake
-         :emphasize-lines: 9, 13-17, 20, 25
+         :emphasize-lines: 9, 12-16, 19, 24
 
          cmake_minimum_required(VERSION 3.15)
 
@@ -93,12 +93,11 @@ Install
          # Include the FetchContent module so you can download the Realm C++ SDK
          Include(FetchContent)
 
-         # Declare the version of the Realm C++ SDk you want to download
-         # While it's in alpha, use a git commit hash instead of a tagged release
+         # Declare the version of the Realm C++ SDK you want to download
          FetchContent_Declare(
            cpprealm
            GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-           GIT_TAG        f4f89d1c75d4c762a679f57d2e9f26e87ec1215b
+           GIT_TAG        v0.1.1-alpha
          )
 
          # The MakeAvailable command ensures the named dependencies have been populated
@@ -138,11 +137,11 @@ Make the Realm C++ SDK available in your code by including the
 
 .. _cpp-beta-experimental-usage:
 
-Experimental Beta Features
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Experimental Preview Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Realm C++ SDK Beta provides some features in a ``realm::experimental``
-namespace. When working with these experimental beta features, you must
+The Realm C++ SDK Preview provides some features in a ``realm::experimental``
+namespace. When working with these experimental features, you must
 import the experimental header.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.import-experimental-header.cpp
@@ -158,7 +157,7 @@ And you can access features in the experimental namespace:
 Build an Android App
 --------------------
 
-The Realm C++ SDK Beta supports building Android apps. To build an Android
+The Realm C++ SDK Preview supports building Android apps. To build an Android
 app:
 
 - Add ``<uses-permission android:name="android.permission.INTERNET" />`` to your ``AndroidManifest.xml``
@@ -181,7 +180,7 @@ app:
 - When instantiating the Realm or the Realm App, you must pass the ``filesDir.path`` as the ``path`` 
   parameter in the respective constructor or realm open template. 
 
-For an example of how to use the Realm C++ SDK Beta in an Android app, refer to
+For an example of how to use the Realm C++ SDK Preview in an Android app, refer to
 the :github:`Android RealmExample App <realm/realm-cpp/tree/main/examples/Android>`
 in the ``realm-cpp`` GitHub repository.
 

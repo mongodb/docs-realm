@@ -1,8 +1,8 @@
 .. _cpp-supported-property-types:
 
-================================
-Supported Types - C++ SDK (Beta)
-================================
+=================================
+Supported Types - C++ SDK Preview
+=================================
 
 .. contents:: On this page
    :local:
@@ -13,7 +13,7 @@ Supported Types - C++ SDK (Beta)
 Supported Property Types
 ------------------------
 
-The Realm Database C++ SDK Beta currently supports these property types.
+The Realm Database C++ SDK Preview currently supports these property types.
 Optionals use the class template 
 `std::optional <https://en.cppreference.com/w/cpp/utility/optional>`__.
 
@@ -22,8 +22,8 @@ Property Cheat Sheet
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       .. list-table::
          :header-rows: 1
@@ -124,8 +124,8 @@ Property Cheat Sheet
 
                 realm::persisted<std::optional<MyEmbeddedClass>> opt_embedded_object_name;
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
       .. list-table::
          :header-rows: 1
@@ -255,14 +255,14 @@ You can declare a Map as a property of an object:
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.dog-map-model.cpp
          :language: cpp
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
       .. literalinclude:: /examples/generated/cpp/supported-types.snippet.beta-dog-map-model.cpp
          :language: cpp
