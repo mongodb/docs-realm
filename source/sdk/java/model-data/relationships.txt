@@ -23,7 +23,7 @@ Relationships are direct references to other objects in a realm, which
 means that you don't need bridge tables or explicit joins to define a
 relationship like you would in a relational database. Instead you can
 access related objects by reading and writing to the property that
-defines the relationship. Realm Database executes read operations
+defines the relationship. Realm executes read operations
 lazily as they come in, so querying a relationship is just as performant
 as reading a regular property.
 
@@ -54,7 +54,7 @@ for an object type in its :ref:`object schema <java-object-schema>` by
 specifying a property where the type is the related Realm object type.
 
 Setting a relationship field to null removes the connection between
-objects, but Realm Database does not delete the referenced object
+objects, but Realm does not delete the referenced object
 unless that object is :ref:`embedded <java-field-relationships-embedded>`.
 
 .. _java-to-many-relationship:
@@ -86,7 +86,7 @@ To define an inverse relationship, define a ``LinkingObjects`` property in your
 object model. The ``LinkingObjects`` definition specifies the object type and
 property name of the relationship that it inverts.
 
-Realm Database automatically updates implicit relationships whenever an
+Realm automatically updates implicit relationships whenever an
 object is added or removed in the specified relationship. You cannot manually
 set the value of an inverse relationship property.
 
@@ -171,7 +171,7 @@ like a regular collection. You can use the same object in multiple
 Inverse Relationships
 ~~~~~~~~~~~~~~~~~~~~~
 
-By default, Realm Database relationships are unidirectional. You
+By default, Realm relationships are unidirectional. You
 can follow a link from one class to a referenced class, but not in the
 opposite direction. Consider the following class defining a ``Toad`` with
 a list of ``frogFriends``:

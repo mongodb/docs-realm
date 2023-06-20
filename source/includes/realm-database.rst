@@ -9,18 +9,18 @@ Database Internals
 Features
 --------
 
-Realm Database supports many popular database features.
+Realm supports many popular database features.
 
 Queries
 ~~~~~~~
 
-You can query Realm Database using platform-native queries or a
+You can query Realm using platform-native queries or a
 raw query language that works across platforms.
 
 Encryption
 ~~~~~~~~~~
 
-Realm Database supports on-device realm encryption. Since
+Realm supports on-device realm encryption. Since
 memory mapping does not support encryption, encrypted realms use a
 simulated in-library form of memory mapping instead.
 
@@ -56,7 +56,7 @@ See your SDK's documentation for more information on migrations.
 Persistent or In-Memory Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can use Realm Database to store data persistently on disk, or
+You can use Realm to store data persistently on disk, or
 ephemerally in memory. Ephemeral realms can be useful in situations
 where you don't need to persist data between application instances, such
 as when a user works in a temporary workspace.

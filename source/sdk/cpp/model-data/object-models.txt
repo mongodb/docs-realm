@@ -15,7 +15,7 @@ Object Models - C++ SDK (Alpha)
 Key Concept: Object Types & Schemas
 -----------------------------------
 
-Realm Database applications model data as objects composed of
+Realm applications model data as objects composed of
 field-value pairs that each contain one or more :ref:`supported
 <cpp-supported-property-types>` data types.
 
@@ -37,7 +37,7 @@ When opening a realm, you must specify which models are available by
 passing the models to the template you use to open the realm. Those 
 models must have schemas, and this list of schemas becomes the realm schema.
 
-If a realm already contains data when you open it, Realm Database 
+If a realm already contains data when you open it, Realm 
 validates each object to ensure that an object schema was provided for 
 its type and that it meets all of the constraints specified in the schema.
 
@@ -120,7 +120,7 @@ Primary keys are subject to the following limitations:
 - You can define only one primary key per object model.
 
 - Primary key values must be unique across all instances of an object
-  in a realm. Realm Database throws an error if you try to
+  in a realm. Realm throws an error if you try to
   insert a duplicate primary key value.
 
 - Primary key values are immutable. To change the primary key value of
@@ -150,7 +150,7 @@ You set a property as a primary key by passing ``true`` to the second template p
 Ignore a Property
 ~~~~~~~~~~~~~~~~~
 
-Your model may include properties that Realm Database does not store. Realm 
+Your model may include properties that Realm does not store. Realm 
 ignores any members not declared as ``realm::persisted`` and not declared 
 in the schema.
 

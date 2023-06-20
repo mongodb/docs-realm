@@ -56,7 +56,7 @@ property's type can be a primitive data type or an object type defined in the
 same realm. The type also specifies whether the property contains a single
 value or a list of values.
 
-Realm Database supports the following primitive data types:
+Realm supports the following primitive data types:
 
 - ``bool`` for boolean values
 - ``int`` and ``double``, which map to JavaScript ``number`` values
@@ -110,7 +110,7 @@ To specify a property as an object type's primary key, set the schema's
 .. note::
    
    A **primary key** is a property that uniquely identifies an
-   object. Realm Database automatically :ref:`indexes <node-indexes>`
+   object. Realm automatically :ref:`indexes <node-indexes>`
    primary key properties, which allows you to efficiently read and modify
    objects based on their primary key.
    
@@ -142,7 +142,7 @@ properties. To define an index for a given property, set ``indexed`` to
 
    An **index** significantly increases the speed of certain read operations at
    the cost of slightly slower write times and additional storage and memory
-   overhead. Realm Database stores indexes on disk, which makes your realm files
+   overhead. Realm stores indexes on disk, which makes your realm files
    larger. Each index entry is a minimum of 12 bytes. The ordering of the index
    entries supports efficient equality matches and range-based query operations. 
    
@@ -178,10 +178,10 @@ Remap a Property
 ~~~~~~~~~~~~~~~~
 
 To use a different property name in your code than is stored in
-Realm Database, set ``mapTo`` to the name of the property as it appears in
+a realm, set ``mapTo`` to the name of the property as it appears in
 your code.
    
-In the following ``Car`` object schema, Realm Database stores the car's 
+In the following ``Car`` object schema, Realm stores the car's 
 model name with the snake case ``model_name`` property. The schema maps the property 
 to ``modelName`` for objects used in client code.
 
@@ -243,7 +243,7 @@ Define an Inverse Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An **inverse relationship** property is an automatic backlink relationship.
-Realm Database automatically updates implicit relationships whenever an
+Realm automatically updates implicit relationships whenever an
 object is added or removed in a corresponding to-many list. You cannot manually
 set the value of an inverse relationship property.
 

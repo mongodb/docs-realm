@@ -148,7 +148,7 @@ exists with the same primary key, update only those fields that differ:
 Update a Collection
 -------------------
 
-Realm Database supports collection-wide updates. A collection update
+Realm supports collection-wide updates. A collection update
 applies the same update to specific properties of several
 objects in a collection at once.
 
@@ -156,7 +156,7 @@ The following example demonstrates how to update a
 collection. Thanks to the :ref:`implicit inverse
 relationship <java-inverse-relationship>` between the Turtle's
 ``owner`` property and the TurtleEnthusiast's ``turtles`` property,
-Realm Database automatically updates Josephine's list of turtles
+Realm automatically updates Josephine's list of turtles
 when you use :java-sdk:`setObject()
 <io/realm/RealmResults.html#setObject-java.lang.String-io.realm.RealmModel->`
 to update the "owner" property for all turtles in the collection.

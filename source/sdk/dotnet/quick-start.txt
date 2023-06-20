@@ -10,7 +10,7 @@ Quick Start - .NET SDK
    :depth: 2
    :class: singlecol
 
-This Quick Start demonstrates how to use Realm Database with the Realm .NET SDK. 
+This Quick Start demonstrates how to use Realm with the Realm .NET SDK. 
 It then demonstrates adding Device Sync with Atlas App Services to your app. 
 Before you begin, ensure you have :ref:`Installed the .NET SDK <dotnet-install>`.
 
@@ -33,7 +33,7 @@ Define Your Object Model
 ------------------------
 
 Your application's :ref:`object model <dotnet-objects>` defines 
-the data that you can store within Realm Database and synchronize
+the data that you can store within Realm and synchronize
 to and from App Services.
 
 .. include:: /includes/dotnet-implement-interface.rst
@@ -52,7 +52,7 @@ Device Sync.
 Open a Local Realm
 ------------------
 
-In a local-only Realm Database, you open a realm with either the 
+In a local-only realm, you open a realm with either the 
 :dotnet-sdk:`Realm.GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` or
 :dotnet-sdk:`Realm.GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
 method. Which method you use depends entirely on if and how you are using `asynchronous 

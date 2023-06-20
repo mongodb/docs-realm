@@ -70,7 +70,7 @@ create a primary key with any of the following types (or their nullable counterp
 
 You may define a primary key on a **single property** for an 
 object type as part of the :ref:`object schema <dotnet-object-schema>`.
-Realm Database automatically indexes primary key properties, which
+Realm automatically indexes primary key properties, which
 allows you to efficiently read and modify objects based on their primary
 key. 
 
@@ -98,7 +98,7 @@ The following example demonstrates how to designate a primary key in an object s
 Indexes
 ~~~~~~~
 
-**Indexes** significantly improve query times in a Realm database. Without 
+**Indexes** significantly improve query times in a Realm. Without 
 indexes, Realm scans every document in a collection to select the documents 
 that match the given query. However, if an applicable index exists for a query, 
 Realm uses the index to limit the number of documents that it must inspect.
@@ -200,7 +200,7 @@ Ignore a property from a Realm object model with the
 Rename a Property
 ~~~~~~~~~~~~~~~~~
 
-By default, Realm Database uses the name defined in the model class
+By default, Realm uses the name defined in the model class
 to represent properties internally. In some cases you might want to change
 this behavior:
 
@@ -224,13 +224,13 @@ attribute to rename a property:
 Rename a Class
 ~~~~~~~~~~~~~~
 
-By default, Realm Database uses the name defined in the model class
+By default, Realm uses the name defined in the model class
 to represent classes internally. In some cases you might want to change
 this behavior:
 
 - To support multiple model classes with the same simple name in different namespaces.
 - To make it easier to work across platforms, since naming conventions differ.
-- To use a class name that is longer than the 57 character limit enforced by Realm Database.
+- To use a class name that is longer than the 57 character limit enforced by Realm.
 - To change a class name in .NET without forcing a migration.
 
 Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`

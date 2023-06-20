@@ -1,9 +1,11 @@
-  "items.@avg.priority > 5"
+var priorityNum = 5;
 
-  "items.@max.priority < 5"
+  "items.@avg.priority > $0", priorityNum
 
-  "items.@min.priority > 5"
+  "items.@max.priority < $0", priorityNum
 
-  "items.@count > 5"
+  "items.@min.priority > $0", priorityNum
 
-  "items.@sum.progressMinutes > 100"
+  "items.@count > $0", 5
+
+  "items.@sum.progressMinutes > $0", 100
