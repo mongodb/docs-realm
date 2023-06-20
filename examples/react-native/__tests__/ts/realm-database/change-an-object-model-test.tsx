@@ -120,11 +120,11 @@ describe('Change an Object Model Tests', () => {
     render(<App />);
 
     // Wait for `RestOfApp` to render and change higher order values.
-await waitFor(() => {
-  // This test assumes only one object model exists.
-  expect(higherOrderSchema).toHaveProperty('properties.age');
-  expect(higherOrderSchemaVersion).toBe(2);
-});
+    await waitFor(() => {
+      // This test assumes only one object model exists.
+      expect(higherOrderSchema).toHaveProperty('properties.age');
+      expect(higherOrderSchemaVersion).toBe(2);
+    });
   });
 
   test('delete a property from a schema', async () => {
@@ -296,7 +296,7 @@ await waitFor(() => {
       static schema = {
         name: 'Person',
         properties: {
-          // update the data type of '_id' to be 'objectId' within the schema
+          // Update the data type of '_id' to be 'objectId' within the schema.
           _id: 'objectId',
           firstName: 'string',
           lastName: 'string',
@@ -304,34 +304,27 @@ await waitFor(() => {
       };
     }
 
-    class OldObjectModel extends Realm.Object<OldObjectModel> {
-      _id!: string;
-      firstName!: string;
-      lastName!: string;
-      age!: number;
-
-      static schema = {
-        name: 'Person',
-        properties: {
-          _id: 'string',
-          firstName: 'string',
-          lastName: 'string',
-        },
-      };
+    // `OldObjectModel` is only used for type injection for `oldRealm`. It is
+    // not related to the `Person` object model.
+    interface OldObjectModel {
+      _id: Realm.BSON.ObjectId;
+      firstName: string;
+      lastName: string;
+      age: number;
     }
 
     const config: Realm.Configuration = {
       schema: [Person],
-      // increment the 'schemaVersion', since the property type of '_id'
-      // has been modified
+      // Increment the 'schemaVersion', since the property type of '_id'
+      // has been modified.
       schemaVersion: 5,
       onMigration: (oldRealm: Realm, newRealm: Realm) => {
         if (oldRealm.schemaVersion < 5) {
           const oldObjects: Realm.Results<OldObjectModel> =
-            oldRealm.objects(OldObjectModel);
+            oldRealm.objects(Person);
           const newObjects: Realm.Results<Person> = newRealm.objects(Person);
-          // loop through all objects and set the _id property
-          // in the new schema
+          // Loop through all objects and set the _id property
+          // in the new schema.
           for (const objectIndex in oldObjects) {
             const oldObject = oldObjects[objectIndex];
             const newObject = newObjects[objectIndex];
@@ -342,7 +335,7 @@ await waitFor(() => {
     };
 
     // Pass the configuration object with the updated
-    // 'schemaVersion' and 'migration' function to createRealmContext()
+    // 'schemaVersion' and 'migration' function to createRealmContext().
     const {RealmProvider, useRealm} = createRealmContext(config);
     // :snippet-end:
 
