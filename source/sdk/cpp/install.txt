@@ -136,6 +136,23 @@ Make the Realm C++ SDK available in your code by including the
 .. literalinclude:: /examples/generated/cpp/open-realm.snippet.includes.cpp
    :language: cpp
 
+.. _cpp-beta-experimental-usage:
+
+Experimental Beta Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Realm C++ SDK Beta provides some features in a ``realm::experimental``
+namespace. When working with these experimental beta features, you must
+import the experimental header.
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.import-experimental-header.cpp
+    :language: cpp
+
+And you can access features in the experimental namespace:
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.experimental-namespace.cpp
+    :language: cpp
+
 .. _cpp-build-android-app:
 
 Build an Android App

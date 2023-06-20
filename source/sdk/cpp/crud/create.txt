@@ -61,8 +61,21 @@ To add an object to a realm, instantiate it as you would any other
 object. Then pass it to the :cpp-sdk:`Realm.add() function
 <structrealm_1_1db.html>` inside of a write transaction.
 
-.. literalinclude:: /examples/generated/cpp/crud.snippet.create-an-object.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.create-an-object.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-create-an-object.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 Model
 `````
@@ -70,8 +83,21 @@ Model
 For more information about modeling an object, refer to: 
 :ref:`cpp-define-a-new-object-type`.
 
-.. literalinclude:: /examples/generated/cpp/crud.snippet.single-object-model.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.single-object-model.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-single-object-model.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-create-an-embedded-object:
 
@@ -83,8 +109,21 @@ to a parent object's property. Pass the parent object to the
 :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` inside of a 
 write transaction.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-embedded-object.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-embedded-object.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-create-embedded-object.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 This adds both the parent object and the embedded object to the realm. 
 The embedded object does not have its own lifecycle independent of the parent
@@ -96,8 +135,21 @@ Model
 For more information about modeling an embedded object, refer to: 
 :ref:`cpp-embedded-object`.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-embedded-object.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-create-an-object-with-to-one-relationship:
 
@@ -109,8 +161,21 @@ assign an instance of the linked object to the related object's property.
 Pass the main object to the :cpp-sdk:`Realm.add() function
 <structrealm_1_1db.html>` inside of a write transaction.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-object-with-to-one-relationship.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-object-with-to-one-relationship.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-create-to-one-relationship.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 This adds both the main object and the linked object to the realm, and 
 creates a one-way connection from the main object to the linked object.
@@ -128,8 +193,21 @@ Model
 For more information about modeling a to-one relationship, refer to: 
 :ref:`cpp-define-a-to-one-relationship-property`.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-to-one-relationship.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-create-an-object-with-to-many-relationship:
 
@@ -146,8 +224,21 @@ To create an object with a to-many relationship link to one or more objects:
 - Pass the main object to the to the :cpp-sdk:`Realm.add() function
   <structrealm_1_1db.html>` inside of a write transaction.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-object-with-to-many-relationship.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-object-with-to-many-relationship.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-create-to-many-relationship.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 This adds the main object and the linked objects to the realm, and creates 
 a one-way connection from the main object to the linked objects. 
@@ -165,11 +256,27 @@ Model
 For more information about modeling a to-many relationship, refer to: 
 :ref:`cpp-define-a-to-many-relationship-property`.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
-    :language: cpp
+.. tabs::
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
-    :language: cpp
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
+         :language: cpp
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-employee-model.cpp
+         :language: cpp
+
+      .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-to-many-relationship.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-create-object-map-property:
 
@@ -183,8 +290,21 @@ keys in a few ways:
 - Set keys and values on the object and then add the object to the realm
 - Set the object's keys and values directly inside a write transaction
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-map-object.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.create-map-object.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-create-map-object.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 Model
 `````
@@ -192,8 +312,21 @@ Model
 For more information about supported map data types, refer to: 
 :ref:`cpp-map`.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-map-property.cpp
-    :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-map-property.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-map-property.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-create-asymmetric-object:
 
@@ -206,8 +339,21 @@ You can create an :cpp-sdk:`asymmetric_object
 database linked to your Atlas App Services App. You cannot access an
 ``asymmetric_object`` locally, remove it from a realm, or query for it.
 
-.. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-create-asymmetric-object.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 For more information about working with asymmetric objects, refer to
 :ref:`cpp-stream-data-to-atlas`.
@@ -218,5 +364,18 @@ Model
 For more information about defining an asymmetric object, refer to: 
 :ref:`cpp-define-asymmetric-object`.
 
-.. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
+         :language: cpp
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-asymmetric-object.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst

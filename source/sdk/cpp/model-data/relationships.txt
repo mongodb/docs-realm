@@ -83,9 +83,23 @@ Realm does not delete the referenced object, though, unless it is
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
-   :language: cpp
-   :emphasize-lines: 15
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 15
+   
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-to-one-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 13
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-define-a-to-many-relationship-property:
 
@@ -96,6 +110,20 @@ A **to-many** relationship maps one property to zero or more instances
 of another object type. For example, you can model a company having any
 number of employees as a to-many relationship.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
-   :language: cpp
-   :emphasize-lines: 7
+.. tabs::
+
+   .. tab:: Alpha
+      :tabid: alpha
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 7
+
+   .. tab:: Beta
+      :tabid: beta
+
+      .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-to-many-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 7
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
