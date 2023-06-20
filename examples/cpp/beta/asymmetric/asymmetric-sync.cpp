@@ -23,10 +23,11 @@ REALM_ASYMMETRIC_SCHEMA(Beta_WeatherSensorReading, _id, deviceId, temperatureInF
 // :snippet-end:
 
 TEST_CASE("Beta asymmetric object example", "[write][sync]") {
-    // :snippet-start: beta-open-synced-realm
+    // :snippet-start: beta-connect-and-authenticate
     auto app = realm::App(APP_ID);
-    // Ensure anonymous authentication is enabled in the App Services App
     auto user = app.login(realm::App::credentials::anonymous()).get();
+    // :snippet-end:
+    // :snippet-start: beta-open-synced-realm
     auto syncConfig = user.flexible_sync_configuration();
     auto realm = db(syncConfig);
     // :snippet-end:
