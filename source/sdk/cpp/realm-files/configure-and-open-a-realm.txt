@@ -1,9 +1,9 @@
 .. _cpp-configure-and-open-a-realm:
 .. _cpp-realms:
 
-=========================================
-Configure & Open a Realm - C++ SDK (Beta)
-=========================================
+==========================================
+Configure & Open a Realm - C++ SDK Preview
+==========================================
 
 .. contents:: On this page
    :local:
@@ -97,8 +97,8 @@ in the current directory.
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       When opening a realm, you must specify which models are available by passing 
       the models into the template parameter list of the ``realm::open()`` function.
@@ -106,11 +106,11 @@ in the current directory.
       .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
          :language: cpp
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
       When opening a realm using the ``realm::experimental`` namespace, the 
-      C++ SDK Beta can automatically infer which models are available in the
+      C++ SDK Preview can automatically infer which models are available in the
       project. You don't need to manually specify the available models.
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm.cpp
@@ -120,7 +120,7 @@ in the current directory.
 
 .. tip:: Building an Android App
 
-   When building an Android app that uses the Realm C++ SDK Beta, 
+   When building an Android app that uses the Realm C++ SDK Preview, 
    you must pass the ``filesDir.path`` to the ``path`` parameter in the 
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
@@ -135,14 +135,14 @@ to the realm open template.
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-realm-at-path.cpp
          :language: cpp
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm-at-path.cpp
          :language: cpp
@@ -151,7 +151,7 @@ to the realm open template.
 
 .. tip:: Building an Android App
 
-   When building an Android app that uses the Realm C++ SDK Beta, 
+   When building an Android app that uses the Realm C++ SDK Preview, 
    you must pass the ``filesDir.path`` as the ``path`` parameter in the
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
@@ -174,8 +174,8 @@ To open a synced realm:
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       To open a synced realm, pass the models you want the realm to manage into the 
       template parameter list of the :cpp-sdk:`async_open 
@@ -185,8 +185,8 @@ To open a synced realm:
       .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-a-synced-realm.cpp
          :language: cpp
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
       .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-open-synced-realm.cpp
          :language: cpp
@@ -195,7 +195,7 @@ To open a synced realm:
 
 .. tip:: Building an Android App
 
-   When building an Android app that uses the Realm C++ SDK Beta, 
+   When building an Android app that uses the Realm C++ SDK Preview, 
    you must pass the ``filesDir.path`` to the ``path`` parameter in the 
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.

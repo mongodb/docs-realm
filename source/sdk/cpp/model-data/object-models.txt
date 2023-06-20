@@ -1,8 +1,8 @@
 .. _cpp-object-models:
 
-==============================
-Object Models - C++ SDK (Beta)
-==============================
+===============================
+Object Models - C++ SDK Preview
+===============================
 
 .. contents:: On this page
    :local:
@@ -87,8 +87,8 @@ Define a New Object Type
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       You can define your models as classes or structs that inherit from 
       :cpp-sdk:`realm::object <structrealm_1_1object.html>`. The Realm C++ SDK
@@ -111,10 +111,10 @@ Define a New Object Type
 
       .. include:: /includes/note-class-char-limit.rst
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
-      In the C++ SDK Beta, you can define your models or classes as regular 
+      In the C++ SDK Preview, you can define your models or classes as regular 
       C++ structs. Using the ``realm::experimental`` namespace, provide a
       ``REALM_SCHEMA`` with the struct name and the names of any properties 
       that you want Realm to persist. When you add the object to a realm, 
@@ -164,8 +164,8 @@ Additionally, a required ``realm::enum`` property can be a primary key, but
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       Set a property as a primary key by passing ``true`` to the second template parameter of the ``persisted`` template:
 
@@ -173,8 +173,8 @@ Additionally, a required ``realm::enum`` property can be a primary key, but
          :language: cpp
          :emphasize-lines: 2
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
       Set a property as a primary key with the ``primary_key`` template:
 
@@ -193,8 +193,8 @@ Your model may include properties that Realm Database does not store.
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       Realm ignores any members not declared as ``realm::persisted`` and not declared 
       in the schema.
@@ -203,8 +203,8 @@ Your model may include properties that Realm Database does not store.
          :language: cpp
          :emphasize-lines: 7
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
       Realm ignores any properties not included in the ``REALM_SCHEMA``.
 
@@ -240,16 +240,16 @@ related objects have independent lifecycles.
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       To declare an object as an embedded object, inherit from 
       :cpp-sdk:`realm::embedded_object <structrealm_1_1embedded__object.html>`.
 
       .. include:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp.rst
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
       Using the ``realm::experimental`` namespace, provide a
       ``REALM_EMBEDDED_SCHEMA`` with the struct name and the names of 
@@ -294,8 +294,8 @@ For more information, see: :ref:`Create an Asymmetric Object
 
 .. tabs::
 
-   .. tab:: Alpha
-      :tabid: alpha
+   .. tab:: Current
+      :tabid: current
 
       Define an asymmetric object by inheriting from 
       :cpp-sdk:`realm::asymmetric_object <structrealm_1_1asymmetric__object.html>`.
@@ -303,10 +303,10 @@ For more information, see: :ref:`Create an Asymmetric Object
       .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
          :language: cpp
 
-   .. tab:: Beta
-      :tabid: beta
+   .. tab:: Experimental
+      :tabid: experimental
 
-      In the C++ SDK Beta, define an asymmetric object the same way you would 
+      In the C++ SDK Preview, define an asymmetric object the same way you would 
       a regular C++ struct. Using the ``realm::experimental`` namespace, 
       provide a ``REALM_ASYMMETRIC_SCHEMA`` with the struct name and the 
       names of any properties that you want Realm to persist.
