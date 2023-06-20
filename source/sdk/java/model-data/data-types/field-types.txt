@@ -11,7 +11,7 @@ Field Types - Java SDK
    :depth: 2
    :class: singlecol
 
-Realm Database supports the following field data types:
+Realm supports the following field data types:
 
 - ``Boolean`` or ``boolean``
 - ``Integer`` or ``int``
@@ -33,7 +33,7 @@ Realm Database supports the following field data types:
 
 The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
 lowercase primitive alternatives are all stored as ``Long`` values
-within Realm Database. Similarly, Realm Database stores objects
+within Realm. Similarly, Realm stores objects
 of the ``Float`` and ``float`` types as type ``Double``.
 
 Realm does not support fields with modifiers ``final`` and
@@ -44,7 +44,7 @@ constructors, you must declare a public constructor with no arguments.
 Updating Strings and Byte Arrays
 --------------------------------
 
-Since Realm Database operates on fields as a whole, it's not possible
+Since Realm operates on fields as a whole, it's not possible
 to directly update individual elements of strings or byte arrays. Instead,
 you'll need to read the whole field, make your modification to individual
 elements, and then write the entire field back again in a transaction block.

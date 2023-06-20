@@ -55,7 +55,7 @@ opening an additional instance requires fewer resources:
 - If the realm is already open on the same thread within the same
   process, opening the realm requires minimal additional resources.
 
-When you open a realm for the first time, Realm Database
+When you open a realm for the first time, Realm
 performs the memory-mapping and schema validation required to read and
 write data to the realm. Additional instances of that
 realm on the same thread use the same underlying resources.
@@ -63,9 +63,9 @@ Instances of that realm on separate threads use some of the same
 underlying resources.
 
 When all connections to a realm are closed in
-a thread, Realm Database frees the thread resources used to
+a thread, Realm frees the thread resources used to
 connect to that realm. When all connections to a realm are
-closed in a process, Realm Database frees all resources used to
+closed in a process, Realm frees all resources used to
 connect to that realm.
 
 As a best practice, we recommend tying the realm instance
@@ -115,7 +115,7 @@ that derive from :java-sdk:`RealmObject <io/realm/RealmObject.html>` to the
 realm schema.
 
 Client applications provide a Realm Schema when they open a
-realm. If a realm already contains data, then Realm Database
+realm. If a realm already contains data, then Realm
 validates each existing object to ensure that an object schema was
 provided for its type and that it meets all of the constraints specified
 in the schema.
@@ -181,15 +181,15 @@ For more information, refer to :ref:`java-open-a-synced-realm`.
 Find Your Realm File
 --------------------
 
-Realm Database stores a binary encoded version of every object
+Realm stores a binary encoded version of every object
 and type in a realm in a single ``.realm`` file.
 
 .. include:: /includes/find-realm-file-java.rst
 
 .. seealso:: Auxiliary Realm Files
    
-   Realm Database creates additional files for each realm.
-   To learn more about these files, see :ref:`Realm Database Internals
+   Realm creates additional files for each realm.
+   To learn more about these files, see :ref:`Realm Internals
    <java-realm-database>`.
 
 .. _java-realm-file-size:
@@ -197,7 +197,7 @@ and type in a realm in a single ``.realm`` file.
 Realm File Size
 ---------------
 
-Realm Database usually takes up less space on disk than an
+Realm usually takes up less space on disk than an
 equivalent SQLite database. However, in order to give you a consistent
 view of your data, Realm operates on multiple versions of a
 realm. If many versions of a realm are opened simultaneously,
@@ -210,9 +210,9 @@ overhead as a small number of large transactions.
 Unexpected file size growth usually happens for one of three reasons:
 
 1) *You open a realm on a background thread and forget to close it
-   again.* As a result, Realm Database retains a reference to the
+   again.* As a result, Realm retains a reference to the
    older version of data on the background thread. Because
-   Realm Database automatically updates realms to the most
+   Realm automatically updates realms to the most
    recent version on threads with loopers, the UI thread and other
    Looper threads do not have this problem.
 
@@ -225,7 +225,7 @@ Unexpected file size growth usually happens for one of three reasons:
 
 3) *You read some data from a realm. Then, you block the thread with
    a long-running operation. Meanwhile, you write many times to the
-   realm on other threads.* This causes Realm Database to
+   realm on other threads.* This causes Realm to
    create many intermediate versions. You can avoid this by:
 
    - batching the writes
@@ -245,9 +245,9 @@ when building your ``RealmConfiguration`` to throw an
 a realm than the permitted number. Versions are created when
 executing a write transaction.
 
-Realm Database automatically removes older versions of data once
+Realm automatically removes older versions of data once
 they are no longer used by your application. However,
-Realm Database does not free the space used by older versions of
+Realm does not free the space used by older versions of
 data; instead, that space is used for new writes to the realm.
 
 .. _java-compact-a-realm:
@@ -275,7 +275,7 @@ You can remove unused space by **compacting** the realm file:
 Backup and Restore Realms
 -------------------------
 
-Realm Database persists realms to disk using files on your
+Realm persists realms to disk using files on your
 Android device. To back up a realm, :ref:`find your realm file
 <java-realm-file>` and copy it to a safe location. You should close
 all instances of the realm before copying it.

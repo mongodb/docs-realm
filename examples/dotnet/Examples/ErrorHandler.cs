@@ -15,7 +15,7 @@ namespace Examples
         App app;
         User user;
         PartitionSyncConfiguration config;
-        string myRealmAppId = Config.appid;
+        string myRealmAppId = Config.AppId;
 
         [Test]
         public async Task HandleErrors()
@@ -75,7 +75,7 @@ namespace Examples
         public async Task UseCancellationToken()
         {
 
-            var appConfig = new AppConfiguration(Config.fsAppId);
+            var appConfig = new AppConfiguration(Config.FSAppId);
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
 

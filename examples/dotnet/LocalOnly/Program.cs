@@ -47,7 +47,7 @@ namespace LocalOnly
 
             realm.Write(() =>
             {
-                davidsStrat.Price = 1700345.56;
+                davidsStrat!.Price = 1700345.56;
             });
             //:snippet-end:
 

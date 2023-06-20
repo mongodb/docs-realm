@@ -47,7 +47,7 @@ annotation:
   :language: kotlin
   :emphasize-lines: 2-3
 
-Realm Database treats fields marked with the ``@PrimaryKey`` annotation
+Realm treats fields marked with the ``@PrimaryKey`` annotation
 as primary keys for their corresponding :ref:`object schema <kotlin-object-schema>`. 
 The primary key is a unique identifier for an object in a realm.
 No other objects of the same type may share an object's primary key.
@@ -86,7 +86,7 @@ Map a Property or Class to a Different Name
 
 .. versionadded:: 10.8.0 Remap class names with @PersistedName
 
-By default, Realm Database uses the name defined in the model class
+By default, Realm uses the name defined in the model class
 to represent classes and fields internally. 
 In some cases, you might want to change this behavior:
 
@@ -95,10 +95,10 @@ In some cases, you might want to change this behavior:
   while your project uses camel case.
 - To change a class or field name in Kotlin without forcing a :ref:`migration <kotlin-migrations>`.
 - To support multiple model classes with the same simple name in different packages.
-- To use a class name that is longer than the 57-character limit enforced by Realm Database.
+- To use a class name that is longer than the 57-character limit enforced by Realm.
 
 To map a class or property name in your code to a different name to store in
-Realm Database, use the `@PersistedName <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-persisted-name/index.html>`__
+a realm, use the `@PersistedName <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-persisted-name/index.html>`__
 annotation in the :ref:`object schema <kotlin-object-schema>`. Specify 
 a class or property ``name`` that you want persisted to the realm. 
 If you write to a synced realm, the Sync schema sees the values stored using the
@@ -114,7 +114,7 @@ and any schema errors reported also use the persisted name.
 
       In this example, ``Cat`` is the Kotlin class name used in the code 
       throughout the project to perform CRUD operations, and ``Feline`` is the
-      persisted name to used to store objects in Realm Database:
+      persisted name to used to store objects in a realm:
 
       .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.class-persisted-name.kt
         :language: kotlin
@@ -129,14 +129,14 @@ and any schema errors reported also use the persisted name.
 
       In this example, ``species`` is the Kotlin property name used in the code 
       throughout the project to perform CRUD operations and ``latin_name`` is the 
-      persisted name used to store values in Realm Database:
+      persisted name used to store values in a realm:
 
       .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.declare-properties.kt
         :language: kotlin
         :emphasize-lines: 15-16
 
       You can query by both the Kotlin name used in the code
-      and by the persisted name stored in Realm Database.
+      and by the persisted name stored in a realm.
 
 .. _kotlin-ignore:
 
@@ -152,7 +152,7 @@ By default, Realm manages properties defined in your Realm object model.
  
 You can mix managed and ignored properties within a class. 
 
-To ignore a property and prevent it from persisting in Realm Database or being included
+To ignore a property and prevent it from persisting in a realm or being included
 in the ``RealmObject`` :ref:`object schema <kotlin-object-schema>`, use the 
 `@Ignore <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-ignore/index.html>`__
 annotation:
@@ -167,7 +167,7 @@ Index Properties
 ----------------
 
 Indexes speed up some queries at the cost of slightly slower write times and
-additional storage and memory overhead. Realm Database stores indexes on disk,
+additional storage and memory overhead. Realm stores indexes on disk,
 which makes your realm files larger. Each index entry is
 a minimum of 12 bytes.
 
@@ -183,8 +183,8 @@ annotation in the :ref:`object schema <kotlin-object-schema>`:
 
    :ref:`Primary keys <kotlin-primary-keys>` are indexed by default.
 
-Indexes support the efficient execution of queries in Realm Database.
-Without indexes, Realm Database must perform a *collection scan*, i.e.
+Indexes support the efficient execution of queries in a realm.
+Without indexes, Realm must perform a *collection scan*, i.e.
 scan every document in a collection, to select those documents that
 match a query. If an appropriate index exists for a query, Realm
 Database can use the index to limit the number of documents that it
@@ -206,3 +206,40 @@ You can index fields with the following types:
 - ``RealmInstant``
 - ``ObjectId``
 - ``RealmUUID``
+
+.. _kotlin-fts-index:
+
+Full-Text Search Indexes
+------------------------
+
+In addition to standard indexes, Realm also supports Full-Text Search 
+(FTS) indexes on ``string`` properties. While you can query a string 
+field with or without a standard index, an FTS index enables searching 
+for multiple words and phrases and excluding others.
+
+For more information on querying full-text indexes, see 
+:ref:`Filter with Full Text Search <kotlin-filter-fts>`.
+
+To create a FTS index on a property, use the :kotlin-sdk:`@FullText
+<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
+/-full-text/index.html>` annotation. This enables full-text queries
+on the property. In the following example, we mark the ``genre`` 
+property with the FTS annotation:
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.kotlin-fts-property.kt
+  :language: kotlin
+  :emphasize-lines: 7-8
+
+You cannot combine :kotlin-sdk:`@Index 
+<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
+/-index/index.html>` and :kotlin-sdk:`@FullText
+<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
+/-full-text/index.html>` on the same property.
+
+.. note:: Character Limitations for Full-Text Search Indexes
+
+  For Full-Text Search (FTS) indexes, only ASCII and Latin-1 alphanumerical 
+  chars are included in the index (most western languages). See the :kotlin-sdk:`@FullText 
+  <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations/
+  -full-text/index.html>` for more information on current FTS index constraints.
+

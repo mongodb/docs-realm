@@ -51,7 +51,7 @@ A given realm only processes one write transaction at a time. When you
 make a write transaction, the realm adds the transaction to a queue. The 
 realm evaluates each transaction in the order it arrived.
 
-After processing a transaction, Realm Database either **commits** it or
+After processing a transaction, Realm either **commits** it or
 **cancels** it:
 
 - After a **commit**, the realm applies all operations in the transaction. 
@@ -65,6 +65,6 @@ After processing a transaction, Realm Database either **commits** it or
      the changes to send to Atlas App Services. The SDK sends 
      these changes when a network is available.
 
-- Realm Database does not apply any operations in a **cancelled**
-  transaction. Realm Database cancels a transaction if an operation 
+- Realm does not apply any operations in a **cancelled**
+  transaction. Realm cancels a transaction if an operation 
   fails or is invalid.

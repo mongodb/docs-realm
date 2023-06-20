@@ -10,7 +10,7 @@ realm.Write(() =>
 // convert the Plant Set to an IQueryable and apply a filter
 var pricklyPear = inventory.PlantSet.AsRealmQueryable()
     .Where(p => p.Name == "Prickly Pear");
-// Alternatively, apply a filter directly on the Plant Set 
+// Alternatively, apply a filter directly on the Plant Set
 var pricklyPearPlants = inventory.PlantSet
     .Filter("Name == 'Prickly Pear'");
 

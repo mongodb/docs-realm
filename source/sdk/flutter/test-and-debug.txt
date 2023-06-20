@@ -50,7 +50,7 @@ Flutter app.
 Test Using an In-Memory Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An easy way to use and test Realm Database-backed applications is to test
+An easy way to use and test Realm-backed applications is to test
 using an in-memory realm. This helps avoid overriding application data or leaking state
 between tests. Note that you **cannot** use an in-memory realm to test Device Sync.
 To create an in-memory realm for your tests, you can do the following:
@@ -66,7 +66,7 @@ To create an in-memory realm for your tests, you can do the following:
 Test Using a Default Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Another way to use and test Realm Database-backed applications is to
+Another way to use and test Realm-backed applications is to
 use the default realm. To avoid overriding application data or leaking
 state between tests, set the default realm to a new file for each test
 using :ref:`Configuration.defaultRealmName <flutter-customize-default-configuration>`
@@ -75,8 +75,8 @@ inside of a `setUp function <https://api.flutter.dev/flutter/flutter_test/setUp.
 .. literalinclude:: /examples/generated/flutter/default_realm_test.snippet.default-realm-test.dart
    :language: dart
 
-Clean up Realm Database in Tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Clean up Realm in Tests
+~~~~~~~~~~~~~~~~~~~~~~~
 
 To clean up your tests, you can lazily instantiate the realm with the
 ``late`` keyword at a higher scope than your tests. Then run clean up
@@ -118,7 +118,7 @@ create a separate App Services App with the same configuration as your productio
 and connect to it from your test file. To learn more about how to make a copy of the App,
 refer to :ref:`Copy an App <copy-realm-app>` in the App Services documentation.
 
-Testing synced realms builds on the Clean up Realm Database in Tests and
+Testing synced realms builds on the Clean up Realm in Tests and
 Test App Services sections above.
 
 To test a synced Realm, you can lazily instantiate the ``App`` and

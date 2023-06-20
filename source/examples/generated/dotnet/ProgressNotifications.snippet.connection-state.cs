@@ -8,7 +8,7 @@ public void SetupRealm()
     {
         var realm = Realm.GetInstance(config);
         var session = realm.SyncSession;
-        session.PropertyChanged += SyncSessionPropertyChanged;
+        session.PropertyChanged += SyncSessionPropertyChanged!;
         realm.Dispose();
     }
     catch (Exception ex)

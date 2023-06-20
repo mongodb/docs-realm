@@ -39,7 +39,7 @@ Register a Realm Change Listener
 --------------------------------
 
 You can register a notification handler on an entire realm.
-Realm Database calls the notification handler whenever any write
+Realm calls the notification handler whenever any write
 transaction involving that realm is committed. The
 handler receives no information about the change.
 
@@ -120,8 +120,8 @@ for as long as you need the notifications.
    modifications. Handling insertions before deletions may
    result in unexpected behavior.
 
-Realm Database emits an initial notification after retrieving the
-collection. After that, Realm Database delivers collection
+Realm emits an initial notification after retrieving the
+collection. After that, Realm delivers collection
 notifications asynchronously whenever a write transaction
 adds, changes, or removes objects in the collection.
 
@@ -159,7 +159,7 @@ Register an Object Change Listener
 ----------------------------------
 
 You can register a notification handler on a specific object
-within a realm. Realm Database notifies your handler:
+within a realm. Realm notifies your handler:
 
 - When the object is deleted.
 - When any of the object's properties change.

@@ -80,7 +80,7 @@ Ignore Properties from Realm Schema
 If you add the `Ignored <https://pub.dev/documentation/realm_common/latest/realm_common/Ignored-class.html>`__
 annotation to a property in your ``RealmModel``, the :ref:`realm object generator
 <flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema
-or persist it to Realm Database.
+or persist it to Realm.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
@@ -95,7 +95,7 @@ Add the `Indexed
 <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
 annotation to create an index on the field. Indexes can greatly speed up some
 queries at the cost of slightly slower write times and additional storage and
-memory overhead. Realm Database stores indexes on disk, which makes your realm
+memory overhead. Realm stores indexes on disk, which makes your realm
 files larger. Each index entry is a minimum of 12 bytes. Indexes can be nullable.
 
 The following data types can be indexed:

@@ -67,7 +67,6 @@ which includes description of changes since the last notification.
      - *List<int>*
      -  Indexes in the previous version of the collection which have been removed from this one.
 
-
    * - ``newModified``
      - *List<int>*
      - Indexes of modified objects after deletions and insertions are accounted for.
@@ -79,6 +78,11 @@ which includes description of changes since the last notification.
    * - ``results``
      - *RealmResults<T as RealmObject>*
      - Results collection being monitored for changes.
+
+   * - ``isCleared``
+     - *bool*
+     - Deprecated in Realm Flutter SDK v1.1.0. Use ``RealmResultsChanges.results.isEmpty`` instead.
+       Returns ``true`` if the results collection is empty in the notification callback.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
    :language: dart

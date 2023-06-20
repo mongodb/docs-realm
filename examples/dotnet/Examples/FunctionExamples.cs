@@ -12,15 +12,14 @@ namespace Examples
         App app;
         User user;
         PartitionSyncConfiguration config;
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.AppId;
 
         [OneTimeSetUp]
         public async Task Setup()
         {
 
             app = App.Create(myRealmAppId);
-            user = await app.LogInAsync(
-                Credentials.EmailPassword("foo@foo.com", "foobar"));
+            user = await app.LogInAsync(Config.EPCreds);
             config = new PartitionSyncConfiguration("myPart", user);
             config.Schema = new[]
             {
@@ -66,7 +65,6 @@ namespace Examples
         public ObjectId Id { get; set; }
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         public MyClass()

@@ -120,7 +120,7 @@ generic properties.
 
 .. tip::
 
-   For reference on which types Realm Database supports for use as
+   For reference on which types Realm supports for use as
    properties, see :ref:`ios-supported-property-types`.
 
 .. tabs::
@@ -159,7 +159,7 @@ generic properties.
       To declare properties of generic types ``LinkingObjects``,
       ``List``, and ``RealmProperty``, use ``let``. Generic properties
       cannot be represented in the Objective‑C runtime, which
-      Realm Database uses for dynamic dispatch of dynamic
+      Realm uses for dynamic dispatch of dynamic
       properties.
 
 .. note::
@@ -231,7 +231,7 @@ Primary keys are subject to the following limitations:
 - You can define only one primary key per object model.
 
 - Primary key values must be unique across all instances of an object
-  in a realm. Realm Database throws an error if you try to
+  in a realm. Realm throws an error if you try to
   insert a duplicate primary key value.
 
 - Primary key values are immutable. To change the primary key value of

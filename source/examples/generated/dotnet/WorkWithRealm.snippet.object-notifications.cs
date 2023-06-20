@@ -3,7 +3,7 @@
 
     artist.PropertyChanged += (sender, eventArgs) =>
     {
-        var changedProperty = eventArgs.PropertyName;
+        var changedProperty = eventArgs.PropertyName!;
 
         Debug.WriteLine(
             $@"New value set for 'artist':

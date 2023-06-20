@@ -14,7 +14,7 @@ namespace Examples
         App app;
         Realms.Sync.User user;
         Realm realm;
-        const string myRealmAppId = Config.fsAppId;
+        const string myRealmAppId = Config.FSAppId;
 
         [OneTimeSetUp]
         public void Setup()

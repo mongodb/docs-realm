@@ -54,7 +54,7 @@ Before exploring Realm's tools for multithreaded apps, you need to
 understand and follow these three rules:
 
 Don't lock to read:
-  Realm Database's :ref:`Multiversion Concurrency Control (MVCC) <ios-mvcc>`
+  Realm's :ref:`Multiversion Concurrency Control (MVCC) <ios-mvcc>`
   architecture eliminates the need to lock for read operations. The values you
   read will never be corrupted or in a partially-modified state. You can freely
   read from the same Realm file on any thread without the need for locks or
@@ -74,7 +74,7 @@ Don't pass live objects, collections, or realms to other threads:
   **thread-confined**: that is, they are only valid on the
   thread on which they were created. Practically speaking,
   this means you cannot pass live instances to other
-  threads. However, Realm Database offers several mechanisms for
+  threads. However, Realm offers several mechanisms for
   :ref:`sharing objects across threads
   <ios-communication-across-threads>`.
 
@@ -181,10 +181,10 @@ To access the same Realm file from different threads, you must instantiate a
 realm instance on every thread that needs access. As long as you specify the same
 configuration, all realm instances will map to the same file on disk.
 
-One of the key rules when working with Realm Database in a multithreaded
+One of the key rules when working with Realm in a multithreaded
 environment is that objects are thread-confined: **you cannot access the
 instances of a realm, collection, or object that originated on other threads.**
-Realm Database's :ref:`Multiversion Concurrency Control (MVCC) <ios-mvcc>`
+Realm's :ref:`Multiversion Concurrency Control (MVCC) <ios-mvcc>`
 architecture means that there could be many active versions of an object at any
 time. Thread-confinement ensures that all instances in that thread are of the
 same internal version.
@@ -195,7 +195,7 @@ on your use case:
 - To modify an object on two threads, :ref:`query <ios-client-query-engine>`
   for the object on both threads.
 
-- To react to changes made on any thread, use Realm Database's
+- To react to changes made on any thread, use Realm's
   :ref:`notifications <ios-react-to-changes>`.
 
 - To see changes that happened on another thread in the current thread's realm
@@ -216,7 +216,7 @@ on your use case:
 Create a Serial Queue to use Realm on a Background Thread
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using Realm on a background thread, create a serial queue. Realm Database
+When using Realm on a background thread, create a serial queue. Realm
 does not support using realms in concurrent queues, such as the ``global()``
 queue.
 
@@ -388,7 +388,7 @@ However, some apps -- those based on reactive, event
 stream-based architectures, for example -- need to send
 immutable copies around to many threads for processing
 before ultimately ending up on the UI thread. Making a deep
-copy every time would be expensive, and Realm Database does not allow
+copy every time would be expensive, and Realm does not allow
 live instances to be shared across threads. In this case,
 you can **freeze** and **thaw** objects, collections, and realms.
 
@@ -504,7 +504,7 @@ instead of blocking the UI.
 Realm's Threading Model in Depth
 --------------------------------
 
-Realm Database provides safe, fast, lock-free, and concurrent access
+Realm provides safe, fast, lock-free, and concurrent access
 across threads with its :wikipedia:`Multiversion Concurrency
 Control (MVCC) <Multiversion_concurrency_control>`
 architecture.
@@ -520,15 +520,15 @@ elements of Git are:
 - Commits, which are atomic writes.
 - Branches, which are different versions of the commit history.
 
-Similarly, Realm Database has atomically-committed writes in the form
-of :ref:`transactions <ios-write-transactions>`. Realm Database also has many
+Similarly, Realm has atomically-committed writes in the form
+of :ref:`transactions <ios-write-transactions>`. Realm also has many
 different versions of the history at any given time, like
 branches.
 
 Unlike Git, which actively supports distribution and
 divergence through forking, a realm only has one true latest
 version at any given time and always writes to the head of
-that latest version. Realm Database cannot write to a previous
+that latest version. Realm cannot write to a previous
 version. This means your data converges on one
 latest version of the truth.
 
@@ -541,15 +541,15 @@ version of the realm; child nodes are objects in that
 version of the realm. The realm has a pointer to its latest
 version, much like how Git has a pointer to its HEAD commit.
 
-Realm Database uses a copy-on-write technique to ensure
+Realm uses a copy-on-write technique to ensure
 :wikipedia:`isolation <Isolation_(database_systems)>` and
 :wikipedia:`durability <Durability_(database_systems)>`.
-When you make changes, Realm Database copies the relevant part of the
-tree for writing. Realm Database then commits the changes in two
+When you make changes, Realm copies the relevant part of the
+tree for writing. Realm then commits the changes in two
 phases:
 
-- Realm Database writes changes to disk and verifies success.
-- Realm Database then sets its latest version pointer to point to the newly-written version.
+- Realm writes changes to disk and verifies success.
+- Realm then sets its latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
 write failed partway, the original version is not corrupted
@@ -560,7 +560,7 @@ version is guaranteed to be valid.
 
 .. include:: /includes/commit-process-diagram.rst
 
-Realm Database uses zero-copy techniques
+Realm uses zero-copy techniques
 like memory mapping to handle data. When you read a value
 from the realm, you are virtually looking at the value on
 the actual disk, not a copy of it. This is the basis for
@@ -591,11 +591,11 @@ Summary
   **freeze** objects, collections, and realms in order to pass
   shallow copies around efficiently to different threads for processing.
 
-- Realm Database's multiversion concurrency control (MVCC)
-  architecture is similar to Git's. Unlike Git, Realm Database has
+- Realm's multiversion concurrency control (MVCC)
+  architecture is similar to Git's. Unlike Git, Realm has
   only one true latest version for each realm.
 
-- Realm Database commits in two stages to guarantee isolation and durability.
+- Realm commits in two stages to guarantee isolation and durability.
 
 .. _threading-page-sendable-thread-confined-reference:
 
