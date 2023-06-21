@@ -1,1 +1,1 @@
-auto deleteResult = user.call_function("deleteCustomUserData", {}).get_future().get();
+auto deleteResult = user.call_function("deleteCustomUserData", {}).get();

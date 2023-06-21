@@ -142,7 +142,13 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
     }).get();
     // :snippet-end:
     CHECK(updateSubscriptionSuccess == true);
-    
+    // We don't actually need this here - we use it up above
+    // in the Bluehawk remove block, but adding it to show
+    // a relevant Bluehawked example in the docs
+    // :snippet-start: beta-wait-for-download
+    syncSession->wait_for_download_completion().get();
+    realm.refresh();
+    // :snippet-end:
     // :snippet-start: beta-write-to-synced-realm
     auto todo = Beta_Sync_Todo {
         .name = "Create a Sync todo item",
@@ -161,8 +167,10 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
     realm.write([&] {
         realm.remove(specificTodo);
     });
-
+    
+    // :snippet-start: beta-wait-for-upload
     syncSession->wait_for_upload_completion().get();
+    // :snippet-end:
 }
 
 // :replace-end:

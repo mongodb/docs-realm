@@ -54,13 +54,13 @@ TEST_CASE("Beta asymmetric object example", "[write][sync]") {
     SECTION("Test asymmetric object has persisted") {
         // Check that the asymmetric data got inserted
         // Because we don't have MongoClient, we have to use a function
-        auto getAsymmetricDataResult = user.call_function("getAsymmetricSyncDataBeta", realm::bson::BsonArray({realm::bson::BsonDocument{{"_id", oid.to_string()}}})).get_future().get();
+        auto getAsymmetricDataResult = user.call_function("getAsymmetricSyncDataBeta", realm::bson::BsonArray({realm::bson::BsonDocument{{"_id", oid.to_string()}}})).get();
         CHECK(getAsymmetricDataResult);
         auto asymmetricDataBsonArray = realm::bson::BsonArray (*getAsymmetricDataResult);
         CHECK(asymmetricDataBsonArray.size() == 1);
         CHECK(realm::bson::BsonDocument(asymmetricDataBsonArray[0])["_id"].operator realm::ObjectId().to_string() == oid.to_string());
         // Delete the asymmetric data to clean up after the test
-        auto deleteAsymmetricDataResult = user.call_function("deleteAsymmetricSyncDataBeta", realm::bson::BsonArray({realm::bson::BsonDocument{{"_id", oid.to_string()}}})).get_future().get();
+        auto deleteAsymmetricDataResult = user.call_function("deleteAsymmetricSyncDataBeta", realm::bson::BsonArray({realm::bson::BsonDocument{{"_id", oid.to_string()}}})).get();
         CHECK(deleteAsymmetricDataResult);
     }
 }

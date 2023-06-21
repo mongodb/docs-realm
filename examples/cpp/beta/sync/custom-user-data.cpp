@@ -15,13 +15,13 @@ TEST_CASE("custom user data", "[realm][sync]")
     auto customDataBson = realm::bson::BsonDocument({{"userId", user.identifier()}, {"favoriteColor", "gold"}});
 
     // Call an Atlas Function to insert custom data for the user
-    auto result = user.call_function("updateCustomUserData", { customDataBson }).get_future().get();
+    auto result = user.call_function("updateCustomUserData", { customDataBson }).get();
     // :snippet-end:
     CHECK(result);
 
     // :snippet-start: read
     // Custom user data could be stale, so refresh it before reading it
-    user.refresh_custom_user_data().get_future().get();
+    user.refresh_custom_user_data().get();
     CHECK((*user.custom_data())["favoriteColor"] == "gold");
     // :snippet-end:
 
@@ -30,14 +30,14 @@ TEST_CASE("custom user data", "[realm][sync]")
     auto updatedDataBson = realm::bson::BsonDocument({{"userId", user.identifier()}, { "favoriteColor", "black" }});
 
     // Call an Atlas Function to update custom data for the user
-    auto updateResult = user.call_function("updateCustomUserData", { updatedDataBson }).get_future().get();
+    auto updateResult = user.call_function("updateCustomUserData", { updatedDataBson }).get();
 
     // Refresh the custom user data before reading it to verify it succeeded
-    user.refresh_custom_user_data().get_future().get();
+    user.refresh_custom_user_data().get();
     CHECK((*user.custom_data())["favoriteColor"] == "black");
     // :snippet-end:
     // :snippet-start: delete
-    auto deleteResult = user.call_function("deleteCustomUserData", {}).get_future().get();
+    auto deleteResult = user.call_function("deleteCustomUserData", {}).get();
     // :snippet-end:
     CHECK(deleteResult);
 }

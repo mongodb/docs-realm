@@ -36,7 +36,7 @@ TEST_CASE("create and log in an email/password user", "[realm][sync]") {
     REQUIRE(!user.access_token().empty());
     
     // :snippet-start: log-user-out
-    user.log_out().get_future().get();
+    user.log_out().get();
     // :snippet-end:
     REQUIRE(user.access_token().empty());
 }
@@ -49,7 +49,7 @@ TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
     auto user = app.login(realm::App::credentials::anonymous()).get();
     // :snippet-end:
     REQUIRE(!user.access_token().empty());
-    user.log_out().get_future().get();
+    user.log_out().get();
     REQUIRE(user.access_token().empty());
 }
 
@@ -65,7 +65,7 @@ TEST_CASE("test custom function authentication", "[realm][sync]") {
     auto user = app.login(realm::App::credentials::function(params)).get();
     // :snippet-end:
     REQUIRE(!user.access_token().empty());
-    user.log_out().get_future().get();
+    user.log_out().get();
     REQUIRE(user.access_token().empty());
 }
 
@@ -76,13 +76,13 @@ TEST_CASE("test get user access token", "[realm][sync]") {
     auto user = app.login(realm::App::credentials::anonymous()).get();
     // :snippet-start: get-user-access-token
     // With a logged-in user, refresh the custom user data to refresh the auth session
-    user.refresh_custom_user_data().get_future().get();
+    user.refresh_custom_user_data().get();
 
     // Then get the user's access token
     auto userAccessToken = user.access_token();
     // :snippet-end:
     REQUIRE(!userAccessToken.empty());
-    user.log_out().get_future().get();
+    user.log_out().get();
     REQUIRE(user.access_token().empty());
 }
 
