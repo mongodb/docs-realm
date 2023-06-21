@@ -9,6 +9,6 @@ REALM_EMBEDDED_SCHEMA(ContactDetails, emailAddress, phoneNumber)
 struct Business {
     realm::object_id _id;
     std::string name;
-    realm::experimental::link<ContactDetails> contactDetails;
+    ContactDetails* contactDetails;
 };
 REALM_SCHEMA(Business, _id, name, contactDetails)

@@ -23,7 +23,7 @@ REALM_SCHEMA(Beta_Item, name, isComplete, assignee, priority, progressMinutes)
 
 struct Beta_Project {
     std::string name;
-    std::vector<realm::experimental::link<Beta_Item>> items;
+    std::vector<Beta_Item*> items;
 };
 REALM_SCHEMA(Beta_Project, name, items)
 // :snippet-end:
@@ -51,7 +51,7 @@ TEST_CASE("set up tests", "[write]") {
         .name = "New project"
     };
 
-    project.items.push_back(item1);
+    project.items.push_back(&item1);
 
     realm.write([&] {
         realm.add(std::move(project));

@@ -9,6 +9,6 @@ REALM_SCHEMA(Item, name, isComplete, assignee, priority, progressMinutes)
 
 struct Project {
     std::string name;
-    std::vector<realm::experimental::link<Item>> items;
+    std::vector<Item*> items;
 };
 REALM_SCHEMA(Project, name, items)

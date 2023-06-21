@@ -42,6 +42,35 @@ inside of a write transaction.
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
+.. _cpp-delete-inverse-relationship:
+
+Delete an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can't delete an inverse relationship directly. Instead, an 
+inverse relationship automatically updates by removing the relationship 
+through the related object.
+
+In this example, a ``Person`` has a to-one relationship to a ``Dog``,
+and the ``Dog`` has an inverse relationship to ``Person``.
+Setting the ``Person.dog`` relationship to ``nullptr`` removes the inverse
+relationship from the ``Dog`` object. 
+
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-delete-inverse-relationship.cpp
+   :language: cpp
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+Model
+`````
+
+This example uses the following model:
+
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-define-inverse-relationship.cpp
+   :language: cpp
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst
+
 .. _cpp-delete-map:
 
 Delete Map Keys/Values

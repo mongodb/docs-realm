@@ -9,6 +9,6 @@ struct Person {
     std::string name;
     int64_t age;
     
-    realm::experimental::link<Dog> dog;
+    Dog* dog;
 };
 REALM_SCHEMA(Person, _id, name, age, dog)

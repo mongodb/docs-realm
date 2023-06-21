@@ -21,8 +21,8 @@ auto company = Company {
 // Use the `push_back` member function available to the
 // `ListObjectPersistable<T>` template to append `Employee` objects to
 // the `Company` `employees` list property.
-company.employees.push_back(employee1);
-company.employees.push_back(employee2);
+company.employees.push_back(&employee1);
+company.employees.push_back(&employee2);
 
 realmInstance.write([&] {
     realmInstance.add(std::move(company));

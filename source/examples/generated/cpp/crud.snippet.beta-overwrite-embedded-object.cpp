@@ -10,5 +10,5 @@ realm.write([&] {
         .phoneNumber = "234-567-8901"
     };
     // Overwrite the embedded object
-    theMongoDB.contactDetails = std::move(newContactDetails);
+    theMongoDB.contactDetails = &newContactDetails;
 });
