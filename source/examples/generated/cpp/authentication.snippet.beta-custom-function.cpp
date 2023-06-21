@@ -4,4 +4,4 @@ realm::bson::BsonDocument params = {{ "username", "bob" }};
 
 auto app = realm::App(APP_ID);
 
-auto user = app.login(realm::App::credentials::function(params)).get_future().get();
+auto user = app.login(realm::App::credentials::function(params)).get();

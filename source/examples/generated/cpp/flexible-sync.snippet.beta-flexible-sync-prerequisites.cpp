@@ -2,5 +2,4 @@
 auto app = realm::App(APP_ID);
 auto user = app.login(realm::App::credentials::anonymous()).get();
 auto syncConfig = user.flexible_sync_configuration();
-auto syncedRealmRef = realm::async_open<Dog>(syncConfig).get_future().get();
-auto syncedRealm = syncedRealmRef.resolve();
+auto syncedRealm = realm::experimental::db(syncConfig);

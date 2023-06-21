@@ -1,6 +1,6 @@
 // Connect to an App Services App and authenticate a user
 auto app = realm::App(APP_ID);
-auto user = app.login(realm::App::credentials::anonymous()).get_future().get();
+auto user = app.login(realm::App::credentials::anonymous()).get();
 auto sync_config = user.flexible_sync_configuration();
 
 // If a function takes arguments, pass them as BSON

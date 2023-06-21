@@ -31,8 +31,29 @@ To use Flexible Sync in your app, you must:
 
 The setup code for the examples on this page handles these prerequisites:
 
-.. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.flexible-sync-prerequisites.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Current
+      :tabid: current
+
+      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.flexible-sync-prerequisites.cpp
+         :language: cpp
+
+      Additionally, models used with Sync must contain an identifier property 
+      named ``_id``.
+
+   .. tab:: Experimental
+      :tabid: experimental
+
+      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.beta-flexible-sync-prerequisites.cpp
+         :language: cpp
+
+      Additionally, when using the ``realm::experimental`` namespace, models
+      used with Sync must contain a primary key property named ``_id``.
+      For more information on defining a model with a primary key, refer to 
+      :ref:`cpp-primary-key`.
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-align-subscription-with-app:
 

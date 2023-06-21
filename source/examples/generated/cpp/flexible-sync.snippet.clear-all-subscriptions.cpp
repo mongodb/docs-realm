@@ -2,6 +2,6 @@
 // sync_subscription objects from the set 
 auto updateSubscriptionSuccess = syncedRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
     subs.clear();
-}).get_future().get();
+}).get();
 CHECK(updateSubscriptionSuccess == true);
 CHECK(syncedRealm.subscriptions().size() == 0);
