@@ -1,10 +1,10 @@
 struct Dog;
 struct Person {
-        primary_key<int64_t> _id;
-        std::string name;
-        int64_t age = 0;
-        Dog* dog;
-    };
+    primary_key<int64_t> _id;
+    std::string name;
+    int64_t age = 0;
+    Dog* dog;
+};
 REALM_SCHEMA(Person, _id, name, age, dog)
 struct Dog {
     primary_key<int64_t> _id;
