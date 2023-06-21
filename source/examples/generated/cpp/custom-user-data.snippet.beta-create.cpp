@@ -4,4 +4,4 @@ auto user = app.login(realm::App::credentials::anonymous()).get();
 auto customDataBson = realm::bson::BsonDocument({{"userId", user.identifier()}, {"favoriteColor", "gold"}});
 
 // Call an Atlas Function to insert custom data for the user
-auto result = user.call_function("updateCustomUserData", { customDataBson }).get_future().get();
+auto result = user.call_function("updateCustomUserData", { customDataBson }).get();
