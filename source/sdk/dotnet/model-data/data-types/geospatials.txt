@@ -1,0 +1,95 @@
+.. _dotnet-geospatials:
+
+================================
+Geospatial Data Types - .NET SDK
+================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Geospatial data, or "geodata", specifies points and geometric objects on the Earth's 
+surface. With the geodata types, you can create queries that are based on 
+geography. For example, you can find coffee shops within a specified circle or 
+region.
+
+Geospatial Data Types
+---------------------
+
+.. _geopoint:
+
+GeoPoint
+~~~~~~~~
+A :dotnet-sdk:`GeoPoint <reference/Realms.GeoPoint.html>` defines a specific 
+location on the Earth's surface. All of the geospatial data types use ``GeoPoints`` 
+to define their location. 
+
+.. note::
+   
+   In any case where you use a ``GeoPoint``, you can alternatively 
+   provide a tuple of doubles, where the first double is the latitude and the 
+   second double is the longitude. The SDK interprets these tuples as 
+   ``GeoPoints``. Examples on this page demonstrate both approaches.
+
+.. _geocircle:
+
+GeoCircle
+~~~~~~~~~
+A :dotnet-sdk:`GeoCircle <reference/Realms.GeoCircle.html>` defines a circle on 
+the Earth's surface. You define a ``GeoCircle`` by providing a ``GeoPoint`` 
+for the center of the circle and a :dotnet-sdk:`Distance <reference/Realms.Distance.html>` 
+object to specify the radius of the circle. 
+
+.. note::
+   
+   You can define a distance in kilometers, miles, degrees, or radians.
+
+The following code shows two examples of creating a circle:
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geocircle.cs
+   :language: csharp
+
+.. figure:: /images/geocircles.png
+   :alt: Two Geocricles
+
+.. _geopolygon:
+
+GeoPolygon
+~~~~~~~~~~
+A :dotnet-sdk:`GeoPolygon <reference/Realms.GeoPolygon.html>` defines a polygon 
+on the Earth's surface. Because a polygon is a closed shape, you must provide a 
+minimum of 4 points: 3 points to define the polygon's shape, and a fourth to 
+close the shape.
+
+.. important::
+
+   The fourth point in a polygon must be the same as the first point.
+
+You can also exclude areas within a polygon by defining one or more "holes". A 
+hole is another polygon whose bounds fit completely within the outer polygon. 
+The following example creates 3 polygons: one is a basic polygon with 5 points, 
+one is the same polygon with a single hole, and the third is the same polygon 
+with two holes:
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geopolygon.cs
+   :language: csharp
+
+.. figure:: /images/geopolygons.png
+   :alt: 3 Geopolygons
+
+.. _geobox:
+
+GeoBox
+~~~~~~
+A :dotnet-sdk:`GeoBox <reference/Realms.GeoBox.html>` defines a rectangle on  
+the Earth's surface. You define the rectangle by specifying the bottom left 
+(southwest) corner and the top right (northeast) corner. The following example 
+creates 2 boxes:
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geobox.cs
+   :language: csharp
+
+.. figure:: /images/geopolygons.png
+   :alt: 2 geoboxes

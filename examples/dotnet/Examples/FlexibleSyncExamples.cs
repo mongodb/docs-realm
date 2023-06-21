@@ -6,6 +6,7 @@ using System.Linq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using Realms.Exceptions.Sync;
+using Realms.Sync.Exceptions;
 
 namespace Examples
 {

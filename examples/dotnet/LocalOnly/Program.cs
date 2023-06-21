@@ -64,19 +64,19 @@ namespace LocalOnly
 
             // Watch for Guitar collection changes.
             var token = realm.All<Guitar>()
-                .SubscribeForNotifications((sender, changes, error) =>
+                .SubscribeForNotifications((sender, changes) =>
                 {
-                    foreach (var i in changes.DeletedIndices)
+                    foreach (var i in changes!.DeletedIndices)
                     {
                         // ... handle deletions ...
                     }
 
-                    foreach (var i in changes.InsertedIndices)
+                    foreach (var i in changes!.InsertedIndices)
                     {
                         // ... handle insertions ...
                     }
 
-                    foreach (var i in changes.NewModifiedIndices)
+                    foreach (var i in changes!.NewModifiedIndices)
                     {
                         // ... handle modifications ...
                     }
