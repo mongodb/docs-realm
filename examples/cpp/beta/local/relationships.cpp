@@ -32,11 +32,11 @@ REALM_SCHEMA(Beta_Relationship_Dog, _id, name, age, favoriteToy)
 // :snippet-start: beta-define-inverse-relationship
 struct Beta_Inverse_Dog;
 struct Beta_Inverse_Person {
-        primary_key<int64_t> _id;
-        std::string name;
-        int64_t age = 0;
-        Beta_Inverse_Dog* dog;
-    };
+    primary_key<int64_t> _id;
+    std::string name;
+    int64_t age = 0;
+    Beta_Inverse_Dog* dog;
+};
 REALM_SCHEMA(Beta_Inverse_Person, _id, name, age, dog)
 struct Beta_Inverse_Dog {
     primary_key<int64_t> _id;

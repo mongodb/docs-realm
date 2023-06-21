@@ -107,19 +107,22 @@ This example uses the following model:
 Overwrite an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To overwrite an embedded object, reassign the embedded object property
-to a new instance in a write transaction.
-
 .. tabs::
 
    .. tab:: Current
       :tabid: current
+
+      To overwrite an embedded object, reassign the embedded object property
+      to a new instance in a write transaction.
 
       .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.overwrite-embedded-object.cpp
          :language: cpp
 
    .. tab:: Experimental
       :tabid: experimental
+
+      To overwrite an embedded object, reassign the embedded object property
+      to the raw pointer of a new instance in a write transaction.
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-overwrite-embedded-object.cpp
          :language: cpp

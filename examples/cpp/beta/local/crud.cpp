@@ -45,8 +45,6 @@ struct Beta_Employee {
     // You can use this property as you would any other member
     // Omitting it from the schema means Realm ignores it
     std::string jobTitle_notPersisted;
-    
-    Beta_Dog* dog;
 };
 // The REALM_SCHEMA omits the `jobTitle_notPersisted` property
 // Realm does not store and cannot retrieve a value for this property
