@@ -87,16 +87,39 @@ Collection notifications provide a :cpp-sdk:`collection_change
 struct that reports the index of the objects that are removed, added, or 
 modified. It can also notify you if the collection was deleted.
 
-In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
+.. example::
 
-.. literalinclude:: /examples/generated/cpp/notifications.snippet.collection-model.cpp
-   :language: cpp
+   .. tabs::
 
-Removing a dog, adding a new dog, or modifying a dog triggers the notification
-handler:
+      .. tab:: Current
+         :tabid: current
 
-.. literalinclude:: /examples/generated/cpp/notifications.snippet.collection.cpp
-   :language: cpp
+         In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection-model.cpp
+            :language: cpp
+
+         Removing a dog, adding a new dog, or modifying a dog triggers the notification
+         handler:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection.cpp
+            :language: cpp
+
+      .. tab:: Experimental
+         :tabid: experimental
+
+         In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-collection-model.cpp
+            :language: cpp
+
+         Removing a dog, adding a new dog, or modifying a dog triggers the notification
+         handler:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-collection.cpp
+            :language: cpp
+
+         .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-register-a-results-collection-change-listener:
 

@@ -7,7 +7,7 @@ struct Employee {
     // Omitting it from the schema means Realm ignores it
     std::string jobTitle_notPersisted;
     
-    realm::experimental::link<Dog> dog;
+    Dog* dog;
 };
 // The REALM_SCHEMA omits the `jobTitle_notPersisted` property
 // Realm does not store and cannot retrieve a value for this property

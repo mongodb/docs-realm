@@ -4,6 +4,6 @@ struct Company {
     // To-many relationships are a list, represented here as a
     // vector container whose value type is the Realm object
     // type that the list field links to.
-    std::vector<realm::experimental::link<Employee>> employees;
+    std::vector<Employee*> employees;
 };
 REALM_SCHEMA(Company, _id, name, employees)

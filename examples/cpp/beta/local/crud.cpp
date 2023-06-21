@@ -30,7 +30,7 @@ struct Beta_Person {
     std::string name;
     int64_t age;
     
-    realm::experimental::link<Beta_Dog> dog;
+    Beta_Dog* dog;
 };
 REALM_SCHEMA(Beta_Person, _id, name, age, dog)
 // :snippet-end:
@@ -46,7 +46,7 @@ struct Beta_Employee {
     // Omitting it from the schema means Realm ignores it
     std::string jobTitle_notPersisted;
     
-    realm::experimental::link<Beta_Dog> dog;
+    Beta_Dog* dog;
 };
 // The REALM_SCHEMA omits the `jobTitle_notPersisted` property
 // Realm does not store and cannot retrieve a value for this property
@@ -65,7 +65,7 @@ REALM_EMBEDDED_SCHEMA(Beta_ContactDetails, emailAddress, phoneNumber)
 struct Beta_Business {
     realm::object_id _id;
     std::string name;
-    realm::experimental::link<Beta_ContactDetails> contactDetails;
+    Beta_ContactDetails* contactDetails;
 };
 REALM_SCHEMA(Beta_Business, _id, name, contactDetails)
 // :snippet-end:
@@ -105,7 +105,7 @@ TEST_CASE("Beta define model example", "[write]") {
         ._id = 123,
         .name = "Dachary",
         .age = 42,
-        .dog = dog
+        .dog = &dog
     };
     
     realm.write([&] {
@@ -192,14 +192,15 @@ TEST_CASE("Beta embedded object example", "[write]") {
     // the "public" example below for covenient testing later
     auto objectId = realm::object_id::generate();
     // :remove-end:
+    auto contactDetails = Beta_ContactDetails {
+        .emailAddress = "email@example.com",
+        .phoneNumber = "123-456-7890"
+    };
     auto business = Beta_Business();
     business._id = realm::object_id::generate();
     business._id = objectId; // :remove:
     business.name = "MongoDB";
-    business.contactDetails = Beta_ContactDetails {
-        .emailAddress = "email@example.com",
-        .phoneNumber = "123-456-7890"
-    };
+    business.contactDetails = &contactDetails;
     
     realm.write([&] {
         realm.add(std::move(business));
@@ -240,7 +241,7 @@ TEST_CASE("Beta embedded object example", "[write]") {
             .phoneNumber = "234-567-8901"
         };
         // Overwrite the embedded object
-        theMongoDB.contactDetails = std::move(newContactDetails);
+        theMongoDB.contactDetails = &newContactDetails;
     });
     // :snippet-end:
     

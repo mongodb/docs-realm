@@ -180,9 +180,9 @@ Pass the main object to the :cpp-sdk:`Realm.add() function
 This adds both the main object and the linked object to the realm, and 
 creates a one-way connection from the main object to the linked object.
 
-In other Realm SDKs, you can create an inverse link to refer to the main object
-from the linked object. However, inverse links are not yet supported in the 
-Realm C++ SDK.
+You can optionally create an inverse link to refer to the main object
+from the linked object. For more information, refer to: 
+:ref:`cpp-create-an-object-with-inverse-relationship`.
 
 The linked object has its own lifecycle independent of the main object. If 
 you delete the main object, the linked object remains.
@@ -243,9 +243,9 @@ To create an object with a to-many relationship link to one or more objects:
 This adds the main object and the linked objects to the realm, and creates 
 a one-way connection from the main object to the linked objects. 
 
-In other Realm SDKs, you can create an inverse link to refer to the main object
-from the linked objects. However, inverse links are not yet supported in the 
-Realm C++ SDK.
+You can optionally create an inverse link to refer to the main object
+from the linked object. For more information, refer to: 
+:ref:`cpp-create-an-object-with-inverse-relationship`.
 
 The linked objects have their own lifecycles independent of the main 
 object. If you delete the main object, the linked objects remain.
@@ -277,6 +277,35 @@ For more information about modeling a to-many relationship, refer to:
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+.. _cpp-create-an-object-with-inverse-relationship:
+
+Create an Object with an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create an object with a inverse relationship link to another object, 
+assign a reference to the linked object to the main object's link 
+property inside of a write transaction.
+
+In this example, we create two ``Person`` objects that each have a link to 
+the same ``Dog`` object. The ``Dog`` has an inverse relationship to the 
+``Person`` objects that is automatically updated when the ``Person`` object
+updates its ``Dog`` link.
+
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-create-inverse-relationship.cpp
+   :language: cpp
+
+Model
+`````
+
+For more information about modeling an inverse relationship, refer to: 
+:ref:`cpp-define-an-inverse-relationship-property`.
+
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-define-inverse-relationship.cpp
+   :language: cpp
+   :emphasize-lines: 14
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-create-object-map-property:
 

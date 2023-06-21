@@ -18,22 +18,21 @@ struct Beta_Notification_Dog {
 };
 REALM_SCHEMA(Beta_Notification_Dog, name, age)
 
-// TODO: Temporarily commenting these out as the team is still implementing support for `link`
-//struct Beta_Notification_Person {
-//    std::string _id;
-//    std::string name;
-//    int64_t age;
-//    std::optional<realm::experimental::link<Beta_Notification_Dog>> dog;
-//};
-//REALM_SCHEMA(Beta_Notification_Person, _id, name, age, dog)
+struct Beta_Notification_Person {
+    std::string _id;
+    std::string name;
+    int64_t age;
+    Beta_Notification_Dog* dog;
+};
+REALM_SCHEMA(Beta_Notification_Person, _id, name, age, dog)
 
-// TODO: Make this a Bluehawk snippet named `betacollection-model`
-//struct Beta_ToMany_Person {
-//    std::string name;
-//    std::vector<realm::experimental::link<Beta_Notification_Dog>> dogs;
-//};
-//REALM_SCHEMA(Beta_ToMany_Person, name, dogs)
-// TODO: Make this a Bluehawk snippet end
+// :snippet-start: beta-collection-model
+struct Beta_ToMany_Person {
+    std::string name;
+    std::vector<Beta_Notification_Dog*> dogs;
+};
+REALM_SCHEMA(Beta_ToMany_Person, name, dogs)
+// :snippet-end:
 
 TEST_CASE("object notification", "[notification]") {
     auto relative_realm_path_directory = "beta_notifications/";
@@ -97,8 +96,6 @@ TEST_CASE("object notification", "[notification]") {
     // :snippet-end:
 }
 
-// TODO: This example doesn't currently work as the team is still working on `link` implementation
-#if 0
 TEST_CASE("collection notification", "[notification]") {
     auto relative_realm_path_directory = "beta_notifications/";
     std::filesystem::create_directories(relative_realm_path_directory);
@@ -113,7 +110,7 @@ TEST_CASE("collection notification", "[notification]") {
     auto dog1 = Beta_Notification_Dog { .name = "Ben" };
     auto dog2 = Beta_Notification_Dog { .name = "Lita" };
 
-    setupPerson.dogs.push_back(dog1);
+    setupPerson.dogs.push_back(&dog1);
 
     // Create an object in the realm.
     realm.write([&] {
@@ -122,7 +119,7 @@ TEST_CASE("collection notification", "[notification]") {
 
     auto people = realm.objects<Beta_ToMany_Person>();
     auto person = people[0];
-    // TODO: Make this a bluehawk snippet annotation named `beta-collection` once this example works
+    // :snippet-start: beta-collection
     //  Set up the listener & observe a collection.
     auto token = person.dogs.observe([&](auto&& changes) {
         if (changes.collection_root_was_deleted) {
@@ -145,7 +142,7 @@ TEST_CASE("collection notification", "[notification]") {
     // deletions and insertions.
     realm.write([&] {
         person.dogs.clear();
-        person.dogs.push_back(dog2);
+        person.dogs.push_back(&dog2);
     });
 
     // Modify an object to see a modification.
@@ -158,7 +155,7 @@ TEST_CASE("collection notification", "[notification]") {
 
     // Unregister the token when done observing.
     token.unregister();
-    // TODO: Make this a Bluehawk snippet-end when adding back the example
+    // :snippet-end:
     // Clean up after the test
     auto dogs = realm.objects<Beta_Notification_Dog>();
     auto firstDog = dogs[0];
@@ -167,7 +164,7 @@ TEST_CASE("collection notification", "[notification]") {
         realm.remove(person);
     });
 }
-#endif
+
 
 TEST_CASE("results notification", "[notification]") {
     auto relative_realm_path_directory = "beta_notifications/";

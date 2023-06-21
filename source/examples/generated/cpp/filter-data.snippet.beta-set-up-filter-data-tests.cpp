@@ -13,7 +13,7 @@ auto project = Project {
     .name = "New project"
 };
 
-project.items.push_back(item1);
+project.items.push_back(&item1);
 
 realm.write([&] {
     realm.add(std::move(project));
