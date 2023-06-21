@@ -1,6 +1,8 @@
-var basicPolygon = new GeoPolygon((48, -122.8), (48.2, -121.8),
-    (47.6, -121.6), (47.0, -122.0), (47.2, -122.6), (48, -122.8));
+var basicPolygon = new GeoPolygon((48, -122.8),
+    (48.2, -121.8), (47.6, -121.6), (47.0, -122.0),
+    (47.2, -122.6), (48, -122.8));
 
+// Create a polygon with a single hole
 var outerRing = new GeoPoint[] {
     (48, -122.8), (48.2, -121.8),
     (47.6, -121.6), (47.0, -122.0), (47.2, -122.6),
@@ -13,16 +15,19 @@ var hole1 = new GeoPoint[] {
 
 var polygonWithOneHole = new GeoPolygon(outerRing, hole1);
 
+// Add a second hole to the polygon
 var hole2 = new GeoPoint[] {
     (47.55, -122.05), (47.5, -121.9),(47.3, -122.1),
     (47.55, -122.05) };
 
-var polygonWithTwoHoles = new GeoPolygon(outerRing, hole1, hole2);
+var polygonWithTwoHoles =
+    new GeoPolygon(outerRing, hole1, hole2);
 
-// System.ArgumentException: not enough points defined:
+// System.ArgumentException: not enough points defined
 // var notEnoughPointsPolygon = new GeoPolygon((20, 20),
 //    (10, 20), (0, 20));
 
-// System.ArgumentException the first and the last points do not match:
-// var closingPointDoesNotMatchPolygon = new GeoPolygon((20, 20),
-//    (10, 20), (0, 20), (10, 10));
+// System.ArgumentException the first and the last points
+// do not match
+// var closingPointDoesNotMatchPolygon =
+//    new GeoPolygon((20, 20), (10, 20), (0, 20), (10, 10));

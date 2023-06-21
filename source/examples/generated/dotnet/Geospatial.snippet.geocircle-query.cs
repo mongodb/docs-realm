@@ -1,4 +1,3 @@
-
 var companiesInCircle = realm.All<Company>()
     .Where(c => QueryMethods.GeoWithin(c.Location, circle1));
 

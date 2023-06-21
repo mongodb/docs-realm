@@ -21,14 +21,12 @@ namespace Examples
             app = App.Create(Config.FSAppId);
             realm = Realm.GetInstance();
             // :snippet-start: geopoint
-            var company1 = new Company(47.68, -122.35);
-            var company2 = new Company(47.9, -121.85);
-            // :snippet-end:
-            realm.Write(() =>
+            realm.WriteAsync(() =>
             {
-                realm.Add(company1);
-                realm.Add(company2);
+                realm.Add(new Company(47.68, -122.35));
+                realm.Add(new Company(47.9, -121.85));
             });
+            // :snippet-end:
         }
 
         [Test]
@@ -37,14 +35,17 @@ namespace Examples
             // :snippet-start: geocircle
             var circle1 = new GeoCircle((47.8, -122.6),
                 Distance.FromKilometers(44.4));
-            var circle2 = new GeoCircle(new GeoPoint(latitude: 47.3, longitude: -121.9),
+            var circle2 = new GeoCircle(
+                new GeoPoint(latitude: 47.3, longitude: -121.9),
                 Distance.FromDegrees(0.25));
             // :snippet-end:
 
             // :snippet-start: geopolygon
-            var basicPolygon = new GeoPolygon((48, -122.8), (48.2, -121.8),
-                (47.6, -121.6), (47.0, -122.0), (47.2, -122.6), (48, -122.8));
+            var basicPolygon = new GeoPolygon((48, -122.8),
+                (48.2, -121.8), (47.6, -121.6), (47.0, -122.0),
+                (47.2, -122.6), (48, -122.8));
 
+            // Create a polygon with a single hole
             var outerRing = new GeoPoint[] {
                 (48, -122.8), (48.2, -121.8),
                 (47.6, -121.6), (47.0, -122.0), (47.2, -122.6),
@@ -57,19 +58,22 @@ namespace Examples
 
             var polygonWithOneHole = new GeoPolygon(outerRing, hole1);
 
+            // Add a second hole to the polygon
             var hole2 = new GeoPoint[] {
                 (47.55, -122.05), (47.5, -121.9),(47.3, -122.1),
                 (47.55, -122.05) };
 
-            var polygonWithTwoHoles = new GeoPolygon(outerRing, hole1, hole2);
+            var polygonWithTwoHoles =
+                new GeoPolygon(outerRing, hole1, hole2);
 
-            // System.ArgumentException: not enough points defined:
+            // System.ArgumentException: not enough points defined
             // var notEnoughPointsPolygon = new GeoPolygon((20, 20),
             //    (10, 20), (0, 20));
 
-            // System.ArgumentException the first and the last points do not match:
-            // var closingPointDoesNotMatchPolygon = new GeoPolygon((20, 20),
-            //    (10, 20), (0, 20), (10, 10));
+            // System.ArgumentException the first and the last points
+            // do not match
+            // var closingPointDoesNotMatchPolygon =
+            //    new GeoPolygon((20, 20), (10, 20), (0, 20), (10, 10));
             // :snippet-end:
 
             // :snippet-start: geobox
@@ -84,14 +88,14 @@ namespace Examples
 
             // :snippet-start: geopolygon-query
             var companiesInBasicPolygon = realm.All<Company>()
-                .Where(c => QueryMethods.GeoWithin(c.Location, basicPolygon));
+                .Where(c => QueryMethods
+                   .GeoWithin(c.Location, basicPolygon));
 
             var companiesInPolygon = realm.All<Company>()
                 .Filter("Location geoWithin $0", polygonWithTwoHoles);
             //:snippet-end:
 
             // :snippet-start: geocircle-query
-
             var companiesInCircle = realm.All<Company>()
                 .Where(c => QueryMethods.GeoWithin(c.Location, circle1));
 
