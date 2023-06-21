@@ -11,9 +11,9 @@ Geospatial Data Types - .NET SDK
    :class: singlecol
 
 Geospatial data, or "geodata", specifies points and geometric objects on the Earth's 
-surface. With the geodata types, you can create queries that are based on 
-geography. For example, you can find coffee shops within a specified circle or 
-region.
+surface. With the geodata types, you can create queries that check whether a given  
+point is contained within a shape. For example, you can find all coffee shops within 
+15 km of a specified point.
 
 Geospatial Data Types
 ---------------------
@@ -32,6 +32,11 @@ to define their location.
    provide a tuple of doubles, where the first double is the latitude and the 
    second double is the longitude. The SDK interprets these tuples as 
    ``GeoPoints``. Examples on this page demonstrate both approaches.
+
+.. important::
+
+   A realm object cannot have a property of type ``GeoPoint``. To persist 
+   GeoPoint data, see :ref:`<persist-geopoint>`.
 
 .. _geocircle:
 
@@ -77,7 +82,7 @@ with two holes:
    :language: csharp
 
 .. figure:: /images/geopolygons.png
-   :alt: 3 Geopolygons
+   :alt: 3 GeoPolygons
 
 .. _geobox:
 
@@ -91,5 +96,70 @@ creates 2 boxes:
 .. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geobox.cs
    :language: csharp
 
-.. figure:: /images/geopolygons.png
-   :alt: 2 geoboxes
+.. figure:: /images/geoboxes.png
+   :alt: 2 GeoBoxes
+.. _persist-geopoint:
+
+Persisting GeoPoint Data
+------------------------
+Geospatial objects are used for geography-based **queries**.
+
+If you want to persist ``GeoPoint`` data, you must create your own custom realm object 
+that inherits from :dotnet-sdk:`IEmbeddedObject <reference/Realms.IEmbeddedObject.html>`.
+An embedded GeoPoint class must have a minimum of two fields:
+
+- A field of type ``IList<double>`` that maps to a "coordinates" (case sensitive) 
+  property in the realm schema. 
+
+- A string field that maps to a "type" property.
+
+The following example shows an example of a custom class used to persist GeoPoint 
+data:
+
+.. literalinclude:: /examples/generated/dotnet/CustomGeoPoint.snippet.customgeopoint.cs
+   :language: csharp
+
+You then use the custom GeoPoint class in your realm model, as shown in the 
+following example:
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.usingcustomgeopoint.cs
+   :language: csharp
+
+You then add instances of your class to realm just like any other Realm model:
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geopoint.cs
+   :language: csharp
+
+.. figure:: /images/geopoints.png
+   :alt: 2 GeoPoints
+
+Querying Geospatial Data
+------------------------
+To query against geospatial data, you can use the ``geoWithin`` operator within 
+:ref:`RQL <dotnet-realm-query-language>` or you can use the 
+:dotnet-sdk:`GeoWithin <reference/Realms.QueryMethods.html#Realms_QueryMethods_GeoWithin_Realms_IEmbeddedObject_Realms_GeoShapeBase_>`
+method. The ``GeoWithin`` method takes a :ref:`GeoPoint <geopoint>` and any of 
+the geospatial shapes to check if the point is contained within the shape. The 
+following examples show querying against various shapes to return a list of 
+companies within the shape. The examples show using both RQL and the ``GeoWithin`` 
+method.
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geopolygon-query.cs
+   :language: csharp
+
+.. figure:: /images/geopolygon-query.png
+   :alt: Querying a GeoPolygon example.
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geocircle-query.cs
+   :language: csharp
+
+.. figure:: /images/geocircles-query.png
+   :alt: Querying a GeoCircle example.
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geobox-query.cs
+   :language: csharp
+
+.. figure:: /images/geoboxes-query.png
+   :alt: Querying a GeoBox example.
+
+

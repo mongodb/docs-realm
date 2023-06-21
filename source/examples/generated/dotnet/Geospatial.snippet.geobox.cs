@@ -1,4 +1,3 @@
-// Construct a box from bottom left and top right corners
 var box1 = new GeoBox(bottomLeftCorner: (47.3, -122.7),
     topRightCorner: (48.1, -122.1));
 
