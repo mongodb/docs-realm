@@ -73,7 +73,7 @@ Create an Object
       :tabid: experimental
 
       To create an object, instantiate it as you would any other
-      object. Copy the object into the realm using ``std::move`` with the 
+      object. Move the object into the realm using the
       :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
       inside of a write transaction.
 
@@ -130,8 +130,8 @@ Create an Embedded Object
       :tabid: experimental
 
       To create an embedded object, assign the raw pointer of the embedded 
-      object to a parent object's property. Copy the parent object into the 
-      realm using ``std::move`` with the :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
+      object to a parent object's property. Move the parent object into 
+      the realm using the :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
       inside of a write transaction.
 
       In this example, we assign the raw pointer of the embedded object - 
@@ -202,8 +202,8 @@ Create an Object with a To-One Relationship
 
       To create an object with a to-one relationship link to another object, 
       assign the raw pointer of the related object to the relationship 
-      property of the main object. Copy the object into the realm using 
-      ``std::move`` with the :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
+      property of the main object. Move the object into the realm using 
+      the :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
       inside of a write transaction.
 
       In this example, we assign the raw pointer of the related object - 
@@ -286,8 +286,8 @@ Create an Object with a To-Many Relationship
         member function available to the Realm object lists
         to append the raw pointers of the linked objects to the main object's 
         list property
-      - Copy the main object into the realm using 
-        ``std::move`` with the :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
+      - Move the object into the realm using the 
+        :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
         inside of a write transaction.
 
       In this example, we append the raw pointers of the related objects - 
@@ -348,8 +348,8 @@ Create an Object with an Inverse Relationship
 
 To create an object with a inverse relationship link to another object, 
 assign the raw pointer of the linked object to the relationship 
-property of the main object. Copy the object into the realm using 
-``std::move`` with the :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
+property of the main object. Move the object into the realm using the 
+:cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
 inside of a write transaction.
 
 In this example, we create two ``Person`` objects that each have a link to 
