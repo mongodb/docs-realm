@@ -86,7 +86,7 @@ To query these properties, use the ``TEXT`` predicate in your query.
 
 Exclude results for a word by placing the ``-`` character in front of the word. 
 For example, a search for ``-sheep wool`` would include all search results for 
-``wool`` excluding those including ``sheep``.
+``wool`` excluding those with ``sheep``.
 
 In the following example, we query on the ``Rug.pattern`` and ``Rug.material``
 fields:
@@ -106,8 +106,8 @@ Full-Text Search (FTS) indexes support:
 - Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages).
 - All other characters are considered whitespace. Words split by a hyphen (-) like full-text are split into two tokens.
 
-For more information on features of the FTS index, see the API reference for the 
-:flutter-sdk:`indexType <realm_common/Indexed-class.html>` annotation.
+For more information on features of the FTS index, see the API reference for 
+:flutter-sdk:`indexType <realm_common/Indexed-class.html>`.
 
 .. _flutter-sort-results:
 
