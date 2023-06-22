@@ -2,7 +2,7 @@
 .. _cpp-filter-data:
 
 =============================
-Filter Data - C++ SDK (Alpha)
+Filter Data - C++ SDK Preview
 =============================
 
 .. contents:: On this page
@@ -15,7 +15,7 @@ Overview
 --------
 
 To filter data in your realm, you can leverage
-Realm Database's query engine. 
+Realm's query engine. 
 
 .. note::
 
@@ -39,13 +39,39 @@ A ``Project`` has a name and a to-many relationship to zero or more ``Items``.
 
 The schemas for ``Project`` and ``Item`` are:
 
-.. literalinclude:: /examples/generated/cpp/filter-data.snippet.models.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Current
+      :tabid: current
+
+      .. literalinclude:: /examples/generated/cpp/filter-data.snippet.models.cpp
+         :language: cpp
+
+   .. tab:: Experimental
+      :tabid: experimental
+
+      .. literalinclude:: /examples/generated/cpp/filter-data.snippet.beta-models.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 You can set up the realm for these examples with the following code:
 
-.. literalinclude:: /examples/generated/cpp/filter-data.snippet.set-up-filter-data-tests.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Current
+      :tabid: current
+
+      .. literalinclude:: /examples/generated/cpp/filter-data.snippet.set-up-filter-data-tests.cpp
+         :language: cpp
+
+   .. tab:: Experimental
+      :tabid: experimental
+
+      .. literalinclude:: /examples/generated/cpp/filter-data.snippet.beta-set-up-filter-data-tests.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. note:: Sort Functionality for the C++ SDK
 

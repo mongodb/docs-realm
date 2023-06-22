@@ -1,8 +1,8 @@
 .. _cpp-install:
 
-=======================
-Install Realm - C++ SDK
-=======================
+===============================
+Install Realm - C++ SDK Preview
+===============================
 
 .. contents:: On this page
    :local:
@@ -131,12 +131,29 @@ Make the Realm C++ SDK available in your code by including the
 .. literalinclude:: /examples/generated/cpp/open-realm.snippet.includes.cpp
    :language: cpp
 
+.. _cpp-beta-experimental-usage:
+
+Experimental Preview Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Realm C++ SDK Preview provides some features in a ``realm::experimental``
+namespace. When working with these experimental features, you must
+import the experimental header.
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.import-experimental-header.cpp
+    :language: cpp
+
+And you can access features in the experimental namespace:
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.experimental-namespace.cpp
+    :language: cpp
+
 .. _cpp-build-android-app:
 
 Build an Android App
 --------------------
 
-The Realm C++ SDK Alpha supports building Android apps. To build an Android
+The Realm C++ SDK Preview supports building Android apps. To build an Android
 app:
 
 - Add ``<uses-permission android:name="android.permission.INTERNET" />`` to your ``AndroidManifest.xml``
@@ -159,7 +176,7 @@ app:
 - When instantiating the Realm or the Realm App, you must pass the ``filesDir.path`` as the ``path`` 
   parameter in the respective constructor or realm open template. 
 
-For an example of how to use the Realm C++ SDK Alpha in an Android app, refer to
+For an example of how to use the Realm C++ SDK Preview in an Android app, refer to
 the :github:`Android RealmExample App <realm/realm-cpp/tree/main/examples/Android>`
 in the ``realm-cpp`` GitHub repository.
 

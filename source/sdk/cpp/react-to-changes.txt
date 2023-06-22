@@ -1,7 +1,7 @@
 .. _cpp-react-to-changes:
 
 ==================================
-React to Changes - C++ SDK (Alpha)
+React to Changes - C++ SDK Preview
 ==================================
 
 .. contents:: On this page
@@ -16,7 +16,7 @@ Register an Object Change Listener
 ----------------------------------
 
 You can register a notification handler on a specific object
-within a realm. Realm Database notifies your handler:
+within a realm. Realm notifies your handler:
 
 - When the object is deleted.
 - When any of the object's properties change.
@@ -43,8 +43,21 @@ realm to emit a notification.
 
 .. example::
 
-   .. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
-      :language: cpp
+   .. tabs::
+
+      .. tab:: Current
+         :tabid: current
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
+            :language: cpp
+
+      .. tab:: Experimental
+         :tabid: experimental
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-object.cpp
+            :language: cpp
+
+         .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-register-a-collection-change-listener:
 
@@ -55,7 +68,7 @@ You can register a notification handler on a collection. A collection is
 a list property that can contain any :ref:`supported data type 
 <cpp-supported-property-types>`, including primitives or other objects.
 
-Realm Database notifies your handler whenever a write transaction 
+Realm notifies your handler whenever a write transaction 
 removes, adds, or changes objects in the collection.
 
 Notifications describe the changes since the prior notification with
@@ -74,16 +87,39 @@ Collection notifications provide a :cpp-sdk:`collection_change
 struct that reports the index of the objects that are removed, added, or 
 modified. It can also notify you if the collection was deleted.
 
-In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
+.. example::
 
-.. literalinclude:: /examples/generated/cpp/notifications.snippet.collection-model.cpp
-   :language: cpp
+   .. tabs::
 
-Removing a dog, adding a new dog, or modifying a dog triggers the notification
-handler:
+      .. tab:: Current
+         :tabid: current
 
-.. literalinclude:: /examples/generated/cpp/notifications.snippet.collection.cpp
-   :language: cpp
+         In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection-model.cpp
+            :language: cpp
+
+         Removing a dog, adding a new dog, or modifying a dog triggers the notification
+         handler:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection.cpp
+            :language: cpp
+
+      .. tab:: Experimental
+         :tabid: experimental
+
+         In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-collection-model.cpp
+            :language: cpp
+
+         Removing a dog, adding a new dog, or modifying a dog triggers the notification
+         handler:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-collection.cpp
+            :language: cpp
+
+         .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-register-a-results-collection-change-listener:
 
@@ -93,7 +129,7 @@ Register a Results Collection Change Listener
 You can register a notification handler on a :cpp-sdk:`results collection
 <structrealm_1_1results.html>`.
 
-Realm Database notifies your handler whenever a write transaction 
+Realm notifies your handler whenever a write transaction 
 removes, adds, or changes objects in the collection.
 
 Notifications describe the changes since the prior notification with
@@ -112,8 +148,23 @@ Results collection notifications provide a :cpp-sdk:`results_change
 reports the index of the objects that are deleted, added, or modified.
 It can also notify you if the collection was deleted.
 
-.. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
-   :language: cpp
+.. example::
+
+   .. tabs::
+
+      .. tab:: Current
+         :tabid: current
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
+            :language: cpp
+
+      .. tab:: Experimental
+         :tabid: experimental
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-results.cpp
+            :language: cpp
+
+         .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-stop-watching-for-changes:
 

@@ -4,7 +4,6 @@ public partial class Dog : IRealmObject
     [MapTo("_id")]
     public ObjectId Id { get; set; }
 
-    [Required]
     public string Name { get; set; }
 
     public int Age { get; set; }
@@ -18,7 +17,6 @@ public partial class Person : IRealmObject
     [MapTo("_id")]
     public ObjectId Id { get; set; }
 
-    [Required]
     public string Name { get; set; }
     // etc...
 

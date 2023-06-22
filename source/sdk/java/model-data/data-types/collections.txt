@@ -16,14 +16,14 @@ object that contains zero or more instances of one
 are homogenous, i.e. all objects in a collection are of the
 same type.
 
-You can filter and sort any collection using Realm Database's
+You can filter and sort any collection using Realm's
 :ref:`query engine <java-client-query-engine>`. Collections are
 :ref:`live <java-live-object>`, so they always reflect the
 current state of the realm instance on the current
 thread. You can also listen for changes in the collection by subscribing
 to :ref:`collection notifications <java-collection-notifications>`.
 
-Realm Database has two kinds of collections: **lists** and **results**.
+Realm has two kinds of collections: **lists** and **results**.
 
 .. _java-field-relationships-lists:
 
@@ -95,7 +95,7 @@ iterate over a collection. You can use
 Adapters
 --------
 
-Realm Database offers adapters to help bind data
+Realm offers adapters to help bind data
 to standard UI widgets. These classes work with any class that
 implements the ``OrderedRealmCollection`` interface, which includes
 the built-in ``RealmResults`` and ``RealmList`` classes. For more
@@ -104,7 +104,7 @@ information on adapters, see the documentation on
 
 .. important:: Adapters Require Managed Objects
 
-   The Realm Database adapters only accept *managed*
+   The Realm adapters only accept *managed*
    Realm object instances tied to an instance of a realm.
    To display non-managed objects, use the general-use Android
    ``RecyclerView.Adapter`` for recycler views or ``ArrayAdapter`` for
@@ -147,7 +147,7 @@ validate that it is up-to-date.
 Results are Lazily Evaluated
 ----------------------------
 
-Realm Database only runs a query when you actually request the
+Realm only runs a query when you actually request the
 results of that query, e.g. by accessing elements of the
 results collection. This lazy evaluation enables you to
 write elegant, highly performant code for handling large
@@ -159,7 +159,7 @@ Limiting Query Results
 ~~~~~~~~~~~~~~~~~~~~~~
 
 As a result of lazy evaluation, you do not need any special
-mechanism to limit query results with Realm Database. For example, if
+mechanism to limit query results with Realm. For example, if
 your query matches thousands of objects, but you only want
 to load the first ten, simply access only the first ten
 elements of the results collection.
@@ -210,7 +210,7 @@ are determined by a query.
    you to add or remove Persons directly to the resulting
    collection. The contents of that collection only change
    when the query matches a different set of Persons.
-   Therefore, Realm Database gives you a **results** collection.
+   Therefore, Realm gives you a **results** collection.
 
 .. _java-collection-type-for-implicit-inverse-relationships:
 

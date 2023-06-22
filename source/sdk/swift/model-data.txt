@@ -25,7 +25,7 @@ Model Data - Swift SDK
 Object Types & Schemas
 ----------------------
 
-Realm Database applications model data as objects composed of
+Realm applications model data as objects composed of
 field-value pairs that each contain one or more :ref:`supported
 <ios-supported-property-types>` data types.
 
@@ -83,7 +83,7 @@ realm schema.
    :ref:`ios-provide-a-subset-of-classes-to-a-realm`.
 
 If a realm already contains data when you open it,
-Realm Database validates each object to ensure that an object
+Realm validates each object to ensure that an object
 schema was provided for its type and that it meets all of the
 constraints specified in the schema.
 
@@ -97,7 +97,7 @@ constraints specified in the schema.
 Model Inheritance
 ~~~~~~~~~~~~~~~~~
 
-You can subclass Realm Database models to share behavior between
+You can subclass Realm models to share behavior between
 classes, but there are limitations. In particular, Realm
 does not allow you to:
 
@@ -124,7 +124,7 @@ does not allow you to:
 Swift Structs
 ~~~~~~~~~~~~~
 
-Realm Database does not support Swift structs as models for a variety of 
+Realm does not support Swift structs as models for a variety of 
 reasons. Realm's design focuses on "live" objects. 
 This concept is not compatible with value type structs. By design, 
 Realm provides features that are incompatible with these 
@@ -180,17 +180,17 @@ View Models with Realm
 
 .. versionadded:: 10.21.0
 
-You can work with a subset of your Realm Database object's properties 
+You can work with a subset of your Realm object's properties 
 by creating a class projection. A class projection is a class that passes 
-through or transforms some or all of your Realm Database object's 
+through or transforms some or all of your Realm object's 
 properties. Class projection enables you to build view models that use an 
 abstraction of your object model. This simplifies using and :ref:`testing 
-<ios-simplify-testing-with-class-projections>` Realm Database objects 
+<ios-simplify-testing-with-class-projections>` Realm objects 
 in your application.
 
 With class projection, you can use a subset of your object's properties 
 directly in the UI or transform them. When you use a class projection for 
-this, you get all the benefits of Realm Database's live objects:
+this, you get all the benefits of Realm's live objects:
 
 - The class-projected object live updates
 - You can observe it for changes
@@ -206,14 +206,14 @@ this, you get all the benefits of Realm Database's live objects:
 Relationships
 -------------
 
-Realm Database doesn't use bridge tables or explicit joins to define 
-relationships as you would in a relational database. Realm Database
+Realm doesn't use bridge tables or explicit joins to define 
+relationships as you would in a relational database. Realm
 handles relationships through embedded objects or reference properties to 
-other Realm Database objects. You read from and write to these 
+other Realm objects. You read from and write to these 
 properties directly. This makes querying relationships as performant as 
 querying against any other property.
 
-Realm Database supports **to-one**, **to-many**, and **inverse**
+Realm supports **to-one**, **to-many**, and **inverse**
 relationships.
 
 .. _ios-to-one-relationship:
@@ -239,7 +239,7 @@ To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
 A **to-many** relationship means that an object relates to more than one 
-other object. In Realm Database, a to-many relationship is a list of 
+other object. In Realm, a to-many relationship is a list of 
 references to other objects. For example, a person might have many dogs.
 
 A :swift-sdk:`List <Classes/List.html>` represents the :ref:`to-many
@@ -259,7 +259,7 @@ query and are usually declared as a property of an object model.
 Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
-Relationship definitions in Realm Database are unidirectional. An 
+Relationship definitions in Realm are unidirectional. An 
 **inverse relationship** links an object back to an object that refers 
 to it. You must explicitly define a property in the object's model as an 
 inverse relationship. Inverse relationships can link back to objects in 
@@ -286,7 +286,7 @@ look up the user to whom the task is assigned.
 .. important::
 
    You cannot manually set the value of an inverse relationship property.
-   Instead, Realm Database updates implicit relationships when you add 
+   Instead, Realm updates implicit relationships when you add 
    or remove an object in the relationship.
 
 Relationships can be many-to-one or many-to-many. So following inverse 

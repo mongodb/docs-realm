@@ -51,7 +51,7 @@ A **realm schema** is a list of valid :ref:`object schemas
 <node-object-schemas>` that a realm may contain. Every Realm object must conform
 to an object type that's included in its realm's schema.
 
-If a realm already contains data when you open it, Realm Database
+If a realm already contains data when you open it, Realm
 validates each object to ensure that an object schema was provided for its type
 and that it meets all of the constraints specified in the schema.
 
@@ -79,7 +79,7 @@ would in a relational database.
 Instead you can access related objects by reading and writing to the property
 that defines the relationship.
 
-Realm Database executes read operations lazily as they come in.
+Realm executes read operations lazily as they come in.
 Querying a relationship is just as performant as reading a regular property.
 
 There are three primary types of relationships between objects:

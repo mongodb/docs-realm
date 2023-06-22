@@ -26,8 +26,8 @@ namespace Examples
         public void DoDecimalStuff()
         {
             // :remove-start:
-            var app = App.Create(Config.appid);
-            var user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            var app = App.Create(Config.AppId);
+            var user = app.LogInAsync(Config.EPCreds).Result;
             var config = new PartitionSyncConfiguration("myPart", user);
             var realm = Realm.GetInstanceAsync().Result;
             // :remove-end:

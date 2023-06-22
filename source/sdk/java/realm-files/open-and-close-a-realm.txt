@@ -249,14 +249,14 @@ Configure Which Classes to Include in Your Realm Schema
 
 Realm modules are collections of Realm object
 models. Specify a module or modules when opening a realm to control
-which classes Realm Database should include in your schema. If you
+which classes Realm should include in your schema. If you
 do not specify a module, Realm uses the default module,
 which includes all Realm objects defined in your
 application.
 
 .. note::
    
-   Libraries that include Realm Database must expose and use their
+   Libraries that include Realm must expose and use their
    schema through a module. Doing so prevents the library from
    generating the default ``RealmModule``, which would conflict with
    the default ``RealmModule`` used by any app that includes the library.

@@ -14,10 +14,10 @@ namespace Examples
 
         public async Task TestUseFlexibleSync()
         {
-            var app = App.Create(Config.fsAppId);
+            var app = App.Create(Config.FSAppId);
             var user = await app.LogInAsync(Credentials.Anonymous());
 
-            var config = new FlexibleSyncConfiguration(app.CurrentUser);
+            var config = new FlexibleSyncConfiguration(app.CurrentUser!);
             var realm = Realm.GetInstance(config);
 
             var subscriptions = realm.Subscriptions;
@@ -74,7 +74,7 @@ namespace Examples
 
             realm.Subscriptions.Update(() =>
             {
-                // remove all subscriptions of the "Team" Class Name 
+                // remove all subscriptions of the "Team" Class Name
                 realm.Subscriptions.RemoveAll("Team");
 
                 // Alernatively, remove all subscriptions of the "Team" object type
@@ -92,11 +92,15 @@ namespace Examples
         [Test]
         public async Task TestCancelAsyncOperationsOnNonFatalErrors()
         {
-            var app = App.Create(Config.fsAppId);
+            var app = App.Create(Config.FSAppId);
             var user = await app.LogInAsync(Credentials.Anonymous());
 
             // :snippet-start: appconfigsettings
-            AppConfiguration configuration = new AppConfiguration(Config.fsAppId)
+            // :replace-start: {
+            //  "terms": {
+            //   "Config.FSAppId": "\"myRealmAppId\""}
+            // }
+            AppConfiguration configuration = new AppConfiguration(Config.FSAppId)
             {
                 SyncTimeoutOptions = new SyncTimeoutOptions()
                 {
@@ -107,10 +111,10 @@ namespace Examples
                     FastReconnectLimit = TimeSpan.FromMinutes(1),
                 },
             };
-
+            // :replace-end:
             // :snippet-end:
             // :snippet-start: cancelasync
-            var config = new FlexibleSyncConfiguration(app.CurrentUser)
+            var config = new FlexibleSyncConfiguration(app.CurrentUser!)
             {
                 CancelAsyncOperationsOnNonFatalErrors = true,
             };
@@ -151,7 +155,6 @@ namespace Examples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("status")]
@@ -177,7 +180,6 @@ namespace Examples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("description")]

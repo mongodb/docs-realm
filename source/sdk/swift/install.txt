@@ -43,7 +43,7 @@ these Xcode 13 requirements apply:
 
 .. note::
 
-   There are special considerations when using Realm Database with
+   There are special considerations when using Realm with
    tvOS. See :ref:`ios-tvos` for more information.
 
 Installation
@@ -305,7 +305,7 @@ to use Realm:
 App Download File Size
 ----------------------
 
-Realm Database should only add around 5 to 8 MB to your app's download 
+Realm should only add around 5 to 8 MB to your app's download 
 size. The releases we distribute are significantly larger because they 
 include support for the iOS, watchOS and tvOS simulators, some debug symbols, 
 and bitcode, all of which are stripped by the App Store automatically when 
@@ -318,8 +318,16 @@ If you have build issues after using one of these methods to install
 Realm, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
 for information about resolving those issues in realm.
 
-OS Support (Xcode 14)
----------------------
+OS Support
+----------
+
+.. important::
+
+   There are special considerations when using Realm with
+   tvOS. See :ref:`ios-tvos` for more information.
+
+Xcode 14
+~~~~~~~~
 
 .. list-table::
    :header-rows: 1
@@ -327,7 +335,7 @@ OS Support (Xcode 14)
    :class: index-table
 
    * - Supported OS
-     - Realm Database
+     - Realm
      - Atlas App Services
 
    * - iOS 11.0+
@@ -346,12 +354,53 @@ OS Support (Xcode 14)
      - X
      - 
 
-.. important::
+Xcode 15
+~~~~~~~~
 
-   There are special considerations when using Realm Database with
-   tvOS. See :ref:`ios-tvos` for more information.
+.. versionadded:: 10.40.1
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+   :class: index-table
+
+   * - Supported OS
+     - Realm
+     - Atlas App Services
+
+   * - iOS 12.0+
+     - X
+     - X
+
+   * - macOS 10.13+
+     - X
+     - X
+
+   * - tvOS 11.0+
+     - X
+     - X
+
+   * - watchOS 4.0+
+     - X
+     - 
+
+Swift Concurrency Support
+-------------------------
+
+The Realm Swift SDK supports Swift's concurrency-related language features.
+For best practices on using Realm with Swift concurrency features, refer 
+to the documentation below.
 
 Async/Await Support
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/swift-async-await-support.rst
+
+For more information about async/await support in the Realm Swift SDK, refer
+to :ref:`Swift Concurrency: Async/Await APIs <swift-async-await-apis>`.
+
+Actor Support
+~~~~~~~~~~~~~
+
+The Realm Swift SDK supports actor-isolated realm instances. For more information,
+refer to :ref:`swift-actor-isolated-realm`.

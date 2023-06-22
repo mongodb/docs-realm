@@ -49,7 +49,7 @@ This is inherently incompatible with Realm's :ref:`live object paradigm
 <ios-live-object>`. Live objects, collections, and realm instances are
 **thread-confined**: that is, they are only valid on the thread on which 
 they were created. Practically speaking, this means you cannot pass live 
-instances to other threads. However, Realm Database offers several 
+instances to other threads. However, Realm offers several 
 mechanisms for :ref:`sharing objects across threads 
 <ios-communication-across-threads>`. These mechanisms typically require 
 your code to do some explicit handling to safely pass data across threads.
@@ -66,6 +66,8 @@ As a general rule, keep in mind that using Realm in an ``await`` context
 *without* incorporating threading protection may yield inconsistent behavior. 
 Sometimes, the code may succeed. In other cases, it may throw an error 
 related to writing on an incorrect thread.
+
+.. _swift-async-await-apis:
 
 Async/Await APIs
 ----------------

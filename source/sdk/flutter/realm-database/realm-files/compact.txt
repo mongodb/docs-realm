@@ -10,14 +10,14 @@ Reduce Realm File Size - Flutter SDK
    :depth: 2
    :class: singlecol
 
-The size of a Realm Database file is always larger than the total size of 
+The size of a realm is always larger than the total size of 
 the objects stored within it. This architecture enables some of realm's 
 performance, concurrency, and safety benefits.
 
 Realm writes new data within unused space tracked inside a
 file. In some situations, unused space may comprise a significant 
 portion of a realm file. Realm's default behavior is to automatically 
-compact a Realm database file to prevent it from growing too large. 
+compact a realm to prevent it from growing too large. 
 You can use manual compaction strategies when 
 automatic compaction is not sufficient for your use case.
 

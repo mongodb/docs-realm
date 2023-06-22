@@ -24,7 +24,7 @@ The .NET SDK supports three categories of data types:
 
 .NET Types
 ----------
-Realm Database supports the following .NET data types and their 
+Realm supports the following .NET data types and their 
 nullable counterparts:
 
 - ``bool``
@@ -46,7 +46,7 @@ nullable counterparts:
 .. note::
 
    The ``byte``, ``char``, ``short``, ``int``, and ``long`` types  are all stored 
-   as 64 bit integer values within Realm Database. 
+   as 64 bit integer values within Realm. 
 
 .. _dotnet-bsontypes:
 
@@ -58,7 +58,6 @@ MongoDB.Bson Types
 
 Guid and ObjectId Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. versionadded:: 10.2.0-beta.1
 
 ``MongoDB.Bson.ObjectId`` is a MongoDB-specific 12-byte unique value, while the 
 built-in .NET type ``Guid`` is a 16-byte universally-unique value. Both types are 
@@ -86,7 +85,7 @@ Realm-Specific Types
 --------------------
 Any class that implements ``RealmObject`` or ``EmbeddedObject`` can contain a 
 ``RealmObject`` subclass and/or an :ref:`Embedded Objects <dotnet-property-embedded>` 
-subclass. In addition, Realm Database supports the following custom types:
+subclass. In addition, Realm supports the following custom types:
 
 - :doc:`Collections </sdk/dotnet/model-data/data-types/collections>`
 - :doc:`Dictionaries </sdk/dotnet/model-data/data-types/dictionaries>`

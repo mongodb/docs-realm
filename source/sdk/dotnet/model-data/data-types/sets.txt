@@ -31,13 +31,15 @@ in which it existed. Therefore, a set of objects will never contain null objects
 However, sets of primitive types can contain null values. If you do not 
 want to allow null values in a set, then either use non-nullable types in 
 the set declaration (for example, use ``ISet<double>`` instead of 
-``ISet<double?>``), or add the 
+``ISet<double?>``). If you are using the older schema 
+type definition (your classes derive from the ``RealmObject`` base class),
+or you do not have nullability enabled, you will need to use the
 :ref:`[Required]<dotnet-required-optional-property>` attribute if the set  
-contains nullable reference types, such as ``string`` or ``byte[]``.
+contains nullable reference types, such as ``string`` or ``byte[]``. 
 
 .. important:: Not Supported with Sync
 
-   Local-only Realm Databases support collections of nullable (optional) values, 
+   Local-only realms support collections of nullable (optional) values, 
    but ``Sync`` does not.
 
 Set Types

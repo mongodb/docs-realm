@@ -46,12 +46,12 @@ Don't pass live objects, collections, or realms to other threads:
   **thread-confined**: that is, they are only valid on the
   thread on which they were created. Practically speaking,
   this means you cannot pass live instances to other
-  threads. However, Realm Database offers several mechanisms for
+  threads. However, Realm offers several mechanisms for
   :ref:`sharing objects across threads
   <java-communication-across-threads>`.
 
 Don't lock to read:
-  Realm Database's :ref:`Multiversion Concurrency Control (MVCC)
+  Realm's :ref:`Multiversion Concurrency Control (MVCC)
   <java-mvcc>` architecture eliminates the need to lock for read operations. The
   values you read will never be corrupted or in a
   partially-modified state. You can freely read from realms
@@ -222,7 +222,7 @@ auto-refresh disabled. To refresh a realm, call
 Realm's Threading Model in Depth
 --------------------------------
 
-Realm Database provides safe, fast, lock-free, and concurrent access
+Realm provides safe, fast, lock-free, and concurrent access
 across threads with its :wikipedia:`Multiversion Concurrency
 Control (MVCC) <Multiversion_concurrency_control>`
 architecture.
@@ -238,15 +238,15 @@ elements of Git are:
 - Commits, which are atomic writes.
 - Branches, which are different versions of the commit history.
 
-Similarly, Realm Database has atomically-committed writes in the form
-of :ref:`transactions <java-realm-database-writes>`. Realm Database also has many
+Similarly, Realm has atomically-committed writes in the form
+of :ref:`transactions <java-realm-database-writes>`. Realm also has many
 different versions of the history at any given time, like
 branches.
 
 Unlike Git, which actively supports distribution and
 divergence through forking, a realm only has one true latest
 version at any given time and always writes to the head of
-that latest version. Realm Database cannot write to a previous
+that latest version. Realm cannot write to a previous
 version. This makes sense: your data should converge on one
 latest version of the truth.
 
@@ -259,10 +259,10 @@ version of the realm; child nodes are objects in that
 version of the realm. The realm has a pointer to its latest
 version, much like how Git has a pointer to its HEAD commit.
 
-Realm Database uses a copy-on-write technique to ensure
+Realm uses a copy-on-write technique to ensure
 :wikipedia:`isolation <Isolation_(database_systems)>` and
 :wikipedia:`durability <Durability_(database_systems)>`.
-When you make changes, Realm Database copies the relevant part of the
+When you make changes, Realm copies the relevant part of the
 tree for writing, then commits the changes in two phases:
 
 - Write changes to disk and verify success.
@@ -277,7 +277,7 @@ version is guaranteed to be valid.
 
 .. include:: /includes/commit-process-diagram.rst
 
-Realm Database uses zero-copy techniques
+Realm uses zero-copy techniques
 like memory mapping to handle data. When you read a value
 from the realm, you are virtually looking at the value on
 the actual disk, not a copy of it. This is the basis for
@@ -306,9 +306,9 @@ Summary
   **freeze** objects, collections, and realms in order to pass
   copies around efficiently to different threads for processing.
 
-- Realm Database's multiversion concurrency control (MVCC)
-  architecture is similar to Git's. Unlike Git, Realm Database has
+- Realm's multiversion concurrency control (MVCC)
+  architecture is similar to Git's. Unlike Git, Realm has
   only one true latest version for each realm.
 
-- Realm Database commits in two stages to guarantee isolation and
+- Realm commits in two stages to guarantee isolation and
   durability.

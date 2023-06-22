@@ -1,3 +1,3 @@
-  "name BEGINSWITH[c] 'e'"
+  "name BEGINSWITH[c] $0", 'e'
 
-  "name CONTAINS 'ie'"
+  "name CONTAINS $0", 'ie'

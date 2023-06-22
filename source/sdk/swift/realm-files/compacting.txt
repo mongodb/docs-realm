@@ -13,14 +13,14 @@ Reduce Realm File Size - Swift SDK
 Overview
 --------
 
-The size of a Realm Database file is always larger than the total 
+The size of a realm file is always larger than the total 
 size of the objects stored within it. This architecture enables some of 
 realm's great performance, concurrency, and safety benefits. 
 
 Realm writes new data within unused space tracked inside a
 file. In some situations, unused space may comprise a significant 
 portion of a realm file. Realm's default behavior is to automatically 
-compact a Realm database file to prevent it from growing too large. 
+compact a realm file to prevent it from growing too large. 
 You can use manual compaction strategies when 
 automatic compaction is not sufficient for your use case 
 or you're using a version of the SDK that doesn't have automatic 
@@ -31,7 +31,7 @@ compaction.
 Key Concept: Realm File Size
 ----------------------------
 
-Generally, Realm Database takes less space on disk than a 
+Generally, a realm file takes less space on disk than a 
 comparable SQLite database. Unexpected file growth may be related to 
 Atlas App Services referring to outdated data. These factors can affect
 file size:
@@ -245,7 +245,7 @@ If you need to store more data, map it over multiple realm files.
 Summary
 -------
 
-- Realm Database's architecture enables :ref:`threading-related benefits <ios-client-threading>`, 
+- Realm's architecture enables :ref:`threading-related benefits <ios-client-threading>`, 
   but can result in file size growth.
 
 - Automatic compaction manages file size growth when the file is not being accessed. 

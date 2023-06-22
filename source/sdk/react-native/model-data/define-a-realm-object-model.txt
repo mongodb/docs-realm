@@ -105,7 +105,7 @@ To specify a property as an object type's primary key, set the schema's
 .. note::
    
    A **primary key** is a property that uniquely identifies an
-   object. Realm Database automatically :ref:`indexes <react-native-indexes>`
+   object. Realm automatically :ref:`indexes <react-native-indexes>`
    primary key properties, which allows you to read and modify objects based
    on their primary key efficiently.
    
@@ -152,7 +152,7 @@ performance. Realm supports indexing for string, integer, boolean, ``Date``,
 
    An **index** significantly increases the speed of certain read operations at
    the cost of slightly slower write times and additional storage and memory
-   overhead. Realm Database stores indexes on disk, which makes your realm files
+   overhead. Realm stores indexes on disk, which makes your realm files
    larger. Each index entry is a minimum of 12 bytes. The ordering of the index
    entries supports efficient equality matches and range-based query operations. 
 
@@ -221,7 +221,7 @@ Remap a Property
 ~~~~~~~~~~~~~~~~
 
 To use a different property name in your code than is stored in
-Realm Database, set ``mapTo`` to the name of the property as it appears in
+Realm, set ``mapTo`` to the name of the property as it appears in
 your code.
 
 In the following example of an ``Employee`` class, we remap the ``first_name``

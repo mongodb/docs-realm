@@ -9,7 +9,7 @@
    ...
 }
 
-private void HandleCollectionChanged(object sender,
+private void HandleCollectionChanged(object? sender,
     NotifyCollectionChangedEventArgs e)
 {
     // Use e.Action to get the

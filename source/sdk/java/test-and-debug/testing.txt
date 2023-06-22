@@ -16,7 +16,7 @@ You can test your application using unit tests or integration tests.
 writes, and calls to your application's backend, if you have one. Unit tests
 run on your development machine using the JVM, while integration tests
 run on a physical or emulated Android device. You can run integration
-tests by communicating with actual instances of Realm Database
+tests by communicating with actual instances of Realm
 or an App backend using Android's built-in instrumented tests.
 
 Android uses specific file paths and folder names in Android projects
@@ -37,7 +37,7 @@ for unit tests and instrumented tests:
 
 Because the SDK uses C++ code via Android Native for data
 storage, unit testing requires you to entirely mock interactions with
-Realm Database. Prefer integration tests for logic that requires
+Realm. Prefer integration tests for logic that requires
 extensive interaction with the database.
 
 Integration Tests
@@ -107,7 +107,7 @@ environment where you can test your Realm application:
 Looper Thread
 ~~~~~~~~~~~~~
 
-Realm Database functionality such as 
+Realm functionality such as 
 :ref:`Live objects <java-live-object>` and change notifications only
 work on :android:`Looper <reference/android/os/Looper>` threads.
 Threads configured with a ``Looper`` object pass events over a message
@@ -214,7 +214,7 @@ Full Example
 ~~~~~~~~~~~~
 
 The following example shows a full Junit instrumented ``androidTest``
-example running Realm Database in integration tests:
+example running Realm in integration tests:
 
 .. tabs-realm-languages::
    
@@ -242,7 +242,7 @@ Unit Tests
 ----------
 
 To unit test Realm applications that use Realm,
-you must :wikipedia:`mock <Mock_object>` Realm Database (and your
+you must :wikipedia:`mock <Mock_object>` Realm (and your
 application backend, if you use one). Use the following libraries to
 mock SDK functionality:
 
@@ -268,7 +268,7 @@ add the following to the ``dependencies`` block of your application
 
    Mocking the SDK in unit tests requires Robolectric, Mockito, and
    Powermock because the SDK uses Android Native C++ method calls to
-   interact with Realm Database. Because the frameworks required to
+   interact with Realm. Because the frameworks required to
    override these method calls can be delicate, you should use the
    versions listed above to ensure that your mocking is successful. Some
    recent version updates (particularly Robolectric version 4.2+) can
@@ -361,8 +361,8 @@ Full Example
 ~~~~~~~~~~~~
 
 The following example shows a full JUnit ``test``
-example mocking Realm Database in unit tests. This example tests
-an activity that performs some basic Realm Database operations.
+example mocking Realm in unit tests. This example tests
+an activity that performs some basic Realm operations.
 The tests use mocking to simulate those operations when that activity is
 started during a unit test:
 

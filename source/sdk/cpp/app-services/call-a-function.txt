@@ -1,7 +1,7 @@
 .. _cpp-call-a-function:
 
 =================================
-Call a Function - C++ SDK (Alpha)
+Call a Function - C++ SDK Preview
 =================================
 
 .. contents:: On this page
@@ -34,7 +34,9 @@ public member function on the ``user`` object. Pass in the name of the
 function as a string for the first parameter. This function takes two arguments,
 which we provide as a ``BsonArray`` of arguments:
 
-.. literalinclude:: /examples/generated/cpp/call-function.snippet.call-a-function.cpp
+.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
+
+.. literalinclude:: /examples/generated/cpp/call-function.snippet.beta-call-a-function.cpp
    :language: cpp
 
 The callback can provide an optional BSON result, or an optional error.

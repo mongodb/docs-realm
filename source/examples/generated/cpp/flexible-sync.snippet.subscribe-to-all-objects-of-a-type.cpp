@@ -1,6 +1,6 @@
 auto updateSubscriptionSuccess = syncedRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
     subs.add<Dog>("dogs");
-}).get_future().get();
+}).get();
 // The .update() function returns a bool, which confirms whether or not the update succeeded
 REQUIRE(updateSubscriptionSuccess == true);
 // You can check the .size() of the subscription set, which tells you the 

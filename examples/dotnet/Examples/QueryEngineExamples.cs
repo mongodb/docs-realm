@@ -19,13 +19,13 @@ namespace Examples
         App app;
         User user;
         PartitionSyncConfiguration config;
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.AppId;
 
         [OneTimeSetUp]
         public async Task Setup()
         {
             app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            user = app.LogInAsync(Config.EPCreds).Result;
             config = new PartitionSyncConfiguration("foo", user);
             //:remove-start:
             config.Schema = new[]
@@ -37,8 +37,8 @@ namespace Examples
             var realm = await Realm.GetInstanceAsync(config);
             var synchronousRealm = await Realm.GetInstanceAsync(config);
 
-            var t = new UserTask() { Priority = 100, ProgressMinutes = 5, Assignee = "Jamie" };
-            var t2 = new UserTask() { Priority = 1, ProgressMinutes = 500, Assignee = "Elvis" };
+            var t = new UserTask() { Priority = 100, ProgressMinutes = 5, Assignee = "Jamie", Name = "Jamie_Task" };
+            var t2 = new UserTask() { Priority = 1, ProgressMinutes = 500, Assignee = "Elvis", Name = "Elvis_Task" };
             var up = new UserProject() { Name = "A Big Project" };
             up.Items.Add(t);
             up.Items.Add(t2);
