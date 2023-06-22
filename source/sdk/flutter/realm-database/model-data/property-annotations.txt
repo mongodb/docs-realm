@@ -116,3 +116,22 @@ The following data types can be indexed:
 
 Full-Text Search Indexes
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to standard indexes, Realm also supports Full-Text Search (FTS)
+indexes on string properties. While you can query a string field with or without 
+a standard index, an FTS index enables searching for multiple words and phrases 
+and excluding others.
+
+For more information on querying full-text indexes, see 
+:ref:`Filter with Full Text Search <flutter-fts>`.
+
+To create a FTS index on a property, use the :flutter-sdk:`@Indexed 
+<realm_common/Indexed-class.html>` annotation and specify the 
+:flutter-sdk:`IndexType <realm_common/RealmIndexType.html>` as fullText. 
+This enables full-text queries on the property. In the 
+following example, we mark the genre property with the FTS annotation:
+
+.. literalinclude:: /examples/generated/flutter/rug.snippet.flutter-fts-annotation.dart
+   :language: dart
+   :emphasize-lines: 6-10
+
