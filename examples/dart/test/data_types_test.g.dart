@@ -311,7 +311,7 @@ class RealmValueExample extends _RealmValueExample
     return const SchemaObject(
         ObjectType.realmObject, RealmValueExample, 'RealmValueExample', [
       SchemaProperty('singleAnyValue', RealmPropertyType.mixed,
-          optional: true, indexed: true),
+          optional: true, indexType: RealmIndexType.regular),
       SchemaProperty('listOfMixedAnyValues', RealmPropertyType.mixed,
           optional: true, collectionType: RealmCollectionType.list),
     ]);
@@ -574,6 +574,74 @@ class SomeRealmModel extends _SomeRealmModel
     return const SchemaObject(
         ObjectType.realmObject, SomeRealmModel, 'SomeRealmModel', [
       SchemaProperty('id', RealmPropertyType.objectid),
+    ]);
+  }
+}
+
+class BinaryExample extends _BinaryExample
+    with RealmEntity, RealmObjectBase, RealmObject {
+  BinaryExample(
+    String name,
+    Uint8List requiredBinaryProperty, {
+    Uint8List? defaultValueBinaryProperty,
+    Uint8List? nullableBinaryProperty,
+  }) {
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'requiredBinaryProperty', requiredBinaryProperty);
+    RealmObjectBase.set(this, 'defaultValueBinaryProperty',
+        defaultValueBinaryProperty ?? Uint8List(8));
+    RealmObjectBase.set(this, 'nullableBinaryProperty', nullableBinaryProperty);
+  }
+
+  BinaryExample._();
+
+  @override
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
+  @override
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
+
+  @override
+  Uint8List get requiredBinaryProperty =>
+      RealmObjectBase.get<Uint8List>(this, 'requiredBinaryProperty')
+          as Uint8List;
+  @override
+  set requiredBinaryProperty(Uint8List value) =>
+      RealmObjectBase.set(this, 'requiredBinaryProperty', value);
+
+  @override
+  Uint8List get defaultValueBinaryProperty =>
+      RealmObjectBase.get<Uint8List>(this, 'defaultValueBinaryProperty')
+          as Uint8List;
+  @override
+  set defaultValueBinaryProperty(Uint8List value) =>
+      RealmObjectBase.set(this, 'defaultValueBinaryProperty', value);
+
+  @override
+  Uint8List? get nullableBinaryProperty =>
+      RealmObjectBase.get<Uint8List>(this, 'nullableBinaryProperty')
+          as Uint8List?;
+  @override
+  set nullableBinaryProperty(Uint8List? value) =>
+      RealmObjectBase.set(this, 'nullableBinaryProperty', value);
+
+  @override
+  Stream<RealmObjectChanges<BinaryExample>> get changes =>
+      RealmObjectBase.getChanges<BinaryExample>(this);
+
+  @override
+  BinaryExample freeze() => RealmObjectBase.freezeObject<BinaryExample>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(BinaryExample._);
+    return const SchemaObject(
+        ObjectType.realmObject, BinaryExample, 'BinaryExample', [
+      SchemaProperty('name', RealmPropertyType.string),
+      SchemaProperty('requiredBinaryProperty', RealmPropertyType.binary),
+      SchemaProperty('defaultValueBinaryProperty', RealmPropertyType.binary),
+      SchemaProperty('nullableBinaryProperty', RealmPropertyType.binary,
+          optional: true),
     ]);
   }
 }
