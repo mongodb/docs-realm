@@ -54,6 +54,21 @@ The following code shows two examples of creating a circle:
 .. figure:: /images/geocircles.png
    :alt: Two Geocricles
 
+.. _geobox:
+
+GeoBox
+~~~~~~
+A :dotnet-sdk:`GeoBox <reference/Realms.GeoBox.html>` defines a rectangle on  
+the Earth's surface. You define the rectangle by specifying the bottom left 
+(southwest) corner and the top right (northeast) corner. The following example 
+creates 2 boxes:
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geobox.cs
+   :language: csharp
+
+.. figure:: /images/geoboxes.png
+   :alt: 2 GeoBoxes
+
 .. _geopolygon:
 
 GeoPolygon
@@ -79,39 +94,37 @@ with two holes:
 .. figure:: /images/geopolygons.png
    :alt: 3 GeoPolygons
 
-.. _geobox:
-
-GeoBox
-~~~~~~
-A :dotnet-sdk:`GeoBox <reference/Realms.GeoBox.html>` defines a rectangle on  
-the Earth's surface. You define the rectangle by specifying the bottom left 
-(southwest) corner and the top right (northeast) corner. The following example 
-creates 2 boxes:
-
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geobox.cs
-   :language: csharp
-
-.. figure:: /images/geoboxes.png
-   :alt: 2 GeoBoxes
 .. _persist-geopoint:
 
 Persisting GeoPoint Data
-------------------------
-If you want to persist ``GeoPoint`` data, you must create your own custom realm object 
-that inherits from :dotnet-sdk:`IEmbeddedObject <reference/Realms.IEmbeddedObject.html>`.
-An embedded GeoPoint class must have a minimum of two fields:
+------------------------ 
+If you want to persist ``GeoPoint`` data, it must conform to the 
+`GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 
 
-- A field of type ``IList<double>`` that maps to a "coordinates" (case sensitive) 
-  property in the realm schema. 
+Creating a GeoJSON-Compatible Class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- A string field that maps to a "type" property.
+To create a class that conforms to the GeoJSON spec, you:
 
-The following example shows an example of a custom class used to persist GeoPoint 
-data:
+1. Create an embedded realm object (a class that inherits from 
+:dotnet-sdk:`IEmbeddedObject <reference/Realms.IEmbeddedObject.html>`).
+
+2. Add a minimum of two fields:
+
+   - A field of type ``IList<double>`` that maps to a "coordinates" (case sensitive) 
+     property in the realm schema. 
+
+   - A field of type ``string`` that maps to a "type" property. The value of this 
+     field must be "Point".
+
+The following example shows an embedded class named "CustomGeoPoint" that is used 
+to persist GeoPoint data:
 
 .. literalinclude:: /examples/generated/dotnet/CustomGeoPoint.snippet.customgeopoint.cs
    :language: csharp
 
+Using the Embedded Class
+~~~~~~~~~~~~~~~~~~~~~~~~~
 You then use the custom GeoPoint class in your realm model, as shown in the 
 following example:
 
@@ -134,17 +147,25 @@ Querying Geospatial Data
 To query against geospatial data, you can use the 
 :dotnet-sdk:`GeoWithin <reference/Realms.QueryMethods.html#Realms_QueryMethods_GeoWithin_Realms_IEmbeddedObject_Realms_GeoShapeBase_>` 
 method, or you can use the ``geoWithin`` operator with :ref:`RQL <dotnet-realm-query-language>`. 
-The ``GeoWithin`` method takes a :ref:`GeoPoint <geopoint>` and any one of 
-the geospatial shapes to check if the point is contained within the shape. The 
-following examples show querying against various shapes to return a list of 
-companies within the shape. The examples show using both RQL and the ``GeoWithin`` 
-method.
+The ``GeoWithin`` method takes the "coordinates" property of an embedded object 
+that defines the point we're querying, and one of the geospatial shapes to 
+check if that point is contained within the shape. 
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geopolygon-query.cs
+.. note::
+
+   The format for querying geospatial data is the same regardless the shape of 
+   the geodata region.
+
+The following example shows the difference between querying with the ``GeoWithin`` 
+method and RQL:
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.rql-geowithin.cs
    :language: csharp
 
-.. figure:: /images/geopolygons-query.png
-   :alt: Querying a GeoPolygon example.
+The following examples show querying against various shapes to return a list of 
+companies within the shape.
+
+**GeoCircle**
 
 .. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geocircle-query.cs
    :language: csharp
@@ -152,9 +173,18 @@ method.
 .. figure:: /images/geocircles-query.png
    :alt: Querying a GeoCircle example.
 
+**GeoBox**
+
 .. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geobox-query.cs
    :language: csharp
 
 .. figure:: /images/geoboxes-query.png
    :alt: Querying a GeoBox example.
 
+**GeoPolygon**
+
+.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geopolygon-query.cs
+   :language: csharp
+
+.. figure:: /images/geopolygons-query.png
+   :alt: Querying a GeoPolygon example.

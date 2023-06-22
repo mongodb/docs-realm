@@ -23,8 +23,14 @@ namespace Examples
             // :snippet-start: geopoint
             realm.WriteAsync(() =>
             {
-                realm.Add(new Company(47.68, -122.35));
-                realm.Add(new Company(47.9, -121.85));
+                realm.Add(new Company
+                {
+                    Location = new CustomGeoPoint(47.68, -122.35)
+                });
+                realm.Add(new Company
+                {
+                    Location = new CustomGeoPoint(47.9, -121.85)
+                });
             });
             // :snippet-end:
         }
@@ -65,15 +71,6 @@ namespace Examples
 
             var polygonWithTwoHoles =
                 new GeoPolygon(outerRing, hole1, hole2);
-
-            // System.ArgumentException: not enough points defined
-            // var notEnoughPointsPolygon = new GeoPolygon((20, 20),
-            //    (10, 20), (0, 20));
-
-            // System.ArgumentException the first and the last points
-            // do not match
-            // var closingPointDoesNotMatchPolygon =
-            //    new GeoPolygon((20, 20), (10, 20), (0, 20), (10, 10));
             // :snippet-end:
 
             // :snippet-start: geobox
@@ -86,13 +83,22 @@ namespace Examples
 
             // ***** QUERIES ***** //
 
+            // :snippet-start: rql-geowithin
+            var GeoWthinExample = realm.All<Company>()
+                .Where(c => QueryMethods.GeoWithin(c.Location, circle1));
+
+            var RQLExample = realm.All<Company>()
+                .Filter("Location geoWithin $0", circle2);
+            // :snippet-end:
+
             // :snippet-start: geopolygon-query
             var companiesInBasicPolygon = realm.All<Company>()
                 .Where(c => QueryMethods
                    .GeoWithin(c.Location, basicPolygon));
 
             var companiesInPolygon = realm.All<Company>()
-                .Filter("Location geoWithin $0", polygonWithTwoHoles);
+                .Where(c => QueryMethods
+                   .GeoWithin(c.Location, polygonWithTwoHoles));
             //:snippet-end:
 
             // :snippet-start: geocircle-query
@@ -100,7 +106,7 @@ namespace Examples
                 .Where(c => QueryMethods.GeoWithin(c.Location, circle1));
 
             var companiesInSmallerCircle = realm.All<Company>()
-                .Filter("Location geoWithin $0", circle2);
+                .Where(c => QueryMethods.GeoWithin(c.Location, circle2));
             // :snippet-end:
 
             // :snippet-start: geobox-query
@@ -108,7 +114,7 @@ namespace Examples
                 .Where(c => QueryMethods.GeoWithin(c.Location, box1));
 
             var companiesInBox2 = realm.All<Company>()
-                .Filter("Location geoWithin $0", box2);
+                .Where(c => QueryMethods.GeoWithin(c.Location, box2));
             // :snippet-end:
 
             Assert.AreEqual(2, realm.All<Company>().Count());
@@ -144,9 +150,8 @@ namespace Examples
 
         public CustomGeoPoint? Location { get; set; }
 
-        public Company(double lat, double lon)
+        public Company()
         {
-            this.Location = new CustomGeoPoint(lat, lon);
         }
     }
     //:snippet-end:

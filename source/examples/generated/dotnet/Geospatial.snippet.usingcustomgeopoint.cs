@@ -6,8 +6,7 @@ public partial class Company : IRealmObject
 
     public CustomGeoPoint? Location { get; set; }
 
-    public Company(double lat, double lon)
+    public Company()
     {
-        this.Location = new CustomGeoPoint(lat, lon);
     }
 }

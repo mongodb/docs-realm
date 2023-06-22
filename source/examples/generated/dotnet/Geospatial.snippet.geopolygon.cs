@@ -22,12 +22,3 @@ var hole2 = new GeoPoint[] {
 
 var polygonWithTwoHoles =
     new GeoPolygon(outerRing, hole1, hole2);
-
-// System.ArgumentException: not enough points defined
-// var notEnoughPointsPolygon = new GeoPolygon((20, 20),
-//    (10, 20), (0, 20));
-
-// System.ArgumentException the first and the last points
-// do not match
-// var closingPointDoesNotMatchPolygon =
-//    new GeoPolygon((20, 20), (10, 20), (0, 20), (10, 10));
