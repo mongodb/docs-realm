@@ -55,21 +55,10 @@ Sync Data Unidirectionally from a Client Application
       :ref:`connect to an App Services backend <cpp-connect-to-backend>` 
       and :ref:`authenticate a user <cpp-authenticate-users>`.
 
-      .. tabs::
+      .. versionchanged:: 0.2.0 app.login returns std::future instead of std::promise
 
-         .. tab:: Current
-            :tabid: current
-
-            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.connect-and-authenticate.cpp
-               :language: cpp
-
-         .. tab:: Experimental
-            :tabid: experimental
-
-            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-connect-and-authenticate.cpp
-               :language: cpp
-
-            .. include:: /includes/tip-cpp-beta-experimental-features.rst
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-connect-and-authenticate.cpp
+         :language: cpp
 
    .. step:: Open a Realm
 

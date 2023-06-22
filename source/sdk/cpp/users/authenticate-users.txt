@@ -13,7 +13,7 @@ Authenticate Users - C++ SDK Preview
 Log In
 ------
 
-.. versionchanged:: 0.2.0 Removed ``.get_future()``
+.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
 
 .. _cpp-login-anonymous:
 
@@ -140,6 +140,8 @@ on a logged-in user to refresh the user's auth session. Then, get the
 as a string you can use in your code. You might use code similar to this to 
 fetch an access token:
 
+.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
+
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.get-user-access-token.cpp
    :language: cpp
 
@@ -151,6 +153,8 @@ Log Out
 Once logged in, you can log out.
 
 .. include:: /includes/log-out-queries-in-progress.rst
+
+.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
 
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.log-user-out.cpp
    :language: cpp

@@ -57,7 +57,7 @@ properties. You annotate the properties in the model to give Realm
 information about each property:
 
 - The data type and whether the property is optional or required
-- Whether Realm should store or ignore the property
+- Additional metadata about a property, such as whether it's a primary key
 
 Properties are also the mechanism for establishing :ref:`relationships 
 <cpp-relationships>` between Realm object types.
@@ -73,12 +73,32 @@ expose a schema.
 Realm Object Schema
 ~~~~~~~~~~~~~~~~~~~
 
-A C++ **realm object schema** maps property names, relationships, and any 
-property metadata for a specific object type. Because C++ does not have 
-reflection, your model must expose a public static **constexpr** 
-member that explicitly declares your schema. The object schema includes 
-details like the property name and type, whether the property is a primary 
-key, and whether it forms a relationship with other object types.
+.. tabs::
+
+   .. tab:: Current
+      :tabid: current
+
+      A Realm C++ SDK **realm object schema** maps property names, 
+      relationships, and any property metadata for a specific object type. 
+      Because C++ does not have reflection, your model must expose a public 
+      static **constexpr** member that explicitly declares your schema. 
+      The object schema includes details like the property name and type, 
+      whether the property is a primary key, and whether it forms a 
+      relationship with other object types.
+
+   .. tab:: Experimental
+      :tabid: experimental
+
+      A Realm C++ SDK **realm object schema** maps property names for a 
+      specific object type. A schema must accompany your object model, and 
+      it may be one of:
+
+      - ``REALM_SCHEMA``
+      - ``REALM_EMBEDDED_SCHEMA``
+      - ``REALM_ASYMMETRIC_SCHEMA``
+
+      The schema, combined with your object model, gives the C++ SDK the 
+      information it needs to store and retrieve objects.
 
 .. _cpp-define-a-new-object-type:
 
@@ -116,9 +136,9 @@ Define a New Object Type
 
       In the C++ SDK Preview, you can define your models or classes as regular 
       C++ structs. Using the ``realm::experimental`` namespace, provide a
-      ``REALM_SCHEMA`` with the struct name and the names of any properties 
-      that you want Realm to persist. When you add the object to a realm, 
-      the SDK ignores any properties that you omit from the ``REALM_SCHEMA``.
+      :ref:`cpp-object-schema` with the struct name and the names of any 
+      properties that you want Realm to persist. When you add the object 
+      to a realm, the SDK ignores any properties that you omit from the schema.
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-realm-define-model.cpp
          :language: cpp
@@ -167,7 +187,8 @@ Additionally, a required ``realm::enum`` property can be a primary key, but
    .. tab:: Current
       :tabid: current
 
-      Set a property as a primary key by passing ``true`` to the second template parameter of the ``persisted`` template:
+      Set a property as a primary key by passing ``true`` to the second 
+      template parameter of the ``persisted`` template:
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.define-a-schema.cpp
          :language: cpp
@@ -206,7 +227,7 @@ Your model may include properties that Realm does not store.
    .. tab:: Experimental
       :tabid: experimental
 
-      Realm ignores any properties not included in the ``REALM_SCHEMA``.
+      Realm ignores any properties not included in the :ref:`cpp-object-schema`.
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-employee-model.cpp
          :language: cpp
@@ -253,11 +274,14 @@ related objects have independent lifecycles.
 
       Using the ``realm::experimental`` namespace, provide a
       ``REALM_EMBEDDED_SCHEMA`` with the struct name and the names of 
-      any properties that you want Realm to persist. Set it as a ``link`` 
-      property from the parent object.
+      any properties that you want Realm to persist.
+      
+      Define a property as an embedded object on the parent object by setting 
+      a pointer to the embedded object's type.
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-embedded-object.cpp
          :language: cpp
+         :emphasize-lines: 7, 12
       
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
 

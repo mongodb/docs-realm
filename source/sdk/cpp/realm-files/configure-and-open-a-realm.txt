@@ -16,14 +16,36 @@ Realm. A realm is a collection of the objects that you use
 in your application, called Realm objects, as well as additional metadata 
 that describe the objects.
 
-When you open a realm, the ``open`` or ``async_open`` templates 
-construct a :cpp-sdk:`db_config 
-<structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` that 
-specifies details about how to configure the realm file. This can include:
+.. tabs::
 
-- The models that the realm file should manage
-- An optional path where the realm is stored on device
-- A ``sync_config`` if you want to use the realm with Device Sync
+   .. tab:: Current
+      :tabid: current
+
+      When you open a realm, the ``open`` or ``async_open`` templates 
+      construct a :cpp-sdk:`db_config 
+      <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` that 
+      specifies details about how to configure the realm file. This can include:
+
+      - The models that the realm file should manage
+      - An optional path where the realm is stored on device
+      - A ``sync_config`` if you want to use the realm with Device Sync
+
+   .. tab:: Experimental
+      :tabid: experimental
+
+      When opening a realm using the ``realm::experimental`` namespace, 
+      you must specify a :cpp-sdk:`db_config 
+      <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
+      The ``db_config`` may contain information such as:
+
+      - An optional path where the realm is stored on device
+      - A ``sync_config`` if you want to use the realm with Device Sync
+
+      You can use the default ``db_config`` constructor if you do not need
+      to specify a realm file path, a Device Sync configuration, or other
+      configuration details.
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-realm-file:
 
@@ -130,19 +152,22 @@ in the current directory.
 Open a Realm at a File Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you need to open a realm at a specific file path, you can pass a path 
-to the realm open template.
-
 .. tabs::
 
    .. tab:: Current
       :tabid: current
+
+      If you need to open a realm at a specific file path, you can pass a path 
+      to the realm open template.
 
       .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-realm-at-path.cpp
          :language: cpp
 
    .. tab:: Experimental
       :tabid: experimental
+
+      You can use ``set_path()`` to specify a path for the ``db_config`` 
+      to use when opening the realm.
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm-at-path.cpp
          :language: cpp
@@ -188,7 +213,7 @@ To open a synced realm:
    .. tab:: Experimental
       :tabid: experimental
 
-      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-open-synced-realm.cpp
+      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.beta-flexible-sync-prerequisites.cpp
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst

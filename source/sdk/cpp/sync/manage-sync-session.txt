@@ -47,6 +47,8 @@ It is a lightweight handle that you can pass around by value.
 Wait for Changes to Upload and Download
 ---------------------------------------
 
+.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
+
 To wait for all changes to upload to Atlas from your synced realm,
 use the public member function ``.wait_for_upload_completion()``. 
 

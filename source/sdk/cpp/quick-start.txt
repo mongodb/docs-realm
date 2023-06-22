@@ -201,19 +201,10 @@ In this quick start, you use :ref:`anonymous authentication <anonymous-authentic
 to log in users without requiring them to provide any identifying information.
 After authenticating the user, you can open a realm for that user.
 
-.. tabs::
+.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
 
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.authenticate-user.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-authenticate-user.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-authenticate-user.cpp
+   :language: cpp
 
 The Realm C++ SDK provides many additional ways to authenticate, register, and link users.
 For other authentication providers, see: :ref:`cpp-authenticate-users`

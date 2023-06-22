@@ -22,6 +22,8 @@ data, see :ref:`Update Custom User Data
 <cpp-update-a-users-custom-data>`. To read the data, access the
 ``custom_data`` property on the ``User`` object of a logged-in user:
 
+.. versionchanged:: 0.2.0 user.refresh_custom_user_data() returns std::future instead of std::promise
+
 .. literalinclude:: /examples/generated/cpp/custom-user-data.snippet.read.cpp
    :language: cpp
 
@@ -81,6 +83,8 @@ The following example :ref:`calls a function <cpp-call-a-function>` to
 insert a document containing the user ID of the currently logged in user 
 and a ``favoriteColor`` value into the custom user data collection:
 
+.. versionchanged:: 0.2.0 user.call_function() returns std::future instead of std::promise
+
 .. literalinclude:: /examples/generated/cpp/custom-user-data.snippet.beta-create.cpp
    :language: cpp
 
@@ -104,6 +108,8 @@ MongoDB document whose user ID field contains the user ID of the user.
 The following example calls the same function used to create the custom user 
 data document above. Here, we update the ``favoriteColor`` field of the 
 the document containing the user ID of the currently logged in user:
+
+.. versionchanged:: 0.2.0 user.call_function() returns std::future instead of std::promise
 
 .. literalinclude:: /examples/generated/cpp/custom-user-data.snippet.update.cpp
    :language: cpp
@@ -140,6 +146,8 @@ deletes the custom user data document matching the user's ID.
 
 The code that calls this function requires only a logged-in user to call
 the function:
+
+.. versionchanged:: 0.2.0 user.call_function() returns std::future instead of std::promise
 
 .. literalinclude:: /examples/generated/cpp/custom-user-data.snippet.delete.cpp
    :language: cpp
