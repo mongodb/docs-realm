@@ -150,9 +150,7 @@ namespace Examples
 
         public CustomGeoPoint? Location { get; set; }
 
-        public Company()
-        {
-        }
+        public Company() { }
     }
     //:snippet-end:
 }
