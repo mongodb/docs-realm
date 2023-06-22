@@ -52,7 +52,7 @@ The following code shows two examples of creating a circle:
    :language: csharp
 
 .. figure:: /images/geocircles.png
-   :alt: Two Geocricles
+   :alt: Two GeoCircles
 
 .. _geobox:
 
@@ -109,7 +109,7 @@ To create a class that conforms to the GeoJSON spec, you:
 1. Create an embedded realm object (a class that inherits from 
    :dotnet-sdk:`IEmbeddedObject <reference/Realms.IEmbeddedObject.html>`).
 
-#. Add a minimum of two fields:
+#. At a minimum, add the two fields required by the GeoJSON spec:
 
    - A field of type ``IList<double>`` that maps to a "coordinates" (case sensitive) 
      property in the realm schema. 
@@ -163,7 +163,7 @@ method and RQL:
    :language: csharp
 
 The following examples show querying against various shapes to return a list of 
-companies within the shape.
+companies within the shape:
 
 **GeoCircle**
 
