@@ -327,6 +327,17 @@ Access the type of data with ``RealmValue.type`` and the value with ``RealmValue
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type-value.dart
    :language: dart
 
+Binary Data
+~~~~~~~~~~~
+
+.. API docs don't seem to have the Binary class: https://pub.dev/documentation/realm/latest/realm/realm-library.html
+
+Realm uses ``Uint8List`` from `dart:typed_data 
+<https://api.dart.dev/stable/dart-core/Set-class.html>`__ to create a Binary
+data type.
+
+Usually used with ``Uint8List.fromList()``
+
 .. _flutter-embedded-objects:
 
 Embedded Objects
