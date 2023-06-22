@@ -3,5 +3,5 @@ updateSubscriptionSuccess = syncedRealm.subscriptions().update([](realm::mutable
         // Change the age filter from `age < 3` to `age < 2`
         return obj.age < 2;
     });
-}).get_future().get();
+}).get();
 REQUIRE(updateSubscriptionSuccess == true);

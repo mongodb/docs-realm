@@ -1,7 +1,7 @@
 .. _cpp-relationships:
 
 ===============================
-Relationships - C++ SDK (Alpha)
+Relationships - C++ SDK Preview
 ===============================
 
 .. contents:: On this page
@@ -21,7 +21,6 @@ properties directly. This makes querying relationships as performant as
 querying against any other property.
 
 Realm supports **to-one**, **to-many**, and **inverse**
-relationships. However, the C++ SDK Alpha does not yet support inverse 
 relationships. Realm also provides a special type of object, called an
 :ref:`embedded object <cpp-embedded-object>`, that is conceptually 
 similar to a relationship but provides additional constraints.
@@ -59,7 +58,13 @@ Inverse Relationship
 
 Relationship definitions in Realm are unidirectional. An 
 **inverse relationship** links an object back to an object that refers 
-to it. The C++ SDK Alpha does not yet support inverse relationships.
+to it.
+
+An inverse relationship property is an automatic backlink relationship. 
+Realm automatically updates implicit relationships whenever an object is 
+added or removed in a corresponding to-many list or to-one relationship 
+property. You cannot manually set the value of an inverse relationship 
+property.
 
 .. _cpp-declare-relationship-properties:
 
@@ -83,9 +88,23 @@ Realm does not delete the referenced object, though, unless it is
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
-   :language: cpp
-   :emphasize-lines: 15
+.. tabs::
+
+   .. tab:: Current
+      :tabid: current
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 15
+   
+   .. tab:: Experimental
+      :tabid: experimental
+
+      .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-to-one-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 13
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-define-a-to-many-relationship-property:
 
@@ -96,6 +115,41 @@ A **to-many** relationship maps one property to zero or more instances
 of another object type. For example, you can model a company having any
 number of employees as a to-many relationship.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
+.. tabs::
+
+   .. tab:: Current
+      :tabid: current
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 7
+
+   .. tab:: Experimental
+      :tabid: experimental
+
+      .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-to-many-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 7
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+.. _cpp-define-an-inverse-relationship-property:
+
+Define an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 0.2.0
+
+To define an inverse relationship, use ``linking_objects`` in your object 
+model. The ``linking_objects`` definition specifies the object type and 
+property name of the relationship that it inverts.
+
+In this example, we define a ``Person`` having a to-one relationship with
+a ``Dog``. The ``Dog`` has an inverse relationship to any ``Person`` 
+objects through its ``owners`` property.
+
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-define-inverse-relationship.cpp
    :language: cpp
-   :emphasize-lines: 7
+   :emphasize-lines: 14
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst
