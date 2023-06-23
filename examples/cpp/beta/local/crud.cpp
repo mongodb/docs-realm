@@ -264,17 +264,18 @@ TEST_CASE("create a dog", "[write]") {
     auto realm = db(std::move(config));
 
     // Persist your data in a write transaction
-    realm.write([&] {
-        realm.add(std::move(dog));
+    // Optionally return the managed object to work with it immediately
+    auto managedDog = realm.write([&] {
+        return realm.add(std::move(dog));
     });
     // :snippet-end:
+    REQUIRE(managedDog.name == "Rex");
     auto dogs = realm.objects<Beta_Dog>();
     auto dogsCount = dogs.size();
     REQUIRE(dogsCount >= 1);
-    auto specificDog = dogs[0];
     // :snippet-start: beta-delete-an-object
     realm.write([&] {
-        realm.remove(specificDog);
+        realm.remove(managedDog);
     });
     // :snippet-end:
     auto updatedDogsCount = realm.objects<Beta_Dog>().size();

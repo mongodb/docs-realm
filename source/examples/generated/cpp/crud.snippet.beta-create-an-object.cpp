@@ -8,6 +8,7 @@ auto config = realm::db_config();
 auto realm = db(std::move(config));
 
 // Persist your data in a write transaction
-realm.write([&] {
-    realm.add(std::move(dog));
+// Optionally return the managed object if you want to work with it
+auto managedDog = realm.write([&] {
+    return realm.add(std::move(dog));
 });
