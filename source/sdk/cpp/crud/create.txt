@@ -188,7 +188,7 @@ Create an Object with a To-One Relationship
    .. tab:: Current
       :tabid: current
 
-      To create an object with a to-one relationship link to another object, 
+      To create an object with a to-one relationship to another object, 
       assign an instance of the linked object to the related object's property.
       Pass the main object to the :cpp-sdk:`Realm.add() function
       <structrealm_1_1db.html>` inside of a write transaction.
@@ -205,7 +205,7 @@ Create an Object with a To-One Relationship
    .. tab:: Experimental
       :tabid: experimental
 
-      To create an object with a to-one relationship link to another object, 
+      To create an object with a to-one relationship to another object, 
       assign the raw pointer of the related object to the relationship 
       property of the main object. Move the object into the realm using 
       the :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
@@ -216,8 +216,8 @@ Create an Object with a To-One Relationship
       - ``Person.dog``. Then, when we add the ``Person`` to the realm,
       this copies both the ``Person`` and ``Dog`` to the realm.
 
-      The linked ``Dog`` object has its own lifecycle independent of the 
-      main ``Person`` object. If you delete the main object, the linked 
+      The related ``Dog`` object has its own lifecycle independent of the 
+      main ``Person`` object. If you delete the main object, the related 
       object remains.
 
       .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-create-to-one-relationship.cpp
@@ -225,8 +225,8 @@ Create an Object with a To-One Relationship
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
-You can optionally create an inverse link to refer to the main object
-from the linked object. For more information, refer to: 
+You can optionally create an inverse relationship to refer to the main object
+from the related object. For more information, refer to: 
 :ref:`cpp-create-an-object-with-inverse-relationship`.
 
 Model
@@ -261,7 +261,7 @@ Create an Object with a To-Many Relationship
    .. tab:: Current
       :tabid: current
 
-      To create an object with a to-many relationship link to one or more objects:
+      To create an object with a to-many relationship to one or more objects:
 
       - Initialize the main object and the linked objects
       - Use the :cpp-sdk:`push_back 
@@ -283,13 +283,13 @@ Create an Object with a To-Many Relationship
    .. tab:: Experimental
       :tabid: experimental
 
-      To create an object with a to-many relationship link to one or more objects:
+      To create an object with a to-many relationship to one or more objects:
 
-      - Initialize the main object and the linked objects
+      - Initialize the main object and the related objects
       - Use the :cpp-sdk:`push_back 
         <structrealm_1_1persisted_3_01std_1_1vector_3_01T_01_4_00_01std_1_1enable__if__t_3_01std_1_1is__bf25bc7461a39304fb47e25c96413fa0e.html>`
         member function available to the Realm object lists
-        to append the raw pointers of the linked objects to the main object's 
+        to append the raw pointers of the related objects to the main object's 
         list property
       - Move the object into the realm using the 
         :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
@@ -303,17 +303,17 @@ Create an Object with a To-Many Relationship
       Then, when we add the ``Company`` to the realm, this copies the 
       ``Company`` and ``Employee`` objects to the realm. 
 
-      The linked ``Employee`` objects have their own lifecycle independent 
+      The related ``Employee`` objects have their own lifecycle independent 
       of the main ``Company`` object. If you delete the main object, the 
-      linked objects remain.
+      related objects remain.
 
       .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-create-to-many-relationship.cpp
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
-You can optionally create an inverse link to refer to the main object
-from the linked object. For more information, refer to: 
+You can optionally create an inverse relationship to refer to the main object
+from the related object. For more information, refer to: 
 :ref:`cpp-create-an-object-with-inverse-relationship`.
 
 Model
@@ -351,16 +351,16 @@ Create an Object with an Inverse Relationship
 
 .. versionadded:: 0.2.0
 
-To create an object with a inverse relationship link to another object, 
-assign the raw pointer of the linked object to the relationship 
+To create an object with a inverse relationship to another object, 
+assign the raw pointer of the related object to the relationship 
 property of the main object. Move the object into the realm using the 
 :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
 inside of a write transaction.
 
-In this example, we create two ``Person`` objects that each have a link to 
-the same ``Dog`` object. The ``Dog`` has an inverse relationship to the 
-``Person`` objects that is automatically updated when the ``Person`` object
-updates its ``Dog`` link.
+In this example, we create two ``Person`` objects that each have a to-one 
+relationship to the same ``Dog`` object. The ``Dog`` has an inverse 
+relationship to the ``Person`` objects that is automatically updated when 
+the ``Person`` object updates its ``Dog`` relationship.
 
 This functionality is only available in the ``realm::experimental`` namespace.
 You must define models and open the realm using the ``realm::experimental``
