@@ -282,6 +282,38 @@ TEST_CASE("create a dog", "[write]") {
     REQUIRE(updatedDogsCount < dogsCount);
 }
 
+TEST_CASE("Pass a subset of classes to a realm", "[write]") {
+    auto relative_realm_path_directory = "beta_business/";
+    std::filesystem::create_directories(relative_realm_path_directory);
+    std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+    path = path.append("business_objects");
+    path = path.replace_extension("realm");
+
+    auto dog = Beta_Dog { .name = "Rex", .age = 1 };
+
+    std::cout << "dog: " << dog.name << "\n";
+
+    // :snippet-start: beta-realm-specify-classes
+    auto realm = realm::experimental::open<Beta_Dog>(path);
+    // :snippet-end:
+
+    auto managedDog = realm.write([&] {
+        return realm.add(std::move(dog));
+    });
+
+    REQUIRE(managedDog.name == "Rex");
+    auto dogs = realm.objects<Beta_Dog>();
+    auto dogsCount = dogs.size();
+    REQUIRE(dogsCount >= 1);
+
+    realm.write([&] {
+        realm.remove(managedDog);
+    });
+
+    auto updatedDogsCount = realm.objects<Beta_Dog>().size();
+    REQUIRE(updatedDogsCount < dogsCount);
+}
+
 TEST_CASE("update a dog", "[write][update]") {
     auto mauiDog = Beta_Dog { .name = "Maui", .age = 1 };
 
