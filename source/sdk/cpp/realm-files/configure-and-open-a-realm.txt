@@ -28,6 +28,7 @@ that describe the objects.
 
       - The models that the realm file should manage
       - An optional path where the realm is stored on device
+      - An optional scheduler if you need to customize the run loop
       - A ``sync_config`` if you want to use the realm with Device Sync
 
    .. tab:: Experimental
@@ -39,6 +40,8 @@ that describe the objects.
       The ``db_config`` may contain information such as:
 
       - An optional path where the realm is stored on device
+      - An optional list of models that the realm should manage
+      - An optional scheduler if you need to customize the run loop
       - A ``sync_config`` if you want to use the realm with Device Sync
 
       You can use the default ``db_config`` constructor if you do not need
