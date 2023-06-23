@@ -25,6 +25,7 @@ add_executable(examples-beta-local
   notifications.cpp
   relationships.cpp
   supported-types.cpp
+  threading.cpp
 )
 
 target_link_libraries(examples-beta-local PRIVATE Catch2::Catch2WithMain)
