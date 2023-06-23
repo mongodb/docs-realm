@@ -43,13 +43,14 @@ TEST_CASE("thread safe reference", "[write]") {
     auto threadSafeItem = realm::thread_safe_reference<Beta_ThreadingExample_Item>{managedItem};
     
     // Move the thread safe reference to a background thread
-    auto thread = std::thread([threadSafeItem = std::move(threadSafeItem)]() mutable {
+    auto thread = std::thread([threadSafeItem = std::move(threadSafeItem), path]() mutable {
         // Open the realm again on the background thread
-        auto config = realm::db_config();
-        auto realm = db(std::move(config));
+        auto backgroundConfig = realm::db_config();
+        backgroundConfig.set_path(path);
+        auto backgroundRealm = db(std::move(backgroundConfig));
         
         // Resolve the ThreadingExample_Item instance via the thread safe reference
-        auto item = realm.resolve(std::move(threadSafeItem));
+        auto item = backgroundRealm.resolve(std::move(threadSafeItem));
 
         // ... use item ...
     });
@@ -129,5 +130,4 @@ TEST_CASE("scheduler", "[write]") {
     // :uncomment-end:
     // :snippet-end:
 }
-
 // :replace-end:
