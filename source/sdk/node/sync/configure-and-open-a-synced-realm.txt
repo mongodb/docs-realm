@@ -47,11 +47,13 @@ Before you configure a realm with Flexible Sync in a Node.js application:
 #. :ref:`Initialize the App client <node-connect-to-mongodb-realm-backend-app>`.
 #. :ref:`Authenticate a user <node-authenticate-users>` in your client project.
 
-Open a Synced Realm
--------------------
+Open a Flexible Synced Realm
+----------------------------
 
-You can open a Synced realm with a Flexible Sync or Partition-Based Sync. If
-you have not yet decided or are unsure which to use, read the :ref:`Choose Your
+You can open a Synced realm with Flexible Sync or the older Partition-Based 
+Sync. If you'd like to open a realm with Partition-Based Sync, refer to 
+:ref:`Open a Partition-Based Synced Realm <node-partition-based-sync>`. 
+If you have not yet decided or are unsure which to use, read the :ref:`Choose Your
 Sync Mode <sync-modes>` page.
 
 By default, Realm syncs all data from the server before returning.
@@ -59,9 +61,6 @@ If you want to sync data in the background, read the :ref:`Open a Synced Realm
 While Offline <node-open-synced-realm-offline>` section.
 
 .. _node-flexible-sync-open-realm:
-
-Open a Flexible Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To open a realm using Flexible Sync, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
 Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
@@ -107,27 +106,6 @@ on how you set :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`:
   stored relative to ``baseFilePath``.
 - ``Realm.Configuration.path`` is an absolute path. Your Realm file is stored
   at ``Realm.Configuration.path``.
-
-.. _node-partition-sync-open-realm:
-
-Open a Partition-Based Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: /includes/node-open-a-synced-realm.rst
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.ts
-        :language: typescript
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.js
-        :language: javascript
 
 .. _node-open-synced-realm-offline:
 
