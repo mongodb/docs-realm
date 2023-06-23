@@ -14,6 +14,46 @@ Atlas Device Sync has two sync modes:  :ref:`Flexible Sync <flexible-sync>`
 and the older Partition-Based Sync. We recommend using Flexible Sync.
 The information on this page is for users who would still like to
 use Parition-Based Sync to build their Node.js app. For information
-about Partition-Based Sync, refer to :ref:`partition-based-sync`
+about Partition-Based Sync, refer to :ref:`Partition-Based Sync <partition-based-sync>`.
+
+.. note:: Matching Sync Modes with Atlas Device Sync
+    When you use :ref:`Atlas Device Sync <sync>` in your client application, your
+    implementation must match the Sync Mode you select in your backend App configuration.
+    You can only use one Sync mode for your application. You cannot mix Parition-Based
+    Sync and Flexible Sync within the same app.
+
+You can open a Synced realm with a Flexible Sync or Parition-Based Sync. For information
+about opening a Flexible Synced realm, refer to :ref:`Configure & Open a Synced Realm –
+Node.js SDK <node-open-a-synced-realm>`. If you have not yet decided or are unsure which
+to use, refer to :ref:`Choose Your Sync Mode <sync-modes>`.
+
+.. _node-partition-sync-open-realm:
+
+Open a Partition-Based Synced Realm
+-----------------------------------
+
+.. include:: /includes/node-open-a-synced-realm.rst
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.js
+        :language: javascript
+
+When opening a :ref:`bundled synchronized realm <node-bundle-a-realm>` that uses Partition-Based Sync,
+you must use the same partition key that was used in the original realm configuration. If you use a
+different partition key, the SDK throw an error when opening the bundled realm. 
+
+.. important:: Offline Login is Supported for Partition-Based Sync Configurations
+    You can open a realm immediately with background sync or after a timeout elapses using
+    Partition-Based Sync. 
 
 
