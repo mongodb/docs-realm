@@ -10,9 +10,6 @@ Handle Sync Errors - Flutter SDK
    :depth: 3
    :class: singlecol
 
-Handle Sync Errors
-------------------
-
 While developing an application that uses :ref:`Device Sync <sync>`, you should set an error
 handler. This error handler will detect and respond to any failed sync-related
 API calls.
@@ -32,6 +29,15 @@ If you do not specify a ``syncErrorHandler``, the default behavior is to print t
    :language: dart
 
 .. include:: /includes/sync-errors-in-app-services.rst
+
+Get Detailed Sync Error information
+-----------------------------------
+
+As of ``realm-dart`` v1.3.0, you can get detailed information about Sync errors.
+For example, you can use :flutter-sdk:`SyncErrorCategory <realm/syncError-class.html>`
+to check the type of error and handle it accordingly. See the API reference
+documentation for the :flutter-sdk:`SyncError class <realm/syncError-class.html>`
+for more details.
 
 .. _flutter-client-reset:
 
