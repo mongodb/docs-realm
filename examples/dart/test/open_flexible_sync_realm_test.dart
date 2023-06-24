@@ -123,16 +123,27 @@ void main() {
     });
 
     test("Handle Sync Error", () async {
+      late SyncError testCompensatingWriteError;
       final carMakePrefix = generateRandomString(4);
-      // var handlerCalled = false;
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
+
       // :snippet-start: sync-error-handler
-      late SyncError errorData;
+      void handleCompensatingWrite(
+          CompensatingWriteError compensatingWriteError) {
+        testCompensatingWriteError = compensatingWriteError; // :remove:
+        final writeReason = compensatingWriteError.compensatingWrites!.first;
+
+        print("Error message: " + writeReason.reason);
+        // ... handle compensating write error as needed.
+      }
+
       final config = Configuration.flexibleSync(currentUser, [Car.schema],
           syncErrorHandler: (syncError) {
-        errorData = syncError;
-        // ... handle error based on error data
+        // 231 is the error code for compensating write errors.
+        if (syncError.codeValue == 231) {
+          handleCompensatingWrite(syncError.as<CompensatingWriteError>());
+        }
       });
 
       final realm = Realm(config);
@@ -157,9 +168,10 @@ void main() {
       // Wait for write to upload and generate error.
       await realm.syncSession.waitForUpload();
 
-      expect(errorData, isA<CompensatingWriteError>());
+      expect(testCompensatingWriteError, isA<CompensatingWriteError>());
 
-      final sessionError = errorData.as<CompensatingWriteError>();
+      final sessionError =
+          testCompensatingWriteError.as<CompensatingWriteError>();
       expect(sessionError.category, SyncErrorCategory.session);
       expect(sessionError.code, SyncSessionErrorCode.compensatingWrite);
       expect(sessionError.compensatingWrites, isNotNull);
