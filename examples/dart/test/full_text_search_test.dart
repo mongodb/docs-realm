@@ -55,6 +55,7 @@ void main() {
 
     // Clean up and close the realm. This deletes any existing objects.
     await cleanUpRealm(realm);
+    realm.close();
     expect(realm.isClosed, true);
   });
 }
