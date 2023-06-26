@@ -6,7 +6,8 @@
 // :replace-start: {
 //   "terms": {
 //     "FlexibleSync_": "",
-//     "Beta_FlexibleSync_":""
+//     "Beta_FlexibleSync_":"",
+//     "Alpha_Sync_": ""
 //   }
 // }
 
@@ -23,6 +24,17 @@ struct FlexibleSync_Dog : realm::object<FlexibleSync_Dog> {
         realm::property<&FlexibleSync_Dog::_id, true>("_id"),
         realm::property<&FlexibleSync_Dog::name>("name"),
         realm::property<&FlexibleSync_Dog::age>("age"));
+};
+
+struct Alpha_Sync_Dog : realm::object<Alpha_Sync_Dog> {
+    realm::persisted<realm::uuid> _id;
+    realm::persisted<std::string> name;
+    realm::persisted<int64_t> age;
+
+    static constexpr auto schema = realm::schema("Alpha_Sync_Dog",
+        realm::property<&Alpha_Sync_Dog::_id, true>("_id"),
+        realm::property<&Alpha_Sync_Dog::name>("name"),
+        realm::property<&Alpha_Sync_Dog::age>("age"));
 };
 
 TEST_CASE("subscribe to a all objects of a type", "[sync]") {
@@ -180,5 +192,20 @@ TEST_CASE("beta subscribe to a subset of objects", "[sync]") {
     REQUIRE(updateSubscriptionSuccess == true);
     auto updatedPuppySubscription = *syncedRealm.subscriptions().find("puppies");
     CHECK(updatedPuppySubscription.query_string == "age < 2");
+}
+
+TEST_CASE("open a synced realm with old syntax", "[realm][sync]") {
+    // :snippet-start: open-a-synced-realm
+    auto app = realm::App(APP_ID);
+    // Ensure anonymous authentication is enabled in the App Services App
+    auto user = app.login(realm::App::credentials::anonymous()).get();
+    auto sync_config = user.flexible_sync_configuration();
+    // Note that get_future().get() blocks this thread until the promise -
+    // in this case, the task kicked off by the call to async_open - is resolved
+    auto synced_realm_ref = realm::async_open<Alpha_Sync_Dog>(sync_config).get_future().get();
+    // async_open gives us a thread-safe reference to the synced realm, which
+    // we need to resolve() before we can safely use the realm on this thread.
+    auto realm = synced_realm_ref.resolve();
+    // :snippet-end:
 }
 // :replace-end:
