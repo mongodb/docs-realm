@@ -1,0 +1,337 @@
+========================================================
+Get Started with Realm Web & Atlas Device Sync (Preview)
+========================================================
+
+.. contents:: On this page
+   :depth: 2
+
+The Realm JavaScript SDK with WebAssembly support allows you to build
+realtime web applications for the browser using the Realm Database API
+and Atlas Device Sync.
+
+The Realm JS SDK with WebAssembly support is in Preview. It currently
+has significant limitations relative to the Realm JS SDK for Node.js or
+React Native. See the :ref:`limitations <web-sync-limitations>` section
+for more information.
+
+Get Started with an Example App
+-------------------------------
+
+The fastest way to start using the Realm JS SDK with WebAssembly support
+is to clone and run our pre-built Web Sync Example App. The app is
+written in React and uses Realm Database APIs and Atlas Device Sync.
+
+.. procedure::
+
+   .. step:: Get the Code
+
+      To get started, clone the example app repository, checkout the
+      example app branch, and navigate to the example project.
+
+      .. code-block:: sh
+
+         git clone https://github.com/realm/realm-js.git
+         cd realm-js
+         git checkout nh/wasm/emscripten_target
+         cd examples/example-react-task
+
+   .. step:: Install Dependencies
+
+      From the example app's root directory, run the following command to
+      install dependencies, including the Realm JS SDK with WebAssembly:
+
+      .. tabs::
+
+         .. tab:: npm
+            :tabid: npm
+
+            .. code-block:: sh
+
+               npm install
+
+         .. tab:: yarn
+            :tabid: yarn
+
+            .. code-block:: sh
+
+               yarn
+
+         .. tab:: pnpm
+            :tabid: pnpm
+
+            .. code-block:: sh
+
+               pnpm install
+
+   .. step:: Create and Connect an App Services App
+
+      To use Device Sync, you must connect to an App Services App that
+      has Device Sync enabled. Follow the App creation instructions in
+      the example project's ``README.md`` file. Once you've created and
+      configured the App, copy its Client App ID and paste it into the
+      ``src/atlas-app-services/config.json`` file in the example
+      project.
+
+      .. code-block:: json
+         :caption: src/atlas-app-services/config.json
+
+         {
+           "id": "myapp-abcde"
+         }
+
+   .. step:: Run the Example App
+
+      Now that you've installed dependencies and defined the connection
+      to your App, you can run the example app:
+
+      .. tabs::
+
+         .. tab:: npm
+            :tabid: npm
+
+            .. code-block:: sh
+
+               npm start
+
+         .. tab:: yarn
+            :tabid: yarn
+
+            .. code-block:: sh
+
+               yarn start
+
+         .. tab:: pnpm
+            :tabid: pnpm
+
+            .. code-block:: sh
+
+               pnpm start
+
+Install & Set Up Manually
+-------------------------
+
+You can install the Realm JS SDK with WebAssembly support from npm:
+
+.. tabs::
+
+   .. tab:: npm
+      :tabid: npm
+
+      .. code-block:: sh
+
+         npm install realm@12.0.0-browser.2
+
+   .. tab:: yarn
+      :tabid: yarn
+
+      .. code-block:: sh
+
+         yarn add realm@12.0.0-browser.2
+
+   .. tab:: pnpm
+      :tabid: pnpm
+
+      .. code-block:: sh
+
+         pnpm install realm@12.0.0-browser.2
+
+.. note::
+
+   The Realm JS SDK with WebAssembly support is currently only
+   available as a tagged release of the ``realm`` package on npm. You
+   must specify the exact version number and tag when installing the
+   SDK.
+
+You'll also need to configure your project to use WebPack with a few
+modifications:
+
+1. Install the ``bson`` package and web polyfill packages for the
+   ``crypto`` and ``stream`` Node.js modules.
+
+   .. tabs::
+
+      .. tab:: npm
+         :tabid: npm
+
+         .. code-block:: sh
+
+            npm install bson crypto-browserify stream-browserify
+
+      .. tab:: yarn
+         :tabid: yarn
+
+         .. code-block:: sh
+
+            yarn add bson crypto-browserify stream-browserify
+
+      .. tab:: pnpm
+         :tabid: pnpm
+
+         .. code-block:: sh
+
+            pnpm install bson crypto-browserify stream-browserify
+
+2. Modify your webpack configuration to include the polyfill packages
+   and enable top-level await. For example, your configuration should
+   extend this base configuration:
+
+   .. code-block:: javascript
+
+      module.exports = {
+        experiments: {
+          topLevelAwait: true,
+        },
+        resolve: {
+          fallback: {
+            crypto: require.resolve("crypto-browserify"),
+            stream: require.resolve("stream-browserify"),
+          },
+        },
+      };
+
+Once you've installed the Realm JS SDK with WebAssembly support and
+configured WebPack, you can use the SDK in your application.
+
+Use Device Sync
+---------------
+
+Once you've installed the Realm JS SDK with WebAssembly support and
+configured your application, you can use the SDK to build realtime web
+applications that sync data between devices.
+
+The examples in this section show how to work with Realm in your app.
+
+Import Realm
+~~~~~~~~~~~~
+
+Import realm at the top of your source files where you interact with the
+database:
+
+.. code-block:: javascript
+
+   import Realm, { App } from "realm";
+
+Initialize an App
+~~~~~~~~~~~~~~~~~
+
+Device Sync uses Atlas App Services to manage authentication and sync
+data between devices. To use Device Sync from your web app, you must
+connect to an App Services App that has Device Sync enabled.
+
+You connect to an App using its client App ID. To learn how to get it,
+see :ref:`Find Your App ID <find-your-app-id>`.
+
+.. code-block:: javascript
+
+   const app = new App({ id: "<your-app-id>" });
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+To authenticate a user, call the ``App.logIn()`` method on your App
+instance. You can log in with any authentication provider. For more
+examples, see :ref:`Authenticate a User <web-authenticate>`.
+
+.. code-block:: javascript
+
+   const credentials = Realm.Credentials.anonymous();
+   await app.logIn(credentials);
+
+Define an Object Model
+~~~~~~~~~~~~~~~~~~~~~~
+
+Realm uses native JavaScript objects to model your application data. You
+define object types where all objects of a given type share a schema
+that controls the object's contents.
+
+To define a Realm object type, create a schema object that specifies the
+type's ``name`` and ``properties``. The type name must be unique among
+object types in a realm.
+
+.. code-block:: javascript
+
+   const TaskSchema = {
+     name: "Task",
+     properties: {
+       _id: "int",
+       name: "string",
+       status: "string?",
+       owner_id: "string?",
+     },
+     primaryKey: "_id",
+   };
+
+Open a Realm
+~~~~~~~~~~~~
+
+To open a synced realm, call ``Realm.open()`` with a configuration
+object that specifies the realm's schema and the authenticated user.
+
+.. code-block:: javascript
+
+   const realm = await Realm.open({
+     schema: [TaskSchema],
+     sync: {
+       user: app.currentUser,
+       flexible: true,
+       // Define initial subscriptions to start syncing data as soon as the
+       // realm is opened.
+       initialSubscriptions: {
+         update: (subs, realm) => {
+           subs.add(
+             // Get objects that match your object model, then filter them by
+             // the `owner_id` queryable field
+             realm.objects(Task).filtered(`owner_id == "${anonymousUser.id}"`)
+           );
+         },
+       },
+     },
+   });
+
+Create, Modify, and Delete Realm Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once you have opened a realm, you can create, modify, and delete objects
+in it. All write operations must occur within a ``Realm.write``
+transaction block.
+
+.. literalinclude:: /examples/generated/node/quickstart.snippet.create-modify-delete.ts
+   :language: typescript
+
+Find, Sort, and Filter Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query objects in a realm using the ``Realm.objects`` method.
+Queries must specify the object type to query for. You can optionally
+filter and sort the results of a query using a fluent method chaining
+API.
+
+.. literalinclude:: /examples/generated/node/quickstart.snippet.find-sort-and-filter-objects.ts
+   :language: typescript
+
+Close a Realm
+~~~~~~~~~~~~~
+
+Call the ``Realm.close()`` method when done with a realm instance to
+avoid memory leaks.
+
+.. literalinclude:: /examples/generated/node/quickstart.snippet.close-a-realm.ts
+   :language: typescript
+
+.. _web-sync-limitations:
+
+Limitations of Device Sync on Web
+---------------------------------
+
+Device Sync on the browser is currently subject to the following limitations:
+
+- **No persistence**: The Realm JS Web SDK does not persist Device Sync
+  data to disk. All local data is stored in memory and will be lost when
+  the browser tab is closed.
+
+- **No worker threads**: You must perform all Realm operations are
+  performed on the main thread. You cannot open or work with a realm in
+  a web worker thread.
+
+- **No encryption**: The Realm JS Web SDK does not support encryption.
+  All data is stored unencrypted in memory.
