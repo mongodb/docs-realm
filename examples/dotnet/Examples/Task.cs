@@ -1,25 +1,25 @@
-﻿// :snippet-start:task-object-model
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using Realms;
 
 namespace Examples.Models
 {
-    public class Item : RealmObject
+    //:snippet-start:item-model
+    public partial class Item : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("assignee")]
-        public User Assignee { get; set; }
+        public string Assignee { get; set; }
 
         [MapTo("name")]
         public string Name { get; set; }
 
         [MapTo("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
-    // :snippet-end:
+    //:snippet-end:
     public enum ItemStatus
     {
         Open,

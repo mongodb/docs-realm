@@ -40,16 +40,11 @@ namespace Examples
             };
 
             Realm realm = Realm.GetInstance(config);
-            realm.Write(() =>
-            {
-                realm.RemoveAll<Item>();
-            });
 
             await realm.WriteAsync(() =>
             {
-                realm.Add<Dog>(new Dog() { Name = "Fydaeu", Age = 1 });
+                realm.Add<Item>(new Item() { Name = "Fydaeu" });
             });
-
         }
 
 

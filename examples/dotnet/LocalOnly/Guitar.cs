@@ -3,7 +3,6 @@ using Realms;
 
 namespace LocalOnly
 {
-
     public partial class Guitar : IRealmObject
     {
         [PrimaryKey]
