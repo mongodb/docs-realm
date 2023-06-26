@@ -1,1 +1,1 @@
-user.log_out().get_future().get();
+user.log_out().get();

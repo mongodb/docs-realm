@@ -15,7 +15,7 @@ pre-configured Atlas App Services backend.
 
 So let's get started.
 
-.. <time tag 1> <see https://www.emergingedtech.com/2017/01/how-to-add-time-tags-to-youtube-video-jump-to-tagged-sections/>
+.. <time tag 1>
 
 We're going to create a new Atlas account. If you already have an Atlas 
 account, you can skip ahead to the next section.

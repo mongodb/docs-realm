@@ -1,7 +1,7 @@
 .. _cpp-handle-sync-errors:
 
 ====================================
-Handle Sync Errors - C++ SDK (Alpha)
+Handle Sync Errors - C++ SDK Preview
 ====================================
 
 .. contents:: On this page
@@ -27,7 +27,22 @@ object and the :cpp-sdk:`sync_session
 <structrealm_1_1internal_1_1bridge_1_1sync__session.html>` where the error
 occurred.
 
-.. literalinclude:: /examples/generated/cpp/sync-errors.snippet.create-error-handler.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Current
+      :tabid: current
+
+      .. versionchanged:: 0.2.0 app.login returns std::future instead of std::promise
+
+      .. literalinclude:: /examples/generated/cpp/sync-errors.snippet.create-error-handler.cpp
+         :language: cpp
+
+   .. tab:: Experimental
+      :tabid: experimental
+
+      .. literalinclude:: /examples/generated/cpp/sync-errors.snippet.beta-create-error-handler.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. include:: /includes/sync-errors-in-app-services.rst

@@ -1,3 +1,29 @@
+# June 23, 2023
+
+## C++ SDK
+
+- Update documentation for C++ SDK Preview, including:
+  - Change Alpha naming to Preview
+  - Add new `realm::experimental` code examples to:
+    - Quick Start
+    - Model Data pages
+    - Configure and Open a Realm
+    - CRUD pages
+    - React to Changes
+    - Sync/Stream Data to Atlas
+  - Remove `.get_future()` from code examples showing APIs that now return `std::future` instead of `std::promise`:
+    - App Services/Call a Function
+    - Manage Users
+    - Sync Data
+    - Quick Start/Add Device Sync
+  - Add inverse relationships:
+    - Model Data/Relationships
+    - CRUD/Create, Update, and Delete
+
+## Other
+
+- Fix broken links across 14 pages
+
 # June 16, 2023
 
 ## Kotlin SDK
