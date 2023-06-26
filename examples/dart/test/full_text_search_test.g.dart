@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rug.dart';
+part of 'full_text_search_test.dart';
 
 // **************************************************************************
 // RealmObjectGenerator

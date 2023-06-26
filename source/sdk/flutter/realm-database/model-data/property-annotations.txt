@@ -91,7 +91,7 @@ or persist it to Realm Database.
 Index Properties
 ----------------
 
-Add the `Indexed
+Add the `@Indexed
 <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
 annotation to create an index on the field. Indexes can greatly speed up some
 queries at the cost of slightly slower write times and additional storage and
@@ -122,14 +122,13 @@ indexes on string properties. While you can query a string field with or without
 a standard index, an FTS index enables searching for multiple words and phrases 
 and excluding others.
 
-For more information on querying full-text indexes, see 
-:ref:`Filter with Full Text Search <flutter-fts>`.
+For more information on querying FTS indexes, see :ref:`Filter with Full-Text Search <flutter-fts>`.
 
-To create a FTS index on a property, use the :flutter-sdk:`@Indexed 
-<realm_common/Indexed-class.html>` annotation and specify the 
-:flutter-sdk:`IndexType <realm_common/RealmIndexType.html>` as ``fullText``. 
-This enables full-text queries on the property. In the 
-following example, we mark the genre property with the FTS annotation:
+To create an FTS index on a property, use the `@Indexed 
+<https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
+annotation and specify the `RealmIndexType <https://pub.dev/documentation/realm_common/latest/realm_common/RealmIndexType.html>`__ 
+as ``fullText``. This enables full-text queries on the property. In the 
+following example, we mark the pattern and material properties with the FTS annotation:
 
 .. literalinclude:: /examples/generated/flutter/rug.snippet.flutter-fts-annotation.dart
    :language: dart

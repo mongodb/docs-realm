@@ -1,8 +1,3 @@
-import 'package:realm_dart/realm.dart';
-
-part 'rug.g.dart';
-
-// :snippet-start: flutter-fts-annotation
 @RealmModel()
 class _Rug {
     @PrimaryKey()
@@ -16,5 +11,3 @@ class _Rug {
 
     late int softness;
 }
-// :snippet-end:
-
