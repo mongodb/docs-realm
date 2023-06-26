@@ -28,9 +28,10 @@ const config: Realm.Configuration = {
   schema: [Person],
   // Increment the 'schemaVersion', since the property type of '_id'
   // has been modified.
-  schemaVersion: 2,
+  // The initial schemaVersion is 0.
+  schemaVersion: 1,
   onMigration: (oldRealm: Realm, newRealm: Realm) => {
-    if (oldRealm.schemaVersion < 2) {
+    if (oldRealm.schemaVersion < 1) {
       const oldObjects: Realm.Results<OldObjectModel> =
         oldRealm.objects(Person);
       const newObjects: Realm.Results<Person> = newRealm.objects(Person);

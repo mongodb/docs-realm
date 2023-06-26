@@ -9,11 +9,11 @@ import {render, waitFor} from '@testing-library/react-native';
 // useRealm instantiation, for the same reason.
 // :replace-start: {
 //    "terms": {
-//       "schemaVersion: 3": "schemaVersion: 2",
-//       "schemaVersion: 4": "schemaVersion: 2",
-//       "schemaVersion: 5": "schemaVersion: 2",
-//       "oldRealm.schemaVersion < 4": "oldRealm.schemaVersion < 2",
-//       "oldRealm.schemaVersion < 5": "oldRealm.schemaVersion < 2",
+//       "schemaVersion: 3": "schemaVersion: 1",
+//       "schemaVersion: 4": "schemaVersion: 1",
+//       "schemaVersion: 5": "schemaVersion: 1",
+//       "oldRealm.schemaVersion < 4": "oldRealm.schemaVersion < 1",
+//       "oldRealm.schemaVersion < 5": "oldRealm.schemaVersion < 1",
 //       "RealmProvider, useRealm": "RealmProvider"
 //    }
 // }
@@ -89,7 +89,8 @@ describe('Change an Object Model Tests', () => {
 
     const config: Realm.Configuration = {
       schema: [Person],
-      // increment the 'schemaVersion', since 'age' has been added to the schema
+      // Increment the 'schemaVersion', since 'age' has been added to the schema.
+      // The initial schemaVersion is 0.
       schemaVersion: 2,
     };
 
@@ -149,7 +150,8 @@ describe('Change an Object Model Tests', () => {
 
     const config: Realm.Configuration = {
       schema: [Person],
-      // increment the 'schemaVersion', since 'lastName' has been removed from the schema
+      // Increment the 'schemaVersion', since 'lastName' has been removed from the schema.
+      // The initial schemaVersion is 0.
       schemaVersion: 3,
     };
 
@@ -226,8 +228,9 @@ describe('Change an Object Model Tests', () => {
 
     const config: Realm.Configuration = {
       schema: [Person],
-      // increment the 'schemaVersion', since 'fullName' has replaced
-      // 'firstName' and 'lastName' in the schema
+      // Increment the 'schemaVersion', since 'fullName' has replaced
+      // 'firstName' and 'lastName' in the schema.
+      // The initial schemaVersion is 0.
       schemaVersion: 4,
       onMigration: (oldRealm: Realm, newRealm: Realm) => {
         // only apply this change if upgrading schemaVersion
@@ -317,6 +320,7 @@ describe('Change an Object Model Tests', () => {
       schema: [Person],
       // Increment the 'schemaVersion', since the property type of '_id'
       // has been modified.
+      // The initial schemaVersion is 0.
       schemaVersion: 5,
       onMigration: (oldRealm: Realm, newRealm: Realm) => {
         if (oldRealm.schemaVersion < 5) {
