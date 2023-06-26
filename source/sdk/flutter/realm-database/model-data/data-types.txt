@@ -330,8 +330,6 @@ Access the type of data with ``RealmValue.type`` and the value with ``RealmValue
 Uint8List
 ~~~~~~~~~
 
-.. API docs don't seem to have the Binary class: https://pub.dev/documentation/realm/latest/realm/realm-library.html
-
 `Uint8List <https://api.dart.dev/stable/3.0.5/dart-typed_data/Uint8List-class.html>`__
 is a binary data type from `dart:typed_data 
 <https://api.dart.dev/stable/3.0.5/dart-typed_data/dart-typed_data-library.html>`__. 
@@ -344,8 +342,7 @@ Then, set the object's type as ``Uint8List`` in your :ref:`object model
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.binary-model.dart
    :language: dart
 
-To add ``Uint8List`` to a Realm object, call ``Uint8List.fromList(List<int> 
-elements)`` on the data.
+To add ``Uint8List`` to a Realm object, call ``Uint8List.fromList()`` on the data.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.binary-from-list.dart
    :language: dart
