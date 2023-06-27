@@ -123,12 +123,38 @@ void main() {
     });
 
     test("Handle Sync Error", () async {
+      var handlerCalled = false;
+      final credentials = Credentials.anonymous();
+      final currentUser = await app.logIn(credentials);
+
+      // :snippet-start: sync-error-handler
+      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema],
+          syncErrorHandler: (SyncError error) {
+        handlerCalled = true; // :remove:
+        print("Error message" + error.message.toString());
+      });
+
+      final realm = Realm(config);
+      // :snippet-end:
+
+      // TODO: generate SyncError to trigger `syncErrorHandler`
+      await Future.delayed(Duration(milliseconds: 500));
+      expect(handlerCalled, true);
+
+      await cleanUpRealm(realm, app);
+      expect(realm.isClosed, true);
+      expect(app.currentUser, null);
+    },
+        skip:
+            "Skipping because there's not a straightforward way to simulate a sync error");
+
+    test("Handle Compensating Write Error", () async {
       late SyncError testCompensatingWriteError;
       final carMakePrefix = generateRandomString(4);
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
 
-      // :snippet-start: sync-error-handler
+      // :snippet-start: handle-compensating-write-error
       void handleCompensatingWrite(
           CompensatingWriteError compensatingWriteError) {
         testCompensatingWriteError = compensatingWriteError; // :remove:
