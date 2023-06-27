@@ -124,11 +124,12 @@ void main() {
 
     test("Handle Sync Error", () async {
       var handlerCalled = false;
+      final carMakePrefix = generateRandomString(4);
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
 
       // :snippet-start: sync-error-handler
-      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema],
+      final config = Configuration.flexibleSync(currentUser, [Car.schema],
           syncErrorHandler: (SyncError error) {
         handlerCalled = true; // :remove:
         print("Error message" + error.message.toString());
@@ -137,16 +138,31 @@ void main() {
       final realm = Realm(config);
       // :snippet-end:
 
-      // TODO: generate SyncError to trigger `syncErrorHandler`
-      await Future.delayed(Duration(milliseconds: 500));
+      // Create randomized query.
+      final query = realm.query<Car>(r'make BEGINSWITH $0', [carMakePrefix]);
+
+      // Set up subscription for randomized query.
+      realm.subscriptions
+          .update((mutableSubscriptions) => mutableSubscriptions.add(query));
+
+      // Wait for subscriptions to sync with server.
+      await realm.subscriptions.waitForSynchronization();
+
+      final carId = ObjectId();
+
+      // Add new object that doesn't match the randomized subscription.
+      // Should cause an error.
+      realm.write(() => realm.add(Car(carId, "doesn't match subscription")));
+
+      // Wait for write to upload and generate error.
+      await realm.syncSession.waitForUpload();
+
       expect(handlerCalled, true);
 
       await cleanUpRealm(realm, app);
       expect(realm.isClosed, true);
       expect(app.currentUser, null);
-    },
-        skip:
-            "Skipping because there's not a straightforward way to simulate a sync error");
+    });
 
     test("Handle Compensating Write Error", () async {
       late SyncError testCompensatingWriteError;
