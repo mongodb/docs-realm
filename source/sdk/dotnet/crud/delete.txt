@@ -16,13 +16,7 @@ Delete Data - .NET SDK
 Delete an Object
 ----------------
 
-.. example::
-
-   The following code shows how to delete one object from
-   its realm:
-
-   .. literalinclude:: /examples/CRUD/Delete.cs
-      :language: csharp
+.. include:: /includes/dotnet-delete-include.rst
 
 .. _dotnet-delete-multiple-objects:
 .. _dotnet-delete-collection:
@@ -30,13 +24,11 @@ Delete an Object
 Delete Multiple Objects
 -----------------------
 
-.. example::
+The following code demonstrates how to delete a
+collection from a realm:
 
-   The following code demonstrates how to delete a
-   collection from a realm:
-
-   .. literalinclude:: /examples/CRUD/DeleteCollection.cs
-      :language: csharp
+.. literalinclude:: /examples/CRUD/DeleteCollection.cs
+   :language: csharp
 
 .. _dotnet-delete-object-and-dependent-objects:
 .. _dotnet-chaining-delete:
@@ -56,14 +48,13 @@ Currently, the best way to delete dependent objects is to
 iterate through the dependencies and delete them before
 deleting the parent object.
 
-.. example::
 
-   The following code demonstrates how to perform a
-   chaining delete by first deleting all of Ali's dogs,
-   then deleting Ali:
+The following code demonstrates how to perform a
+chaining delete by first deleting all of Ali's dogs,
+then deleting Ali:
 
-   .. literalinclude:: /examples/CRUD/ChainingDelete.cs
-      :language: csharp
+.. literalinclude:: /examples/CRUD/ChainingDelete.cs
+   :language: csharp
 
 .. _dotnet-delete-all-of-object:
 .. _dotnet-delete-all-object-of-a-specific-type:
@@ -75,13 +66,11 @@ Realm supports deleting all instances of a
 :ref:`Realm type <dotnet-objects>` from a
 realm.
 
-.. example::
+The following code demonstrates how to delete all
+Dog instances from a realm:
 
-   The following code demonstrates how to delete all
-   Dog instances from a realm:
-
-   .. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
-      :language: csharp
+.. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
+   :language: csharp
 
 .. _dotnet-delete-all-objects-in-a-realm:
 .. _dotnet-delete-all:
@@ -93,10 +82,8 @@ It is possible to delete all objects from the realm. This
 does not affect the schema of the realm. This is useful for
 quickly clearing out your realm while prototyping.
 
-.. example::
+The following code demonstrates how to delete everything
+from a realm:
 
-   The following code demonstrates how to delete everything
-   from a realm:
-
-   .. literalinclude:: /examples/CRUD/DeleteAll.cs
-      :language: csharp
+.. literalinclude:: /examples/CRUD/DeleteAll.cs
+   :language: csharp

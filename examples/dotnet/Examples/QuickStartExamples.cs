@@ -80,6 +80,21 @@ namespace Examples
             // :snippet-end:
             testItemId = testItem.Id;
 
+            //:snippet-start:read-all
+            var allItems = realm.All<Item>();
+            // :snippet-end:
+
+            //:snippet-start:read-open-items
+            var openItems = realm.All<Item>()
+                .Where(i => i.Status == "Open");
+            // :snippet-end:
+
+            //:snippet-start:sort-items
+            var sortedItems = realm.All<Item>()
+                .OrderBy(i => i.Status);
+            // :snippet-end:
+
+
             // :snippet-start: upsert
             var id = ObjectId.GenerateNewId();
 
@@ -102,6 +117,12 @@ namespace Examples
                 realm.Add(sarah, update: true);
             });
             // :snippet-end:
+
+            //:snippet-start:read-filter
+            var someItems = realm.All<Item>();
+            // :snippet-end:
+
+
             Assert.IsTrue(kerry.Name == "Sarah");
 
             var myid = ObjectId.GenerateNewId();
