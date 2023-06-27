@@ -47,18 +47,14 @@ Before you configure a realm with Flexible Sync in a Node.js application:
 #. :ref:`Initialize the App client <node-connect-to-mongodb-realm-backend-app>`.
 #. :ref:`Authenticate a user <node-authenticate-users>` in your client project.
 
-Open a Flexible Synced Realm
-----------------------------
+Open a Synced Realm
+-------------------
 
-You can open a Synced realm with Flexible Sync or the older Partition-Based 
-Sync. If you'd like to open a realm with Partition-Based Sync, refer to 
-:ref:`Open a Partition-Based Synced Realm <node-partition-based-sync>`. 
+The first step in implementing Device Sync is to open the synced Realm. The following
+information pertains to an app using Flexible Sync. If your existing app uses the
+older Partition-Based Sync, refer to :ref:Open a Partition-Based Synced Realm <node-partition-based-sync>.
 If you have not yet decided or are unsure which to use, read the :ref:`Choose Your
 Sync Mode <sync-modes>` page.
-
-By default, Realm syncs all data from the server before returning.
-If you want to sync data in the background, read the :ref:`Open a Synced Realm
-While Offline <node-open-synced-realm-offline>` section.
 
 .. _node-flexible-sync-open-realm:
 
@@ -70,6 +66,10 @@ In the SyncConfiguration, you must include include a ``user`` and ``flexible:tru
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.open-flexible-sync-realm.js
    :language: javascript
+
+By default, Realm syncs all data from the server before returning.
+If you want to sync data in the background, read the :ref:`Open a Synced Realm
+While Offline <node-sync-changes-in-the-background>` section.
 
 .. important:: Flexible Sync Requires a Subscription
 
@@ -129,10 +129,10 @@ to enable background synchronization.
 .. important:: Offline Login is Supported for Both Flexible and Partition-Based Sync Configurations
 
    You can open a realm immediately with background sync or after a timeout
-   elapses using Flexible Sync or the older Parition-Based Sync.
+   elapses using Flexible Sync or the older Partition-Based Sync.
    
-   :ref:`Partition-Based Sync is an outdated sync mode. See the Partition-Based Sync - Node.js SDK
-   page for details on using Parition-Based Sync for your application. <node-partition-based-sync>`
+   Partition-Based Sync is an outdated sync mode. See the :ref:`Partition-Based Sync - Node.js
+   SDK <node-partition-based-sync>` page for details on using Partition-Based Sync for your application.
 
 .. _node-open-immediately-with-background-sync:
 
