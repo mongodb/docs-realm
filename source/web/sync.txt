@@ -9,17 +9,19 @@ The Realm JavaScript SDK with WebAssembly support allows you to build
 realtime web applications for the browser using the Realm Database API
 and Atlas Device Sync.
 
-The Realm JS SDK with WebAssembly support is in Preview. It currently
-has significant limitations relative to the Realm JS SDK for Node.js or
-React Native. See the :ref:`limitations <web-sync-limitations>` section
-for more information.
+.. important::
+
+   The Realm JS SDK with WebAssembly support is in Preview. It currently
+   has significant limitations relative to the Realm JS SDK for Node.js
+   or React Native. See the :ref:`limitations <web-sync-limitations>`
+   section for more information.
 
 Get Started with an Example App
 -------------------------------
 
-The fastest way to start using the Realm JS SDK with WebAssembly support
-is to clone and run our pre-built Web Sync Example App. The app is
-written in React and uses Realm Database APIs and Atlas Device Sync.
+The fastest way to start using the Realm JS WebAssembly SDK is to clone
+and run our pre-built Web Sync Example App. The app is written in React
+and uses Realm Database APIs and Atlas Device Sync.
 
 .. procedure::
 
@@ -201,6 +203,14 @@ applications that sync data between devices.
 
 The examples in this section show how to work with Realm in your app.
 
+.. tip::
+
+   If you're writing a React application, consider using the
+   :ref:`@realm/react
+   <https://www.mongodb.com/docs/realm/sdk/react-native/use-realm-react/>`
+   package. It includes pre-built hooks and components that let you
+   natively integrate Realm with React.
+
 Import Realm
 ~~~~~~~~~~~~
 
@@ -329,9 +339,10 @@ Device Sync on the browser is currently subject to the following limitations:
   data to disk. All local data is stored in memory and will be lost when
   the browser tab is closed or refreshed.
 
-- **No worker threads**: You must perform all Realm operations are
-  performed on the main thread. You cannot open or work with a realm in
-  a web worker thread.
+- **No worker threads**: You must perform all Realm operations on the
+  main thread. You cannot open or work with a realm in a web worker
+  thread.
 
-- **No encryption**: The Realm JS Web SDK does not support encryption.
-  All data is stored unencrypted in memory.
+- **No encryption at rest**: The Realm JS Web SDK stores all local data
+  at rest unencrypted in memory. Data in transit between the browser and
+  the Device Sync server is encrypted over HTTPS.
