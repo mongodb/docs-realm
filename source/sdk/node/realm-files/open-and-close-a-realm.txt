@@ -143,3 +143,53 @@ Close a Realm
 -------------
 
 .. include:: /includes/js-close-a-realm.rst
+
+Use an HTTP Proxy
+-----------------
+
+The Realm Node.js SDK has limited support for running behind an HTTP proxy.
+
+Requirements
+~~~~~~~~~~~~
+
+- Realm Node.js SDK v10.3.0 or later.
+- NPM CLI v6.9.0 or later is required
+
+Limitations
+~~~~~~~~~~~
+
+- You must install the `fetch-with-proxy 
+  <https://www.npmjs.com/package/fetch-with-proxy>`__ package manually
+- HTTPS connections from the client to the proxy server are not supported.
+  The URL specified in ``HTTPS_PROXY`` must start with ``http://``.
+- You must set an ``HTTPS_PROXY`` environment variable. The proxy cannot
+  be set at runtime or on a per-app basis.
+
+
+Install fetch-with-proxy
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A manual step is required to switch out the ``node-fetch`` package used by the
+network transport layer. .
+
+After installing Realm JS, run the following command to install a different package into our Network Transport package:
+
+.. code-block:: sh
+
+   npm install node-fetch@npm:fetch-with-proxy --prefix node_modules/realm-network-transport
+
+Set HTTPS_PROXY and Run a Script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can run an arbitrary script file while routing all of Realm JS's requests
+through an HTTP proxy.
+
+On a Unix system you can prefix the assignment of an environment variable before
+the command:
+
+.. code-block:: sh
+
+   HTTPS_PROXY=http://127.0.0.1:3128 node index.js
+
+On a Windows system, you need to configure the variable through
+"Advanced System Settings" > "Environment Variables" > "Edit System Variables".
