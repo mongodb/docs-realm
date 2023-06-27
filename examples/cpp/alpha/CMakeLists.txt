@@ -20,7 +20,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples 
-  asymmetric-sync.cpp
   crud.cpp
   define-object-model.cpp
   filter-data.cpp 

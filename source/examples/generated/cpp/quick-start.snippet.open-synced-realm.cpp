@@ -10,4 +10,4 @@ auto updateSubscriptionSuccess = subscriptions.update([&](realm::mutable_sync_su
         // property value is equal to the userId of the logged-in user.
         return obj.ownerId == userId;
     });
-}).get_future().get();
+}).get();

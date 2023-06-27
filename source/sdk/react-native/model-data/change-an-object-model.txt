@@ -91,13 +91,12 @@ set a ``schemaVersion`` of the ``Configuration`` object.
 
 .. example::
    
-   A realm using :ref:`schema version
-   <react-native-schema-version>` ``1`` has a ``Person`` object type with a
-   ``firstName`` and ``lastName`` property. You decide to add an
-   ``age`` property to the ``Person`` class. 
+   A realm using :ref:`schema version <react-native-schema-version>` ``0``, the
+   default, has a ``Person`` object type with a ``firstName`` and ``lastName``
+   property. You decide to add an ``age`` property to the ``Person`` class. 
 
    To migrate the realm to conform to the updated ``Person`` schema, you set the
-   realm's schema version in the ``Configuration`` to ``2``. Finally, pass
+   realm's schema version in the ``Configuration`` to ``1``. Finally, pass
    the configuration object to the ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
@@ -107,14 +106,14 @@ set a ``schemaVersion`` of the ``Configuration`` object.
  
          .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.add-a-property-to-schema.tsx
            :language: typescript
-           :emphasize-lines: 5, 14, 22
+           :emphasize-lines: 5, 14, 23
      
      .. tab::
          :tabid: javascript
  
          .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.add-a-property-to-schema.jsx
            :language: javascript
-           :emphasize-lines: 9, 17
+           :emphasize-lines: 9, 18
 
 .. _react-native-delete-a-property:
 
@@ -128,12 +127,12 @@ existing objects.
 
 .. example::
 
-   A realm using :ref:`schema version <react-native-schema-version>` ``1`` has a
-   ``Person`` object type with a ``lastName`` property. You decide to
-   remove the property from the schema. 
+   A realm using :ref:`schema version <react-native-schema-version>` ``0``, the
+   default, has a ``Person`` object type with a ``lastName`` property. You 
+   decide to remove the property from the schema. 
 
    To migrate the realm to conform to the updated ``Person`` schema, set the
-   realm's schema version to ``2`` in the ``Configuration`` object. Finally, pass
+   realm's schema version to ``1`` in the ``Configuration`` object. Finally, pass
    the configuration object to the ``createRealmContext()`` method.
 
 
@@ -144,14 +143,14 @@ existing objects.
  
          .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.delete-a-property-from-a-schema.tsx
            :language: typescript
-           :emphasize-lines: 19
+           :emphasize-lines: 20
 
      .. tab::
          :tabid: javascript
  
          .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.delete-a-property-from-a-schema.jsx
            :language: javascript
-           :emphasize-lines: 15
+           :emphasize-lines: 16
 
 .. _react-native-perform-a-schema-migration:
 .. _react-native-rename-a-property:
@@ -170,13 +169,15 @@ property, and then delete the old property.
 
 .. example::
    
-   A realm using :ref:`schema version <react-native-schema-version>` ``1`` has
-   a ``Person`` object type. The original schema had a ``firstName`` and ``lastName``
-   field. You later decide that the ``Person`` class should use a combined
-   ``fullName`` field and removes the separate ``firstName`` and ``lastName`` fields.
+   A realm using :ref:`schema version <react-native-schema-version>` ``0``, the
+   default, has a ``Person`` object type. The original schema had a ``firstName``
+   and ``lastName`` field. You later decide that the ``Person`` class should
+   use a combined ``fullName`` field and removes the separate ``firstName``
+   and ``lastName`` fields.
    
-   To migrate the realm to conform to the updated ``Person`` schema, create a :js-sdk:`Configuration <Realm.html#~Configuration>` object
-   and set the realm's schema version to ``2``, and define a migration function that
+   To migrate the realm to conform to the updated ``Person`` schema, create a
+   :js-sdk:`Configuration <Realm.html#~Configuration>` object and set the
+   realm's schema version to ``1``, and define a migration function that
    sets the value of ``fullName`` based on the existing ``firstName`` and ``lastName``
    properties. Finally, pass the configuration object to the
    ``createRealmContext()`` method.
@@ -188,14 +189,14 @@ property, and then delete the old property.
  
          .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.rename-a-property-of-a-schema.tsx
            :language: typescript
-           :emphasize-lines: 3, 12, 20-21, 28-29, 38, 50
+           :emphasize-lines: 3, 12, 20-21, 28-29, 39, 51
 
      .. tab::
          :tabid: javascript
  
          .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.rename-a-property-of-a-schema.jsx
            :language: javascript
-           :emphasize-lines: 8, 18, 30
+           :emphasize-lines: 8, 19, 31
 
 .. important:: Synced Realms
 
@@ -226,13 +227,13 @@ callback function of the :js-sdk:`Configuration
 
 .. example::
    
-   A realm using :ref:`schema version <react-native-schema-version>` ``1`` has a
-   ``Person`` object type. The original schema had an ``_id`` with a property type of
-   ``int``. You later decide that the ``Person`` class's ``_id`` field should
-   be of type ``ObjectId``, and updates the schema.
+   A realm using :ref:`schema version <react-native-schema-version>` ``0``, the
+   default, has a ``Person`` object type. The original schema had an ``_id``
+   with a property type of ``int``. You later decide that the ``Person`` class's
+   ``_id`` field should be of type ``ObjectId``, and updates the schema.
 
    To migrate the realm to conform to the updated ``Person`` schema, create a
-   ``Configuration`` object and set the realm's schema version to ``2``, and
+   ``Configuration`` object and set the realm's schema version to ``1``, and
    define a migration function to convert the integer type to an ``Object ID``
    type. Finally, pass the configuration object to the
    ``createRealmContext()`` method.
@@ -244,11 +245,11 @@ callback function of the :js-sdk:`Configuration
  
          .. literalinclude:: /examples/generated/react-native/ts/change-an-object-model-test.snippet.modify-a-property-type.tsx
            :language: typescript
-           :emphasize-lines: 2, 11, 19, 27, 38, 49
+           :emphasize-lines: 2, 11, 32, 43
 
      .. tab::
          :tabid: javascript
  
          .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.modify-a-property-type.jsx
            :language: javascript
-           :emphasize-lines: 6, 17, 28
+           :emphasize-lines: 6, 18, 29
