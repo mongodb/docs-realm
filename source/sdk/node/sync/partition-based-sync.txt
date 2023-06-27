@@ -53,11 +53,3 @@ Open a Bundled Partition-Based Synced Realm
 When opening a :ref:`bundled synchronized realm <node-bundle-a-realm>` that uses Partition-Based Sync,
 you must use the same partition key that was used in the original realm configuration. If you use a
 different partition key, the SDK throw an error when opening the bundled realm. 
-
-Data Ingest
-~~~~~~~~~~~
-
-You cannot query an asymmetric object or write it to a local realm, so asymmetric objects are incompatible 
-with bi-directional Partition-Based Sync, as well as with Flexible Sync and local Realm use.
-
-
