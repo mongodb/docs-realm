@@ -98,23 +98,23 @@ namespace Examples
             // :snippet-start: upsert
             var id = ObjectId.GenerateNewId();
 
-            var kerry = new Person { Id = id, Name = "Kerry" };
+            var item1 = new Item { Id = id, Name = "Defibrillate the Master Oscillator" };
 
             // Add a new person to the realm. Since nobody with the existing Id
             // has been added yet, this person is added.
             await realm.WriteAsync(() =>
             {
-                realm.Add(kerry, update: true);
+                realm.Add(item1, update: true);
             });
 
-            var sarah = new Person { Id = id, Name = "Sarah" };
+            var item2 = new Item { Id = id, Name = "Fluxify the Turbo Encabulator" };
 
             // Based on the unique Id field, we have an existing person,
             // but with a different name. When `update` is true, you overwrite
-            // the original entry (i.e. Kerry -> Sarah).
+            // the original entry.
             await realm.WriteAsync(() =>
             {
-                realm.Add(sarah, update: true);
+                realm.Add(item2, update: true);
             });
             // :snippet-end:
 
@@ -213,10 +213,12 @@ namespace Examples
                     realm.Add(myItem);
                 });
 
+                //:snippet-start:delete-one-item
                 realm.Write(() =>
                 {
                     realm.Remove(myItem);
                 });
+                //:snippet-end:
 
                 realm.Write(() =>
                 {
