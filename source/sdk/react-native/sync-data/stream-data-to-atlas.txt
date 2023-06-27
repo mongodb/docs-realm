@@ -1,9 +1,9 @@
 .. _react-native-define-an-asymmetric-object:
 .. _react-native-stream-data-to-atlas:
 
-===============================================
+=======================================
 Stream Data to Atlas - React Native SDK
-===============================================
+=======================================
 
 .. contents:: On this page
    :local:
@@ -13,35 +13,85 @@ Stream Data to Atlas - React Native SDK
 
 .. include:: /includes/data-ingest-overview.rst
 
-Example
-~~~~~~~
+Sync Data Unidirectionally from a Client Application
+----------------------------------------------------
+
+.. procedure::
+
+   .. step:: Define an Asymmetric Object
+
+      Asymmetric objects sync data unidirectionally. Define an asymmetric object
+      by setting ``asymmetric`` to ``true`` in your :js-sdk:`object model 
+      <Realm.html#~ObjectSchema>`:
+
+      .. tabs-realm-languages::
+
+         .. tab::
+            :tabid: typescript
+         
+            .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync-object.ts
+               :language: typescript
+               :emphasize-lines: 12
+         
+         .. tab::
+            :tabid: javascript
+
+            .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync-object.js
+               :language: javascript
+               :emphasize-lines: 6
+
+      For more information on how to define an asymmetric object, refer to 
+      :ref:`Define an Asymmetric Object <node-define-an-asymmetric-object>`.
+
+   .. step:: Connect and Authenticate with an App Services App
+
+      To stream data from the client to your backend App, you must 
+      :ref:`connect to an App Services backend 
+      <node-connect-to-mongodb-realm-backend-app>` and
+      :ref:`authenticate a user <node-authenticate-users>`.
+
+      .. tabs-realm-languages::
    
-In the following example of a retail app, a client requires large amounts of
-invoice data to be recorded rapidly by store employees. The client specifies
-that invoice data does not need to be read after employees have recorded it.
+         .. tab::
+            :tabid: javascript
+            
+            .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
+               :language: javascript
+         
+         .. tab::
+            :tabid: typescript
+            
+            .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.ts
+               :language: typescript
 
-To satisfy this requirement, define an invoice object with the
-``asymmetric`` property set to ``true``. You cannot add a Flexible Sync
-subscription to this object. Objects that use Data Ingest are for *insert-only*
-workloads.
+      Data Ingest is a feature of Flexible Sync, so the App you connect 
+      to must use :ref:`Flexible Sync <flexible-sync>`.
 
-To learn more about Data Ingest, read :ref:`Optimize Sync with Data Ingest
-<optimize-data-ingest>`.
+   .. step:: Open a Realm
 
-.. tabs-realm-languages::
-      
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/Invoice.snippet.ts-invoice-schema.ts
+      After you have an authenticated user, you can open a synced realm
+      using a Flexible Sync :js-sdk:`configuration object <Realm.html#~Configuration>`.
+
+      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.open-realm.ts
          :language: typescript
-         :emphasize-lines: 10
-         :linenos:
 
-   .. tab::
-      :tabid: javascript
+      Unlike bi-directional Sync, Data Ingest does not use a 
+      :ref:`Flexible Sync subscription <node-flexible-sync>`.
+         
+      You cannot query an asymmetric object or write it to a local
+      realm, so asymmetric objects are incompatible with bi-directional
+      Flexible Sync, Partition-Based Sync, or local Realm use.
+
+   .. step:: Create Asymmetric Objects
+
+      Once you have an open Realm, you can create an asymmetric object inside
+      a write transaction using :js-sdk:`Realm.create() <Realm.html#create>`.
+      When creating an asymmetric object, ``Realm.create()`` returns
+      ``undefined`` rather than the object itself.
+
+      .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         :language: typescript
       
-      .. literalinclude:: /examples/generated/react-native/js/Invoice.snippet.js-invoice-schema.js
-         :language: javascript
-         :emphasize-lines: 5
-         :linenos:
+      You cannot read these objects. Once created, they sync to the App 
+      Services backend and the linked Atlas database.
+
