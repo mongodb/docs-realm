@@ -153,16 +153,16 @@ Requirements
 ~~~~~~~~~~~~
 
 - Realm Node.js SDK v10.3.0 or later.
-- NPM CLI v6.9.0 or later is required
+- NPM CLI v6.9.0 or later is required.
 
 Limitations
 ~~~~~~~~~~~
 
 - You must install the `fetch-with-proxy 
-  <https://www.npmjs.com/package/fetch-with-proxy>`__ package manually
+  <https://www.npmjs.com/package/fetch-with-proxy>`__ package manually.
 - HTTPS connections from the client to the proxy server are not supported.
   The URL specified in ``HTTPS_PROXY`` must start with ``http://``.
-- You must set an ``HTTPS_PROXY`` environment variable. The proxy cannot
+- You must set an ``HTTPS_PROXY`` environment variable. The proxy can't
   be set at runtime or on a per-app basis.
 
 
@@ -170,9 +170,10 @@ Install fetch-with-proxy
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 A manual step is required to switch out the ``node-fetch`` package used by the
-network transport layer. .
+network transport layer.
 
-After installing Realm JS, run the following command to install a different package into our Network Transport package:
+After installing the Realm Node.js SDK, run the following command to install a
+different package into the Network Transport package:
 
 .. code-block:: sh
 
@@ -190,6 +191,3 @@ the command:
 .. code-block:: sh
 
    HTTPS_PROXY=http://127.0.0.1:3128 node index.js
-
-On a Windows system, you need to configure the variable through
-"Advanced System Settings" > "Environment Variables" > "Edit System Variables".
