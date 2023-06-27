@@ -1,0 +1,29 @@
+---
+ref: dotnet-create-include
+content: |
+  When creating or updating documents, all writes must happen in a 
+  :ref:`transaction <dotnet-write-transactions>`. 
+
+  The following code shows two methods for creating a new Realm object. In the 
+  first example, we create the object first, and then add it to the realm within 
+  a :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
+  method. In the second example, we create the document within the ``WriteAsync`` 
+  block, which returns a realm object we can further work with.
+
+  .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
+     :language: csharp
+
+---
+ref: dotnet-update-include
+content: |
+
+  Upserting a document is the same as creating a new one, except you set the 
+  optional ``update`` parameter to ``true``. In this example, we create a new 
+  ``Person`` object with a unique ``Id``. We then try to insert a person with the 
+  same id. Because we have set the ``update`` parameter to ``true``, the existing 
+  record is updated.
+
+  .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.upsert.cs
+     :language: csharp
+
+  
