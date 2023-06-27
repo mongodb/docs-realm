@@ -1,0 +1,55 @@
+.. _node-partition-based-sync:
+
+==================================
+Partition-Based Sync - Node.js SDK
+==================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol 
+
+Atlas Device Sync has two sync modes:  :ref:`Flexible Sync <flexible-sync>`
+and Partition-Based Sync. We recommend using Flexible Sync.
+The information on this page is to support users who have existing apps that use
+:ref:`Partition-Based Sync <partition-based-sync>`.
+
+.. note:: Matching Sync Modes with Atlas Device Sync
+
+  When you use :ref:`Atlas Device Sync <sync>` in your client application, your
+  implementation must match the Sync Mode you select in your backend App configuration.
+  You can only use one Sync mode for your application. You cannot mix Partition-Based
+  Sync and Flexible Sync within the same app.
+
+.. _node-partition-sync-open-realm:
+
+Open a Partition-Based Synced Realm
+-----------------------------------
+
+.. include:: /includes/node-open-a-synced-realm.rst
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.ts
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.js
+        :language: javascript
+
+.. important:: Offline Login is Supported for Partition-Based Sync Configurations
+    You can open a realm immediately with background sync or after a timeout elapses using
+    Partition-Based Sync. 
+
+Open a Bundled Partition-Based Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When opening a :ref:`bundled synchronized realm <node-bundle-a-realm>` that uses Partition-Based Sync,
+you must use the same partition key that was used in the original realm configuration. If you use a
+different partition key, the SDK throw an error when opening the bundled realm. 
