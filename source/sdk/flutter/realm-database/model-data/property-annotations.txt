@@ -91,7 +91,7 @@ or persist it to Realm Database.
 Index Properties
 ----------------
 
-Add the `@Indexed
+Add the `Indexed
 <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
 annotation to create an index on the field. Indexes can greatly speed up some
 queries at the cost of slightly slower write times and additional storage and
@@ -130,7 +130,7 @@ annotation and specify the `RealmIndexType <https://pub.dev/documentation/realm_
 as ``fullText``. This enables full-text queries on the property. In the 
 following example, we mark the pattern and material properties with the FTS annotation:
 
-.. literalinclude:: /examples/generated/flutter/rug.snippet.flutter-fts-annotation.dart
+.. literalinclude:: /examples/generated/flutter/full_text_search_test.snippet.flutter-fts-annotation.dart
    :language: dart
    :emphasize-lines: 6-10
 
