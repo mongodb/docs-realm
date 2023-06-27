@@ -13,7 +13,8 @@ class Person extends Realm.Object {
 
 const config = {
   schema: [Person],
-  // increment the 'schemaVersion', since 'age' has been added to the schema
+  // Increment the 'schemaVersion', since 'age' has been added to the schema.
+  // The initial schemaVersion is 0.
   schemaVersion: 2,
 };
 

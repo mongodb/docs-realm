@@ -1,4 +1,4 @@
-struct WeatherSensorReading : realm::asymmetric_object<WeatherSensorReading> { 
+struct WeatherSensorReading : realm::asymmetric_object<WeatherSensorReading> {
     realm::persisted<realm::object_id> _id{realm::object_id::generate()};
     realm::persisted<std::string> deviceId;
     realm::persisted<double> temperatureInFahrenheit;
