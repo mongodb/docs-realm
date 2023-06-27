@@ -274,7 +274,10 @@ Open a Realm
 ~~~~~~~~~~~~
 
 To open a synced realm, call ``Realm.open()`` with a configuration
-object that specifies the realm's schema and the authenticated user:
+object that specifies the realm's schema and includes a ``sync``
+configuration object. The sync configuration should specify the
+authenticated user and define initial subscriptions that control which
+data is synced:
 
 .. code-block:: javascript
 
@@ -295,6 +298,18 @@ object that specifies the realm's schema and the authenticated user:
          },
        },
      },
+   });
+
+Open a Non-Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To open a local, in-memory realm that does not synx, call
+``Realm.open()`` with a local realm configuration object:
+
+.. code-block:: javascript
+
+   const realm = await Realm.open({
+     schema: [TaskSchema]
    });
 
 Create, Modify, and Delete Realm Objects
