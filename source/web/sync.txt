@@ -42,28 +42,15 @@ and uses Realm Database APIs and Atlas Device Sync.
       From the example app's root directory, run the following command to
       install dependencies, including the Realm JS SDK with WebAssembly:
 
-      .. tabs::
+      .. code-block:: sh
 
-         .. tab:: npm
-            :tabid: npm
+         npm install
 
-            .. code-block:: sh
+      .. note::
 
-               npm install
-
-         .. tab:: yarn
-            :tabid: yarn
-
-            .. code-block:: sh
-
-               yarn
-
-         .. tab:: pnpm
-            :tabid: pnpm
-
-            .. code-block:: sh
-
-               pnpm install
+         The example app currently supports installation with ``npm``.
+         If you use ``yarn`` or ``pnpm`` then you may need to provide
+         additional polyfills.
 
    .. step:: Create and Connect an App Services App
 
@@ -86,56 +73,18 @@ and uses Realm Database APIs and Atlas Device Sync.
       Now that you've installed dependencies and defined the connection
       to your App, you can run the example app:
 
-      .. tabs::
+      .. code-block:: sh
 
-         .. tab:: npm
-            :tabid: npm
-
-            .. code-block:: sh
-
-               npm start
-
-         .. tab:: yarn
-            :tabid: yarn
-
-            .. code-block:: sh
-
-               yarn start
-
-         .. tab:: pnpm
-            :tabid: pnpm
-
-            .. code-block:: sh
-
-               pnpm start
+         npm start
 
 Install & Set Up Manually
 -------------------------
 
 You can install the Realm JS SDK with WebAssembly support from npm:
 
-.. tabs::
+.. code-block:: sh
 
-   .. tab:: npm
-      :tabid: npm
-
-      .. code-block:: sh
-
-         npm install realm@12.0.0-browser.2
-
-   .. tab:: yarn
-      :tabid: yarn
-
-      .. code-block:: sh
-
-         yarn add realm@12.0.0-browser.2
-
-   .. tab:: pnpm
-      :tabid: pnpm
-
-      .. code-block:: sh
-
-         pnpm install realm@12.0.0-browser.2
+   npm install realm@12.0.0-browser.2
 
 .. note::
 
@@ -144,62 +93,24 @@ You can install the Realm JS SDK with WebAssembly support from npm:
    must specify the exact version number and tag when installing the
    SDK.
 
-You'll also need to configure your project to use webpack with a few
-modifications:
-
-1. Install the ``bson`` package and web polyfill packages for the
-   ``crypto`` and ``stream`` Node.js modules.
-
-   .. tabs::
-
-      .. tab:: npm
-         :tabid: npm
-
-         .. code-block:: sh
-
-            npm install bson crypto-browserify stream-browserify
-
-      .. tab:: yarn
-         :tabid: yarn
-
-         .. code-block:: sh
-
-            yarn add bson crypto-browserify stream-browserify
-
-      .. tab:: pnpm
-         :tabid: pnpm
-
-         .. code-block:: sh
-
-            pnpm install bson crypto-browserify stream-browserify
-
-2. Modify your webpack configuration to include the polyfill packages
-   and enable top-level await. For example, your configuration should
-   extend this base configuration:
+You'll also need to configure your project to use webpack with top-level
+await enabled. For example, your configuration should extend this base
+configuration:
 
    .. code-block:: javascript
 
       module.exports = {
         experiments: {
           topLevelAwait: true,
-        },
-        resolve: {
-          fallback: {
-            crypto: require.resolve("crypto-browserify"),
-            stream: require.resolve("stream-browserify"),
-          },
-        },
+        }
       };
 
-Once you've installed the Realm JS SDK with WebAssembly support and
-configured webpack, you can use the SDK in your application.
-
-Use Device Sync
----------------
+Use Realm & Device Sync
+-----------------------
 
 Once you've installed the Realm JS SDK with WebAssembly support and
 configured your application, you can use the SDK to build realtime web
-applications that sync data between devices.
+applications with Realm and Atlas Device Sync.
 
 The examples in this section show how to work with Realm in your app.
 
