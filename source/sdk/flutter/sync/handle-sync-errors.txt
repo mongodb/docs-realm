@@ -10,9 +10,6 @@ Handle Sync Errors - Flutter SDK
    :depth: 3
    :class: singlecol
 
-Handle Sync Errors
-------------------
-
 While developing an application that uses :ref:`Device Sync <sync>`, you should set an error
 handler. This error handler will detect and respond to any failed sync-related
 API calls.
@@ -25,13 +22,25 @@ when creating a synced realm. ``syncErrorHandler`` is a
 as a parameter. Whenever a ``SyncError`` occurs in the realm,
 the callback function is invoked with the ``SyncError`` as its argument.
 
-If you do not specify a ``syncErrorHandler``, the default behavior is to print the
-``SyncError`` to the console.
-
 .. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.sync-error-handler.dart
    :language: dart
 
+If you do not specify a ``syncErrorHandler``, the default behavior is to print the
+``SyncError`` to the console.
+
 .. include:: /includes/sync-errors-in-app-services.rst
+
+Compensating Write Errors
+-------------------------
+
+As of Realm Flutter SDK v1.3, you can get detailed information about compensating
+write errors.
+
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.handle-compensating-write-error.dart
+   :language: dart
+
+For more details, refer to the :flutter-sdk:`CompensatingWriteError class 
+<realm/CompensatingWriteError-class.html>` reference documentation.
 
 .. _flutter-client-reset:
 
