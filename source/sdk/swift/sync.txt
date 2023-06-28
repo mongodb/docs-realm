@@ -42,7 +42,8 @@ options are:
 - Partition-Based Sync
 
 You can only use one Sync Mode for your application. You cannot mix 
-Partition-Based Sync and Flexible Sync within the same App.
+Partition-Based Sync and Flexible Sync within the same App. However, 
+you can migrate from Partition-Based Sync to Flexible Sync.
 
 .. seealso::
 
@@ -94,7 +95,64 @@ The partition value determines which data the client application can access.
 
 You pass in the partition value when you open a synced realm.
 
-Group Updates for Improved Performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _ios-migrate-pbs-to-fs:
 
-.. include:: /includes/sync-memory-performance.rst
+Migrate from Partition-Based Sync to Flexible Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can migrate your App Services Device Sync Mode from Partition-Based Sync 
+to Flexible Sync. Migrating is an automatic process that does not require 
+any changes to your application code. Automatic migration requires Realm 
+Swift SDK version 10.40.0 or newer. 
+
+Migrating enables you to keep your existing App Services users and 
+authentication configuration. Flexible Sync provides more versatile permissions
+configuration options and more granular data synchronization.
+
+For more information about how to migrate your App Services App from 
+Partition-Based Sync to Flexible Sync, refer to :ref:`Migrate Device Sync Modes 
+<realm-sync-migrate-modes>`.
+
+.. _ios-update-client-code-after-pbs-to-fs-migration:
+
+Updating Client Code After Migration
+````````````````````````````````````
+
+The automatic migration from Partition-Based Sync to Flexible Sync does not
+require any changes to your client code. However, to support this 
+functionality, Realm automatically handles the differences between the two 
+Sync Modes by:
+
+- Automatically creating Flexible Sync subscriptions for each object type 
+  where ``partitionKey == partitionValue``.
+- Injecting a ``partitionKey`` field into every object if one does not already 
+  exist. This is required for the automatic Flexible Sync subscription.
+
+If you need to make updates to your client code after migration, consider 
+updating your client codebase to remove hidden migration functionality.
+You might want update your client codebase when:
+
+- You add a new model or change a model in your client codebase
+- You add or change functionality that involves reading or writing Realm objects
+- You want to implement more fine-grained control over what data you sync
+
+Make these changes to convert your Partition-Based Sync client code to use 
+Flexible Sync:
+
+- Switch to a ``flexibleSyncConfiguration()`` where you :ref:`open a synced realm 
+  <ios-flexible-sync-open-realm>`.
+- Add relevant properties to your object models to use in your Flexible Sync 
+  subscriptions. For example, you might add an ``ownerId`` property to enable
+  a user to sync only their own data.
+- Remove automatic Flexible Sync subscriptions and manually create the 
+  relevant subscriptions. This enables you to see the subscription logic in 
+  your codebase, and change and debug it as you evolve your client code.
+
+For more information about removing and creating Flexible Sync subscriptions,
+refer to :ref:`swift-manage-flexible-sync-subscriptions`.
+
+For more information about the automatically-generated Flexible Sync 
+subscriptions, refer to :ref:`realm-sync-migrate-client`.
+
+For examples of Flexible Sync permissions strategies, including examples of 
+how to model data for these strategies, refer to :ref:`flexible-sync-permissions-guide`.

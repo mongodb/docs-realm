@@ -354,3 +354,20 @@ Flexible Sync RQL Limitations
 -----------------------------
 
 .. include:: /includes/flex-sync-limitations.rst
+
+Migrate from Partition-Based Sync
+---------------------------------
+
+In Realm Swift SDK version 10.40.0 or newer, you can automatically migrate 
+your App Services Device Sync Mode from Partition-Based Sync to Flexible
+Sync. For more information, refer to :ref:`ios-migrate-pbs-to-fs`.
+
+When you migrate from Partition-Based Sync to Flexible Sync, Realm
+automatically creates hidden Flexible Sync subscriptions for your app. The 
+next time you add or change subscriptions, we recommend removing the 
+automatically-generated subscriptions. Manually add the relevant 
+subscriptions in your client codebase to see all of your subscription logic 
+together and enable easy iteration and debugging.
+
+For more information about the automatically-generated Flexible Sync 
+subscriptions, refer to :ref:`realm-sync-migrate-client`.
