@@ -118,12 +118,14 @@ namespace Examples
             });
             // :snippet-end:
 
+
+
             //:snippet-start:read-filter
             var someItems = realm.All<Item>();
             // :snippet-end:
 
 
-            Assert.IsTrue(kerry.Name == "Sarah");
+            Assert.IsTrue(item1.Name == "Fluxify the Turbo Encabulator");
 
             var myid = ObjectId.GenerateNewId();
             // :snippet-start: modify-collection

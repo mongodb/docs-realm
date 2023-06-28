@@ -42,7 +42,7 @@ namespace ConsoleTests
         //:snippet-end:
     }
 
-    class Item : RealmObject
+    partial class Item : IRealmObject
     {
         public int Size { get; set; }
     }

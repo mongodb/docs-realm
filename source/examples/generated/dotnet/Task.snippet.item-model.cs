@@ -8,7 +8,7 @@ public partial class Item : IRealmObject
     public string Assignee { get; set; }
 
     [MapTo("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [MapTo("status")]
     public string? Status { get; set; }

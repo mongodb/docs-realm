@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using Realms;
+using User = Examples.Models.User;
 
 namespace Examples.Models
 {
@@ -14,7 +15,7 @@ namespace Examples.Models
         public string Assignee { get; set; }
 
         [MapTo("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [MapTo("status")]
         public string? Status { get; set; }
