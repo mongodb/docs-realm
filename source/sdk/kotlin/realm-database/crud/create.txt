@@ -55,3 +55,25 @@ For more information about defining a dictionary property, refer to
 
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-dictionary.kt
    :language: kotlin
+
+Create an Asymmetric Object
+---------------------------
+
+.. versionadded:: 1.10.0
+
+You can only create an `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__  
+using the `insert() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/insert.html.html>`__  
+extension method.
+
+When you create an ``AsymmetricRealmObject``, it syncs unidirectionally via 
+:ref:`Data Ingest <optimize-data-ingest>` to the Atlas 
+database linked to your Atlas App Services App. You cannot access an
+``AsymmetricRealmObject`` locally, add it to or remove it from a realm, or query for it.
+For more information, see :ref:`Asymmetric Objects <kotlin-asymmetric-objects>`.
+
+.. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
+   :language: kotlin
+
+You can create asymmetric objects for a realm initialized with a Flexible Sync
+`SyncConfiguration <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__.
+For more information, see :ref:`Open the synced Realm with a Flexible Sync configuration <kotlin-open-a-synced-realm>`.
