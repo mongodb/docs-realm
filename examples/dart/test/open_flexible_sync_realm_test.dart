@@ -182,9 +182,8 @@ void main() {
 
       final config = Configuration.flexibleSync(currentUser, [Car.schema],
           syncErrorHandler: (syncError) {
-        // 231 is the error code for compensating write errors.
-        if (syncError.codeValue == 231) {
-          handleCompensatingWrite(syncError.as<CompensatingWriteError>());
+        if (syncError is CompensatingWriteError) {
+          handleCompensatingWrite(syncError);
         }
       });
 
