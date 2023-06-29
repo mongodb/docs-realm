@@ -5,14 +5,18 @@ import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.annotations.ExperimentalAsymmetricSyncApi
+import io.realm.kotlin.mongodb.ext.call
 import io.realm.kotlin.mongodb.ext.insert
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.types.AsymmetricRealmObject
 import io.realm.kotlin.types.annotations.PersistedName
 import io.realm.kotlin.types.annotations.PrimaryKey
-import org.mongodb.kbson.BsonObjectId
+import org.mongodb.kbson.BsonDocument
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
+import kotlin.test.assertIs
+import kotlin.time.Duration.Companion.seconds
 
 
 // :replace-start: {
@@ -26,7 +30,7 @@ class AsymmetricSyncTest : RealmTest() {
     class WeatherSensor : AsymmetricRealmObject {
         @PersistedName("_id")
         @PrimaryKey
-        var id: ObjectId = BsonObjectId()
+        var id: ObjectId = ObjectId()
         var deviceId: String = ""
         var temperatureInFarenheit: Float = 0.0F
         var barometricPressureInHg: Float = 0.0F
@@ -49,10 +53,11 @@ class AsymmetricSyncTest : RealmTest() {
         Log.v("Successfully opened realm: ${asymmetricRealm.configuration.name}")
         // :snippet-end:
 
+        val oid = ObjectId()
         // :snippet-start: create-asymmetric-object
         asymmetricRealm.write {
             insert(WeatherSensor().apply {
-                id = ObjectId()
+                id = oid //:remove:
                 deviceId = "WX1278UIT"
                 temperatureInFarenheit = 6.7F
                 barometricPressureInHg = 29.65F
@@ -61,26 +66,24 @@ class AsymmetricSyncTest : RealmTest() {
         }
         // :snippet-end:
         // Add a delay to give the document time to sync
-//        asymmetricRealm.syncSession.run {
-//            resume()
-//            uploadAllLocalChanges(30.seconds)
-//        }
-        // Verify the document was added, and then delete it for cleanup.
-        //val weatherSensor = getWeatherSensors(app, "WX1278UIT")
-        // weatherSensor.deleteMany(WeatherSensor::deviceId, "WX1278UIT")
-        // assertEquals(0, weatherSensor.count())
+        asymmetricRealm.syncSession.run {
+            resume()
+            uploadAllLocalChanges(30.seconds)
+        }
+        println(oid)
+        // Check that the asymmetric data got inserted
+        // Because we don't have MongoClient, we have to use a function
+        val getAsymmetricDataResult = user.functions
+            .call<BsonDocument>("getAsymmetricSyncData", mapOf("_id" to oid.toString()))
+      //  assertIs<BsonDocument>(getAsymmetricDataResult)
+     //   assertEquals(1, getAsymmetricDataResult.size)
+    //    assertEquals(oid.toString(), getAsymmetricDataResult["_id"]?.asString()?.value)
+        // Delete the asymmetric data to clean up after the test
+        val deleteAsymmetricDataResult = user.functions
+            .call<BsonDocument>("deleteAsymmetricSyncData", mapOf("_id" to oid.toString()))
+        assertIs<BsonDocument>(deleteAsymmetricDataResult)
+        asymmetricRealm.close()
     }
-
-//    suspend fun getWeatherSensors(app: App, weatherSensorPrimaryKey: String): WeatherSensor? {
-//        val mongoClient = app.currentUser?.mongoClient("mongodb-atlas")
-//        val mongoDatabase = mongoClient?.getDatabase("kotlin")
-//        val weatherSensorCollection = mongoDatabase?.getCollection<WeatherSensor>("WeatherSensor")
-//        // Query the MongoDB collection for the document with the given primary key
-//        val weatherSensor = weatherSensorCollection?.findOne(WeatherSensor::deviceId, "WX1278UIT")
-//
-//        return weatherSensor
-//    }
-
 
 }
 // :replace-end:
