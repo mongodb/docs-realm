@@ -116,14 +116,13 @@ namespace Examples
             {
                 realm.Add(item2, update: true);
             });
+            // item1 now has a Name of "Fluxify the Turbo Encabulator"
+            // and item2 was not added as a new Item in the collection.
             // :snippet-end:
-
-
 
             //:snippet-start:read-filter
             var someItems = realm.All<Item>();
             // :snippet-end:
-
 
             Assert.IsTrue(item1.Name == "Fluxify the Turbo Encabulator");
 
@@ -220,12 +219,13 @@ namespace Examples
                 {
                     realm.Remove(myItem);
                 });
-                //:snippet-end:
 
                 realm.Write(() =>
                 {
                     realm.RemoveAll<Item>();
                 });
+
+                //:snippet-end:
                 var user = await app.LogInAsync(Credentials.Anonymous());
                 // :snippet-start: logout
                 await user.LogOutAsync();

@@ -18,3 +18,5 @@ await realm.WriteAsync(() =>
 {
     realm.Add(item2, update: true);
 });
+// item1 now has a Name of "Fluxify the Turbo Encabulator"
+// and item2 was not added as a new Item in the collection.
