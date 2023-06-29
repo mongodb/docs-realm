@@ -1,6 +1,7 @@
 package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.Realm
+import io.realm.kotlin.annotations.ExperimentalRealmSerializerApi
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
@@ -12,10 +13,9 @@ import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.types.AsymmetricRealmObject
 import io.realm.kotlin.types.annotations.PersistedName
 import io.realm.kotlin.types.annotations.PrimaryKey
-import org.mongodb.kbson.BsonDocument
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
-import kotlin.test.assertIs
+import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -39,7 +39,7 @@ class AsymmetricSyncTest : RealmTest() {
     // :snippet-end:
 
 
-    @OptIn(ExperimentalAsymmetricSyncApi::class)
+    @OptIn(ExperimentalAsymmetricSyncApi::class, ExperimentalRealmSerializerApi::class)
     @Test
     fun asymmetricObjectTest() = runBlocking {
         val credentials = Credentials.anonymous()
@@ -70,20 +70,14 @@ class AsymmetricSyncTest : RealmTest() {
             resume()
             uploadAllLocalChanges(30.seconds)
         }
-        println(oid)
-        // Check that the asymmetric data got inserted
+        // Check that the asymmetric data was inserted, then delete by ID
         // Because we don't have MongoClient, we have to use a function
-        val getAsymmetricDataResult = user.functions
-            .call<BsonDocument>("getAsymmetricSyncData", mapOf("_id" to oid.toString()))
-      //  assertIs<BsonDocument>(getAsymmetricDataResult)
-     //   assertEquals(1, getAsymmetricDataResult.size)
-    //    assertEquals(oid.toString(), getAsymmetricDataResult["_id"]?.asString()?.value)
-        // Delete the asymmetric data to clean up after the test
-        val deleteAsymmetricDataResult = user.functions
-            .call<BsonDocument>("deleteAsymmetricSyncData", mapOf("_id" to oid.toString()))
-        assertIs<BsonDocument>(deleteAsymmetricDataResult)
+        val deletedCount = user.functions
+            .call<Int>("deleteAsymmetricSyncData") {
+                add(oid)
+            }
+        assertEquals(1, deletedCount)
         asymmetricRealm.close()
     }
-
 }
 // :replace-end:
