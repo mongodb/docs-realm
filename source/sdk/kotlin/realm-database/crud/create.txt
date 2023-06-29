@@ -15,6 +15,9 @@ Create Realm Objects - Kotlin SDK
    You can only insert new objects into a realm within a
    :ref:`write transaction <kotlin-write-transactions>`.
 
+Create a New Realm Object
+-------------------------
+
 Instantiate Realm objects as you would any other object. In a
 transaction, you can add the object to the realm if the
 realm's schema includes the object
@@ -63,7 +66,7 @@ Create an Asymmetric Object
 
 You can only create an `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__  
 using the `insert() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/insert.html.html>`__  
-extension method.
+extension method within a write transaction.
 
 When you create an ``AsymmetricRealmObject``, it syncs unidirectionally via 
 :ref:`Data Ingest <optimize-data-ingest>` to the Atlas 

@@ -32,9 +32,9 @@ and standard Realm objects within the same realm.
 Asymmetric objects broadly support the same property types as ``RealmObject``, 
 with a few exceptions:
 
-- The Kotlin objects that you sync with Atlas must derive from the 
+- The Kotlin objects that you sync with Atlas must implement the 
   `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ class.
-- An object that derives from ``AsymmetricRealmObject`` can contain 
+- An object that implements the ``AsymmetricRealmObject`` can contain 
   `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__ 
   types, but not ``RealmObject`` types or other ``AsymmetricRealmObject`` types.
 - ``RealmObject`` and ``EmbeddedRealmObject`` types cannot contain ``AsymmetricRealmObject`` types as properties.
@@ -55,12 +55,10 @@ Sync Data Unidirectionally from a Client Application
 
 .. procedure::
 
-   .. step:: Define an AsymmetricObject
+   .. step:: Define an Asymmetric Object
 
       You can sync data unidirectionally when that object is an ``AsymmetricRealmObject``.
-      Define an asymmetric object by deriving from the ``AsymmetricRealmObject`` class:
-
-      .. TODO: `AsymmetricObject <link>`__:
+      Define an asymmetric object by implementing the `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ class:
 
       .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.asymmetric-model.kt 
          :language: kotlin
