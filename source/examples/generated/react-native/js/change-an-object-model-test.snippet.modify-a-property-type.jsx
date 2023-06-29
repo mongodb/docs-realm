@@ -12,11 +12,12 @@ class Person extends Realm.Object {
 
 const config = {
   schema: [Person],
-  // increment the 'schemaVersion', since the property type of '_id'
-  // has been modified
-  schemaVersion: 2,
+  // Increment the 'schemaVersion', since the property type of '_id'
+  // has been modified.
+  // The initial schemaVersion is 0.
+  schemaVersion: 1,
   onMigration: (oldRealm, newRealm) => {
-    if (oldRealm.schemaVersion < 2) {
+    if (oldRealm.schemaVersion < 1) {
       const oldObjects =
         oldRealm.objects(Person);
       const newObjects = newRealm.objects(Person);

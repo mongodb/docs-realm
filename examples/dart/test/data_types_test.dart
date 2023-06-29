@@ -1,6 +1,7 @@
 import 'package:realm_dart/realm.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
+import 'dart:typed_data';
 
 import 'utils.dart';
 
@@ -122,6 +123,16 @@ class _RealmSetExample {
 @RealmModel()
 class _SomeRealmModel {
   late ObjectId id;
+}
+// :snippet-end:
+
+// :snippet-start: binary-model
+@RealmModel()
+class _BinaryExample {
+  late String name;
+  late Uint8List requiredBinaryProperty;
+  var defaultValueBinaryProperty = Uint8List(8);
+  late Uint8List? nullableBinaryProperty;
 }
 // :snippet-end:
 
@@ -379,6 +390,27 @@ main() {
     expect(setExample.primitiveSet.contains('apple'), isTrue);
     expect(setExample.realmObjectSet.length, 2);
     expect(results.length, 1);
+    cleanUpRealm(realm);
+  });
+
+  test("Binary - Uint8List.fromList()", () {
+    // :snippet-start: binary-from-list
+    final realm = Realm(Configuration.local([BinaryExample.schema]));
+
+    realm.write(() {
+      realm.addAll([
+        BinaryExample("Example binary object", Uint8List.fromList([1, 2]))
+      ]);
+    });
+    // :snippet-end:
+
+    final testObject =
+        realm.query<BinaryExample>("name == 'Example binary object'");
+
+    expect(testObject.first, isNotNull);
+    expect(testObject.first.requiredBinaryProperty, Uint8List.fromList([1, 2]));
+
+    print(testObject.length);
     cleanUpRealm(realm);
   });
 }

@@ -23,10 +23,6 @@ Run these commands to setup the application:
    dart run realm_dart install
    ```
 
-   ```sh
-   dart run realm_dart install
-   ```
-
 1. Run the generator to generate the required Realm object definitions.
    (If asked "Found 4 declared outputs which already exist on disk.Delete these files?"
    use option 1. Delete):
@@ -39,6 +35,12 @@ Run these commands to setup the application:
 
    ```sh
    dart run test --concurrency=1
+   ```
+
+   Or run the test script:
+
+   ```sh
+   ./scripts/test.sh
    ```
 
    **Note**: If you do not use `--concurrency=1`, you will get a bunch of strange errors.

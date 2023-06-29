@@ -13,12 +13,13 @@ class Person extends Realm.Object {
 
 const config = {
   schema: [Person],
-  // increment the 'schemaVersion', since 'fullName' has replaced
-  // 'firstName' and 'lastName' in the schema
-  schemaVersion: 2,
+  // Increment the 'schemaVersion', since 'fullName' has replaced
+  // 'firstName' and 'lastName' in the schema.
+  // The initial schemaVersion is 0.
+  schemaVersion: 1,
   onMigration: (oldRealm, newRealm) => {
     // only apply this change if upgrading schemaVersion
-    if (oldRealm.schemaVersion < 2) {
+    if (oldRealm.schemaVersion < 1) {
       const oldObjects =
         oldRealm.objects(Person);
       const newObjects = newRealm.objects(Person);

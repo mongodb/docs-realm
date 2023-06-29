@@ -33,12 +33,13 @@ class OldObjectModel extends Realm.Object<OldObjectModel> {
 
 const config: Realm.Configuration = {
   schema: [Person],
-  // increment the 'schemaVersion', since 'fullName' has replaced
-  // 'firstName' and 'lastName' in the schema
-  schemaVersion: 2,
+  // Increment the 'schemaVersion', since 'fullName' has replaced
+  // 'firstName' and 'lastName' in the schema.
+  // The initial schemaVersion is 0.
+  schemaVersion: 1,
   onMigration: (oldRealm: Realm, newRealm: Realm) => {
     // only apply this change if upgrading schemaVersion
-    if (oldRealm.schemaVersion < 2) {
+    if (oldRealm.schemaVersion < 1) {
       const oldObjects: Realm.Results<OldObjectModel> =
         oldRealm.objects(OldObjectModel);
       const newObjects: Realm.Results<Person> = newRealm.objects(Person);

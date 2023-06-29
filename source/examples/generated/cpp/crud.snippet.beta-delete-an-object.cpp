@@ -1,3 +1,3 @@
 realm.write([&] {
-    realm.remove(specificDog);
+    realm.remove(managedDog);
 });

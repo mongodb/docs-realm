@@ -327,6 +327,26 @@ Access the type of data with ``RealmValue.type`` and the value with ``RealmValue
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type-value.dart
    :language: dart
 
+Uint8List
+~~~~~~~~~
+
+`Uint8List <https://api.dart.dev/stable/3.0.5/dart-typed_data/Uint8List-class.html>`__
+is a binary data type from `dart:typed_data 
+<https://api.dart.dev/stable/3.0.5/dart-typed_data/dart-typed_data-library.html>`__. 
+You can use this binary data type in object models and property values.
+
+To define a property as ``Uint8List``, you must first import ``dart:typed_data``.
+Then, set the object's type as ``Uint8List`` in your :ref:`object model 
+<flutter-create-model>`.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.binary-model.dart
+   :language: dart
+
+To add ``Uint8List`` to a Realm object, call ``Uint8List.fromList()`` on the data.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.binary-from-list.dart
+   :language: dart
+
 .. _flutter-embedded-objects:
 
 Embedded Objects

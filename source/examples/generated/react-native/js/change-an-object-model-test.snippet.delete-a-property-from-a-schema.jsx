@@ -11,8 +11,9 @@ class Person extends Realm.Object {
 
 const config = {
   schema: [Person],
-  // increment the 'schemaVersion', since 'lastName' has been removed from the schema
-  schemaVersion: 2,
+  // Increment the 'schemaVersion', since 'lastName' has been removed from the schema.
+  // The initial schemaVersion is 0.
+  schemaVersion: 1,
 };
 
 // pass the configuration object with the updated 'schemaVersion' to createRealmContext()

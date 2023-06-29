@@ -75,6 +75,40 @@ For more information on constructing queries, refer to the
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter.dart
    :language: dart
 
+.. _flutter-fts:
+
+Filter with Full-Text Search
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use Realm Query Language (RQL) to query on properties that have a
+:ref:`Full-Text Search Index <flutter-fts-annotation>` (FTS) annotation. 
+To query these properties, use the ``TEXT`` predicate in your query.
+
+Exclude results for a word by placing the ``-`` character in front of the word. 
+For example, a search for ``-sheep wool`` would include all search results for 
+``wool`` excluding those with ``sheep``.
+
+In the following example, we query on the ``Rug.pattern`` and ``Rug.material``
+fields:
+
+.. literalinclude:: /examples/generated/flutter/full_text_search_test.snippet.flutter-fts-query.dart
+   :language: dart
+
+.. _flutter-fts-details:
+
+Full-Text Search Tokenizer Details
+''''''''''''''''''''''''''''''''''
+
+Full-Text Search (FTS) indexes support:
+
+- Boolean match word searches, not searches for relevance.
+- Tokens are diacritics- and case-insensitive.
+- Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages).
+- All other characters are considered whitespace. Words split by a hyphen (-) like full-text are split into two tokens.
+
+For more information on features of the FTS index, see the API reference for 
+`RealmIndexType <https://pub.dev/documentation/realm_common/latest/realm_common/RealmIndexType.html>`__.
+
 .. _flutter-sort-results:
 
 Sort Results
@@ -140,7 +174,7 @@ Create Objects
 .. _flutter-create-one-object:
 
 Create One Object
-`````````````````
+'''''''''''''''''
 
 To add an object to a realm, pass an instance of a Realm object class
 to the realm in a write transaction block with
@@ -152,7 +186,7 @@ to the realm in a write transaction block with
 .. _flutter-create-multiple-objects:
 
 Create Multiple Objects
-```````````````````````
+'''''''''''''''''''''''
 
 To add multiple objects to a realm, pass a list of multiple objects
 to :flutter-sdk:`Realm.addAll() <realm/Realm/addAll.html>` inside a write transaction block.
@@ -168,7 +202,7 @@ Update Objects
 .. _flutter-update-object-properties:
 
 Update Object Properties
-````````````````````````
+''''''''''''''''''''''''
 
 To modify an object's properties, update the properties in a write transaction block.
 
@@ -178,7 +212,7 @@ To modify an object's properties, update the properties in a write transaction b
 .. _flutter-upsert-objects:
 
 Upsert Objects
-``````````````
+''''''''''''''
 
 To upsert an object, call :flutter-sdk:`Realm.add() <realm/Realm/add.html>`
 with the optional ``update`` flag set to ``true`` inside a transaction block.
@@ -197,7 +231,7 @@ Delete Objects
 .. _flutter-delete-single-object:
 
 Delete a Single Object
-``````````````````````
+''''''''''''''''''''''
 
 Delete an object from a realm by calling :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
 in a write transaction block.
@@ -208,7 +242,7 @@ in a write transaction block.
 .. _flutter-delete-multiple-objects:
 
 Delete Multiple Objects
-```````````````````````
+'''''''''''''''''''''''
 
 Delete multiple objects from a realm the :flutter-sdk:`Realm.deleteMany()
 <realm/Realm/deleteMany.html>` in a write transaction block.
@@ -219,7 +253,7 @@ Delete multiple objects from a realm the :flutter-sdk:`Realm.deleteMany()
 .. _flutter-delete-all-of-type:
 
 Delete All Objects of a Type
-````````````````````````````
+''''''''''''''''''''''''''''
 
 Delete all objects of a type in a realm with :flutter-sdk:`Realm.deleteAll() <realm/Realm/deleteAll.html>`
 in a write transaction block.
