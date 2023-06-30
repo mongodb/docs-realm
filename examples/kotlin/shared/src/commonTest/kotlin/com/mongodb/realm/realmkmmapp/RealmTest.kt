@@ -3,10 +3,14 @@ package com.mongodb.realm.realmkmmapp
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.mongodb.AppConfiguration
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.withTimeout
 import kotlin.random.Random
 import kotlin.test.BeforeTest
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 /*
  * RealmTest -- base class that provides utilities/setup for all other test classes
@@ -44,6 +48,12 @@ open class RealmTest {
         .name(getRandom())
         // :remove-end:
         .build()
+
+    suspend fun <T : Any?> Channel<T>.receiveOrFail(timeout: Duration = 30.seconds): T {
+        return withTimeout(timeout) {
+            receive()
+        }
+    }
 
     // kotlin test framework doesn't support "before class" on jvm, so... before each test
     @BeforeTest

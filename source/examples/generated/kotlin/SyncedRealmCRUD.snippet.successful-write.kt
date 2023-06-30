@@ -1,16 +1,15 @@
 // Per the Device Sync permissions, users can only read and write data
-// where the `Car.ownerId` property matches their own user ID.
+// where the `Item.ownerId` property matches their own user ID.
 val userId = user.id
-val newCar = Car().apply {
+val newItem = Item().apply {
     ownerId = userId
-    make = "Toyota"
-    model = "Corolla"
-    miles = 2
+    itemName = "Learn Realm CRUD operations"
+    complexity = 3
 }
 
 syncRealm.write {
-    // `newCar` is successfully written to the realm and synced to Atlas
-    // because its data matches the subscription query (miles < 100)
+    // `newItem` is successfully written to the realm and synced to Atlas
+    // because its data matches the subscription query (complexity <= 4)
     // and its `ownerId` field matches the user ID.
-    this.copyToRealm(newCar)
+    this.copyToRealm(newItem)
 }

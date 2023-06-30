@@ -1,16 +1,14 @@
 val app = App.create(FLEXIBLE_APP_ID)
 val user = app.login(credentials)
-val flexSyncConfig = SyncConfiguration.Builder(user, setOf(Car::class))
+val flexSyncConfig = SyncConfiguration.Builder(user, setOf(Item::class))
     // Add subscription
     .initialSubscriptions { realm ->
         add(
-            // Get Cars from Atlas that match the Realm Query Language query.
-            // Uses the queryable field `miles`.
-            // Query matches cars with less than 100 miles or `null` miles.
-            realm.query<Car>(
-                "miles < 100 OR miles == \$0", null
-            ),
-            "new-car-subscription"
+            // Get Items from Atlas that match the Realm Query Language query.
+            // Uses the queryable field `complexity`.
+            // Query matches objects with complexity less than or equal to 4.
+            realm.query<Item>("complexity <= 4"),
+            "simple-items"
         )
     }
     .build()

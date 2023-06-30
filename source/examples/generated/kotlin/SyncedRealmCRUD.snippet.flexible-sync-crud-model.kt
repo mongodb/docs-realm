@@ -1,8 +1,7 @@
-class Car : RealmObject {
+class Item : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var ownerId: String = ""
-    var make: String = ""
-    var model: String = ""
-    var miles: Int = 0
+    var itemName: String = ""
+    var complexity: Int = 0
 }
