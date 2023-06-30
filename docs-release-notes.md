@@ -1,3 +1,28 @@
+# June 30, 2023
+
+## Flutter SDK
+
+- Realm Database/Model Data/Data Types: Add new binary data type to the Flutter docs and upgrade Realm Dart testing environment for the docs
+- Sync Device Data/Handle Sync Errors: Expose Compensating Write error details and update relevant code examples
+
+## .NET SDK
+
+- Model Data/Supported Data Types/Geospatial Data: Add new page on Geospatial Data Types with examples
+
+## Node.js SDK
+
+- Realm Files/Open & Close a Realm: Move HTTP proxy info onto a docs page, as it will be removed from the main branch of the Realm.js repo
+- Sync Data/Partition-Based Sync: Create new page dedicated to PBS content
+- Update sync content on the following pages:
+  - Realm Files/Bundle a Realm
+  - Realm Files/Open & Close a Realm
+  - Sync Data
+  - Sync Data/Configure & Open a Synced Realm
+
+## Web SDK
+
+- Atlas Device Sync (Preview): Add getting started content for Realm Web and Atlas Device Sync
+
 # June 23, 2023
 
 ## C++ SDK
