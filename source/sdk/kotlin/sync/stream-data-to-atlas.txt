@@ -27,7 +27,8 @@ Asymmetric Objects
 
 The Kotlin SDK provides a special type of object to use with Data Ingest: an 
 **Asymmetric Object**. The Kotlin SDK allows you to work with asymmetric objects
-and standard Realm objects within the same realm.
+and non-asymmetric Realm objects (``RealmObject`` and ``EmbeddedRealmObject`` 
+types) within the same realm.
 
 Asymmetric objects broadly support the same property types as ``RealmObject``, 
 with a few exceptions:
@@ -86,6 +87,8 @@ Sync Data Unidirectionally from a Client Application
 
       Unlike bi-directional Sync, Data Ingest does not use a 
       :ref:`Flexible Sync subscription <kotlin-subscriptions>`.
+      If you have non-asymmetric objects in the same realm, you can add a
+      Flexible Sync subscription query for only those objects. 
 
    .. step:: Create Asymmetric Objects
 
@@ -98,3 +101,4 @@ Sync Data Unidirectionally from a Client Application
 
       You cannot read these objects. Once created, they sync to the App 
       Services backend and the linked Atlas database.
+      After syncing to Atlas, Realm deletes asymmetric objects from the device. This keeps the realm file size small even with a heavy insert workload.

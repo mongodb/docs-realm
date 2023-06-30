@@ -30,6 +30,8 @@ If your app uses :ref:`Data Ingest <optimize-data-ingest>` to
 unidirectionally sync an `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ 
 via an Atlas App Services App, you *cannot* create subscriptions for 
 those objects.
+If you have asymmetric objects and non-asymmetric objects in the same realm, you can add a
+Flexible Sync subscription query for only the non-asymmetric objects. 
 
 Subscriptions
 -------------

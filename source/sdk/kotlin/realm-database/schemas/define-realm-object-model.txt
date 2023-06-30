@@ -83,7 +83,7 @@ when you :ref:`open the realm <kotlin-open-a-realm>`.
   :emphasize-lines: 2
    
 Add Property Annotations
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use annotations to add functionality to properties in your Realm object models.  
 You can use annotations for things like marking a property as nullable, setting a primary key, ignoring a property, and more. 
@@ -91,10 +91,29 @@ You can use annotations for things like marking a property as nullable, setting 
 To learn more about the available property annotations, refer to :ref:`Property Annotations <kotlin-property-annotations>`.
 
 Define Relationship Properties
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can define relationships between Realm objects in your schema. 
 The Realm Kotlin SDK supports to-one relationships, to-many relationships, 
 inverse relationships, and embedding objects within other objects. 
 
 To learn more about how to define relationships in your Realm object schema, refer to :ref:`Relationships <kotlin-relationships>`.
+
+Define an Asymmetric Object
+---------------------------
+
+.. versionadded:: 1.10.0
+
+If your app uses Flexible Sync, you can use :ref:`Data Ingest 
+<optimize-data-ingest>` to sync an object unidirectionally
+from your device to the database linked to your Atlas App Services App. 
+Define an asymmetric object by implementing the 
+`AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ class:
+
+.. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.asymmetric-model.kt 
+    :language: kotlin
+
+You can only :ref:`create an asymmetric object <kotlin-create-asymmetric-object>`, 
+which then syncs unidirectionally to the Atlas database linked to your App with Device Sync.
+
+For more information on how asymmetric objects function, see :ref:`Asymmetric Objects <kotlin-asymmetric-objects>`.
