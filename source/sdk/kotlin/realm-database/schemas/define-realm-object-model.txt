@@ -108,12 +108,13 @@ If your app uses Flexible Sync, you can use :ref:`Data Ingest
 <optimize-data-ingest>` to sync an object unidirectionally
 from your device to the database linked to your Atlas App Services App. 
 Define an asymmetric object by implementing the 
-`AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ class:
+`AsymmetricRealmObject <https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ interface:
 
 .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.asymmetric-model.kt 
     :language: kotlin
 
-You can only :ref:`create an asymmetric object <kotlin-create-asymmetric-object>`, 
+An asymmetric object is an insert-only object. You can :ref:`create an asymmetric object <kotlin-create-asymmetric-object>`, 
 which then syncs unidirectionally to the Atlas database linked to your App with Device Sync.
+Realm deletes this object after syncing. You cannot read, update, or delete an asymmetric object from the realm.
 
 For more information on how asymmetric objects function, see :ref:`Asymmetric Objects <kotlin-asymmetric-objects>`.
