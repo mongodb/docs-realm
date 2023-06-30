@@ -1,4 +1,4 @@
-asymmetricRealm.write {
+realm.write {
     insert(WeatherSensor().apply {
         deviceId = "WX1278UIT"
         temperatureInFarenheit = 6.7F

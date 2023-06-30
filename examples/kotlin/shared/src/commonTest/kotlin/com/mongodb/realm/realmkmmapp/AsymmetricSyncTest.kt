@@ -42,20 +42,20 @@ class AsymmetricSyncTest : RealmTest() {
     @OptIn(ExperimentalAsymmetricSyncApi::class, ExperimentalRealmSerializerApi::class)
     @Test
     fun asymmetricObjectTest() = runBlocking {
-        val credentials = Credentials.anonymous()
+        val credentials = Credentials.anonymous(reuseExisting = false)
         // :snippet-start: connect-and-authenticate
         val app = App.create(yourFlexAppId)
         val user = app.login(credentials)
         // :snippet-end:
         // :snippet-start: open-asymmetric-sync-realm
         val config = SyncConfiguration.create(user, setOf(WeatherSensor::class))
-        val asymmetricRealm = Realm.open(config)
-        Log.v("Successfully opened realm: ${asymmetricRealm.configuration.name}")
+        val realm = Realm.open(config)
+        Log.v("Successfully opened realm: ${realm.configuration.name}")
         // :snippet-end:
 
         val oid = ObjectId()
         // :snippet-start: create-asymmetric-object
-        asymmetricRealm.write {
+        realm.write {
             insert(WeatherSensor().apply {
                 id = oid //:remove:
                 deviceId = "WX1278UIT"
@@ -66,7 +66,7 @@ class AsymmetricSyncTest : RealmTest() {
         }
         // :snippet-end:
         // Add a delay to give the document time to sync
-        asymmetricRealm.syncSession.run {
+        realm.syncSession.run {
             resume()
             uploadAllLocalChanges(30.seconds)
         }
@@ -77,7 +77,7 @@ class AsymmetricSyncTest : RealmTest() {
                 add(oid)
             }
         assertEquals(1, deletedCount)
-        asymmetricRealm.close()
+        realm.close()
     }
 }
 // :replace-end:

@@ -1,3 +1,3 @@
 val config = SyncConfiguration.create(user, setOf(WeatherSensor::class))
-val asymmetricRealm = Realm.open(config)
-Log.v("Successfully opened realm: ${asymmetricRealm.configuration.name}")
+val realm = Realm.open(config)
+Log.v("Successfully opened realm: ${realm.configuration.name}")
