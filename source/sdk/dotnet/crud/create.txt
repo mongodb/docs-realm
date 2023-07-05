@@ -26,8 +26,7 @@ a :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync
 method. In the second example, we create the document within the ``WriteAsync`` 
 block, which returns a realm object we can further work with.
 
-.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
-   :language: csharp
+.. include:: /includes/dotnet-create-include.rst
 
 .. _dotnet-upsert:
 
@@ -36,9 +35,8 @@ Upsert a Realm Object
 
 Upserting a document is the same as creating a new one, except you set the 
 optional ``update`` parameter to ``true``. In this example, we create a new 
-``Person`` object with a unique ``Id``. We then try to insert a person with the 
-same id. Because we have set the ``update`` parameter to ``true``, the existing 
-record is updated.
+``Item`` object with a unique ``Id``. We then insert an item with the 
+same id but a different ``Name`` value. Because we have set the ``update`` 
+parameter to ``true``, the existing record is updated with the new name.
 
-.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.upsert.cs
-   :language: csharp
+.. include:: /includes/dotnet-update-include.rst

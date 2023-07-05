@@ -40,16 +40,11 @@ namespace Examples
             };
 
             Realm realm = Realm.GetInstance(config);
-            realm.Write(() =>
-            {
-                realm.RemoveAll<Item>();
-            });
 
             await realm.WriteAsync(() =>
             {
-                realm.Add<Dog>(new Dog() { Name = "Fydaeu", Age = 1 });
+                realm.Add<Item>(new Item() { Name = "Fydaeu", Assignee = String.Empty });
             });
-
         }
 
 
@@ -61,7 +56,8 @@ namespace Examples
             var testItem = new Item
             {
                 Name = "Do this thing",
-                Status = ItemStatus.Open.ToString()
+                Status = ItemStatus.Open.ToString(),
+                Assignee = "Aimee"
             };
 
             await realm.WriteAsync(() =>
@@ -77,7 +73,8 @@ namespace Examples
                     return realm.Add<Item>(new Item
                     {
                         Name = "Do this thing, too",
-                        Status = ItemStatus.InProgress.ToString()
+                        Status = ItemStatus.InProgress.ToString(),
+                        Assignee = "Satya"
                     });
                 }
             );
@@ -85,29 +82,61 @@ namespace Examples
             // :snippet-end:
             testItemId = testItem.Id;
 
+            //:snippet-start:read-all
+            var allItems = realm.All<Item>();
+            // :snippet-end:
+
+            //:snippet-start:read-open-items
+            var openItems = realm.All<Item>()
+                .Where(i => i.Status == "Open");
+            // :snippet-end:
+
+            //:snippet-start:sort-items
+            var sortedItems = realm.All<Item>()
+                .OrderBy(i => i.Status);
+            // :snippet-end:
+
+
             // :snippet-start: upsert
             var id = ObjectId.GenerateNewId();
 
-            var kerry = new Person { Id = id, Name = "Kerry" };
+            var item1 = new Item
+            {
+                Id = id,
+                Name = "Defibrillate the Master Oscillator",
+                Assignee = "Aimee"
+            };
 
             // Add a new person to the realm. Since nobody with the existing Id
             // has been added yet, this person is added.
             await realm.WriteAsync(() =>
             {
-                realm.Add(kerry, update: true);
+                realm.Add(item1, update: true);
             });
 
-            var sarah = new Person { Id = id, Name = "Sarah" };
+            var item2 = new Item
+            {
+                Id = id,
+                Name = "Fluxify the Turbo Encabulator",
+                Assignee = "Aimee"
+            };
 
             // Based on the unique Id field, we have an existing person,
             // but with a different name. When `update` is true, you overwrite
-            // the original entry (i.e. Kerry -> Sarah).
+            // the original entry.
             await realm.WriteAsync(() =>
             {
-                realm.Add(sarah, update: true);
+                realm.Add(item2, update: true);
             });
+            // item1 now has a Name of "Fluxify the Turbo Encabulator"
+            // and item2 was not added as a new Item in the collection.
             // :snippet-end:
-            Assert.IsTrue(kerry.Name == "Sarah");
+
+            //:snippet-start:read-filter
+            var someItems = realm.All<Item>();
+            // :snippet-end:
+
+            Assert.IsTrue(item1.Name == "Fluxify the Turbo Encabulator");
 
             var myid = ObjectId.GenerateNewId();
             // :snippet-start: modify-collection
@@ -191,12 +220,13 @@ namespace Examples
             App app = App.Create(myRealmAppId);
             using (var realm = Realm.GetInstance(config))
             {
-                var myItem = new Item() { Name = "foo2", Status = ItemStatus.Complete.ToString() };
+                var myItem = new Item() { Name = "foo2", Status = ItemStatus.Complete.ToString(), Assignee = String.Empty };
                 realm.Write(() =>
                 {
                     realm.Add(myItem);
                 });
 
+                //:snippet-start:delete-one-item
                 realm.Write(() =>
                 {
                     realm.Remove(myItem);
@@ -206,6 +236,8 @@ namespace Examples
                 {
                     realm.RemoveAll<Item>();
                 });
+
+                //:snippet-end:
                 var user = await app.LogInAsync(Credentials.Anonymous());
                 // :snippet-start: logout
                 await user.LogOutAsync();
