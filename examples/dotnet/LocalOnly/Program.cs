@@ -15,11 +15,8 @@ namespace LocalOnly
             var realm = Realm.GetInstance();
             //:snippet-end:
 
-            //:snippet-start:read-all
             var allGuitars = realm.All<Guitar>();
-            //:snippet-end:
 
-            //:snippet-start:write
             realm.Write(() =>
             {
                 realm.Add(new Guitar()
@@ -30,16 +27,12 @@ namespace LocalOnly
                     Owner = "N. Young"
                 });
             });
-            //:snippet-end:
-            //:snippet-start:read-filter
             var lessExpensiveGuitars = realm.All<Guitar>().Where(g => g.Price < 400);
 
             var guitarsSortedByMake = realm.All<Guitar>().OrderBy(g => g.Make);
 
             var specifiGuitarById = realm.Find<Guitar>(someGuitarId);
-            //:snippet-end:
 
-            //:snippet-start:update
             var davidsStrat = realm.All<Guitar>().FirstOrDefault(
                 g => g.Owner == "D. Gilmour"
                 && g.Make == "Fender"
@@ -49,9 +42,7 @@ namespace LocalOnly
             {
                 davidsStrat!.Price = 1700345.56;
             });
-            //:snippet-end:
 
-            //:snippet-start:delete
             var mostExpensiveGuitar = realm.All<Guitar>()
                 .OrderByDescending(g => g.Price).First();
 
@@ -59,8 +50,6 @@ namespace LocalOnly
             {
                 realm.Remove(mostExpensiveGuitar);
             });
-            //:snippet-end:
-
 
             // Watch for Guitar collection changes.
             var token = realm.All<Guitar>()
@@ -84,8 +73,6 @@ namespace LocalOnly
 
             // Later, when you no longer wish to receive notifications
             token.Dispose();
-
-
         }
 
         public void DeleteAndStartAgain()

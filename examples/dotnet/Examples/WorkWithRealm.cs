@@ -269,19 +269,11 @@ namespace Examples
                 fido.Owners.Add(helenWick);
             });
 
-
-            // :snippet-start: subscribe
-            // :replace-start: {
-            //  "terms": {
-            //   "token2": "token" }
-            // }
             var token2 = fido.Owners.SubscribeForNotifications((sender, changes) =>
             {
                 if (changes == null) return;
             });
             token2.Dispose();
-            //:replace-end:
-            //:snippet-end:
         }
         private void CollectionChanged()
         // :snippet-start: call-handle-collection-changed
