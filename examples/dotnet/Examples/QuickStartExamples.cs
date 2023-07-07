@@ -132,9 +132,7 @@ namespace Examples
             // and item2 was not added as a new Item in the collection.
             // :snippet-end:
 
-            //:snippet-start:read-filter
             var someItems = realm.All<Item>();
-            // :snippet-end:
 
             Assert.IsTrue(item1.Name == "Fluxify the Turbo Encabulator");
 
