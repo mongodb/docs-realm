@@ -1,3 +1,12 @@
+# July 3, 2023
+
+## .NET SDK
+
+- CRUD/Query, Filter, and Sort Data: Parameterize RQL code examples 
+- Updated bluehawked code snippets
+- Quick Start: Make a consistent `Item` object model to use throughout the Quick Start 
+- CRUD/Create Data: Use `Item` object model for examples on page
+
 # June 30, 2023
 
 ## Flutter SDK
