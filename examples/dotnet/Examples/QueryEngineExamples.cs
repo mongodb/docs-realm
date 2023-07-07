@@ -114,19 +114,19 @@ namespace Examples
             // :snippet-start: aggregate
             // Get all projects with an average Item priorty > 5:
             var avgPriority = projects.Filter(
-                "Items.@avg.Priority > 5");
+                "Items.@avg.Priority > $0", 5);
 
             // Get all projects where all Items are high-priority:
             var highPriProjects = projects.Filter(
-                "Items.@min.Priority > 5");
+                "Items.@min.Priority > $0", 5);
 
             // Get all projects with long-running Items:
             var longRunningProjects = projects.Filter(
-                "Items.@sum.ProgressMinutes > 100");
+                "Items.@sum.ProgressMinutes > $0", 100);
             // :snippet-end:
 
             // :snippet-start: rql
-            var elvisProjects = projects.Filter("Items.Assignee == 'Elvis'");
+            var elvisProjects = projects.Filter("Items.Assignee == $0", "Elvis");
             // :snippet-end:
 
             Assert.AreEqual(1, avgPriority.Count());

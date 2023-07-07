@@ -1,7 +1,8 @@
 var testItem = new Item
 {
     Name = "Do this thing",
-    Status = ItemStatus.Open.ToString()
+    Status = ItemStatus.Open.ToString(),
+    Assignee = "Aimee"
 };
 
 await realm.WriteAsync(() =>
@@ -17,7 +18,8 @@ var testItem2 =
         return realm.Add<Item>(new Item
         {
             Name = "Do this thing, too",
-            Status = ItemStatus.InProgress.ToString()
+            Status = ItemStatus.InProgress.ToString(),
+            Assignee = "Satya"
         });
     }
 );
