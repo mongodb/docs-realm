@@ -2,10 +2,11 @@
 
 ## .NET SDK
 
-- CRUD/Query, Filter, and Sort Data: Parameterize RQL code examples 
-- Updated bluehawked code snippets
-- Quick Start: Make a consistent `Item` object model to use throughout the Quick Start 
-- CRUD/Create Data: Use `Item` object model for examples on page
+- Quick Start: Make a consistent `Item` object model to use throughout the Quick Start
+- CRUD
+  - Create Data:  Update code examples to use a consistent `Item` object model
+  - Query, Filter, and Sort Data: Parameterize RQL code examples 
+- Update bluehawked code snippets 
 
 # June 30, 2023
 
