@@ -1,3 +1,12 @@
+# July 3, 2023
+
+## .NET SDK
+
+- Quick Start: Update code examples to use a consistent `Item` object model 
+- CRUD
+  - Create Data:  Update code examples to use a consistent `Item` object model
+  - Query, Filter, and Sort Data: Parameterize RQL code examples 
+
 # June 30, 2023
 
 ## Flutter SDK
