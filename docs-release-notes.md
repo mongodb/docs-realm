@@ -2,11 +2,10 @@
 
 ## .NET SDK
 
-- Quick Start: Update code examples to use a consistent `Item` object model throughout the Quick Start
+- Quick Start: Update code examples to use a consistent `Item` object model 
 - CRUD
   - Create Data:  Update code examples to use a consistent `Item` object model
   - Query, Filter, and Sort Data: Parameterize RQL code examples 
-- Update bluehawked code snippets 
 
 # June 30, 2023
 
