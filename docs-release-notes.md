@@ -2,7 +2,7 @@
 
 ## .NET SDK
 
-- Quick Start: Make a consistent `Item` object model to use throughout the Quick Start
+- Quick Start: Update code examples to use a consistent `Item` object model throughout the Quick Start
 - CRUD
   - Create Data:  Update code examples to use a consistent `Item` object model
   - Query, Filter, and Sort Data: Parameterize RQL code examples 
