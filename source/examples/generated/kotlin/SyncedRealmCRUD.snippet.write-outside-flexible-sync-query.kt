@@ -5,10 +5,6 @@ val itemTooComplex = Item().apply {
     itemName = "This item is too complex"
     complexity = 7
 }
-try {
-    syncRealm.write {
-        this.copyToRealm(itemTooComplex)
-    }
-} catch (exception: Exception) {
-    Log.e("Failed to write to realm: ${exception.message}")
+syncRealm.write {
+    copyToRealm(itemTooComplex)
 }

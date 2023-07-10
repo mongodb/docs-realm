@@ -1,7 +1,6 @@
 val syncErrorHandler = SyncSession.ErrorHandler { session, error ->
     runBlocking {
         if (error is CompensatingWriteException) {
-            channel.send(error)
             val writeInfo = error.writes[0]
             val errorMessage = """
                 A write was rejected with a compensating write error

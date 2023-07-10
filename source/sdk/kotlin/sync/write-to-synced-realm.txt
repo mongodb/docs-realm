@@ -7,7 +7,7 @@ Write Data to a Synced Realm - Kotlin SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 When writing data to a synced realm using :ref:`Flexible Sync <flexible-sync>`, you can 
@@ -20,24 +20,24 @@ of the following:
 - The sync subscription query
 - The permissions in your App Services App 
 
+If you try to write data that doesn't match either the query subscription or
+the user's permissions, Realm reverts the write with a non-fatal write error called a :ref:`compensating write <kotlin-compensating-writes>`.
+
 To learn more about configuring permissions for your app, see
 :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide` in the
 App Services documentation.
 
-.. warning:: Multiprocess Sync is Not Supported
-
-   Device Sync does not currently support opening or writing to a synced 
-   realm from more than one process. For more information, including 
-   suggested alternatives, refer to the :ref:`multiprocess-sync-not-supported` section.
+To learn more about permission denied errors, compensating write errors,
+and other Device Sync error types, refer to :ref:`sync-errors` in the App Services documentation.
 
 Determining What Data Syncs
 ---------------------------
 
-The data that you can write to a synced realm is determined by your: 
+The data that you can write to a synced realm is determined by the following: 
 
-- Device Sync configuration
+- Your Device Sync configuration
 - Permissions in your App 
-- Flexible Sync subscription query that you use when you open the realm
+- The Flexible Sync subscription query used when you open the realm
 
 The examples on this page use an Atlas App Services App with the following 
 Device Sync configuration and a client app with the following Realm SDK 
@@ -114,8 +114,15 @@ whether the write matches the :ref:`permissions <permissions>` and the
   and the user's permissions. The object writes successfully to the realm,
   and syncs successfully to the App Services backend and other devices.
 - Compensating writes: The written object does not match
-  the subscription query, or where the user does not have sufficient
+  the subscription query or the user does not have sufficient
   permissions to perform the write. Realm reverts the illegal write.
+
+.. tip:: 
+
+   If you want to write an object that does not match the query subscription,
+   you can open a different realm where the object matches the query 
+   subscription. Alternately, you could write the object to a non-synced 
+   realm that does not enforce permissions or subscription queries.
 
 .. _kotlin-successful-writes:
 
@@ -135,7 +142,8 @@ Compensating Writes
 ~~~~~~~~~~~~~~~~~~~
 
 When the write doesn't match *either* the query subscription or user 
-permissions, Realm reverts the write and throws a `CompensatingWriteException <{+kotlin-sync-prefix+}/io.realm.kt.mongodb.exceptions/-compensating-write-exception/index.html>`__. 
+permissions, Realm reverts the write and throws a `CompensatingWriteException <{+kotlin-sync-prefix+}/io.realm.kt.mongodb.exceptions/-compensating-write-exception/index.html>`__. Any client-side writes to a given object between an illegal write to that object
+and the corresponding compensating write will be lost.
 
 In more detail, when you write data that is outside the bounds of a query
 subscription or does not match the user's permissions, the following occurs:
@@ -147,70 +155,82 @@ subscription or does not match the user's permissions, the following occurs:
 
 In practice, this may look like the write succeeding, but then the 
 object "disappears" when Realm syncs with the App Services backend and 
-performs the compensating write. Any client-side writes to a given object between an illegal write to that object
-and the corresponding compensating write will be lost.
+performs the compensating write. 
 
-You can refer to the :ref:`App Services logs <logs-sync>` or use the 
+When this occurs, you can refer to the :ref:`App Services logs <logs-sync>` or use the 
 :ref:`CompensatingWriteInfo <kotlin-compensating-write-info>` object in the 
-client to get additional information in the client about why a compensating 
-write occurs. 
+client to get additional information on the error. 
 
-.. tip:: 
+.. _kotlin-writes-outside-subscription:
 
-   If you want to write an object that does not match the query subscription,
-   you can open a different realm where the object matches the query 
-   subscription. Alternately, you could write the object to a non-synced 
-   realm that does not enforce permissions or subscription queries.
+Write Doesn't Match the Query Subscription
+``````````````````````````````````````````
 
-To learn more about permission denied errors, compensating write errors,
-and other Device Sync error types, refer to :ref:`sync-errors` in the App Services documentation.
+Given the :ref:`configuration <kotlin-client-data-model-and-configuration>` for the Flexible 
+Sync realm detailed above, attempting to write this object results in a compensating write error because the object does not match the query 
+subscription:
 
-.. example:: Write doesn't match the query subscription
+.. io-code-block::
 
-   Given the :ref:`configuration <kotlin-client-data-model-and-configuration>` for the Flexible 
-   Sync realm detailed above, attempting to write this object results in a compensating write error because the object does not match the query 
-   subscription:
-
-   .. literalinclude:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.write-outside-flexible-sync-query.kt
+   .. input:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.write-outside-flexible-sync-query.kt
       :language: kotlin
 
-   You will see the following error message in the App Services logs: 
+   .. output:: 
+      :language: console
 
-   .. code-block:: console
+      [Session][CompensatingWrite(231)] Client attempted a write that is disallowed by permissions, or modifies an object outside the current query, and the server undid the change.
 
-      Client attempted a write that is outside of permissions or query filters; it has been reverted (ProtocolErrorCode=231)
+You will see the following error message in the App Services logs: 
 
-      Details: 
-      {
-         "Item": {
-            "63bdfc40f16be7b1e8c7e4b7": "write to \"63bdfc40f16be7b1e8c7e4b7\" 
-            in table \"Item\" not allowed; object is outside of 
-            the current query view"
-         }
+.. code-block:: console
+
+   Error:
+
+   Client attempted a write that is outside of permissions or query filters; it has been reverted (ProtocolErrorCode=231)
+
+   Details: 
+   {
+      "Item": {
+         "63bdfc40f16be7b1e8c7e4b7": "write to \"63bdfc40f16be7b1e8c7e4b7\" 
+         in table \"Item\" not allowed; object is outside of 
+         the current query view"
       }
+   }
 
-.. example:: Write doesn't match the user's permissions
+.. _kotlin-writes-outside-permissions:
 
-   Given the :ref:`permissions <kotlin-app-services-configuration>` in the Device Sync configuration detailed above, 
-   attempting to write this object results in a compensating write error because the ``ownerId`` property does not match
-   the ``user.id`` of the logged-in user:
+Write Doesn't Match Permissions
+```````````````````````````````
+
+Given the :ref:`permissions <kotlin-app-services-configuration>` in the Device Sync configuration detailed above, 
+attempting to write this object results in a compensating write error because the ``ownerId`` property does not match
+the ``user.id`` of the logged-in user:
+
+.. io-code-block::
+
+   .. input:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.write-outside-permissions.kt
+      :language: kotlin
+
+   .. output:: 
+      :language: console
+
+      [Session][CompensatingWrite(231)] Client attempted a write that is disallowed by permissions, or modifies an object outside the current query, and the server undid the change.
+
+You will see the following error message in the App Services logs: 
+
+.. code-block:: console
    
-   .. literalinclude:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.write-outside-permissions.kt
-      :language: kotlin
+   Error:
 
-   You will see the following error message in the App Services logs: 
+   Client attempted a write that is outside of permissions or query filters; it has been reverted (ProtocolErrorCode=231)
 
-   .. code-block:: console
-
-      Client attempted a write that is outside of permissions or query filters; it has been reverted (ProtocolErrorCode=231)
-
-      Details: 
-      {
-         "Item": {
-            "63bdfc40f16be7b1e8c7e4b7": "write to \"63bdfc40f16be7b1e8c7e4b7\" 
-            in table \"Item\" was denied by write filter in role \"readOwnWriteOwn\""
-         }
+   Details: 
+   {
+      "Item": {
+         "63bdfc40f16be7b1e8c7e4b7": "write to \"63bdfc40f16be7b1e8c7e4b7\" 
+         in table \"Item\" was denied by write filter in role \"readOwnWriteOwn\""
       }
+   }
 
 .. _kotlin-compensating-write-info:
 
@@ -220,103 +240,35 @@ Compensating Write Error Information
 .. versionadded:: 1.9.0
 
 You can get additional information in the client about why a compensating 
-write occurs. The Kotlin SDK exposes a `CompensatingWriteInfo 
+write occurs using the `CompensatingWriteInfo 
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-compensating-write-exception/-compensating-write-info/index.html>`__ 
-object that provides:
+object, which provides:
 
 - The ``objectType`` of the object the client attempted to write
 - The ``primaryKey`` of the specific object
 - The ``reason`` for the compensating write error
 
 This information is the same information you can find in the :ref:`App Services logs <logs-sync>`.
-It is exposed on the client for convenience and debugging purposes.
+The Kotlin SDK exposes this object on the client for convenience and 
+debugging purposes.
 
-.. example::
+The following shows an example of how you might log information 
+about compensating write errors:
 
-   This error handler shows an example of how you might log information 
-   about compensating write errors:
+.. io-code-block::
 
-   .. literalinclude:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.access-compensating-write.kt
-      :language: kotlin
+   .. input:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.access-compensating-write.kt
+      :language:  kotlin
 
-   The example error handler above produces this output when a compensating
-   write error occurs:
-
-   .. code-block:: console
+   .. output:: 
+      :language:  console
 
       A write was rejected with a compensating write error
       The write to object type: Item
       With primary key of: RealmAny{type=OBJECT_ID, value=BsonObjectId(649f2c38835cc0346b861b74)}
       Was rejected because: write to "649f2c38835cc0346b861b74" in table "Item" not allowed; object is outside of the current query view
 
-   - The ``Item`` in this message is ``Item`` object used in the :ref:`examples <kotlin-client-data-model-and-configuration>` on this page.
-   - The primary key is the ``objectId`` of the specific object the client 
-     attempted to write. 
-   - The ``table "Item"`` refers to the Atlas collection where this object
-     would sync.
-   - The reason ``object is outside of the current query view`` in this example
-     is because the query subscription was set to require the object's ``complexity``
-     property to be less than or equal to ``4``, and the client attempted to write an object where this property was ``5``.
-
-.. _multiprocess-sync-not-supported:
-
-Don't Write to a Synced Realm in an App Extension
--------------------------------------------------
-
-If you are developing an app that uses App Extensions, such as a Share 
-Extension, avoid writing to a synced realm in that extension. Device Sync
-supports opening a synced realm in at most one process. In practice, this
-means that if your app uses a synced realm in an App Extension, it may 
-crash intermittently.
-
-Crashes Related to Opening a Synced Realm in Multiple Processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you attempt to open a synced realm in a Share Extension or other App 
-Extension and that realm is not open in the main app, a write from a Share
-Extension may succeed. However, if the synced realm is already open in the 
-main app or is syncing data in the background, you may see a crash related 
-to ``MultipleSyncAgents``. In this scenario, you may need to restart 
-the device.
-
-Alternatives to Writing to a Synced Realm in an App Extension
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you need to read from or write to a synced realm from an App Extension, 
-there are a few recommended alternatives:
-
-- **Offline-first**: pass data on disk to or from the main app
-- **Always up-to-date**: communicate directly with the backing 
-  Atlas collection across a network connection
-
-Pass Data On Disk
-`````````````````
-
-If offline-first functionality is the most important consideration for your app,
-you can pass data on disk to or from your main app. You could copy objects
-to a non-synced realm and read and share it between apps in an App Group.
-Or you could use an on-disk queue to send the data to or from the main app and 
-only write to the synced realm from there. Then, regardless of the device's 
-network connectivity, information can be shared any time to or from the App 
-Extension.
-
-Communicate Directly with the Backing Atlas Collection
-``````````````````````````````````````````````````````
-
-If having the information always up-to-date across all devices is the most 
-important consideration for your app, you can read or write data directly 
-to or from the backing Atlas collection across the network. Depending on your 
-needs, you may want to use one of these tools to communicate directly with 
-Atlas:
-
-- Pass data to an :ref:`App Services Function <kotlin-call-function>` 
-- Make HTTPS calls with the :ref:`Data API <data-api>` or :ref:`GraphQL API <graphql-api>`
-
-Then, any device that has a network connection is always getting the most 
-up-to-date information, without waiting for the user to open your main app 
-as in the option above.
-
-This option does require your user's device to have a network connection 
-when using the App Extension. As a fallback, you could check for a network
-connection. Then, use the on-disk option above in the event that the user's 
-device lacks network connectivity.
+- The ``Item`` in this message is ``Item`` object used in the :ref:`object model <kotlin-client-data-model-and-configuration>` on this page.
+- The primary key is the ``objectId`` of the specific object the client attempted to write. 
+- The ``table "Item"`` refers to the Atlas collection where this object would sync.
+- The reason ``object is outside of the current query view`` in this example is because the query subscription was set to require the object's ``complexity`` property to be less than or equal to ``4``, and the client attempted to write an object outside of this boundary.
