@@ -3,6 +3,7 @@
 //     "CreateExamples_": ""
 //   }
 // }
+import Foundation
 import XCTest
 import RealmSwift
 
@@ -201,6 +202,34 @@ class CreateRealmObjects: XCTestCase {
             dog.favoriteParksByCity.setValue("Bush Park", forKey: "Ottawa")
         }
         // :snippet-end:
+    }
+    
+    func testCreateObjectWithMapKeysPercentEncodedForbiddenCharacters() {
+        // :snippet-start: percent-encode-disallowed-map-keys
+        // Percent encode . or $ characters to use them in map keys
+        let mapKey = "New York.Brooklyn"
+        let encodedMapKey = "New York%2EBrooklyn"
+        // :snippet-end:
+        
+        let realm = try! Realm()
+        let dog = CreateExamples_Dog()
+        dog.name = "Wishbone"
+        dog.currentCity = "New York"
+        // Set map values
+        dog.favoriteParksByCity[encodedMapKey] = "Domino Park"
+
+        // Round-trip adding a dog with a percent-encoded map key, querying it, and decoding it
+        try! realm.write {
+            realm.add(dog)
+        }
+        let savedWishbone = realm.objects(CreateExamples_Dog.self).where {
+            $0.name == "Wishbone"
+        }.first!
+        let savedWishboneMapKey = savedWishbone.favoriteParksByCity.keys[0]
+        XCTAssert(savedWishboneMapKey == "New York%2EBrooklyn")
+        let decodedMapKey = savedWishboneMapKey.removingPercentEncoding
+        let unwrappedDecodedMapKey = decodedMapKey
+        XCTAssert(mapKey == unwrappedDecodedMapKey)
     }
 
     func testCreateMutableSet() {

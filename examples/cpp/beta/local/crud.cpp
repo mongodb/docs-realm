@@ -435,4 +435,54 @@ TEST_CASE("test map object", "[write]") {
         });
     }
 }
+
+TEST_CASE("test map object with percent-encoded map key", "[write]") {
+    auto relative_realm_path_directory = "crud/";
+    std::filesystem::create_directories(relative_realm_path_directory);
+    std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+    path = path.append("beta_employee_map_objects");
+    path = path.replace_extension("realm");
+
+    auto config = realm::db_config();
+    config.set_path(path); // :remove:
+    auto realm = db(std::move(config));
+
+    auto employee = Beta_Map_Employee {
+        ._id = 8675309,
+        .firstName = "Tommy",
+        .lastName = "Tutone"
+    };
+
+    // :snippet-start: percent-encode-disallowed-characters
+    // Percent encode . or $ characters to use them in map keys
+    auto mapKey = "Monday.Morning";
+    auto encodedMapKey = "Monday%2EMorning";
+    // :snippet-end:
+
+    employee.locationByDay = {
+        { encodedMapKey, Beta_Map_Employee::WorkLocation::HOME },
+        { "Monday%2EAfternoon", Beta_Map_Employee::WorkLocation::OFFICE }
+    };
+
+    realm.write([&] {
+        realm.add(std::move(employee));
+    });
+    
+    SECTION("Test code example functions as intended") {
+        auto employees = realm.objects<Beta_Map_Employee>();
+        auto employeesNamedTommy = employees.where([](auto &employee) {
+            return employee.firstName == "Tommy";
+        });
+        REQUIRE(employeesNamedTommy.size() >= 1);
+        auto tommy = employeesNamedTommy[0];
+
+        auto mondayMorningIterator = tommy.locationByDay.find("Monday%2EMorning");
+        CHECK(mondayMorningIterator != tommy.locationByDay.end());
+        
+        // Clean up after test
+        realm.write([&] {
+            realm.remove(tommy);
+        });
+    }
+}
 // :replace-end:

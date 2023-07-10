@@ -732,6 +732,10 @@ You can declare a Map as a property of an object:
        @Persisted var favoriteParksByCity: Map<String, String>
    }
 
+.. include:: /includes/map-key-string-limitations.rst
+
+.. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.percent-encode-disallowed-map-keys.swift
+
 .. note::
 
    When declaring default values for ``@Persisted`` Map property attributes, both
