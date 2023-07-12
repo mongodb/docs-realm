@@ -7,6 +7,9 @@ the Node.js SDK documentation.
 
 The project uses [Jest](https://jestjs.io/) to run automated tests.
 
+This is the legacy test suite. Check out the `/v12` directory for the current
+test suite.
+
 ## Get Started
 
 ### Install Dependencies
