@@ -21,11 +21,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        working-directory: examples/node/legacy/examples
+        working-directory: examples/node/legacy/Examples
         run: npm install
       - name: Test JavaScript
-        working-directory: examples/node/legacy/examples
+        working-directory: examples/node/legacy/Examples
         run: npm run test:js
       - name: Test TypeScript
-        working-directory: examples/node/legacy/examples
+        working-directory: examples/node/legacy/Examples
         run: npm run test:ts
