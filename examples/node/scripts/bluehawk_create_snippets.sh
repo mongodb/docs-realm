@@ -2,7 +2,7 @@
 
 PROJECT=$(git rev-parse --show-toplevel)
 NODE=$PROJECT/examples/node
-GENERATED_EXAMPLES=$PROJECT/source/examples/generated/flutter
+GENERATED_EXAMPLES=$PROJECT/source/examples/generated/node
 
 # standard bluehawking
 rm -f "$GENERATED_EXAMPLES"/*
