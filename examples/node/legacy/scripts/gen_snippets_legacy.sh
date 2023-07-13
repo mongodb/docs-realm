@@ -4,6 +4,8 @@ PROJECT=$(git rev-parse --show-toplevel)
 INPUT_DIRECTORY=$PROJECT/examples/node/legacy
 OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/legacy
 
+echo "$INPUT_DIRECTORY"
+
 # standard bluehawking
 rm -f "$OUTPUT_DIRECTORY"/*
 echo "Bluehawking Node unit test examples..."
