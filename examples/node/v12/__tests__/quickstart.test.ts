@@ -1,8 +1,6 @@
 // :snippet-start: import-realm
-import Realm, { flags } from "realm";
+import Realm from "realm";
 // :snippet-end:
-
-flags.ALLOW_CLEAR_TEST_STATE = true;
 
 describe("QuickStart Local", () => {
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
