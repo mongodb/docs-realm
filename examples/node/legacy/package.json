@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles --forceExit",
-    "test:js": "jest --selectProjects JavaScript --runInBand --detectOpenHandles --forceExit",
-    "test:ts": "jest --selectProjects TypeScript --runInBand --detectOpenHandles --forceExit",
+    "test:js": "jest --selectProjects JavaScript --runInBand --detectOpenHandles --forceExit; npm run delete-realm-files",
+    "test:ts": "jest --selectProjects TypeScript --runInBand --detectOpenHandles --forceExit; npm run delete-realm-files",
     "lint": "eslint Examples/*",
-    "prettier": "prettier --write Examples/*"
+    "prettier": "prettier --write Examples/*",
+    "delete-realm-files": "rm -rf *realm.lock *.realm *realm.note *realm.management mongodb-realm *.realm.fresh.lock realm-files myrealm"
   },
   "author": "",
   "license": "ISC",
