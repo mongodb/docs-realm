@@ -622,20 +622,21 @@ describe("Node.js Data Types", () => {
       janeSmith = realm.create("Person", {
         name: "Jane Smith",
         home: {
-          "kitchen%2Ewindows" : 5,
+          [encodedMapKey] : 5,
         },
       });
     });
 
     const persons = realm.objects("Person");
-    const jane = persons.first;
-    expect();
+    const jane = persons[0];
+    const janesHome = jane.home;
+    const encodedKeyValue = janesHome["kitchen%2Ewindows"];
 
-//    expect(jane.home["kitchen%2Ewindows"]);
+    expect(encodedKeyValue).toBe(5);
 
-    // realm.write(() => {
-    //   realm.delete(janeSmith);
-    // });
+    realm.write(() => {
+      realm.delete(janeSmith);
+    });
 
     realm.close();
   });

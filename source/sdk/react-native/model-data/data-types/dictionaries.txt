@@ -59,6 +59,12 @@ You can define define a dictionary of mixed values for a :ref:`Realm object mode
          :language: javascript
          :emphasize-lines: 6, 8
 
+Realm disallows the use of ``.`` or ``$`` characters in dictionary keys.
+You can use percent encoding and decoding to store a dictionary key that 
+contains one of these disallowed characters.
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.percent-encode-disallowed-characters.js
+   :language: javascript
 
 Create an Object with a Dictionary Value
 ----------------------------------------
