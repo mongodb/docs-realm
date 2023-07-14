@@ -55,6 +55,21 @@ struct FlexibleSyncContentView: View {
 }
 // :snippet-end:
 
+struct PBSContentView: View {
+    // Observe the Realm app object in order to react to login state changes.
+    @ObservedObject var partitionBasedSyncApp: RealmSwift.App
+
+    var body: some View {
+        if let user = partitionBasedSyncApp.currentUser {
+            OpenPartitionBasedSyncRealm()
+                .environment(\.partitionValue, user.id)
+        } else {
+            // If there is no user logged in, show the login view.
+            LoginView()
+        }
+    }
+}
+
 // MARK: Authentication Views
 // This view supports other views used in the SwiftUICatalogUITests
 struct LoginView: View {

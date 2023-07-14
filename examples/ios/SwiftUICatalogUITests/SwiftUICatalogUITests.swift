@@ -30,6 +30,21 @@ class SwiftUICatalogUITests: XCTestCase {
         XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 10))
     }
     
+    func testPBSAsyncOpenLogin() throws {
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "OpenPBSRealmAsyncOpen"
+        app.launch()
+
+        let loginButton = app.buttons["Log in anonymously"]
+        if loginButton.exists {
+            loginButton.tap()
+        }
+
+        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 10))
+    }
+    
     func testPassRealmObjects() throws {
         let app = XCUIApplication()
         app.launchEnvironment["MyUITestsCustomView"] = "true"
