@@ -595,4 +595,49 @@ describe("Node.js Data Types", () => {
     realm.close();
     // :snippet-end:
   });
+
+  test("should create a dictionary with a percent-encoded key", async () => {
+    const PersonSchema = {
+      name: "Person",
+      properties: {
+        name: "string",
+        home: "{}",
+      },
+    };
+
+    realm = await Realm.open({
+      path: "realm-files/data-type.realm",
+      schema: [PersonSchema],
+    });
+
+    // :snippet-start: percent-encode-disallowed-characters
+    // Percent encode . or $ characters to use them in map keys
+    const mapKey = "kitchen.windows";
+    const encodedMapKey = mapKey.replace(".", "%2E");
+    // :snippet-end:
+    expect(encodedMapKey).toBe("kitchen%2Ewindows");
+
+    let janeSmith;
+    realm.write(() => {
+      janeSmith = realm.create("Person", {
+        name: "Jane Smith",
+        home: {
+          [encodedMapKey] : 5,
+        },
+      });
+    });
+
+    const persons = realm.objects("Person");
+    const jane = persons[0];
+    const janesHome = jane.home;
+    const encodedKeyValue = janesHome["kitchen%2Ewindows"];
+
+    expect(encodedKeyValue).toBe(5);
+
+    realm.write(() => {
+      realm.delete(janeSmith);
+    });
+
+    realm.close();
+  });
 });
