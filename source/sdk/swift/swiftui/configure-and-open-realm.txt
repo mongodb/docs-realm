@@ -126,7 +126,7 @@ ensures the user is never using the app with stale data.
       To open a realm with :ref:`Partition-Based Sync <partition-based-sync>`, 
       add a ``partitionValue`` to the property wrapper:
 
-      .. literalinclude:: /examples/generated/swiftui/OpenRealm.snippet.pbs-property-wrapper.swift
+      .. literalinclude:: /examples/generated/swiftui/OpenRealm.snippet.pbs-async-open-property-wrapper.swift
          :language: swift
 
 This SwiftUI property wrapper initiates ``Realm.asyncOpen()`` for the current 
@@ -153,7 +153,7 @@ which you can use to update the view.
       .. tab:: Partition-Based Sync
          :tabid: pbs
 
-         .. literalinclude:: /examples/generated/swiftui/OpenRealm.snippet.auto-open-synced-realm.swift
+         .. literalinclude:: /examples/generated/swiftui/OpenRealm.snippet.async-open-synced-realm.swift
             :language: swift
 
 .. _swiftui-auto-open-synced-realm:

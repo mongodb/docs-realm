@@ -1,16 +1,18 @@
 /// This view opens a synced realm.
-struct OpenPartitionBasedSyncRealmView: View {
-    // @AutoOpen attempts to connect to the server and download remote changes
-    // before the realm opens, which might take a moment. However, if there is
-    // no network connection, AutoOpen will open a realm on the device.
+struct OpenPartitionBasedSyncRealm: View {
+    // @AsyncOpen attempts to connect to the server and download remote changes
+    // before the realm opens. If there is no network connection,
+    // AsyncOpen cannot load changes and the realm does not open.
+
     // We can use an empty string as the partitionValue here because we're
     // injecting the user.id as an environment value from the LoginView.
-    @AutoOpen(appId: YOUR_APP_SERVICES_APP_ID_HERE, partitionValue: "", timeout: 4000) var autoOpen
+
+    @AsyncOpen(appId: YOUR_APP_SERVICES_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
     
     var body: some View {
         
-        switch autoOpen {
-        // Starting the Realm.autoOpen process.
+        switch asyncOpen {
+        // Starting the Realm.asyncOpen process.
         // Show a progress view.
         case .connecting:
             ProgressView()
