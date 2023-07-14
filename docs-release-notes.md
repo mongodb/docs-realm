@@ -1,11 +1,56 @@
+# July 14, 2023
+
+## C++ SDK
+
+- Model Data/Supported Data Types/Map: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+- CRUD/Create/Create an Object with a Map Property: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+
+## Flutter SDK
+
+- Install Realm: Bump the minimum Flutter requirement from 3.0.3 to 3.10.2, minimum Dart version from 2.17.5 to 3.0.2
+- Internal: Update environment dependencies in test suite
+
+## Kotlin SDK
+
+- Realm
+  - Model Data/Data Types/RealmDictionary/RealmMap: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+  - Read & Write Data/Create/Create an Object with a Dictionary Property: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+
+## .NET SDK
+
+- Model Data/Supported Data Types/Dictionaries: Note that Realm disallows the use of `.` or `$` in map keys
+
+## Node.js SDK
+
+- Model Data/Data Types/Dictionaries: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+- Internal: Move the existing Node.js test suite to a `legacy` directory, prepare a new test suite for v12
+
+## React Native SDK
+
+- Model Data/Data Types/Dictionaries: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+
+## Swift SDK
+
+- Model Data/Supported Data Types/Map/Dictionary: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+- CRUD/Create/Create an Object with a Map Property: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+- SwiftUI/Configure & Open a Realm: Fix an `@AutoOpen` example that should have been `@AsyncOpen` to match page copy
+
+## Web SDK
+
+- API Reference: Typo fix
+
+## Other
+
+- Realm Query Language: Correction: When using `SORT`, order is required, not optional
+
 # July 3, 2023
 
 ## .NET SDK
 
-- Quick Start: Update code examples to use a consistent `Item` object model 
+- Quick Start: Update code examples to use a consistent `Item` object model
 - CRUD
-  - Create Data:  Update code examples to use a consistent `Item` object model
-  - Query, Filter, and Sort Data: Parameterize RQL code examples 
+  - Create Data: Update code examples to use a consistent `Item` object model
+  - Query, Filter, and Sort Data: Parameterize RQL code examples
 
 # June 30, 2023
 
