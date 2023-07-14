@@ -99,14 +99,15 @@ class SyncedRealmCRUD : RealmTest() {
             runBlocking {
                 if (error is CompensatingWriteException) {
                     channel.send(error) // :remove:
-                    val writeInfo = error.writes[0]
-                    val errorMessage = """
-                        A write was rejected with a compensating write error
-                        The write to object type: ${writeInfo.objectType}
-                        With primary key of: ${writeInfo.primaryKey}
-                        Was rejected because: ${writeInfo.reason}
-                    """.trimIndent()
-                    Log.e(errorMessage)
+                    error.writes.forEach { writeInfo ->
+                        val errorMessage = """
+                            A write was rejected with a compensating write error
+                            The write to object type: ${writeInfo.objectType}
+                            With primary key of: ${writeInfo.primaryKey}
+                            Was rejected because: ${writeInfo.reason}
+                            """.trimIndent()
+                        Log.e(errorMessage)
+                    }
                 }
             }
         }
