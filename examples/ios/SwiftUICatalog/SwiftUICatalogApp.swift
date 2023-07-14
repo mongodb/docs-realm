@@ -31,6 +31,7 @@ struct SwiftUICatalogApp: SwiftUI.App {
         "FSOrLocalRealm": { AnyView(FlexibleSyncOrLocalRealmView()) },
         "OpenFSRealm": { AnyView(OpenFlexibleSyncRealmView()) },
         "OpenPBSRealm": { AnyView(OpenPartitionBasedSyncRealmView()) },
+        "OpenPBSRealmAsyncOpen": { AnyView(PBSContentView(partitionBasedSyncApp: partitionBasedSyncApp!)) },
         "PassRealmObjects": { AnyView(SetUpDogsView()) },
         "ProfileView": { AnyView(ProfileView(profile: personProfile.first!)) },
         "SearchableDogsView": { AnyView(SearchableDogsView().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs)) },

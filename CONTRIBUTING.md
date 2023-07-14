@@ -23,7 +23,7 @@ etc.
 ## Setup
 
 If you have not done so already, please sign the [MongoDB Contributor
-Agreement](https://www.mongodb.com/legal/contributor-agreement>).
+Agreement](https://www.mongodb.com/legal/contributor-agreement).
 
 Fork the `mongodb/docs-realm` repo.
 
