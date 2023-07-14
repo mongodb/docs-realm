@@ -30,9 +30,7 @@ integers or ``"string{}"`` to specify that dictionary values must be strings.
 .. literalinclude:: /examples/generated/node/data-types.snippet.define-dictionary-in-schema.js
     :language: javascript
 
-Realm disallows the use of ``.`` or ``$`` characters in dictionary keys.
-You can use percent encoding and decoding to store a dictionary key that 
-contains one of these disallowed characters.
+.. include:: /includes/map-key-string-limitations.rst
 
 .. literalinclude:: /examples/generated/node/data-types.snippet.percent-encode-disallowed-characters.js
    :language: javascript
