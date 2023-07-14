@@ -984,7 +984,14 @@ Sort and limit the results collection of your query using additional operators.
 
    * - ``SORT``
      - Specify the name of the property to compare, and whether to sort by
-       ascending (``ASC``) or descending (``DESC``) order.
+       ascending (``ASC``) or descending (``DESC``) order. If you specify 
+       multiple SORT fields, you must specify sort order for each field.
+       With multiple sort fields, the query sorts by the first field, and 
+       then the second. 
+       
+       For example, if you ``SORT (priority DESC, name DESC)``, the query 
+       returns sorted by priority, and then by name when priority
+       value is the same.
 
    * - ``DISTINCT``
      - Specify a name of the property to compare. Remove duplicates
