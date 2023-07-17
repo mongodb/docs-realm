@@ -67,7 +67,14 @@ to create a 64-bit key and store that key in a :ref:`user object <user-objects>`
 Accessing an Encrypted Realm from Multiple Processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/encrypt-mult-processes.rst
+.. versionchanged:: 1.1.0
+
+Starting with Realm Flutter SDK version 1.1.0, Realm supports opening
+the same encrypted realm in multiple processes. 
+
+If your app uses Realm Flutter SDK version 1.1.0 or earlier, attempting to 
+open an encrypted realm from multiple processes throws this error:
+``Encrypted interprocess sharing is currently unsupported.``
 
 Example
 -------
