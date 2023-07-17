@@ -21,7 +21,8 @@ of the following:
 - The permissions in your App Services App 
 
 If you try to write data that doesn't match either the query subscription or
-the user's permissions, Realm reverts the write with a non-fatal write error called a :ref:`compensating write <kotlin-compensating-writes>`.
+the user's permissions, Realm reverts the write with a non-fatal error operation
+called a :ref:`compensating write <kotlin-compensating-writes>`.
 
 To learn more about configuring permissions for your app, see
 :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide` in the
@@ -43,12 +44,20 @@ The examples on this page use an Atlas App Services App with the following
 Device Sync configuration and a client app with the following Realm SDK 
 data model and subscriptions.
 
+.. _kotlin-sync-example-object-model:
+
+In this example, the client app uses the following object model:
+
+.. literalinclude:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.flexible-sync-crud-model.kt
+   :language: kotlin
+
 .. _kotlin-app-services-configuration:
 
 App Services Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this example, Device Sync is configured with the following queryable fields:
+Based on the above :ref:`object model <kotlin-sync-example-object-model>`, 
+Device Sync is configured with the following queryable fields:
 
 - ``_id`` (always included)
 - ``complexity``
@@ -89,13 +98,8 @@ the ``user.id`` of the logged-in user cannot sync to this realm.
 Client Data Model and Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this example, the client app uses the following object model:
-
-.. literalinclude:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.flexible-sync-crud-model.kt
-   :language: kotlin
-
-Using that object model, the examples configure the synced realm to 
-synchronize objects matching this subscription query:
+Using the :ref:`object model <kotlin-sync-example-object-model>`, the examples 
+configure the synced realm to synchronize objects matching this subscription query:
 
 .. literalinclude:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.flexible-sync-subscription-setup.kt
    :language: kotlin
@@ -115,7 +119,8 @@ whether the write matches the :ref:`permissions <permissions>` and the
   and syncs successfully to the App Services backend and other devices.
 - Compensating writes: The written object does not match
   the subscription query or the user does not have sufficient
-  permissions to perform the write. Realm reverts the illegal write.
+  permissions to perform the write. Realm reverts the illegal write with a 
+  compensating write operation.
 
 .. tip:: 
 
@@ -142,8 +147,8 @@ Compensating Writes
 ~~~~~~~~~~~~~~~~~~~
 
 When the write doesn't match *either* the query subscription or user 
-permissions, Realm reverts the write and throws a `CompensatingWriteException <{+kotlin-sync-prefix+}/io.realm.kt.mongodb.exceptions/-compensating-write-exception/index.html>`__. Any client-side writes to a given object between an illegal write to that object
-and the corresponding compensating write will be lost.
+permissions, Realm reverts the write and throws a 
+`CompensatingWriteException <{+kotlin-sync-prefix+}/io.realm.kt.mongodb.exceptions/-compensating-write-exception/index.html>`__. 
 
 In more detail, when you write data that is outside the bounds of a query
 subscription or does not match the user's permissions, the following occurs:
@@ -153,6 +158,8 @@ subscription or does not match the user's permissions, the following occurs:
 #. The server sends a revert operation, called a "compensating write", back to the client.
 #. The client's realm reverts the illegal write operation.
 
+Any client-side writes to a given object between an illegal write to that object
+and the corresponding compensating write will be lost. 
 In practice, this may look like the write succeeding, but then the 
 object "disappears" when Realm syncs with the App Services backend and 
 performs the compensating write. 
