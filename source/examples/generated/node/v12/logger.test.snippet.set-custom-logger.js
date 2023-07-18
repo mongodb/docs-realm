@@ -1,8 +1,4 @@
-type Log = {
-  message: string;
-  level: string;
-};
-let logs: Log[] = [];
+let logs = [];
 
 Realm.setLogger((level, message) => {
   logs.push({ level, message });

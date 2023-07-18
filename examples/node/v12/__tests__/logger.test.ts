@@ -50,13 +50,13 @@ describe("Test core Realm logger", () => {
   });
 
   test("Set a custom logger", async () => {
+    // :snippet-start: set-custom-logger
     type Log = {
       message: string;
       level: string;
     };
     let logs: Log[] = [];
 
-    // :snippet-start: set-custom-logger
     Realm.setLogger((level, message) => {
       logs.push({ level, message });
     });
