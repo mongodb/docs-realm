@@ -1,4 +1,4 @@
-.. _node-set-the-client-log-level:
+.. _node-client-log-level:
 
 ======================================
 Set the Client Log Level - Node.js SDK
@@ -9,6 +9,16 @@ Set the Client Log Level - Node.js SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. versionchanged:: 12.0.0: Deprecated in favor of Realm Logger
+
+.. warning::
+
+   This page shows how to set a Sync client log level in Realm Node.js SDK
+   versions 11.9.0 and earlier. Realm Node.js SDK v12.0.0 supersedes this 
+   logging implementation with a Realm logger you can set and configure
+   for your application. For information on how to set a Realm logger in a later 
+   version, refer to :ref:`node-logging`.
 
 You can set the realm Sync client :js-sdk:`log level
 <Realm.App.Sync.html#~LogLevel>` by calling
