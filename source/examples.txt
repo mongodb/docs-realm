@@ -1,0 +1,298 @@
+:template: product-landing
+:hidefeedback: header
+:noprevnext:
+
+.. _realm-examples:
+
+======================
+Realm Example Projects
+======================
+
+Explore engineering and community-provided example projects to learn best 
+practices and common development patterns for Realm and Atlas App Services.
+
+Learn how to use Realm in the context of:
+
+- :ref:`App and Data Architecture <examples-app-architecture>`
+- :ref:`Feature Integration <examples-app-services-architecture>`
+- :ref:`Offline Functionality <examples-offline-functionality>`
+- :ref:`Testing <examples-testing>`
+
+.. _examples-app-architecture:
+
+App and Data Architecture
+-------------------------
+
+How to architect your application code and database schemas for common Realm development tasks.
+
+.. card-group::
+   :columns: 3
+   :style: extra-compact
+
+   .. card::
+      :headline: Multiple Realms
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
+
+      Use multiple realms to store different types of information. Sync 
+      some but not all data.
+
+      Available in `Flutter <some-outside-url>`__ and 
+      `React Native <some-outside-url>`__.
+
+   .. card::
+      :headline: Analytics/Telemetrics Data
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Take sensor readings, push data to Atlas, and display the results in
+      Atlas Charts or a time series collection.
+
+      Available in `C++ <some-outside-url>`__, `.NET <some-outside-url>`__,
+      `Node.js <some-outside-url>`__, and `Swift <some-outside-url>`__.
+
+   .. card::
+      :headline: Migrate Local to Synced Realm
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Migrate your non-synced realm app to sync data between devices.
+
+      Available in `Node.js <some-outside-url>`__ and 
+      `React Native <some-outside-url>`__.
+
+   .. card::
+      :headline: Build a ViewModel
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Separate your business logic from Realm operations for easier testing
+      and a cleaner app architecture.
+
+      Available in `Kotlin <some-outside-url>`__.
+
+   .. card::
+      :headline: Realm with REST APIs
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Use Realm for real-time operations together with REST APIs for 
+      server-side business logic - all with a single ViewModel.
+
+      Available in `.NET <some-outside-url>`__.
+
+   .. card::
+      :headline: Atlas Search for Mobile Apps
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Use Atlas Search to find information in remote data without syncing 
+      it locally to your mobile app.
+
+      Available in `.NET <some-outside-url>`__.
+
+.. _examples-app-services-architecture:
+
+Feature Integration
+-------------------
+
+How to leverage Atlas App Services to integrate popular features into your application.
+
+.. card-group::
+   :columns: 3
+   :style: extra-compact
+
+   .. card::
+      :headline: Large File Storage
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
+
+      Store large files, such as images, on a remote server. Use Triggers and
+      Functions to store the references.
+
+      Available in `.NET <some-outside-url>`__.
+
+   .. card::
+      :headline: User's Online State
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
+
+      Detect when a user is online or offline. Display an avatar or send
+      a notification based on user presence.
+
+      Available in `Kotlin <some-outside-url>`__.
+
+   .. card::
+      :headline: Analytics/Telemetrics Data
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Take sensor readings, push data to Atlas, and display the results in
+      Atlas Charts or a time series collection.
+
+      Available in `C++ <some-outside-url>`__, `.NET <some-outside-url>`__,
+      `Node.js <some-outside-url>`__, and `Swift <some-outside-url>`__.
+
+   .. card::
+      :headline: Atlas Search for Mobile Apps
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Use Atlas Search to find information in remote data without syncing 
+      it locally to your mobile app.
+
+      Available in `.NET <some-outside-url>`__.
+
+   .. card::
+      :headline: Display a Live Leaderboard
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Display results in realtime using Triggers, Functions, and Atlas 
+      Device Sync.
+
+      Available in `Flutter <some-outside-url>`__.
+
+   .. card::
+      :headline: Show a Toast Message
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Show a toast message based on changes to a synced value. Update the 
+      value using Triggers and Functions.
+
+      Available in `Flutter <some-outside-url>`__.
+
+   .. card::
+      :headline: Purchase Verification
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Verify Google Play or Apple App Store purchases with server-side APIs.
+      Offer additional functionality for paying subscribers.
+
+      Available in `Kotlin <some-outside-url>`__ and `Swift <some-outside-url>`__.
+
+.. _examples-offline-functionality:
+
+Offline Functionality
+---------------------
+
+How to leverage Realm's offline-first capabilities to support your application's needs.
+
+.. card-group::
+   :columns: 3
+   :style: extra-compact
+
+   .. card::
+      :headline: Large File Storage
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
+
+      Store large files, such as images, on a remote server. Use Triggers and
+      Functions to store the references. Leverage Realm's offline-first design
+      to store large images even offline.
+
+      Available in `.NET <some-outside-url>`__.
+
+   .. card::
+      :headline: Connection State Change & Error Handling
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
+
+      Learn best practices around handling Sync connection state changes.
+      Provide a seamless offline experience for users.
+
+      Available in `Flutter <some-outside-url>`__, `Kotlin <some-outside-url>`__,
+      `.NET <some-outside-url>`__, `Node.js <some-outside-url>`__,
+      `React Native <some-outside-url>`__, and `Swift <some-outside-url>`__.
+
+   .. card::
+      :headline: Offline Realm Access
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Open a synced realm offline.
+
+      Available in `Flutter <some-outside-url>`__, `Kotlin <some-outside-url>`__,
+      `.NET <some-outside-url>`__, `Node.js <some-outside-url>`__,
+      `React Native <some-outside-url>`__, and `Swift <some-outside-url>`__.
+
+   .. card::
+      :headline: Realm with REST APIs
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Available in `.NET <some-outside-url>`__.
+
+   .. card::
+      :headline: Offline Interface with APIs
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Learn how to use Realm objects as an interface with external APIs or
+      Atlas Triggers in a way that handles connectivity loss.
+
+      Available in `.NET <some-outside-url>`__.
+
+   .. card::
+      :headline: Cache an External Datasource
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Learn how to use Realm as an intelligent cache against an external 
+      datasource, such as a CMS, microservice, or external database.
+
+      Available in `.NET <some-outside-url>`__.
+
+   .. card::
+      :headline: Mock a Sync Connection
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Learn how to switch a synced realm for a non-synced realm to mock 
+      having a Sync connection. Do local testing wtihout the cloud.
+
+      Available in `Kotlin <some-outside-url>`__.
+
+.. _examples-testing:
+
+Testing
+-------
+
+How to handle errors and test applications that use Realm or Atlas Device Sync.
+
+.. card-group::
+   :columns: 3
+   :style: extra-compact
+
+   .. card::
+      :headline: Connection State Change & Error Handling
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
+
+      Learn best practices around handling Sync errors and client resets.
+
+      Available in `Flutter <some-outside-url>`__, `Kotlin <some-outside-url>`__,
+      `.NET <some-outside-url>`__, `Node.js <some-outside-url>`__,
+      `React Native <some-outside-url>`__, and `Swift <some-outside-url>`__.
+
+   .. card::
+      :headline: Build a ViewModel
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Separate your business logic from Realm operations for easier testing
+      and a cleaner app architecture.
+
+      Available in `Kotlin <some-outside-url>`__.
+
+   .. card::
+      :headline: Mock a Sync Connection
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
+
+      Learn how to switch a synced realm for a non-synced realm to mock 
+      having a Sync connection. Do local testing without the cloud.
+
+      Available in `Kotlin <some-outside-url>`__.
