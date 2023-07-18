@@ -34,7 +34,7 @@ Asymmetric objects broadly support the same property types as ``RealmObject``,
 with a few exceptions:
 
 - The Kotlin objects that you sync with Atlas must implement the 
-  `AsymmetricRealmObject <https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ interface.
+  `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ interface.
 - An object that implements the ``AsymmetricRealmObject`` can contain 
   `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__ 
   types, but not ``RealmObject`` types or other ``AsymmetricRealmObject`` types.
@@ -59,7 +59,7 @@ Sync Data Unidirectionally from a Client Application
    .. step:: Define an Asymmetric Object
 
       You can sync data unidirectionally when that object is an ``AsymmetricRealmObject``.
-      Define an asymmetric object by implementing the `AsymmetricRealmObject <https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ interface:
+      Define an asymmetric object by implementing the `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__ interface:
 
       .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.asymmetric-model.kt 
          :language: kotlin
@@ -93,7 +93,7 @@ Sync Data Unidirectionally from a Client Application
    .. step:: Create Asymmetric Objects
 
       Once you have an open Realm, you can create an ``AsymmetricRealmObject`` inside
-      a write transaction using the `insert() <https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/io.realm.kotlin.mongodb.ext/insert.html>`__ 
+      a write transaction using the `insert() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/insert.html>`__ 
       extension method:
 
       .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
