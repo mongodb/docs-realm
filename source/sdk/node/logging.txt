@@ -29,8 +29,8 @@ Set or Change the Realm Log Level
 ---------------------------------
 
 You can set the level of detail reported by the Realm Node.js SDK. To configure
-the log level, set :js-sdk:`Realm.setLogger <TBD>` to one of the constants
-provided by :js-sdk:`RealmLogLevel <realm/RealmLogLevel-class.html#constants>`.
+the log level, pass :js-sdk:`Realm.setLogLevel() <TBD>` to a valid
+:js-sdk:`RealmLogLevel <TBD>` level value.
 
 .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-log-level.ts
    :language: typescript
@@ -48,16 +48,15 @@ before opening a synced realm and could not be changed.
 Customize the Logger
 --------------------
 
-The Realm Node.js SDK can use a custom logger.
-
-To set a custom logger, create a ``Logger`` and set it using the
-:js-sdk:`Realm.logger <TBD>` method.
+To set a custom logger, call :js-sdk:`setLogger() <TBD>`. This method recieves
+``level`` and ``message`` arguments from the Realm logger. You can use these
+arguments to define your own logging behavior.
 
 .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-custom-logger.ts
    :language: typescript
 
-This sets the logger for Realm logging in your application. If you do not 
-provide a log level, the default is :js-sdk:`RealmLogLevel.info <TBD>`.
+This sets the logging behavior for all Realm logging in your application. If you
+do not provide a log level, the default is :js-sdk:`RealmLogLevel.info <TBD>`.
 
 .. _node-turn-off-logging:
 
