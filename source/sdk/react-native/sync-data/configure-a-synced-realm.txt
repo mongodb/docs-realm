@@ -42,12 +42,12 @@ By default, Realm syncs all data from the server before returning.
 If you want to sync data in the background, read the :ref:`Configure a Synced Realm
 While Offline <react-native-open-synced-realm-offline>` section.
 
-Nest <RealmProvider> within <AppProvider> and <UserProvider>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Nest RealmProvider within AppProvider and UserProvider
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To use a Flexible Sync realm with ``@realm/react``, you must nest ``<RealmProvider>``
-within ``<UserProvider>``. And ``<UserProvider>`` must be nested in ``<AppProvider>``. 
-This ensures that ``<RealmProvider>`` has all of the context it needs, like a 
+To use a Flexible Sync realm with ``@realm/react``, you must nest ``RealmProvider``
+within ``UserProvider``. And ``UserProvider`` must be nested in ``AppProvider``. 
+This ensures that ``RealmProvider`` has all of the context it needs, like a 
 logged-in user.
 
 Call ``createRealmContext()`` with 
@@ -58,26 +58,26 @@ The following example shows how to use these providers together in your app:
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: javascript
 
-For more information about configuring and using ``<AppProvider>``, check
+For more information about configuring and using ``AppProvider``, check
 out the :ref:`Connect To Atlas App Services page <react-native-app-client-configuration>`.
 
-You can also find information about ``<UserProvider>`` on the
+You can also find information about ``UserProvider`` on the
 :ref:`Authenticate Users page <react-native-authenticate-users>`.
 
 .. _react-native-flexible-sync-open-realm:
 
-Configure <RealmProvider>
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Configure RealmProvider
+~~~~~~~~~~~~~~~~~~~~~~~
 
 To configure a Flexible Sync realm, use ``@realm/react``'s ``createRealmContext()`` 
-function and its returned ``<RealmProvider>``.
+function and its returned ``RealmProvider``.
 
-In a ``<RealmProvider>`` that's nested in a ``<UserProvider>``, add a ``sync`` 
+In a ``RealmProvider`` that's nested in a ``UserProvider``, add a ``sync`` 
 property with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
 object that contains ``flexible: true``.
 
-Note that ``<UserProvider>`` automatically passes an authenticated user
-to ``<RealmProvider>``.
+Note that ``UserProvider`` automatically passes an authenticated user
+to ``RealmProvider``.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: javascript
@@ -96,8 +96,8 @@ Using :js-sdk:`AppConfiguration.baseFilePath <Realm.App.html#~AppConfiguration>`
 and :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`, you can
 control where Realm and metadata files are stored on client devices.
 
-To do so, set ``<AppProvider>.baseFilePath``. If ``baseFilePath`` is not set, the
-current work directory is used. You can also set ``<RealmProvider>.sync.path``
+To do so, set ``AppProvider.baseFilePath``. If ``baseFilePath`` is not set, the
+current work directory is used. You can also set ``RealmProvider.sync.path``
 for more control.
 
 .. tabs-realm-languages::
@@ -140,7 +140,7 @@ realm while offline. To do this, use a cached user and an
 :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object. 
 
-Within ``<RealmProvider>``'s sync configuration, set the optional ``newRealmFileBehavior`` 
+Within ``RealmProvider``'s sync configuration, set the optional ``newRealmFileBehavior`` 
 and ``existingRealmFileBehavior`` fields to your ``OpenRealmBehaviorConfiguration`` 
 object to enable background synchronization. 
 

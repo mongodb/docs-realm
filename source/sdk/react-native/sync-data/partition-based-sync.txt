@@ -24,14 +24,14 @@ Configure a Partition-Based Sync Realm
 --------------------------------------
 
 To open a Flexible Sync realm, use ``@realm/react``'s ``createRealmContext()`` 
-function and its returned ``<RealmProvider>``.
+function and its returned ``RealmProvider``.
 
-In a ``<RealmProvider>`` that's nested in a ``<UserProvider>``, add a ``sync`` 
+In a ``RealmProvider`` that's nested in a ``UserProvider``, add a ``sync`` 
 property with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
 object that contains ``flexible: true``.
 
-Note that ``<UserProvider>`` automatically passes an authenticated user
-to ``<RealmProvider>``.
+Note that ``UserProvider`` automatically passes an authenticated user
+to ``RealmProvider``.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.partition-based-config.tsx
    :language: javascript
