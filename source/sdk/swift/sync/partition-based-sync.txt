@@ -41,16 +41,6 @@ This enables you to specify a partition value whose data should sync to the real
    .. tab::
       :tabid: swift
 
-      .. versionchanged:: 10.15.0
-
-      .. seealso::
-         
-         The Realm Swift SDK supports async/await syntax for opening a realm. 
-         For completion handler syntax, see:
-         :ref:`ios-realm-open-legacy`. 
-
-         .. include:: /includes/swift-async-await-support.rst
-
       Pass a logged-in user's :swift-sdk:`configuration <Structs/Realm/Configuration.html>` 
       object with the desired :ref:`partition value <partition-value>` to 
       :swift-sdk:`realm initializers 
@@ -142,6 +132,50 @@ the App Services backend.
 
 .. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-sync-to-local.swift
    :language: swift
+
+.. _swift-check-upload-download-progress:
+.. _ios-check-sync-progress:
+
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+
+.. include:: /includes/flex-sync-unsupported-progress-notifications.rst
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      You can add a progress notification using the synced realm's
+      SyncSession instance's
+      :swift-sdk:`addProgressNotification(for:mode:block:)
+      <Extensions/SyncSession.html#/s:So14RLMSyncSessionC10RealmSwiftE23addProgressNotification3for4mode5blockSo011RLMProgressG5TokenCSgAbCE0F9DirectionO_AbCE0F4ModeOyAbCE0F0VctF>`
+      method.
+
+      This method returns a token that you should retain until you wish
+      to stop observing upload or download progress. Note that if you
+      keep the token in a local variable, observation will stop when the
+      local variable goes out of scope.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-progress.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can add a progress notification using the synced realm's
+      RLMSyncSession instance's
+      :objc-sdk:`[--addProgressNotificationForDirection:mode:block:]
+      <Classes/RLMSyncSession.html#/c:objc(cs)RLMSyncSession(im)addProgressNotificationForDirection:mode:block:>`
+      method.
+
+      This method returns a token that you should retain until you wish
+      to stop observing upload or download progress. Note that if you
+      keep the token in a local variable, observation will stop when the
+      local variable goes out of scope.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-progress.m
+         :language: objectivec
 
 .. _ios-migrate-pbs-to-fs:
 
