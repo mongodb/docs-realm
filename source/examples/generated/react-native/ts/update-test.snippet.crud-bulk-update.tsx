@@ -10,6 +10,7 @@ const TaskDashboard = () => {
       }
     });
   };
+
   return (
     <>
       {tasks.map(task => {

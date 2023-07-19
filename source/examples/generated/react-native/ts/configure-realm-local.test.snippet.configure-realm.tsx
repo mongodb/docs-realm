@@ -1,5 +1,5 @@
 import React from 'react';
-import {Realm, RealmProvider, useRealm} from '@realm/react';
+import {Realm, RealmProvider} from '@realm/react';
 
 class Turtle extends Realm.Object {
   _id!: string;
