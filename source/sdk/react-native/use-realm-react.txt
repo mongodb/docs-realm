@@ -96,17 +96,17 @@ to the classes you have created. Pass the configuration object to the
 
 .. _react-native-realm-provider:
 
-<RealmProvider>
----------------
+RealmProvider
+-------------
 
 Wrap the component needing access to Realm, typically near the top
-of your application, with the ``<RealmProvider>`` component included in the
+of your application, with the ``RealmProvider`` component included in the
 ``Context`` object, which was returned from ``createRealmContext()``.  The
-``<RealmProvider>`` provides child components access to the configured
+``RealmProvider`` provides child components access to the configured
 Realm through the hooks included in the ``Context`` object.
 
 For simple use-cases, you may want to wrap your entire application in the
-``<RealmProvider>`` component, such as the example below. For additional security,
+``RealmProvider`` component, such as the example below. For additional security,
 you may only want to give access to the opened realm to specific screens, or
 after the user has logged-in.
 
@@ -117,14 +117,14 @@ Import the ``Context`` object that you created. In the example below, the
 ``Context`` object is called ``TaskContext`` since it refers to the Realm ``Context`` of
 the Task. You can :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the ``TaskContext`` object to get its ``<RealmProvider>``. 
+the ``TaskContext`` object to get its ``RealmProvider``. 
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.import-task-context.tsx
     :language: typescript
 
-Wrap the ``<RealmProvider>`` around the component that you want
+Wrap the ``RealmProvider`` around the component that you want
 to give access to the configured realm. In the example below, we give the entire
-app access to the realm by wrapping the ``<RealmProvider>`` around
+app access to the realm by wrapping the ``RealmProvider`` around
 the ``App`` component, which renders the application.
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-realm-provider.tsx
@@ -134,11 +134,11 @@ Dynamically Update the Realm Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can dynamically update the Realm configuration by setting
-:reactjs:`props <docs/components-and-props.html>` on the ``<RealmProvider>``
-component. The props you set on the ``<RealmProvider>`` will overwrite any
+:reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
+component. The props you set on the ``RealmProvider`` will overwrite any
 property passed into ``createRealmContext()``.
 
-In the following example, we update the ``<RealmProvider>`` with a :js-sdk:`sync
+In the following example, we update the ``RealmProvider`` with a :js-sdk:`sync
 configuration <Realm.App.Sync.html#~SyncConfiguration>` and a ``fallback``
 property that is used to render a temporary ``LoadingSpinner`` component while
 waiting for Device Sync to fully synchronize data before opening the realm:
@@ -149,7 +149,7 @@ waiting for Device Sync to fully synchronize data before opening the realm:
 The Realm Hooks
 ---------------
 
-Once you have wrapped your component with your ``<RealmProvider>``, your component
+Once you have wrapped your component with your ``RealmProvider``, your component
 and its child components will have access to the ``useRealm()``,
 ``useObject()``, and ``useQuery()`` hooks.
 
@@ -224,12 +224,12 @@ To learn how to render a :ref:`filtered <react-native-filter-results>` or
 
 .. _react-native-app-provider:
 
-<AppProvider>
--------------
+AppProvider
+-----------
 
 To use Realm features such as authentication and sync, use the
-``<AppProvider>`` to initiate a new :js-sdk:`Realm.App <Realm.App.html>`. Wrap the
-``<AppProvider>`` outside of the ``<RealmProvider>`` and any components which need
+``AppProvider`` to initiate a new :js-sdk:`Realm.App <Realm.App.html>`. Wrap the
+``AppProvider`` outside of the ``RealmProvider`` and any components which need
 access to the :ref:`useApp <react-native-use-app-hook>` hook.
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-provider.tsx
@@ -253,27 +253,27 @@ then use the app instance to log in with email/password authentication.
 
 .. _react-native-user-provider:
 
-<UserProvider>
---------------
+UserProvider
+------------
 
-The ``<UserProvider>`` provides a :js-sdk:`Realm user <Realm.User.html>` for its
+The ``UserProvider`` provides a :js-sdk:`Realm user <Realm.User.html>` for its
 child components to access.
 
-The ``<UserProvider>``:
+The ``UserProvider``:
 
 - contains an optional ``fallback`` property that renders a Login component when
   the user has not authenticated.
 - renders its child components only if the user is logged in or has
   no fallback property.
 
-When the ``<UserProvider>`` wraps the ``<RealmProvider>``, the ``<RealmProvider>``
+When the ``UserProvider`` wraps the ``RealmProvider``, the ``RealmProvider``
 automatically sets the logged-in user for your sync configuration. This means
 you do not need to specify your user in your sync configuration object.
 
 In the following example, we pass a Login component to the fallback property of
-``<UserProvider>``. Once the user has logged in, the Login component disappears
+``UserProvider``. Once the user has logged in, the Login component disappears
 from the view, and the ``App`` is rendered. We wrap the ``App`` in a
-``<RealmProvider>`` with a sync configuration to give the ``App`` access to a
+``RealmProvider`` with a sync configuration to give the ``App`` access to a
 synced realm. If the user logs out, the application falls back to
 the Login component.
 
