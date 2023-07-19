@@ -1,25 +1,18 @@
 import React from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
-import {RealmContext} from '../RealmConfig';
-import {SecondRealmContext} from '../RealmConfig';
+import {RealmProvider, AppProvider, UserProvider} from '@realm/react';
 
 function TwoRealmsWrapper() {
-  const {RealmProvider: RealmProvider} = RealmContext;
-  const {RealmProvider: SecondRealmProvider} = SecondRealmContext;
-
   return (
     <AppProvider id={APP_ID}>
-      <UserProvider>
+      <UserProvider fallback={LogIn}>
         {/* This realm uses Flexible Sync. */}
-        <RealmProvider 
-          sync={{flexible: true, onError: error => console.error(error)}}
-        >
+        <RealmProvider schema={[Turtle]} sync={{flexible: true}}>
           <AppSectionOne />
         </RealmProvider>
         {/* This is a separate local-only realm. */}
-        <SecondRealmProvider>
+        <RealmProvider schema={[Cat]}>
           <AppSectionTwo />
-        </SecondRealmProvider>
+        </RealmProvider>
       </UserProvider>
     </AppProvider>
   );
