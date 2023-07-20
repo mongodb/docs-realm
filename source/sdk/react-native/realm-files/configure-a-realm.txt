@@ -14,26 +14,19 @@ The ``@realm/react`` library exposes realms in your application using
 `React Context objects <https://reactjs.org/docs/context.html>`__ and Provider 
 components. You can access realms with React hooks.
 
-To configure and open a local realm, create a Context with the realm's configuration. The 
-Context exports a ``RealmProvider`` component that exposes a configured realm. 
-All child components of ``RealmProvider`` can access the realm using hooks.
+To configure and open a local realm, pass a realm configuration object to a
+``RealmProvider`` component. All child components of ``RealmProvider`` can
+access the realm using hooks.
 
 To learn how to open a realm using Device Sync, refer to 
 :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 
-Create Realm Configuration
---------------------------
+Realm Configuration With @realm/react
+-------------------------------------
 
 By passing a :js-sdk:`Configuration <Realm.html#~Configuration>` object to 
-``createRealmContext()``, you create a Context object that contains an open 
-realm and some hooks that give you access to the realm.
-
-The following example creates and exports a Context object so that it can be 
-used elsewhere.
-
-.. literalinclude:: /examples/generated/react-native/js/RealmConfig.snippet.create-realm-context.js
-   :language: javascript
-   :caption: RealmConfig.js
+``RealmProvider`` you get a component that contains an open realm and some hooks
+that give you access to the realm.
 
 Configure a Synced Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,8 +83,8 @@ realm wrapper might look like:
 Expose More Than One Realm
 --------------------------
 
-You can open more than one realm at a time by creating additional Contexts and 
-``RealmProvider`` components.
+You can open more than one realm at a time by creating additional ``RealmProvider``
+components and passing them different configurations.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.two-realm-contexts.tsx
    :language: javascript
