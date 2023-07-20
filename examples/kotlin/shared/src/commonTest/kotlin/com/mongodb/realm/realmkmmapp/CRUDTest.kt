@@ -227,11 +227,11 @@ class CRUDTest: RealmTest() {
             // :snippet-start: filter
             // Find frogs where name is 'Michigan J. Frog'
             val michiganFrogs: RealmResults<Frog> =
-                realm.query<Frog>("name = 'Michigan J. Frog'").find()
+                realm.query<Frog>("name = $0", "Michigan J. Frog").find()
 
             // Find frogs where age > 3 AND species is 'Green'
             val oldGreenFrogs: RealmResults<Frog> =
-                realm.query<Frog>("age > 3 AND species = 'green'").find()
+                realm.query<Frog>("age > $0 AND species = $1", 3, "green" ).find()
 
             // :snippet-end:
             realm.close();
@@ -283,7 +283,7 @@ class CRUDTest: RealmTest() {
             // :snippet-start: sort
             // sort in descending order, frogs with distinct owners, only the first 5, with convenience methods
             val convenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
-                realm.query<Frog>("name = 'George Washington'")
+                realm.query<Frog>("name = $0", "George Washington")
                     .sort("age", Sort.DESCENDING).distinct("owner").limit(5).asFlow()
             val asyncCallConvenience: Deferred<Unit> = async {
                 convenientlyOrganizedFrogs.collect { results ->
@@ -303,7 +303,7 @@ class CRUDTest: RealmTest() {
 
             // sort in descending order, frogs with distinct owners, only the first 5, using RQL
             val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
-                realm.query<Frog>("name = 'George Washington' SORT(age DESC) DISTINCT(owner) LIMIT(5)").asFlow()
+                realm.query<Frog>("name = $0 SORT(age DESC) DISTINCT(owner) LIMIT(5)", "George Washington").asFlow()
             val asyncCallLessConvenient: Deferred<Unit> = async {
                 somewhatLessConvenientlyOrganizedFrogs.collect { results ->
                     when (results) {
