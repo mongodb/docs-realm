@@ -16,6 +16,7 @@ Sync Data Between Devices - Swift SDK
    Set the Client Log Level </sdk/swift/sync/log-level>
    Record Realm Events </sdk/swift/sync/event-library>
    Stream Data to Atlas </sdk/swift/sync/stream-data-to-atlas>
+   Partition-Based Sync </sdk/swift/sync/partition-based-sync>
 
 .. contents:: On this page
    :local:
@@ -24,9 +25,6 @@ Sync Data Between Devices - Swift SDK
    :class: singlecol
 
 .. _ios-realm-sync:
-
-Sync Data
----------
 
 Atlas Device Sync automatically synchronizes data between client applications and 
 an :ref:`App Services backend <realm-cloud>`. When a client 
@@ -40,7 +38,7 @@ background thread between the device and your backend App.
 .. _ios-flexible-sync-fundamentals:
 
 Flexible Sync
-~~~~~~~~~~~~~
+-------------
 
 .. versionadded:: 10.22.0
 
@@ -69,7 +67,7 @@ To use Flexible Sync in your client application, open a synced realm
 with a Flexible Sync configuration. Then, manage subscriptions
 to determine which documents to sync.
 
-.. seealso::
+.. tip::
 
    Device Sync supports two Sync Modes: Flexible Sync, and the older 
    Partition-Based Sync. If your App Services backend uses Partition-Based 

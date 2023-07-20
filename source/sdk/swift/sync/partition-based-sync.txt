@@ -11,8 +11,15 @@ Partition-Based Sync - Swift SDK
    :class: singlecol
 
 Partition-Based Sync is an older mode for using Atlas Device Sync with the 
-Realm Swift SDK. We recommend using Flexible Sync for new apps. The information 
-on this page is for users who are still using Partition-Based Sync.
+Realm Swift SDK. We recommend using :ref:`Flexible Sync <ios-flexible-sync-fundamentals>` 
+for new apps. The information on this page is for users who are still 
+using Partition-Based Sync.
+
+.. tip::
+
+   Realm Swift SDK v10.40.0 and newer supports the ability to migrate from 
+   Partition-Based Sync to Flexible Sync. For more information, refer to: 
+   :ref:`ios-migrate-pbs-to-fs`.
 
 For more information about Partition-Based Sync and how to configure it
 in Atlas App Services, refer to :ref:`Partition-Based Sync <partition-based-sync>`
@@ -139,7 +146,8 @@ the App Services backend.
 Check Upload & Download Progress for a Sync Session
 ---------------------------------------------------
 
-.. include:: /includes/flex-sync-unsupported-progress-notifications.rst
+Partition-Based Sync is currently the only Sync Mode that supports upload 
+and download progress notifications.
 
 .. tabs-realm-languages::
 
