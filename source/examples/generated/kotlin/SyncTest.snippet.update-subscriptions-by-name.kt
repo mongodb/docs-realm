@@ -1,22 +1,16 @@
-// create an initial subscription named "subscription name"
-val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-    .initialSubscriptions { realm ->
-        add(
-            realm.query<Toad>(
-                "name == $0",
-                "name value"
-            ),
-            "subscription name"
-        )
-    }
-    .build()
-val realm = Realm.open(config)
-// to update that subscription, add another subscription with the same name
-// it will replace the existing subscription
+// Create a subscription named "bob_smith_teams"
 realm.subscriptions.update {
     this.add(
-        realm.query<Toad>("name == $0", "another name value"),
-        "subscription name",
-        updateExisting = true
+        realm.query<Team>("$0 IN members", "Bob Smith"),
+        "bob_smith_teams"
+    )
+}
+
+// Set `updateExisting` to true to replace the existing
+// "bob_smith_teams" subscription
+realm.subscriptions.update {
+    this.add(
+        realm.query<Team>("$0 IN members AND $1 IN members", "Bob Smith", "Jane Doe"),
+        "bob_smith_teams", updateExisting = true
     )
 }

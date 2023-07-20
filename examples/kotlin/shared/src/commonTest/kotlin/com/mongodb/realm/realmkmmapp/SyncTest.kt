@@ -4,6 +4,7 @@ import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.Realm
 import io.realm.kotlin.TypedRealm
 import io.realm.kotlin.ext.query
+import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.log.LogLevel
 import io.realm.kotlin.log.RealmLog
@@ -11,16 +12,19 @@ import io.realm.kotlin.log.RealmLogger
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.exceptions.ClientResetRequiredException
+import io.realm.kotlin.mongodb.ext.subscribe
 import io.realm.kotlin.mongodb.subscriptions
-import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.mongodb.sync.*
 import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.query.RealmResults
-import io.realm.kotlin.mongodb.sync.*
+import io.realm.kotlin.types.RealmInstant
+import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -29,7 +33,8 @@ import kotlin.time.Duration.Companion.seconds
 //     "yourAppId": "YOUR_APP_ID",
 //     "yourFlexAppId": "YOUR_APP_ID",
 //      "strategy2": "clientResetStrategy",
-//      "strategy3": "clientResetStrategy"
+//      "strategy3": "clientResetStrategy",
+//      "SyncTask": "Task"
 //   }
 // }
 class SyncTest: RealmTest() {
@@ -38,6 +43,34 @@ class SyncTest: RealmTest() {
         @PrimaryKey
         var _id: ObjectId = ObjectId()
         var name: String = ""
+    }
+
+    // :snippet-start: flexible-sync-models
+    class SyncTask : RealmObject {
+        @PrimaryKey
+        var _id: ObjectId = ObjectId()
+        var taskName: String = ""
+        var assignee: String? = null
+        var completed: Boolean = false
+        var progressMinutes: Int = 0
+        var dueDate: RealmInstant? = null
+    }
+
+    class Team : RealmObject {
+        @PrimaryKey
+        var _id: ObjectId = ObjectId()
+        var teamName: String = ""
+        var tasks: RealmList<SyncTask>? = null
+        var members: RealmList<String> = realmListOf()
+    }
+    // :snippet-end:
+
+
+    companion object {
+        private val credentials = Credentials.anonymous(reuseExisting = false)
+        const val yourFlexAppId = "your-flex-app-id"
+        const val PARTITION = "myPartition"
+        const val FLEXIBLE_APP_ID = "flexible-app-id"
     }
 
     @Test
@@ -342,30 +375,97 @@ class SyncTest: RealmTest() {
 
     @Test
     fun addASubscriptionTest() {
-        val app = App.create(yourFlexAppId)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-                .initialSubscriptions { realm ->
-                    add(
-                        realm.query<Toad>(
-                            "name == $0",
-                            "name value"
-                        ),
-                        "subscription name"
-                    )
-                }
+            val app = App.create(yourFlexAppId)
+            val user = app.login(credentials)
+            val flexSyncConfig = SyncConfiguration.Builder(user, setOf(Team::class, SyncTask::class))
+                .initialSubscriptions {realm -> add(realm.query<Team>("teamName == $0", "Developer Education")) }
                 .build()
-            val realm = Realm.open(config)
+            // :snippet-end:
+            val realm = Realm.open(flexSyncConfig)
+            Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: add-a-subscription
             realm.subscriptions.update {
-                this.add(
-                    realm.query<Toad>("name == $0", "another name value"),
-                    "another subscription name"
+                add(
+                    realm.query<SyncTask>("progressMinutes >= 60")
                 )
             }
             // :snippet-end:
+            val subscriptions = realm.subscriptions.size
+            assertEquals(2, subscriptions)
+            user.delete()
+            realm.close()
+        }
+    }
+
+    @Test
+    fun addASubscriptionQueryTest() {
+        runBlocking {
+            val app = App.create(yourFlexAppId)
+            val user = app.login(credentials)
+            // :snippet-start: initialize-subscribe-query-realm-app
+            // Bootstrap the realm with an initial query to subscribe to
+            val flexSyncConfig =
+                SyncConfiguration.Builder(user, setOf(Team::class, SyncTask::class))
+                    .initialSubscriptions { realm ->
+                        add(
+                            realm.query<Team>("$0 IN members", "Bob Smith"),
+                            "bob_smith_teams"
+                        )
+                    }
+                    .build()
+            // :snippet-end:
+            val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-start: subscribe-unnamed-query
+            // Subscribe to a specific query
+            val realmResults = realm.query<SyncTask>("progressMinutes >= $0", 60)
+                .subscribe()
+
+            // Subscribe to all objects of a specific type
+            val realmQuery = realm.query<Team>()
+            realmQuery.subscribe()
+            // :snippet-end:
+            val subscriptions = realm.subscriptions.size
+            assertEquals(3, subscriptions)
+            user.delete()
+            realm.close()
+        }
+    }
+
+    @Test
+    fun addANamedSubscriptionTest() {
+        val credentials = Credentials.anonymous(reuseExisting = false)
+        runBlocking {
+            // :snippet-start: open-flex-sync-app
+            // Login with authorized user and open a realm with a SyncConfiguration
+            val app = App.create(yourFlexAppId)
+            val user = app.login(credentials)
+            val flexSyncConfig = SyncConfiguration.Builder(user, setOf(Team::class, SyncTask::class))
+                .build()
+            val realm = Realm.open(flexSyncConfig)
+            Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-end:
+            // :snippet-start: add-a-named-subscription
+            // Add a subscription named "team_developer_education"
+            realm.subscriptions.update{ realm ->
+                    add(
+                        realm.query<Team>("teamName == $0", "Developer Education"),
+                        "team_dev_ed"
+                    )
+                }
+            // :snippet-end:
+            // :snippet-start: subscribe-named-query
+            val results = realm.query<Team>("teamName == $0", "Developer Education")
+                .subscribe("team_developer_education")
+            // :snippet-end:
+            val subscriptions = realm.subscriptions.size
+            assertEquals(2, subscriptions)
+            val namedSubscription1 = realm.subscriptions.findByName("team_developer_education")
+            assertEquals("team_developer_education", namedSubscription1?.name)
+            val namedSubscription2 = realm.subscriptions.findByName("team_dev_ed")
+            assertEquals("team_dev_ed", namedSubscription2?.name)
+            user.delete()
             realm.close()
         }
     }
@@ -373,32 +473,40 @@ class SyncTest: RealmTest() {
     @Test
     fun waitForSubscriptionChangesTest() {
         val app = App.create(yourFlexAppId)
+        val credentials = Credentials.anonymous(reuseExisting = false)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-                .initialSubscriptions { realm ->
-                    add(
-                        realm.query<Toad>(
-                            "name == $0",
-                            "name value"
-                        ),
-                        "subscription name"
-                    )
-                }
+            val user = app.login(credentials)
+            val config = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
+                .initialSubscriptions { realm -> add(realm.query<Team>()) }
                 .build()
             val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: wait-for-subscription-changes
-            // make an update to the list of subscriptions
+            // Update the list of subscriptions
             realm.subscriptions.update {
                 this.add(
-                    realm.query<Toad>("name == $0", "another name value"),
-                    "another subscription name"
+                    realm.query<Team>("$0 IN members", "Jane Doe"),
+                    "jane_doe_teams"
                 )
             }
-            // wait for subscription to fully synchronize changes
+            // Wait for subscription to fully synchronize changes
             realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
             // :snippet-end:
-            Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-start: subscribe-wait-for-sync
+            val results = realm.query<Team>("$0 IN members", "Bob Smith")
+                .subscribe("bob_smith_teams", updateExisting = false, WaitForSync.ALWAYS)
+
+            // After waiting for sync, the results set contains all the objects
+            // that match the query - in our case, 1
+            println("The number of teams that have Bob Smith as a member is ${results.size}")
+            // :snippet-end:
+            val subscriptions = realm.subscriptions.size
+            assertEquals(3, subscriptions)
+            val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
+            assertEquals("bob_smith_teams", namedSubscription1?.name)
+            val namedSubscription2 = realm.subscriptions.findByName("jane_doe_teams")
+            assertEquals("jane_doe_teams", namedSubscription2?.name)
+            user.delete()
             realm.close()
         }
     }
@@ -407,71 +515,103 @@ class SyncTest: RealmTest() {
     fun updateSubscriptionByNameTest() {
         val app = App.create(yourFlexAppId)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
-            // :snippet-start: update-subscriptions-by-name
-            // create an initial subscription named "subscription name"
-            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-                .initialSubscriptions { realm ->
-                    add(
-                        realm.query<Toad>(
-                            "name == $0",
-                            "name value"
-                        ),
-                        "subscription name"
-                    )
-                }
+            val credentials = Credentials.anonymous(reuseExisting = false)
+            val user = app.login(credentials)
+            val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
+                .initialSubscriptions { realm -> add(realm.query<Team>()) }
                 .build()
-            val realm = Realm.open(config)
-            // to update that subscription, add another subscription with the same name
-            // it will replace the existing subscription
+            val realm = Realm.open(flexSyncConfig)
+            Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-start: update-subscriptions-by-name
+            // Create a subscription named "bob_smith_teams"
             realm.subscriptions.update {
                 this.add(
-                    realm.query<Toad>("name == $0", "another name value"),
-                    "subscription name",
-                    updateExisting = true
+                    realm.query<Team>("$0 IN members", "Bob Smith"),
+                    "bob_smith_teams"
+                )
+            }
+
+            // Set `updateExisting` to true to replace the existing
+            // "bob_smith_teams" subscription
+            realm.subscriptions.update {
+                this.add(
+                    realm.query<Team>("$0 IN members AND $1 IN members", "Bob Smith", "Jane Doe"),
+                    "bob_smith_teams", updateExisting = true
                 )
             }
             // :snippet-end:
-            Log.v("Successfully opened realm: ${realm.configuration}")
+            val subscriptions = realm.subscriptions.size
+            assertEquals(2, subscriptions)
+            val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
+            assertEquals("bob_smith_teams", namedSubscription1?.name)
+            user.delete()
             realm.close()
         }
     }
 
     @Test
+    fun updateSubscribeAPIByNameTest() {
+        val app = App.create(yourFlexAppId)
+        runBlocking {
+            val credentials = Credentials.anonymous(reuseExisting = false)
+            val user = app.login(credentials)
+            val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
+                .initialSubscriptions { it.query<Team>().subscribe() }
+                .build()
+            val realm = Realm.open(flexSyncConfig)
+            Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-start: update-query-by-name
+            // Create a subscription named "bob_smith_teams"
+            val results = realm.query<Team>("$0 IN members", "Bob Smith")
+                .subscribe("bob_smith_teams")
+
+            // Add another subscription with the same name with `updateExisting` set to true
+            // to replace the existing subscription
+            val updateResults =
+                    realm.query<Team>("$0 IN members AND teamName == $1", "Bob Smith", "QA")
+                        .subscribe("bob_smith_teams", updateExisting = true)
+            // :snippet-end:
+            val subscriptions = realm.subscriptions.size
+            assertEquals(2, subscriptions)
+            val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
+            assertEquals("bob_smith_teams", namedSubscription1?.name)
+            user.delete()
+            realm.close()
+        }
+    }
+
+
+    @Test
     fun updateSubscriptionByQueryTest() {
         val app = App.create(yourFlexAppId)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-                .initialSubscriptions { realm ->
-                    add(
-                        realm.query<Toad>(
-                            "name == $0",
-                            "name value"
-                        )
-                    )
-                }
+            val credentials = Credentials.anonymous(reuseExisting = false)
+            val user = app.login(credentials)
+            val config = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
+                .initialSubscriptions {it.query<Team>("teamName == $0", "Developer Education").subscribe() }
                 .build()
             val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: update-subscriptions-by-query
             val subscription =
                 realm.subscriptions.findByQuery(
-                    realm.query<Toad>("name == $0", "name value")
+                    realm.query<Team>("teamName == $0", "Developer Education")
                 )
             if (subscription != null) {
                 realm.subscriptions.update {
                     this.remove(subscription)
                     this.add(
-                        realm.query<Toad>(
-                            "name == $0",
-                            "another name value"
-                        ),
-                        "subscription name"
+                        realm.query<Team>("teamName == $0", "DevEd"),
+                        "team_developer_education"
                     )
                 }
             }
             // :snippet-end:
-            Log.v("Successfully opened realm: ${realm.configuration}")
+            val subscriptions = realm.subscriptions.size
+            assertEquals(1, subscriptions)
+            val namedSubscription1 = realm.subscriptions.findByName("team_developer_education")
+            assertEquals("team_developer_education", namedSubscription1?.name)
+            user.delete()
             realm.close()
         }
     }
@@ -480,27 +620,33 @@ class SyncTest: RealmTest() {
     fun removeSingleSubscriptionTest() {
         val app = App.create(yourFlexAppId)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
-            // :snippet-start: remove-single-subscription
-            // create an initial subscription named "subscription name"
-            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-                .initialSubscriptions { realm ->
-                    add(
-                        realm.query<Toad>(
-                            "name == $0",
-                            "name value"
-                        ),
-                        "subscription name"
-                    )
-                }
+            val credentials = Credentials.anonymous(reuseExisting = false)
+            val user = app.login(credentials)
+            val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
+                .initialSubscriptions { realm -> add(realm.query<Team>("$0 IN members", "Bob Smith"),
+                    "bob_smith_teams") }
                 .build()
-            val realm = Realm.open(config)
-            // remove subscription by name
+            val realm = Realm.open(flexSyncConfig)
+            Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-start: remove-single-subscription
             realm.subscriptions.update {
-                this.remove("subscription name")
+                this.add(
+                    realm.query<Team>("$0 IN members", "Bob Smith"),
+                    "bob_smith_teams"
+                )
+            }
+
+            // Wait for synchronization to complete before updating subscriptions
+            realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
+
+            // Remove subscription by name
+            realm.subscriptions.update {
+                this.remove("bob_smith_teams")
             }
             // :snippet-end:
-            Log.v("Successfully opened realm: ${realm.configuration}")
+            val subscriptions = realm.subscriptions.size
+            assertEquals(0, subscriptions)
+            user.delete()
             realm.close()
         }
     }
@@ -509,29 +655,33 @@ class SyncTest: RealmTest() {
     fun removeSubscriptionsOfTypeTest() {
         val app = App.create(yourFlexAppId)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
-            // :snippet-start: remove-all-subscriptions-to-an-object-type
-            // create an initial subscription named "subscription name"
-            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-                .initialSubscriptions { realm ->
-                    add(
-                        realm.query<Toad>(
-                            "name == $0",
-                            "name value"
-                        ),
-                        "subscription name"
-                    )
-                }
+            val credentials = Credentials.anonymous(reuseExisting = false)
+            val user = app.login(credentials)
+            val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
+                .initialSubscriptions { realm -> add(realm.query<SyncTask>() ) }
                 .build()
-            val realm = Realm.open(config)
-            // wait for synchronization to complete before editing subscriptions
-            realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
-            // remove all subscriptions to type Toad
+            val realm = Realm.open(flexSyncConfig)
+            Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-start: remove-all-subscriptions-to-an-object-type
             realm.subscriptions.update {
-                this.removeAll(Toad::class)
+                this.add(
+                        realm.query<Team>("$0 IN members", "Bob Smith"),
+                    "bob_smith_teams")
+            }
+
+            // Wait for synchronization to complete before updating subscriptions
+            realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
+
+            // Remove all subscriptions to type Team
+            realm.subscriptions.update {
+                removeAll(Team::class)
             }
             // :snippet-end:
-            Log.v("Successfully opened realm: ${realm.configuration}")
+            val subscriptions = realm.subscriptions.size
+            assertEquals(1, subscriptions)
+            val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
+            assertNull(namedSubscription1?.name)
+            user.delete()
             realm.close()
         }
     }
@@ -540,28 +690,51 @@ class SyncTest: RealmTest() {
     fun removeAllSubscriptionsTest() {
         val app = App.create(yourFlexAppId)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
-            // :snippet-start: remove-all-subscriptions
-            // create an initial subscription named "subscription name"
-            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-                .initialSubscriptions { realm ->
-                    add(
-                        realm.query<Toad>(
-                            "name == $0",
-                            "name value"
-                        ),
-                        "subscription name"
-                    )
-                }
+            val credentials = Credentials.anonymous(reuseExisting = false)
+            val user = app.login(credentials)
+            val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
+                .initialSubscriptions { realm -> add(realm.query<Team>()) }
                 .build()
-            val realm = Realm.open(config)
-
-            // remove all subscriptions
+            val realm = Realm.open(flexSyncConfig)
+            Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-start: remove-all-subscriptions
+            // Remove all subscriptions
             realm.subscriptions.update {
                 this.removeAll()
             }
             // :snippet-end:
+            val subscriptions = realm.subscriptions.size
+            assertEquals(0, subscriptions)
+            user.delete()
+            realm.close()
+        }
+    }
+
+    @Test
+    fun removeAllUnnamedSubscriptionsTest() {
+        val app = App.create(yourFlexAppId)
+        runBlocking {
+            val credentials = Credentials.anonymous(reuseExisting = false)
+            val user = app.login(credentials)
+            val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
+                .initialSubscriptions { realm ->
+                    add(realm.query<Team>("$0 IN members", "Bob Smith"), "bob_smith_teams") }
+                .build()
+            val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
+
+            val unnamedSubscription = realm.query<Team>("$0 IN members", "Jane Doe")
+            // :snippet-start: remove-all-unnamed-subscriptions
+            // Remove all unnamed (anonymous) subscriptions
+            realm.subscriptions.update {
+                this.removeAll(anonymousOnly = true)
+            }
+            // :snippet-end:
+            val subscriptions = realm.subscriptions.size
+            assertEquals(1, subscriptions)
+            val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
+            assertEquals("bob_smith_teams", namedSubscription1?.name)
+            user.delete()
             realm.close()
         }
     }
