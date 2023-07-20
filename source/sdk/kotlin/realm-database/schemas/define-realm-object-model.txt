@@ -118,3 +118,59 @@ which then syncs unidirectionally to the Atlas database linked to your App with 
 Realm deletes this object after syncing. You cannot read, update, or delete an asymmetric object from the realm.
 
 For more information on how asymmetric objects function, see :ref:`Asymmetric Objects <kotlin-asymmetric-objects>`.
+
+Unsupported Kotlin Language Features
+------------------------------------
+
+The Realm Kotlin SDK does not support or provides only limited support for 
+the following Kotlin language features:
+
+Data Classes
+~~~~~~~~~~~~
+
+The Realm Kotlin SDK does not support using 
+`data classes <https://kotlinlang.org/docs/data-classes.html>`__ to model 
+data. Typically, data classes are used for immutable data. This goes 
+against how the Realm Kotlin SDK models data.
+
+Inheritance
+~~~~~~~~~~~
+
+Realm Kotlin SDK classes may only inherit from 
+`Realm Object types <{+kotlin-local-prefix+}io.realm.kotlin.types/index.html>`__. 
+For example, your class may inherit from ``RealmObject`` or 
+``EmbeddedRealmObject``, but not from custom classes that do not implement 
+a Realm object interface.
+
+.. code-block:: kotlin
+
+   // You can inherit from Realm Object types directly
+   class MyBaseClass: RealmObject {
+       var name: String = ""
+   }
+
+  // You can not inherit from classes that implement Realm object types
+  // This form of inheritance is not supported in the Realm Kotlin SDK
+   class Person: MyBaseClass {
+       // NOT SUPPORTED
+       var age: Int
+   }
+
+Single Primary Constructor
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Realm Kotlin SDK does not support having a single primary constructor.
+The SDK requires an empty constructor to create objects. As a workaround,
+you can do something similar to:
+
+.. code-block:: kotlin
+
+   // Realm requires an empty constructor to create objects
+   class Person(var name: String, var age: Int): RealmObject {
+       constructor(): this("", 0) // Empty constructor required by Realm
+   }
+
+   // The Realm Kotlin SDK does not support having a single primary constructor
+   class Person(var name: String, var age: Int) RealmObject {
+       // NOT SUPPORTED
+   }
