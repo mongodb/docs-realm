@@ -1,6 +1,6 @@
 // :snippet-start: configure-no-schema
 import React from 'react';
-import {createRealmContext} from '@realm/react';
+import {RealmProvider, useRealm} from '@realm/react';
 // :remove-start:
 import {Text, FlatList} from 'react-native';
 import Business from '../Models/Business';
@@ -26,16 +26,10 @@ function RestOfApp() {
 }
 // :remove-end:
 
-// To access a realm at the default path,
-// do not pass a config object.
-// Requires a realm that has already been created.
-const defaultPathLocalRealm = createRealmContext();
-// You can still access providers and hooks.
-const {RealmProvider} = defaultPathLocalRealm;
-const {useRealm} = defaultPathLocalRealm; // :remove:
-
 function AppWrapper() {
   return (
+    // To access a realm at the default path, do not pass any configuration.
+    // Requires a realm that has already been created.
     <RealmProvider>
       <RestOfApp />
     </RealmProvider>
