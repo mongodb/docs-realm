@@ -35,9 +35,6 @@ function AppWrapper() {
     </RealmProvider>
   );
 }
-// :remove-start:
-
-// :remove-end:
 // :snippet-end:
 
 describe('Test accessing no schema realm', () => {

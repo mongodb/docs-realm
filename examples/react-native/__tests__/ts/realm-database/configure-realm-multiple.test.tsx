@@ -1,6 +1,6 @@
 // :snippet-start: two-realm-contexts
 import React from 'react';
-import {RealmProvider, AppProvider, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 // :remove-start:
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
 import {Realm, useApp, useRealm} from '@realm/react';

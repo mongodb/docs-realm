@@ -1,19 +1,14 @@
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
-
-const realmContext = createRealmContext({
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 
 function AppWrapperSync() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Profile]}
           sync={{
             flexible: true,
-            onError: console.error,
           }}>
           <RestOfApp />
         </RealmProvider>

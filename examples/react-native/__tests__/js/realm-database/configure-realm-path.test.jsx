@@ -1,11 +1,11 @@
 // :snippet-start: configure-realm-path
 import React from 'react';
-import {AppProvider, UserProvider, RealmProvider, useRealm} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
-import {useApp} from '@realm/react';
+import {useApp, useRealm} from '@realm/react';
 import {Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';

@@ -1,7 +1,7 @@
 <RealmProvider
+  schema={[Profile]}
   sync={{
     partitionValue: 'testPartition',
-    onError: console.error,
   }}>
   <RestOfApp />
 </RealmProvider>

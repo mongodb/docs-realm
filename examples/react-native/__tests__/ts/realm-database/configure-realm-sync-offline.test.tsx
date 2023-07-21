@@ -1,17 +1,11 @@
 // :snippet-start: offline-config
 import React from 'react';
-import {
-  AppProvider,
-  UserProvider,
-  RealmProvider,
-  useQuery,
-  useRealm,
-} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
-import {useApp} from '@realm/react';
+import {useApp, useQuery, useRealm} from '@realm/react';
 import {Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';

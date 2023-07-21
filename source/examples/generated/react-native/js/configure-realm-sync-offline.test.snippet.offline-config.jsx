@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  AppProvider,
-  UserProvider,
-  RealmProvider,
-  useQuery,
-  useRealm,
-} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 
 function AppWrapperOfflineSync() {
   const realmAccessBehavior = {

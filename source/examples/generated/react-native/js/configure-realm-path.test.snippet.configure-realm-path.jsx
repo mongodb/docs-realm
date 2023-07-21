@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppProvider, UserProvider, RealmProvider, useRealm} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 
 function AppWrapperSync({customBaseFilePath}) {
   return (

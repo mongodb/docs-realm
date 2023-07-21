@@ -1,5 +1,5 @@
 import React from 'react';
-import {RealmProvider, AppProvider, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 
 function TwoRealmsWrapper() {
   return (
