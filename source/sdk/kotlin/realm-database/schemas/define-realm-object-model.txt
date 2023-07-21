@@ -143,20 +143,20 @@ For example, your class may inherit from ``RealmObject`` or
 a Realm object interface.
 
 .. code-block:: kotlin
-   :copyable: false
+    :copyable: false
 
-   // SUPPORTED
-   // You can inherit from Realm Object types directly
-   class MyBaseClass: RealmObject {
-       var name: String = ""
-   }
+    // SUPPORTED
+    // You can inherit from Realm Object types directly
+    class MyBaseClass: RealmObject {
+        var name: String = ""
+    }
 
-  // NOT SUPPORTED
-  // You can not inherit from classes that implement Realm object types
-  // This form of inheritance is not supported in the Realm Kotlin SDK
-   class Person: MyBaseClass {
-       var age: Int
-   }
+    // NOT SUPPORTED
+    // You can not inherit from classes that implement Realm object types
+    // This form of inheritance is not supported in the Realm Kotlin SDK
+    class Person: MyBaseClass {
+        var age: Int
+    }
 
 Single Primary Constructor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
