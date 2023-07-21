@@ -1,3 +1,22 @@
+import React, {useState} from 'react';
+import {Button, TextInput} from 'react-native';
+import {RealmProvider, useRealm} from '@realm/react';
+class Dog extends Realm.Object {
+  static schema = {
+    name: 'Dog',
+    properties: {
+      _id: 'objectId',
+      name: 'string',
+      age: 'int?',
+    },
+  };
+}
+
+const App = () => (
+  <RealmProvider schema={[Dog]}>
+    <CreateDogInput />
+  </RealmProvider>
+);
 
 const CreateDogInput = () => {
   const [dogName, setDogName] = useState('Fido');
@@ -5,7 +24,11 @@ const CreateDogInput = () => {
 
   const handleAddDog = () => {
     realm.write(() => {
-      realm.create('Dog', {name: dogName, age: 1})
+      realm.create('Dog', {
+        _id: newObjectId,
+        name: dogName,
+        age: 1,
+      });
     });
   };
 
