@@ -1,11 +1,5 @@
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
-
-const realmContext = createRealmContext({
-  path: customRealmPath,
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
+import {AppProvider, UserProvider, RealmProvider, useRealm} from '@realm/react';
 
 type AppWrapperSyncProps = {
   customBaseFilePath: string;
@@ -16,6 +10,8 @@ function AppWrapperSync({customBaseFilePath}: AppWrapperSyncProps) {
     <AppProvider id={APP_ID} baseFilePath={customBaseFilePath}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          path={customRealmPath}
+          schema={[Profile]}
           sync={{
             flexible: true,
           }}>

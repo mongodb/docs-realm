@@ -1,6 +1,6 @@
 // :snippet-start: configure-realm-path
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider, useRealm} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
@@ -25,17 +25,13 @@ class Profile extends Realm.Object {
 }
 // :remove-end:
 
-const realmContext = createRealmContext({
-  path: customRealmPath,
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
-
 function AppWrapperSync({customBaseFilePath}) {
   return (
     <AppProvider id={APP_ID} baseFilePath={customBaseFilePath}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          path={customRealmPath}
+          schema={[Profile]}
           sync={{
             flexible: true,
           }}>
@@ -58,7 +54,6 @@ function LogIn() {
 }
 
 function RestOfApp() {
-  const {useRealm} = realmContext;
   const realm = useRealm();
 
   higherScopeRealmPath = realm.path;
@@ -70,12 +65,19 @@ function RestOfApp() {
   );
 }
 
-test('Instantiate AppWrapperSync and test sync', async () => {
-  render(<AppWrapperSync customBaseFilePath={customBaseFilePath} />);
+describe('Test Custom Realm Path', () => {
+  beforeAll(() => {
+    // Close and delete realm at the default path.
+    Realm.clearTestState();
+  });
 
-  await waitFor(() => {
-    expect(higherScopeRealmPath).toEqual(
-      `${customBaseFilePath}/${customRealmPath}`,
-    );
+  test('Instantiate AppWrapperSync and test sync', async () => {
+    render(<AppWrapperSync customBaseFilePath={customBaseFilePath} />);
+
+    await waitFor(() => {
+      expect(higherScopeRealmPath).toEqual(
+        `${customBaseFilePath}/${customRealmPath}`,
+      );
+    });
   });
 });
