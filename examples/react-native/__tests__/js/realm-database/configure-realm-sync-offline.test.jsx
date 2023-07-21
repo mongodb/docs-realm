@@ -1,6 +1,12 @@
 // :snippet-start: offline-config
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
+import {
+  AppProvider,
+  UserProvider,
+  RealmProvider,
+  useQuery,
+  useRealm,
+} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
@@ -23,11 +29,6 @@ class Profile extends Realm.Object {
 }
 // :remove-end:
 
-const realmContext = createRealmContext({
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
-
 function AppWrapperOfflineSync() {
   const realmAccessBehavior = {
     type: 'openImmediately',
@@ -37,6 +38,7 @@ function AppWrapperOfflineSync() {
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Profile]}
           sync={{
             flexible: true,
             newRealmFileBehavior: realmAccessBehavior,
@@ -62,7 +64,6 @@ function LogIn() {
 }
 
 function RestOfApp() {
-  const {useRealm, useQuery} = realmContext;
   const realm = useRealm();
   const profiles = useQuery(Profile);
 
