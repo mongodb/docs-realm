@@ -67,4 +67,15 @@ class RealmAppTest: XCTestCase {
             print("Failed to authenticate user: \(error.localizedDescription)")
         }
     }
+    
+    override func tearDown() {
+        guard app.currentUser != nil else {
+            return
+        }
+        let expectation = XCTestExpectation(description: "logout completes")
+        app.currentUser?.logOut { (error) in
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10)
+    }
 }
