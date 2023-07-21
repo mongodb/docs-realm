@@ -3,11 +3,11 @@ const TaskList = () => {
   const tasks = useQuery(Task);
 
   // filter for tasks with a high priority
-  const highPriorityTasks = tasks.filtered('priority >= 4');
+  const highPriorityTasks = tasks.filtered('priority >= $0', 4);
 
   // filter for tasks that have just-started or short-running progress
   const lowProgressTasks = tasks.filtered(
-    '1 <= progressMinutes && progressMinutes < 10',
+    '$0 <= progressMinutes && progressMinutes < $1', 1, 10
   );
   return (
     <>
