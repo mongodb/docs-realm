@@ -50,8 +50,9 @@ within ``UserProvider``. And ``UserProvider`` must be nested in ``AppProvider``.
 This ensures that ``RealmProvider`` has all of the context it needs, like a 
 logged-in user.
 
-Call ``createRealmContext()`` with 
-your :js-sdk:`realm configuration <Realm.html#~Configuration>` to access ``RealmProvider`` in the return value.
+To configure your realm, pass your schema and other
+:js-sdk:`realm configuration <Realm.html#~Configuration>` properties to
+``RealmProvider``.
 
 The following example shows how to use these providers together in your app:
 
@@ -69,11 +70,12 @@ You can also find information about ``UserProvider`` on the
 Configure RealmProvider
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To configure a Flexible Sync realm, use ``@realm/react``'s ``createRealmContext()`` 
-function and its returned ``RealmProvider``.
+To configure a Flexible Sync realm, use ``RealmProvider`` from the
+``@realm/react`` package.
 
-In a ``RealmProvider`` that's nested in a ``UserProvider``, add a ``sync`` 
-property with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
+In a ``RealmProvider`` that's nested in a ``UserProvider``, pass your object
+models into the ``schema`` property and add a ``sync`` property with a
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
 object that contains ``flexible: true``.
 
 Note that ``UserProvider`` automatically passes an authenticated user
@@ -117,7 +119,7 @@ for more control.
          :emphasize-lines: 5, 12
 
 If ``baseFilePath`` is set, metadata is always stored in
-``<baseFilePath>/mongodb-realm/``. If ``baseFilePath`` isn't sßet, then metadata
+``<baseFilePath>/mongodb-realm/``. If ``baseFilePath`` isn't set, then metadata
 is stored in ``<Realm.defaultPath>/mongodb-realm``.
 
 Where, exactly, your Realm file is stored can vary depending
