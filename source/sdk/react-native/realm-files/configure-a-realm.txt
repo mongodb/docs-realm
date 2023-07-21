@@ -52,16 +52,15 @@ Access a Realm Without Providing a Schema
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After a realm has been created on a device, you don't need to always pass in a
-schema to access the realm. Instead, you can call ``createRealmContext()`` with
-no arguments. The realm's schema is derived from the existing realm file at
-``Realm.defaultPath``.
+schema to access the realm. Instead, you can use ``RealmProvider`` without
+passing any object models to its ``schema`` property. The realm's schema is
+derived from the existing realm file at ``Realm.defaultPath``.
 
 Accessing a realm without providing a schema only works for local realms. You
 must always pass a schema when using a Synced realm.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-no-schema.test.snippet.configure-no-schema.tsx
    :language: typescript
-   :emphasize-lines: 7
 
 Encrypt a Realm
 ~~~~~~~~~~~~~~~
@@ -79,6 +78,7 @@ realm wrapper might look like:
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
    :language: typescript
+   :emphasize-lines: 24-26
 
 Expose More Than One Realm
 --------------------------
