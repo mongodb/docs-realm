@@ -7,7 +7,7 @@ import Realm from 'realm';
 import {render, fireEvent, act} from '@testing-library/react-native';
 import {useQuery} from '@realm/react';
 
-let higherScopeDogs;
+let higherScopeDogs: Realm.Results<Dog>;
 let newObjectId = new Realm.BSON.ObjectID();
 // :remove-end:
 class Dog extends Realm.Object {
@@ -57,7 +57,7 @@ const CreateDogInput = () => {
 // :snippet-end:
 
 describe('Create Data Tests', () => {
-  afterEach(() => {
+  beforeEach(() => {
     Realm.clearTestState();
   });
 
@@ -74,7 +74,6 @@ describe('Create Data Tests', () => {
 
     // check if the new Dog object has been created
     const myDog = higherScopeDogs.filtered('_id == $0', newObjectId)[0];
-    console.debug(myDog._id);
     expect(myDog._id).toEqual(newObjectId);
   });
 });
