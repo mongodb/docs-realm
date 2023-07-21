@@ -1,6 +1,12 @@
 // :snippet-start: timeout-config
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
+import {
+  AppProvider,
+  UserProvider,
+  RealmProvider,
+  useQuery,
+  useRealm,
+} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
@@ -25,15 +31,10 @@ class Profile extends Realm.Object<Profile> {
 }
 // :remove-end:
 
-const realmContext = createRealmContext({
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
-
 function AppWrapperTimeoutSync() {
   const realmAccessBehavior: Realm.OpenRealmBehaviorConfiguration = {
-    type: Realm.OpenRealmBehaviorType.DownloadBeforeOpen,
-    timeOutBehavior: Realm.OpenRealmTimeOutBehavior.OpenLocalRealm,
+    type: 'downloadBeforeOpen',
+    timeOutBehavior: 'openLocalRealm',
     timeOut: 1000,
   };
 
@@ -41,11 +42,11 @@ function AppWrapperTimeoutSync() {
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Profile]}
           sync={{
             flexible: true,
             newRealmFileBehavior: realmAccessBehavior,
             existingRealmFileBehavior: realmAccessBehavior,
-            onError: console.error,
           }}>
           <RestOfApp />
         </RealmProvider>
@@ -66,7 +67,6 @@ function LogIn() {
 }
 
 function RestOfApp() {
-  const {useRealm, useQuery} = realmContext;
   const realm = useRealm();
   const profiles = useQuery(Profile);
 
@@ -90,7 +90,7 @@ function RestOfApp() {
 }
 
 const app = new Realm.App(APP_ID);
-const createConfig = user => {
+const createConfig = (user: Realm.User): Realm.Configuration => {
   return {
     schema: [Profile],
     sync: {

@@ -96,7 +96,6 @@ const createConfig = (user: Realm.User): Realm.Configuration => {
     sync: {
       user: user,
       flexible: true,
-      onError: console.error,
     },
   };
 };

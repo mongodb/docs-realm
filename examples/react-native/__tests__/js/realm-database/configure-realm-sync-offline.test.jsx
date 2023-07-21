@@ -43,7 +43,6 @@ function AppWrapperOfflineSync() {
             flexible: true,
             newRealmFileBehavior: realmAccessBehavior,
             existingRealmFileBehavior: realmAccessBehavior,
-            onError: console.error,
           }}>
           <RestOfApp />
         </RealmProvider>

@@ -1,10 +1,11 @@
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
-
-const realmContext = createRealmContext({
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
+import {
+  AppProvider,
+  UserProvider,
+  RealmProvider,
+  useQuery,
+  useRealm,
+} from '@realm/react';
 
 function AppWrapperTimeoutSync() {
   const realmAccessBehavior = {
@@ -17,11 +18,11 @@ function AppWrapperTimeoutSync() {
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Profile]}
           sync={{
             flexible: true,
             newRealmFileBehavior: realmAccessBehavior,
             existingRealmFileBehavior: realmAccessBehavior,
-            onError: console.error,
           }}>
           <RestOfApp />
         </RealmProvider>
