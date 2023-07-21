@@ -58,7 +58,7 @@ class ReadTest: RealmTest() {
             // :snippet-start: read-realm-dictionary
             // Find frogs who have forests with favorite ponds
             val frogs = realm.query<ReadTest_Frog>().find()
-            val frogsWithFavoritePonds = frogs.query("favoritePondsByForest.@count > 1").find()
+            val frogsWithFavoritePonds = frogs.query("favoritePondsByForest.@count > $0", 1).find()
             val thisFrog = frogsWithFavoritePonds.first()
             assertEquals(2, thisFrog.favoritePondsByForest.size) // :remove:
             Log.v("${thisFrog.name} has favorite ponds in these forests: ")
@@ -112,10 +112,10 @@ class ReadTest: RealmTest() {
 
         // :snippet-start: kotlin-fts-query
         // Find all the books with science fiction as the genre
-        var scienceFiction = realmFts.query<Book>("genre TEXT 'science fiction'").find()
+        var scienceFiction = realmFts.query<Book>("genre TEXT $0", "science fiction").find()
 
         // Find all the books with fiction but not science in the genre
-        var fictionNotScience = realmFts.query<Book>("genre TEXT 'fiction -science'").find()
+        var fictionNotScience = realmFts.query<Book>("genre TEXT $0", "fiction -science").find()
         // :snippet-end:
 
         assertEquals(0, scienceFiction.count())
