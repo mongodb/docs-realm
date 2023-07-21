@@ -19,6 +19,7 @@ Requirements
 
 - Minimum C++ standard: C++17.
 - For development on macOS: Xcode 11.x or later.
+- For development on Windows: Microsoft Visual C++ (MSVC)
 - Otherwise, we recommend git and `CMake <https://cmake.org>`_.
 
 Install
@@ -76,6 +77,8 @@ Install
 
       Set the minimum C++ standard to 17 with ``set(CMAKE_CXX_STANDARD 17)``.
 
+      In a Windows install, add the required compiler flags listed below.
+
       .. code-block:: cmake
          :emphasize-lines: 9, 12-16, 19, 24
 
@@ -85,6 +88,11 @@ Install
 
          # Minimum C++ standard
          set(CMAKE_CXX_STANDARD 17)
+
+         # In a Windows install, set these compiler flags:
+         if(MSVC)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:preprocessor /bigobj")
+         endif()
 
          # Include the FetchContent module so you can download the Realm C++ SDK
          Include(FetchContent)
