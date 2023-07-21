@@ -143,16 +143,18 @@ For example, your class may inherit from ``RealmObject`` or
 a Realm object interface.
 
 .. code-block:: kotlin
+   :copyable: false
 
+   // SUPPORTED
    // You can inherit from Realm Object types directly
    class MyBaseClass: RealmObject {
        var name: String = ""
    }
 
+  // NOT SUPPORTED
   // You can not inherit from classes that implement Realm object types
   // This form of inheritance is not supported in the Realm Kotlin SDK
    class Person: MyBaseClass {
-       // NOT SUPPORTED
        var age: Int
    }
 
@@ -161,16 +163,18 @@ Single Primary Constructor
 
 The Realm Kotlin SDK does not support having a single primary constructor.
 The SDK requires an empty constructor to create objects. As a workaround,
-you can do something similar to:
+you can do something similar to the following:
 
 .. code-block:: kotlin
+   :copyable: false
 
+   // SUPPORTED
    // Realm requires an empty constructor to create objects
    class Person(var name: String, var age: Int): RealmObject {
        constructor(): this("", 0) // Empty constructor required by Realm
    }
 
+   // NOT SUPPORTED
    // The Realm Kotlin SDK does not support having a single primary constructor
    class Person(var name: String, var age: Int) RealmObject {
-       // NOT SUPPORTED
    }
