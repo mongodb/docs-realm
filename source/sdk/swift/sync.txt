@@ -74,3 +74,15 @@ to determine which documents to sync.
    Sync, refer to :ref:`swift-partition-based-sync`.
 
    We recommend new apps use Flexible Sync.
+
+Sync Connection and Timeout Behaviors
+-------------------------------------
+
+In Realm Swift SDK version 10.41.0 and later, you can specify:
+
+- Sync timeout behaviors 
+- Whether opening more than one synced realm opens more than one 
+  connection to the server
+
+You can specify these settings on the :ref:`App client configuration 
+<ios-init-appclient>`.

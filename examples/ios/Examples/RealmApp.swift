@@ -26,4 +26,45 @@ class RealmAppTest: XCTestCase {
         // :snippet-end:
         print(app)
     }
+    
+    func testAppConfigEnableSessionMultiplexing() async {
+        // :snippet-start: app-config-enable-session-multiplexing
+        let configuration = AppConfiguration(enableSessionMultiplexing: false)
+
+        let app = App(id: YOUR_APP_SERVICES_APP_ID, configuration: configuration)
+        // :snippet-end:
+        do {
+            // Testing that this configuration uses a single connection is not simple
+            // So we're just confirming that the app configuration is valid and a user
+            // can login and relying on the SDK to actually test this functionality.
+            let user = try await app.login(credentials: Credentials.anonymous)
+            XCTAssert(app.currentUser != nil)
+        } catch {
+            print("Failed to authenticate user: \(error.localizedDescription)")
+        }
+    }
+    
+    func testAppConfigSyncTimeoutOptions() async {
+        // :snippet-start: app-config-sync-timeout
+        let syncTimeoutOptions = SyncTimeoutOptions(
+            connectTimeout: 30000,
+            connectionLingerTime: 5000,
+            pingKeepalivePeriod: 10000,
+            pongKeepaliveTimeout: 10000,
+            fastReconnectLimit: 30000
+        )
+        let configuration = AppConfiguration(syncTimeouts: syncTimeoutOptions)
+
+        let app = App(id: YOUR_APP_SERVICES_APP_ID, configuration: configuration)
+        // :snippet-end:
+        do {
+            // Testing all of these options properly would require many different tests
+            // So we're just confirming that the app configuration is valid and a user
+            // can login and relying on the SDK to actually test this functionality.
+            let user = try await app.login(credentials: Credentials.anonymous)
+            XCTAssert(app.currentUser != nil)
+        } catch {
+            print("Failed to authenticate user: \(error.localizedDescription)")
+        }
+    }
 }
