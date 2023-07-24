@@ -65,14 +65,6 @@ class SyncTest: RealmTest() {
     }
     // :snippet-end:
 
-
-    companion object {
-        private val credentials = Credentials.anonymous(reuseExisting = false)
-        const val yourFlexAppId = "your-flex-app-id"
-        const val PARTITION = "myPartition"
-        const val FLEXIBLE_APP_ID = "flexible-app-id"
-    }
-
     @Test
     fun openASyncedRealmTest() {
         // :snippet-start: open-a-synced-realm
@@ -377,11 +369,11 @@ class SyncTest: RealmTest() {
     fun addASubscriptionTest() {
         runBlocking {
             val app = App.create(yourFlexAppId)
+            val credentials = Credentials.anonymous(reuseExisting = false)
             val user = app.login(credentials)
             val flexSyncConfig = SyncConfiguration.Builder(user, setOf(Team::class, SyncTask::class))
                 .initialSubscriptions {realm -> add(realm.query<Team>("teamName == $0", "Developer Education")) }
                 .build()
-            // :snippet-end:
             val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: add-a-subscription
@@ -402,6 +394,7 @@ class SyncTest: RealmTest() {
     fun addASubscriptionQueryTest() {
         runBlocking {
             val app = App.create(yourFlexAppId)
+            val credentials = Credentials.anonymous(reuseExisting = false)
             val user = app.login(credentials)
             // :snippet-start: initialize-subscribe-query-realm-app
             // Bootstrap the realm with an initial query to subscribe to
@@ -484,7 +477,7 @@ class SyncTest: RealmTest() {
             // :snippet-start: wait-for-subscription-changes
             // Update the list of subscriptions
             realm.subscriptions.update {
-                this.add(
+                add(
                     realm.query<Team>("$0 IN members", "Jane Doe"),
                     "jane_doe_teams"
                 )
@@ -525,7 +518,7 @@ class SyncTest: RealmTest() {
             // :snippet-start: update-subscriptions-by-name
             // Create a subscription named "bob_smith_teams"
             realm.subscriptions.update {
-                this.add(
+                add(
                     realm.query<Team>("$0 IN members", "Bob Smith"),
                     "bob_smith_teams"
                 )
@@ -534,7 +527,7 @@ class SyncTest: RealmTest() {
             // Set `updateExisting` to true to replace the existing
             // "bob_smith_teams" subscription
             realm.subscriptions.update {
-                this.add(
+                add(
                     realm.query<Team>("$0 IN members AND $1 IN members", "Bob Smith", "Jane Doe"),
                     "bob_smith_teams", updateExisting = true
                 )
@@ -593,14 +586,17 @@ class SyncTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: update-subscriptions-by-query
+            // Search for the subscription by query
             val subscription =
                 realm.subscriptions.findByQuery(
                     realm.query<Team>("teamName == $0", "Developer Education")
                 )
+
+            // Remove the returned subscription and add the updated query
             if (subscription != null) {
                 realm.subscriptions.update {
-                    this.remove(subscription)
-                    this.add(
+                    remove(subscription)
+                    add(
                         realm.query<Team>("teamName == $0", "DevEd"),
                         "team_developer_education"
                     )
@@ -630,7 +626,7 @@ class SyncTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: remove-single-subscription
             realm.subscriptions.update {
-                this.add(
+                add(
                     realm.query<Team>("$0 IN members", "Bob Smith"),
                     "bob_smith_teams"
                 )
@@ -641,7 +637,7 @@ class SyncTest: RealmTest() {
 
             // Remove subscription by name
             realm.subscriptions.update {
-                this.remove("bob_smith_teams")
+                remove("bob_smith_teams")
             }
             // :snippet-end:
             val subscriptions = realm.subscriptions.size
@@ -664,7 +660,7 @@ class SyncTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: remove-all-subscriptions-to-an-object-type
             realm.subscriptions.update {
-                this.add(
+                add(
                         realm.query<Team>("$0 IN members", "Bob Smith"),
                     "bob_smith_teams")
             }
@@ -700,7 +696,7 @@ class SyncTest: RealmTest() {
             // :snippet-start: remove-all-subscriptions
             // Remove all subscriptions
             realm.subscriptions.update {
-                this.removeAll()
+                removeAll()
             }
             // :snippet-end:
             val subscriptions = realm.subscriptions.size
@@ -727,7 +723,7 @@ class SyncTest: RealmTest() {
             // :snippet-start: remove-all-unnamed-subscriptions
             // Remove all unnamed (anonymous) subscriptions
             realm.subscriptions.update {
-                this.removeAll(anonymousOnly = true)
+                removeAll(anonymousOnly = true)
             }
             // :snippet-end:
             val subscriptions = realm.subscriptions.size

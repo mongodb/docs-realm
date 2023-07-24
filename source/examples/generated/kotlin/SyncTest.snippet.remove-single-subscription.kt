@@ -1,5 +1,5 @@
 realm.subscriptions.update {
-    this.add(
+    add(
         realm.query<Team>("$0 IN members", "Bob Smith"),
         "bob_smith_teams"
     )
@@ -10,5 +10,5 @@ realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
 
 // Remove subscription by name
 realm.subscriptions.update {
-    this.remove("bob_smith_teams")
+    remove("bob_smith_teams")
 }

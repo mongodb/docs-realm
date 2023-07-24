@@ -1,5 +1,5 @@
 // Bootstrap the realm with an initial query to subscribe to
-val initializedFlexSyncConfig =
+val flexSyncConfig =
     SyncConfiguration.Builder(user, setOf(Team::class, Task::class))
         .initialSubscriptions { realm ->
             add(

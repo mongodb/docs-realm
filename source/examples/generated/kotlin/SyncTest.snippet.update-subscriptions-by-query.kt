@@ -1,12 +1,15 @@
+// Search for the subscription by query
 val subscription =
     realm.subscriptions.findByQuery(
-        realm.query<Task>("teamName == $0", "Developer Education")
+        realm.query<Team>("teamName == $0", "Developer Education")
     )
+
+// Remove the returned subscription and add the updated query
 if (subscription != null) {
     realm.subscriptions.update {
-        this.remove(subscription)
-        this.add(
-            realm.query<Task>("teamName == $0", "DevEd"),
+        remove(subscription)
+        add(
+            realm.query<Team>("teamName == $0", "DevEd"),
             "team_developer_education"
         )
     }

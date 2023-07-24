@@ -1,8 +1,8 @@
 // Update the list of subscriptions
 realm.subscriptions.update {
-    this.add(
-        realm.query<Team>("$0 IN members", "Bob Smith"),
-        "bob_smith_teams"
+    add(
+        realm.query<Team>("$0 IN members", "Jane Doe"),
+        "jane_doe_teams"
     )
 }
 // Wait for subscription to fully synchronize changes

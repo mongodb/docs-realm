@@ -1,5 +1,5 @@
 realm.subscriptions.update {
-    this.add(
+    add(
             realm.query<Team>("$0 IN members", "Bob Smith"),
         "bob_smith_teams")
 }
@@ -9,5 +9,5 @@ realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
 
 // Remove all subscriptions to type Team
 realm.subscriptions.update {
-    this.removeAll(Team::class)
+    removeAll(Team::class)
 }
