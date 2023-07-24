@@ -51,7 +51,7 @@ You can set the ``enableSessionMultiplexing`` bool on the
 whether the Realm Swift SDK should open a connection to the server for each 
 synced realm, or share a connection to the server for all synced realms.
 
-If you do no specify a value for this bool, Realm defaults to sharing a 
+If you do not specify a value for this bool, Realm defaults to sharing a 
 single connection per App Services user for all synced realms.
 
 .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.app-config-enable-session-multiplexing.swift
@@ -62,7 +62,7 @@ Sync Timeout Options
 
 .. versionadded:: 10.41.0
 
-You can set various ``SyncTimeout`` options on the 
+You can set various sync timeout options on the 
 :swift-sdk:`AppConfiguration <Extensions/AppConfiguration.html>`. The 
 ``syncTimeouts`` property can accept a ``SyncTimeoutOptions`` object to
 override default values for these settings.
