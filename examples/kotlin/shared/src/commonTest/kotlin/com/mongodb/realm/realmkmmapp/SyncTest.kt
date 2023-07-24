@@ -430,15 +430,12 @@ class SyncTest: RealmTest() {
     fun addANamedSubscriptionTest() {
         val credentials = Credentials.anonymous(reuseExisting = false)
         runBlocking {
-            // :snippet-start: open-flex-sync-app
-            // Login with authorized user and open a realm with a SyncConfiguration
             val app = App.create(yourFlexAppId)
             val user = app.login(credentials)
             val flexSyncConfig = SyncConfiguration.Builder(user, setOf(Team::class, SyncTask::class))
                 .build()
             val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
-            // :snippet-end:
             // :snippet-start: add-a-named-subscription
             // Add a subscription named "team_developer_education"
             realm.subscriptions.update{ realm ->
@@ -614,16 +611,22 @@ class SyncTest: RealmTest() {
 
     @Test
     fun removeSingleSubscriptionTest() {
-        val app = App.create(yourFlexAppId)
         runBlocking {
             val credentials = Credentials.anonymous(reuseExisting = false)
+            // :snippet-start: open-flex-sync-app
+            // Login with authorized user and define a Flexible Sync SyncConfiguration
+            val app = App.create(yourFlexAppId)
             val user = app.login(credentials)
             val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
-                .initialSubscriptions { realm -> add(realm.query<Team>("$0 IN members", "Bob Smith"),
-                    "bob_smith_teams") }
+                .initialSubscriptions {
+                    // Define the initial subscription set for the realm ...
+                        realm -> add(realm.query<Team>("$0 IN members", "Bob Smith"), "bob_smith_teams") // :remove:
+                }
                 .build()
+            // Open the synced realm and manage subscriptions
             val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
+            // :snippet-end:
             // :snippet-start: remove-single-subscription
             realm.subscriptions.update {
                 add(

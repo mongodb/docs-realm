@@ -18,19 +18,19 @@ To use Flexible Sync in the SDK:
 #. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>` and define your :ref:`queryable fields <queryable-fields>`.
 #. :ref:`Authenticate a user <kotlin-authenticate>` in your client app.
 #. :ref:`Open the synced Realm with a Flexible Sync configuration <kotlin-open-a-synced-realm>`
-#. :ref:`Add subscriptions to the client application <kotlin-sync-add-subscription>`
+#. :ref:`Add subscriptions to the client application <kotlin-sync-add-subscription>` to indicate which data to sync.
 
 When you configure Flexible Sync on the backend, you specify which 
 fields your client application can query using **subscriptions**. 
 
 Each subscription corresponds to a query on **queryable fields** for a 
-specific object type. You can create multiple subscription sets on 
-different object types and even query multiple times on the same 
+specific object type. You can create multiple subscriptions on 
+different object types and multiple subscriptions on the same 
 object type. See :ref:`Queryable Fields <queryable-fields>` 
 in the App Services documentation for more information.
 
-For each query subscription, Realm looks for data matching the query. 
-Data matching the subscription, where the user has the appropriate 
+For each subscription, Realm looks for data matching the query. 
+Data matching the query, where the user has the appropriate 
 permissions, syncs between clients and the backend application.
 
 You can construct queries with :ref:`Realm Query Language <realm-query-language>`.
@@ -45,19 +45,20 @@ Manage Subscriptions in Your Client App
 ---------------------------------------
 
 With an authenticated user and a Flexible Sync configuration, you can
-open a synced realm and query for the objects you want to read and
+open a synced realm and subscribe to queries for the objects you want to read and
 write.
 
 In the client application, you add, update, and remove subscriptions to specific 
-queries on queryable fields, which determine which data syncs to the client device.
+queries on the queryable fields. This will determine which data syncs to the client device.
 
 .. note::
 
    .. versionadded:: 1.10.0
 
    To simplify subscription management, Realm Kotlin SDK version 1.10.0 adds an
-   experimental ``.subscribe()`` API to subscribe to a query's ``RealmResults`` set. This API 
-   abstracts away the details of manually adding subscriptions.
+   experimental ``.subscribe()`` API to subscribe directly to a ``RealmQuery`` or 
+   a ``RealmResults``. This API 
+   abstracts away the details of manually adding subscriptions through subscription sets.
 
 You can:
 
@@ -73,8 +74,8 @@ You can:
 Linked Objects and Asymmetric Objects 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If your app uses **linked objects**, you must add both an object and its linked 
-object to the subscription set to see a linked object.
+If your app uses **linked objects**, you must add both the object itself and its linked 
+object to the subscription set to see the actual linked object.
 When your subscription results contain an object with a property that links 
 to an object not contained in the results, the link appears to be null.
 There is no way to distinguish whether that property's value is 
@@ -117,7 +118,7 @@ To simplify subscription management, Realm Kotlin SDK version 1.10.0
 adds an experimental 
 `.subscribe() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/subscribe.html>`__ 
 API to subscribe to a ``RealmQuery`` or ``RealmResults`` set. This API abstracts 
-away the details of manually adding and removing subscriptions.
+away the details of manually adding and removing subscriptions through subscription sets.
 
 You can:
 
@@ -135,7 +136,7 @@ Subscribe to a Query
 ~~~~~~~~~~~~~~~~~~~~
 
 You can ``.subscribe()`` to a query to create a subscription
-for objects matching the query:
+for objects matching a specific query:
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.subscribe-unnamed-query.kt
    :language: kotlin
@@ -166,9 +167,9 @@ When you subscribe to a query's results set, that set does not contain objects u
 
 This option uses the `WaitForSync <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-wait-for-sync/index.html>`__ enum, whose values are:
 
-- ``FIRST_TIME``: (Default) Wait to download matching objects when your app creates the subscription. Otherwise, return without waiting for new downloads. The app must have an internet connection when you add the subscription. You can optionally specify a ``timeout`` value.
+- ``FIRST_TIME``: (Default) Wait to download matching objects when your app initially creates the subscription. Otherwise, return without waiting for new downloads. The app must have an internet connection to download the data when you initially add the subscription. You can optionally specify a ``timeout`` value.
 
-- ``ALWAYS``: Wait to download matching objects every time your app launches. The app must have an internet connection at every launch. You can optionally specify a ``timeout`` value.
+- ``ALWAYS``: Wait to download matching objects every time the ``.subscribe()`` method is called. The app must have an internet connection to download the data. You can optionally specify a ``timeout`` value.
 
 - ``NEVER``: Never wait to download matching objects. The app needs an internet connection for the user to authenticate the first time the app launches but can open offline on subsequent launches using cached credentials.
 
@@ -194,7 +195,8 @@ In the client application, use the
 ``subscriptions`` API to manually manage a set of subscriptions to specific queries on 
 queryable fields, which determine which data syncs to the client device.
 
-To automatically add subscriptions to a ``MutableSubscriptionSet``, you can use 
+To automatically add subscriptions to a ``MutableSubscriptionSet`` directly 
+from a ``RealmQuery`` or a ``RealmResults``, you can use 
 the :ref:`.subscribe() API <kotlin-flexible-sync-results-subscribe-api>` with 
 Kotlin SDK version 1.10.0 or newer.
 
@@ -231,8 +233,8 @@ You can also specify a subscription name when you create the subscription:
    If your subscription results contain an object with a property that links 
    to an object not contained in the results, the link appears to be null.
    There is no way to distinguish whether that property's value is 
-   legitimately null or whether the object it links to exists but is out of
-   view of the query subscription.
+   legitimately null or whether the object it links to exists but is not available
+   to the client due to missing subscriptions.
 
 .. _kotlin-sync-add-initial-subscriptions:
 
@@ -421,7 +423,7 @@ API Efficiency
 Managing multiple subscriptions with the ``.subscribe()`` 
 API described in the :ref:`kotlin-flexible-sync-results-subscribe-api` section
 is less efficient than performing batch updates when you 
-manually manage subscriptions. For better performance when 
+manually manage subscriptions through the subscription set API. For better performance when 
 making multiple subscription changes, use the ``subscriptions.update`` API described in the 
 :ref:`kotlin-manually-manage-subscription` section.
 
