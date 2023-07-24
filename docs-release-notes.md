@@ -11,9 +11,9 @@
 
 ## Kotlin SDK
 
-- Landing Page: Update prefix URLs for `kotlin-sync-prefix` and `kotlin-local-prefix`
 - Realm/Read & Write Data/Read: Parametrize RQL queries
 - Sync Device Data/Write to a Synced Realm: Add information on how to write data to a synced realm and on `compensatingWriteError`
+- Internal: Update prefix URLs for `kotlin-sync-prefix` and `kotlin-local-prefix`
 
 ## .NET SDK 
 -  Add that the .NET SDK is compatible with Avalonia on the following pages:
@@ -32,16 +32,16 @@
 
 ## Swift SDK
 
-- For the following pages, add section on supported operating systems, highlighting that the Swift SDK does not support connecting to an App Services App from watchOS:
+- For the following pages, add section on supported operating systems, to highlight that the Swift SDK does not support connecting to an App Services App from watchOS:
   - Application Services
   - Application Services/Connect to an App Services App
   - Sync Data
-- SwiftUI/Model Data/Configure and Open a Realm: Add tips for migrating to flexible sync 
-- SwiftUI/Model Data/Pass Realm Data Between Views: Add tips for migrating to flexible sync 
-- Sync Data: Remove PBS info, link out to new PBS page
-- Sync Data/Partition-Based Sync: New page with Configure/Open content, Progress Notifications (they only work on PBS), migration info
+- SwiftUI/Model Data/Configure and Open a Realm: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync 
+- SwiftUI/Model Data/Pass Realm Data Between Views: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync
+- Sync Data: Remove Partition-Based Sync (PBS) content, link out to new PBS page
+- Sync Data/Partition-Based Sync: New page with Configure/Open content, Progress Notifications (which only work on PBS), and migration information
 - Sync Data/Configure & Open a Synced Realm: Remove PBS-only examples
-- Sync Data/Write to a Synced Realm:  Moved "Group Writes" information to this page 
+- Sync Data/Write to a Synced Realm:  Moved "Group Writes" information from "Sync Data between Devices" page to this page 
 - Remove "Legacy Realm Open" page
 
 # July 14, 2023
