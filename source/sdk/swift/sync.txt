@@ -13,7 +13,7 @@ Sync Data Between Devices - Swift SDK
    Write to a Synced Realm </sdk/swift/sync/write-to-synced-realm>
    Handle Sync Errors </sdk/swift/sync/handle-sync-errors>
    Sync Data in the Background </sdk/swift/sync/background-sync>
-   Suspend or Resume a Sync Session </sdk/swift/sync/sync-session>
+   Manage Sync Sessions </sdk/swift/sync/sync-session>
    Check the Network Connection </sdk/swift/sync/network-connection>
    Set the Client Log Level </sdk/swift/sync/log-level>
    Record Realm Events </sdk/swift/sync/event-library>
@@ -74,6 +74,18 @@ to determine which documents to sync.
    Sync, refer to :ref:`swift-partition-based-sync`.
 
    We recommend new apps use Flexible Sync.
+
+Sync Connection and Timeout Behaviors
+-------------------------------------
+
+In Realm Swift SDK version 10.41.0 and later, you can specify:
+
+- Sync timeout behaviors 
+- Whether opening more than one synced realm opens more than one 
+  connection to the server
+
+You can specify these settings on the :ref:`App client configuration 
+<ios-init-appclient>`.
 
 Supported Operating Systems
 ---------------------------

@@ -1,9 +1,9 @@
 .. _swift-suspend-resume-sync:
 .. _ios-suspend-or-resume-a-sync-session:
 
-============================================
-Suspend or Resume a Sync Session - Swift SDK
-============================================
+================================
+Manage Sync Sessions - Swift SDK
+================================
 
 .. contents:: On this page
    :local:
@@ -11,11 +11,29 @@ Suspend or Resume a Sync Session - Swift SDK
    :depth: 2
    :class: singlecol
 
+Opening a synced realm starts a :swift-sdk:`SyncSession <Extensions/SyncSession.html>`
+for that realm. The Realm Swift SDK provides methods to manually pause 
+and resume a sync session.
+
+Sync Connection Behavior
+------------------------
+
+.. versionadded:: 10.41.0
+
+In Realm Swift SDK version 10.41.0 and later, App Services defaults to 
+sharing a single connection to the server for all opened synced realms. 
+This is a change from earlier versions where opening more than one synced 
+realm opened additional connections to the server. The connection to the 
+server is independent of the ``SyncSession``, and is based on the App 
+Services user.
+
+You can change this behavior from the :ref:`App client configuration 
+<ios-init-appclient>`.
+
 Suspend or Resume a Sync Session
 --------------------------------
 
-Opening a synced realm starts a :swift-sdk:`SyncSession <Extensions/SyncSession.html>`
-for that realm. You can suspend and resume the sync session on the realm.
+You can suspend and resume the sync session on the realm.
 Pausing a sync session only suspends that realm's sync session. If you have
 more than one open realm, suspend does not affect the sync sessions for 
 other realms.
