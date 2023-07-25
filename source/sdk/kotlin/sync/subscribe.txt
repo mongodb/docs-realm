@@ -64,12 +64,19 @@ You can:
 - Update subscriptions with new queries
 - Remove individual subscriptions or all subscriptions for an object type
 
-Subscriptions to Object Types
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Subscribe to Object Types
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You subscribe to queries for the :ref:`object types <kotlin-define-a-new-object-type>` 
-defined in your client data model. Note the following if your app uses 
-:ref:`linked objects <kotlin-relationships>` or :ref:`asymmetric objects <kotlin-asymmetric-objects>`:
+defined in your client data model and specified in your Flexible Sync configuration
+when you open the synced realm. 
+
+You must subscribe to all object types that you want to :ref:`write to a synced realm <kotlin-write-synced-realm>`. For example, if your app includes a ``Task`` 
+object type and a ``Team`` object type, you would include both in your sync 
+configuration and subscribe to a query for each object type.
+
+However, note the following if you use :ref:`linked objects <kotlin-relationships>` or 
+:ref:`asymmetric objects <kotlin-asymmetric-objects>` in your app:
 
 Linked Objects
 ``````````````
@@ -171,6 +178,7 @@ by setting ``updateExisting`` to ``true``:
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.update-query-by-name.kt
    :language: kotlin
+   :emphasize-lines: 8
 
 This updates the subscription, similar to :ref:`manually updating a subscription <kotlin-sync-add-subscription>`.
 
@@ -180,7 +188,11 @@ Wait for a Query Subscription to Sync
 When you subscribe to a query's results set, that set does not contain objects until it syncs. If 
 your app creates objects, you may not need to download synced data before the user works with it. 
 However, if your app requires data from the server before the user can work with it, you can 
-specify that a subscription should wait for data to sync:   
+specify that the app should wait for data to sync. This blocks app execution until the 
+data syncs from the server. 
+
+wait for wait for sync blocks app execution until data syncs from the server
+
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.subscribe-wait-for-sync.kt
    :language: kotlin
@@ -190,19 +202,17 @@ This option uses the
 enum, whose values are:
 
 - ``FIRST_TIME``: (Default) Wait to download matching objects when your app initially creates the 
-    subscription. Otherwise, return without waiting for new downloads. The app must have an 
-    internet connection to download the data when you initially add the subscription. You can 
-    optionally specify a ``timeout`` value.
+   subscription. Otherwise, return without waiting for new downloads. The app must have an 
+   internet connection to download the data when you initially add the subscription. You can 
+   optionally specify a ``timeout`` value.
 
 - ``ALWAYS``: Wait to download matching objects every time the ``.subscribe()`` method is called. 
-    The app must have an internet connection to download the data. You can optionally specify a 
-    ``timeout`` value.
+   The app must have an internet connection to download the data. You can optionally specify a 
+   ``timeout`` value.
 
 - ``NEVER``: Never wait to download matching objects. The app needs an internet connection for the 
-    user to authenticate the first time the app launches but can open offline on subsequent 
-    launches using cached credentials.
-
-When 
+   user to authenticate the first time the app launches but can open offline on subsequent 
+   launches using cached credentials.
 
 .. _kotlin-manually-manage-subscription:
 
