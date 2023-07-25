@@ -437,11 +437,11 @@ class SyncTest: RealmTest() {
             val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: add-a-named-subscription
-            // Add a subscription named "team_developer_education"
-            realm.subscriptions.update{ realm ->
+            // Add a subscription named "team_dev_ed"
+            realm.subscriptions.update { realm ->
                     add(
                         realm.query<Team>("teamName == $0", "Developer Education"),
-                        "team_dev_ed"
+                        name = "team_dev_ed"
                     )
                 }
             // :snippet-end:
@@ -629,7 +629,7 @@ class SyncTest: RealmTest() {
             val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
                 .initialSubscriptions {
                     // Define the initial subscription set for the realm ...
-                        realm -> add(realm.query<Team>("$0 IN members", "Bob Smith"), "bob_smith_teams") // :remove:
+                   realm -> add(realm.query<Team>("$0 IN members", "Bob Smith"), "bob_smith_teams") // :remove:
                 }
                 .build()
             // Open the synced realm and manage subscriptions
@@ -679,7 +679,7 @@ class SyncTest: RealmTest() {
             // :snippet-start: remove-all-subscriptions-to-an-object-type
             realm.subscriptions.update {
                 add(
-                        realm.query<Team>("$0 IN members", "Bob Smith"),
+                    realm.query<Team>("$0 IN members", "Bob Smith"),
                     "bob_smith_teams")
             }
 

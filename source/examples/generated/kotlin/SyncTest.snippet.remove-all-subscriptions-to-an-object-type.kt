@@ -1,6 +1,6 @@
 realm.subscriptions.update {
     add(
-            realm.query<Team>("$0 IN members", "Bob Smith"),
+        realm.query<Team>("$0 IN members", "Bob Smith"),
         "bob_smith_teams")
 }
 
