@@ -60,21 +60,18 @@ Sync Data Unidirectionally from a Client Application
       Unlike bidirectional Sync, Data Ingest does not use a 
       :ref:`Flexible Sync subscription <swift-manage-flexible-sync-subscriptions>`.
 
-      .. tip:: Mixed Object and AsymmetricObject Types in Projects
+      .. tip:: Mixed Synced and Non-Synced Realms in Projects
 
-         Generally, Realm expects that you do not mix ``Object`` and 
-         ``AsymmetricObject`` types within a project. If your project does
-         contain both types, you must explicitly :ref:`pass a subset of 
-         classes in your Realm configuration 
-         <ios-provide-a-subset-of-classes-to-a-realm>` each time you open 
-         a Realm. 
+         The ``AsymmetricObject`` type is incompatible with non-synced realms.
+         If your project uses both a synced and non-synced realm, you must 
+         explicitly :ref:`pass a subset of classes in your Realm configuration 
+         <ios-provide-a-subset-of-classes-to-a-realm>` to exclude the 
+         ``AsymmetricObject`` from your non-synced realm.
          
-         You cannot query an AsymmetricObject or write it to a local
-         realm, so AsymmetricObjects are incompatible with bi-directional
-         Flexible Sync, Partition-Based Sync, or local Realm use. Automatic 
-         schema discovery means that unless you explicitly pass a subset 
-         of classes to a realm in a mixed project, opening a realm can 
-         throw an error related to trying to use an incompatible object type.
+         Automatic schema discovery means that opening a non-synced realm
+         without specifically excluding the ``AsymmetricObject`` from the 
+         configuration can throw an error related to trying to use an 
+         incompatible object type.
 
    .. step:: Create Asymmetric Objects
 
