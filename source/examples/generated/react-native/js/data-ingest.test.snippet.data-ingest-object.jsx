@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
 import Realm from 'realm';
-import {AppProvider, UserProvider, createRealmContext, useApp, useUser} from '@realm/react';
 
 class WeatherSensor extends Realm.Object{
     static schema = {

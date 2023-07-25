@@ -1,10 +1,11 @@
 import {render, fireEvent, act} from '@testing-library/react-native';
 import { Button } from 'react-native';
-// :snippet-start: data-ingest-object
 import React, { useEffect } from 'react';
-import Realm from 'realm';
 import {AppProvider, UserProvider, createRealmContext, useApp} from '@realm/react'
+// :snippet-start: data-ingest-object
+import Realm from 'realm';
 // :remove-start:
+
 const app = new Realm.App({ id: "js-flexible-oseso" });
 const weatherSensorPrimaryKey = new Realm.BSON.ObjectId();
 const APP_ID = 'js-flexible-oseso';

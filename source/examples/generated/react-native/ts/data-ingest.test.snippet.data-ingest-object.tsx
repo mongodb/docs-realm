@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
 import Realm from 'realm';
-import {AppProvider, UserProvider, createRealmContext, useApp} from '@realm/react'
 
 class WeatherSensor extends Realm.Object<WeatherSensor> {
     _id!: Realm.BSON.ObjectId;
