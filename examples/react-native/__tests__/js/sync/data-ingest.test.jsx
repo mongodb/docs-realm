@@ -9,18 +9,11 @@ import {render, fireEvent, act} from '@testing-library/react-native';
 const app = new Realm.App({ id: "js-flexible-oseso" });
 const weatherSensorPrimaryKey = new Realm.BSON.ObjectId();
 const APP_ID = 'js-flexible-oseso';
-
 let sensors;
 // :remove-end:
 
 // Define an Asymmetric Object 
-class WeatherSensor extends Realm.Object<WeatherSensor> {
-    _id!: Realm.BSON.ObjectId;
-    deviceId!: string;
-    temperatureInFahrenheit!: number;
-    barometricPressureInHg!: number;
-    windSpeedInMph!: number;
-
+class WeatherSensor extends Realm.Object{
     static schema = {
         name: 'WeatherSensor',
         // sync WeatherSensor objects one way from your device
@@ -55,13 +48,11 @@ function LogIn() {
 // Open a Realm 
 
 // Create a configuration object
-const realmConfig: Realm.Configuration = {
-    schema: [WeatherSensor],
-  };
+const realmConfig = { schema: [WeatherSensor] };
   
 // Create a realm context
 const {RealmProvider, useRealm, useObject, useQuery} =
-createRealmContext(realmConfig);
+    createRealmContext(realmConfig);
   
 // Expose a sync realm
 function AppWrapperSync() {
@@ -136,12 +127,12 @@ describe('Sync Data Unidirectionally from a Client App', () => {
 
         // Access linked MongoDB collection
         const mongodb = app.currentUser?.mongoClient('mongodb-atlas');
-        sensors = mongodb!.db('JSFlexibleSyncDB').collection<WeatherSensor>('WeatherSensor');
+        sensors = mongodb.db('JSFlexibleSyncDB').collection<WeatherSensor>('WeatherSensor');
 
         // check if the new Sensor object has been created
         const newSensor = await sensors.findOne({_id: weatherSensorPrimaryKey});
-        expect(newSensor?._id).toEqual(weatherSensorPrimaryKey);
-        expect(newSensor!.deviceId).toBe("WX1278UIT");
+        expect(newSensor._id).toEqual(weatherSensorPrimaryKey);
+        expect(newSensor.deviceId).toBe("WX1278UIT");
 
         // clean up all documents and ensure they are deleted
         await sensors.deleteMany({
