@@ -1,4 +1,3 @@
-// Connect & Authenticate with an App Services App
 function LogIn() {
     const app = useApp();
   

@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import Realm from 'realm';
-import {AppProvider, UserProvider, createRealmContext, useApp, useUser} from '@realm/react';
-import { Button } from 'react-native';
+import {AppProvider, UserProvider, createRealmContext, useApp} from '@realm/react'
 
-// Define an Asymmetric Object 
 class WeatherSensor extends Realm.Object<WeatherSensor> {
     _id!: Realm.BSON.ObjectId;
     deviceId!: string;

@@ -1,19 +1,16 @@
+import {render, fireEvent, act} from '@testing-library/react-native';
+import { Button } from 'react-native';
 // :snippet-start: data-ingest-object
 import React, { useEffect } from 'react';
 import Realm from 'realm';
-import {AppProvider, UserProvider, createRealmContext, useApp, useUser} from '@realm/react';
-import { Button } from 'react-native';
+import {AppProvider, UserProvider, createRealmContext, useApp} from '@realm/react'
 // :remove-start:
-import {render, fireEvent, act} from '@testing-library/react-native';
-
 const app = new Realm.App({ id: "js-flexible-oseso" });
 const weatherSensorPrimaryKey = new Realm.BSON.ObjectId();
 const APP_ID = 'js-flexible-oseso';
-
 let sensors;
 // :remove-end:
 
-// Define an Asymmetric Object 
 class WeatherSensor extends Realm.Object<WeatherSensor> {
     _id!: Realm.BSON.ObjectId;
     deviceId!: string;
@@ -39,7 +36,6 @@ class WeatherSensor extends Realm.Object<WeatherSensor> {
 // :snippet-end:
 
 // :snippet-start: anonymous-login
-// Connect & Authenticate with an App Services App
 function LogIn() {
     const app = useApp();
   
@@ -52,15 +48,13 @@ function LogIn() {
 // :snippet-end:
 
 // :snippet-start: open-realm
-// Open a Realm 
-
 // Create a configuration object
 const realmConfig: Realm.Configuration = {
     schema: [WeatherSensor],
   };
   
 // Create a realm context
-const {RealmProvider, useRealm, useObject, useQuery} =
+const {RealmProvider, useRealm} =
 createRealmContext(realmConfig);
   
 // Expose a sync realm
@@ -82,7 +76,6 @@ function AppWrapperSync() {
 // :snippet-end:
 
 // :snippet-start: write-data-ingest-object
-// Create Asymmetric Objects
 const App = () => {
     // Getting access to our opened realm instance
     const realm = useRealm(); 

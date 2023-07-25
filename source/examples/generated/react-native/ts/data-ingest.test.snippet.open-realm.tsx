@@ -1,12 +1,10 @@
-// Open a Realm 
-
 // Create a configuration object
 const realmConfig: Realm.Configuration = {
     schema: [WeatherSensor],
   };
   
 // Create a realm context
-const {RealmProvider, useRealm, useObject, useQuery} =
+const {RealmProvider, useRealm} =
 createRealmContext(realmConfig);
   
 // Expose a sync realm

@@ -1,5 +1,3 @@
-// Open a Realm 
-
 // Create a configuration object
 const realmConfig = { schema: [WeatherSensor] };
   

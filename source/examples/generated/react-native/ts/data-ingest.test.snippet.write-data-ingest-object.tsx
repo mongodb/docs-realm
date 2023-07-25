@@ -1,4 +1,3 @@
-// Create Asymmetric Objects
 const App = () => {
     // Getting access to our opened realm instance
     const realm = useRealm(); 
