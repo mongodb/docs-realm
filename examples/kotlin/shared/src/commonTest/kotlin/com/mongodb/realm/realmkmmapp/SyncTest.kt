@@ -60,7 +60,7 @@ class SyncTest: RealmTest() {
         @PrimaryKey
         var _id: ObjectId = ObjectId()
         var teamName: String = ""
-        var tasks: RealmList<SyncTask>? = null
+        var tasks: RealmList<SyncTask>? = realmListOf()
         var members: RealmList<String> = realmListOf()
     }
     // :snippet-end:
@@ -372,19 +372,19 @@ class SyncTest: RealmTest() {
             val credentials = Credentials.anonymous(reuseExisting = false)
             val user = app.login(credentials)
             val flexSyncConfig = SyncConfiguration.Builder(user, setOf(Team::class, SyncTask::class))
-                .initialSubscriptions {realm -> add(realm.query<Team>("teamName == $0", "Developer Education")) }
+                .initialSubscriptions {realm -> add(realm.query<SyncTask>("progressMinutes >= 60")) }
                 .build()
             val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: add-a-subscription
             realm.subscriptions.update {
                 add(
-                    realm.query<SyncTask>("progressMinutes >= 60")
+                    realm.query<SyncTask>("progressMinutes >= $0",60)
                 )
             }
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(2, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(1, subscriptionCount)
             user.delete()
             realm.close()
         }
@@ -419,8 +419,8 @@ class SyncTest: RealmTest() {
             val realmQuery = realm.query<Team>()
             realmQuery.subscribe()
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(3, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(3, subscriptionCount)
             user.delete()
             realm.close()
         }
@@ -446,6 +446,7 @@ class SyncTest: RealmTest() {
                 }
             // :snippet-end:
             // :snippet-start: subscribe-named-query
+            // Add a subscription named "team_developer_education"
             val results = realm.query<Team>("teamName == $0", "Developer Education")
                 .subscribe("team_developer_education")
             // :snippet-end:
@@ -471,6 +472,10 @@ class SyncTest: RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration}")
+            realm.write { copyToRealm(Team().apply {
+                teamName = "Bob Smith's Team"
+                members = realmListOf("Bob Smith", "Jane Doe") })}
+            realm.syncSession.uploadAllLocalChanges(30.seconds)
             // :snippet-start: wait-for-subscription-changes
             // Update the list of subscriptions
             realm.subscriptions.update {
@@ -490,12 +495,16 @@ class SyncTest: RealmTest() {
             // that match the query - in our case, 1
             println("The number of teams that have Bob Smith as a member is ${results.size}")
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(3, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(3, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("bob_smith_teams", namedSubscription1?.name)
+            assertEquals("\"Bob Smith\" == members ", namedSubscription1?.queryDescription)
             val namedSubscription2 = realm.subscriptions.findByName("jane_doe_teams")
-            assertEquals("jane_doe_teams", namedSubscription2?.name)
+            assertEquals("\"Jane Doe\" == members ", namedSubscription2?.queryDescription)
+            realm.write {
+                val deleteTeam = query<Team>("teamName == $0", "Bob Smith's Team").find()
+                delete(deleteTeam)
+            }
             user.delete()
             realm.close()
         }
@@ -508,7 +517,7 @@ class SyncTest: RealmTest() {
             val credentials = Credentials.anonymous(reuseExisting = false)
             val user = app.login(credentials)
             val flexSyncConfig = SyncConfiguration.Builder(user, setOf(SyncTask::class, Team::class))
-                .initialSubscriptions { realm -> add(realm.query<Team>()) }
+                .initialSubscriptions { realm -> add(realm.query<Team>("$0 IN members", "Bob Smith"), "bob_smith_teams") }
                 .build()
             val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
@@ -530,10 +539,10 @@ class SyncTest: RealmTest() {
                 )
             }
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(2, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(1, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("bob_smith_teams", namedSubscription1?.name)
+            assertEquals("\"Bob Smith\" == members and \"Jane Doe\" == members ", namedSubscription1?.queryDescription)
             user.delete()
             realm.close()
         }
@@ -561,10 +570,10 @@ class SyncTest: RealmTest() {
                     realm.query<Team>("$0 IN members AND teamName == $1", "Bob Smith", "QA")
                         .subscribe("bob_smith_teams", updateExisting = true)
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(2, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(2, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("bob_smith_teams", namedSubscription1?.name)
+            assertEquals("\"Bob Smith\" == members and teamName == \"QA\" ", namedSubscription1?.queryDescription)
             user.delete()
             realm.close()
         }
@@ -600,10 +609,10 @@ class SyncTest: RealmTest() {
                 }
             }
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(1, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(1, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("team_developer_education")
-            assertEquals("team_developer_education", namedSubscription1?.name)
+            assertEquals("teamName == \"DevEd\" ", namedSubscription1?.queryDescription)
             user.delete()
             realm.close()
         }
@@ -637,14 +646,20 @@ class SyncTest: RealmTest() {
 
             // Wait for synchronization to complete before updating subscriptions
             realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
+            // :remove-start:
+            val initialSubscriptionCount = realm.subscriptions.size
+            assertEquals(1, initialSubscriptionCount)
+            val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
+            assertEquals("\"Bob Smith\" == members ", namedSubscription1?.queryDescription)
+            // :remove-end:
 
             // Remove subscription by name
             realm.subscriptions.update {
                 remove("bob_smith_teams")
             }
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(0, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(0, subscriptionCount)
             user.delete()
             realm.close()
         }
@@ -671,13 +686,17 @@ class SyncTest: RealmTest() {
             // Wait for synchronization to complete before updating subscriptions
             realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
 
+            // :remove-start:
+            val initialSubscriptionCount = realm.subscriptions.size
+            assertEquals(2, initialSubscriptionCount)
+            // :remove-end:
             // Remove all subscriptions to type Team
             realm.subscriptions.update {
                 removeAll(Team::class)
             }
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(1, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(1, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
             assertNull(namedSubscription1?.name)
             user.delete()
@@ -696,14 +715,16 @@ class SyncTest: RealmTest() {
                 .build()
             val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
+            val initialSubscriptionCount = realm.subscriptions.size
+            assertEquals(1, initialSubscriptionCount)
             // :snippet-start: remove-all-subscriptions
             // Remove all subscriptions
             realm.subscriptions.update {
                 removeAll()
             }
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(0, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(0, subscriptionCount)
             user.delete()
             realm.close()
         }
@@ -722,17 +743,19 @@ class SyncTest: RealmTest() {
             val realm = Realm.open(flexSyncConfig)
             Log.v("Successfully opened realm: ${realm.configuration}")
 
-            val unnamedSubscription = realm.query<Team>("$0 IN members", "Jane Doe")
+            val unnamedSubscription = realm.query<Team>("$0 IN members", "Jane Doe").subscribe()
+            val initialSubscriptionCount = realm.subscriptions.size
+            assertEquals(2, initialSubscriptionCount)
             // :snippet-start: remove-all-unnamed-subscriptions
             // Remove all unnamed (anonymous) subscriptions
             realm.subscriptions.update {
                 removeAll(anonymousOnly = true)
             }
             // :snippet-end:
-            val subscriptions = realm.subscriptions.size
-            assertEquals(1, subscriptions)
+            val subscriptionCount = realm.subscriptions.size
+            assertEquals(1, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("bob_smith_teams", namedSubscription1?.name)
+            assertEquals("\"Bob Smith\" == members ", namedSubscription1?.queryDescription)
             user.delete()
             realm.close()
         }

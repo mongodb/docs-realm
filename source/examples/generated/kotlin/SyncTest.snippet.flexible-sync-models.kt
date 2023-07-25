@@ -12,6 +12,6 @@ class Team : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var teamName: String = ""
-    var tasks: RealmList<Task>? = null
+    var tasks: RealmList<Task>? = realmListOf()
     var members: RealmList<String> = realmListOf()
 }
