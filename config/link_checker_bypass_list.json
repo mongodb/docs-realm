@@ -14,8 +14,13 @@
     {
         "exclude":"mvnrepository.com",
         "reason":"requires auth (403)."
+    },
+    {
+        "exclude":"127.0",
+        "reason":"is a local ip address."
+    },
+    {
+        "exclude":"npmjs",
+        "reason":"always returns a 429 -- \"Too many requests\"."
     }
-
-
-    
 ]
