@@ -30,7 +30,6 @@ class WeatherSensor extends Realm.Object{
 }
 // :snippet-end:
 
-// :snippet-start: anonymous-login
 function LogIn() {
     const app = useApp();
   
@@ -40,7 +39,6 @@ function LogIn() {
   
     return <></>;
 }
-// :snippet-end:
 
 // :snippet-start: open-realm
 // Create a configuration object
