@@ -4,12 +4,14 @@ using System.Xml.Linq;
 using Examples.Models;
 using NUnit.Framework;
 using Realms;
+using Realms.Schema;
 using Realms.Sync;
 using Realms.Sync.ErrorHandling;
+using Realms.Weaving;
 
 namespace Examples
 {
-    public class Asymmetrics
+    public partial class Asymmetrics
     {
         App app;
         Realms.Sync.User user;
@@ -41,11 +43,9 @@ namespace Examples
             // :uncomment-end:
         }
 
-        // :snippet-start: asymmetry
-        // :remove-start:
         [Realms.Explicit]
-        // :remove-end:
-        private class Measurement : AsymmetricObject
+        // :snippet-start: asymmetry
+        public partial class Measurement : IAsymmetricObject
         {
             [PrimaryKey, MapTo("_id")]
             public Guid Id { get; private set; } = Guid.NewGuid();
