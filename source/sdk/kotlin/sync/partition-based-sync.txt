@@ -108,7 +108,7 @@ Flexible Sync:
 - Update your `SyncConfiguration.Builder()
   <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__ 
   to use :ref:`flexible sync <kotlin-flexible-sync-open-realm>`. This involves
-  removing the partition key and adding a set of initial subscriptions, 
+  removing the ``partitionValue`` and adding a set of initial subscriptions, 
   if needed.
 - Add relevant properties to your object models to use in your Flexible Sync 
   subscriptions. For example, you might add an ``ownerId`` property to enable
