@@ -1,5 +1,3 @@
-import Realm from 'realm';
-
 class WeatherSensor extends Realm.Object{
     static schema = {
         name: 'WeatherSensor',

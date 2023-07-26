@@ -1,5 +1,3 @@
-import Realm from 'realm';
-
 class WeatherSensor extends Realm.Object<WeatherSensor> {
     _id!: Realm.BSON.ObjectId;
     deviceId!: string;
