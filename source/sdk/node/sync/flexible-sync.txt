@@ -24,6 +24,9 @@ To use Flexible Sync in a Node.js client:
 You can add, update, and remove query subscriptions to control what data 
 syncs to the client device.
 
+You can't create subscriptions for :ref:`Data Ingest <optimize-data-ingest>` and
+:ref:`asymmetric objects <node-define-an-asymmetric-object>`.
+
 .. important:: Flexible Sync Query Limitations
 
    You cannot use all queries with Flexible Sync subscriptions. 
@@ -52,10 +55,9 @@ a set of subscriptions to specific queries on queryable fields.
 
 You can:
 
-- Get a list of all subscriptions
 - Add subscriptions
-- Check subscription state
-- Update a subscription with a new query
+- React to subscription state
+- Update subscriptions with new queries
 - Remove individual subscriptions or all subscriptions of a type
 
 When data matches the subscription and has appropriate permissions, it syncs
@@ -73,16 +75,16 @@ subscription a name, the name is set to :mdn:`null
 <Web/JavaScript/Reference/Global_Objects/null>`.
 
 When you create a subscription, Realm looks for data matching a query on a
-specific object type. In your Flexible Sync subscriptions, you can have
-subscriptions on several different object types or several queries on the same
-object type.
+specific object type. You can have subscriptions on several different object
+types. You can also have multiple queries on the same object type.
 
 .. example::
 
-  In the following example, queries are created to subscribe to:
+  In the following example, queries are created to subscribe to the following
+  filtered lists:
 
-  - A filtered list of completed tasks that have taken over 120 ``progressMinutes``
-  - A filtered list of completed tasks
+  - Completed tasks
+  - Completed tasks that have taken over 120 ``progressMinutes``
 
   Notice that queries that you subscribe to using Flexible Sync are
   syntactically the same as :ref:`querying a realm <node-read-operations>`
@@ -101,17 +103,6 @@ object type.
    There is no way to distinguish whether that property's value is 
    legitimately null, or whether the object it links to exists but is out of
    view of the query subscription.
-
-Get Subscriptions
-~~~~~~~~~~~~~~~~~
-When using a flexible synced realm, you can access a ``SubscriptionSet``, a
-collection of subscriptions, through the :js-sdk:`realm.subscriptions <Realm.html#subscriptions>` property.
-
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.get-subscriptions.js
-    :language: javascript
-
-You can use this ``SubscriptionSet`` to add queries to the list of subscriptions and
-update existing subscriptions, as shown in the examples below.
 
 .. _node-sync-add-subscription:
 
