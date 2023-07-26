@@ -495,6 +495,7 @@ class SyncTest: RealmTest() {
             // that match the query - in our case, 1
             println("The number of teams that have Bob Smith as a member is ${results.size}")
             // :snippet-end:
+            assertEquals(1, results.size)
             val subscriptionCount = realm.subscriptions.size
             assertEquals(3, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")

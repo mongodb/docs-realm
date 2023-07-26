@@ -62,7 +62,7 @@ and its linked object to the subscription set to see the actual linked object.
 When your subscription results contain an object with a property that links 
 to an object not contained in the results, the link appears to be null.
 There is no way to distinguish whether that property's value is 
-legitimately null or whether the object it links to exists but is out of
+null or whether the object it links to exists but is out of
 view of the query subscription.
 
 Asymmetric Objects
@@ -84,10 +84,13 @@ You can:
 
 - Add subscriptions with an optional subscription name:
   
-  - In Kotlin SDK version 1.10.0 and later, use ``.subscribe()`` to subscribe to 
+  - In Kotlin SDK version 1.10.0 and later, you can use ``.subscribe()`` to subscribe to 
     a ``RealmQuery`` or a ``RealmResults``. This automatically adds the subscription 
-    to the subscription set.
-  - Manually add a subscription to the subscription set with the ``subscriptions`` API.
+    to the subscription set. 
+  - Manually add a subscription to the subscription set with the ``subscriptions`` API. 
+    Use this API if you need more control over subscriptions for performance optimization or
+    business logic reasons. See the :ref:`Performance Considerations <kotlin-flex-sync-performance-considerations>` 
+    section for more information.
   
 - React to subscription state
 - Update subscriptions with new queries
@@ -144,8 +147,9 @@ for objects matching a specific query:
    :language: kotlin
 
 This creates an unnamed subscription and adds it to the
-``MutableSubscriptionSet``, similar to 
-:ref:`manually creating a subscription <kotlin-sync-add-subscription>`.
+``MutableSubscriptionSet``, instead of requiring you to 
+:ref:`manually add the subscription <kotlin-sync-add-subscription>` to the
+subscription set. 
 
 Subscribe to a Query with a Name
 ````````````````````````````````
@@ -174,7 +178,9 @@ by setting ``updateExisting`` to ``true``:
    :language: kotlin
    :emphasize-lines: 9
 
-This updates the subscription, similar to :ref:`manually updating a subscription <kotlin-sync-add-subscription>`.
+This updates the subscription automatically, instead of requiring you to  
+:ref:`manually update the subscription <kotlin-sync-add-subscription>` in the 
+subscription set.
 
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -246,7 +252,7 @@ You can also specify a subscription name when you create the subscription:
    If your subscription results contain an object with a property that links 
    to an object not contained in the results, the link appears to be null.
    There is no way to distinguish whether that property's value is 
-   legitimately null or whether the object it links to exists but is not available
+   null or whether the object it links to exists but is not available
    to the client due to missing subscriptions.
 
 .. _kotlin-sync-add-initial-subscriptions:
