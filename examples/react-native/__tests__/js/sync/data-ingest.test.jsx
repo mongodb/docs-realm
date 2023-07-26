@@ -64,7 +64,6 @@ function AppWrapperSync() {
 }
 // :snippet-end:
 
-// :snippet-start: write-data-ingest-object
 const App = () => {
     // Getting access to our opened realm instance
     const realm = useRealm(); 
@@ -89,7 +88,6 @@ const App = () => {
         />
     )
 };
-// :snippet-end:
 
 describe('Sync Data Unidirectionally from a Client App', () => {
 
