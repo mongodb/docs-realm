@@ -23,29 +23,35 @@ This project defines two test suites, one each for JavaScript and TypeScript,
 implemented as Jest projects. To test either JS or TS test suite, run one of the
 following:
 
-**JavaScript**
+**All JavaScript tests**
 
 ```bash
 npm run test:js
 ```
 
-**TypeScript**
+**All TypeScript tests**
 
 ```bash
 npm run test:ts
+```
+
+**Single test file**
+
+```bash
+npm test -- <fileNameWithExtension>
 ```
 
 ### Understand the Project Structure
 
 The following diagram shows the key items in the project directory:
 
-| Path               | Description                                                                             |
-| ------------------ | --------------------------------------------------------------------------------------- |
-| `__tests__/`        | Examples, test cases, and supporting source files. Add `.js` & `.ts` files here.        |
-| `babel.config.js`  | Configuration for [Babel](https://babeljs.io/) transpilation.                           |
-| `jest.config.js`   | Configuration for the [Jest](https://jestjs.io/) testing framework.                     |
-| `tsconfig.json`    | Configuration for the TypeScript compiler.                                              |
-| `testSetup.js`     | Setup and cleanup for the Jest tests. Runs immediately after Jest loads.                |
+| Path              | Description                                                                      |
+| ----------------- | -------------------------------------------------------------------------------- |
+| `__tests__/`      | Examples, test cases, and supporting source files. Add `.js` & `.ts` files here. |
+| `babel.config.js` | Configuration for [Babel](https://babeljs.io/) transpilation.                    |
+| `jest.config.js`  | Configuration for the [Jest](https://jestjs.io/) testing framework.              |
+| `tsconfig.json`   | Configuration for the TypeScript compiler.                                       |
+| `testSetup.js`    | Setup and cleanup for the Jest tests. Runs immediately after Jest loads.         |
 
 ## Develop
 
@@ -118,7 +124,7 @@ async function myExample() {
 
 ### Include Generated Code Examples in the Docs
 
-Generated code is available within any `.txt` or `.rst` file via the 
+Generated code is available within any `.txt` or `.rst` file via the
 `.. literalinclude::` directive.
 
 ```restructuredtext
