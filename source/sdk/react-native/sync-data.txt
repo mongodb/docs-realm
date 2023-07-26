@@ -83,18 +83,10 @@ Group Updates for Improved Performance
 
 .. _react-native-partition-based-sync-fundamentals:
 
-Partition-Based Sync
---------------------
+.. tip::
 
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend App configuration, your client implementation must include a 
-partition value. This is the value of the :ref:`partition key 
-<partition-key>` field you select when you configure Partition-Based Sync. 
+   Device Sync supports two Sync Modes: Flexible Sync, and the older 
+   Partition-Based Sync. If your App Services backend uses Partition-Based 
+   Sync, refer to :ref:`react-native-partition-realms`.
 
-The partition value determines which data the client application can access.
-
-You pass in the partition value when you open a synced realm.
-
-.. seealso::
-
-   - Learn how to configure and open a realm using :ref:`Partition-Based Sync <react-native-partition-sync-open-realm>`.
+   We recommend new apps use Flexible Sync.
