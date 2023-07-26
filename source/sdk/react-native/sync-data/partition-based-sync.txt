@@ -18,6 +18,20 @@ For more information about Partition-Based Sync and how to configure it
 in Atlas App Services, refer to :ref:`Partition-Based Sync <partition-based-sync>`
 in the App Services documentation.
 
+.. _react-native-partition-based-sync-fundamentals:
+
+Partition-Based Sync
+--------------------
+
+When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
+backend App configuration, your client implementation must include a 
+partition value. This is the value of the :ref:`partition key 
+<partition-key>` field you select when you configure Partition-Based Sync.
+
+The partition value determines which data the client application can access.
+
+You pass in the partition value when you open a synced realm.
+
 .. _react-native-partition-sync-open-realm:
 
 Configure a Partition-Based Sync Realm
