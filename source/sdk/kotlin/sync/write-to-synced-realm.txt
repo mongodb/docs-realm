@@ -279,3 +279,8 @@ about compensating write errors:
 - The primary key is the ``objectId`` of the specific object the client attempted to write. 
 - The ``table "Item"`` refers to the Atlas collection where this object would sync.
 - The reason ``object is outside of the current query view`` in this example is because the query subscription was set to require the object's ``complexity`` property to be less than or equal to ``4``, and the client attempted to write an object outside of this boundary.
+
+Group Writes for Improved Performance
+-------------------------------------
+
+.. include:: /includes/sync-memory-performance.rst
