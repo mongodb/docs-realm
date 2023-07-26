@@ -246,6 +246,36 @@ property to ``firstName``.
           :emphasize-lines: 6
           :linenos:
 
+Define an Asymmetric Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you are using Flexible Sync and need to sync a collection unidirectionally
+from your decive to your Atlas database, you can set the ``asymmetric`` property
+on your object schema. 
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/data-ingest.test.snippet.data-ingest-object.jsx 
+         :language: javascript
+         :emphasize-lines: 6
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude::  /examples/generated/react-native/ts/data-ingest.test.snippet.data-ingest-object.tsx 
+         :language: typescript
+         :emphasize-lines: 12
+
+.. note:: Attempting to Read Asymmetric Objects
+
+   Asymmetric objects cannot be read. If you attempt to query an asymmetric object, you
+   will get the following error: "Error: You cannot query an asymmetric class.".
+
+To learn more about Data Ingest, read :ref:`Stream Data to Atlas <react-native-stream-data-to-atlas>`.
+
 TypeScript and Required Properties
 ----------------------------------
 
@@ -263,34 +293,3 @@ fields are not defined.
    :emphasize-lines: 1
 
 .. _react-native-define-an-asymmetric-object:
-
-Define an Asymmetric Object
----------------------------
-
-If you are using Flexible Sync and need to sync a collection unidirectionally
-from your decive to your Atlas database, you can set the ``asymmetric`` property
-on your object schema. 
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/data-ingest.test.snippet.data-ingest-object.jsx 
-         :language: javascript
-         :emphasize-lines: 8
-
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude::  /examples/generated/react-native/ts/data-ingest.test.snippet.data-ingest-object.tsx 
-         :language: typescript
-         :emphasize-lines: 14
-
-.. note:: Attempting to Read Asymmetric Objects
-
-   Asymmetric objects cannot be read. If you attempt to query an Asymmetric object, you
-   will get the following error: "Error: You cannot query an asymmetric class.".
-
-To learn more about Data Ingest, read :ref:`Optimize Sync with Data Ingest <optimize-data-ingest>`.
-
