@@ -10,38 +10,35 @@ Manage Flexible Sync Subscriptions - Node.js SDK
    :depth: 3
    :class: singlecol
 
-
-Overview
---------
-
-Flexible Sync uses subscriptions and permissions to determine which
-data to sync with your App.
+Flexible Sync uses subscriptions and permissions to determine what
+data to sync with your App. This page details how to manage those subscriptions.
 
 To use Flexible Sync in a Node.js client:
 
-- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
-- :ref:`Initialize the app <node-quick-start-init-app>`
-- :ref:`Authenticate a user <node-quick-start-authenticate>` in
-  your client project.
-- :ref:`Open the synced Realm with a Flexible Sync configuration <node-flexible-sync-open-realm>`
-- :ref:`Add subscriptions to the client application <node-sync-subscribe-to-queryable-fields>`
+# :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
+# :ref:`Initialize the app <node-quick-start-init-app>`
+# :ref:`Authenticate a user <node-quick-start-authenticate>` in your client project.
+# :ref:`Open the synced Realm with a Flexible Sync configuration <node-flexible-sync-open-realm>`
+# :ref:`Add subscriptions to the client application <node-sync-subscribe-to-queryable-fields>`
 
-You can add, update, and remove query subscriptions to determine which data 
+You can add, update, and remove query subscriptions to control what data 
 syncs to the client device.
-
-.. include:: /includes/note-flexible-sync-prerequisite.rst
-
-.. note:: Realm JS SDK Version Requirement
-
-   In addition to the requirements above, you must use :github:`Realm JS version
-   10.12.0 <realm/realm-js/releases>` or greater in order to use Flexible Sync
-   in your Node.js client application.
 
 .. important:: Flexible Sync Query Limitations
 
    You cannot use all queries with Flexible Sync subscriptions. 
    Refer to the :ref:`Flexible Sync RQL Limitations documentation <node-flexible-sync-rql-limitations>`
    for information on which query types are not supported. 
+
+Prerequisites
+-------------
+
+You need to meet the following criteria before you can use Atlas Device Sync
+with the Node.js SDK.
+
+- A non-sharded Atlas cluster running 
+  :manual:`MongoDB 5.0 or later </release-notes/>`.
+- :github:`Realm JavaScript version 10.12.0 <realm/realm-js/releases>` or later.
 
 .. _node-sync-subscribe-to-queryable-fields:
 
