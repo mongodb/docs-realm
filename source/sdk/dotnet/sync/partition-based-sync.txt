@@ -1,0 +1,228 @@
+.. _dotnet-partition-based-sync:
+
+===============================
+Partition-Based Sync - .NET SDK
+===============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Partition-Based Sync is an older mode for using Atlas Device Sync with the 
+Realm .NET SDK. We recommend using :ref:`Flexible Sync <dotnet-flexible-sync-fundamentals>` 
+for new apps. The information on this page is for users who are still 
+using Partition-Based Sync.
+
+.. tip::
+
+   Realm .NET SDK v11.1.0 and newer supports the ability to migrate from 
+   Partition-Based Sync to Flexible Sync. For more information, refer to: 
+   :ref:`dotnet-migrate-pbs-to-fs`.
+
+.. _dotnet-partition-based-sync-fundamentals:
+
+Partition Value
+---------------
+
+When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
+backend App configuration, your client implementation must include a 
+partition value. This is the value of the :ref:`partition key 
+<partition-key>` field you select when you configure Partition-Based Sync. 
+
+The partition value determines which data the client application can access.
+
+You pass in the partition value when you open a synced realm.
+
+.. _dotnet-partition-sync-open-realm:
+
+Open a Partition-Based Sync Realm While Online
+----------------------------------------------
+
+The steps for opening a synced realm while online are:
+
+1. Your app code walks the user through :ref:`authenticating <dotnet-authenticate>`. 
+
+#. Create a 
+   :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
+   object that includes the :ref:`partition name <partition-value>` and 
+   the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.
+
+#. Open a synced realm by calling the 
+   :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
+   method, passing in the ``PartitionSyncConfiguration`` object.
+   
+The following code demonstrates these steps:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm.cs
+   :language: csharp
+
+In the above example, the code shows how to open the realm *asynchronously* 
+by calling ``GetInstanceAsync()``. You can also open a realm *synchronously* 
+by calling the 
+:dotnet-sdk:`GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` 
+method:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm-synchronously.cs
+   :language: csharp
+
+.. seealso::
+
+   :ref:`Partitions <sync-partitions>`
+
+   :ref:`Partition Strategies <partition-strategies>`
+
+
+Open a Partition-Based Sync Realm While Offline
+-----------------------------------------------
+
+Once a user authenticates, the ``User`` object persists on the device until the 
+user logs off. This allows your app to 
+:ref:`retrieve an existing user <dotnet-retrieve-current-user>` and open a 
+synced realm in an offline state. Changes that occur while offline will be 
+synced by the SDK once the device reconnects to your App.
+
+The following code shows how to check if there is an existing ``User`` object. 
+If none is found, it uses the process outlined about to obtain a user. If the 
+device already has a ``user``, it opens the synced realm with that user:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.check-if-offline.cs
+   :language: csharp
+
+.. _dotnet-check-upload-download-progress:
+.. _dotnet-check-sync-progress:
+.. _dotnet-sync-status-change:
+
+Monitor Sync Progress
+~~~~~~~~~~~~~~~~~~~~~
+
+Partition-Based Sync is currently the only Sync Mode that supports upload 
+and download progress notifications.
+
+To monitor Sync progress, get the 
+sync session from the :dotnet-sdk:`Realms.Sync.SyncSession 
+<reference/Realms.Realm.html#Realms_Realm_SyncSession>` property, then add a 
+progress notification by calling the 
+:dotnet-sdk:`session.GetProgressObservable() <reference/Realms.Sync.Session.html#Realms_Sync_Session_GetProgressObservable_Realms_Sync_ProgressDirection_Realms_Sync_ProgressMode_>` 
+method.
+
+The ``session.GetProgressObservable`` method takes in the following two parameters:
+
+- A :dotnet-sdk:`ProgressDirection <reference/Realms.Sync.ProgressDirection.html>` 
+  parameter that can be set to ``Upload`` or ``Download``.
+  
+- A :dotnet-sdk:`ProgressMode <reference/Realms.Sync.ProgressMode.html>` parameter 
+  that can be set to ``ReportIndefinitely``
+  for the notifications to continue until the callback is unregistered, or 
+  ``ForCurrentlyOutstandingWork`` for the notifications to continue until only 
+  the currently transferable bytes are synced.
+
+When you `Subscribe <https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1.subscribe?view=net-6.0#system-iobservable-1-subscribe(system-iobserver((-0)))>`_ 
+to the notifications, you receive a 
+:dotnet-sdk:`SyncProgress <reference/Realms.Sync.SyncProgress.html>` 
+object that provides the total number of transferrable bytes and the remaining 
+bytes to be transferred.
+
+.. note:: 
+   
+   The number of transferred and transferable bytes are only estimates. 
+   The Sync changesets are compressed with 
+   `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting, so 
+   the actual size of transmitted bytes will be smaller than the reported number  
+   of both transferable and transferred bytes.
+
+.. example::
+
+   In the following example, we subscribe to a progress 
+   observable on the ``session`` to listen for upload events indefinitely. When 
+   this callback is triggered, it prints the number of transferred 
+   bytes and the number of transferable bytes to the console.
+
+   .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.upload-download-progress-notification.cs
+      :language: csharp
+
+   Once you no longer wish to receive notifications, unregister the token by using 
+   ``token.Dispose()``
+
+.. note:: 
+   
+   The SDK optimizes download speeds by combining multiple changesets
+   into a single download message, up to 16 MB. Since the progress callback is
+   only invoked once before and after a download message is processed, this
+   means that you'll likely see ``transferredBytes`` change in increments of roughly
+   16 MB rather than continuously as the message is being downloaded.
+
+.. _dotnet-migrate-pbs-to-fs:
+
+Migrate from Partition-Based Sync to Flexible Sync
+--------------------------------------------------
+
+You can migrate your App Services Device Sync Mode from Partition-Based Sync 
+to Flexible Sync. Migrating is an automatic process that does not require 
+any changes to your application code. Automatic migration requires Realm 
+.NET SDK version 11.1.0 or newer. 
+
+Migrating enables you to keep your existing App Services users and 
+authentication configuration. Flexible Sync provides more versatile permissions
+configuration options and more granular data synchronization.
+
+For more information about how to migrate your App Services App from 
+Partition-Based Sync to Flexible Sync, refer to :ref:`Migrate Device Sync Modes 
+<realm-sync-migrate-modes>`.
+
+.. _dotnet-update-client-code-after-pbs-to-fs-migration:
+
+Updating Client Code After Migration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The automatic migration from Partition-Based Sync to Flexible Sync does not
+require any changes to your client code. However, to support this 
+functionality, Realm automatically handles the differences between the two 
+Sync Modes by:
+
+- Automatically creating Flexible Sync subscriptions for each object type 
+  where ``partitionKey == partitionValue``.
+- Injecting a ``partitionKey`` field into every object if one does not already 
+  exist. This is required for the automatic Flexible Sync subscription.
+
+If you need to make updates to your client code after migration, consider 
+updating your client codebase to remove hidden migration functionality.
+You might want update your client codebase when:
+
+- You add a new model or change a model in your client codebase
+- You add or change functionality that involves reading or writing Realm objects
+- You want to implement more fine-grained control over what data you sync
+
+Make these changes to convert your Partition-Based Sync client code to use 
+Flexible Sync:
+
+- Change your 
+  :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>`
+  to a
+  :dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>`.
+- Add relevant properties to your object models to use in your Flexible Sync 
+  subscriptions. For example, you might add an ``ownerId`` property to enable
+  a user to sync only their own data.
+- Remove automatic Flexible Sync subscriptions and manually create the 
+  relevant subscriptions.
+
+For examples of Flexible Sync permissions strategies, including examples of 
+how to model data for these strategies, refer to :ref:`flexible-sync-permissions-guide`.
+
+Remove and Manually Create Subscriptions
+````````````````````````````````````````
+
+When you migrate from Partition-Based Sync to Flexible Sync, Realm
+automatically creates hidden Flexible Sync subscriptions for your app. The 
+next time you add or change subscriptions, we recommend that you:
+
+1. :ref:`Remove the automatically-generated subscriptions <dotnet-remove-subscriptions>`. 
+2. :ref:`Manually add the relevant subscriptions in your client codebase 
+   <dotnet-sync-add-subscription>`.
+
+This enables you to see all of your subscription logic together in your 
+codebase for future iteration and debugging.
+
+For more information about the automatically-generated Flexible Sync 
+subscriptions, refer to :ref:`realm-sync-migrate-client`.
