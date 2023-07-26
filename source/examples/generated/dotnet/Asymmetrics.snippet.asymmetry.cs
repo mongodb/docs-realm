@@ -1,4 +1,4 @@
-private class Measurement : AsymmetricObject
+private partial class Measurement : IAsymmetricObject
 {
     [PrimaryKey, MapTo("_id")]
     public Guid Id { get; private set; } = Guid.NewGuid();
