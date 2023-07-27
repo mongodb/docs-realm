@@ -100,7 +100,6 @@ public class FlexibleSyncTest extends RealmTest {
     public void openARealmForReadWriteUIThread() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread (() -> {
-            // :snippet-start: open-a-realm
             // instantiate a Realm App connection
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
@@ -146,7 +145,6 @@ public class FlexibleSyncTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
             });
-            // :snippet-end:
         });
         expectation.await();
     }
