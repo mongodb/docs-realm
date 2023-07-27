@@ -1,6 +1,6 @@
 // Get tasks that have a status of "in progress".
 const completedTasks = realm
-  .objects("Task")
+  .objects(Task)
   .filtered("status == 'completed'");
 
 // Add a sync subscription. Always waits for sync to finish,

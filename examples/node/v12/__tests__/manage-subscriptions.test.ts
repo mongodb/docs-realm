@@ -2,32 +2,63 @@ import Realm, { SubscriptionSetState, WaitForSync } from "realm";
 import { APP_ID, PBS_APP_ID } from "../config";
 import { SubscriptionOptions } from "realm/dist/bundle";
 
-const Task = {
-  name: "Task",
-  properties: {
-    _id: "int",
-    name: "string",
-    status: "string?",
-    progressMinutes: "int?",
-    owner: "string?",
-    dueDate: "date?",
-  },
-  primaryKey: "_id",
-};
+class Task extends Realm.Object<Task> {
+  _id!: Realm.BSON.ObjectId;
+  name!: String;
+  status?: String;
+  progressMinutes?: Number;
+  owner?: String;
+  dueDate?: Date;
+
+  static schema = {
+    name: "Task",
+    properties: {
+      _id: "objectId",
+      name: "string",
+      status: "string?",
+      progressMinutes: "int?",
+      owner: "string?",
+      dueDate: "date?",
+    },
+    primaryKey: "_id",
+  };
+}
 
 const app = new Realm.App({ id: APP_ID });
+const inProgressId = new Realm.BSON.ObjectId();
+
+async function writeTestObjects(realm: Realm) {
+  realm.write(() => {
+    realm.create(Task, {
+      _id: new Realm.BSON.ObjectId(),
+      name: "Do the dishes",
+      status: "Complete",
+    });
+    realm.create(Task, {
+      _id: new Realm.BSON.ObjectId(),
+      name: "Vacuum the rug",
+      status: "Complete",
+    });
+    realm.create(Task, {
+      _id: inProgressId,
+      name: "Clean the bathroom",
+      status: "In progress",
+    });
+  });
+}
 
 describe("Managing Sync Subscriptions", () => {
   beforeEach(async () => {
     await app.logIn(Realm.Credentials.anonymous());
 
-    const realm = await Realm.open({
+    const config: Realm.Configuration = {
       schema: [Task],
       sync: {
         user: app.currentUser!,
         flexible: true,
       },
-    });
+    };
+    const realm = await Realm.open(config);
 
     // Remove any active subs before each test.
     if (realm.subscriptions.length) {
@@ -40,13 +71,14 @@ describe("Managing Sync Subscriptions", () => {
   });
 
   test("add basic query subscription", async () => {
-    const realm = await Realm.open({
+    const config: Realm.Configuration = {
       schema: [Task],
       sync: {
         user: app.currentUser!,
         flexible: true,
       },
-    });
+    };
+    const realm = await Realm.open(config);
 
     expect(realm.isClosed).toBeFalsy();
 
@@ -55,7 +87,7 @@ describe("Managing Sync Subscriptions", () => {
 
     // :snippet-start: sub-basic
     const completedTasks = await realm
-      .objects("Task")
+      .objects(Task)
       .filtered('status == "completed"')
       .subscribe();
     const longRunningTasks = await completedTasks
@@ -78,13 +110,14 @@ describe("Managing Sync Subscriptions", () => {
   });
 
   test("name a subscription", async () => {
-    const realm = await Realm.open({
+    const config: Realm.Configuration = {
       schema: [Task],
       sync: {
         user: app.currentUser!,
         flexible: true,
       },
-    });
+    };
+    const realm = await Realm.open(config);
 
     expect(realm.isClosed).toBeFalsy();
 
@@ -97,15 +130,13 @@ describe("Managing Sync Subscriptions", () => {
       name: "All completed tasks",
     };
     const completedTasks = await realm
-      .objects("Task")
+      .objects(Task)
       .filtered('status == "completed"')
       .subscribe(subOptions);
     const completedTasksSubscription = realm.subscriptions.findByName(
       "All completed tasks"
     );
     // :snippet-end:
-
-    console.debug(completedTasks);
 
     expect(realm.subscriptions.length).toBe(1);
     expect(completedTasksSubscription).not.toBe(null);
@@ -117,13 +148,14 @@ describe("Managing Sync Subscriptions", () => {
   });
 
   test("add first time only wait for sync query subscription", async () => {
-    const realm = await Realm.open({
+    const config: Realm.Configuration = {
       schema: [Task],
       sync: {
         user: app.currentUser!,
         flexible: true,
       },
-    });
+    };
+    const realm = await Realm.open(config);
 
     expect(realm.isClosed).toBeFalsy();
 
@@ -134,7 +166,7 @@ describe("Managing Sync Subscriptions", () => {
     // :snippet-start: sub-wait-first
     // Get tasks that have a status of "in progress".
     const completedTasks = realm
-      .objects("Task")
+      .objects(Task)
       .filtered("status == 'completed'");
 
     // Add a sync subscription. Only waits for sync to finish
@@ -167,13 +199,14 @@ describe("Managing Sync Subscriptions", () => {
   });
 
   test("add always wait for sync query subscription", async () => {
-    const realm = await Realm.open({
+    const config: Realm.Configuration = {
       schema: [Task],
       sync: {
         user: app.currentUser!,
         flexible: true,
       },
-    });
+    };
+    const realm = await Realm.open(config);
 
     expect(realm.isClosed).toBeFalsy();
 
@@ -183,7 +216,7 @@ describe("Managing Sync Subscriptions", () => {
     // :snippet-start: sub-always-wait
     // Get tasks that have a status of "in progress".
     const completedTasks = realm
-      .objects("Task")
+      .objects(Task)
       .filtered("status == 'completed'");
 
     // Add a sync subscription. Always waits for sync to finish,
@@ -214,13 +247,14 @@ describe("Managing Sync Subscriptions", () => {
   });
 
   test("add never wait for sync query subscription", async () => {
-    const realm = await Realm.open({
+    const config: Realm.Configuration = {
       schema: [Task],
       sync: {
         user: app.currentUser!,
         flexible: true,
       },
-    });
+    };
+    const realm = await Realm.open(config);
 
     expect(realm.isClosed).toBeFalsy();
 
@@ -230,7 +264,7 @@ describe("Managing Sync Subscriptions", () => {
     // :snippet-start: sub-never-wait
     // Get tasks that have a status of "in progress".
     const completedTasks = realm
-      .objects("Task")
+      .objects(Task)
       .filtered("status == 'completed'");
 
     // Add a sync subscription. Will not wait for sync to finish.
@@ -260,13 +294,14 @@ describe("Managing Sync Subscriptions", () => {
   });
 
   test("add timeout query subscription", async () => {
-    const realm = await Realm.open({
+    const config: Realm.Configuration = {
       schema: [Task],
       sync: {
         user: app.currentUser!,
         flexible: true,
       },
-    });
+    };
+    const realm = await Realm.open(config);
 
     expect(realm.isClosed).toBeFalsy();
 
@@ -276,7 +311,7 @@ describe("Managing Sync Subscriptions", () => {
     // :snippet-start: sub-with-timeout
     // Get tasks that have a status of "in progress".
     const completedTasks = realm
-      .objects("Task")
+      .objects(Task)
       .filtered("status == 'completed'");
 
     // Add subscription with timeout
@@ -294,5 +329,44 @@ describe("Managing Sync Subscriptions", () => {
     taskSubscription.unsubscribe();
 
     expect(realm.subscriptions.length).toBe(0);
+  });
+
+  test("open an FS realm with initial subscriptions", async () => {
+    // :snippet-start: set-initial-subscriptions
+    const config: Realm.Configuration = {
+      schema: [Task],
+      sync: {
+        user: app.currentUser!,
+        flexible: true,
+        initialSubscriptions: {
+          update: (subs, realm) => {
+            subs.add(realm.objects(Task).filtered("status == 'in progress'"), {
+              name: "In progress tasks",
+            });
+          },
+          rerunOnOpen: true,
+        },
+      },
+    };
+
+    const realm = await Realm.open(config);
+    // :snippet-end:
+
+    expect(realm.isClosed).toBeFalsy();
+
+    const sub = realm.subscriptions.findByName("In progress tasks");
+
+    // There should be 1 active subscription from initialSubscriptions.
+    expect(realm.subscriptions.length).toBe(1);
+    expect(sub).not.toBeFalsy();
+
+    await writeTestObjects(realm);
+
+    const subscribedTasks = realm
+      .objects("Task")
+      .filtered("status == 'In progress'");
+
+    expect(subscribedTasks.length).toBe(1);
+    expect(subscribedTasks[0]._id).toEqual(inProgressId);
   });
 });

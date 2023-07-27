@@ -10,16 +10,20 @@ Manage Sync Subscriptions - Node.js SDK
    :depth: 3
    :class: singlecol
 
+.. versionadded:: 12.0.0
+
 Flexible Sync uses subscriptions and permissions to determine what
-data to sync with your App. This page details how to manage those subscriptions.
+data to sync with your App. You must have at least one subscription before you
+can read from or write to a realm with Flexible Sync enabled. This page details
+how to manage those subscriptions.
 
 To use Flexible Sync in a Node.js client:
 
-# :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
-# :ref:`Initialize the app <node-quick-start-init-app>`
-# :ref:`Authenticate a user <node-quick-start-authenticate>` in your client project.
-# :ref:`Open the synced Realm with a Flexible Sync configuration <node-flexible-sync-open-realm>`
-# :ref:`Add subscriptions to the client application <node-sync-subscribe-to-queryable-fields>`
+#. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
+#. :ref:`Initialize the app <node-quick-start-init-app>`
+#. :ref:`Authenticate a user <node-quick-start-authenticate>` in your client project.
+#. :ref:`Open the synced Realm with a Flexible Sync configuration <node-flexible-sync-open-realm>`
+#. :ref:`Add subscriptions to the client application <node-sync-subscribe-to-queryable-fields>`
 
 You can add, update, and remove query subscriptions to control what data 
 syncs to the client device.
@@ -37,7 +41,7 @@ Prerequisites
 -------------
 
 You need to meet the following criteria before you can use Atlas Device Sync
-with the Node.js SDK.
+with the Node.js SDK:
 
 - A non-sharded Atlas cluster running 
   :manual:`MongoDB 5.0 or later </release-notes/>`.
@@ -102,12 +106,18 @@ subscription itself.
 
 .. _node-sync-bootstrap-initial-subscriptions:
 
-Name Subscriptions
-``````````````````
+Name Your Subscriptions
+```````````````````````
 
 We recommend that you name your subscriptions. This makes finding and managing
-your subscriptions easier. If you do not give your subscription a name, the name
+your subscriptions easier. Subscription names must be unique. Trying to add a
+subscription with the same name as an existing subscription throws an error.
+
+If you do not give your subscription a name, the name
 is set to :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`.
+
+If you subscribe to the same query more than once under different names, Realm
+persists both subscriptions to the subscription set.
 
 .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.ts
    :language: typescript
@@ -115,18 +125,19 @@ is set to :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`.
 Set Initial Subscriptions
 `````````````````````````
 
-.. versionadded:: 10.18.0
+You can add a subscription as part of opening a Flexible Sync realm. This is
+called an initial subscription. 
 
-You must have at least one subscription before you can read from or write to a
-realm with Flexible Sync enabled. You can bootstrap a realm with an initial subscription set when you open
-it with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
-and Flexible Sync enabled. Include the ``initialSubscriptions`` field into the
-``SyncConfiguration``. Within the ``initialSubscriptions`` object, add an ``update``
-field set to a callback in which you can subscribe to queries to bootstrap your
-application:
+To set initial subscriptions, include the ``initialSubscriptions`` field in
+your realm's :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+Within the ``initialSubscriptions`` object, add an ``update``
+field set to a callback that subscribes to queries:
 
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-initial-subscriptions-on-fs-realm.js
-   :language: javascript
+.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.set-initial-subscriptions.ts
+   :language: typescript
+
+You can set ``rerunOnOpen`` to ``true`` to create the subscription every time
+your realm is opened.
 
 .. _node-flexible-sync-wait-for-sync:
 

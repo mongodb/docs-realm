@@ -1,5 +1,5 @@
 const completedTasks = await realm
-  .objects("Task")
+  .objects(Task)
   .filtered('status == "completed"')
   .subscribe();
 const longRunningTasks = await completedTasks
