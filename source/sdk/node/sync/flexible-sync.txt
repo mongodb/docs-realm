@@ -62,16 +62,17 @@ manually adding and removing subscriptions.
 Subscribe to a Query
 ~~~~~~~~~~~~~~~~~~~~
 
-With :ref:`an authenticated user and a Flexible Sync configuration 
-<ios_flex_sync_about_examples>`, you can open a synced realm and query for the 
-objects you want to read and write. You can ``.subscribe()`` to that query
-to create a Flexible Sync subscription for objects matching the query:
+With :ref:`an authenticated user <node-authenticate-users>` and a
+:ref:`Flexible Sync configuration <node-open-a-synced-realm>`, you can open a
+synced realm and query for the objects you want to read and write. You can
+``.subscribe()`` to that query to create a sync subscription for objects
+matching the query:
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-unnamed.swift
-   :language: swift
+.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.ts
+   :language: typescript
 
-This creates an unnamed subscription and adds it to the ``MutableSubscriptionSet``,
-similar to :ref:`manually creating a subscription <ios-sync-add-subscription>`.
+This creates an unnamed subscription and adds it to ``MutableSubscriptionSet``,
+similar to :ref:`manually creating a subscription <node-sync-subscribe-to-queryable-fields>`.
 
 Subscribe to a Query with a Subscription Name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,43 +93,43 @@ persists both subscriptions to the subscription set.
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you subscribe to a query's ``Results`` set, that set does not contain 
-objects until it syncs. If your app creates objects, you may not need to 
+When you subscribe to a query's ``Results`` list, that list does not contain 
+objects until it syncs. If your app creates Realm objects, you may not need to 
 download synced data before the user works with it. However, if your app
 requires data from the server before the user can work with it, you can
 specify that a subscription should ``waitForSync``:
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-wait-for-sync.swift
-   :language: swift
+.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-wait-first.ts
+   :language: typescript
 
-This option uses the ``RLMWaitForSyncMode`` enum, whose cases are:
+This option uses the ``FirstTime`` option, which only waits for sync to finish
+when this subscription is first created. Other options include:
 
-- .onCreation: Wait to download matching objects when your app creates the
-  subscription. Otherwise, return without waiting for new downloads. The 
-  app must have an internet connection when you add the subscription.
-- .always: Wait to download matching objects every time your app launches.
+- ``Always``: Wait to download matching objects every time your app launches.
   The app must have an internet connection at every launch.
-- .never: Never wait to download matching objects. The app needs an internet
+- ``Never``: Never wait to download matching objects. The app needs an internet
   connection for the user to authenticate the first time the app launches, but
   can :ref:`open offline <ios-open-a-synced-realm-offline>` on subsequent 
   launches using cached credentials.
 
-You can optionally specify a ``timeout`` value of type :apple:`TimeInterval 
-<foundation/timeinterval>`.
+You can optionally specify a ``timeout`` value:
+
+.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-with-timeout.ts
+   :language: typescript
 
 Unsubscribe from a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can unsubscribe from a query's ``Results`` set using the ``.unsubscribe()``
+You can unsubscribe from a query's ``Results`` list using the ``.unsubscribe()``
 API:
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-api-unsubscribe.swift
-   :language: swift
+.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-unsubscribe.ts
+   :language: typescript
 
-This removes the subscription from the ``MutableSubscriptionSet``,
-similar to :ref:`manually removing a subscription <ios-remove-query-by-name>`.
+This removes the subscription from ``MutableSubscriptionSet``,
+similar to :ref:`manually removing a subscription <node-remove-subscription-by-name>`.
 
-A ``Results`` set may still contain objects after calling ``.unsubscribe()`` 
+A ``Results`` list may still contain objects after calling ``.unsubscribe()`` 
 if another subscription exists that contains overlapping objects. 
 
 Calling ``.unsubscribe()`` does not wait for objects to be removed from the
@@ -261,6 +262,8 @@ removed from the subscriptions set.
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
     :language: javascript
 
+.. _node-remove-subscription-by-name:
+
 Remove a Subscription by Name
 `````````````````````````````
 To remove a specific subscription by name, execute a transaction on the
@@ -305,10 +308,10 @@ You may want to remove unnamed subscriptions that are transient or dynamically
 generated, but leave named subscriptions in place.
 
 You can remove all unnamed subscriptions from the subscription set by 
-setting ``unnamedOnly`` to ``true`` when you call the ``removeAll`` method:
+calling ``.removeUnnamed()`` on ``mutableSubs``:
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-unnamed-subscriptions.swift
-   :language: swift
+.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.ts
+   :language: typescript
 
 Remove All Subscriptions
 ````````````````````````
@@ -321,7 +324,7 @@ the subscriptions set. Call :js-sdk:`removeAll()
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions.js
     :language: javascript
 
-.. _swift-flex-sync-performance-considerations:
+.. _node-flex-sync-performance-considerations:
 
 Performance Considerations
 --------------------------
@@ -330,11 +333,12 @@ API Efficiency
 ~~~~~~~~~~~~~~
 
 Managing multiple subscriptions with the ``.subscribe()`` and ``.unsubscribe()``
-APIs described in the :ref:`swift-flexible-sync-results-subscribe-api` section
-is less efficient than performing batch updates when you manually 
-manage subscriptions. For better performance when making multiple 
-subscription changes, use the ``subscriptions.update`` API described in the 
-:ref:`ios-sync-subscribe-to-queryable-fields` section.
+APIs described in the :ref:`node-subscribe-api` section is less efficient than
+performing batch updates when you manually manage subscriptions.
+
+For better performance when making multiple subscription changes, use the
+``subscriptions`` API described in the
+:ref:`node-sync-subscribe-to-queryable-fields` section.
 
 Group Updates for Improved Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

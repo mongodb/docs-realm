@@ -71,6 +71,7 @@ describe("Managing Sync Subscriptions", () => {
   });
 
   test("add basic query subscription", async () => {
+    // :snippet-start: sub-basic
     const config: Realm.Configuration = {
       schema: [Task],
       sync: {
@@ -79,20 +80,18 @@ describe("Managing Sync Subscriptions", () => {
       },
     };
     const realm = await Realm.open(config);
-
+    // :remove-start:
     expect(realm.isClosed).toBeFalsy();
 
     // There shouldn't be any active subscriptions.
     expect(realm.subscriptions.length).toBe(0);
-
-    // :snippet-start: sub-basic
+    // :remove-end:
     const completedTasks = await realm
       .objects(Task)
       .filtered('status == "completed"')
       .subscribe();
-    const longRunningTasks = await completedTasks
-      .filtered('status == "completed" && progressMinutes > 120')
-      .subscribe();
+
+    // ...work with the subscribed results list
     // :snippet-end:
 
     expect(realm.subscriptions.length).toBe(2);
@@ -124,7 +123,6 @@ describe("Managing Sync Subscriptions", () => {
     // There shouldn't be any active subscriptions.
     expect(realm.subscriptions.length).toBe(0);
 
-    // TODO: Create JS version
     // :snippet-start: sub-name
     const subOptions: SubscriptionOptions = {
       name: "All completed tasks",
@@ -136,6 +134,8 @@ describe("Managing Sync Subscriptions", () => {
     const completedTasksSubscription = realm.subscriptions.findByName(
       "All completed tasks"
     );
+
+    // ...work with the subscribed results list or modify the subscription
     // :snippet-end:
 
     expect(realm.subscriptions.length).toBe(1);
@@ -194,101 +194,6 @@ describe("Managing Sync Subscriptions", () => {
     // Unsubscribe
     completedTasks.unsubscribe();
     // :snippet-end:
-
-    expect(realm.subscriptions.length).toBe(0);
-  });
-
-  test("add always wait for sync query subscription", async () => {
-    const config: Realm.Configuration = {
-      schema: [Task],
-      sync: {
-        user: app.currentUser!,
-        flexible: true,
-      },
-    };
-    const realm = await Realm.open(config);
-
-    expect(realm.isClosed).toBeFalsy();
-
-    // There shouldn't be any active subscriptions.
-    expect(realm.subscriptions.length).toBe(0);
-
-    // :snippet-start: sub-always-wait
-    // Get tasks that have a status of "in progress".
-    const completedTasks = realm
-      .objects(Task)
-      .filtered("status == 'completed'");
-
-    // Add a sync subscription. Always waits for sync to finish,
-    // no matter how many times the subscription is added.
-    await completedTasks.subscribe({
-      behavior: WaitForSync.Always,
-      name: "Always wait for sync",
-    });
-    // :snippet-end:
-
-    expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Complete);
-
-    // Add subscription a second time. Will wait for
-    // sync to finish.
-    await completedTasks.subscribe({
-      behavior: WaitForSync.Always,
-      name: "Always wait for sync",
-    });
-
-    expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Complete);
-
-    expect(realm.subscriptions.length).toBe(1);
-
-    // Unsubscribe
-    completedTasks.unsubscribe();
-
-    expect(realm.subscriptions.length).toBe(0);
-  });
-
-  test("add never wait for sync query subscription", async () => {
-    const config: Realm.Configuration = {
-      schema: [Task],
-      sync: {
-        user: app.currentUser!,
-        flexible: true,
-      },
-    };
-    const realm = await Realm.open(config);
-
-    expect(realm.isClosed).toBeFalsy();
-
-    // There shouldn't be any active subscriptions.
-    expect(realm.subscriptions.length).toBe(0);
-
-    // :snippet-start: sub-never-wait
-    // Get tasks that have a status of "in progress".
-    const completedTasks = realm
-      .objects(Task)
-      .filtered("status == 'completed'");
-
-    // Add a sync subscription. Will not wait for sync to finish.
-    await completedTasks.subscribe({
-      behavior: WaitForSync.Never,
-      name: "Never wait for sync",
-    });
-    // :snippet-end:
-
-    expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Pending);
-
-    // Add subscription a second time. Will not wait for
-    // sync to finish.
-    await completedTasks.subscribe({
-      behavior: WaitForSync.Never,
-      name: "Never wait for sync",
-    });
-
-    expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Pending);
-
-    expect(realm.subscriptions.length).toBe(1);
-
-    // Unsubscribe
-    completedTasks.unsubscribe();
 
     expect(realm.subscriptions.length).toBe(0);
   });

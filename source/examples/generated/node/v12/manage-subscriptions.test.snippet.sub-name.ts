@@ -8,3 +8,5 @@ const completedTasks = await realm
 const completedTasksSubscription = realm.subscriptions.findByName(
   "All completed tasks"
 );
+
+// ...work with the subscribed results list or modify the subscription
