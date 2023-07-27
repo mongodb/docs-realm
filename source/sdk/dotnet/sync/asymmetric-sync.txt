@@ -29,14 +29,16 @@ Sync Data Unidirectionally from a Client Application
 
 Before you set up Data Ingest, you need to understand the following rules:
 
-- The C# objects that you will sync with Atlas must derive from the 
+- The C# objects that you will sync with Atlas must implement the 
+  :dotnet-sdk:`IAsymmetricObject <reference/Realms.IAsymmetricObject.html>`
+  interface or derive from the 
   :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>` class.
 
-- An object that derives from ``AsymmetricObject`` can contain 
-  :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` types, 
-  but not ``RealmObject`` types or other ``AsymmetricObject`` types.
+- An object that implements ``IAsymmetricObject`` can contain 
+  :dotnet-sdk:`IEmbeddedObject <reference/Realms.IEmbeddedObject.html>` types, 
+  but not ``IRealmObject`` types or other ``IAsymmetricObject`` types.
 
-- ``RealmObject`` and ``EmbeddedObject`` types cannot contain ``AsymmetricObject``
+- ``IRealmObject`` and ``IEmbeddedObject`` types cannot contain ``IAsymmetricObject``
   types as properties. 
 
 - Unidirectional Sync requires :ref:`Flexible Sync <dotnet-flexible-sync>`.
