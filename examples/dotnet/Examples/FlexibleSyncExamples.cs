@@ -102,6 +102,10 @@ namespace Examples
             var user = await app.LogInAsync(Credentials.Anonymous());
 
             var config = new FlexibleSyncConfiguration(app.CurrentUser!);
+            config.Schema = new[]
+            {
+                typeof(MyTask)
+            };
             var realm = Realm.GetInstance(config);
 
             var subscriptions = realm.Subscriptions;
@@ -153,6 +157,10 @@ namespace Examples
                 user = await app.LogInAsync(Credentials.Anonymous());
 
                 config = new FlexibleSyncConfiguration(app.CurrentUser!);
+                config.Schema = new[]
+                {
+                    typeof(MyTask)
+                };
                 realm2 = await Realm.GetInstanceAsync(config);
 
                 realm2.Subscriptions.Update(() =>
@@ -171,6 +179,10 @@ namespace Examples
                 // and assumes you have already added Flexible Sync subscriptions
                 user = app.CurrentUser;
                 config = new FlexibleSyncConfiguration(user);
+                config.Schema = new[]
+                {
+                    typeof(MyTask)
+                };
                 realm2 = Realm.GetInstance(config);
             }
             // :replace-end:
