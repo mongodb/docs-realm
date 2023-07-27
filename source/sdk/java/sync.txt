@@ -17,6 +17,7 @@ Sync Data Between Devices - Java SDK
    Check Upload & Download Progress </sdk/java/sync/sync-progress>
    Check the Network Connection </sdk/java/sync/network-connection>
    Background Sync </sdk/java/sync/background-sync>
+   Partition-Based Sync </sdk/java/sync/partition-based-sync>
 
 .. contents:: On this page
    :local:
@@ -28,16 +29,6 @@ Atlas Device Sync automatically synchronizes data between client applications an
 an :ref:`Atlas App Services backend <realm-cloud>`. When a client 
 device is online, Sync asynchronously synchronizes data in a 
 background thread between the device and your backend App. 
-
-When you use Sync in your client application, your implementation must match 
-the Sync Mode you select in your backend App configuration. The Sync Mode
-options are:
-
-- Flexible Sync
-- Partition-Based Sync
-
-You can only use one Sync Mode for your application. You cannot mix 
-Partition-Based Sync and Flexible Sync within the same App.
 
 .. seealso::
 
@@ -76,20 +67,6 @@ Group Updates for Improved Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/sync-memory-performance.rst
-
-.. _java-partition-based-sync-fundamentals:
-
-Partition-Based Sync
---------------------
-
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend App configuration, your client implementation must include a 
-partition value. This is the value of the :ref:`partition key 
-<partition-key>` field you select when you configure Partition-Based Sync. 
-
-The partition value determines which data the client application can access.
-
-You pass in the partition value when you open a synced realm.
 
 .. _java-sync-data:
 

@@ -40,6 +40,7 @@ like opening a local realm, except you use ``SyncConfiguration``
 to customize the settings for synced realms.
 
 .. _java-synced-realm-configuration:
+.. _java-flexible-sync-open-realm:
 
 Synced Realm Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,60 +48,12 @@ Synced Realm Configuration
 To configure settings for a realm, create a
 :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` with a
 :java-sdk:`SyncConfiguration.Builder <io/realm/mongodb/sync/SyncConfiguration.Builder.html>`.
-The following example configures a synced realm with:
 
-- partition-based Sync
-- synchronous reads explicitly allowed on the UI thread
-- synchronous writes explicitly allowed on the UI thread
-- explicit waiting for all backend changes to synchronize to the device
-  before returning an open realm
-- automatic compaction when launching the realm to save file space
-
-.. warning:: Production Applications Should Handle Client Resets
-
-   Applications used in production environments should handle client
-   reset errors. To learn more, see :ref:`Reset a Client Realm
-   <java-client-resets>`.
-
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: kotlin
-
-       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.snippet.configure-a-realm.kt
-         :language: kotlin
-
-   .. tab::
-       :tabid: java
-
-       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.snippet.configure-a-realm.java
-         :language: java
-
-.. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
-
-.. _java-open-synced-realm:
-.. _java-open-a-synced-realm-while-online:
-
-Open a Synced Realm While Online
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: /includes/java-open-synced-realm.rst
-
-.. _java-open-a-synced-realm-while-offline:
-
-Open a Synced Realm While Offline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can open a synced realm when offline with the exact same syntax
-that you use to :ref:`open a synced realm while online
-<java-open-a-synced-realm-while-online>`. Not all SDKs follow this
-pattern, so cross-platform developers should consult the documentation
-for each SDK to learn more.
-
-.. _java-flexible-sync-open-realm:
-
-Open a Synced Realm with a Flexible Sync Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To open a synced realm, call 
+:java-sdk:`getInstanceAsync()
+<io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`, 
+passing in a :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` 
+object.
 
 When your application uses Flexible Sync, call
 the :java-sdk:`initialSubscriptions()
@@ -109,9 +62,7 @@ sync configuration builder method
 with an instance of
 :java-sdk:`SyncConfiguration.InitialFlexibleSyncSubscriptions()
 <io/realm/mongodb/sync/SyncConfiguration.InitialFlexibleSyncSubscriptions.html>`
-to open a synced realm. While partition-based Sync requires a partition
-value when you instantiate your ``SyncConfiguration``, you should omit
-the partition value when you use Flexible Sync. In the ``configure()`` method, instantiate
+to open a synced realm. In the ``configure()`` method, instantiate
 an ``UnmanagedSubscription`` with a name and query using
 :java-sdk:`Subscription.create()
 <io/realm/mongodb/sync/Subscription.html#create(java.lang.String,io.realm.RealmQuery)>`.
@@ -140,6 +91,19 @@ parameter to add it to your subscriptions:
 
    For more information about subscriptions, see
    :ref:`Subscribe to Queryable Fields <java-sync-subscribe-to-queryable-fields>`.
+
+.. include:: /includes/java-synchronous-reads-writes-ui-thread-fs.rst
+
+.. _java-open-a-synced-realm-while-offline:
+
+Open a Synced Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a synced realm when offline with the exact same syntax
+that you use to :ref:`open a synced realm while online
+<java-open-a-synced-realm-while-online>`. Not all SDKs follow this
+pattern, so cross-platform developers should consult the documentation
+for each SDK to learn more.
 
 .. _java-close-a-synced-realm:
 

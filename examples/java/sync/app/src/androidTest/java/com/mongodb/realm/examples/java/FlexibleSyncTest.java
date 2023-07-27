@@ -97,6 +97,61 @@ public class FlexibleSyncTest extends RealmTest {
     }
 
     @Test
+    public void openARealmForReadWriteUIThread() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread (() -> {
+            // :snippet-start: open-a-realm
+            // instantiate a Realm App connection
+            String appID = YOUR_APP_ID; // replace this with your App ID
+            App app = new App(new AppConfiguration.Builder(appID)
+                    .build());
+            // authenticate a user
+            Credentials credentials = Credentials.anonymous();
+            app.loginAsync(credentials, it -> {
+                if (it.isSuccess()) {
+                    User user = it.get();
+                    // add an initial subscription to the sync configuration
+                    // :snippet-start: fs-allow-queries-on-ui-thread
+                    SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
+                            .allowQueriesOnUiThread(true)
+                            .allowWritesOnUiThread(true)
+                            .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
+                                @Override
+                                public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
+                                    subscriptions.add(Subscription.create("subscriptionName",
+                                            realm.where(Frog.class)
+                                                .equalTo("species", "spring peeper")));
+                                }
+                            })
+                            // :remove-start:
+                            .inMemory()
+                            .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                            // :remove-end:
+                            .build();
+
+                    Realm.getInstanceAsync(config, new Realm.Callback() {
+                        @Override
+                        public void onSuccess(Realm realm) {
+                            Log.v( 
+                                "EXAMPLE",
+                                "Successfully opened a realm with reads and writes allowed on the UI thread.");
+                            // :remove-start:
+                            realm.close();
+                            expectation.fulfill();
+                            // :remove-end:
+                        }
+                    });
+                    // :snippet-end:
+                } else {
+                    Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
+                }
+            });
+            // :snippet-end:
+        });
+        expectation.await();
+    }
+
+    @Test
     public void explicitlyNamedSubscription() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread (() -> {
