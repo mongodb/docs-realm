@@ -1,19 +1,13 @@
-// create an initial subscription named "subscription name"
-val config = SyncConfiguration.Builder(user, setOf(Toad::class))
-    .initialSubscriptions { realm ->
-        add(
-            realm.query<Toad>(
-                "name == $0",
-                "name value"
-            ),
-            "subscription name"
-        )
-    }
-    .build()
-val realm = Realm.open(config)
-// wait for synchronization to complete before editing subscriptions
-realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
-// remove all subscriptions to type Toad
 realm.subscriptions.update {
-    this.removeAll(Toad::class)
+    add(
+        realm.query<Team>("$0 IN members", "Bob Smith"),
+        "bob_smith_teams")
+}
+
+// Wait for synchronization to complete before updating subscriptions
+realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
+
+// Remove all subscriptions to type Team
+realm.subscriptions.update {
+    removeAll(Team::class)
 }

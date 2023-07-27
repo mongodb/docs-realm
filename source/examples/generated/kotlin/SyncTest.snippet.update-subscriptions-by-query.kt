@@ -1,16 +1,16 @@
+// Search for the subscription by query
 val subscription =
     realm.subscriptions.findByQuery(
-        realm.query<Toad>("name == $0", "name value")
+        realm.query<Team>("teamName == $0", "Developer Education")
     )
+
+// Remove the returned subscription and add the updated query
 if (subscription != null) {
     realm.subscriptions.update {
-        this.remove(subscription)
-        this.add(
-            realm.query<Toad>(
-                "name == $0",
-                "another name value"
-            ),
-            "subscription name"
+        remove(subscription)
+        add(
+            realm.query<Team>("teamName == $0", "DevEd"),
+            "team_developer_education"
         )
     }
 }

@@ -1,9 +1,9 @@
-// make an update to the list of subscriptions
+// Update the list of subscriptions
 realm.subscriptions.update {
-    this.add(
-        realm.query<Toad>("name == $0", "another name value"),
-        "another subscription name"
+    add(
+        realm.query<Team>("$0 IN members", "Jane Doe"),
+        "jane_doe_teams"
     )
 }
-// wait for subscription to fully synchronize changes
+// Wait for subscription to fully synchronize changes
 realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
