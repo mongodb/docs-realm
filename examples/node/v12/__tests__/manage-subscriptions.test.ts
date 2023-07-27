@@ -1,5 +1,6 @@
 import Realm, { SubscriptionSetState, WaitForSync } from "realm";
 import { APP_ID, PBS_APP_ID } from "../config";
+import { SubscriptionOptions } from "realm/dist/bundle";
 
 const Task = {
   name: "Task",
@@ -73,6 +74,45 @@ describe("Managing Sync Subscriptions", () => {
     // :snippet-end:
 
     expect(numberRemovedSubscriptions).toEqual(2);
+    expect(realm.subscriptions.length).toBe(0);
+  });
+
+  test("name a subscription", async () => {
+    const realm = await Realm.open({
+      schema: [Task],
+      sync: {
+        user: app.currentUser!,
+        flexible: true,
+      },
+    });
+
+    expect(realm.isClosed).toBeFalsy();
+
+    // There shouldn't be any active subscriptions.
+    expect(realm.subscriptions.length).toBe(0);
+
+    // TODO: Create JS version
+    // :snippet-start: sub-name
+    const subOptions: SubscriptionOptions = {
+      name: "All completed tasks",
+    };
+    const completedTasks = await realm
+      .objects("Task")
+      .filtered('status == "completed"')
+      .subscribe(subOptions);
+    const completedTasksSubscription = realm.subscriptions.findByName(
+      "All completed tasks"
+    );
+    // :snippet-end:
+
+    console.debug(completedTasks);
+
+    expect(realm.subscriptions.length).toBe(1);
+    expect(completedTasksSubscription).not.toBe(null);
+
+    // Remove unnamed subscriptions.
+    completedTasks.unsubscribe();
+
     expect(realm.subscriptions.length).toBe(0);
   });
 
