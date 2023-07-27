@@ -53,11 +53,16 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.subscriptions.length).toBe(0);
 
     // :snippet-start: sub-basic
-    // Get results and subscribe
-    const tasks = await realm.objects("Task").subscribe();
+    const completedTasks = await realm
+      .objects("Task")
+      .filtered('status == "completed"')
+      .subscribe();
+    const longRunningTasks = await completedTasks
+      .filtered('status == "completed" && progressMinutes > 120')
+      .subscribe();
     // :snippet-end:
 
-    expect(realm.subscriptions.length).toBe(1);
+    expect(realm.subscriptions.length).toBe(2);
 
     // :snippet-start: sub-remove-unnamed
     // Remove unnamed subscriptions.
@@ -67,7 +72,7 @@ describe("Managing Sync Subscriptions", () => {
     });
     // :snippet-end:
 
-    expect(numberRemovedSubscriptions).toEqual(1);
+    expect(numberRemovedSubscriptions).toEqual(2);
     expect(realm.subscriptions.length).toBe(0);
   });
 

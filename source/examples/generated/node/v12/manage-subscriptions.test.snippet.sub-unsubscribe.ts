@@ -1,11 +1,14 @@
 // Get tasks that have a status of "in progress".
-const inProgressTasks = realm
+const completedTasks = realm
   .objects("Task")
-  .filtered("status == 'in progress'");
+  .filtered("status == 'completed'");
 
 // Add a sync subscription. Only waits for sync to finish
 // the first time the subscription is added.
-await inProgressTasks.subscribe({
+await completedTasks.subscribe({
   behavior: WaitForSync.FirstTime,
   name: "First time sync only",
 });
+
+// Unsubscribe
+completedTasks.unsubscribe();
