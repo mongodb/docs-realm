@@ -27,26 +27,6 @@ class Task extends Realm.Object<Task> {
 const app = new Realm.App({ id: APP_ID });
 const inProgressId = new Realm.BSON.ObjectId();
 
-async function writeTestObjects(realm: Realm) {
-  realm.write(() => {
-    realm.create(Task, {
-      _id: new Realm.BSON.ObjectId(),
-      name: "Do the dishes",
-      status: "Complete",
-    });
-    realm.create(Task, {
-      _id: new Realm.BSON.ObjectId(),
-      name: "Vacuum the rug",
-      status: "Complete",
-    });
-    realm.create(Task, {
-      _id: inProgressId,
-      name: "Clean the bathroom",
-      status: "In progress",
-    });
-  });
-}
-
 describe("Managing Sync Subscriptions", () => {
   beforeEach(async () => {
     await app.logIn(Realm.Credentials.anonymous());
@@ -94,7 +74,7 @@ describe("Managing Sync Subscriptions", () => {
     // ...work with the subscribed results list
     // :snippet-end:
 
-    expect(realm.subscriptions.length).toBe(2);
+    expect(realm.subscriptions.length).toBe(1);
 
     // :snippet-start: sub-remove-unnamed
     // Remove unnamed subscriptions.
@@ -104,8 +84,8 @@ describe("Managing Sync Subscriptions", () => {
     });
     // :snippet-end:
 
-    expect(numberRemovedSubscriptions).toEqual(2);
-    expect(realm.subscriptions.length).toBe(0);
+    expect(numberRemovedSubscriptions).toEqual(1);
+    expect(realm.subscriptions.length).toEqual(0);
   });
 
   test("name a subscription", async () => {
@@ -121,7 +101,7 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.isClosed).toBeFalsy();
 
     // There shouldn't be any active subscriptions.
-    expect(realm.subscriptions.length).toBe(0);
+    expect(realm.subscriptions.length).toEqual(0);
 
     // :snippet-start: sub-name
     const subOptions: SubscriptionOptions = {
@@ -138,13 +118,13 @@ describe("Managing Sync Subscriptions", () => {
     // ...work with the subscribed results list or modify the subscription
     // :snippet-end:
 
-    expect(realm.subscriptions.length).toBe(1);
+    expect(realm.subscriptions.length).toEqual(1);
     expect(completedTasksSubscription).not.toBe(null);
 
     // Remove unnamed subscriptions.
     completedTasks.unsubscribe();
 
-    expect(realm.subscriptions.length).toBe(0);
+    expect(realm.subscriptions.length).toEqual(0);
   });
 
   test("add first time only wait for sync query subscription", async () => {
@@ -160,7 +140,7 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.isClosed).toBeFalsy();
 
     // There shouldn't be any active subscriptions.
-    expect(realm.subscriptions.length).toBe(0);
+    expect(realm.subscriptions.length).toEqual(0);
 
     // :snippet-start: sub-unsubscribe
     // :snippet-start: sub-wait-first
@@ -188,14 +168,14 @@ describe("Managing Sync Subscriptions", () => {
 
     expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Pending);
 
-    expect(realm.subscriptions.length).toBe(1);
+    expect(realm.subscriptions.length).toEqual(1);
     // :remove-end:
 
     // Unsubscribe
     completedTasks.unsubscribe();
     // :snippet-end:
 
-    expect(realm.subscriptions.length).toBe(0);
+    expect(realm.subscriptions.length).toEqual(0);
   });
 
   test("add timeout query subscription", async () => {
@@ -211,7 +191,7 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.isClosed).toBeFalsy();
 
     // There shouldn't be any active subscriptions.
-    expect(realm.subscriptions.length).toBe(0);
+    expect(realm.subscriptions.length).toEqual(0);
 
     // :snippet-start: sub-with-timeout
     // Get tasks that have a status of "in progress".
@@ -228,12 +208,12 @@ describe("Managing Sync Subscriptions", () => {
     // :snippet-end:
 
     expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Complete);
-    expect(realm.subscriptions.length).toBe(1);
+    expect(realm.subscriptions.length).toEqual(1);
 
     // Unsubscribe
     taskSubscription.unsubscribe();
 
-    expect(realm.subscriptions.length).toBe(0);
+    expect(realm.subscriptions.length).toEqual(0);
   });
 
   test("open an FS realm with initial subscriptions", async () => {
@@ -262,16 +242,41 @@ describe("Managing Sync Subscriptions", () => {
     const sub = realm.subscriptions.findByName("In progress tasks");
 
     // There should be 1 active subscription from initialSubscriptions.
-    expect(realm.subscriptions.length).toBe(1);
+    expect(realm.subscriptions.length).toEqual(1);
     expect(sub).not.toBeFalsy();
 
-    await writeTestObjects(realm);
+    realm.write(() => {
+      realm.create(Task, {
+        _id: new Realm.BSON.ObjectId(),
+        name: "Do the dishes",
+        status: "Complete",
+      });
+      realm.create(Task, {
+        _id: new Realm.BSON.ObjectId(),
+        name: "Vacuum the rug",
+        status: "Complete",
+      });
+      realm.create(Task, {
+        _id: inProgressId,
+        name: "Clean the bathroom",
+        status: "In progress",
+      });
+    });
 
     const subscribedTasks = realm
       .objects("Task")
       .filtered("status == 'In progress'");
 
-    expect(subscribedTasks.length).toBe(1);
+    expect(subscribedTasks.length).toEqual(1);
     expect(subscribedTasks[0]._id).toEqual(inProgressId);
+
+    // Unsubscribe
+    const unsubFromInitialSub = realm
+      .objects(Task)
+      .filtered("status == 'in progress'")
+      .unsubscribe();
+    subscribedTasks.unsubscribe();
+
+    expect(realm.subscriptions.length).toEqual(0);
   });
 });
