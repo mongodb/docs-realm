@@ -96,11 +96,11 @@ class Geospatial : RealmTest() {
             )
             // :snippet-end:
             // :snippet-start: geobox
-            val box1 = GeoBox.Companion.create(
+            val box1 = GeoBox.create(
                 bottomLeft = GeoPoint.create(47.3, -122.7),
                 topRight = GeoPoint.create(48.1, -122.1)
             )
-            val box2 = GeoBox.Companion.create(
+            val box2 = GeoBox.create(
                 bottomLeft = GeoPoint.create(47.5, -122.4),
                 topRight = GeoPoint.create(47.9, -121.8)
             )
@@ -148,11 +148,6 @@ class Geospatial : RealmTest() {
             )
 
             val polygonWithTwoHoles = GeoPolygon.create(outerRing, hole1, hole2)
-            // :snippet-end:
-
-            // :snippet-start: geopoint-query
-            var geopointQuery =
-                realm.query<Company>("location GEOWITHIN $circle1").find()
             // :snippet-end:
 
             // :snippet-start: geocircle-query

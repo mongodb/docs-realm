@@ -10,35 +10,41 @@ Geospatial Data Types - Kotlin SDK
    :depth: 2
    :class: singlecol
 
+.. versionadded:: v1.11.0
+
 Geospatial data, or "geodata", specifies points and geometric objects on the Earth's 
-surface. With the geodata types, you can create queries that check whether a given  
+surface. 
+
+Kotlin SDK version 1.11.0 and later adds support for experimental geospatial APIs 
+that support querying with geosptial data. These queries can check whether a given  
 point is contained within a shape. For example, you can find all coffee shops within 
 15 km of a specified point.
 
 Geospatial Data Types
 ---------------------
 
-The Kotlin SDK supports the following geospatial data types:
+The Kotlin SDK supports geospatial queries using the following data types:
 
 - GeoPoint
 - GeoCircle
 - GeoBox
 - GeoPolygon
 
+.. note::
+
+   Currently, geospatial data types cannot be persisted. For example, you can't 
+   declare a property that is of type ``GeoBox``. 
+   
+   These types can only be used as arguments for geospatial queries.
+
 .. _kotlin-geopoint:
 
 GeoPoint
 ~~~~~~~~
+
 A `GeoPoint <{+kotlin-local-prefix+}reference/Realms.GeoPoint.html>`__ defines a specific 
 location on the Earth's surface. All of the geospatial data types use ``GeoPoints`` 
 to define their location. 
-
-.. note::
-   
-   In methods that take a ``GeoPoint``, you can alternatively provide a tuple of 
-   doubles, where the first double is the latitude and the second double is the 
-   longitude. The SDK interprets these tuples as ``GeoPoints``. The examples on 
-   this page demonstrate both approaches.
 
 .. _kotlin-geocircle:
 
@@ -53,7 +59,7 @@ object to specify the radius of the circle.
    
    You can define the radius in kilometers, miles, degrees, or radians.
 
-The following code shows two examples of creating a circle:
+The following example creates 2 circles:
 
 .. literalinclude:: /examples/generated/kotlin/Geospatial.snippet.geocircle.kt
    :language: kotlin
@@ -97,8 +103,10 @@ Because a polygon is a closed shape, you must provide a minimum of 4 points:
 
    The fourth point in a polygon *must* be the same as the first point.
 
-You can also exclude areas within a polygon by defining one or more "holes". A 
-hole is another polygon whose bounds fit completely within the outer polygon. 
+You can also exclude areas within a polygon by defining one or more "holes". 
+A hole is another polygon whose bounds fit completely within the outer polygon. 
+Holes can also be nested within each other. A location is considered inside the 
+polygon if it is included in an odd number of rings.
 
 The following example creates 3 polygons: 
 
@@ -170,6 +178,7 @@ The following image shows the results of creating these two ``Company`` objects:
 
 Querying Geospatial Data
 ------------------------
+
 To query against geospatial data, you can use the ``GEOWITHIN`` operator with 
 :ref:`RQL <realm-query-language>`. This method takes the ``coordinates`` 
 property of an embedded object and checks if that point is contained within 
@@ -184,11 +193,6 @@ the geodata region.
 
 Examples
 ~~~~~~~~
-
-The following example shows how to query for geospatial data:
-
-.. literalinclude:: /examples/generated/kotlin/Geospatial.snippet.geopoint-query.kt
-   :language: kotlin
 
 The following examples show querying against various shapes to return a list of 
 companies within the shape:
