@@ -4,7 +4,7 @@ SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
         .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
             @Override
             public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
-                subscriptions.add(Subscription.create("subscriptionName",
+                subscriptions.add(Subscription.create("springPeepers",
                         realm.where(Frog.class)
                             .equalTo("species", "spring peeper")));
             }

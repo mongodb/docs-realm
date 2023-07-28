@@ -111,15 +111,15 @@ public class FlexibleSyncTest extends RealmTest {
                     User user = it.get();
                     // add an initial subscription to the sync configuration
                     // :snippet-start: fs-allow-queries-on-ui-thread
-                    SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
+                    SyncConfiguration config = new SyncConfiguration.Builder(user)
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
                             .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                                 @Override
                                 public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
-                                    subscriptions.add(Subscription.create("subscriptionName",
+                                    subscriptions.add(Subscription.create("springPeepers",
                                             realm.where(Frog.class)
-                                                .equalTo("species", "spring peeper")));
+                                                    .equalTo("species", "spring peeper")));
                                 }
                             })
                             // :remove-start:
@@ -131,9 +131,9 @@ public class FlexibleSyncTest extends RealmTest {
                     Realm.getInstanceAsync(config, new Realm.Callback() {
                         @Override
                         public void onSuccess(Realm realm) {
-                            Log.v( 
-                                "EXAMPLE",
-                                "Successfully opened a realm with reads and writes allowed on the UI thread.");
+                            Log.v(
+                                    "EXAMPLE",
+                                    "Successfully opened a realm with reads and writes allowed on the UI thread.");
                             // :remove-start:
                             realm.close();
                             expectation.fulfill();

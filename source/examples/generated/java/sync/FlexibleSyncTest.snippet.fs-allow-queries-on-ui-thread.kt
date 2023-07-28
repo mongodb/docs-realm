@@ -6,7 +6,7 @@ val config = SyncConfiguration.Builder(app.currentUser())
             Subscription.create(
                 "subscriptionName",
                 realm.where(Frog::class.java)
-                    .equalTo("species", "spring peeper")
+                    .equalTo("species", "springPeepers")
             )
         )
     }

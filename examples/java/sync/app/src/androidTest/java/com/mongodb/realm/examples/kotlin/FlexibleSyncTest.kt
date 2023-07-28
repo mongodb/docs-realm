@@ -128,7 +128,7 @@ class FlexibleSyncTest : RealmTest() {
                         .initialSubscriptions { realm, subscriptions ->
                             subscriptions.add(
                                 Subscription.create(
-                                    "subscriptionName",
+                                    "springPeepers",
                                     realm.where(Frog::class.java)
                                         .equalTo("species", "spring peeper")
                                 )
