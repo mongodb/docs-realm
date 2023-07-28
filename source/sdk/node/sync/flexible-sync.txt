@@ -216,7 +216,7 @@ filtered queries and then subscribe to their results:
 - Completed tasks
 - Completed tasks that have taken over 120 ``progressMinutes``
 
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-queries-to-subscribe-to.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.subscribe-to-queryable-fields.js
    :language: javascript
 
 .. _node-sync-bootstrap-initial-subscriptions:
@@ -266,6 +266,29 @@ You can use subscription state to:
   new instance of the subscription set to write a subscription change
 
 .. include:: /includes/note-sync-state-complete.rst
+
+Update Subscriptions with a New Query
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update a named subscription with a new query. To update a subscriptions
+query, pass the new query and a subscription option with the name of the
+subscription that you want to update to the
+``MutableSubscriptionSet.add()`` method. Like adding a new subscription,
+you must update a subscription within a transaction by calling
+``subscriptions.update()`` method.
+
+In the following example, long-running tasks are re-defined to be any tasks that
+have taken more than 180 minutes. 
+
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.update-subscriptions.js
+    :language: javascript
+
+.. note::
+
+   Attempting to update a subscription that has the
+   ``SubscriptionOptions.throwOnUpdate`` field set to true, throw an exception.
+
+.. _node-remove-subscriptions:
 
 Remove Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
