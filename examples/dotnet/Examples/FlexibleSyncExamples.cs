@@ -96,43 +96,26 @@ namespace Examples
             // :snippet-start: open-fs-realm
             // :replace-start: {
             //  "terms": {
-            //   "Config.FSAppId": "\"myRealmAppId\""}
+            //   "Config.FSAppId": "\"myRealmAppId\"",
+            //   "Credentials.Anonymous(false)": "Credentials.Anonymous()"}
             // }
             var app = App.Create(Config.FSAppId);
-            var user = await app.LogInAsync(Credentials.Anonymous());
+            var user = await app.LogInAsync(Credentials.Anonymous(false));
 
-            var config = new FlexibleSyncConfiguration(app.CurrentUser!);
-            config.Schema = new[]
+            var config = new FlexibleSyncConfiguration(app.CurrentUser!)
             {
-                typeof(MyTask)
+                PopulateInitialSubscriptions = (realm) =>
+                {
+                    var allTasks = realm.All<MyTask>();
+                    realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
+                }
             };
             var realm = Realm.GetInstance(config);
-
-            var subscriptions = realm.Subscriptions;
-
-            subscriptions.Update(() =>
-            {
-                // subscribe to all Task objects, and give the subscription the name 'allTasks'
-                var allTasks = realm.All<MyTask>();
-                subscriptions
-                    .Add(allTasks,
-                        new SubscriptionOptions() { Name = "allTasks" });
-            });
-
-            try
-            {
-                await subscriptions.WaitForSynchronizationAsync();
-            }
-            catch (SubscriptionException ex)
-            {
-                // do something in response to the exception or log it
-                Console.WriteLine($@"The subscription set's state is Error and synchronization is paused:  {ex.Message}");
-            }
             // :replace-end:
             // :snippet-end:
-            subscriptions.Update(() =>
+            realm.Subscriptions.Update(() =>
             {
-                subscriptions.RemoveAll<MyTask>();
+                realm.Subscriptions.RemoveAll<MyTask>();
             });
         }
 
@@ -143,53 +126,38 @@ namespace Examples
             // :replace-start: {
             //  "terms": {
             //   "Config.FSAppId": "\"myRealmAppId\"",
-            //   "realm2":"realm"
+            //   "Credentials.Anonymous(false)": "Credentials.Anonymous()"
             //  }
             // }
             var app = App.Create(Config.FSAppId);
             Realms.Sync.User user;
             FlexibleSyncConfiguration config;
-            Realm realm2;
+            Realm realm;
 
             if (app.CurrentUser == null)
             {
                 // App must be online for user to authenticate
-                user = await app.LogInAsync(Credentials.Anonymous());
+                user = await app.LogInAsync(Credentials.Anonymous(false));
 
                 config = new FlexibleSyncConfiguration(app.CurrentUser!);
-                config.Schema = new[]
-                {
-                    typeof(MyTask)
-                };
-                realm2 = await Realm.GetInstanceAsync(config);
 
-                realm2.Subscriptions.Update(() =>
-                {
-                    // subscribe to all Task objects, and give the subscription the name 'allTasks'
-                    var allTasks = realm2.All<MyTask>();
-                    realm2.Subscriptions
-                        .Add(allTasks,
-                            new SubscriptionOptions() { Name = "allTasks" });
-                });
+                realm = await Realm.GetInstanceAsync(config);
+                // Go on to add or update subscriptions and use the realm
             }
             else 
             {
                 // This works whether online or offline
                 // It requires a user to have been previously authenticated
-                // and assumes you have already added Flexible Sync subscriptions
                 user = app.CurrentUser;
                 config = new FlexibleSyncConfiguration(user);
-                config.Schema = new[]
-                {
-                    typeof(MyTask)
-                };
-                realm2 = Realm.GetInstance(config);
+                realm = Realm.GetInstance(config);
+                // Go on to add or update subscriptions and use the realm
             }
             // :replace-end:
             // :snippet-end:
-            realm2.Subscriptions.Update(() =>
+            realm.Subscriptions.Update(() =>
             {
-                realm2.Subscriptions.RemoveAll<MyTask>();
+                realm.Subscriptions.RemoveAll<MyTask>();
             });
         }
 

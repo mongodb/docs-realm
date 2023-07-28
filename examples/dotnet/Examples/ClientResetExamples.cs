@@ -33,7 +33,7 @@ namespace Examples
         {
             // :remove-start:
             app = App.Create(myRealmAppId);
-            user = await app.LogInAsync(Credentials.Anonymous());
+            user = await app.LogInAsync(Credentials.Anonymous(false));
             // :remove-end:
             var config = new FlexibleSyncConfiguration(user);
             config.ClientResetHandler = new DiscardUnsyncedChangesHandler()
