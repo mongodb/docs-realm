@@ -10,60 +10,18 @@ Set the Client Log Level - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-Realm Kotlin SDK v1.8.0 and Later
-----------------------------------
+.. versionchanged:: 1.8.0 Deprecated in favor of Realm Logger
 
-You can set or change your app's log level to develop or debug your 
-application. You might want to change the log level to log different 
-amounts of data depending on the app's environment.
+.. warning:: 
 
-You can set your app's log level using the global
-`RealmLog <{+kotlin-local-prefix+}io.realm.kotlin.log/-realm-log/index.html>`__
-singleton. You can set the ``RealmLog.level`` property to an entry in the
-`LogLevel <{+kotlin-local-prefix+}io.realm.kotlin.log/-log-level/index.html>`__ 
-enum to specify the level of data you want to receive. If the log level 
-priority is equal to or higher than the priority defined in ``RealmLog.level``,
-Realm logs the event.
+   This page shows how to set a Sync client log level in Realm Kotlin SDK
+   versions 1.7.1 and earlier. Realm Kotlin SDK v1.8.0 supersedes this 
+   logging implementation with a Realm logger you can set and configure. 
+   For information on how to set a Realm logger in a later 
+   version, refer to :ref:`kotlin-logging`.
 
-Unlike the pre-1.8.0 logging APIs, you can change the log level at any point
-during the app's lifecycle from this global singleton.
-
-.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.set-log-level-realmlog.kt
-   :language: kotlin
-
-By default, all logs go to a default system logger that varies by system:
-
-- Android logs to Logcat.
-- JVM logs to stdout.
-- MacOS logs to NSLog.
-- iOS logs to NSLog.
-
-.. include:: /includes/tip-sync-log-levels.rst
-
-Set a Custom Logger
-~~~~~~~~~~~~~~~~~~~
-
-You can create a custom logger that implements the
-`RealmLogger <{+kotlin-local-prefix+}io.realm.kotlin.log/-realm-logger/index.html>`__
-interface. You might want to customize logging to add specific tags or set
-specific log levels during development, testing, or debugging.
-
-.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.define-custom-logger.kt
-   :language: kotlin
-
-Then, you can initialize your custom logger and call the
-`RealmLog.add() <{+kotlin-local-prefix+}io.realm.kotlin.log/-realm-log/add.html>`__
-function to set it as a logger for your app.
-
-You can also remove a specific logger, or remove all loggers, including the system logger.
-
-.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.set-custom-realmlog-logger.kt
-   :language: kotlin
-
-Realm Kotlin SDK v1.7.1 and Earlier
-------------------------------------
-
-These APIs and their associated types are deprecated in version 1.8.0.
+Set the Sync Log Level
+----------------------
 
 You can set the Device Sync client log level on the 
 `SyncConfiguration <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__
