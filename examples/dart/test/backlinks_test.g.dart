@@ -88,8 +88,13 @@ class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
   set isComplete(bool value) => RealmObjectBase.set(this, 'isComplete', value);
 
   @override
-  RealmResults<User> get linkedUser =>
-      RealmObjectBase.get<User>(this, 'linkedUser') as RealmResults<User>;
+  RealmResults<User> get linkedUser {
+    if (!isManaged) {
+      throw RealmError('Using backlinks is only possible for managed objects.');
+    }
+    return RealmObjectBase.get<User>(this, 'linkedUser') as RealmResults<User>;
+  }
+
   @override
   set linkedUser(covariant RealmResults<User> value) =>
       throw RealmUnsupportedSetError();

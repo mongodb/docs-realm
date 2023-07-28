@@ -1,11 +1,102 @@
+# July 21, 2023
+
+## Flutter SDK
+
+- Realm Database/Model Data/Relationships: Update `graphql` dependency and clarify how backlinks work with unmanaged objects
+- Realm Database/Manage Realm Files/Encrypt a Realm: Note that the Flutter SDK supports multi-process encrypted realm access
+
+## Java SDK
+
+- Realm Files/Encrypt a Realm: Note that the Java SDK supports multi-process encrypted realm access
+
+## Kotlin SDK
+
+- Realm/Read & Write Data/Read: Parametrize RQL queries
+- Sync Device Data/Write to a Synced Realm: Add information on how to write data to a synced realm and on `compensatingWriteError`
+- Internal: Update prefix URLs for `kotlin-sync-prefix` and `kotlin-local-prefix`
+
+## .NET SDK 
+-  Add that the .NET SDK is compatible with Avalonia on the following pages:
+  - Landing Page
+  - Install Realm
+  - Model Data/Data Binding
+
+## Node.js SDK
+
+- CRUD/Read: Parametrize RQL queries
+- CRUD/ Query Data: Parametrize RQL queries
+- Internal: Fix Node.js bluehawking script for the updated test suite 
+
+# React Native SDK
+- Remove angle brackets from provider references throughout the SDK pages to prevent confusion with placeholder variables
+
+## Swift SDK
+
+- For the following pages, add section on supported operating systems, to highlight that the Swift SDK does not support connecting to an App Services App from watchOS:
+  - Application Services
+  - Application Services/Connect to an App Services App
+  - Sync Data
+- SwiftUI/Model Data/Configure and Open a Realm: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync 
+- SwiftUI/Model Data/Pass Realm Data Between Views: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync
+- Sync Data: Remove Partition-Based Sync (PBS) content, link out to new PBS page
+- Sync Data/Partition-Based Sync: New page with Configure/Open content, Progress Notifications (which only work on PBS), and migration information
+- Sync Data/Configure & Open a Synced Realm: Remove PBS-only examples
+- Sync Data/Write to a Synced Realm:  Moved "Group Writes" information from "Sync Data between Devices" page to this page 
+- Remove "Legacy Realm Open" page
+
+# July 14, 2023
+
+## C++ SDK
+
+- Model Data/Supported Data Types/Map: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+- CRUD/Create/Create an Object with a Map Property: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+
+## Flutter SDK
+
+- Install Realm: Bump the minimum Flutter requirement from 3.0.3 to 3.10.2, minimum Dart version from 2.17.5 to 3.0.2
+- Internal: Update environment dependencies in test suite
+
+## Kotlin SDK
+
+- Realm
+  - Model Data/Data Types/RealmDictionary/RealmMap: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+  - Read & Write Data/Create/Create an Object with a Dictionary Property: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+
+## .NET SDK
+
+- Model Data/Supported Data Types/Dictionaries: Note that Realm disallows the use of `.` or `$` in map keys
+
+## Node.js SDK
+
+- Model Data/Data Types/Dictionaries: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+- Internal: Move the existing Node.js test suite to a `legacy` directory, prepare a new test suite for v12
+
+## React Native SDK
+
+- Model Data/Data Types/Dictionaries: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+
+## Swift SDK
+
+- Model Data/Supported Data Types/Map/Dictionary: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+- CRUD/Create/Create an Object with a Map Property: Note that Realm disallows the use of `.` or `$` in map keys, add example showing percent encoding as a workaround
+- SwiftUI/Configure & Open a Realm: Fix an `@AutoOpen` example that should have been `@AsyncOpen` to match page copy
+
+## Web SDK
+
+- API Reference: Typo fix
+
+## Other
+
+- Realm Query Language: Correction: When using `SORT`, order is required, not optional
+
 # July 3, 2023
 
 ## .NET SDK
 
-- Quick Start: Update code examples to use a consistent `Item` object model 
+- Quick Start: Update code examples to use a consistent `Item` object model
 - CRUD
-  - Create Data:  Update code examples to use a consistent `Item` object model
-  - Query, Filter, and Sort Data: Parameterize RQL code examples 
+  - Create Data: Update code examples to use a consistent `Item` object model
+  - Query, Filter, and Sort Data: Parameterize RQL code examples
 
 # June 30, 2023
 

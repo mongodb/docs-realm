@@ -78,7 +78,7 @@ for it to stop attempting to sync matching data.
 Access Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
 
-Within a ``<RealmProvider>`` that's configured for Flexible Sync, you can access
+Within a ``RealmProvider`` that's configured for Flexible Sync, you can access
 a collection of all subscriptions for your app. This is called a 
 :js-sdk:`SubscriptionSet <Realm.html#subscriptions>`.
 
@@ -144,7 +144,7 @@ Flexible Sync realm. Initial subscriptions let you define subscriptions when you
 :ref:`configure a synced realm <react-native-open-a-synced-realm>`.
 
 To open a synced realm with initial subscriptions, add an  ``initialSubscriptions`` 
-property to ``<RealmProvider>``'s 
+property to ``RealmProvider``'s 
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
 
 You **cannot** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``

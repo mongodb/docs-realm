@@ -1,3 +1,5 @@
+.. _ios-realm-sync:
+
 =====================================
 Sync Data Between Devices - Swift SDK
 =====================================
@@ -11,12 +13,12 @@ Sync Data Between Devices - Swift SDK
    Write to a Synced Realm </sdk/swift/sync/write-to-synced-realm>
    Handle Sync Errors </sdk/swift/sync/handle-sync-errors>
    Sync Data in the Background </sdk/swift/sync/background-sync>
-   Suspend or Resume a Sync Session </sdk/swift/sync/sync-session>
-   Check Upload & Download Progress </sdk/swift/sync/sync-progress>
+   Manage Sync Sessions </sdk/swift/sync/sync-session>
    Check the Network Connection </sdk/swift/sync/network-connection>
    Set the Client Log Level </sdk/swift/sync/log-level>
    Record Realm Events </sdk/swift/sync/event-library>
    Stream Data to Atlas </sdk/swift/sync/stream-data-to-atlas>
+   Partition-Based Sync </sdk/swift/sync/partition-based-sync>
 
 .. contents:: On this page
    :local:
@@ -24,25 +26,10 @@ Sync Data Between Devices - Swift SDK
    :depth: 2
    :class: singlecol
 
-.. _ios-realm-sync:
-
-Sync Data
----------
-
 Atlas Device Sync automatically synchronizes data between client applications and 
 an :ref:`App Services backend <realm-cloud>`. When a client 
 device is online, Sync asynchronously synchronizes data in a 
 background thread between the device and your backend App. 
-
-When you use Sync in your client application, your implementation must match 
-the Sync Mode you select in your backend App configuration. The Sync Mode
-options are:
-
-- Flexible Sync
-- Partition-Based Sync
-
-You can only use one Sync Mode for your application. You cannot mix 
-Partition-Based Sync and Flexible Sync within the same App.
 
 .. seealso::
 
@@ -51,7 +38,7 @@ Partition-Based Sync and Flexible Sync within the same App.
 .. _ios-flexible-sync-fundamentals:
 
 Flexible Sync
-~~~~~~~~~~~~~
+-------------
 
 .. versionadded:: 10.22.0
 
@@ -80,21 +67,27 @@ To use Flexible Sync in your client application, open a synced realm
 with a Flexible Sync configuration. Then, manage subscriptions
 to determine which documents to sync.
 
-.. _ios-partition-based-sync-fundamentals:
+.. tip::
 
-Partition-Based Sync
-~~~~~~~~~~~~~~~~~~~~
+   Device Sync supports two Sync Modes: Flexible Sync, and the older 
+   Partition-Based Sync. If your App Services backend uses Partition-Based 
+   Sync, refer to :ref:`swift-partition-based-sync`.
 
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend App configuration, your client implementation must include a 
-partition value. This is the value of the :ref:`partition key 
-<partition-key>` field you select when you configure Partition-Based Sync. 
+   We recommend new apps use Flexible Sync.
 
-The partition value determines which data the client application can access.
+Sync Connection and Timeout Behaviors
+-------------------------------------
 
-You pass in the partition value when you open a synced realm.
+In Realm Swift SDK version 10.41.0 and later, you can specify:
 
-Group Updates for Improved Performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Sync timeout behaviors 
+- Whether opening more than one synced realm opens more than one 
+  connection to the server
 
-.. include:: /includes/sync-memory-performance.rst
+You can specify these settings on the :ref:`App client configuration 
+<ios-init-appclient>`.
+
+Supported Operating Systems
+---------------------------
+
+.. include:: /includes/swift-supported-operating-systems.rst

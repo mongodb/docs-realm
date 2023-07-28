@@ -16,8 +16,9 @@ Overview
 
 The App client is the interface to the App Services backend. It
 provides access to the :ref:`authentication functionality
-<ios-authenticate-users>`, :ref:`functions <ios-call-a-function>`, and
-:ref:`sync management <ios-sync-changes-between-devices>`.
+<ios-authenticate-users>`, :ref:`functions <ios-call-a-function>`, 
+:ref:`querying a MongoDB Atlas data source <ios-mongodb-data-access>`, 
+and :ref:`Device Sync <ios-sync-changes-between-devices>`.
 
 .. _ios-access-the-app-client:
 
@@ -39,3 +40,40 @@ You can pass a configuration object to ``App``:
 
 .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.realm-app-config.swift
    :language: swift
+
+Sync Connection Sharing
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.41.0
+
+You can set the ``enableSessionMultiplexing`` bool on the 
+:swift-sdk:`AppConfiguration <Extensions/AppConfiguration.html>` to specify
+whether the Realm Swift SDK should open a connection to the server for each 
+synced realm, or share a connection to the server for all synced realms.
+
+If you do not specify a value for this bool, Realm defaults to sharing a 
+single connection per App Services user for all synced realms.
+
+.. literalinclude:: /examples/generated/code/start/RealmApp.snippet.app-config-enable-session-multiplexing.swift
+   :language: swift
+
+Sync Timeout Options
+~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.41.0
+
+You can set various sync timeout options on the 
+:swift-sdk:`AppConfiguration <Extensions/AppConfiguration.html>`. The 
+``syncTimeouts`` property can accept a ``SyncTimeoutOptions`` object to
+override default values for these settings.
+
+For a complete list of the available timeout settings and their definitions, 
+refer to :objc-sdk:`RLMSyncTimeoutOptions <Classes/RLMSyncTimeoutOptions.html>`.
+
+.. literalinclude:: /examples/generated/code/start/RealmApp.snippet.app-config-sync-timeout.swift
+   :language: swift
+
+Supported Operating Systems
+---------------------------
+
+.. include:: /includes/swift-supported-operating-systems.rst

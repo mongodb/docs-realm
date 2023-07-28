@@ -93,8 +93,8 @@ to set up context and providers from ``@realm/react``. To learn more, refer to
 #. Create a realm context with ``createRealmContext()``. A realm context is a 
    `React Context object <https://reactjs.org/docs/context.html>`__ that contains
    React providers and hooks for working with your realm.
-#. Expose a realm with ``<RealmProvider>``. To expose a realm, you need a 
-   realm context. From that context, extract ``<RealmProvider>``, which 
+#. Expose a realm with ``RealmProvider``. To expose a realm, you need a 
+   realm context. From that context, extract ``RealmProvider``, which 
    contains your realm's context.
 
 .. tabs-realm-languages::
@@ -118,7 +118,7 @@ After you have a data model and a configured realm, you can create, read, update
 delete Realm objects.
 
 You must nest any components that perform these operations inside of a 
-``<RealmProvider>``. The ``useRealm()``, ``useQuery()``, and ``useObject()`` hooks 
+``RealmProvider``. The ``useRealm()``, ``useQuery()``, and ``useObject()`` hooks 
 enable you to perform read and write operations in your realm.
 
 
@@ -278,13 +278,13 @@ Configure and Access a Synced Realm
 
 To configure and access a synced realm:
 
-#. Initialize the App using ``<AppProvider>``
-#. Authenticate a User with ``<UserProvider>``
-#. Configure a Synced Realm with ``<RealmProvider>``
+#. Initialize the App using ``AppProvider``
+#. Authenticate a User with ``UserProvider``
+#. Configure a Synced Realm with ``RealmProvider``
 
 To learn more, refer to :ref:`Configure a Synced Realm <react-native-synced-realm>`.
 
-Initialize the App using <AppProvider>
+Initialize the App using AppProvider
 ``````````````````````````````````````
 
 To use App Services features, such as authentication and Device Sync, you must 
@@ -295,16 +295,16 @@ first access your App Services App using your App ID. You can
   :language: javascript
   :emphasize-lines: 6-8
 
-Authenticate a User with <UserProvider>
+Authenticate a User with UserProvider
 ```````````````````````````````````````
 
-Use the ``<UserProvider>`` to handle sections of your app that need an authenticated user.
+Use the ``UserProvider`` to handle sections of your app that need an authenticated user.
 
-To authenticate and log in a user, provide a ``fallback`` prop for ``<UserProvider>``. 
+To authenticate and log in a user, provide a ``fallback`` prop for ``UserProvider``. 
 This could be a log in screen component or a simple function that calls 
 :js-sdk:`App.logIn() <Realm.App.html#logIn>`. 
 
-Users can only access the parts of your app nested within ``<UserProvider>``
+Users can only access the parts of your app nested within ``UserProvider``
 after they have authenticated. If there's no authenticated user,
 the ``fallback`` component renders and nested components do not.
 
@@ -312,13 +312,13 @@ the ``fallback`` component renders and nested components do not.
   :language: javascript
   :emphasize-lines: 8-10
 
-Configure a Synced Realm with <RealmProvider>
+Configure a Synced Realm with RealmProvider
 `````````````````````````````````````````````
 
 After you have initialized your App, authenticated a user, and defined your
 object model, you can configure a synced realm. This is similar to configuring
 a local realm. However, you need to add some additional props to the
-``<RealmProvider>``.
+``RealmProvider``.
 
 #. Create the realm's :js-sdk:`Configuration <Realm.html#~Configuration>` object.
    The Configuration object defines the parameters of a realm and identifies it.
@@ -327,16 +327,16 @@ a local realm. However, you need to add some additional props to the
 #. Create a realm context with ``createRealmContext()``. A realm context is a 
    `React Context object <https://reactjs.org/docs/context.html>`__ that contains
    app-wide access to your realm.
-#. Extract the ``<RealmProvider>`` from the realm context, and then expose it
+#. Extract the ``RealmProvider`` from the realm context, and then expose it
    to your app.
-#. Add the ``sync`` property to ``<RealmProvider>`` and pass it a
+#. Add the ``sync`` property to ``RealmProvider`` and pass it a
    :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
    This sync object must contain ``flexible: true``.
 
 You need at least one sync subscription before you can read or write synced data.
 You can add subscriptions in your components or set up 
 :ref:`initial subscriptions <react-native-sync-bootstrap-initial-subscriptions>` on
-``<RealmProvider>``.
+``RealmProvider``.
 
 .. tabs-realm-languages::
 
