@@ -14,6 +14,7 @@ Device Sync - Kotlin SDK
    Handle Sync Errors </sdk/kotlin/sync/handle-sync-errors>
    Set the Client Log Level </sdk/kotlin/sync/log-level>
    Stream Data to Atlas </sdk/kotlin/sync/stream-data-to-atlas>
+   Partition-Based Sync </sdk/kotlin/sync/partition-based-sync>
 
 .. contents:: On this page
    :local:
@@ -27,22 +28,6 @@ Atlas Device Sync automatically synchronizes data between client applications an
 an :ref:`Atlas App Services backend <realm-cloud>`. When a client
 device is online, Sync asynchronously synchronizes data in a
 background thread between the device and your backend App.
-
-When you use Sync in your client application, your implementation must match
-the :ref:`Sync Mode <sync-modes>` you select in your backend App configuration.
-The Sync Mode options are:
-
-- Flexible Sync (recommended): lets you define a query in the client and sync only the
-  objects that match the query.
-- Partition-Based Sync: documents in a synced cluster form a "partition" by
-  having the same value for a field designated as "partition key". All documents
-  in a partition have the same read/write permissions for a given user.
-
-You can only use one Sync Mode for your application.
-
-.. seealso::
-
-   :ref:`enable-realm-sync`
 
 .. _kotlin-flexible-sync-fundamentals:
 
@@ -74,21 +59,10 @@ To use Flexible Sync in your client application, open a synced realm
 with an initial set of subscriptions to determine which documents to
 sync.
 
-Group Updates for Improved Performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. tip::
 
-.. include:: /includes/sync-memory-performance.rst
+   Device Sync supports two Sync Modes: Flexible Sync, and the older 
+   Partition-Based Sync. If your App Services backend uses Partition-Based 
+   Sync, refer to :ref:`kotlin-partition-based-sync`.
 
-.. _kotlin-partition-based-sync-fundamentals:
-
-Partition-Based Sync
---------------------
-
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your
-backend App configuration, your client implementation must include a
-partition value. This is the value of the :ref:`partition key
-<partition-key>` field you select when you configure Partition-Based Sync.
-
-The partition value determines which data the client application can access.
-
-You must provide a partition value when you open a synced realm.
+   We recommend new apps use Flexible Sync.

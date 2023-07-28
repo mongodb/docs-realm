@@ -27,16 +27,6 @@ an :ref:`Atlas App Services backend <realm-cloud>`. When a client
 device is online, Sync asynchronously synchronizes data in a 
 background thread between the device and your backend App. 
 
-When you use Sync in your client application, your implementation must match 
-the Sync Mode you select in your backend App configuration. The Sync Mode
-options are:
-
-- Flexible Sync
-- Partition-Based Sync
-
-You can only use one Sync Mode for your application. You cannot mix 
-Partition-Based Sync and Flexible Sync within the same App.
-
 .. seealso::
 
    :ref:`enable-realm-sync`
@@ -81,20 +71,10 @@ Group Updates for Improved Performance
 
 .. include:: /includes/sync-memory-performance.rst
 
-.. _react-native-partition-based-sync-fundamentals:
+.. tip::
 
-Partition-Based Sync
---------------------
+   Device Sync supports two Sync Modes: Flexible Sync, and the older 
+   Partition-Based Sync. If your App Services backend uses Partition-Based 
+   Sync, refer to :ref:`react-native-partition-realms`.
 
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend App configuration, your client implementation must include a 
-partition value. This is the value of the :ref:`partition key 
-<partition-key>` field you select when you configure Partition-Based Sync. 
-
-The partition value determines which data the client application can access.
-
-You pass in the partition value when you open a synced realm.
-
-.. seealso::
-
-   - Learn how to configure and open a realm using :ref:`Partition-Based Sync <react-native-partition-sync-open-realm>`.
+   We recommend new apps use Flexible Sync.
