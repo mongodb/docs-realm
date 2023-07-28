@@ -1,15 +1,7 @@
-import Realm, { SubscriptionSetState, WaitForSync } from "realm";
-import { APP_ID } from "../config";
-import { SubscriptionOptions } from "realm/dist/bundle";
+import Realm from "realm";
+import { APP_ID } from "../config.ts";
 
-class Task extends Realm.Object<Task> {
-  _id!: Realm.BSON.ObjectId;
-  name!: String;
-  status?: String;
-  progressMinutes?: Number;
-  owner?: String;
-  dueDate?: Date;
-
+class Task extends Realm.Object {
   static schema = {
     name: "Task",
     properties: {
@@ -31,10 +23,10 @@ describe("Managing Sync Subscriptions", () => {
   beforeEach(async () => {
     await app.logIn(Realm.Credentials.anonymous());
 
-    const config: Realm.Configuration = {
+    const config = {
       schema: [Task],
       sync: {
-        user: app.currentUser!,
+        user: app.currentUser,
         flexible: true,
       },
     };
@@ -52,10 +44,10 @@ describe("Managing Sync Subscriptions", () => {
 
   test("add basic query subscription", async () => {
     // :snippet-start: sub-basic
-    const config: Realm.Configuration = {
+    const config = {
       schema: [Task],
       sync: {
-        user: app.currentUser!,
+        user: app.currentUser,
         flexible: true,
       },
     };
@@ -89,10 +81,10 @@ describe("Managing Sync Subscriptions", () => {
   });
 
   test("name a subscription", async () => {
-    const config: Realm.Configuration = {
+    const config = {
       schema: [Task],
       sync: {
-        user: app.currentUser!,
+        user: app.currentUser,
         flexible: true,
       },
     };
@@ -104,7 +96,7 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.subscriptions.length).toEqual(0);
 
     // :snippet-start: sub-name
-    const subOptions: SubscriptionOptions = {
+    const subOptions = {
       name: "All completed tasks",
     };
     const completedTasks = await realm
@@ -127,101 +119,12 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.subscriptions.length).toEqual(0);
   });
 
-  test("add first time only wait for sync query subscription", async () => {
-    const config: Realm.Configuration = {
-      schema: [Task],
-      sync: {
-        user: app.currentUser!,
-        flexible: true,
-      },
-    };
-    const realm = await Realm.open(config);
-
-    expect(realm.isClosed).toBeFalsy();
-
-    // There shouldn't be any active subscriptions.
-    expect(realm.subscriptions.length).toEqual(0);
-
-    // :snippet-start: sub-unsubscribe
-    // :snippet-start: sub-wait-first
-    // Get tasks that have a status of "in progress".
-    const completedTasks = realm
-      .objects(Task)
-      .filtered("status == 'completed'");
-
-    // Add a sync subscription. Only waits for sync to finish
-    // the first time the subscription is added.
-    await completedTasks.subscribe({
-      behavior: WaitForSync.FirstTime,
-      name: "First time sync only",
-    });
-    // :snippet-end:
-    // :remove-start:
-    expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Complete);
-
-    // Add subscription a second time. Does note wait for
-    // sync to finish.
-    await completedTasks.subscribe({
-      behavior: WaitForSync.FirstTime,
-      name: "First time sync only",
-    });
-
-    expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Pending);
-
-    expect(realm.subscriptions.length).toEqual(1);
-    // :remove-end:
-
-    // Unsubscribe
-    completedTasks.unsubscribe();
-    // :snippet-end:
-
-    expect(realm.subscriptions.length).toEqual(0);
-  });
-
-  test("add timeout query subscription", async () => {
-    const config: Realm.Configuration = {
-      schema: [Task],
-      sync: {
-        user: app.currentUser!,
-        flexible: true,
-      },
-    };
-    const realm = await Realm.open(config);
-
-    expect(realm.isClosed).toBeFalsy();
-
-    // There shouldn't be any active subscriptions.
-    expect(realm.subscriptions.length).toEqual(0);
-
-    // :snippet-start: sub-with-timeout
-    // Get tasks that have a status of "in progress".
-    const completedTasks = realm
-      .objects(Task)
-      .filtered("status == 'completed'");
-
-    // Add subscription with timeout
-    // If timeout is not long enough, will not wait for sync.
-    const taskSubscription = await completedTasks.subscribe({
-      behavior: WaitForSync.Always,
-      timeout: 500,
-    });
-    // :snippet-end:
-
-    expect(realm.subscriptions.state).toEqual(SubscriptionSetState.Complete);
-    expect(realm.subscriptions.length).toEqual(1);
-
-    // Unsubscribe
-    taskSubscription.unsubscribe();
-
-    expect(realm.subscriptions.length).toEqual(0);
-  });
-
   test("open an FS realm with initial subscriptions", async () => {
     // :snippet-start: set-initial-subscriptions
-    const config: Realm.Configuration = {
+    const config = {
       schema: [Task],
       sync: {
-        user: app.currentUser!,
+        user: app.currentUser,
         flexible: true,
         initialSubscriptions: {
           update: (subs, realm) => {

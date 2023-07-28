@@ -68,8 +68,19 @@ synced realm and query for the objects you want to read and write. You can
 ``.subscribe()`` to that query to create a sync subscription for objects
 matching the query:
 
-.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.ts
-   :language: typescript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.js
+        :language: javascript
 
 This creates an unnamed subscription and adds it to ``MutableSubscriptionSet``,
 similar to :ref:`manually creating a subscription <node-sync-subscribe-to-queryable-fields>`.
@@ -87,8 +98,19 @@ is set to :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`.
 If you subscribe to the same query more than once under different names, Realm
 persists both subscriptions to the subscription set.
 
-.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.ts
-   :language: typescript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.js
+        :language: javascript
 
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -210,8 +232,19 @@ your realm's :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>
 Within the ``initialSubscriptions`` object, add an ``update``
 field set to a callback that subscribes to queries:
 
-.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.set-initial-subscriptions.ts
-   :language: typescript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.set-initial-subscriptions.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.set-initial-subscriptions.js
+         :language: javascript
 
 You can set ``rerunOnOpen`` to ``true`` to create the subscription every time
 your realm is opened.
@@ -310,8 +343,19 @@ generated, but leave named subscriptions in place.
 You can remove all unnamed subscriptions from the subscription set by 
 calling ``.removeUnnamed()`` on ``mutableSubs``:
 
-.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.ts
-   :language: typescript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.js
+         :language: javascript
 
 Remove All Subscriptions
 ````````````````````````
