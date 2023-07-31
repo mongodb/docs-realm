@@ -63,11 +63,6 @@ To use Flexible Sync in your client application, open a synced realm
 with a flexible sync configuration. Then, manage subscriptions
 to determine which documents to sync.
 
-Group Updates for Improved Performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: /includes/sync-memory-performance.rst
-
 .. _java-sync-data:
 
 Sync Data
@@ -86,3 +81,8 @@ local data, a background thread efficiently integrates, uploads, and downloads c
    could appear to hang as it waits for the background sync thread to finish a write
    transaction. Therefore, it's a best practice :ref:`never to write on the main thread
    when using Sync <java-threading-three-rules>`.
+
+Group Updates for Improved Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/sync-memory-performance.rst
