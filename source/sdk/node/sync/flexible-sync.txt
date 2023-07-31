@@ -364,7 +364,8 @@ You may want to remove unnamed subscriptions that are transient or dynamically
 generated, but leave named subscriptions in place.
 
 You can remove all unnamed subscriptions from the subscription set by 
-calling ``.removeUnnamed()`` on ``mutableSubs``:
+calling ``.removeUnnamed()`` on ``mutableSubs``. ``.removeUnnamed()`` returns
+the number of unnamed subscriptions removed.
 
 .. tabs-realm-languages::
 

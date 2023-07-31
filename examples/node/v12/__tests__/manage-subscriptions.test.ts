@@ -149,8 +149,7 @@ describe("Managing Sync Subscriptions", () => {
       .objects(Task)
       .filtered("status == 'completed'");
 
-    // Add a sync subscription. Only waits for sync to finish
-    // the first time the subscription is added.
+    // Only waits for sync to finish on the initial sync.
     await completedTasks.subscribe({
       behavior: WaitForSync.FirstTime,
       name: "First time sync only",
@@ -200,7 +199,8 @@ describe("Managing Sync Subscriptions", () => {
       .filtered("status == 'completed'");
 
     // Add subscription with timeout
-    // If timeout is not long enough, will not wait for sync.
+    // If timeout expires before sync is completed, currently-downloaded
+    // objects are returned and sync download continues in the background.
     const taskSubscription = await completedTasks.subscribe({
       behavior: WaitForSync.Always,
       timeout: 500,
