@@ -1,3 +1,59 @@
+# July 28, 2023
+
+## C++ SDK
+
+- Install Realm: Add Windows install requirements
+
+## Kotlin SDK
+
+- Realm/Model Data/Define an Object Model: New "Unsupported Kotlin Language Features" section with info about Kotlin SDK limitations around Data Classes, Inheritance, and using a single primary constructor
+- Sync Device Data
+  - Landing page: Remove Partition-Based Sync content, link out to new Partition-Based Sync page
+  - Open a Synced Realm
+    - Add a link to the "Manage Sync Subscriptions" page
+    - Remove Partition-Based-Sync-only examples
+  - Manage Subscriptions: Major rewrites for the new `.subscribe()` API, including new tested Bluehawked code examples
+  - Write Data to a Synced Realm: Move the section about grouping writes to improve Sync performance from the landing page to this more relevant page
+  - Set the Client Log Level
+    - Typo fix
+    - Note this as deprecated in v1.8.0 and newer as it is superseded by the global `RealmLog` singleton
+  - Partition-Based Sync: New page with moved info from the Sync landing page, moved Configure/Open content, a section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+- Logging: New page breaking out the v1.8.0 logging info from the Sync/Set the Client Log Level page
+
+## .NET SDK
+
+- Stream Data to Atlas: Update code example to use `IAsymmetricObject`
+
+## Node.js SDK
+
+- Sync Data
+  - Landing Page: Remove Partition-Based Sync info, add tip recommending Flexible Sync and linking out to Partition-Based Sync page for older apps
+  - Partition-Based Sync: Moved info from the Sync landing page, add a section about updating client code after migrating from Partition-Based Sync to Flexible Sync 
+- Minor updates to the Node.js docs code example test suite for v12
+
+## React Native SDK
+
+- Model Data/Define an Object Model: New "Define an Asymmetric Object" section with a tested Bluehawked code example for defining an asymmetric object
+- CRUD/Read: Parameterize RQL queries
+- Sync Data
+  - Landing Page: Remove Partition-Based Sync info, add tip recommending Flexible Sync and linking out to Partition-Based Sync page for older apps
+  - Partition-Based Sync: Moved info from the Sync landing page, add a section about updating client code after migrating from Partition-Based Sync to Flexible Sync 
+  - Stream Data to Atlas: Expand the page from a code example to a procedure similar to other SDKs
+
+## Swift SDK
+
+- Application Services/Connect to an App Services App: Add sections with Bluehawked code examples for "Sync Connection Sharing" and "Sync Timeout Options"
+- Sync Data
+  - Landing page: New "Sync Connection and Timeout Behaviors" section with link to App Services/Connect details for configuring these settings
+  - Manage Sync Sessions: New "Sync Connection Behavior" section with link to App Services/Connect details for Sync Connection Sharing
+  - Stream Data to Atlas: Clarify details about local realm incompatibility with `AsymmetricObject`
+
+## Internal
+
+- Add a GitHub Action to check for broken links in the docs
+- Add a GitHub Action to check for broken redirects
+- Fix broken links caught by the link checker GitHub Action
+
 # July 21, 2023
 
 ## Flutter SDK
