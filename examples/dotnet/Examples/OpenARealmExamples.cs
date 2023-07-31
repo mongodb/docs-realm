@@ -44,7 +44,7 @@ namespace Examples
                 //realm = await Realm.GetInstanceAsync(config);
                 // :uncomment-end:
             }
-            catch (RealmFileAccessErrorException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($@"Error creating or opening the
                     realm file. {ex.Message}");
@@ -58,7 +58,7 @@ namespace Examples
 
             // :snippet-start: open-synced-realm-synchronously
             // :uncomment-start:
-            // var synchronousRealm = await Realm.GetInstanceAsync(config);
+            // var synchronousRealm = await Realm.GetInstance(config);
             // :uncomment-end:
             // :snippet-end:
 

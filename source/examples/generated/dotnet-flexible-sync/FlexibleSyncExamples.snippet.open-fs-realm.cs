@@ -9,4 +9,4 @@ var config = new FlexibleSyncConfiguration(app.CurrentUser!)
         realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
     }
 };
-var realm = Realm.GetInstance(config);
+var realm = await Realm.GetInstanceAsync(config);

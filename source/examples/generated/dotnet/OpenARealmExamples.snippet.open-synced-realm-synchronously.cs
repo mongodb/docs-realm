@@ -1,1 +1,1 @@
-var synchronousRealm = await Realm.GetInstanceAsync(config);
+var synchronousRealm = await Realm.GetInstance(config);

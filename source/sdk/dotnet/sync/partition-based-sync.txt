@@ -33,7 +33,6 @@ partition value. This is the value of the :ref:`partition key
 <partition-key>` field you select when you configure Partition-Based Sync. 
 
 The partition value determines which data the client application can access.
-
 You pass in the partition value when you open a synced realm.
 
 .. _dotnet-partition-sync-open-realm:
@@ -47,7 +46,7 @@ The steps for opening a synced realm while online are:
 
 #. Create a 
    :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
-   object that includes the :ref:`partition name <partition-value>` and 
+   object that includes the :ref:`partition value <partition-value>` and 
    the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.
 
 #. Open a synced realm by calling the 

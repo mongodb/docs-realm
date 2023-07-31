@@ -110,13 +110,9 @@ namespace Examples
                     realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
                 }
             };
-            var realm = Realm.GetInstance(config);
+            var realm = Realm.GetInstanceAsync(config);
             // :replace-end:
             // :snippet-end:
-            realm.Subscriptions.Update(() =>
-            {
-                realm.Subscriptions.RemoveAll<MyTask>();
-            });
         }
 
         [Test]
@@ -138,9 +134,7 @@ namespace Examples
             {
                 // App must be online for user to authenticate
                 user = await app.LogInAsync(Credentials.Anonymous(false));
-
                 config = new FlexibleSyncConfiguration(app.CurrentUser!);
-
                 realm = await Realm.GetInstanceAsync(config);
                 // Go on to add or update subscriptions and use the realm
             }

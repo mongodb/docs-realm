@@ -7,9 +7,7 @@ if (app.CurrentUser == null)
 {
     // App must be online for user to authenticate
     user = await app.LogInAsync(Credentials.Anonymous());
-
     config = new FlexibleSyncConfiguration(app.CurrentUser!);
-
     realm = await Realm.GetInstanceAsync(config);
     // Go on to add or update subscriptions and use the realm
 }
