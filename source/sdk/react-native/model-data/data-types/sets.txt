@@ -70,9 +70,11 @@ The ``CreateInitialCharacters`` component does the following:
 
 - Gets access to an opened realm instance by calling the ``useRealm()`` hook
   within the component. 
-- Uses React's `useEffect <https://reactjs.org/docs/hooks-effect.html>`__ hook
-  to call an anonymous function only once by passing ``useEffect``, an `empty 
-  dependency array <https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects>`__, as a second argument. Within the anonymous function, we create two different ``Character`` objects by using the :mdn:`new <Web/JavaScript/Reference/Operators/new>` operator to create new realm objects within a write transaction. We set each character's ``inventory`` and ``levelsCompleted`` sets as an array with initial values.
+- Uses React's `useEffect <https://react.dev/reference/react/useEffect>`__ hook
+  to call an anonymous function only once with ``useEffect`` and an
+  empty dependency array. Within the anonymous function, we create two different
+  ``Character`` objects within a write transaction. We set each character's
+  ``inventory`` and ``levelsCompleted`` sets as an array with initial values.
 - Retrieves all characters in the realm instance by passing the ``Character``
   class to the ``useQuery()`` hook.
 - Displays each character's name in the UI as a ``Text`` element.
@@ -113,15 +115,15 @@ The ``AddInventoryToCharacter`` component does the following:
 
 - Gets access to an opened realm instance by calling the ``useRealm()`` hook
   within the component. 
-- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__
+- Creates a `state variable <https://react.dev/reference/react/Component#state>`__
   called "inventoryItem" that represents the new inventory item to add to the
   inventory Set.
 - Retrieves the character by passing the ``Character`` class to the
   ``useQuery()`` hook and running the :js-sdk:`Collection.filtered() 
   <Realm.Collection.html#filtered>` method on the result to filter for
   characters with the name matching the ``characterName``
-  `prop <https://reactjs.org/docs/components-and-props.html>`__. Then we set the
-  variable ``character`` to the first matching result.
+  `prop <https://react.dev/learn/passing-props-to-a-component>`__. Then we set
+  the variable ``character`` to the first matching result.
 - Creates a component method ``addInventoryItem()`` that performs a write
   transaction that adds an inventory item to the character's inventory by passing
   the ``inventoryItem`` state variable to ``Realm.Set.add()``.
@@ -170,18 +172,18 @@ the character's inventory size and if it has a specific item.
 
 The ``QueryCharacterInventory`` component does the following:
 
-- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__
+- Creates a `state variable <https://react.dev/reference/react/Component#state>`__
   called "inventoryItem" that represents the inventory item that you want to
   search the character's inventory for.
 - Uses the ``useQuery`` hook to perform a query for all characters, and filter
   the results to only include the characters with the name matching the
   ``characterName`` passed to the component as a `prop 
-  <https://reactjs.org/docs/components-and-props.html>`__. Then we get the first
+  <https://react.dev/learn/passing-props-to-a-component>`__. Then we get the first
   matching result.
 - Retrieves the character by passing the ``Character`` class to the ``useQuery()``
   hook and running the :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>`
   method on the result to filter for characters with the name matching the 
-  ``characterName`` `prop <https://reactjs.org/docs/components-and-props.html>`__.
+  ``characterName`` prop.
   Then we set the variable ``character`` to the first matching result.
 - Creates a component method ``queryCharacterInventory`` that passes the
   ``inventoryItem`` state variable to ``Realm.Set.has()`` to check if the
@@ -238,7 +240,7 @@ The ``RemoveInventoryFromCharacter`` component does the following:
 
 - Gets access to an opened realm instance by calling the ``useRealm()`` hook
   within the component. 
-- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__
+- Creates a `state variable <https://react.dev/reference/react/Component#state>`__
   called "inventoryItem" that represents the inventory item to remove from the
   inventory Set.
 - Creates a component method ``removeInventoryItem`` that passes the
@@ -279,7 +281,7 @@ method <Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>`.
 
 However, by default the order of the items in a Set is not guaranteed. To
 traverse a Set in order, you can store the Set's items in a `state variable
-<https://reactjs.org/docs/hooks-state.html>`__ and update that state variable
+<https://react.dev/reference/react/Component#state>`__ and update that state variable
 when you add new items to the Set.
 
 Example
@@ -294,16 +296,14 @@ The ``TraverseCharacterInventory`` component does the following:
 
 - Gets access to an opened realm instance by calling the ``useRealm()`` hook
   within the component. 
-- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__
-  called "inventoryItem" that represents the new inventory item to add to the
-  inventory Set.
-- Creates a `state variable <https://reactjs.org/docs/hooks-state.html>`__ 
-  called "inventory" that will hold the character's inventory items in order of
-  insertion.
+- Creates a state variable called "inventoryItem" that represents the new
+  inventory item to add to the inventory Set.
+- Creates a state variable called "inventory" that will hold the character's
+  inventory items in order of insertion.
 - Retrieves the character by passing the ``Character`` class to the ``useQuery()``
   hook and running the :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>`
   method on the result to filter for characters with the name matching the
-  ``characterName`` `prop <https://reactjs.org/docs/components-and-props.html>`__.
+  ``characterName`` `prop <https://react.dev/learn/passing-props-to-a-component>`__.
   Then we set the variable ``character`` to the first matching result.
 - Creates a component method ``addInventoryItem()`` that performs a write
   transaction that adds an inventory item to the character's inventory by passing

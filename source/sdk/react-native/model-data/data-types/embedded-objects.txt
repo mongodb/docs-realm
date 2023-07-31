@@ -25,8 +25,8 @@ with an embedded ``Address`` object.
 
 The ``CreateContact`` component does the following:
 
-- Creates React `state <https://reactjs.org/docs/react-component.html#state>`__ variables that
-  represent the contact's name and address details.
+- Creates React `state <https://react.dev/reference/react/Component#state>`__
+  variables that represent the contact's name and address details.
 - Gets access to an open realm instance by calling the ``useRealm()`` hook within the 
   component.
 - Creates a component method ``submitContact()`` that performs a write transaction 
@@ -92,13 +92,13 @@ an embedded ``Address`` object.
 
 The ``UpdateContact`` component does the following:
 
-- Creates a React `state <https://reactjs.org/docs/react-component.html#state>`__ variable
-  that represents the contact's new street address.
-- Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook 
-  and filters for the contact that matches the name passed into the component as a `prop 
-  <https://reactjs.org/docs/components-and-props.html>`__.
-- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the 
-  component. 
+- Creates a React `state <https://react.dev/reference/react/Component#state>`__
+  variable that represents the contact's new street address.
+- Performs a query for all contacts by passing the ``Contact`` class to the
+  ``useQuery`` hook and filters for the contact that matches the name passed
+  into the component as a `prop <https://react.dev/learn/passing-props-to-a-component>`__.
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook
+  within the component. 
 - Creates a component method ``updateStreet()`` that performs a write transaction and 
   sets the contact's street address to the value of the ``street`` state variable.
 - Renders a ``TextInput`` that displays and changes the ``street`` state variable.
@@ -136,19 +136,20 @@ In the following ``OverwriteContact`` example, we overwrite an embedded ``Addres
 
 The ``OverwriteContact`` component does the following:
 
-- Creates React `state <https://reactjs.org/docs/react-component.html#state>`__ variables
-  that represent the contact's new address.
-- Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook 
-  and filters for the contact that matches the name passed into the component as a `prop
-  <https://reactjs.org/docs/components-and-props.html>`__.
-- Gets access to an opened realm instance by calling the ``useRealm()`` hook within the 
-  component.
-- Creates a component method ``updateAddress()`` that performs a write transaction and 
-  creates a new ``Address`` object that overwrites the existing address in the ``Contact`` object.
-- Renders ``TextInput`` components that display and change the state variables for the 
-  new address.
-- Adds an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the 
-  ``'Overwrite Address'`` button that calls ``updateAddress()``.
+- Creates React `state <https://react.dev/reference/react/Component#state>`__
+  variables that represent the contact's new address.
+- Performs a query for all contacts by passing the ``Contact`` class to the
+  ``useQuery`` hook and filters for the contact that matches the name passed
+  into the component as a `prop <https://react.dev/learn/passing-props-to-a-component>`__.
+- Gets access to an opened realm instance by calling the ``useRealm()`` hook
+  within the component.
+- Creates a component method ``updateAddress()`` that performs a write
+  transaction and creates a new ``Address`` object that overwrites the existing
+  address in the ``Contact`` object.
+- Renders ``TextInput`` components that display and change the state variables
+  for the new address.
+- Adds an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on
+  the ``'Overwrite Address'`` button that calls ``updateAddress()``.
 
 .. tabs-realm-languages::
 
@@ -182,14 +183,17 @@ parent object.
 
 The ``DeleteContact`` component does the following:
 
-- Performs a query for all contacts by passing the ``Contact`` class to the ``useQuery`` hook.
-- Filters for the ``Contact`` object that matches the name passed into the component as a 
-  `prop <https://reactjs.org/docs/components-and-props.html>`__.
-- Gets access to an open realm instance by calling the ``useRealm()`` hook within the component. 
-- Creates a component method ``deleteContact()`` that performs a write transaction and calls
-  :js-sdk:`Realm.delete() <Realm.html#delete>` to remove the ``Contact`` object.
-- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Delete Contact" 
-  button that calls ``deleteContact()``.
+- Performs a query for all contacts by passing the ``Contact`` class to the
+  ``useQuery`` hook.
+- Filters for the ``Contact`` object that matches the name passed into the
+  component as a `prop <https://react.dev/learn/passing-props-to-a-component>`__.
+- Gets access to an open realm instance by calling the ``useRealm()`` hook
+  within the component. 
+- Creates a component method ``deleteContact()`` that performs a write
+  transaction and calls :js-sdk:`Realm.delete() <Realm.html#delete>` to remove
+  the ``Contact`` object.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on
+  the "Delete Contact" button that calls ``deleteContact()``.
 
 .. tabs-realm-languages::
 
