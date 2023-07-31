@@ -58,7 +58,7 @@ namespace Examples
 
             // :snippet-start: open-synced-realm-synchronously
             // :uncomment-start:
-            // var synchronousRealm = await Realm.GetInstance(config);
+            // var synchronousRealm = Realm.GetInstance(config);
             // :uncomment-end:
             // :snippet-end:
 
