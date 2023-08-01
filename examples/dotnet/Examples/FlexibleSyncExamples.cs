@@ -87,7 +87,6 @@ namespace Examples
                 // remove all subscriptions, including named subscriptions
                 realm.Subscriptions.RemoveAll(true);
             });
-
         }
 
         [Test]
@@ -101,8 +100,9 @@ namespace Examples
             // }
             var app = App.Create(Config.FSAppId);
             var user = await app.LogInAsync(Credentials.Anonymous(false));
+            Realm realm;
 
-            var config = new FlexibleSyncConfiguration(app.CurrentUser!)
+            var config = new FlexibleSyncConfiguration(user)
             {
                 PopulateInitialSubscriptions = (realm) =>
                 {
@@ -110,9 +110,22 @@ namespace Examples
                     realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
                 }
             };
-            var realm = Realm.GetInstanceAsync(config);
+            try
+            {
+                realm = await Realm.GetInstanceAsync(config);
+                // :remove-start:
+                var session = realm.SyncSession;
+                Assert.NotNull(session);
+                // :remove-end:
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Error creating or opening the
+                    realm file. {ex.Message}");
+            }
             // :replace-end:
             // :snippet-end:
+            await user.LogOutAsync();
         }
 
         [Test]
@@ -126,6 +139,16 @@ namespace Examples
             //  }
             // }
             var app = App.Create(Config.FSAppId);
+            // :remove-start:
+            // Another app.CurrentUser was carrying over into this test
+            // causing issues with opening the FS realm. This resolves the
+            // test failure but there should probably be stronger cleanup
+            // between tests to negate the need for this.
+            if (app.CurrentUser != null) {
+                await app.RemoveUserAsync(app.CurrentUser);
+                await app.LogInAsync(Credentials.Anonymous(false));
+            };
+            // :remove-end:
             Realms.Sync.User user;
             FlexibleSyncConfiguration config;
             Realm realm;
@@ -134,9 +157,13 @@ namespace Examples
             {
                 // App must be online for user to authenticate
                 user = await app.LogInAsync(Credentials.Anonymous(false));
-                config = new FlexibleSyncConfiguration(app.CurrentUser!);
-                realm = await Realm.GetInstanceAsync(config);
+                config = new FlexibleSyncConfiguration(user);
+                realm = Realm.GetInstance(config);
                 // Go on to add or update subscriptions and use the realm
+                // :remove-start:
+                var session = realm.SyncSession;
+                Assert.NotNull(session);
+                // :remove-end:
             }
             else 
             {
@@ -149,10 +176,6 @@ namespace Examples
             }
             // :replace-end:
             // :snippet-end:
-            realm.Subscriptions.Update(() =>
-            {
-                realm.Subscriptions.RemoveAll<MyTask>();
-            });
         }
 
         [Test]

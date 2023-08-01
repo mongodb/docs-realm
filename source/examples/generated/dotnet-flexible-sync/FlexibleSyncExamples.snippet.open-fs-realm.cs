@@ -1,7 +1,8 @@
 var app = App.Create("myRealmAppId");
 var user = await app.LogInAsync(Credentials.Anonymous());
+Realm realm;
 
-var config = new FlexibleSyncConfiguration(app.CurrentUser!)
+var config = new FlexibleSyncConfiguration(user)
 {
     PopulateInitialSubscriptions = (realm) =>
     {
@@ -9,4 +10,12 @@ var config = new FlexibleSyncConfiguration(app.CurrentUser!)
         realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
     }
 };
-var realm = await Realm.GetInstanceAsync(config);
+try
+{
+    realm = await Realm.GetInstanceAsync(config);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($@"Error creating or opening the
+        realm file. {ex.Message}");
+}
