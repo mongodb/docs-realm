@@ -57,6 +57,17 @@ as you would a Kotlin Map.
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-dictionary.kt
    :language: kotlin
 
+Find an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query an :ref:`embedded object <kotlin-embedded-objects>` directly or 
+through the parent object. You can also use the 
+`EmbeddedRealmObject.parent() <{+kotlin-local-prefix+}io.realm.kotlin.ext/parent.html>`__  
+method to access the parent of the embedded object.
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.query-embedded-objects.kt 
+    :language: kotlin
+
 .. _kotlin-filter-data:
 
 Filter Results

@@ -50,10 +50,56 @@ as you would a Kotlin Map.
 .. literalinclude:: /examples/generated/kotlin/UpdateTest.snippet.update-realm-dictionary.kt
    :language: kotlin
 
+Update an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To update a property in an 
+`EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__, 
+fetch the object and reassign the embedded object properties in a write 
+transaction:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.update-embedded-object.kt 
+    :language: kotlin
+
+Update Realm Objects
+--------------------
+
+.. _kotlin-update-collection:
+
+Update a Collection
+~~~~~~~~~~~~~~~~~~~
+
+To update a collection of objects in a realm:
+
+1. Query a realm for a collection of objects
+   with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+
+#. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+
+#. Update elements of the set of `RealmResults
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__
+   returned by the query.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.update-a-collection.kt
+   :language: kotlin
+
+Overwrite an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To overwrite an embedded object, assign a new embedded object instance to the 
+property in a write transaction:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.overwrite-embedded-object.kt 
+    :language: kotlin
+
 .. _kotlin-upsert-an-object:
 
-Upsert Objects
---------------
+Upsert a Realm Object
+---------------------
 
 The **upsert** operation either inserts a new instance of an object or
 updates an existing object that meets certain criteria.
@@ -82,27 +128,3 @@ to use when you upsert an object with an existing primary key:
 
 .. literalinclude:: /examples/generated/kotlin/UpdateTest.snippet.upsert-an-object.kt
    :language: kotlin
-
-.. _kotlin-update-collection:
-
-Update a Collection
--------------------
-
-To update a collection of objects in a realm:
-
-1. Query a realm for a collection of objects
-   with `realm.query()
-   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
-
-#. Open a write transaction with `realm.write()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
-   `realm.writeBlocking()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
-
-#. Update elements of the set of `RealmResults
-   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__
-   returned by the query.
-
-.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.update-a-collection.kt
-   :language: kotlin
-   
