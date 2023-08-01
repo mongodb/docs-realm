@@ -87,7 +87,95 @@ namespace Examples
                 // remove all subscriptions, including named subscriptions
                 realm.Subscriptions.RemoveAll(true);
             });
+        }
 
+        [Test]
+        public async Task TestOpenFSRealm()
+        {
+            // :snippet-start: open-fs-realm
+            // :replace-start: {
+            //  "terms": {
+            //   "Config.FSAppId": "\"myRealmAppId\"",
+            //   "Credentials.Anonymous(false)": "Credentials.Anonymous()"}
+            // }
+            var app = App.Create(Config.FSAppId);
+            var user = await app.LogInAsync(Credentials.Anonymous(false));
+            Realm realm;
+
+            var config = new FlexibleSyncConfiguration(user)
+            {
+                PopulateInitialSubscriptions = (realm) =>
+                {
+                    var allTasks = realm.All<MyTask>();
+                    realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
+                }
+            };
+            try
+            {
+                realm = await Realm.GetInstanceAsync(config);
+                // :remove-start:
+                var session = realm.SyncSession;
+                Assert.NotNull(session);
+                // :remove-end:
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Error creating or opening the
+                    realm file. {ex.Message}");
+            }
+            // :replace-end:
+            // :snippet-end:
+            await user.LogOutAsync();
+        }
+
+        [Test]
+        public async Task TestOpenFSRealmOffline()
+        {
+            // :snippet-start: open-fs-realm-offline
+            // :replace-start: {
+            //  "terms": {
+            //   "Config.FSAppId": "\"myRealmAppId\"",
+            //   "Credentials.Anonymous(false)": "Credentials.Anonymous()"
+            //  }
+            // }
+            var app = App.Create(Config.FSAppId);
+            // :remove-start:
+            // Another app.CurrentUser was carrying over into this test
+            // causing issues with opening the FS realm. This resolves the
+            // test failure but there should probably be stronger cleanup
+            // between tests to negate the need for this.
+            if (app.CurrentUser != null) {
+                await app.RemoveUserAsync(app.CurrentUser);
+                await app.LogInAsync(Credentials.Anonymous(false));
+            };
+            // :remove-end:
+            Realms.Sync.User user;
+            FlexibleSyncConfiguration config;
+            Realm realm;
+
+            if (app.CurrentUser == null)
+            {
+                // App must be online for user to authenticate
+                user = await app.LogInAsync(Credentials.Anonymous(false));
+                config = new FlexibleSyncConfiguration(user);
+                realm = Realm.GetInstance(config);
+                // Go on to add or update subscriptions and use the realm
+                // :remove-start:
+                var session = realm.SyncSession;
+                Assert.NotNull(session);
+                // :remove-end:
+            }
+            else 
+            {
+                // This works whether online or offline
+                // It requires a user to have been previously authenticated
+                user = app.CurrentUser;
+                config = new FlexibleSyncConfiguration(user);
+                realm = Realm.GetInstance(config);
+                // Go on to add or update subscriptions and use the realm
+            }
+            // :replace-end:
+            // :snippet-end:
         }
 
         [Test]
