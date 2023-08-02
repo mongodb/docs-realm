@@ -1,74 +1,67 @@
-.. _node-partition-based-sync:
+.. _kotlin-partition-based-sync:
 
-==================================
-Partition-Based Sync - Node.js SDK
-==================================
+=================================
+Partition-Based Sync - Kotlin SDK
+=================================
 
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 3
-   :class: singlecol 
+   :depth: 2
+   :class: singlecol
 
-Atlas Device Sync has two sync modes:  :ref:`Flexible Sync <flexible-sync>`
-and Partition-Based Sync. We recommend using Flexible Sync.
-The information on this page is to support users who have existing apps that use
-:ref:`Partition-Based Sync <partition-based-sync>`.
+Partition-Based Sync is an older mode for using Atlas Device Sync with the 
+Realm Kotlin SDK. We recommend using :ref:`Flexible Sync <kotlin-flexible-sync-fundamentals>` 
+for new apps. The information on this page is for users who are still 
+using Partition-Based Sync.
 
-.. note:: Matching Sync Modes with Atlas Device Sync
+.. tip::
 
-  When you use :ref:`Atlas Device Sync <sync>` in your client application, your
-  implementation must match the Sync Mode you select in your backend App configuration.
-  You can only use one Sync mode for your application. You cannot mix Partition-Based
-  Sync and Flexible Sync within the same app.
+   Realm Kotlin SDK v1.9.0 and newer supports the ability to migrate from 
+   Partition-Based Sync to Flexible Sync. For more information, refer to: 
+   :ref:`kotlin-migrate-pbs-to-fs`.
 
-.. _node-partition-based-sync-fundamentals:
+.. _kotlin-partition-based-sync-fundamentals:
 
 Partition Value
 ---------------
 
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend App configuration, your client implementation must include a 
-partition value. This is the value of the :ref:`partition key 
-<partition-key>` field you select when you configure Partition-Based Sync. 
+When you select :ref:`Partition-Based Sync <partition-based-sync>` for your
+backend App configuration, your client implementation must include a
+partition value. This is the value of the :ref:`partition key
+<partition-key>` field you select when you configure Partition-Based Sync.
 
 The partition value determines which data the client application can access.
 
-You pass in the partition value when you open a synced realm.
+You must provide a partition value when you open a synced realm.
 
-.. _node-partition-sync-open-realm:
+Open a Partition-Based Sync Realm
+---------------------------------
 
-Open a Partition-Based Synced Realm
------------------------------------
+To open a :ref:`Partition-Based Sync <partition-based-sync>` realm,
+pass a user, a partition, and a set of Realm object schemas to
+`SyncConfiguration.Builder()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__.
+Then, pass the configuration to `Realm.open()
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__ to open
+an instance of the realm:
 
-.. include:: /includes/node-open-a-synced-realm.rst
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-a-synced-realm.kt
+    :language: kotlin
+    :copyable: false
 
-.. tabs-realm-languages::
+Configure a Partition-Based Sync Realm
+--------------------------------------
 
-   .. tab::
-      :tabid: typescript
+To adjust specific configuration settings, use the options provided by
+`SyncConfiguration.Builder
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
 
-      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.ts
-        :language: typescript
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-synced-realm.kt
+    :language: kotlin
+    :copyable: false
 
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-partition-based.js
-        :language: javascript
-
-.. important:: Offline Login is Supported for Partition-Based Sync Configurations
-    You can open a realm immediately with background sync or after a timeout elapses using
-    Partition-Based Sync. 
-
-Open a Bundled Partition-Based Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When opening a :ref:`bundled synchronized realm <node-bundle-a-realm>` that uses Partition-Based Sync,
-you must use the same partition key that was used in the original realm configuration. If you use a
-different partition key, the SDK throw an error when opening the bundled realm. 
-
-.. _node-migrate-pbs-to-fs:
+.. _kotlin-migrate-pbs-to-fs:
 
 Migrate from Partition-Based Sync to Flexible Sync
 --------------------------------------------------
@@ -76,7 +69,7 @@ Migrate from Partition-Based Sync to Flexible Sync
 You can migrate your App Services Device Sync Mode from Partition-Based Sync 
 to Flexible Sync. Migrating is an automatic process that does not require 
 any changes to your application code. Automatic migration requires Realm 
-Node.js SDK version 11.10.0 or newer. 
+Kotlin SDK version 1.9.0 or newer. 
 
 Migrating enables you to keep your existing App Services users and 
 authentication configuration. Flexible Sync provides more versatile permissions
@@ -86,7 +79,7 @@ For more information about how to migrate your App Services App from
 Partition-Based Sync to Flexible Sync, refer to :ref:`Migrate Device Sync Modes 
 <realm-sync-migrate-modes>`.
 
-.. _node-update-client-code-after-pbs-to-fs-migration:
+.. _kotlin-update-client-code-after-pbs-to-fs-migration:
 
 Updating Client Code After Migration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,9 +105,11 @@ You might want update your client codebase when:
 Make these changes to convert your Partition-Based Sync client code to use 
 Flexible Sync:
 
-- Add ``flexible:true`` to your 
-  :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object 
-  where you :ref:`open a synced realm <node-flexible-sync-open-realm>`.
+- Update your `SyncConfiguration.Builder()
+  <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__ 
+  to use :ref:`Flexible Sync <kotlin-flexible-sync-open-realm>`. This involves
+  removing the ``partitionValue`` and adding a set of initial subscriptions, 
+  if needed.
 - Add relevant properties to your object models to use in your Flexible Sync 
   subscriptions. For example, you might add an ``ownerId`` property to enable
   a user to sync only their own data.
@@ -131,8 +126,10 @@ When you migrate from Partition-Based Sync to Flexible Sync, Realm
 automatically creates hidden Flexible Sync subscriptions for your app. The 
 next time you add or change subscriptions, we recommend that you:
 
-1. :ref:`Remove the automatically-generated subscriptions <node-remove-subscriptions>`. 
-2. :ref:`Manually add the relevant subscriptions in your client codebase <node-sync-add-subscription>`.
+1. :ref:`Remove the automatically-generated subscriptions <kotlin-remove-subscriptions>`. 
+2. :ref:`Subscribe to queries <kotlin-flexible-sync-results-subscribe-api>` 
+   or :ref:`Manually add the relevant subscriptions in your client codebase 
+   <kotlin-sync-add-subscription>`.
 
 This enables you to see all of your subscription logic together in your 
 codebase for future iteration and debugging.

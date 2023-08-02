@@ -24,71 +24,39 @@ Before you can access a synced realm from the client, you must:
 #. :ref:`Authenticate a user <kotlin-authenticate>` in
    your client project.
 
+.. _kotlin-flexible-sync-open-realm:
+
 Open a Synced Realm
 -------------------
 
-.. tabs::
+To open a :ref:`Flexible Sync <flexible-sync>` realm,
+pass a user and a set of Realm object schemas to
+`SyncConfiguration.Builder()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__. Next, create a set of initial subscriptions with the ``initialSubscriptions()``
+builder method. Finally, pass the configuration to `Realm.open()
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__ to open
+an instance of the realm:
 
-   .. tab:: Flexible Sync
-      :tabid: flex-sync
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-a-flexible-sync-realm.kt
+   :language: kotlin
+   :copyable: false
 
-      To open a :ref:`flexible sync <flexible-sync>` realm,
-      pass a user and a set of Realm object schemas to
-      `SyncConfiguration.Builder()
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__. Next, create a set of initial subscriptions with the ``initialSubscriptions()``
-      builder method. Finally, pass the configuration to `Realm.open()
-      <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__ to open
-      an instance of the realm:
+For more information on bootstrapping the realm with initial subscriptions
+and managing your synced realm subscriptions, 
+refer to :ref:`Manage Sync Subscriptions <kotlin-sync-add-initial-subscriptions>`.
 
-      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-a-flexible-sync-realm.kt
-         :language: kotlin
-         :copyable: false
-      
-      For more information on bootstrapping the realm with initial subscriptions
-      and managing your synced realm subscriptions, 
-      refer to :ref:`Manage Sync Subscriptions <kotlin-sync-add-initial-subscriptions>`.
-
-   .. tab:: Partition Based Sync
-      :tabid: pbs
-
-      To open a :ref:`partition-based sync <partition-based-sync>` realm,
-      pass a user, a partition, and a set of Realm object schemas to
-      `SyncConfiguration.Builder()
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__.
-      Then, pass the configuration to `Realm.open()
-      <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__ to open
-      an instance of the realm:
-
-      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-a-synced-realm.kt
-         :language: kotlin
-         :copyable: false
+.. _kotlin-flexible-sync-configuration:
 
 Configure a Synced Realm
 ------------------------
 
-.. tabs::
+To adjust specific configuration settings, use the options provided by
+`SyncConfiguration.Builder
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
 
-   .. tab:: Flexible Sync
-      :tabid: flex-sync
-
-      To adjust specific configuration settings, use the options provided by
-      `SyncConfiguration.Builder
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
-
-      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-flexible-sync-realm.kt
-         :language: kotlin
-         :copyable: false
-
-   .. tab:: Partition Based Sync
-      :tabid: pbs
-
-      To adjust specific configuration settings, use the options provided by
-      `SyncConfiguration.Builder
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
-
-      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-synced-realm.kt
-         :language: kotlin
-         :copyable: false
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-flexible-sync-realm.kt
+   :language: kotlin
+   :copyable: false
 
 .. _kotlin-download-changes-before-open:
 

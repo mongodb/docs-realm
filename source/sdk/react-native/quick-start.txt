@@ -91,8 +91,8 @@ to set up context and providers from ``@realm/react``. To learn more, refer to
    You can also include optional configuration properties,
    like making the realm read only or adding Atlas Device Sync.
 #. Create a realm context with ``createRealmContext()``. A realm context is a 
-   `React Context object <https://reactjs.org/docs/context.html>`__ that contains
-   React providers and hooks for working with your realm.
+   `React Context object <https://react.dev/learn/passing-data-deeply-with-context>`__
+   that contains React providers and hooks for working with your realm.
 #. Expose a realm with ``RealmProvider``. To expose a realm, you need a 
    realm context. From that context, extract ``RealmProvider``, which 
    contains your realm's context.
@@ -325,8 +325,8 @@ a local realm. However, you need to add some additional props to the
    When creating a configuration object, make sure to pass your data models into
    the ``schema`` property.
 #. Create a realm context with ``createRealmContext()``. A realm context is a 
-   `React Context object <https://reactjs.org/docs/context.html>`__ that contains
-   app-wide access to your realm.
+   `React Context object <https://react.dev/learn/passing-data-deeply-with-context>`__
+   that contains app-wide access to your realm.
 #. Extract the ``RealmProvider`` from the realm context, and then expose it
    to your app.
 #. Add the ``sync`` property to ``RealmProvider`` and pass it a
