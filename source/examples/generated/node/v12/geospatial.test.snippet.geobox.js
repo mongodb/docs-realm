@@ -3,7 +3,15 @@ const largeBox = {
   topRight: [-122.1, 48.1],
 };
 
+const smallBoxBottomLeft = {
+  latitude: 47.5,
+  longitude: -122.4,
+};
+const smallBoxTopRight = {
+  latitude: 47.9,
+  longitude: -121.8,
+};
 const smallBox = {
-  bottomLeft: [-122.4, 47.5],
-  topRight: [-121.8, 47.9],
+  bottomLeft: smallBoxBottomLeft,
+  topRight: smallBoxTopRight,
 };

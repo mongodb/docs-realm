@@ -1,12 +1,16 @@
-const largeCircle = {
+const smallCircle = {
   center: [-121.9, 47.3],
   distance: 0.25,
 };
 
-const circleCenterCoordinates = [-122.6, 47.8];
+const largeCircleCenter = {
+  latitude: 47.8,
+  longitude: -122.6,
+};
+
 const radius = kmToRadians(44.4);
 
-const smallCircle = {
-  center: circleCenterCoordinates,
+const largeCircle = {
+  center: largeCircleCenter,
   distance: radius,
 };

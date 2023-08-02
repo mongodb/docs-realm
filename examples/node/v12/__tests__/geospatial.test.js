@@ -55,16 +55,20 @@ describe("Geospatial", () => {
     // :snippet-end:
 
     // :snippet-start: geocircle
-    const largeCircle = {
+    const smallCircle = {
       center: [-121.9, 47.3],
       distance: 0.25,
     };
 
-    const circleCenterCoordinates = [-122.6, 47.8];
+    const largeCircleCenter = {
+      latitude: 47.8,
+      longitude: -122.6,
+    };
+
     const radius = kmToRadians(44.4);
 
-    const smallCircle = {
-      center: circleCenterCoordinates,
+    const largeCircle = {
+      center: largeCircleCenter,
       distance: radius,
     };
     // :snippet-end:
@@ -75,9 +79,17 @@ describe("Geospatial", () => {
       topRight: [-122.1, 48.1],
     };
 
+    const smallBoxBottomLeft = {
+      latitude: 47.5,
+      longitude: -122.4,
+    };
+    const smallBoxTopRight = {
+      latitude: 47.9,
+      longitude: -121.8,
+    };
     const smallBox = {
-      bottomLeft: [-122.4, 47.5],
-      topRight: [-121.8, 47.9],
+      bottomLeft: smallBoxBottomLeft,
+      topRight: smallBoxTopRight,
     };
     // :snippet-end:
 
@@ -95,52 +107,51 @@ describe("Geospatial", () => {
     };
 
     // Create a polygon with one hole
+    const outerRing = [
+      [-122.8, 48.0],
+      [-121.8, 48.2],
+      [-121.6, 47.6],
+      [-122.0, 47.0],
+      [-122.6, 47.2],
+      [-122.8, 48.0],
+    ];
+
+    const hole = [
+      [-122.6, 47.8],
+      [-122.2, 47.7],
+      [-122.6, 47.4],
+      [-122.5, 47.6],
+      [-122.6, 47.8],
+    ];
+
     const polygonWithOneHole = {
-      outerRing: [
-        [-122.8, 48.0],
-        [-121.8, 48.2],
-        [-121.6, 47.6],
-        [-122.0, 47.0],
-        [-122.6, 47.2],
-        [-122.8, 48.0],
-      ],
-      holes: [
-        [
-          [-122.6, 47.8],
-          [-122.2, 47.7],
-          [-122.6, 47.4],
-          [-122.5, 47.6],
-          [-122.6, 47.8],
-        ],
-      ],
+      outerRing: outerRing,
+      holes: [hole],
     };
 
+    // Add a second hole to the polygon
     const hole2 = [
-      [-122.05, 47.55],
-      [-121.9, 47.5],
-      [-122.1, 47.3],
-      [-122.05, 47.55],
+      {
+        latitude: 47.55,
+        longitude: -122.05,
+      },
+      {
+        latitude: 47.55,
+        longitude: -121.9,
+      },
+      {
+        latitude: 47.3,
+        longitude: -122.1,
+      },
+      {
+        latitude: 47.55,
+        longitude: -122.05,
+      },
     ];
 
     const polygonWithTwoHoles = {
-      outerRing: [
-        [-122.8, 48.0],
-        [-121.8, 48.2],
-        [-121.6, 47.6],
-        [-122.0, 47.0],
-        [-122.6, 47.2],
-        [-122.8, 48.0],
-      ],
-      holes: [
-        [
-          [-122.6, 47.8],
-          [-122.2, 47.7],
-          [-122.6, 47.4],
-          [-122.5, 47.6],
-          [-122.6, 47.8],
-        ],
-        hole2,
-      ],
+      outerRing: outerRing,
+      holes: [hole, hole2],
     };
     // :snippet-end:
 
@@ -180,8 +191,8 @@ describe("Geospatial", () => {
     );
     // :snippet-end:
 
-    expect(companiesInLargeCircle.length).toBe(2);
-    expect(companiesInSmallCircle.length).toBe(1);
+    expect(companiesInLargeCircle.length).toBe(1);
+    expect(companiesInSmallCircle.length).toBe(2);
     expect(companiesInLargeBox.length).toBe(1);
     expect(companiesInSmallBox.length).toBe(2);
     expect(companiesInBasicPolygon.length).toBe(2);

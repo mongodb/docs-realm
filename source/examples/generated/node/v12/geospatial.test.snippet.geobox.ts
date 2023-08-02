@@ -3,7 +3,15 @@ const largeBox: GeoBox = {
   topRight: [-122.1, 48.1],
 };
 
+const smallBoxBottomLeft: GeoPoint = {
+  latitude: 47.5,
+  longitude: -122.4,
+};
+const smallBoxTopRight: GeoPoint = {
+  latitude: 47.9,
+  longitude: -121.8,
+};
 const smallBox: GeoBox = {
-  bottomLeft: [-122.4, 47.5],
-  topRight: [-121.8, 47.9],
+  bottomLeft: smallBoxBottomLeft,
+  topRight: smallBoxTopRight,
 };
