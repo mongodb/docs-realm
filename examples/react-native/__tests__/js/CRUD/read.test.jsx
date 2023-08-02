@@ -25,7 +25,10 @@ describe('Read Data Tests', () => {
       assertionRealm.delete(assertionRealm.objects('Person'));
       assertionRealm.delete(assertionRealm.objects('Task'));
 
-      const annieObj = assertionRealm.create('Person', {name: 'Annie', age: 54});
+      const annieObj = assertionRealm.create('Person', {
+        name: 'Annie',
+        age: 54,
+      });
       const bobObj = assertionRealm.create('Person', {name: 'Bob', age: 29});
 
       assertionRealm.create('Task', {
@@ -70,6 +73,7 @@ describe('Read Data Tests', () => {
     // }
     const TaskItem = ({_id}) => {
       const myTask = useObject(Task, _id);
+
       return (
         <View>
           {myTask ? (
@@ -118,8 +122,11 @@ describe('Read Data Tests', () => {
 
       // filter for tasks that have just-started or short-running progress
       const lowProgressTasks = tasks.filtered(
-        '$0 <= progressMinutes && progressMinutes < $1', 1, 10
+        '$0 <= progressMinutes && progressMinutes < $1',
+        1,
+        10,
       );
+
       return (
         <>
           <Text>Your high priority tasks:</Text>
@@ -148,6 +155,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('high-priority-element'),
       {timeout: 5000},
     );
+
     expect(highPriorityTasksUIList[0].children[0].toString()).toBe(
       'Do the laundry',
     ); // Since only the 'Do the laundry' task is high priority
@@ -157,6 +165,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('low-progress-element'),
       {timeout: 5000},
     );
+
     // test that both 'Wash the dishes' and 'Gym Workout' rendered because they are both low progress tasks
     expect(lowProgressTasksUIList[0].children[0].toString()).toBe(
       'Wash the dishes',
@@ -240,6 +249,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('all-tasks-item'),
       {timeout: 5000},
     );
+
     expect(allTasksUIList[0].children[0].toString()).toBe('Wash the dishes');
     expect(allTasksUIList[1].children[0].toString()).toBe('Do the laundry');
     expect(allTasksUIList[2].children[0].toString()).toBe('Gym Workout');
@@ -249,6 +259,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('tasks-by-name-item'),
       {timeout: 5000},
     );
+
     expect(taskByNameUIList[0].children[0].toString()).toBe('Do the laundry');
     expect(taskByNameUIList[1].children[0].toString()).toBe('Gym Workout');
     expect(taskByNameUIList[2].children[0].toString()).toBe('Wash the dishes');
@@ -258,6 +269,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('tasks-by-name-descending-item'),
       {timeout: 5000},
     );
+
     expect(taskByNameDescendingUIList[0].children[0].toString()).toBe(
       'Wash the dishes',
     );
@@ -272,6 +284,7 @@ describe('Read Data Tests', () => {
     const tasksByPriorityDescendingAndNameUIList = await waitFor(() =>
       getAllByTestId('tasks-by-priority-descending-and-name-item'),
     );
+
     expect(
       tasksByPriorityDescendingAndNameUIList[0].children[0].toString(),
     ).toBe('Do the laundry');
@@ -287,6 +300,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('tasks-by-assignee-name-item'),
       {timeout: 5000},
     );
+
     expect(tasksByAssigneeNameUIList[0].children[0].toString()).toBe(
       'Wash the dishes',
     );

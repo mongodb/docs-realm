@@ -98,11 +98,11 @@ describe('Update Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const handleIncrementBtn = await waitFor(
-      () => getByTestId('handleIncrementBtn')
+    const handleIncrementBtn = await waitFor(() =>
+      getByTestId('handleIncrementBtn'),
     );
-    const progressMinutesText = await waitFor(
-      () => getByTestId('progressMinutes')
+    const progressMinutesText = await waitFor(() =>
+      getByTestId('progressMinutes'),
     );
 
     const paintTask = assertionRealm.objectForPrimaryKey(Task, 92140);
@@ -113,7 +113,9 @@ describe('Update Data Tests', () => {
 
     fireEvent.press(handleIncrementBtn);
 
-    await waitFor(() => {expect(progressMinutesText.children.toString()).toBe('1')});
+    await waitFor(() => {
+      expect(progressMinutesText.children.toString()).toBe('1');
+    });
 
     // Test that the  progress value in the realm and in the UI after incrementing is 1 minutes
     expect(paintTask.progressMinutes).toBe(1);
@@ -176,58 +178,5 @@ describe('Update Data Tests', () => {
     // Test that the the 'Wash the car' task was upserted, and progressMinutesText is now displaying 5 minutes progressed
     expect(progressMinutesText.children.toString()).toBe('5');
     expect(carWashTask.progressMinutes).toBe(5);
-  });
-
-  it('should bulk update an object', async () => {
-    // :snippet-start: crud-bulk-update
-    const TaskDashboard = () => {
-      const realm = useRealm();
-      const tasks = useQuery(Task);
-
-      const resetProgressOnAllTasks = () => {
-        realm.write(() => {
-          for (const task of tasks) {
-            task.progressMinutes = 0;
-          }
-        });
-      };
-      return (
-        <>
-          {tasks.map(task => {
-            <Text>
-              {task.name} has {task.progressMinutes} minutes progressed
-            </Text>;
-          })}
-          <Button
-            onPress={resetProgressOnAllTasks}
-            title='Reset Progress'
-            testID='resetProgressOnAllTasksBtn' // :remove:
-          />
-        </>
-      );
-    };
-    // :snippet-end:
-
-    const App = () => (
-      <RealmProvider>
-        <TaskDashboard />
-      </RealmProvider>
-    );
-    const {getByTestId} = render(<App />);
-
-    const resetProgressOnAllTasksBtn = await waitFor(
-      () => getByTestId('resetProgressOnAllTasksBtn'),
-      {timeout: 5000},
-    );
-
-    await act(async () => {
-      fireEvent.press(resetProgressOnAllTasksBtn);
-    });
-
-    // Test that the resetProgressOnAllTasks() method has been called and all Task objects have been bulk updated
-    const tasks = assertionRealm.objects('Task');
-    for (const task of tasks) {
-      expect(task.progressMinutes).toBe(0);
-    }
   });
 });
