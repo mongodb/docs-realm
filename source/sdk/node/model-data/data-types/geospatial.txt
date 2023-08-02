@@ -32,8 +32,8 @@ to define their location.
 .. note::
    
    In methods that take a ``GeoPoint``, you can alternatively provide a tuple of 
-   doubles, where the first double is the latitude and the second double is the 
-   longitude. The SDK interprets these tuples as ``GeoPoints``. The examples on 
+   doubles, where the first double is the longitude and the second double is the 
+   latitude. The SDK interprets these tuples as ``GeoPoints``. The examples on 
    this page demonstrate both approaches.
 
 .. _node-geocircle:
@@ -52,8 +52,19 @@ object to specify the radius of the circle.
 
 The following code shows two examples of creating a circle:
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geocircle.cs
-   :language: csharp
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle.js
+          :language: javascript
 
 .. figure:: /images/geocircles.png
    :alt: Two GeoCircles
@@ -70,8 +81,19 @@ the Earth's surface. You define the rectangle by specifying the bottom left
 (southwest) corner and the top right (northeast) corner. The following example 
 creates 2 boxes:
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geobox.cs
-   :language: csharp
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geobox.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geobox.js
+          :language: javascript
 
 .. figure:: /images/geoboxes.png
    :alt: 2 GeoBoxes
@@ -98,8 +120,19 @@ The following example creates 3 polygons: one is a basic polygon with 5 points,
 one is the same polygon with a single hole, and the third is the same polygon 
 with two holes:
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geopolygon.cs
-   :language: csharp
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geopolygon.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geopolygon.js
+          :language: javascript
 
 .. figure:: /images/geopolygons.png
    :alt: 3 GeoPolygons
@@ -133,8 +166,19 @@ To create a class that conforms to the GeoJSON spec, you:
 The following example shows an embedded class named "CustomGeoPoint" that is used 
 to persist GeoPoint data:
 
-.. literalinclude:: /examples/generated/dotnet/CustomGeoPoint.snippet.customgeopoint.cs
-   :language: csharp
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.define-geopoint-class.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.define-geopoint-class.js
+          :language: javascript
 
 Use the Embedded Class
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,14 +186,35 @@ Use the Embedded Class
 You then use the custom GeoPoint class in your realm model, as shown in the 
 following example:
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.usingcustomgeopoint.cs
-   :language: csharp
-   :emphasize-lines: 7
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.use-geopoint-class.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.use-geopoint-class.js
+          :language: javascript
 
 You then add instances of your class to realm just like any other Realm model:
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geopoint.cs
-   :language: csharp
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.write-geospatial-object.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.write-geospatial-object.js
+          :language: javascript
 
 The following image shows the results of creating these two company objects.
 
@@ -186,8 +251,19 @@ companies within the shape:
 
 **GeoCircle**
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geocircle-query.cs
-   :language: csharp
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle-query.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle-query.js
+          :language: javascript
 
 .. figure:: /images/geocircles-query.png
    :alt: Querying a GeoCircle example.
@@ -196,8 +272,19 @@ companies within the shape:
 
 **GeoBox**
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geobox-query.cs
-   :language: csharp
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geobox-query.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geobox-query.js
+          :language: javascript
 
 .. figure:: /images/geoboxes-query.png
    :alt: Querying a GeoBox example.
@@ -205,8 +292,19 @@ companies within the shape:
 
 **GeoPolygon**
 
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geopolygon-query.cs
-   :language: csharp
+.. tabs-realm-languages::
+
+    .. tab::
+      :tabid: typescript
+    
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geopolygon-query.ts
+          :language: typescript
+    
+    .. tab::
+      :tabid: javascript
+
+      .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geopolygon-query.js
+          :language: javascript
 
 .. figure:: /images/geopolygons-query.png
    :alt: Querying a GeoPolygon example.
