@@ -1,4 +1,6 @@
 val connectionFlow = realm.syncSession.connectionStateAsFlow()
-connectionFlow.collect {
-    Log.i("Connected to Atlas Device Sync server")
+connectionFlow.collect { ConnectionStateChange ->
+    if (ConnectionStateChange.newState == ConnectionState.CONNECTED) {
+        Log.i("Connected to Atlas Device Sync server")
+    }
 }

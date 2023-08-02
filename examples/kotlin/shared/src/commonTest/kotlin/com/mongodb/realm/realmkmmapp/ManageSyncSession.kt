@@ -184,8 +184,10 @@ class ManageSyncSession : RealmTest() {
             val flow = CoroutineScope(Dispatchers.Default).launch {
                 // :snippet-start: monitor-network-connection
                 val connectionFlow = realm.syncSession.connectionStateAsFlow()
-                connectionFlow.collect {
-                    Log.i("Connected to Atlas Device Sync server")
+                connectionFlow.collect { ConnectionStateChange ->
+                    if (ConnectionStateChange.newState == ConnectionState.CONNECTED) {
+                        Log.i("Connected to Atlas Device Sync server")
+                    }
                 }
                 // :snippet-end:
             }
