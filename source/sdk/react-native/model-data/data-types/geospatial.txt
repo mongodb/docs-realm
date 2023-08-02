@@ -119,18 +119,18 @@ Create a GeoJSON-Compatible Class
 
 To create a class that conforms to the GeoJSON spec, you:
 
-1. Create an embedded realm object (a class that inherits from 
-   :js-sdk:`IEmbeddedObject <INSERT-API-REFERENCE-LINK>`).
+1. Create an embedded realm object. For more information about embedded
+   objects, refer to :ref:`react-native-data-types-embedded-objects`.
 
 #. At a minimum, add the two fields required by the GeoJSON spec:
 
-   - A field of type ``IList<double>`` that maps to a "coordinates" (case sensitive) 
+   - A field of type ``double[]`` that maps to a "coordinates" (case sensitive) 
      property in the realm schema. 
 
    - A field of type ``string`` that maps to a "type" property. The value of this 
      field must be "Point".
 
-The following example shows an embedded class named "CustomGeoPoint" that is used 
+The following example shows an embedded class named "MyGeoPoint" that is used 
 to persist GeoPoint data:
 
 .. literalinclude:: /examples/generated/dotnet/CustomGeoPoint.snippet.customgeopoint.cs
@@ -139,7 +139,7 @@ to persist GeoPoint data:
 Use the Embedded Class
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You then use the custom GeoPoint class in your realm model, as shown in the 
+You then use the custom "MyGeoPoint" class in your realm model, as shown in the 
 following example:
 
 .. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.usingcustomgeopoint.cs
@@ -163,23 +163,16 @@ The following image shows the results of creating these two company objects.
 Query Geospatial Data
 ---------------------
 
-To query against geospatial data, you can use the 
-:js-sdk:`GeoWithin <INSERT-API-REFERENCE-LINK>` 
-method, or you can use the ``geoWithin`` operator with :ref:`RQL <rql>`. 
-The ``GeoWithin`` method takes the "coordinates" property of an embedded object 
-that defines the point we're querying, and one of the geospatial shapes to 
-check if that point is contained within the shape. 
+To query against geospatial data, you can use the ``geoWithin`` operator 
+with :ref:`RQL <rql>`. The ``geoWithin`` operator takes the "coordinates" 
+property of an embedded object that defines the point we're querying, and 
+one of the geospatial shapes to check if that point is contained within 
+the shape. 
 
 .. note::
 
    The format for querying geospatial data is the same regardless the shape of 
    the geodata region.
-
-The following example shows the difference between querying with the ``GeoWithin`` 
-method and RQL:
-
-.. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.rql-geowithin.cs
-   :language: csharp
 
 The following examples show querying against various shapes to return a list of 
 companies within the shape:
