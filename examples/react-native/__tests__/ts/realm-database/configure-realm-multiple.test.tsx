@@ -1,98 +1,118 @@
 // :snippet-start: two-realm-contexts
 import React from 'react';
-import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
+import {AppProvider, UserProvider} from '@realm/react';
 // :remove-start:
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
-import {Realm, useApp, useRealm} from '@realm/react';
+import {Realm, useApp, createRealmContext} from '@realm/react';
 import {Button, View, Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
 const testId = 'test-log-in';
 let higherScopedUser: Realm.User | null;
-let realm1Schema: string;
-let realm2Schema: string;
+let sharedDocumentRealmSchema: string;
+let localDocumentRealmSchema: string;
+// :remove-end:
 
-class Turtle extends Realm.Object {
-  _id!: string;
-  owner_id!: string;
-  name!: string;
-  birthDate?: Realm.Mixed;
+class SharedDocument extends Realm.Object<SharedDocument> {
+  _id!: Realm.BSON.ObjectId;
+  owner_id!: Realm.BSON.ObjectId;
+  title!: string;
+  createdDate?: Date;
 
   static schema = {
-    name: 'Turtle',
+    name: 'SharedDocument',
     properties: {
-      _id: 'string',
-      name: 'string',
-      birthDate: 'mixed',
-      owner_id: 'string',
+      _id: 'objectId',
+      owner_id: 'objectId',
+      title: 'string',
+      createdDate: 'date',
     },
     primaryKey: '_id',
   };
 }
 
-class Cat extends Realm.Object<Cat> {
+class LocalDocument extends Realm.Object<LocalDocument> {
+  _id!: Realm.BSON.ObjectId;
   name!: string;
-  birthDate?: Realm.Mixed;
+  createdDate?: Date;
 
   static schema = {
-    name: 'Cat',
+    name: 'LocalDocument',
     properties: {
+      _id: 'objectId',
       name: 'string',
-      birthDate: 'mixed',
+      createdDate: 'date',
     },
   };
 }
 
-function AppSectionOne() {
-  const app = useApp();
-  const realm = useRealm();
+const SharedRealmContext = createRealmContext({
+  // Pass all of your models into the schema value.
+  schema: [SharedDocument],
+});
 
-  realm1Schema = realm.schema[0].name;
+const LocalRealmContext = createRealmContext({
+  // Pass all of your secondary models into the schema value.
+  schema: [LocalDocument],
+});
 
-  if (app.id !== APP_ID) {
-    throw new Error('Did not instantiate app client');
-  }
-
-  return (
-    <View>
-      <Text>Turtle realm</Text>
-    </View>
-  );
-}
-
-function AppSectionTwo() {
-  const app = useApp();
-  const realm = useRealm();
-
-  realm2Schema = realm.schema[0].name;
-
-  if (app.id !== APP_ID) {
-    throw new Error('Did not instantiate app client');
-  }
-
-  return (
-    <View>
-      <Text>Cat realm</Text>
-    </View>
-  );
-}
-// :remove-end:
+const {
+  RealmProvider: SharedDocumentRealmProvider,
+  useRealm: useSharedDocumentRealm,
+} = SharedRealmContext;
+const {
+  RealmProvider: LocalDocumentRealmProvider,
+  useRealm: useLocalDocumentRealm,
+} = LocalRealmContext;
 
 function TwoRealmsWrapper() {
   return (
-    <AppProvider id={APP_ID}>
-      <UserProvider fallback={LogIn}>
-        {/* This realm uses Flexible Sync. */}
-        <RealmProvider schema={[Turtle]} sync={{flexible: true}}>
-          <AppSectionOne />
-        </RealmProvider>
-        {/* This is a separate local-only realm. */}
-        <RealmProvider schema={[Cat]}>
-          <AppSectionTwo />
-        </RealmProvider>
-      </UserProvider>
-    </AppProvider>
+    <View>
+      <AppProvider id={APP_ID}>
+        <UserProvider fallback={LogIn}>
+          {/* This realm uses Flexible Sync. */}
+          <SharedDocumentRealmProvider sync={{flexible: true}}>
+            <AppSectionOne />
+          </SharedDocumentRealmProvider>
+        </UserProvider>
+      </AppProvider>
+
+      {/* This is a separate local-only realm. */}
+      <LocalDocumentRealmProvider>
+        <AppSectionTwo />
+      </LocalDocumentRealmProvider>
+    </View>
   );
+}
+
+function AppSectionOne() {
+  const realm = useSharedDocumentRealm();
+
+  // Work with shared documents...
+  // :remove-start:
+  sharedDocumentRealmSchema = realm.schema[0].name;
+
+  return (
+    <View>
+      <Text>Shared document realm</Text>
+    </View>
+  );
+  // :remove-end:
+}
+
+function AppSectionTwo() {
+  const realm = useLocalDocumentRealm();
+
+  // Work with local documents...
+  // :remove-start:
+  localDocumentRealmSchema = realm.schema[0].name;
+
+  return (
+    <View>
+      <Text>Local document realm</Text>
+    </View>
+  );
+  // :remove-end:
 }
 // :snippet-end:
 
@@ -100,24 +120,16 @@ function LogIn() {
   const app = useApp();
 
   async function logInUser() {
-    // When anonymous authentication is enabled, users can immediately log
-    // into your app without providing any identifying information.
     await app.logIn(Realm.Credentials.anonymous());
-    higherScopedUser = app.currentUser; // :remove:
+    higherScopedUser = app.currentUser;
   }
 
-  return (
-    <Button
-      title='Log In'
-      onPress={logInUser}
-      testID={testId} // :remove:
-    />
-  );
+  return <Button title='Log In' onPress={logInUser} testID={testId} />;
 }
 
 afterEach(async () => await Realm.App.getApp(APP_ID).currentUser?.logOut());
 
-test('Instantiate SecondRealmProvider correctly', async () => {
+test('Instantiate realm providers and test Sync', async () => {
   const {findByTestId} = render(<TwoRealmsWrapper />);
   const button = await findByTestId(testId);
 
@@ -128,10 +140,17 @@ test('Instantiate SecondRealmProvider correctly', async () => {
   });
 
   await waitFor(() => {
-    expect(realm1Schema).toBe('Turtle');
+    expect(sharedDocumentRealmSchema).toBe('SharedDocument');
   });
+});
+
+test('Instantiate realm providers and test local', async () => {
+  const {findByTestId} = render(<TwoRealmsWrapper />);
+  const button = await findByTestId(testId);
+
+  fireEvent.press(button);
 
   await waitFor(() => {
-    expect(realm2Schema).toBe('Cat');
+    expect(localDocumentRealmSchema).toBe('LocalDocument');
   });
 });

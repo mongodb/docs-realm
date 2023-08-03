@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Button, TextInput} from 'react-native';
 import {RealmProvider, useRealm} from '@realm/react';
-
 class Dog extends Realm.Object {
   static schema = {
     name: 'Dog',
