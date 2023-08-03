@@ -50,6 +50,23 @@ Realm Schema
 
 .. include:: /includes/realm-schema.rst
 
+Property Annotations
+~~~~~~~~~~~~~~~~~~~~
+
+Annotations add functionality to properties in your Realm object models.  
+You can use annotations for things like marking a property as nullable, setting a primary key, ignoring a property, and more. 
+
+To learn more about the available property annotations, refer to :ref:`Property Annotations <kotlin-property-annotations>`.
+
+Relationship Properties
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can define relationships between Realm objects in your schema. 
+The Realm Kotlin SDK supports to-one relationships, to-many relationships, 
+inverse relationships, and embedding objects within other objects. 
+
+To learn more about how to define relationships in your Realm object schema, refer to :ref:`Relationships <kotlin-relationships>`.
+
 .. _kotlin-define-a-new-object-type:
 
 Define a New Object Type
@@ -59,8 +76,6 @@ To define a Realm object type:
 
 1. Create a uniquely named Kotlin class that implements the 
    `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ 
-   or 
-   `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
    interface. 
 
 #. Add fields to your class. You can add any :ref:`supported data types <kotlin-supported-types>` as a field in your class. 
@@ -81,23 +96,26 @@ when you :ref:`open the realm <kotlin-open-a-realm>`.
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.open-with-class.kt
   :language: kotlin
   :emphasize-lines: 2
-   
-Add Property Annotations
-~~~~~~~~~~~~~~~~~~~~~~~~
+  
+.. _kotlin-define-embedded-object:
 
-Use annotations to add functionality to properties in your Realm object models.  
-You can use annotations for things like marking a property as nullable, setting a primary key, ignoring a property, and more. 
+Define an Embedded Object
+-------------------------
 
-To learn more about the available property annotations, refer to :ref:`Property Annotations <kotlin-property-annotations>`.
+To define an :ref:`embedded object <kotlin-embedded-objects>`, derive a class from 
+`EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__: 
 
-Define Relationship Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.embedded-object-model.kt 
+    :language: kotlin
 
-You can define relationships between Realm objects in your schema. 
-The Realm Kotlin SDK supports to-one relationships, to-many relationships, 
-inverse relationships, and embedding objects within other objects. 
+Once your embedded object class is defined, you must include its schema in the
+realm's 
+`configuration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__
+to use it in your realm instance:
 
-To learn more about how to define relationships in your Realm object schema, refer to :ref:`Relationships <kotlin-relationships>`.
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.open-realm-embedded-object.kt 
+    :language: kotlin 
+    :emphasize-lines: 3
 
 Define an Asymmetric Object
 ---------------------------
