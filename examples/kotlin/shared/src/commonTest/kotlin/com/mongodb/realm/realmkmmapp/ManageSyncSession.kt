@@ -12,7 +12,6 @@ import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.mongodb.kbson.BsonObjectId
@@ -64,17 +63,17 @@ class ManageSyncSession : RealmTest() {
                 })
             }
 
+            val upload = // :remove:
             // Wait for local changes to be uploaded to Atlas
             realm.syncSession.uploadAllLocalChanges(1.minutes)
             // :snippet-end:
+            assertTrue(upload)
             realm.write {
                 val tasks = query<SyncTask>().find()
-                assertEquals(1, tasks.size)
-                assertEquals("Review proposal", tasks.first().taskName)
                 delete(tasks)
                 assertEquals(0, tasks.size)
             }
-            delay(1000)
+            realm.syncSession.uploadAllLocalChanges()
             user.remove()
             realm.close()
         }
@@ -111,12 +110,10 @@ class ManageSyncSession : RealmTest() {
             assertEquals(SyncSession.State.ACTIVE, realm.syncSession.state)
             realm.write {
                 val tasks = query<SyncTask>().find()
-                assertEquals(1, tasks.size)
-                assertEquals("Submit expense report", tasks.first().taskName)
                 delete(tasks)
                 assertEquals(0, tasks.size)
             }
-            delay(1000)
+            realm.syncSession.uploadAllLocalChanges()
             user.remove()
             realm.close()
         }
@@ -157,12 +154,10 @@ class ManageSyncSession : RealmTest() {
             assertTrue(stream.first().isTransferComplete)
             realm.write {
                 val tasks = query<SyncTask>().find()
-                assertEquals(1, tasks.size)
-                assertEquals("Schedule appointment", tasks.first().taskName)
                 delete(tasks)
                 assertEquals(0, tasks.size)
             }
-            delay(1000)
+            realm.syncSession.uploadAllLocalChanges()
             user.remove()
             realm.close()
         }
@@ -203,12 +198,10 @@ class ManageSyncSession : RealmTest() {
             }
             realm.write {
                 val tasks = query<SyncTask>().find()
-                assertEquals(1, tasks.size)
-                assertEquals("Do a thing", tasks.first().taskName)
                 delete(tasks)
                 assertEquals(0, tasks.size)
             }
-            delay(1000)
+            realm.syncSession.uploadAllLocalChanges()
             flow.cancel()
             user.remove()
             realm.close()

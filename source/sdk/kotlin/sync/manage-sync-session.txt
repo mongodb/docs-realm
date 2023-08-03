@@ -88,10 +88,11 @@ When to Pause a Sync Session
 Monitor Network Connection
 --------------------------
 
-You can get the state of the current network connection with
-`connectionState <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/connection-state.html>`__.
-This returns a `connectionState <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-connection-state/index.html>`__ 
-enum that contains the network connection's state: 
+You can get the state of the current network connection by checking the
+`SyncSession.connectionState <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/connection-state.html>`__ property.
+This returns a `ConnectionState <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-connection-state/index.html>`__ 
+enum value that indicates the state of the network connection. The possible 
+states are:  
 ``CONNECTED``, ``DISCONNECTED``, or ``CONNECTING``.
 
 .. literalinclude:: /examples/generated/kotlin/ManageSyncSession.snippet.get-network-connection.kt

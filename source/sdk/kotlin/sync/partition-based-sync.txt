@@ -68,8 +68,12 @@ Check Upload & Download Progress for a Sync Session
   available for realms using Partition-Based Sync. The Kotlin SDK does not 
   yet support progress listeners for Flexible Sync.
 
+You can monitor the upload and download progress of a sync session. The sync 
+session starts when you open a synced realm. For more information, refer to
+:ref:`Manage a Sync Session <kotlin-manage-sync-session>`.
+
 To monitor Sync upload and download progress, call 
-`progressAsFlow() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/progress-as-flow.html>`__ 
+`SyncSession.progressAsFlow() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/progress-as-flow.html>`__ 
 
 This method returns a Flow of 
 `Progress <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-progress/index.html>`__ 
@@ -78,7 +82,7 @@ number of transferrable bytes and the remaining bytes to be transferred.
 
 ``syncSession.progressAsFlow()`` takes two arguments:
 
-- A `Direction <{+kotlin-sync-prefix+}/io.realm.kotlin.mongodb.sync/-direction/index.html>`__
+- A `Direction <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-direction/index.html>`__
   enum that can be set to ``UPLOAD`` or ``DOWNLOAD``.
   This specifies that the progress stream tracks uploads or downloads.
 
