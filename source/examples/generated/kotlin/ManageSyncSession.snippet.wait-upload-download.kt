@@ -1,5 +1,5 @@
 // Wait to download all pending changes from Atlas
-realm.syncSession.downloadAllServerChanges()
+realm.syncSession.downloadAllServerChanges(1.minutes)
 
 // Add data locally
 realm.write {
@@ -11,4 +11,4 @@ realm.write {
 }
 
 // Wait for local changes to be uploaded to Atlas
-realm.syncSession.uploadAllLocalChanges()
+realm.syncSession.uploadAllLocalChanges(1.minutes)

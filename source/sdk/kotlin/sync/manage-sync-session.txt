@@ -40,11 +40,19 @@ Wait for Changes to Upload and Download
 
 To asynchronously wait for all changes to upload to Atlas from your synced realm,
 call
-`uploadAllLocalChanges <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__.
+`uploadAllLocalChanges <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__. 
+This method returns ``true`` when all changes have been uploaded. 
 
 To asynchronously wait for all changes on Atlas to download from the Device Sync 
 server to your synced realm, call 
 `downloadAllServerChanges <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__.
+This method returns ``true`` when all changes have been downloaded.
+
+You can also include an optional ``timeout`` parameter to either method to 
+determine the maximum amount of time before an exception is thrown. Note that 
+the upload or download continues in the background even after returning ``false``.
+
+The following example demonstrates calling both methods with a timeout defined:
 
 .. literalinclude:: /examples/generated/kotlin/ManageSyncSession.snippet.wait-upload-download.kt
    :language: kotlin

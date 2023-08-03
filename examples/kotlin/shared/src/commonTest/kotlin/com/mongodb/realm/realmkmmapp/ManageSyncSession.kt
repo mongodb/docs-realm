@@ -20,6 +20,7 @@ import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.minutes
 
 
 // :replace-start: {
@@ -52,7 +53,7 @@ class ManageSyncSession : RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration}")
             // :snippet-start: wait-upload-download
             // Wait to download all pending changes from Atlas
-            realm.syncSession.downloadAllServerChanges()
+            realm.syncSession.downloadAllServerChanges(1.minutes)
 
             // Add data locally
             realm.write {
@@ -64,7 +65,7 @@ class ManageSyncSession : RealmTest() {
             }
 
             // Wait for local changes to be uploaded to Atlas
-            realm.syncSession.uploadAllLocalChanges()
+            realm.syncSession.uploadAllLocalChanges(1.minutes)
             // :snippet-end:
             realm.write {
                 val tasks = query<SyncTask>().find()

@@ -62,6 +62,12 @@ To adjust specific configuration settings, use the options provided by
 Check Upload & Download Progress for a Sync Session
 ---------------------------------------------------
 
+.. note:: 
+
+  The ``progressAsFlow()`` listener in the Kotlin SDK is only currently 
+  available for realms using Partition-Based Sync. The Kotlin SDK does not 
+  yet support progress listeners for Flexible Sync.
+
 To monitor Sync upload and download progress, call 
 `progressAsFlow() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/progress-as-flow.html>`__ 
 
