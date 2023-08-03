@@ -3,15 +3,6 @@ val stream = realm.syncSession.progressAsFlow(
 )
 stream.collect { progress ->
     if (progress.transferableBytes == progress.transferredBytes) {
-        println("Upload complete")
+        Log.i("Upload complete")
     }
-}
-
-// Upload data
-realm.write {
-    this.copyToRealm(Task().apply {
-        taskName = "Schedule appointment"
-        assignee = "Jane"
-        progressMinutes = 0
-    })
 }

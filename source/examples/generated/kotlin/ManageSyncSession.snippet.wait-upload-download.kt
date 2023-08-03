@@ -4,7 +4,7 @@ realm.syncSession.downloadAllServerChanges()
 // Add data locally
 realm.write {
     this.copyToRealm(Task().apply {
-        taskName = "Do the laundry"
+        taskName = "Review proposal"
         assignee = "Emma"
         progressMinutes = 0
     })

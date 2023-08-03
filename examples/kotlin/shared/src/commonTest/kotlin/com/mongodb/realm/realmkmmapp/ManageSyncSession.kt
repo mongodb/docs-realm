@@ -5,10 +5,7 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
-import io.realm.kotlin.mongodb.sync.ConnectionState
-import io.realm.kotlin.mongodb.sync.Direction
-import io.realm.kotlin.mongodb.sync.ProgressMode
-import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.mongodb.sync.*
 import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.types.RealmInstant
 import io.realm.kotlin.types.RealmObject
@@ -16,11 +13,13 @@ import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.mongodb.kbson.BsonObjectId
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 
 // :replace-start: {
@@ -58,7 +57,7 @@ class ManageSyncSession : RealmTest() {
             // Add data locally
             realm.write {
                 this.copyToRealm(SyncTask().apply {
-                    taskName = "Do the laundry"
+                    taskName = "Review proposal"
                     assignee = "Emma"
                     progressMinutes = 0
                 })
@@ -70,7 +69,7 @@ class ManageSyncSession : RealmTest() {
             realm.write {
                 val tasks = query<SyncTask>().find()
                 assertEquals(1, tasks.size)
-                assertEquals("Do the laundry", tasks.first().taskName)
+                assertEquals("Review proposal", tasks.first().taskName)
                 delete(tasks)
                 assertEquals(0, tasks.size)
             }
@@ -93,6 +92,7 @@ class ManageSyncSession : RealmTest() {
             // Pause the sync session
             // Data that you write while session is paused does not sync to Atlas
             realm.syncSession.pause()
+            assertEquals(SyncSession.State.PAUSED, realm.syncSession.state) // :remove:
 
             // Add data locally
             realm.write {
@@ -107,6 +107,7 @@ class ManageSyncSession : RealmTest() {
             // Local changes now sync to Atlas
             realm.syncSession.resume()
             // :snippet-end:
+            assertEquals(SyncSession.State.ACTIVE, realm.syncSession.state)
             realm.write {
                 val tasks = query<SyncTask>().find()
                 assertEquals(1, tasks.size)
@@ -134,17 +135,7 @@ class ManageSyncSession : RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration}")
-            // :snippet-start: monitor-progress
-            val stream = realm.syncSession.progressAsFlow(
-                Direction.UPLOAD, ProgressMode.CURRENT_CHANGES
-            )
-            stream.collect { progress ->
-                if (progress.transferableBytes == progress.transferredBytes) {
-                    println("Upload complete")
-                }
-            }
 
-            // Upload data
             realm.write {
                 this.copyToRealm(SyncTask().apply {
                     taskName = "Schedule appointment"
@@ -152,7 +143,17 @@ class ManageSyncSession : RealmTest() {
                     progressMinutes = 0
                 })
             }
+            // :snippet-start: monitor-progress
+            val stream = realm.syncSession.progressAsFlow(
+                Direction.UPLOAD, ProgressMode.CURRENT_CHANGES
+            )
+            stream.collect { progress ->
+                if (progress.transferableBytes == progress.transferredBytes) {
+                    Log.i("Upload complete")
+                }
+            }
             // :snippet-end:
+            assertTrue(stream.first().isTransferComplete)
             realm.write {
                 val tasks = query<SyncTask>().find()
                 assertEquals(1, tasks.size)
@@ -190,6 +191,7 @@ class ManageSyncSession : RealmTest() {
                     }
                 }
                 // :snippet-end:
+                assertEquals(ConnectionState.CONNECTED, realm.syncSession.connectionState)
             }
             realm.write {
                 this.copyToRealm(SyncTask().apply {
