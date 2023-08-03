@@ -49,7 +49,7 @@ server to your synced realm, call
 This method returns ``true`` when all changes have been downloaded.
 
 You can also include an optional ``timeout`` parameter to either method to 
-determine the maximum amount of time before an exception is thrown. Note that 
+determine the maximum amount of time before returning ``false``. Note that 
 the upload or download continues in the background even after returning ``false``.
 
 The following example demonstrates calling both methods with a timeout defined:
