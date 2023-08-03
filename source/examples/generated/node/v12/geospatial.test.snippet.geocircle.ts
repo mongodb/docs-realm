@@ -4,8 +4,8 @@ const smallCircle: GeoCircle = {
 };
 
 const largeCircleCenter: GeoPoint = {
-  latitude: 47.8,
   longitude: -122.6,
+  latitude: 47.8,
 };
 
 const radius = kmToRadians(44.4);

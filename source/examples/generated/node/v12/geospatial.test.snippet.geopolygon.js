@@ -36,20 +36,20 @@ const polygonWithOneHole = {
 // Add a second hole to the polygon
 const hole2 = [
   {
-    latitude: 47.55,
     longitude: -122.05,
+    latitude: 47.55,
   },
   {
-    latitude: 47.55,
     longitude: -121.9,
-  },
-  {
-    latitude: 47.3,
-    longitude: -122.1,
-  },
-  {
     latitude: 47.55,
+  },
+  {
+    longitude: -122.1,
+    latitude: 47.3,
+  },
+  {
     longitude: -122.05,
+    latitude: 47.55,
   },
 ];
 

@@ -74,8 +74,8 @@ describe("Geospatial", () => {
     };
 
     const largeCircleCenter: GeoPoint = {
-      latitude: 47.8,
       longitude: -122.6,
+      latitude: 47.8,
     };
 
     const radius = kmToRadians(44.4);
@@ -93,12 +93,12 @@ describe("Geospatial", () => {
     };
 
     const smallBoxBottomLeft: GeoPoint = {
-      latitude: 47.5,
       longitude: -122.4,
+      latitude: 47.5,
     };
     const smallBoxTopRight: GeoPoint = {
-      latitude: 47.9,
       longitude: -121.8,
+      latitude: 47.9,
     };
     const smallBox: GeoBox = {
       bottomLeft: smallBoxBottomLeft,
@@ -145,20 +145,20 @@ describe("Geospatial", () => {
     // Add a second hole to the polygon
     const hole2: GeoPoint[] = [
       {
-        latitude: 47.55,
         longitude: -122.05,
+        latitude: 47.55,
       },
       {
-        latitude: 47.55,
         longitude: -121.9,
-      },
-      {
-        latitude: 47.3,
-        longitude: -122.1,
-      },
-      {
         latitude: 47.55,
+      },
+      {
+        longitude: -122.1,
+        latitude: 47.3,
+      },
+      {
         longitude: -122.05,
+        latitude: 47.55,
       },
     ];
 
