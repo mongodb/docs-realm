@@ -1,4 +1,5 @@
 .. _cpp-crud-read:
+.. _cpp-read-from-realm:
 
 =============================
 CRUD - Read - C++ SDK Preview
@@ -9,11 +10,6 @@ CRUD - Read - C++ SDK Preview
    :backlinks: none
    :depth: 2
    :class: singlecol
-
-.. _cpp-read-from-realm:
-
-Key Concept: Read from Realm
-----------------------------
 
 A read from a realm generally consists of the following
 steps:
@@ -29,7 +25,7 @@ results of the associated query.
 .. _cpp-realm-read-characteristics:
 
 Read Characteristics
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 Design your app's data access patterns around these three key 
 read characteristics to read data as efficiently as possible.
@@ -37,7 +33,7 @@ read characteristics to read data as efficiently as possible.
 .. _cpp-results-are-not-copies:
 
 Results Are Not Copies
-``````````````````````
+~~~~~~~~~~~~~~~~~~~~~~
 
 Results to a query are not copies of your data. Modifying
 the results of a query modifies the data on disk
@@ -49,7 +45,7 @@ disk.
 .. _cpp-lazy-evaluated-results:
 
 Results Are Lazy
-````````````````
+~~~~~~~~~~~~~~~~
 
 Realm only runs a query when you actually request the
 results of that query. This lazy evaluation enables you to write
@@ -60,7 +56,7 @@ extra work to process the intermediate state.
 .. _cpp-references-retained:
 
 References Are Retained
-```````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~
 
 One benefit of Realm's object model is that
 Realm automatically retains all of an object's
