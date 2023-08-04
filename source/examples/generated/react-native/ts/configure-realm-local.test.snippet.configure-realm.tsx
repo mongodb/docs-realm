@@ -1,27 +1,9 @@
 import React from 'react';
-import {Realm, RealmProvider} from '@realm/react';
-
-class Turtle extends Realm.Object {
-  _id!: string;
-  owner_id!: string;
-  name!: string;
-  birthDate?: Realm.Mixed;
-
-  static schema = {
-    name: 'Turtle',
-    properties: {
-      _id: 'string',
-      name: 'string',
-      birthDate: 'mixed',
-      owner_id: 'string',
-    },
-    primaryKey: '_id',
-  };
-}
+import {RealmProvider} from '@realm/react';
 
 function AppWrapperLocal() {
   return (
-    <RealmProvider schema={[Turtle]}>
+    <RealmProvider schema={[YourSchema]}>
       <MyApp />
     </RealmProvider>
   );

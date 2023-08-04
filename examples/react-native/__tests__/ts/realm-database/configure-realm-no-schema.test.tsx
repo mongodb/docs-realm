@@ -1,11 +1,11 @@
 // :snippet-start: configure-no-schema
 import React from 'react';
-import {RealmProvider, useRealm} from '@realm/react';
+import {RealmProvider} from '@realm/react';
 // :remove-start:
 import {Text, FlatList} from 'react-native';
 import Business from '../Models/Business';
 import Address from '../Models/Address';
-import {Realm} from '@realm/react';
+import {Realm, useRealm} from '@realm/react';
 import {render} from '@testing-library/react-native';
 
 let higherScopeSchema: Realm.CanonicalObjectSchema[];

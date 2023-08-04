@@ -1,5 +1,5 @@
 import React from 'react';
-import {RealmProvider, useRealm} from '@realm/react';
+import {RealmProvider} from '@realm/react';
 
 function AppWrapper() {
   return (

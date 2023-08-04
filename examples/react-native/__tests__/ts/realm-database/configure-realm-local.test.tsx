@@ -1,8 +1,8 @@
 // :snippet-start: configure-realm
 import React from 'react';
-import {Realm, RealmProvider} from '@realm/react';
+import {RealmProvider} from '@realm/react';
 // :remove-start:
-import {useRealm} from '@realm/react';
+import {Realm, useRealm} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
 import {View, Text} from 'react-native';
 

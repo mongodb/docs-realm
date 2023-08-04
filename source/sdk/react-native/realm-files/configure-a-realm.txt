@@ -22,6 +22,8 @@ About RealmProvider
 
 :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>` is a wrapper
 from the ``@realm/react`` package that exposes a realm to its child components.
+You configure your realm by passing props to ``RealmProvider``.
+
 All child components inside ``RealmProvider`` have access to hooks that let you
 read, write, and update data.
 
@@ -80,19 +82,19 @@ and Provider components. You can access realms with React hooks.
 
 To expose more than one realm, consider the following:
 
-- Each realm needs its own context object, created with
+- Each realm needs its own Context object, created with
   :realm-react-sdk:`createRealmContext() </functions/createRealmContext.html>`.
 - The providers and hooks within each context should be namespaced so that it's
   easy to reason about the realm you're working with.
 - If you import ``RealmProvider`` directly from ``@realm/react``, it is a
-  separate context object. That object's providers and hooks can't be unsynced
-  with context objects created using ``createRealmContext``.
+  separate Context object. That object's providers and hooks can't be unsynced
+  with Context objects created using ``createRealmContext``.
 
 Create Separate Context Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can open more than one realm at a time by creating additional Context
-Objects using :realm-react-sdk:`createRealmContext() </functions/createRealmContext.html>`.
+objects using :realm-react-sdk:`createRealmContext() </functions/createRealmContext.html>`.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.create-contexts.tsx
    :language: typescript
@@ -100,7 +102,7 @@ Objects using :realm-react-sdk:`createRealmContext() </functions/createRealmCont
 Extract Providers and Hooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You need to extract providers and hooks from each Context Object. You
+You need to extract providers and hooks from each Context object. You
 should namespace the providers and hooks using destructuring. This makes it
 easier to reason about the realm you're working with.
 
@@ -113,7 +115,7 @@ hooks are available for a ``RealmProvider`` that isn't using Device Sync.
 Use Namespaced Providers and Hooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After extracting a Context Object's providers and hooks, you can use them in
+After extracting a Context object's providers and hooks, you can use them in
 your app's components. Child components inside of extracted providers have
 access to extracted hooks.
 
