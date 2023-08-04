@@ -17,8 +17,16 @@ How you configure your realm will determine the capabilities of your realm
 and how you work with your data. This page contains information about how
 to configure your realm in various ways.
 
-About RealmProvider
--------------------
+Prerequisites
+-------------
+
+Before you configure a realm in a React Native application:
+
+#. :ref:`Install the Realm React Native SDK <react-native-install>`.
+#. :npm:`Install the @realm/react package <package/@realm/react>`.
+
+RealmProvider
+-------------
 
 :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>` is a wrapper
 from the ``@realm/react`` package that exposes a realm to its child components.
@@ -46,11 +54,11 @@ set ``fallback`` and ``realmRef`` props.
 
 .. _non-synced-hooks:
 
-Non-Synced RealmProvider Hooks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RealmProvider Hooks
+~~~~~~~~~~~~~~~~~~~
 
-Child components of a non-sync ``RealmProvider`` have access to hooks that
-help you work with data in your realm.
+Child components of a ``RealmProvider`` have access to hooks that help you work
+with data in your realm.
 
 - :realm-react-sdk:`useObject <functions/useObject.html>`
 - :realm-react-sdk:`useQuery <functions/useQuery.html>`

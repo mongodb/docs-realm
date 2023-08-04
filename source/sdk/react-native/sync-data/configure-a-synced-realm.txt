@@ -16,7 +16,10 @@ You can configure a realm to automatically synchronize data between many devices
 that each have their own local copy of the data. 
 
 For more information about synced realms, including directions on how to set up
-sync in an App Services App, see :ref:`Atlas Device Sync Overview <sync>`.
+sync in an App Services App, refer to :ref:`Atlas Device Sync Overview <sync>`.
+
+For more information about different realm configurations, refer to
+:ref:`Configure a Realm <react-native-configure-realm>`.
 
 Prerequisites
 -------------
@@ -27,7 +30,79 @@ Before you configure a realm with Flexible Sync in a React Native application:
    You must configure Flexible Sync in the backend before you can use it with your
    client application.
 #. :ref:`Initialize the App client <react-native-connect-to-mongodb-realm-backend-app>`.
-#. :ref:`Authenticate a user <react-native-authenticate-users>` in your client project.
+#. :ref:`Authenticate a user <react-native-authenticate-users>` in your client
+   project.
+
+@realm/react Providers
+----------------------
+
+
+
+RealmProvider
+~~~~~~~~~~~~~
+
+.. TODO: turn into an include. Content also exists on `configure-a-realm.txt`
+
+:realm-react-sdk:`RealmProvider <functions/RealmProvider.html>` is a wrapper
+from the ``@realm/react`` package that exposes a realm to its child components.
+You configure your realm by passing props to ``RealmProvider``.
+
+All child components inside ``RealmProvider`` have access to hooks that let you
+read, write, and update data.
+
+When ``RealmProvider`` is rendered, it opens the realm. This means that you need
+to ensure the provider renders successfully or its child components can't access
+the realm.
+
+Configuration Options
+`````````````````````
+
+You can configure ``RealmProvider`` by setting props that match the properties
+of a :js-sdk:`Configuration object <Realm.html#~Configuration>`. You can also
+set ``fallback`` and ``realmRef`` props.
+
+- ``realmRef``. Used with ``useRef`` to expose the configured realm to processes
+   outside of ``RealmProvider``. This can be useful for things like a client
+   reset fallback. 
+- ``fallback``. Rendered while waiting for the realm to open. Local realms
+   usually open fast enough that the ``fallback`` prop isn't needed.
+
+.. _synced-hooks:
+
+RealmProvider Hooks
+```````````````````
+
+Child components of a ``RealmProvider`` have access to hooks that help you work
+with data in your realm.
+
+- :realm-react-sdk:`useObject <functions/useObject.html>`
+- :realm-react-sdk:`useQuery <functions/useQuery.html>`
+- :realm-react-sdk:`useRealm <functions/useRealm.html>`
+
+UserProvider
+~~~~~~~~~~~~
+
+
+
+UserProvider Hooks
+``````````````````
+
+
+
+- :realm-react-sdk:`useUser <functions/useUser.html>`
+
+AppProvider
+~~~~~~~~~~~
+
+
+
+AppProvider Hooks
+``````````````````
+
+- :realm-react-sdk:`useApp <functions/useApp.html>`
+- :realm-react-sdk:`useAuth <functions/useAuth.html>`
+- :realm-react-sdk:`useAuthResult <functions/useAuthResult.html>`
+- :realm-react-sdk:`useEmailPasswordResult <functions/useEmailPasswordResult.html>`
 
 Configure a Flexible Sync Realm
 -------------------------------
