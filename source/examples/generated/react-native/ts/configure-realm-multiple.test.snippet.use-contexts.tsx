@@ -3,7 +3,7 @@ function TwoRealmsWrapper() {
     <View>
       <AppProvider id={APP_ID}>
         <UserProvider fallback={LogIn}>
-          {/* This realm uses Flexible Sync. */}
+          {/* This is a Flexible Sync realm. */}
           <SharedDocumentRealmProvider sync={{flexible: true}}>
             <AppSectionOne />
           </SharedDocumentRealmProvider>

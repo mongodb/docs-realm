@@ -93,16 +93,28 @@ To expose more than one realm, consider the following:
 Create Separate Context Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can open more than one realm at a time by creating additional ``RealmProvider``
-components and passing them different configurations.
+You can open more than one realm at a time by creating additional Context
+Objects.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.create-contexts.tsx
    :language: typescript
 
-Namespace Providers and Hooks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Extract Providers and Hooks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Maybe?
+You need to extract providers and hooks from each Context Object. You
+should namespace the providers and hooks using destructuring so that it's easy
+to reason about the realm you're working with.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.extract-providers-and-hooks.tsx
+   :language: typescript
+
+Use Namespaced Providers and Hooks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After extracting a Context Object's providers and hooks, you can use them in
+your app's components. Child components inside of extracted providers have
+access to extracted hooks.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.use-contexts.tsx
    :language: typescript

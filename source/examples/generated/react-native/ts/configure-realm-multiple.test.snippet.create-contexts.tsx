@@ -39,21 +39,12 @@ class LocalDocument extends Realm.Object<LocalDocument> {
   };
 }
 
+// Create Shared Document context object.
 const SharedRealmContext = createRealmContext({
-  // Pass all of your models into the schema value.
   schema: [SharedDocument],
 });
 
+// Create Local Document context object.
 const LocalRealmContext = createRealmContext({
-  // Pass all of your secondary models into the schema value.
   schema: [LocalDocument],
 });
-
-const {
-  RealmProvider: SharedDocumentRealmProvider,
-  useRealm: useSharedDocumentRealm,
-} = SharedRealmContext;
-const {
-  RealmProvider: LocalDocumentRealmProvider,
-  useRealm: useLocalDocumentRealm,
-} = LocalRealmContext;

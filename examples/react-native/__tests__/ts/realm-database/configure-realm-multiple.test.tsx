@@ -51,20 +51,25 @@ class LocalDocument extends Realm.Object<LocalDocument> {
   };
 }
 
+// Create Shared Document context object.
 const SharedRealmContext = createRealmContext({
-  // Pass all of your models into the schema value.
   schema: [SharedDocument],
 });
 
+// Create Local Document context object.
 const LocalRealmContext = createRealmContext({
-  // Pass all of your secondary models into the schema value.
   schema: [LocalDocument],
 });
+// :snippet-end:
 
+// :snippet-start: extract-providers-and-hooks
+// Namespace the Shared Document context's providers and hooks.
 const {
   RealmProvider: SharedDocumentRealmProvider,
   useRealm: useSharedDocumentRealm,
 } = SharedRealmContext;
+
+// Namespace the Local Document context's providers and hooks.
 const {
   RealmProvider: LocalDocumentRealmProvider,
   useRealm: useLocalDocumentRealm,
@@ -77,7 +82,7 @@ function TwoRealmsWrapper() {
     <View>
       <AppProvider id={APP_ID}>
         <UserProvider fallback={LogIn}>
-          {/* This realm uses Flexible Sync. */}
+          {/* This is a Flexible Sync realm. */}
           <SharedDocumentRealmProvider sync={{flexible: true}}>
             <AppSectionOne />
           </SharedDocumentRealmProvider>
