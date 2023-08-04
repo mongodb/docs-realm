@@ -1,9 +1,14 @@
 // :snippet-start: two-realm-contexts
 import React from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
+import {
+  Realm,
+  AppProvider,
+  UserProvider,
+  createRealmContext,
+} from '@realm/react';
 // :remove-start:
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
-import {Realm, useApp, createRealmContext} from '@realm/react';
+import {useApp} from '@realm/react';
 import {Button, View, Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
