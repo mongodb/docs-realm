@@ -13,15 +13,16 @@ function MyApp() {
 
   isRealmClosed = realm.isClosed;
 
+  expect(realm.schema[0].name).toBe('Turtle');
+
   return (
     <View>
-      <Text>Foo</Text>
+      <Text>Turtle!</Text>
     </View>
   );
 }
-// :remove-end:
 
-class Turtle extends Realm.Object {
+class YourSchema extends Realm.Object {
   _id!: string;
   owner_id!: string;
   name!: string;
@@ -38,10 +39,11 @@ class Turtle extends Realm.Object {
     primaryKey: '_id',
   };
 }
+// :remove-end:
 
 function AppWrapperLocal() {
   return (
-    <RealmProvider schema={[Turtle]}>
+    <RealmProvider schema={[YourSchema]}>
       <MyApp />
     </RealmProvider>
   );
@@ -49,7 +51,10 @@ function AppWrapperLocal() {
 // :snippet-end:
 
 test('Instantiate RealmProvider correctly', async () => {
-  render(<AppWrapperLocal />);
+  const {findByText} = render(<AppWrapperLocal />);
+  const renderedText = await findByText('Turtle!');
+
+  expect(renderedText).toBeTruthy();
 
   await waitFor(() => {
     expect(isRealmClosed).toBe(false);

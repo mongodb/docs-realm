@@ -10,33 +10,24 @@ Configure a Realm - React Native SDK
    :depth: 2
    :class: singlecol
 
-To configure and open a non-synced realm using the ``@realm/react`` library, pass
-a Realm configuration object to a ``RealmProvider`` component. All child
-components of ``RealmProvider`` can access the realm using hooks.
-
-By passing a :js-sdk:`Configuration object <Realm.html#~Configuration>` to 
-``RealmProvider`` you get:
-
-- A component that contains an open realm 
-- Some hooks that give you access to the realm
+The Realm React Native SDK and ``@realm/react`` package provide many
+configuration options for your realm.
 
 How you configure your realm will determine the capabilities of your realm
-and how you work with your data.
+and how you work with your data. This page contains information about how
+to configure your realm in various ways.
 
-Configure a Realm Without Sync
-------------------------------
+About RealmProvider
+-------------------
 
-You can import ``RealmProvider`` from ``@realm/react``. This provider is a
-wrapper that exposes a realm to its child components. All child components
-inside ``RealmProvider`` have access to hooks that let you read, write, and
-update data.
+:realm-react-sdk:`RealmProvider <functions/RealmProvider.html>` is a wrapper
+from the ``@realm/react`` package that exposes a realm to its child components.
+All child components inside ``RealmProvider`` have access to hooks that let you
+read, write, and update data.
 
 When ``RealmProvider`` is rendered, it opens the realm. This means that you need
-to ensure the provider renders before its child components can access the realm.
-
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
-   :language: typescript
-   :emphasize-lines: 24-26
+to ensure the provider renders successfully or its child components can't access
+the realm.
 
 Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~
@@ -51,6 +42,29 @@ set ``fallback`` and ``realmRef`` props.
 - ``fallback``. Rendered while waiting for the realm to open. Local realms
    usually open fast enough that the ``fallback`` prop isn't needed.
 
+.. _non-synced-hooks:
+
+Non-Synced RealmProvider Hooks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Child components of a non-sync ``RealmProvider`` have access to hooks that
+help you work with data in your realm.
+
+- :realm-react-sdk:`useObject <functions/useObject.html>`
+- :realm-react-sdk:`useQuery <functions/useQuery.html>`
+- :realm-react-sdk:`useRealm <functions/useRealm.html>`
+
+Configure a Realm Without Sync
+------------------------------
+
+To configure a non-synced realm:
+
+#. Import ``RealmProvider`` from ``@realm/react``.
+#. Pass your object models to the ``schema`` prop.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
+   :language: typescript
+
 Configure a Synced Realm
 ------------------------
 
@@ -60,13 +74,14 @@ refer to :ref:`Open a Synced Realm <react-native-open-a-synced-realm>`.
 Expose More Than One Realm
 --------------------------
 
-The ``@realm/react`` library exposes realms in your application using 
+The ``@realm/react`` package exposes realms in your application using 
 `React Context objects <https://react.dev/learn/passing-data-deeply-with-context>`__
 and Provider components. You can access realms with React hooks.
 
 To expose more than one realm, consider the following:
 
-- Each realm needs its own context object, created with ``createRealmContext()``.
+- Each realm needs its own context object, created with
+  :realm-react-sdk:`createRealmContext() </functions/createRealmContext.html>`.
 - The providers and hooks within each context should be namespaced so that it's
   easy to reason about the realm you're working with.
 - If you import ``RealmProvider`` directly from ``@realm/react``, it is a
@@ -77,7 +92,7 @@ Create Separate Context Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can open more than one realm at a time by creating additional Context
-Objects.
+Objects using :realm-react-sdk:`createRealmContext() </functions/createRealmContext.html>`.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.create-contexts.tsx
    :language: typescript
@@ -86,8 +101,11 @@ Extract Providers and Hooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You need to extract providers and hooks from each Context Object. You
-should namespace the providers and hooks using destructuring so that it's easy
-to reason about the realm you're working with.
+should namespace the providers and hooks using destructuring. This makes it
+easier to reason about the realm you're working with.
+
+Refer to :ref:`Non-Synced RealmProvider Hooks <non-synced-hooks>` to see which
+hooks are available for a ``RealmProvider`` that isn't using Device Sync.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.extract-providers-and-hooks.tsx
    :language: typescript
