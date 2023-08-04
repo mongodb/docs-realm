@@ -1,5 +1,10 @@
 import React from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
+import {
+  Realm,
+  AppProvider,
+  UserProvider,
+  createRealmContext,
+} from '@realm/react';
 
 class SharedDocument extends Realm.Object<SharedDocument> {
   _id!: Realm.BSON.ObjectId;
@@ -52,35 +57,3 @@ const {
   RealmProvider: LocalDocumentRealmProvider,
   useRealm: useLocalDocumentRealm,
 } = LocalRealmContext;
-
-function TwoRealmsWrapper() {
-  return (
-    <View>
-      <AppProvider id={APP_ID}>
-        <UserProvider fallback={LogIn}>
-          {/* This realm uses Flexible Sync. */}
-          <SharedDocumentRealmProvider sync={{flexible: true}}>
-            <AppSectionOne />
-          </SharedDocumentRealmProvider>
-        </UserProvider>
-      </AppProvider>
-
-      {/* This is a separate local-only realm. */}
-      <LocalDocumentRealmProvider>
-        <AppSectionTwo />
-      </LocalDocumentRealmProvider>
-    </View>
-  );
-}
-
-function AppSectionOne() {
-  const realm = useSharedDocumentRealm();
-
-  // Work with shared documents...
-}
-
-function AppSectionTwo() {
-  const realm = useLocalDocumentRealm();
-
-  // Work with local documents...
-}

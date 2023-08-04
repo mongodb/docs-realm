@@ -1,4 +1,4 @@
-// :snippet-start: two-realm-contexts
+// :snippet-start: create-contexts
 import React from 'react';
 import {
   Realm,
@@ -69,7 +69,9 @@ const {
   RealmProvider: LocalDocumentRealmProvider,
   useRealm: useLocalDocumentRealm,
 } = LocalRealmContext;
+// :snippet-end:
 
+// :snippet-start: use-contexts
 function TwoRealmsWrapper() {
   return (
     <View>
