@@ -9,7 +9,6 @@ const PETOWNER_ID = new Realm.BSON.ObjectId();
 const PET_ID = new Realm.BSON.ObjectId();
 const EMPLOYEE_ID  = new Realm.BSON.ObjectId();
 const COMPANY_ID = new Realm.BSON.ObjectID(); 
-let dynamicId; 
 
 /*** Schemas & Config ***/
 // :snippet-start: create-object-schema
