@@ -43,15 +43,13 @@ non-sync realm and its data.
    * - :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>`
      - A wrapper that exposes a realm to its child components, which have access
        to hooks that let you read, write, and update data.
-     - .. code-block:: typescript
-        :copyable: true
+     - .. code:: javascript
      
         const realm = useRealm();
 
    * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
      - Returns the instance of the Realm opened by the RealmProvider.
-     - .. code-block:: typescript
-        :copyable: true
+     - .. code:: javascript
      
         const realm = useRealm();
 
@@ -59,8 +57,7 @@ non-sync realm and its data.
      - Returns an object (``Realm.Object<T>``) from a given type and value of
        primary key. Updates on any changes to the returned object. Returns
        ``null`` if the object either doesn't exists or has been deleted.
-     - .. code-block:: typescript
-        :copyable: true
+     - .. code:: javascript
      
         const myTask = useObject(Task, _id);
       
@@ -68,8 +65,7 @@ non-sync realm and its data.
      - Returns a collection of objects (``Realm.Results<T & Realm.Object T>``)
        from a given type. Updates on any changes to any object in the
        collection. Returns an empty array if the collection is empty.
-     - .. code-block:: typescript
-        :copyable: true
+     - .. code:: javascript
      
         const tasks = useQuery(Task);
 
@@ -107,6 +103,26 @@ set ``fallback`` and ``realmRef`` props.
 - ``fallback``
    Rendered while waiting for the realm to open. Local realms
    usually open fast enough that the ``fallback`` prop isn't needed.
+
+Configure an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a realm that runs entirely in memory without being written to a file,
+add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object:
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-in-memory.test.snippet.in-memory-realm.tsx
+   :language: typescript
+   :emphasize-lines: 6-8
+
+In-memory realms may use disk space if memory is running low, but files created 
+by an in-memory realm are deleted when you close the realm.
+
+Encrypt a Realm
+~~~~~~~~~~~~~~~
+
+To encrypt a realm file on disk, refer to 
+:ref:`Encrypt a Realm <react-native-encrypt-a-realm>`.
 
 Configure a Synced Realm
 ------------------------
@@ -163,20 +179,6 @@ access to extracted hooks.
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-multiple.test.snippet.use-contexts.tsx
    :language: typescript
 
-Configure an In-Memory Realm
-----------------------------
-
-To create a realm that runs entirely in memory without being written to a file,
-add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object:
-
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-in-memory.test.snippet.in-memory-realm.tsx
-   :language: typescript
-   :emphasize-lines: 6-8
-
-In-memory realms may use disk space if memory is running low, but files created 
-by an in-memory realm are deleted when you close the realm.
-
 Access a Realm Without Providing a Schema
 -----------------------------------------
 
@@ -190,12 +192,6 @@ must always pass a schema when using a Synced realm.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-no-schema.test.snippet.configure-no-schema.tsx
    :language: typescript
-
-Encrypt a Realm
----------------
-
-To encrypt a realm file on disk, refer to 
-:ref:`Encrypt a Realm <react-native-encrypt-a-realm>`.
 
 Key Concept: Realm Files
 ------------------------
