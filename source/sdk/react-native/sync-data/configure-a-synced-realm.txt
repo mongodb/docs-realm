@@ -71,16 +71,43 @@ This is how you nest providers:
 AppProvider
 ~~~~~~~~~~~
 
-For more information about configuring and using ``AppProvider``, check
-out the :ref:`Connect To Atlas App Services page
-<react-native-app-client-configuration>`.
+To set up your App client, pass the App ID string to the ``id`` prop of
+``AppProvider``. Wrap any components that need to access the App with the
+``AppProvider``.
+
+.. literalinclude:: /examples/generated/react-native/ts/app-provider.test.snippet.app-provider.tsx
+   :language: typescript
+
+You can find more information about ``AppProvider`` on the
+:ref:`Connect To Atlas App Services page <react-native-app-client-configuration>`.
 
 .. _react-native-sync-user-provider:
 
 UserProvider
 ~~~~~~~~~~~~
 
-You can also find information about ``UserProvider`` on the
+Configure user authentication with ``AppProvider`` and ``UserProvider``. Then
+work with authentication using the ``useApp()`` and ``useUser()`` hooks.
+
+To set up user authentication:
+
+#. Wrap all components you want to use with App Services in an ``AppProvider``.
+#. Inside of ``AppProvider``, wrap all components that need access to an
+   authenticated user with a ``UserProvider``.
+#. In ``UserProvider``, include a ``fallback`` prop with another component
+   that logs a user in. The app renders this component if there
+   is no authenticated user.
+#. In the component passed to the ``UserProvider.fallback`` prop, authenticate a user
+   with ``Realm.App.logIn()``, which you can access with the ``useApp()`` hook.
+
+Components wrapped by ``UserProvider`` only render if your app has
+an authenticated user. These components can access the authenticated user
+with the ``useUser()`` hook.
+
+.. literalinclude:: /examples/generated/react-native/ts/log-in.test.snippet.log-in-user.tsx
+   :language: ts
+
+You can find more information about ``UserProvider`` on the
 :ref:`Authenticate Users page <react-native-authenticate-users>`.
 
 .. _react-native-sync-realm-provider:
@@ -258,6 +285,8 @@ Sync continues in the background.
 ``@realm/react`` has providers and hooks that simplify working with your synced
 realm and its data.
 
+**AppProvider** 
+
 .. cssclass:: config-table
 .. list-table::
    :header-rows: 1
@@ -293,6 +322,8 @@ realm and its data.
      
         const auth = useEmailPasswordAuth();
 
+**UserProvider** 
+
 .. cssclass:: config-table
 .. list-table::
    :header-rows: 1
@@ -314,6 +345,8 @@ realm and its data.
      - .. code:: javascript
      
         const user = useUser();
+
+**RealmProvider** 
 
 .. cssclass:: config-table
 .. list-table::
