@@ -25,19 +25,73 @@ Before you configure a realm in a React Native application:
 #. :ref:`Install the Realm React Native SDK <react-native-install>`.
 #. :npm:`Install the @realm/react package <package/@realm/react>`.
 
-RealmProvider
--------------
+@realm/react Providers and Hooks
+--------------------------------
+
+``@realm/react`` has several providers and hooks that simplify working with your
+non-sync realm and its data.
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 20 60 20
+
+   * - Provider/Hook
+     - Description
+     - Example
+
+   * - :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>`
+     - A wrapper that exposes a realm to its child components, which have access
+       to hooks that let you read, write, and update data.
+     - .. code-block:: typescript
+        :copyable: true
+     
+        ``const realm = useRealm();``
+
+   * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
+     - Returns the instance of the Realm opened by the RealmProvider.
+     - .. code-block:: typescript
+        :copyable: true
+     
+        ``const realm = useRealm();``
+
+   * - :realm-react-sdk:`useObject <functions/useObject.html>`
+     - Returns an object (``Realm.Object<T>``) from a given type and value of
+       primary key. Updates on any changes to the returned object. Returns
+       ``null`` if the object either doesn't exists or has been deleted.
+     - .. code-block:: typescript
+        :copyable: true
+     
+        ``const myTask = useObject(Task, _id);``
+      
+   * - :realm-react-sdk:`useQuery <functions/useQuery.html>`
+     - Returns a collection of objects (``Realm.Results<T & Realm.Object T>``)
+       from a given type. Updates on any changes to any object in the
+       collection. Returns an empty array if the collection is empty.
+     - .. code-block:: typescript
+        :copyable: true
+     
+        const tasks = useQuery(Task);
+
+Configure a Realm Without Sync
+------------------------------
 
 :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>` is a wrapper
-from the ``@realm/react`` package that exposes a realm to its child components.
-You configure your realm by passing props to ``RealmProvider``.
+that exposes a realm to its child components. You configure your realm by
+passing props to ``RealmProvider``.
 
-All child components inside ``RealmProvider`` have access to hooks that let you
-read, write, and update data.
+When ``RealmProvider`` is rendered, it opens the realm. This means that the
+provider renders successfully or its child components can't access the realm.
 
-When ``RealmProvider`` is rendered, it opens the realm. This means that you need
-to ensure the provider renders successfully or its child components can't access
-the realm.
+To configure a non-synced realm:
+
+#. Import ``RealmProvider`` from ``@realm/react``.
+#. Pass your object models to the ``schema`` prop.
+#. Add other :js-sdk:`Configuration object <Realm.html#~Configuration>` 
+   properties as props to ``RealmProvider`` to configure your realm.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
+   :language: typescript
 
 Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~
@@ -46,34 +100,13 @@ You can configure ``RealmProvider`` by setting props that match the properties
 of a :js-sdk:`Configuration object <Realm.html#~Configuration>`. You can also
 set ``fallback`` and ``realmRef`` props.
 
-- ``realmRef``. Used with ``useRef`` to expose the configured realm to processes
+- ``realmRef``
+   Used with ``useRef`` to expose the configured realm to processes
    outside of ``RealmProvider``. This can be useful for things like a client
    reset fallback. 
-- ``fallback``. Rendered while waiting for the realm to open. Local realms
+- ``fallback``
+   Rendered while waiting for the realm to open. Local realms
    usually open fast enough that the ``fallback`` prop isn't needed.
-
-.. _non-synced-hooks:
-
-RealmProvider Hooks
-~~~~~~~~~~~~~~~~~~~
-
-Child components of a ``RealmProvider`` have access to hooks that help you work
-with data in your realm.
-
-- :realm-react-sdk:`useObject <functions/useObject.html>`
-- :realm-react-sdk:`useQuery <functions/useQuery.html>`
-- :realm-react-sdk:`useRealm <functions/useRealm.html>`
-
-Configure a Realm Without Sync
-------------------------------
-
-To configure a non-synced realm:
-
-#. Import ``RealmProvider`` from ``@realm/react``.
-#. Pass your object models to the ``schema`` prop.
-
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
-   :language: typescript
 
 Configure a Synced Realm
 ------------------------

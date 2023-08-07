@@ -33,8 +33,8 @@ Before you configure a realm with Flexible Sync in a React Native application:
 #. :ref:`Authenticate a user <react-native-authenticate-users>` in your client
    project.
 
-@realm/react Providers
-----------------------
+@realm/react Providers and Hooks
+--------------------------------
 
 
 
@@ -50,9 +50,8 @@ You configure your realm by passing props to ``RealmProvider``.
 All child components inside ``RealmProvider`` have access to hooks that let you
 read, write, and update data.
 
-When ``RealmProvider`` is rendered, it opens the realm. This means that you need
-to ensure the provider renders successfully or its child components can't access
-the realm.
+When ``RealmProvider`` is rendered, it opens the realm. This means that the
+provider renders successfully or its child components can't access the realm.
 
 Configuration Options
 `````````````````````
@@ -61,10 +60,12 @@ You can configure ``RealmProvider`` by setting props that match the properties
 of a :js-sdk:`Configuration object <Realm.html#~Configuration>`. You can also
 set ``fallback`` and ``realmRef`` props.
 
-- ``realmRef``. Used with ``useRef`` to expose the configured realm to processes
+- ``realmRef``
+   Used with ``useRef`` to expose the configured realm to processes
    outside of ``RealmProvider``. This can be useful for things like a client
    reset fallback. 
-- ``fallback``. Rendered while waiting for the realm to open. Local realms
+- ``fallback``
+   Rendered while waiting for the realm to open. Local realms
    usually open fast enough that the ``fallback`` prop isn't needed.
 
 .. _synced-hooks:
