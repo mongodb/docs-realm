@@ -34,7 +34,7 @@ non-sync realm and its data.
 .. cssclass:: config-table
 .. list-table::
    :header-rows: 1
-   :widths: 20 60 20
+   :widths: 15 50 35
 
    * - Provider/Hook
      - Description
@@ -46,14 +46,14 @@ non-sync realm and its data.
      - .. code-block:: typescript
         :copyable: true
      
-        ``const realm = useRealm();``
+        const realm = useRealm();
 
    * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
      - Returns the instance of the Realm opened by the RealmProvider.
      - .. code-block:: typescript
         :copyable: true
      
-        ``const realm = useRealm();``
+        const realm = useRealm();
 
    * - :realm-react-sdk:`useObject <functions/useObject.html>`
      - Returns an object (``Realm.Object<T>``) from a given type and value of
@@ -62,7 +62,7 @@ non-sync realm and its data.
      - .. code-block:: typescript
         :copyable: true
      
-        ``const myTask = useObject(Task, _id);``
+        const myTask = useObject(Task, _id);
       
    * - :realm-react-sdk:`useQuery <functions/useQuery.html>`
      - Returns a collection of objects (``Realm.Results<T & Realm.Object T>``)
