@@ -58,15 +58,15 @@ environment
 Installation
 ------------
 
-.. tabs::
+.. procedure::
 
-   .. tab:: Android
-      :tabid: android
+   .. step:: Add Realm to the Project
 
-      .. procedure::
+      .. tabs::
 
-         .. step:: Add Realm to the Project
-            
+         .. tab:: Android
+            :tabid: android
+                  
             Add :file:`io.realm.kotlin`, specifying the library version and 
             :file:`apply false`, to the list of plugins in your project-level Gradle 
             build file, typically found at :file:`<project>/build.gradle`:
@@ -82,14 +82,16 @@ Installation
             found at :file:`<project>/app/build.gradle`:
 
             - Add :file:`io.realm.kotlin` to the list of plugins.
-            - Add one of the following to the list of dependencies:
-                - To only use the local realm in your application, add :file:`io.realm.kotlin:library-base` to the dependencies block.
-                - To use Device Sync in your application, add :file:`io.realm.kotlin:library-sync` to the dependencies block.
+            - Add the following to the list of dependencies:
+                  
+              - Add :file:`io.realm.kotlin:library-base` to the dependencies block.
+              - If using Device Sync in your application, add :file:`io.realm.kotlin:library-sync` to the dependencies block.
+
             - To use coroutines with the SDK, add :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core` to the list of dependencies.
 
             .. code-block:: kotlin
                :caption: Module build.gradle
-               :emphasize-lines: 4, 12, 13 
+               :emphasize-lines: 4, 12, 13, 14 
 
                plugins {
                   id 'com.android.application'
@@ -98,37 +100,27 @@ Installation
                }
 
                android {
-                // ... build configuration settings
-                }
-
-               dependencies {
-                  implementation 'io.realm.kotlin:library-base:{+kotlin-sdk-version+}' // Add to use local realm (no sync)
-                  implementation 'io.realm.kotlin:library-sync:{+kotlin-sdk-version+}'// Add to use Device Sync
-                  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}' // Add to use coroutines with the SDK
- 
+                  // ... build configuration settings
                }
 
-         .. step:: Sync Gradle Files 
+               dependencies {
+                  implementation 'io.realm.kotlin:library-base:{+kotlin-sdk-version+}' 
+                  implementation 'io.realm.kotlin:library-sync:{+kotlin-sdk-version+}'// If using Device Sync
+                  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}' // If using coroutines with the SDK
+               }
 
-            After updating the Gradle configuration,
-            resolve the dependencies by clicking :guilabel:`File` >
-            :guilabel:`Sync Project with Gradle Files` in the Android Studio menu bar.
-            You can now use the Kotlin SDK in your application.
+         .. tab:: Kotlin Multiplatform (KMM)
+            :tabid: kmm
 
-   .. tab:: Kotlin Multiplatform (KMM)
-      :tabid: kmm
-
-      .. procedure::
-
-         .. step:: Add Realm to the Project
-                     
             Add the following to your app-level Gradle build file, typically
             found at :file:`<project>/app/build.gradle`:
 
             - Add :file:`io.realm.kotlin` to the list of plugins.
-            - Add one of the following to the list of dependencies:
-                - To only use the local realm in your application, add :file:`io.realm.kotlin:library-base` to the dependencies block.
-                - To use Device Sync in your application, add :file:`io.realm.kotlin:library-sync` to the dependencies block.
+            - Add the following to the list of dependencies:
+                  
+              - Add :file:`io.realm.kotlin:library-base` to the dependencies block.
+              - If using Device Sync in your application, add :file:`io.realm.kotlin:library-sync` to the dependencies block.
+
             - To use coroutines with the SDK, add :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core` to the list of dependencies.
 
             .. code-block:: kotlin
@@ -151,10 +143,10 @@ Installation
 
                   sourceSets {
                      val commonMain by getting {
-                         dependencies {
-                              implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}") // Add to use coroutines with the SDK
-                              implementation("io.realm.kotlin:library-base:{+kotlin-sdk-version+}") // Add to only use the local database
-                              implementation("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}") // Add to use Device Sync
+                        dependencies {
+                           implementation("io.realm.kotlin:library-base:{+kotlin-sdk-version+}") 
+                           implementation("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}") // If using Device Sync
+                           implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}") // If using coroutines with the SDK
                         }
                      }
                   }
@@ -168,7 +160,6 @@ Installation
                .. code-block:: kotlin
                   :copyable: false
 
-                  // If only using the local database
                   dependencies {
                      compileOnly("io.realm.kotlin:library-base:{+kotlin-sdk-version+}")
                   }
@@ -178,12 +169,12 @@ Installation
                      compileOnly("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}")
                   }
 
-         .. step:: Sync Gradle Files 
+   .. step:: Sync Gradle Files 
 
-            After updating the Gradle configuration,
-            resolve the dependencies by clicking :guilabel:`File` >
-            :guilabel:`Sync Project with Gradle Files` in the Android Studio menu bar.
-            You can now use the Kotlin SDK in your application.
+      After updating the Gradle configuration,
+      resolve the dependencies by clicking :guilabel:`File` >
+      :guilabel:`Sync Project with Gradle Files` in the Android Studio menu bar.
+      You can now use the Kotlin SDK in your application.
 
 
 Supported Target Environments
@@ -192,7 +183,10 @@ Supported Target Environments
 Kotlin Multiplatform supports a `wide range of application environments
 <https://kotlinlang.org/docs/multiplatform-dsl-reference.html#targets>`__.
 
-The SDK supports the following environments:
+Supported Environments
+~~~~~~~~~~~~~~~~~~~~~~
+
+The Kotlin SDK supports the following environments:
 
 - :file:`android`
 
@@ -205,7 +199,10 @@ The SDK supports the following environments:
 - :file:`macosArm64`
 - :file:`macosX64`
 
-The SDK does *not* support the following environments:
+Unsupported Environments
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Kotlin SDK does *not* support the following environments:
 
 - :file:`androidNativeArm32`
 - :file:`androidNativeArm64`
@@ -236,4 +233,3 @@ The SDK does *not* support the following environments:
 - :file:`watchosSimulatorArm64`
 - :file:`watchosX86`
 - :file:`watchosX64`
- 
