@@ -122,10 +122,21 @@ passing props to ``RealmProvider``.
 When ``RealmProvider`` is rendered, it opens the realm. This means that the
 provider renders successfully or its child components can't access the realm.
 
+#. Import :ref:`providers <react-native-sync-providers-hooks>` from
+   ``@realm/react``.
+#. Configure ``AppProvider``.
+#. Configure ``UserProvider`` and nest it within ``AppProvider``.
+#. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
+   You must set up a sync subscription. The example below uses an initial subscription,
+   but you can also set up subscriptions in ``RealmProvider`` child components.
+
 To configure a synced realm:
 
-#. Import ``RealmProvider`` from ``@realm/react``.
-#. Pass your object models to the ``schema`` prop.
+#. Import :ref:`providers <react-native-sync-providers-hooks>` from
+   ``@realm/react``.
+#. Configure ``AppProvider``.
+#. Configure ``UserProvider`` and nest it within ``AppProvider``.
+#. Pass your object models to ``RealmProvider``'s ``schema`` prop.
 #. Create a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
    object.
 #. Pass your ``SyncConfiguration`` object to the ``sync`` prop or add the object
@@ -133,11 +144,11 @@ To configure a synced realm:
 #. Set up initial subscriptions or create a new subscription in
    ``RealmProvider`` child components.
 #. Add other :js-sdk:`Configuration object <Realm.html#~Configuration>` 
-   properties as props to ``RealmProvider`` to configure your realm.
+   properties as props to ``RealmProvider`` to further configure your realm.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: typescript
-   :emphasize-lines: 8-19
+   :emphasize-lines: 7-18
 
 For more information about configuring and using ``RealmProvider``, check
 out the :ref:`Configure a Realm page <react-native-configure-realm>`.
