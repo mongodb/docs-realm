@@ -1,3 +1,49 @@
+# August 4, 2023
+
+## C++ SDK
+
+- Update headings and heading levels throughout docs to be consistent with other SDKs
+
+## Java SDK
+
+- Sync Data
+  - Landing Page: Remove Partition-Based Sync information
+  - Configure & Open a Synced Realm: Remove Partition-Based Sync info and open a synced realm code examples, add Flexible Sync examples for opening a synced realm
+  - Partition-Based Sync: New page with moved info from the Sync landing page, moved open a synced realm content and examples, a new section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+
+## Kotlin SDK
+
+- Install Realm: Update page structure to remove duplicate headings in tabbed procedure
+- Realm
+  - Model Data
+    - Relationships
+      - Note that to-many relationship properties cannot be null and must be initialized with `realmListOf()`
+      - Remove embedded object content
+    - Define an Object Model: Move example of defining an embedded object onto this page
+  - CRUD
+    - Create: Move the example of creating an embedded object onto this page
+    - Read: Move the example of querying an embedded object onto this page
+    - Update: Move the example of updating an embedded object onto this page
+    - Delete: Move the example of deleting an embedded object onto this page
+- Sync Device Data
+  - Manage Sync Session: New page with tested Bluehawked code examples for waiting for upload and download, pausing and resuming a sync session, checking connection state
+  - Partition-Based Sync: New section with tested Bluehawked code examples for upload and download progress change listeners
+
+## .NET SDK
+
+- Sync Data
+  - Landing Page: Remove Partition-Based Sync information
+  - Configure & Open a Synced Realm: Remove Partition-Based Sync info and examples, update the "Synchronous Reads & Writes on the UI Thread" section to show Flexible Sync examples
+  - Partition-Based Sync: New page with moved info from the Sync landing page, moved open a synced realm content, a new section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+
+## React Native SDK
+
+- Update deprecated reactjs.org links throughout docs to use new react.dev links
+
+## Swift SDK
+
+- Landing Page: Add a new "Example Projects" section with the first two Device Sync curated examples
+
 # July 28, 2023
 
 ## C++ SDK
@@ -28,7 +74,7 @@
 
 - Sync Data
   - Landing Page: Remove Partition-Based Sync info, add tip recommending Flexible Sync and linking out to Partition-Based Sync page for older apps
-  - Partition-Based Sync: Moved info from the Sync landing page, add a section about updating client code after migrating from Partition-Based Sync to Flexible Sync 
+  - Partition-Based Sync: Moved info from the Sync landing page, add a section about updating client code after migrating from Partition-Based Sync to Flexible Sync
 - Minor updates to the Node.js docs code example test suite for v12
 
 ## React Native SDK
@@ -37,7 +83,7 @@
 - CRUD/Read: Parameterize RQL queries
 - Sync Data
   - Landing Page: Remove Partition-Based Sync info, add tip recommending Flexible Sync and linking out to Partition-Based Sync page for older apps
-  - Partition-Based Sync: Moved info from the Sync landing page, add a section about updating client code after migrating from Partition-Based Sync to Flexible Sync 
+  - Partition-Based Sync: Moved info from the Sync landing page, add a section about updating client code after migrating from Partition-Based Sync to Flexible Sync
   - Stream Data to Atlas: Expand the page from a code example to a procedure similar to other SDKs
 
 ## Swift SDK
@@ -71,19 +117,21 @@
 - Sync Device Data/Write to a Synced Realm: Add information on how to write data to a synced realm and on `compensatingWriteError`
 - Internal: Update prefix URLs for `kotlin-sync-prefix` and `kotlin-local-prefix`
 
-## .NET SDK 
--  Add that the .NET SDK is compatible with Avalonia on the following pages:
-  - Landing Page
-  - Install Realm
-  - Model Data/Data Binding
+## .NET SDK
+
+- Add that the .NET SDK is compatible with Avalonia on the following pages:
+- Landing Page
+- Install Realm
+- Model Data/Data Binding
 
 ## Node.js SDK
 
 - CRUD/Read: Parametrize RQL queries
 - CRUD/ Query Data: Parametrize RQL queries
-- Internal: Fix Node.js bluehawking script for the updated test suite 
+- Internal: Fix Node.js bluehawking script for the updated test suite
 
 # React Native SDK
+
 - Remove angle brackets from provider references throughout the SDK pages to prevent confusion with placeholder variables
 
 ## Swift SDK
@@ -92,12 +140,12 @@
   - Application Services
   - Application Services/Connect to an App Services App
   - Sync Data
-- SwiftUI/Model Data/Configure and Open a Realm: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync 
+- SwiftUI/Model Data/Configure and Open a Realm: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync
 - SwiftUI/Model Data/Pass Realm Data Between Views: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync
 - Sync Data: Remove Partition-Based Sync (PBS) content, link out to new PBS page
 - Sync Data/Partition-Based Sync: New page with Configure/Open content, Progress Notifications (which only work on PBS), and migration information
 - Sync Data/Configure & Open a Synced Realm: Remove PBS-only examples
-- Sync Data/Write to a Synced Realm:  Moved "Group Writes" information from "Sync Data between Devices" page to this page 
+- Sync Data/Write to a Synced Realm: Moved "Group Writes" information from "Sync Data between Devices" page to this page
 - Remove "Legacy Realm Open" page
 
 # July 14, 2023
