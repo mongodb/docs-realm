@@ -25,48 +25,6 @@ Before you configure a realm in a React Native application:
 #. Install the :ref:`Realm React Native SDK <react-native-install>`
 #. Install the :npm:`@realm/react package <package/@realm/react>`
 
-@realm/react Providers and Hooks
---------------------------------
-
-``@realm/react`` has several providers and hooks that simplify working with your
-non-sync realm and its data.
-
-.. cssclass:: config-table
-.. list-table::
-   :header-rows: 1
-   :widths: 15 50 35
-
-   * - Provider/Hook
-     - Description
-     - Example
-
-   * - :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>`
-     - A wrapper that exposes a realm to its child components, which have access
-       to hooks that let you read, write, and update data.
-     - See :ref:`Configure a Realm Without Sync <react-native-no-sync>`
-
-   * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
-     - Returns the instance of the Realm opened by the RealmProvider.
-     - .. code:: javascript
-     
-        const realm = useRealm();
-
-   * - :realm-react-sdk:`useObject <functions/useObject.html>`
-     - Returns an object (``Realm.Object<T>``) from a given type and value of
-       primary key. Updates on any changes to the returned object. Returns
-       ``null`` if the object either doesn't exists or has been deleted.
-     - .. code:: javascript
-     
-        const myTask = useObject(Task, _id);
-      
-   * - :realm-react-sdk:`useQuery <functions/useQuery.html>`
-     - Returns a collection of objects (``Realm.Results<T & Realm.Object T>``)
-       from a given type. Updates on any changes to any object in the
-       collection. Returns an empty array if the collection is empty.
-     - .. code:: javascript
-     
-        const tasks = useQuery(Task);
-
 .. _react-native-no-sync:
 
 Configure a Realm Without Sync
@@ -88,6 +46,9 @@ To configure a non-synced realm:
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
    :language: typescript
+
+For a list of providers and hooks used in non-synced realm, check out
+:ref:`@realm/react Providers and Hooks <react-native-providers-hooks>`.
 
 Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~
@@ -191,6 +152,50 @@ must always pass a schema when using a Synced realm.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-no-schema.test.snippet.configure-no-schema.tsx
    :language: typescript
+
+.. _react-native-providers-hooks:
+
+@realm/react Providers and Hooks
+--------------------------------
+
+``@realm/react`` has providers and hooks that simplify working with your
+non-sync realm and its data.
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 50 35
+
+   * - Provider/Hook
+     - Description
+     - Example
+
+   * - :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>`
+     - A wrapper that exposes a realm to its child components, which have access
+       to hooks that let you read, write, and update data.
+     - See :ref:`Configure a Realm Without Sync <react-native-no-sync>`
+
+   * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
+     - Returns the instance of the Realm opened by the RealmProvider.
+     - .. code:: javascript
+     
+        const realm = useRealm();
+
+   * - :realm-react-sdk:`useObject <functions/useObject.html>`
+     - Returns an object (``Realm.Object<T>``) from a given type and value of
+       primary key. Updates on any changes to the returned object. Returns
+       ``null`` if the object either doesn't exists or has been deleted.
+     - .. code:: javascript
+     
+        const myTask = useObject(Task, _id);
+      
+   * - :realm-react-sdk:`useQuery <functions/useQuery.html>`
+     - Returns a collection of objects (``Realm.Results<T & Realm.Object T>``)
+       from a given type. Updates on any changes to any object in the
+       collection. Returns an empty array if the collection is empty.
+     - .. code:: javascript
+     
+        const tasks = useQuery(Task);
 
 Key Concept: Realm Files
 ------------------------

@@ -33,84 +33,6 @@ Before you configure a realm with Flexible Sync in a React Native application:
 #. :ref:`Authenticate a user <react-native-authenticate-users>` in your client
    project.
 
-@realm/react Providers and Hooks
---------------------------------
-
-.. cssclass:: config-table
-.. list-table::
-   :header-rows: 1
-   :widths: 15 50 35
-
-   * - Provider/Hook
-     - Description
-     - Example
-
-   * - :realm-react-sdk:`AppProvider <functions/AppProvider.html>`
-     - React component that provides an App Services App instance for the
-       Sync hooks. An ``AppProvider`` is required for a client to use Sync hooks.
-     - See :ref:` <>`
-
-   * - :realm-react-sdk:`useApp <functions/useApp.html>`
-     - Accesses the current App Services App instance from the ``AppProvider``
-       context.
-     - .. code:: javascript
-     
-        const app = useApp();
-
-   * - :realm-react-sdk:`useAuth <functions/useAuth.html>`
-     - Provides methods and state for authenticating with an App Services App.
-     - .. code:: javascript
-     
-        const auth = useAuth();
-
-   * - :realm-react-sdk:`useEmailPasswordAuth <functions/useEmailPasswordAuth.html>`
-     - Provides methods and state for authenticating with an App Services App
-       using email and password authentication. It also contains utility methods,
-       like resetting a password and confirming a user.
-     - .. code:: javascript
-     
-        const auth = useEmailPasswordAuth();
-
-   * - :realm-react-sdk:`UserProvider <functions/UserProvider.html>`
-     - React component that provides a Realm user for the Sync hooks. A
-       UserProvider is required for an app to use Sync hooks.
-     - See :ref:` <>`
-
-   * - :realm-react-sdk:`useUser <functions/useUser.html>`
-     - Accesses the currently-authenticated Realm user from the ``UserProvider``
-       context. The user is stored as React state and will trigger a re-render
-       whenever it changes.
-     - .. code:: javascript
-     
-        const user = useUser();
-
-   * - :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>`
-     - A wrapper that exposes a realm to its child components, which have access
-       to hooks that let you read, write, and update data.
-     - See :ref:` <>`
-
-   * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
-     - Returns the instance of the Realm opened by the RealmProvider.
-     - .. code:: javascript
-     
-        const realm = useRealm();
-
-   * - :realm-react-sdk:`useObject <functions/useObject.html>`
-     - Returns an object (``Realm.Object<T>``) from a given type and value of
-       primary key. Updates on any changes to the returned object. Returns
-       ``null`` if the object either doesn't exists or has been deleted.
-     - .. code:: javascript
-     
-        const myTask = useObject(Task, _id);
-      
-   * - :realm-react-sdk:`useQuery <functions/useQuery.html>`
-     - Returns a collection of objects (``Realm.Results<T & Realm.Object T>``)
-       from a given type. Updates on any changes to any object in the
-       collection. Returns an empty array if the collection is empty.
-     - .. code:: javascript
-     
-        const tasks = useQuery(Task);
-
 .. _react-native-flexible-sync-open-realm:
 
 Configure a Synced Realm
@@ -124,7 +46,8 @@ While Offline <react-native-open-synced-realm-offline>`.
 
 To configure a synced realm:
 
-#. Import providers from ``@realm/react``.
+#. Import :ref:`providers <react-native-sync-providers-hooks>` from
+   ``@realm/react``.
 #. Configure ``AppProvider``.
 #. Configure ``UserProvider`` and nest it within ``AppProvider``.
 #. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
@@ -133,7 +56,7 @@ To configure a synced realm:
 
 This is how you nest providers:
 
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-providers.tsx
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: javascript
 
 .. note:: Partition-Based Sync
@@ -143,6 +66,8 @@ This is how you nest providers:
    using the older Partition-Based Sync, refer to
    :ref:`Partition-Based Sync <react-native-partition-realms>`.
 
+.. _react-native-sync-app-provider:
+
 AppProvider
 ~~~~~~~~~~~
 
@@ -150,11 +75,15 @@ For more information about configuring and using ``AppProvider``, check
 out the :ref:`Connect To Atlas App Services page
 <react-native-app-client-configuration>`.
 
+.. _react-native-sync-user-provider:
+
 UserProvider
 ~~~~~~~~~~~~
 
 You can also find information about ``UserProvider`` on the
 :ref:`Authenticate Users page <react-native-authenticate-users>`.
+
+.. _react-native-sync-realm-provider:
 
 RealmProvider
 ~~~~~~~~~~~~~
@@ -182,6 +111,9 @@ To configure a synced realm:
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: typescript
    :emphasize-lines: 8-19
+
+For more information about configuring and using ``RealmProvider``, check
+out the :ref:`Configure a Realm page <react-native-configure-realm>`.
 
 Configuration Options
 `````````````````````
@@ -317,3 +249,104 @@ Sync continues in the background.
 
       .. literalinclude:: /examples/generated/react-native/js/configure-realm-sync-timeout.test.snippet.timeout-config.jsx
          :language: javascript
+
+.. _react-native-sync-providers-hooks:
+
+@realm/react Providers and Hooks
+--------------------------------
+
+``@realm/react`` has providers and hooks that simplify working with your synced
+realm and its data.
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 50 35
+
+   * - Provider/Hook
+     - Description
+     - Example
+
+   * - :realm-react-sdk:`AppProvider <functions/AppProvider.html>`
+     - React component that provides an App Services App instance for the
+       Sync hooks. An ``AppProvider`` is required for a client to use Sync hooks.
+     - See :ref:`AppProvider <react-native-sync-app-provider>`
+
+   * - :realm-react-sdk:`useApp <functions/useApp.html>`
+     - Accesses the current App Services App instance from the ``AppProvider``
+       context.
+     - .. code:: javascript
+     
+        const app = useApp();
+
+   * - :realm-react-sdk:`useAuth <functions/useAuth.html>`
+     - Provides methods and state for authenticating with an App Services App.
+     - .. code:: javascript
+     
+        const auth = useAuth();
+
+   * - :realm-react-sdk:`useEmailPasswordAuth <functions/useEmailPasswordAuth.html>`
+     - Provides methods and state for authenticating with an App Services App
+       using email and password authentication. It also contains utility methods,
+       like resetting a password and confirming a user.
+     - .. code:: javascript
+     
+        const auth = useEmailPasswordAuth();
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 50 35
+
+   * - Provider/Hook
+     - Description
+     - Example
+
+   * - :realm-react-sdk:`UserProvider <functions/UserProvider.html>`
+     - React component that provides a Realm user for the Sync hooks. A
+       UserProvider is required for an app to use Sync hooks.
+     - See :ref:`UserProvider <react-native-sync-user-provider>`
+
+   * - :realm-react-sdk:`useUser <functions/useUser.html>`
+     - Accesses the currently-authenticated Realm user from the ``UserProvider``
+       context. The user is stored as React state and will trigger a re-render
+       whenever it changes.
+     - .. code:: javascript
+     
+        const user = useUser();
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 50 35
+
+   * - Provider/Hook
+     - Description
+     - Example
+
+   * - :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>`
+     - A wrapper that exposes a realm to its child components, which have access
+       to hooks that let you read, write, and update data.
+     - See :ref:`RealmProvider <react-native-sync-realm-provider>`
+
+   * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
+     - Returns the instance of the Realm opened by the RealmProvider.
+     - .. code:: javascript
+     
+        const realm = useRealm();
+
+   * - :realm-react-sdk:`useObject <functions/useObject.html>`
+     - Returns an object (``Realm.Object<T>``) from a given type and value of
+       primary key. Updates on any changes to the returned object. Returns
+       ``null`` if the object either doesn't exists or has been deleted.
+     - .. code:: javascript
+     
+        const myTask = useObject(Task, _id);
+      
+   * - :realm-react-sdk:`useQuery <functions/useQuery.html>`
+     - Returns a collection of objects (``Realm.Results<T & Realm.Object T>``)
+       from a given type. Updates on any changes to any object in the
+       collection. Returns an empty array if the collection is empty.
+     - .. code:: javascript
+     
+        const tasks = useQuery(Task);

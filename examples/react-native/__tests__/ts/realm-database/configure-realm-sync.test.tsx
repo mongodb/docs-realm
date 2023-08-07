@@ -25,7 +25,7 @@ class YourObjectModel extends Realm.Object<YourObjectModel> {
   };
 }
 // :remove-end:
-/// :snippet-start: configure-realm-sync-providers
+
 function AppWrapperSync() {
   return (
     <AppProvider id={APP_ID}>
@@ -46,7 +46,7 @@ function AppWrapperSync() {
     </AppProvider>
   );
 }
-// :snippet-end:
+
 // :snippet-end:
 
 // NOTE: Currently not testing the partition-based sync code. The App Services
