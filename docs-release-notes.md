@@ -9,7 +9,7 @@
 - Sync Data
   - Landing Page: Remove Partition-Based Sync information
   - Configure & Open a Synced Realm: Remove Partition-Based Sync info and open a synced realm code examples, add Flexible Sync examples for opening a synced realm
-  - Partition-Based Sync: New page with moved info from the Sync landing page, moved open a synced realm content and examples, a new section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+  - Partition-Based Sync: New page containing info moved from the Sync landing page, content and examples for opening a synced realm, and a new section about updating client code after migrating from Partition-Based Sync to Flexible Sync
 
 ## Kotlin SDK
 
@@ -34,7 +34,7 @@
 - Sync Data
   - Landing Page: Remove Partition-Based Sync information
   - Configure & Open a Synced Realm: Remove Partition-Based Sync info and examples, update the "Synchronous Reads & Writes on the UI Thread" section to show Flexible Sync examples
-  - Partition-Based Sync: New page with moved info from the Sync landing page, moved open a synced realm content, a new section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+  - Partition-Based Sync: New page containing info moved from the Sync landing page, content for opening a synced realm, and a new section about updating client code after migrating from Partition-Based Sync to Flexible Sync
 
 ## React Native SDK
 
