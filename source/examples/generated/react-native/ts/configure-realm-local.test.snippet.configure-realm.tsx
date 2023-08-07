@@ -3,8 +3,8 @@ import {RealmProvider} from '@realm/react';
 
 function AppWrapperLocal() {
   return (
-    <RealmProvider schema={[YourSchema]}>
-      <MyApp />
+    <RealmProvider schema={[YourObjectModel]}>
+      <RestOfApp />
     </RealmProvider>
   );
 }

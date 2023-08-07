@@ -22,8 +22,8 @@ Prerequisites
 
 Before you configure a realm in a React Native application:
 
-#. :ref:`Install the Realm React Native SDK <react-native-install>`.
-#. :npm:`Install the @realm/react package <package/@realm/react>`.
+#. Install the :ref:`Realm React Native SDK <react-native-install>`
+#. Install the :npm:`@realm/react package <package/@realm/react>`
 
 @realm/react Providers and Hooks
 --------------------------------
@@ -43,9 +43,7 @@ non-sync realm and its data.
    * - :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>`
      - A wrapper that exposes a realm to its child components, which have access
        to hooks that let you read, write, and update data.
-     - .. code:: javascript
-     
-        const realm = useRealm();
+     - See :ref:`Configure a Realm Without Sync <react-native-no-sync>`
 
    * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
      - Returns the instance of the Realm opened by the RealmProvider.
@@ -68,6 +66,8 @@ non-sync realm and its data.
      - .. code:: javascript
      
         const tasks = useQuery(Task);
+
+.. _react-native-no-sync:
 
 Configure a Realm Without Sync
 ------------------------------
@@ -108,8 +108,7 @@ Configure an In-Memory Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a realm that runs entirely in memory without being written to a file,
-add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object:
+pass ``true`` to the ``inMemory`` prop on your ``RealmProvider``:
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-in-memory.test.snippet.in-memory-realm.tsx
    :language: typescript

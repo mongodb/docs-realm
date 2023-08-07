@@ -8,7 +8,7 @@ import {View, Text} from 'react-native';
 
 let isRealmClosed = true;
 
-function MyApp() {
+function RestOfApp() {
   const realm = useRealm();
 
   isRealmClosed = realm.isClosed;
@@ -22,7 +22,7 @@ function MyApp() {
   );
 }
 
-class YourSchema extends Realm.Object {
+class YourObjectModel extends Realm.Object {
   _id!: string;
   owner_id!: string;
   name!: string;
@@ -43,8 +43,8 @@ class YourSchema extends Realm.Object {
 
 function AppWrapperLocal() {
   return (
-    <RealmProvider schema={[YourSchema]}>
-      <MyApp />
+    <RealmProvider schema={[YourObjectModel]}>
+      <RestOfApp />
     </RealmProvider>
   );
 }

@@ -1,5 +1,3 @@
-import React from 'react';
-import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 function AppWrapperSync() {
   return (
     <AppProvider id={APP_ID}>

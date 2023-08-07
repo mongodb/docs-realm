@@ -1,5 +1,5 @@
 <RealmProvider
-  schema={[Profile]}
+  schema={[YourObjectModel]}
   sync={{
     partitionValue: 'testPartition',
   }}>

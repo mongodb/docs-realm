@@ -36,29 +36,159 @@ Before you configure a realm with Flexible Sync in a React Native application:
 @realm/react Providers and Hooks
 --------------------------------
 
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 15 50 35
 
+   * - Provider/Hook
+     - Description
+     - Example
+
+   * - :realm-react-sdk:`AppProvider <functions/AppProvider.html>`
+     - React component that provides an App Services App instance for the
+       Sync hooks. An ``AppProvider`` is required for a client to use Sync hooks.
+     - See :ref:` <>`
+
+   * - :realm-react-sdk:`useApp <functions/useApp.html>`
+     - Accesses the current App Services App instance from the ``AppProvider``
+       context.
+     - .. code:: javascript
+     
+        const app = useApp();
+
+   * - :realm-react-sdk:`useAuth <functions/useAuth.html>`
+     - Provides methods and state for authenticating with an App Services App.
+     - .. code:: javascript
+     
+        const auth = useAuth();
+
+   * - :realm-react-sdk:`useEmailPasswordAuth <functions/useEmailPasswordAuth.html>`
+     - Provides methods and state for authenticating with an App Services App
+       using email and password authentication. It also contains utility methods,
+       like resetting a password and confirming a user.
+     - .. code:: javascript
+     
+        const auth = useEmailPasswordAuth();
+
+   * - :realm-react-sdk:`UserProvider <functions/UserProvider.html>`
+     - React component that provides a Realm user for the Sync hooks. A
+       UserProvider is required for an app to use Sync hooks.
+     - See :ref:` <>`
+
+   * - :realm-react-sdk:`useUser <functions/useUser.html>`
+     - Accesses the currently-authenticated Realm user from the ``UserProvider``
+       context. The user is stored as React state and will trigger a re-render
+       whenever it changes.
+     - .. code:: javascript
+     
+        const user = useUser();
+
+   * - :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>`
+     - A wrapper that exposes a realm to its child components, which have access
+       to hooks that let you read, write, and update data.
+     - See :ref:` <>`
+
+   * - :realm-react-sdk:`useRealm <functions/useRealm.html>`
+     - Returns the instance of the Realm opened by the RealmProvider.
+     - .. code:: javascript
+     
+        const realm = useRealm();
+
+   * - :realm-react-sdk:`useObject <functions/useObject.html>`
+     - Returns an object (``Realm.Object<T>``) from a given type and value of
+       primary key. Updates on any changes to the returned object. Returns
+       ``null`` if the object either doesn't exists or has been deleted.
+     - .. code:: javascript
+     
+        const myTask = useObject(Task, _id);
+      
+   * - :realm-react-sdk:`useQuery <functions/useQuery.html>`
+     - Returns a collection of objects (``Realm.Results<T & Realm.Object T>``)
+       from a given type. Updates on any changes to any object in the
+       collection. Returns an empty array if the collection is empty.
+     - .. code:: javascript
+     
+        const tasks = useQuery(Task);
+
+.. _react-native-flexible-sync-open-realm:
+
+Configure a Synced Realm
+------------------------
+
+You configre a a synced realm using the providers from ``@realm/react``.
+
+By default, Realm syncs all data from the server before returning anything.
+If you want to sync data in the background, read :ref:`Configure a Synced Realm
+While Offline <react-native-open-synced-realm-offline>`.
+
+To configure a synced realm:
+
+#. Import providers from ``@realm/react``.
+#. Configure ``AppProvider``.
+#. Configure ``UserProvider`` and nest it within ``AppProvider``.
+#. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
+   You must set up a sync subscription. The example below uses an initial subscription,
+   but you can also set up subscriptions in ``RealmProvider`` child components.
+
+This is how you nest providers:
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-providers.tsx
+   :language: javascript
+
+.. note:: Partition-Based Sync
+
+   This page covers Flexible Sync realms. Flexible Sync is the preferred mode for
+   new apps that use :ref:`Atlas Device Sync <sync>`. For information about realms
+   using the older Partition-Based Sync, refer to
+   :ref:`Partition-Based Sync <react-native-partition-realms>`.
+
+AppProvider
+~~~~~~~~~~~
+
+For more information about configuring and using ``AppProvider``, check
+out the :ref:`Connect To Atlas App Services page
+<react-native-app-client-configuration>`.
+
+UserProvider
+~~~~~~~~~~~~
+
+You can also find information about ``UserProvider`` on the
+:ref:`Authenticate Users page <react-native-authenticate-users>`.
 
 RealmProvider
 ~~~~~~~~~~~~~
 
-.. TODO: turn into an include. Content also exists on `configure-a-realm.txt`
-
 :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>` is a wrapper
-from the ``@realm/react`` package that exposes a realm to its child components.
-You configure your realm by passing props to ``RealmProvider``.
-
-All child components inside ``RealmProvider`` have access to hooks that let you
-read, write, and update data.
+that exposes a realm to its child components. You configure your realm by
+passing props to ``RealmProvider``.
 
 When ``RealmProvider`` is rendered, it opens the realm. This means that the
 provider renders successfully or its child components can't access the realm.
+
+To configure a synced realm:
+
+#. Import ``RealmProvider`` from ``@realm/react``.
+#. Pass your object models to the ``schema`` prop.
+#. Create a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
+   object.
+#. Pass your ``SyncConfiguration`` object to the ``sync`` prop or add the object
+   in-line.
+#. Set up initial subscriptions or create a new subscription in
+   ``RealmProvider`` child components.
+#. Add other :js-sdk:`Configuration object <Realm.html#~Configuration>` 
+   properties as props to ``RealmProvider`` to configure your realm.
+
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
+   :language: typescript
+   :emphasize-lines: 8-19
 
 Configuration Options
 `````````````````````
 
 You can configure ``RealmProvider`` by setting props that match the properties
-of a :js-sdk:`Configuration object <Realm.html#~Configuration>`. You can also
-set ``fallback`` and ``realmRef`` props.
+of a :js-sdk:`SyncConfiguration object <Realm.App.Sync.html#~SyncConfiguration>`.
+You can also set ``fallback`` and ``realmRef`` props.
 
 - ``realmRef``
    Used with ``useRef`` to expose the configured realm to processes
@@ -67,103 +197,6 @@ set ``fallback`` and ``realmRef`` props.
 - ``fallback``
    Rendered while waiting for the realm to open. Local realms
    usually open fast enough that the ``fallback`` prop isn't needed.
-
-.. _synced-hooks:
-
-RealmProvider Hooks
-```````````````````
-
-Child components of a ``RealmProvider`` have access to hooks that help you work
-with data in your realm.
-
-- :realm-react-sdk:`useObject <functions/useObject.html>`
-- :realm-react-sdk:`useQuery <functions/useQuery.html>`
-- :realm-react-sdk:`useRealm <functions/useRealm.html>`
-
-UserProvider
-~~~~~~~~~~~~
-
-
-
-UserProvider Hooks
-``````````````````
-
-
-
-- :realm-react-sdk:`useUser <functions/useUser.html>`
-
-AppProvider
-~~~~~~~~~~~
-
-
-
-AppProvider Hooks
-``````````````````
-
-- :realm-react-sdk:`useApp <functions/useApp.html>`
-- :realm-react-sdk:`useAuth <functions/useAuth.html>`
-- :realm-react-sdk:`useAuthResult <functions/useAuthResult.html>`
-- :realm-react-sdk:`useEmailPasswordResult <functions/useEmailPasswordResult.html>`
-
-Configure a Flexible Sync Realm
--------------------------------
-
-This section covers Flexible Sync realms. Flexible Sync is the preferred mode for
-new apps that use :ref:`Atlas Device Sync <sync>`. 
-
-For information about realms using the older Partition-Based Sync,
-refer to :ref:`Partition-Based Sync <react-native-partition-realms>`.
-
-By default, Realm syncs all data from the server before returning.
-If you want to sync data in the background, read the :ref:`Configure a Synced Realm
-While Offline <react-native-open-synced-realm-offline>` section.
-
-Nest RealmProvider within AppProvider and UserProvider
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To use a Flexible Sync realm with ``@realm/react``, you must nest ``RealmProvider``
-within ``UserProvider``. And ``UserProvider`` must be nested in ``AppProvider``. 
-This ensures that ``RealmProvider`` has all of the context it needs, like a 
-logged-in user.
-
-To configure your realm, pass your schema and other
-:js-sdk:`realm configuration <Realm.html#~Configuration>` properties to
-``RealmProvider``.
-
-The following example shows how to use these providers together in your app:
-
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
-   :language: javascript
-
-For more information about configuring and using ``AppProvider``, check
-out the :ref:`Connect To Atlas App Services page <react-native-app-client-configuration>`.
-
-You can also find information about ``UserProvider`` on the
-:ref:`Authenticate Users page <react-native-authenticate-users>`.
-
-.. _react-native-flexible-sync-open-realm:
-
-Configure RealmProvider
-~~~~~~~~~~~~~~~~~~~~~~~
-
-To configure a Flexible Sync realm, use ``RealmProvider`` from the
-``@realm/react`` package.
-
-In a ``RealmProvider`` that's nested in a ``UserProvider``, pass your object
-models into the ``schema`` property and add a ``sync`` property with a
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` 
-object that contains ``flexible: true``.
-
-Note that ``UserProvider`` automatically passes an authenticated user
-to ``RealmProvider``.
-
-.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
-   :language: javascript
-
-.. important:: Flexible Sync Requires a Subscription
-
-   You can't use a Flexible Sync realm until you add at least one subscription.
-   To learn how to add subscriptions, refer to :ref:`<react-native-sync-add-subscription>`.
 
 Open Synced Realm at Specific Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
