@@ -122,14 +122,6 @@ passing props to ``RealmProvider``.
 When ``RealmProvider`` is rendered, it opens the realm. This means that the
 provider renders successfully or its child components can't access the realm.
 
-#. Import :ref:`providers <react-native-sync-providers-hooks>` from
-   ``@realm/react``.
-#. Configure ``AppProvider``.
-#. Configure ``UserProvider`` and nest it within ``AppProvider``.
-#. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
-   You must set up a sync subscription. The example below uses an initial subscription,
-   but you can also set up subscriptions in ``RealmProvider`` child components.
-
 To configure a synced realm:
 
 #. Import :ref:`providers <react-native-sync-providers-hooks>` from
@@ -148,7 +140,7 @@ To configure a synced realm:
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: typescript
-   :emphasize-lines: 7-18
+   :emphasize-lines: 9-19
 
 For more information about configuring and using ``RealmProvider``, check
 out the :ref:`Configure a Realm page <react-native-configure-realm>`.
