@@ -148,6 +148,7 @@ may employ multiple Employees:
 
 
 To create an object with a to-many relationship to another object, we: 
+
 #. Capture our current collection of Employee objects by calling the :ref:`@realm/react useQuery() hook <react-native-use-query-hook>` on the ``Employee`` object type.
 #. Create a new Company object within a :ref:`write transaction <react-native-write-transactions>` and pass our collection of employees to the ``employees`` property.
 #. Create a component method, ``handleAddEmployee()``, that creates a new Employee object. The ``useQuery()`` automatically handles adding this new employee to our captured collection of ``Employees``.
@@ -266,3 +267,4 @@ You can create an asymmetric object inside a write transaction using :js-sdk:`Re
 When creating an asymmetric object, ``Realm.create()`` returns ``undefined`` rather than the object itself.
 
 .. literalinclude:: /examples/generated/react-native/ts/data-ingest.test.snippet.write-data-ingest-object.tsx
+   :language: typescript
