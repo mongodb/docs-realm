@@ -11,32 +11,35 @@ CRUD - Create - React Native SDK
    :depth: 2
    :class: singlecol
 
+Create a New Object
+-------------------
+
 To add a new Realm object to a realm instance, use :js-sdk:`realm.create()
 <Realm.html#create>` inside of a write transaction. If the
 :ref:`schema <react-native-realm-schema>` includes the object type and the
 object conforms to the schema, then Realm stores the object.
 
-The example on this page uses the following schema:
+The example for creating an object uses the following schema:
 
 .. tabs-realm-languages::
       
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/react-native/ts/Dog.snippet.ts-dog-schema.ts
+      .. literalinclude:: /examples/generated/react-native/ts/Person.snippet.ts-person-schema.ts
          :language: typescript
 
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/react-native/js/Dog.snippet.js-dog-schema.js
+      .. literalinclude:: /examples/generated/react-native/js/Person.snippet.js-person-schema.js
          :language: javascript
 
-In the following example of a ``CreateDogInput`` component, we:
+In the following example of a ``CreatePersonInput`` component, we:
 
 #. Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
-#. Create a component method ``handleAddItem()`` that performs a :ref:`write transaction <react-native-write-transactions>`, and creates a new ``Dog`` :js-sdk:`object <Realm.Object.html>` based on the TextInput value.
-#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddItem()`` 
+#. Create a component method ``handleAddPerson()`` that performs a :ref:`write transaction <react-native-write-transactions>`, and creates a new ``Person`` :js-sdk:`object <Realm.Object.html>` based on the TextInput value.
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPerson()`` 
 
 .. tabs-realm-languages::
       
@@ -55,3 +58,95 @@ In the following example of a ``CreateDogInput`` component, we:
          :language: javascript
          :emphasize-lines: 3, 6-8
          :linenos:
+
+Create an Object with a To-One Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In a one-to-one relationship, an object is related to at most one other object of a particular type.
+To learn more about one-to-one relationships, refer to to :ref:`Relationships & Embedded
+Objects - React Native SDK <react-native-to-one-relationship>`.
+
+To represent a to-one relationship, we will use the following schema to indicate that a Pet Owner
+may only own one Pet: 
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/PetOwner.snippet.ts-petowner-schema.ts
+         :language: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Pet.snippet.ts-pet-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/PetOwner.snippet.js-petowner-schema.js
+         :language: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Pet.snippet.js-pet-schema.js
+         :language: javascript
+
+
+To create an object with a to-one relationship to another object, we: 
+
+#. Create a new Pet object by calling the ``create()`` method on our realm instance. 
+#. Capture our newly created Pet object in a ``newPet`` variable using the :ref:`@realm/react useObject() hook <react-native-use-object-hook>`. 
+#. Create a new PetOwner object and pass ``newPet`` to the ``pet`` property.
+#. Wrap our two :ref:`write transactions <react-native-write-transactions>` in a ``handleAddPetOwner()`` function, which creates a new ``PetOwner`` :js-sdk:`object <Realm.Object.html>` with an associated ``Pet`` based on the TextInput value.
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPetOwner()`` 
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/create-test.snippet.crud-create-object.tsx
+        :language: typescript
+        :emphasize-lines: 3, 6-8
+        :linenos:
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/create-test.snippet.crud-create-object.jsx
+         :language: javascript
+         :emphasize-lines: 3, 6-8
+         :linenos:
+
+Create an Object with a To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In a one-to-many relationship, an object may be related to multiple objects of a particular type.
+To learn more about one-to-many relationships, refer to to :ref:`Relationships & Embedded
+Objects - React Native SDK <react-native-to-many-relationship>`.
+
+To represent a to-many relationship, we will use the following schema to indicate that a Company
+may employ multiple Employees:
+
+.. tabs-realm-languages::
+      
+   .. tab::
+      :tabid: typescript
+      
+      .. literalinclude:: /examples/generated/react-native/ts/PetOwner.snippet.ts-petowner-schema.ts
+         :language: typescript
+
+      .. literalinclude:: /examples/generated/react-native/ts/Pet.snippet.ts-pet-schema.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+      
+      .. literalinclude:: /examples/generated/react-native/js/PetOwner.snippet.js-petowner-schema.js
+         :language: javascript
+
+      .. literalinclude:: /examples/generated/react-native/js/Pet.snippet.js-pet-schema.js
+         :language: javascript
+
+
+To create an object with a to-many relationship to another object, we: 
+
+
