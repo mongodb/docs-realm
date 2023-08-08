@@ -41,23 +41,10 @@ In the following example of a ``CreatePersonInput`` component, we:
 #. Create a component method ``handleAddPerson()`` that performs a :ref:`write transaction <react-native-write-transactions>`, and creates a new ``Person`` :js-sdk:`object <Realm.Object.html>` based on the TextInput value.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPerson()``. 
 
-.. tabs-realm-languages::
-      
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
-        :language: typescript
-        :emphasize-lines: 3, 5-9
-        :linenos:
-
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/react-native/js/create-test.test.snippet.crud-create-object.jsx
-         :language: javascript
-         :emphasize-lines: 3, 5-9
-         :linenos:
+.. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
+   :language: typescript
+   :emphasize-lines: 3, 5-9, 15
+   :linenos:
 
 Create an Object with a To-One Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,23 +78,10 @@ To create an object with a to-one relationship to another object, we:
 #. Wrap our two write transactions in a ``handleAddPetOwner()`` function, which creates a new ``PetOwner`` :js-sdk:`object <Realm.Object.html>` with an associated ``Pet`` based on the TextInput value.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPetOwner()``. 
 
-.. tabs-realm-languages::
-      
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-to-one-object.tsx
-        :language: typescript
-        :emphasize-lines: 4, 9-11, 19
-        :linenos:
-
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/react-native/js/create-test.test.snippet.crud-create-to-one-object.jsx
-         :language: javascript
-         :emphasize-lines: 4, 9-11, 19
-         :linenos:
+.. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-to-one-object.tsx
+   :language: typescript
+   :emphasize-lines: 4, 9-11, 19, 28
+   :linenos:
 
 Create an Object with a To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,23 +114,10 @@ To create an object with a to-many relationship to another object, we:
 #. Create a component method, ``handleAddEmployee()``, that creates a new Employee object. The ``useQuery()`` automatically handles adding this new employee to our captured collection of ``Employees``.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddEmployee()``. 
 
-.. tabs-realm-languages::
-      
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-to-many-object.tsx
-        :language: typescript
-        :emphasize-lines: 2, 12, 18-26
-        :linenos:
-
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/react-native/js/create-test.test.snippet.crud-create-to-many-object.jsx
-         :language: javascript
-         :emphasize-lines: 2, 12, 18-26
-         :linenos:
+.. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-to-many-object.tsx
+   :language: typescript
+   :emphasize-lines: 2, 12, 18-26, 32
+   :linenos:
 
 Create an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~
