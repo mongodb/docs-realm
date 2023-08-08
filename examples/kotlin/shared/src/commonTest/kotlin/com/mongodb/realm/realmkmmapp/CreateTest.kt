@@ -106,6 +106,53 @@ class CreateTest: RealmTest() {
             realm.close()
         }
     }
+
+    @Test
+    fun createToOneRelationship() {
+        class Owner : RealmObject {
+            var _id: ObjectId = ObjectId()
+            var name: String = ""
+        }
+        // :snippet-start: define-to-one-relationship
+        class Frog : RealmObject {
+            var _id: ObjectId = ObjectId()
+            var name: String = ""
+            var owner: Owner? = null
+        }
+        // :snippet-end:
+
+        runBlocking {
+            val config = RealmConfiguration.Builder(
+                schema = setOf(Frog::class, Owner::class) // Pass the defined class as the object schema
+            )
+                .inMemory()
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+
+            realm.write {
+                val frogs = query<Frog>().find()
+                delete(frogs)
+                assertEquals(0, frogs.size)
+            }
+
+            // :snippet-start: create-to-one-relationship
+            realm.write {
+                copyToRealm(Frog().apply {
+                    name = "Kermit"
+                    owner = copyToRealm(Owner().apply {
+                        name = "Jim Henson"
+                    })
+                })
+            }
+            // :snippet-end:
+            val frogs = realm.query<Frog>().find()
+            assertEquals(1, frogs.size)
+            val thisFrog = frogs.first()
+            thisFrog.owner?.let { assertEquals("Jim Henson", it.name) }
+            realm.close()
+        }
+    }
 }
 
 // :replace-end:

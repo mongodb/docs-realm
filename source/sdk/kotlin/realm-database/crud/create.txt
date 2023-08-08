@@ -15,8 +15,8 @@ Create Realm Objects - Kotlin SDK
    You can only insert new objects into a realm within a
    :ref:`write transaction <kotlin-write-transactions>`.
 
-Create a New Realm Object
--------------------------
+Create an Object
+----------------
 
 Instantiate Realm objects as you would any other object. In a
 transaction, you can add the object to the realm if the
@@ -51,17 +51,55 @@ To persist a new object to a realm:
    :ref:`Upsert a Realm Object <kotlin-upsert-an-object>`.
 
 Create an Embedded Object
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create an :ref:`embedded object <kotlin-embedded-objects>`, assign an instance of the 
+To create an :ref:`embedded object <kotlin-embedded-objects>`, assign an 
+instance of the 
 `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
 to a parent object's property:
 
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.create-embedded-object.kt 
     :language: kotlin
 
+Create an Object with a RealmSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create objects that contain :ref:`RealmSet <kotlin-realm-set>` 
+properties as you would any Realm object, but you can only set 
+the values of a mutable set property within a write transaction. 
+
+Add an Item to a RealmSet
+`````````````````````````
+
+To add an item to a ``RealmSet``, pass the object you want to add to the 
+`set.add() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-153241610%2FFunctions%2F-1651551339>`__ 
+method.
+
+In the following example, we get the ``favoriteSnacks`` set, then add a new
+``Snack`` object to the set of favorite snacks:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-item-to-realm-set.kt
+   :language: kotlin
+
+Add Many Items to a RealmSet
+````````````````````````````
+
+To add multiple items to a ``RealmSet``, pass the elements you want 
+to add to the `set.addAll()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-800009087%2FFunctions%2F-1651551339>`__
+method.
+
+In the following example, we create several ``Snack`` objects and use the
+`setOf
+<https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/set-of.html>`__
+method to create a read-only set of the given elements. Then, we pass these
+elements to the ``set.addAll()`` method to add them to our ``Frog`` object's favorite snacks:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-all-to-realm-set.kt
+   :language: kotlin
+
 Create an Object with a Dictionary Property
--------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can create objects with 
 `RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__
