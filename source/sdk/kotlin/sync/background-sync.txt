@@ -40,14 +40,14 @@ First, write the custom logic that synchronizes your realm. Treat this
 logic as a standalone connection to your backend. As a result, you'll
 need to:
 
-- Get the Realm sync configuration for your app
-- Authenticate a user to open the realm. You can use a user's cached 
-  credentials if the user recently used the app.
-
-Open the realm, then use `SyncSession.downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__
-and `SyncSession.uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__
-to synchronize the realm fully with the backend. For more information, see 
-:ref:`Manage Sync Sessions <kotlin-manage-sync-session>`.
+#. Get the Realm sync configuration for your app
+#. Authenticate a user to open the realm. You can use a user's cached 
+   credentials if the user recently used the app.
+#. Open the realm, then use 
+   `SyncSession.downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__
+   and `SyncSession.uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__
+   to synchronize the realm fully with the backend. For more information, see :ref:`Manage Sync Sessions <kotlin-manage-sync-session>`.
+#. Close the realm.
 
 You can execute this logic as a background process using a subclass of
 :android:`CoroutineWorker <reference/kotlin/androidx/work/CoroutineWorker>`.
@@ -90,8 +90,9 @@ Put your synchronization logic in the ``doWork()`` method of your worker.
                   realm.syncSession.uploadAllLocalChanges()
                } catch (e: InterruptedException) {
                   e.printStackTrace()
+               } finally {
+                  realm.close()
                }
-         }
          return future.get()
       }
       companion object {
