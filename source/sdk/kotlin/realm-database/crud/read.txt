@@ -21,10 +21,13 @@ Read Realm Objects - Kotlin SDK
    <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__ in
    time-sensitive environments.
 
+Find Objects
+------------
+
 .. _kotlin-find-object-by-primary-key:
 
 Find Object by Primary Key
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To find an object with a specific primary key value, open a realm
 and query the primary key field for the desired primary key value
@@ -38,7 +41,7 @@ Specify the object type as a type parameter passed to :file:`query()`:
 .. _kotlin-find-objects-of-a-type:
 
 Find Objects of a Type
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 To find all objects of a type, open a realm
 and pass the type as a type parameter to `realm.query()
@@ -47,8 +50,19 @@ and pass the type as a type parameter to `realm.query()
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.find-all-objects-of-a-type.kt
    :language: kotlin
 
+Find an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query an :ref:`embedded object <kotlin-embedded-objects>` directly or 
+through the parent object. You can also use the 
+`EmbeddedRealmObject.parent() <{+kotlin-local-prefix+}io.realm.kotlin.ext/parent.html>`__  
+method to access the parent of the embedded object.
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.query-embedded-objects.kt 
+    :language: kotlin
+
 Read an Object with a Dictionary Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can iterate and check the values of a  
 `RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__
@@ -57,10 +71,13 @@ as you would a Kotlin Map.
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-dictionary.kt
    :language: kotlin
 
+Filter Data
+-----------
+
 .. _kotlin-filter-data:
 
 Filter Results
---------------
+~~~~~~~~~~~~~~
 
 Filter results to retrieve a specific segment
 of objects with `realm.query()
@@ -79,7 +96,7 @@ For more information on constructing queries, refer to the
 .. _kotlin-filter-fts:
 
 Filter with Full-Text Search
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use Realm Query Language (RQL) to query on properties that 
 have :ref:`Full-Text Search Indexes <kotlin-fts-index>` (FTS) on them.
@@ -96,7 +113,7 @@ In the following example, we query the ``Book.genre`` field:
   :language: kotlin
 
 Full-Text Search Tokenizer Details
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``````````````````````````````````
 
 Full-Text Search (FTS) indexes support:
 
