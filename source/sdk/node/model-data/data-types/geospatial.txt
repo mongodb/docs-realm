@@ -25,26 +25,24 @@ Geospatial Data Types
 GeoPoint
 ~~~~~~~~
 
-A :js-sdk:`GeoPoint <INSERT-API-REFERENCE-LINK>` defines a specific 
+A :js-sdk:`GeoPoint <Realm.GeoPoint.html>` defines a specific 
 location on the Earth's surface. All of the geospatial data types use ``GeoPoints`` 
 to define their location. 
 
-.. note::
-   
-   In methods that take a ``GeoPoint``, you can alternatively provide a tuple of 
-   doubles, where the first double is the longitude and the second double is the 
-   latitude. The SDK interprets these tuples as ``GeoPoints``. The examples on 
-   this page demonstrate both approaches.
+In methods that take a ``GeoPoint``, you can alternatively provide a tuple of 
+doubles, where the first double is the longitude and the second double is the 
+latitude. The SDK interprets these tuples as ``GeoPoints``. The examples on 
+this page demonstrate both approaches.
 
 .. _node-geocircle:
 
 GeoCircle
 ~~~~~~~~~
 
-A :js-sdk:`GeoCircle <INSERT-API-REFERENCE-LINK>` defines a circle on 
+A :js-sdk:`GeoCircle <Realm.GeoCircle.html>` defines a circle on 
 the Earth's surface. You define a ``GeoCircle`` by providing a ``GeoPoint`` 
-for the center of the circle and a :js-sdk:`Distance <INSERT-API-REFERENCE-LINK>` 
-object to specify the radius of the circle. 
+for the center of the circle and a number for the distance to specify the 
+radius of the circle. 
 
 .. note::
    
@@ -76,7 +74,7 @@ The following code shows two examples of creating a circle:
 GeoBox
 ~~~~~~
 
-A :js-sdk:`GeoBox <INSERT-API-REFERENCE-LINK>` defines a rectangle on  
+A :js-sdk:`GeoBox <Realm.GeoBox.html>` defines a rectangle on  
 the Earth's surface. You define the rectangle by specifying the bottom left 
 (southwest) corner and the top right (northeast) corner. The following example 
 creates 2 boxes:
@@ -105,7 +103,7 @@ creates 2 boxes:
 GeoPolygon
 ~~~~~~~~~~
 
-A :js-sdk:`GeoPolygon <INSERT-API-REFERENCE-LINK>` defines a polygon 
+A :js-sdk:`GeoPolygon <Realm.GeoPolygon.html>` defines a polygon 
 on the Earth's surface. Because a polygon is a closed shape, you must provide a 
 minimum of 4 points: 3 points to define the polygon's shape, and a fourth to 
 close the shape.
@@ -200,7 +198,7 @@ following example:
       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.use-geopoint-class.js
           :language: javascript
 
-You then add instances of your class to realm just like any other Realm model:
+You then add instances of your class to the realm just like any other Realm model:
 
 .. tabs-realm-languages::
 
@@ -236,8 +234,8 @@ the shape.
 
 .. note::
 
-   The format for querying geospatial data is the same regardless the shape of 
-   the geodata region.
+   The format for querying geospatial data is the same, regardless of the 
+   shape of the geodata region.
 
 The following examples show querying against various shapes to return a list of 
 companies within the shape:

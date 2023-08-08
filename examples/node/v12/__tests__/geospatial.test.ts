@@ -78,6 +78,7 @@ describe("Geospatial", () => {
       latitude: 47.8,
     };
 
+    // `kmToRadians` is imported from Realm
     const radius = kmToRadians(44.4);
 
     const largeCircle: GeoCircle = {
@@ -172,35 +173,41 @@ describe("Geospatial", () => {
     const companiesInLargeCircle = realm
       .objects(Company)
       .filtered("location geoWithin $0", largeCircle);
-    console.log("Companies in large circle: ${companiesInLargeCircle.length}");
+    console.debug(
+      `Companies in large circle: ${companiesInLargeCircle.length}`
+    );
 
     const companiesInSmallCircle = realm
       .objects(Company)
       .filtered("location geoWithin $0", smallCircle);
-    console.log("Companies in small circle: ${companiesInSmallCircle.length}");
+    console.debug(
+      `Companies in small circle: ${companiesInSmallCircle.length}`
+    );
     // :snippet-end:
     // :snippet-start: geobox-query
     const companiesInLargeBox = realm
       .objects(Company)
       .filtered("location geoWithin $0", largeBox);
-    console.log("Companies in large circle: ${companiesInLargeBox.length}");
+    console.debug(`Companies in large circle: ${companiesInLargeBox.length}`);
 
     const companiesInSmallBox = realm
       .objects(Company)
       .filtered("location geoWithin $0", smallBox);
-    console.log("Companies in small circle: ${companiesInSmallBox.length}");
+    console.debug(`Companies in small circle: ${companiesInSmallBox.length}`);
     // :snippet-end:
     // :snippet-start: geopolygon-query
     const companiesInBasicPolygon = realm
       .objects(Company)
       .filtered("location geoWithin $0", basicPolygon);
-    console.log("Companies in large circle: ${companiesInBasicPolygon.length}");
+    console.debug(
+      `Companies in large circle: ${companiesInBasicPolygon.length}`
+    );
 
     const companiesInPolygonWithTwoHoles = realm
       .objects(Company)
       .filtered("location geoWithin $0", polygonWithTwoHoles);
-    console.log(
-      "Companies in small circle: ${companiesInPolygonWithTwoHoles.length}"
+    console.debug(
+      `Companies in small circle: ${companiesInPolygonWithTwoHoles.length}`
     );
     // :snippet-end:
 
@@ -210,12 +217,6 @@ describe("Geospatial", () => {
     expect(companiesInSmallBox.length).toBe(2);
     expect(companiesInBasicPolygon.length).toBe(2);
     expect(companiesInPolygonWithTwoHoles.length).toBe(1);
-
-    // Clean up after test
-    realm.write(() => {
-      realm.deleteAll();
-    });
-    realm.close();
     expect.hasAssertions();
   });
 });

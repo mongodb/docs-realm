@@ -8,6 +8,7 @@ const largeCircleCenter = {
   latitude: 47.8,
 };
 
+// `kmToRadians` is imported from Realm
 const radius = kmToRadians(44.4);
 
 const largeCircle = {
