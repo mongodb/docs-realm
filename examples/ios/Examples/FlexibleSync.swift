@@ -39,6 +39,12 @@ extension FlexibleSync_Task {
     }
 }
 
+// There are a lot of `@MainActor` annotations in this test class.
+// I'm not annotating the entire class with `@MainActor` because I want
+// the errors to show me the places where I need to add `@MainActor`
+// annotations in visible code examples.
+// This means individually annotating tests since the tearDown func
+// uses @MainActor. Otherwise Realm throws due to incorrect thread access.
 class FlexibleSync: XCTestCase {
     
     @MainActor
@@ -430,6 +436,7 @@ class FlexibleSync: XCTestCase {
         // :snippet-end:
     }
     
+    @MainActor
     func testSubscribeApiWithUnnamedSubscription() async throws {
         let app = App(id: APPID)
 
@@ -455,6 +462,7 @@ class FlexibleSync: XCTestCase {
         }
     }
     
+    @MainActor
     func testSubscribeApiWithNamedSubscription() async throws {
         let app = App(id: APPID)
 
@@ -482,6 +490,7 @@ class FlexibleSync: XCTestCase {
         }
     }
     
+    @MainActor
     func setupWaitForSyncTest() async throws {
         let app = App(id: APPID)
         
@@ -514,6 +523,7 @@ class FlexibleSync: XCTestCase {
         }
     }
     
+    @MainActor
     func tearDownWaitForSyncTest() async throws {
         let app = App(id: APPID)
 
@@ -540,6 +550,7 @@ class FlexibleSync: XCTestCase {
         }
     }
     
+    @MainActor
     func testSubscribeApiWaitForSync() async throws {
 
         do {
@@ -576,6 +587,7 @@ class FlexibleSync: XCTestCase {
         }
     }
     
+    @MainActor
     func testSubscribeApiUnsubscribeSpecificSubscription() async throws {
         let app = App(id: APPID)
 
@@ -836,6 +848,7 @@ class FlexibleSync: XCTestCase {
         }
     }
     
+    @MainActor
     func testRemoveAllUnnamedSubscriptions() async {
         let app = App(id: APPID)
 
