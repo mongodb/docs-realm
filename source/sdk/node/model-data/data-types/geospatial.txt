@@ -153,10 +153,10 @@ with two holes:
 
 .. _node-persist-geopoint:
 
-Persist GeoPoint Data
----------------------
+Persist Geospatial Data
+-----------------------
 
-If you want to persist ``GeoPoint`` data, it must conform to the 
+If you want to persist geospatial data, it must conform to the 
 `GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 
 
 Create a GeoJSON-Compatible Class
@@ -176,9 +176,9 @@ To create a class that conforms to the GeoJSON spec, you:
      field must be "Point".
 
 To simplify geodata persistance, you can define a model that implements 
-CanonicalGeoPoint, which already has the correct shape. The following 
+``CanonicalGeoPoint``, which already has the correct shape. The following 
 example shows an embedded class named ``MyGeoPoint`` that is used 
-to persist GeoPoint data:
+to persist geospatial data:
 
 .. tabs-realm-languages::
 
