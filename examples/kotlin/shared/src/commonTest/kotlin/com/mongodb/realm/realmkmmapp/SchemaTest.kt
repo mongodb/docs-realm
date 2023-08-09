@@ -8,15 +8,12 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.internal.platform.runBlocking
-import io.realm.kotlin.notifications.SetChange
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.types.*
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PersistedName
 import io.realm.kotlin.types.annotations.PrimaryKey
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 import org.mongodb.kbson.ObjectId
 import kotlin.test.*
@@ -300,53 +297,6 @@ class SchemaTest: RealmTest() {
                 set.removeAll(allSnacks) // have to call twice to actually remove all items until bug is fixed
                 assertTrue(set.isEmpty())
             }
-            realm.close()
-            Realm.deleteRealm(config)
-        }
-    }
-
-    @Test
-    fun listenForSetChanges() {
-        runBlocking {
-            val config = RealmConfiguration.Builder(setOf(Frog2::class, Snack::class))
-                .inMemory()
-                .build()
-            val realm = Realm.open(config)
-            Log.v("Successfully opened realm: ${realm.configuration.path}")
-            // capture changes to the set
-            val detectedChanges = mutableListOf<SetChange<Snack>>()
-
-            realm.writeBlocking {
-                copyToRealm(Frog2().apply {
-                    name = "Kermit"
-                })
-            }
-
-            // :snippet-start: react-to-changes-from-the-set
-            val kermitFrog = realm.query<Frog2>("name = $0", "Kermit").find().first()
-
-            val job = launch(Dispatchers.Default) {
-                kermitFrog.favoriteSnacks
-                    .asFlow()
-                    .collect {
-                        // Listen for changes to the RealmSet
-                        // :remove-start:
-                        change ->
-                        Log.v("Change detected: $change")
-                        detectedChanges.add(change)
-                        assertTrue(detectedChanges.size == 1)
-                        // :remove-end:
-                    }
-            }
-            // :snippet-end:
-            realm.writeBlocking {
-                val set = findLatest(kermitFrog)!!.favoriteSnacks
-                val newSnack = copyToRealm(Snack().apply {
-                    name = "chocolate"
-                })
-                set.add(newSnack)
-            }
-            job.cancel()
             realm.close()
             Realm.deleteRealm(config)
         }

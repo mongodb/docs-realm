@@ -50,16 +50,13 @@ To persist a new object to a realm:
    You can also upsert into a realm using specific criteria. See 
    :ref:`Upsert a Realm Object <kotlin-upsert-an-object>`.
 
-Create an Embedded Object
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Create a Collection
+-------------------
 
-To create an :ref:`embedded object <kotlin-embedded-objects>`, assign an 
-instance of the 
-`EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
-to a parent object's property:
+You can create ``RealmList``, ``RealmSet``, or ``RealmMap`` collections.
 
-.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.create-embedded-object.kt 
-    :language: kotlin
+You can also register a notification handler to listen for changes to a collection. For more information, see 
+:ref:`React To Changes <kotlin-realm-list-change-listener>`.
 
 Create an Object with a RealmSet Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,6 +113,17 @@ For more information about defining a dictionary property, refer to
 
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.percent-encode-disallowed-characters.kt
    :language: kotlin
+
+Create an Embedded Object
+-------------------------
+
+To create an :ref:`embedded object <kotlin-embedded-objects>`, assign an 
+instance of the 
+`EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
+to a parent object's property:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.create-embedded-object.kt 
+    :language: kotlin
 
 .. _kotlin-create-asymmetric-object:
 

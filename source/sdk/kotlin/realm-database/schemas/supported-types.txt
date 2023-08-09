@@ -135,35 +135,6 @@ is a specialized
 where every key is a string. A ``RealmMap`` is an associative array that 
 contains  key-value pairs with unique keys. 
 
-
-
-Notifications
-`````````````
-
-You can register a notification handler on a ``RealmSet``. Realm notifies your
-handler when the set changes. To register a change listener on a single
-object, generate a ``Flow`` from the ``RealmSet`` with `asFlow()
-<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/as-flow.html>`__.
-Next, use the ``collect()`` method to handle events on that ``Flow``. The ``Flow``
-emits an `initialSet()
-<{+kotlin-local-prefix+}io.realm.kotlin.notifications/-initial-set/index.html>`__
-once subscribed and an `updatedSet()
-<{+kotlin-local-prefix+}io.realm.kotlin.notifications/-updated-set/index.html>`__
-on change.
-
-In the following example, we react to changes on the ``favoriteSnacks`` set of our ``Frog`` object.
-
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.react-to-changes-from-the-set.kt
-   :language: kotlin
-
-The ``Flow`` runs indefinitely until you `cancel the enclosing coroutine
-<https://kotlinlang.org/docs/cancellation-and-timeouts.html>`__ or until you
-delete the parent object.
-
-.. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-unsubscribe-to-changes.kt
-   :language: kotlin
-
-
 .. _kotlin-additional-types:
 
 Additional Supported Data Types
