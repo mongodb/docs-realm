@@ -1,5 +1,5 @@
 class MyGeoPoint implements CanonicalGeoPoint {
-  coordinates: GeoPosition;
+  coordinates!: GeoPosition;
   type = "Point" as const;
 
   constructor(long: number, lat: number) {

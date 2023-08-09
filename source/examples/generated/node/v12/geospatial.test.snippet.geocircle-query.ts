@@ -1,13 +1,9 @@
-const companiesInLargeCircle = realm
+const companiesInCircle1 = realm
   .objects(Company)
-  .filtered("location geoWithin $0", largeCircle);
-console.debug(
-  `Companies in large circle: ${companiesInLargeCircle.length}`
-);
+  .filtered("location geoWithin $0", circle1);
+console.debug(`Companies in circle1: ${companiesInCircle1.length}`);
 
-const companiesInSmallCircle = realm
+const companiesInCircle2 = realm
   .objects(Company)
-  .filtered("location geoWithin $0", smallCircle);
-console.debug(
-  `Companies in small circle: ${companiesInSmallCircle.length}`
-);
+  .filtered("location geoWithin $0", circle2);
+console.debug(`Companies in circle2: ${companiesInCircle2.length}`);

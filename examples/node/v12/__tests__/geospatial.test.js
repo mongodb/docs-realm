@@ -55,12 +55,12 @@ describe("Geospatial", () => {
     // :snippet-end:
 
     // :snippet-start: geocircle
-    const smallCircle = {
+    const circle1 = {
       center: [-121.9, 47.3],
       distance: 0.25,
     };
 
-    const largeCircleCenter = {
+    const circle2Center = {
       longitude: -122.6,
       latitude: 47.8,
     };
@@ -68,8 +68,8 @@ describe("Geospatial", () => {
     // `kmToRadians` is imported from Realm
     const radius = kmToRadians(44.4);
 
-    const largeCircle = {
-      center: largeCircleCenter,
+    const circle2 = {
+      center: circle2Center,
       distance: radius,
     };
     // :snippet-end:
@@ -157,49 +157,45 @@ describe("Geospatial", () => {
     // :snippet-end:
 
     // :snippet-start: geocircle-query
-    const companiesInLargeCircle = realm
+    const companiesInCircle1 = realm
       .objects(Company)
-      .filtered("location geoWithin $0", largeCircle);
-    console.debug(
-      `Companies in large circle: ${companiesInLargeCircle.length}`
-    );
+      .filtered("location geoWithin $0", circle1);
+    console.debug(`Companies in circle1: ${companiesInCircle1.length}`);
 
-    const companiesInSmallCircle = realm
+    const companiesInCircle2 = realm
       .objects(Company)
-      .filtered("location geoWithin $0", smallCircle);
-    console.debug(
-      `Companies in small circle: ${companiesInSmallCircle.length}`
-    );
+      .filtered("location geoWithin $0", circle2);
+    console.debug(`Companies in circle2: ${companiesInCircle2.length}`);
     // :snippet-end:
     // :snippet-start: geobox-query
     const companiesInLargeBox = realm
       .objects(Company)
       .filtered("location geoWithin $0", largeBox);
-    console.debug(`Companies in large circle: ${companiesInLargeBox.length}`);
+    console.debug(`Companies in large box: ${companiesInLargeBox.length}`);
 
     const companiesInSmallBox = realm
       .objects(Company)
       .filtered("location geoWithin $0", smallBox);
-    console.debug(`Companies in small circle: ${companiesInSmallBox.length}`);
+    console.debug(`Companies in small box: ${companiesInSmallBox.length}`);
     // :snippet-end:
     // :snippet-start: geopolygon-query
     const companiesInBasicPolygon = realm
       .objects(Company)
       .filtered("location geoWithin $0", basicPolygon);
     console.debug(
-      `Companies in large circle: ${companiesInBasicPolygon.length}`
+      `Companies in basic polygon: ${companiesInBasicPolygon.length}`
     );
 
     const companiesInPolygonWithTwoHoles = realm
       .objects(Company)
       .filtered("location geoWithin $0", polygonWithTwoHoles);
     console.debug(
-      `Companies in small circle: ${companiesInPolygonWithTwoHoles.length}`
+      `Companies in polygon with two holes: ${companiesInPolygonWithTwoHoles.length}`
     );
     // :snippet-end:
 
-    expect(companiesInLargeCircle.length).toBe(1);
-    expect(companiesInSmallCircle.length).toBe(2);
+    expect(companiesInCircle1.length).toBe(2);
+    expect(companiesInCircle2.length).toBe(1);
     expect(companiesInLargeBox.length).toBe(1);
     expect(companiesInSmallBox.length).toBe(2);
     expect(companiesInBasicPolygon.length).toBe(2);

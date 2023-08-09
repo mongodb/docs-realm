@@ -29,10 +29,21 @@ A :js-sdk:`GeoPoint <Realm.GeoPoint.html>` defines a specific
 location on the Earth's surface. All of the geospatial data types use ``GeoPoints`` 
 to define their location. 
 
-In methods that take a ``GeoPoint``, you can alternatively provide a tuple of 
-doubles, where the first double is the longitude and the second double is the 
-latitude. The SDK interprets these tuples as ``GeoPoints``. The examples on 
-this page demonstrate both approaches.
+``GeoPoint`` is the union of three types:
+
+- ``latitude``: a number value
+- ``longitude``: a number value
+- ``altitude``: an optional number value
+
+When you provide these values in a positional unlabeled array, the SDK 
+interprets the first value as ``longitude``, the second value as ``latitude``,
+and a third value, if provided, as ``altitude``.
+
+A GeoPoint is used only as a building block of the other shapes: 
+GeoCircle, GeoBox, and GeoPolygon. GeoPoint is used only in queries, not 
+for persistance.
+
+To save geospatial data to realm, refer to :ref:`node-persist-geopoint`.
 
 .. _node-geocircle:
 
@@ -46,7 +57,9 @@ radius of the circle.
 
 .. note::
    
-   You can define the radius in kilometers, miles, degrees, or radians.
+   The radius must be in radians, but the SDK provides the methods 
+   ``kmToRadians`` and ``miToRadians`` to convert kilometers or miles 
+   to radians.
 
 The following code shows two examples of creating a circle:
 
@@ -76,8 +89,10 @@ GeoBox
 
 A :js-sdk:`GeoBox <Realm.GeoBox.html>` defines a rectangle on  
 the Earth's surface. You define the rectangle by specifying the bottom left 
-(southwest) corner and the top right (northeast) corner. The following example 
-creates 2 boxes:
+(southwest) corner and the top right (northeast) corner. A GeoBox behaves 
+in the same way as the corresponding :ref:`GeoPolygon <node-geopolygon>`.
+
+The following example creates 2 boxes:
 
 .. tabs-realm-languages::
 
@@ -161,7 +176,9 @@ To create a class that conforms to the GeoJSON spec, you:
    - A field of type ``string`` that maps to a "type" property. The value of this 
      field must be "Point".
 
-The following example shows an embedded class named "MyGeoPoint" that is used 
+To simplify geodata persistance, you can define a model that implements 
+CanonicalGeoPoint, which already has the correct shape. The following 
+example shows an embedded class named "MyGeoPoint" that is used 
 to persist GeoPoint data:
 
 .. tabs-realm-languages::
