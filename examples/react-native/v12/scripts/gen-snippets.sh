@@ -2,7 +2,7 @@
 #! /bin/bash
 
 PROJECT=$(git rev-parse --show-toplevel)
-INPUT_DIRECTORY=$PROJECT/examples/react-native/v12
+INPUT_DIRECTORY=$PROJECT/examples/react-native/v12/TestApp/__tests__
 OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/react-native/v12
 
 # standard bluehawking
