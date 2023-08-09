@@ -12,6 +12,8 @@ import Realm, {
 describe("Geospatial", () => {
   test("should define an object model, open a realm, and perform geospatial queries", async () => {
     // :snippet-start: define-geopoint-class
+    // Implement `CanonicalGeoPoint` instead of extending
+    // `Realm.Object` for convenience when persisting geodata.
     class MyGeoPoint implements CanonicalGeoPoint {
       coordinates!: GeoPosition;
       type = "Point" as const;
@@ -47,13 +49,14 @@ describe("Geospatial", () => {
     }
     // :snippet-end:
 
+    // :snippet-start: write-geospatial-object
     const realm = await Realm.open({
+      // `MyGeoPoint` does not extend `Realm.Object`, so you pass
+      // only the `.schema` when opening the realm.
       schema: [Company, MyGeoPoint.schema],
     });
+    expect(realm.isClosed).toBe(false); // :remove:
 
-    expect(realm.isClosed).toBe(false);
-
-    // :snippet-start: write-geospatial-object
     // Add geospatial object to realm.
     realm.write(() => {
       realm.create(Company, {
@@ -68,22 +71,25 @@ describe("Geospatial", () => {
     // :snippet-end:
 
     // :snippet-start: geocircle
-    const circle1: GeoCircle = {
+    const smallCircle: GeoCircle = {
       center: [-121.9, 47.3],
-      distance: 0.25,
+      // The GeoCircle radius is measured in radians
+      distance: 0.004363323,
     };
 
-    const circle2Center: GeoPoint = {
+    const largeCircleCenter: GeoPoint = {
       longitude: -122.6,
       latitude: 47.8,
     };
 
-    // `kmToRadians` is imported from Realm
-    const radius = kmToRadians(44.4);
+    // Realm provides `kmToRadians` and `miToRadians`
+    // to convert these measurements. Import the relevant
+    // convenience method for your app's needs.
+    const radiusFromKm = kmToRadians(44.4);
 
-    const circle2: GeoCircle = {
-      center: circle2Center,
-      distance: radius,
+    const largeCircle: GeoCircle = {
+      center: largeCircleCenter,
+      distance: radiusFromKm,
     };
     // :snippet-end:
 
@@ -170,15 +176,15 @@ describe("Geospatial", () => {
     // :snippet-end:
 
     // :snippet-start: geocircle-query
-    const companiesInCircle1 = realm
+    const companiesInSmallCircle = realm
       .objects(Company)
-      .filtered("location geoWithin $0", circle1);
-    console.debug(`Companies in circle1: ${companiesInCircle1.length}`);
+      .filtered("location geoWithin $0", smallCircle);
+    console.debug(`Companies in smallCircle: ${companiesInSmallCircle.length}`);
 
-    const companiesInCircle2 = realm
+    const companiesInLargeCircle = realm
       .objects(Company)
-      .filtered("location geoWithin $0", circle2);
-    console.debug(`Companies in circle2: ${companiesInCircle2.length}`);
+      .filtered("location geoWithin $0", largeCircle);
+    console.debug(`Companies in largeCircle: ${companiesInLargeCircle.length}`);
     // :snippet-end:
     // :snippet-start: geobox-query
     const companiesInLargeBox = realm
@@ -207,8 +213,8 @@ describe("Geospatial", () => {
     );
     // :snippet-end:
 
-    expect(companiesInCircle1.length).toBe(2);
-    expect(companiesInCircle2.length).toBe(1);
+    expect(companiesInSmallCircle.length).toBe(0);
+    expect(companiesInLargeCircle.length).toBe(1);
     expect(companiesInLargeBox.length).toBe(1);
     expect(companiesInSmallBox.length).toBe(2);
     expect(companiesInBasicPolygon.length).toBe(2);

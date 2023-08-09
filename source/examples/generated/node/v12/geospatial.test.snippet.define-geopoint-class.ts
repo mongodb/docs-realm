@@ -1,3 +1,5 @@
+// Implement `CanonicalGeoPoint` instead of extending
+// `Realm.Object` for convenience when persisting geodata.
 class MyGeoPoint implements CanonicalGeoPoint {
   coordinates!: GeoPosition;
   type = "Point" as const;

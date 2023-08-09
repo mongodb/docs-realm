@@ -51,15 +51,14 @@ GeoCircle
 ~~~~~~~~~
 
 A :js-sdk:`GeoCircle <Realm.GeoCircle.html>` defines a circle on 
-the Earth's surface. You define a ``GeoCircle`` by providing a ``GeoPoint`` 
-for the center of the circle and a number for the distance to specify the 
-radius of the circle. 
+the Earth's surface. You define a ``GeoCircle`` by providing:
 
-.. note::
-   
-   The radius must be in radians, but the SDK provides the methods 
-   ``kmToRadians`` and ``miToRadians`` to convert kilometers or miles 
-   to radians.
+- A ``GeoPoint`` for the center of the circle
+- A number for the distance (radius) of the circle 
+
+The radius distance uses radians as the unit of measure. The SDK 
+provides the methods ``kmToRadians`` and ``miToRadians`` to convert 
+kilometers or miles to radians.
 
 The following code shows two examples of creating a circle:
 
@@ -178,7 +177,7 @@ To create a class that conforms to the GeoJSON spec, you:
 
 To simplify geodata persistance, you can define a model that implements 
 CanonicalGeoPoint, which already has the correct shape. The following 
-example shows an embedded class named "MyGeoPoint" that is used 
+example shows an embedded class named ``MyGeoPoint`` that is used 
 to persist GeoPoint data:
 
 .. tabs-realm-languages::
@@ -198,7 +197,7 @@ to persist GeoPoint data:
 Use the Embedded Class
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You then use the custom "MyGeoPoint" class in your realm model, as shown in the 
+You then use the custom ``MyGeoPoint`` class in your realm model, as shown in the 
 following example:
 
 .. tabs-realm-languages::
@@ -215,7 +214,10 @@ following example:
       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.use-geopoint-class.js
           :language: javascript
 
-You then add instances of your class to the realm just like any other Realm model:
+You add instances of your class to the realm just like any other Realm 
+model. However, in this example, because the ``MyGeoPoint`` class does not 
+extend ``Realm.Object``, we must specify ``MyGeoPoint.schema`` when opening 
+the realm:
 
 .. tabs-realm-languages::
 

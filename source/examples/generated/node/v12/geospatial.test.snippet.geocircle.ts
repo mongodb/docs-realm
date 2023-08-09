@@ -1,17 +1,20 @@
-const circle1: GeoCircle = {
+const smallCircle: GeoCircle = {
   center: [-121.9, 47.3],
-  distance: 0.25,
+  // The GeoCircle radius is measured in radians
+  distance: 0.004363323,
 };
 
-const circle2Center: GeoPoint = {
+const largeCircleCenter: GeoPoint = {
   longitude: -122.6,
   latitude: 47.8,
 };
 
-// `kmToRadians` is imported from Realm
-const radius = kmToRadians(44.4);
+// Realm provides `kmToRadians` and `miToRadians`
+// to convert these measurements. Import the relevant
+// convenience method for your app's needs.
+const radiusFromKm = kmToRadians(44.4);
 
-const circle2: GeoCircle = {
-  center: circle2Center,
-  distance: radius,
+const largeCircle: GeoCircle = {
+  center: largeCircleCenter,
+  distance: radiusFromKm,
 };

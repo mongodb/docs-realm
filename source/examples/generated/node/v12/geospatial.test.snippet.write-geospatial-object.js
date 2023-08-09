@@ -1,3 +1,9 @@
+const realm = await Realm.open({
+  // `MyGeoPoint` does not extend `Realm.Object`, so you pass
+  // only the `.schema` when opening the realm.
+  schema: [Company, MyGeoPoint.schema],
+});
+
 // Add geospatial object to realm.
 realm.write(() => {
   realm.create(Company, {
