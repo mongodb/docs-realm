@@ -9,14 +9,12 @@ import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.notifications.SetChange
-import io.realm.kotlin.notifications.SetChangeSet
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.types.*
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PersistedName
 import io.realm.kotlin.types.annotations.PrimaryKey
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
@@ -222,6 +220,7 @@ class SchemaTest: RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun createRealmSetTypes() {
         runBlocking {
@@ -230,27 +229,7 @@ class SchemaTest: RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-            val kermitFrog = realm.query<Frog2>("name = 'Kermit'").first().find()
-            val kermitSnacks = kermitFrog?.favoriteSnacks
-            val job = CoroutineScope(Dispatchers.Default).launch {
-                kermitSnacks
-                    ?.asFlow()
-                    ?.collect() { changes: SetChange<Snack> ->
-                        when (changes) {
-                            is SetChangeSet -> {
-                                changes.insertions
-                                Log.v("Set of snacks changed: $changes")
-                            }
-                            else -> {
-                                Log.v("Set of snacks unchanged")
-                            }
 
-                        }
-                        val set = kermitFrog.favoriteSnacks
-
-                        assertTrue(set.last().name.equals("new snack"))
-                    }
-            }
             // :snippet-start: add-item-to-realm-set
             realm.write {
                 // Create a Frog object named 'Kermit' that will have a RealmSet of favorite snacks
@@ -273,8 +252,8 @@ class SchemaTest: RealmTest() {
 
             // :snippet-start: add-all-to-realm-set
             realm.write {
-                val myFrog = query<Frog2>("name = 'Kermit'").find().first()
-                val set = myFrog.favoriteSnacks
+                val myFrog = query<Frog2>("name == $0", "Kermit").find().first()
+                val set = findLatest(myFrog)!!.favoriteSnacks
 
                 val cricketsSnack = copyToRealm(Snack().apply {
                     name = "crickets"
@@ -287,7 +266,6 @@ class SchemaTest: RealmTest() {
                 })
 
                 set.addAll(setOf(cricketsSnack, earthWormsSnack, waxWormsSnack))
-                println("$set") // :remove:
                 assertEquals(4, set.size) // :remove:
                 // :uncomment-start:
                 //}
@@ -301,36 +279,78 @@ class SchemaTest: RealmTest() {
 
                 // :snippet-start: set-contains-multiple-items
                 val containsAllSnacks = set.containsAll(set)
-                Log.v("Does Kermit eat crickets, earthworms, and wax worms?: $containsAllSnacks") // true
+                Log.v("Does Kermit eat crickets, earthworms, and waxworms?: $containsAllSnacks") // true
                 // :snippet-end:
                 assertTrue(containsAllSnacks)
 
                 // :snippet-start: remove-item-from-set
-                val fliesSnack = query<Snack>("name = 'flies'").first().find()
+                val fliesSnack = query<Snack>("name == $0", "flies").first().find()
 
                 set.remove(fliesSnack)
                 // :snippet-end:
                 assertFalse(set.contains(fliesSnack))
 
-                val deleteSnacks = findLatest(myFrog)!!.favoriteSnacks
                 // :snippet-start: remove-multiple-items-from-set
-                set.removeAll(deleteSnacks)
+                val allSnacks = findLatest(myFrog)!!.favoriteSnacks
+
+                set.removeAll(allSnacks)
                 // :snippet-end:
-
-                // :snippet-start: react-to-changes-from-the-set
-                val newSnack = Snack().apply {
-                    name = "new snack"
-                }
-                set.add(newSnack)
-                }
-
-            job.cancel()
-                // :snippet-end:
-
-                realm.close()
-                Realm.deleteRealm(config)
+            // TODO update test once https://github.com/realm/realm-kotlin/issues/1097 is fixed
+                // assertTrue(set.isEmpty())
+                set.removeAll(allSnacks) // have to call twice to actually remove all items until bug is fixed
+                assertTrue(set.isEmpty())
             }
+            realm.close()
+            Realm.deleteRealm(config)
         }
     }
+
+    @Test
+    fun listenForSetChanges() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(Frog2::class, Snack::class))
+                .inMemory()
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.path}")
+            // capture changes to the set
+            val detectedChanges = mutableListOf<SetChange<Snack>>()
+
+            realm.writeBlocking {
+                copyToRealm(Frog2().apply {
+                    name = "Kermit"
+                })
+            }
+
+            // :snippet-start: react-to-changes-from-the-set
+            val kermitFrog = realm.query<Frog2>("name = $0", "Kermit").find().first()
+
+            val job = launch(Dispatchers.Default) {
+                kermitFrog.favoriteSnacks
+                    .asFlow()
+                    .collect {
+                        // Listen for changes to the RealmSet
+                        // :remove-start:
+                        change ->
+                        Log.v("Change detected: $change")
+                        detectedChanges.add(change)
+                        assertTrue(detectedChanges.size == 1)
+                        // :remove-end:
+                    }
+            }
+            // :snippet-end:
+            realm.writeBlocking {
+                val set = findLatest(kermitFrog)!!.favoriteSnacks
+                val newSnack = copyToRealm(Snack().apply {
+                    name = "chocolate"
+                })
+                set.add(newSnack)
+            }
+            job.cancel()
+            realm.close()
+            Realm.deleteRealm(config)
+        }
+    }
+}
 
 // :replace-end:

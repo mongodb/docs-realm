@@ -1,3 +1,3 @@
-val fliesSnack = realm.query<Snack>("name = 'flies'").first().find()
+val fliesSnack = query<Snack>("name == $0", "flies").first().find()
 
 set.remove(fliesSnack)

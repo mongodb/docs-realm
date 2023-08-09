@@ -1,14 +1,14 @@
 realm.write {
-    val myFrog: Frog = realm.query<Frog>("name = 'Kermit'").first().find()!!
+    val myFrog = query<Frog>("name == $0", "Kermit").find().first()
     val set = findLatest(myFrog)!!.favoriteSnacks
 
-    val cricketsSnack = this.copyToRealm(Snack().apply {
+    val cricketsSnack = copyToRealm(Snack().apply {
         name = "crickets"
     })
-    val earthWormsSnack = this.copyToRealm(Snack().apply {
+    val earthWormsSnack = copyToRealm(Snack().apply {
         name = "earthworms"
     })
-    val waxWormsSnack = this.copyToRealm(Snack().apply {
+    val waxWormsSnack = copyToRealm(Snack().apply {
         name = "waxworms"
     })
 
