@@ -13,7 +13,7 @@ Configure a Realm - React Native SDK
 The Realm React Native SDK and ``@realm/react`` package provide many
 configuration options for your realm.
 
-How you configure your realm will determine the capabilities of your realm
+How you configure your realm determines the capabilities of your realm
 and how you work with your data. This page contains information about how
 to configure your realm in various ways.
 
@@ -41,7 +41,7 @@ To configure a non-synced realm:
 
 #. Import ``RealmProvider`` from ``@realm/react``.
 #. Pass your object models to the ``schema`` prop.
-#. Add other :js-sdk:`Configuration object <Realm.html#~Configuration>` 
+#. Add other :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>` 
    properties as props to ``RealmProvider`` to configure your realm.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
@@ -54,8 +54,8 @@ Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~
 
 You can configure ``RealmProvider`` by setting props that match the properties
-of a :js-sdk:`Configuration object <Realm.html#~Configuration>`. You can also
-set ``fallback`` and ``realmRef`` props.
+of a :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>`.
+You can also set ``fallback`` and ``realmRef`` props.
 
 - ``realmRef``
    Used with ``useRef`` to expose the configured realm to processes
@@ -100,7 +100,7 @@ and Provider components. You can access realms with React hooks.
 To expose more than one realm, consider the following:
 
 - Each realm needs its own Context object, created with
-  :realm-react-sdk:`createRealmContext() </functions/createRealmContext.html>`.
+  :realm-react-sdk:`createRealmContext() <functions/createRealmContext.html>`.
 - The providers and hooks within each context should be namespaced so that it's
   easy to reason about the realm you're working with.
 - If you import ``RealmProvider`` directly from ``@realm/react``, it is a
@@ -111,7 +111,7 @@ Create Separate Context Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can open more than one realm at a time by creating additional Context
-objects using :realm-react-sdk:`createRealmContext() </functions/createRealmContext.html>`.
+objects using :realm-react-sdk:`createRealmContext() <functions/createRealmContext.html>`.
 
 .. tabs-realm-languages::
 

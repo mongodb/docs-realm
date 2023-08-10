@@ -38,7 +38,7 @@ Before you configure a realm with Flexible Sync in a React Native application:
 Configure a Synced Realm
 ------------------------
 
-You configre a a synced realm using the providers from ``@realm/react``.
+Configure a synced realm using the providers from ``@realm/react``.
 
 By default, Realm syncs all data from the server before returning anything.
 If you want to sync data in the background, read :ref:`Configure a Synced Realm
@@ -86,7 +86,7 @@ You can find more information about ``AppProvider`` on the
 UserProvider
 ~~~~~~~~~~~~
 
-Configure user authentication with ``AppProvider`` and ``UserProvider``. Then
+Configure user authentication with ``AppProvider`` and ``UserProvider``. Then,
 work with authentication using the ``useApp()`` and ``useUser()`` hooks.
 
 To set up user authentication:
@@ -129,18 +129,18 @@ To configure a synced realm:
 #. Configure ``AppProvider``.
 #. Configure ``UserProvider`` and nest it within ``AppProvider``.
 #. Pass your object models to ``RealmProvider``'s ``schema`` prop.
-#. Create a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
+#. Create a :js-sdk:`FlexibleSyncConfiguration </types/Realm.FlexibleSyncConfiguration.html>`
    object.
 #. Pass your ``SyncConfiguration`` object to the ``sync`` prop or add the object
    in-line.
 #. Set up initial subscriptions or create a new subscription in
    ``RealmProvider`` child components.
-#. Add other :js-sdk:`Configuration object <Realm.html#~Configuration>` 
+#. Add other :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>` 
    properties as props to ``RealmProvider`` to further configure your realm.
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: typescript
-   :emphasize-lines: 9-19
+   :emphasize-lines: 8-19
 
 For more information about configuring and using ``RealmProvider``, check
 out the :ref:`Configure a Realm page <react-native-configure-realm>`.
@@ -149,7 +149,7 @@ Configuration Options
 `````````````````````
 
 You can configure ``RealmProvider`` by setting props that match the properties
-of a :js-sdk:`SyncConfiguration object <Realm.App.Sync.html#~SyncConfiguration>`.
+of a :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>`.
 You can also set ``fallback`` and ``realmRef`` props.
 
 - ``realmRef``
@@ -165,7 +165,7 @@ Open Synced Realm at Specific Path
 
 .. versionadded:: ``realm@11.6.0``
 
-Using :js-sdk:`AppConfiguration.baseFilePath <Realm.App.html#~AppConfiguration>`,
+Using :js-sdk:`AppConfiguration.baseFilePath <types/Realm.AppConfiguration.html#__type.baseFilePath>`,
 and :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`, you can
 control where Realm and metadata files are stored on client devices.
 

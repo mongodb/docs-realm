@@ -89,7 +89,6 @@ function AppSectionOne() {
   const realm = useSharedDocumentRealm();
 
   // Work with shared documents...
-  // :remove-start:
   sharedDocumentRealmSchema = realm.schema[0].name;
 
   return (
@@ -97,14 +96,12 @@ function AppSectionOne() {
       <Text>Shared document realm</Text>
     </View>
   );
-  // :remove-end:
 }
 
 function AppSectionTwo() {
   const realm = useLocalDocumentRealm();
 
   // Work with local documents...
-  // :remove-start:
   localDocumentRealmSchema = realm.schema[0].name;
 
   return (
@@ -112,7 +109,6 @@ function AppSectionTwo() {
       <Text>Local document realm</Text>
     </View>
   );
-  // :remove-end:
 }
 
 function LogIn() {
