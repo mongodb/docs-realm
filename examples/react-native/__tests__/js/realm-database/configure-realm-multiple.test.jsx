@@ -13,17 +13,12 @@ import {Button, View, Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
 const testId = 'test-log-in';
-let higherScopedUser: Realm.User | null;
-let sharedDocumentRealmSchema: string;
-let localDocumentRealmSchema: string;
+let higherScopedUser;
+let sharedDocumentRealmSchema;
+let localDocumentRealmSchema;
 // :remove-end:
 
-class SharedDocument extends Realm.Object<SharedDocument> {
-  _id!: Realm.BSON.ObjectId;
-  owner_id!: Realm.BSON.ObjectId;
-  title!: string;
-  createdDate?: Date;
-
+class SharedDocument extends Realm.Object {
   static schema = {
     name: 'SharedDocument',
     properties: {
@@ -36,11 +31,7 @@ class SharedDocument extends Realm.Object<SharedDocument> {
   };
 }
 
-class LocalDocument extends Realm.Object<LocalDocument> {
-  _id!: Realm.BSON.ObjectId;
-  name!: string;
-  createdDate?: Date;
-
+class LocalDocument extends Realm.Object {
   static schema = {
     name: 'LocalDocument',
     properties: {
@@ -62,7 +53,6 @@ const LocalRealmContext = createRealmContext({
 });
 // :snippet-end:
 
-// :snippet-start: extract-providers-and-hooks
 // Namespace the Shared Document context's providers and hooks.
 const {
   RealmProvider: SharedDocumentRealmProvider,
@@ -74,9 +64,7 @@ const {
   RealmProvider: LocalDocumentRealmProvider,
   useRealm: useLocalDocumentRealm,
 } = LocalRealmContext;
-// :snippet-end:
 
-// :snippet-start: use-contexts
 function TwoRealmsWrapper() {
   return (
     <View>
@@ -101,7 +89,6 @@ function AppSectionOne() {
   const realm = useSharedDocumentRealm();
 
   // Work with shared documents...
-  // :remove-start:
   sharedDocumentRealmSchema = realm.schema[0].name;
 
   return (
@@ -109,14 +96,12 @@ function AppSectionOne() {
       <Text>Shared document realm</Text>
     </View>
   );
-  // :remove-end:
 }
 
 function AppSectionTwo() {
   const realm = useLocalDocumentRealm();
 
   // Work with local documents...
-  // :remove-start:
   localDocumentRealmSchema = realm.schema[0].name;
 
   return (
@@ -124,9 +109,7 @@ function AppSectionTwo() {
       <Text>Local document realm</Text>
     </View>
   );
-  // :remove-end:
 }
-// :snippet-end:
 
 function LogIn() {
   const app = useApp();

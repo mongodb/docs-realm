@@ -100,11 +100,11 @@ describe('Update Data Tests', () => {
     );
     const {getByTestId} = render(<App />);
 
-    const handleIncrementBtn = await waitFor(
-      () => getByTestId('handleIncrementBtn')
+    const handleIncrementBtn = await waitFor(() =>
+      getByTestId('handleIncrementBtn'),
     );
-    const progressMinutesText = await waitFor(
-      () => getByTestId('progressMinutes')
+    const progressMinutesText = await waitFor(() =>
+      getByTestId('progressMinutes'),
     );
 
     const paintTask = assertionRealm.objectForPrimaryKey(Task, 92140);
@@ -115,7 +115,9 @@ describe('Update Data Tests', () => {
 
     fireEvent.press(handleIncrementBtn);
 
-    await waitFor(() => {expect(progressMinutesText.children.toString()).toBe('1')});
+    await waitFor(() => {
+      expect(progressMinutesText.children.toString()).toBe('1');
+    });
 
     // Test that the  progress value in the realm and in the UI after incrementing is 1 minutes
     expect(paintTask!.progressMinutes).toBe(1);

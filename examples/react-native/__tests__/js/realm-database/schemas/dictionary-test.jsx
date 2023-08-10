@@ -44,64 +44,6 @@ describe('Dictionary Tests', () => {
       });
     });
   });
-  it('should create an object with a dictionary value', async () => {
-    // :snippet-start: create-object-with-dictionary-value
-
-    const CreateHomeOwner = () => {
-      const [homeOwnerName, setHomeOwnerName] = useState('John Smith');
-      const [address, setAddress] = useState('1 Home Street');
-      const realm = useRealm();
-
-      const submitHomeOwner = () => {
-        // Create a HomeOwner within a Write Transaction
-        realm.write(() => {
-          realm.create('HomeOwner', {
-            name: homeOwnerName,
-            // For the dictionary field, 'home', set the value to a regular javascript object
-            home: {
-              address,
-            },
-          });
-        });
-      };
-      return (
-        <View>
-          <TextInput
-            value={homeOwnerName}
-            onChangeText={text => setHomeOwnerName(text)}
-          />
-          <TextInput value={address} onChangeText={text => setAddress(text)} />
-          <Button
-            title='Submit Home Owner'
-            testID='submitHomeOwnerBtn' // :remove:
-            onPress={submitHomeOwner}
-          />
-        </View>
-      );
-    };
-    // :snippet-end:
-    const App = () => (
-      <RealmProvider>
-        <CreateHomeOwner />
-      </RealmProvider>
-    );
-    const {findByTestId} = render(<App />);
-    const submitHomeOwnerBtn = await waitFor(
-      () => findByTestId('submitHomeOwnerBtn'),
-      {
-        timeout: 5000,
-      },
-    );
-    await act(async () => {
-      fireEvent.press(submitHomeOwnerBtn);
-    });
-    // check if the new HomeOwner object has been created
-    const homeOwner = assertionRealm
-      .objects(HomeOwner)
-      .filtered("name == 'John Smith'")[0];
-    expect(homeOwner.name).toBe('John Smith');
-    expect(homeOwner.home.address).toBe('1 Home Street');
-  });
   it('should query for objects with a dictionary property', async () => {
     // :snippet-start: query-objects-with-dictionary
     // :replace-start: {

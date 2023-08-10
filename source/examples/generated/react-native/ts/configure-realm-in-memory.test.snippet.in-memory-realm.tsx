@@ -1,9 +1,9 @@
 import React from 'react';
-import {RealmProvider} from '@realm/react';
+import {Realm, RealmProvider} from '@realm/react';
 
 function AppWrapperLocal() {
   return (
-    <RealmProvider schema={[YourObjectModel]}>
+    <RealmProvider inMemory={true}>
       <RestOfApp />
     </RealmProvider>
   );

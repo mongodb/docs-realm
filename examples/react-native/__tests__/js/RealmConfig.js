@@ -9,9 +9,3 @@ export const SyncedRealmContext = createRealmContext({
   schema: [Profile],
 });
 // :snippet-end:
-// :snippet-start: in-memory-realm
-export const InMemoryRealmContext = createRealmContext({
-  schema: [Address, Contact],
-  inMemory: true,
-});
-// :snippet-end:

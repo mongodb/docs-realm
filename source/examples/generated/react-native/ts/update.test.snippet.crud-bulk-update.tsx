@@ -1,3 +1,4 @@
+
 const TaskDashboard = () => {
   const realm = useRealm();
   const tasks = useQuery(Task);
@@ -9,6 +10,7 @@ const TaskDashboard = () => {
       }
     });
   };
+
   return (
     <>
       {tasks.map(task => {

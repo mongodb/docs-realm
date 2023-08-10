@@ -1,5 +1,6 @@
 const TaskItem = ({_id}) => {
   const myTask = useObject(Task, _id);
+
   return (
     <View>
       {myTask ? (
