@@ -1,30 +1,20 @@
 package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.internal.platform.runBlocking
-import io.realm.kotlin.mongodb.App
-import io.realm.kotlin.mongodb.AuthenticationChange
-import io.realm.kotlin.mongodb.Credentials
-import io.realm.kotlin.mongodb.LoggedIn
-import io.realm.kotlin.mongodb.LoggedOut
-import io.realm.kotlin.mongodb.Removed
+import io.realm.kotlin.mongodb.*
 import io.realm.kotlin.mongodb.User
 import io.realm.kotlin.mongodb.ext.call
 import io.realm.kotlin.mongodb.ext.customDataAsBsonDocument
+import io.realm.kotlin.mongodb.ext.profileAsBsonDocument
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.mongodb.kbson.BsonDocument
 import org.mongodb.kbson.BsonInt32
+import org.mongodb.kbson.BsonInt64
 import org.mongodb.kbson.BsonString
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertIs
-import kotlin.test.assertNotEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 // :replace-start: {
 //   "terms": {
@@ -336,6 +326,35 @@ class AuthenticationTest: RealmTest() {
             assertTrue(loginActivityFunCalled)
             job.cancel()
         }
+    }
+
+    @Test
+    fun userMetaData() {
+        val email = getRandom()
+        val password = getRandom()
+        val app = App.create(FLEXIBLE_APP_ID)
+        runBlocking {
+            app.emailPasswordAuth.registerUser(email, password)
+
+            // :snippet-start: get-user-metadata
+            // Log in a user
+            val user = app.login(Credentials.emailPassword(email, password))
+
+            // Access the user's metadata
+            val userEmail = user.profileAsBsonDocument()["email"]
+            Log.i("The logged-in user's email is: $userEmail")
+            // :snippet-end:
+            val expectedEmail = if (userEmail is BsonInt64) {
+                userEmail.value.toString()
+            } else {
+                userEmail.toString()
+            }
+            assertEquals(email, expectedEmail)
+            user.delete()
+            app.close()
+        }
+
+
     }
 }
 // :replace-end:

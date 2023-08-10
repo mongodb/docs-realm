@@ -1,0 +1,52 @@
+.. _kotlin-user-metadata:
+
+==========================
+User Metadata - Kotlin SDK
+==========================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can associate custom :ref:`metadata <user-metadata>` with each user 
+of your App. For example, you might store a user's preferred language, 
+date of birth, or any other information that you want to associate with 
+the user.
+
+.. _kotlin-read-user-metadata:
+
+Read a User's Metadata
+----------------------
+
+You can read the user metadata of a currently logged-in user through 
+that user's 
+`User <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/index.html>`__ 
+object. You cannot edit user metadata through a ``User`` object. 
+
+To read the data, call the 
+`profileAsBsonDocument <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/profile-as-bson-document.html>`__ 
+method on the ``User`` object of a logged-in user:
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.get-user-metadata.kt
+   :language: kotlin
+
+User metadata options vary depending on which provider you're using and
+:ref:`which metadata fields you enable <configure-user-metadata-on-the-backend>`. 
+
+.. include:: /includes/stale-user-metadata.rst
+
+.. _kotlin-configure-user-metadata:
+
+Configure User Metadata
+-----------------------
+
+.. include:: /includes/configure-user-metadata.rst
+
+.. _kotlin-update-user-metadata:
+
+Update User Metadata
+--------------------
+
+.. include:: /includes/update-user-metadata.rst
