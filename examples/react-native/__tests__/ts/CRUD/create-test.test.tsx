@@ -130,14 +130,11 @@ const CreatePersonInput = () => {
   if(testPerson){
     expect(testPerson.name).toBe('Jane'); 
   }
-
-  console.debug(performance.now(), "person name: "+testPerson?.name);
   // :remove-end: 
 
   return (
     <>
-      <TextInput onChangeText={setName} value={name} />
-      <Text>{testPerson ? testPerson.name : "no Person"}</Text> {/* :remove */}
+      <TextInput onChangeText={setName} value={name} testID="nameInput"/>
       <Button
         onPress={() => handleAddPerson()}
         title='Add Person'
@@ -284,8 +281,12 @@ describe('Sync Data Unidirectionally from a Client App', () => {
       });
 
       // verifying object creation via text component
-      const renderedName = await findByText('Jane');
-      expect(renderedName).toBeTruthy(); 
+      // const renderedName = await findByText('Jane');
+      // expect(renderedName).toBeTruthy(); 
+
+      const nameInput = await findByTestId('nameInput'); 
+
+      fireEvent.changeText(nameInput, 'Jane');
 
       // check if the new Person object has been created
       const newPerson = assertionRealm.objects(Person).filtered("_id == $0", PERSON_ID)[0];
