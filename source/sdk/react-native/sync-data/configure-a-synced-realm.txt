@@ -71,6 +71,9 @@ This is how you nest providers:
 AppProvider
 ~~~~~~~~~~~
 
+The ``@realm/react`` :realm-react-sdk:`AppProvider <functions/AppProvider.html>`
+gives you access to an instance of your App Services App.
+
 To set up your App client, pass the App ID string to the ``id`` prop of
 ``AppProvider``. Wrap any components that need to access the App with the
 ``AppProvider``.
@@ -86,8 +89,12 @@ You can find more information about ``AppProvider`` on the
 UserProvider
 ~~~~~~~~~~~~
 
-Configure user authentication with ``AppProvider`` and ``UserProvider``. Then,
-work with authentication using the ``useApp()`` and ``useUser()`` hooks.
+:realm-react-sdk:`UserProvider <functions/UserProvider.html>` gives you access
+to a Realm user. A ``UserProvider`` is required for an app to use the hooks.
+
+First, you need to configure user authentication with ``AppProvider`` and
+``UserProvider``. Then, work with authentication using the ``useApp()`` and
+``useUser()`` hooks.
 
 To set up user authentication:
 
