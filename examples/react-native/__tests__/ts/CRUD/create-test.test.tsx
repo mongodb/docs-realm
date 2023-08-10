@@ -115,9 +115,15 @@ const realmConfig = {
 const {RealmProvider, useRealm, useQuery, useObject} = createRealmContext(realmConfig);
 
 /*** Creating Object ***/
+
 // :snippet-start: crud-create-object
+// :replace-start: {
+//  "terms": {
+//   "testID='nameInput'": ""
+//  }
+// }
 const CreatePersonInput = () => {
-  const [name, setName] = useState('Jane');
+  const [name, setName] = useState('');
   const realm = useRealm();
   const testPerson = useObject(Person, PERSON_ID); // :remove: 
 
@@ -130,11 +136,11 @@ const CreatePersonInput = () => {
   if(testPerson){
     expect(testPerson.name).toBe('Jane'); 
   }
-  // :remove-end: 
+  // :remove-end:
 
   return (
     <>
-      <TextInput onChangeText={setName} value={name} testID="nameInput"/>
+      <TextInput value={name} onChangeText={setName} testID='nameInput'/> 
       <Button
         onPress={() => handleAddPerson()}
         title='Add Person'
@@ -143,12 +149,18 @@ const CreatePersonInput = () => {
     </>
   );
 };
+// :replace-end:
 // :snippet-end:
 
 /*** Creating To-One Object ***/
 // :snippet-start: crud-create-to-one-object
+// :replace-start: {
+//  "terms": {
+//   "testID='ownerNameInput'": ""
+//  }
+// }
 const CreatePetOwnerInput = () => {
-  const [ownerName, setOwnerName] = useState('Jane')
+  const [ownerName, setOwnerName] = useState('')
   const realm = useRealm();
   const newPet = useObject(Pet, PET_ID);
   const newPetOwner = useObject(PetOwner, PETOWNER_ID); // :remove: 
@@ -167,8 +179,7 @@ const CreatePetOwnerInput = () => {
 
   return (
     <>
-      <TextInput onChangeText={setOwnerName} value={ownerName} />
-      <Text>{newPetOwner ? newPetOwner.name : "no pet owner "}</Text> {/* :remove */}
+      <TextInput onChangeText={setOwnerName} value={ownerName} testID='ownerNameInput'/>
       <Button
         onPress={() => handleAddPetOwner()}
         title='Add New Pet Owner'
@@ -177,13 +188,19 @@ const CreatePetOwnerInput = () => {
     </>
   );
 }
+// :replace-end:
 // :snippet-end:
 
 /*** Creating To-Many Object ***/
 // :snippet-start: crud-create-to-many-object
+// :replace-start: {
+//  "terms": {
+//   "testID='companyNameInput'": ""
+//  }
+// }
 const CreateNewCompanyInput = () => {
   const employees = useQuery(Employee);
-  const [companyName, setCompanyName] = useState('Dunder Mifflin');
+  const [companyName, setCompanyName] = useState('');
   const realm = useRealm();
   const newCompany = useObject(Company, COMPANY_ID); // :remove: 
   
@@ -200,8 +217,7 @@ const CreateNewCompanyInput = () => {
 
   return (
     <>
-      <TextInput onChangeText={setCompanyName} value={companyName} />
-      <Text>{newCompany ? newCompany.name : "no company"}</Text> {/* :remove */}
+      <TextInput onChangeText={setCompanyName} value={companyName} testID='companyNameInput'/>
       <Button
         onPress={() => handleCreateCompany()}
         title='Add New Company'
@@ -210,6 +226,7 @@ const CreateNewCompanyInput = () => {
     </>
   );
 }
+// :replace-end:
 // :snippet-end:
 
 /*** Testing ***/
@@ -270,7 +287,10 @@ describe('Sync Data Unidirectionally from a Client App', () => {
     });
 
     test('Create a New Object', async () => {
-      const {findByTestId, findByText} = render(<App />);
+      const {findByTestId} = render(<App />);
+
+      const nameInput = await findByTestId('nameInput');
+      fireEvent.changeText(nameInput, 'Jane');
 
       // get the "Add Person" button
       const handleAddPersonBtn = await findByTestId('handleAddPersonBtn');
@@ -279,14 +299,6 @@ describe('Sync Data Unidirectionally from a Client App', () => {
       await act(async () => {
           fireEvent.press(handleAddPersonBtn);
       });
-
-      // verifying object creation via text component
-      // const renderedName = await findByText('Jane');
-      // expect(renderedName).toBeTruthy(); 
-
-      const nameInput = await findByTestId('nameInput'); 
-
-      fireEvent.changeText(nameInput, 'Jane');
 
       // check if the new Person object has been created
       const newPerson = assertionRealm.objects(Person).filtered("_id == $0", PERSON_ID)[0];
@@ -298,7 +310,10 @@ describe('Sync Data Unidirectionally from a Client App', () => {
     });
 
     test('Create an Obj with To-One Relationship', async () => {
-      const {findByTestId, findByText} = render(<App />);
+      const {findByTestId} = render(<App />);
+
+      const nameInput = await findByTestId('ownerNameInput');
+      fireEvent.changeText(nameInput, 'Jane');
 
       // get the "Add Pet Owner" button
       const handleAddPetOwnerBtn = await findByTestId('handleAddPetOwnerBtn');
@@ -307,10 +322,6 @@ describe('Sync Data Unidirectionally from a Client App', () => {
       await act(async () => {
           fireEvent.press(handleAddPetOwnerBtn);
       });
-
-      // verifying object creation via text component
-      const renderedName = await findByText('Jane');
-      expect(renderedName).toBeTruthy(); 
 
       //check if the new Pet & Pet Owner objects have been created
       const newPetOwner = assertionRealm.objects(PetOwner).filtered("_id == $0", PETOWNER_ID)[0];
@@ -326,17 +337,16 @@ describe('Sync Data Unidirectionally from a Client App', () => {
     });
 
     test('Create an Obj with To-Many Relationship', async () => {
-      const {findByTestId, findByText} = render(<App />);
+      const {findByTestId} = render(<App />);
+
+      const nameInput = await findByTestId('companyNameInput');
+      fireEvent.changeText(nameInput, 'Dunder Mifflin');
 
       // get & press the "Add Company" button
       const handleAddEmployeeBtn = await findByTestId('handleAddCompanyBtn');
       await act(async () => {
           fireEvent.press(handleAddEmployeeBtn);
       });
-
-      // verifying object creation via text component
-      const renderedName = await findByText('Dunder Mifflin');
-      expect(renderedName).toBeTruthy(); 
 
       //check if the new Company and Employee objects has been created
       const newCompany = assertionRealm.objects(Company).filtered("_id == $0", COMPANY_ID)[0];

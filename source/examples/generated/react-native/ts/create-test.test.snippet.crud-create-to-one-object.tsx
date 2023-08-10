@@ -1,5 +1,5 @@
 const CreatePetOwnerInput = () => {
-  const [ownerName, setOwnerName] = useState('Jane')
+  const [ownerName, setOwnerName] = useState('')
   const realm = useRealm();
   const newPet = useObject(Pet, PET_ID);
 
@@ -18,7 +18,6 @@ const CreatePetOwnerInput = () => {
   return (
     <>
       <TextInput onChangeText={setOwnerName} value={ownerName} />
-      <Text>{newPetOwner ? newPetOwner.name : "no pet owner "}</Text> {/* :remove */}
       <Button
         onPress={() => handleAddPetOwner()}
         title='Add New Pet Owner'

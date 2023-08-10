@@ -1,5 +1,5 @@
 const CreatePersonInput = () => {
-  const [name, setName] = useState('Jane');
+  const [name, setName] = useState('');
   const realm = useRealm();
 
   const handleAddPerson = () => {
@@ -10,8 +10,7 @@ const CreatePersonInput = () => {
 
   return (
     <>
-      <TextInput onChangeText={setName} value={name} />
-      <Text>{testPerson ? testPerson.name : "no Person"}</Text> {/* :remove */}
+      <TextInput value={name} onChangeText={setName} /> 
       <Button
         onPress={() => handleAddPerson()}
         title='Add Person'

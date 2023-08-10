@@ -1,6 +1,6 @@
 const CreateNewCompanyInput = () => {
   const employees = useQuery(Employee);
-  const [companyName, setCompanyName] = useState('Dunder Mifflin');
+  const [companyName, setCompanyName] = useState('');
   const realm = useRealm();
   
   // Create a new Company and connect our list of Employees to it
@@ -17,7 +17,6 @@ const CreateNewCompanyInput = () => {
   return (
     <>
       <TextInput onChangeText={setCompanyName} value={companyName} />
-      <Text>{newCompany ? newCompany.name : "no company"}</Text> {/* :remove */}
       <Button
         onPress={() => handleCreateCompany()}
         title='Add New Company'
