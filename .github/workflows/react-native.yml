@@ -1,18 +1,18 @@
-name: React Native CI Realm Example App
+name: React Native SDK v12 CI Tests
 
 on:
   pull_request:
     paths:
-      - "examples/react-native/**"
+      - "examples/react-native/v12/**"
 
 jobs:
   build:
-    name: Run React Native Example App Tests
+    name: Run React Native SDK v12 CI Tests
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -20,5 +20,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd examples/react-native && npm install
-      - run: cd examples/react-native && npm run test
+      - name: Install Dependencies
+        working-directory: examples/react-native/v12
+        run: npm install
+      - name: Run Tests
+        working-directory: examples/react-native/v12
+        run: npm run test
