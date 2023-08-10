@@ -1,4 +1,5 @@
-class Pet extends Realm.Object{
+class Pet extends Realm.Object {
+
   static schema = {
     name: 'Pet',
     primaryKey: '_id',
@@ -11,7 +12,8 @@ class Pet extends Realm.Object{
   };
 }
 
-class PetOwner extends Realm.Object{
+class PetOwner extends Realm.Object {
+
   static schema = {
     name: 'PetOwner',
     primaryKey: '_id',

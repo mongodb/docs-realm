@@ -4,12 +4,6 @@ const CreatePetOwnerInput = () => {
   const newPet = useObject(Pet, PET_ID);
 
   const handleAddPetOwner = () => {
-
-    // Create a new Pet object
-    realm.write(() => {
-      realm.create('Pet', {_id: PET_ID, name: 'Fido', age: 1, animalType: 'Dog'});
-    });
-
     // Create a new Pet Owner object, pass new Pet object in pet field
     realm.write(() => {
       realm.create('PetOwner', {
@@ -24,6 +18,7 @@ const CreatePetOwnerInput = () => {
   return (
     <>
       <TextInput onChangeText={setOwnerName} value={ownerName} />
+      <Text>{newPetOwner ? newPetOwner.name : "no pet owner "}</Text> {/* :remove */}
       <Button
         onPress={() => handleAddPetOwner()}
         title='Add New Pet Owner'

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, TextInput} from 'react-native';
+import {Button, TextInput, Text} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
@@ -7,12 +7,15 @@ import {createRealmContext} from '@realm/react';
 const PERSON_ID = new Realm.BSON.ObjectId();
 const PETOWNER_ID = new Realm.BSON.ObjectId();
 const PET_ID = new Realm.BSON.ObjectId();
-const EMPLOYEE_ID  = new Realm.BSON.ObjectId();
+const EMPLOYEE_ID_1  = new Realm.BSON.ObjectId();
+const EMPLOYEE_ID_2  = new Realm.BSON.ObjectId();
+const EMPLOYEE_ID_3  = new Realm.BSON.ObjectId();
 const COMPANY_ID = new Realm.BSON.ObjectID(); 
 
 /*** Schemas & Config ***/
 // :snippet-start: create-object-schema
 class Person extends Realm.Object{
+  
     static schema = {
         name: 'Person',
         primaryKey: '_id',
@@ -26,7 +29,8 @@ class Person extends Realm.Object{
 // :snippet-end:
 
 // :snippet-start: create-to-one-schema
-class Pet extends Realm.Object{
+class Pet extends Realm.Object {
+
   static schema = {
     name: 'Pet',
     primaryKey: '_id',
@@ -39,7 +43,8 @@ class Pet extends Realm.Object{
   };
 }
 
-class PetOwner extends Realm.Object{
+class PetOwner extends Realm.Object {
+
   static schema = {
     name: 'PetOwner',
     primaryKey: '_id',
@@ -54,7 +59,8 @@ class PetOwner extends Realm.Object{
 // :snippet-end:
 
 // :snippet-start: create-to-many-schema
-class Employee extends Realm.Object{
+class Employee extends Realm.Object {
+
   static schema = {
     name: 'Employee',
     primaryKey: '_id',
@@ -66,7 +72,8 @@ class Employee extends Realm.Object{
   };
 }
 
-class Company extends Realm.Object{
+class Company extends Realm.Object {
+
   static schema = {
     name: 'Company',
     primaryKey: '_id',
@@ -91,10 +98,10 @@ const realmConfig = {
 const {RealmProvider, useRealm, useQuery, useObject} = createRealmContext(realmConfig);
 
 /*** Creating Object ***/
-// :snippet-start: crud-create-object
 const CreatePersonInput = () => {
   const [name, setName] = useState('Jane');
   const realm = useRealm();
+  const testPerson = useObject(Person, PERSON_ID); 
 
   const handleAddPerson = () => {
     realm.write(() => {
@@ -102,33 +109,33 @@ const CreatePersonInput = () => {
     });
   };
 
+  if(testPerson){
+    expect(testPerson.name).toBe('Jane'); 
+  }
+
+  console.debug(performance.now(), "person name: "+testPerson?.name);
+
   return (
     <>
       <TextInput onChangeText={setName} value={name} />
+      <Text>{testPerson ? testPerson.name : "no Person"}</Text> 
       <Button
         onPress={() => handleAddPerson()}
         title='Add Person'
-        testID='handleAddPersonBtn' // :remove:
+        testID='handleAddPersonBtn' 
       />
     </>
   );
 };
-// :snippet-end:
 
 /*** Creating To-One Object ***/
-// :snippet-start: crud-create-to-one-object
 const CreatePetOwnerInput = () => {
   const [ownerName, setOwnerName] = useState('Jane')
   const realm = useRealm();
   const newPet = useObject(Pet, PET_ID);
+  const newPetOwner = useObject(PetOwner, PETOWNER_ID); 
 
   const handleAddPetOwner = () => {
-
-    // Create a new Pet object
-    realm.write(() => {
-      realm.create('Pet', {_id: PET_ID, name: 'Fido', age: 1, animalType: 'Dog'});
-    });
-
     // Create a new Pet Owner object, pass new Pet object in pet field
     realm.write(() => {
       realm.create('PetOwner', {
@@ -143,66 +150,55 @@ const CreatePetOwnerInput = () => {
   return (
     <>
       <TextInput onChangeText={setOwnerName} value={ownerName} />
+      <Text>{newPetOwner ? newPetOwner.name : "no pet owner "}</Text> 
       <Button
         onPress={() => handleAddPetOwner()}
         title='Add New Pet Owner'
-        testID='handleAddPetOwnerBtn' // :remove:
+        testID='handleAddPetOwnerBtn' 
       />
     </>
   );
 }
-// :snippet-end:
 
 /*** Creating To-Many Object ***/
-// :snippet-start: crud-create-to-many-object
-const CreateNewEmployeeInput = () => {
+const CreateNewCompanyInput = () => {
   const employees = useQuery(Employee);
-  const [employeeName, setEmployeeName] = useState('Angela Martin');
+  const [companyName, setCompanyName] = useState('Dunder Mifflin');
   const realm = useRealm();
-
-  // Create a new Company object - wrapped in a useEffect with empty dependency to avoid unecessary rendering
-  useEffect(() => {
+  const newCompany = useObject(Company, COMPANY_ID); 
+  
+  // Create a new Company and connect our list of Employees to it
+  const handleCreateCompany = () => {
     realm.write(() => {
       realm.create('Company', {
         _id: COMPANY_ID, 
-        name: 'Dunder Mifflin', 
+        name: companyName, 
         employees: employees
       })
     });
-  }, []); 
-  
-  // Add a new Employee to our Company object
-  const handleAddEmployee = () => {
-    realm.write(() => {
-        realm.create('Employee', {
-          _id: EMPLOYEE_ID, 
-          name: employeeName, 
-          birthdate: new Date('1971-6-25')
-        })
-    })
   }
 
   return (
     <>
-      <TextInput onChangeText={setEmployeeName} value={employeeName} />
+      <TextInput onChangeText={setCompanyName} value={companyName} />
+      <Text>{newCompany ? newCompany.name : "no company"}</Text> 
       <Button
-        onPress={() => handleAddEmployee()}
+        onPress={() => handleCreateCompany()}
         title='Add New Employee'
         testID='handleAddEmployeeBtn' 
       />
     </>
   );
 }
-// :snippet-end:
 
 /*** Testing ***/
 
-// render an App component, giving the CreatePersonInput component access to the @realm/react hooks:
+// render an App component, giving components access to the @realm/react hooks:
 const App = () => (
     <RealmProvider>
       <CreatePersonInput />
       <CreatePetOwnerInput />
-      <CreateNewEmployeeInput />
+      <CreateNewCompanyInput />
     </RealmProvider>
   );
 
@@ -211,18 +207,39 @@ describe('Sync Data Unidirectionally from a Client App', () => {
     let assertionRealm;
 
     beforeEach(async () => {
-        // we will use this Realm for assertions to access Realm Objects outside of a Functional Component (like required by @realm/react)
+        // We will use this Realm for assertions to access Realm Objects outside of a Functional Component (like required by @realm/react)
         assertionRealm = await Realm.open(realmConfig);
     
-        // delete every object in the realmConfig in the Realm to make test idempotent
+        // Delete every object in the realmConfig in the Realm to make test idempotent
         assertionRealm.write(() => {
-          assertionRealm.delete(assertionRealm.objects('Person'));
-          assertionRealm.delete(assertionRealm.objects('Pet'));
-          assertionRealm.delete(assertionRealm.objects('PetOwner'));
-          assertionRealm.delete(assertionRealm.objects('Company'));
-          assertionRealm.delete(assertionRealm.objects('Employee'));
+          assertionRealm.deleteAll(); 
         });
-        //Realm.clearTestState(); --> this was giving a seg fault?
+
+        // Create a new Pet object
+        assertionRealm.write(() => {
+          assertionRealm.create('Pet', {_id: PET_ID, name: 'Fido', age: 1, animalType: 'Dog'});
+        });
+
+        // Create some Employee objects
+        assertionRealm.write(() => {
+          assertionRealm.create('Employee', {
+            _id: EMPLOYEE_ID_1, 
+            name: 'Angela Martin', 
+            birthdate: new Date('1971-6-25')
+          })
+
+          assertionRealm.create('Employee', {
+            _id: EMPLOYEE_ID_2, 
+            name: 'Jim Hayes', 
+            birthdate: new Date('1974-2-20')
+          })
+
+          assertionRealm.create('Employee', {
+            _id: EMPLOYEE_ID_3, 
+            name: 'Dwight Schrute', 
+            birthdate: new Date('1970-10-11')
+          })
+        })
       });
 
     afterAll(() => {
@@ -232,15 +249,19 @@ describe('Sync Data Unidirectionally from a Client App', () => {
     });
 
     test('Create a New Object', async () => {
-      const {findByTestId} = render(<App />);
+      const {findByTestId, findByText} = render(<App />);
 
       // get the "Add Person" button
       const handleAddPersonBtn = await findByTestId('handleAddPersonBtn');
   
-      //press the "Add Person" button
+      // press the "Add Person" button
       await act(async () => {
           fireEvent.press(handleAddPersonBtn);
       });
+
+      // verifying object creation via text component
+      const renderedName = await findByText('Jane');
+      expect(renderedName).toBeTruthy(); 
 
       // check if the new Person object has been created
       const newPerson = assertionRealm.objects(Person).filtered("_id == $0", PERSON_ID)[0];
@@ -252,7 +273,7 @@ describe('Sync Data Unidirectionally from a Client App', () => {
     });
 
     test('Create an Obj with To-One Relationship', async () => {
-      const {findByTestId} = render(<App />);
+      const {findByTestId, findByText} = render(<App />);
 
       // get the "Add Pet Owner" button
       const handleAddPetOwnerBtn = await findByTestId('handleAddPetOwnerBtn');
@@ -261,6 +282,10 @@ describe('Sync Data Unidirectionally from a Client App', () => {
       await act(async () => {
           fireEvent.press(handleAddPetOwnerBtn);
       });
+
+      // verifying object creation via text component
+      const renderedName = await findByText('Jane');
+      expect(renderedName).toBeTruthy(); 
 
       //check if the new Pet & Pet Owner objects have been created
       const newPetOwner = assertionRealm.objects(PetOwner).filtered("_id == $0", PETOWNER_ID)[0];
@@ -276,7 +301,7 @@ describe('Sync Data Unidirectionally from a Client App', () => {
     });
 
     test('Create an Obj with To-Many Relationship', async () => {
-      const {findByTestId} = render(<App />);
+      const {findByTestId, findByText} = render(<App />);
 
       // get & press the "Add Employee" button
       const handleAddEmployeeBtn = await findByTestId('handleAddEmployeeBtn');
@@ -284,15 +309,22 @@ describe('Sync Data Unidirectionally from a Client App', () => {
           fireEvent.press(handleAddEmployeeBtn);
       });
 
+      // verifying object creation via text component
+      const renderedName = await findByText('Dunder Mifflin');
+      expect(renderedName).toBeTruthy(); 
+
       //check if the new Company and Employee objects has been created
       const newCompany = assertionRealm.objects(Company).filtered("_id == $0", COMPANY_ID)[0];
-      const newEmployee = assertionRealm.objects(Employee).filtered("_id == $0", EMPLOYEE_ID)[0];
+      const newEmployee1 = assertionRealm.objects(Employee).filtered("_id == $0", EMPLOYEE_ID_1)[0];
+      const newEmployee2 = assertionRealm.objects(Employee).filtered("_id == $0", EMPLOYEE_ID_2)[0];
+      const newEmployee3 = assertionRealm.objects(Employee).filtered("_id == $0", EMPLOYEE_ID_3)[0];
 
       // check if new Company and Employee objects correct properties
       expect(newCompany._id).toEqual(COMPANY_ID);
       expect(newCompany.name).toBe('Dunder Mifflin');
-      expect(newEmployee._id).toEqual(EMPLOYEE_ID);
-      expect(newEmployee.name).toBe('Angela Martin');
-      expect(newEmployee.birthdate).toEqual(new Date('1971-6-25'));
+
+      expect(newEmployee1._id).toEqual(EMPLOYEE_ID_1);
+      expect(newEmployee2._id).toEqual(EMPLOYEE_ID_2);
+      expect(newEmployee3._id).toEqual(EMPLOYEE_ID_3);
     });
 });

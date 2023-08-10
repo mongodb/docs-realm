@@ -11,9 +11,6 @@ CRUD - Create - React Native SDK
    :depth: 2
    :class: singlecol
 
-Create a New Object
--------------------
-
 To add a new Realm object to a realm instance, use :js-sdk:`realm.create()
 <Realm.html#create>` inside of a write transaction. If the
 :ref:`schema <react-native-realm-schema>` includes the object type and the
@@ -37,17 +34,17 @@ The example for creating an object uses the following schema:
 
 In the following example of a ``CreatePersonInput`` component, we:
 
-#. Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
-#. Create a component method ``handleAddPerson()`` that performs a :ref:`write transaction <react-native-write-transactions>`, and creates a new ``Person`` :js-sdk:`object <Realm.Object.html>` based on the TextInput value.
+#. Access a realm instance using the ``useRealm()`` hook.
+#. Create ``handleAddPerson()``, which creates a new ``Person`` object based on the TextInput value.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPerson()``. 
 
 .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
    :language: typescript
-   :emphasize-lines: 3, 5-9, 15
+   :emphasize-lines: 3, 6-8, 16
    :linenos:
 
 Create an Object with a To-One Relationship
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------------
 
 In a one-to-one relationship, an object is related to at most one other object of a particular type.
 To learn more about one-to-one relationships, refer to to :ref:`Relationships & Embedded
@@ -72,23 +69,22 @@ may only own one Pet:
 
 To create an object with a to-one relationship to another object, we: 
 
-#. Create a new Pet object within a :ref:`write transaction <react-native-write-transactions>` by calling the ``create()`` method on our realm instance. 
-#. Capture our newly created Pet object in a ``newPet`` variable using the :ref:`@realm/react useObject() hook <react-native-use-object-hook>`. 
+#. Query the realm for a pre-existing Pet object. Assign the result to ``newPet``.
 #. Create a new PetOwner object and pass ``newPet`` to the ``pet`` property.
-#. Wrap our two write transactions in a ``handleAddPetOwner()`` function, which creates a new ``PetOwner`` :js-sdk:`object <Realm.Object.html>` with an associated ``Pet`` based on the TextInput value.
+#. Wrap your write transaction in a ``handleAddPetOwner()`` function, which creates a new ``PetOwner`` object with an associated ``Pet``.
 #. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPetOwner()``. 
 
 .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-to-one-object.tsx
    :language: typescript
-   :emphasize-lines: 4, 9-11, 19, 28
+   :emphasize-lines: 4, 8-15, 23
    :linenos:
 
 Create an Object with a To-Many Relationship
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------------
 
 In a one-to-many relationship, an object may be related to multiple objects of a particular type.
 To learn more about one-to-many relationships, refer to to :ref:`Relationships & Embedded
-Objects - React Native SDK <react-native-to-many-relationship>`.
+Objects <react-native-to-many-relationship>`.
 
 To represent a to-many relationship, we will use the following schema to indicate that a Company
 may employ multiple Employees:
@@ -109,22 +105,22 @@ may employ multiple Employees:
 
 To create an object with a to-many relationship to another object, we: 
 
-#. Capture our current collection of Employee objects by calling the :ref:`@realm/react useQuery() hook <react-native-use-query-hook>` on the ``Employee`` object type.
-#. Create a new Company object within a :ref:`write transaction <react-native-write-transactions>` and pass our collection of employees to the ``employees`` property.
-#. Create a component method, ``handleAddEmployee()``, that creates a new Employee object. The ``useQuery()`` automatically handles adding this new employee to our captured collection of ``Employees``.
-#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddEmployee()``. 
+#. Query the realm for all pre-existing Employee objects using :ref:`useQuery() <react-native-use-query-hook>`.
+#. Create a new Company object and pass the results of your previous query to the ``employees`` property.
+#. Wrap your write transaction in a ``handleAddCompany()`` function, which creates a new ``Company`` object with an associated list of ``Employees``.
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddCompany()``. 
 
 .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-to-many-object.tsx
    :language: typescript
-   :emphasize-lines: 2, 12, 18-26, 32
+   :emphasize-lines: 2, 8-14, 22
    :linenos:
 
 Create an Embedded Object
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 An embedded object is an object that exists as data nested inside of a parent object; it cannot exist as an
 independent Realm object. To learn more about embedded objects, refer to to :ref:`Relationships & Embedded
-Objects - React Native SDK <react-native-embedded-objects>`.
+Objects <react-native-embedded-objects>`.
 
 To represent an embedded object, we will use the following schema that allows you to embed a single
 Address into a new Contact object:
@@ -185,11 +181,10 @@ The ``CreateContact`` component does the following:
    :linenos:
 
 Create an Asymmetric Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 An asymmetric object allows you to sync a collection unidirectionally from your decive to your Atlas database, if
-you are using Flexible Sync. To learn more about asymmetric objects, refer to to :ref:`Stream Data to Atlas 
-- React Native SDK <react-native-stream-data-to-atlas>`.
+you are using Flexible Sync. To learn more about asymmetric objects, refer to to :ref:`Stream Data to Atlas <react-native-stream-data-to-atlas>`.
 
 To represent an asymmetric object, we will use the following schema that defines a Weather Sensor object for
 sending weather-related data one-way from your device to your Atlas database:

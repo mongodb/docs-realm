@@ -11,6 +11,7 @@ const CreatePersonInput = () => {
   return (
     <>
       <TextInput onChangeText={setName} value={name} />
+      <Text>{testPerson ? testPerson.name : "no Person"}</Text> {/* :remove */}
       <Button
         onPress={() => handleAddPerson()}
         title='Add Person'

@@ -1,4 +1,5 @@
 class Person extends Realm.Object{
+  
     static schema = {
         name: 'Person',
         primaryKey: '_id',
