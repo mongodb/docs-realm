@@ -129,8 +129,8 @@ To configure a synced realm:
 #. Configure ``AppProvider``.
 #. Configure ``UserProvider`` and nest it within ``AppProvider``.
 #. Pass your object models to ``RealmProvider``'s ``schema`` prop.
-#. Create a :js-sdk:`FlexibleSyncConfiguration </types/Realm.FlexibleSyncConfiguration.html>`
-   object.
+#. Create a :realm-react-sdk:`FlexibleSyncConfiguration 
+   <types/Realm.FlexibleSyncConfiguration.html>` object.
 #. Pass your ``SyncConfiguration`` object to the ``sync`` prop or add the object
    in-line.
 #. Set up initial subscriptions or create a new subscription in
@@ -165,9 +165,10 @@ Open Synced Realm at Specific Path
 
 .. versionadded:: ``realm@11.6.0``
 
-Using :js-sdk:`AppConfiguration.baseFilePath <types/Realm.AppConfiguration.html#__type.baseFilePath>`,
-and :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`, you can
-control where Realm and metadata files are stored on client devices.
+Using :realm-react-sdk:`AppConfiguration.baseFilePath 
+<types/Realm.AppConfiguration.html#__type.baseFilePath>`,
+and :realm-react-sdk:`Realm.BaseConfiguration.path <types/Realm.BaseConfiguration.html>`,
+you can control where Realm and metadata files are stored on client devices.
 
 To do so, set ``AppProvider.baseFilePath``. If ``baseFilePath`` is not set, the
 current work directory is used. You can also set ``RealmProvider.sync.path``
@@ -194,7 +195,8 @@ If ``baseFilePath`` is set, metadata is always stored in
 is stored in ``<Realm.defaultPath>/mongodb-realm``.
 
 Where, exactly, your Realm file is stored can vary depending
-on how you set :js-sdk:`Realm.Configuration.path <Realm.html#~Configuration>`:
+on how you set :realm-react-sdk:`Realm.BaseConfiguration.path 
+<types/Realm.BaseConfiguration.html>`:
 
 - ``Realm.Configuration.path`` is not set and ``baseFilePath`` is set. Your
   Realm file is stored at ``baseFilePath``.
@@ -210,8 +212,8 @@ Access a Synced Realm While Offline
 
 The following subsections show how to use background synchronization to access a
 realm while offline. To do this, use a cached user and an
-:js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object. 
+:realm-react-sdk:`OpenRealmBehaviorConfiguration
+<types/Realm.OpenRealmBehaviorConfiguration.html>` object. 
 
 Within ``RealmProvider``'s sync configuration, set the optional ``newRealmFileBehavior`` 
 and ``existingRealmFileBehavior`` fields to your ``OpenRealmBehaviorConfiguration`` 

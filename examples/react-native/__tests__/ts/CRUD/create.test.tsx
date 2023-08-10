@@ -10,6 +10,7 @@ import {useQuery} from '@realm/react';
 let higherScopeDogs: Realm.Results<Dog>;
 let newObjectId = new Realm.BSON.ObjectID();
 // :remove-end:
+
 class Dog extends Realm.Object {
   static schema = {
     name: 'Dog',

@@ -75,9 +75,13 @@ describe('Delete Data Tests', () => {
     });
     const firstDeleteDogButton = deleteDogButtons[0];
 
-    // Test that a Dog Realm.Object is deleted and there is one less Dog in the UI when the "Delete Dog" button is pressed
+    // Test that a Dog Realm.Object is deleted and there is one less Dog in the
+    // UI when the "Delete Dog" button is pressed
     expect(assertionRealm.objects('Dog').length).toBe(3);
-    expect(getAllByTestId('deleteDog').length).toBe(3); // we can't use the value of deleteDogButtons because the variable doesn't update when a deleteDog testID is removed from the UI, so we need to call getAllByTestId() again
+    // We can't use the value of deleteDogButtons because the variable doesn't
+    // update when a deleteDog testID is removed from the UI, so we need to
+    // call getAllByTestId() again
+    expect(getAllByTestId('deleteDog').length).toBe(3);
 
     fireEvent.press(firstDeleteDogButton);
 
