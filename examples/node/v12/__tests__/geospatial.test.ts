@@ -12,8 +12,8 @@ import Realm, {
 describe("Geospatial", () => {
   test("should define an object model, open a realm, and perform geospatial queries", async () => {
     // :snippet-start: define-geopoint-class
-    // Implement `CanonicalGeoPoint` instead of extending
-    // `Realm.Object` for convenience when persisting geodata.
+    // Implement `CanonicalGeoPoint`
+    // for convenience when persisting geodata.
     class MyGeoPoint implements CanonicalGeoPoint {
       coordinates!: GeoPosition;
       type = "Point" as const;

@@ -29,15 +29,14 @@ A :js-sdk:`GeoPoint <Realm.GeoPoint.html>` defines a specific
 location on the Earth's surface. All of the geospatial data types use ``GeoPoints`` 
 to define their location. 
 
-``GeoPoint`` is the union of three types:
+``GeoPoint`` can be one of three types:
 
-- ``latitude``: a number value
-- ``longitude``: a number value
-- ``altitude``: an optional number value
-
-When you provide these values in a positional unlabeled array, the SDK 
-interprets the first value as ``longitude``, the second value as ``latitude``,
-and a third value, if provided, as ``altitude``.
+- An object with:
+  - ``latitude``: a number value
+  - ``longitude``: a number value
+  - ``altitude``: an optional number value
+- ``CanonicalGeoPoint``
+- ``GeoPosition``
 
 A GeoPoint is used only as a building block of the other shapes: 
 GeoCircle, GeoBox, and GeoPolygon. GeoPoint is used only in queries, not 
