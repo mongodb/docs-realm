@@ -15,8 +15,8 @@ Geospatial Data Types - Kotlin SDK
 Geospatial data, or "geodata", specifies points and geometric objects on the Earth's 
 surface. 
 
-Kotlin SDK version 1.11.0 and later adds support for experimental geospatial APIs 
-that support querying with geosptial data. These queries can check whether a given  
+Kotlin SDK version 1.11.0 and later adds experimental geospatial APIs 
+that support querying with geospatial data. These queries can check whether a given  
 point is contained within a shape. For example, you can find all coffee shops within 
 15 km of a specified point.
 
@@ -124,10 +124,10 @@ The following example creates 3 polygons:
 
 .. _kotlin-persist-geopoint:
 
-Persisting GeoPoint Data
------------------------- 
+Persist Geospatial Data
+----------------------- 
 
-If you want to persist ``GeoPoint`` data, it must conform to the 
+If you want to persist geospatial data, it must conform to the 
 `GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`__. 
 
 Creating a GeoJSON-Compatible Class
@@ -149,7 +149,7 @@ To create a class that conforms to the GeoJSON spec, you:
      pair: ``var coordinates: RealmList<Double> = realmListOf()``
 
 The following example shows an embedded class named ``CustomGeoPoint`` that is used 
-to persist GeoPoint data:
+to persist geospatial data:
 
 .. literalinclude:: /examples/generated/kotlin/Geospatial.snippet.custom-geopoint.kt
    :language: kotlin
