@@ -1,12 +1,7 @@
 package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.internal.platform.runBlocking
-import io.realm.kotlin.mongodb.App
-import io.realm.kotlin.mongodb.AuthenticationChange
-import io.realm.kotlin.mongodb.Credentials
-import io.realm.kotlin.mongodb.LoggedIn
-import io.realm.kotlin.mongodb.LoggedOut
-import io.realm.kotlin.mongodb.Removed
+import io.realm.kotlin.mongodb.*
 import io.realm.kotlin.mongodb.User
 import io.realm.kotlin.mongodb.ext.call
 import io.realm.kotlin.mongodb.ext.customDataAsBsonDocument
@@ -17,14 +12,7 @@ import kotlinx.coroutines.launch
 import org.mongodb.kbson.BsonDocument
 import org.mongodb.kbson.BsonInt32
 import org.mongodb.kbson.BsonString
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertIs
-import kotlin.test.assertNotEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 // :replace-start: {
 //   "terms": {
@@ -335,6 +323,72 @@ class AuthenticationTest: RealmTest() {
             delay(20)
             assertTrue(loginActivityFunCalled)
             job.cancel()
+        }
+    }
+
+    @Test
+    fun offlineLogin() {
+        val app = App.create(YOUR_APP_ID)
+        suspend fun loginUser() {
+            // :snippet-start: offline-login
+            // Log the user into the backend app
+            // The first time you log in, the user must have a network connection
+
+            // Check for an existing user
+            // If the user is offline but credentials are cached, return existing user
+            val currentUser: User? = app.currentUser
+
+            if (currentUser == null) {
+                // If the device has no cached user credentials, log them in
+                try {
+                    app.login(Credentials.anonymous())
+                    Log.v("Successfully authenticated anonymously.")
+                } catch (e: Exception) {
+                    Log.e("Error logging in: ${e.message}")
+                }
+            } else {
+                Log.v("User is already logged in.")
+            }
+            // :snippet-end:
+        }
+
+        runBlocking {
+
+            app.currentUser?.delete()
+            delay(1000)
+
+            assertNull(app.currentUser)
+
+            loginUser()
+            // Assert loginUser() logs in anonymously
+            val anonymousUser = app.currentUser
+            assertNotNull(anonymousUser)
+            assertEquals(AuthenticationProvider.ANONYMOUS, anonymousUser.provider)
+            anonymousUser.delete()
+            println("Deleted anonymous user")
+            delay(1000)
+
+            // Log in with email and password
+            val email = getRandom()
+            val password = getRandom()
+            app.emailPasswordAuth.registerUser(email, password)
+            app.login(Credentials.emailPassword(email, password))
+            loginUser()
+
+            // Assert loginUser() returns email/pw user
+            val emailUser = app.currentUser
+            assertNotNull(emailUser)
+            assertEquals(AuthenticationProvider.EMAIL_PASSWORD, emailUser.provider)
+            emailUser.logOut()
+            println("Logged out email user")
+            delay(1000)
+
+            loginUser()
+            assertEquals(AuthenticationProvider.EMAIL_PASSWORD, emailUser.provider)
+            emailUser.delete()
+            println("Removed email user")
+            delay(1000)
+            app.close()
         }
     }
 }
