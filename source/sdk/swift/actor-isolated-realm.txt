@@ -11,8 +11,10 @@ Actor-Isolated Realms - Swift SDK
    :class: singlecol
 
 Starting with Realm Swift SDK version 10.39.0, Realm supports actor-isolated
-realm instances. You can safely use an actor-isolated realm with Swift concurrency
-language features instead of managing threads or dispatch queues.
+realm instances. You might want to use an actor-isolated realm if your app
+uses Swift concurrency language features. This functionality provides 
+an alternative to managing threads or dispatch queues to perform asynchronous 
+work.
 
 With an actor-isolated realm, you can use Swift's async/await syntax to:
 
@@ -139,8 +141,9 @@ And you might perform this write using Swift's async syntax:
 
 This does not block the calling thread while waiting to write. It does 
 not perform I/O on the calling thread. For small writes, this is safe to 
-use from ``@MainActor`` functions without blocking the UI. Sufficiently large 
-writes may still benefit from being done on a background thread. 
+use from ``@MainActor`` functions without blocking the UI. Writes that 
+negatively impact your app's performance due to complexity and/or platform 
+resource constraints may still benefit from being done on a background thread. 
 
 Asynchronous writes are only supported for actor-isolated Realms or in
 ``@MainActor`` functions.
