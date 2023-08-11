@@ -40,9 +40,11 @@ class AuthenticationTest: RealmTest() {
             // Login with the email/password user, and confirm it is the same user as the anonymous user
             val emailPasswordUser = app.login(Credentials.emailPassword(email, password))
             assertEquals(user, emailPasswordUser)
+            emailPasswordUser.delete()
             // :remove-end:
         }
         // :snippet-end:
+        app.close()
     }
 
     @Test
@@ -67,9 +69,11 @@ class AuthenticationTest: RealmTest() {
             // :remove-start:
             assertEquals(User.State.LOGGED_IN, otherAnonUser.state)
             assertNotEquals(anonUser, otherAnonUser)
+            anonUser.delete()
             // :remove-end:
         }
         // :snippet-end:
+        app.close()
     }
 
     @Test
@@ -84,64 +88,65 @@ class AuthenticationTest: RealmTest() {
             // :remove-end:
             val user = app.login(Credentials.emailPassword(email, password))
             assertEquals(User.State.LOGGED_IN, user.state) // :remove:
+            user.delete() // :remove:
         }
         // :snippet-end:
+        app.close()
     }
 
     @Test
     fun removeUserTest() {
         val email = getRandom()
         val password = getRandom()
-        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-            val app: App = App.create(YOUR_APP_ID)
+        // :snippet-start: remove-user
+        val app = App.create(YOUR_APP_ID) // Replace with your App ID
+        runBlocking {
+            // :remove-start:
             app.emailPasswordAuth.registerUser(email, password)
             val credentials = Credentials.emailPassword(email, password)
-            // :snippet-start: remove-user
+            // :remove-end:
             // Log user in
             val user = app.login(credentials)
             assertEquals(User.State.LOGGED_IN, user.state) // :remove:
 
             // Work with logged-in user ...
 
-            // User can be logged out before being removed
-            user.logOut()
-            assertEquals(User.State.LOGGED_OUT, user.state) // :remove:
-
             // Remove the user
+            // If the user is logged in, they are logged out first
             // DOES NOT delete user from the server
             user.remove()
-            // :snippet-end:
+            // :remove-start:
             assertEquals(User.State.REMOVED, user.state)
-            val currentUsers = app.currentUser
-            assertNull(currentUsers)
-            app.close()
+            // :remove-end:
         }
+        // :snippet-end:
+        app.close()
     }
 
     @Test
     fun deleteUserTest() {
         val email = getRandom()
         val password = getRandom()
-        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
-            val app: App = App.create(YOUR_APP_ID)
-            app.emailPasswordAuth.registerUser(email, password)
-            val credentials = Credentials.emailPassword(email, password)
-            // :snippet-start: delete-user
+        // :snippet-start: delete-user
+        val app: App = App.create(YOUR_APP_ID) // Replace with your App ID
+        runBlocking {
+            val credentials = Credentials.anonymous(reuseExisting = false) // :remove:
             // Log user in
             val user = app.login(credentials)
             assertEquals(User.State.LOGGED_IN, user.state) // :remove:
 
             // Work with logged-in user ...
 
-            // Close any user realms before deleting user
+            // Close any user realms before deleting user ...
+
             // Delete the logged-in user
             user.delete()
-            // :snippet-end:
+            // :remove-start:
             assertEquals(User.State.REMOVED, user.state)
-            val currentUsers = app.currentUser
-            assertNull(currentUsers)
             app.close()
+            // :remove-end:
         }
+        // :snippet-end:
     }
 
     @Test
@@ -167,10 +172,11 @@ class AuthenticationTest: RealmTest() {
             assertEquals(User.State.LOGGED_IN, user.state)
             // delete the key so we're not constantly creating new user api keys
             tempUser.apiKeyAuth.delete(apiKey.id)
-            tempUser.logOut()
+            tempUser.delete()
             // :remove-end:
         }
         // :snippet-end:
+        app.close()
     }
 
     @Test
@@ -184,6 +190,7 @@ class AuthenticationTest: RealmTest() {
         }
         // :snippet-end:
         } )
+        app.close()
     }
 
     @Test
@@ -207,6 +214,7 @@ class AuthenticationTest: RealmTest() {
         }
         // :snippet-end:
         } )
+        app.close()
     }
 
     @Test
@@ -226,9 +234,9 @@ class AuthenticationTest: RealmTest() {
             // :snippet-end:
             val refreshToken = getRefreshToken()
             assertNotNull(refreshToken)
-            user.logOut()
+            user.delete()
         }
-
+        app.close()
     }
 
     @Test
@@ -248,7 +256,9 @@ class AuthenticationTest: RealmTest() {
             val user = app.currentUser
             // :snippet-end:
             assertNotNull(user)
+            user.delete()
         }
+        app.close()
     }
 
     @Test
@@ -295,24 +305,30 @@ class AuthenticationTest: RealmTest() {
             // :snippet-end:
             assertNotNull(deleteResponse)
             assertEquals(BsonInt32(1), deleteResponse["deletedCount"])
-            user.logOut()
+            user.delete()
         }
+        app.close()
     }
     @Test
     fun logoutTest() {
         val email = getRandom()
         val password = getRandom()
+        // :snippet-start: log-out
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+        runBlocking {
+            // :remove-start:
             // This has to be an email/password user because logging out an anonymous user
             // sets their state to REMOVED instead of LOGGED_OUT
             app.emailPasswordAuth.registerUser(email, password)
-            val user = app.login(Credentials.emailPassword(email, password))
-            // :snippet-start: log-out
+            val credentials = Credentials.emailPassword(email, password)
+            // :remove-end:
+            val user = app.login(credentials)
+
             user.logOut()
-            // :snippet-end:
-            assertEquals(User.State.LOGGED_OUT, user.state)
+            assertEquals(User.State.LOGGED_OUT, user.state) // :remove:
         }
+        // :snippet-end:
+        app.close()
     }
 
     @Test
@@ -357,7 +373,9 @@ class AuthenticationTest: RealmTest() {
             delay(20)
             assertTrue(loginActivityFunCalled)
             job.cancel()
+            user.remove()
         }
+        app.close()
     }
 }
 // :replace-end:

@@ -1,8 +1,12 @@
-// Log user in
-val user = app.login(credentials)
+val app: App = App.create(YOUR_APP_ID) // Replace with your App ID
+runBlocking {
+    // Log user in
+    val user = app.login(credentials)
 
-// Work with logged-in user ...
+    // Work with logged-in user ...
 
-// Close any user realms before deleting user
-// Delete the logged-in user
-user.delete()
+    // Close any user realms before deleting user ...
+
+    // Delete the logged-in user
+    user.delete()
+}

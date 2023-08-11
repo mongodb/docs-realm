@@ -1,11 +1,12 @@
-// Log user in
-val user = app.login(credentials)
+val app = App.create(YOUR_APP_ID) // Replace with your App ID
+runBlocking {
+    // Log user in
+    val user = app.login(credentials)
 
-// Work with logged-in user ...
+    // Work with logged-in user ...
 
-// User can be logged out before being removed
-user.logOut()
-
-// Remove the user
-// DOES NOT delete user from the server
-user.remove()
+    // Remove the user
+    // If the user is logged in, they are logged out first
+    // DOES NOT delete user from the server
+    user.remove()
+}
