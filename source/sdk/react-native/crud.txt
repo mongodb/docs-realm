@@ -28,11 +28,11 @@ All operations within a write transaction are :wikipedia:`atomic <Atomicity_(dat
 If an operation in the write transaction fails, the whole transaction fails,
 Realm throws an error, and no changes from the transaction block are applied to the realm.
 
-Every write operation must occur in a write transaction.
+Every write operation must occur in a write transaction. 
 
-.. literalinclude:: /examples/generated/react-native/ts/create.test.snippet.crud-create-object.tsx
+.. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
   :language: typescript
-  :emphasize-lines: 26-32
+  :emphasize-lines: 6-8
 
 Transaction Lifecycle
 ---------------------
