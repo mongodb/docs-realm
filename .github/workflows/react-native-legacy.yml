@@ -1,0 +1,24 @@
+name: React Native Legacy CI Tests
+
+on:
+  pull_request:
+    paths:
+      - "examples/react-native/legacy/**"
+
+jobs:
+  build:
+    name: Run React Native Legacy CI Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use React Native ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: cd examples/react-native/legacy && npm install
+      - run: cd examples/react-native/legacy && npm run test
