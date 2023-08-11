@@ -20,6 +20,14 @@ open class RealmTest {
         return Random.nextLong(from = 100000, until = 100000000000).toString()
     }
 
+    fun getRandomEmail(): String {
+        val allowedChars = ('a'..'z') + ('0'..'9')
+        val randomString = (1..10)
+            .map { allowedChars.random() }
+            .joinToString("")
+        return "$randomString@example.com"
+    }
+
     fun getEncryptionKey(seed: Long? = null): ByteArray {
         // generate a new 64-byte encryption key
         val key = ByteArray(64)

@@ -12,7 +12,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.mongodb.kbson.BsonDocument
 import org.mongodb.kbson.BsonInt32
-import org.mongodb.kbson.BsonInt64
 import org.mongodb.kbson.BsonString
 import kotlin.test.*
 
@@ -330,7 +329,7 @@ class AuthenticationTest: RealmTest() {
 
     @Test
     fun userMetaData() {
-        val email = getRandom()
+        val email = getRandomEmail()
         val password = getRandom()
         val app = App.create(FLEXIBLE_APP_ID)
         runBlocking {
@@ -344,17 +343,10 @@ class AuthenticationTest: RealmTest() {
             val userEmail = user.profileAsBsonDocument()["email"]
             Log.i("The logged-in user's email is: $userEmail")
             // :snippet-end:
-            val expectedEmail = if (userEmail is BsonInt64) {
-                userEmail.value.toString()
-            } else {
-                userEmail.toString()
-            }
-            assertEquals(email, expectedEmail)
+            assertEquals(email, userEmail?.asString()?.value)
             user.delete()
             app.close()
         }
-
-
     }
 }
 // :replace-end:

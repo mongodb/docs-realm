@@ -10,10 +10,10 @@ User Metadata - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-You can associate custom :ref:`metadata <user-metadata>` with each user 
-of your App. For example, you might store a user's preferred language, 
-date of birth, or any other information that you want to associate with 
-the user.
+Atlas App Services can read :ref:`user metadata <auth-provider-metadata>` 
+from authentication providers. Then, App Services exposes each user's 
+data in a field of their user object. For example, you might want to 
+access a user's name, email, birthday, or gender.
 
 .. _kotlin-read-user-metadata:
 
@@ -33,9 +33,27 @@ method on the ``User`` object of a logged-in user:
    :language: kotlin
 
 User metadata options vary depending on which provider you're using and
-:ref:`which metadata fields you enable <configure-user-metadata-on-the-backend>`. 
+:ref:`which metadata fields you enable <configure-user-metadata-on-the-backend>`.
 
 .. include:: /includes/stale-user-metadata.rst
+
+Serializable User Metadata 
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 1.9.0
+
+Kotlin SDK version 1.9.0 introduced an API that supports: 
+
+- A limited but stable EJSON encoder for user metadata returned by ``User.profileAsBsonDocument()``
+- An experimental EJSON encoder that supports full document serialization for user 
+  metadata returned by the `User.profile() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/profile.html>`__ 
+  extension method. This encoder and method requires experimental opt-in. 
+
+You must add the official
+`Kotlin Serialization <https://github.com/Kotlin/kotlinx.serialization>`__ library
+to your project to use Realm Kotlin SDK's EJSON serialization.
+For more information, refer to 
+:ref:`Serialization <kotlin-serialization>`. 
 
 .. _kotlin-configure-user-metadata:
 
