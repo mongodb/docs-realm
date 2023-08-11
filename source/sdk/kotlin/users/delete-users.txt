@@ -1,8 +1,9 @@
 .. _kotlin-delete-users:
+.. _kotlin-create-users:
 
-=========================
-Delete Users - Kotlin SDK
-=========================
+====================================
+Create and Delete Users - Kotlin SDK
+====================================
 
 .. default-domain:: mongodb
 
@@ -12,10 +13,70 @@ Delete Users - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-You can call the ``delete`` method on a user object to delete the user object from your Atlas App Services App. 
-This deletes the object from the server in addition to clearing local data.
+The Kotlin SDK provides methods to create and delete users in your Atlas App 
+Services App.
 
-.. include:: /includes/note-deleting-user-doesnt-delete-custom-data.rst
+Create a User
+-------------
 
-.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.user-delete.kt
+For most :ref:`authentication methods <authentication-providers>`, Atlas App Services 
+automatically creates a :ref:`user object <user-objects>` the first time 
+a user authenticates. The only exception is email/password authentication. 
+When you use email/password authentication, you must :ref:`register 
+<kotlin-register-email-password-user>` and :ref:`confirm 
+<kotlin-confirm-a-new-users-email-address>` a user before the user can 
+authenticate to an App Services App.
+
+.. tip:: Google and Apple Account Deletion Requirements
+
+   `Google <https://support.google.com/googleplay/android-developer/answer/13316080?sjid=9059006274298096173-NA#account_deletion>`__ 
+   and :apple:`Apple <app-store/review/guidelines/#5.1.1>` require that 
+   applications listed through their respective App Stores must give any 
+   user who creates an account the option to delete the account. Whether you 
+   use an authentication method where you must manually register a user, 
+   such as email/password authentication, or one that that automatically 
+   creates a user, such as Sign-In with Apple, you must implement 
+   :ref:`user account deletion <delete-user>`.
+
+Remove a User
+-------------
+
+You can call the `remove <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/remove.html>`__
+method on a user to remove the ``User`` object from your Atlas App Services App.
+
+This method sets the
+`User.State <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/-state/index.html>`__ 
+to ``REMOVED`` and clears local data. 
+If called on a logged-in user, this method logs the user out before removing them. 
+
+This method *does not* delete the ``User`` object from the Atlas App Services server.
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.remove-user.kt
+   :language: kotlin
+
+Delete a User
+-------------
+
+You can call the `delete <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/delete.html>`__ 
+method on a logged-in user to permanently delete the ``User`` object from your 
+Atlas App Services App. 
+
+This method deletes the ``User`` object from the server in addition to clearing
+local data. You should close any realms opened by the user before deleting 
+the user.
+
+.. important:: 
+
+   Deleting a user only deletes the user object, which may contain associated 
+   :ref:`metadata <kotlin-user-metadata>`. This does not delete :ref:`custom 
+   user data <kotlin-custom-user-data>` or user-entered data from your 
+   application. 
+   `Google <https://support.google.com/googleplay/android-developer/answer/13316080?sjid=9059006274298096173-NA#account_deletion>`__ 
+   and :apple:`Apple <app-store/review/guidelines/#5.1.1>` require 
+   that you disclose data retention and deletion policies to your 
+   application customers and give them a way to request user data deletion.
+   If you collect additional user data, you must implement your own methods 
+   or processes to delete that data.
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.delete-user.kt
    :language: kotlin
