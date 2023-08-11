@@ -17,8 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use React Native ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd examples/react-native && npm install
-      - run: cd examples/react-native && npm run test
+      - run: cd examples/react-native/legacy && npm install
+      - run: cd examples/react-native/legacy && npm run test
