@@ -7,8 +7,11 @@ const TaskList = () => {
 
   // filter for tasks that have just-started or short-running progress
   const lowProgressTasks = tasks.filtered(
-    '$0 <= progressMinutes && progressMinutes < $1', 1, 10
+    '$0 <= progressMinutes && progressMinutes < $1',
+    1,
+    10,
   );
+
   return (
     <>
       <Text>Your high priority tasks:</Text>

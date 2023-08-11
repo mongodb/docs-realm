@@ -1,11 +1,11 @@
 // :snippet-start: offline-config
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
-import {useApp} from '@realm/react';
+import {useApp, useQuery, useRealm} from '@realm/react';
 import {Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
@@ -26,11 +26,6 @@ class Profile extends Realm.Object<Profile> {
 }
 // :remove-end:
 
-const realmContext = createRealmContext({
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
-
 function AppWrapperOfflineSync() {
   const realmAccessBehavior: Realm.OpenRealmBehaviorConfiguration = {
     type: Realm.OpenRealmBehaviorType.OpenImmediately,
@@ -40,6 +35,7 @@ function AppWrapperOfflineSync() {
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Profile]}
           sync={{
             flexible: true,
             newRealmFileBehavior: realmAccessBehavior,
@@ -65,7 +61,6 @@ function LogIn() {
 }
 
 function RestOfApp() {
-  const {useRealm, useQuery} = realmContext;
   const realm = useRealm();
   const profiles = useQuery(Profile);
 
@@ -89,13 +84,12 @@ function RestOfApp() {
 }
 
 const app = new Realm.App(APP_ID);
-const createConfig = user => {
+const createConfig = (user: Realm.User): Realm.Configuration => {
   return {
     schema: [Profile],
     sync: {
       user: user,
       flexible: true,
-      onError: console.error,
     },
   };
 };

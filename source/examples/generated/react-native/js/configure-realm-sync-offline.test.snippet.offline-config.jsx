@@ -1,10 +1,5 @@
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
-
-const realmContext = createRealmContext({
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 
 function AppWrapperOfflineSync() {
   const realmAccessBehavior = {
@@ -15,11 +10,11 @@ function AppWrapperOfflineSync() {
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Profile]}
           sync={{
             flexible: true,
             newRealmFileBehavior: realmAccessBehavior,
             existingRealmFileBehavior: realmAccessBehavior,
-            onError: console.error,
           }}>
           <RestOfApp />
         </RealmProvider>

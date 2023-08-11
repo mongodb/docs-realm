@@ -1,17 +1,17 @@
 // :snippet-start: configure-realm-sync-full
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
-import {useApp} from '@realm/react';
+import {useApp, useQuery, useRealm} from '@realm/react';
 import {Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
-let numberOfProfiles: number;
+let countOfYourObjectModel: number;
 
-class Profile extends Realm.Object<Profile> {
+class YourObjectModel extends Realm.Object<YourObjectModel> {
   _id!: Realm.BSON.UUID;
   name!: string;
 
@@ -26,19 +26,19 @@ class Profile extends Realm.Object<Profile> {
 }
 // :remove-end:
 
-const realmContext = createRealmContext({
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
-
 function AppWrapperSync() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[YourObjectModel]}
           sync={{
             flexible: true,
-            onError: console.error,
+            initialSubscriptions: {
+              update(subs, realm) {
+                subs.add(realm.objects(YourObjectModel));
+              },
+            },
           }}>
           <RestOfApp />
         </RealmProvider>
@@ -46,6 +46,7 @@ function AppWrapperSync() {
     </AppProvider>
   );
 }
+
 // :snippet-end:
 
 // NOTE: Currently not testing the partition-based sync code. The App Services
@@ -57,9 +58,9 @@ function AppWrapperPartitionSync() {
       <UserProvider>
         {/* :snippet-start: partition-based-config */}
         <RealmProvider
+          schema={[YourObjectModel]}
           sync={{
             partitionValue: 'testPartition',
-            onError: console.error,
           }}>
           <RestOfApp />
         </RealmProvider>
@@ -80,9 +81,8 @@ function LogIn() {
 }
 
 function RestOfApp() {
-  const {useRealm, useQuery} = realmContext;
   const realm = useRealm();
-  const profiles = useQuery(Profile);
+  const profiles = useQuery(YourObjectModel);
 
   useEffect(() => {
     realm.subscriptions.update((subs, myRealm) => {
@@ -91,9 +91,9 @@ function RestOfApp() {
   });
 
   // Check profile length to confirm this is the same sync realm as
-  // that set up in beforeEach(). Then set numberOfProfiles to the length.
+  // that set up in beforeEach(). Then set countOfYourObjectModel to the length.
   if (profiles.length) {
-    numberOfProfiles = profiles.length;
+    countOfYourObjectModel = profiles.length;
   }
 
   return (
@@ -104,9 +104,9 @@ function RestOfApp() {
 }
 
 const app = new Realm.App(APP_ID);
-const createConfig = user => {
+const createConfig = (user: Realm.User): Realm.Configuration => {
   return {
-    schema: [Profile],
+    schema: [YourObjectModel],
     sync: {
       user: user,
       flexible: true,
@@ -147,7 +147,7 @@ afterEach(async () => {
     realm.deleteAll();
   });
 
-  numberOfProfiles = 0;
+  countOfYourObjectModel = 0;
 
   realm.close();
 
@@ -159,7 +159,7 @@ test('Instantiate AppWrapperSync and test sync', async () => {
 
   await waitFor(
     () => {
-      expect(numberOfProfiles).toBeGreaterThanOrEqual(1);
+      expect(countOfYourObjectModel).toBeGreaterThanOrEqual(1);
     },
     {timeout: 2000},
   );

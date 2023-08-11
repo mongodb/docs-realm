@@ -1,12 +1,10 @@
 import React from 'react';
-import {RealmContext} from '../RealmConfig';
+import {RealmProvider} from '@realm/react';
 
 function AppWrapperLocal() {
-  const {RealmProvider} = RealmContext;
-
   return (
-    <RealmProvider>
-      <MyApp />
+    <RealmProvider schema={[YourObjectModel]}>
+      <RestOfApp />
     </RealmProvider>
   );
 }

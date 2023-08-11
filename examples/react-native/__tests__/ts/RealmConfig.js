@@ -11,11 +11,6 @@ export const RealmContext = createRealmContext({
   schema: [Business, Address],
 });
 
-export const SecondRealmContext = createRealmContext({
-  // Pass all of your secondary models into the schema value.
-  schema: [Address, Contact],
-});
-
 export const InMemoryRealmContext = createRealmContext({
   schema: [Address, Contact],
   inMemory: true,

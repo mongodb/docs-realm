@@ -7,6 +7,7 @@ const DogList = () => {
       realm.delete(deletableDog);
     });
   };
+
   return (
     <>
       {myDogs.map(dog => {

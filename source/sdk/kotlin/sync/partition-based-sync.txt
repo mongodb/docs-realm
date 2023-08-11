@@ -48,7 +48,6 @@ an instance of the realm:
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-a-synced-realm.kt
     :language: kotlin
-    :copyable: false
 
 Configure a Partition-Based Sync Realm
 --------------------------------------
@@ -59,7 +58,44 @@ To adjust specific configuration settings, use the options provided by
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-synced-realm.kt
     :language: kotlin
-    :copyable: false
+
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+
+.. note:: 
+
+  The ``progressAsFlow()`` listener in the Kotlin SDK is only currently 
+  available for realms using Partition-Based Sync. The Kotlin SDK does not 
+  yet support progress listeners for Flexible Sync.
+
+You can monitor the upload and download progress of a sync session. The sync 
+session starts when you open a synced realm. For more information, refer to
+:ref:`Manage a Sync Session <kotlin-manage-sync-session>`.
+
+To monitor Sync upload and download progress, call 
+`SyncSession.progressAsFlow() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/progress-as-flow.html>`__ 
+
+This method returns a Flow of 
+`Progress <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-progress/index.html>`__ 
+events. ``Progress`` provides the total 
+number of transferrable bytes and the remaining bytes to be transferred.
+
+``syncSession.progressAsFlow()`` takes two arguments:
+
+- A `Direction <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-direction/index.html>`__
+  enum that can be set to ``UPLOAD`` or ``DOWNLOAD``.
+  This specifies that the progress stream tracks uploads or downloads.
+
+- A `ProgressMode <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-progress-mode/index.html>`__ 
+  enum that can be set to either: 
+  
+  - ``INDEFINITELY``: Sets notifications to continue until the callback is 
+    unregistered.
+  - ``CURRENT_CHANGES``: Sets notifications to continue until only the currently 
+    transferable bytes are synced.
+
+.. literalinclude:: /examples/generated/kotlin/ManageSyncSession.snippet.monitor-progress.kt
+   :language: kotlin
 
 .. _kotlin-migrate-pbs-to-fs:
 

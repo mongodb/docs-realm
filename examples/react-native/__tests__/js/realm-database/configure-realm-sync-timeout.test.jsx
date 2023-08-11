@@ -1,11 +1,11 @@
 // :snippet-start: timeout-config
 import React from 'react';
-import {AppProvider, createRealmContext, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import Realm from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
-import {useApp} from '@realm/react';
+import {useApp, useQuery, useRealm} from '@realm/react';
 import {Text} from 'react-native';
 
 const APP_ID = 'js-flexible-oseso';
@@ -22,11 +22,6 @@ class Profile extends Realm.Object {
 }
 // :remove-end:
 
-const realmContext = createRealmContext({
-  schema: [Profile],
-});
-const {RealmProvider} = realmContext;
-
 function AppWrapperTimeoutSync() {
   const realmAccessBehavior = {
     type: 'downloadBeforeOpen',
@@ -38,11 +33,11 @@ function AppWrapperTimeoutSync() {
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Profile]}
           sync={{
             flexible: true,
             newRealmFileBehavior: realmAccessBehavior,
             existingRealmFileBehavior: realmAccessBehavior,
-            onError: console.error,
           }}>
           <RestOfApp />
         </RealmProvider>
@@ -63,7 +58,6 @@ function LogIn() {
 }
 
 function RestOfApp() {
-  const {useRealm, useQuery} = realmContext;
   const realm = useRealm();
   const profiles = useQuery(Profile);
 

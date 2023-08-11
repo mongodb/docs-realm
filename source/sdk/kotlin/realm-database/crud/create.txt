@@ -45,6 +45,21 @@ To persist a new object to a realm:
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.create-a-new-object.kt
    :language: kotlin
 
+.. tip:: 
+
+   You can also upsert into a realm using specific criteria. See 
+   :ref:`Upsert a Realm Object <kotlin-upsert-an-object>`.
+
+Create an Embedded Object
+-------------------------
+
+To create an :ref:`embedded object <kotlin-embedded-objects>`, assign an instance of the 
+`EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
+to a parent object's property:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.create-embedded-object.kt 
+    :language: kotlin
+
 Create an Object with a Dictionary Property
 -------------------------------------------
 
@@ -80,7 +95,7 @@ For more information, see :ref:`Asymmetric Objects <kotlin-asymmetric-objects>`.
 
 You must create an `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__  
 using the `insert() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/insert.html>`__  
-extension method within a write transaction.
+extension method within a write transaction:
 
 .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
    :language: kotlin
