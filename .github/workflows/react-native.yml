@@ -21,8 +21,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        working-directory: examples/react-native/v12
+        working-directory: examples/react-native/v12/TestApp
         run: npm install
       - name: Run Tests
-        working-directory: examples/react-native/v12
+        working-directory: examples/react-native/v12/TestApp
         run: npm run test
