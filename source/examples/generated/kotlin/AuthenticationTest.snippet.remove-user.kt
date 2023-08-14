@@ -5,7 +5,7 @@ runBlocking {
 
     // Work with logged-in user ...
 
-    // Remove the user
+    // Remove the user from the app
     // If the user is logged in, they are logged out first
     // DOES NOT delete user from the server
     user.remove()

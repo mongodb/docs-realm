@@ -111,7 +111,7 @@ class AuthenticationTest: RealmTest() {
 
             // Work with logged-in user ...
 
-            // Remove the user
+            // Remove the user from the app
             // If the user is logged in, they are logged out first
             // DOES NOT delete user from the server
             user.remove()
@@ -137,9 +137,8 @@ class AuthenticationTest: RealmTest() {
 
             // Work with logged-in user ...
 
-            // Close any user realms before deleting user ...
-
-            // Delete the logged-in user
+            // Delete the logged-in user from the app
+            // and the Atlas App Services server
             user.delete()
             // :remove-start:
             assertEquals(User.State.REMOVED, user.state)

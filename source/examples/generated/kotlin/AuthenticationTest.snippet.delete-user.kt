@@ -5,8 +5,7 @@ runBlocking {
 
     // Work with logged-in user ...
 
-    // Close any user realms before deleting user ...
-
-    // Delete the logged-in user
+    // Delete the logged-in user from the app
+    // and the Atlas App Services server
     user.delete()
 }
