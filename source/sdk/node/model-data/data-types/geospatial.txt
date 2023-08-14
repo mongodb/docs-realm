@@ -15,7 +15,7 @@ Geospatial - Node.js SDK
 Geospatial data, or "geodata", specifies points and geometric objects on the Earth's 
 surface. With the geodata types, you can create queries that check whether a given  
 point is contained within a shape. For example, you can find all coffee shops within 
-15 km of a specified point.
+15 km of a specified point.
 
 Geospatial Data Types
 ---------------------
@@ -25,7 +25,7 @@ Geospatial Data Types
 GeoPoint
 ~~~~~~~~
 
-A :js-sdk:`GeoPoint <Realm.GeoPoint.html>` defines a specific 
+A :js-sdk:`GeoPoint <types/Realm.GeoPoint.html>` defines a specific 
 location on the Earth's surface. All of the geospatial data types use ``GeoPoints`` 
 to define their location. 
 
@@ -36,12 +36,12 @@ to define their location.
   - ``latitude``: a number value
   - ``longitude``: a number value
   - ``altitude``: an optional number value
-- ``CanonicalGeoPoint``
-- ``GeoPosition``
+- ``CanonicalGeoPoint``:  an interface that satisfies the GeoJSON specifications for a point
+- ``GeoPosition``: an array with longitude, latitude, and an optional altitude
 
 A GeoPoint is used only as a building block of the other shapes: 
-GeoCircle, GeoBox, and GeoPolygon. GeoPoint is used only in queries, not 
-for persistance.
+GeoCircle, GeoBox, and GeoPolygon. These shapes, and the GeoPoint type, 
+are used in queries, not for persistance.
 
 To save geospatial data to realm, refer to :ref:`node-persist-geopoint`.
 
@@ -50,7 +50,7 @@ To save geospatial data to realm, refer to :ref:`node-persist-geopoint`.
 GeoCircle
 ~~~~~~~~~
 
-A :js-sdk:`GeoCircle <Realm.GeoCircle.html>` defines a circle on 
+A :js-sdk:`GeoCircle <types/Realm.GeoCircle.html>` defines a circle on 
 the Earth's surface. You define a ``GeoCircle`` by providing:
 
 - A ``GeoPoint`` for the center of the circle
@@ -86,7 +86,7 @@ The following code shows two examples of creating a circle:
 GeoBox
 ~~~~~~
 
-A :js-sdk:`GeoBox <Realm.GeoBox.html>` defines a rectangle on  
+A :js-sdk:`GeoBox <types/Realm.GeoBox.html>` defines a rectangle on  
 the Earth's surface. You define the rectangle by specifying the bottom left 
 (southwest) corner and the top right (northeast) corner. A GeoBox behaves 
 in the same way as the corresponding :ref:`GeoPolygon <node-geopolygon>`.
@@ -117,7 +117,7 @@ The following example creates 2 boxes:
 GeoPolygon
 ~~~~~~~~~~
 
-A :js-sdk:`GeoPolygon <Realm.GeoPolygon.html>` defines a polygon 
+A :js-sdk:`GeoPolygon <types/Realm.GeoPolygon.html>` defines a polygon 
 on the Earth's surface. Because a polygon is a closed shape, you must provide a 
 minimum of 4 points: 3 points to define the polygon's shape, and a fourth to 
 close the shape.

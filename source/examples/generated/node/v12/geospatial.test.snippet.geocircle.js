@@ -1,6 +1,7 @@
 const smallCircle = {
   center: [-121.9, 47.3],
-  // The GeoCircle radius is measured in radians
+  // The GeoCircle radius is measured in radians.
+  // This radian distance corresponds with 0.25 degrees.
   distance: 0.004363323,
 };
 
