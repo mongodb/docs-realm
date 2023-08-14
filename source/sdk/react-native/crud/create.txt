@@ -11,8 +11,8 @@ CRUD - Create - React Native SDK
    :depth: 2
    :class: singlecol
 
-To add a new Realm object to a realm instance, use :js-sdk:`realm.create()
-<Realm.html#create>` inside of a write transaction. If the
+To add a new Realm object to a realm instance, use :realm-react-sdk:`realm.create()
+<classes/Realm-1.html#create>` inside of a write transaction. If the
 :ref:`schema <react-native-realm-schema>` includes the object type and the
 object conforms to the schema, then Realm stores the object.
 
@@ -205,8 +205,10 @@ sending weather-related data one-way from your device to your Atlas database:
          :language: typescript
          :emphasize-lines: 12
 
-You can create an asymmetric object inside a write transaction using :js-sdk:`Realm.create() <Realm.html#create>`.
-When creating an asymmetric object, ``Realm.create()`` returns ``undefined`` rather than the object itself.
+You can create an asymmetric object inside a write transaction using
+:realm-react-sdk:`realm.create() <classes/Realm-1.html#create>`. When creating
+an asymmetric object, ``Realm.create()`` returns ``undefined`` rather than the
+object itself.
 
 .. literalinclude:: /examples/generated/react-native/ts/data-ingest.test.snippet.write-data-ingest-object.tsx
    :language: typescript
