@@ -86,8 +86,8 @@ to set up context and providers from ``@realm/react``. To learn more, refer to
 **To configure and access a local realm:** 
 
 #. Import ``createRealmContext()`` from ``@realm/react``.
-#. Create a realm :js-sdk:`Configuration <Realm.html#~Configuration>` object.
-   You must include your Realm object models in the ``schema`` property.
+#. Create a realm :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`
+   object. You must include your Realm object models in the ``schema`` property.
    You can also include optional configuration properties,
    like making the realm read only or adding Atlas Device Sync.
 #. Create a realm context with ``createRealmContext()``. A realm context is a 
@@ -166,7 +166,8 @@ Create, Modify, and Delete Realm Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After accessing the realm with ``useRealm()``, you can create, modify,
-and delete objects inside of the realm in a :js-sdk:`Realm.write() transaction block <Realm.html#write>`.
+and delete objects inside of the realm in a :realm-react-sdk:`Realm.write() 
+<classes/Realm-1.html#write>` transaction block.
 
 To learn more, refer to :ref:`Write Transactions <react-native-write-transactions>`.
 
@@ -232,8 +233,8 @@ To learn more, refer to :ref:`CRUD - Update <react-native-update-objects>`.
 Delete Objects
 ``````````````
 
-To delete a Realm Object, call the :js-sdk:`Realm.delete() <Realm.html#delete>`
-method in a write transaction block.
+To delete a Realm Object, call the :realm-react-sdk:`Realm.delete() 
+<classes/Realm-1.html#delete>` method in a write transaction block.
 
 To learn more, refer to :ref:`CRUD - Delete <react-native-delete-objects>`.
 
@@ -330,8 +331,8 @@ a local realm. However, you need to add some additional props to the
 #. Extract the ``RealmProvider`` from the realm context, and then expose it
    to your app.
 #. Add the ``sync`` property to ``RealmProvider`` and pass it a
-   :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
-   This sync object must contain ``flexible: true``.
+   :realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
+   object. This sync object must contain ``flexible: true``.
 
 You need at least one sync subscription before you can read or write synced data.
 You can add subscriptions in your components or set up 

@@ -48,8 +48,8 @@ Manage Your Subscriptions
 -------------------------
 
 In your client application, use the
-:js-sdk:`Realm.subscriptions <Realm.html#subscriptions>` property to
-manage a set of subscriptions to specific queries on
+:realm-react-sdk:`Realm.subscriptions <classes/Realm-1.html#subscriptions>`
+property to manage a set of subscriptions to specific queries on
 :ref:`queryable fields <queryable-fields>`.
 
 If you're using ``@realm/react``, you can manage realm subscriptions inside of
@@ -79,8 +79,7 @@ Access Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
 
 Within a ``RealmProvider`` that's configured for Flexible Sync, you can access
-a collection of all subscriptions for your app. This is called a 
-:js-sdk:`SubscriptionSet <Realm.html#subscriptions>`.
+a collection of all subscriptions for your app. This is called a SubscriptionSet.
 
 .. literalinclude:: /examples/generated/react-native/ts/get-subscriptions.test.snippet.get-subscriptions.tsx
    :language: javascript
@@ -123,7 +122,9 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
-Add a subscription with :js-sdk:`Realm.objects() <Realm.html#objects>`, which you can access with the ``useRealm()`` hook.
+Add a subscription with :realm-react-sdk:`Realm.objects() 
+<classes/Realm-1.html#objects>`, which you can access with the ``useRealm()``
+hook.
 
 If you're using ``@realm/react``, you can use the ``useQuery()`` hook instead of
 ``Realm.objects()``. However, ``useQuery()`` needs an active subscription to return
@@ -144,8 +145,8 @@ Flexible Sync realm. Initial subscriptions let you define subscriptions when you
 :ref:`configure a synced realm <react-native-open-a-synced-realm>`.
 
 To open a synced realm with initial subscriptions, add an  ``initialSubscriptions`` 
-property to ``RealmProvider``'s 
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
+property to ``RealmProvider``'s :realm-react-sdk:`FlexibleSyncConfiguration 
+<types/Realm.FlexibleSyncConfiguration.html>` object.
 
 You **cannot** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
 when setting initial subscriptions. Instead, use the :ref:`Node.js read and write

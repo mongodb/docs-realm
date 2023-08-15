@@ -60,9 +60,9 @@ createRealmContext()
 --------------------
 
 The ``createRealmContext()`` method creates a :reactjs:`React Context
-<docs/context.html>` object for a realm with a given :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>`. The ``Context`` object contains the
-following: 
+<docs/context.html>` object for a realm with a given
+:realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
+``Context`` object contains the following: 
 
 - A :reactjs:`Context Provider <docs/context.html#contextprovider>` component that wraps around a component and provides any of its child components with access to the hooks.
 - Various pre-built :reactjs:`Hooks <docs/hooks-intro.html>` that you can use to access the opened realm, query the realm, etc.
@@ -138,10 +138,11 @@ You can dynamically update the Realm configuration by setting
 component. The props you set on the ``RealmProvider`` will overwrite any
 property passed into ``createRealmContext()``.
 
-In the following example, we update the ``RealmProvider`` with a :js-sdk:`sync
-configuration <Realm.App.Sync.html#~SyncConfiguration>` and a ``fallback``
-property that is used to render a temporary ``LoadingSpinner`` component while
-waiting for Device Sync to fully synchronize data before opening the realm:
+In the following example, we update the ``RealmProvider`` with a 
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
+and a ``fallback`` property that is used to render a temporary
+``LoadingSpinner`` component while waiting for Device Sync to fully synchronize
+data before opening the realm:
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
     :language: typescript
@@ -174,9 +175,10 @@ returned by the ``useRealm()`` hook in the following example.
 .. literalinclude:: /examples/generated/expo/App.snippet.example-userealm-hook-usage.tsx
     :language: typescript
 
-The :js-sdk:`Realm.create() <Realm.html#create>` call invokes the ``Task.generate()``
-method defined in the ``Task`` class.  This method instantiates a JavaScript object
-with default values for the ``_id``, ``isComplete``, and ``createdAt`` properties.
+The :realm-react-sdk:`Realm.create() <classes/Realm-1.html#create>` call invokes
+the ``Task.generate()`` method defined in the ``Task`` class.  This method
+instantiates a JavaScript object with default values for the ``_id``,
+``isComplete``, and ``createdAt`` properties.
 
 To learn more about modifying Realm data, refer to :ref:`Write Transactions
 <react-native-write-transactions>`.
