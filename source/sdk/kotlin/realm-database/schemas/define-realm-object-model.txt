@@ -101,16 +101,14 @@ when you :ref:`open the realm <kotlin-open-a-realm>`.
 Define a Collection 
 -------------------
 
-You can define collections of objects in your Realm object model:
-
-- :ref:`RealmSet <kotlin-realm-set>`
-- :ref:`RealmDictionary <kotlin-realm-dictionary>`
+You can define collections of items using 
+``RealmList``, ``RealmSet``, and ``RealmMap`` types.
 
 Define a RealmSet
 ~~~~~~~~~~~~~~~~~
 
-To define a property as a ``RealmSet<T>``, specify its 
-type within the schema, where T is any of the supported 
+To define a property as a :ref:`RealmSet <kotlin-realm-set>`, specify its 
+type within the schema as ``RealmSet<T>``, where T is any of the supported 
 :ref:`data types <kotlin-supported-types>` or a 
 `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
 If a ``RealmSet``'s value is a ``RealmObject``, the value *cannot* have
@@ -132,7 +130,7 @@ In the following example, we define a ``Frog`` schema with a
 Define a RealmDictionary/RealmMap
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To define a ``RealmDictionary<T>``, specify its type within the schema, where T is any Realm :ref:`primitive type 
+To define a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its type within the schema as ``RealmDictionary<T>``, where T is any Realm :ref:`primitive type 
 <kotlin-supported-types>`, a ``RealmObject``, or an ``EmbeddedRealmObject``. 
 If a ``RealmDictionary``'s value is a ``RealmObject``
 or ``EmbeddedRealmObject``, the value must be declared nullable.
