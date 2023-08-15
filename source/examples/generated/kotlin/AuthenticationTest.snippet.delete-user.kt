@@ -5,7 +5,7 @@ runBlocking {
 
     // Work with logged-in user ...
 
-    // Delete the logged-in user from the app
-    // and the Atlas App Services server
+    // Delete the logged-in user from the device
+    // and the Atlas App Services App
     user.delete()
 }

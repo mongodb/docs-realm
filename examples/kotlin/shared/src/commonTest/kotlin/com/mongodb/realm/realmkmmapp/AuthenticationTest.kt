@@ -1,14 +1,17 @@
 package com.mongodb.realm.realmkmmapp
 
+import io.realm.kotlin.annotations.ExperimentalRealmSerializerApi
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.*
 import io.realm.kotlin.mongodb.User
+import io.realm.kotlin.mongodb.exceptions.ServiceException
 import io.realm.kotlin.mongodb.ext.call
 import io.realm.kotlin.mongodb.ext.customDataAsBsonDocument
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.mongodb.kbson.BsonArray
 import org.mongodb.kbson.BsonDocument
 import org.mongodb.kbson.BsonInt32
 import org.mongodb.kbson.BsonString
@@ -17,7 +20,8 @@ import kotlin.test.*
 // :replace-start: {
 //   "terms": {
 //     "updatedUserData2": "updatedUserData",
-//     "hideNotReusingAnonymousUser": "Credentials.anonymous()"
+//     "hideNotReusingAnonymousUser": "Credentials.anonymous()",
+//     "TESTER_APP_ID": "YOUR_APP_ID"
 //   }
 // }
 class AuthenticationTest: RealmTest() {
@@ -111,9 +115,9 @@ class AuthenticationTest: RealmTest() {
 
             // Work with logged-in user ...
 
-            // Remove the user from the app
+            // Remove the user from the device
             // If the user is logged in, they are logged out first
-            // DOES NOT delete user from the server
+            // DOES NOT delete user from the App Services App
             user.remove()
             // :remove-start:
             assertEquals(User.State.REMOVED, user.state)
@@ -123,29 +127,49 @@ class AuthenticationTest: RealmTest() {
         app.close()
     }
 
+    @OptIn(ExperimentalRealmSerializerApi::class)
     @Test
     fun deleteUserTest() {
         val email = getRandom()
         val password = getRandom()
         // :snippet-start: delete-user
-        val app: App = App.create(YOUR_APP_ID) // Replace with your App ID
+        val app: App = App.create(TESTER_APP_ID) // Replace with your App ID
         runBlocking {
             val credentials = Credentials.anonymous(reuseExisting = false) // :remove:
             // Log user in
             val user = app.login(credentials)
-            assertEquals(User.State.LOGGED_IN, user.state) // :remove:
+            // :remove-start:
+            assertEquals(User.State.LOGGED_IN, user.state)
+            val userId = user.id
+            assertEquals(userId, app.currentUser!!.id)
+            val getUserResponse = user.functions
+                .call<BsonDocument>("getAUser"){
+                    val bsonDocument = BsonDocument("userID", BsonString(userId))
+                    val bsonArray = BsonArray(listOf(bsonDocument))
+                    add(bsonArray)
+                }
+            assertTrue(getUserResponse is BsonDocument)
+            // :remove-end:
 
             // Work with logged-in user ...
 
-            // Delete the logged-in user from the app
-            // and the Atlas App Services server
+            // Delete the logged-in user from the device
+            // and the Atlas App Services App
             user.delete()
             // :remove-start:
             assertEquals(User.State.REMOVED, user.state)
-            app.close()
+            val exception = assertFailsWith<ServiceException> { user.functions
+                    .call<BsonDocument>("getAUser") {
+                        val bsonDocument = BsonDocument("userID", BsonString(userId))
+                        val bsonArray = BsonArray(listOf(bsonDocument))
+                        add(bsonArray)
+                    }
+            }
+            assertTrue(exception.message!!.contains("invalid session: No user found for session for user id"))
             // :remove-end:
         }
         // :snippet-end:
+        app.close()
     }
 
     @Test
@@ -321,8 +345,12 @@ class AuthenticationTest: RealmTest() {
             app.emailPasswordAuth.registerUser(email, password)
             val credentials = Credentials.emailPassword(email, password)
             // :remove-end:
+            // Log user in
             val user = app.login(credentials)
 
+            // Work with logged-in user ...
+
+            // Log user out
             user.logOut()
             assertEquals(User.State.LOGGED_OUT, user.state) // :remove:
         }
