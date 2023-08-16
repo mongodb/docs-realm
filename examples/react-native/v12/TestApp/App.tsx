@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useState, useEffect} from 'react';
 import {RealmProvider, useRealm} from '@realm/react';
 import {
@@ -19,13 +12,14 @@ import {
 
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 
+// :snippet-start: snippet-name
 function Section(): JSX.Element {
   const realm = useRealm();
   const [realmState, setRealmState] = useState('closed');
   console.debug('Realm status:', realm.isClosed ? 'closed' : 'open');
 
   useEffect(() => {
-    setRealmState(realm.isClosed ? 'closed' : 'open');
+    setRealmState(realm.isClosed ? 'closed' : 'open'); // :emphasize:
   }, [realm.isClosed]);
 
   return (
@@ -34,6 +28,7 @@ function Section(): JSX.Element {
     </View>
   );
 }
+// :snippet-end:
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
