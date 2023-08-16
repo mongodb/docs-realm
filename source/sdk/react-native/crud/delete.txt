@@ -32,8 +32,8 @@ The examples on this page use the following schema:
 Delete an Object
 ----------------
 
-To delete an object from a realm, pass the object to :js-sdk:`Realm.delete()
-<Realm.html#delete>` inside of a write transaction.
+To delete an object from a realm, pass the object to :realm-react-sdk:`Realm.delete()
+<classes/Realm-1.html#delete>` inside of a write transaction.
 
 In the following example of a ``DogList`` component, we:
 
@@ -79,8 +79,12 @@ Delete Multiple Objects
 
 You can delete multiple objects from a realm in a couple of ways:
 
-#. To **delete all objects of a given object type** from a realm, pass the results of useQuery(<ObjectType>) to the :js-sdk:`Realm.delete() <Realm.html#delete>` method inside of a write transaction.
-#. To **delete many specific objects** from a realm, pass :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` to ``Realm.delete()`` inside of a write transaction.
+#. To **delete all objects of a given object type** from a realm, pass the
+   results of useQuery(<ObjectType>) to the :realm-react-sdk:`Realm.delete()
+   <classes/Realm-1.html#delete>` method inside of a write transaction.
+#. To **delete many specific objects** from a realm, pass
+   :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` to 
+   ``Realm.delete()`` inside of a write transaction.
 
 In the following example of a ``DogList`` component, we:
 
@@ -131,8 +135,8 @@ In the following example of a ``DogList`` component, we:
 Delete All Objects in a Realm
 -----------------------------
 
-To delete **all** objects from the realm, call :js-sdk:`Realm.deleteAll()
-<Realm.html#deleteAll>` inside of a write transaction. This clears the realm
+To delete **all** objects from the realm, call :realm-react-sdk:`Realm.deleteAll()
+<classes/Realm-1.html#deleteAll>` inside of a write transaction. This clears the realm
 of all object instances but does not affect the realm's schema.
 
 In the following example of a ``DeleteProfileSettingsScreen`` component, we:
@@ -159,7 +163,8 @@ In the following example of a ``DeleteProfileSettingsScreen`` component, we:
 
 .. tip:: Delete All In Development
    
-   :js-sdk:`Realm.deleteAll() <Realm.html#deleteAll>` is a useful method to
-   quickly clear out your realm in the course of development. For example,
-   rather than writing a migration to update objects to a new schema, it may be
-   faster to delete and then re-generate the objects with the app itself.
+   :realm-react-sdk:`Realm.deleteAll() <classes/Realm-1.html#deleteAll>` is a
+   useful method to quickly clear out your realm in the course of development.
+   For example, rather than writing a migration to update objects to a new
+   schema, it may be faster to delete and then re-generate the objects with the
+   app itself.

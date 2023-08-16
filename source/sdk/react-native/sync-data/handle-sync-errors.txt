@@ -18,7 +18,7 @@ handler. This error handler will detect and respond to any failed sync-related
 API calls.
 
 Set an error handler by registering an error callback as part of the
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`.
 If you're using ``@realm/react``, pass the ``SyncConfiguration`` object
 to the ``sync`` property of a ``RealmProvider``.
 
@@ -135,7 +135,7 @@ Choose this mode when you do not want to fall through to discard unsynced change
 To handle client resets with the recover unsynced changes mode,
 pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
 to the ``clientReset`` field of your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`.
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"recoverUnsyncedChanges"``.
@@ -183,7 +183,7 @@ cannot lose local data that has not yet synced to the backend.
 To handle client resets with the recover or discard unsynced changes mode,
 pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
 to the ``clientReset`` field of your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`.
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"recoverOrDiscardUnsyncedChanges"``.
@@ -269,7 +269,7 @@ data that has not yet synced to the backend.
 To handle client resets with the discard unsynced changes mode,
 pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
 to the ``clientReset`` field of your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`.
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"discardUnsyncedChanges"``.
@@ -342,7 +342,7 @@ does not work for your app and you can't discard unsynced local data.
 To handle client resets with manual mode,
 pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
 to the ``clientReset`` field of your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`.
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"manual"``.

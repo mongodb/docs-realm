@@ -7,6 +7,7 @@ import io.realm.kotlin.mongodb.User
 import io.realm.kotlin.mongodb.exceptions.ServiceException
 import io.realm.kotlin.mongodb.ext.call
 import io.realm.kotlin.mongodb.ext.customDataAsBsonDocument
+import io.realm.kotlin.mongodb.ext.profileAsBsonDocument
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -403,6 +404,28 @@ class AuthenticationTest: RealmTest() {
             user.remove()
         }
         app.close()
+    }
+
+    @Test
+    fun userMetaData() {
+        val email = getRandomEmail()
+        val password = getRandom()
+        val app = App.create(FLEXIBLE_APP_ID)
+        runBlocking {
+            app.emailPasswordAuth.registerUser(email, password)
+
+            // :snippet-start: get-user-metadata
+            // Log in a user
+            val user = app.login(Credentials.emailPassword(email, password))
+
+            // Access the user's metadata
+            val userEmail = user.profileAsBsonDocument()["email"]
+            Log.i("The logged-in user's email is: $userEmail")
+            // :snippet-end:
+            assertEquals(email, userEmail?.asString()?.value)
+            user.delete()
+            app.close()
+        }
     }
 }
 // :replace-end:
