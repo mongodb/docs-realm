@@ -45,6 +45,8 @@ open class RealmTest {
     val YOUR_APP_ID: String = "kmm-example-testers-viybt"
     val yourAppId = AppConfiguration.Builder(YOUR_APP_ID).syncRootDirectory("tmp/sync/".plus(getRandom())).build()
 
+    val TESTER_APP_ID: String = "example-testers-kvjdy"
+
     val FLEXIBLE_APP_ID = "kotlin-flexible-tijhx"
     val yourFlexAppId = AppConfiguration.Builder(FLEXIBLE_APP_ID).syncRootDirectory("tmp/sync/".plus(getRandom())).build()
     val PARTITION = getRandom()

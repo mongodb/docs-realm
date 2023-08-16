@@ -10,6 +10,8 @@ Delete a User - Flutter SDK
    :depth: 2
    :class: singlecol
 
+.. include:: /includes/tip-acct-deletion-reqs.rst
+
 Call the :flutter-sdk:`App.deleteUser() <realm/App/deleteUser.html>`
 on a user object to delete the user's account from your App Services App.
 This deletes the account from the App on the server in addition to clearing local data.
@@ -20,3 +22,5 @@ This deletes the account from the App on the server in addition to clearing loca
 The user must sign up for a new account to use your App in the future.
 Even if the user signs up again with the same credentials,
 App Services creates a new user account with a new User ID.
+
+.. include:: /includes/warning-delete-user-metadata.rst
