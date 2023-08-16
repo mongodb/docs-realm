@@ -64,7 +64,13 @@ commits it or cancels it:
 Managed vs. Unmanaged Objects
 -----------------------------
 
-Realm objects written to a realm are either managed or unmanaged by Realm.
+Realm APIs may refer to objects as managed or unmanaged. When you create 
+a Realm object, it is unmanaged. You can then create a managed instance by 
+copying that object to a realm. 
+
+You can check if an object is managed with the 
+`isManaged() <{+kotlin-local-prefix+}io.realm.kotlin.ext/is-managed.html>`__  
+method.
 
 Managed Objects
 ~~~~~~~~~~~~~~~
@@ -72,10 +78,13 @@ Managed Objects
 **Managed objects** are Realm objects that persist in a realm. Managed objects 
 can only be accessed from an open realm. They can be automatically updated 
 with changes within write transactions as long as that realm remains open. 
+Managed objects are tied to the realm instance from which it originated 
+and cannot be written to another realm.
+
 You can use Realm APIs with managed objects, create relationships with 
 other objects, and observe managed Realm object for changes. 
 
-You create managed objects with 
+You create managed objects by copying unmanaged instances to a realm with 
 `Realm.copyToRealm() <{+kotlin-local-prefix+}io.realm.kotlin.dynamic/-dynamic-mutable-realm/copy-to-realm.html>`__. 
 See :ref:`Create Realm Objects <kotlin-create-a-new-object>` for more 
 information.
@@ -91,14 +100,12 @@ Unmanaged Objects
 
 **Unmanaged objects** are instances of Realm objects that
 behave like normal Kotlin objects, but they are not persisted in a realm.
+All Realm objects are unmanaged until you write them to a realm.
 You cannot use Realm APIs with unmanaged objects or observe them for changes.
 
-You can get an unmanaged object by manually constructing a Realm object 
-yourself or by calling 
+You can create an unmanaged object by manually constructing a Realm object 
+yourself or by copying a managed object with 
 `Realm.copyFromRealm() <{+kotlin-local-prefix+}io.realm.kotlin.ext/copy-from-realm.html>`__. 
-
-You can create a managed copy of an unmanaged object with 
-`Realm.copyToRealm() <{+kotlin-local-prefix+}io.realm.kotlin.dynamic/-dynamic-mutable-realm/copy-to-realm.html>`__. 
 
 .. _kotlin-open-a-transaction:
 
