@@ -1,3 +1,26 @@
+# August 11, 2023
+
+## C++ SDK
+
+- Install Realm: Note minimum version for experimental namespace, which requires C++ SDK v0.2.0-preview or newer
+- Quick Start: Note minimum version for experimental namespace, which requires C++ SDK v0.2.0-preview or newer
+- Model Data/ Object Types and Schemas: Note minimum version for experimental namespace, which requires C++ SDK v0.2.0-preview or newer
+- Model Data/ Supported Data Types: Add new "Collections Types" section to page
+
+## Kotlin SDK
+
+- Landing Page: Add project cards for the Property-Level Encryption, User's Online State, and Connection State Change & Error Handling example projects to the landing page
+- Install Realm: Remove duplicate subheadings in tabbed procedure of install page
+- Sync Device Data/ Sync Data in the Background: Add new page with information on syncing data in a background process
+
+## React Native SDK
+
+- CRUD/ Create: Update page examples with correct variables and create examples for different types of relationships
+
+## Swift SDK
+
+- SwiftUI/ Actor-Isolated Realms: Add clarification on when to use an actor-isolated realm and `@MainActor` functions
+
 # August 4, 2023
 
 ## C++ SDK
