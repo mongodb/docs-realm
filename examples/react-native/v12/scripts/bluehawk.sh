@@ -15,34 +15,18 @@ GREEN="\x1B[32m"
 YELLOW="\x1B[33m"
 
 # Background color with bold font.
-RED_BG_BOLD="\x1B[1;41m"
 GREEN_BG_BOLD="\x1B[1;42m"
 
 ### End of text formatting ###
 
-### Work with flags ###
-while getopts ":f:" option; do
-  case $option in
-    f)
-      FILE_NAME="$OPTARG"
-      ;;
-    *)
-      echo "Usage: $0 [-f FILE_NAME]"
-      exit 1
-      ;;
-  esac
-done
-
 PROJECT=$(git rev-parse --show-toplevel)
+INPUT_DIRECTORY=$PROJECT/examples/react-native/v12/TestApp
 OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/react-native/v12
-INPUT_FILE=$(find $PROJECT/examples/react-native/v12/TestApp -type f -print | grep -i $FILE_NAME)
 
-if [[ -n $INPUT_FILE ]]
-then
 # standard bluehawking
 rm -f $OUTPUT_DIRECTORY/*
-echo "${GREEN_BG_BOLD} Bluehawk: ${CLEAR} ${GREEN}Generate samples from '$FILE_NAME' ${CLEAR}"
-bluehawk snip $INPUT_FILE -o $OUTPUT_DIRECTORY --format=rst
+echo "${GREEN_BG_BOLD}Bluehawk: ${CLEAR} ${GREEN} Generate React Native v12 examples ${CLEAR}"
+bluehawk snip $INPUT_DIRECTORY -o $OUTPUT_DIRECTORY --format=rst
 
 FILES_TO_REMOVE=$(find $OUTPUT_DIRECTORY -type f -not -name "*.rst")
 
@@ -59,6 +43,6 @@ Non-.rst files removed."
 
 echo "
 ${GREEN_BG_BOLD} Bluehawk: ${CLEAR} Complete!"
-else
-echo -e "${RED_BG_BOLD} Couldn't find '${FILE_NAME}'."
-fi
+
+# TODO: for using Detype to generate JS from TS.
+# npx detype "$OUTPUT_DIRECTORY" "$OUTPUT_DIRECTORY"

@@ -12,7 +12,6 @@ import {
 
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 
-// :snippet-start: snippet-name
 function Section(): JSX.Element {
   const realm = useRealm();
   const [realmState, setRealmState] = useState('closed');
@@ -28,7 +27,6 @@ function Section(): JSX.Element {
     </View>
   );
 }
-// :snippet-end:
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -65,10 +63,12 @@ const styles = StyleSheet.create({
     marginTop: 32,
     paddingHorizontal: 24,
   },
+  // :emphasize-start:
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
   },
+  // :emphasize-end:
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
