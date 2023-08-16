@@ -24,14 +24,13 @@ INPUT_DIRECTORY=$PROJECT/examples/react-native/v12/TestApp
 OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/react-native/v12
 
 # standard bluehawking
-rm -f $OUTPUT_DIRECTORY/*
 echo "${GREEN_BG_BOLD}Bluehawk: ${CLEAR} ${GREEN} Generate React Native v12 examples ${CLEAR}"
 bluehawk snip $INPUT_DIRECTORY -o $OUTPUT_DIRECTORY --format=rst
 
 FILES_TO_REMOVE=$(find $OUTPUT_DIRECTORY -type f -not -name "*.rst")
 
 echo "
-${YELLOW}Removing:${CLEAR}
+${YELLOW}Removing non-.rst files:${CLEAR}
 $FILES_TO_REMOVE"
 echo "
 ${YELLOW}From:${CLEAR} $OUTPUT_DIRECTORY"
