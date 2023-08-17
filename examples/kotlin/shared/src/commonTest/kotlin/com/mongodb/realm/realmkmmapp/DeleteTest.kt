@@ -11,12 +11,13 @@ import io.realm.kotlin.types.RealmObject
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 // :replace-start: {
 //    "terms": {
-//       "UpdateTest_": ""
+//       "UpdateTest_": "",
+//       "RealmSet_": ""
 //    }
 // }
 
@@ -27,7 +28,53 @@ class DeleteTest_Frog : RealmObject {
 }
 
 class DeleteTest: RealmTest() {
+
     @Test
+    fun deleteRealmSetType() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(RealmSet_Frog::class, Snack::class))
+                .inMemory()
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.path}")
+
+            realm.write { copyToRealm(
+                RealmSet_Frog().apply {
+                    name = "Kermit"
+                    favoriteSnacks.add(Snack().apply { name = "Flies" })
+                    favoriteSnacks.add(Snack().apply { name = "Crickets" })
+                    favoriteSnacks.add(Snack().apply { name = "Worms" })
+                })
+            }
+            // :snippet-start: remove-item-from-set
+            realm.write {
+                val myFrog = realm.query<RealmSet_Frog>("name == $0", "Kermit").find().first()
+                val snackSet = findLatest(myFrog)!!.favoriteSnacks
+
+                // Remove the Flies snack from the set
+                val fliesSnack = snackSet.first { it.name == "Flies" }
+                snackSet.remove(fliesSnack)
+                assertFalse(snackSet.contains(fliesSnack)) // :remove:
+
+                // Remove all snacks from the set
+                val allSnacks = findLatest(myFrog)!!.favoriteSnacks
+                snackSet.removeAll(allSnacks)
+                // :remove-start:
+                // TODO update test once https://github.com/realm/realm-kotlin/issues/1097 is fixed
+                // assertTrue(set.isEmpty())
+                snackSet.removeAll(allSnacks) // have to call twice to actually remove all items until bug is fixed
+                // :remove-end:
+            }
+            // :snippet-end:
+            realm.writeBlocking {
+                val frogs = query<RealmSet_Frog>().find().first()
+                delete(frogs)
+            }
+            realm.close()
+        }
+    }
+
+            @Test
     fun deleteRealmDictionaryType() {
         runBlocking {
             val config = RealmConfiguration.Builder(

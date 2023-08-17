@@ -17,7 +17,8 @@ import kotlin.test.assertTrue
 
 // :replace-start: {
 //    "terms": {
-//       "ReadTest_": ""
+//       "ReadTest_": "",
+//       "RealmSet_": ""
 //    }
 // }
 
@@ -28,6 +29,60 @@ class ReadTest_Frog : RealmObject {
 }
 
 class ReadTest: RealmTest() {
+
+    @Test
+    fun readRealmSetType() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(RealmSet_Frog::class, Snack::class))
+                .inMemory()
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.path}")
+
+            // :snippet-start: read-realm-set
+            realm.write {
+                // Create a Frog object named 'Kermit'
+                // with a RealmSet of favorite snacks
+                val frog = copyToRealm(
+                    RealmSet_Frog().apply {
+                        name = "Kermit"
+                        favoriteSnacks.add(Snack().apply { name = "Flies" })
+                        favoriteSnacks.add(Snack().apply { name = "Crickets" })
+                        favoriteSnacks.add(Snack().apply { name = "Worms" })
+                    }
+                )
+                // Query for frogs that have worms as a favorite snack
+                val frogs = query<RealmSet_Frog>("favoriteSnacks.name == $0", "Worms").find().first()
+
+                // Query for specific snacks
+                val wormsSnack = frog.favoriteSnacks.first { it.name == "Worms" }
+                assertEquals(3, frog.favoriteSnacks.size) // :remove:
+            }
+            // :snippet-end:
+            realm.write {
+                // :snippet-start: realm-set-contains
+                val frog = query<RealmSet_Frog>("name == $0", "Kermit").find().first()
+                val snackSet = findLatest(frog)?.favoriteSnacks
+
+                // Check if the set contains a particular value
+                val wormSnack = snackSet?.first { it.name == "Worms" }
+                Log.v("Does Kermit eat worms?: ${snackSet?.contains(wormSnack)}") // true
+
+                // Check if the set contains multiple values
+                val containsAllSnacks = snackSet?.containsAll(snackSet)
+                Log.v("Does Kermit eat flies, crickets, and worms?: $containsAllSnacks") // true
+                // :snippet-end:
+                assertTrue(snackSet?.contains(wormSnack)?: false)
+                assertTrue(containsAllSnacks?: false)
+            }
+            realm.writeBlocking {
+                val frogs = query<RealmSet_Frog>().find().first()
+                delete(frogs)
+            }
+            realm.close()
+        }
+    }
+
     @Test
     fun readRealmDictionaryType() {
         runBlocking {

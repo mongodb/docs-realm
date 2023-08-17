@@ -74,39 +74,27 @@ as you would a Kotlin Map.
 Query a RealmSet Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can query a :ref:`RealmSet <kotlin-realm-set>` to check if it contains
-an element. 
+You can query a :ref:`RealmSet <kotlin-realm-set>` property:
 
-Check if the RealmSet Contains an Item
-``````````````````````````````````````
-
-To check if the ``RealmSet`` contains a particular item, pass the element to
-`set.contains()
-<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#607101300%2FFunctions%2F-1651551339>`__.
-The method returns ``true`` if the set contains the element.
-
-In the following example, we pass a ``Snack`` object to the 
-``setOf()`` method to create a read-only set of favorite snacks. 
-Then, we check if the ``RealmSet`` contains this ``Snack`` object
-by passing the read-only set to ``set.contains()``:
-
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.set-contains.kt
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-set.kt
    :language: kotlin
 
-Check if the RealmSet Contains Multiple Items
-`````````````````````````````````````````````
+Check if the RealmSet Contains Items
+````````````````````````````````````
 
-To check if the ``RealmSet`` contains multiple items, pass the elements to
-`set.containsAll()
-<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#1318510207%2FFunctions%2F-1651551339>`__.
-The method returns ``true`` if the set contains the specified elements.
+You can check if the ``RealmSet`` contains one or more elements:
 
-In the following example, we pass ``Snack`` objects to
-the ``setOf()`` method to create a read-only set of favorite snacks. 
-Then, we check if the ``RealmSet`` contains all of these ``Snack`` objects 
-by passing the read-only set to ``set.containsAll()``:
+- To check if the set contains a particular item, pass the 
+  element to `set.contains()
+  <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#607101300%2FFunctions%2F-1651551339>`__.
+- To check if the ``RealmSet`` contains multiple items, pass 
+  the elements to `set.containsAll()
+  <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#1318510207%2FFunctions%2F-1651551339>`__.
 
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.set-contains-multiple-items.kt
+Either method returns ``true`` if the set contains the 
+specified elements.
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.realm-set-contains.kt
    :language: kotlin
 
 Filter Data

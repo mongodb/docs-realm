@@ -16,7 +16,7 @@ import io.realm.kotlin.types.annotations.PersistedName
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.datetime.Instant
 import org.mongodb.kbson.ObjectId
-import kotlin.test.*
+import kotlin.test.Test
 
 // :replace-start: {
 //    "terms": {
@@ -65,16 +65,14 @@ class Post: RealmObject {
 }
 // :snippet-end:
 
-// :snippet-start: define-a-realm-set
 class Frog2 : RealmObject {
     var name: String = ""
-    var favoriteSnacks: RealmSet<Snack> = realmSetOf<Snack>()
+    var favoriteSnacks: RealmSet<Snack2> = realmSetOf<Snack2>()
 }
 
-class Snack : RealmObject {
+class Snack2 : RealmObject {
     var name: String? = null
 }
-// :snippet-end:
 
 // :snippet-start: uuid
 class Cat: RealmObject {
@@ -215,90 +213,6 @@ class SchemaTest: RealmTest() {
             // :snippet-end:
 
             realm.close()
-        }
-    }
-
-    @Test
-    fun createRealmSetTypes() {
-        runBlocking {
-            val config = RealmConfiguration.Builder(setOf(Frog2::class, Snack::class))
-                .inMemory()
-                .build()
-            val realm = Realm.open(config)
-            Log.v("Successfully opened realm: ${realm.configuration.path}")
-
-            // :snippet-start: add-item-to-realm-set
-            realm.write {
-                // Create a Frog object named 'Kermit' that will have a RealmSet of favorite snacks
-                val frog = copyToRealm(Frog2().apply {
-                    name = "Kermit"
-                })
-                // Get the RealmSet of favorite snacks from the Frog object we just created
-                val set = frog.favoriteSnacks
-
-                // Create a Snack object for the Frog to add to Kermit's favorite snacks
-                val fliesSnack = copyToRealm(Snack().apply {
-                    name = "flies"
-                })
-
-                // Add the flies to the RealmSet of Kermit's favorite snacks
-                set.add(fliesSnack)
-                assertEquals(1, set.size) // :remove:
-            }
-            // :snippet-end:
-
-            // :snippet-start: add-all-to-realm-set
-            realm.write {
-                val myFrog = query<Frog2>("name == $0", "Kermit").find().first()
-                val set = findLatest(myFrog)!!.favoriteSnacks
-
-                val cricketsSnack = copyToRealm(Snack().apply {
-                    name = "crickets"
-                })
-                val earthWormsSnack = copyToRealm(Snack().apply {
-                    name = "earthworms"
-                })
-                val waxWormsSnack = copyToRealm(Snack().apply {
-                    name = "waxworms"
-                })
-
-                set.addAll(setOf(cricketsSnack, earthWormsSnack, waxWormsSnack))
-                assertEquals(4, set.size) // :remove:
-                // :uncomment-start:
-                //}
-                // :uncomment-end:
-                // :snippet-end:
-
-                // :snippet-start: set-contains
-                Log.v("Does Kermit eat earthworms?: ${set.contains(earthWormsSnack)}") // true
-                // :snippet-end:
-                assertTrue(set.contains(earthWormsSnack))
-
-                // :snippet-start: set-contains-multiple-items
-                val containsAllSnacks = set.containsAll(set)
-                Log.v("Does Kermit eat crickets, earthworms, and waxworms?: $containsAllSnacks") // true
-                // :snippet-end:
-                assertTrue(containsAllSnacks)
-
-                // :snippet-start: remove-item-from-set
-                val fliesSnack = query<Snack>("name == $0", "flies").first().find()
-
-                set.remove(fliesSnack)
-                // :snippet-end:
-                assertFalse(set.contains(fliesSnack))
-
-                // :snippet-start: remove-multiple-items-from-set
-                val allSnacks = findLatest(myFrog)!!.favoriteSnacks
-
-                set.removeAll(allSnacks)
-                // :snippet-end:
-            // TODO update test once https://github.com/realm/realm-kotlin/issues/1097 is fixed
-                // assertTrue(set.isEmpty())
-                set.removeAll(allSnacks) // have to call twice to actually remove all items until bug is fixed
-                assertTrue(set.isEmpty())
-            }
-            realm.close()
-            Realm.deleteRealm(config)
         }
     }
 }

@@ -39,7 +39,7 @@ To persist a new object to a realm:
 #. Pass the new object instance to `copyToRealm()
    <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__
    to persist the object data to the realm. This method returns a
-   **managed** instance of the object. You can modify the persisted
+   *managed* instance of the object. You can modify the persisted
    object through the returned instance.
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.create-a-new-object.kt
@@ -56,7 +56,8 @@ Create a Collection
 You can create collections of items using 
 ``RealmList``, ``RealmSet``, and ``RealmMap`` types.
 
-You can also register a notification handler to listen for changes to a collection. For more information, see 
+You can also register a notification handler to listen for changes to a 
+collection. For more information, see 
 :ref:`React To Changes <kotlin-realm-list-change-listener>`.
 
 Create an Object with a RealmSet Property
@@ -66,34 +67,25 @@ You can create objects that contain :ref:`RealmSet <kotlin-realm-set>`
 properties as you would any Realm object, but you can only set 
 the values of a mutable set property within a write transaction. 
 
-Add an Item to a RealmSet
-`````````````````````````
+For more information about defining a set property, refer to 
+:ref:`kotlin-define-realm-set-type`.
 
-To add an item to a ``RealmSet``, pass the object you want to add to the 
+Add Items to a RealmSet
+```````````````````````
+
+To add a single item to a ``RealmSet``, pass the object you want to add to the set to the
 `set.add() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-153241610%2FFunctions%2F-1651551339>`__ 
-method.
+method:
 
-In the following example, we get the ``favoriteSnacks`` set, then add a new
-``Snack`` object to the set of favorite snacks:
-
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-item-to-realm-set.kt
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-realm-set.kt
    :language: kotlin
-
-Add Many Items to a RealmSet
-````````````````````````````
 
 To add multiple items to a ``RealmSet``, pass the elements you want 
 to add to the `set.addAll()
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-800009087%2FFunctions%2F-1651551339>`__
-method.
+method:
 
-In the following example, we create several ``Snack`` objects and use the
-`setOf
-<https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/set-of.html>`__
-method to create a read-only set of the given elements. Then, we pass these
-elements to the ``set.addAll()`` method to add them to our ``Frog`` object's favorite snacks:
-
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-all-to-realm-set.kt
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.add-all-to-realm-set.kt
    :language: kotlin
 
 Create an Object with a Dictionary Property
