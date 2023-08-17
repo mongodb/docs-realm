@@ -15,5 +15,5 @@ realm.write {
     )
 
     // Add multiple items to the RealmSet using the addAll() method
-    snackSet.addAll(listOf(cricketsSnack, wormsSnack))
+    snackSet.addAll(setOf(cricketsSnack, wormsSnack))
 }

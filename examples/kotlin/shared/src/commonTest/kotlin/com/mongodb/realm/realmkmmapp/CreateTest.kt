@@ -86,7 +86,7 @@ class CreateTest: RealmTest() {
                 )
 
                 // Add multiple items to the RealmSet using the addAll() method
-                snackSet.addAll(listOf(cricketsSnack, wormsSnack))
+                snackSet.addAll(setOf(cricketsSnack, wormsSnack))
                 assertEquals(3, snackSet.size) // :remove:
             }
             // :snippet-end:
