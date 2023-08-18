@@ -61,16 +61,28 @@ Important aspects of primary keys:
 
 .. _flutter-map-property:
 
-Map a Property to a Different Name
-----------------------------------
+Map a Property or Class to a Different Name
+-------------------------------------------
 
 The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation
-indicates that a property should be persisted under a different name.
+indicates that a model or property should be persisted under a different name.
 It's useful when opening a Realm across different bindings where code style conventions can differ.
 
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 15-16
+.. tabs::
+
+   .. tab:: Map a Class Name
+      :tabid: remap-class
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.map-to.dart
+         :language: dart
+         :emphasize-lines: 2
+
+   .. tab:: Map a Property Name
+      :tabid: remap-property
+
+      .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
+         :language: dart
+         :emphasize-lines: 15-16
 
 .. _flutter-ignore-property:
 
