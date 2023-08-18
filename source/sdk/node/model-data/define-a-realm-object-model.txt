@@ -174,20 +174,75 @@ the ``miles`` property:
 
 .. _node-remap-a-property:
 
-Remap a Property
-~~~~~~~~~~~~~~~~
+Map a Property or Class to a Different Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To use a different property name in your code than is stored in
-a realm, set ``mapTo`` to the name of the property as it appears in
-your code.
-   
-In the following ``Car`` object schema, Realm stores the car's 
-model name with the snake case ``model_name`` property. The schema maps the property 
-to ``modelName`` for objects used in client code.
+By default, Realm uses the name defined in the model class to represent 
+classes and fields internally. In some cases, you might want to change 
+this behavior:
 
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
-   :language: javascript
-   :emphasize-lines: 7
+- To make it easier to work across platforms where naming conventions 
+  differ. For example, if your Device Sync schema property names use snake 
+  case, while your project uses camel case.
+- To change a class or field name without forcing a migration.
+- To support multiple model classes with the same simple name in 
+  different packages.
+- To use a class name that is longer than the 57-character limit enforced 
+  by Realm.
+
+You can map a class or property name in your code to a different name to
+store in a realm. If you write to a synced realm, the Sync schema sees the 
+values stored using the persisted class or property name.
+
+Note that migrations must use the persisted class or property name, and 
+any schema errors reported also use the persisted name.
+
+.. tabs::
+
+   .. tab:: Remap a Class
+      :tabid: remap-class
+
+      To use a different class name in your code than is stored in a realm,
+      set the ``name`` property of your Realm object's schema to the name
+      that you want to use to store the object.
+
+      You must use the class name in the configuration when you open the realm,
+      but use the persisted name when you perform CRUD operations with
+      the item, or in a Flexible Sync Subscription.
+
+      In the following example, Realm stores objects created with the 
+      ``Task`` class as ``Todo_Item``.
+
+      .. tabs-realm-languages::
+
+         .. tab::
+            :tabid: typescript
+      
+            .. literalinclude::  /examples/generated/node/v12/define-a-realm-object-schema.test.snippet.remap-class-name.ts
+               :language: typescript
+               :emphasize-lines: 7, 18, 26, 37, 44
+         
+         .. tab::
+            :tabid: javascript
+
+            .. literalinclude::  /examples/generated/node/v12/define-a-realm-object-schema.test.snippet.remap-class-name.js
+               :language: javascript
+               :emphasize-lines: 3, 14, 22, 33, 40
+
+   .. tab:: Remap a Property
+      :tabid: remap-property
+
+      To use a different property name in your code than is stored in
+      a realm, set ``mapTo`` to the name of the property as it appears in
+      your code.
+         
+      In the following ``Car`` object schema, Realm stores the car's 
+      model name with the snake case ``model_name`` property. The schema maps the property 
+      to ``modelName`` for objects used in client code.
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
+         :language: javascript
+         :emphasize-lines: 7
 
 .. _node-define-relationship-properties:
 
