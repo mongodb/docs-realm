@@ -1,3 +1,3 @@
-To map a specific data type to a BSON data type in an 
+To learn how specific data types are mapped to BSON types in an 
 App Services Schema, refer to :ref:`<sync-data-model-mapping>` in the Atlas 
 App Services documentation.
