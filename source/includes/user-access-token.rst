@@ -2,7 +2,7 @@ When a user logs in, Atlas App Services creates an access token for the user tha
 grants them access to your App. The Realm SDK automatically manages access
 tokens, refreshes them when they expire, and includes a valid access token for
 the current user with each request. Realm *does not* automatically refresh 
-the refresh token. When the refresh token expires, the user must log in again 
+the refresh token. When the refresh token expires, the user must log in again. 
 
 If you send requests outside of the SDK (for
 example, through the GraphQL API) then you need to include the user's access
