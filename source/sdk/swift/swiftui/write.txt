@@ -41,18 +41,21 @@ opens an implicit write transaction and saves the new value to the database.
 Add or Remove Objects in an ObservedResults Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this example, we create a two-way binding with an 
-:swift-sdk:`ObservedResults <Structs/ObservedResults.html>` collection.
 While a regular :ref:`Realm Results collection <ios-results-collections>`
-is immutable, ObservedResults is a mutable collection that allows you to 
-perform writes using the two-way binding. When you update the 
-bound collection, Realm opens an implicit write transaction and 
-saves the changes to the collection.
+is immutable, :swift-sdk:`ObservedResults <Structs/ObservedResults.html>` 
+is a mutable collection that allows you to perform writes using the two-way 
+binding. When you update the bound collection, Realm opens an implicit write 
+transaction and saves the changes to the collection.
 
 In this example, we remove an element from the results set using 
-``$dogs.remove`` in the ``onDelete``. We add an item to the results using 
-the ``$dogs.append`` in the ``addDogButton``. These actions write directly 
-to the ``@ObservedResults`` collection.
+``$dogs.remove`` in the ``onDelete``. Using the ``$dogs`` here creates a 
+two-way binding to a ``BoundCollection`` that lets us mutate the 
+``@ObservedResults`` ``dogs`` collection.
+
+We add an item to the results using ``$dogs.append`` in the 
+``addDogButton``. 
+
+These actions write directly to the ``@ObservedResults`` collection.
 
 .. literalinclude:: /examples/generated/swiftui/QuickWrite.snippet.update-observed-results.swift
    :language: swift
