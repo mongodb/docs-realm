@@ -180,14 +180,13 @@ Map a Property or Class to a Different Name
 
 By default, Realm uses the name defined in the model class to represent 
 classes and fields internally. In some cases, you might want to change 
-this behavior:
+this behavior. For example:
 
 - To make it easier to work across platforms where naming conventions 
   differ. For example, if your Device Sync schema property names use snake 
   case, while your project uses camel case.
 - To change a class or field name without forcing a migration.
-- To support multiple model classes with the same simple name in 
-  different packages.
+- To support multiple model classes with the same name in different packages.
 - To use a class name that is longer than the 57-character limit enforced 
   by Realm.
 
@@ -203,13 +202,16 @@ any schema errors reported also use the persisted name.
    .. tab:: Map a Class Name
       :tabid: remap-class
 
-      To use a different class name in your code than is stored in a realm,
-      set the ``name`` property of your Realm object's schema to the name
-      that you want to use to store the object.
+      To use a different class name in your code than is stored in a realm:
 
-      You must use the class name in the configuration when you open the realm,
-      but use the persisted name when you perform CRUD operations with
-      the item, or in a Flexible Sync Subscription.
+      1. Set the ``name`` property of your Realm object's **schema** to the name
+         that you want to use to store the object.
+
+      #. Use the **class** name in the Realm configuration's ``schema`` property
+         when you :ref:`open the realm <node-open-a-local-realm>`.
+
+      #. Use the mapped name for performing CRUD operations or when defining 
+         Flexible Sync Subscriptions.
 
       In the following example, Realm stores objects created with the 
       ``Task`` class as ``Todo_Item``.
@@ -221,14 +223,14 @@ any schema errors reported also use the persisted name.
       
             .. literalinclude::  /examples/generated/node/v12/define-a-realm-object-schema.test.snippet.remap-class-name.ts
                :language: typescript
-               :emphasize-lines: 7, 18, 26, 37, 44
+               :emphasize-lines: 9, 22, 31, 43, 51
          
          .. tab::
             :tabid: javascript
 
             .. literalinclude::  /examples/generated/node/v12/define-a-realm-object-schema.test.snippet.remap-class-name.js
                :language: javascript
-               :emphasize-lines: 3, 14, 22, 33, 40
+               :emphasize-lines: 5, 16, 26, 38, 46
 
    .. tab:: Map a Property Name
       :tabid: remap-property

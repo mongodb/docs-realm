@@ -66,7 +66,13 @@ Map a Property or Class to a Different Name
 
 The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation
 indicates that a model or property should be persisted under a different name.
-It's useful when opening a Realm across different bindings where code style conventions can differ.
+It's useful when opening a Realm across different bindings where code style 
+conventions can differ. For example:
+
+- To make it easier to work across platforms where naming conventions 
+  differ. For example, if your Device Sync schema property names use snake 
+  case, while your project uses camel case.
+- To change a class or field name without forcing a migration.
 
 .. tabs::
 
