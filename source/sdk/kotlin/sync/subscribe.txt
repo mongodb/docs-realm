@@ -10,18 +10,22 @@ Manage Sync Subscriptions - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-:ref:`Flexible Sync <flexible-sync>` uses subscriptions and permissions to determine which
+uses subscriptions and permissions to determine which
 data to sync with your App. This page details how to manage subscriptions for Flexible Sync.
 
-To use Flexible Sync in the SDK:
+For more information, refer to :ref:`Flexible Sync <flexible-sync>` in the App Services documentation.
 
-#. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>` and define your :ref:`queryable fields <queryable-fields>`.
-#. :ref:`Authenticate a user <kotlin-authenticate>` in your client app.
-#. :ref:`Open the synced realm with a Flexible Sync configuration <kotlin-open-a-synced-realm>` 
-   and an initial set of subscriptions to determine which data to sync.
-
-Subscriptions
+Prerequisites
 -------------
+
+Before you can work with Flexible Sync subscriptions, you must set up your App 
+to use Device Sync and configure Flexible Sync on the backend.
+
+To do this, complete the steps outlined in the 
+:ref:`Add Device Sync to Your App <kotlin-add-sync-to-app>` procedure. 
+
+Subscriptions Overview
+----------------------
 
 When you configure Flexible Sync on the backend, you specify which fields your 
 client application can query using **subscriptions**. 
@@ -73,6 +77,12 @@ unidirectionally sync **asymmetric objects**, you *cannot* create subscriptions 
 those objects. If your app contains asymmetric objects and non-asymmetric objects in the 
 same realm, you can add Flexible Sync subscription queries for the
 non-asymmetric objects.
+
+Initial Subscriptions
+~~~~~~~~~~~~~~~~~~~~~
+
+You must have at least one subscription before you can read 
+from or write to the realm. 
 
 Manage Subscriptions in Your Client App
 ---------------------------------------

@@ -1,0 +1,328 @@
+.. _kotlin-add-sync-to-app:
+.. _kotlin-sync:
+.. _kotlin-sync-overview:
+
+======================================
+Add Device Sync to an App - Kotlin SDK
+======================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+This page contains information about Device Sync, its basic concepts, 
+and how to add Sync to a client App with the Realm Kotlin SDK.
+
+For a detailed explanation of Device Sync, refer to 
+:ref:`realm-sync-get-started` in the Atlas App Services
+documentation.
+Already familiar with Device Sync? Skip ahead to the 
+:ref:`<kotlin-add-sync-to-app-prereqs>` section 
+to get started.
+
+.. note:: Flexible Sync Mode 
+
+   This page describes how to use Device Sync with Flexible Sync Mode. 
+   If your App Services backend uses the older Partition-Based Sync, refer to 
+   :ref:`kotlin-partition-based-sync`.
+
+   We recommend that new apps use Flexible Sync.
+
+.. _kotlin-example-sync-data-model:
+
+About the Examples on this Page
+-------------------------------
+
+The examples on this page use an example Todo App with a defined
+data model that includes a ``List`` object, which contains a list 
+of ``Item`` objects:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaSync.snippet.sync-to-do-model.kt
+   :language: kotlin
+   :caption: Example ToDo App data model
+
+.. _kotlin-realm-sync:
+.. _kotlin-flexible-sync-fundamentals:
+
+Device Sync
+-----------
+
+**Device Sync** is an Atlas App Services feature that automatically 
+synchronizes data between client applications using a Realm SDK and
+an Atlas App Services backend linked to a MongoDB Atlas cluster. 
+When a client device is online, Sync synchronizes data asynchronously in a
+background thread between the device and your backend Atlas App.
+
+You determine what data syncs between your client App and an Atlas App 
+Services backend by defining eligible data and user permissions to that data: 
+
+- Eligible data is determined by the following:
+  
+  - Your Device Sync data model: The objects eligible to sync.
+  - Your subscription queries: The one or more client-side queries to eligible objects that define what can sync.
+
+- Role-based user permissions: The read and write permissions that control whether eligible 
+  data syncs *to* or *from* the backend for a specific user.
+
+Data Model 
+~~~~~~~~~~
+
+The Device Sync data model defines the object types that you can sync.
+It contains a client-side and server-side schema: 
+
+- **Realm schema**: the object model in your client App that defines your 
+  data in Kotlin.
+- **App Services schema**: the schema in Atlas App Services that defines
+  your data in BSON. 
+
+Both schemas must be consistent with each other to sync data. 
+
+You can define your data model in your client App first or in Atlas 
+first:
+
+- Client First: You can define an object model model directly in your client App code, and then use Device Sync Development Mode to generate a matching App Services schema automatically. **Development Mode** is a configuration setting that allows Device Sync to infer and update schemas based on client-side data models when you sync data from the client. To learn more, refer to :ref:`<development-mode>` in the App Services documentation.
+  For more information on defining your data model in a client App first, refer to :ref:`<sync-data-in-client-with-atlas>` in the App Services documentation.
+- Atlas First: If you already have data in Atlas, you can generate an App Services Schema by sampling that data. Then, you can generate a matching Realm schema in Kotlin that you can copy and use in your client App. 
+   For more information on defining your data model through Atlas first, refer to :ref:`<sync-data-in-atlas-with-client>` in the App Services documentation.
+
+.. tabs::
+
+   .. tab:: Client-First
+      :tabid: client-first
+
+      You can define an object model model directly in your client App code, and then Device Sync can generate a matching App Services schema automatically using **Development Mode**.
+      Development Mode is a configuration setting that allows Device Sync to infer and update schemas based on client-side data models when you sync data from the client. To learn more, 
+      refer to :ref:`<development-mode>` in the App Services documentation.
+
+      For more information on defining your data model in a client 
+      app first, refer to :ref:`<sync-data-in-client-with-atlas>` 
+      in the App Services documentation.
+
+   .. tab:: Atlas-First
+      :tabid: atlas-first
+
+      If you already have data in Atlas, you can generate an App Services Schema by sampling that data. Then, you can generate a matching 
+      Realm schema in Kotlin that you can copy and use in your client App.
+
+      For more information on defining your data model through Atlas first, refer to :ref:`<sync-data-in-atlas-with-client>` 
+      in the App Services documentation.
+
+For our example App, we have already defined our data model 
+in our client App, so we will be using Development Mode to 
+automatically generate our App Services schema. Refer to the :ref:`<kotlin-example-sync-data-model>` section for the data model 
+example.
+
+Subscriptions
+~~~~~~~~~~~~~
+
+You use your data model to define client-side subscriptions to
+the data that you want to sync. **Subscriptions** are definable 
+queries to objects in your data model, and App Services only syncs objects
+that match the query. 
+
+Query objects must be in your data model, and queries can only contain 
+specific fields. The specific fields that can be used in a subscription 
+query are called **queryable fields**. When Development 
+Mode is enabled, App Services automatically adds the fields that appear 
+your client queries as queryable fields. You can manage your queryable fields in the App Services UI. 
+For more information, refer to :ref:`<queryable-fields>` in the App 
+Services documentation.
+
+For our example App, our data model contains an ``Item`` object 
+with a ``complete`` field. Because we have Development Mode enabled, 
+if we were to define a subscription to query 
+only incomplete items, then App Services would automatically add ``complete`` 
+as a queryable field when we sync the data.
+
+User Permissions
+~~~~~~~~~~~~~~~~
+
+App Services uses **role-based permissions** to control what individual
+users can and cannot do with your app's data: 
+
+- When a user has permission to read or write an eligible object, Atlas syncs 
+  that object to the client.
+- When a user has permission to write an eligible object, Atlas syncs that 
+  object to the backend.
+
+You can define and manage roles in the App Services UI. When you enable Sync, 
+you select a default role, which you can modify later. For more information,
+refer to :ref:`<flexible-sync-roles>` in the App Services 
+documentation.
+
+.. _kotlin-add-sync-to-app-prereqs:
+
+Prerequisites
+-------------
+
+Before you can add Sync to an App, you need the following: 
+
+- An Atlas App Services App with authentication enabled. 
+  For more information, refer to :ref:`<create-a-realm-app>` 
+  in the App Services documentation.
+- A client App that can connect to your App Services backend.
+  For more information, refer to :ref:`<kotlin-connect-to-backend>`.
+
+.. _kotlin-enable-sync-in-app-services:
+
+Enable Device Sync in App Services
+----------------------------------
+
+To enable Device Sync in your App, complete the steps outlined in 
+:ref:`Configure and Enable Atlas Device Sync <enable-flexible-sync>` 
+procedure in the App Services documentation.
+
+During this process, you can choose whether to enable Development 
+Mode and you can select a default role for your app users. 
+For more information on the available settings, refer to 
+:ref:`<sync-settings>` in the App Services 
+documentation.
+
+.. tip:: 
+
+   We recommend enabling Development Mode when you first enable 
+   Sync, and then disabling it before your app goes to production. 
+   For more information, refer to :ref:`<development-mode>` in the 
+   App Services documentation.
+
+For our example App, we enable Device Sync with Development Mode 
+enabled and add the default "User can read and write all data 
+default" role. This means that, for an authorized user, Atlas will 
+sync eligible data from Atlas to read from the client *and* 
+sync eligible data from the client to write to the backend. 
+
+Add Sync to Your Client App
+---------------------------
+
+After you've configured and enabled Sync in Atlas App Services, 
+you can add Sync to your client App. 
+
+.. procedure::
+
+   .. step:: Install the Sync Distribution of the Kotlin SDK
+
+      :ref:`Update your dependencies <kotlin-install-android>` to include 
+      the Sync distribution of the Realm Kotlin SDK.
+
+   .. step:: Connect to the App Services backend
+
+      Pass your App ID to an ``App`` client to initialize the App. To get your App ID from the App 
+      Services UI, refer to :ref:`Find Your App ID <find-your-app-id>` in the 
+      App Services documentation.
+
+      For our example App, we pass our App ID to initialize an ``App`` with 
+      default configuration values:
+
+      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.connect-to-backend.kt
+         :language: kotlin
+
+      For more information on accessing and configuring the App client, refer 
+      to :ref:`<kotlin-access-the-app-client>`.
+
+   .. step:: Authenticate a User
+
+      Authenticate a user in your client project with a supported 
+      authentication provider that you have enabled. 
+      
+      For our example App, we log in a user using anonymous authentication: 
+
+      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.authenticate-user.kt
+         :language: kotlin
+
+      For more information on authenticating users in your App, refer to
+      :ref:`<kotlin-authenticate-users>`.
+
+   .. step:: Define the Sync Configuration 
+
+      Device Sync requires a `SyncConfiguration 
+      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__
+      configuration object to open a synced realm. Note that 
+      this is different than the ``RealmConfiguration`` object
+      used to open a non-synced realm.
+      
+      The ``SyncConfiguration`` object requires the following:
+
+      - **User**: the authenticated user object
+      - **Schema**: all object types that you want to include in this realm. 
+      - **Initial Subscription**: the subscription query 
+        that specifies the data to sync when the synced realm is 
+        initially opened. You can update your subscriptions 
+        after the realm is opened. Refer to 
+        :ref:`<kotlin-subscriptions>` for more information.
+      
+      For additional configuration parameters, refer to 
+      :ref:`<kotlin-open-a-synced-realm>`.
+
+      For our example App, we define a configuration with a schema that includes
+      our ``List`` and ``Item`` objects, and an initial subscription 
+      that queries all ``List`` objects that the user owns 
+      and all incomplete ``Item`` objects:
+
+      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.define-synced-realm.kt
+         :language: kotlin
+      
+      .. important:: Object Types in Your Schema
+
+         The Sync configuration schema *must* include all object types that
+         you want to work with in your synced realm. If you try to reference 
+         or write an object of an object type that isn't in your schema, 
+         Realm will return a schema validation error.
+
+   .. step:: Open the Synced Realm
+
+      Use the defined configuration to 
+      :ref:`open the synced realm <kotlin-flexible-sync-open-realm>`.
+
+      For our example App, we pass our ``config`` object to 
+      ``realm.open()`` to open a synced realm, then wait for 
+      our subscriptions to sync with the backend:   
+
+      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-synced-realm.kt
+         :language: kotlin
+      
+      When the realm is opened successfully, the initial subscription
+      query determines which data to sync to the client.
+      If Development Mode is enabled, App Services automatically 
+      adds any queryable fields based on the query defined in 
+      your schema.
+
+      For our example App, App Services automatically added the following as
+      queryable fields based on our initial subscription:
+
+      - ``_id`` (always included)
+      - ``ownerId``
+      - ``complete``
+
+Use the Realm
+-------------
+
+Now that you've open the configured synced realm, you can use it exactly 
+like a non-synced realm. The syntax to :ref:`read <kotlin-read-objects>`, 
+:ref:`write <kotlin-create-a-new-object>`, and
+:ref:`watch for changes <kotlin-react-to-changes>` is identical to the 
+syntax for non-synced realms.
+
+For our example App, we write a new ``List`` and ``Item`` object, 
+then copy them to the synced realm:
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.write-to-synced-realm.kt
+   :language: kotlin
+
+The objects successfully sync to Atlas because: 
+
+- both objects are within the parameters of the subscription query(the ``List`` is owned by the user, and the ``List`` is incomplete) 
+- the current user has permission to write data to the backend (the role allows authorized users to read and write all data) 
+
+Next Steps
+----------
+
+Once your App is successfully syncing the desired data to Atlas, you 
+can learn more about how to use Sync with the Kotlin SDK:
+
+- :ref:`<kotlin-open-a-synced-realm>`
+- :ref:`<kotlin-subscriptions>`
+- :ref:`<kotlin-write-synced-realm>`
+- :ref:`<kotlin-manage-sync-session>`
+- :ref:`<kotlin-handle-sync-errors>`
