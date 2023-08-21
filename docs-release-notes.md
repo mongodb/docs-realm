@@ -1,3 +1,86 @@
+# August 18, 2023
+
+## C++ SDK
+
+- Model Data/Supported Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## Flutter SDK
+
+- Realm Database/Model Data/Data Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Update the "User Object" section with details about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+  - Get an Access Token: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## Kotlin SDK
+
+- Realm
+  - Model Data/Supported Types
+    - Add `RealmAny` to the list of supported types.
+    - Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+  - Read & Write Data Landing Page: Add a new "Managed vs. Unmanaged Objects" section with details about what these terms mean when we refer to them in the Realm API reference docs.
+- Manage Users
+  - Landing Page
+    - Add information about reading user metadata, with a link to the new User Metadata page.
+    - Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Create and Delete Users: Update the page name from "Delete Users" and add details with code examples about creating, removing, and deleting users.
+  - Authenticate Users
+    - Add an "Offline Login" section.
+    - Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+    - Note that logging out an anonymous user removes the user from the device.
+    - Update the `logOut()` code example to be consistent with the `delete()` and `remove()` users code examples.
+  - User Metadata: New page about reading, configuring, and updating user metadata.
+
+## .NET SDK
+
+- Model Data/Supported Data Types/Field Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## Node.js SDK
+
+- Model Data/Data Types/Field Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## React Native SDK
+
+- Model Data/Data Types/Property Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+- Update relevant JS SDK API reference links throughout the docs to point to the `@realm/react` API reference documentation.
+- Internal: Set up the v12 testing suite for docs code examples, move the v11 and older test suite to a `legacy` directory.
+
+## Swift SDK
+
+- Landing Page: Add a card for the "Offline Login and Realm Access" example app to the "Example Projects" section of the landing page.
+- Model Data/Supported Types
+  - Update the "Property Cheat Sheet" tables for Swift and Objective-C to use tested, Bluehawked code examples, add entries for missing property types.
+  - Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- SwiftUI/Write Data: Clarify details about adding and removing objects in an `@ObservedResults` collection.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+- Sync Data/Manage Sync Sessions: Consolidate the "Check the Network Connection" info from its own page onto this rollup page about managing Sync Sessions.
+
+## Web SDK
+
+- User Management
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## Other
+
+- Realm Example Projects: New page with a table showing the curated Device Sync example apps.
+- Fix links across docs that were incorrectly pointing to the wrong SDK.
+- Remove "Key Concepts" from headers throughout docs.
+
 # August 11, 2023
 
 ## C++ SDK
