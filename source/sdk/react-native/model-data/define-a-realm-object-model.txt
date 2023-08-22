@@ -34,8 +34,9 @@ The type's name must be unique among object types in a realm.
       .. literalinclude:: /examples/generated/react-native/js/Book.snippet.js-book-schema.js
         :language: javascript
 
-Then you can pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object when opening a realm.
+Then you can pass the class itself to the schema property of the
+:realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>` object
+when opening a realm.
 
 Supported Property Types
 ------------------------
@@ -282,8 +283,8 @@ TypeScript and Required Properties
 ----------------------------------
 
 We recommend :ref:`creating Realm objects <react-native-create-a-new-object>` 
-with :js-sdk:`Realm.create() <Realm.html#create>`, but you can also use the
-``new`` operator for your object model's class.
+with :realm-react-sdk:`Realm.create() <classes/Realm-1.html#create>`, but you
+can also use the ``new`` operator for your object model's class.
 
 If you use ``new``, you must add your class as a generic, along with any
 required properties, when extending ``Realm.Object``. This enables full

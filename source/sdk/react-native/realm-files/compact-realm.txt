@@ -36,7 +36,8 @@ Realm Configuration File
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can configure Realm to check the realm file each time it is opened
-by specifying a :js-sdk:`shouldCompact <Realm.html#~Configuration>` function
+by specifying a :realm-react-sdk:`shouldCompact 
+<types/Realm.BaseConfiguration.html#__type.shouldCompact>` function
 for the configuration. The following code example shows how to do this:
 
 .. literalinclude:: /examples/generated/react-native/js/compact-realm.test.snippet.shouldCompactRN.js
@@ -45,8 +46,7 @@ for the configuration. The following code example shows how to do this:
 Realm.compact() Method
 ~~~~~~~~~~~~~~~~~~~~~~
 Alternatively, you can compact a realm file without first obtaining an instance 
-of the realm by calling the 
-:js-sdk:`compact() <Realm.html#compact>`
+of the realm by calling the :realm-react-sdk:`compact() <classes/Realm-1.html#compact>`
 method:
 
 .. literalinclude:: /examples/generated/react-native/js/compact-realm.test.snippet.compactRN.js
@@ -58,8 +58,9 @@ Make a Compacted Copy
 ~~~~~~~~~~~~~~~~~~~~~
 
 You can save a compacted (and optionally :ref:`encrypted <react-native-encrypt-a-realm>`) 
-copy of a realm to another file location with the :js-sdk:`Realm.writeCopyTo()
-<Realm.html#writeCopyTo>` method. The destination file cannot already exist.
+copy of a realm to another file location with the
+:realm-react-sdk:`Realm.writeCopyTo() <classes/Realm-1.html#writeCopyTo>`
+method. The destination file cannot already exist.
 
 .. important::
 

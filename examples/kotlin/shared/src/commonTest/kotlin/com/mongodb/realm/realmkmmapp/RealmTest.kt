@@ -20,6 +20,14 @@ open class RealmTest {
         return Random.nextLong(from = 100000, until = 100000000000).toString()
     }
 
+    fun getRandomEmail(): String {
+        val allowedChars = ('a'..'z') + ('0'..'9')
+        val randomString = (1..10)
+            .map { allowedChars.random() }
+            .joinToString("")
+        return "$randomString@example.com"
+    }
+
     fun getEncryptionKey(seed: Long? = null): ByteArray {
         // generate a new 64-byte encryption key
         val key = ByteArray(64)
@@ -36,6 +44,8 @@ open class RealmTest {
     val SYNCED_REALM_SCHEMA = setOf(Frog::class, Sample::class)
     val YOUR_APP_ID: String = "kmm-example-testers-viybt"
     val yourAppId = AppConfiguration.Builder(YOUR_APP_ID).syncRootDirectory("tmp/sync/".plus(getRandom())).build()
+
+    val TESTER_APP_ID: String = "example-testers-kvjdy"
 
     val FLEXIBLE_APP_ID = "kotlin-flexible-tijhx"
     val yourFlexAppId = AppConfiguration.Builder(FLEXIBLE_APP_ID).syncRootDirectory("tmp/sync/".plus(getRandom())).build()

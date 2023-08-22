@@ -32,8 +32,8 @@ in a ``migration`` function. This might include changes such as:
 
    When developing or debugging your application, you may prefer to delete the
    realm instead of migrating it. Use the
-   :js-sdk:`Configuration.deleteRealmIfMigrationNeeded
-   <Realm.html#~Configuration>` property to delete the database automatically
+   :realm-react-sdk:`BaseConfiguration.deleteRealmIfMigrationNeeded
+   <types/Realm.BaseConfiguration.html>` property to delete the database automatically
    when a schema mismatch requires a migration. 
 
    Never release an app to production with this property set to ``true``.
@@ -70,8 +70,8 @@ from one :ref:`schema version <react-native-schema-version>` to a newer version.
 Migrations allow you to change your object schemas over time to accommodate new
 features and refactors.
 
-When you create a :js-sdk:`Configuration
-<Realm.html#~Configuration>` with a schema version greater than the
+When you create a :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`
+with a schema version greater than the
 realm's current version, Realm runs a migration function that you define.
 The function has access to the realm's version number and incrementally
 updates objects in the realm to conform to the new schema.
@@ -121,9 +121,9 @@ Delete a Property
 -----------------
 
 To delete a property from a schema, remove the property from the object's class
-and set a ``schemaVersion`` of the :js-sdk:`Configuration
-<Realm.html#~Configuration>` object. Deleting a property will not impact
-existing objects.
+and set a ``schemaVersion`` of the :realm-react-sdk:`Configuration 
+<types/Realm.BaseConfiguration.html>` object. Deleting a property will not
+impact existing objects.
 
 .. example::
 
@@ -176,10 +176,10 @@ property, and then delete the old property.
    and ``lastName`` fields.
    
    To migrate the realm to conform to the updated ``Person`` schema, create a
-   :js-sdk:`Configuration <Realm.html#~Configuration>` object and set the
-   realm's schema version to ``1``, and define a migration function that
-   sets the value of ``fullName`` based on the existing ``firstName`` and ``lastName``
-   properties. Finally, pass the configuration object to the
+   :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>` object
+   and set the realm's schema version to ``1``, and define a migration function
+   that sets the value of ``fullName`` based on the existing ``firstName`` and
+   ``lastName`` properties. Finally, pass the configuration object to the
    ``createRealmContext()`` method.
 
    .. tabs-realm-languages::
@@ -214,8 +214,8 @@ Modify a Property Type
 
 To modify a property's type, set the property type of the field that you wish to
 modify to the new data type. Then, set a ``schemaVersion``, and a ``migration``
-callback function of the :js-sdk:`Configuration
-<Realm.html#~Configuration>` object. 
+callback function of the :realm-react-sdk:`Configuration 
+<types/Realm.BaseConfiguration.html>` object. 
 
 .. note::
 

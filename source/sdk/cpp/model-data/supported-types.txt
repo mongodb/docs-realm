@@ -10,16 +10,18 @@ Supported Types - C++ SDK Preview
    :depth: 2
    :class: singlecol
 
-Supported Property Types
-------------------------
-
 The Realm C++ SDK Preview currently supports these property types.
 
 Optionals use the class template 
 `std::optional <https://en.cppreference.com/w/cpp/utility/optional>`__.
 
 Property Cheat Sheet
-~~~~~~~~~~~~~~~~~~~~
+--------------------
+
+You can use the following types to define your object model
+properties.
+
+.. include:: /includes/map-to-bson-type.rst
 
 .. tabs::
 
@@ -230,7 +232,7 @@ Property Cheat Sheet
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 Supported Type Implementation Details
-`````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Some of the supported types above are aliases for:
 
@@ -247,7 +249,7 @@ Some of the supported types above are aliases for:
 .. _cpp-map:
 
 Map/Dictionary
-~~~~~~~~~~~~~~
+--------------
 
 The :cpp-sdk:`Map <classrealm_1_1persisted__map__base.html>` is an 
 associative array that contains key-value pairs with unique keys.
@@ -280,3 +282,81 @@ String is the only supported type for a map key, but map values can be:
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.percent-encode-disallowed-characters.cpp
    :language: cpp
+
+.. _cpp-collection-types:
+
+Collection Types
+----------------
+
+Realm has several types to represent groups of objects,
+which we call **collections**. A collection is an object that contains
+zero or more instances of one :ref:`Realm type
+<cpp-realm-objects>`. Realm collections are **homogenous**:
+all objects in a collection are of the same type.
+
+You can filter and sort any collection using Realm's
+:ref:`query engine <cpp-client-query-engine>`. Collections are
+:ref:`live <cpp-live-object>`, so they always reflect the current state
+of the realm instance on the current thread. You can also
+listen for changes in the collection by subscribing to :ref:`collection
+notifications <cpp-register-a-collection-change-listener>`.
+
+.. _cpp-results-collections:
+
+Results
+~~~~~~~
+
+The C++ SDK :cpp-sdk:`Results <structrealm_1_1experimental_1_1results.html>` 
+collection is a type representing objects retrieved from queries. A 
+``Results`` collection represents the lazily-evaluated results of a 
+query operation. Results are immutable: you cannot add or remove elements 
+to or from the results collection. Results have an associated query that 
+determines their contents.
+
+For more information, refer to :ref:`the Read documentation <cpp-crud-read>`.
+
+Collections as Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The C++ SDK also offers several collection types you can use as properties 
+in your data model:
+
+#. :cpp-sdk:`List 
+   <structrealm_1_1internal_1_1bridge_1_1list.html>`, a type representing 
+   :ref:`to-many relationships <cpp-list-collections>` in models.
+#. :cpp-sdk:`linking_objects 
+   <structrealm_1_1experimental_1_1linking__objects.html>`, a type 
+   representing :ref:`inverse relationships 
+   <cpp-define-an-inverse-relationship-property>` in models.
+#. :ref:`Map <cpp-map>`, a type representing an associative array of key-value 
+   pairs with unique keys.
+
+.. _cpp-live-collections:
+
+Collections are Live
+~~~~~~~~~~~~~~~~~~~~
+
+Like :ref:`live objects <cpp-live-object>`, Realm collections
+are usually **live**:
+
+- Live results collections always reflect the current results of the associated query.
+- Live lists always reflect the current state of the relationship on the realm instance.
+
+The one case when a collection is **not** live is when the collection is 
+unmanaged. For example, a List property of a Realm object that has not 
+been added to a realm yet or that has been moved from a realm is not live.
+
+Combined with :ref:`collection notifications
+<cpp-register-a-collection-change-listener>`, live collections enable
+clean, reactive code. For example, suppose your view displays the
+results of a query. You can keep a reference to the results collection
+in your view code, then read the results collection as needed without
+having to refresh it or validate that it is up-to-date.
+
+.. important:: Results indexes may change
+
+   Since results update themselves automatically, do not
+   store the positional index of an object in the collection
+   or the count of objects in a collection. The stored index
+   or count value could be outdated by the time you use
+   it.

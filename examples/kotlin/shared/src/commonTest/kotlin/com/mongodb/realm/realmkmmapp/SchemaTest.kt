@@ -56,7 +56,7 @@ class User: RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var name: String = ""
-    var posts: RealmList<Post>? = null
+    var posts: RealmList<Post> = realmListOf()
 }
 // :snippet-end:
 

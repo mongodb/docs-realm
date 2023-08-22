@@ -191,23 +191,40 @@ refer to :ref:`Relationships <flutter-client-relationships>`.
 
 .. _flutter-map-model-name:
 
-Map Realm Model to Different Name
----------------------------------
+Map a Model or Class to a Different Name
+----------------------------------------
 
 You can use the `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__
-annotation to map a Realm object model to a different model name in Realm.
-This can be useful in the following scenarios:
+annotation to map a Realm object model or property to a different stored 
+name in Realm. This can be useful in the following scenarios. For example:
 
-- Working with one realm from different Realm SDKs
-- Migrating Realm object models
-- Adhering to certain code style conventions
+- To make it easier to work across platforms where naming conventions 
+  differ. For example, if your Device Sync schema property names use snake 
+  case, while your project uses camel case.
+- To change a class or field name without forcing a migration.
+- To support multiple model classes with the same name in different packages.
+- To use a class name that is longer than the 57-character limit enforced 
+  by Realm.
 
-If you're using Atlas Device Sync, the name that you map to corresponds
-with the :ref:`App Services Schema <schemas>` name.
+If you're using Atlas Device Sync, the name that you specify in the  
+``MapTo`` annotation is used as the persisted :ref:`App Services Schema 
+<schemas>` name.
 
-.. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.map-to.dart
-   :language: dart
-   :emphasize-lines: 2
+.. tabs::
+
+   .. tab:: Map a Class Name
+      :tabid: remap-class
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.map-to.dart
+         :language: dart
+         :emphasize-lines: 2
+
+   .. tab:: Map a Property Name
+      :tabid: remap-property
+
+      .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
+         :language: dart
+         :emphasize-lines: 15-16
 
 .. _flutter-generate-realm-object:
 

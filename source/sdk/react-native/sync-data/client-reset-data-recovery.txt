@@ -81,7 +81,8 @@ The following steps demonstrate implementing the process at a high level:
 
 #. **Download all realm data from the backend**: Download the entire set
    of data in the realm before you proceed. This is the default behavior of the 
-   :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
+   :realm-react-sdk:`FlexibleSyncConfiguration 
+   <types/Realm.FlexibleSyncConfiguration.html>` object.
 
 #. **Open the realm backup**: Use the ``error.config`` object passed as an argument
    to the ``SyncConfiguration.error`` callback function.
@@ -142,9 +143,10 @@ manual client reset data recovery strategy.
 
    .. step:: Configure Realm to Use Manual Client Reset
 
-      In the realm's :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
-      set the ``clientReset`` field to manual mode and include an ``error`` callback function.
-      You'll define the error callback function in the 
+      In the realm's :realm-react-sdk:`FlexibleSyncConfiguration 
+      <types/Realm.FlexibleSyncConfiguration.html>`, set the ``clientReset``
+      field to manual mode and include an ``error`` callback function. You'll
+      define the error callback function in the 
       :ref:`Create Callback to Handle Client Reset section <react-native-manual-client-reset-create-callback>`.
 
       .. literalinclude:: /examples/generated/node/client-reset.snippet.config.js

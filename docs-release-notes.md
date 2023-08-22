@@ -1,3 +1,211 @@
+# August 18, 2023
+
+## C++ SDK
+
+- Model Data/Supported Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## Flutter SDK
+
+- Realm Database/Model Data/Data Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Update the "User Object" section with details about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+  - Get an Access Token: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## Kotlin SDK
+
+- Realm
+  - Model Data/Supported Types
+    - Add `RealmAny` to the list of supported types.
+    - Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+  - Read & Write Data Landing Page: Add a new "Managed vs. Unmanaged Objects" section with details about what these terms mean when we refer to them in the Realm API reference docs.
+- Manage Users
+  - Landing Page
+    - Add information about reading user metadata, with a link to the new User Metadata page.
+    - Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Create and Delete Users: Update the page name from "Delete Users" and add details with code examples about creating, removing, and deleting users.
+  - Authenticate Users
+    - Add an "Offline Login" section.
+    - Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+    - Note that logging out an anonymous user removes the user from the device.
+    - Update the `logOut()` code example to be consistent with the `delete()` and `remove()` users code examples.
+  - User Metadata: New page about reading, configuring, and updating user metadata.
+
+## .NET SDK
+
+- Model Data/Supported Data Types/Field Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## Node.js SDK
+
+- Model Data/Data Types/Field Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## React Native SDK
+
+- Model Data/Data Types/Property Types: Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+- Update relevant JS SDK API reference links throughout the docs to point to the `@realm/react` API reference documentation.
+- Internal: Set up the v12 testing suite for docs code examples, move the v11 and older test suite to a `legacy` directory.
+
+## Swift SDK
+
+- Landing Page: Add a card for the "Offline Login and Realm Access" example app to the "Example Projects" section of the landing page.
+- Model Data/Supported Types
+  - Update the "Property Cheat Sheet" tables for Swift and Objective-C to use tested, Bluehawked code examples, add entries for missing property types.
+  - Add a link to the App Services documentation that shows how Realm models map to App Services schemas.
+- SwiftUI/Write Data: Clarify details about adding and removing objects in an `@ObservedResults` collection.
+- Manage Users
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+- Sync Data/Manage Sync Sessions: Consolidate the "Check the Network Connection" info from its own page onto this rollup page about managing Sync Sessions.
+
+## Web SDK
+
+- User Management
+  - Landing Page: Add a "User Sessions" section about how the SDKs manage access and refresh tokens for requests.
+  - Authenticate Users: Add a "Refresh Token Expiration" section with details about refresh token expiry, with a link to App Services docs to configure refresh token expiration.
+
+## Other
+
+- Realm Example Projects: New page with a table showing the curated Device Sync example apps.
+- Fix links across docs that were incorrectly pointing to the wrong SDK.
+- Remove "Key Concepts" from headers throughout docs.
+
+# August 11, 2023
+
+## C++ SDK
+
+- Install Realm: Note minimum version for experimental namespace, which requires C++ SDK v0.2.0-preview or newer
+- Quick Start: Note minimum version for experimental namespace, which requires C++ SDK v0.2.0-preview or newer
+- Model Data/ Object Types and Schemas: Note minimum version for experimental namespace, which requires C++ SDK v0.2.0-preview or newer
+- Model Data/ Supported Data Types: Add new "Collections Types" section to page
+
+## Kotlin SDK
+
+- Landing Page: Add project cards for the Property-Level Encryption, User's Online State, and Connection State Change & Error Handling example projects to the landing page
+- Install Realm: Remove duplicate subheadings in tabbed procedure of install page
+- Sync Device Data/ Sync Data in the Background: Add new page with information on syncing data in a background process
+
+## React Native SDK
+
+- CRUD/ Create: Update page examples with correct variables and create examples for different types of relationships
+
+## Swift SDK
+
+- SwiftUI/ Actor-Isolated Realms: Add clarification on when to use an actor-isolated realm and `@MainActor` functions
+
+# August 4, 2023
+
+## C++ SDK
+
+- Update headings and heading levels throughout docs to be consistent with other SDKs
+
+## Java SDK
+
+- Sync Data
+  - Landing Page: Remove Partition-Based Sync information
+  - Configure & Open a Synced Realm: Remove Partition-Based Sync info and open a synced realm code examples, add Flexible Sync examples for opening a synced realm
+  - Partition-Based Sync: New page containing info moved from the Sync landing page, content and examples for opening a synced realm, and a new section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+
+## Kotlin SDK
+
+- Install Realm: Update page structure to remove duplicate headings in tabbed procedure
+- Realm
+  - Model Data
+    - Relationships
+      - Note that to-many relationship properties cannot be null and must be initialized with `realmListOf()`
+      - Remove embedded object content
+    - Define an Object Model: Move example of defining an embedded object onto this page
+  - CRUD
+    - Create: Move the example of creating an embedded object onto this page
+    - Read: Move the example of querying an embedded object onto this page
+    - Update: Move the example of updating an embedded object onto this page
+    - Delete: Move the example of deleting an embedded object onto this page
+- Sync Device Data
+  - Manage Sync Session: New page with tested Bluehawked code examples for waiting for upload and download, pausing and resuming a sync session, checking connection state
+  - Partition-Based Sync: New section with tested Bluehawked code examples for upload and download progress change listeners
+
+## .NET SDK
+
+- Sync Data
+  - Landing Page: Remove Partition-Based Sync information
+  - Configure & Open a Synced Realm: Remove Partition-Based Sync info and examples, update the "Synchronous Reads & Writes on the UI Thread" section to show Flexible Sync examples
+  - Partition-Based Sync: New page containing info moved from the Sync landing page, content for opening a synced realm, and a new section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+
+## React Native SDK
+
+- Update deprecated reactjs.org links throughout docs to use new react.dev links
+
+## Swift SDK
+
+- Landing Page: Add a new "Example Projects" section with the first two Device Sync curated examples
+
+# July 28, 2023
+
+## C++ SDK
+
+- Install Realm: Add Windows install requirements
+
+## Kotlin SDK
+
+- Realm/Model Data/Define an Object Model: New "Unsupported Kotlin Language Features" section with info about Kotlin SDK limitations around Data Classes, Inheritance, and using a single primary constructor
+- Sync Device Data
+  - Landing page: Remove Partition-Based Sync content, link out to new Partition-Based Sync page
+  - Open a Synced Realm
+    - Add a link to the "Manage Sync Subscriptions" page
+    - Remove Partition-Based-Sync-only examples
+  - Manage Subscriptions: Major rewrites for the new `.subscribe()` API, including new tested Bluehawked code examples
+  - Write Data to a Synced Realm: Move the section about grouping writes to improve Sync performance from the landing page to this more relevant page
+  - Set the Client Log Level
+    - Typo fix
+    - Note this as deprecated in v1.8.0 and newer as it is superseded by the global `RealmLog` singleton
+  - Partition-Based Sync: New page with moved info from the Sync landing page, moved Configure/Open content, a section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+- Logging: New page breaking out the v1.8.0 logging info from the Sync/Set the Client Log Level page
+
+## .NET SDK
+
+- Stream Data to Atlas: Update code example to use `IAsymmetricObject`
+
+## Node.js SDK
+
+- Sync Data
+  - Landing Page: Remove Partition-Based Sync info, add tip recommending Flexible Sync and linking out to Partition-Based Sync page for older apps
+  - Partition-Based Sync: Moved info from the Sync landing page, add a section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+- Minor updates to the Node.js docs code example test suite for v12
+
+## React Native SDK
+
+- Model Data/Define an Object Model: New "Define an Asymmetric Object" section with a tested Bluehawked code example for defining an asymmetric object
+- CRUD/Read: Parameterize RQL queries
+- Sync Data
+  - Landing Page: Remove Partition-Based Sync info, add tip recommending Flexible Sync and linking out to Partition-Based Sync page for older apps
+  - Partition-Based Sync: Moved info from the Sync landing page, add a section about updating client code after migrating from Partition-Based Sync to Flexible Sync
+  - Stream Data to Atlas: Expand the page from a code example to a procedure similar to other SDKs
+
+## Swift SDK
+
+- Application Services/Connect to an App Services App: Add sections with Bluehawked code examples for "Sync Connection Sharing" and "Sync Timeout Options"
+- Sync Data
+  - Landing page: New "Sync Connection and Timeout Behaviors" section with link to App Services/Connect details for configuring these settings
+  - Manage Sync Sessions: New "Sync Connection Behavior" section with link to App Services/Connect details for Sync Connection Sharing
+  - Stream Data to Atlas: Clarify details about local realm incompatibility with `AsymmetricObject`
+
+## Internal
+
+- Add a GitHub Action to check for broken links in the docs
+- Add a GitHub Action to check for broken redirects
+- Fix broken links caught by the link checker GitHub Action
+
 # July 21, 2023
 
 ## Flutter SDK
@@ -15,19 +223,21 @@
 - Sync Device Data/Write to a Synced Realm: Add information on how to write data to a synced realm and on `compensatingWriteError`
 - Internal: Update prefix URLs for `kotlin-sync-prefix` and `kotlin-local-prefix`
 
-## .NET SDK 
--  Add that the .NET SDK is compatible with Avalonia on the following pages:
-  - Landing Page
-  - Install Realm
-  - Model Data/Data Binding
+## .NET SDK
+
+- Add that the .NET SDK is compatible with Avalonia on the following pages:
+- Landing Page
+- Install Realm
+- Model Data/Data Binding
 
 ## Node.js SDK
 
 - CRUD/Read: Parametrize RQL queries
 - CRUD/ Query Data: Parametrize RQL queries
-- Internal: Fix Node.js bluehawking script for the updated test suite 
+- Internal: Fix Node.js bluehawking script for the updated test suite
 
 # React Native SDK
+
 - Remove angle brackets from provider references throughout the SDK pages to prevent confusion with placeholder variables
 
 ## Swift SDK
@@ -36,12 +246,12 @@
   - Application Services
   - Application Services/Connect to an App Services App
   - Sync Data
-- SwiftUI/Model Data/Configure and Open a Realm: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync 
+- SwiftUI/Model Data/Configure and Open a Realm: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync
 - SwiftUI/Model Data/Pass Realm Data Between Views: Add tip for automatically migrating from Partition-Based Sync to Flexible Sync
 - Sync Data: Remove Partition-Based Sync (PBS) content, link out to new PBS page
 - Sync Data/Partition-Based Sync: New page with Configure/Open content, Progress Notifications (which only work on PBS), and migration information
 - Sync Data/Configure & Open a Synced Realm: Remove PBS-only examples
-- Sync Data/Write to a Synced Realm:  Moved "Group Writes" information from "Sync Data between Devices" page to this page 
+- Sync Data/Write to a Synced Realm: Moved "Group Writes" information from "Sync Data between Devices" page to this page
 - Remove "Legacy Realm Open" page
 
 # July 14, 2023

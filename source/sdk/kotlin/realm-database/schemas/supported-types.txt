@@ -14,6 +14,8 @@ Data Types - Kotlin SDK
 The Kotlin SDK supports Kotlin data types, a limited subset of
 `BSON <https://bsonspec.org/>`__ types, and :wikipedia:`UUID <Universally_unique_identifier>`.
 
+.. include:: /includes/map-to-bson-type.rst
+
 .. _kotlin-data-types:
 
 Supported Types
@@ -34,7 +36,9 @@ Realm supports the following field data types:
 - ``Double``
 - ``Float``
 - ``Decimal128``
-- ``ObjectId`` 
+- ``ObjectId``
+- ``RealmAny``, which represents a polymorphic Realm value. For more 
+  information, see `RealmAny <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-any/index.html>`__.  
 - ``RealmInstant``
 - ``RealmUUID``
 - Any ``RealmObject`` subclass
@@ -62,7 +66,8 @@ values.
 Realm does not support fields with modifiers ``final`` and
 ``volatile``, though you can use fields with those modifiers if you
 :ref:`ignore <kotlin-ignore>` them. If you choose to provide custom
-constructors, you must declare a public constructor with no arguments.
+constructors, you must 
+:ref:`declare a public constructor with no arguments <kotlin-single-primary-constructor>`.
 
 Updating Strings and Byte Arrays
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
