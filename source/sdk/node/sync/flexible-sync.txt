@@ -21,13 +21,14 @@ subscribe to queries instead of or in addition to manually managing
 subscriptions.
 
 You can't create subscriptions for :ref:`Data Ingest <optimize-data-ingest>` and
-:ref:`asymmetric objects <node-define-an-asymmetric-object>`.
+:ref:`asymmetric objects <node-define-an-asymmetric-object>` because they only
+send data to your app's backend.
 
 .. important:: Flexible Sync Query Limitations
 
-   You cannot use all queries with Flexible Sync subscriptions. 
+   Flexible Sync subscriptions only support a subset of the RQL query operators. 
    Refer to the :ref:`Flexible Sync RQL Limitations documentation <node-flexible-sync-rql-limitations>`
-   for information on which query types are not supported. 
+   for information on which operators are not supported. 
 
 Prerequisites
 -------------
@@ -55,47 +56,27 @@ Subscribe to Queries
 .. versionadded:: 12.0.0
 
 Realm Node.js v12.0.0 adds experimental APIs that subscribe to and unsubscribe
-from a query's ``Results`` list. These APIs abstract away the details of
+from a query's results. These APIs abstract away the details of
 manually adding and removing subscriptions.
+
+For all subscriptions, you need :ref:`an authenticated user 
+<node-authenticate-users>` and a :ref:`Flexible Sync realm 
+<node-open-a-synced-realm>`.
 
 Subscribe to a Query
 ~~~~~~~~~~~~~~~~~~~~
-
-With :ref:`an authenticated user <node-authenticate-users>` and a
-:ref:`Flexible Sync configuration <node-open-a-synced-realm>`, open a
-synced realm and query for the objects that you want to read and write. Then, call
-``.subscribe()`` on that query to create a sync subscription for objects
-matching the query:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.ts
-         :language: typescript
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.js
-        :language: javascript
-
-This creates an unnamed subscription and adds it to ``MutableSubscriptionSet``,
-similar to :ref:`manually creating a subscription <node-sync-subscribe-to-queryable-fields>`.
-
-Subscribe to a Query with a Subscription Name
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We recommend that you name your subscriptions. This makes finding and managing
 your subscriptions easier. Subscription names must be unique. Trying to add a
 subscription with the same name as an existing subscription throws an error.
 
-If you do not give your subscription a name, the name
-is set to :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`.
+To subscribe to a query:
 
-If you subscribe to the same query more than once under different names, Realm
-persists both subscriptions to the subscription set.
+#. Query for the objects that you want to read and write.
+#. Call ``subscribe()`` on the query results to create a sync subscription for
+   objects matching the query.
+#. Pass a ``SubscriptionOptions`` object that contains the ``name`` property to
+   ``subscribe()``.
 
 .. tabs-realm-languages::
 
@@ -111,20 +92,46 @@ persists both subscriptions to the subscription set.
       .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.js
         :language: javascript
 
+Subscribe to a Query without a Subscription Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Most of the time, you should give your subscriptions a name. If you don't, the
+name is set to :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`.
+
+If you use ``filtered()`` on an unnamed query subscription, the subscription
+identifier is based on the ``filtered`` query. This means that every time your
+query string changes, ``subscribe()`` will create a new subscription.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.ts
+         :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.js
+        :language: javascript
+
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you subscribe to a query's ``Results`` list, that list does not contain 
-objects until it syncs. If your app creates Realm objects, you may not need to 
-download synced data before the user works with it. However, if your app
-requires data from the server before the user can work with it, you can
-specify that a subscription should ``waitForSync``:
+When you subscribe to a query's results, the results do not contain objects
+until synced data is downloaded. When you do need to wait for syned objects to
+finish downloading, use ``waitForSync``. You can specify different behavior for
+your subscriptions and how they handle witing for downloads.
+
+This example uses the ``FirstTime`` option, which is the default behavior.
+A subscription with ``FirstTime`` behavior only waits for sync to finish when a
+subscription is first created.
 
 .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-wait-first.ts
    :language: typescript
 
-This example uses the ``FirstTime`` option, which only waits for sync to finish
-when this subscription is first created. The other supported ``WaitForSync`` options are:
+The other supported ``WaitForSync`` options are:
 
 - ``Always``: Wait to download matching objects every time your app launches.
   The app must have an internet connection at every launch.
@@ -141,20 +148,22 @@ You can optionally specify a ``timeout`` value to limit how long the sync downlo
 Unsubscribe from a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can unsubscribe from a query's ``Results`` list using the ``.unsubscribe()``
-API:
+You can unsubscribe from a query's results using ``unsubscribe()``:
 
 .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-unsubscribe.ts
    :language: typescript
 
-This removes the subscription from ``MutableSubscriptionSet``,
-similar to :ref:`manually removing a subscription <node-remove-subscription-by-name>`.
+This removes the subscription from the list of active subscriptions, similar to
+:ref:`manually removing a subscription <node-remove-subscription-by-name>`.
 
-A ``Results`` list may still contain objects after calling ``.unsubscribe()`` 
-if another subscription exists that contains overlapping objects. 
+A results list may still contain objects after calling ``unsubscribe()`` 
+if another subscription exists that contains overlapping objects.
 
-Calling ``.unsubscribe()`` does not wait for objects to be removed from the
-realm. There is no API to wait for ``.unsubscribe()`` to sync with the server.
+When you call .unsubscribe(), the associated subscription is removed. 
+Subscriptions are removed by name or by query if they don't have a name.
+
+Calling ``unsubscribe()`` does not wait for objects to be removed from the
+realm. Syncing will continue in the background, based on existing subscriptions.
 
 .. _node-sync-subscribe-to-queryable-fields:
 
@@ -205,7 +214,7 @@ collection of subscriptions, through the :js-sdk:`realm.subscriptions <Realm.htm
 Add a Subscription
 ~~~~~~~~~~~~~~~~~~
 
-Compose queries to your realm using the :ref:`query engine 
+Subscriptions are based on the results of :ref:`realm queries 
 <react-native-client-query-engine>`.
 
 In the following example, ``completed`` and ``progressMinutes`` have been set
@@ -223,8 +232,8 @@ filtered queries and then subscribe to their results:
 Set Initial Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can add a subscription as part of opening a Flexible Sync realm. This is
-called an initial subscription. 
+You must have at least one subscription before you can read from or write to a
+Flexible Sync realm. You can add an initial subscription when opening a realm.
 
 To set initial subscriptions, include the ``initialSubscriptions`` field in
 your realm's :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
@@ -245,8 +254,11 @@ field set to a callback that subscribes to queries:
       .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.set-initial-subscriptions.js
          :language: javascript
 
-You can set ``rerunOnOpen`` to ``true`` to create the subscription every time
-your realm is opened.
+By default, initial subscriptions are only created the first time a realm is
+opened. If your app needs to rerun this initial subscription every time the app
+starts, you can set ``rerunOnOpen`` to ``true``. You might need to do this to
+re-run dynamic time ranges or other queries that require a re-computation of
+static variables for the subscription.
 
 .. _node-flexible-sync-wait-for-sync:
 
@@ -265,6 +277,12 @@ You can use subscription state to:
   new instance of the subscription set to write a subscription change
 
 .. include:: /includes/note-sync-state-complete.rst
+
+.. versionadded:: 12.0.0
+
+Node.js v12.0.0 added the :js-sdk:`SubscriptionSetState enum 
+<enums/SubscriptionSetState.html>` that you can use to get the status of a
+subscription.
 
 Update Subscriptions with a New Query
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -285,7 +303,7 @@ have taken more than 180 minutes.
 .. note::
 
    Attempting to update a subscription that has the
-   ``SubscriptionOptions.throwOnUpdate`` field set to true, throw an exception.
+   ``SubscriptionOptions.throwOnUpdate`` field set to true throws an exception.
 
 .. _node-remove-subscriptions:
 
@@ -366,19 +384,8 @@ You can remove all unnamed subscriptions from the subscription set by
 calling ``.removeUnnamed()`` on ``mutableSubs``. ``.removeUnnamed()`` returns
 the number of unnamed subscriptions removed.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.ts
-         :language: typescript
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.js
-         :language: javascript
+.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.ts
+    :language: typescript
 
 Remove All Subscriptions
 ````````````````````````
@@ -399,7 +406,7 @@ Performance Considerations
 API Efficiency
 ~~~~~~~~~~~~~~
 
-Managing multiple subscriptions with the ``.subscribe()`` and ``.unsubscribe()``
+Managing multiple subscriptions with the ``subscribe()`` and ``unsubscribe()``
 APIs described in the :ref:`node-subscribe-api` section is less efficient than
 performing batch updates when you manually manage subscriptions.
 

@@ -68,13 +68,11 @@ describe("Managing Sync Subscriptions", () => {
 
     expect(realm.subscriptions.length).toBe(1);
 
-    // :snippet-start: sub-remove-unnamed
     // Remove unnamed subscriptions.
     let numberRemovedSubscriptions = 0;
     await realm.subscriptions.update((mutableSubs) => {
       numberRemovedSubscriptions = mutableSubs.removeUnnamed();
     });
-    // :snippet-end:
 
     expect(numberRemovedSubscriptions).toEqual(1);
     expect(realm.subscriptions.length).toEqual(0);

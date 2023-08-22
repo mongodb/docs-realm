@@ -55,7 +55,6 @@ describe("Flexible Sync Tests", () => {
       });
       mutableSubs.add(realm.objects("Team"), {
         name: "teamsSubscription",
-        throwOnUpdate: true,
       });
     });
     // :snippet-end:
