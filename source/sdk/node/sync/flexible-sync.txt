@@ -16,7 +16,7 @@ can read from or write to a realm with Flexible Sync enabled. This page details
 how to manage those subscriptions.
 
 You can add, update, and remove query subscriptions to control what data 
-syncs to the client device. In Realm Node.s SDK v12.0.0 and later, you can
+syncs to the client device. In the Realm Node.js SDK v12.0.0 and later, you can
 subscribe to queries instead of or in addition to manually managing
 subscriptions.
 
@@ -43,10 +43,9 @@ In addition to the requirements, you need to set up the following to use Flexibl
 Sync in a Node.js client:
 
 #. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
-#. :ref:`Initialize the app <node-quick-start-init-app>`
+#. :ref:`Initialize the app <node-quick-start-init-app>`.
 #. :ref:`Authenticate a user <node-quick-start-authenticate>` in your client project.
 #. :ref:`Open the synced Realm with a Flexible Sync configuration <node-flexible-sync-open-realm>`
-#. :ref:`Add subscriptions to the client application <node-sync-subscribe-to-queryable-fields>`
 
 .. _node-subscribe-api:
 
@@ -63,9 +62,9 @@ Subscribe to a Query
 ~~~~~~~~~~~~~~~~~~~~
 
 With :ref:`an authenticated user <node-authenticate-users>` and a
-:ref:`Flexible Sync configuration <node-open-a-synced-realm>`, you can open a
-synced realm and query for the objects you want to read and write. You can
-``.subscribe()`` to that query to create a sync subscription for objects
+:ref:`Flexible Sync configuration <node-open-a-synced-realm>`, open a
+synced realm and query for the objects that you want to read and write. Then, call
+``.subscribe()`` on that query to create a sync subscription for objects
 matching the query:
 
 .. tabs-realm-languages::
@@ -124,8 +123,8 @@ specify that a subscription should ``waitForSync``:
 .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-wait-first.ts
    :language: typescript
 
-This option uses the ``FirstTime`` option, which only waits for sync to finish
-when this subscription is first created. Other options include:
+This example uses the ``FirstTime`` option, which only waits for sync to finish
+when this subscription is first created. The other supported ``WaitForSync`` options are:
 
 - ``Always``: Wait to download matching objects every time your app launches.
   The app must have an internet connection at every launch.
@@ -134,7 +133,7 @@ when this subscription is first created. Other options include:
   can :ref:`open offline <ios-open-a-synced-realm-offline>` on subsequent 
   launches using cached credentials.
 
-You can optionally specify a ``timeout`` value:
+You can optionally specify a ``timeout`` value to limit how long the sync download runs:
 
 .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-with-timeout.ts
    :language: typescript
@@ -222,7 +221,7 @@ filtered queries and then subscribe to their results:
 .. _node-sync-bootstrap-initial-subscriptions:
 
 Set Initial Subscriptions
-`````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can add a subscription as part of opening a Flexible Sync realm. This is
 called an initial subscription. 
@@ -405,8 +404,8 @@ APIs described in the :ref:`node-subscribe-api` section is less efficient than
 performing batch updates when you manually manage subscriptions.
 
 For better performance when making multiple subscription changes, use the
-``subscriptions`` API described in the
-:ref:`node-sync-subscribe-to-queryable-fields` section.
+``subscriptions`` API to update all the subscriptions in a single transaction. To learn how, see
+:ref:`node-sync-subscribe-to-queryable-fields`.
 
 Group Updates for Improved Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
