@@ -114,18 +114,19 @@ Insert a Single Document
 
 You can insert a single document using :swift-sdk:`collection.insertOne() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE9insertOneyySDySSAC7AnyBSONOSgG_ys6ResultOyAFs5Error_pGctF>`.
 
-This snippet inserts a single document describing a "Bean of the Day" coffee 
+This snippet inserts a single document describing a "Colombian Blend" coffee 
 drink into a :ref:`collection of documents that describe coffee drinks for sale 
 in a group of stores <ios-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.insert-one.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.insert-one.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully inserted a document with id: objectId(6108...)
+      Successfully inserted a document with id: objectId(64e50cab7765243942cd04ce)
 
 .. _ios-mongodb-insertMany:
 
@@ -138,14 +139,15 @@ This snippet inserts three documents describing coffee drinks into a
 :ref:`collection of documents that describe coffee drinks for sale in a group 
 of stores <ios-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.insert-many.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.insert-many.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully inserted 3 new documents.
+      Successfully inserted 3 new documents.
 
 .. _ios-mongodb-read-documents:
 
@@ -170,21 +172,23 @@ You can find a single document using :swift-sdk:`collection.findOneDocument() <E
 This snippet finds a single document from a :ref:`collection of documents 
 that describe coffee drinks for sale in a group of stores 
 <ios-mongodb-example-dataset>`, where the document's ``name`` field contains
-the string value "Maple Latte":
+the string value "Colombian Blend":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-one.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-one.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Found a matching document: Optional([
-      "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(60f5...)), 
-      "creamer": Optional(RealmSwift.AnyBSON.string("true")), 
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia"))])
+      Found a matching document: Optional([
+         "name": Optional(RealmSwift.AnyBSON.string("Colombian Blend")), 
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e5014f65796c813bc68274)), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(false)), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.int64(43))
+      ])
 
 .. _ios-mongodb-findMany:
 
@@ -197,26 +201,17 @@ This snippet finds all documents in a :ref:`collection of documents that
 describe coffee drinks for sale in a group of stores <ios-mongodb-example-dataset>`, 
 where the document's ``name`` field contains the value "Americano":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-many.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-many.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Results: 
-   Coffee drink: [
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
-      "creamer": Optional(RealmSwift.AnyBSON.string("false")), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
-      "name": Optional(RealmSwift.AnyBSON.string("Americano"))]
-   Coffee drink: [
-      "creamer": Optional(RealmSwift.AnyBSON.string("false")), 
-      "name": Optional(RealmSwift.AnyBSON.string("Americano")), 
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 47")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("San Marcos, Guatemala"))]
+      Results: 
+      Coffee drink named: Optional(Optional(RealmSwift.AnyBSON.string("Americano")))
+      Coffee drink named: Optional(Optional(RealmSwift.AnyBSON.string("Americano")))
 
 .. _ios-mongodb-findAndSort:
 
@@ -241,26 +236,29 @@ describe coffee drinks for sale in a group of stores <ios-mongodb-example-datase
 where the document's ``name`` field contains the value "Americano", sorted 
 in descending order by the ``beanRegion`` field:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-and-sort.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-and-sort.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Results: 
-   Coffee drink: [
-      "creamer": Optional(RealmSwift.AnyBSON.string("false")), 
-      "name": Optional(RealmSwift.AnyBSON.string("Americano")), 
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 47")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("San Marcos, Guatemala"))]
-   Coffee drink: [
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
-      "creamer": Optional(RealmSwift.AnyBSON.string("false")), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
-      "name": Optional(RealmSwift.AnyBSON.string("Americano"))]
+      Results: 
+      Coffee drink: [
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e521ed6b124fd047534345)), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("San Marcos, Guatemala")), 
+         "name": Optional(RealmSwift.AnyBSON.string("Americano")), 
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(true)), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.int64(42))
+      ]
+      Coffee drink: [
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e521ed6b124fd047534344)), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.int64(42)), 
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(false)), 
+         "name": Optional(RealmSwift.AnyBSON.string("Americano")), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))
+      ]
 
 .. _ios-mongodb-count:
 
@@ -277,14 +275,15 @@ that describe coffee drinks for sale in a group of stores
 <ios-mongodb-example-dataset>`, where the document's ``name`` field contains 
 the value "Bean of the Day":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.count.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.count.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Found this many documents in the collection matching the filter: 24
+      Found this many documents in the collection matching the filter: 24
 
 .. _ios-mongodb-update-documents:
 
@@ -311,16 +310,17 @@ This snippet updates a single document in a :ref:`collection of documents
 that describe coffee drinks for sale in a group of stores 
 <ios-mongodb-example-dataset>`. This update operation queries for a document
 whose ``name`` field contains the value "Bean of the Day", and sets the
-``containsDairy`` field to "true":
+``containsDairy`` field to ``true``:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.update-one.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.update-one.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully updated a matching document.
+      Successfully updated a matching document.
 
 .. _ios-mongodb-updateMany:
 
@@ -333,16 +333,17 @@ This snippet updates multiple documents in a :ref:`collection of documents
 that describe coffee drinks for sale in a group of stores 
 <ios-mongodb-example-dataset>`. This update operation queries for documents
 where the ``name`` field contains the value "Bean of the Day", and changes the
-``containsDairy`` field to "true":
+``containsDairy`` field to ``true``:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.update-many.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.update-many.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully updated 24 documents.
+      Successfully updated 24 documents.
 
 .. _ios-mongodb-upsert:
 
@@ -359,20 +360,21 @@ that describe coffee drinks for sale in a group of stores
 <ios-mongodb-example-dataset>`. If no document matches the query, it 
 inserts a new document if no document. This operation queries for documents 
 where the ``name`` field has a value of "Bean of the Day", and 
-the ``partition`` field has a value of "Store 55". 
+the ``storeNumber`` field has a value of ``55``. 
 
 Because this snippet sets the ``upsert`` option to ``true``, if no
 document matches the query, MongoDB creates a new document that includes
 both the query and specified updates:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.upsert.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.upsert.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully upserted a document with id: Optional(6108...)
+      Successfully upserted a document with id: 64e523e37765243942eba44a
 
 .. _ios-mongodb-delete-documents:
 
@@ -395,17 +397,18 @@ You can delete a single document from a collection using :swift-sdk:`collection.
 This snippet deletes one document in a :ref:`collection of documents 
 that describe coffee drinks for sale in a group of stores 
 <ios-mongodb-example-dataset>`. This operation queries for a document where
-the ``name`` field has a value of "Mocha" and the ``partition`` field has
-a value of "Store 17", and deletes it.
+the ``name`` field has a value of "Mocha" and the ``storeNumber`` field has
+a value of ``17``, and deletes it.
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.delete-one.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.delete-one.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully deleted a document.
+      Successfully deleted a document.
 
 .. _ios-mongodb-deleteMany:
 
@@ -419,14 +422,15 @@ that describe coffee drinks for sale in a group of stores
 <ios-mongodb-example-dataset>` that match the query for documents
 whose ``name`` field contains the value "Caramel Latte":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.delete-many.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.delete-many.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully deleted 3 documents.
+      Successfully deleted 3 documents.
 
 .. _swift-mongodb-watch:
 
@@ -458,30 +462,49 @@ or apply a ``$match`` filter to incoming change events with :swift-sdk:`collecti
 
 The ``.watch()`` method can take a :swift-sdk:`ChangeEventDelegate 
 <Protocols/ChangeEventDelegate.html>` to subscribe to changes on a stream.
-
-The following snippet watches for changes to any documents in the
-``CoffeeDrinks`` collection:
-
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection.swift
-   :language: swift
-   :copyable: false
-
-It uses this :swift-sdk:`ChangeEventDelegate <Protocols/ChangeEventDelegate.html>`:
+For example, with this ``ChangeEventDelegate``:
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.change-event-delegate.swift
    :language: swift
    :copyable: false
 
-Running this snippet produces this output:
+This code watches for changes to documents in the ``CoffeeDrinks`` 
+collection:
 
-.. code-block:: console
-   :copyable: false
+.. io-code-block::
 
-   Login as <RLMUser: 0x600003908880> succeeded!
-   Change stream opened: <RLMChangeStream: 0x600000c9a1c0>
-   Change event document received: ["clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-30 21:42:44 +0000)), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(642602546207d8b9ce866ec4))])), "_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("8264260254000000012B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F69640064642602546207D8B9CE866EC40004"))])), "operationType": Optional(RealmSwift.AnyBSON.string("insert")), "fullDocument": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("false")), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "_id": Optional(RealmSwift.AnyBSON.objectId(642602546207d8b9ce866ec4)), "_partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))])), "ns": Optional(RealmSwift.AnyBSON.document(["coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks")), "db": Optional(RealmSwift.AnyBSON.string("ios"))]))]
-   Successfully inserted a document with id: objectId(642602546207d8b9ce866ec4)
-   Change stream closed
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection.swift
+      :language: swift
+
+   .. output::
+      :language: console
+
+      Login as <RLMUser: 0x600002dfd1a0> succeeded!
+      Change stream opened: <RLMChangeStream: 0x60000182ab80>
+      Successfully inserted a document with id: objectId(64e525665fef1743dedb5aa6)
+      Change event document received: [
+         "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-08-22 21:15:18 +0000)), 
+         "_id": Optional(RealmSwift.AnyBSON.document([
+            "_data": Optional(RealmSwift.AnyBSON.string(
+               "8264E525660000000B2B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F6964006464E525665FEF1743DEDB5AA60004"
+            ))
+         ])), 
+         "documentKey": Optional(RealmSwift.AnyBSON.document([
+            "_id": Optional(RealmSwift.AnyBSON.objectId(64e525665fef1743dedb5aa6))
+         ])), 
+         "ns": Optional(RealmSwift.AnyBSON.document([
+            "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks")), 
+            "db": Optional(RealmSwift.AnyBSON.string("ios"))
+         ])), 
+         "operationType": Optional(RealmSwift.AnyBSON.string("insert")), 
+         "fullDocument": Optional(RealmSwift.AnyBSON.document([
+            "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), 
+            "storeNumber": Optional(RealmSwift.AnyBSON.int64(42)), 
+            "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
+            "_id": Optional(RealmSwift.AnyBSON.objectId(64e525665fef1743dedb5aa6)), 
+            "containsDairy": Optional(RealmSwift.AnyBSON.bool(false))
+         ]))]
+      Change stream closed
 
 .. _swift-mongodb-watch-with-list-of-ids:
 
@@ -494,29 +517,55 @@ passing in their ``_id``. Call :swift-sdk:`collection.watch(filterIds: )
 with an array of ObjectIds to receive only change events that apply to those
 documents.
 
-The following snippet watches for changes to specific documents in the
-``CoffeeDrinks`` collection:
-
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-with-filter.swift
-   :language: swift
-   :copyable: false
-
-It uses this :swift-sdk:`ChangeEventDelegate <Protocols/ChangeEventDelegate.html>`:
+Consider an example that uses this :swift-sdk:`ChangeEventDelegate 
+<Protocols/ChangeEventDelegate.html>`:
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.change-event-delegate.swift
    :language: swift
    :copyable: false
 
-Running this snippet produces this output:
+The code below uses this delegate to watch for changes to specific
+documents in the ``CoffeeDrinks`` collection:
 
-.. code-block:: console
-   :copyable: false
+.. io-code-block::
 
-   Login as <RLMUser: 0x600003198780> succeeded!
-   Change stream opened: <RLMChangeStream: 0x600000418240>
-   Successfully updated the document
-   Change event document received: ["fullDocument": Optional(RealmSwift.AnyBSON.document(["_partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), "_id": Optional(RealmSwift.AnyBSON.objectId(6426121ec505cc40eb9f6de2)), "containsDairy": Optional(RealmSwift.AnyBSON.string("true"))])), "_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("826426122A000000102B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F696400646426121EC505CC40EB9F6DE20004"))])), "ns": Optional(RealmSwift.AnyBSON.document(["db": Optional(RealmSwift.AnyBSON.string("ios")), "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))])), "updateDescription": Optional(RealmSwift.AnyBSON.document(["removedFields": Optional(RealmSwift.AnyBSON.array([])), "updatedFields": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("true"))]))])), "operationType": Optional(RealmSwift.AnyBSON.string("update")), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426121ec505cc40eb9f6de2))])), "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-30 22:50:18 +0000))]
-   Change stream closed
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-with-filter.swift
+      :language: swift
+
+   .. output::
+      :language: console
+
+      Login as <RLMUser: 0x60000010eb00> succeeded!
+      Successfully inserted a document with id: objectId(64e525ce7765243942ef0a58)
+      Change stream opened: <RLMChangeStream: 0x6000034946c0>
+      Change event document received: [
+         "fullDocument": Optional(RealmSwift.AnyBSON.document([
+            "containsDairy": Optional(RealmSwift.AnyBSON.bool(true)), 
+            "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
+            "_id": Optional(RealmSwift.AnyBSON.objectId(64e525ce7765243942ef0a58)), 
+            "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), 
+            "storeNumber": Optional(RealmSwift.AnyBSON.int64(42))
+         ])), 
+         "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-08-22 21:17:09 +0000)), 
+         "operationType": Optional(RealmSwift.AnyBSON.string("update")), 
+         "documentKey": Optional(RealmSwift.AnyBSON.document([
+            "_id": Optional(RealmSwift.AnyBSON.objectId(64e525ce7765243942ef0a58))
+         ])), 
+         "ns": Optional(RealmSwift.AnyBSON.document([
+            "db": Optional(RealmSwift.AnyBSON.string("ios")), 
+            "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))
+         ])), 
+         "updateDescription": Optional(RealmSwift.AnyBSON.document([
+            "removedFields": Optional(RealmSwift.AnyBSON.array([])), 
+            "updatedFields": Optional(RealmSwift.AnyBSON.document([
+               "containsDairy": Optional(RealmSwift.AnyBSON.bool(true))]))
+            ])), 
+         "_id": Optional(RealmSwift.AnyBSON.document([
+            "_data": Optional(RealmSwift.AnyBSON.string(
+               "8264E525D5000000082B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F6964006464E525CE7765243942EF0A580004"
+            ))
+         ]))]
+      Change stream closed
 
 .. _swift-mongodb-watch-with-filter:
 
@@ -532,31 +581,59 @@ used as the query of a :manual:`$match operator
 :ref:`database event <database-events>` that occurs while watching the
 collection.
 
-The following snippet watches for changes to documents in the
-``CoffeeDrink`` collection, but only triggers the provided callback for
-events corresponding to documents belonging to the partition named
-"Store 42":
-
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-with-match.swift
-   :language: swift
-   :copyable: false
-
-It uses this :swift-sdk:`ChangeEventDelegate <Protocols/ChangeEventDelegate.html>`:
+Consider an example that uses this :swift-sdk:`ChangeEventDelegate 
+<Protocols/ChangeEventDelegate.html>`:
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.change-event-delegate.swift
    :language: swift
    :copyable: false
 
-Running this snippet produces this output:
+To use the code below to watch for changes to documents in the
+``CoffeeDrink`` collection, but only trigger the provided callback for
+events corresponding to documents belonging to the ``storeNumber`` named
+``42``:
 
-.. code-block:: console
-   :copyable: false
+.. io-code-block::
 
-   Login as <RLMUser: 0x60000183d7e0> succeeded!
-   Change stream opened: <RLMChangeStream: 0x600002d580c0>
-   Change event document received: ["fullDocument": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426e0feedf76ba4a8969b34)), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "_partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "containsDairy": Optional(RealmSwift.AnyBSON.string("true")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))])), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(6426e0feedf76ba4a8969b34))])), "updateDescription": Optional(RealmSwift.AnyBSON.document(["updatedFields": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("true"))])), "removedFields": Optional(RealmSwift.AnyBSON.array([]))])), "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-31 13:33:03 +0000)), "operationType": Optional(RealmSwift.AnyBSON.string("update")), "ns": Optional(RealmSwift.AnyBSON.document(["db": Optional(RealmSwift.AnyBSON.string("ios")), "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))])), "_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("826426E10F0000000F2B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F696400646426E0FEEDF76BA4A8969B340004"))]))]
-   Successfully updated the document
-   Change stream closed
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-with-match.swift
+      :language: swift
+
+   .. output::
+      :language: text
+
+      Login as <RLMUser: 0x6000026ee640> succeeded!
+      Successfully inserted a document with id: objectId(64e5266731323150716faf13)
+      Change stream opened: <RLMChangeStream: 0x6000013283c0>
+      Change event document received: [
+         "operationType": Optional(RealmSwift.AnyBSON.string("update")), 
+         "updateDescription": Optional(RealmSwift.AnyBSON.document([
+            "removedFields": Optional(RealmSwift.AnyBSON.array([])), 
+            "updatedFields": Optional(RealmSwift.AnyBSON.document([
+               "containsDairy": Optional(RealmSwift.AnyBSON.bool(true))
+            ]))
+         ])), 
+         "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-08-22 21:19:44 +0000)), 
+         "_id": Optional(RealmSwift.AnyBSON.document([
+            "_data": Optional(RealmSwift.AnyBSON.string(
+               "8264E526700000000E2B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F6964006464E5266731323150716FAF130004"
+            ))
+         ])), 
+         "ns": Optional(RealmSwift.AnyBSON.document([
+            "db": Optional(RealmSwift.AnyBSON.string("ios")), 
+            "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))
+         ])), 
+         "fullDocument": Optional(RealmSwift.AnyBSON.document([
+            "_id": Optional(RealmSwift.AnyBSON.objectId(64e5266731323150716faf13)), 
+            "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), 
+            "containsDairy": Optional(RealmSwift.AnyBSON.bool(true)), 
+            "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
+            "storeNumber": Optional(RealmSwift.AnyBSON.int64(42))
+         ])), 
+         "documentKey": Optional(RealmSwift.AnyBSON.document([
+            "_id": Optional(RealmSwift.AnyBSON.objectId(64e5266731323150716faf13))
+         ]))]
+      Successfully updated the document
+      Change stream closed
 
 
 .. _swift-mongodb-watch-async-sequence:
@@ -583,17 +660,44 @@ to watch a subset of documents in a collection, similar to the examples above.
 The following snippet watches for changes to any documents in the
 ``CoffeeDrinks`` collection as an async sequence:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-async-sequence.swift
-   :language: swift
-   :copyable: false
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.watch-collection-async-sequence.swift
+      :language: swift
 
-.. code-block:: console
-   :copyable: false
+   .. output::
+      :language: text
 
-   Successfully opened change stream
-   Received event: ["_id": Optional(RealmSwift.AnyBSON.document(["_data": Optional(RealmSwift.AnyBSON.string("82642722F9000000052B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F69640064642722F800B264566E25B5CC0004"))])), "updateDescription": Optional(RealmSwift.AnyBSON.document(["updatedFields": Optional(RealmSwift.AnyBSON.document(["containsDairy": Optional(RealmSwift.AnyBSON.string("true"))])), "removedFields": Optional(RealmSwift.AnyBSON.array([]))])), "ns": Optional(RealmSwift.AnyBSON.document(["db": Optional(RealmSwift.AnyBSON.string("ios")), "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks"))])), "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-03-31 18:14:17 +0000)), "fullDocument": Optional(RealmSwift.AnyBSON.document(["beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "_id": Optional(RealmSwift.AnyBSON.objectId(642722f800b264566e25b5cc)), "containsDairy": Optional(RealmSwift.AnyBSON.string("true")), "_partition": Optional(RealmSwift.AnyBSON.string("Store 43"))])), "documentKey": Optional(RealmSwift.AnyBSON.document(["_id": Optional(RealmSwift.AnyBSON.objectId(642722f800b264566e25b5cc))])), "operationType": Optional(RealmSwift.AnyBSON.string("update"))]
+      Successfully opened change stream
+      Received event: [
+         "operationType": Optional(RealmSwift.AnyBSON.string("update")), 
+         "documentKey": Optional(RealmSwift.AnyBSON.document([
+            "_id": Optional(RealmSwift.AnyBSON.objectId(64e526d9850b15debe83ff46))
+         ])), 
+         "ns": Optional(RealmSwift.AnyBSON.document([
+            "coll": Optional(RealmSwift.AnyBSON.string("CoffeeDrinks")), 
+            "db": Optional(RealmSwift.AnyBSON.string("ios"))
+         ])), 
+         "clusterTime": Optional(RealmSwift.AnyBSON.datetime(2023-08-22 21:21:30 +0000)), 
+         "fullDocument": Optional(RealmSwift.AnyBSON.document([
+            "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), 
+            "containsDairy": Optional(RealmSwift.AnyBSON.bool(true)), 
+            "storeNumber": Optional(RealmSwift.AnyBSON.int64(43)), 
+            "_id": Optional(RealmSwift.AnyBSON.objectId(64e526d9850b15debe83ff46)), 
+            "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))
+         ])), 
+         "_id": Optional(RealmSwift.AnyBSON.document([
+            "_data": Optional(RealmSwift.AnyBSON.string(
+               "8264E526DA000000092B022C0100296E5A100464816C3449884434A07AC19F4AAFCB8046645F6964006464E526D9850B15DEBE83FF460004"
+               )
+            )
+         ])), 
+         "updateDescription": Optional(RealmSwift.AnyBSON.document([
+            "updatedFields": Optional(RealmSwift.AnyBSON.document([
+               "containsDairy": Optional(RealmSwift.AnyBSON.bool(true))
+            ])), 
+            "removedFields": Optional(RealmSwift.AnyBSON.array([]))
+         ]))]
 
 .. _ios-mongodb-aggregation-pipelines:
 
@@ -624,29 +728,30 @@ documents using standard MongoDB :manual:`query syntax
 </tutorial/query-documents>`:
 
 This ``$match`` stage filters documents to include only those where the 
-``partition`` field has a value equal to "Store 42":
+``storeNumber`` field has a value equal to ``42``:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-match.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-match.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully ran the aggregation: 
-   Coffee drink: [
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
-      "creamer": Optional(RealmSwift.AnyBSON.string("false")), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
-      "name": Optional(RealmSwift.AnyBSON.string("Americano"))]
-   Coffee drink: [
-      "creamer": Optional(RealmSwift.AnyBSON.string("false")), 
-      "name": Optional(RealmSwift.AnyBSON.string("Americano")), 
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6102...)), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("San Marcos, Guatemala"))]
-   (...more results...)
+      Successfully ran the aggregation:
+      Coffee drink: [
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e53171313231507183e7c2)), 
+         "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), 
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(false)), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.int64(42))]
+      Coffee drink: [
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(true)), 
+         "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")), 
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e53171313231507183e7c3)), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.int64(42))]
+         (...more results...)
 
 .. _ios-mongodb-aggregate-group:
 
@@ -661,23 +766,22 @@ You can reference a specific document field by prefixing the field name
 with a ``$``.
 
 This ``$group`` stage arranges documents by the value of their
-``partition`` field, which in this case is the store number. It then 
-calculates the number of coffee drink documents that contain that store number
-as the value of the ``partition`` field. In other words, we're calculating
-the number of coffee drinks for each store number. 
+``storeNumber`` field. It then calculates the number of coffee drink 
+documents that contain that store number in the field's value. In other 
+words, we're calculating the number of coffee drinks for each store number. 
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-group.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-group.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully ran the aggregation.
-   ["numItems": Optional(RealmSwift.AnyBSON.int64(6)), "_id": Optional(RealmSwift.AnyBSON.string("Store 43"))]
-   ["numItems": Optional(RealmSwift.AnyBSON.int64(16)), "_id": Optional(RealmSwift.AnyBSON.string("Store 42"))]
-   ["_id": Optional(RealmSwift.AnyBSON.string("Store 47")), "numItems": Optional(RealmSwift.AnyBSON.int64(7))]
-   (...more results...)
+      Successfully ran the aggregation.
+      ["numItems": Optional(RealmSwift.AnyBSON.int64(27)), "_id": Optional(RealmSwift.AnyBSON.int64(42))]
+      ["numItems": Optional(RealmSwift.AnyBSON.int64(44)), "_id": Optional(RealmSwift.AnyBSON.int64(47))]
+      (...more results...)
 
 .. _ios-mongodb-aggregate-project:
 
@@ -705,18 +809,25 @@ vice versa.
    The ``_id`` field is a special case: it is always included in every
    query unless explicitly specified otherwise. For this reason, you
    *can* exclude the ``_id`` field with a ``0`` value while simultaneously
-   including other fields, like ``_partition``, with a ``1``. Only the
+   including other fields, like ``storeNumber``, with a ``1``. Only the
    special case of exclusion of the ``_id`` field allows both exclusion
    and inclusion in one ``$project`` stage.
+
+For this example, assume the ``CoffeeDrink`` document has a ``store``
+field that is a string value containing the word "Store" with a number, 
+such as "Store 42", similar to these documents:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.store-document-example.swift
+   :language: swift
 
 The following ``$project`` stage omits the ``_id`` field, includes
 the ``name`` field, and creates a new field named ``storeNumber``.
 The ``storeNumber`` is generated using two aggregation operators:
 
-1. ``$split`` separates the ``partition`` value into two string
-   segments surrounding the space character. For example, the value
-   "Store 42" split in this way returns an array with two elements:
-   "Store" and "42".
+1. ``$split`` separates the ``store`` string representation into 
+   two string segments surrounding the space character. For example, 
+   the value "Store 42" split in this way returns an array with two 
+   elements: "Store" and "42".
 
 2. ``$arrayElemAt`` selects a specific element from an array based
    on the second argument. In this case, the value ``1`` selects the
@@ -724,18 +835,18 @@ The ``storeNumber`` is generated using two aggregation operators:
    since arrays index from ``0``. For example, the value ["Store", "42"]
    passed to this operation would return a value of "42".
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-project.swift
-   :language: swift
+.. io-code-block::
 
-Running this snippet produces this output:
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-project.swift
+      :language: swift
 
-.. code-block:: text
+   .. output::
+      :language: text
 
-   Successfully ran the aggregation.
-   ["name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), "storeNumber": Optional(RealmSwift.AnyBSON.string("42"))]
-   ["storeNumber": Optional(RealmSwift.AnyBSON.string("42")), "name": Optional(RealmSwift.AnyBSON.string("Americano"))]
-   ["name": Optional(RealmSwift.AnyBSON.string("Americano")), "storeNumber": Optional(RealmSwift.AnyBSON.string("47"))]
-   (...more results...)
+      Successfully ran the aggregation.
+      ["name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "storeNumber": Optional(RealmSwift.AnyBSON.string("42"))]
+      ["storeNumber": Optional(RealmSwift.AnyBSON.string("47")), "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day"))]
+      (...more results...)
 
 .. _ios-mongodb-aggregate-add-fields:
 
@@ -753,22 +864,40 @@ with calculated values using :manual:`aggregation operators
    </reference/operator/aggregation/project/>` but does not allow you to
    include or omit fields.
 
-The following ``$addFields`` stage creates a new field named
-``storeNumber`` where the value is the output of two aggregate operators
-that transform the value of the ``partition`` field.
+For this example, assume the ``CoffeeDrink`` document has a ``store``
+field that is a string value containing the word "Store" with a number, 
+such as "Store 42", similar to these documents:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-add-fields.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.store-document-example.swift
    :language: swift
 
-Running this snippet produces this output:
+The following ``$addFields`` stage creates a new field named
+``storeNumber`` where the value is the output of two aggregate operators
+that transform the value of the ``store`` field.
 
-.. code-block:: text
+.. io-code-block::
 
-   Successfully ran the aggregation.
-   ["storeNumber": Optional(RealmSwift.AnyBSON.string("42")), "creamer": Optional(RealmSwift.AnyBSON.string("true")), "_id": Optional(RealmSwift.AnyBSON.objectId(60f5f39f1eb0f39071acef87)), "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")), "partition": Optional(RealmSwift.AnyBSON.string("Store 42"))]
-   ["beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")), "storeNumber": Optional(RealmSwift.AnyBSON.string("42")), "_id": Optional(RealmSwift.AnyBSON.objectId(6102b91aaa4f3fc37642119e)), "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), "creamer": Optional(RealmSwift.AnyBSON.string("true")), "partition": Optional(RealmSwift.AnyBSON.string("Store 42"))]
-   ["creamer": Optional(RealmSwift.AnyBSON.string("false")), "_id": Optional(RealmSwift.AnyBSON.objectId(6102f577099eb9b818497908)), "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia")), "storeNumber": Optional(RealmSwift.AnyBSON.string("42")), "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), "name": Optional(RealmSwift.AnyBSON.string("Americano"))]
-   (...more results...)
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-add-fields.swift
+      :language: swift
+
+   .. output::
+      :language: text
+
+      Successfully ran the aggregation.
+      [
+         "storeNumber": Optional(RealmSwift.AnyBSON.string("42")), 
+         "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), 
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e588ff5fef1743de3559aa)), 
+         "store": Optional(RealmSwift.AnyBSON.string("Store 42")), 
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(false)), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))]
+      [
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(true)), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.string("47")), 
+         "store": Optional(RealmSwift.AnyBSON.string("Store 47")), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")), 
+         "name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), 
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e588ff5fef1743de3559ab))]
 
 .. _ios-mongodb-aggregate-unwind:
 
@@ -782,59 +911,49 @@ values from that array. When you unwind an array field,
 MongoDB copies each document once for each element of the array field
 but replaces the array value with the array element in each copy.
 
+Consider this document that includes a ``featuredInPromotions`` array:
+
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.unwind-test-document.swift
+   :language: swift
+
 The following ``$unwind`` stage creates a new document for each
 element of the ``items`` array in each document. It also adds a field
 called ``itemIndex`` to each new document that specifies the
 element's position index in the original array:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-unwind.swift
-   :language: swift
+.. io-code-block::
+   
+   .. input:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-unwind.swift
+      :language: swift
 
-Consider this document that includes a ``featuredInPromotions`` array:
+   .. output::
+      :language: text
 
-.. code-block:: text
-
-   _id: 610802b44386a9ed3144447d,
-   name: "Maple Latte",
-   containsDairy:"true",
-   partition:"Store 42",
-   beanRegion: "Yirgacheffe, Ethiopia",
-   featuredInPromotions: [
-      "Spring into Spring",
-      "Tastes of Fall",
-      "Winter Delights"
-   ]
-
-If we apply the example ``$unwind`` stage to this document, the stage outputs
-the following three documents:
-
-.. code-block:: text
-
-   Successfully ran the aggregation.
-   Coffee drink: [
-      "featuredInPromotions": Optional(RealmSwift.AnyBSON.string("Spring into Spring")), 
-      "itemIndex": Optional(RealmSwift.AnyBSON.int64(0)),
-      "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")), 
-      "containsDairy": Optional(RealmSwift.AnyBSON.string("true")),  
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6108...))]
-   Coffee drink: [
-      "featuredInPromotions": Optional(RealmSwift.AnyBSON.string("Tastes of Fall")),
-      "itemIndex": Optional(RealmSwift.AnyBSON.int64(1)),
-      "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), 
-      "containsDairy": Optional(RealmSwift.AnyBSON.string("true")), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")), 
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6108...))]
-   Coffee drink: [
-      "featuredInPromotions": Optional(RealmSwift.AnyBSON.string("Winter Delights")),
-      "itemIndex": Optional(RealmSwift.AnyBSON.int64(2)), 
-      "partition": Optional(RealmSwift.AnyBSON.string("Store 42")), 
-      "containsDairy": Optional(RealmSwift.AnyBSON.string("true")), 
-      "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")),  
-      "_id": Optional(RealmSwift.AnyBSON.objectId(6108...)), 
-      "name": Optional(RealmSwift.AnyBSON.string("Maple Latte"))]
+      Successfully ran the aggregation.
+      Coffee drink: [
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e58bb4fc901d40e03fde64)), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.int64(42)), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")), 
+         "featuredInPromotions": Optional(RealmSwift.AnyBSON.string("Spring into Spring")), 
+         "itemIndex": Optional(RealmSwift.AnyBSON.int64(0)), 
+         "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), 
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(true))]
+      Coffee drink: [
+         "itemIndex": Optional(RealmSwift.AnyBSON.int64(1)), 
+         "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), 
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e58bb4fc901d40e03fde64)), 
+         "featuredInPromotions": Optional(RealmSwift.AnyBSON.string("Tastes of Fall")), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.int64(42)), 
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(true)), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia"))]
+      Coffee drink: [
+         "name": Optional(RealmSwift.AnyBSON.string("Maple Latte")), 
+         "_id": Optional(RealmSwift.AnyBSON.objectId(64e58bb4fc901d40e03fde64)), 
+         "beanRegion": Optional(RealmSwift.AnyBSON.string("Yirgacheffe, Ethiopia")), 
+         "itemIndex": Optional(RealmSwift.AnyBSON.int64(2)), 
+         "containsDairy": Optional(RealmSwift.AnyBSON.bool(true)), 
+         "storeNumber": Optional(RealmSwift.AnyBSON.int64(42)), 
+         "featuredInPromotions": Optional(RealmSwift.AnyBSON.string("Winter Delights"))]
 
 You could then ``$group`` by the value of ``featuredInPromotions`` and ``$sum`` 
 the number of coffee drinks in each promotion as in the :ref:`group documents 

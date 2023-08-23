@@ -1,4 +1,4 @@
-app.login(credentials: Credentials.anonymous) { (result) in
+appClient.login(credentials: Credentials.anonymous) { (result) in
     DispatchQueue.main.async {
         switch result {
         case .failure(let error):
@@ -9,7 +9,7 @@ app.login(credentials: Credentials.anonymous) { (result) in
         }
         
         // Set up the client, database, and collection.
-        let client = app.currentUser!.mongoClient("mongodb-atlas")
+        let client = self.appClient.currentUser!.mongoClient("mongodb-atlas")
         let database = client.database(named: "ios")
         let collection = database.collection(withName: "CoffeeDrinks")
         
@@ -20,7 +20,7 @@ app.login(credentials: Credentials.anonymous) { (result) in
         let changeStream = collection.watch(delegate: delegate, queue: queue)
 
         // Adding a document triggers a change event.
-        let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
+        let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": false, "storeNumber": 42]
         
         collection.insertOne(drink) { result in
             switch result {
