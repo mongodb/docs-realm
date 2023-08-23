@@ -89,22 +89,22 @@ Realm does not delete the referenced object, though, unless it is
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
 .. tabs::
-
+   
    .. tab:: Current
       :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
-         :language: cpp
-         :emphasize-lines: 15
-   
-   .. tab:: Experimental
-      :tabid: experimental
 
       .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-to-one-relationship.cpp
          :language: cpp
          :emphasize-lines: 13
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-one-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 15
 
 .. _cpp-define-a-to-many-relationship-property:
 
@@ -120,18 +120,18 @@ number of employees as a to-many relationship.
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
-         :language: cpp
-         :emphasize-lines: 7
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       .. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-to-many-relationship.cpp
          :language: cpp
          :emphasize-lines: 7
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.to-many-relationship.cpp
+         :language: cpp
+         :emphasize-lines: 7
 
 .. _cpp-define-an-inverse-relationship-property:
 

@@ -28,16 +28,6 @@ Delete an Object
       :tabid: current
 
       To delete an object from a realm, pass the object to
-      :cpp-sdk:`Realm.remove() function <structrealm_1_1db.html>`
-      inside of a write transaction.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-an-object.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
-      To delete an object from a realm, pass the object to
       :cpp-sdk:`Realm.remove() function <structrealm_1_1experimental_1_1db.html>`
       inside of a write transaction.
 
@@ -45,6 +35,16 @@ Delete an Object
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      To delete an object from a realm, pass the object to
+      :cpp-sdk:`Realm.remove() function <structrealm_1_1db.html>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-an-object.cpp
+         :language: cpp
 
 .. _cpp-delete-inverse-relationship:
 
@@ -90,13 +90,13 @@ pass the key name to ``erase()``:
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.delete-map-value.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-delete-map-value.cpp
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.delete-map-value.cpp
+         :language: cpp
