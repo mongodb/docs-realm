@@ -60,15 +60,33 @@ class DeleteTest: RealmTest() {
                 val allSnacks = findLatest(myFrog)!!.favoriteSnacks
                 snackSet.removeAll(allSnacks)
                 // :remove-start:
-                // TODO update test once https://github.com/realm/realm-kotlin/issues/1097 is fixed
+                // TODO update test once https://github.com/realm/realm-kotlin/issues/1097 is fixed in v1.11.0
                 // assertTrue(set.isEmpty())
                 snackSet.removeAll(allSnacks) // have to call twice to actually remove all items until bug is fixed
                 // :remove-end:
             }
             // :snippet-end:
-            realm.writeBlocking {
-                val frogs = query<RealmSet_Frog>().find().first()
-                delete(frogs)
+            realm.write {
+                val myFrog = realm.query<RealmSet_Frog>("name == $0", "Kermit").find().first()
+                val snackSet = findLatest(myFrog)!!.favoriteSnacks
+                val snack1 = this.copyToRealm(Snack().apply {
+                    name = "snack1"
+                })
+                val snack2 = this.copyToRealm(Snack().apply {
+                    name = "snack2"
+                })
+                val snack3 = this.copyToRealm(Snack().apply {
+                    name = "snack3"
+                })
+
+                snackSet.addAll(setOf(snack1, snack2, snack3))
+                assertEquals(3, snackSet.size)
+
+                // :snippet-start: clear-set
+                // Clear all snacks from the set
+                snackSet.clear()
+                // :snippet-end:
+                 assertTrue(snackSet.isEmpty())
             }
             realm.close()
         }

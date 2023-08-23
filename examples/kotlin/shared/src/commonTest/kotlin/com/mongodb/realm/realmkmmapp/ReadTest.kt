@@ -13,6 +13,7 @@ import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 // :replace-start: {
@@ -53,10 +54,11 @@ class ReadTest: RealmTest() {
                 )
                 // Query for frogs that have worms as a favorite snack
                 val frogs = query<RealmSet_Frog>("favoriteSnacks.name == $0", "Worms").find().first()
+                assertEquals("Kermit", frogs.name) // :remove:
 
                 // Query for specific snacks
                 val wormsSnack = frog.favoriteSnacks.first { it.name == "Worms" }
-                assertEquals(3, frog.favoriteSnacks.size) // :remove:
+                assertNotNull(wormsSnack) // :remove:
             }
             // :snippet-end:
             realm.write {

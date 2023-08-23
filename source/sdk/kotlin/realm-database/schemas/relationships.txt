@@ -75,8 +75,8 @@ to multiple objects.
 You can create a relationship between one object
 and any number of objects using a field of type ``RealmList<T>`` or 
 ``RealmSet<T>``, where ``T`` is a Realm object in your application. 
-Note that lists or sets of ``RealmObject`` cannot have null elements 
-and must be initialized with ``realmListOf()`` or ``realmSetOf()``.
+Note that lists or sets of ``RealmObject`` cannot contain null elements 
+or be null (they must be initialized with ``realmListOf()`` or ``realmSetOf()``).
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.to-many-relationship.kt
    :language: kotlin
