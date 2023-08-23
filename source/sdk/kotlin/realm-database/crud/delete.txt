@@ -7,7 +7,7 @@ Delete Realm Objects - Kotlin SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
 .. note::
@@ -93,6 +93,33 @@ To delete all objects of a type from a realm:
    <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/index.html#-181441016%2FFunctions%2F-1651551339>`__.
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-all-objects-of-a-type.kt
+   :language: kotlin
+
+Delete Items from a RealmSet
+----------------------------
+
+:ref:`RealmSet <kotlin-realm-set>` instances that contain Realm objects 
+only store references to those objects, so deleting a Realm object from a 
+realm also deletes that object from any ``RealmSet`` instances that contain 
+the object.
+
+You can delete one or more items from a ``RealmSet`` at a time:
+
+- To remove one item from a ``RealmSet``, pass the element 
+  you want to delete to 
+  `set.remove() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-1503494415%2FFunctions%2F-1651551339>`__.
+- To remove multiple items from a ``RealmSet``, pass the 
+  elements you want to delete to
+  `set.removeAll() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#430447804%2FFunctions%2F-1651551339>`__.
+
+.. literalinclude:: /examples/generated/kotlin/DeleteTest.snippet.remove-item-from-set.kt
+   :language: kotlin
+
+Alternatively, you can use 
+`set.clear() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-767459876%2FFunctions%2F878332154>`__ 
+to clear all items from a ``RealmSet``: 
+
+.. literalinclude:: /examples/generated/kotlin/DeleteTest.snippet.clear-set.kt
    :language: kotlin
 
 .. _kotlin-delete-dictionary-keys-values:

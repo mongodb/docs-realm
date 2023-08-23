@@ -50,8 +50,8 @@ and pass the type as a type parameter to `realm.query()
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.find-all-objects-of-a-type.kt
    :language: kotlin
 
-Find an Embedded Object
-~~~~~~~~~~~~~~~~~~~~~~~
+Query an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can query an :ref:`embedded object <kotlin-embedded-objects>` directly or 
 through the parent object. You can also use the 
@@ -61,14 +61,40 @@ method to access the parent of the embedded object.
 .. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.query-embedded-objects.kt 
     :language: kotlin
 
-Read an Object with a Dictionary Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Query a Dictionary Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can iterate and check the values of a  
 `RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__
 as you would a Kotlin Map.
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-dictionary.kt
+   :language: kotlin
+
+Query a RealmSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query a :ref:`RealmSet <kotlin-realm-set>` property:
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-set.kt
+   :language: kotlin
+
+Check if the RealmSet Contains Items
+````````````````````````````````````
+
+You can check if the ``RealmSet`` contains one or more elements:
+
+- To check if the set contains a particular item, pass the 
+  element to `set.contains()
+  <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#607101300%2FFunctions%2F-1651551339>`__.
+- To check if the ``RealmSet`` contains multiple items, pass 
+  the elements to `set.containsAll()
+  <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#1318510207%2FFunctions%2F-1651551339>`__.
+
+Either method returns ``true`` if the set contains the 
+specified elements.
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.realm-set-contains.kt
    :language: kotlin
 
 Filter Data

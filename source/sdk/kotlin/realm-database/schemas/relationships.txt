@@ -37,6 +37,7 @@ types:
 
 - ``RealmObject``
 - ``RealmList <? extends RealmObject>``
+- ``RealmSet <? extends RealmObject>``
 
 You can also embed one Realm object directly within another to create a nested
 data structure.
@@ -63,6 +64,8 @@ Each ``SushiPlatter`` references either zero ``Fish`` instances or one other
 referencing the same ``Fish`` instance; the distinction between a
 many-to-one and a one-to-one relationship is up to your application.
 
+.. _kotlin-to-many-relationship:
+
 To-Many Relationship
 --------------------
 
@@ -70,19 +73,18 @@ A to-many relationship means that an object is related in a specific way
 to multiple objects. 
 
 You can create a relationship between one object
-and any number of objects using a field of type ``RealmList<T>`` where
-``T`` is a Realm object in your application. Note that lists or sets of 
-``RealmObject`` cannot have null elements and must be initialized with 
-``realmListOf()`` or ``realmSetOf()``.
+and any number of objects using a field of type ``RealmList<T>`` or 
+``RealmSet<T>``, where ``T`` is a Realm object in your application. 
+Note that lists or sets of ``RealmObject`` cannot contain null elements 
+or be null (they must be initialized with ``realmListOf()`` or ``realmSetOf()``).
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.to-many-relationship.kt
    :language: kotlin
-   :copyable: false
 
-RealmLists are containers of RealmObjects, but otherwise behave like a
-regular collection. The same object can occur in multiple to-many
-relationships; the distinction between a many-to-many and a one-to-many
-relationship is up to your application.
+RealmLists and RealmSets are containers of RealmObjects, but 
+otherwise behave like a regular collection. The same object can 
+occur in multiple to-many relationships; the distinction between a 
+many-to-many and a one-to-many relationship is up to your application.
 
 .. note::
 

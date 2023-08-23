@@ -96,7 +96,55 @@ when you :ref:`open the realm <kotlin-open-a-realm>`.
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.open-with-class.kt
   :language: kotlin
   :emphasize-lines: 2
-  
+
+
+Define a Collection 
+-------------------
+
+You can define collections of items using 
+``RealmList``, ``RealmSet``, and ``RealmMap`` types.
+
+.. _kotlin-define-realm-set-type:
+
+Define a RealmSet
+~~~~~~~~~~~~~~~~~
+
+To define a property as a :ref:`RealmSet <kotlin-realm-set>`, specify its 
+type within the schema as ``RealmSet<T>``, where T is any of the supported 
+:ref:`data types <kotlin-supported-types>` or a 
+`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
+If a ``RealmSet``'s value is a ``RealmObject``, the value *cannot* have
+null elements.
+
+Instantiate an unmanaged ``RealmSet`` by setting the field's default value
+using the 
+`realmSetOf() <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-set-of.html>`__ 
+method.
+
+In the following example, we define a ``Frog`` schema with a 
+``favoriteSnacks`` field that is a ``RealmSet`` of ``Snack`` objects:
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.define-a-realm-set.kt
+   :language: kotlin
+
+.. _kotlin-define-realm-dictionary-type:
+
+Define a RealmDictionary/RealmMap
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To define a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its type within the schema as ``RealmDictionary<T>``, where T is any Realm :ref:`primitive type 
+<kotlin-supported-types>`, a ``RealmObject``, or an ``EmbeddedRealmObject``. 
+If a ``RealmDictionary``'s value is a ``RealmObject``
+or ``EmbeddedRealmObject``, the value must be declared nullable.
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.define-realm-dictionary-property.kt
+   :language: kotlin
+
+.. include:: /includes/map-key-string-limitations.rst
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.percent-encode-disallowed-characters.kt
+   :language: kotlin
+
 .. _kotlin-define-embedded-object:
 
 Define an Embedded Object
