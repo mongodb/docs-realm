@@ -55,12 +55,10 @@ const styles = StyleSheet.create({
     marginTop: 32,
     paddingHorizontal: 24,
   },
-  // :emphasize-start:
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
   },
-  // :emphasize-end:
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
