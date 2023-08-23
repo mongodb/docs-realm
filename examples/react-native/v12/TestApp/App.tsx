@@ -1,5 +1,4 @@
 import React, {PropsWithChildren} from 'react';
-import {RealmProvider} from '@realm/react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,7 +8,7 @@ import {
   View,
 } from 'react-native';
 
-import {GeoSpatial} from './src/components/data-types/geospatial';
+import {Geospatial} from './src/components/data-types/Geospatial';
 
 type SectionProps = {
   category: string;
@@ -24,35 +23,29 @@ function Section(props: PropsWithChildren<SectionProps>): JSX.Element {
   );
 }
 
-type SubSectionProps = {
-  title: string;
-};
-
-function SubSection(props: PropsWithChildren<SubSectionProps>): JSX.Element {
+function SubSection(props: PropsWithChildren): JSX.Element {
   return (
     <View style={styles.sectionContainer}>
-      <Text>{props.title}</Text>
       <View>{props.children}</View>
     </View>
   );
 }
 
+// TODO: Create sync realm function
 function App(): JSX.Element {
   return (
     <SafeAreaView>
       <StatusBar />
-      <RealmProvider>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <Text>Welcome to the Realm React Native SDK test app!</Text>
-          <View>
-            <Section category="Data Types">
-              <SubSection title="Geospatial">
-                <GeoSpatial />
-              </SubSection>
-            </Section>
-          </View>
-        </ScrollView>
-      </RealmProvider>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <Text>Welcome to the Realm React Native SDK test app!</Text>
+        <View>
+          <Section category="Data Types">
+            <SubSection>
+              <Geospatial />
+            </SubSection>
+          </Section>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
