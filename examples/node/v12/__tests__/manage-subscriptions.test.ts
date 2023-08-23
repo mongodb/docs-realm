@@ -147,7 +147,7 @@ describe("Managing Sync Subscriptions", () => {
     // :uncomment-start:
     // import { WaitForSync } from "realm";
     // :uncomment-end:
-    
+
     // Get tasks that have a status of "in progress".
     const completedTasks = realm
       .objects(Task)
@@ -197,6 +197,10 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.subscriptions.length).toEqual(0);
 
     // :snippet-start: sub-with-timeout
+    // :uncomment-start:
+    // import { WaitForSync } from "realm";
+    // :uncomment-end:
+    
     // Get tasks that have a status of "in progress".
     const completedTasks = realm
       .objects(Task)

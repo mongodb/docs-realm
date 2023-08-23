@@ -1,3 +1,5 @@
+import { WaitForSync } from "realm";
+
 // Get tasks that have a status of "in progress".
 const completedTasks = realm
   .objects(Task)
