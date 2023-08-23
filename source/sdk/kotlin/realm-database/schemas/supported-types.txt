@@ -1,8 +1,9 @@
 .. _kotlin-supported-types:
+.. _kotlin-additional-types:
 
-=======================
-Data Types - Kotlin SDK
-=======================
+============================
+Supported Types - Kotlin SDK
+============================
 
 .. contents:: On this page
    :local:
@@ -11,81 +12,205 @@ Data Types - Kotlin SDK
    :class: singlecol
 
 
-The Kotlin SDK supports Kotlin data types, a limited subset of
-`BSON <https://bsonspec.org/>`__ types, and :wikipedia:`UUID <Universally_unique_identifier>`.
+The Kotlin SDK supports `Kotlin types 
+<https://kotlinlang.org/docs/basic-types.html>`__, a limited subset of
+`BSON <https://bsonspec.org/>`__ types, and 
+:wikipedia:`UUID <Universally_unique_identifier>`.
 
-.. include:: /includes/map-to-bson-type.rst
+Additionally, the Kotlin SDK offers Realm-specific types, including types 
+that you can use for unique identifiers, timestamps, counters, and collections.
 
 .. _kotlin-data-types:
 
-Supported Types
----------------
+Supported Data Types List
+-------------------------
 
-Realm supports the following field data types:
+The Realm Kotlin SDK supports the following Kotlin data types, 
+MongoDB BSON types, and Realm-specific types.
 
-- ``String``
-- ``Byte``
-- ``Char``
-- ``Short``
-- ``Int``
-- ``MutableRealmInt``, which behaves like a ``Long`` but also supports ``increment`` 
-  and ``decrement`` methods that implement a conflict-free replicated data type.  
-  For more information, see `MutableRealmInt <{+kotlin-local-prefix+}io.realm.kotlin.types/-mutable-realm-int/index.html>`__.   
-- ``Long``
-- ``Boolean``
-- ``Double``
-- ``Float``
-- ``Decimal128``
-- ``ObjectId``
-- ``RealmAny``, which represents a polymorphic Realm value. For more 
-  information, see `RealmAny <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-any/index.html>`__.  
-- ``RealmInstant``
-- ``RealmUUID``
-- Any ``RealmObject`` subclass
-- ``RealmList<T>``, where T is any of the supported data types or a   
-  `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
-  Lists of ``RealmObject`` cannot have null elements. 
-  All other types of ``RealmList<T>`` can be nullable (``RealmList<T?>``).
-- ``RealmSet<T>``, where T is any of the supported data types or a
-  `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
-  Sets of ``RealmObject`` cannot have null elements. 
-  All other types of ``RealmSet<T>`` can be nullable (``RealmSet<T?>``).
-- ``RealmDictionary<T>``, where T is any type of Realm primitive nullable or 
-  non-nullable value (``RealmDictionary<T?>``), a
-  `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__,
-  or an `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__.
-  Dictionaries of ``RealmObject`` and ``EmbeddedRealmObject`` must be declared nullable. 
-- ``BacklinksDelegate<T>``, a `backlinks <{+kotlin-local-prefix+}io.realm.kotlin.ext/backlinks.html>`__
-  delegate used to define an inverse relationship between 
-  `RealmObjects <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
+You can use these types to define your object model 
+properties.
 
-Realm stores all non-decimal numeric types as ``Long`` values.
-Similarly, Realm stores all decimal numeric types as ``Double``
-values.
+.. include:: /includes/map-to-bson-type.rst
 
-Realm does not support fields with modifiers ``final`` and
-``volatile``, though you can use fields with those modifiers if you
-:ref:`ignore <kotlin-ignore>` them. If you choose to provide custom
-constructors, you must 
-:ref:`declare a public constructor with no arguments <kotlin-single-primary-constructor>`.
+.. list-table:: 
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 20 40 40
 
-Updating Strings and Byte Arrays
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * - Kotlin Data Type
+     - Required
+     - Optional
+   * - ``String``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Byte``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Short``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Int``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Long``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Float``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Double``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Boolean``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Char``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
 
-Since Realm operates on fields as a whole, it's not possible
-to directly update individual elements of strings or byte arrays. Instead,
-you'll need to read the whole field, make your modification to individual
-elements, and then write the entire field back again in a transaction block.
+.. list-table:: 
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 20 40 40
+
+   * - MongoDB BSON Type
+     - Required
+     - Optional
+   * - :ref:`ObjectId <kotlin-objectid>`
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``Decimal128``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+
+.. list-table:: 
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 20 40 40
+
+   * - Realm-Specific Type
+     - Required
+     - Optional
+   * - :ref:`RealmUUID <kotlin-uuid>`
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - :ref:`RealmInstant <kotlin-timestamps>`
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - :ref:`RealmAny <kotlin-realmany>`
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - :ref:`MutableRealmInt <kotlin-mutablerealmint>`
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``RealmObject``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``EmbeddedRealmObject``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``BacklinksDelegate<T>``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``EmbeddedBacklinksDelegate<T>``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``RealmList<T>``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``RealmSet<T>``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``RealmMap<T>``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+   * - ``RealmDictionary<T>``
+     - ``var name: String = "John"``
+     - ``var name: String? = null``
+
+
+.. note:: Numeric Types
+   
+   Realm stores all non-decimal numeric types as ``Long`` values.
+   Similarly, Realm stores all decimal numeric types as ``Double``
+   values.
+
+Unique Identifiers
+------------------
+
+
+.. _kotlin-objectid:
+
+ObjectId
+~~~~~~~~
+
+.. important:: 
+
+   In Realm Kotlin SDK version 1.5.0 and newer, `io.realm.kotlin.types.ObjectId <{+kotlin-local-prefix+}/io.realm.kotlin.types/-object-id/index.html>`__ is deprecated. You must import ``ObjectId`` from :github:`org.mongodb.kbson.ObjectId <mongodb/kbson>` instead.
+
+``ObjectId`` is a MongoDB-specific 12-byte unique value that you 
+can use as an identifier for objects. 
+
+An ``ObjectId`` is :ref:`indexable <kotlin-indices>` 
+and can be used as a :ref:`primary key <kotlin-primary-keys>`.
+
+.. _kotlin-uuid:
+
+RealmUUID
+~~~~~~~~~
+
+``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
+<Universally_unique_identifier>` that you can use as an identifier for
+objects. It is :ref:`indexable <kotlin-indices>` and can be used as a 
+:ref:`primary key <kotlin-primary-keys>`. 
+
+Realm creates UUIDs with the `RealmUUID <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/index.html>`__ type that:
+
+- conform to `RFC 4122 version 4 <https://www.rfc-editor.org/info/rfc4122>`_
+- are created with random bytes
+
+You can generate a random ``RealmUUID`` using `RealmUUID.random() 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/-companion/random.html>`__ 
+or pass a UUID-formatted string to `RealmUUID.from() 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/-companion/from.html>`__.
+
+.. include:: /includes/note-using-uuid-instead-of-objectid.rst
+
+.. _kotlin-mutablerealmint:
+
+MutableRealmInt (Counter)
+-------------------------
+
+The Kotlin SDK offers `MutableRealmInt 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-mutable-realm-int/index.html>`__ 
+as a special integer type that you can use as a logical counter to accurately 
+synchronize numeric changes across multiple distributed clients using 
+Device Sync. 
+
+``MutableRealmInt`` behaves like a ``Long`` but also 
+supports ``increment`` and ``decrement`` methods that implement a 
+:wikipedia:`conflict-free replicated data type <Conflict-free_replicated_data_type>`. This ensures that numeric updates
+can be executed regardless of order to converge to the same value.
+
+``MutableRealmInteger`` fields are backed by traditional numeric types, 
+so no migration is required when changing a field from ``Byte``, ``Short``, 
+``Integer`` or ``Long`` to ``MutableRealmInteger``
+
+A ``MutableRealmInt`` *cannot*: 
+- be used as a :ref:`primary key <kotlin-primary-keys>`
+- store null values, but it can be declared nullable (``MutableRealmInt?``)
 
 .. _kotlin-timestamps:
 
-Timestamps
-~~~~~~~~~~
+RealmInstant (Timestamp)
+------------------------
 
-You cannot store Kotlin's built-in ``Date`` or ``Instant`` types in Realm
-Database. Instead, use the
-`RealmInstant <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-instant/index.html>`__
-type, which stores time information as a UNIX epoch timestamp.
+You cannot store Kotlin's built-in ``Date`` or ``Instant`` types in Realm. 
+
+Instead, the Kotlin SDK uses the `RealmInstant 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-instant/index.html>`__ 
+type to store time information as a UNIX epoch timestamp.
 
 If you need timestamp data in a form other than ``RealmInstant``, you
 can add conversion code to your model class based on the following
@@ -94,27 +219,65 @@ example:
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.timestamp-workaround.kt
    :language: kotlin
 
-.. _kotlin-reference-realm-object:
+.. _kotlin-realmany:
 
-Reference Realm Objects
------------------------
+RealmAny (Mixed)
+----------------
 
-You can also reference one or more Realm objects from another. Learn more in the
-:ref:`relationship properties documentation <kotlin-relationships>`.
+The `RealmAny 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-any/index.html>`__ is a
+mixed data type that represents a polymorphic Realm value. 
+
+You can use the ``RealmAny`` type to create
+Realm object fields that can contain any of several
+underlying types. You can store multiple ``RealmAny`` 
+instances in ``RealmList``, ``RealmDictionary``, or 
+``RealmSet`` fields. To change the value of a 
+``RealmAny`` field, assign a new ``RealmAny`` instance
+with a different underlying value.
+
+``RealmAny``: 
+- are :ref:`indexable <kotlin-indices>`
+- *cannot* be used as a :ref:`primary key <kotlin-primary-keys>`
+- *cannot* store null values, but they *must* be declared nullable (``RealmAny?``)
+- *cannot* store an ``EmbeddedRealmObject`` 
+
+.. tip:: Handle Polymorphism with Conditional Expressions
+
+   Because you must know the stored type to extract its value, we 
+   recommend using a ``when`` expression to handle the 
+   ``RealmAny`` type and its possible inner value class.
 
 .. _kotlin-collections:
 
-Collections
------------
+Collection Types
+----------------
 
-A Realm collection contains zero or more instances of a
-:ref:`Realm supported data type <kotlin-data-types>`.
-In a Realm collection, all objects in a collection are of the same type.
+Realm collections can contain zero or more instances of a supported data type.
+Within a Realm collection, all objects are of the same type.
+   
+- 
+- ``RealmSet<T>``
+- ``RealmMap<T>``
+- ``RealmDictionary<T>``
+
+.. _kotlin-realm-list:
+
+RealmLists
+~~~~~~~~~~
+
+
+
+``RealmList<T>``, where T is any of the supported data types or a   
+`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
+Lists of ``RealmObject`` cannot have null elements. 
+
+All other types of ``RealmList<T>`` can be nullable (``RealmList<T?>``).
 
 .. _kotlin-realm-set:
 
-RealmSet
-~~~~~~~~
+RealmSets
+~~~~~~~~~
 
 A `RealmSet() 
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__  
@@ -128,78 +291,60 @@ interface, so it works just like the built-in ``HashSet`` class,
 except managed ``RealmSet`` instances persist their contents to a
 realm. 
 
+, where T is any of the supported data types or a
+`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
+Sets of ``RealmObject`` cannot have null elements. 
+
+All other types of ``RealmSet<T>`` can be nullable (``RealmSet<T?>``).
+
 .. _kotlin-realm-dictionary:
 
-RealmMap/RealmDictionary
-~~~~~~~~~~~~~~~~~~~~~~~~
+RealmMap/RealmDictionaries
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A `RealmDictionary 
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__ 
 is a specialized 
 `RealmMap <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-map/index.html>`__ 
 where every key is a string. A ``RealmMap`` is an associative array that 
-contains  key-value pairs with unique keys. 
+contains key-value pairs with unique keys. 
 
-.. _kotlin-additional-types:
+, where T is any type of Realm primitive nullable or 
+non-nullable value (``RealmDictionary<T?>``), a
+`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__,
+or an `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__.
+Dictionaries of ``RealmObject`` and ``EmbeddedRealmObject`` must be declared nullable.
 
-Additional Supported Data Types
--------------------------------
 
-.. _kotlin-objectid:
+.. _kotlin-reference-realm-object:
 
-ObjectId
-~~~~~~~~
+RealmObjects
+------------
 
-.. note:: Importing ``ObjectId`` in the Realm Kotlin SDK ``version 1.5.x`` or Higher
+You can also reference one or more Realm objects from another. 
+Learn more in the
+:ref:`Relationships <kotlin-relationships>` page.
 
-   With the :github:`Realm Kotlin Kotlin version 1.5.0
-   <realm/realm-kotlin/blob/main/CHANGELOG.md#150-2022-11-11>` you must import
-   ``ObjectId`` from :github:`org.mongodb.kbson.ObjectId <mongodb/kbson>`. If
-   you were using an older SDK version and wish to upgrade, replace your old
-   import statements as `io.realm.kotlin.types.ObjectId
-   <{+kotlin-local-prefix+}io.realm.kotlin.types/#-1137254501%2FClasslikes%2F-1651551339>`__
-   has been deprecated. 
 
-``ObjectId`` is a MongoDB-specific 12-byte unique value which you can use as an
-identifier for objects. ``ObjectId`` is :ref:`indexable <kotlin-indices>` 
-and can be used as a :ref:`primary key <kotlin-primary-keys>`. 
 
-To define a property as an ObjectId, set its type as ``ObjectId`` in
-your :ref:`object model <kotlin-define-object-model>`.
+Backlinks
+~~~~~~~~~
 
-.. _kotlin-uuid:
+``BacklinksDelegate<T>``, a `backlinks <{+kotlin-local-prefix+}io.realm.kotlin.ext/backlinks.html>`__
+delegate used to define an inverse relationship between 
+`RealmObjects <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__.
 
-UUID
-~~~~
 
-``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
-<Universally_unique_identifier>`. You can use ``UUID`` as an identifier for
-objects. ``UUID`` is :ref:`indexable <kotlin-indices>` and can be used as a 
-:ref:`primary key <kotlin-primary-keys>`. 
+EmbeddedRealmObject
+~~~~~~~~~~~~~~~~~~~
 
-Realm creates UUIDs with the `RealmUUID <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/index.html>`__ type that:
 
-- conform to `RFC 4122 version 4 <https://www.rfc-editor.org/info/rfc4122>`_
-- are created with random bytes
 
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.uuid.kt
-   :language: kotlin
-   :copyable: false
 
-.. include:: /includes/note-using-uuid-instead-of-objectid.rst
+AsymmetricRealmObject
+~~~~~~~~~~~~~~~~~~~~~
 
-Create a UUID from a String
-```````````````````````````
 
-To generate a new ``RealmUUID`` from a UUID formatted string, pass the string to `RealmUUID.from() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/-companion/from.html>`__:
+.. Geospatial Types
+.. ----------------
 
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.create-uuid-from-string.kt
-   :language: kotlin
-
-Create a Random UUID
-````````````````````
-
-To generate a random ``RealmUUID``, call `RealmUUID.random() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/-companion/random.html>`__:
-
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.create-uuid-random.kt
-   :language: kotlin
