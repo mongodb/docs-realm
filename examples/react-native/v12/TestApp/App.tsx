@@ -1,56 +1,55 @@
-import React, {useState, useEffect} from 'react';
-import {RealmProvider, useRealm} from '@realm/react';
+import React, {PropsWithChildren} from 'react';
+import {RealmProvider} from '@realm/react';
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
 
-import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
+import {GeoSpatial} from './src/components/data-types/geospatial';
 
-function Section(): JSX.Element {
-  const realm = useRealm();
-  const [realmState, setRealmState] = useState('closed');
-  console.debug('Realm status:', realm.isClosed ? 'closed' : 'open');
+type SectionProps = {
+  category: string;
+};
 
-  useEffect(() => {
-    setRealmState(realm.isClosed ? 'closed' : 'open'); // :emphasize:
-  }, [realm.isClosed]);
-
+function Section(props: PropsWithChildren<SectionProps>): JSX.Element {
   return (
     <View style={styles.sectionContainer}>
-      <Text>Realm status: {realmState}</Text>
+      <Text>{props.category}</Text>
+      <View>{props.children}</View>
+    </View>
+  );
+}
+
+type SubSectionProps = {
+  title: string;
+};
+
+function SubSection(props: PropsWithChildren<SubSectionProps>): JSX.Element {
+  return (
+    <View style={styles.sectionContainer}>
+      <Text>{props.title}</Text>
+      <View>{props.children}</View>
     </View>
   );
 }
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+    <SafeAreaView>
+      <StatusBar />
       <RealmProvider>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <Header />
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
-            <Section />
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
+          <Text>Welcome to the Realm React Native SDK test app!</Text>
+          <View>
+            <Section category="Data Types">
+              <SubSection title="Geospatial">
+                <GeoSpatial />
+              </SubSection>
+            </Section>
           </View>
         </ScrollView>
       </RealmProvider>
