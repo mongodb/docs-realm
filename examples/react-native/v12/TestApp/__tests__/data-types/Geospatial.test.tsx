@@ -3,7 +3,7 @@ import React from 'react';
 import {Geospatial} from '../../src/components/data-types/Geospatial';
 import {render, screen} from '@testing-library/react-native';
 
-test('renders correctly', async () => {
+test('Geospatial queries', async () => {
   render(<Geospatial />);
 
   const smallCircleNode = await screen.findByText('Small circle', {

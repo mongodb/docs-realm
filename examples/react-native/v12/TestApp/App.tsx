@@ -1,72 +1,23 @@
-import React, {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import 'react-native-gesture-handler';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
+import {HomeScreen} from './src/screens/HomeScreen';
 import {Geospatial} from './src/components/data-types/Geospatial';
 
-type SectionProps = {
-  category: string;
-};
+const Drawer = createDrawerNavigator();
 
-function Section(props: PropsWithChildren<SectionProps>): JSX.Element {
-  return (
-    <View style={styles.sectionContainer}>
-      <Text>{props.category}</Text>
-      <View>{props.children}</View>
-    </View>
-  );
-}
-
-function SubSection(props: PropsWithChildren): JSX.Element {
-  return (
-    <View style={styles.sectionContainer}>
-      <View>{props.children}</View>
-    </View>
-  );
-}
-
-// TODO: Create sync realm function
 function App(): JSX.Element {
   return (
-    <SafeAreaView>
-      <StatusBar />
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <Text>Welcome to the Realm React Native SDK test app!</Text>
-        <View>
-          <Section category="Data Types">
-            <SubSection>
-              <Geospatial />
-            </SubSection>
-          </Section>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Geospatial" component={Geospatial} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

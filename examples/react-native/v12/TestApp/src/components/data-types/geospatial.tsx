@@ -52,8 +52,9 @@ class Company extends Realm.Object<Company> {
 
 export const Geospatial = () => {
   return (
-    <View>
+    <View style={styles.globalScreen}>
       <Text style={styles.componentHeading}>Geospatial Component</Text>
+      <Text>Number of companies in various geospatial shapes.</Text>
       {/* 
           `MyGeoPoint` does not extend `Realm.Object`, so you pass
           only the `.schema` when opening the realm. 
@@ -230,27 +231,25 @@ function GeospatialObject(): JSX.Element {
   // :snippet-end:
 
   return (
-    <View>
-      <View style={styles.geospatialObjectList}>
-        <Text style={styles.geospatialObject}>
-          Small circle: {companiesInSmallCircle.length}
-        </Text>
-        <Text style={styles.geospatialObject}>
-          Large circle: {companiesInLargeCircle.length}{' '}
-        </Text>
-        <Text style={styles.geospatialObject}>
-          Small box: {companiesInSmallBox.length}{' '}
-        </Text>
-        <Text style={styles.geospatialObject}>
-          Large box: {companiesInLargeBox.length}{' '}
-        </Text>
-        <Text style={styles.geospatialObject}>
-          Basic polygon: {companiesInBasicPolygon.length}{' '}
-        </Text>
-        <Text style={styles.geospatialObject}>
-          Polygon with two holes: {companiesInPolygonWithTwoHoles.length}
-        </Text>
-      </View>
+    <View style={styles.geospatialObjectList}>
+      <Text style={styles.geospatialObject}>
+        Small circle: {companiesInSmallCircle.length}
+      </Text>
+      <Text style={styles.geospatialObject}>
+        Large circle: {companiesInLargeCircle.length}
+      </Text>
+      <Text style={styles.geospatialObject}>
+        Small box: {companiesInSmallBox.length}
+      </Text>
+      <Text style={styles.geospatialObject}>
+        Large box: {companiesInLargeBox.length}
+      </Text>
+      <Text style={styles.geospatialObject}>
+        Basic polygon: {companiesInBasicPolygon.length}
+      </Text>
+      <Text style={styles.geospatialObject}>
+        Polygon with two holes: {companiesInPolygonWithTwoHoles.length}
+      </Text>
     </View>
   );
 }
@@ -263,10 +262,14 @@ const styles = StyleSheet.create({
   },
   geospatialObjectList: {
     borderLeftWidth: 2,
-    marginLeft: 8,
+    margin: 8,
   },
   geospatialObject: {
     marginVertical: 2,
     paddingLeft: 8,
+  },
+  globalScreen: {
+    marginHorizontal: 12,
+    marginVertical: 8,
   },
 });
