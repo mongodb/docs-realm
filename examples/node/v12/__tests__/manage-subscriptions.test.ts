@@ -144,6 +144,9 @@ describe("Managing Sync Subscriptions", () => {
 
     // :snippet-start: sub-unsubscribe
     // :snippet-start: sub-wait-first
+    // :uncomment-start:
+    // import { WaitForSync } from "realm";
+    // :uncomment-end:
     // Get tasks that have a status of "in progress".
     const completedTasks = realm
       .objects(Task)

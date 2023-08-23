@@ -4,7 +4,8 @@ const completedTasks = realm
   .filtered("status == 'completed'");
 
 // Add subscription with timeout
-// If timeout is not long enough, will not wait for sync.
+// If timeout expires before sync is completed, currently-downloaded
+// objects are returned and sync download continues in the background.
 const taskSubscription = await completedTasks.subscribe({
   behavior: WaitForSync.Always,
   timeout: 500,
