@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Realm, {
   ObjectSchema,
   GeoBox,
@@ -53,7 +53,7 @@ class Company extends Realm.Object<Company> {
 export const Geospatial = () => {
   return (
     <View>
-      <Text>Geospatial Component</Text>
+      <Text style={styles.componentHeading}>Geospatial Component</Text>
       {/* 
           `MyGeoPoint` does not extend `Realm.Object`, so you pass
           only the `.schema` when opening the realm. 
@@ -74,6 +74,14 @@ function GeospatialObject(): JSX.Element {
   const realm = useRealm();
   const companies = useQuery(Company);
 
+  useEffect(() => {
+    if (!companies.length) {
+      // Add geospatial objects to realm.
+      writeNewCompany({_id: 6, location: new MyGeoPoint(-122.35, 47.68)});
+      writeNewCompany({_id: 9, location: new MyGeoPoint(-121.85, 47.9)});
+    }
+  }, []);
+
   const writeNewCompany = ({_id, location}: CompanyProps) => {
     console.debug('writeNewCompany called...');
     // Add geospatial object to realm.
@@ -84,18 +92,6 @@ function GeospatialObject(): JSX.Element {
       });
     });
   };
-
-  useEffect(() => {
-    if (!companies.length) {
-      // Add geospatial objects to realm.
-      writeNewCompany({_id: 6, location: new MyGeoPoint(-122.35, 47.68)});
-      writeNewCompany({_id: 9, location: new MyGeoPoint(-121.85, 47.9)});
-    }
-
-    console.debug(companies.length);
-  }, []);
-
-  console.debug(companies.length);
 
   // :snippet-start: geocircle
   const smallCircle: GeoCircle = {
@@ -233,5 +229,44 @@ function GeospatialObject(): JSX.Element {
     .filtered('location geoWithin $0', polygonWithTwoHoles);
   // :snippet-end:
 
-  return <Text>Geospatial Object</Text>;
+  return (
+    <View>
+      <View style={styles.geospatialObjectList}>
+        <Text style={styles.geospatialObject}>
+          Small circle: {companiesInSmallCircle.length}
+        </Text>
+        <Text style={styles.geospatialObject}>
+          Large circle: {companiesInLargeCircle.length}{' '}
+        </Text>
+        <Text style={styles.geospatialObject}>
+          Small box: {companiesInSmallBox.length}{' '}
+        </Text>
+        <Text style={styles.geospatialObject}>
+          Large box: {companiesInLargeBox.length}{' '}
+        </Text>
+        <Text style={styles.geospatialObject}>
+          Basic polygon: {companiesInBasicPolygon.length}{' '}
+        </Text>
+        <Text style={styles.geospatialObject}>
+          Polygon with two holes: {companiesInPolygonWithTwoHoles.length}
+        </Text>
+      </View>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  componentHeading: {
+    fontSize: 20,
+    marginTop: 12,
+    marginBottom: 8,
+  },
+  geospatialObjectList: {
+    borderLeftWidth: 2,
+    marginLeft: 8,
+  },
+  geospatialObject: {
+    marginVertical: 2,
+    paddingLeft: 8,
+  },
+});
