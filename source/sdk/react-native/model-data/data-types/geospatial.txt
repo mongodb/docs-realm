@@ -17,58 +17,6 @@ surface. With the geodata types, you can create queries that check whether a giv
 point is contained within a shape. For example, you can find all coffee shops within 
 15 km of a specified point.
 
-.. _react-native-persist-geopoint:
-
-Persist Geospatial Data
------------------------
-
-If you want to persist geospatial data, it must conform to the 
-`GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 
-
-Create a GeoJSON-Compatible Class
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To create a class that conforms to the GeoJSON spec, you:
-
-1. Create an embedded realm object. For more information about embedded
-   objects, refer to :ref:`node-data-types-embedded-objects`.
-
-#. At a minimum, add the two fields required by the GeoJSON spec:
-
-   - A field of type ``double[]`` that maps to a "coordinates" (case sensitive) 
-     property in the realm schema. 
-
-   - A field of type ``string`` that maps to a "type" property. The value of this 
-     field must be "Point".
-
-To simplify geodata persistance, you can define a model that implements 
-``CanonicalGeoPoint``, which already has the correct shape. The following 
-example shows an embedded class named ``MyGeoPoint`` that is used 
-to persist geospatial data.
-
-You then use the custom ``MyGeoPoint`` class in your realm model, as shown in the 
-following example. You add instances of your class to the realm just like any other Realm 
-model. However, in this example, because the ``MyGeoPoint`` class does not 
-extend ``Realm.Object``, we must specify ``MyGeoPoint.schema`` when opening 
-the realm:
-
-.. include:: /examples/generated/react-native/v12/Geospatial.snippet.open-realm-geospatial.tsx.rst
-
-Write the Embedded Class
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Within ``RealmProvider``, create your geospatial objects by combining the
-embedded class with classes that extend ``Realm.Object``.
-
-.. include:: /examples/generated/react-native/v12/Geospatial.snippet.write-geospatial-object.tsx.rst
-
-The following image shows the results of creating these two company objects.
-
-.. figure:: /images/geopoints.png
-   :alt: 2 GeoPoints
-   :width: 150
-   :lightbox:
-
 Geospatial Data Types
 ---------------------
 
@@ -127,13 +75,16 @@ The following code shows two examples of creating a circle:
 
 .. include:: /examples/generated/react-native/v12/Geospatial.snippet.geocircle.tsx.rst
 
+The following image shows the results of creating two objects: a small circle
+and a large circle.
+
 .. figure:: /images/geocircles.png
    :alt: Two GeoCircles
    :width: 150
    :lightbox:
 
-Qeuries against geospatial data return realm object within the shapes you
-define. For example:
+Queries against geospatial data return realm objects within the shapes you
+define. From the example above, this is the result of our queries:
 
 .. figure:: /images/geocircles-query.png
    :alt: Querying a GeoCircle example.
@@ -154,13 +105,16 @@ The following example creates 2 boxes:
 
 .. include:: /examples/generated/react-native/v12/Geospatial.snippet.geobox.tsx.rst
 
+The following image shows the results of creating two objects: a small box
+and a large box.
+
 .. figure:: /images/geoboxes.png
    :alt: 2 GeoBoxes
    :width: 150
    :lightbox:
 
-Qeuries against geospatial data return realm object within the shapes you
-define. For example:
+Queries against geospatial data return realm objects within the shapes you
+define. From the example above, this is the result of our queries:
 
 .. figure:: /images/geoboxes-query.png
    :alt: Querying a GeoBox example.
@@ -188,15 +142,70 @@ with two holes:
 
 .. include:: /examples/generated/react-native/v12/Geospatial.snippet.geopolygon.tsx.rst
 
+The following image shows the results of creating three objects: a polygon,
+a polygon with one hole, and a polygon with two holes.
+
 .. figure:: /images/geopolygons.png
    :alt: 3 GeoPolygons
    :width: 250
    :lightbox:
 
-Qeuries against geospatial data return realm object within the shapes you
-define. For example:
+Queries against geospatial data return realm objects within the shapes you
+define. From the example above, this is the result of our queries:
 
 .. figure:: /images/geopolygons-query.png
    :alt: Querying a GeoPolygon example.
+   :width: 150
+   :lightbox:
+
+.. _react-native-persist-geopoint:
+
+Persist Geospatial Data
+-----------------------
+
+If you want to persist geospatial data, it must conform to the 
+`GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 
+
+Create a GeoJSON-Compatible Class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a class that conforms to the GeoJSON spec, you:
+
+1. Create an embedded realm object. For more information about embedded
+   objects, refer to :ref:`node-data-types-embedded-objects`.
+
+#. At a minimum, add the two fields required by the GeoJSON spec:
+
+   - A field of type ``double[]`` that maps to a "coordinates" (case sensitive) 
+     property in the realm schema. 
+
+   - A field of type ``string`` that maps to a "type" property. The value of this 
+     field must be "Point".
+
+To simplify geodata persistance, you can define a model that implements 
+``CanonicalGeoPoint``, which already has the correct shape. The following 
+example shows an embedded class named ``MyGeoPoint`` that is used 
+to persist geospatial data.
+
+You then use the custom ``MyGeoPoint`` class in your realm model, as shown in the 
+following example. You add instances of your class to the realm just like any other Realm 
+model. However, in this example, because the ``MyGeoPoint`` class does not 
+extend ``Realm.Object``, we must specify ``MyGeoPoint.schema`` when opening 
+the realm:
+
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.open-realm-geospatial.tsx.rst
+
+Write the Embedded Class
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Within ``RealmProvider``, create your geospatial objects by combining the
+embedded class with classes that extend ``Realm.Object``.
+
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.write-geospatial-object.tsx.rst
+
+The following image shows the results of creating these two company objects.
+
+.. figure:: /images/geopoints.png
+   :alt: 2 GeoPoints
    :width: 150
    :lightbox:
