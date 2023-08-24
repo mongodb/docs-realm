@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    import {useEffect} from 'react';
    import {useRealm, useQuery} from '@realm/react`;
