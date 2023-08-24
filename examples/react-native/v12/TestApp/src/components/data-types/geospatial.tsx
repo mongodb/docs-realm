@@ -224,6 +224,10 @@ function RestOfApp(): JSX.Element {
   // :snippet-end:
 
   // :snippet-start: geobox-query
+  // :uncomment-start:
+  // const realm = useRealm();
+  // :uncomment-end:
+
   const companiesInLargeBox = realm
     .objects(Company)
     .filtered('location geoWithin $0', largeBox);
@@ -234,6 +238,10 @@ function RestOfApp(): JSX.Element {
   // :snippet-end:
 
   // :snippet-start: geopolygon-query
+  // :uncomment-start:
+  // const realm = useRealm();
+  // :uncomment-end:
+
   const companiesInBasicPolygon = realm
     .objects(Company)
     .filtered('location geoWithin $0', basicPolygon);
