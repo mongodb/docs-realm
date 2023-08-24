@@ -9,7 +9,6 @@ import {GeoBox, GeoCircle, GeoPoint, GeoPolygon, kmToRadians} from 'realm';
 import {useQuery, useRealm} from '@realm/react';
 // :remove-end:
 
-// :snippet-start: define-geopoint-class
 // Implement `CanonicalGeoPoint`
 // for convenience when persisting geodata.
 class MyGeoPoint implements CanonicalGeoPoint {
@@ -29,7 +28,6 @@ class MyGeoPoint implements CanonicalGeoPoint {
     },
   };
 }
-// :snippet-end:
 
 class Company extends Realm.Object<Company> {
   _id!: number;
