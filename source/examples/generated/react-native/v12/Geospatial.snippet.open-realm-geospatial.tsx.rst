@@ -1,4 +1,4 @@
-.. code-block:: typescript
+.. code-block:: text
 
    import React from 'react';
    import Realm, {ObjectSchema, CanonicalGeoPoint, GeoPosition} from 'realm';
@@ -46,7 +46,7 @@
              only the `.schema` when opening the realm. 
          */}
          <RealmProvider schema={[Company, MyGeoPoint.schema]}>
-           <RestOfApp />
+           <WriteGeospatialObjects />
          </RealmProvider>
        </View>
      );

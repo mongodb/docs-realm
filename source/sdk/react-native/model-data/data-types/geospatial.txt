@@ -17,104 +17,6 @@ surface. With the geodata types, you can create queries that check whether a giv
 point is contained within a shape. For example, you can find all coffee shops within 
 15 km of a specified point.
 
-Geospatial Data Types
----------------------
-
-.. _react-native-geopoint:
-
-GeoPoint
-~~~~~~~~
-
-A :js-sdk:`GeoPoint <types/Realm.GeoPoint.html>` defines a specific 
-location on the Earth's surface. All of the geospatial data types use ``GeoPoints`` 
-to define their location. 
-
-``GeoPoint`` can be one of three types:
-
-- An object with:
-
-  - ``latitude``: a number value
-  - ``longitude``: a number value
-  - ``altitude``: an optional number value
-- ``CanonicalGeoPoint``:  an interface that satisfies the GeoJSON specifications for a point
-- ``GeoPosition``: an array with longitude, latitude, and an optional altitude
-
-A GeoPoint is used only as a building block of the other shapes: 
-GeoCircle, GeoBox, and GeoPolygon. These shapes, and the GeoPoint type, 
-are used in queries, not for persistance.
-
-To save geospatial data to realm, refer to :ref:`node-persist-geopoint`.
-
-.. _react-native-geocircle:
-
-GeoCircle
-~~~~~~~~~
-
-A :js-sdk:`GeoCircle <types/Realm.GeoCircle.html>` defines a circle on 
-the Earth's surface. You define a ``GeoCircle`` by providing:
-
-- A ``GeoPoint`` for the center of the circle
-- A number for the distance (radius) of the circle 
-
-The radius distance uses radians as the unit of measure. The SDK 
-provides the methods ``kmToRadians`` and ``miToRadians`` to convert 
-kilometers or miles to radians.
-
-The following code shows two examples of creating a circle:
-
-.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geocircle.tsx.rst
-
-.. figure:: /images/geocircles.png
-   :alt: Two GeoCircles
-   :width: 150
-   :lightbox:
-
-.. _react-native-geobox:
-
-GeoBox
-~~~~~~
-
-A :js-sdk:`GeoBox <types/Realm.GeoBox.html>` defines a rectangle on  
-the Earth's surface. You define the rectangle by specifying the bottom left 
-(southwest) corner and the top right (northeast) corner. A GeoBox behaves 
-in the same way as the corresponding :ref:`GeoPolygon <node-geopolygon>`.
-
-The following example creates 2 boxes:
-
-.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geobox.tsx.rst
-
-.. figure:: /images/geoboxes.png
-   :alt: 2 GeoBoxes
-   :width: 150
-   :lightbox:
-
-.. _react-native-geopolygon:
-
-GeoPolygon
-~~~~~~~~~~
-
-A :js-sdk:`GeoPolygon <types/Realm.GeoPolygon.html>` defines a polygon 
-on the Earth's surface. Because a polygon is a closed shape, you must provide a 
-minimum of 4 points: 3 points to define the polygon's shape, and a fourth to 
-close the shape.
-
-.. important::
-
-   The fourth point in a polygon must be the same as the first point.
-
-You can also exclude areas within a polygon by defining one or more "holes". A 
-hole is another polygon whose bounds fit completely within the outer polygon. 
-The following example creates 3 polygons: one is a basic polygon with 5 points, 
-one is the same polygon with a single hole, and the third is the same polygon 
-with two holes:
-
-.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geopolygon.tsx.rst
-
-.. figure:: /images/geopolygons.png
-   :alt: 3 GeoPolygons
-   :width: 250
-   :lightbox:
-
 .. _react-native-persist-geopoint:
 
 Persist Geospatial Data
@@ -167,9 +69,7 @@ The following image shows the results of creating these two company objects.
    :width: 150
    :lightbox:
 
-.. _react-native-query-geospatial:
-
-Query Geospatial Data
+Geospatial Data Types
 ---------------------
 
 To query against geospatial data, you can use the ``geoWithin`` operator 
@@ -183,29 +83,118 @@ the shape.
    The format for querying geospatial data is the same, regardless of the 
    shape of the geodata region.
 
-The following examples show querying against various shapes to return a list of 
-companies within the shape:
+.. _react-native-geopoint:
 
-**GeoCircle**
+GeoPoint
+~~~~~~~~
 
-.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geocircle-query.tsx.rst
+A :js-sdk:`GeoPoint <types/Realm.GeoPoint.html>` defines a specific 
+location on the Earth's surface. All of the geospatial data types use ``GeoPoints`` 
+to define their location. 
+
+``GeoPoint`` can be one of three types:
+
+- An object with:
+
+  - ``latitude``: a number value
+  - ``longitude``: a number value
+  - ``altitude``: an optional number value
+- ``CanonicalGeoPoint``:  an interface that satisfies the GeoJSON specifications for a point
+- ``GeoPosition``: an array with longitude, latitude, and an optional altitude
+
+A GeoPoint is used only as a building block of the other shapes: 
+GeoCircle, GeoBox, and GeoPolygon. These shapes, and the GeoPoint type, 
+are used in queries, not for persistance.
+
+To save geospatial data to realm, refer to :ref:`node-persist-geopoint`.
+
+.. _react-native-geocircle:
+
+GeoCircle
+~~~~~~~~~
+
+A :js-sdk:`GeoCircle <types/Realm.GeoCircle.html>` defines a circle on 
+the Earth's surface. You define a ``GeoCircle`` by providing:
+
+- A ``GeoPoint`` for the center of the circle
+- A number for the distance (radius) of the circle 
+
+The radius distance uses radians as the unit of measure. The SDK 
+provides the methods ``kmToRadians`` and ``miToRadians`` to convert 
+kilometers or miles to radians.
+
+The following code shows two examples of creating a circle:
+
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geocircle.tsx.rst
+
+.. figure:: /images/geocircles.png
+   :alt: Two GeoCircles
+   :width: 150
+   :lightbox:
+
+Qeuries against geospatial data return realm object within the shapes you
+define. For example:
 
 .. figure:: /images/geocircles-query.png
    :alt: Querying a GeoCircle example.
    :width: 150
    :lightbox:
 
-**GeoBox**
+.. _react-native-geobox:
 
-.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geobox-query.tsx.rst
+GeoBox
+~~~~~~
+
+A :js-sdk:`GeoBox <types/Realm.GeoBox.html>` defines a rectangle on  
+the Earth's surface. You define the rectangle by specifying the bottom left 
+(southwest) corner and the top right (northeast) corner. A GeoBox behaves 
+in the same way as the corresponding :ref:`GeoPolygon <node-geopolygon>`.
+
+The following example creates 2 boxes:
+
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geobox.tsx.rst
+
+.. figure:: /images/geoboxes.png
+   :alt: 2 GeoBoxes
+   :width: 150
+   :lightbox:
+
+Qeuries against geospatial data return realm object within the shapes you
+define. For example:
 
 .. figure:: /images/geoboxes-query.png
    :alt: Querying a GeoBox example.
    :width: 150
 
-**GeoPolygon**
+.. _react-native-geopolygon:
 
-.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geopolygon-query.tsx.rst
+GeoPolygon
+~~~~~~~~~~
+
+A :js-sdk:`GeoPolygon <types/Realm.GeoPolygon.html>` defines a polygon 
+on the Earth's surface. Because a polygon is a closed shape, you must provide a 
+minimum of 4 points: 3 points to define the polygon's shape, and a fourth to 
+close the shape.
+
+.. important::
+
+   The fourth point in a polygon must be the same as the first point.
+
+You can also exclude areas within a polygon by defining one or more "holes". A 
+hole is another polygon whose bounds fit completely within the outer polygon. 
+The following example creates 3 polygons: one is a basic polygon with 5 points, 
+one is the same polygon with a single hole, and the third is the same polygon 
+with two holes:
+
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geopolygon.tsx.rst
+
+.. figure:: /images/geopolygons.png
+   :alt: 3 GeoPolygons
+   :width: 250
+   :lightbox:
+
+Qeuries against geospatial data return realm object within the shapes you
+define. For example:
 
 .. figure:: /images/geopolygons-query.png
    :alt: Querying a GeoPolygon example.

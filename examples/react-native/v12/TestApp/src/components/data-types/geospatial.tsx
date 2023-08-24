@@ -4,7 +4,7 @@ import Realm, {ObjectSchema, CanonicalGeoPoint, GeoPosition} from 'realm';
 import {RealmProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {GeoBox, GeoCircle, GeoPoint, GeoPolygon, kmToRadians} from 'realm';
 import {useQuery, useRealm} from '@realm/react';
 // :remove-end:
@@ -53,15 +53,20 @@ export const Geospatial = () => {
           only the `.schema` when opening the realm. 
       */}
       <RealmProvider schema={[Company, MyGeoPoint.schema]}>
-        <RestOfApp />
+        <WriteGeospatialObjects />
       </RealmProvider>
     </View>
   );
 };
 // :snippet-end:
 
-function RestOfApp(): JSX.Element {
-  // :snippet-start: write-geospatial-object
+// :snippet-start: write-geospatial-object
+// :uncomment-start:
+// import {useEffect} from 'react';
+// import {useRealm, useQuery} from '@realm/react`;
+// :uncomment-end:
+
+function WriteGeospatialObjects(): JSX.Element {
   const realm = useRealm();
   const companies = useQuery(Company);
 
@@ -87,13 +92,25 @@ function RestOfApp(): JSX.Element {
       });
     });
   };
-  // :snippet-end:
 
-  // :snippet-start: geocircle
-  // :uncomment-start:
-  // import {GeoCircle, GeoPoint, kmToRadians} from 'realm';
-  // :uncomment-end:
+  return (
+    <View>
+      <Geocircle />
+      <Geobox />
+      <Geopolygon />
+    </View>
+  );
+}
+// :snippet-end:
 
+// :snippet-start: geocircle
+// :uncomment-start:
+// import {GeoCircle, GeoPoint, kmToRadians} from 'realm';
+// import {useQuery} from '@realm/react`;
+// :uncomment-end:
+
+function Geocircle(): JSX.Element {
+  // Define a GeoCircle
   const smallCircle: GeoCircle = {
     center: [-121.9, 47.3],
     // The GeoCircle radius is measured in radians.
@@ -101,32 +118,57 @@ function RestOfApp(): JSX.Element {
     distance: 0.004363323,
   };
 
-  const largeCircleCenter: GeoPoint = {
-    longitude: -122.6,
-    latitude: 47.8,
-  };
-
   // Realm provides `kmToRadians` and `miToRadians`
   // to convert these measurements. Import the relevant
   // convenience method for your app's needs.
   const radiusFromKm = kmToRadians(44.4);
 
+  // Define a GeoPoint within a GeoCircle
+  const largeCircleCenter: GeoPoint = {
+    longitude: -122.6,
+    latitude: 47.8,
+  };
+
   const largeCircle: GeoCircle = {
     center: largeCircleCenter,
     distance: radiusFromKm,
   };
-  // :snippet-end:
 
-  // :snippet-start: geobox
-  // :uncomment-start:
-  // import {GeoBox, GeoPoint} from 'realm';
-  // :uncomment-end:
+  // Query geospatial data
+  const companiesInSmallCircle = useQuery(Company).filtered(
+    'location geoWithin $0',
+    smallCircle,
+  );
 
+  // Query geospatial data
+  const companiesInLargeCircle = useQuery(Company).filtered(
+    'location geoWithin $0',
+    largeCircle,
+  );
+
+  return (
+    <View>
+      <Text>Small circle: {companiesInSmallCircle.length}</Text>
+      <Text>Large circle: {companiesInLargeCircle.length}</Text>
+    </View>
+  );
+}
+// :snippet-end:
+
+// :snippet-start: geobox
+// :uncomment-start:
+// import {GeoBox, GeoPoint} from 'realm';
+// import {useQuery} from '@realm/react`;
+// :uncomment-end:
+
+function Geobox(): JSX.Element {
+  // Define a GeoBox
   const largeBox: GeoBox = {
     bottomLeft: [-122.7, 47.3],
     topRight: [-122.1, 48.1],
   };
 
+  // Define GeoBox corners
   const smallBoxBottomLeft: GeoPoint = {
     longitude: -122.4,
     latitude: 47.5,
@@ -139,14 +181,36 @@ function RestOfApp(): JSX.Element {
     bottomLeft: smallBoxBottomLeft,
     topRight: smallBoxTopRight,
   };
-  // :snippet-end:
 
-  // :snippet-start: geopolygon
-  // :uncomment-start:
-  // import {GeoPolygon, GeoPoint} from 'realm';
-  // :uncomment-end:
+  // Query geospatial data
+  const companiesInLargeBox = useQuery(Company).filtered(
+    'location geoWithin $0',
+    largeBox,
+  );
 
-  // Create a basic polygon
+  // Query geospatial data
+  const companiesInSmallBox = useQuery(Company).filtered(
+    'location geoWithin $0',
+    smallBox,
+  );
+
+  return (
+    <View>
+      <Text>Small box: {companiesInSmallBox.length}</Text>
+      <Text>Large box: {companiesInLargeBox.length}</Text>
+    </View>
+  );
+}
+// :snippet-end:
+
+// :snippet-start: geopolygon
+// :uncomment-start:
+// import {GeoPolygon, GeoPoint} from 'realm';
+// import {useQuery} from '@realm/react`;
+// :uncomment-end:
+
+function Geopolygon(): JSX.Element {
+  // Define a basic GeoPolygon
   const basicPolygon: GeoPolygon = {
     outerRing: [
       [-122.8, 48.0],
@@ -158,7 +222,7 @@ function RestOfApp(): JSX.Element {
     ],
   };
 
-  // Create a polygon with one hole
+  // Define a GeoPolygon with one hole
   const outerRing: GeoPoint[] = [
     [-122.8, 48.0],
     [-121.8, 48.2],
@@ -181,7 +245,7 @@ function RestOfApp(): JSX.Element {
     holes: [hole],
   };
 
-  // Add a second hole to the polygon
+  // Add a second hole to the GeoPolygon
   const hole2: GeoPoint[] = [
     {
       longitude: -122.05,
@@ -205,81 +269,26 @@ function RestOfApp(): JSX.Element {
     outerRing: outerRing,
     holes: [hole, hole2],
   };
-  // :snippet-end:
 
-  // :snippet-start: geocircle-query
-  // :uncomment-start:
-  // const realm = useRealm();
-  // :uncomment-end:
+  // Query geospatial data
+  const companiesInBasicPolygon = useQuery(Company).filtered(
+    'location geoWithin $0',
+    basicPolygon,
+  );
 
-  const companiesInSmallCircle = realm
-    .objects(Company)
-    .filtered('location geoWithin $0', smallCircle);
-
-  const companiesInLargeCircle = realm
-    .objects(Company)
-    .filtered('location geoWithin $0', largeCircle);
-  // :snippet-end:
-
-  // :snippet-start: geobox-query
-  // :uncomment-start:
-  // const realm = useRealm();
-  // :uncomment-end:
-
-  const companiesInLargeBox = realm
-    .objects(Company)
-    .filtered('location geoWithin $0', largeBox);
-
-  const companiesInSmallBox = realm
-    .objects(Company)
-    .filtered('location geoWithin $0', smallBox);
-  // :snippet-end:
-
-  // :snippet-start: geopolygon-query
-  // :uncomment-start:
-  // const realm = useRealm();
-  // :uncomment-end:
-
-  const companiesInBasicPolygon = realm
-    .objects(Company)
-    .filtered('location geoWithin $0', basicPolygon);
-
-  const companiesInPolygonWithTwoHoles = realm
-    .objects(Company)
-    .filtered('location geoWithin $0', polygonWithTwoHoles);
-  // :snippet-end:
+  // Query geospatial data
+  const companiesInPolygonWithTwoHoles = useQuery(Company).filtered(
+    'location geoWithin $0',
+    polygonWithTwoHoles,
+  );
 
   return (
-    <View style={styles.geospatialObjectList}>
-      <Text style={styles.geospatialObject}>
-        Small circle: {companiesInSmallCircle.length}
-      </Text>
-      <Text style={styles.geospatialObject}>
-        Large circle: {companiesInLargeCircle.length}
-      </Text>
-      <Text style={styles.geospatialObject}>
-        Small box: {companiesInSmallBox.length}
-      </Text>
-      <Text style={styles.geospatialObject}>
-        Large box: {companiesInLargeBox.length}
-      </Text>
-      <Text style={styles.geospatialObject}>
-        Basic polygon: {companiesInBasicPolygon.length}
-      </Text>
-      <Text style={styles.geospatialObject}>
+    <View>
+      <Text>Basic polygon: {companiesInBasicPolygon.length}</Text>
+      <Text>
         Polygon with two holes: {companiesInPolygonWithTwoHoles.length}
       </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  geospatialObjectList: {
-    borderLeftWidth: 2,
-    margin: 8,
-  },
-  geospatialObject: {
-    marginVertical: 2,
-    paddingLeft: 8,
-  },
-});
+// :snippet-end:
