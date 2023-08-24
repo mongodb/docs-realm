@@ -20,16 +20,24 @@ one other object in an :ref:`object schema <node-object-schemas>`.
 To define a to-one relationship, specify the property type as the related
 Realm object type.
 
-
 .. example::
 
    An application could use the following object schemas to indicate
-   that a Person may own a single Dog:
-   
- 
-   .. literalinclude:: /examples/Relationships/ToOne/ToOne.js
-      :language: javascript
-      :emphasize-lines: 6
+   that a ``Manufacturer`` may make a single ``Car``:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: typescript
+           
+          .. literalinclude:: /examples/generated/node/v12/relationships.test.snippet.define-one-to-one.ts
+            :language: javascript
+
+      .. tab::
+          :tabid: javascript
+           
+          .. literalinclude:: /examples/generated/node/v12/relationships.test.snippet.define-one-to-one.js
+            :language: javascript
 
 .. _node-to-many-relationship:
 
@@ -42,15 +50,24 @@ To define a to-many relationship, specify a property where the type is a list
 or array of the related Realm object type in its
 :ref:`object schema <node-object-schemas>`.
 
-
 .. example::
    
    An application could use the following object schemas to indicate
-   that a Person may own multiple Dogs:
+   that a ``Manufacturer`` may make many ``Car`` models:
    
-   .. literalinclude:: /examples/Relationships/ToMany/ToMany.js
-      :language: javascript
-      :emphasize-lines: 6
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: typescript
+           
+          .. literalinclude:: /examples/generated/node/v12/relationships.test.snippet.define-one-to-many.ts
+            :language: javascript
+
+      .. tab::
+          :tabid: javascript
+           
+          .. literalinclude:: /examples/generated/node/v12/relationships.test.snippet.define-one-to-many.js
+            :language: javascript
 
 .. _node-inverse-relationship:
 
@@ -62,10 +79,10 @@ to it in a defined to-one or to-many relationship.
 Relationship definitions are unidirectional by default.
 You must explicitly define a property in the object's model as an inverse relationship.
 
-For example, the to-many relationship "User has many Tasks" does not automatically
-create the inverse relationship "Task belongs to User".
+For example, the to-many relationship "Manufacturer has many Cars" does not automatically
+create the inverse relationship "Car belongs to Manufacturer".
 If you don't specify the inverse relationship in the object model,
-you need to run a separate query to look up the user assigned to a task.
+you need to run a separate query to look up the manufacturer who makes a car.
 
 To define an inverse relationship, define a ``linkingObjects`` property in your
 object model. ``linkingObjects`` specifies the object type and
@@ -79,31 +96,31 @@ you add or remove a related object.
    
    An application could use the following object schemas to indicate: 
    
-   #. A User may be assigned many Tasks. 
-   #. Each Task should automatically keep track of which User it's assigned to.
+   #. A ``Manufacturer`` may make many ``Car`` models. 
+   #. Each ``Car`` should automatically link back to the ``Manufacturer`` 
+      who makes it.
    
-   The User object's tasks property is defined as a to-many relationship with Task objects.
-   It contains all of a given user's assigned tasks. 
+   The ``Manufacturer`` object's ``cars`` property is defined as a to-many 
+   relationship with a :js-sdk:`Realm.List <classes/List.html>` of 
+   ``Car`` objects. It contains all of a given manufacturer's cars. 
      
-   The Task object's assignee property inverts this relationship.
-   Assignee automatically updates to refer back to any User object that contains
-   the Task in its tasks property.
-   
+   The ``Car`` object's ``manufacturer`` property inverts this relationship.
+   The ``manufacturer`` property automatically updates to refer back to any 
+   ``Manufacturer`` object that contains the ``Car`` in its ``cars`` property.
+
    .. tabs-realm-languages::
-     
-     .. tab::
-         :tabid: javascript
-          
-         .. literalinclude:: /examples/Relationships/Inverse/Inverse.js
-           :language: javascript
-           :emphasize-lines: 8, 19-23
-     
-     .. tab::
-         :tabid: typescript
-          
-         .. literalinclude:: /examples/Relationships/Inverse/Inverse.ts
-           :language: javascript
-           :emphasize-lines: 5, 14, 23, 32-36
+
+      .. tab::
+          :tabid: typescript
+           
+          .. literalinclude:: /examples/generated/node/v12/relationships.test.snippet.define-inverse.ts
+            :language: javascript
+
+      .. tab::
+          :tabid: javascript
+           
+          .. literalinclude:: /examples/generated/node/v12/relationships.test.snippet.define-inverse.js
+            :language: javascript
 
 .. _node-inverse-relationship-dynamically:
 
@@ -158,7 +175,6 @@ It cannot exist as an independent Realm object.
 This means that embedded objects cannot have a primary key.
 Realm also automatically deletes embedded objects if their parent object is deleted.
 
-
 .. tip:: Embedded object types are reusable and composable
 
    You can use the same embedded object type in multiple parent object types.
@@ -173,39 +189,19 @@ To specify that a Realm object model defines an embedded object, set ``embedded`
 to ``true``. Reference an embedded object type from parent object types 
 as you would define a relationship:
 
-.. code-block:: javascript
-   :emphasize-lines: 3, 18, 28
-   
-   const AddressSchema = {
-     name: "Address",
-     embedded: true, // default: false
-     properties: {
-       street: "string?",
-       city: "string?",
-       country: "string?",
-       postalCode: "string?",
-     },
-   };
-   
-   const ContactSchema = {
-     name: "Contact",
-     primaryKey: "_id",
-     properties: {
-       _id: "objectId",
-       name: "string",
-       address: "Address", // Embed a single object
-     },
-   };
-   
-   const BusinessSchema = {
-     name: "Business",
-     primaryKey: "_id",
-     properties: {
-       _id: "objectId",
-       name: "string",
-       addresses: { type: "list", objectType: "Address" }, // Embed an array of objects
-     },
-   };
+.. tabs-realm-languages::
+  
+   .. tab::
+      :tabid: javascript
+        
+      .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.js
+        :language: javascript
+  
+   .. tab::
+      :tabid: typescript
+        
+      .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.ts
+        :language: javascript
 
 JSON Schema
 ~~~~~~~~~~~

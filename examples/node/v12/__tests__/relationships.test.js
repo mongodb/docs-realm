@@ -140,8 +140,17 @@ describe("Define Relationship Properties", () => {
 
     const manufacturerCars = manufacturers[0].cars;
 
+    // Get the Manufacturer who makes the Car
+    // The below fails with 'Manufacturer#cars is not a relationship to 'Car'
+    // const carObjects = realm.objects(Car);
+    // const linkedManufacturer = carObjects[0].linkingObjects(
+    //   "Manufacturer",
+    //   "cars"
+    // )[0];
+
     expect(manufacturerCars[0].model).toBe("Sentra");
     expect(manufacturerCars[1].model).toBe("Pathfinder");
+    //expect(linkedManufacturer.name).toMatchObject("Nissan");
 
     // close the realm
     realm.close();
