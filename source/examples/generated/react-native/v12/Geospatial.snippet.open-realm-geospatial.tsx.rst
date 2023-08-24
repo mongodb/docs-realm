@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    import React from 'react';
    import Realm, {

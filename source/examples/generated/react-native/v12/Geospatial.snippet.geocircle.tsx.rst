@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    import {GeoCircle, GeoPoint, kmToRadians} from 'realm';
 

@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    import {GeoPolygon, GeoPoint} from 'realm';
 

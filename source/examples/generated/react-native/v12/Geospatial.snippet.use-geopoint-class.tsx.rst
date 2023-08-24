@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    class Company extends Realm.Object<Company> {
      _id!: number;
