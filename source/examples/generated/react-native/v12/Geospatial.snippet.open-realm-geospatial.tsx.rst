@@ -1,4 +1,4 @@
-.. code-block:: typescript
+.. code-block:: text
 
    import React from 'react';
    import Realm, {
@@ -12,6 +12,8 @@
      kmToRadians,
    } from 'realm';
    import {RealmProvider} from '@realm/react';
+
+   import {CanonicalGeoPoint, GeoPosition} from 'realm';
 
    // Implement `CanonicalGeoPoint`
    // for convenience when persisting geodata.

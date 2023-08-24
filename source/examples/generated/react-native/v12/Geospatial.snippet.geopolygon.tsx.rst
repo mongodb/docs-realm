@@ -1,4 +1,6 @@
-.. code-block:: typescript
+.. code-block:: text
+
+   import {GeoPolygon, GeoPoint} from 'realm';
 
    // Create a basic polygon
    const basicPolygon: GeoPolygon = {

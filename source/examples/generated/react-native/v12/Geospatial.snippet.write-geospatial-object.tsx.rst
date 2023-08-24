@@ -1,4 +1,4 @@
-.. code-block:: typescript
+.. code-block:: text
 
    const realm = useRealm();
    const companies = useQuery(Company);
@@ -10,6 +10,11 @@
        writeNewCompany({_id: 9, location: new MyGeoPoint(-121.85, 47.9)});
      }
    }, []);
+
+   type CompanyProps = {
+     _id: number;
+     location: MyGeoPoint;
+   };
 
    const writeNewCompany = ({_id, location}: CompanyProps) => {
      // Add geospatial object to realm.

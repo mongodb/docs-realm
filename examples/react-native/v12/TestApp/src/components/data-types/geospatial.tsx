@@ -18,6 +18,10 @@ import {useQuery, useRealm} from '@realm/react';
 // :remove-end:
 
 // :snippet-start: define-geopoint-class
+// :uncomment-start:
+// import {CanonicalGeoPoint, GeoPosition} from 'realm';
+// :uncomment-end:
+
 // Implement `CanonicalGeoPoint`
 // for convenience when persisting geodata.
 class MyGeoPoint implements CanonicalGeoPoint {
@@ -70,11 +74,6 @@ export const Geospatial = () => {
 };
 // :snippet-end:
 
-type CompanyProps = {
-  _id: number;
-  location: MyGeoPoint;
-};
-
 function RestOfApp(): JSX.Element {
   // :snippet-start: write-geospatial-object
   const realm = useRealm();
@@ -88,6 +87,11 @@ function RestOfApp(): JSX.Element {
     }
   }, []);
 
+  type CompanyProps = {
+    _id: number;
+    location: MyGeoPoint;
+  };
+
   const writeNewCompany = ({_id, location}: CompanyProps) => {
     // Add geospatial object to realm.
     realm.write(() => {
@@ -100,6 +104,10 @@ function RestOfApp(): JSX.Element {
   // :snippet-end:
 
   // :snippet-start: geocircle
+  // :uncomment-start:
+  // import {GeoCircle, GeoPoint, kmToRadians} from 'realm';
+  // :uncomment-end:
+
   const smallCircle: GeoCircle = {
     center: [-121.9, 47.3],
     // The GeoCircle radius is measured in radians.
@@ -124,6 +132,10 @@ function RestOfApp(): JSX.Element {
   // :snippet-end:
 
   // :snippet-start: geobox
+  // :uncomment-start:
+  // import {GeoBox, GeoPoint} from 'realm';
+  // :uncomment-end:
+
   const largeBox: GeoBox = {
     bottomLeft: [-122.7, 47.3],
     topRight: [-122.1, 48.1],
@@ -144,6 +156,10 @@ function RestOfApp(): JSX.Element {
   // :snippet-end:
 
   // :snippet-start: geopolygon
+  // :uncomment-start:
+  // import {GeoPolygon, GeoPoint} from 'realm';
+  // :uncomment-end:
+
   // Create a basic polygon
   const basicPolygon: GeoPolygon = {
     outerRing: [
@@ -206,6 +222,10 @@ function RestOfApp(): JSX.Element {
   // :snippet-end:
 
   // :snippet-start: geocircle-query
+  // :uncomment-start:
+  // const realm = useRealm();
+  // :uncomment-end:
+
   const companiesInSmallCircle = realm
     .objects(Company)
     .filtered('location geoWithin $0', smallCircle);

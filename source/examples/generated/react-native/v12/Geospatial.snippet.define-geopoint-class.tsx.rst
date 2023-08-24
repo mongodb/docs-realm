@@ -1,4 +1,6 @@
-.. code-block:: typescript
+.. code-block:: text
+
+   import {CanonicalGeoPoint, GeoPosition} from 'realm';
 
    // Implement `CanonicalGeoPoint`
    // for convenience when persisting geodata.

@@ -1,4 +1,6 @@
-.. code-block:: typescript
+.. code-block:: text
+
+   const realm = useRealm();
 
    const companiesInSmallCircle = realm
      .objects(Company)

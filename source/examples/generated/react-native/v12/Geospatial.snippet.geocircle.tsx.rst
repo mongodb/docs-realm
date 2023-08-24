@@ -1,4 +1,6 @@
-.. code-block:: typescript
+.. code-block:: text
+
+   import {GeoCircle, GeoPoint, kmToRadians} from 'realm';
 
    const smallCircle: GeoCircle = {
      center: [-121.9, 47.3],

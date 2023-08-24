@@ -1,4 +1,6 @@
-.. code-block:: typescript
+.. code-block:: text
+
+   import {GeoBox, GeoPoint} from 'realm';
 
    const largeBox: GeoBox = {
      bottomLeft: [-122.7, 47.3],
