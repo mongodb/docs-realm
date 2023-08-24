@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    const largeBox: GeoBox = {
      bottomLeft: [-122.7, 47.3],

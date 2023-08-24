@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    // Create a basic polygon
    const basicPolygon: GeoPolygon = {

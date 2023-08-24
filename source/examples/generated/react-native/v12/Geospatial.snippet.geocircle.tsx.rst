@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    const smallCircle: GeoCircle = {
      center: [-121.9, 47.3],

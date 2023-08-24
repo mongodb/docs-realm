@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    // Implement `CanonicalGeoPoint`
    // for convenience when persisting geodata.

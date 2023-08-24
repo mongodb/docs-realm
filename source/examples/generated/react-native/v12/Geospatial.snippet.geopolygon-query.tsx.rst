@@ -1,4 +1,4 @@
-.. code-block:: text
+.. code-block:: typescript
 
    const companiesInBasicPolygon = realm
      .objects(Company)
