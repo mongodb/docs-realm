@@ -14,7 +14,11 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
+<<<<<<< HEAD
   GIT_TAG        v0.3.0-preview
+=======
+  GIT_TAG        9ad9588542d71ffaa1168fdb79ebb25dbd264f5e
+>>>>>>> 2dc787e4e (C++: Add Decimal128 to supported types)
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
