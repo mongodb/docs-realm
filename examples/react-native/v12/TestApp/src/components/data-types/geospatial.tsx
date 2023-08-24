@@ -62,8 +62,10 @@ export const Geospatial = () => {
 
 // :snippet-start: write-geospatial-object
 // :uncomment-start:
+// import React from 'react';
+// import {View} from 'react-native';
 // import {useEffect} from 'react';
-// import {useRealm, useQuery} from '@realm/react`;
+// import {useRealm, useQuery} from '@realm/react';
 // :uncomment-end:
 
 function WriteGeospatialObjects(): JSX.Element {
@@ -105,8 +107,10 @@ function WriteGeospatialObjects(): JSX.Element {
 
 // :snippet-start: geocircle
 // :uncomment-start:
+// import React from 'react';
+// import {View, Text} from 'react-native';
 // import {GeoCircle, GeoPoint, kmToRadians} from 'realm';
-// import {useQuery} from '@realm/react`;
+// import {useQuery} from '@realm/react';
 // :uncomment-end:
 
 function Geocircle(): JSX.Element {
@@ -157,8 +161,10 @@ function Geocircle(): JSX.Element {
 
 // :snippet-start: geobox
 // :uncomment-start:
+// import React from 'react';
+// import {View, Text} from 'react-native';
 // import {GeoBox, GeoPoint} from 'realm';
-// import {useQuery} from '@realm/react`;
+// import {useQuery} from '@realm/react';
 // :uncomment-end:
 
 function Geobox(): JSX.Element {
@@ -205,8 +211,10 @@ function Geobox(): JSX.Element {
 
 // :snippet-start: geopolygon
 // :uncomment-start:
+// import React from 'react';
+// import {View, Text} from 'react-native';
 // import {GeoPolygon, GeoPoint} from 'realm';
-// import {useQuery} from '@realm/react`;
+// import {useQuery} from '@realm/react';
 // :uncomment-end:
 
 function Geopolygon(): JSX.Element {

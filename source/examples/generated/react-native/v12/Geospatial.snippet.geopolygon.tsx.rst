@@ -1,7 +1,9 @@
 .. code-block:: typescript
 
+   import React from 'react';
+   import {View, Text} from 'react-native';
    import {GeoPolygon, GeoPoint} from 'realm';
-   import {useQuery} from '@realm/react`;
+   import {useQuery} from '@realm/react';
 
    function Geopolygon(): JSX.Element {
      // Define a basic GeoPolygon

@@ -1,7 +1,9 @@
 .. code-block:: typescript
 
+   import React from 'react';
+   import {View, Text} from 'react-native';
    import {GeoCircle, GeoPoint, kmToRadians} from 'realm';
-   import {useQuery} from '@realm/react`;
+   import {useQuery} from '@realm/react';
 
    function Geocircle(): JSX.Element {
      // Define a GeoCircle

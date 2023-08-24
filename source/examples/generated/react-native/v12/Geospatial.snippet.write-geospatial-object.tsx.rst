@@ -1,7 +1,9 @@
 .. code-block:: typescript
 
+   import React from 'react';
+   import {View} from 'react-native';
    import {useEffect} from 'react';
-   import {useRealm, useQuery} from '@realm/react`;
+   import {useRealm, useQuery} from '@realm/react';
 
    function WriteGeospatialObjects(): JSX.Element {
      const realm = useRealm();
