@@ -1,27 +1,15 @@
 // :snippet-start: open-realm-geospatial
 import React from 'react';
-import Realm, {
-  ObjectSchema,
-  GeoBox,
-  GeoCircle,
-  GeoPoint,
-  GeoPolygon,
-  CanonicalGeoPoint,
-  GeoPosition,
-  kmToRadians,
-} from 'realm';
+import Realm, {ObjectSchema, CanonicalGeoPoint, GeoPosition} from 'realm';
 import {RealmProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {GeoBox, GeoCircle, GeoPoint, GeoPolygon, kmToRadians} from 'realm';
 import {useQuery, useRealm} from '@realm/react';
 // :remove-end:
 
 // :snippet-start: define-geopoint-class
-// :uncomment-start:
-// import {CanonicalGeoPoint, GeoPosition} from 'realm';
-// :uncomment-end:
-
 // Implement `CanonicalGeoPoint`
 // for convenience when persisting geodata.
 class MyGeoPoint implements CanonicalGeoPoint {

@@ -1,19 +1,8 @@
 .. code-block:: typescript
 
    import React from 'react';
-   import Realm, {
-     ObjectSchema,
-     GeoBox,
-     GeoCircle,
-     GeoPoint,
-     GeoPolygon,
-     CanonicalGeoPoint,
-     GeoPosition,
-     kmToRadians,
-   } from 'realm';
+   import Realm, {ObjectSchema, CanonicalGeoPoint, GeoPosition} from 'realm';
    import {RealmProvider} from '@realm/react';
-
-   import {CanonicalGeoPoint, GeoPosition} from 'realm';
 
    // Implement `CanonicalGeoPoint`
    // for convenience when persisting geodata.

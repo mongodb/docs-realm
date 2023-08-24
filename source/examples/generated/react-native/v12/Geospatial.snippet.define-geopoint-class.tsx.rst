@@ -1,7 +1,5 @@
 .. code-block:: typescript
 
-   import {CanonicalGeoPoint, GeoPosition} from 'realm';
-
    // Implement `CanonicalGeoPoint`
    // for convenience when persisting geodata.
    class MyGeoPoint implements CanonicalGeoPoint {
