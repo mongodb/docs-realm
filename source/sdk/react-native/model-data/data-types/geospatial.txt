@@ -62,19 +62,7 @@ kilometers or miles to radians.
 
 The following code shows two examples of creating a circle:
 
-.. .. tabs-realm-languages::
-
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
-
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle.js
-..           :language: javascript
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geocircle.tsx.rst
 
 .. figure:: /images/geocircles.png
    :alt: Two GeoCircles
@@ -93,19 +81,7 @@ in the same way as the corresponding :ref:`GeoPolygon <node-geopolygon>`.
 
 The following example creates 2 boxes:
 
-.. .. tabs-realm-languages::
-
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geobox.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
-
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geobox.js
-..           :language: javascript
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geobox.tsx.rst
 
 .. figure:: /images/geoboxes.png
    :alt: 2 GeoBoxes
@@ -132,19 +108,7 @@ The following example creates 3 polygons: one is a basic polygon with 5 points,
 one is the same polygon with a single hole, and the third is the same polygon 
 with two holes:
 
-.. .. tabs-realm-languages::
-
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geopolygon.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
-
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geopolygon.js
-..           :language: javascript
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geopolygon.tsx.rst
 
 .. figure:: /images/geopolygons.png
    :alt: 3 GeoPolygons
@@ -180,58 +144,23 @@ To simplify geodata persistance, you can define a model that implements
 example shows an embedded class named ``MyGeoPoint`` that is used 
 to persist geospatial data:
 
-.. .. tabs-realm-languages::
-
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.define-geopoint-class.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
-
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.define-geopoint-class.js
-..           :language: javascript
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.define-geopoint-class.tsx.rst
 
 Use the Embedded Class
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 You then use the custom ``MyGeoPoint`` class in your realm model, as shown in the 
-following example:
-
-.. .. tabs-realm-languages::
-
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.use-geopoint-class.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
-
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.use-geopoint-class.js
-..           :language: javascript
-
-You add instances of your class to the realm just like any other Realm 
+following example. You add instances of your class to the realm just like any other Realm 
 model. However, in this example, because the ``MyGeoPoint`` class does not 
 extend ``Realm.Object``, we must specify ``MyGeoPoint.schema`` when opening 
 the realm:
 
-.. .. tabs-realm-languages::
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.open-realm-geospatial.tsx.rst
 
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.write-geospatial-object.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
+Within ``RealmProvider``, create your geospatial objects by combining the
+embedded class with classes that extend ``Realm.Object``.
 
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.write-geospatial-object.js
-..           :language: javascript
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.write-geospatial-object.tsx.rst
 
 The following image shows the results of creating these two company objects.
 
@@ -261,19 +190,7 @@ companies within the shape:
 
 **GeoCircle**
 
-.. .. tabs-realm-languages::
-
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle-query.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
-
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle-query.js
-..           :language: javascript
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geocircle-query.tsx.rst
 
 .. figure:: /images/geocircles-query.png
    :alt: Querying a GeoCircle example.
@@ -282,19 +199,7 @@ companies within the shape:
 
 **GeoBox**
 
-.. .. tabs-realm-languages::
-
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geobox-query.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
-
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geobox-query.js
-..           :language: javascript
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geobox-query.tsx.rst
 
 .. figure:: /images/geoboxes-query.png
    :alt: Querying a GeoBox example.
@@ -302,19 +207,7 @@ companies within the shape:
 
 **GeoPolygon**
 
-.. .. tabs-realm-languages::
-
-..     .. tab::
-..       :tabid: typescript
-    
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geopolygon-query.ts
-..           :language: typescript
-    
-..     .. tab::
-..       :tabid: javascript
-
-..       .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geopolygon-query.js
-..           :language: javascript
+.. include:: /examples/generated/react-native/v12/Geospatial.snippet.geopolygon-query.tsx.rst
 
 .. figure:: /images/geopolygons-query.png
    :alt: Querying a GeoPolygon example.

@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+// :snippet-start: open-realm-geospatial
+import React from 'react';
 import Realm, {
   ObjectSchema,
   GeoBox,
@@ -10,7 +10,12 @@ import Realm, {
   GeoPosition,
   kmToRadians,
 } from 'realm';
-import {RealmProvider, useQuery, useRealm} from '@realm/react';
+import {RealmProvider} from '@realm/react';
+// :remove-start:
+import {useEffect} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import {useQuery, useRealm} from '@realm/react';
+// :remove-end:
 
 // :snippet-start: define-geopoint-class
 // Implement `CanonicalGeoPoint`
@@ -52,26 +57,26 @@ class Company extends Realm.Object<Company> {
 
 export const Geospatial = () => {
   return (
-    <View style={styles.globalScreen}>
-      <Text style={styles.componentHeading}>Geospatial Component</Text>
-      <Text>Number of companies in various geospatial shapes.</Text>
+    <View>
       {/* 
           `MyGeoPoint` does not extend `Realm.Object`, so you pass
           only the `.schema` when opening the realm. 
       */}
       <RealmProvider schema={[Company, MyGeoPoint.schema]}>
-        <GeospatialObject />
+        <RestOfApp />
       </RealmProvider>
     </View>
   );
 };
+// :snippet-end:
 
 type CompanyProps = {
   _id: number;
   location: MyGeoPoint;
 };
 
-function GeospatialObject(): JSX.Element {
+function RestOfApp(): JSX.Element {
+  // :snippet-start: write-geospatial-object
   const realm = useRealm();
   const companies = useQuery(Company);
 
@@ -84,7 +89,6 @@ function GeospatialObject(): JSX.Element {
   }, []);
 
   const writeNewCompany = ({_id, location}: CompanyProps) => {
-    console.debug('writeNewCompany called...');
     // Add geospatial object to realm.
     realm.write(() => {
       realm.create(Company, {
@@ -93,6 +97,7 @@ function GeospatialObject(): JSX.Element {
       });
     });
   };
+  // :snippet-end:
 
   // :snippet-start: geocircle
   const smallCircle: GeoCircle = {
@@ -255,11 +260,6 @@ function GeospatialObject(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  componentHeading: {
-    fontSize: 20,
-    marginTop: 12,
-    marginBottom: 8,
-  },
   geospatialObjectList: {
     borderLeftWidth: 2,
     margin: 8,
@@ -267,9 +267,5 @@ const styles = StyleSheet.create({
   geospatialObject: {
     marginVertical: 2,
     paddingLeft: 8,
-  },
-  globalScreen: {
-    marginHorizontal: 12,
-    marginVertical: 8,
   },
 });

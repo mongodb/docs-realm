@@ -1,0 +1,22 @@
+.. code-block:: text
+
+   const realm = useRealm();
+   const companies = useQuery(Company);
+
+   useEffect(() => {
+     if (!companies.length) {
+       // Add geospatial objects to realm.
+       writeNewCompany({_id: 6, location: new MyGeoPoint(-122.35, 47.68)});
+       writeNewCompany({_id: 9, location: new MyGeoPoint(-121.85, 47.9)});
+     }
+   }, []);
+
+   const writeNewCompany = ({_id, location}: CompanyProps) => {
+     // Add geospatial object to realm.
+     realm.write(() => {
+       realm.create(Company, {
+         _id,
+         location,
+       });
+     });
+   };
