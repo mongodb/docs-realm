@@ -31,7 +31,6 @@ class MyGeoPoint implements CanonicalGeoPoint {
 }
 // :snippet-end:
 
-// :snippet-start: use-geopoint-class
 class Company extends Realm.Object<Company> {
   _id!: number;
   location!: MyGeoPoint;
@@ -45,7 +44,6 @@ class Company extends Realm.Object<Company> {
     primaryKey: '_id',
   };
 }
-// :snippet-end:
 
 export const Geospatial = () => {
   return (
