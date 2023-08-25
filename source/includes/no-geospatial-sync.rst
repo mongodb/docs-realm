@@ -1,5 +1,5 @@
 .. important::
 
-   Do not sync geospatial data. Flexible Sync does not currently support 
-   geospatial data. If you try to subscribe to a query result that contains
-   objects with geospatial data, you will receive a server error.
+   Flexible Sync does not currently support geospatial queries. If you try to
+   subscribe to a geospatial query, you will receive a server error and cause a
+   compensating write.
