@@ -21,19 +21,6 @@ that describe the objects.
    .. tab:: Current
       :tabid: current
 
-      When you open a realm, the ``open`` or ``async_open`` templates 
-      construct a :cpp-sdk:`db_config 
-      <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` that 
-      specifies details about how to configure the realm file. This can include:
-
-      - The models that the realm file should manage
-      - An optional path where the realm is stored on device
-      - An optional scheduler if you need to customize the run loop
-      - A ``sync_config`` if you want to use the realm with Device Sync
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       When opening a realm using the ``realm::experimental`` namespace, 
       you must specify a :cpp-sdk:`db_config 
       <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
@@ -49,6 +36,19 @@ that describe the objects.
       configuration details.
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      When you open a realm, the ``open`` or ``async_open`` templates 
+      construct a :cpp-sdk:`db_config 
+      <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` that 
+      specifies details about how to configure the realm file. This can include:
+
+      - The models that the realm file should manage
+      - An optional path where the realm is stored on device
+      - An optional scheduler if you need to customize the run loop
+      - A ``sync_config`` if you want to use the realm with Device Sync
 
 .. _cpp-realm-file:
 
@@ -125,15 +125,6 @@ in the current directory.
    .. tab:: Current
       :tabid: current
 
-      When opening a realm, you must specify which models are available by passing 
-      the models into the template parameter list of the ``realm::open()`` function.
-
-      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       When opening a realm using the ``realm::experimental`` namespace, the 
       C++ SDK Preview can automatically infer which models are available in the
       project. You don't need to manually specify the available models.
@@ -152,6 +143,15 @@ in the current directory.
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      When opening a realm, you must specify which models are available by passing 
+      the models into the template parameter list of the ``realm::open()`` function.
+
+      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
+         :language: cpp
+
 .. tip:: Building an Android App
 
    When building an Android app that uses the Realm C++ SDK Preview, 
@@ -169,15 +169,6 @@ Open a Realm at a File Path
    .. tab:: Current
       :tabid: current
 
-      If you need to open a realm at a specific file path, you can pass a path 
-      to the realm open template.
-
-      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-realm-at-path.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       You can use ``set_path()`` to specify a path for the ``db_config`` 
       to use when opening the realm.
 
@@ -185,6 +176,15 @@ Open a Realm at a File Path
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      If you need to open a realm at a specific file path, you can pass a path 
+      to the realm open template.
+
+      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-realm-at-path.cpp
+         :language: cpp
 
 .. tip:: Building an Android App
 
@@ -214,6 +214,14 @@ To open a synced realm:
    .. tab:: Current
       :tabid: current
 
+      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.beta-flexible-sync-prerequisites.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
       To open a synced realm, pass the models you want the realm to manage into the 
       template parameter list of the :cpp-sdk:`async_open 
       <structrealm_1_1async__open__promise.html>` function, and pass the configuration 
@@ -221,14 +229,6 @@ To open a synced realm:
 
       .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.open-a-synced-realm.cpp
          :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
-      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.beta-flexible-sync-prerequisites.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. tip:: Building an Android App
 
