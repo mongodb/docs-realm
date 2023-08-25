@@ -3,36 +3,36 @@
 ## Flutter SDK
 
 - Model Data
-  - Define a Realm Object Schema: Document mapping a property or class to a different name
-  - Property Annotations: Document mapping a property or class to a different name
+  - Define a Realm Object Schema: Document mapping a property or class to a different name.
+  - Property Annotations: Document mapping a property or class to a different name.
 
 ## Kotlin SDK
 
 - Realm
   - Model Data
-    - Define an Object Model: Move relevant `RealmSet` content from the Data Types page to this page
-    - Data Types: Remove `RealmSet` content from page to move content to relevant CRUD pages
+    - Define an Object Model: Move relevant `RealmSet` content from the Data Types page to this page.
+    - Data Types: Remove `RealmSet` content from page to move content to relevant CRUD pages.
   - Read & Write Data
-    - Create: Move content about creating a `RealmSet` from the Data Types page to this page
-    - Read: Move content about reading a `RealmSet` from the Data Types page to this page
-    - Update: Move content about updating a `RealmSet` from the Data Types page to this page
-    - Delete: Move content about deleting a `RealmSet` from the Data Types page to this page
-- Internal: Remove instances of the `:kotlin-sdk:` role and replace with a source constant in preparation for the newly defined kotlin roles
+    - Create: Move content about creating a `RealmSet` from the Data Types page to this page.
+    - Read: Move content about reading a `RealmSet` from the Data Types page to this page.
+    - Update: Move content about updating a `RealmSet` from the Data Types page to this page.
+    - Delete: Move content about deleting a `RealmSet` from the Data Types page to this page.
+- Internal: Remove instances of the `:kotlin-sdk:` role and replace with a source constant in preparation for the newly defined kotlin roles.
 
 ## .NET SDK
 
-- Landing Page: Add a section for .NET Device Sync example projects
+- Landing Page: Add a section for .NET Device Sync example projects.
 
 ## Node.js SDK
 
-- Quick Start: Correct an `ObjectID` link to link to the Field Types page
+- Quick Start: Correct an `ObjectID` link to link to the Field Types page.
 - Model Data
-  - Define an Object Model: Document mapping a property or class to a different name
-- Data Types/Geospatial Data: Document new geospatial data types for the SDK
+  - Define an Object Model: Document mapping a property or class to a different name.
+- Data Types/Geospatial Data: Document new geospatial data types for the SDK.
 
 ## Other
 
-- Realm Example Projects: Update page with more Device Sync example projects 
+- Realm Example Projects: Update page with more Device Sync example projects. 
 
 # August 18, 2023
 
