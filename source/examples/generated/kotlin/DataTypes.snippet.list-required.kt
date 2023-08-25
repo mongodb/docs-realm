@@ -1,2 +1,1 @@
-var listReq: RealmList<CustomObjectType> =
-    realmListOf()
+var listReq: RealmList<CustomObjectType> = realmListOf()

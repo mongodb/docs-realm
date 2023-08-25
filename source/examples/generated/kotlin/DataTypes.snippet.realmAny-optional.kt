@@ -1,1 +1,1 @@
-var realmAnyOpt: RealmAny? = null
+var realmAnyOpt: RealmAny? = RealmAny.create("foo")

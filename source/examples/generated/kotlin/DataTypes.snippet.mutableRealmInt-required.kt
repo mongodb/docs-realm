@@ -1,2 +1,1 @@
-var mutableRealmIntReq: MutableRealmInt =
-    MutableRealmInt.create(0)
+var mutableRealmIntReq: MutableRealmInt = MutableRealmInt.create(0)

@@ -193,6 +193,10 @@ your object model.
      - .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.embedded-object-optional.kt
          :language: kotlin
 
+The Kotlin SDK does not natively support user-defined enumeration properties. 
+See the :ref:`Enums <kotlin-enums>` section for more information on how to 
+use enums in your Realm objects.
+
 
 Unique Identifiers
 ------------------
@@ -257,9 +261,9 @@ supports ``increment`` and ``decrement`` methods that implement a
 This ensures that numeric updates can be executed regardless of order to 
 converge to the same value.
 
-``MutableRealmInteger`` fields are backed by traditional numeric types, 
+``MutableRealmInt`` fields are backed by traditional numeric types, 
 so no migration is required when changing a field from ``Byte``, ``Short``, 
-``Int``, or ``Long`` to ``MutableRealmInteger``
+``Int``, or ``Long`` to ``MutableRealmInt``
 
 A ``MutableRealmInt`` property: 
 
@@ -291,23 +295,13 @@ RealmAny (Mixed)
 ----------------
 
 `RealmAny <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-any/index.html>`__ 
-represents a non-nullable mixed data type. You can use ``RealmAny`` to hold the 
-following data types: 
+represents a non-nullable mixed data type. You can use ``RealmAny`` to hold 
+any supported Kotlin data types, supported BSON types, and the following
+Realm-specific types: 
 
-- Boolean
-- Byte 
-- ByteArray
-- Char
-- Float
-- Double
-- Decimal128
-- Int
-- ObjectID 
 - RealmInstant
 - RealmObject
 - RealmUUID
-- Short
-- String
 
 Additionally, ``RealmAny`` values can be sorted (from lowest to highest): 
 
@@ -481,8 +475,8 @@ or `EmbeddedBacklinksDelegate
 A ``BacklinksDelegate<T>`` property is defined as a ``RealmResults<T>`` list 
 of ``RealmObjects`` :
 
-You can store backlinks for to-many relationships in RealmLists, RealmSets, or 
-RealmDictionaries
+You can store backlinks for to-many relationships in ``RealmLists``, ``RealmSets``, or 
+``RealmDictionaries``
 
 .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.backlinks-realm-object.kt
    :language: kotlin
@@ -520,4 +514,19 @@ See :ref:`Embedded Objects <kotlin-embedded-objects>` for more information.
 
 .. Geospatial Types
 .. ----------------
+
+.. _kotlin-enums:
+
+Enums
+-----
+
+The Kotlin SDK does not natively support enumerations, or enums. To use 
+enums in a Realm object class, define a field with a type matching the 
+underlying data type of your enum. 
+
+Then, create getters and setters for the field that convert the field 
+value between the underlying value and the enum type.
+
+.. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.enum-workaround.kt
+   :language: kotlin
 
