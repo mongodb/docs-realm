@@ -1,5 +1,9 @@
 # August 25, 2023
 
+## C++ SDK
+
+- Throughout the C++ docs, rename the "Experimental" tab to "Current" and the "Current" tab to "Deprecated" for code examples. Present the "Current" code examples first.
+
 ## Flutter SDK
 
 - Model Data
