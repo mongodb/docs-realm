@@ -1,11 +1,46 @@
+Indexed Queryable Fields Subscription Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Adding an :ref:`indexed queryable field <fs-indexed-queryable-fields>` to 
+your App can improve performance for simple queries on a single field.
+For example, ``user_id == $0, “641374b03725038381d2e1fb”`` is a good 
+candidate for an indexed queryable field. However, an indexed queryable
+field has specific requirements for use in a query subscription:
+
+- The indexed queryable field must be used in every subscription query for
+  every object type. It cannot be missing from the query.
+- The indexed queryable field must use an ``==`` or ``IN`` comparison 
+  against a constant at least once in the subscription query. For example,
+  ``user_id == $0, "641374b03725038381d2e1fb"`` or 
+  ``store_id IN $0, {1,2,3}``.
+
+You can optionally include an ``AND`` comparison as long as the indexed
+queryable field is directly compared against a constant using ``==`` or ``IN``
+at least once. For example, ``store_id IN {1,2,3} AND region=="Northeast"``
+or ``store_id IN {1,2,3} AND store_id > 2``.
+
+*Invalid* Flexible Sync queries on an indexed queryable field include queries 
+where:
+
+- The indexed queryable field does not use ``AND`` with the rest of the query.
+  For example ``store_id IN {1,2,3} OR region=="Northeast"`` is invalid
+  because it uses ``OR`` instead of ``AND``.
+- The indexed queryable field is not used in an equality operator. For example
+  ``store_id > 2 AND region=="Northeast"`` is invalid because it uses only 
+  the ``>`` operator with the indexed queryable field and does not have an 
+  equality comparison.
+- The query is missing the indexed queryable field entirely. For example, 
+  ``region=="Northeast`` or ``truepredicate`` are invalid because they do
+  not contain the indexed queryable field.
+
+Unsupported Query Operators in Flexible Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Flexible Sync has some limitations when using RQL operators. When you 
 write the :ref:`query subscription <flexible-sync-query-subscription>` 
 that determines which data to sync, the server does not support these
 query operators. However, you can still use the full range of RQL features
 to query the synced data set in the client application.
-
-Unsupported Query Operators in Flexible Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :header-rows: 1
