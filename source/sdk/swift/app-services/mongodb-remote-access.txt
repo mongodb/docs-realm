@@ -115,8 +115,8 @@ Insert a Single Document
 You can insert a single document using :swift-sdk:`collection.insertOne() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE9insertOneyySDySSAC7AnyBSONOSgG_ys6ResultOyAFs5Error_pGctF>`.
 
 This snippet inserts a single document describing a "Colombian Blend" coffee 
-drink into a :ref:`collection of documents that describe coffee drinks for sale 
-in a group of stores <ios-mongodb-example-dataset>`:
+drink into a collection of :ref:`documents that describe coffee drinks  
+<ios-mongodb-example-dataset>` for sale in a group of stores:
 
 .. io-code-block::
 
@@ -125,6 +125,7 @@ in a group of stores <ios-mongodb-example-dataset>`:
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully inserted a document with id: objectId(64e50cab7765243942cd04ce)
 
@@ -136,8 +137,8 @@ Insert Multiple Documents
 You can insert multiple documents using :swift-sdk:`collection.insertMany() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE10insertManyyySaySDySSAC7AnyBSONOSgGG_ys6ResultOySayAFGs5Error_pGctF>`.
 
 This snippet inserts three documents describing coffee drinks into a 
-:ref:`collection of documents that describe coffee drinks for sale in a group 
-of stores <ios-mongodb-example-dataset>`:
+collection of :ref:`documents that describe coffee drinks 
+<ios-mongodb-example-dataset>` for sale in a group of stores:
 
 .. io-code-block::
 
@@ -146,6 +147,7 @@ of stores <ios-mongodb-example-dataset>`:
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully inserted 3 new documents.
 
@@ -169,10 +171,10 @@ Find a Single Document
 
 You can find a single document using :swift-sdk:`collection.findOneDocument() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE15findOneDocument6filter7options7Combine6FutureCySDySSAC7AnyBSONOSgGSgs5Error_pGAM_So14RLMFindOptionsCtF>`.
 
-This snippet finds a single document from a :ref:`collection of documents 
-that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>`, where the document's ``name`` field contains
-the string value "Colombian Blend":
+This snippet finds a single document from a collection of :ref:`documents 
+that describe coffee drinks <ios-mongodb-example-dataset>` for sale in a 
+group of stores, where the document's ``name`` field contains the string
+value "Colombian Blend":
 
 .. io-code-block::
 
@@ -181,6 +183,7 @@ the string value "Colombian Blend":
 
    .. output::
       :language: text
+      :visible: false
 
       Found a matching document: Optional([
          "name": Optional(RealmSwift.AnyBSON.string("Colombian Blend")), 
@@ -197,9 +200,9 @@ Find Multiple Documents
 
 You can find multiple documents using :swift-sdk:`collection.find() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE4find6filter7Combine6FutureCySaySDySSAC7AnyBSONOSgGGs5Error_pGAL_tF>`.
 
-This snippet finds all documents in a :ref:`collection of documents that 
-describe coffee drinks for sale in a group of stores <ios-mongodb-example-dataset>`, 
-where the document's ``name`` field contains the value "Americano":
+This snippet finds all documents in a collection of :ref:`documents that 
+describe coffee drinks <ios-mongodb-example-dataset>` for sale in a group 
+of stores, where the document's ``name`` field contains the value "Americano":
 
 .. io-code-block::
 
@@ -208,10 +211,11 @@ where the document's ``name`` field contains the value "Americano":
 
    .. output::
       :language: text
+      :visible: false
 
       Results: 
       Coffee drink named: Optional(Optional(RealmSwift.AnyBSON.string("Americano")))
-      Coffee drink named: Optional(Optional(RealmSwift.AnyBSON.string("Americano")))
+      ... more matching documents ...
 
 .. _ios-mongodb-findAndSort:
 
@@ -231,10 +235,10 @@ or ``-1`` sorts in ascending order.
 You then pass the ``FindOptions`` instance to the ``collection.find()`` method
 when running the query.
 
-This snippet finds all documents in a :ref:`collection of documents that 
-describe coffee drinks for sale in a group of stores <ios-mongodb-example-dataset>`, 
-where the document's ``name`` field contains the value "Americano", sorted 
-in descending order by the ``beanRegion`` field:
+This snippet finds all documents in a collection of :ref:`documents that 
+describe coffee drinks <ios-mongodb-example-dataset>` for sale in a group 
+of stores, where the document's ``name`` field contains the value "Americano", 
+sorted in descending order by the ``beanRegion`` field:
 
 .. io-code-block::
 
@@ -243,6 +247,7 @@ in descending order by the ``beanRegion`` field:
 
    .. output::
       :language: text
+      :visible: false
 
       Results: 
       Coffee drink: [
@@ -259,6 +264,7 @@ in descending order by the ``beanRegion`` field:
          "name": Optional(RealmSwift.AnyBSON.string("Americano")), 
          "beanRegion": Optional(RealmSwift.AnyBSON.string("Timbio, Colombia"))
       ]
+      ... more matching documents, sorted by `beanRegion` ...
 
 .. _ios-mongodb-count:
 
@@ -270,10 +276,10 @@ You can specify an optional query and limit to determine which
 documents to count. If you don't specify a query, the action counts all 
 documents in the collection.
 
-This snippet counts the number of documents in a :ref:`collection of documents 
-that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>`, where the document's ``name`` field contains 
-the value "Bean of the Day":
+This snippet counts the number of documents in a collection of :ref:`documents 
+that describe coffee drinks <ios-mongodb-example-dataset>` for sale in a 
+group of stores, where the document's ``name`` field contains the value 
+"Bean of the Day":
 
 .. io-code-block::
 
@@ -282,6 +288,7 @@ the value "Bean of the Day":
 
    .. output::
       :language: text
+      :visible: false
 
       Found this many documents in the collection matching the filter: 24
 
@@ -306,10 +313,10 @@ Update a Single Document
 You can update a single document using :swift-sdk:`collection.updateOneDocument() 
 <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE17updateOneDocument6filter0E07Combine6FutureCySo15RLMUpdateResultCs5Error_pGSDySSAC7AnyBSONOSgG_AQtF>`.
 
-This snippet updates a single document in a :ref:`collection of documents 
-that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>`. This update operation queries for a document
-whose ``name`` field contains the value "Bean of the Day", and sets the
+This snippet updates a single document in a collection of :ref:`documents 
+that describe coffee drinks <ios-mongodb-example-dataset>` for sale in a 
+group of stores. This update operation queries for a document whose 
+``name`` field contains the value "Bean of the Day", and sets the
 ``containsDairy`` field to ``true``:
 
 .. io-code-block::
@@ -319,6 +326,7 @@ whose ``name`` field contains the value "Bean of the Day", and sets the
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully updated a matching document.
 
@@ -329,10 +337,10 @@ Update Multiple Documents
 
 You can update multiple documents using :swift-sdk:`collection.updateManyDocuments() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE19updateManyDocuments6filter0E07Combine6FutureCySo15RLMUpdateResultCs5Error_pGSDySSAC7AnyBSONOSgG_AQtF>`.
 
-This snippet updates multiple documents in a :ref:`collection of documents 
-that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>`. This update operation queries for documents
-where the ``name`` field contains the value "Bean of the Day", and changes the
+This snippet updates multiple documents in a collection of :ref:`documents 
+that describe coffee drinks <ios-mongodb-example-dataset>` for sale in a 
+group of stores. This update operation queries for documents where the 
+``name`` field contains the value "Bean of the Day", and changes the
 ``containsDairy`` field to ``true``:
 
 .. io-code-block::
@@ -342,6 +350,7 @@ where the ``name`` field contains the value "Bean of the Day", and changes the
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully updated 24 documents.
 
@@ -355,10 +364,10 @@ you can automatically insert a single new document into the collection
 that matches the update query by setting the ``upsert`` option to
 ``true``.
 
-The following snippet updates a document in a :ref:`collection of documents 
-that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>`. If no document matches the query, it 
-inserts a new document if no document. This operation queries for documents 
+The following snippet updates a document in a collection of :ref:`documents 
+that describe coffee drinks <ios-mongodb-example-dataset>` for sale in a 
+group of stores. If no document matches the query, it inserts a new 
+document if no document. This operation queries for documents 
 where the ``name`` field has a value of "Bean of the Day", and 
 the ``storeNumber`` field has a value of ``55``. 
 
@@ -373,6 +382,7 @@ both the query and specified updates:
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully upserted a document with id: 64e523e37765243942eba44a
 
@@ -394,11 +404,11 @@ Delete a Single Document
 
 You can delete a single document from a collection using :swift-sdk:`collection.deleteOneDocument() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE17deleteOneDocument6filter7Combine6FutureCySis5Error_pGSDySSAC7AnyBSONOSgG_tF>`.
 
-This snippet deletes one document in a :ref:`collection of documents 
-that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>`. This operation queries for a document where
-the ``name`` field has a value of "Mocha" and the ``storeNumber`` field has
-a value of ``17``, and deletes it.
+This snippet deletes one document in a collection of :ref:`documents 
+that describe coffee drinks <ios-mongodb-example-dataset>` for sale in a 
+group of stores. This operation queries for a document where the ``name`` 
+field has a value of "Mocha" and the ``storeNumber`` field has a value of 
+``17``, and deletes it.
 
 .. io-code-block::
 
@@ -407,6 +417,7 @@ a value of ``17``, and deletes it.
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully deleted a document.
 
@@ -417,10 +428,10 @@ Delete Multiple Documents
 
 You can delete multiple items from a collection using :swift-sdk:`collection.deleteManyDocuments() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE19deleteManyDocuments6filter7Combine6FutureCySis5Error_pGSDySSAC7AnyBSONOSgG_tF>`.
 
-This snippet deletes all documents in a :ref:`collection of documents 
-that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>` that match the query for documents
-whose ``name`` field contains the value "Caramel Latte":
+This snippet deletes all documents in a collection of :ref:`documents 
+that describe coffee drinks <ios-mongodb-example-dataset>` for sale in a 
+group of stores that match the query for documents whose ``name`` field 
+contains the value "Caramel Latte":
 
 .. io-code-block::
 
@@ -429,6 +440,7 @@ whose ``name`` field contains the value "Caramel Latte":
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully deleted 3 documents.
 
@@ -478,6 +490,7 @@ collection:
 
    .. output::
       :language: console
+      :visible: false
 
       Login as <RLMUser: 0x600002dfd1a0> succeeded!
       Change stream opened: <RLMChangeStream: 0x60000182ab80>
@@ -534,6 +547,7 @@ documents in the ``CoffeeDrinks`` collection:
 
    .. output::
       :language: console
+      :visible: false
 
       Login as <RLMUser: 0x60000010eb00> succeeded!
       Successfully inserted a document with id: objectId(64e525ce7765243942ef0a58)
@@ -588,10 +602,9 @@ Consider an example that uses this :swift-sdk:`ChangeEventDelegate
    :language: swift
    :copyable: false
 
-To use the code below to watch for changes to documents in the
-``CoffeeDrink`` collection, but only trigger the provided callback for
-events corresponding to documents belonging to the ``storeNumber`` named
-``42``:
+The code below uses this delegate to watch for changes to documents in the
+``CoffeeDrink`` collection. It only triggers the provided callback for
+events whose documents have a ``storeNumber`` value of ``42``:
 
 .. io-code-block::
 
@@ -600,6 +613,7 @@ events corresponding to documents belonging to the ``storeNumber`` named
 
    .. output::
       :language: text
+      :visible: false
 
       Login as <RLMUser: 0x6000026ee640> succeeded!
       Successfully inserted a document with id: objectId(64e5266731323150716faf13)
@@ -667,6 +681,7 @@ The following snippet watches for changes to any documents in the
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully opened change stream
       Received event: [
@@ -737,6 +752,7 @@ This ``$match`` stage filters documents to include only those where the
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully ran the aggregation:
       Coffee drink: [
@@ -777,6 +793,7 @@ words, we're calculating the number of coffee drinks for each store number.
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully ran the aggregation.
       ["numItems": Optional(RealmSwift.AnyBSON.int64(27)), "_id": Optional(RealmSwift.AnyBSON.int64(42))]
@@ -842,6 +859,7 @@ The ``storeNumber`` is generated using two aggregation operators:
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully ran the aggregation.
       ["name": Optional(RealmSwift.AnyBSON.string("Bean of the Day")), "storeNumber": Optional(RealmSwift.AnyBSON.string("42"))]
@@ -882,6 +900,7 @@ that transform the value of the ``store`` field.
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully ran the aggregation.
       [
@@ -928,6 +947,7 @@ element's position index in the original array:
 
    .. output::
       :language: text
+      :visible: false
 
       Successfully ran the aggregation.
       Coffee drink: [
