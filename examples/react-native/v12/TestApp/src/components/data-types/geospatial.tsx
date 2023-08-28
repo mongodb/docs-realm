@@ -137,15 +137,17 @@ function Geocircle(): JSX.Element {
   };
 
   // Query geospatial data
-  const companiesInSmallCircle = useQuery(Company).filtered(
-    'location geoWithin $0',
-    smallCircle,
+  const companiesInSmallCircle = useQuery(
+    Company,
+    collection => collection.filtered('location geoWithin $0', smallCircle),
+    [smallCircle],
   );
 
   // Query geospatial data
-  const companiesInLargeCircle = useQuery(Company).filtered(
-    'location geoWithin $0',
-    largeCircle,
+  const companiesInLargeCircle = useQuery(
+    Company,
+    collection => collection.filtered('location geoWithin $0', largeCircle),
+    [largeCircle],
   );
 
   return (
@@ -187,15 +189,17 @@ function Geobox(): JSX.Element {
   };
 
   // Query geospatial data
-  const companiesInLargeBox = useQuery(Company).filtered(
-    'location geoWithin $0',
-    largeBox,
+  const companiesInLargeBox = useQuery(
+    Company,
+    collection => collection.filtered('location geoWithin $0', largeBox),
+    [largeBox],
   );
 
   // Query geospatial data
-  const companiesInSmallBox = useQuery(Company).filtered(
-    'location geoWithin $0',
-    smallBox,
+  const companiesInSmallBox = useQuery(
+    Company,
+    collection => collection.filtered('location geoWithin $0', smallBox),
+    [smallBox],
   );
 
   return (
@@ -277,15 +281,18 @@ function Geopolygon(): JSX.Element {
   };
 
   // Query geospatial data
-  const companiesInBasicPolygon = useQuery(Company).filtered(
-    'location geoWithin $0',
-    basicPolygon,
+  const companiesInBasicPolygon = useQuery(
+    Company,
+    collection => collection.filtered('location geoWithin $0', basicPolygon),
+    [basicPolygon],
   );
 
   // Query geospatial data
-  const companiesInPolygonWithTwoHoles = useQuery(Company).filtered(
-    'location geoWithin $0',
-    polygonWithTwoHoles,
+  const companiesInPolygonWithTwoHoles = useQuery(
+    Company,
+    collection =>
+      collection.filtered('location geoWithin $0', polygonWithTwoHoles),
+    [polygonWithTwoHoles],
   );
 
   return (
