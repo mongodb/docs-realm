@@ -27,17 +27,30 @@ class AnotherCustomObjectType : RealmObject {
 
 class EmbeddedObjectType : EmbeddedRealmObject {
     var uuid: RealmUUID = RealmUUID.random()
+    var nullable: RealmUUID? = null
+    var id: ObjectId = ObjectId()
 }
 
 class ParentObjectType : RealmObject {
     var uuid: RealmUUID = RealmUUID.from("00000000-0000-0000-0000-000000000000")
-    var children: RealmList<ChildObjectType> = realmListOf()
+    // :snippet-start: backlinks-parent-object
+    var children: RealmSet<ChildObjectType> = realmSetOf()
+    var embeddedChildren: RealmList<EmbeddedChildType> = realmListOf() // RealmSets cannot contain embedded objects
+    var embeddedChildrenDictionary: RealmDictionary<EmbeddedChildType?> = realmDictionaryOf()
+    // :snippet-end:
 }
 
 class ChildObjectType : RealmObject {
     var uuid: RealmUUID = RealmUUID.from("11111111-1111-1111-1111-111111111111")
     // :snippet-start: backlinks-realm-object
     val child: RealmResults<ParentObjectType> by backlinks(ParentObjectType::children)
+    // :snippet-end:
+}
+
+class EmbeddedChildType : EmbeddedRealmObject {
+    var uuid: RealmUUID = RealmUUID.from("22222222-2222-2222-2222-222222222222")
+    // :snippet-start: backlinks-embedded-object
+    val embeddedChild: ParentObjectType by backlinks(ParentObjectType::embeddedChildren)
     // :snippet-end:
 }
 
@@ -303,7 +316,7 @@ class SupportedDataTypesTest : RealmTest() {
     @Test
     fun populateBSONPropertiesTest() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(BSONSupportedTypes::class))
+            val config = RealmConfiguration.Builder(setOf(BSONSupportedTypes::class, EmbeddedObjectType::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -375,7 +388,6 @@ class SupportedDataTypesTest : RealmTest() {
                 copyToRealm(realmSupportedTypes)
 
                 val realmSupportedTypesResult = query<RealmSupportedTypes>().find().first()
-                val customObjectTypeResult = query<CustomObjectType>().find().first()
                 assertNotNull(realmSupportedTypesResult.realmInstantReq)
                 assertNull(realmSupportedTypesResult.realmInstantOpt)
                 assertEquals(0, realmSupportedTypesResult.mutableRealmIntReq.get())
@@ -383,7 +395,7 @@ class SupportedDataTypesTest : RealmTest() {
                 assertEquals(0, realmSupportedTypesResult.listReq.size)
                 assertEquals(0, realmSupportedTypesResult.setReq.size)
                 assertEquals(0, realmSupportedTypesResult.dictionaryReq.size)
-                assertNull(realmSupportedTypesResult.realmAnyOpt)
+                assertEquals("foo", realmSupportedTypesResult.realmAnyOpt?.asString())
                 assertNotNull(realmSupportedTypesResult.uuidReq)
                 assertNull(realmSupportedTypesResult.uuidOpt)
                 delete(realmSupportedTypesResult)
@@ -458,7 +470,7 @@ class SupportedDataTypesTest : RealmTest() {
     @Test
     fun populateRealmObjectPropertiesTest() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(EmbeddedObjectType::class, AnotherCustomObjectType::class, CustomObjectType::class, ParentObjectType::class, ChildObjectType::class))
+            val config = RealmConfiguration.Builder(setOf(EmbeddedObjectType::class, EmbeddedChildType::class, AnotherCustomObjectType::class, CustomObjectType::class, ParentObjectType::class, ChildObjectType::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -469,6 +481,8 @@ class SupportedDataTypesTest : RealmTest() {
 
             val parent = ParentObjectType().apply {
                 children.add(ChildObjectType().apply {})
+                embeddedChildren.add(EmbeddedChildType().apply {})
+                embeddedChildrenDictionary["key"] = EmbeddedChildType().apply {}
             }
 
             realm.write {
@@ -502,6 +516,7 @@ class SupportedDataTypesTest : RealmTest() {
             val anotherCustomObjectType = AnotherCustomObjectType().apply {
                 realmObjectPropertyOpt = customObjectType
                 embeddedProperty = EmbeddedObjectType().apply {uuid = RealmUUID.from("11111111-1111-1111-1111-111111111111")}
+
             }
 
             realm.write{

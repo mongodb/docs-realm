@@ -1,1 +1,1 @@
-val child: ParentObjectType by backlinks(ParentObjectType::embeddedChildren)
+val embeddedChild: ParentObjectType by backlinks(ParentObjectType::embeddedChildren)
