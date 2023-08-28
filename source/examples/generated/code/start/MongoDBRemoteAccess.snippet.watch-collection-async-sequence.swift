@@ -1,4 +1,4 @@
-let user = try await app.login(credentials: Credentials.anonymous)
+let user = try await appClient.login(credentials: Credentials.anonymous)
 // Set up the client, database, and collection.
 let mongoClient = user.mongoClient("mongodb-atlas")
 let database = mongoClient.database(named: "ios")
@@ -20,8 +20,8 @@ let task = Task {
 
 // Updating a document in the collection triggers a change event.
 let queryFilter: Document = ["_id": AnyBSON(objectId) ]
-let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
-try await collection.updateOneDocument(filter: queryFilter, update: documentUpdate)
+let documentUpdate: Document = ["$set": ["containsDairy": true]]
+let updateResult = try await collection.updateOneDocument(filter: queryFilter, update: documentUpdate)
 // Cancel the task when you're done watching the stream.
 task.cancel()
 _ = await task.result
