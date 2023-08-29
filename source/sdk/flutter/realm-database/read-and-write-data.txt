@@ -69,11 +69,16 @@ In the ``query()`` method's argument, use Realm Query Language to perform filter
 Realm Query Language is a string-based query language that you can use to retrieve
 objects from a realm.
 
-For more information on constructing queries, refer to the
-:ref:`Realm Query Language reference documentation <rql>`.
-
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter.dart
    :language: dart
+
+You can use iterable arguments in your filter. For example:
+
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter-iterable.dart
+   :language: dart
+
+For more information on constructing queries, refer to the
+:ref:`Realm Query Language reference documentation <rql>`.
 
 .. _flutter-fts:
 
