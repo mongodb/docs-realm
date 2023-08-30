@@ -242,3 +242,35 @@ downloading any existing data from the server in the background.
 
 .. literalinclude:: /examples/generated/node/device-sync.snippet.open-realm.ts
    :language: javascript
+
+.. _node-cancel-async-after-timeout:
+
+Cancel Asynchronous Operations after a Timeout
+----------------------------------------------
+
+.. versionadded:: 12.0.0
+
+You can specify a ``cancelWaitsOnNonFatalErrors`` property in your 
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
+
+When ``true``, the Realm JS SDK cancels asynchronous operations, such as 
+waiting for uploads or downloads, when a timeout period elapses. You can 
+define the timeout for this option on the 
+:js-sdk:`AppConfiguration <types/AppConfiguration.html>`.
+For an example, refer to :ref:`node-app-client-configure-timeout`.
+
+This property defaults to ``false`` if you do not specify a value.
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.cancel-waits-on-non-fatal-error.ts
+        :language: typescript
+
+  .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.cancel-waits-on-non-fatal-error.js
+        :language: javascript

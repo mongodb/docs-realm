@@ -41,4 +41,31 @@ call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.get-app-instance.ts
   :language: javascript
-  
+
+.. _node-app-client-configure-timeout:
+
+Configure a Timeout for the App Client
+--------------------------------------
+
+You can configure an optional ``timeout`` for requests in your 
+:js-sdk:`AppConfiguration <types/AppConfiguration.html>`. It accepts a number
+of milliseconds before the request should timeout.
+
+You can use this timeout interval with the optional Sync configuration 
+``cancelWaitsOnNonFatalErrors`` boolean. When the timeout interval elapses, 
+wait for uploads and downloads cancel. For an example, refer to 
+:ref:`node-cancel-async-after-timeout`.
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.app-config-with-timeout.ts
+        :language: typescript
+
+  .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.app-config-with-timeout.js
+        :language: javascript
