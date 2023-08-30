@@ -1,6 +1,5 @@
 import Realm, { SubscriptionSetState, WaitForSync } from "realm";
 import { APP_ID } from "../config";
-import { SubscriptionOptions } from "realm/dist/bundle";
 
 class Task extends Realm.Object<Task> {
   _id!: Realm.BSON.ObjectId;
@@ -104,13 +103,10 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.subscriptions.length).toEqual(0);
 
     // :snippet-start: sub-name
-    const subOptions: SubscriptionOptions = {
-      name: "All completed tasks",
-    };
     const completedTasks = await realm
       .objects(Task)
       .filtered('status == "completed"')
-      .subscribe(subOptions);
+      .subscribe({ name: "All completed tasks" });
     const completedTasksSubscription = realm.subscriptions.findByName(
       "All completed tasks"
     );
@@ -200,7 +196,7 @@ describe("Managing Sync Subscriptions", () => {
     // :uncomment-start:
     // import { WaitForSync } from "realm";
     // :uncomment-end:
-    
+
     // Get tasks that have a status of "in progress".
     const completedTasks = realm
       .objects(Task)

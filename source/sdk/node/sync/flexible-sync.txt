@@ -159,11 +159,13 @@ This removes the subscription from the list of active subscriptions, similar to
 A results list may still contain objects after calling ``unsubscribe()`` 
 if another subscription exists that contains overlapping objects.
 
-When you call .unsubscribe(), the associated subscription is removed. 
-Subscriptions are removed by name or by query if they don't have a name.
+When you call ``unsubscribe()``, the associated subscription is removed. 
+Subscriptions are removed by name. If they don't have a name, ``unsubscribe()``
+removes any queries that exactly match the one you call ``unsubscribe()`` on.
 
-Calling ``unsubscribe()`` does not wait for objects to be removed from the
-realm. Syncing will continue in the background, based on existing subscriptions.
+The ``unsubscribe()`` method returns before objects matching the removed
+subscription are deleted from the realm. Sync continues in the background based
+on the new set of subscriptions.
 
 .. _node-sync-subscribe-to-queryable-fields:
 
