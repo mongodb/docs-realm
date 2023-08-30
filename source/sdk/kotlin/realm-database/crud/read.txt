@@ -21,10 +21,13 @@ Read Realm Objects - Kotlin SDK
    <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__ in
    time-sensitive environments.
 
+Find Objects
+------------
+
 .. _kotlin-find-object-by-primary-key:
 
 Find Object by Primary Key
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To find an object with a specific primary key value, open a realm
 and query the primary key field for the desired primary key value
@@ -38,7 +41,7 @@ Specify the object type as a type parameter passed to :file:`query()`:
 .. _kotlin-find-objects-of-a-type:
 
 Find Objects of a Type
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 To find all objects of a type, open a realm
 and pass the type as a type parameter to `realm.query()
@@ -47,8 +50,19 @@ and pass the type as a type parameter to `realm.query()
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.find-all-objects-of-a-type.kt
    :language: kotlin
 
-Read an Object with a Dictionary Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Query an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query an :ref:`embedded object <kotlin-embedded-objects>` directly or 
+through the parent object. You can also use the 
+`EmbeddedRealmObject.parent() <{+kotlin-local-prefix+}io.realm.kotlin.ext/parent.html>`__  
+method to access the parent of the embedded object.
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.query-embedded-objects.kt 
+    :language: kotlin
+
+Query a Dictionary Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can iterate and check the values of a  
 `RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__
@@ -57,10 +71,39 @@ as you would a Kotlin Map.
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-dictionary.kt
    :language: kotlin
 
+Query a RealmSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query a :ref:`RealmSet <kotlin-realm-set>` property:
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-set.kt
+   :language: kotlin
+
+Check if the RealmSet Contains Items
+````````````````````````````````````
+
+You can check if the ``RealmSet`` contains one or more elements:
+
+- To check if the set contains a particular item, pass the 
+  element to `set.contains()
+  <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#607101300%2FFunctions%2F-1651551339>`__.
+- To check if the ``RealmSet`` contains multiple items, pass 
+  the elements to `set.containsAll()
+  <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#1318510207%2FFunctions%2F-1651551339>`__.
+
+Either method returns ``true`` if the set contains the 
+specified elements.
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.realm-set-contains.kt
+   :language: kotlin
+
+Filter Data
+-----------
+
 .. _kotlin-filter-data:
 
 Filter Results
---------------
+~~~~~~~~~~~~~~
 
 Filter results to retrieve a specific segment
 of objects with `realm.query()
@@ -79,7 +122,7 @@ For more information on constructing queries, refer to the
 .. _kotlin-filter-fts:
 
 Filter with Full-Text Search
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use Realm Query Language (RQL) to query on properties that 
 have :ref:`Full-Text Search Indexes <kotlin-fts-index>` (FTS) on them.
@@ -96,7 +139,7 @@ In the following example, we query the ``Book.genre`` field:
   :language: kotlin
 
 Full-Text Search Tokenizer Details
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``````````````````````````````````
 
 Full-Text Search (FTS) indexes support:
 
@@ -107,8 +150,8 @@ Full-Text Search (FTS) indexes support:
   (``-``) like ``full-text`` are split into two tokens. 
 
 For more information on features of the FTS index, see the API reference for 
-the :kotlin-sdk:`@FullText <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations/
--full-text/index.html>` index annotation. 
+the `@FullText <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/
+-full-text/index.html>`__ index annotation. 
 
 .. _kotlin-sort-queries:
 

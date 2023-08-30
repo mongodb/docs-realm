@@ -72,10 +72,15 @@ In the following ``CreateHomeOwner`` example, we :ref:`create a new object
 
 The ``CreateHomeOwner`` component does the following:
 
-- Create React `state <https://reactjs.org/docs/react-component.html#state>`__ that represents the homeowner's name and address, respectively.
-- Get access to an open realm instance by calling the ``useRealm()`` hook within the component.
-- Create a component method ``SubmitHomeOwner()`` that performs a write transaction and creates a new ``HomeOwner`` object based on the ``TextInput`` values for the homeowner's name and address, respectively.
-- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``SubmitHomeOwner()``
+- Create React `state <https://react.dev/reference/react/Component#state>`__
+   that represents the homeowner's name and address, respectively.
+- Get access to an open realm instance by calling the ``useRealm()`` hook within
+   the component.
+- Create a component method ``SubmitHomeOwner()`` that performs a write
+   transaction and creates a new ``HomeOwner`` object based on the ``TextInput``
+   values for the homeowner's name and address, respectively.
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on
+   the submit button that calls ``SubmitHomeOwner()``
 
 .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.create-object-with-dictionary-value.tsx
    :language: typescript
@@ -138,11 +143,17 @@ In the following ``UpdateHome`` example, we update a dictionary's property.
 
 The ``UpdateHome`` component does the following:
 
-- Create a React `state <https://reactjs.org/docs/react-component.html#state>`__ variable that represents the home address.
-- Get access to an opened realm instance by calling the ``useRealm()`` hook within the component. 
-- Create a component method ``updateAddress()`` that performs a write transaction and uses ``dictionary.set()`` to set the home's address to the value of the ``address`` state variable. It also uses dot syntax to set the ``yearRenovated`` to ``2004``.
+- Create a React `state <https://react.dev/reference/react/Component#state>`__
+   variable that represents the home address.
+- Get access to an opened realm instance by calling the ``useRealm()`` hook
+   within the component. 
+- Create a component method ``updateAddress()`` that performs a write
+   transaction and uses ``dictionary.set()`` to set the home's address to the
+   value of the ``address`` state variable. It also uses dot syntax to set the
+   ``yearRenovated`` to ``2004``.
 - Render a ``TextInput`` that displays and changes the ``address`` state variable.
-- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the "Update Address" button that calls ``updateAddress()``
+- Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on
+   the "Update Address" button that calls ``updateAddress()``
 
 .. tabs-realm-languages::
 

@@ -102,6 +102,69 @@ class FlexibleSyncTest : RealmTest() {
     }
 
     @Test
+    fun openARealmForReadWriteUIThread() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+
+            // instantiate a Realm App connection
+            val appID: String = YOUR_APP_ID // replace this with your App ID
+            val app = App(
+                AppConfiguration.Builder(appID)
+                    .build()
+            )
+            // authenticate a user
+            val credentials = Credentials.anonymous()
+            app.loginAsync(
+                credentials
+            ) { it: App.Result<User?> ->
+                if (it.isSuccess) {
+                    val user = it.get()
+
+                    // add an initial subscription to the sync configuration
+                    // :snippet-start: fs-allow-queries-on-ui-thread
+                    val config = SyncConfiguration.Builder(app.currentUser())
+                        .allowQueriesOnUiThread(true)
+                        .allowWritesOnUiThread(true)
+                        .initialSubscriptions { realm, subscriptions ->
+                            subscriptions.add(
+                                Subscription.create(
+                                    "springPeepers",
+                                    realm.where(Frog::class.java)
+                                        .equalTo("species", "spring peeper")
+                                )
+                            )
+                        }
+                        // :remove-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :remove-end:
+                        .build()
+
+                    Realm.getInstanceAsync(config, object : Realm.Callback() {
+                        override fun onSuccess(realm: Realm) {
+                            Log.v(
+                                "EXAMPLE",
+                                "Successfully opened a realm with reads and writes allowed on the UI thread."
+                            )
+                            // :remove-start:
+                            realm.close()
+                            expectation.fulfill()
+                            // :remove-end:
+                        }
+                    })
+                    // :snippet-end:
+                } else {
+                    Log.e(
+                        "EXAMPLE",
+                        "Failed to log in: " + it.error.errorMessage
+                    )
+                }
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
     fun explicitlyNamedSubscription() {
         val expectation = Expectation()
         activity!!.runOnUiThread {

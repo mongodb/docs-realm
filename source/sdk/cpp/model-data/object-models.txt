@@ -10,14 +10,14 @@ Object Models - C++ SDK Preview
    :depth: 3
    :class: singlecol
 
-.. _cpp-realm-objects:
-
-Key Concept: Object Types & Schemas
------------------------------------
-
 Realm applications model data as objects composed of
 field-value pairs that each contain one or more :ref:`supported
 <cpp-supported-property-types>` data types.
+
+.. _cpp-realm-objects:
+
+Object Types and Schemas
+------------------------
 
 Every Realm object has an *object type* that refers to the object's
 class. Objects of the same type share an :ref:`object schema
@@ -78,17 +78,6 @@ Realm Object Schema
    .. tab:: Current
       :tabid: current
 
-      A Realm C++ SDK **realm object schema** maps property names, 
-      relationships, and any property metadata for a specific object type. 
-      Because C++ does not have reflection, your model must expose a public 
-      static **constexpr** member that explicitly declares your schema. 
-      The object schema includes details like the property name and type, 
-      whether the property is a primary key, and whether it forms a 
-      relationship with other object types.
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       A Realm C++ SDK **realm object schema** maps property names for a 
       specific object type. A schema must accompany your object model, and 
       it may be one of:
@@ -100,6 +89,17 @@ Realm Object Schema
       The schema, combined with your object model, gives the C++ SDK the 
       information it needs to store and retrieve objects.
 
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      A Realm C++ SDK **realm object schema** maps property names, 
+      relationships, and any property metadata for a specific object type. 
+      Because C++ does not have reflection, your model must expose a public 
+      static **constexpr** member that explicitly declares your schema. 
+      The object schema includes details like the property name and type, 
+      whether the property is a primary key, and whether it forms a 
+      relationship with other object types.
+
 .. _cpp-define-a-new-object-type:
 
 Define a New Object Type
@@ -109,6 +109,20 @@ Define a New Object Type
 
    .. tab:: Current
       :tabid: current
+
+      In the C++ SDK Preview, you can define your models or classes as regular 
+      C++ structs. Using the ``realm::experimental`` namespace, provide a
+      :ref:`cpp-object-schema` with the struct name and the names of any 
+      properties that you want Realm to persist. When you add the object 
+      to a realm, the SDK ignores any properties that you omit from the schema.
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-realm-define-model.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
 
       You can define your models as classes or structs that inherit from 
       :cpp-sdk:`realm::object <structrealm_1_1object.html>`. The Realm C++ SDK
@@ -129,21 +143,7 @@ Define a New Object Type
       .. literalinclude:: /examples/generated/cpp/crud.snippet.define-models.cpp
          :language: cpp
 
-      .. include:: /includes/note-class-char-limit.rst
-
-   .. tab:: Experimental
-      :tabid: experimental
-
-      In the C++ SDK Preview, you can define your models or classes as regular 
-      C++ structs. Using the ``realm::experimental`` namespace, provide a
-      :ref:`cpp-object-schema` with the struct name and the names of any 
-      properties that you want Realm to persist. When you add the object 
-      to a realm, the SDK ignores any properties that you omit from the schema.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-realm-define-model.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
+.. include:: /includes/note-class-char-limit.rst
 
 .. _cpp-primary-key:
 
@@ -187,16 +187,6 @@ Additionally, a required ``realm::enum`` property can be a primary key, but
    .. tab:: Current
       :tabid: current
 
-      Set a property as a primary key by passing ``true`` to the second 
-      template parameter of the ``persisted`` template:
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.define-a-schema.cpp
-         :language: cpp
-         :emphasize-lines: 2
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       Set a property as a primary key with the ``primary_key`` template:
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-person-model.cpp
@@ -204,6 +194,16 @@ Additionally, a required ``realm::enum`` property can be a primary key, but
          :emphasize-lines: 2
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      Set a property as a primary key by passing ``true`` to the second 
+      template parameter of the ``persisted`` template:
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.define-a-schema.cpp
+         :language: cpp
+         :emphasize-lines: 2
 
 .. _cpp-ignore-property:
 
@@ -217,16 +217,6 @@ Your model may include properties that Realm does not store.
    .. tab:: Current
       :tabid: current
 
-      Realm ignores any members not declared as ``realm::persisted`` and not declared 
-      in the schema.
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
-         :language: cpp
-         :emphasize-lines: 7
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       Realm ignores any properties not included in the :ref:`cpp-object-schema`.
 
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-employee-model.cpp
@@ -234,6 +224,16 @@ Your model may include properties that Realm does not store.
          :emphasize-lines: 8
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      Realm ignores any members not declared as ``realm::persisted`` and not declared 
+      in the schema.
+
+      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-ignored-field.cpp
+         :language: cpp
+         :emphasize-lines: 7
 
 .. _cpp-embedded-object:
 
@@ -264,14 +264,6 @@ related objects have independent lifecycles.
    .. tab:: Current
       :tabid: current
 
-      To declare an object as an embedded object, inherit from 
-      :cpp-sdk:`realm::embedded_object <structrealm_1_1embedded__object.html>`.
-
-      .. include:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp.rst
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       Using the ``realm::experimental`` namespace, provide a
       ``REALM_EMBEDDED_SCHEMA`` with the struct name and the names of 
       any properties that you want Realm to persist.
@@ -284,6 +276,14 @@ related objects have independent lifecycles.
          :emphasize-lines: 7, 12
       
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      To declare an object as an embedded object, inherit from 
+      :cpp-sdk:`realm::embedded_object <structrealm_1_1embedded__object.html>`.
+
+      .. include:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp.rst
 
 .. _cpp-define-asymmetric-object:
 
@@ -321,15 +321,6 @@ For more information, see: :ref:`Create an Asymmetric Object
    .. tab:: Current
       :tabid: current
 
-      Define an asymmetric object by inheriting from 
-      :cpp-sdk:`realm::asymmetric_object <structrealm_1_1asymmetric__object.html>`.
-
-      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       In the C++ SDK Preview, define an asymmetric object the same way you would 
       a regular C++ struct. Using the ``realm::experimental`` namespace, 
       provide a ``REALM_ASYMMETRIC_SCHEMA`` with the struct name and the 
@@ -339,3 +330,12 @@ For more information, see: :ref:`Create an Asymmetric Object
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      Define an asymmetric object by inheriting from 
+      :cpp-sdk:`realm::asymmetric_object <structrealm_1_1asymmetric__object.html>`.
+
+      .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
+         :language: cpp

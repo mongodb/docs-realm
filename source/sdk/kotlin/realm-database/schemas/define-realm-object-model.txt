@@ -50,6 +50,25 @@ Realm Schema
 
 .. include:: /includes/realm-schema.rst
 
+Property Types
+~~~~~~~~~~~~~~
+
+The Kotlin SDK supports Kotlin data types, a limited subset of BSON types,
+UUID, and Realm-specific types.
+
+To learn more about the available property types, refer to the
+:ref:`Supported Types <kotlin-supported-types>` page.
+
+Property Annotations
+~~~~~~~~~~~~~~~~~~~~
+
+Annotations add functionality to properties in your Realm object models.  
+You can use annotations for things like marking a property as nullable, 
+setting a primary key, ignoring a property, and more. 
+
+To learn more about the available property annotations, refer to 
+:ref:`Property Annotations <kotlin-property-annotations>`.
+
 .. _kotlin-define-a-new-object-type:
 
 Define a New Object Type
@@ -59,8 +78,6 @@ To define a Realm object type:
 
 1. Create a uniquely named Kotlin class that implements the 
    `RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ 
-   or 
-   `EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
    interface. 
 
 #. Add fields to your class. You can add any :ref:`supported data types <kotlin-supported-types>` as a field in your class. 
@@ -81,23 +98,116 @@ when you :ref:`open the realm <kotlin-open-a-realm>`.
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.open-with-class.kt
   :language: kotlin
   :emphasize-lines: 2
-   
-Add Property Annotations
-~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use annotations to add functionality to properties in your Realm object models.  
-You can use annotations for things like marking a property as nullable, setting a primary key, ignoring a property, and more. 
-
-To learn more about the available property annotations, refer to :ref:`Property Annotations <kotlin-property-annotations>`.
-
-Define Relationship Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Define a Relationship Property
+------------------------------
 
 You can define relationships between Realm objects in your schema. 
 The Realm Kotlin SDK supports to-one relationships, to-many relationships, 
 inverse relationships, and embedding objects within other objects. 
 
-To learn more about how to define relationships in your Realm object schema, refer to :ref:`Relationships <kotlin-relationships>`.
+For more information, refer to the :ref:`Relationships <kotlin-relationships>` 
+page.
+
+Define an Inverse Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can define a backlink property as a `BacklinksDelegate 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-backlinks-delegate/index.html>`__ 
+or `EmbeddedBacklinksDelegate 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-backlinks-delegate/index.html>`__ 
+to the parent object using the ``backlinks()`` method.
+
+- A ``BacklinksDelegate<T>`` property is defined as a `RealmResults 
+  <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__ list 
+  of the parent ``RealmObject`` type:
+
+  .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.backlinks-realm-object.kt
+     :language: kotlin
+
+- An ``EmbeddedBacklinksDelegate<T>`` property is defined as the parent 
+  ``RealmObject`` type:
+
+  .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.backlinks-embedded-object.kt
+     :language: kotlin
+
+You then reference the backlinks in collections in the parent ``RealmObject``:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.backlinks-parent-object.kt
+   :language: kotlin
+
+.. todo add link to Create when page is updated
+
+Define a Collection 
+-------------------
+
+You can define collections of items using 
+``RealmList``, ``RealmSet``, and ``RealmDictionary`` types.
+
+For more information on the collection types used in the Kotlin SDK, 
+refer to :ref:`Collection Types <kotlin-collection-types>`.
+
+.. _kotlin-define-realm-set-type:
+
+Define a RealmSet
+~~~~~~~~~~~~~~~~~
+
+To define a property as a :ref:`RealmSet <kotlin-realm-set>`, specify its 
+type within the schema as ``RealmSet<T>``, where T is any of the supported 
+:ref:`data types <kotlin-supported-types>` or a 
+`RealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__. 
+If a ``RealmSet``'s value is a ``RealmObject``, the value *cannot* have
+null elements.
+
+Instantiate an unmanaged ``RealmSet`` by setting the field's default value
+using the 
+`realmSetOf() <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-set-of.html>`__ 
+method.
+
+In the following example, we define a ``Frog`` schema with a 
+``favoriteSnacks`` field that is a ``RealmSet`` of ``Snack`` objects:
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.define-a-realm-set.kt
+   :language: kotlin
+
+.. _kotlin-define-realm-dictionary-type:
+
+Define a RealmDictionary/RealmMap
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To define a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its type 
+within the schema as ``RealmDictionary<T>``, where T is any Realm :ref:`primitive type 
+<kotlin-supported-types>`, a ``RealmObject``, or an ``EmbeddedRealmObject``. 
+If a ``RealmDictionary``'s value is a ``RealmObject``
+or ``EmbeddedRealmObject``, the value must be declared nullable.
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.define-realm-dictionary-property.kt
+   :language: kotlin
+
+.. include:: /includes/map-key-string-limitations.rst
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.percent-encode-disallowed-characters.kt
+   :language: kotlin
+
+.. _kotlin-define-embedded-object:
+
+Define an Embedded Object
+-------------------------
+
+To define an :ref:`embedded object <kotlin-embedded-objects>`, derive a class from 
+`EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__: 
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.embedded-object-model.kt 
+    :language: kotlin
+
+Once your embedded object class is defined, you must include its schema in the
+realm's 
+`configuration <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__
+to use it in your realm instance:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.open-realm-embedded-object.kt 
+    :language: kotlin 
+    :emphasize-lines: 3
 
 Define an Asymmetric Object
 ---------------------------
@@ -157,6 +267,8 @@ a Realm object interface.
     class Person: MyBaseClass {
         var age: Int
     }
+
+.. _kotlin-single-primary-constructor:
 
 Single Primary Constructor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

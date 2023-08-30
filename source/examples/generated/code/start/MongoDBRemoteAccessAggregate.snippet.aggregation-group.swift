@@ -1,4 +1,4 @@
-let pipeline: [Document] = [["$group": ["_id": "$partition", "numItems": ["$sum": 1]]]]
+let pipeline: [Document] = [["$group": ["_id": "$storeNumber", "numItems": ["$sum": 1]]]]
 
 collection.aggregate(pipeline: pipeline) { result in
     switch result {

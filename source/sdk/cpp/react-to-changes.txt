@@ -48,16 +48,16 @@ realm to emit a notification.
       .. tab:: Current
          :tabid: current
 
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
-            :language: cpp
-
-      .. tab:: Experimental
-         :tabid: experimental
-
          .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-object.cpp
             :language: cpp
 
          .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+      .. tab:: Deprecated
+         :tabid: deprecated
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
+            :language: cpp
 
 .. _cpp-register-a-collection-change-listener:
 
@@ -96,20 +96,6 @@ modified. It can also notify you if the collection was deleted.
 
          In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
 
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection-model.cpp
-            :language: cpp
-
-         Removing a dog, adding a new dog, or modifying a dog triggers the notification
-         handler:
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection.cpp
-            :language: cpp
-
-      .. tab:: Experimental
-         :tabid: experimental
-
-         In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
-
          .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-collection-model.cpp
             :language: cpp
 
@@ -120,6 +106,20 @@ modified. It can also notify you if the collection was deleted.
             :language: cpp
 
          .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+      .. tab:: Deprecated
+         :tabid: deprecated
+
+         In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection-model.cpp
+            :language: cpp
+
+         Removing a dog, adding a new dog, or modifying a dog triggers the notification
+         handler:
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection.cpp
+            :language: cpp
 
 .. _cpp-register-a-results-collection-change-listener:
 
@@ -155,16 +155,16 @@ It can also notify you if the collection was deleted.
       .. tab:: Current
          :tabid: current
 
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
-            :language: cpp
-
-      .. tab:: Experimental
-         :tabid: experimental
-
          .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-results.cpp
             :language: cpp
 
          .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+      .. tab:: Deprecated
+         :tabid: deprecated
+
+         .. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
+            :language: cpp
 
 .. _cpp-stop-watching-for-changes:
 

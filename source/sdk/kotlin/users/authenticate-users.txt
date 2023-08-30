@@ -254,6 +254,16 @@ to `app.login()
    on Apple platforms, see the
    :ref:`Swift SDK Example <ios-login-apple>`.
 
+.. _kotlin-offline-login:
+
+Offline Login
+-------------
+
+.. include:: /includes/offline-login.rst
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-realm-offline.kt
+   :language: kotlin
+
 .. _kotlin-access-token:
 
 Get a User Access Token
@@ -282,6 +292,11 @@ property, which you can use to request a new access token:
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.access-token-refresh.kt
    :language: kotlin
 
+Refresh Token Expiration
+------------------------
+
+.. include:: /includes/refresh-token-expiry.rst
+
 .. _kotlin-logout:
 
 Log a User Out
@@ -297,6 +312,7 @@ The ``user.logOut()`` method:
 
 - Deletes locally stored user credentials from the device.
 - Immediately halts any synchronization to and from the user's realms.
+- For anonymous users, :ref:`removes <kotlin-remove-a-user>` the user.
 
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.

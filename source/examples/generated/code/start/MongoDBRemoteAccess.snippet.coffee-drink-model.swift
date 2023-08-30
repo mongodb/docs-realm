@@ -3,5 +3,5 @@ class CoffeeDrink: Object {
     @Persisted var name: String
     @Persisted var beanRegion: String?
     @Persisted var containsDairy: Bool
-    @Persisted var _partition: String
+    @Persisted var storeNumber: Int
 }

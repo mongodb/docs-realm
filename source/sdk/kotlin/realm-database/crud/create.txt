@@ -15,8 +15,8 @@ Create Realm Objects - Kotlin SDK
    You can only insert new objects into a realm within a
    :ref:`write transaction <kotlin-write-transactions>`.
 
-Create a New Realm Object
--------------------------
+Create an Object
+----------------
 
 Instantiate Realm objects as you would any other object. In a
 transaction, you can add the object to the realm if the
@@ -39,14 +39,59 @@ To persist a new object to a realm:
 #. Pass the new object instance to `copyToRealm()
    <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__
    to persist the object data to the realm. This method returns a
-   **managed** instance of the object. You can modify the persisted
+   *managed* instance of the object. You can modify the persisted
    object through the returned instance.
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.create-a-new-object.kt
    :language: kotlin
 
+.. tip:: 
+
+   You can also upsert into a realm using specific criteria. See 
+   :ref:`Upsert a Realm Object <kotlin-upsert-an-object>`.
+
+.. _kotlin-create-a-collection:
+
+Create a Collection
+-------------------
+
+You can create collections of items using 
+``RealmList``, ``RealmSet``, and ``RealmDictionary`` types.
+
+You can also register a notification handler to listen for changes to a 
+collection. For more information, see 
+:ref:`React To Changes <kotlin-realm-list-change-listener>`.
+
+Create an Object with a RealmSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create objects that contain :ref:`RealmSet <kotlin-realm-set>` 
+properties as you would any Realm object, but you can only set 
+the values of a mutable set property within a write transaction. 
+
+For more information about defining a set property, refer to 
+:ref:`kotlin-define-realm-set-type`.
+
+Add Items to a RealmSet
+```````````````````````
+
+To add a single item to a ``RealmSet``, pass the object you want to add to the set to the
+`set.add() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-153241610%2FFunctions%2F-1651551339>`__ 
+method:
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-realm-set.kt
+   :language: kotlin
+
+To add multiple items to a ``RealmSet``, pass the elements you want 
+to add to the `set.addAll()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-800009087%2FFunctions%2F-1651551339>`__
+method:
+
+.. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.add-all-to-realm-set.kt
+   :language: kotlin
+
 Create an Object with a Dictionary Property
--------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can create objects with 
 `RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__
@@ -64,6 +109,17 @@ For more information about defining a dictionary property, refer to
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.percent-encode-disallowed-characters.kt
    :language: kotlin
 
+Create an Embedded Object
+-------------------------
+
+To create an :ref:`embedded object <kotlin-embedded-objects>`, assign an 
+instance of the 
+`EmbeddedRealmObject <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
+to a parent object's property:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.create-embedded-object.kt 
+    :language: kotlin
+
 .. _kotlin-create-asymmetric-object:
 
 Create an Asymmetric Object
@@ -80,7 +136,7 @@ For more information, see :ref:`Asymmetric Objects <kotlin-asymmetric-objects>`.
 
 You must create an `AsymmetricRealmObject <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__  
 using the `insert() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/insert.html>`__  
-extension method within a write transaction.
+extension method within a write transaction:
 
 .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
    :language: kotlin

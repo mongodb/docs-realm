@@ -10,9 +10,6 @@ Threading - C++ SDK Preview
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 To create performant apps, developers must write thread-safe and maintainable
 multithreaded code that avoids issues like deadlocking and race conditions.
 Realm provides tools specifically designed for performant multithreaded apps.
@@ -114,16 +111,16 @@ You can copy thread-confined instances to another thread as follows:
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/threading.snippet.thread-safe-reference.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       .. literalinclude:: /examples/generated/cpp/threading.snippet.beta-thread-safe-reference.cpp
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      .. literalinclude:: /examples/generated/cpp/threading.snippet.thread-safe-reference.cpp
+         :language: cpp
 
 Another way to work with an object on another thread is to query for it
 again on that thread. But if the object does not have a primary
@@ -170,16 +167,16 @@ configure the realm. Realm will use the scheduler you pass to it.
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/threading.snippet.scheduler.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       .. literalinclude:: /examples/generated/cpp/threading.snippet.beta-scheduler.cpp
          :language: cpp
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      .. literalinclude:: /examples/generated/cpp/threading.snippet.scheduler.cpp
+         :language: cpp
 
 .. _cpp-refreshing-realms:
 

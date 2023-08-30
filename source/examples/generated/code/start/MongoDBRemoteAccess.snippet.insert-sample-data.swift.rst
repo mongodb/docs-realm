@@ -1,7 +1,7 @@
 .. code-block:: swift
-   :emphasize-lines: 1, 4-11, 13, 16, 19
+   :emphasize-lines: 1, 4-9, 11, 14, 17
 
-   app.login(credentials: Credentials.anonymous) { (result) in 
+   appClient.login(credentials: Credentials.anonymous) { (result) in 
        // Remember to dispatch back to the main thread in completion handlers
        // if you want to do anything on the UI.
        DispatchQueue.main.async {
@@ -10,29 +10,28 @@
                print("Login failed: \(error)")
            case .success(let user):
                print("Login as \(user) succeeded!")
-               // Continue below
-           }
-           // mongodb-atlas is the cluster service name
-           let client = app.currentUser!.mongoClient("mongodb-atlas") 
+               // mongodb-atlas is the cluster service name
+               let mongoClient = user.mongoClient("mongodb-atlas") 
 
-           // Select the database
-           let database = client.database(named: "ios") 
+               // Select the database
+               let database = mongoClient.database(named: "ios") 
 
-           // Select the collection
-           let collection = database.collection(withName: "CoffeeDrinks") 
+               // Select the collection
+               let collection = database.collection(withName: "CoffeeDrinks") 
 
-           let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "partition": "Store 42"]
-           let drink2: Document = [ "name": "Maple Latte", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "true", "partition": "Store 42"]
-           let drink3: Document = [ "name": "Bean of the Day", "beanRegion": "San Marcos, Guatemala", "containsDairy": "false", "partition": "Store 47"]
+               // This document represents a CoffeeDrink object
+               let drink: Document = [ "name": "Colombian Blend", "beanRegion": "Timbio, Colombia", "containsDairy": false, "storeNumber": 43]
 
-           // Insert the documents into the collection
-           collection.insertMany([drink, drink2, drink3]) { result in
-               switch result {
-               case .failure(let error):
-                   print("Call to MongoDB failed: \(error.localizedDescription)")
-                   return
-               case .success(let objectIds):
-                   print("Successfully inserted \(objectIds.count) new documents.")
+               // Insert the document into the collection
+               collection.insertOne(drink) { result in
+                   switch result {
+                   case .failure(let error):
+                       print("Call to MongoDB failed: \(error.localizedDescription)")
+                       return
+                   case .success(let objectId):
+                       // Success returns the objectId for the inserted document
+                       print("Successfully inserted a document with id: \(objectId)")
+                   }
                }
            }
        }

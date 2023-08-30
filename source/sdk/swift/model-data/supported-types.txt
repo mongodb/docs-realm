@@ -12,8 +12,8 @@ Supported Types - Swift SDK
 
 .. _ios-client-collections:
 
-Key Concept: Collection Types
------------------------------
+Collection Types
+----------------
 
 Realm has several types to represent groups of objects,
 which we call **collections**. A collection is an object that contains
@@ -122,6 +122,13 @@ having to refresh it or validate that it is up-to-date.
 Supported Property Types
 ------------------------
 
+You can use the following types to define your object model
+properties.
+
+.. include:: /includes/map-to-bson-type.rst 
+
+See also :ref:`<swift-model-data-device-sync>`.
+
 Property Cheat Sheet
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -133,9 +140,6 @@ Property Cheat Sheet
       .. versionchanged:: 10.10.0
          ``@Persisted`` property declaration syntax
 
-      You can use the following types to define your object model
-      properties:
-
       .. list-table::
          :header-rows: 1
          :stub-columns: 1
@@ -145,130 +149,112 @@ Property Cheat Sheet
            - Required
            - Optional
          * - Bool
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.bool-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Bool
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.bool-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Bool?
          * - Int, Int8, Int16, Int32, Int64
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.int-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Int
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.int-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Int?
          * - Float
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.float-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Float
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.float-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Float?
          * - Double
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.double-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Double
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.double-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Double?
          * - String
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.string-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: String
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.string-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: String?
          * - Data
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.data-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value = Data()
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.data-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Data?
          * - Date
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.date-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value = Date()
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.date-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: Date?
          * - Decimal128
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.decimal128-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var decimal: Decimal128
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.decimal128-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var decimal: Decimal128?
          * - :swift-sdk:`UUID <Extensions.html#/s:10Foundation4UUIDV>`
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.uuid-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var uuid: UUID
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.uuid-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var uuidOpt: UUID?
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.objectId-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var objectId: ObjectId
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.objectId-opt.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var objectId: ObjectId?
          * - :swift-sdk:`List <Classes/List.html>`
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.list-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: List<Type>
            - N/A
          * - :ref:`MutableSet <ios-mutableset-data-type>` 
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.mutableSet-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: MutableSet<Type>
            - N/A
          * - :ref:`Map <ios-map>` 
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.map-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value = Map<String, String>
            - N/A
          * - :ref:`AnyRealmValue <ios-anyrealmvalue-data-type>`
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.anyRealmValue-required.swift
+                :language: swift
                 :copyable: false
-
-                @Persisted var value: AnyRealmValue
            - N/A
          * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
            - N/A
-           - .. code-block:: swift
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.custom-object-opt.swift
+                :language: swift
                 :copyable: false
-           
-                @Persisted var myObject: MyClass?
-      
-      Additionally:
-
-      - :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
-      - :swift-sdk:`Enum <Protocols.html#/s:10RealmSwift0A4EnumP>`
+         * - User-defined :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`
+           - N/A
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.embedded-object-opt.swift
+                :language: swift
+                :copyable: false
+         * - User-defined :swift-sdk:`Enums <Protocols.html#/s:10RealmSwift15PersistableEnumP>`
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.enum-required.swift
+                :language: swift
+                :copyable: false
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.enum-opt.swift
+                :language: swift
+                :copyable: false
 
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
@@ -303,9 +289,6 @@ Property Cheat Sheet
    .. tab:: Objective-C
       :tabid: objective-c
 
-      You can use the following types to define your object model
-      properties:
-
       .. list-table::
          :header-rows: 1
          :stub-columns: 1
@@ -315,115 +298,104 @@ Property Cheat Sheet
            - Required
            - Optional
          * - Boolean
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.bool-required.m
+                :language: objectivec
                 :copyable: false
-
-                @property BOOL value;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.bool-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSNumber<RLMBool> *value;
          * - Integer
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.int-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property int value;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.int-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSNumber<RLMInt> *value;
          * - Float
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.float-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property float value;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.float-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSNumber<RLMFloat> *value;
          * - Double
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.double-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property double value;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.double-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSNumber<RLMDouble> *value;
          * - String
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.string-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSString *value;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.string-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSString *value;
          * - Data
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.data-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSData *value;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.data-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSData *value;
          * - Date
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.date-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSDate *value;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.date-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSDate *value;
          * - Decimal128
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.decimal128-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property RLMDecimal128 *value;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.decimal128-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property RLMDecimal128 *value;
          * - NSUUID
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.uuid-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSUUID *uuid;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.uuid-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property NSUUID *uuid;
          * - :objc-sdk:`RLMObjectId <Classes/RLMObjectId.html>`
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.objectId-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property RLMObjectId *objectId;
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.objectId-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property RLMObjectId *objectId;
          * - :objc-sdk:`RLMArray <Classes/RLMArray.html>`
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.list-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property RLMArray<MyClass *><MyClass> *items;
-           - .. code-block:: objectivec
+           - N/A
+         * - :objc-sdk:`RLMSet <Classes/RLMSet.html>`
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.set-required.m
+                :language: objectivec
                 :copyable: false
-                
-                @property RLMArray<MyClass *><MyClass> *items;
+           - N/A
+         * - :objc-sdk:`RLMDictionary <Classes/RLMDictionary.html>`
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.dictionary-required.m
+                :language: objectivec
+                :copyable: false
+           - N/A
          * - User-defined :objc-sdk:`RLMObject<Classes/RLMObject.html>`
            - N/A
-           - .. code-block:: objectivec
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.custom-object-opt.m
+                :language: objectivec
                 :copyable: false
-                
-                @property MyClass *value;
+         * - User-defined :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`
+           - N/A
+           - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.embedded-object-opt.m
+                :language: objectivec
+                :copyable: false
 
       Additionally:
 
       - Integral types ``int``, ``NSInteger``, ``long``, ``long long``
-      - :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived types
 
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
@@ -433,9 +405,6 @@ Property Cheat Sheet
 
       .. versionchanged:: 10.8.0
          ``RealmProperty`` replaces ``RealmOptional``
-
-      You can use the following types to define your object model
-      properties:
 
       .. list-table::
          :header-rows: 1

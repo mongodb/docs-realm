@@ -58,7 +58,8 @@ Sync Data Unidirectionally from a Client Application
    .. step:: Open a Realm
 
       After you have an authenticated user, you can open a synced realm
-      using a Flexible Sync :js-sdk:`configuration object <Realm.html#~Configuration>`.
+      using a Flexible Sync :realm-react-sdk:`configuration object 
+      <types/Realm.FlexibleSyncConfiguration.html>`.
 
       .. tabs-realm-languages::
    
@@ -84,13 +85,12 @@ Sync Data Unidirectionally from a Client Application
    .. step:: Create Asymmetric Objects
 
       Once you have an open Realm, you can create an asymmetric object inside
-      a write transaction using :js-sdk:`Realm.create() <Realm.html#create>`.
-      When creating an asymmetric object, ``Realm.create()`` returns
-      ``undefined`` rather than the object itself.
+      a write transaction using :realm-react-sdk:`Realm.create() 
+      <classes/Realm-1.html#create>`. When creating an asymmetric object,
+      ``Realm.create()`` returns ``undefined`` rather than the object itself.
             
       .. literalinclude:: /examples/generated/react-native/ts/data-ingest.test.snippet.write-data-ingest-object.tsx
          :language: typescript
          
       You cannot read these objects. Once created, they sync to the App 
       Services backend and the linked Atlas database.
-

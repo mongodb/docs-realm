@@ -33,7 +33,7 @@ namespace Examples
         {
             // :remove-start:
             app = App.Create(myRealmAppId);
-            user = await app.LogInAsync(Credentials.Anonymous());
+            user = await app.LogInAsync(Credentials.Anonymous(false));
             // :remove-end:
             var config = new FlexibleSyncConfiguration(user);
             config.ClientResetHandler = new DiscardUnsyncedChangesHandler()
@@ -55,12 +55,17 @@ namespace Examples
                     // Automatic reset failed; handle the reset manually here
                 }
             };
-
-            //:remove-start:
-            config.Schema = new[] { typeof(Examples.Models.Plant) };
-            //:remove-end:
-            var realm = await Realm.GetInstanceAsync(config);
+            try
+            {
+                var realm = await Realm.GetInstanceAsync(config);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Error creating or opening the
+                    realm file. {ex.Message}");
+            }
             // :snippet-end:
+            await user.LogOutAsync();
         }
 
         public async Task TestManualClientReset()
@@ -85,9 +90,6 @@ namespace Examples
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
             fsConfig.ClientResetHandler =
                 new ManualRecoveryHandler(HandleClientResetError);
-            //:remove-start:
-            fsConfig.Schema = new[] { typeof(User) };
-            //:remove-end:
             var fsrealm = await Realm.GetInstanceAsync(fsConfig);
         }
 

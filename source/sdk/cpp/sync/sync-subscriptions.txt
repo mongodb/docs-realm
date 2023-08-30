@@ -11,9 +11,6 @@ Manage Sync Subscriptions - C++ SDK Preview
    :depth: 3
    :class: singlecol
 
-Overview
---------
-
 Flexible Sync uses subscriptions and permissions to determine which
 data to sync between your Atlas App Services App and your client device.
 In the client, query subscriptions manage and filter the object types that
@@ -21,8 +18,8 @@ can sync to the realm.
 
 .. versionchanged:: 0.2.0 app.login and subscriptions.update return std::future instead of std::promise
 
-Before You Begin
-----------------
+Prerequisites
+-------------
 
 To use Flexible Sync in your app, you must:
 
@@ -38,15 +35,6 @@ The setup code for the examples on this page handles these prerequisites:
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.flexible-sync-prerequisites.cpp
-         :language: cpp
-
-      Additionally, models used with Sync must contain an identifier property 
-      named ``_id``.
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.beta-flexible-sync-prerequisites.cpp
          :language: cpp
 
@@ -56,6 +44,15 @@ The setup code for the examples on this page handles these prerequisites:
       :ref:`cpp-primary-key`.
 
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.flexible-sync-prerequisites.cpp
+         :language: cpp
+
+      Additionally, models used with Sync must contain an identifier property 
+      named ``_id``.
 
 .. _cpp-align-subscription-with-app:
 

@@ -404,6 +404,16 @@ Get a User Access Token
 .. literalinclude:: /examples/generated/web/authentication-sessions.test.snippet.get-user-access-token.js
    :language: javascript
 
+Refresh Token Expiration
+------------------------
+
+Refresh tokens expire after a set period of time. 
+When the refresh token expires, the access token can no longer be
+refreshed and the user must log in again.
+
+For information on configuring refresh token expiration, refer to 
+:ref:`<manage-user-sessions>` in the App Services documentation.
+
 .. _web-logout:
 
 Log Out

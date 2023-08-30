@@ -51,9 +51,15 @@ field.
 The ``CreateProfileInput`` component does the following:
 
 - Gets access to the opened realm instance by calling the ``useRealm()`` hook. 
-- Creates a name `state variable <https://reactjs.org/docs/hooks-state.html>`__ called "name" that represents the name of the profile.
-- Creates a ``createProfile`` method that performs a write transaction. Within that write transaction, we :ref:`create <react-native-create-a-new-object>` a ``Profile`` object with the ``name`` value of the "name" state variable and an ``_id`` value of a new ``UUID`` object.
-- Renders a ``TextInput`` component that allows the user to enter a name for the profile. When the user presses the "Create Profile" button, the ``createProfile`` method is called and creates a ``Profile`` object.
+- Creates a name `state variable <https://react.dev/reference/react/Component#state>`__
+   called "name" that represents the name of the profile.
+- Creates a ``createProfile`` method that performs a write transaction. Within
+   that write transaction, we :ref:`create <react-native-create-a-new-object>`
+   a ``Profile`` object with the ``name`` value of the "name" state variable
+   and an ``_id`` value of a new ``UUID`` object.
+- Renders a ``TextInput`` component that allows the user to enter a name for
+   the profile. When the user presses the "Create Profile" button, the
+   ``createProfile`` method is called and creates a ``Profile`` object.
 
 .. tabs-realm-languages::
 

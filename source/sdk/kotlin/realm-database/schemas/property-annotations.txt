@@ -220,9 +220,9 @@ for multiple words and phrases and excluding others.
 For more information on querying full-text indexes, see 
 :ref:`Filter with Full Text Search <kotlin-filter-fts>`.
 
-To create a FTS index on a property, use the :kotlin-sdk:`@FullText
-<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
-/-full-text/index.html>` annotation. This enables full-text queries
+To create a FTS index on a property, use the `@FullText
+<{+kotlin-local-prefix+}io.realm.kotlin.types.annotations
+/-full-text/index.html>`__ annotation. This enables full-text queries
 on the property. In the following example, we mark the ``genre`` 
 property with the FTS annotation:
 
@@ -230,16 +230,16 @@ property with the FTS annotation:
   :language: kotlin
   :emphasize-lines: 7-8
 
-You cannot combine :kotlin-sdk:`@Index 
-<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
-/-index/index.html>` and :kotlin-sdk:`@FullText
-<library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations
-/-full-text/index.html>` on the same property.
+You cannot combine `@Index 
+<{+kotlin-local-prefix+}io.realm.kotlin.types.annotations
+/-index/index.html>`__ and `@FullText
+<{+kotlin-local-prefix+}io.realm.kotlin.types.annotations
+/-full-text/index.html>`__ on the same property.
 
 .. note:: Character Limitations for Full-Text Search Indexes
 
   For Full-Text Search (FTS) indexes, only ASCII and Latin-1 alphanumerical 
-  chars are included in the index (most western languages). See the :kotlin-sdk:`@FullText 
-  <library-base/-realm%20-kotlin%20-s-d-k/io.realm.kotlin.types.annotations/
-  -full-text/index.html>` for more information on current FTS index constraints.
+  chars are included in the index (most western languages). See the `@FullText 
+  <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/
+  -full-text/index.html>`__ for more information on current FTS index constraints.
 

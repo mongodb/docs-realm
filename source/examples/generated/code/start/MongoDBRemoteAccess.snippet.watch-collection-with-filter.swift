@@ -1,4 +1,4 @@
-app.login(credentials: Credentials.anonymous) { (result) in
+appClient.login(credentials: Credentials.anonymous) { (result) in
     DispatchQueue.main.async {
         switch result {
         case .failure(let error):
@@ -9,7 +9,7 @@ app.login(credentials: Credentials.anonymous) { (result) in
         }
         
         // Set up the client, database, and collection.
-        let client = app.currentUser!.mongoClient("mongodb-atlas")
+        let client = self.appClient.currentUser!.mongoClient("mongodb-atlas")
         let database = client.database(named: "ios")
         let collection = database.collection(withName: "CoffeeDrinks")
         
@@ -22,7 +22,7 @@ app.login(credentials: Credentials.anonymous) { (result) in
 
         // An update to a relevant document triggers a change event.
         let queryFilter: Document = ["_id": AnyBSON(drinkObjectId) ]
-        let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
+        let documentUpdate: Document = ["$set": ["containsDairy": true]]
 
         collection.updateOneDocument(filter: queryFilter, update: documentUpdate) { result in
             switch result {
