@@ -181,7 +181,7 @@ class RealmSupportedTypes : RealmObject {
 class SupportedDataTypesTest : RealmTest() {
 
     @Test
-    fun populateEnumPropertiesTest() {
+    fun populateEnumPropertiesDefaultsTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(EnumObject::class))
                 .inMemory()
@@ -215,7 +215,7 @@ class SupportedDataTypesTest : RealmTest() {
     }
 
     @Test
-    fun populateKotlinPropertiesTest() {
+    fun populateKotlinPropertiesDefaultsTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(KotlinSupportedTypes::class))
                 .inMemory()
@@ -314,7 +314,7 @@ class SupportedDataTypesTest : RealmTest() {
     }
 
     @Test
-    fun populateBSONPropertiesTest() {
+    fun populateBSONPropertiesDefaultsTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(BSONSupportedTypes::class, EmbeddedObjectType::class))
                 .inMemory()
@@ -374,7 +374,7 @@ class SupportedDataTypesTest : RealmTest() {
     }
 
     @Test
-    fun populateRealmPropertiesTest() {
+    fun populateRealmPropertiesDefaultsTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(RealmSupportedTypes::class, CustomObjectType::class))
                 .inMemory()
@@ -468,7 +468,7 @@ class SupportedDataTypesTest : RealmTest() {
     }
 
     @Test
-    fun populateRealmObjectPropertiesTest() {
+    fun populateRealmObjectPropertiesDefaultsTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(EmbeddedObjectType::class, EmbeddedChildType::class, AnotherCustomObjectType::class, CustomObjectType::class, ParentObjectType::class, ChildObjectType::class))
                 .inMemory()
