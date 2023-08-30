@@ -11,18 +11,10 @@ describe("Define Relationship Properties", () => {
       static schema: Realm.ObjectSchema = {
         name: "Manufacturer",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          name: {
-            type: "string",
-          },
+          _id: "objectId",
+          name: "string",
           // A manufacturer that may have one car
-          car: {
-            type: "object",
-            objectType: "Car",
-            optional: true,
-          },
+          car: "Car?",
         },
       };
     }
@@ -35,16 +27,9 @@ describe("Define Relationship Properties", () => {
       static schema: Realm.ObjectSchema = {
         name: "Car",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          model: {
-            type: "string",
-          },
-          miles: {
-            type: "int",
-            optional: true,
-          },
+          _id: "objectId",
+          model: "string",
+          miles: "int?",
         },
       };
     }
@@ -89,17 +74,10 @@ describe("Define Relationship Properties", () => {
       static schema: Realm.ObjectSchema = {
         name: "Manufacturer",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          name: {
-            type: "string",
-          },
+          _id: "objectId",
+          name: "string",
           // A manufacturer that may have many cars
-          cars: {
-            type: "list",
-            objectType: "Car",
-          },
+          cars: "Car[]",
         },
       };
     }
@@ -112,16 +90,9 @@ describe("Define Relationship Properties", () => {
       static schema: Realm.ObjectSchema = {
         name: "Car",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          model: {
-            type: "string",
-          },
-          miles: {
-            type: "int",
-            optional: true,
-          },
+          _id: "objectId",
+          model: "string",
+          miles: "int?",
         },
       };
     }
@@ -157,15 +128,16 @@ describe("Define Relationship Properties", () => {
 
     const manufacturerCars = manufacturers[0].cars;
 
+    // :snippet-start: obtain-inverse-relationship-dynamically
     // Get the Manufacturer who makes the Car
-    // The below fails with 'Manufacturer#cars is not a relationship to 'Car'
-    // const carObjects = realm.objects<Car>(Car);
-    // const linkedManufacturer: Manufacturer =
-    //   carObjects[0].linkingObjects<Manufacturer>("Manufacturer", "cars")[0];
+    const carObjects = realm.objects<Car>(Car);
+    const linkedManufacturer: Manufacturer =
+      carObjects[0].linkingObjects<Manufacturer>("Manufacturer", "cars")[0];
+    expect(linkedManufacturer.name).toBe("Nissan");
+    // :snippet-end:
 
     expect(manufacturerCars[0].model).toBe("Sentra");
     expect(manufacturerCars[1].model).toBe("Pathfinder");
-    // expect(linkedManufacturer.name).toMatchObject("Nissan");
 
     // close the realm
     realm.close();
@@ -181,17 +153,10 @@ describe("Define Relationship Properties", () => {
       static schema: Realm.ObjectSchema = {
         name: "Manufacturer",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          name: {
-            type: "string",
-          },
+          _id: "objectId",
+          name: "string",
           // A manufacturer that may have many cars
-          cars: {
-            type: "list",
-            objectType: "Car",
-          },
+          cars: "Car[]",
         },
       };
     }
@@ -205,16 +170,9 @@ describe("Define Relationship Properties", () => {
       static schema: Realm.ObjectSchema = {
         name: "Car",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          model: {
-            type: "string",
-          },
-          miles: {
-            type: "int",
-            optional: true,
-          },
+          _id: "objectId",
+          model: "string",
+          miles: "int?",
           manufacturer: {
             type: "linkingObjects",
             objectType: "Manufacturer",
@@ -271,21 +229,11 @@ describe("Define Relationship Properties", () => {
       static schema: Realm.ObjectSchema = {
         name: "Manufacturer",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          name: {
-            type: "string",
-          },
-          cars: {
-            type: "list",
-            objectType: "Car",
-          },
+          _id: "objectId",
+          name: "string",
+          cars: "Car[]",
           // Embed an array of objects
-          warranties: {
-            type: "list",
-            objectType: "Warranty",
-          },
+          warranties: "Warranty[]",
         },
       };
     }
@@ -299,22 +247,11 @@ describe("Define Relationship Properties", () => {
       static schema: Realm.ObjectSchema = {
         name: "Car",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          model: {
-            type: "string",
-          },
-          miles: {
-            type: "int",
-            optional: true,
-          },
+          _id: "objectId",
+          model: "string",
+          miles: "int?",
           // Embed one object
-          warranty: {
-            type: "object",
-            objectType: "Warranty",
-            optional: true,
-          },
+          warranty: "Warranty?",
         },
       };
     }
@@ -328,15 +265,9 @@ describe("Define Relationship Properties", () => {
         name: "Warranty",
         embedded: true,
         properties: {
-          name: {
-            type: "string",
-          },
-          termLength: {
-            type: "int",
-          },
-          cost: {
-            type: "int",
-          },
+          name: "string",
+          termLength: "int",
+          cost: "int",
         },
       };
     }

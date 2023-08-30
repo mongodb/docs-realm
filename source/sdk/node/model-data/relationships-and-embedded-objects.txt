@@ -136,26 +136,33 @@ query.
 
 .. example::
    
-   In the following continuation from the inverse relationship example, we have removed the
-   ``assignee`` field with type 'linkingObjects' from the Task schema. An application developer
-   creates several users and task objects, and the application pushes the newly created tasks into a 
-   user's task field. 
+   In the following continuation from the inverse relationship example, we 
+   have removed the ``manufacturer`` field with type 'linkingObjects' from 
+   the ``Car`` schema. An application developer creates several manufacturers 
+   and car objects, and the application pushes the newly created cars into a 
+   manufacturer's ``cars`` field. 
    
-   To find the user who owns a specific task object, the developer calls the
-   ``task.linkingObjects()`` method and passes the "User" class name and "tasks" field as parameters. 
+   To find the manufacturer who makes a specific car object, the developer 
+   calls the ``.linkingObjects()`` method and passes the "Manufacturer" 
+   class name and "cars" field as parameters.
+
+   The ``.linkingObjects()`` method returns an array of objects whose 
+   property inverts the relationship. In this example, only one manufacturer
+   makes the Sentra car model, so we can expect that manufacturer to be
+   named Nissan.
 
    .. tabs-realm-languages::
-      
-      .. tab::
-          :tabid: javascript
-           
-          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.js
-            :language: javascript
-      
+
       .. tab::
           :tabid: typescript
            
-          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.ts
+          .. literalinclude:: /examples/generated/node/v12/relationships.test.snippet.obtain-inverse-relationship-dynamically.ts
+            :language: javascript
+
+      .. tab::
+          :tabid: javascript
+           
+          .. literalinclude:: /examples/generated/node/v12/relationships.test.snippet.obtain-inverse-relationship-dynamically.js
             :language: javascript
           
 .. _node-embedded-objects:

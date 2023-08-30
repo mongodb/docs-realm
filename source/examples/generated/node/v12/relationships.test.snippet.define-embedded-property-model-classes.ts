@@ -7,21 +7,11 @@ class Manufacturer extends Realm.Object {
   static schema: Realm.ObjectSchema = {
     name: "Manufacturer",
     properties: {
-      _id: {
-        type: "objectId",
-      },
-      name: {
-        type: "string",
-      },
-      cars: {
-        type: "list",
-        objectType: "Car",
-      },
+      _id: "objectId",
+      name: "string",
+      cars: "Car[]",
       // Embed an array of objects
-      warranties: {
-        type: "list",
-        objectType: "Warranty",
-      },
+      warranties: "Warranty[]",
     },
   };
 }
@@ -35,22 +25,11 @@ class Car extends Realm.Object {
   static schema: Realm.ObjectSchema = {
     name: "Car",
     properties: {
-      _id: {
-        type: "objectId",
-      },
-      model: {
-        type: "string",
-      },
-      miles: {
-        type: "int",
-        optional: true,
-      },
+      _id: "objectId",
+      model: "string",
+      miles: "int?",
       // Embed one object
-      warranty: {
-        type: "object",
-        objectType: "Warranty",
-        optional: true,
-      },
+      warranty: "Warranty?",
     },
   };
 }
@@ -64,15 +43,9 @@ class Warranty extends Realm.Object {
     name: "Warranty",
     embedded: true,
     properties: {
-      name: {
-        type: "string",
-      },
-      termLength: {
-        type: "int",
-      },
-      cost: {
-        type: "int",
-      },
+      name: "string",
+      termLength: "int",
+      cost: "int",
     },
   };
 }

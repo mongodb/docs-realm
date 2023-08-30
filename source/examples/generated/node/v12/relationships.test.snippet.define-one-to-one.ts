@@ -1,23 +1,15 @@
 class Manufacturer extends Realm.Object {
   _id!: Realm.BSON.ObjectId;
-  name!: String;
+  name!: string;
   car?: Car;
 
   static schema: Realm.ObjectSchema = {
     name: "Manufacturer",
     properties: {
-      _id: {
-        type: "objectId",
-      },
-      name: {
-        type: "string",
-      },
+      _id: "objectId",
+      name: "string",
       // A manufacturer that may have one car
-      car: {
-        type: "object",
-        objectType: "Car",
-        optional: true,
-      },
+      car: "Car?",
     },
   };
 }
@@ -30,16 +22,9 @@ class Car extends Realm.Object {
   static schema: Realm.ObjectSchema = {
     name: "Car",
     properties: {
-      _id: {
-        type: "objectId",
-      },
-      model: {
-        type: "string",
-      },
-      miles: {
-        type: "int",
-        optional: true,
-      },
+      _id: "objectId",
+      model: "string",
+      miles: "int?",
     },
   };
 }
