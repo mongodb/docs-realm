@@ -131,7 +131,7 @@ You can dynamically retrieve an object with an inverse relationship without
 defining a ``linkingObjects`` type in its schema. Remove the
 ``linkingObjects`` type from your schema, so your schemas look like a standard
 **to-many** relationship. When you need to retrieve the linked object, call the
-:js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>`
+:js-sdk:`Realm.Object.linkingObjects() <classes/Object.html#linkingObjects>`
 query.
 
 .. example::
@@ -146,10 +146,10 @@ query.
    calls the ``.linkingObjects()`` method and passes the "Manufacturer" 
    class name and "cars" field as parameters.
 
-   The ``.linkingObjects()`` method returns an array of objects whose 
-   property inverts the relationship. In this example, only one manufacturer
-   makes the Sentra car model, so we can expect that manufacturer to be
-   named Nissan.
+   The ``.linkingObjects()`` method returns a :ref:`Results collection 
+   <node-realm-results>` of objects whose property inverts the relationship. 
+   In this example, only one manufacturer makes the Sentra car model, so we 
+   can expect that manufacturer to be named Nissan.
 
    .. tabs-realm-languages::
 
