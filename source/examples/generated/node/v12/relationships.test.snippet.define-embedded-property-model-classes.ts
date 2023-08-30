@@ -1,6 +1,6 @@
 class Manufacturer extends Realm.Object {
   _id!: Realm.BSON.ObjectId;
-  name!: String;
+  name!: string;
   cars!: Realm.List<Car>;
   warranties!: Realm.List<Warranty>;
 

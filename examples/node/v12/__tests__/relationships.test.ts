@@ -5,7 +5,7 @@ describe("Define Relationship Properties", () => {
     // :snippet-start: define-one-to-one
     class Manufacturer extends Realm.Object {
       _id!: Realm.BSON.ObjectId;
-      name!: String;
+      name!: string;
       car?: Car;
 
       static schema: Realm.ObjectSchema = {
@@ -83,7 +83,7 @@ describe("Define Relationship Properties", () => {
     // :snippet-start: define-one-to-many
     class Manufacturer extends Realm.Object {
       _id!: Realm.BSON.ObjectId;
-      name!: String;
+      name!: string;
       cars!: Realm.List<Car>;
 
       static schema: Realm.ObjectSchema = {
@@ -175,7 +175,7 @@ describe("Define Relationship Properties", () => {
     // :snippet-start: define-inverse
     class Manufacturer extends Realm.Object {
       _id!: Realm.BSON.ObjectId;
-      name!: String;
+      name!: string;
       cars!: Realm.List<Car>;
 
       static schema: Realm.ObjectSchema = {
@@ -264,7 +264,7 @@ describe("Define Relationship Properties", () => {
     // :snippet-start: define-embedded-property-model-classes
     class Manufacturer extends Realm.Object {
       _id!: Realm.BSON.ObjectId;
-      name!: String;
+      name!: string;
       cars!: Realm.List<Car>;
       warranties!: Realm.List<Warranty>;
 
