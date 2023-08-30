@@ -17,7 +17,7 @@ const Drawer = createDrawerNavigator();
    component will likely need different schemas and configuration.
    Couldn't find a good way to force an unmount on navigation.
    Could potentially set each component's realm at a different path and then
-   use Bluehawk :replace: to strip the path for examples.
+   use Bluehawk replace to strip the path for examples.
 
    Also, how can we manually close realms in React Native? Perhaps figuring that
    out would solve the problem.
