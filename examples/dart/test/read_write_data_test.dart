@@ -99,7 +99,7 @@ void main() {
       // :snippet-start: filter-iterable
       final listOfNames = ['Luke', 'Leia'];
       final matchingRealmObjects =
-          realm.query<Person>(r'name IN $0', [listOfNames]);
+          realm.query<Person>('name IN \$0', [listOfNames]);
       // :snippet-end:
       expect(matchingRealmObjects.length, 2);
 
