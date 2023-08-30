@@ -36,6 +36,9 @@ The Kotlin SDK does *not* natively support:
   :ref:`RealmInstant <kotlin-timestamps>` section for more information on 
   how to use timestamps in your Realm objects.
 
+Additionally, the Kotlin SDK does not currently support abstract properties.
+Kotlin properties *must* be initialized. 
+
 .. note:: 
    
    Realm stores all non-decimal numeric types as ``Long`` 
@@ -304,8 +307,6 @@ If you need timestamp data in a form other than ``RealmInstant``, you
 can add conversion code to your model class based on the following
 example:
 
-.. is this still a good workaround example?
-
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.timestamp-workaround.kt
    :language: kotlin
 
@@ -329,8 +330,6 @@ that it contains. ``RealmAny`` can hold:
 ``RealmAny`` *cannot* hold ``EmbeddedRealmObject`` types, 
 collection types (``RealmList``, ``RealmSet``, ``RealmDictionary``), 
 or another ``RealmAny``. 
-
-.. Link to Create page once example is added
 
 ``RealmAny`` properties: 
 
@@ -461,8 +460,14 @@ like Kotlin's `LinkedHashMap
 RealmObjects as Properties
 --------------------------
 
-You can use ``RealmObject`` and any subclasses as properties in your 
-object model.
+You can use ``RealmObject`` and any subclasses, *except* 
+``AsymmetricRealmObject`` as properties in your object model.
+
+.. important:: 
+
+    ``AsymmetricRealmObject`` *cannot* be used as properties. 
+    For more information, refer to :ref:`Asymmetric Objects 
+    <kotlin-asymmetric-objects>`. 
 
 RealmObjects
 ~~~~~~~~~~~~
@@ -518,6 +523,7 @@ is a special type of ``RealmObject``.
 - *cannot* be nullable elements within a list 
 - *cannot* be used as a :ref:`primary key <kotlin-primary-keys>` 
 - can be recursively referenced as an optional property in its own definition
+- can be properties within an asymmetric object
 
 For more information, refer to :ref:`Embedded Objects <kotlin-embedded-objects>`.
 
