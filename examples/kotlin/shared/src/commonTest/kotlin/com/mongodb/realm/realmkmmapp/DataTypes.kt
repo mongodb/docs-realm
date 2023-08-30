@@ -1,5 +1,4 @@
 package com.mongodb.realm.realmkmmapp
-
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.ext.*
@@ -9,12 +8,9 @@ import io.realm.kotlin.types.*
 import org.mongodb.kbson.Decimal128
 import org.mongodb.kbson.ObjectId
 import kotlin.test.*
-
-
 class CustomObjectType : RealmObject {
     var uuid: RealmUUID = RealmUUID.random()
 }
-
 class AnotherCustomObjectType : RealmObject {
     var uuid: RealmUUID = RealmUUID.random()
     // :snippet-start: realm-object-optional
@@ -71,7 +67,6 @@ class EnumObject : RealmObject {
         }
 }
 // :snippet-end:
-
 class KotlinSupportedTypes : RealmObject {
     // :snippet-start: bool-required
     var boolReq: Boolean = false
@@ -128,7 +123,6 @@ class KotlinSupportedTypes : RealmObject {
     var charOpt: Char? = null
     // :snippet-end:
 }
-
 class BSONSupportedTypes : RealmObject {
     // :snippet-start: decimal128-required
     var decimal128Req: Decimal128 = Decimal128("123.456")
@@ -143,7 +137,6 @@ class BSONSupportedTypes : RealmObject {
     var objectIdOpt: ObjectId? = null
     // :snippet-end:
 }
-
 class RealmSupportedTypes : RealmObject {
     // :snippet-start: realmInstant-required
     var realmInstantReq: RealmInstant = RealmInstant.now()
@@ -177,27 +170,22 @@ class RealmSupportedTypes : RealmObject {
     var uuidOpt: RealmUUID? = null
     // :snippet-end:
 }
-
 class SupportedDataTypesTest : RealmTest() {
-
     @Test
-    fun populateEnumPropertiesDefaultsTest() {
+    fun populateEnumPropertiesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(EnumObject::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-
             val enumObject1 = EnumObject().apply {
                 name = "MyEnum"
                 stateEnum = EnumClass.IN_PROGRESS
             }
-
             val enumObject2 = EnumObject().apply {
                 name = "MyOtherEnum"
             }
-
             realm.write {
                 copyToRealm(enumObject1)
                 copyToRealm(enumObject2)
@@ -213,21 +201,17 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
-
     @Test
-    fun populateKotlinPropertiesDefaultsTest() {
+    fun populateKotlinDefaultPropertiesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(KotlinSupportedTypes::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-
             val kotlinSupportedTypes = KotlinSupportedTypes().apply{}
-
             realm.write {
                 copyToRealm(kotlinSupportedTypes)
-
                 val kotlinSupportedTypesResult = query<KotlinSupportedTypes>().find().first()
                 assertFalse(kotlinSupportedTypesResult.boolReq)
                 assertNull(kotlinSupportedTypesResult.boolOpt)
@@ -252,7 +236,6 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
-
     @Test
     fun populateKotlinPropertiesWithValuesTest() {
         runBlocking {
@@ -261,7 +244,6 @@ class SupportedDataTypesTest : RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-
             val kotlinSupportedTypes = KotlinSupportedTypes().apply {
                 boolReq = true
                 boolOpt = false
@@ -304,7 +286,6 @@ class SupportedDataTypesTest : RealmTest() {
             assertEquals(12, kotlinSupportedTypesResult.byteOpt!!)
             assertEquals('a', kotlinSupportedTypesResult.charReq)
             assertEquals('b', kotlinSupportedTypesResult.charOpt!!)
-
             realm.write {
                 val kotlinSupportedTypes = query<KotlinSupportedTypes>().find().first()
                 delete(kotlinSupportedTypes)
@@ -312,18 +293,15 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
-
     @Test
-    fun populateBSONPropertiesDefaultsTest() {
+    fun populateBSONDefaultPropertiesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(BSONSupportedTypes::class, EmbeddedObjectType::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-
             val bsonSupportedTypes = BSONSupportedTypes().apply {}
-
             realm.write {
                 copyToRealm(bsonSupportedTypes)
                 val bsonSupportedTypesResult = query<BSONSupportedTypes>().find().first()
@@ -337,7 +315,6 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
-
     @Test
     fun populateBSONPropertiesWithValuesTest() {
         runBlocking {
@@ -346,10 +323,8 @@ class SupportedDataTypesTest : RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-
             val oidReq = ObjectId()
             val oidOpt = ObjectId()
-
             val bsonSupportedTypes = BSONSupportedTypes().apply{
                 decimal128Req = Decimal128("111.222")
                 decimal128Opt = Decimal128("222.333")
@@ -364,7 +339,6 @@ class SupportedDataTypesTest : RealmTest() {
             assertEquals(Decimal128("222.333"), bsonSupportedTypesResult.decimal128Opt)
             assertEquals(oidReq, bsonSupportedTypesResult.objectIdReq)
             assertEquals(oidOpt, bsonSupportedTypesResult.objectIdOpt)
-
             realm.write {
                 val bsonSupportedTypes = query<BSONSupportedTypes>().find().first()
                 delete(bsonSupportedTypes)
@@ -372,18 +346,15 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
-
     @Test
-    fun populateRealmPropertiesDefaultsTest() {
+    fun populateRealmDefaultPropertiesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(RealmSupportedTypes::class, CustomObjectType::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-
             val realmSupportedTypes = RealmSupportedTypes().apply {}
-
             realm.write {
                 copyToRealm(realmSupportedTypes)
 
@@ -403,7 +374,6 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
-
     @Test
     fun populateRealmPropertiesWithValuesTest() {
         runBlocking {
@@ -412,7 +382,6 @@ class SupportedDataTypesTest : RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-
             // :snippet-start: create-uuid
             val uuid1 = RealmUUID.from("46423f1b-ce3e-4a7e-812f-004cf9c42d76")
             val uuid2 = RealmUUID.random()
@@ -421,7 +390,6 @@ class SupportedDataTypesTest : RealmTest() {
             val date2 = RealmInstant.from(1, 0)
             val int1 = MutableRealmInt.create(1)
             val int2 = MutableRealmInt.create(2)
-
             val realmSupportedTypes = RealmSupportedTypes().apply {
                 realmInstantReq = date1
                 realmInstantOpt = date2
@@ -434,11 +402,9 @@ class SupportedDataTypesTest : RealmTest() {
                 uuidReq = uuid1
                 uuidOpt = uuid2
             }
-
             realm.write {
                 copyToRealm(realmSupportedTypes)
             }
-
             val realmSupportedTypesResult = realm.query<RealmSupportedTypes>().find().first()
             val customObjectTypeResult = realm.query<CustomObjectType>().find().first()
             assertEquals(date1, realmSupportedTypesResult.realmInstantReq)
@@ -455,7 +421,6 @@ class SupportedDataTypesTest : RealmTest() {
             assertEquals(uuid1, realmSupportedTypesResult.uuidReq)
             assertEquals(uuid2, realmSupportedTypesResult.uuidOpt)
             assertEquals(uuid1, customObjectTypeResult.uuid)
-
             realm.write {
                 val realmSupportedTypes = query<RealmSupportedTypes>().find().first()
                 val customObjectType = query<CustomObjectType>().find().first()
@@ -464,18 +429,15 @@ class SupportedDataTypesTest : RealmTest() {
             }
             realm.close()
         }
-
     }
-
     @Test
-    fun populateRealmObjectPropertiesDefaultsTest() {
+    fun populateRealmObjectDefaultPropertiesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(EmbeddedObjectType::class, EmbeddedChildType::class, AnotherCustomObjectType::class, CustomObjectType::class, ParentObjectType::class, ChildObjectType::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-
             val anotherCustomObjectType = AnotherCustomObjectType().apply {
             }
 
@@ -497,9 +459,9 @@ class SupportedDataTypesTest : RealmTest() {
                 assertEquals("11111111-1111-1111-1111-111111111111", parentResult.children.first().uuid.toString())
                 delete(parentResult)
             }
+            realm.close()
         }
     }
-
     @Test
     fun populateRealmObjectPropertiesWithValuesTest() {
         runBlocking {
@@ -509,12 +471,10 @@ class SupportedDataTypesTest : RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
 
-            val customObjectType = CustomObjectType().apply {
-                uuid = RealmUUID.from("00000000-0000-0000-0000-000000000000")
-            }
-
             val anotherCustomObjectType = AnotherCustomObjectType().apply {
-                realmObjectPropertyOpt = customObjectType
+                realmObjectPropertyOpt = CustomObjectType().apply {
+                    uuid = RealmUUID.from("00000000-0000-0000-0000-000000000000")
+                }
                 embeddedProperty = EmbeddedObjectType().apply {uuid = RealmUUID.from("11111111-1111-1111-1111-111111111111")}
 
             }
@@ -529,5 +489,4 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
-
 }
