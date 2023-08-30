@@ -2,10 +2,11 @@ Indexed Queryable Fields Subscription Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Adding an :ref:`indexed queryable field <fs-indexed-queryable-fields>` to 
-your App can improve performance for simple queries on a single field.
-For example, ``user_id == $0, “641374b03725038381d2e1fb”`` is a good 
-candidate for an indexed queryable field. However, an indexed queryable
-field has specific requirements for use in a query subscription:
+your App can improve performance for simple queries on data that is strongly
+partitioned. For example, an app where queries strongly map data to a device, 
+store, or user, such as ``user_id == $0, “641374b03725038381d2e1fb”``, is 
+a good candidate for an indexed queryable field. However, an indexed 
+queryable field has specific requirements for use in a query subscription:
 
 - The indexed queryable field must be used in every subscription query for
   every object type. It cannot be missing from the query.
@@ -17,7 +18,7 @@ field has specific requirements for use in a query subscription:
 You can optionally include an ``AND`` comparison as long as the indexed
 queryable field is directly compared against a constant using ``==`` or ``IN``
 at least once. For example, ``store_id IN {1,2,3} AND region=="Northeast"``
-or ``store_id IN {1,2,3} AND store_id > 2``.
+or ``store_id == 1 AND active_promotions < 5``.
 
 *Invalid* Flexible Sync queries on an indexed queryable field include queries 
 where:
