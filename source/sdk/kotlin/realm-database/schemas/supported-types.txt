@@ -415,7 +415,8 @@ containing distinct values of:
 - any of the :ref:`supported Kotlin data types <kotlin-types-table>`
 - any of the :ref:`supported BSON types <kotlin-bson-types-table>`
 - a `RealmObject 
-<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__
+  <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__
+
 You cannot use ``EmbeddedRealmObject`` elements in a ``RealmSet``.
 
 ``RealmSet<E>`` is a non-null type, where:
@@ -472,6 +473,7 @@ type represents a custom object that you can use as a property.
 
 ``RealmObject`` properties:  
 
+- must be declared nullable
 - can be used as elements in collections 
 - can be held as a ``RealmAny`` value
 - *cannot* be used as a :ref:`primary key <kotlin-primary-keys>`
