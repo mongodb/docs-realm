@@ -74,12 +74,10 @@ class Snack2 : RealmObject {
     var name: String? = null
 }
 
-// :snippet-start: uuid
 class Cat: RealmObject {
     @PrimaryKey
     var _id: RealmUUID = RealmUUID.random()
 }
-// :snippet-end:
 
 // :snippet-start: example-schema
 class Car : RealmObject {
@@ -196,21 +194,17 @@ class SchemaTest: RealmTest() {
                 delete(cats)
             }
 
-            // :snippet-start: create-uuid-random
             realm.write {
                 this.copyToRealm(Cat().apply {
                     _id = RealmUUID.random()
                 })
             }
-            // :snippet-end:
 
-            // :snippet-start: create-uuid-from-string
             realm.write {
                 this.copyToRealm(Cat().apply {
                     _id = RealmUUID.from("46423f1b-ce3e-4a7e-812f-004cf9c42d76")
                 })
             }
-            // :snippet-end:
 
             realm.close()
         }

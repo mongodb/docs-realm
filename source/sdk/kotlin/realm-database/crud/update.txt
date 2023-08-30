@@ -40,6 +40,13 @@ To modify an object stored within a realm:
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.modify-an-object.kt
    :language: kotlin
 
+.. note:: Updating Strings or Byte arrays
+
+   Because Realm operates on fields as a whole, it's not possible
+   to directly update individual elements of strings or byte arrays. Instead,
+   you'll need to read the whole field, make your modification to individual
+   elements, and then write the entire field back again in a transaction block.
+
 Update a Dictionary Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
