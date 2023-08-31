@@ -6,7 +6,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {HomeScreen} from './src/screens/HomeScreen';
 import {Geospatial} from './src/components/data-types/Geospatial';
-import {FtsQuery} from './__tests__/crud/FtsQuery';
+import {FtsQuery} from './src/components/FtsQuery';
 
 const Drawer = createDrawerNavigator();
 
