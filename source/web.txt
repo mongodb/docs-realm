@@ -30,10 +30,14 @@ data stored in Atlas and interact with App Services services like
 Functions and authentication. The Web SDK supports both JavaScript and
 TypeScript.
 
-Web apps built with Realm use the :ref:`Atlas GraphQL API <graphql-api>`
-or query data stored in Atlas directly from the browser.
+Web apps built with Realm can query Atlas using the following methods:
+
+- :ref:`Atlas GraphQL API <graphql-api>`
+- The standard MongoDB query API with the :ref:`MongoDB client <web-query-mongodb>`
+- Realm Database API with :ref:`Atlas Device Sync <web-sync>`
+
 Unlike the other Realm SDKs, the Web SDK does not support creating
-a local database or using :ref:`Atlas Device Sync <sync>`.
+a local Realm database.
 
 .. kicker:: Learning Paths
 
