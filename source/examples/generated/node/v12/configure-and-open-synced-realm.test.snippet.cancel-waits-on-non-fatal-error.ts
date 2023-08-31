@@ -1,5 +1,5 @@
 const config: Realm.Configuration = {
-  schema: [DoggieSchema],
+  schema: [Doggie],
   sync: {
     flexible: true,
     user: app.currentUser!,

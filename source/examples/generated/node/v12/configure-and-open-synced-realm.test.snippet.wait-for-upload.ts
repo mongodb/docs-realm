@@ -1,5 +1,5 @@
 realm.write(() => {
-  realm.create(`Doggie`, {
+  realm.create(Doggie, {
     _id: new Realm.BSON.ObjectID(),
     owner_id: app.currentUser!.id,
     name: "Maui",

@@ -59,8 +59,11 @@ of milliseconds before the request should timeout.
 
 You can use this timeout interval with the optional Sync configuration 
 ``cancelWaitsOnNonFatalErrors`` boolean. When the timeout interval elapses, 
-wait for uploads and downloads cancel. For an example, refer to 
-:ref:`node-cancel-async-after-timeout`.
+any outstanding work that is awaiting uploads and downloads cancels. When
+this setting is false, awaiting uploads and downloads does not cancel 
+because Realm treats these timeouts as non-fatal errors. 
+
+For an example, refer to :ref:`node-cancel-async-after-timeout`.
 
 .. tabs-realm-languages::
 

@@ -1,5 +1,5 @@
 const config = {
-  schema: [DoggieSchema],
+  schema: [Doggie],
   sync: {
     flexible: true,
     user: app.currentUser,

@@ -75,20 +75,9 @@ Wait for Upload and Download
 ----------------------------
 
 To asynchronously wait for all changes to upload to Atlas from your synced 
-realm, call ``uploadAllLocalChanges()``. This method returns true when 
-all changes have been uploaded.
-
-To asynchronously wait for all changes on Atlas to download from the 
-Device Sync server to your synced realm, call ``downloadAllServerChanges()``.
-This method returns true when all changes have been downloaded.
-
-You can specify a request timeout on the App configuration. With a timeout
-specified, you can set ``cancelWaitsOnNonFatalErrors`` on your Sync 
-configuration. With this bool set to ``true``, upload and download requests 
-cancel waiting when the timeout interval elapses.
-
-For more information, refer to :ref:`node-app-client-configure-timeout`
-and :ref:`node-cancel-async-after-timeout`.
+realm, call :js-sdk:`uploadAllLocalChanges() 
+<classes/SyncSession.html#uploadAllLocalChanges>`. This method returns 
+true when all changes have been uploaded.
 
 .. tabs-realm-languages::
 
@@ -98,17 +87,41 @@ and :ref:`node-cancel-async-after-timeout`.
       .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-upload.ts
         :language: typescript
 
-      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-download.ts
-        :language: typescript
-
   .. tab::
       :tabid: javascript
 
       .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-upload.js
         :language: javascript
 
+To asynchronously wait for all changes on Atlas to download from the 
+Device Sync server to your synced realm, call 
+:js-sdk:`downloadAllServerChanges() <classes/SyncSession.html#downloadAllServerChanges>`.
+This method returns true when all changes have been downloaded.
+
+.. tabs-realm-languages::
+
+  .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-download.ts
+        :language: typescript
+
+  .. tab::
+      :tabid: javascript
+
       .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-download.js
         :language: javascript
+
+You can specify a request timeout on the :js-sdk:`App configuration 
+<types/AppConfiguration.html>`. With a timeout specified, you can set 
+``cancelWaitsOnNonFatalErrors`` on your :js-sdk:`BaseSyncConfiguration 
+<types/BaseSyncConfiguration.html>`. When ``true`` and the timeout interval 
+arrives, any any outstanding work that is awaiting uploads and downloads 
+cancels. When this setting is false, awaiting uploads and downloads does 
+not cancel because Realm treats these timeouts as non-fatal errors. 
+
+For more information, refer to :ref:`node-app-client-configure-timeout`
+and :ref:`node-cancel-async-after-timeout`.
 
 .. _node-check-sync-progress:
 

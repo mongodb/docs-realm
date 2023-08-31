@@ -1,26 +1,34 @@
-import Realm from "realm";
+import Realm, { BSON, Credentials } from "realm";
+import { APP_ID } from "../config";
 
 describe("Configure & Open a Synced Realm", () => {
   test("test cancelWaitsOnNonFatalError is valid config", async () => {
-    const DoggieSchema: Realm.ObjectSchema = {
-      name: "Doggie",
-      properties: {
-        _id: {
-          type: "objectId",
+    class Doggie extends Realm.Object<Doggie> {
+      _id!: BSON.ObjectId;
+      name!: String;
+      owner_id!: String;
+      age?: Number;
+
+      static schema: Realm.ObjectSchema = {
+        name: "Doggie",
+        properties: {
+          _id: {
+            type: "objectId",
+          },
+          name: {
+            type: "string",
+          },
+          age: {
+            type: "int",
+            optional: true,
+          },
+          owner_id: {
+            type: "string",
+          },
         },
-        name: {
-          type: "string",
-        },
-        age: {
-          type: "int",
-          optional: true,
-        },
-        owner_id: {
-          type: "string",
-        },
-      },
-      primaryKey: "_id",
-    };
+        primaryKey: "_id",
+      };
+    }
 
     // The PR that adds this functionality to the JS SDK is:
     // https://github.com/realm/realm-js/pull/5494
@@ -30,22 +38,20 @@ describe("Configure & Open a Synced Realm", () => {
     // This can be tested properly when this open PR issue is addressed:
     // https://github.com/realm/realm-js/issues/5509
 
-    const appId = "js-flexible-oseso";
-
     // :snippet-start: app-config-with-timeout
     const app = new Realm.App({
-      id: appId,
+      id: APP_ID,
       // You can optionally specify a timeout in milliseconds
       timeout: 10000,
     });
     // :snippet-end:
 
-    const credentials = Realm.Credentials.anonymous();
+    const credentials = Credentials.anonymous();
     await app.logIn(credentials);
 
     // :snippet-start: cancel-waits-on-non-fatal-error
     const config: Realm.Configuration = {
-      schema: [DoggieSchema],
+      schema: [Doggie],
       sync: {
         flexible: true,
         user: app.currentUser!,
@@ -58,13 +64,13 @@ describe("Configure & Open a Synced Realm", () => {
 
     const realm = await Realm.open(config);
 
-    const dogs = realm.objects("Doggie");
-
     await realm.subscriptions.update((mutableSubs) => {
-      mutableSubs.add(dogs, {
+      mutableSubs.add(realm.objects(Doggie), {
         name: "testDoggies",
       });
     });
+
+    const dogs = realm.objects<Doggie>(Doggie);
 
     // :snippet-start: wait-for-download
     await realm.syncSession?.downloadAllServerChanges();
@@ -74,7 +80,7 @@ describe("Configure & Open a Synced Realm", () => {
 
     // :snippet-start: wait-for-upload
     realm.write(() => {
-      realm.create(`Doggie`, {
+      realm.create(Doggie, {
         _id: new Realm.BSON.ObjectID(),
         owner_id: app.currentUser!.id,
         name: "Maui",
@@ -85,16 +91,16 @@ describe("Configure & Open a Synced Realm", () => {
     await realm.syncSession?.uploadAllLocalChanges();
     // :snippet-end:
 
-    const dogsAfterWrite = realm.objects("Doggie");
+    const dogsAfterWrite = realm.objects(Doggie);
     expect(dogsAfterWrite.length).toBe(1);
 
     realm.write(() => {
-      realm.delete(realm.objects("Doggie"));
+      realm.delete(dogsAfterWrite);
     });
 
     await realm.syncSession?.uploadAllLocalChanges();
 
-    const dogsAfterDelete = realm.objects("Doggie");
+    const dogsAfterDelete = realm.objects(Doggie);
     expect(dogsAfterDelete.length).toBe(0);
   }, 30000);
 });
