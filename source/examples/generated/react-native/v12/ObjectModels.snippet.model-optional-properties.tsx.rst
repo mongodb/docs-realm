@@ -1,4 +1,5 @@
 .. code-block:: typescript
+   :emphasize-lines: 12, 16
 
    class Person extends Realm.Object<Person> {
      name!: string;
@@ -11,11 +12,11 @@
          name: 'string',
          age: {
            type: 'int',
-           optional: true,
+           optional: true, 
          },
          birthday: {
            type: 'date',
-           optional: true,
+           optional: true, 
          },
        },
      };

@@ -15,11 +15,11 @@ class Person extends Realm.Object<Person> {
       name: 'string',
       age: {
         type: 'int',
-        optional: true,
+        optional: true, // :emphasize:
       },
       birthday: {
         type: 'date',
-        optional: true,
+        optional: true, // :emphasize:
       },
     },
   };
