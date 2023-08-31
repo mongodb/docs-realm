@@ -25,12 +25,6 @@ Make the Realm C++ SDK available in your code by including the
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.includes.cpp
-         :language: cpp
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       .. versionadded:: v0.2.0-preview
 
       The C++ SDK Preview exposes experimental APIs in the ``realm::experimental``
@@ -39,6 +33,12 @@ Make the Realm C++ SDK available in your code by including the
       namespace to access these APIs.
 
       .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-includes.cpp
+         :language: cpp
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.includes.cpp
          :language: cpp
 
 Define Your Object Model
@@ -53,14 +53,14 @@ For a local-only realm you can define your :ref:`object model
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.model.cpp
-         :language: cpp 
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-model.cpp
          :language: cpp
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.model.cpp
+         :language: cpp 
 
 Open a Realm
 ------------
@@ -70,15 +70,6 @@ Open a Realm
    .. tab:: Current
       :tabid: current
 
-      In a local-only realm, the simplest option to open a realm
-      is to use the default realm with no configuration parameter:
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.realm-open.cpp
-         :language: cpp 
-
-   .. tab:: Experimental
-      :tabid: experimental
-
       When using the ``realm::experimental::db`` API to open a realm, you
       must specify a :cpp-sdk:`db_config 
       <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`. You can 
@@ -87,6 +78,15 @@ Open a Realm
 
       .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-realm-open.cpp
          :language: cpp
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      In a local-only realm, the simplest option to open a realm
+      is to use the default realm with no configuration parameter:
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.realm-open.cpp
+         :language: cpp 
 
 For more information, see: :ref:`Configure and Open a Realm 
 <cpp-configure-and-open-a-realm>`.
@@ -105,13 +105,13 @@ To instantiate a new Todo object and add it to the realm in a write block:
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.create-todo.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-create-todo.cpp
          :language: cpp
 
-   .. tab:: Experimental
-      :tabid: experimental
+   .. tab:: Deprecated
+      :tabid: deprecated
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-create-todo.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.create-todo.cpp
          :language: cpp
 
 You can retrieve a live :ref:`results collection <cpp-read-operations>` of 
@@ -132,13 +132,13 @@ To modify a todo, update its properties in a write transaction block:
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.modify-write-block.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-modify-write-block.cpp
          :language: cpp
 
-   .. tab:: Experimental
-      :tabid: experimental
+   .. tab:: Deprecated
+      :tabid: deprecated
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-modify-write-block.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.modify-write-block.cpp
          :language: cpp
 
 Finally, you can delete a todo:
@@ -148,13 +148,13 @@ Finally, you can delete a todo:
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.delete.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-delete.cpp
          :language: cpp
 
-   .. tab:: Experimental
-      :tabid: experimental
+   .. tab:: Deprecated
+      :tabid: deprecated
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-delete.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.delete.cpp
          :language: cpp
 
 Watch for Changes
@@ -226,13 +226,13 @@ what data the realm can read and write.
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.open-synced-realm.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-open-synced-realm.cpp
          :language: cpp
 
-   .. tab:: Experimental
-      :tabid: experimental
+   .. tab:: Deprecated
+      :tabid: deprecated
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-open-synced-realm.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.open-synced-realm.cpp
          :language: cpp
 
 Read, Write, and React to Changes
@@ -254,13 +254,13 @@ For more information about Sync permissions, refer to :ref:`sync-permissions`.
    .. tab:: Current
       :tabid: current
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.write-to-synced-realm.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-write-to-synced-realm.cpp
          :language: cpp
 
-   .. tab:: Experimental
-      :tabid: experimental
+   .. tab:: Deprecated
+      :tabid: deprecated
 
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-write-to-synced-realm.cpp
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.write-to-synced-realm.cpp
          :language: cpp
 
 While you work with local data, a background thread efficiently integrates, 

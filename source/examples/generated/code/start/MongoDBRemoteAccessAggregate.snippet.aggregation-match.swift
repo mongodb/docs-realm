@@ -1,4 +1,4 @@
-let pipeline: [Document] = [["$match": ["partition": ["$eq": "Store 42"]]]]
+let pipeline: [Document] = [["$match": ["storeNumber": ["$eq": 42]]]]
 
 collection.aggregate(pipeline: pipeline) { result in
     switch result {

@@ -1,5 +1,5 @@
-let queryFilter: Document = ["name": "Bean of the Day", "_partition": "Store 42"]
-let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
+let queryFilter: Document = ["name": "Bean of the Day", "storeNumber": 42]
+let documentUpdate: Document = ["$set": ["containsDairy": true]]
 
 collection.updateOneDocument(filter: queryFilter, update: documentUpdate) { result in
     switch result {

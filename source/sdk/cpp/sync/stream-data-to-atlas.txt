@@ -24,19 +24,6 @@ Sync Data Unidirectionally from a Client Application
          .. tab:: Current
             :tabid: current
 
-            You can sync data unidirectionally when you inherit from 
-            :cpp-sdk:`asymmetric_object <structrealm_1_1asymmetric__object.html>`.
-
-            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
-               :language: cpp
-
-            For more information on how to define an ``asymmetric_object``, including
-            limitations when linking to other object types, see: 
-            :ref:`Define an Asymmetric Object <cpp-define-asymmetric-object>`.
-
-         .. tab:: Experimental
-            :tabid: experimental
-
             You can sync data unidirectionally when you declare an object's 
             schema as a ``REALM_ASYMMETRIC_SCHEMA``.
 
@@ -48,6 +35,19 @@ Sync Data Unidirectionally from a Client Application
             :ref:`Define an Asymmetric Object <cpp-define-asymmetric-object>`.
 
             .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+         .. tab:: Deprecated
+            :tabid: deprecated
+
+            You can sync data unidirectionally when you inherit from 
+            :cpp-sdk:`asymmetric_object <structrealm_1_1asymmetric__object.html>`.
+
+            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
+               :language: cpp
+
+            For more information on how to define an ``asymmetric_object``, including
+            limitations when linking to other object types, see: 
+            :ref:`Define an Asymmetric Object <cpp-define-asymmetric-object>`.
 
    .. step:: Connect and Authenticate with an App Services App
 
@@ -68,19 +68,6 @@ Sync Data Unidirectionally from a Client Application
             :tabid: current
 
             After you have an authenticated user, you can open a synced realm
-            using a ``flexibleSyncConfiguration()``. Specify the ``asymmetric_object`` 
-            types you want to sync.
-
-            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.open-synced-realm-for-asymmetric-sync.cpp
-               :language: cpp
-
-            Unlike bidirectional Sync, Data Ingest does not use a 
-            :ref:`Flexible Sync subscription <cpp-manage-flexible-sync-subscriptions>`.
-
-         .. tab:: Experimental
-            :tabid: experimental
-
-            After you have an authenticated user, you can open a synced realm
             using a ``flexibleSyncConfiguration()``.
 
             .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-open-synced-realm.cpp
@@ -90,6 +77,19 @@ Sync Data Unidirectionally from a Client Application
             :ref:`Flexible Sync subscription <cpp-manage-flexible-sync-subscriptions>`.
 
             .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+         .. tab:: Deprecated
+            :tabid: deprecated
+
+            After you have an authenticated user, you can open a synced realm
+            using a ``flexibleSyncConfiguration()``. Specify the ``asymmetric_object`` 
+            types you want to sync.
+
+            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.open-synced-realm-for-asymmetric-sync.cpp
+               :language: cpp
+
+            Unlike bidirectional Sync, Data Ingest does not use a 
+            :ref:`Flexible Sync subscription <cpp-manage-flexible-sync-subscriptions>`.
 
       .. tip:: Mixed Object and Asymmetric Object Types
 
@@ -111,13 +111,13 @@ Sync Data Unidirectionally from a Client Application
          .. tab:: Current
             :tabid: current
 
-            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
-               :language: cpp
-
-         .. tab:: Experimental
-            :tabid: experimental
-
             .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-create-asymmetric-object.cpp
                :language: cpp
 
             .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+         .. tab:: Deprecated
+            :tabid: deprecated
+
+            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
+               :language: cpp

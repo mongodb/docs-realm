@@ -1,10 +1,10 @@
-import React from 'react';
-import {View, Text, InteractionManagerStatic} from 'react-native';
+import React, {useState} from 'react';
 import Realm, {ObjectSchema} from 'realm';
 import {createRealmContext} from '@realm/react';
 import {render, screen, waitFor} from '@testing-library/react-native';
 import {RealmProvider, useRealm, useQuery} from '@realm/react';
 import {useEffect} from 'react';
+import {View, Text, Button, TextInput, FlatList} from 'react-native';
 
 // :snippet-start: rn-fts-annotation
 class Book extends Realm.Object {
@@ -22,48 +22,58 @@ class Book extends Realm.Object {
 // :snippet-end:
 
 // open a new realm
-<RealmProvider schema={[Book]}>
+export const FtsQuery = () => {
 
-      <FtsQuery />
-      
+  return (
+    <RealmProvider schema={[Book]}>
+      <FtsQueryInnards />
     </RealmProvider>
+  );
+}
 
 // create component to test fts
-export function FtsQuery(): JSX.Element {
+function FtsQueryInnards(): JSX.Element {
 
-    const realm = useRealm();
+  const realm = useRealm();
+  const [bookName, setBookName] = useState('Book name');
+  const [bookPrice, setBookPrice] = useState('0');
 
-    // function to create books
-    const writeBooks = (bookName: string, price: number) => {
-      realm.write(() => {
-        realm.create('Book', {
-          name: bookName,
-          price: price,
-        });
+  // function to create books
+  const writeBooks = (bookName: string, price: string) => {
+    realm.write(() => {
+      realm.create('Book', {
+        name: bookName,
+        price: price,
       });
-    };
+    });
+  };
 
-    // create the books
-    writeBooks("The Hunger Games", 10.99);
-    writeBooks("Lord of the Rings", 21.99);
-    writeBooks("Dune", 16.99);
+  // then query on them
+  // get the book objects
+  const books = useQuery(Book);
+  // fts query the books
+  const booksWithHunger = books.filtered("name TEXT \$0", ["hunger"]);
 
-    // then query on them
-    // get the book objects
-    const books = useQuery(Book);
-    // fts query the books
-    const booksWithHunger = books.filtered("name TEXT \$0", ["hunger"]);
-
-    // books without 'the'
-    const booksWithoutThe = books.filtered("name TEXT \$0", ["the"]);
+  // books without 'the'
+  const booksWithoutThe = books.filtered("name TEXT \$0", ["the"]);
 
 
-    // Return the number of books in query
-    return (
-      <View>
-        <Text> Books without 'the': {booksWithoutThe.length} </Text>
-        <Text> Books with 'hunger': {booksWithHunger.length} </Text>
-      </View>
-    )
+  // Return the number of books in query
+  return (
+    <View>
+      <TextInput onChangeText={setBookName} value={bookName} />
+      <TextInput onChangeText={setBookPrice} value={bookPrice} />
+
+      <Button 
+        title="Add Book" 
+        onPress={() => 
+        {
+          writeBooks(bookName, bookPrice);
+        }}
+      />
+      <Text> Query: Books without 'the': {booksWithoutThe.length} </Text>
+      <Text> Query: Books with 'hunger': {booksWithHunger.length} </Text>
+    </View>
+  )
 
 }
