@@ -8,8 +8,8 @@ store, or user, such as ``user_id == $0, “641374b03725038381d2e1fb”``, is
 a good candidate for an indexed queryable field. However, an indexed 
 queryable field has specific requirements for use in a query subscription:
 
-- The indexed queryable field must be used in every subscription query for
-  every object type. It cannot be missing from the query.
+- The indexed queryable field must be used in every subscription query. It 
+  cannot be missing from the query.
 - The indexed queryable field must use an ``==`` or ``IN`` comparison 
   against a constant at least once in the subscription query. For example,
   ``user_id == $0, "641374b03725038381d2e1fb"`` or 
@@ -18,14 +18,17 @@ queryable field has specific requirements for use in a query subscription:
 You can optionally include an ``AND`` comparison as long as the indexed
 queryable field is directly compared against a constant using ``==`` or ``IN``
 at least once. For example, ``store_id IN {1,2,3} AND region=="Northeast"``
-or ``store_id == 1 AND active_promotions < 5``.
+or ``store_id == 1 AND (active_promotions < 5 OR num_employees < 10)``.
 
 *Invalid* Flexible Sync queries on an indexed queryable field include queries 
 where:
 
 - The indexed queryable field does not use ``AND`` with the rest of the query.
   For example ``store_id IN {1,2,3} OR region=="Northeast"`` is invalid
-  because it uses ``OR`` instead of ``AND``.
+  because it uses ``OR`` instead of ``AND``. Similarly, 
+  ``store_id == 1 AND active_promotions < 5 OR num_employees < 10`` is invalid
+  because the ``AND`` only applies to the term next to it, not the entire
+  query.
 - The indexed queryable field is not used in an equality operator. For example
   ``store_id > 2 AND region=="Northeast"`` is invalid because it uses only 
   the ``>`` operator with the indexed queryable field and does not have an 
