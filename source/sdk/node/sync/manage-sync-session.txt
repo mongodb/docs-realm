@@ -29,7 +29,7 @@ Access Sync Session
 -------------------
 
 After opening a synced realm, you can access its sync session with the
-:js-sdk:`Realm.syncSession <Realm.html#syncSession>` property.
+:js-sdk:`Realm.syncSession <classes/Realm-1.html#syncSession>` property.
 
 .. code-block:: javascript
 
@@ -41,14 +41,14 @@ After opening a synced realm, you can access its sync session with the
 Pause or Resume a Sync Session
 ------------------------------
 
-Opening a synced realm starts a :js-sdk:`sync session <Realm.App.Sync.Session.html>`.
+Opening a synced realm starts a :js-sdk:`sync session <classes/SyncSession.html>`.
 You can pause and resume the sync session on the realm. Pausing a sync 
 session only pauses that realm's sync session. If you have more than one 
 open realm, pause does not affect the sync sessions for other realms.
 
 To pause synchronization, use the :js-sdk:`syncSession.pause()
-<Realm.App.Sync.Session.html#~pause>` method. To resume synchronization, use the
-:js-sdk:`syncSession.resume() <Realm.App.Sync.Session.html#~resume>` method.
+<classes/SyncSession.html#pause>` method. To resume synchronization, use the
+:js-sdk:`syncSession.resume() <classes/SyncSession.html#resume>` method.
 
 .. tabs-realm-languages::
 
@@ -107,7 +107,8 @@ Check Upload & Download Progress for a Sync Session
 ---------------------------------------------------
 
 To check the upload and download progress for a sync session, add a progress
-notification using the :js-sdk:`syncSession.addProgressNotification() <Realm.App.Sync.Session.html#.addProgressNotification>` method.
+notification using the :js-sdk:`syncSession.addProgressNotification() 
+<classes/SyncSession.html#addProgressNotification>` method.
 
 The ``syncSession.addProgressNotification()`` method takes in the following three parameters:
 
@@ -116,7 +117,7 @@ The ``syncSession.addProgressNotification()`` method takes in the following thre
   Set to ``"download"`` to register notifications for downloading data.
 - A ``mode`` parameter. Set to ``"reportIndefinitely"`` 
   for the notifications to continue until the callback is unregistered using
-  :js-sdk:`syncSession.removeProgressNotification() <Realm.App.Sync.Session.html#.removeProgressNotification>`.
+  :js-sdk:`syncSession.removeProgressNotification() <classes/SyncSession.html#removeProgressNotification>`.
   Set to ``"forCurrentlyOutstandingWork"`` for the notifications to continue
   until only the currently transferable bytes are synced.
 - A callback function parameter that has the arguments ``transferred`` and ``transferable``.
@@ -153,7 +154,7 @@ Check the Network Connection
 
 To check the current state of the connection to the server, call the
 :js-sdk:`syncSession.connectionState()
-<Realm.App.Sync.Session.html#.connectionState>` method.
+<classes/SyncSession.html#connectionState>` method.
 
 Realm's *offline-first* design means that you generally don't need to
 check the current network connection state. That said, the
@@ -185,7 +186,7 @@ Only use session multiplexing if you see errors about reaching the file descript
 and you know you are using many sync sessions.
 
 To enable session multiplexing, call :js-sdk:`Realm.App.Sync.enableSessionMultiplexing()
-<Realm.App.Sync.html#.enableSessionMultiplexing>` with your :js-sdk:`Realm.App <Realm.App.html>`. 
+<classes/Sync.html#enableSessionMultiplexing>` with your :js-sdk:`Realm.App <classes/App.html>`. 
 
 .. example::
    
