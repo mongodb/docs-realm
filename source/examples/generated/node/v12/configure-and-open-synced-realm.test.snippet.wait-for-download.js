@@ -1,1 +1,0 @@
-await realm.syncSession?.downloadAllServerChanges();

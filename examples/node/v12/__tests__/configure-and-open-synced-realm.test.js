@@ -33,13 +33,11 @@ describe("Configure & Open a Synced Realm", () => {
     // This can be tested properly when this open PR issue is addressed:
     // https://github.com/realm/realm-js/issues/5509
 
-    // :snippet-start: app-config-with-timeout
     const app = new Realm.App({
       id: APP_ID,
       // You can optionally specify a timeout in milliseconds
       timeout: 10000,
     });
-    // :snippet-end:
 
     const credentials = Credentials.anonymous();
     await app.logIn(credentials);
@@ -68,13 +66,10 @@ describe("Configure & Open a Synced Realm", () => {
 
     const dogs = realm.objects(Doggie);
 
-    // :snippet-start: wait-for-download
     await realm.syncSession?.downloadAllServerChanges();
-    // :snippet-end:
 
     expect(dogs.length).toBe(0);
 
-    // :snippet-start: wait-for-upload
     realm.write(() => {
       realm.create(Doggie, {
         _id: new BSON.ObjectID(),
@@ -85,7 +80,6 @@ describe("Configure & Open a Synced Realm", () => {
     });
 
     await realm.syncSession?.uploadAllLocalChanges();
-    // :snippet-end:
 
     const dogsAfterWrite = realm.objects(Doggie);
     expect(dogsAfterWrite.length).toBe(1);

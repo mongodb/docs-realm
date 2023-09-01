@@ -79,38 +79,16 @@ realm, call :js-sdk:`uploadAllLocalChanges()
 <classes/SyncSession.html#uploadAllLocalChanges>`. This method returns 
 true when all changes have been uploaded.
 
-.. tabs-realm-languages::
-
-  .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-upload.ts
-        :language: typescript
-
-  .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-upload.js
-        :language: javascript
+.. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-upload.ts
+   :language: javascript
 
 To asynchronously wait for all changes on Atlas to download from the 
 Device Sync server to your synced realm, call 
 :js-sdk:`downloadAllServerChanges() <classes/SyncSession.html#downloadAllServerChanges>`.
 This method returns true when all changes have been downloaded.
 
-.. tabs-realm-languages::
-
-  .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-download.ts
-        :language: typescript
-
-  .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-download.js
-        :language: javascript
+.. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.wait-for-download.ts
+   :language: javascript
 
 You can specify a request timeout on the :js-sdk:`App configuration 
 <types/AppConfiguration.html>`. With a timeout specified, you can set 
