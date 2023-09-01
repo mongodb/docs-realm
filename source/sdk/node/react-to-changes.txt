@@ -17,11 +17,12 @@ Register a Realm Change Listener
 --------------------------------
 
 To register a change listener for an entire realm, pass a callback function
-to the realm's :js-sdk:`addListener() <Realm.html#addListener>` method.
+to the realm's :js-sdk:`addListener() <classes/Realm-1.html#addListener>` method.
 Realm calls the listener asynchronously whenever an operation
 adds, changes, or removes objects in the realm.
 
-To remove a realm listener, pass the callback to the realm's :js-sdk:`removeListener() <Realm.Collection.html#removeListener>` method.
+To remove a realm listener, pass the callback to the realm's 
+:js-sdk:`removeListener() <classes/Realm-1.html#removeListener>` method.
 
 .. tip:: Use Object & Collection Listeners for Change Details
    
@@ -47,11 +48,12 @@ Register a Collection Change Listener
 
 To register a change listener for a collection of Realm objects,
 pass a callback function to the collection's :js-sdk:`addListener()
-<Realm.Collection.html#addListener>` method. Realm calls the
+<classes/Collection.html#addListener>` method. Realm calls the
 listener asynchronously when it's registered as well as whenever an operation
 adds, changes, or removes objects in the collection.
 
-To remove a collection listener, pass the callback to the collection's :js-sdk:`removeListener() <Realm.Object.html#removeListener>` method.
+To remove a collection listener, pass the callback to the collection's 
+:js-sdk:`removeListener() <classes/Collection.html#removeListener>` method.
 
 .. important:: Order Matters
    
@@ -70,11 +72,11 @@ Register an Object Change Listener
 
 To register a change listener on a specific Realm object, pass a
 callback function to the object's :js-sdk:`addListener()
-<Realm.Object.html#addListener>` method. Realm calls the listener
+<classes/Object.html#addListener>` method. Realm calls the listener
 if any of the object's properties change or if someone deletes the object.
 
 To remove an object listener, pass the callback to the object's
-:js-sdk:`removeListener() <Realm.html#removeListener>` method.
+:js-sdk:`removeListener() <classes/Object.html#removeListener>` method.
 
 .. literalinclude:: /examples/generated/node/react-to-changes.snippet.react-to-changes-register-realm-object-change-listener.js
   :language: javascript
@@ -87,9 +89,9 @@ Remove All Change Listeners
 To remove **all** listeners on a given realm, object, or collection instance,
 call the instance's ``removeAllListeners()`` function:
 
-- :js-sdk:`Realm.removeAllListeners() <Realm.html#removeAllListeners>`
-- :js-sdk:`Realm.Collection.removeAllListeners() <Realm.Collection.html#removeAllListeners>`
-- :js-sdk:`Realm.Object.removeAllListeners() <Realm.Object.html#removeAllListeners>`
+- :js-sdk:`Realm.removeAllListeners() <classes/Realm-1.html#removeAllListeners>`
+- :js-sdk:`Realm.Collection.removeAllListeners() <classes/Collection.html#removeAllListeners>`
+- :js-sdk:`Realm.Object.removeAllListeners() <classes/Object.html#removeAllListeners>`
 
 .. literalinclude:: /examples/generated/node/react-to-changes.snippet.react-to-changes-remove-all-listeners.js
   :language: javascript
