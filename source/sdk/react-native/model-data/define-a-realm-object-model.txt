@@ -70,12 +70,13 @@ Declare an Optional Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To mark a property as optional, use object syntax and set ``optional`` to
-``true``.
+``true``. You can also use a simplified syntax: append a question mark ``?``
+to the type. This is best-suited to basic types. You should use the more
+specific object syntax for more complicated types.
 
 In the following example of a ``Person`` class, the ``age`` and ``birthday``
-properties are optional.
+properties are both optional.
 
-      
 .. include:: examples/generated/react-native/v12/ObjectModels.snippet.model-optional-properties.tsx.rst
 
 .. _react-native-specify-a-primary-key:

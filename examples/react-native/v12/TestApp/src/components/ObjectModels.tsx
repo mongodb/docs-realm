@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Realm, {ObjectSchema} from 'realm';
-import {RealmProvider, useRealm} from '@realm/react';
+import {RealmProvider, useQuery, useRealm} from '@realm/react';
 import {View, Text, FlatList} from 'react-native';
 
 // :snippet-start: model-optional-properties
@@ -17,10 +17,9 @@ class Person extends Realm.Object<Person> {
         type: 'int',
         optional: true, // :emphasize:
       },
-      birthday: {
-        type: 'date',
-        optional: true, // :emphasize:
-      },
+      // You can use a simplified syntax instead. For
+      // more complicated types, use the object syntax.
+      birthday: 'date?', // :emphasize:
     },
   };
 }
@@ -38,14 +37,34 @@ export const ObjectModels = () => {
 
 export const ObjectModelList = () => {
   const realm = useRealm();
-  const allSchemas = realm.schema;
+  const people = useQuery(Person);
 
-  if (allSchemas.length) {
+  // If no Person objects in realm, create
+  // two for testing.
+  useEffect(() => {
+    if (!people.length) {
+      realm.write(() => {
+        // This one doesn't have a birthday.
+        realm.create(Person, {
+          name: 'AgeBot',
+          age: 2,
+        });
+
+        // This one doesn't have an age.
+        realm.create(Person, {
+          name: 'BirthdayBot',
+          birthday: new Date(2023, 8, 1),
+        });
+      });
+    }
+  }, []);
+
+  if (people.length) {
     return (
       <FlatList
-        data={allSchemas}
+        data={people}
         keyExtractor={item => item.name}
-        renderItem={ObjectModelItem}
+        renderItem={PersonItem}
       />
     );
   } else {
@@ -53,12 +72,12 @@ export const ObjectModelList = () => {
   }
 };
 
-type objectModelProps = {name: string};
-
-export const ObjectModelItem = ({item}: {item: objectModelProps}) => {
+export const PersonItem = ({item}: {item: Person}) => {
   return (
-    <View>
+    <View testID={item.name}>
       <Text>{item.name}</Text>
+      <Text>{item.age}</Text>
+      <Text>{item.birthday?.toString()}</Text>
     </View>
   );
 };

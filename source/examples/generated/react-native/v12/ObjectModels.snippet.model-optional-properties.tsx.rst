@@ -14,10 +14,9 @@
            type: 'int',
            optional: true, 
          },
-         birthday: {
-           type: 'date',
-           optional: true, 
-         },
+         // You can use a simplified syntax instead. For
+         // more complicated types, use the object syntax.
+         birthday: 'date?', 
        },
      };
    }
