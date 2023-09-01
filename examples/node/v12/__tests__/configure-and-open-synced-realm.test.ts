@@ -57,6 +57,7 @@ describe("Configure & Open a Synced Realm", () => {
         user: app.currentUser!,
         // When `true`, upload and download waits are canceled on any
         // error, such as a timeout, instead of just a fatal error.
+        // You can provide an optional timeouts property in milliseconds.
         cancelWaitsOnNonFatalError: true,
       },
     };
@@ -81,7 +82,7 @@ describe("Configure & Open a Synced Realm", () => {
     // :snippet-start: wait-for-upload
     realm.write(() => {
       realm.create(Doggie, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         owner_id: app.currentUser!.id,
         name: "Maui",
         age: 3,

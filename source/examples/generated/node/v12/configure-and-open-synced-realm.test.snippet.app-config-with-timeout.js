@@ -1,5 +1,5 @@
 const app = new Realm.App({
   id: APP_ID,
-  // Specify a timeout in milliseconds in the Realm.App configuration
+  // You can optionally specify a timeout in milliseconds
   timeout: 10000,
 });
