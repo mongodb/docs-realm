@@ -38,7 +38,7 @@ integers or ``"string{}"`` to specify that dictionary values must be strings.
 Create an Object with a  Dictionary Value
 -----------------------------------------
 Create an object with a dictionary value by running the :js-sdk:`realm.create()
-<Realm.html#create>` method within a write transaction. 
+<classes/Realm-1.html#create>` method within a write transaction. 
 
 .. literalinclude:: /examples/generated/node/data-types.snippet.create-realm-obj-with-dictionary.js
     :language: javascript
@@ -46,7 +46,7 @@ Create an object with a dictionary value by running the :js-sdk:`realm.create()
 Query for Objects with a Dictionary Property
 --------------------------------------------
 To filter a query, run :js-sdk:`collection.filtered()
-<Realm.Collection.html#filtered>` to specify a subset of results based on the
+<classes/OrderedCollection.html#filtered>` to specify a subset of results based on the
 value(s) of one or more object properties. You can specify results based on the value of a 
 dictionary's properties by using :mdn:`bracket-notation <Web/JavaScript/Reference/Operators/Property_accessors>`.
 
@@ -62,9 +62,10 @@ running the query: ``home.@keys = "price"``.
 Add a Listener to a Dictionary
 ------------------------------
 You can add a listener to a dictionary by running the
-:js-sdk:`dictionary.addListener() <Realm.List.html#addListener>` method. The
-``addListener`` method's callback function has two parameters, the changed
-dictionary and an array of changes describing how the dictionary was changed.
+:js-sdk:`dictionary.addListener() <classes/Dictionary.html#addListener>` 
+method. The ``addListener`` method's callback function has two parameters, 
+the changed dictionary and an array of changes describing how the dictionary 
+was changed.
 
 .. note:: 
 
