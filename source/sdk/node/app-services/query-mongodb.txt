@@ -13,7 +13,7 @@ Query MongoDB - Node.js SDK
    :class: singlecol
 
 You can query data stored in MongoDB Atlas directly from your client application code
-by using the Realm Node.js SDK's :js-sdk:`MongoDB client <Realm-MongoDB.html>`
+by using the Realm Node.js SDK's :js-sdk:`MongoDB client <types/MongoDB.html>`
 with the :manual:`Query API </tutorial/query-documents>`.
 Atlas App Services provides data access :ref:`rules <mongodb-rules>` on
 collections to securely retrieve results based on the logged-in user or the
@@ -80,7 +80,7 @@ Connect to a Linked Cluster
 ---------------------------
 
 To access a linked cluster from your client application, pass the cluster name
-to :js-sdk:`User.mongoClient() <Realm.User.html#mongoClient>`. This returns a
+to :js-sdk:`User.mongoClient() <classes/User.html#mongoClient>`. This returns a
 MongoDB service interface that you can use to access databases and collections
 in the cluster.
 
@@ -108,8 +108,8 @@ Find a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~
 
 To find a single document, pass a query that matches the document to
-:js-sdk:`collection.findOne() <Realm.MongoDBCollection.html#findOne>`. If you do
-not pass a query, ``findOne()`` matches the first document it finds in
+:js-sdk:`collection.findOne() <classes/MongoDBCollection.html#findOne>`. If 
+you do not pass a query, ``findOne()`` matches the first document it finds in
 the collection.
 
 The following snippet finds the document that describes "venus flytrap" plants in the
@@ -132,7 +132,7 @@ Find Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 To find multiple documents, pass a query that matches the documents to
-:js-sdk:`collection.find() <Realm.MongoDBCollection.html#find>`. If you do not
+:js-sdk:`collection.find() <classes/MongoDBCollection.html#find>`. If you do not
 pass a query, ``find()`` matches all documents in the collection.
 
 The following snippet finds all documents that describe perennial plants in the
@@ -155,8 +155,8 @@ Count Documents
 ~~~~~~~~~~~~~~~
 
 To count documents, pass a query that matches the documents to
-:js-sdk:`collection.count() <Realm.MongoDBCollection.html#count>`. If you do not
-pass a query, ``count()`` counts all documents in the collection.
+:js-sdk:`collection.count() <classes/MongoDBCollection.html#count>`. If you 
+do not pass a query, ``count()`` counts all documents in the collection.
 
 The following snippet counts the number of documents in a :ref:`collection of
 documents that describe plants for sale in a group of stores
@@ -181,7 +181,7 @@ Insert a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 To insert a single document, pass it to :js-sdk:`collection.insertOne()
-<Realm.MongoDBCollection.html#insertOne>`.
+<classes/MongoDBCollection.html#insertOne>`.
 
 The following snippet inserts a single document describing a "lily of the
 valley" plant into a :ref:`collection of documents that describe plants for sale
@@ -203,7 +203,7 @@ Insert Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To insert multiple documents at the same time, pass them as an array to
-:js-sdk:`collection.insertMany() <Realm.MongoDBCollection.html#insertMany>`.
+:js-sdk:`collection.insertMany() <classes/MongoDBCollection.html#updateMany>`.
 
 The following snippet inserts three documents describing plants into a
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -226,7 +226,7 @@ Update a Single Document
 
 To update a single document, pass a query that matches the document and
 an update document to :js-sdk:`collection.updateOne()
-<Realm.MongoDBCollection.html#updateOne>`.
+<classes/MongoDBCollection.html#updateOne>`.
 
 The following snippet updates a single document in a :ref:`collection of
 documents that describe plants for sale in a group of stores
@@ -251,7 +251,7 @@ Update Multiple Documents
 
 To update multiple documents simultaneously, pass a query that matches
 the documents and an update description to :js-sdk:`collection.updateMany()
-<Realm.MongoDBCollection.html#updateMany>`.
+<classes/MongoDBCollection.html#updateMany>`.
 
 The following snippet updates multiple documents in a :ref:`collection of
 documents that describe plants for sale in a group of stores
@@ -302,7 +302,7 @@ Delete a Single Document
 
 To delete a single document from a collection, pass a query that matches
 the document to :js-sdk:`collection.deleteOne()
-<Realm.MongoDBCollection.html#deleteOne>`. If you do not pass a query or
+<classes/MongoDBCollection.html#deleteOne>`. If you do not pass a query or
 if the query matches multiple documents, then the operation deletes the
 first document it finds.
 
@@ -329,7 +329,7 @@ Delete Multiple Documents
 
 To delete multiple document from a collection, pass a query that matches
 the documents to :js-sdk:`collection.deleteMany()
-<Realm.MongoDBCollection.html#deleteMany>`. If you do not pass a query,
+<classes/MongoDBCollection.html#deleteMany>`. If you do not pass a query,
 ``deleteMany()`` deletes all documents in the collection.
 
 The following snippet deletes all documents for plants that are in "Store 51" in
@@ -348,7 +348,7 @@ stores <node-mongodb-example-dataset>`:
 Real-time Change Notifications
 ------------------------------
 
-You can call :js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`
+You can call :js-sdk:`collection.watch() <classes/MongoDBCollection.html#watch>`
 to subscribe to real-time change notifications that MongoDB emits whenever a
 document in the collection is added, modified, or deleted. Each notification
 specifies a document that changed, how it changed, and the full document after
@@ -370,7 +370,7 @@ Watch for All Changes in a Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To watch for all changes in a collection, call :js-sdk:`collection.watch()
-<Realm.MongoDBCollection.html#watch>` with no arguments:
+<classes/MongoDBCollection.html#watch>` with no arguments:
 
 .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.js
    :language: javascript
@@ -383,7 +383,7 @@ Watch for Specific Changes in a Collection
 
 To watch for specific changes in a collection, pass a query that matches
 :manual:`change event </reference/change-events/>` fields to
-:js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`:
+:js-sdk:`collection.watch() <classes/MongoDBCollection.html#watch>`:
 
 .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection-with-filter.js
    :language: javascript
@@ -404,7 +404,7 @@ Run an Aggregation Pipeline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To execute an aggregation pipeline, pass an array of aggregation stages to
-:js-sdk:`collection.aggregate() <Realm.MongoDBCollection.html#aggregate>`.
+:js-sdk:`collection.aggregate() <classes/MongoDBCollection.html#aggregate>`.
 Aggregation operations return the result set of the last stage in the pipeline.
 
 The following snippet groups all documents in the ``plants`` collection by their
