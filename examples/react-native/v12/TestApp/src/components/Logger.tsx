@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Realm, {ObjectSchema, BSON} from 'realm';
-import {RealmProvider, useQuery, useRealm} from '@realm/react';
+import {RealmProvider, useRealm} from '@realm/react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
 
 class Turtle extends Realm.Object<Turtle> {
@@ -36,21 +36,27 @@ type Log = {
 export const Logger = () => {
   const [logs, setLogs] = useState<Log[]>([]);
 
-  // Can't set logger in useEffect at same level as `RealmProvider` because
-  // useEffect runs afer `componentDidMount`. This means that `RealmProvider`
-  // has already opened a realm and the `setLogger` callback needs to be
-  // set up before the realm is opened.
+  /* 
+  // Most of the time, devs will want to set a custom logger outside of the
+  // React tree. However, for testing purposes, we're doing it here.
+  // 
+  // Note that we can't set a logger in useEffect at same level as
+  // `RealmProvider` because useEffect runs afer `componentDidMount`. This
+  // means that `RealmProvider` has already opened a realm and the `setLogger`
+  // callback needs to be set up before the realm is opened. `useLayoutEffect`
+  // also does not work.
+  */
 
+  // :snippet-start: set-custom-logger
   Realm.setLogger((level, message) => {
     const log = {
       message,
       level,
     };
 
-    console.debug('writing log: ', log);
-
     setLogs(previousLogs => [...previousLogs, log]);
   });
+  // :snippet-end:
 
   // :snippet-start: set-log-level
   Realm.setLogLevel('all');
@@ -75,7 +81,6 @@ export const Logger = () => {
 const AddObjects = () => {
   const realm = useRealm();
   const [turtleName, setTurtleName] = useState('Change me!');
-  const turtles = useQuery(Turtle);
 
   const writeRealmObject = (name: string) => {
     const newTurtle = {
@@ -83,13 +88,9 @@ const AddObjects = () => {
       name: name,
     };
 
-    console.debug('writing new turtle', newTurtle);
-
     realm.write(() => {
       realm.create(Turtle, newTurtle);
     });
-
-    console.debug(turtles);
   };
 
   return (
