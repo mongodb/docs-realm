@@ -31,12 +31,6 @@ Pass the App ID for your App, which you can :ref:`find in the App Services UI
 .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.init-realm-app-client.swift
    :language: swift
 
-.. important:: You Can't Change an App Config After Initializing the App
-
-   When you initialize the ``App``, the configuration is cached. If you 
-   change the values of the App configuration after initializing the app,
-   the changes have no effect.
-
 .. _ios-app-client-configuration:
 
 Configuration
@@ -46,6 +40,8 @@ You can pass a configuration object to ``App``:
 
 .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.realm-app-config.swift
    :language: swift
+
+.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
 
 Sync Connection Sharing
 ~~~~~~~~~~~~~~~~~~~~~~~

@@ -25,19 +25,13 @@ Pass the App ID for your App, which you can :ref:`find in the App Services UI
    :language: kotlin
    :copyable: false
 
-.. note::
-
-   You can create multiple :file:`App` instances to connect to multiple
-   Apps or to the same App with different configurations. All
-   :file:`App` instances that share the same App ID use the same underlying
-   connection.
-
 .. _kotlin-app-client-configuration:
 
 Configuration
 -------------
 
-For more granular control of the details of your app connection,
+For most use cases, you only need your application's App ID to connect
+to App Services. For more granular control of the details of your app connection,
 such as custom timeouts for connections and keys for local encryption,
 use the `AppConfiguration.Builder
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html>`__ to control details of your ``App``:
@@ -46,7 +40,4 @@ use the `AppConfiguration.Builder
    :language: kotlin
    :copyable: false
 
-.. note:: 
-
-   For most use cases, you only need your application's App ID to connect
-   to App Services. The other settings demonstrated here are optional.
+.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
