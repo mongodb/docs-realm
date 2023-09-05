@@ -139,12 +139,11 @@ query.
    In the following continuation from the inverse relationship example, we 
    have removed the ``manufacturer`` field with type 'linkingObjects' from 
    the ``Car`` schema. An application developer creates several manufacturers 
-   and car objects, and the application pushes the newly created cars into a 
+   and car objects, and the application pushes the newly-created cars into a 
    manufacturer's ``cars`` field. 
    
-   To find the manufacturer who makes a specific car object, the developer 
-   calls the ``.linkingObjects()`` method and passes the "Manufacturer" 
-   class name and "cars" field as parameters.
+   To find the manufacturer who makes a specific car object, call ``.linkingObjects()``
+   and pass the "Manufacturer" class name and "cars" field as parameters.
 
    The ``.linkingObjects()`` method returns a :ref:`Results collection 
    <node-realm-results>` of objects whose property inverts the relationship. 
