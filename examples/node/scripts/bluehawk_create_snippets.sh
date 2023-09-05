@@ -1,8 +1,8 @@
 #! /bin/bash
 
 PROJECT=$(git rev-parse --show-toplevel)
-NODE=$PROJECT/examples/node
-GENERATED_EXAMPLES=$PROJECT/source/examples/generated/node
+NODE_EXAMPLES=$PROJECT/examples/node/v12
+GENERATED_EXAMPLES=$PROJECT/source/examples/generated/node/v12
 
 # standard bluehawking
 rm -f "$GENERATED_EXAMPLES"/*

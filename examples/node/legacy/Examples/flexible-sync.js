@@ -43,23 +43,18 @@ describe("Flexible Sync Tests", () => {
     const subscriptions = realm.subscriptions;
     // :snippet-end:
 
-    // :snippet-start: create-queries-to-subscribe-to
+    // :snippet-start: subscribe-to-queryable-fields
     const tasks = realm.objects("Task");
     const longRunningTasks = tasks.filtered(
       'status == "completed" && progressMinutes > 120'
     );
-    const bensTasks = tasks.filtered('owner == "Ben"');
-    // :snippet-end:
-
-    // :snippet-start: subscribe-to-queryable-fields
+    
     await realm.subscriptions.update((mutableSubs) => {
       mutableSubs.add(longRunningTasks, {
         name: "longRunningTasksSubscription",
       });
-      mutableSubs.add(bensTasks);
       mutableSubs.add(realm.objects("Team"), {
         name: "teamsSubscription",
-        throwOnUpdate: true,
       });
     });
     // :snippet-end:
@@ -113,48 +108,6 @@ describe("Flexible Sync Tests", () => {
       mutableSubs.removeAll();
     });
     // :snippet-end:
-  });
-  test.skip("should open a FS realm with initial subscriptions", async () => {
-    await app.logIn(Realm.Credentials.anonymous());
-
-    // :snippet-start: create-initial-subscriptions-on-fs-realm
-    const config = {
-      sync: {
-        user: app.currentUser,
-        flexible: true,
-        initialSubscriptions: {
-          update: (subs, realm) => {
-            subs.add(
-              realm.objects("Team").filtered("name == 'Developer Education'")
-            );
-          },
-        },
-      },
-    };
-    const realm = await Realm.open(config);
-    // :snippet-end:
-
-    realm.write(() => {
-      const t1 = realm.create("Team", {
-        _id: 3124513,
-        name: "Developer Education",
-        description: "Drivers Docs Sub Team",
-      });
-      const t2 = realm.create("Team", {
-        _id: 2042991,
-        name: "Developer Education",
-        description: "Realm Docs Sub Team",
-      });
-      const t3 = realm.create("Team", {
-        _id: 1047714,
-        name: "Server",
-        description: "Server Docs Team",
-      });
-    });
-
-    expect(
-      realm.objects("Team").filtered("name == 'Developer Education'").length
-    ).toBe(1); // should not include Server Docs team
   });
 
   test.skip("should rerun the initial subscription on open", async () => {

@@ -95,6 +95,18 @@ void main() {
       // :snippet-end:
       expect(team.name, 'Millennium Falcon Crew');
       expect(humanCrewMembers.length, 3);
+
+      // :snippet-start: filter-iterable
+      final listOfNames = ['Luke', 'Leia'];
+      final matchingRealmObjects =
+          realm.query<Person>('name IN \$0', [listOfNames]);
+      // :snippet-end:
+      expect(matchingRealmObjects.length, 2);
+
+      for (var person in matchingRealmObjects) {
+        print(person.name);
+      }
+
       cleanUpRealm(realm);
     });
     test("Sort Results", () {

@@ -67,9 +67,9 @@ The following code shows how to define an object model for a ``Task`` object. In
 Open a Realm
 ------------
 
-To open a realm, pass a :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object to :js-sdk:`Realm.open()
-<Realm.html#.open>`.
+To open a realm, pass a :js-sdk:`Realm.BaseConfiguration
+<types/BaseConfiguration.html>` object to :js-sdk:`Realm.open()
+<classes/Realm-1.html#open>`.
 
 .. tabs-realm-languages::
 
@@ -120,9 +120,9 @@ Watch a Collection
 
 You can :ref:`watch a realm, collection, or object for changes
 <node-change-notifications>` by registering event handlers with the
-:js-sdk:`Realm.addListener() <Realm.html#addListener>`
-:js-sdk:`Object.addListener() <Realm.Object.html#addListener>`
-:js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
+:js-sdk:`Realm.addListener() <classes/Realm-1.html#addListener>`
+:js-sdk:`Object.addListener() <classes/Object.html#addListener>`
+:js-sdk:`Collection.addListener() <classes/Collection.html#addListener>`
 methods.
 
 .. important:: Order Matters
@@ -154,7 +154,8 @@ In the following example, an application developer watches for changes to the
 Close a Realm
 -------------
 
-Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a realm instance to avoid memory leaks.
+Call the :js-sdk:`realm.close() <classes/Realm-1.html#close>` method when done 
+with a realm instance to avoid memory leaks.
 
 .. literalinclude:: /examples/generated/node/quickstart.snippet.close-a-realm.ts
   :language: typescript
@@ -191,7 +192,7 @@ Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
 
 To authenticate and log in a user, call :js-sdk:`App.logIn()
-<Realm.App.html#logIn>`. When :ref:`anonymous authentication
+<classes/App.html#logIn>`. When :ref:`anonymous authentication
 <anonymous-authentication>` is enabled, users can immediately log into your app
 without providing any identifying information:
 
@@ -213,12 +214,12 @@ Open a Synced Realm
 
 After you have initialized your App, authenticated a user, and
 defined your object model, you can create a :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>`.
+<types/FlexibleSyncConfiguration.html>`.
 
-To open a Flexible Sync realm, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
-Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
+To open a Flexible Sync realm, call :js-sdk:`Realm.open() <classes/Realm-1.html#open>`. 
+Pass in a :js-sdk:`BaseConfiguration <types/BaseConfiguration.html>`
 object, which must include the ``sync`` property defining a 
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
+:js-sdk:`SyncConfiguration <types/FlexibleSyncConfiguration.html>` object. 
 To use Flexible Sync, in the SyncConfiguration, you must include include a 
 ``user`` and ``flexible: true``.
 

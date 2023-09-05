@@ -50,22 +50,24 @@ Realm Schema
 
 .. include:: /includes/realm-schema.rst
 
+Property Types
+~~~~~~~~~~~~~~
+
+The Kotlin SDK supports Kotlin data types, a limited subset of BSON types,
+UUID, and Realm-specific types.
+
+To learn more about the available property types, refer to the
+:ref:`Supported Types <kotlin-supported-types>` page.
+
 Property Annotations
 ~~~~~~~~~~~~~~~~~~~~
 
 Annotations add functionality to properties in your Realm object models.  
-You can use annotations for things like marking a property as nullable, setting a primary key, ignoring a property, and more. 
+You can use annotations for things like marking a property as nullable, 
+setting a primary key, ignoring a property, and more. 
 
-To learn more about the available property annotations, refer to :ref:`Property Annotations <kotlin-property-annotations>`.
-
-Relationship Properties
-~~~~~~~~~~~~~~~~~~~~~~~
-
-You can define relationships between Realm objects in your schema. 
-The Realm Kotlin SDK supports to-one relationships, to-many relationships, 
-inverse relationships, and embedding objects within other objects. 
-
-To learn more about how to define relationships in your Realm object schema, refer to :ref:`Relationships <kotlin-relationships>`.
+To learn more about the available property annotations, refer to 
+:ref:`Property Annotations <kotlin-property-annotations>`.
 
 .. _kotlin-define-a-new-object-type:
 
@@ -97,12 +99,53 @@ when you :ref:`open the realm <kotlin-open-a-realm>`.
   :language: kotlin
   :emphasize-lines: 2
 
+Define a Relationship Property
+------------------------------
+
+You can define relationships between Realm objects in your schema. 
+The Realm Kotlin SDK supports to-one relationships, to-many relationships, 
+inverse relationships, and embedding objects within other objects. 
+
+For more information, refer to the :ref:`Relationships <kotlin-relationships>` 
+page.
+
+Define an Inverse Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can define a backlink property as a `BacklinksDelegate 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-backlinks-delegate/index.html>`__ 
+or `EmbeddedBacklinksDelegate 
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-backlinks-delegate/index.html>`__ 
+to the parent object using the ``backlinks()`` method.
+
+- A ``BacklinksDelegate<T>`` property is defined as a `RealmResults 
+  <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-results/index.html>`__ list 
+  of the parent ``RealmObject`` type:
+
+  .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.backlinks-realm-object.kt
+     :language: kotlin
+
+- An ``EmbeddedBacklinksDelegate<T>`` property is defined as the parent 
+  ``RealmObject`` type:
+
+  .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.backlinks-embedded-object.kt
+     :language: kotlin
+
+You then reference the backlinks in collections in the parent ``RealmObject``:
+
+.. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.backlinks-parent-object.kt
+   :language: kotlin
+
+.. todo add link to Create when page is updated
 
 Define a Collection 
 -------------------
 
 You can define collections of items using 
-``RealmList``, ``RealmSet``, and ``RealmMap`` types.
+``RealmList``, ``RealmSet``, and ``RealmDictionary`` types.
+
+For more information on the collection types used in the Kotlin SDK, 
+refer to :ref:`Collection Types <kotlin-collection-types>`.
 
 .. _kotlin-define-realm-set-type:
 
@@ -132,7 +175,8 @@ In the following example, we define a ``Frog`` schema with a
 Define a RealmDictionary/RealmMap
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To define a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its type within the schema as ``RealmDictionary<T>``, where T is any Realm :ref:`primitive type 
+To define a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its type 
+within the schema as ``RealmDictionary<T>``, where T is any Realm :ref:`primitive type 
 <kotlin-supported-types>`, a ``RealmObject``, or an ``EmbeddedRealmObject``. 
 If a ``RealmDictionary``'s value is a ``RealmObject``
 or ``EmbeddedRealmObject``, the value must be declared nullable.

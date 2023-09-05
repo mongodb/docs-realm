@@ -7,6 +7,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {HomeScreen} from './src/screens/HomeScreen';
 import {Geospatial} from './src/components/data-types/Geospatial';
 import {Logger} from './src/components/Logger';
+import {ObjectModels} from './src/components/ObjectModels';
 
 import {RootStackParamList} from './src/navigation/types';
 
@@ -31,6 +32,7 @@ function App(): JSX.Element {
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Geospatial" component={Geospatial} />
         <Drawer.Screen name="Logger" component={Logger} />
+        <Drawer.Screen name="Object Models" component={ObjectModels} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
