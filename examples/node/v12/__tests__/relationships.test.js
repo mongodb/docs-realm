@@ -1,4 +1,4 @@
-import Realm from "realm";
+import Realm, { BSON } from "realm";
 
 describe("Define Relationship Properties", () => {
   test("should define a to-one relationship", async () => {
@@ -34,13 +34,13 @@ describe("Define Relationship Properties", () => {
 
     realm.write(() => {
       const thisCar = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Sentra",
         miles: 1000,
       });
 
       realm.create(Manufacturer, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         name: "Nissan",
         car: thisCar,
       });
@@ -89,19 +89,19 @@ describe("Define Relationship Properties", () => {
 
     realm.write(() => {
       const sentra = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Sentra",
         miles: 1000,
       });
 
       const pathfinder = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Pathfinder",
         miles: 254,
       });
 
       realm.create(Manufacturer, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         name: "Nissan",
         cars: [sentra, pathfinder],
       });
@@ -112,8 +112,8 @@ describe("Define Relationship Properties", () => {
     const manufacturerCars = manufacturers[0].cars;
 
     // :snippet-start: obtain-inverse-relationship-dynamically
-    // Get the Manufacturer who makes the Car
     const carObjects = realm.objects(Car);
+    // Get the Manufacturer who makes the Car
     const linkedManufacturer = carObjects[0].linkingObjects(
       "Manufacturer",
       "cars"
@@ -164,10 +164,10 @@ describe("Define Relationship Properties", () => {
     });
     expect(realm.isClosed).toBe(false);
 
-    const manufacturerObjectId = new Realm.BSON.ObjectId();
+    const manufacturerObjectId = new BSON.ObjectId();
     realm.write(() => {
       const sentra = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Sentra",
         miles: 1000,
       });
@@ -245,10 +245,10 @@ describe("Define Relationship Properties", () => {
     });
     expect(realm.isClosed).toBe(false);
 
-    const manufacturerObjectId = new Realm.BSON.ObjectId();
+    const manufacturerObjectId = new BSON.ObjectId();
     realm.write(() => {
       const sentra = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Sentra",
         miles: 1000,
         warranty: {

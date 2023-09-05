@@ -1,5 +1,5 @@
 class Manufacturer extends Realm.Object {
-  _id!: Realm.BSON.ObjectId;
+  _id!: BSON.ObjectId;
   name!: string;
   cars!: Realm.List<Car>;
   warranties!: Realm.List<Warranty>;
@@ -17,7 +17,7 @@ class Manufacturer extends Realm.Object {
 }
 
 class Car extends Realm.Object {
-  _id!: Realm.BSON.ObjectId;
+  _id!: BSON.ObjectId;
   model!: string;
   miles?: number;
   warranty?: Warranty;

@@ -1,10 +1,10 @@
-import Realm from "realm";
+import Realm, { BSON } from "realm";
 
 describe("Define Relationship Properties", () => {
   test("should define a to-one relationship", async () => {
     // :snippet-start: define-one-to-one
     class Manufacturer extends Realm.Object {
-      _id!: Realm.BSON.ObjectId;
+      _id!: BSON.ObjectId;
       name!: string;
       car?: Car;
 
@@ -20,7 +20,7 @@ describe("Define Relationship Properties", () => {
     }
 
     class Car extends Realm.Object {
-      _id!: Realm.BSON.ObjectId;
+      _id!: BSON.ObjectId;
       model!: string;
       miles?: number;
 
@@ -42,13 +42,13 @@ describe("Define Relationship Properties", () => {
 
     realm.write(() => {
       const thisCar = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Sentra",
         miles: 1000,
       });
 
       realm.create(Manufacturer, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         name: "Nissan",
         car: thisCar,
       });
@@ -67,7 +67,7 @@ describe("Define Relationship Properties", () => {
   test("should define a to-many relationship", async () => {
     // :snippet-start: define-one-to-many
     class Manufacturer extends Realm.Object {
-      _id!: Realm.BSON.ObjectId;
+      _id!: BSON.ObjectId;
       name!: string;
       cars!: Realm.List<Car>;
 
@@ -83,7 +83,7 @@ describe("Define Relationship Properties", () => {
     }
 
     class Car extends Realm.Object {
-      _id!: Realm.BSON.ObjectId;
+      _id!: BSON.ObjectId;
       model!: string;
       miles?: number;
 
@@ -105,19 +105,19 @@ describe("Define Relationship Properties", () => {
 
     realm.write(() => {
       const sentra = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Sentra",
         miles: 1000,
       });
 
       const pathfinder = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Pathfinder",
         miles: 254,
       });
 
       realm.create(Manufacturer, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         name: "Nissan",
         cars: [sentra, pathfinder],
       });
@@ -129,8 +129,8 @@ describe("Define Relationship Properties", () => {
     const manufacturerCars = manufacturers[0].cars;
 
     // :snippet-start: obtain-inverse-relationship-dynamically
-    // Get the Manufacturer who makes the Car
     const carObjects = realm.objects<Car>(Car);
+    // Get the Manufacturer who makes the Car
     const linkedManufacturer: Manufacturer =
       carObjects[0].linkingObjects<Manufacturer>("Manufacturer", "cars")[0];
     expect(linkedManufacturer.name).toBe("Nissan");
@@ -146,7 +146,7 @@ describe("Define Relationship Properties", () => {
   test("should define an inverse relationship using model classes", async () => {
     // :snippet-start: define-inverse
     class Manufacturer extends Realm.Object {
-      _id!: Realm.BSON.ObjectId;
+      _id!: BSON.ObjectId;
       name!: string;
       cars!: Realm.List<Car>;
 
@@ -162,7 +162,7 @@ describe("Define Relationship Properties", () => {
     }
 
     class Car extends Realm.Object {
-      _id!: Realm.BSON.ObjectId;
+      _id!: BSON.ObjectId;
       model!: string;
       miles?: number;
       manufacturer!: Realm.Collection<Manufacturer>;
@@ -187,10 +187,10 @@ describe("Define Relationship Properties", () => {
       schema: [Manufacturer, Car],
     });
 
-    const manufacturerObjectId = new Realm.BSON.ObjectId();
+    const manufacturerObjectId = new BSON.ObjectId();
     realm.write(() => {
       const sentra = realm.create(Car.name, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Sentra",
         miles: 1000,
       });
@@ -221,7 +221,7 @@ describe("Define Relationship Properties", () => {
   test("should define an embedded object property using model classes", async () => {
     // :snippet-start: define-embedded-property-model-classes
     class Manufacturer extends Realm.Object {
-      _id!: Realm.BSON.ObjectId;
+      _id!: BSON.ObjectId;
       name!: string;
       cars!: Realm.List<Car>;
       warranties!: Realm.List<Warranty>;
@@ -239,7 +239,7 @@ describe("Define Relationship Properties", () => {
     }
 
     class Car extends Realm.Object {
-      _id!: Realm.BSON.ObjectId;
+      _id!: BSON.ObjectId;
       model!: string;
       miles?: number;
       warranty?: Warranty;
@@ -280,7 +280,7 @@ describe("Define Relationship Properties", () => {
 
     realm.write(() => {
       const sentra = realm.create(Car, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         model: "Sentra",
         miles: 1000,
         // Realm does not support explicit creation of EmbeddedObject
@@ -293,7 +293,7 @@ describe("Define Relationship Properties", () => {
       });
 
       const manufacturer = realm.create(Manufacturer, {
-        _id: new Realm.BSON.ObjectID(),
+        _id: new BSON.ObjectID(),
         name: "Nissan",
         cars: [sentra],
         warranties: [
