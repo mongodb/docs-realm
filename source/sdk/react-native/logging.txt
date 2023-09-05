@@ -48,7 +48,6 @@ decrease log verbosity at different points in your code. This behavior differs
 from the deprecated :ref:`sync client log level <react-native-client-log-level>`,
 which had to be set before opening a synced realm and could not be changed.
 
-
 You can turn off logging by passing "off" to ``setLogLevel()``:
 
 .. include:: /examples/generated/react-native/v12/Logger.snippet.disable-logger.tsx.rst
@@ -59,10 +58,17 @@ Customize the Logger
 --------------------
 
 To set a custom logger, call :js-sdk:`setLogger() <classes/Realm-1.html#setLogger>`.
-You must use ``setLogger()`` before you open a realm with ``RealmProvider``.
 This method recieves ``level`` and ``message`` arguments from the Realm logger, 
 not individual realms. You can use these arguments to define your own logging
 behavior.
+
+You must use ``setLogger()`` before you open a realm with ``RealmProvider``.
+Because of this behavior, you can't use ``setLogger()`` in a hook in the same
+component as ``RealmProvider``, as hooks generally run after the component is
+mounted - which means a realm has already been opened by ``RealmProvider``.
+
+Most of the time, you should set your custom logger outside of the React tree -
+for example, in your app's root ``index.js`` file.
 
 .. include:: /examples/generated/react-native/v12/Logger.snippet.set-custom-logger.tsx.rst
 
