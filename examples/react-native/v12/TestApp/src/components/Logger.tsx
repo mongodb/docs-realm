@@ -23,7 +23,7 @@ type LogProps = {level: string; message: string};
 
 const LogItem = ({level, message}: LogProps) => (
   <View>
-    <Text>{level}</Text>
+    <Text testID="log-level">{level}</Text>
     <Text>{message}</Text>
   </View>
 );
@@ -59,21 +59,30 @@ export const Logger = () => {
   // :snippet-end:
 
   // :snippet-start: set-log-level
-  Realm.setLogLevel('all');
+  Realm.setLogLevel('trace');
   // :snippet-end:
 
   return (
     <>
-      <RealmProvider schema={[Turtle]}>
-        <AddObjects />
-      </RealmProvider>
+      <RealmWrapper />
       <FlatList
+        testID="list-container"
         data={logs}
         renderItem={({item}) => (
           <LogItem level={item.level} message={item.message} />
         )}
         keyExtractor={item => item.message}
       />
+    </>
+  );
+};
+
+const RealmWrapper = () => {
+  return (
+    <>
+      <RealmProvider schema={[Turtle]}>
+        <AddObjects />
+      </RealmProvider>
     </>
   );
 };
@@ -97,6 +106,7 @@ const AddObjects = () => {
     <View>
       <TextInput onChangeText={setTurtleName} value={turtleName} />
       <Button
+        testID="add-turtle"
         title="Add Turtle"
         onPress={() => {
           writeRealmObject(turtleName);
@@ -108,6 +118,14 @@ const AddObjects = () => {
           realm.write(() => {
             realm.deleteAll();
           });
+        }}
+      />
+      <Button
+        title="Turn off logging"
+        onPress={() => {
+          // :snippet-start: disable-logger
+          Realm.setLogLevel('off');
+          // :snippet-end:
         }}
       />
     </View>

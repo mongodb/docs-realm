@@ -1,14 +1,10 @@
 import {DrawerScreenProps} from '@react-navigation/drawer';
 
-type Log = {
-  message: string;
-  level: string;
-};
-
 export type RootStackParamList = {
   Home: undefined;
   Geospatial: undefined;
-  Logger: {logs: Log[]};
+  ObjectModels: undefined;
+  Logger: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

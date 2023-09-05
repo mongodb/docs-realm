@@ -32,7 +32,7 @@ function App(): JSX.Element {
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Geospatial" component={Geospatial} />
         <Drawer.Screen name="Logger" component={Logger} />
-        <Drawer.Screen name="Object Models" component={ObjectModels} />
+        <Drawer.Screen name="ObjectModels" component={ObjectModels} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
