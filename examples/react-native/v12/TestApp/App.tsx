@@ -16,7 +16,7 @@ function App(): JSX.Element {
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Geospatial" component={Geospatial} />
-        <Drawer.Screen name="Full text Search" component={FtsQuery} />
+        <Drawer.Screen name="Full-Text Search" component={FtsQuery} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
