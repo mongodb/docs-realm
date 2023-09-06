@@ -126,32 +126,36 @@ Filter with Full-Text Search
 
 You can use Realm Query Language (RQL) to query on properties that 
 have :ref:`Full-Text Search Indexes <kotlin-fts-index>` (FTS) on them.
-To query these properties, use the ``TEXT`` predicate in your query.
+To query these properties, use the ``TEXT`` predicate.
 
-Exclude results for a word by placing the ``-`` character
-in front of the word. For example, a search for ``fiction -science`` would 
-include all search results for ``fiction`` excluding those that include the
-word ``science``.
+Words in the query are converted to tokens by a tokenizer using the 
+following rules:
+
+- Tokens can only consist of characters from ASCII and the Latin-1 
+  supplement (western languages). All other characters are considered whitespace. 
+- Words split by a hyphen (``-``), for example ``full-text``, are split into 
+  two tokens. 
+- Tokens are diacritics- and case-insensitive. 
+
+You can search for an entire word or phrase or limit your results with the 
+following characters: 
+
+- Exclude results for a word by placing the ``-`` character
+  in front of the word. For example, ``fiction -science`` would 
+  include all search results for ``fiction`` and exclude those that include the
+  word ``science``.
+- In Kotlin SDK version 1.11.0 and later, you can specify prefixes 
+  by placing the ``*`` character at the end of a word. 
+  For example, ``fict*`` would include all search results for 
+  ``fiction`` and ``fictitious``. (The Kotlin SDK does *not* currently 
+  support suffix searches.)
 
 In the following example, we query the ``Book.genre`` field:
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.kotlin-fts-query.kt
   :language: kotlin
 
-Full-Text Search Tokenizer Details
-``````````````````````````````````
-
-Full-Text Search (FTS) indexes support:
-
-- Boolean match word searches, not searches for relevance. 
-- Tokens are diacritics- and case-insensitive.
-- Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages). 
-- All other characters are considered whitespace. Words split by a hyphen 
-  (``-``) like ``full-text`` are split into two tokens. 
-
-For more information on features of the FTS index, see the API reference for 
-the `@FullText <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/
--full-text/index.html>`__ index annotation. 
+Note that FTS only supports Boolean matches and not relevance-based matches.
 
 .. _kotlin-sort-queries:
 
