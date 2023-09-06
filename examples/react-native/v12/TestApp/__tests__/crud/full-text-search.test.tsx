@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen, waitFor} from '@testing-library/react-native';
-import {FtsQuery} from './FtsQuery'; //how to get file path
+import {FtsQuery} from '../../src/components/FtsQuery'; //how to get file path
 
 describe('Full text search query',  () => {
 
