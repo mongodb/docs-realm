@@ -8,8 +8,8 @@
 
 - Realm
   - Model Data
-    - Define an Object Model: Differentiate between property types and property annotations, add examples moved out from data types section.
-    - Data Types: Rewrite page with more complete coverage of supported data types, add tested data type cheatsheets.
+    - Define an Object Model: Differentiate between property types and property annotations. Add examples moved out from data types section.
+    - Data Types: Rewrite page with more complete coverage of supported data types. Add tested data type cheatsheets.
   - CRUD
     - Create: Correct `RealmMap` type name to `RealmDictionary`.
     - Update: Add a note about how to update Strings or Byte arrays.
