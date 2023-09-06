@@ -3,7 +3,7 @@ import React from 'react';
 import {Logger} from '../src/components/Logger';
 import {render, screen, userEvent, within} from '@testing-library/react-native';
 
-test('Geospatial queries', async () => {
+test('Realm logger', async () => {
   render(<Logger />);
 
   const user = userEvent.setup();
