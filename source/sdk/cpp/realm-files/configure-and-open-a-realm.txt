@@ -132,13 +132,6 @@ in the current directory.
       .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm.cpp
          :language: cpp
 
-      However, if you want the realm to manage only a subset of classes, you
-      can specify those models by passing them into the template parameter list
-      of the ``realm::experimental::open()`` function.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-realm-specify-classes.cpp
-         :language: cpp
-
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
    .. tab:: Deprecated
@@ -234,3 +227,41 @@ To open a synced realm:
    you must pass the ``filesDir.path`` to the ``path`` parameter in the 
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
+
+.. _cpp-provide-subset-of-classes-to-realm:
+
+Provide a Subset of Classes to a Realm
+--------------------------------------
+
+.. tip:: Operating with Low Memory Constraints
+   
+   Some applications have tight constraints on their memory footprints. 
+   To optimize your data model for low-memory environments, open the 
+   realm with a subset of classes.
+
+.. tabs::
+
+   .. tab:: Current
+      :tabid: current
+
+      By default, the C++ SDK automatically adds all object types that have a
+      :ref:`cpp-object-schema` in your executable to your 
+      :ref:`cpp-realm-schema`. 
+
+      However, if you want the realm to manage only a subset of classes, you
+      can specify those models by passing them into the template parameter list
+      of the ``realm::experimental::open()`` function.
+
+      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-realm-specify-classes.cpp
+         :language: cpp
+
+      .. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+   .. tab:: Deprecated
+      :tabid: deprecated
+
+      When opening a realm, you must specify which models are available by passing 
+      the models into the template parameter list of the ``realm::open()`` function.
+
+      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
+         :language: cpp
