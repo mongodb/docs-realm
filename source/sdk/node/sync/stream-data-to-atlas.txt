@@ -21,7 +21,7 @@ Sync Data Unidirectionally from a Client Application
 
       Asymmetric objects sync data unidirectionally. Define an asymmetric object
       by setting ``asymmetric`` to ``true`` in your :js-sdk:`object model 
-      <Realm.html#~ObjectSchema>`:
+      <types/BaseObjectSchema.html>`:
 
       .. tabs-realm-languages::
 
@@ -69,7 +69,7 @@ Sync Data Unidirectionally from a Client Application
    .. step:: Open a Realm
 
       After you have an authenticated user, you can open a synced realm
-      using a Flexible Sync :js-sdk:`configuration object <Realm.html#~Configuration>`.
+      using a Flexible Sync :js-sdk:`configuration object <types/FlexibleSyncConfiguration.html>`.
 
       .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.open-realm.ts
          :language: typescript
@@ -84,7 +84,7 @@ Sync Data Unidirectionally from a Client Application
    .. step:: Create Asymmetric Objects
 
       Once you have an open Realm, you can create an asymmetric object inside
-      a write transaction using :js-sdk:`Realm.create() <Realm.html#create>`.
+      a write transaction using :js-sdk:`Realm.create() <classes/Realm-1.html#create>`.
       When creating an asymmetric object, ``Realm.create()`` returns
       ``undefined`` rather than the object itself.
 
