@@ -13,7 +13,6 @@ const config: Config = {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
   testRegex: '(/__tests__/.*.(test|spec)).(jsx?|tsx?|js?|ts?)$',
-  testTimeout: 30000,
   transformIgnorePatterns: [
     'node_modules/(?!(jest-)?@?react-native|@react-native-community|@react-navigation|@realm/react)',
   ],

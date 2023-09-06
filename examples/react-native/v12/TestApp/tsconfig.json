@@ -2,21 +2,20 @@
   "compilerOptions": {
     "target": "ES2021",
     "module": "ES2020",
-    "lib": [
-      "es2021",
-    ],
+    "lib": ["es2021"],
     "esModuleInterop": true,
     "moduleResolution": "node",
     "jsx": "react",
     "sourceMap": true,
     "outDir": "./dist",
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true
   },
   "watchOptions": {
     "watchFile": "useFsEvents",
     "watchDirectory": "useFsEvents",
     "fallbackPolling": "dynamicPriority",
-    "synchronousWatchDirectory": true,
-  },
+    "synchronousWatchDirectory": true
+  }
 }
