@@ -61,7 +61,7 @@ class DeleteTest: RealmTest() {
                 snackSet.removeAll(allSnacks)
                 // :remove-start:
                 // TODO update test once https://github.com/realm/realm-kotlin/issues/1097 is fixed in v1.11.0
-                // assertTrue(set.isEmpty())
+                // assertTrue(allSnacks.isEmpty())
                 snackSet.removeAll(allSnacks) // have to call twice to actually remove all items until bug is fixed
                 // :remove-end:
             }
@@ -92,7 +92,7 @@ class DeleteTest: RealmTest() {
         }
     }
 
-            @Test
+    @Test
     fun deleteRealmDictionaryType() {
         runBlocking {
             val config = RealmConfiguration.Builder(
@@ -143,7 +143,7 @@ class DeleteTest: RealmTest() {
                 findLatest(thisFrog)?.favoritePondsByForest?.remove("Lothlorien")
             }
             // :snippet-end:
-            val thisFrogUpdated = realm.query<DeleteTest_Frog>("favoritePondsByForest.@count > 1").find().first()
+            val thisFrogUpdated = realm.query<DeleteTest_Frog>().find().first()
             assertFalse(thisFrogUpdated.favoritePondsByForest.containsKey("Lothlorien"))
             assertTrue(thisFrogUpdated.favoritePondsByForest.containsKey("Hundred Acre Wood"))
             assertFalse(thisFrogUpdated.favoritePondsByForest.containsValue("Picnic Pond"))
