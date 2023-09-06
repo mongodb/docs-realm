@@ -1,3 +1,48 @@
+# September 1, 2023
+
+## Flutter SDK
+
+- Realm Database/Read & Write Data: Add a new filter example with an iterable argument.
+
+## Kotlin SDK
+
+- Realm
+  - Model Data
+    - Define an Object Model: Differentiate between property types and property annotations. Add examples moved out from data types section.
+    - Data Types: Rewrite page with more complete coverage of supported data types. Add tested data type cheatsheets.
+  - CRUD
+    - Create: Correct `RealmMap` type name to `RealmDictionary`.
+    - Update: Add a note about how to update Strings or Byte arrays.
+
+## .NET SDK
+
+- Model Data/Data Types/Geospatial: Note that Flexible Sync does not support geospatial queries.
+
+## Node.js SDK
+
+- Model Data/Data Types/Geospatial: Note that Flexible Sync does not support geospatial queries.
+- Logging: New page with tested, Bluehawked code examples for the Realm logger API.
+- Atlas App Services/Connect to an App Services App: Add a example showing configuring a `timeout` related to the new `cancelWaitsOnNonFatalErrors` Sync configuration setting.
+- Sync Data
+  - Configure & Open a Synced Realm: Add info for the new `cancelWaitsOnNonFatalErrors` Sync configuration setting.
+  - Manage Flexible Sync Subscriptions: Document the new `.subscribe()` API, with tested, Bluehawked code examples.
+  - Manage a Sync Session: Add info about waiting for uploads and downloads.
+  - Set the Client Log Level: Warn that Sync.setLogLevel() is deprecated in Realm JS SDK v12.
+- Many pages throughout the SDK: Update the API reference links for the new v12 API reference structure.
+
+## React Native SDK
+
+- Model Data/Data Types/Geospatial: Add new page on Geospatial Data Types with tested, Bluehawked examples.
+
+## Swift SDK
+
+- Install: Add visionOS to the list of supported operating systems.
+- Application Services/Query MongoDB: Remove Partition-Based Sync from examples, update tests, add collapsible code blocks for example output.
+
+## Other
+
+- Realm Example Projects: Add new examples and reorganize tables.
+
 # August 25, 2023
 
 ## C++ SDK
@@ -36,7 +81,7 @@
 
 ## Other
 
-- Realm Example Projects: Update page with more Device Sync example projects. 
+- Realm Example Projects: Update page with more Device Sync example projects.
 
 # August 18, 2023
 
