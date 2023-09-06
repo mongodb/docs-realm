@@ -92,7 +92,7 @@ class DeleteTest: RealmTest() {
         }
     }
 
-            @Test
+    @Test
     fun deleteRealmDictionaryType() {
         runBlocking {
             val config = RealmConfiguration.Builder(
@@ -143,7 +143,7 @@ class DeleteTest: RealmTest() {
                 findLatest(thisFrog)?.favoritePondsByForest?.remove("Lothlorien")
             }
             // :snippet-end:
-            val thisFrogUpdated = realm.query<DeleteTest_Frog>("favoritePondsByForest.@count > 1").find().first()
+            val thisFrogUpdated = realm.query<DeleteTest_Frog>().find().first()
             assertFalse(thisFrogUpdated.favoritePondsByForest.containsKey("Lothlorien"))
             assertTrue(thisFrogUpdated.favoritePondsByForest.containsKey("Hundred Acre Wood"))
             assertFalse(thisFrogUpdated.favoritePondsByForest.containsValue("Picnic Pond"))
