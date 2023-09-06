@@ -61,7 +61,7 @@ class DeleteTest: RealmTest() {
                 snackSet.removeAll(allSnacks)
                 // :remove-start:
                 // TODO update test once https://github.com/realm/realm-kotlin/issues/1097 is fixed in v1.11.0
-                // assertTrue(allSnacks.isEmpty())
+                // assertTrue(set.isEmpty())
                 snackSet.removeAll(allSnacks) // have to call twice to actually remove all items until bug is fixed
                 // :remove-end:
             }

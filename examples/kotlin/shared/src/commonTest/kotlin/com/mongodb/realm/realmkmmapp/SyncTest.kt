@@ -499,9 +499,9 @@ class SyncTest: RealmTest() {
             val subscriptionCount = realm.subscriptions.size
             assertEquals(3, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("\"Bob Smith\" == members ", namedSubscription1?.queryDescription)
+            assertEquals("\"Bob Smith\" == members", namedSubscription1?.queryDescription)
             val namedSubscription2 = realm.subscriptions.findByName("jane_doe_teams")
-            assertEquals("\"Jane Doe\" == members ", namedSubscription2?.queryDescription)
+            assertEquals("\"Jane Doe\" == members", namedSubscription2?.queryDescription)
             realm.write {
                 val deleteTeam = query<Team>("teamName == $0", "Bob Smith's Team").find()
                 delete(deleteTeam)
@@ -543,7 +543,7 @@ class SyncTest: RealmTest() {
             val subscriptionCount = realm.subscriptions.size
             assertEquals(1, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("\"Bob Smith\" == members and \"Jane Doe\" == members ", namedSubscription1?.queryDescription)
+            assertEquals("\"Bob Smith\" == members and \"Jane Doe\" == members", namedSubscription1?.queryDescription)
             user.delete()
             realm.close()
         }
@@ -574,7 +574,7 @@ class SyncTest: RealmTest() {
             val subscriptionCount = realm.subscriptions.size
             assertEquals(2, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("\"Bob Smith\" == members and teamName == \"QA\" ", namedSubscription1?.queryDescription)
+            assertEquals("\"Bob Smith\" == members and teamName == \"QA\"", namedSubscription1?.queryDescription)
             user.delete()
             realm.close()
         }
@@ -613,7 +613,7 @@ class SyncTest: RealmTest() {
             val subscriptionCount = realm.subscriptions.size
             assertEquals(1, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("team_developer_education")
-            assertEquals("teamName == \"DevEd\" ", namedSubscription1?.queryDescription)
+            assertEquals("teamName == \"DevEd\"", namedSubscription1?.queryDescription)
             user.delete()
             realm.close()
         }
@@ -651,7 +651,7 @@ class SyncTest: RealmTest() {
             val initialSubscriptionCount = realm.subscriptions.size
             assertEquals(1, initialSubscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("\"Bob Smith\" == members ", namedSubscription1?.queryDescription)
+            assertEquals("\"Bob Smith\" == members", namedSubscription1?.queryDescription)
             // :remove-end:
 
             // Remove subscription by name
@@ -756,7 +756,7 @@ class SyncTest: RealmTest() {
             val subscriptionCount = realm.subscriptions.size
             assertEquals(1, subscriptionCount)
             val namedSubscription1 = realm.subscriptions.findByName("bob_smith_teams")
-            assertEquals("\"Bob Smith\" == members ", namedSubscription1?.queryDescription)
+            assertEquals("\"Bob Smith\" == members", namedSubscription1?.queryDescription)
             user.delete()
             realm.close()
         }
