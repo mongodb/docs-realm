@@ -8,4 +8,4 @@ realm.write([&] {
     mongoDB.contactDetails->emailAddress = "info@example.com";
 });
 
-std::cout << "New email address: " << mongoDB.contactDetails->emailAddress.value() << "\n";
+std::cout << "New email address: " << mongoDB.contactDetails->emailAddress.detach() << "\n";
