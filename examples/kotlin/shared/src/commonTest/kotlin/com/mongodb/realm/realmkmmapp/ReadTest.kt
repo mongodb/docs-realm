@@ -9,7 +9,6 @@ import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.types.RealmDictionary
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.FullText
-import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -140,50 +139,57 @@ class ReadTest: RealmTest() {
     @Test
     fun fullTextSearch () {
         // :snippet-start: kotlin-fts-property
-        class Book() : RealmObject {
-            @PrimaryKey
-            var _id: ObjectId = ObjectId() // Primary key
-
+        class Book : RealmObject {
             var name: String = ""
-
             @FullText // Marks the property with FTS
             var genre: String = ""
         }
         // :snippet-end:
 
-        val config = RealmConfiguration.Builder(
-            schema = setOf(Book::class) // Pass the defined class as the object schema
-        )
-            .directory("/tmp/") // default location for jvm is... in the project root
+        val config = RealmConfiguration.Builder(setOf(Book::class))
+            .inMemory()
             .build()
-        val realmFts = Realm.open(config)
-        Log.v("Successfully opened realm: ${realmFts.configuration.name}")
+        val realm = Realm.open(config)
+        Log.v("Successfully opened realm: ${realm.configuration.name}")
 
-        realmFts.writeBlocking {
-            copyToRealm(Book().apply {
-                _id = ObjectId()
-                name = "Peaches"
-                genre = "fiction"
-            })
+        runBlocking {
+            realm.writeBlocking {
+                copyToRealm(Book().apply {
+                    genre = "sci fi"
+                })
+                copyToRealm(Book().apply {
+                    genre = "fiction"
+                })
+                copyToRealm(Book().apply {
+                    genre = "science fiction"
+                })
+                copyToRealm(Book().apply {
+                    genre = "sci fi fantasy"
+                }) }
+
+            // :snippet-start: kotlin-fts-query
+            // Find all books with "science fiction" as the genre
+            val scienceFiction =
+                realm.query<Book>("genre TEXT $0", "science fiction").find()
+
+            // Find all books with "fiction" but not "science" in the genre
+            val fictionNotScience =
+                realm.query<Book>("genre TEXT $0", "fiction -science").find()
+
+            // Find all books with "sci-" and "fi-" prefixes in the genre
+            val sciFi =
+                realm.query<Book>("genre TEXT $0", "sci* fi*").find()
+            // :snippet-end:
+
+            assertEquals(1, scienceFiction.size) // "science fiction"
+            assertEquals(1, fictionNotScience.size) // "fiction"
+            assertEquals(3, sciFi.size) // "sci fi", "science fiction", "sci fi fantasy"
+
+            realm.writeBlocking {
+                val books = query<Book>().find()
+                delete(books)
+            }
         }
-
-        // :snippet-start: kotlin-fts-query
-        // Find all the books with science fiction as the genre
-        var scienceFiction = realmFts.query<Book>("genre TEXT $0", "science fiction").find()
-
-        // Find all the books with fiction but not science in the genre
-        var fictionNotScience = realmFts.query<Book>("genre TEXT $0", "fiction -science").find()
-        // :snippet-end:
-
-        assertEquals(0, scienceFiction.count())
-        assertEquals(1, fictionNotScience.count())
-
-        realmFts.writeBlocking {
-            // fetch all frogs from the realm
-            val books: RealmResults<Book> = this.query<Book>().find()
-            // call delete on the results of a query to delete those objects permanently
-            delete(books)
-        }
-        realmFts.close()
+        realm.close()
     }
 }

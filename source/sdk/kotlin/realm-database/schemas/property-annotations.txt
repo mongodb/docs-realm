@@ -213,14 +213,11 @@ Full-Text Search Indexes
 ------------------------
 
 In addition to standard indexes, Realm also supports Full-Text Search 
-(FTS) indexes on ``string`` properties. While you can query a string 
+(FTS) indexes on ``String`` properties. While you can query a string 
 field with or without a standard index, an FTS index enables searching 
 for multiple words and phrases and excluding others.
 
-For more information on querying full-text indexes, see 
-:ref:`Filter with Full Text Search <kotlin-filter-fts>`.
-
-To create a FTS index on a property, use the `@FullText
+To create an FTS index on a ``String`` property, use the `@FullText
 <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations
 /-full-text/index.html>`__ annotation. This enables full-text queries
 on the property. In the following example, we mark the ``genre`` 
@@ -228,18 +225,23 @@ property with the FTS annotation:
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.kotlin-fts-property.kt
   :language: kotlin
-  :emphasize-lines: 7-8
+  :emphasize-lines: 3-4
 
-You cannot combine `@Index 
-<{+kotlin-local-prefix+}io.realm.kotlin.types.annotations
-/-index/index.html>`__ and `@FullText
-<{+kotlin-local-prefix+}io.realm.kotlin.types.annotations
-/-full-text/index.html>`__ on the same property.
+Note the following constraints on FTS indexes:
+
+- You can only annotate ``String`` properties with ``@FullText``.
+- FTS indexes can't be combined with standard indexes. You *cannot* annotate 
+  the same property with `@Index 
+  <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-index/index.html>`__ 
+  and `@FullText
+  <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-full-text/index.html>`__.
 
 .. note:: Character Limitations for Full-Text Search Indexes
 
   For Full-Text Search (FTS) indexes, only ASCII and Latin-1 alphanumerical 
-  chars are included in the index (most western languages). See the `@FullText 
-  <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/
-  -full-text/index.html>`__ for more information on current FTS index constraints.
+  chars (most western languages) are included in the index. 
+  
+  Indexes are diacritics- and case-insensitive.
 
+For more information on querying full-text indexes, refer to 
+:ref:`Filter with Full Text Search <kotlin-filter-fts>`.
