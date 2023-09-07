@@ -41,3 +41,27 @@ Access the App Client
    you must pass the ``filesDir.path`` to the ``file_path`` parameter in the 
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
+
+.. _cpp-set-custom-http-headers-on-app:
+
+Set Custom HTTP Headers
+-----------------------
+
+.. versionadded:: [INSERT RELEASE NUMBER HERE]
+
+If you use App Services or Device Sync with a proxy setup, you may need
+to set custom HTTP headers. The Realm C++ SDK supports setting custom 
+HTTP headers on the ``App``, and on the ``flexible_sync_configuration()``.
+
+When you initialize the ``App``, pass in a map of string header keys
+and values.
+
+.. literalinclude:: /examples/generated/cpp/app.snippet.set-custom-headers-for-app.cpp
+   :language: cpp
+
+If you :ref:`call a function <cpp-call-a-function>`, the App uses
+these custom headers.
+
+If you want to use custom headers with Device Sync, you must 
+additionally :ref:`set the headers on the Flexible Sync configuration 
+<cpp-set-custom-headers-using-synced-realm>`.

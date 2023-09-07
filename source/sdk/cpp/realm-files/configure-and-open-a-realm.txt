@@ -228,6 +228,25 @@ To open a synced realm:
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
 
+.. _cpp-set-custom-headers-using-synced-realm:
+
+Set Custom HTTP Headers When Using a Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To use custom HTTP headers with Device Sync, you must :ref:`set the headers
+on the App <cpp-set-custom-http-headers-on-app>` *and* on the 
+``flexible_sync_configuration()``.
+
+After you initialize the configuration, use the ``set_custom_http_headers()``
+public member function to set the custom HTTP headers to a map of 
+string header keys and values.
+
+.. literalinclude:: /examples/generated/cpp/app.snippet.set-custom-headers-for-sync-config.cpp
+   :language: cpp
+
+Now the synced realm can use the headers for all Device Sync network
+requests.
+
 .. _cpp-provide-subset-of-models-to-realm:
 
 Provide a Subset of Models to a Realm
