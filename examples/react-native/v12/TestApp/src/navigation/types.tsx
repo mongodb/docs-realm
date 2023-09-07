@@ -5,6 +5,7 @@ export type RootStackParamList = {
   Geospatial: undefined;
   ObjectModels: undefined;
   Logger: undefined;
+  Subscriptions: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
