@@ -1,0 +1,48 @@
+.. _cpp-set-custom-http-headers:
+
+=========================================
+Set Custom HTTP Headers - C++ SDK Preview
+=========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. versionadded:: [INSERT RELEASE NUMBER HERE]
+
+If you use App Services or Device Sync with a proxy setup, you may need
+to set custom HTTP headers. The Realm C++ SDK supports setting custom 
+HTTP headers on the ``App``, and on the ``flexible_sync_configuration()``.
+
+.. procedure::
+
+   .. step:: Set the HTTP Headers on the App
+
+      When you initialize the ``App``, pass in a map of string header keys
+      and values.
+
+      .. literalinclude:: /examples/generated/cpp/app.snippet.set-custom-headers-for-app.cpp
+         :language: cpp
+
+      If you :ref:`call a function <cpp-call-a-function>`, the App uses
+      these custom headers.
+
+      If you want to use custom headers with Device Sync, you must 
+      additionally set the headers on the Flexible Sync configuration.
+
+   .. step:: Set Custom Headers on the Flexible Sync Configuration
+
+      To use custom HTTP headers with Device Sync, you must set the headers
+      on the ``App`` *and* on the ``flexible_sync_configuration()``.
+
+      After you initialize the configuration, use the ``set_custom_http_headers()``
+      public member function to set the custom HTTP headers to a map of 
+      string header keys and values.
+
+      .. literalinclude:: /examples/generated/cpp/app.snippet.set-custom-headers-for-sync-config.cpp
+         :language: cpp
+
+      Now the synced realm can use the headers for all Device Sync network
+      requests.

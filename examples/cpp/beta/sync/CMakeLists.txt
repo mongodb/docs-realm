@@ -20,6 +20,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-beta-sync 
+  app.cpp
   authentication.cpp
   call-function.cpp
   custom-user-data.cpp
