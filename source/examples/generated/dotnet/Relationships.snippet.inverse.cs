@@ -1,4 +1,4 @@
-public class User : RealmObject
+public partial class User : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
@@ -10,7 +10,7 @@ public class User : RealmObject
     public IQueryable<Item> Items { get; }
 }
 
-public class Item : RealmObject
+public partial class Item : IRealmObject
 {
     [PrimaryKey]
     [MapTo("_id")]
@@ -18,5 +18,5 @@ public class Item : RealmObject
 
     public string Text { get; set; }
 
-    public User Assignee { get; set; }
+    public User? Assignee { get; set; }
 }
