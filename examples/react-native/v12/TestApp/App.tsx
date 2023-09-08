@@ -8,7 +8,7 @@ import {HomeScreen} from './src/screens/HomeScreen';
 import {Geospatial} from './src/components/data-types/Geospatial';
 import {Logger} from './src/components/Logger';
 import {ObjectModels} from './src/components/ObjectModels';
-import {Subscriptions} from './src/components/sync/Subscriptions';
+import {SubscriptionScreen} from './src/screens/SubscriptionScreen';
 
 import {RootStackParamList} from './src/navigation/types';
 
@@ -34,7 +34,7 @@ function App(): JSX.Element {
         <Drawer.Screen name="Geospatial" component={Geospatial} />
         <Drawer.Screen name="Logger" component={Logger} />
         <Drawer.Screen name="ObjectModels" component={ObjectModels} />
-        <Drawer.Screen name="Subscriptions" component={Subscriptions} />
+        <Drawer.Screen name="Subscriptions" component={SubscriptionScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

@@ -10,7 +10,7 @@ import {
 } from '@realm/react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
 
-import {APP_ID} from '../../../__tests__/testConfig';
+import {APP_ID} from '../../../appServicesConfig';
 
 class Bird extends Realm.Object<Bird> {
   _id!: BSON.ObjectId;
@@ -38,11 +38,21 @@ function LogIn() {
   return <></>;
 }
 
-export const Subscriptions = () => {
+export const SubscribeApiExamples = () => {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
-        <RealmProvider schema={[Bird]} sync={{flexible: true}}>
+        <RealmProvider
+          schema={[Bird]}
+          sync={{
+            flexible: true,
+            initialSubscriptions: {
+              update: (subs, realm) => {
+                subs.add(realm.objects(Bird), {name: 'Initial birds'});
+              },
+              rerunOnOpen: true,
+            },
+          }}>
           <SubscriptionManager />
         </RealmProvider>
       </UserProvider>
