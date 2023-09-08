@@ -38,7 +38,7 @@ function FtsQueryInnards(): JSX.Element {
   // function to create books
   const writeBooks = (bookName: string, bookPrice: number) => {
     realm.write(() => {
-      realm.create('Book', {
+      realm.create(Book, {
         name: bookName,
         price: bookPrice,
       });
@@ -50,10 +50,10 @@ function FtsQueryInnards(): JSX.Element {
   const books = useQuery(Book);
 
   // Filter for books with 'hunger' in the name
-  const booksWithHunger = books.filtered("name TEXT \$0", ["hunger"]);
+  const booksWithHunger = books.filtered("name TEXT $0", "hunger");
 
   // Filter for books with 'swan' but not 'lake' in the name
-  const booksWithSwanWithoutLake = books.filtered("name TEXT \$0", ["swan -lake"]);
+  const booksWithSwanWithoutLake = books.filtered("name TEXT $0", "swan -lake");
   // :snippet-end:
 
   // Return the number of books in query
