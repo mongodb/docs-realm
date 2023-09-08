@@ -48,7 +48,7 @@ The Kotlin SDK manages communication with App Services at two levels:
   and resumed in the SDK at will (refer to the 
   :ref:`<kotlin-pause-resume-sync>` section).
 
-Both states determine whether a user's local changes will sync to the backend. Synchronization only occurs when the 
+Both states determine whether a user's local changes sync to the backend. Synchronization only occurs when the 
 `SyncSession.ConnectionState <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-connection-state/index.html>`__ is ``CONNECTED`` and the `SyncSession.State <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/-state/index.html>`__ is either ``ACTIVE`` or ``DYING``.
 
 .. _kotlin-sync-wait-for-changes:
@@ -131,13 +131,13 @@ Manually Reconnect All Sync Sessions
 
 .. versionadded:: 1.11.0
 
-Realm will automatically detect when a device regains connectivity after being 
-offline and attempt to reconnect using an incremental backoff strategy.
+Realm automatically detects when a device regains connectivity after being 
+offline and attempts to reconnect using an incremental backoff strategy.
 
-You can also manually trigger a reconnect attempt by calling the
+If you do not want to wait for the duration of the incremental backoff, you can manually trigger a reconnect attempt by calling the
 `App.Sync.reconnect() 
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync/reconnect.html>`__ 
-method. It is accessed through the 
+method. You can access this method through the 
 `App.Sync 
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync/index.html>`__ 
 interface, which controls *all* sync sessions for your App instead of a 
@@ -146,10 +146,10 @@ single realm sync session.
 .. literalinclude:: /examples/generated/kotlin/ManageSyncSession.snippet.app-sync-reconnect.kt
    :language: kotlin
 
-When this method is called, the SDK forces all sync sessions to attempt to 
+When you call this method, the SDK forces all sync sessions to attempt to 
 reconnect immediately and resets any timers used for incremental 
 backoff. However, note that if you call this method within Realm's 2-minute 
-default socket read timeout window, the SDK will not attempt to reconnect.
+default socket read timeout window, the SDK does not attempt to reconnect.
 
 You might choose to use this method if you have 
 a more accurate understanding of the network conditions (for example, 
