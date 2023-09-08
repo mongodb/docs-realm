@@ -134,24 +134,36 @@ Manually Reconnect All Sync Sessions
 Realm automatically detects when a device regains connectivity after being 
 offline and attempts to reconnect using an incremental backoff strategy.
 
-If you do not want to wait for the duration of the incremental backoff, you can manually trigger a reconnect attempt by calling the
-`App.Sync.reconnect() 
+In Kotlin SDK version 1.11.0 and later, you can choose to manually trigger a 
+reconnect attempt with the `App.Sync.reconnect() 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync/reconnect.html>`__
+instead of waiting for the duration of the incremental backoff. This is 
+useful if you have a more accurate understanding of 
+the network conditions (for example, when monitoring network changes with the 
+``ConnectivityManager`` on Android) and don't want to rely on Realm's automatic 
+reconnect detection. The SDK also automatically calls this method when a device 
+toggles off airplane mode.
+
+To manually trigger a reconnect attempt, call the `App.Sync.reconnect() 
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync/reconnect.html>`__ 
-method. You can access this method through the 
+method, which is accessed through the 
 `App.Sync 
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync/index.html>`__ 
-interface, which controls *all* sync sessions for your App instead of a 
-single realm sync session.
+interface. Unlike `SyncSession 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/index.html>`__, 
+which lets you access a single realm sync session, the ``App.Sync`` interface 
+controls *all* sync sessions for your App.
 
 .. literalinclude:: /examples/generated/kotlin/ManageSyncSession.snippet.app-sync-reconnect.kt
    :language: kotlin
 
 When you call this method, the SDK forces all sync sessions to attempt to 
 reconnect immediately and resets any timers used for incremental 
-backoff. However, note that if you call this method within Realm's 2-minute 
-default socket read timeout window, the SDK does not attempt to reconnect.
+backoff.
 
-You might choose to use this method if you have 
-a more accurate understanding of the network conditions (for example, 
-when monitoring network changes with the ``ConnectivityManager`` on Android)
-and don't want to rely on Realm's automatic reconnect detection.
+.. important:: Cannot Reconnect Within Socket Read Timeout Duration
+   
+   Realm has an internal default socket read timeout of 2 minutes, where 
+   Realm will time out if a read operation does not receive any data 
+   within a 2-minute window. If you call ``App.Sync.reconnect()`` 
+   within that window, the Kotlin SDK does *not* attempt to reconnect.
