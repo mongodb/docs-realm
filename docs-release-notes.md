@@ -1,3 +1,71 @@
+# September 8, 2023
+
+## Flutter SDK
+
+- Sync Device Data/Manage Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Java SDK
+
+- Sync Device Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Kotlin SDK
+
+- Realm
+  - Read & Write Data/Read: Update Full-Text Search documentation to include support for prefix searches.
+  - Model Data/Property Annotations: Update Full-Text Search documentation to include support for prefix searches.
+- Sync Device Data/ Manage Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## .NET SDK 
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Node.js SDK
+
+- Model Data/Relationships & Embedded Objects: Update relationship model examples throughout page for JavaScript v12
+- CRUD: Update API references for Realm JavaScript v12 throughout these pages in the section:
+  - Create
+  - Read
+  - Update
+  - Delete
+  - Query Data
+- React to Changes: Update API references for Realm JavaScript v12.
+- Atlas App Services: Update API references for Realm JavaScript v12 throughout these pages in the section:
+  - Call a Function
+  - Query MongoDB
+- Manage Users: Update API references for Realm JavaScript v12 throughout these pages in the section:
+  - Create and Delete Users 
+  - Custom User Data
+  - Manage Email/Password Users
+  - Link User Identities
+  - Create & Manage User API Keys
+- Sync Data: Update API references for Realm JavaScript v12 throughout these pages for this section:
+  - Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+  - Handle Sync Errors
+  - Manual Client Reset Data Recovery
+  - Set the Client Log Level
+  - Stream Data to Atlas
+  - Partition-Based Sync
+- Integration Guides
+  - Quick Start with Electron: Update API references for Realm JavaScript v12.
+  - Quick Start with Electron using React: Update API references for Realm JavaScript v12.
+
+## React Native
+
+- Model Data/Define an Object Model: Fix incorrect optional properties examples to include both the ``optional`` and ``?`` syntax for marking a property as optional.
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+- Logging: Add new page to document logging for the SDK.
+
+## Swift SDK
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Web SDK
+
+- Landing Page: Corrected copy on page regarding support of Sync for the SDK.
+
+## Other
+- Internal: Updated the facets.csv with Realm SubProduct values to programmatically tag the SDK repos correctly.
+
 # September 1, 2023
 
 ## Flutter SDK
