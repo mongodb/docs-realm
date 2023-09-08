@@ -21,7 +21,7 @@
 
 ## Node.js SDK
 
-- Model Data/Relationships & Embedded Objects: Update relationship model examples throughout page for JavaScript v12
+- Model Data/Relationships & Embedded Objects: Update relationship model examples throughout page for JavaScript v12.
 - CRUD: Update API references for Realm JavaScript v12 throughout these pages in the section:
   - Create
   - Read
@@ -61,10 +61,10 @@
 
 ## Web SDK
 
-- Landing Page: Corrected copy on page regarding support of Sync for the SDK.
+- Landing Page: Correct copy on page regarding support of Sync for the SDK.
 
 ## Other
-- Internal: Updated the facets.csv with Realm SubProduct values to programmatically tag the SDK repos correctly.
+- Internal: Update the facets.csv with Realm SubProduct values to programmatically tag the SDK repos correctly.
 
 # September 1, 2023
 
