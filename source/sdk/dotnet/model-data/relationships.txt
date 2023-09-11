@@ -76,7 +76,7 @@ A **to-many** relationship means that an object is related in a specific
 way to multiple objects. You define a to-many relationship for an object
 type by specifying a property where the type is an ``IList<T>`` of the related 
 Realm object type. Define the ``IList<T>`` with only a getter. You do not need 
-to initialize it in the constructor, as realm will generate a collection 
+to initialize it in the constructor, as Realm will generate a collection 
 instance the first time the property is accessed:
 
 .. literalinclude:: /examples/generated/dotnet/Relationships.snippet.one-to-many-use.cs

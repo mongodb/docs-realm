@@ -11,7 +11,7 @@ if (app.CurrentUser == null)
     realm = Realm.GetInstance(config);
     // Go on to add or update subscriptions and use the realm
 }
-else 
+else
 {
     // This works whether online or offline
     // It requires a user to have been previously authenticated

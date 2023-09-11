@@ -6,8 +6,8 @@ var config = new FlexibleSyncConfiguration(user)
 {
     PopulateInitialSubscriptions = (realm) =>
     {
-        var allTasks = realm.All<MyTask>();
-        realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
+        var allItems = realm.All<Item>();
+        realm.Subscriptions.Add(allItems, new SubscriptionOptions { Name = "allItems" });
     }
 };
 try
