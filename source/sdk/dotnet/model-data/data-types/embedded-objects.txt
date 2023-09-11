@@ -51,8 +51,7 @@ embedded objects.
 Realm Object Models
 ~~~~~~~~~~~~~~~~~~~
 
-To define an embedded object, derive a class from ``EmbeddedObject``.
-Use the syntax "``<YourClass> : EmbeddedObject {}``" to accomplish this.
+To define an embedded object, implement the ``IEmbeddedObject`` interface.
 You can reference an embedded object type from parent object types in
 the same way as you would define a relationship.
 

@@ -1,9 +1,9 @@
 .. _dotnet-read-and-write-data:
 .. _dotnet-realm-database-reads:
 
-============================
+====================
 Read Data - .NET SDK
-============================
+====================
 
 .. contents:: On this page
    :local:
@@ -15,24 +15,32 @@ Read Data - .NET SDK
 
 Read from Realm
 ---------------
-
-A read from a realm generally consists of the following
-steps:
-
-- Get all :ref:`objects <dotnet-objects>` of a certain type from the realm.
-- Optionally, :ref:`filter <dotnet-filter-results>` the results using the :ref:`query engine <dotnet-client-query-engine>`.
-- Optionally, :ref:`sort <dotnet-sort-results>` the results.
+You read from a realm with LINQ queries.
 
 .. note:: About the examples on this page
 
    The examples on this page use the data model of a project
    management app that has two Realm object types: ``Project``
-   and ``Task``. A ``Project`` has zero or more ``Tasks``.
+   and ``Item``. A ``Project`` has zero or more ``Items``:
 
-   See the schema for these two classes, ``Project`` and
-   ``Task``, below:
+   .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.classes.cs
+      :language: csharp
 
-   .. literalinclude:: /examples/Schemas/ProjectAndTask.cs
+.. _dotnet-query-all-objects-of-a-given-type:
+
+Query All Objects of a Given Type
+---------------------------------
+
+To read all objects of a certain type in a realm, call ``realm.All<T>``, where ``T``
+is the realm object type. You can then use the returned results collection to further 
+:ref:`filter and sort <dotnet-filter-data>` the results.
+
+.. example::
+
+   In order to access all Projects and Items, use
+   the following syntax:
+
+   .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.read_all.cs
       :language: csharp
 
 .. _dotnet-find-a-specific-object-by-primary-key:
@@ -41,27 +49,9 @@ steps:
 Find a Specific Object by Primary Key
 -------------------------------------
 
-You can also find a specific item by its primary key using the 
-:dotnet-sdk:`Find <reference/Realms.Realm.html#Realms_Realm_Find__1_System_Nullable_System_Int64__>`
-method, as shown in the following example: 
+You can find a specific item by its primary key using the 
+:dotnet-sdk:`Find <reference/Realms.Realm.html#Realms_Realm_Find__1_System_String_>`
+method. The following example finds a single Project: 
 
-.. literalinclude:: /examples/Query/FindByPrimaryKey.cs
+.. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.get_by_id.cs
    :language: csharp
-
-.. _dotnet-query-all-objects-of-a-given-type:
-
-Query All Objects of a Given Type
----------------------------------
-
-The first step of any read is to **get all objects** of a
-certain type in a realm. With this results collection, you
-can operate on all instances on a type or filter and sort to
-refine the results.
-
-.. example::
-
-   In order to access all instances of ``Project`` and ``Task``, use
-   the following syntax:
-
-   .. literalinclude:: /examples/CRUD/Objects.cs
-      :language: csharp

@@ -95,6 +95,7 @@ namespace Examples
             // :snippet-start: open-fs-realm
             // :replace-start: {
             //  "terms": {
+            //   "MyTask" : "Item",
             //   "Config.FSAppId": "\"myRealmAppId\"",
             //   "Credentials.Anonymous(false)": "Credentials.Anonymous()"}
             // }
@@ -106,8 +107,8 @@ namespace Examples
             {
                 PopulateInitialSubscriptions = (realm) =>
                 {
-                    var allTasks = realm.All<MyTask>();
-                    realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
+                    var allItems = realm.All<MyTask>();
+                    realm.Subscriptions.Add(allItems, new SubscriptionOptions { Name = "allItems" });
                 }
             };
             try
@@ -144,7 +145,8 @@ namespace Examples
             // causing issues with opening the FS realm. This resolves the
             // test failure but there should probably be stronger cleanup
             // between tests to negate the need for this.
-            if (app.CurrentUser != null) {
+            if (app.CurrentUser != null)
+            {
                 await app.RemoveUserAsync(app.CurrentUser);
                 await app.LogInAsync(Credentials.Anonymous(false));
             };
@@ -165,7 +167,7 @@ namespace Examples
                 Assert.NotNull(session);
                 // :remove-end:
             }
-            else 
+            else
             {
                 // This works whether online or offline
                 // It requires a user to have been previously authenticated
