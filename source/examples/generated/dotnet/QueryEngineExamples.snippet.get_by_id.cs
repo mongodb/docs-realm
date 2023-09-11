@@ -1,1 +1,1 @@
-var myProject = realm.Find<Project>("some_object_id");
+var myProject = realm.Find<Project>(projectId);

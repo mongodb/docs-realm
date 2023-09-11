@@ -119,12 +119,13 @@ namespace Examples
             var useritems = realm.All<UserTask>();
             // :replace-end:
             // :snippet-end:
+            var projectId = projects.First().ID;
             // :snippet-start: get_by_id
             // :replace-start: {
             // "terms": {
             //   "UserProject": "Project"}
             // }
-            var myProject = realm.Find<UserProject>("some_object_id");
+            var myProject = realm.Find<UserProject>(projectId);
             // :replace-end:
             // :snippet-end:
             // :snippet-start: aggregate
