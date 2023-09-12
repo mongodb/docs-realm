@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {ObjectModels} from '../../src/components/ObjectModels';
+import {ObjectModels} from '../../components/ObjectModels';
 import {render, screen, within} from '@testing-library/react-native';
 
 test('Object models', async () => {

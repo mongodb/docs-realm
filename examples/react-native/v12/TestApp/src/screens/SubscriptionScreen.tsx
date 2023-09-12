@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {SubscribeApiExamples} from '../components/sync/SubscribeApi';
+import {SubscribeApiExamples} from '../components/subscribeApi/WrapperSubscribeApi';
 
 import {SubscriptionStackParamList} from '../navigation/types';
 import {SubscriptionHomeProps} from '../navigation/types';
