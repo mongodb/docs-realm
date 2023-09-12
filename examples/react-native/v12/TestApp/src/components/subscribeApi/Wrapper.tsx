@@ -6,11 +6,9 @@ import {APP_ID} from '../../../appServicesConfig';
 
 import {Bird} from './models/Bird';
 
-import {
-  BlueBirdManager,
-  SeenBirdsManager,
-  UnseenBirdsManager,
-} from './SubscribeApi';
+import {Unsubscribe} from './Unsubscribe';
+import {AlwaysWait} from './AlwaysWait';
+import {WaitFirstTime} from './WaitFirstTime';
 
 function LogIn() {
   const app = useApp();
@@ -40,9 +38,9 @@ export const SubscribeApiExamples = () => {
           }}>
           {/* ...work with realm data in nested components. */}
           {/* :remove-start: */}
-          <SeenBirdsManager />
-          <UnseenBirdsManager />
-          <BlueBirdManager />
+          <WaitFirstTime />
+          <AlwaysWait />
+          <Unsubscribe />
           {/* :remove-end: */}
         </RealmProvider>
       </UserProvider>

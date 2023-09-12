@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {SubscribeApiExamples} from '../../components/subscribeApi/WrapperSubscribeApi';
+import {SubscribeApiExamples} from '../../components/subscribeApi/Wrapper';
 import {render, screen, userEvent} from '@testing-library/react-native';
 
 describe('Subscribe API behavior tests', () => {
