@@ -27,15 +27,17 @@
      };
 
      // Query geospatial data
-     const companiesInLargeBox = useQuery(Company).filtered(
-       'location geoWithin $0',
-       largeBox,
+     const companiesInLargeBox = useQuery(
+       Company,
+       collection => collection.filtered('location geoWithin $0', largeBox),
+       [largeBox],
      );
 
      // Query geospatial data
-     const companiesInSmallBox = useQuery(Company).filtered(
-       'location geoWithin $0',
-       smallBox,
+     const companiesInSmallBox = useQuery(
+       Company,
+       collection => collection.filtered('location geoWithin $0', smallBox),
+       [smallBox],
      );
 
      return (

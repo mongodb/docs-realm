@@ -60,6 +60,8 @@ export const AlwaysWait = () => {
       ) : (
         <Text>No unseen birds</Text>
       )}
+
+      <Text>-------------------------------</Text>
     </View>
   );
   // :remove-end:

@@ -32,11 +32,6 @@ export const Unsubscribe = () => {
     setBirdsSubscription(realm.subscriptions.findByName('Initial birds')); // :remove:
   };
 
-  // :replace-start: {
-  //    "terms": {
-  //       '"testID=unsubscribe"': ""
-  //    }
-  // }
   return (
     <View>
       {/* :remove-start: */}
@@ -45,7 +40,7 @@ export const Unsubscribe = () => {
       </Text>
       {/* :remove-end: */}
       <Button
-        testID="unsubscribe"
+        testID="unsubscribe" // :remove:
         title="Unsubscribe"
         onPress={() => {
           unsubscribeFromQuery();
@@ -53,6 +48,5 @@ export const Unsubscribe = () => {
       />
     </View>
   );
-  // :replace-end:
 };
 // :snippet-end:
