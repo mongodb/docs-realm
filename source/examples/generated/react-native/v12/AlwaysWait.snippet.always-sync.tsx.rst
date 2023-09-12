@@ -1,9 +1,10 @@
 .. code-block:: typescript
+   :emphasize-lines: 4, 14, 16
 
    export const AlwaysWait = () => {
      const realm = useRealm();
      // Get all local birds that have not been seen yet.
-     const unSeenBirds = useQuery(Bird).filtered('haveSeen == false');
+     const unSeenBirds = useQuery(Bird).filtered('haveSeen == false'); 
      const [unSeenBirdsSubscription, setUnseenBirdsSubscription] =
        useState<Subscription | null>();
 
@@ -13,9 +14,9 @@
          // If timeout expires before sync is completed, currently-downloaded
          // objects are returned and sync download continues in the background.
          await unSeenBirds.subscribe({
-           behavior: WaitForSync.Always,
+           behavior: WaitForSync.Always, 
            name: 'Always wait',
-           timeout: 500,
+           timeout: 500, 
          });
 
          // Get the subscription...

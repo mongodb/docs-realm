@@ -1,4 +1,5 @@
 .. code-block:: typescript
+   :emphasize-lines: 10, 13, 20-22
 
    import React, {useEffect, useState} from 'react';
    import {useRealm, useQuery} from '@realm/react';
@@ -9,10 +10,10 @@
 
    export const Unsubscribe = () => {
      const realm = useRealm();
-     const birds = useQuery(Bird);
+     const birds = useQuery(Bird); 
 
      const unsubscribeFromQuery = () => {
-       birds.unsubscribe();
+       birds.unsubscribe(); 
      };
 
      return (

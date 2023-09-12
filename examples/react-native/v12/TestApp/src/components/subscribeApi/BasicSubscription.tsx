@@ -9,7 +9,7 @@ import {Subscription} from 'realm/dist/bundle';
 export const BasicSubscription = () => {
   const realm = useRealm();
   // Get all local birds that have not been seen yet.
-  const seenBirds = useQuery(Bird).filtered('haveSeen == true');
+  const seenBirds = useQuery(Bird).filtered('haveSeen == true'); // :emphasize:
   const [seenBirdsSubscription, setSeenBirdsSubscription] =
     useState<Subscription | null>();
 
@@ -17,9 +17,11 @@ export const BasicSubscription = () => {
     // Create an async function so that we can `await` the
     // promise from `.subscribe()`.
     const createSubscription = async () => {
+      // :emphasize-start:
       await seenBirds.subscribe({
         name: 'Birds I have seen',
       });
+      // :emphasize-end:
     };
 
     // Get the subscription...

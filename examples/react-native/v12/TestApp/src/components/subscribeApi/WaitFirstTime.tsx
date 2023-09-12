@@ -12,7 +12,7 @@ export const WaitFirstTime = () => {
   const [birdName, setBirdName] = useState('Change me!');
 
   // Get local birds that have been marked as "haveSeen".
-  const seenBirds = useQuery(Bird).filtered('haveSeen == true');
+  const seenBirds = useQuery(Bird).filtered('haveSeen == true'); // :emphasize:
   const [seenBirdsSubscription, setSeenBirdsSubscription] =
     useState<Subscription | null>();
 
@@ -20,7 +20,7 @@ export const WaitFirstTime = () => {
     const createSubscription = async () => {
       // Only wait for sync to finish on the initial sync.
       await seenBirds.subscribe({
-        behavior: WaitForSync.FirstTime,
+        behavior: WaitForSync.FirstTime, // :emphasize:
         name: 'First time sync only',
       });
 

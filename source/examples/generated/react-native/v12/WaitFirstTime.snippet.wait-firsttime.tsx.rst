@@ -1,4 +1,5 @@
 .. code-block:: typescript
+   :emphasize-lines: 14, 22
 
    import React, {useEffect, useState} from 'react';
    import {BSON, WaitForSync} from 'realm';
@@ -13,7 +14,7 @@
      const [birdName, setBirdName] = useState('Change me!');
 
      // Get local birds that have been marked as "haveSeen".
-     const seenBirds = useQuery(Bird).filtered('haveSeen == true');
+     const seenBirds = useQuery(Bird).filtered('haveSeen == true'); 
      const [seenBirdsSubscription, setSeenBirdsSubscription] =
        useState<Subscription | null>();
 
@@ -21,7 +22,7 @@
        const createSubscription = async () => {
          // Only wait for sync to finish on the initial sync.
          await seenBirds.subscribe({
-           behavior: WaitForSync.FirstTime,
+           behavior: WaitForSync.FirstTime, 
            name: 'First time sync only',
          });
 

@@ -8,7 +8,7 @@ import {Subscription} from 'realm/dist/bundle';
 
 export const Unsubscribe = () => {
   const realm = useRealm();
-  const birds = useQuery(Bird);
+  const birds = useQuery(Bird); // :emphasize:
   // :remove-start:
   const [birdsSubscription, setBirdsSubscription] =
     useState<Subscription | null>();
@@ -28,7 +28,7 @@ export const Unsubscribe = () => {
   // :remove-end:
 
   const unsubscribeFromQuery = () => {
-    birds.unsubscribe();
+    birds.unsubscribe(); // :emphasize:
     setBirdsSubscription(realm.subscriptions.findByName('Initial birds')); // :remove:
   };
 
@@ -42,9 +42,11 @@ export const Unsubscribe = () => {
       <Button
         testID="unsubscribe" // :remove:
         title="Unsubscribe"
+        // :emphasize-start:
         onPress={() => {
           unsubscribeFromQuery();
         }}
+        // :emphasize-end:
       />
     </View>
   );
