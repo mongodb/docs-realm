@@ -95,11 +95,7 @@ To subscribe to a query:
 #. Pass a ``SubscriptionOptions`` object that contains the ``name`` property to
    ``subscribe()``.
 
-.. 
-.. include:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.ts
-
-Subscribe to a Query without a Subscription Name
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. include:: /examples/generated/react-native/v12/WaitFirstTime.snippet.subscribe-query.tsx.rst
 
 Most of the time, you should give your subscriptions a name. If you don't, the
 name is set to :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`.
@@ -107,9 +103,6 @@ name is set to :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`.
 If you use ``filtered()`` on an unnamed query subscription, the subscription
 identifier is based on the ``filtered`` query. This means that every time your
 query string changes, ``subscribe()`` will create a new subscription.
-
-.. 
-.. include:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.ts
 
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,8 +116,7 @@ This example uses the ``FirstTime`` option, which is the default behavior.
 A subscription with ``FirstTime`` behavior only waits for sync to finish when a
 subscription is first created.
 
-.. 
-.. include:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.ts
+.. include:: /examples/generated/react-native/v12/WaitFirstTime.snippet.subscribe-query.tsx.rst
 
 The other supported ``WaitForSync`` options are:
 
@@ -132,21 +124,18 @@ The other supported ``WaitForSync`` options are:
   The app must have an internet connection at every launch.
 - ``Never``: Never wait to download matching objects. The app needs an internet
   connection for the user to authenticate the first time the app launches, but
-  can :ref:`open offline <react-native-sync-changes-in-the-background>` on
+  can :ref:`open offline <react-native-open-synced-realm-offline>` on
   subsequent launches using cached credentials.
 
-You can optionally specify a ``timeout`` value to limit how long the sync download runs:
+You can optionally specify a ``timeout`` value to limit how long the sync
+download runs:
 
-.. 
-.. include:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.ts
+.. include:: /examples/generated/react-native/v12/WaitFirstTime.snippet.always-sync.tsx.rst
 
 Unsubscribe from a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can unsubscribe from a query's results using ``unsubscribe()``:
-
-.. 
-.. include:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-name.ts
 
 This removes the subscription from the list of active subscriptions, similar to
 :ref:`manually removing a subscription <react-native-remove-subscription-by-name>`.
@@ -161,6 +150,8 @@ removes any queries that exactly match the one you call ``unsubscribe()`` on.
 The ``unsubscribe()`` method returns before objects matching the removed
 subscription are deleted from the realm. Sync continues in the background based
 on the new set of subscriptions.
+
+.. include:: /examples/generated/react-native/v12/Unsubscribe.unsubscribe-query-full.tsx.rst
 
 .. _react-native-sync-subscribe-to-queryable-fields:
 
