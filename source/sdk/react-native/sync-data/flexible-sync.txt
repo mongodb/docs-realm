@@ -225,8 +225,9 @@ Note that ``useQuery()`` needs an active subscription to return
 results. If no subscription has been added yet, ``useQuery()`` returns an empty 
 result, which is not a valid ``query`` for ``MutableSubscriptionSet.add()``.
 
-.. 
-.. include:: /examples/generated/node/flexible-sync.snippet.subscribe-to-queryable-fields.js
+.. literalinclude:: /examples/generated/react-native/ts/add-query-to-subs.test.snippet.add-query.tsx
+   :language: javascript
+   :emphasize-lines: 10, 13-21
 
 .. _react-native-sync-bootstrap-initial-subscriptions:
 
@@ -308,8 +309,7 @@ transaction by calling ``subscriptions.update()``.
 In the following example, long-running tasks are re-defined to be any tasks that
 have taken more than 180 minutes. 
 
-.. 
-.. include:: /examples/generated/node/flexible-sync.snippet.update-subscriptions.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.update-subscriptions.js
 
 .. note::
 
@@ -351,8 +351,8 @@ You can remove a specific subscription by query by executing a transaction on
 the subscriptions set. Pass the query to :js-sdk:`MutableSubscriptionSet.remove()
 <Realm.App.Sync.MutableSubscriptionSet.html#remove>` within a write transaction.
 
-.. 
-.. include:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
+   :language: javascript
 
 Remove a Subscription by Name
 `````````````````````````````
@@ -362,8 +362,8 @@ subscriptions set. Within the transaction, pass the name to
 :js-sdk:`MutableSubscriptionSet.removeByName()
 <Realm.App.Sync.MutableSubscriptionSet.html#removeByName>`.
 
-.. 
-.. include:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-subscription-by-name.js
+   :language: javascript
 
 Remove a Subscription by Reference
 ``````````````````````````````````
@@ -373,8 +373,8 @@ do so, execute a transaction on the subscriptions set. Within the transaction,
 pass the reference variable to :js-sdk:`MutableSubscriptionSet.removeSubscription()
 <Realm.App.Sync.MutableSubscriptionSet.html#removeSubscription>`.
 
-.. 
-.. include:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-subscription-by-reference.js
+   :language: javascript
 
 Remove All Subscriptions on an Object Type
 ``````````````````````````````````````````
@@ -384,8 +384,8 @@ the subscriptions set. Within the transaction, pass the object type as a string
 to :js-sdk:`MutableSubscriptionSet.removeByObjectType()
 <Realm.App.Sync.MutableSubscriptionSet.html#removeByObjectType>`.
 
-.. 
-.. include:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions-of-object-type.js
+   :language: javascript
 
 Remove All Unnamed Subscriptions
 `````````````````````````````````
@@ -399,8 +399,7 @@ You can remove all unnamed subscriptions from the subscription set by
 calling ``.removeUnnamed()`` on ``mutableSubs``. ``.removeUnnamed()`` returns
 the number of unnamed subscriptions removed.
 
-.. 
-.. include:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.ts
+.. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.ts
 
 Remove All Subscriptions
 ````````````````````````
@@ -409,8 +408,8 @@ To remove all subscriptions from the subscriptions set, execute a transaction on
 the subscriptions set. Call :js-sdk:`MutableSubscriptionSet.removeAll()
 <Realm.App.Sync.MutableSubscriptionSet.html#removeAll>` within a write transaction.
 
-.. 
-.. include:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions.js
+ :language: javascript
 
 .. _react-native-flex-sync-performance-considerations:
 
