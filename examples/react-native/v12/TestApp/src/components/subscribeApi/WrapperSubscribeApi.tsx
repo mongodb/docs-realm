@@ -6,7 +6,11 @@ import {APP_ID} from '../../../appServicesConfig';
 
 import {Bird} from './models/Bird';
 
-import {SeenBirdsManager, UnseenBirdsManager} from './SubscribeApi';
+import {
+  BlueBirdManager,
+  SeenBirdsManager,
+  UnseenBirdsManager,
+} from './SubscribeApi';
 
 function LogIn() {
   const app = useApp();
@@ -38,7 +42,7 @@ export const SubscribeApiExamples = () => {
           {/* :remove-start: */}
           <SeenBirdsManager />
           <UnseenBirdsManager />
-          {/* <BlueBirdManager /> */}
+          <BlueBirdManager />
           {/* :remove-end: */}
         </RealmProvider>
       </UserProvider>

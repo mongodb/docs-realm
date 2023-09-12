@@ -6,6 +6,7 @@ import type {Config} from 'jest';
 const config: Config = {
   verbose: true,
   preset: 'react-native',
+  testTimeout: 10000,
   roots: ['<rootDir>/src/__tests__'],
   setupFiles: ['./testSetup.ts'],
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],

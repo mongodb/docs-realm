@@ -1,4 +1,4 @@
-import {BSON, ObjectSchema} from 'realm';
+import Realm, {BSON, ObjectSchema} from 'realm';
 
 export class Bird extends Realm.Object<Bird> {
   _id!: BSON.ObjectId;

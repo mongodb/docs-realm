@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import Realm, {BSON, WaitForSync} from 'realm';
+import {BSON, WaitForSync} from 'realm';
 import {useRealm, useQuery} from '@realm/react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
 
 import {Bird} from './models/Bird';
+import {Subscription} from 'realm/dist/bundle';
 
 // :snippet-start: subscribe-query
 export const SeenBirdsManager = () => {
@@ -11,21 +12,32 @@ export const SeenBirdsManager = () => {
   const [birdName, setBirdName] = useState('Change me!');
   // Get local birds that have been marked as "haveSeen".
   const seenBirds = useQuery(Bird).filtered('haveSeen == true');
+  const [seenBirdsSubscription, setSeenBirdsSubscription] =
+    useState<Subscription | null>();
 
   useEffect(() => {
-    // Only wait for sync to finish on the initial sync.
-    seenBirds.subscribe({
-      behavior: WaitForSync.FirstTime,
-      name: 'First time sync only',
-    });
-  }, [seenBirds]);
+    const createSubscription = async () => {
+      // Only wait for sync to finish on the initial sync.
+      await seenBirds.subscribe({
+        behavior: WaitForSync.FirstTime,
+        name: 'First time sync only',
+      });
+
+      const subscription = realm.subscriptions.findByName(
+        'First time sync only',
+      );
+
+      setSeenBirdsSubscription(subscription);
+    };
+
+    createSubscription().catch(console.error);
+  }, []);
+
+  useEffect(() => {}, [seenBirds]);
 
   // ...work with the subscribed results list or modify the subscription.
 
   // :remove-start:
-  let seenBirdsSubscription = realm.subscriptions.findByName(
-    'First time sync only',
-  );
 
   const writeRealmObject = async (name: string) => {
     realm.write(() => {
@@ -43,17 +55,6 @@ export const SeenBirdsManager = () => {
     });
 
     await realm.syncSession?.uploadAllLocalChanges();
-  };
-
-  const unsubscribeFromQuery = () => {
-    // TODO: Figure out how to include this in the example
-    // Defer talking about when to use this for an
-    // optimizations page
-    seenBirds.unsubscribe();
-
-    seenBirdsSubscription = realm.subscriptions.findByName(
-      'First time sync only',
-    );
   };
 
   return (
@@ -79,13 +80,6 @@ export const SeenBirdsManager = () => {
           clearRealm();
         }}
       />
-      <Button
-        testID="unsubscribe"
-        title="Unsubscribe"
-        onPress={() => {
-          unsubscribeFromQuery();
-        }}
-      />
 
       <Text>Seen birds:</Text>
       {seenBirds.length ? (
@@ -108,24 +102,31 @@ export const UnseenBirdsManager = () => {
   const realm = useRealm();
   // Get all local birds that have not been seen yet.
   const unSeenBirds = useQuery(Bird).filtered('haveSeen != true');
+  const [unSeenBirdsSubscription, setUnseenBirdsSubscription] =
+    useState<Subscription | null>();
 
   useEffect(() => {
-    // Add subscription with timeout
-    // If timeout expires before sync is completed, currently-downloaded
-    // objects are returned and sync download continues in the background.
-    unSeenBirds.subscribe({
-      behavior: WaitForSync.Always,
-      name: 'Always wait',
-      timeout: 500,
-    });
+    const createSubscription = async () => {
+      // Add subscription with timeout.
+      // If timeout expires before sync is completed, currently-downloaded
+      // objects are returned and sync download continues in the background.
+      await unSeenBirds.subscribe({
+        behavior: WaitForSync.Always,
+        name: 'Always wait',
+        timeout: 500,
+      });
+
+      const subscription = realm.subscriptions.findByName('Always wait');
+
+      setUnseenBirdsSubscription(subscription);
+    };
+
+    createSubscription().catch(console.error);
   }, []);
 
   // ...work with the subscribed results list or modify the subscription.
 
   // :remove-start:
-
-  const unSeenBirdsSubscription = realm.subscriptions.findByName('Always sync');
-
   return (
     <View>
       <Text>-------------------------------</Text>
@@ -153,31 +154,48 @@ export const UnseenBirdsManager = () => {
 // :snippet-end:
 
 // // :snippet-start: subscribe-query
-// function BlueBirdManager() {
-//   const realm = useRealm();
+export const BlueBirdManager = () => {
+  const realm = useRealm();
+  const birds = useQuery(Bird);
+  const [birdsSubscription, setBirdsSubscription] =
+    useState<Subscription | null>();
 
-//   // Get all local objects with the name of 'Bluebird'.
-//   const blueBirds = useQuery(Bird).filtered("name == 'Bluebird'");
+  useEffect(() => {
+    const getSubscription = async () => {
+      const subscription = realm.subscriptions.findByName('Initial birds');
 
-//   useEffect(() => {
-//     // Subscribe to the blueBirds query.
-//     blueBirds.subscribe({name: 'All bluebirds'});
-//   }, []);
+      setBirdsSubscription(subscription);
+    };
 
-//   const blueBirdSubscription = realm.subscriptions.findByName('All bluebirds');
+    getSubscription().catch(console.error);
+  }, []);
 
-//   // ...work with the subscribed results list or modify the subscription.
+  // ...work with the subscribed results list or modify the subscription.
 
-//   // :remove-start:
-//   return (
-//     <View>
-//       <Text>-------------------------------</Text>
+  // :remove-start:
+  const unsubscribeFromQuery = () => {
+    birds.unsubscribe();
 
-//       <Text testID="bluebird-subscription">
-//         Subscription name: {blueBirdSubscription?.name}
-//       </Text>
-//     </View>
-//   );
-//   // :remove-end:
-// }
+    setBirdsSubscription(realm.subscriptions.findByName('Initial birds'));
+  };
+
+  return (
+    <View>
+      <Text>-------------------------------</Text>
+
+      <Text testID="bird-subscription">
+        Subscription name: {birdsSubscription?.name}
+      </Text>
+
+      <Button
+        testID="unsubscribe"
+        title="Unsubscribe"
+        onPress={() => {
+          unsubscribeFromQuery();
+        }}
+      />
+    </View>
+  );
+  // :remove-end:
+};
 // // :snippet-end:
