@@ -9,6 +9,7 @@ import {Bird} from './models/Bird';
 import {Unsubscribe} from './Unsubscribe';
 import {AlwaysWait} from './AlwaysWait';
 import {WaitFirstTime} from './WaitFirstTime';
+import {BasicSubscription} from './BasicSubscription';
 
 function LogIn() {
   const app = useApp();
@@ -20,7 +21,6 @@ function LogIn() {
   return <></>;
 }
 
-// :snippet-start: initial-subscriptions
 export const SubscribeApiExamples = () => {
   return (
     <AppProvider id={APP_ID}>
@@ -38,6 +38,7 @@ export const SubscribeApiExamples = () => {
           }}>
           {/* ...work with realm data in nested components. */}
           {/* :remove-start: */}
+          <BasicSubscription />
           <WaitFirstTime />
           <AlwaysWait />
           <Unsubscribe />
@@ -47,4 +48,3 @@ export const SubscribeApiExamples = () => {
     </AppProvider>
   );
 };
-// :snippet-end:

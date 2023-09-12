@@ -1,4 +1,4 @@
-// :snippet-start: subscribe-query-imports
+// :snippet-start: wait-firsttime
 import React, {useEffect, useState} from 'react';
 import {BSON, WaitForSync} from 'realm';
 import {useRealm, useQuery} from '@realm/react';
@@ -6,9 +6,7 @@ import {View, Text, Button, TextInput, FlatList} from 'react-native';
 
 import {Bird} from './models/Bird';
 import {Subscription} from 'realm/dist/bundle';
-// :snippet-end:
 
-// :snippet-start: subscribe-query
 export const WaitFirstTime = () => {
   const realm = useRealm();
   const [birdName, setBirdName] = useState('Change me!');

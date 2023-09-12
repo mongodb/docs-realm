@@ -1,4 +1,4 @@
-// :snippet-start: unsubscribe-query-full
+// :snippet-start: unsubscribe-query
 import React, {useEffect, useState} from 'react';
 import {useRealm, useQuery} from '@realm/react';
 import {View, Text, Button} from 'react-native';

@@ -3,7 +3,29 @@ import React from 'react';
 import {SubscribeApiExamples} from '../../components/subscribeApi/Wrapper';
 import {render, screen, userEvent} from '@testing-library/react-native';
 
+// The first time these tests run on a device, they may fail. This is
+// because sync may take too long. Run the tests again and they should
+// pass.
+
 describe('Subscribe API behavior tests', () => {
+  test('Basic subscription with a name', async () => {
+    render(<SubscribeApiExamples />);
+
+    // Get the subscription name node. If the `.subscribe()`
+    // method works, its name will be written to this node.
+    const subNameNode = await screen.findByTestId('basic-subscription', {
+      // Timeout set to 2000 ms to account for variability in the time it takes
+      // the sub sync behavior to work out.
+      timeout: 2000,
+    });
+    expect(subNameNode).toBeInTheDocument;
+
+    const renderedSubName = subNameNode.children[1];
+    // Ensure the subscription name matches what we expect.
+    // This tells us the subscription was successfully created.
+    expect(renderedSubName).toBe('Birds I have seen');
+  });
+
   test('`FirstTime` wait subscription behavior', async () => {
     render(<SubscribeApiExamples />);
 
