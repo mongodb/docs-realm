@@ -133,6 +133,13 @@ Then, pass the resulting ``RealmConfiguration`` to `Realm.open()
    :language: kotlin
    :emphasize-lines: 5
 
+.. note:: In-Memory Realms are Not Persisted
+
+  Because in-memory realms are not persisted, ensure you have at least one open 
+  instance of the realm for as long as you want to access the data. After you 
+  :ref:`close <kotlin-close-a-realm>` the last instance of an in-memory realm, 
+  the data is no longer available.
+
 Customize a Realm Configuration
 -------------------------------
 
