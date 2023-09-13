@@ -11,14 +11,21 @@ Handle Sync Errors - Node.js SDK
    :depth: 3
    :class: singlecol
 
+The Realm Node.js SDK gives you several tools for handling :ref:`sync errors 
+<sync-errors>`. You can write your own sync error handler to respond to specific
+sync errors. You can also define how your client app handles client resets.
+
 .. _node-set-error-handler:
 
-Add a Generic Sync Error Handler
---------------------------------
+Sync Error Handler
+------------------
 
 While developing an application that uses Device Sync, you should set an error
 handler. This error handler will detect and respond to any failed sync-related
-API calls. 
+API calls.
+
+Add a Generic Sync Error Handler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Set an error handler by registering an error callback as part of the 
 :js-sdk:`SyncConfiguration <types/BaseSyncConfiguration.html#__type.onError>`.
@@ -38,6 +45,25 @@ Set an error handler by registering an error callback as part of the
         :language: javascript
 
 .. include:: /includes/sync-errors-in-app-services.rst
+
+Handle Compensating Write Errors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can write an error handler that addresses compensating write errors in a way
+that makes sense for your app. Use the :js-sdk:`CompensatingWriteError 
+<classes/CompensatingWriteError.html>` class to write your custom handler.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /examples/generated/node/v12/errors.test.snippet.handle-compensating-write-error.ts.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /examples/generated/node/v12/errors.test.snippet.handle-compensating-write-error.js.rst
 
 .. _node-perform-a-client-reset:
 
