@@ -1,4 +1,6 @@
-val config = RealmConfiguration.Builder(setOf(Toad::class))
+val config = RealmConfiguration.Builder(
+    schema = setOf(Frog::class)
+)
     .deleteRealmIfMigrationNeeded()
     .build()
 val realm = Realm.open(config)
