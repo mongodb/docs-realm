@@ -92,7 +92,7 @@ class OpenARealmTest: RealmTest() {
             // :snippet-end:
             assertTrue(realmPath.contains("tmp"))
             assertEquals(myEncryptionKey, config.encryptionKey)
-            assertEquals("myRealmName", config.name)
+            assertEquals("myRealmName.realm", config.name)
             realm.close()
             assertTrue(realm.isClosed())
             Realm.deleteRealm(config)
