@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Realm, {ObjectSchema} from 'realm';
 import {RealmProvider, useRealm, useQuery} from '@realm/react';
-import {View, Text, Button, TextInput, FlatList} from 'react-native';
+import {View, Text, Button, TextInput, FlatList, StyleSheet} from 'react-native';
 
 // :snippet-start: rn-fts-annotation
 class Book extends Realm.Object {
@@ -46,6 +46,10 @@ function FtsQueryInnards(): JSX.Element {
   };
 
   // :snippet-start: react-native-fts-query
+  // :uncomment-start:
+  // import {useQuery} from "@realm/react";
+  // :uncomment-end:
+
   // Retrieve book objects from realm
   const books = useQuery(Book);
 
@@ -59,7 +63,7 @@ function FtsQueryInnards(): JSX.Element {
   // Return the number of books in query
   return (
     <View>
-      <TextInput onChangeText={setBookName} value={bookName} />
+      <TextInput testID={'bookNameInput'} onChangeText={setBookName} value={bookName} />
       <TextInput onChangeText={setBookPrice} value={bookPrice} />
 
       <Button 
@@ -70,9 +74,7 @@ function FtsQueryInnards(): JSX.Element {
         }}
       />
       <Text> Query: Books with 'swan' without 'lake': {booksWithSwanWithoutLake.length} </Text>
-      <Text> Query: Books with 'hunger': {booksWithHunger.length} </Text>
-
-      <Text>  </Text>
+      <Text style={styles.container} testID='hungerQueryResults'> Query: Books with 'hunger': {booksWithHunger.length} </Text>
 
       <Text> Books list </Text>
       <FlatList
@@ -87,3 +89,18 @@ function FtsQueryInnards(): JSX.Element {
   )
 
 };
+
+// edit the style sheet
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 50,
+  },
+  bigBlue: {
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  red: {
+    color: 'red',
+  },
+});
