@@ -1,5 +1,5 @@
 .. code-block:: typescript
-   :emphasize-lines: 1-20, 34
+   :emphasize-lines: 34
 
    const errorCallback: ErrorCallback = (session, error) => {
      // Check if error type matches CompensatingWriteError.

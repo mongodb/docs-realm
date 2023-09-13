@@ -1,5 +1,5 @@
 .. code-block:: javascript
-   :emphasize-lines: 1-18, 32
+   :emphasize-lines: 32
 
    const errorCallback = (session, error) => {
      // Check if error type matches CompensatingWriteError.

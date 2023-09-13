@@ -54,7 +54,6 @@ describe("Sync Errors", () => {
     let errorCallBackInvoked = false;
 
     // :snippet-start: handle-compensating-write-error
-    // :emphasize-start:
     const errorCallback: ErrorCallback = (session, error) => {
       // Check if error type matches CompensatingWriteError.
       if (error instanceof CompensatingWriteError) {
@@ -97,7 +96,6 @@ describe("Sync Errors", () => {
         // :remove-end:
       }
     };
-    // :emphasize-end:
 
     const app = new Realm.App({
       id: APP_ID,
