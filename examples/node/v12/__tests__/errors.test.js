@@ -40,6 +40,7 @@ describe("Sync Errors", () => {
 
     // :snippet-start: handle-compensating-write-error
     const errorCallback = (session, error) => {
+      // :emphasize:
       // Check if error type matches CompensatingWriteError.
       if (error instanceof CompensatingWriteError) {
         // Handle the compensating write error as needed.
@@ -55,7 +56,6 @@ describe("Sync Errors", () => {
         );
 
         console.debug(compensatingWrites);
-
         // :remove-start:
         expect(error.writes.length).toEqual(2);
 
@@ -89,7 +89,7 @@ describe("Sync Errors", () => {
       sync: {
         flexible: true,
         user: app.currentUser,
-        onError: errorCallback,
+        onError: errorCallback, // :emphasize:
       },
     });
     // :snippet-end:

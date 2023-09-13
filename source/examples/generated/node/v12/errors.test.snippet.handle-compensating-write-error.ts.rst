@@ -1,6 +1,8 @@
 .. code-block:: typescript
+   :emphasize-lines: 2, 35
 
    const errorCallback: ErrorCallback = (session, error) => {
+     
      // Check if error type matches CompensatingWriteError.
      if (error instanceof CompensatingWriteError) {
        // Handle the compensating write error as needed.
@@ -18,7 +20,6 @@
        );
 
        console.debug(compensatingWrites);
-
      }
    };
 
@@ -34,6 +35,6 @@
      sync: {
        flexible: true,
        user: app.currentUser!,
-       onError: errorCallback,
+       onError: errorCallback, 
      },
    });
