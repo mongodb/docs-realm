@@ -34,5 +34,6 @@ runBlocking {
     // Copied Frog object is available in the new realm
     val frog = encryptedRealm.query<Frog>().find().first()
     Log.v("Copied Frog: ${frog.name}")
+
     encryptedRealm.close()
 }

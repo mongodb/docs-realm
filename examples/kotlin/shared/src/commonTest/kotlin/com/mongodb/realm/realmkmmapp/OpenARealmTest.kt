@@ -329,6 +329,7 @@ class OpenARealmTest: RealmTest() {
             assertEquals("Kermit", frog.name)
             assertEquals(encryptionKey, encryptedRealm.configuration.encryptionKey)
             // :remove-end:
+
             encryptedRealm.close()
             // :remove-start:
             assertTrue(encryptedRealm.isClosed())

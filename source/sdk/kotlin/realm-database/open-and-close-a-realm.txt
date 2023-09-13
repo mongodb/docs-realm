@@ -10,8 +10,8 @@ Configure & Open a Realm - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-This page describes realm files and how to open and close a realm that only 
-persists data locally. To open a realm that synchronizes data with Atlas 
+This page describes realm files and how to configure, open, and close a realm 
+that only persists data locally. To open a realm that synchronizes data with Atlas 
 using Device Sync, refer to :ref:`Open a Synced Realm 
 <kotlin-open-a-synced-realm>`.
 
@@ -146,6 +146,9 @@ specifics of the realm that you would like to open, including:
   :ref:`making schema changes <kotlin-change-object-model>`
 - Flagging whether Realm should :ref:`delete the realm file 
   <kotlin-delete-to-avoid-migration>` if a migration is required
+
+For more information on specific configuration implementations, refer to 
+:ref:`<kotlin-manage-realm-files>`.
 
 To configure a realm with non-default values, create the ``RealmConfiguration`` 
 through `RealmConfiguration.Builder.build() 
