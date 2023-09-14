@@ -68,17 +68,6 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
-.. important:: Subscribe to Linked Objects
-
-   You must add both an object and its linked object to the subscription 
-   set to see a linked object.
-   
-   If your subscription results contain an object with a property that links 
-   to an object not contained in the results, the link appears to be nil.
-   There is no way to distinguish whether that property's value is 
-   legitimately nil, or whether the object it links to exists but is out of
-   view of the query subscription.
-
 .. _dotnet-sync-add-subscription:
 
 Add a Subscription
@@ -157,6 +146,18 @@ replace a named subscription with a different query, Realm throws an exception.
 
 Realm always ignores duplicate subscriptions, whether named or unnamed. 
 
+.. important:: Subscribe to Linked Objects
+
+   You must add both an object and its linked object to the subscription 
+   set to see a linked object.
+   
+   If your subscription results contain an object with a property that links 
+   to an object not contained in the results, the link appears to be nil.
+   There is no way to distinguish whether that property's value is 
+   legitimately nil, or whether the object it links to exists but is out of
+   view of the query subscription.
+
+
 .. _dotnet-update-subscriptions-with-new-query:
 
 Update Subscriptions with a New Query
@@ -176,7 +177,7 @@ you must update a subscription within an update block by calling
    desired query.
 
 In the following example, long running tasks are re-defined to be any tasks that
-have taken more than 130 minutes. 
+have taken more than 130 minutes: 
 
 .. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.update-a-subscription.cs
    :language: csharp
