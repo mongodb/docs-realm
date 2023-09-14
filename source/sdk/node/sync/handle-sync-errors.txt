@@ -11,23 +11,26 @@ Handle Sync Errors - Node.js SDK
    :depth: 3
    :class: singlecol
 
-The Realm Node.js SDK gives you several tools for handling :ref:`sync errors 
-<sync-errors>`. You can write your own sync error handler to respond to specific
-sync errors. You can also define how your client app handles client resets.
+When you use Atlas Device Sync in your Realm app, you can encounter a new class
+class of errors: :ref:`sync errors <sync-errors>`.
+
+The Realm Node.js SDK can help you detect and handle sync errors. For example,
+you can write your own sync error handler to respond to specific errors. You can
+also define how your client app handles client resets.
 
 .. _node-set-error-handler:
 
 Sync Error Handler
 ------------------
 
-While developing an application that uses Device Sync, you should set an error
-handler. This error handler will detect and respond to any failed sync-related
-API calls.
+You should set an error handler for apps that use Atlas Device Sync. A generic
+error handler will detect and respond to failed sync-related API calls to your
+Atlas backend.
 
 Add a Generic Sync Error Handler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Set an error handler by registering an error callback as part of the 
+Set an error handler by registering an error callback function as part of the 
 :js-sdk:`SyncConfiguration <types/BaseSyncConfiguration.html#__type.onError>`.
 
 .. tabs-realm-languages::
@@ -49,9 +52,10 @@ Set an error handler by registering an error callback as part of the
 Handle Compensating Write Errors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can write an error handler that addresses compensating write errors in a way
-that makes sense for your app. Use the :js-sdk:`CompensatingWriteError 
-<classes/CompensatingWriteError.html>` class to write your custom handler.
+You may want your sync error handler to specifically address compensating write
+errors in a way that makes sense for your app. The :js-sdk:`CompensatingWriteError 
+<classes/CompensatingWriteError.html>` class can help you identify and react to
+compensating write erros in your custom error handler.
 
 .. tabs-realm-languages::
 
