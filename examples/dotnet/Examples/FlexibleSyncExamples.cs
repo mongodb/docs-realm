@@ -103,6 +103,20 @@ namespace Examples
                 realm.Subscriptions.RemoveAll(true);
             });
             // :snippet-end:
+            // :snippet-start: update-a-subscription
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Item"}
+            // }
+            realm.Subscriptions.Update(() =>
+            {
+                var updatedLongRunningTasksQuery = realm.All<MyTask>()
+                    .Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
+                realm.Subscriptions.Add(updatedLongRunningTasksQuery,
+                    new SubscriptionOptions() { Name = "longRunningTasks" });
+            });
+            // :replace-end:
+            // :snippet-end:
         }
 
         [Test]
