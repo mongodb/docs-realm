@@ -1,3 +1,49 @@
+# September 8, 2023
+
+## Flutter SDK
+
+- Sync Device Data/Manage Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Java SDK
+
+- Sync Device Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Kotlin SDK
+
+- Realm
+  - Read & Write Data/Read: Update Full-Text Search documentation to include support for prefix searches.
+  - Model Data/Property Annotations: Update Full-Text Search documentation to include support for prefix searches.
+- Sync Device Data/ Manage Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## .NET SDK 
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Node.js SDK
+
+- Model Data/Relationships & Embedded Objects: Update relationship model examples throughout page for JavaScript v12.
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+- Many pages throughout the SDK: Update the API reference links for the new JavaScript v12 API reference structure.
+
+## React Native
+
+- Model Data/Define an Object Model: Fix incorrect optional properties examples to include both the ``optional`` and ``?`` syntax for marking a property as optional.
+- Sync Data
+  - Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+  - Set the Client Log Level: Note that this is deprecated in v12 in favor of setting the Realm log level.
+- Logging: Add new page about setting the Realm log level, which replaces the deprecated Sync client log level.
+
+## Swift SDK
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Web SDK
+
+- Landing Page: Correct copy on page regarding support of Sync for the SDK.
+
+## Other
+- Internal: Add programmatically-generated facet tags to the repo for improved search indexing.
+
 # September 1, 2023
 
 ## Flutter SDK

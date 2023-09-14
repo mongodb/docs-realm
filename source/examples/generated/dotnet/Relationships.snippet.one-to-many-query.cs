@@ -1,1 +1,3 @@
-var youngDogs = realm.All<Dog>().Where(d => d.Age == 1).OrderBy(dog => dog.Name).ToList();
+var katieAndHerDogs = realm.All<Person>().
+    Where(p => p.Name == "Katie")
+    .FirstOrDefault();

@@ -8,7 +8,7 @@ using Realms;
 
 namespace Examples
 {
-    public class OneToOneRelationship
+    public partial class OneToOneRelationship
     {
         // :snippet-start: one-to-one
         // :replace-start: {
@@ -16,24 +16,24 @@ namespace Examples
         //   "RelPerson": "Person",
         //   "RelDog" : "Dog" }
         // }
-        public class RelPerson : RealmObject
+        public partial class RelPerson : IRealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
             public ObjectId Id { get; set; }
             public string Name { get; set; }
             public DateTimeOffset Birthdate { get; set; }
-            public RelDog Dog { get; set; }
+            public RelDog? Dog { get; set; }
         }
 
-        public class RelDog : RealmObject
+        public partial class RelDog : IRealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
             public ObjectId Id { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
-            public string Breed { get; set; }
+            public string Breed { get; set; } = String.Empty;
         }
         //:replace-end:
         // :snippet-end:
@@ -69,7 +69,7 @@ namespace Examples
         }
     }
 
-    public class OneToManyRelationship
+    public partial class OneToManyRelationship
     {
         public OneToManyRelationship()
         {
@@ -97,7 +97,7 @@ namespace Examples
         //   "Rel2Person": "Person",
         //   "Rel2Dog" : "Dog" }
         // }
-        public class Rel2Person : RealmObject
+        public partial class Rel2Person : IRealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -107,14 +107,14 @@ namespace Examples
             public IList<Rel2Dog> Dogs { get; }
         }
 
-        public class Rel2Dog : RealmObject
+        public partial class Rel2Dog : IRealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
             public ObjectId Id { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
-            public string Breed { get; set; }
+            public string Breed { get; set; } = String.Empty;
         }
         // :replace-end:
         // :snippet-end:
@@ -150,17 +150,17 @@ namespace Examples
             //   "Rel2Person": "Person",
             //   "Rel2Dog" : "Dog" }
             // }
-            var youngDogs = realm.All<Rel2Dog>().Where(d => d.Age == 1).OrderBy(dog => dog.Name).ToList();
+            var katieAndHerDogs = realm.All<Rel2Person>().
+                Where(p => p.Name == "Katie")
+                .FirstOrDefault();
             // :replace-end:
             // :snippet-end:
-            var younglist = new List<Rel2Dog>();
-            younglist.Add(dog1);
-            younglist.Add(dog2);
-            Assert.AreEqual(youngDogs[0].Name, younglist[0].Name);
+
+            Assert.AreEqual(3, katieAndHerDogs.Dogs.Count);
         }
     }
 
-    public class InverseRelationship
+    public partial class InverseRelationship
     {
         // :snippet-start: inverse
         // :replace-start: {
@@ -168,7 +168,7 @@ namespace Examples
         //   "UserTwo": "User",
         //   "TaskTwo" : "Item" }
         // }
-        public class UserTwo : RealmObject
+        public partial class UserTwo : IRealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -180,7 +180,7 @@ namespace Examples
             public IQueryable<TaskTwo> Items { get; }
         }
 
-        public class TaskTwo : RealmObject
+        public partial class TaskTwo : IRealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -188,7 +188,7 @@ namespace Examples
 
             public string Text { get; set; }
 
-            public UserTwo Assignee { get; set; }
+            public UserTwo? Assignee { get; set; }
         }
         // :replace-end:
         // :snippet-end:

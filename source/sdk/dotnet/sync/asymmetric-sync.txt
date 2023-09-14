@@ -20,7 +20,6 @@ Unidirectional Data Ingest - .NET SDK
    Because AsymmetricObject can not be modified by the client, the compiler 
    will not let you add a subscription to an AsymmetricObject.
 
-
 The .NET SDK allows you to work with Asymmetric objects and standard Realm objects 
 within the same realm. 
 
@@ -51,7 +50,6 @@ and syncing it with the backend. It also shows to queries that generate errors.
 .. literalinclude:: /examples/generated/dotnet/Asymmetrics.snippet.asymmetry.cs
    :language: csharp
 
-
-
-
-
+Atlas Device Sync completely manages the lifecycle of this data. 
+It is maintained on the device until Data Ingest synchronization is 
+complete, and then removed from the device.

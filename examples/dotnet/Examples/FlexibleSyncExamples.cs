@@ -128,6 +128,7 @@ namespace Examples
             // :snippet-start: open-fs-realm
             // :replace-start: {
             //  "terms": {
+            //   "MyTask" : "Item",
             //   "Config.FSAppId": "\"myRealmAppId\"",
             //   "MyTask": "Item",
             //   "Credentials.Anonymous(false)": "Credentials.Anonymous()"}

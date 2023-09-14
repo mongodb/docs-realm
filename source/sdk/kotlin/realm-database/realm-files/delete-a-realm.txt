@@ -47,3 +47,7 @@ schema instead of writing migration blocks for development or test data.
 
 .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.delete-realm-if-migration-needed.kt
    :language: kotlin
+
+.. important:: Do Not Use ``deleteRealmIfMigrationNeeded`` in Production
+
+   Never release an app to production with this flag set to ``true``.
