@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System.Threading.Tasks;
 using Realms.Exceptions.Sync;
 using Realms.Sync.Exceptions;
+using static Realms.ThreadSafeReference;
 
 namespace Examples
 {
@@ -144,7 +145,8 @@ namespace Examples
             // causing issues with opening the FS realm. This resolves the
             // test failure but there should probably be stronger cleanup
             // between tests to negate the need for this.
-            if (app.CurrentUser != null) {
+            if (app.CurrentUser != null)
+            {
                 await app.RemoveUserAsync(app.CurrentUser);
                 await app.LogInAsync(Credentials.Anonymous(false));
             };
@@ -165,7 +167,7 @@ namespace Examples
                 Assert.NotNull(session);
                 // :remove-end:
             }
-            else 
+            else
             {
                 // This works whether online or offline
                 // It requires a user to have been previously authenticated
@@ -232,6 +234,47 @@ namespace Examples
                     .Add(completedItemsQuery,
                         new SubscriptionOptions() { Name = "completedItems" });
             });
+            // :snippet-end:
+        }
+
+        public async void MoreFlexSyncExamples()
+        {
+            var realm = Realm.GetInstance();
+            // :snippet-start: subasync
+            var query = realm.All<Team>().Where(t => t.Name == "MyTeam");
+            await query.SubscribeAsync();
+
+            // you can also pass a SubscriptionOptions object:
+            await query.SubscribeAsync(
+                new SubscriptionOptions() { Name = "myteam" });
+            // :snippet-end:
+
+            // :snippet-start: update-multiple-subscriptions
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Item"}
+            // }
+            realm.Subscriptions.Update(() =>
+            {
+                // Subscribe to all long running items, and name
+                // the subscription "longRunningItems"
+                var longRunningTasksQuery = realm.All<MyTask>()
+                    .Where(t => t.ProgressMinutes > 120);
+                realm.Subscriptions.Add(longRunningTasksQuery,
+                    new SubscriptionOptions() { Name = "longRunningItems" });
+
+                // Subscribe to all of Ben's Items
+                realm.Subscriptions.Add(realm.All<MyTask>()
+                    .Where(t => t.Owner == "Ben"));
+
+                // Subscribe to all Teams, name the subscription
+                // 'teamsSubscription', and throw an error if
+                // this subscription name already exists.
+                realm.Subscriptions.Add(realm.All<Team>(),
+                    new SubscriptionOptions()
+                    { Name = "teams", UpdateExisting = false });
+            });
+            // :replace-end:
             // :snippet-end:
         }
     }
