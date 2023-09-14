@@ -32,6 +32,7 @@ export const FtsQuery = () => {
 function FtsQueryInnards(): JSX.Element {
 
   const realm = useRealm();
+  console.debug(realm.path);
   const [bookName, setBookName] = useState('Book name');
   const [bookPrice, setBookPrice] = useState('0');
 
@@ -43,6 +44,15 @@ function FtsQueryInnards(): JSX.Element {
         price: bookPrice,
       });
     });
+  };
+
+  // get rid of all books
+  const clearRealm = async () => {
+    realm.write(() => {
+      realm.deleteAll();
+    });
+
+    await realm.syncSession?.uploadAllLocalChanges();
   };
 
   // :snippet-start: react-native-fts-query
@@ -66,17 +76,23 @@ function FtsQueryInnards(): JSX.Element {
       <TextInput testID={'bookNameInput'} onChangeText={setBookName} value={bookName} />
       <TextInput onChangeText={setBookPrice} value={bookPrice} />
 
-      <Button 
+      <Button testID='addBookButton'
         title="Add Book" 
         onPress={() => 
         {
           writeBooks(bookName, Number(bookPrice));
         }}
       />
-      <Text> Query: Books with 'swan' without 'lake': {booksWithSwanWithoutLake.length} </Text>
+      <Button testID='removeButton'
+        title="Remove all books"
+        onPress={() => {
+          clearRealm();
+        }}
+      />
+      <Text style={styles.container} testID='swanQueryResults'> Query: Books with 'swan' without 'lake': {booksWithSwanWithoutLake.length} </Text>
       <Text style={styles.container} testID='hungerQueryResults'> Query: Books with 'hunger': {booksWithHunger.length} </Text>
 
-      <Text> Books list </Text>
+      <Text style={styles.container}>Books list </Text>
       <FlatList
         data={books}
         renderItem={({item}) => (
@@ -90,17 +106,9 @@ function FtsQueryInnards(): JSX.Element {
 
 };
 
-// edit the style sheet
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
-  },
-  bigBlue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  red: {
-    color: 'red',
+    marginTop: 5,
+    marginBottom: 5,
   },
 });

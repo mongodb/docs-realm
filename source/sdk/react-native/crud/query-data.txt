@@ -49,7 +49,10 @@ Filter with Full-Text Search
 
 You can use Realm Query Language (RQL) to query on properties that have a
 :ref:`Full-Text Search <react-native-set-fts-index>` (FTS) index. 
-To query these properties, use the ``TEXT`` predicate in your query.
+To begin, use :ref:`useQuery() <react-native-use-query-hook>`
+to return the collection of realm objects you'd like to filter.
+To query the FTS indexed property for objects within the collection, use 
+the ``TEXT`` predicate in your :js-sdk:`filtered <classes/Results.html#filtered>` query. 
 
 Exclude results for a word by placing the ``-`` character in front of the word. 
 For example, a search for ``swan -lake`` would include all search results for 
