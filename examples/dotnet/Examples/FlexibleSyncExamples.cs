@@ -122,22 +122,23 @@ namespace Examples
         [Test]
         public async Task TestOpenFSRealm()
         {
+            var app = App.Create(Config.FSAppId);
+            var user = await app.LogInAsync(Credentials.Anonymous(false));
+            Realm realm;
             // :snippet-start: open-fs-realm
             // :replace-start: {
             //  "terms": {
             //   "Config.FSAppId": "\"myRealmAppId\"",
+            //   "MyTask": "Item",
             //   "Credentials.Anonymous(false)": "Credentials.Anonymous()"}
             // }
-            var app = App.Create(Config.FSAppId);
-            var user = await app.LogInAsync(Credentials.Anonymous(false));
-            Realm realm;
 
             var config = new FlexibleSyncConfiguration(user)
             {
                 PopulateInitialSubscriptions = (realm) =>
                 {
-                    var allTasks = realm.All<MyTask>();
-                    realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
+                    var allItems = realm.All<MyTask>();
+                    realm.Subscriptions.Add(allItems, new SubscriptionOptions { Name = "allItems" });
                 }
             };
             try

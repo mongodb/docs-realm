@@ -1,12 +1,9 @@
-var app = App.Create("myRealmAppId");
-var user = await app.LogInAsync(Credentials.Anonymous());
-Realm realm;
 
 var config = new FlexibleSyncConfiguration(user)
 {
     PopulateInitialSubscriptions = (realm) =>
     {
-        var allTasks = realm.All<MyTask>();
+        var allTasks = realm.All<Item>();
         realm.Subscriptions.Add(allTasks, new SubscriptionOptions { Name = "allTasks" });
     }
 };
