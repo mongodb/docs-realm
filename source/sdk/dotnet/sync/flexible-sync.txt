@@ -68,7 +68,7 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
-.. important:: Object Links
+.. important:: Subscribe to Linked Objects
 
    You must add both an object and its linked object to the subscription 
    set to see a linked object.
@@ -79,28 +79,13 @@ object type.
    legitimately nil, or whether the object it links to exists but is out of
    view of the query subscription.
 
-.. _dotnet-sync-get-subscription:
-
-Get Subscriptions
-~~~~~~~~~~~~~~~~~
-When using flexible sync, you can access a
-:dotnet-sdk:`SubscriptionSet <reference/Realms.Sync.SubscriptionSet.html>`, a
-collection of subscriptions, through the :dotnet-sdk:`Realm.Subscriptions
-<reference/Realms.Realm.html#Realms_Realm_Subscriptions>` property.
-
-.. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.get-subscriptions.cs
-   :language: csharp
-
-You can use this subscriptions set to add queries to this list of subscriptions and
-update existing subscriptions, as shown in the examples below.
-
 .. _dotnet-sync-add-subscription:
 
-Add a Query to the Set Of Subscriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add a Subscription
+~~~~~~~~~~~~~~~~~~
 You must have at least one subscription before you can read from or write
-to the realm. You can create one or more initial subscriptions when you 
-configure Flexible Sync, or you can add subscriptions after initialization. 
+to the realm. You should create one or more initial subscriptions when you 
+configure Flexible Sync, rather than adding subscriptions after initialization. 
 
 .. _dotnet-initial-subscriptions:
 
@@ -119,21 +104,30 @@ queries you want to use to bootstrap the realm, as shown in the following exampl
 
 .. _dotnet-add-subscription-to-set:
 
-Add a Subscription
-``````````````````
-To add a subscription to an existing ``FlexibleSyncConfiguration``, you create 
+Add a Subscription to the Existing Subscription Set
+````````````````````````````````````````````````````
+
+You access a
+:dotnet-sdk:`SubscriptionSet <reference/Realms.Sync.SubscriptionSet.html>` with 
+the :dotnet-sdk:`Realm.Subscriptions <reference/Realms.Realm.html#Realms_Realm_Subscriptions>` 
+property. You then add queries to this list of subscriptions and update existing 
+subscriptions.
+
+To add a subscription to an existing subscription set, create 
 the query and then call :dotnet-sdk:`IQueryable.SubscribeAsync()
-<reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_SubscribeAsync__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_Realms_Sync_WaitForSyncMode_System_Nullable_System_Threading_CancellationToken__>`.
+<reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_SubscribeAsync__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_Realms_Sync_WaitForSyncMode_System_Nullable_System_Threading_CancellationToken__>`:
 
 .. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.subasync.cs
    :language: csharp
 
-Using ``SubscribeAsync`` is a shorthand method of using :dotnet-sdk:`SubscriptionSet.Update()
+The `SubscribeAsync`` method is shorthand for using :dotnet-sdk:`SubscriptionSet.Update()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Update_System_Action_>`
 to create an update block, and then calling the :dotnet-sdk:`SubscriptionSet.Add()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Add__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_>`
 method on the ``SubscriptionSet``.
 
+Batching Multiple Subscriptions
+```````````````````````````````
 While you can add a single query using ``SubscribeAsync``, you can only batch 
 multiple queries within a ``SubscriptionSet.Update`` block. Performing query 
 updates is an expensive operation on the server. We strongly advise designing 
@@ -150,23 +144,18 @@ Subscription Options
 ````````````````````
 Note that both methods for adding a subscription provide an overload for passing 
 in a :dotnet-sdk:`SubscriptionOptions <reference/Realms.Sync.SubscriptionOptions.html>` 
-object. ``SubscriptionOptions`` contains additional configuration for your 
+object. ``SubscriptionOptions`` contains configuration options for your 
 subscription:
 
 - a ``Name`` string field 
 - an ``UpdateExisting`` boolean field.
 
 If ``UpdateExisting`` is true, adding a subscription with an
-existing name will replace the existing query with the new query. However, if
-you set ``UpdateExisting`` to false, adding a subscription with an existing name
-but a different query throws an exception. ``UpdateExisting`` defaults to true.
+existing name will replace the existing query with the new query. This is the 
+default behavior. However, if you set ``UpdateExisting`` to false, and try to 
+replace a named subscription with a different query, Realm throws an exception.
 
-.. note:: Duplicate Subscriptions 
-
-   If you add a duplicate **unnamed** subscription with the same query, 
-   the SDK automatically removes it; adding an identical 
-   **named** subscription is a :wikipedia:`no-op <NOP_(code)>`. Therefore, in 
-   both cases, duplicate subscriptions are ignored.
+Realm always ignores duplicate subscriptions, whether named or unnamed. 
 
 .. _dotnet-update-subscriptions-with-new-query:
 

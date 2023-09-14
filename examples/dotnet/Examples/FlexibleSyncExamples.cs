@@ -40,6 +40,7 @@ namespace Examples
                 realm.Subscriptions.Add(realm.All<Team>(), new SubscriptionOptions() { Name = "teams", UpdateExisting = false });
             });
 
+            // :snippet-start: wait-for-synchronization
             try
             {
                 await realm.Subscriptions.WaitForSynchronizationAsync();
@@ -49,6 +50,7 @@ namespace Examples
                 // do something in response to the exception or log it
                 Console.WriteLine($@"The subscription set's state is Error and synchronization is paused:  {ex.Message}");
             }
+            // :snippet-end:
 
             realm.Subscriptions.Update(() =>
             {
@@ -60,20 +62,30 @@ namespace Examples
                         new SubscriptionOptions() { Name = "longRunningItems" });
             });
 
+            // :snippet-start: remove-subscription-by-query
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Item"}
+            // }
             realm.Subscriptions.Update(() =>
             {
                 // remove a subscription by it's query
                 var query = realm.All<MyTask>().Where(i => i.Owner == "Ben");
                 realm.Subscriptions.Remove(query);
             });
+            // :replace-end:
+            // :snippet-end:
 
+            // :snippet-start: remove-subscription-by-name
             realm.Subscriptions.Update(() =>
             {
                 // remove a named subscription
                 var subscriptionName = "longRunningItemsSubscription";
                 realm.Subscriptions.Remove(subscriptionName);
             });
+            // :snippet-end:
 
+            // :snippet-start: remove-all-subscriptions-of-object-type
             realm.Subscriptions.Update(() =>
             {
                 // remove all subscriptions of the "Team" Class Name
@@ -82,12 +94,15 @@ namespace Examples
                 // Alernatively, remove all subscriptions of the "Team" object type
                 realm.Subscriptions.RemoveAll<Team>();
             });
+            // :snippet-end:
 
+            // :snippet-start: remove-all-subscriptions
             realm.Subscriptions.Update(() =>
             {
                 // remove all subscriptions, including named subscriptions
                 realm.Subscriptions.RemoveAll(true);
             });
+            // :snippet-end:
         }
 
         [Test]
@@ -278,8 +293,6 @@ namespace Examples
             // :snippet-end:
         }
     }
-
-
     partial class MyTask : IRealmObject
     {
         [PrimaryKey]
