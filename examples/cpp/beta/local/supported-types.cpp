@@ -63,6 +63,12 @@ struct Beta_AllTypesObject {
     // :snippet-start: beta-optional-date
     std::optional<std::chrono::time_point<std::chrono::system_clock>> optDateName;
     // :snippet-end:
+    // :snippet-start: beta-required-decimal128
+    realm::decimal128 decimal128Name;
+    // :snippet-end:
+    // :snippet-start: beta-optional-decimal128
+    std::optional<realm::decimal128> optDecimal128Name;
+    // :snippet-end:
     // :snippet-start: beta-required-uuid
     realm::uuid uuidName;
     // :snippet-end:
@@ -88,8 +94,8 @@ struct Beta_AllTypesObject {
 REALM_SCHEMA(Beta_AllTypesObject, boolName, optBoolName, intName, optIntName,
     doubleName, optDoubleName, stringName, optStringName, enumName,
     optEnumName, binaryDataName, optBinaryDataName, dateName, optDateName,
-    uuidName, optUuidName, objectIdName, optObjectIdName, mixedName,
-    mapName, listTypeName
+    decimal128Name, optDecimal128Name, uuidName, optUuidName, objectIdName, 
+    optObjectIdName, mixedName, mapName, listTypeName
 )
 
 // :snippet-start: beta-dog-map-model
@@ -114,6 +120,7 @@ TEST_CASE("Test supported types", "[model][write]") {
         auto date = std::chrono::time_point<std::chrono::system_clock>();
         auto uuid = realm::uuid();
         auto objectId = realm::object_id::generate();
+        auto decimal = realm::decimal128(123.456);
 
         auto allRequiredTypesObject = Beta_AllTypesObject {
             .boolName = true,
@@ -123,6 +130,7 @@ TEST_CASE("Test supported types", "[model][write]") {
             .enumName = Beta_AllTypesObject::Enum::one,
             .binaryDataName = std::vector<uint8_t>{0,1,2},
             .dateName = date,
+            .decimal128Name = decimal,
             .uuidName = uuid,
             .objectIdName = objectId,
             .mixedName = realm::mixed("mixed data"),
@@ -144,6 +152,7 @@ TEST_CASE("Test supported types", "[model][write]") {
         REQUIRE(*specificAllTypeObjects.enumName == Beta_AllTypesObject::Enum::one);
         REQUIRE(specificAllTypeObjects.binaryDataName == std::vector<uint8_t>{0,1,2});
         REQUIRE(specificAllTypeObjects.dateName == date);
+        REQUIRE(specificAllTypeObjects.decimal128Name == decimal);
         REQUIRE(specificAllTypeObjects.uuidName == uuid);
         REQUIRE(specificAllTypeObjects.objectIdName == objectId);
         REQUIRE(*specificAllTypeObjects.mixedName == realm::mixed("mixed data"));
@@ -162,6 +171,8 @@ TEST_CASE("Test supported types", "[model][write]") {
         auto date = std::chrono::time_point<std::chrono::system_clock>();
         auto uuid = realm::uuid();
         auto objectId = realm::object_id::generate();
+        auto decimal = realm::decimal128(123.456);
+        auto decimal2 = realm::decimal128(789.012);
         
         auto allRequiredAndOptionalTypesObject = Beta_AllTypesObject {
             .boolName = true,
@@ -171,6 +182,7 @@ TEST_CASE("Test supported types", "[model][write]") {
             .enumName = Beta_AllTypesObject::Enum::one,
             .binaryDataName = std::vector<uint8_t>{0,1,2},
             .dateName = date,
+            .decimal128Name = decimal,
             .uuidName = uuid,
             .objectIdName = objectId,
             .mixedName = realm::mixed("mixed data"),
@@ -181,6 +193,7 @@ TEST_CASE("Test supported types", "[model][write]") {
             .optDoubleName = 42.42,
             .optStringName = "Maui",
             .optEnumName = Beta_AllTypesObject::Enum::two,
+            .optDecimal128Name = decimal2,
             .optUuidName = uuid,
             .optObjectIdName = objectId,
             .optBinaryDataName = std::vector<uint8_t>{3,4,5},
@@ -200,6 +213,7 @@ TEST_CASE("Test supported types", "[model][write]") {
         REQUIRE(*specificAllTypeObjects.enumName == Beta_AllTypesObject::Enum::one);
         REQUIRE(specificAllTypeObjects.binaryDataName == std::vector<uint8_t>{0,1,2});
         REQUIRE(specificAllTypeObjects.dateName == date);
+        REQUIRE(specificAllTypeObjects.decimal128Name == decimal);
         REQUIRE(specificAllTypeObjects.uuidName == uuid);
         REQUIRE(specificAllTypeObjects.objectIdName == objectId);
         REQUIRE(*specificAllTypeObjects.mixedName == realm::mixed("mixed data"));
@@ -210,6 +224,7 @@ TEST_CASE("Test supported types", "[model][write]") {
         REQUIRE(specificAllTypeObjects.optDoubleName == 42.42);
         REQUIRE(specificAllTypeObjects.optStringName == "Maui");
         REQUIRE(*specificAllTypeObjects.optEnumName == Beta_AllTypesObject::Enum::two);
+        REQUIRE(specificAllTypeObjects.optDecimal128Name == decimal2);
         REQUIRE(specificAllTypeObjects.optUuidName == uuid);
         REQUIRE(specificAllTypeObjects.optObjectIdName == objectId);
         REQUIRE(specificAllTypeObjects.optBinaryDataName == std::vector<uint8_t>({3,4,5}));
