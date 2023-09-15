@@ -228,16 +228,16 @@ To open a synced realm:
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
 
-.. _cpp-provide-subset-of-classes-to-realm:
+.. _cpp-provide-subset-of-models-to-realm:
 
-Provide a Subset of Classes to a Realm
---------------------------------------
+Provide a Subset of Models to a Realm
+-------------------------------------
 
 .. tip:: Operating with Low Memory Constraints
    
    Some applications have tight constraints on their memory footprints. 
-   To optimize your data model for low-memory environments, open the 
-   realm with a subset of classes.
+   To optimize your realm memory usage for low-memory environments, open the 
+   realm with a subset of models.
 
 .. tabs::
 
@@ -248,7 +248,7 @@ Provide a Subset of Classes to a Realm
       :ref:`cpp-object-schema` in your executable to your 
       :ref:`cpp-realm-schema`. 
 
-      However, if you want the realm to manage only a subset of classes, you
+      However, if you want the realm to manage only a subset of models, you
       can specify those models by passing them into the template parameter list
       of the ``realm::experimental::open()`` function.
 
