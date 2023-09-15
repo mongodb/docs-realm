@@ -32,7 +32,7 @@ Before you can manage a sync session state, you must:
 Get the Sync Session
 --------------------
 
-You can use the public member function :cpp-sdk:`get_sync_session() 
+You can use the member function :cpp-sdk:`get_sync_session() 
 <structrealm_1_1db.html#a79c5e6e92896703a54693be35720ae12>` to get a 
 :cpp-sdk:`sync_session 
 <structrealm_1_1internal_1_1bridge_1_1sync__session.html>` 
@@ -50,13 +50,13 @@ Wait for Changes to Upload and Download
 .. versionchanged:: 0.2.0 Returns std::future instead of std::promise
 
 To wait for all changes to upload to Atlas from your synced realm,
-use the public member function ``.wait_for_upload_completion()``. 
+use the member function ``.wait_for_upload_completion()``. 
 
 .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-wait-for-upload.cpp
    :language: cpp
 
 To wait for all changes from Atlas
-to download to your synced realm, use the public member function 
+to download to your synced realm, use the member function 
 ``wait_for_download_completion()``. Refresh the realm after downloading 
 any changes to be sure it reflects the most recent data.
 
