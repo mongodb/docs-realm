@@ -223,7 +223,7 @@ TEST_CASE("Beta embedded object example", "[write]") {
         mongoDB.contactDetails->emailAddress = "info@example.com";
     });
     
-    std::cout << "New email address: " << mongoDB.contactDetails->emailAddress.value() << "\n";
+    std::cout << "New email address: " << mongoDB.contactDetails->emailAddress.detach() << "\n";
     // :snippet-end:
     REQUIRE(mongoDB.contactDetails->emailAddress == "info@example.com");
     // :snippet-start: beta-overwrite-embedded-object
@@ -294,7 +294,8 @@ TEST_CASE("Pass a subset of classes to a realm", "[write]") {
     std::cout << "dog: " << dog.name << "\n";
 
     // :snippet-start: beta-realm-specify-classes
-    auto realm = realm::experimental::open<Beta_Dog>(path);
+    auto config = realm::db_config();
+    auto realm = realm::experimental::open<Beta_Dog>(std::move(config));
     // :snippet-end:
 
     auto managedDog = realm.write([&] {
@@ -345,7 +346,7 @@ TEST_CASE("update a dog", "[write][update]") {
         REQUIRE(maui.age == static_cast<long long>(1));
         // :remove-end:
 
-        std::cout << "Dog " << maui.name.value() << " is " << maui.age.value() << " years old\n";
+        std::cout << "Dog " << maui.name.detach() << " is " << maui.age.detach() << " years old\n";
         
         // Assign a new value to a member of the object in a write transaction
         int64_t newAge = 2;

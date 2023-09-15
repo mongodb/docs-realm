@@ -1,1 +1,2 @@
-auto realm = realm::experimental::open<Dog>(path);
+auto config = realm::db_config();
+auto realm = realm::experimental::open<Dog>(std::move(config));
