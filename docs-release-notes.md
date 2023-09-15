@@ -1,3 +1,54 @@
+# September 15, 2023
+
+## C++ SDK
+
+- Model Data/Supported Types: Add Decimal128 to supported types.
+- Configure & Open a Realm
+  - Remove verbiage about the open a realm overload not taking a `db::config`
+  - Add a new "Provide a Subset of Classes to a Realm" section similar to Swift SDK docs.
+  - Add a new "Set Custom HTTP Headers When Using a Synced Realm" section.
+- Application Services/Connect to an App Services App: Add a new "Set Custom HTP Headers" section.
+- Manage Users/Authenticate Users: Add new `app::get_current_user()` and `user::is_logged_in()` methods.
+- Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## Kotlin SDK
+
+- Realm Database
+  - Configure & Open a Realm: Move relevant info from the former Manage Realm Files landing page. Update examples. Move the page out of "Manage Realm Files" to a top-level table of contents entry within Realm Database section.
+  - Manage Realm Files
+    - Landing Page: Convert landing page to container page that expands the table of contents but does not open to page content.
+- Sync Device Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## .NET SDK
+
+- Model Data
+  - Relationships: Define `IList<T>` with only a getter; no need to initialize in a constructor. Update `Task` model to `Item`.
+  - Supported Data Types/Embedded Objects: Embedded objects should implement the `IEmbeddedObject` interface, not derive from `EmbeddedObject` class.
+- CRUD
+  - Create: Delete text that had been moved into an `include` and was showing twice on the page.
+  - Read: Streamline page copy.
+  - Filter: Rename page from "Query, Filter, and Sort Data" to "Filter and Sort Data."
+- Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## Node.js SDK
+
+- Sync Data
+  - Handle Sync Errors: Add a new "Handle Compensating Write Errors" section.
+  - Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## React Native SDK
+
+- Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## Swift SDK
+
+- Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## Other
+
+- Realm Studio/Install Realm Studio: Add links to SDK release notes to simplify finding the appropriate version of Realm Studio. Remove and update outdated copy.
+- Realm Example Projects: Update links to examples. Add Flutter examples. Add user online state example. Add section descriptions.
+
 # September 8, 2023
 
 ## Flutter SDK
@@ -15,7 +66,7 @@
   - Model Data/Property Annotations: Update Full-Text Search documentation to include support for prefix searches.
 - Sync Device Data/ Manage Subscriptions: Add a section for indexed queryable fields subscription requirements.
 
-## .NET SDK 
+## .NET SDK
 
 - Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
 
@@ -27,7 +78,7 @@
 
 ## React Native
 
-- Model Data/Define an Object Model: Fix incorrect optional properties examples to include both the ``optional`` and ``?`` syntax for marking a property as optional.
+- Model Data/Define an Object Model: Fix incorrect optional properties examples to include both the `optional` and `?` syntax for marking a property as optional.
 - Sync Data
   - Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
   - Set the Client Log Level: Note that this is deprecated in v12 in favor of setting the Realm log level.
@@ -42,6 +93,7 @@
 - Landing Page: Correct copy on page regarding support of Sync for the SDK.
 
 ## Other
+
 - Internal: Add programmatically-generated facet tags to the repo for improved search indexing.
 
 # September 1, 2023
