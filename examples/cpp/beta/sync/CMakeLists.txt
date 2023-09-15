@@ -14,7 +14,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        650a7fd6d9038e1c7ea02e201f8626b2573886a3
+  GIT_TAG        v0.3.0-preview
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
