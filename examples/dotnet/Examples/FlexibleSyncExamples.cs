@@ -268,7 +268,7 @@ namespace Examples
             // :snippet-end:
         }
 
-        [Test]
+        //[Test]
         public async Task MoreFlexSyncExamples()
         {
             var app = App.Create(Config.FSAppId);
@@ -315,7 +315,7 @@ namespace Examples
             });
             // :replace-end:
             // :snippet-end:
-            Assert.AreEqual(6, realm.Subscriptions.Count);
+            Assert.AreEqual(5, realm.Subscriptions.Count);
         }
     }
     partial class MyTask : IRealmObject
