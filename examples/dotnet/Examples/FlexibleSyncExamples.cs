@@ -282,10 +282,12 @@ namespace Examples
             await query.SubscribeAsync();
 
             // you can also pass a SubscriptionOptions object:
-            await query.SubscribeAsync(
-                new SubscriptionOptions() { Name = "teamSubscription" });
+            var query2 = realm.All<Team>().Where(t => t.Name == "DevelopmentTeam");
+            await query2.SubscribeAsync(
+                new SubscriptionOptions() { Name = "devTeamSubscription" });
             // :snippet-end:
-
+            realm.Dispose();
+            realm = Realm.GetInstance(config);
             // :snippet-start: update-multiple-subscriptions
             // :replace-start: {
             //  "terms": {
@@ -313,7 +315,7 @@ namespace Examples
             });
             // :replace-end:
             // :snippet-end:
-            Assert.AreEqual(5, realm.Subscriptions.Count);
+            Assert.AreEqual(6, realm.Subscriptions.Count);
         }
     }
     partial class MyTask : IRealmObject
