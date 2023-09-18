@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System.Threading.Tasks;
 using Realms.Exceptions.Sync;
 using Realms.Sync.Exceptions;
+using static Realms.ThreadSafeReference;
 
 namespace Examples
 {
@@ -39,6 +40,7 @@ namespace Examples
                 realm.Subscriptions.Add(realm.All<Team>(), new SubscriptionOptions() { Name = "teams", UpdateExisting = false });
             });
 
+            // :snippet-start: wait-for-synchronization
             try
             {
                 await realm.Subscriptions.WaitForSynchronizationAsync();
@@ -48,6 +50,7 @@ namespace Examples
                 // do something in response to the exception or log it
                 Console.WriteLine($@"The subscription set's state is Error and synchronization is paused:  {ex.Message}");
             }
+            // :snippet-end:
 
             realm.Subscriptions.Update(() =>
             {
@@ -59,20 +62,30 @@ namespace Examples
                         new SubscriptionOptions() { Name = "longRunningItems" });
             });
 
+            // :snippet-start: remove-subscription-by-query
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Item"}
+            // }
             realm.Subscriptions.Update(() =>
             {
                 // remove a subscription by it's query
                 var query = realm.All<MyTask>().Where(i => i.Owner == "Ben");
                 realm.Subscriptions.Remove(query);
             });
+            // :replace-end:
+            // :snippet-end:
 
+            // :snippet-start: remove-subscription-by-name
             realm.Subscriptions.Update(() =>
             {
                 // remove a named subscription
                 var subscriptionName = "longRunningItemsSubscription";
                 realm.Subscriptions.Remove(subscriptionName);
             });
+            // :snippet-end:
 
+            // :snippet-start: remove-all-subscriptions-of-object-type
             realm.Subscriptions.Update(() =>
             {
                 // remove all subscriptions of the "Team" Class Name
@@ -81,27 +94,45 @@ namespace Examples
                 // Alernatively, remove all subscriptions of the "Team" object type
                 realm.Subscriptions.RemoveAll<Team>();
             });
+            // :snippet-end:
 
+            // :snippet-start: remove-all-subscriptions
             realm.Subscriptions.Update(() =>
             {
                 // remove all subscriptions, including named subscriptions
                 realm.Subscriptions.RemoveAll(true);
             });
+            // :snippet-end:
+            // :snippet-start: update-a-subscription
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Item"}
+            // }
+            realm.Subscriptions.Update(() =>
+            {
+                var updatedLongRunningTasksQuery = realm.All<MyTask>()
+                    .Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
+                realm.Subscriptions.Add(updatedLongRunningTasksQuery,
+                    new SubscriptionOptions() { Name = "longRunningTasks" });
+            });
+            // :replace-end:
+            // :snippet-end:
         }
 
         [Test]
         public async Task TestOpenFSRealm()
         {
+            var app = App.Create(Config.FSAppId);
+            var user = await app.LogInAsync(Credentials.Anonymous(false));
+            Realm realm;
             // :snippet-start: open-fs-realm
             // :replace-start: {
             //  "terms": {
             //   "MyTask" : "Item",
             //   "Config.FSAppId": "\"myRealmAppId\"",
+            //   "MyTask": "Item",
             //   "Credentials.Anonymous(false)": "Credentials.Anonymous()"}
             // }
-            var app = App.Create(Config.FSAppId);
-            var user = await app.LogInAsync(Credentials.Anonymous(false));
-            Realm realm;
 
             var config = new FlexibleSyncConfiguration(user)
             {
@@ -236,9 +267,57 @@ namespace Examples
             });
             // :snippet-end:
         }
+
+        //[Test]
+        public async Task MoreFlexSyncExamples()
+        {
+            var app = App.Create(Config.FSAppId);
+            var user = await app.LogInAsync(Credentials.Anonymous());
+
+            var config = new FlexibleSyncConfiguration(app.CurrentUser!);
+            var realm = Realm.GetInstance(config);
+
+            // :snippet-start: subasync
+            var query = realm.All<Team>().Where(t => t.Name == "MyTeam");
+            await query.SubscribeAsync();
+
+            // you can also pass a SubscriptionOptions object:
+            var query2 = realm.All<Team>().Where(t => t.Name == "DevelopmentTeam");
+            await query2.SubscribeAsync(
+                new SubscriptionOptions() { Name = "devTeamSubscription" });
+            // :snippet-end:
+            realm.Dispose();
+            realm = Realm.GetInstance(config);
+            // :snippet-start: update-multiple-subscriptions
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Item"}
+            // }
+            realm.Subscriptions.Update(() =>
+            {
+                // Subscribe to all long running items, and name
+                // the subscription "longRunningItems"
+                var longRunningTasksQuery = realm.All<MyTask>()
+                    .Where(t => t.ProgressMinutes > 120);
+                realm.Subscriptions.Add(longRunningTasksQuery,
+                    new SubscriptionOptions() { Name = "longRunningItems" });
+
+                // Subscribe to all of Ben's Items
+                realm.Subscriptions.Add(realm.All<MyTask>()
+                    .Where(t => t.Owner == "Ben"));
+
+                // Subscribe to all Teams, name the subscription
+                // 'teamsSubscription', and throw an error if
+                // this subscription name already exists.
+                realm.Subscriptions.Add(realm.All<Team>(),
+                    new SubscriptionOptions()
+                    { Name = "teams", UpdateExisting = false });
+            });
+            // :replace-end:
+            // :snippet-end:
+            Assert.AreEqual(5, realm.Subscriptions.Count);
+        }
     }
-
-
     partial class MyTask : IRealmObject
     {
         [PrimaryKey]

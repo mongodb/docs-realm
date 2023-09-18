@@ -1,6 +1,3 @@
-var app = App.Create("myRealmAppId");
-var user = await app.LogInAsync(Credentials.Anonymous());
-Realm realm;
 
 var config = new FlexibleSyncConfiguration(user)
 {
