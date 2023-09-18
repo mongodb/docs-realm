@@ -32,7 +32,6 @@ export const FtsQuery = () => {
 function FtsQueryInnards(): JSX.Element {
 
   const realm = useRealm();
-  console.debug(realm.path);
   const [bookName, setBookName] = useState('Book name');
   const [bookPrice, setBookPrice] = useState('0');
 
