@@ -7,7 +7,7 @@
   - Remove verbiage about the open a realm overload not taking a `db::config`
   - Add a new "Provide a Subset of Classes to a Realm" section similar to Swift SDK docs.
   - Add a new "Set Custom HTTP Headers When Using a Synced Realm" section.
-- Application Services/Connect to an App Services App: Add a new "Set Custom HTP Headers" section.
+- Application Services/Connect to an App Services App: Add a new "Set Custom HTTP Headers" section.
 - Manage Users/Authenticate Users: Add new `app::get_current_user()` and `user::is_logged_in()` methods.
 - Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
 
