@@ -37,6 +37,4 @@ describe('Full text search query',  () => {
     const checkForSwan = await screen.findByTestId('swanQueryResults');
     expect(checkForSwan.children[1]).toBe('1');
   });
-
-
 });
