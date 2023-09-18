@@ -1,0 +1,76 @@
+.. _flutter-stream-data-to-atlas:
+
+==================================
+Stream Data to Atlas - Flutter SDK
+==================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/data-ingest-overview.rst
+
+Sync Data Unidirectionally from a Client Application
+----------------------------------------------------
+
+.. procedure::
+
+   .. step:: Define an Asymmetric Object
+
+      To define an asymmetric object, you must use Flexible Sync. When you
+      define your asymmetric object, pass ``ObjectType.asymmetricObject`` to
+      ``@RealmModel()``.
+
+      .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.asymmetric-sync-object.dart
+         :language: dart 
+
+      For more information on how to define an asymmetric object, refer to 
+      :ref:`Define an Asymmetric Object <flutter-define-an-asymmetric-object>`.
+
+   .. step:: Connect and Authenticate with an App Services App
+
+      To stream data from the client to your backend App, you must 
+      :ref:`connect to an App Services backend <flutter-connect-to-backend>`.
+      
+      .. literalinclude:: /examples/generated/flutter/app_services_test.snippet.access-app-client.dart
+         :language: dart
+      
+      You must also :ref:`authenticate a user <flutter-authenticate>`.
+
+      .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.anonymous-credentials.dart
+         :language: dart
+
+      Data Ingest is a feature of Flexible Sync, so the App you connect 
+      to must use :ref:`Flexible Sync <flexible-sync>`.
+
+   .. step:: Open a Realm
+
+      After you have an authenticated user, open a :ref:`synced realm 
+      <flutter-open-synced-realm>`.
+
+      .. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.open-flexible-sync-realm.dart
+         :language: dart
+
+      Unlike bi-directional Sync, Data Ingest does not use a 
+      :ref:`Flexible Sync subscription <flutter-flexible-sync-manage-subscriptions>`.
+         
+      You cannot query an asymmetric object or persist it in a local
+      realm, so asymmetric objects are incompatible with bi-directional
+      Flexible Sync, Partition-Based Sync, and local Realm use.
+
+   .. step:: Create Asymmetric Objects
+
+      Once you have an open Realm, you can create an asymmetric object inside
+      a write transaction.
+            
+      .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+         :language: dart 
+         
+      You cannot read asymmetric objects. Once created, they sync to the App 
+      Services backend and the linked Atlas database.
+
+      Atlas Device Sync completely manages the lifecycle of this data. 
+      It is maintained on the device until Data Ingest synchronization is 
+      complete, and then removed from the device.
