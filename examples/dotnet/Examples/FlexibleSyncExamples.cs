@@ -268,16 +268,22 @@ namespace Examples
             // :snippet-end:
         }
 
-        public async void MoreFlexSyncExamples()
+        [Test]
+        public async Task MoreFlexSyncExamples()
         {
-            var realm = Realm.GetInstance();
+            var app = App.Create(Config.FSAppId);
+            var user = await app.LogInAsync(Credentials.Anonymous());
+
+            var config = new FlexibleSyncConfiguration(app.CurrentUser!);
+            var realm = Realm.GetInstance(config);
+
             // :snippet-start: subasync
             var query = realm.All<Team>().Where(t => t.Name == "MyTeam");
             await query.SubscribeAsync();
 
             // you can also pass a SubscriptionOptions object:
             await query.SubscribeAsync(
-                new SubscriptionOptions() { Name = "myteam" });
+                new SubscriptionOptions() { Name = "teamSubscription" });
             // :snippet-end:
 
             // :snippet-start: update-multiple-subscriptions
@@ -307,6 +313,7 @@ namespace Examples
             });
             // :replace-end:
             // :snippet-end:
+            Assert.AreEqual(5, realm.Subscriptions.Count);
         }
     }
     partial class MyTask : IRealmObject

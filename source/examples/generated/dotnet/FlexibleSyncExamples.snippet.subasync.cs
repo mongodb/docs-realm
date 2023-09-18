@@ -3,4 +3,4 @@ await query.SubscribeAsync();
 
 // you can also pass a SubscriptionOptions object:
 await query.SubscribeAsync(
-    new SubscriptionOptions() { Name = "myteam" });
+    new SubscriptionOptions() { Name = "teamSubscription" });

@@ -1,3 +1,4 @@
+
 var config = new FlexibleSyncConfiguration(user)
 {
     PopulateInitialSubscriptions = (realm) =>

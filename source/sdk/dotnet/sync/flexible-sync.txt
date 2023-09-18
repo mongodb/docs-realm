@@ -95,12 +95,11 @@ queries you want to use to bootstrap the realm, as shown in the following exampl
 
 Add a Subscription to the Existing Subscription Set
 ````````````````````````````````````````````````````
-
-You access a
-:dotnet-sdk:`SubscriptionSet <reference/Realms.Sync.SubscriptionSet.html>` with 
-the :dotnet-sdk:`Realm.Subscriptions <reference/Realms.Realm.html#Realms_Realm_Subscriptions>` 
-property. You then add queries to this list of subscriptions and update existing 
-subscriptions.
+You should initialize a realm with your  
+:dotnet-sdk:`SubscriptionSet <reference/Realms.Sync.SubscriptionSet.html>`. You 
+can then access the subscription set with the 
+:dotnet-sdk:`Realm.Subscriptions <reference/Realms.Realm.html#Realms_Realm_Subscriptions>` 
+property if you need to add additional queries or update existing subscriptions.
 
 To add a subscription to an existing subscription set, create 
 the query and then call :dotnet-sdk:`IQueryable.SubscribeAsync()
