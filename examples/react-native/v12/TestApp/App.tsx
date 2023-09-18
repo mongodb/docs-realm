@@ -6,6 +6,9 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {HomeScreen} from './src/screens/HomeScreen';
 import {Geospatial} from './src/components/data-types/Geospatial';
+
+import {FtsQuery} from './src/components/FtsQuery';
+
 import {Logger} from './src/components/Logger';
 import {ObjectModels} from './src/components/ObjectModels';
 import {SubscriptionScreen} from './src/screens/SubscriptionScreen';
@@ -32,6 +35,7 @@ function App(): JSX.Element {
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Geospatial" component={Geospatial} />
+        <Drawer.Screen name="Full-Text Search" component={FtsQuery} />
         <Drawer.Screen name="Logger" component={Logger} />
         <Drawer.Screen name="ObjectModels" component={ObjectModels} />
         <Drawer.Screen name="Subscriptions" component={SubscriptionScreen} />

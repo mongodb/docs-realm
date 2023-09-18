@@ -42,6 +42,43 @@ To filter data, pass a query made with Realm Query Language to
    :language: js
    :emphasize-lines: 3
 
+.. _react-native-fts-filter:
+
+Filter with Full-Text Search
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use Realm Query Language (RQL) to query on properties that have a
+:ref:`Full-Text Search <react-native-set-fts-index>` (FTS) index. 
+To begin, use :ref:`useQuery() <react-native-use-query-hook>`
+to return the collection of realm objects you'd like to filter.
+To query the FTS indexed property for objects within the collection, use 
+the ``TEXT`` predicate in your :js-sdk:`filtered <classes/Results.html#filtered>` query. 
+
+Exclude results for a word by placing the ``-`` character in front of the word. 
+For example, a search for ``swan -lake`` would include all search results for 
+``swan`` excluding those with ``lake``.
+
+In the following example, we query on the ``Book.name`` field using the 
+following ``Book`` object model:
+
+.. literalinclude:: /examples/generated/react-native/v12/FtsQuery.snippet.rn-fts-annotation.tsx
+   :language: typescript
+
+.. literalinclude:: /examples/generated/react-native/v12/FtsQuery.snippet.react-native-fts-query.tsx
+   :language: typescript
+
+.. _react-native-fts-details:
+
+Full-Text Search Tokenizer Details
+''''''''''''''''''''''''''''''''''
+
+Full-Text Search (FTS) indexes support:
+
+- Boolean match word searches, not searches for relevance.
+- Tokens are diacritics- and case-insensitive.
+- Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages).
+- All other characters are considered whitespace. Words split by a hyphen (-) like full-text are split into two tokens.
+
 Operators
 ---------
 
