@@ -33,8 +33,9 @@ Pass the App ID for your App, which you can
 Configuration
 -------------
 
-For granular control of your app connection, such as custom timeouts for connections
-and the log level, you can pass an 
+For most use cases, you only need your application's App ID to connect
+to App Services. For granular control of your app connection, such as 
+custom timeouts for connections and the log level, you can optionally pass an 
 :dotnet-sdk:`AppConfiguration <reference/Realms.Sync.AppConfiguration.html>` 
 object to the 
 :dotnet-sdk:`App.Create() <reference/Realms.Sync.App.html#Realms_Sync_App_Create_Realms_Sync_AppConfiguration_>` 
@@ -43,7 +44,4 @@ method. The following example sets the LogLevel and the request timeout:
 .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.appConfig.cs
    :language: csharp
 
-.. note::
-
-   For most use cases, you only need your application's App ID to connect
-   to Realm. The other settings demonstrated here are optional.
+.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst

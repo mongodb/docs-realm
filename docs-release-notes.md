@@ -1,3 +1,146 @@
+# September 15, 2023
+
+## C++ SDK
+
+- Model Data/Supported Types: Add Decimal128 to supported types.
+- Configure & Open a Realm
+  - Remove verbiage about the open a realm overload not taking a `db::config`
+  - Add a new "Provide a Subset of Classes to a Realm" section similar to Swift SDK docs.
+  - Add a new "Set Custom HTTP Headers When Using a Synced Realm" section.
+- Application Services/Connect to an App Services App: Add a new "Set Custom HTTP Headers" section.
+- Manage Users/Authenticate Users: Add new `app::get_current_user()` and `user::is_logged_in()` methods.
+- Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## Kotlin SDK
+
+- Realm Database
+  - Configure & Open a Realm: Move relevant info from the former Manage Realm Files landing page. Update examples. Move the page out of "Manage Realm Files" to a top-level table of contents entry within Realm Database section.
+  - Manage Realm Files
+    - Landing Page: Convert landing page to container page that expands the table of contents but does not open to page content.
+- Sync Device Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## .NET SDK
+
+- Model Data
+  - Relationships: Define `IList<T>` with only a getter; no need to initialize in a constructor. Update `Task` model to `Item`.
+  - Supported Data Types/Embedded Objects: Embedded objects should implement the `IEmbeddedObject` interface, not derive from `EmbeddedObject` class.
+- CRUD
+  - Create: Delete text that had been moved into an `include` and was showing twice on the page.
+  - Read: Streamline page copy.
+  - Filter: Rename page from "Query, Filter, and Sort Data" to "Filter and Sort Data."
+- Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## Node.js SDK
+
+- Sync Data
+  - Handle Sync Errors: Add a new "Handle Compensating Write Errors" section.
+  - Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## React Native SDK
+
+- Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## Swift SDK
+
+- Sync Data/Stream Data to Atlas: Note that Device Sync manages the lifecycle of asymmetric objects on the device, and no cleanup is required.
+
+## Other
+
+- Realm Studio/Install Realm Studio: Add links to SDK release notes to simplify finding the appropriate version of Realm Studio. Remove and update outdated copy.
+- Realm Example Projects: Update links to examples. Add Flutter examples. Add user online state example. Add section descriptions.
+
+# September 8, 2023
+
+## Flutter SDK
+
+- Sync Device Data/Manage Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Java SDK
+
+- Sync Device Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Kotlin SDK
+
+- Realm
+  - Read & Write Data/Read: Update Full-Text Search documentation to include support for prefix searches.
+  - Model Data/Property Annotations: Update Full-Text Search documentation to include support for prefix searches.
+- Sync Device Data/ Manage Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## .NET SDK
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Node.js SDK
+
+- Model Data/Relationships & Embedded Objects: Update relationship model examples throughout page for JavaScript v12.
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+- Many pages throughout the SDK: Update the API reference links for the new JavaScript v12 API reference structure.
+
+## React Native
+
+- Model Data/Define an Object Model: Fix incorrect optional properties examples to include both the `optional` and `?` syntax for marking a property as optional.
+- Sync Data
+  - Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+  - Set the Client Log Level: Note that this is deprecated in v12 in favor of setting the Realm log level.
+- Logging: Add new page about setting the Realm log level, which replaces the deprecated Sync client log level.
+
+## Swift SDK
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add a section for indexed queryable fields subscription requirements.
+
+## Web SDK
+
+- Landing Page: Correct copy on page regarding support of Sync for the SDK.
+
+## Other
+
+- Internal: Add programmatically-generated facet tags to the repo for improved search indexing.
+
+# September 1, 2023
+
+## Flutter SDK
+
+- Realm Database/Read & Write Data: Add a new filter example with an iterable argument.
+
+## Kotlin SDK
+
+- Realm
+  - Model Data
+    - Define an Object Model: Differentiate between property types and property annotations. Add examples moved out from data types section.
+    - Data Types: Rewrite page with more complete coverage of supported data types. Add tested data type cheatsheets.
+  - CRUD
+    - Create: Correct `RealmMap` type name to `RealmDictionary`.
+    - Update: Add a note about how to update Strings or Byte arrays.
+
+## .NET SDK
+
+- Model Data/Data Types/Geospatial: Note that Flexible Sync does not support geospatial queries.
+
+## Node.js SDK
+
+- Model Data/Data Types/Geospatial: Note that Flexible Sync does not support geospatial queries.
+- Logging: New page with tested, Bluehawked code examples for the Realm logger API.
+- Atlas App Services/Connect to an App Services App: Add a example showing configuring a `timeout` related to the new `cancelWaitsOnNonFatalErrors` Sync configuration setting.
+- Sync Data
+  - Configure & Open a Synced Realm: Add info for the new `cancelWaitsOnNonFatalErrors` Sync configuration setting.
+  - Manage Flexible Sync Subscriptions: Document the new `.subscribe()` API, with tested, Bluehawked code examples.
+  - Manage a Sync Session: Add info about waiting for uploads and downloads.
+  - Set the Client Log Level: Warn that Sync.setLogLevel() is deprecated in Realm JS SDK v12.
+- Many pages throughout the SDK: Update the API reference links for the new v12 API reference structure.
+
+## React Native SDK
+
+- Model Data/Data Types/Geospatial: Add new page on Geospatial Data Types with tested, Bluehawked examples.
+
+## Swift SDK
+
+- Install: Add visionOS to the list of supported operating systems.
+- Application Services/Query MongoDB: Remove Partition-Based Sync from examples, update tests, add collapsible code blocks for example output.
+
+## Other
+
+- Realm Example Projects: Add new examples and reorganize tables.
+
 # August 25, 2023
 
 ## C++ SDK
@@ -36,7 +179,7 @@
 
 ## Other
 
-- Realm Example Projects: Update page with more Device Sync example projects. 
+- Realm Example Projects: Update page with more Device Sync example projects.
 
 # August 18, 2023
 

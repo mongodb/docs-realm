@@ -26,7 +26,7 @@ Set the Realm Log Level
 
 You can set the level of detail reported by the Realm C++ SDK. Pass a 
 :cpp-sdk:`realm::logger::level <structrealm_1_1logger.html>`
-to the ``set_default_level_threshold()`` public member function:
+to the ``set_default_level_threshold()`` member function:
 
 .. literalinclude:: /examples/generated/cpp/logger.snippet.set-default-log-level.cpp
    :language: cpp
@@ -38,7 +38,7 @@ Customize the Logging Function
 
 To set a custom logger function, create a 
 :cpp-sdk:`realm::logger <structrealm_1_1logger.html#a1c4a96ab2eb5e6b164f17552c233104a>`
-and override the virtual ``do_log()`` public member function:
+and override the virtual ``do_log()`` member function:
 
 .. literalinclude:: /examples/generated/cpp/logger.snippet.create-custom-logger.cpp
    :language: cpp

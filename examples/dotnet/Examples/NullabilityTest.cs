@@ -30,7 +30,6 @@ namespace Examples
             NonNullableInt = default!;
         }
 
-
         [PrimaryKey]
         [MapTo("_id")]
         public int Id { get; set; }

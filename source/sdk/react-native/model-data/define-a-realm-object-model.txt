@@ -69,30 +69,15 @@ The following schema defines a ``Car`` type that has these properties: ``_id``
 Declare an Optional Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To mark a property as optional, append a question mark ``?`` to its type. You can
-also add ``optional`` to more complicated properties and set it to ``true`` or
-``false``.
+To mark a property as optional, use object syntax and set ``optional`` to
+``true``. You can also use a simplified syntax: append a question mark ``?``
+to the type. This is best-suited to basic types. You should use the more
+specific object syntax for more complicated types.
 
-In the following example of a ``Dog`` class, the ``age`` property of type
-``int`` is optional.
+In the following example of a ``Person`` class, the ``age`` and ``birthday``
+properties are both optional.
 
-.. tabs-realm-languages::
-      
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/react-native/ts/Dog.snippet.ts-dog-schema.ts
-         :language: typescript
-         :emphasize-lines: 3, 4, 13, 15
-         :linenos:
-
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/react-native/js/Dog.snippet.js-dog-schema.js
-         :language: javascript
-         :emphasize-lines: 9, 11
-         :linenos:
+.. include:: examples/generated/react-native/v12/ObjectModels.snippet.model-optional-properties.tsx.rst
 
 .. _react-native-specify-a-primary-key:
 .. _react-native-primary-keys:

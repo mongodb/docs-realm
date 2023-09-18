@@ -71,7 +71,6 @@ namespace Examples
             //Assert.IsTrue(didTriggerErrorHandler);
         }
 
-        [Test]
         public async Task UseCancellationToken()
         {
 

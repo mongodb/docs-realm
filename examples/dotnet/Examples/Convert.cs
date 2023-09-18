@@ -52,7 +52,7 @@ namespace Examples
             await session.WaitForUploadAsync();
             await session.WaitForDownloadAsync();
 
-            var nonSyncConfig = new RealmConfiguration("my.realm");
+            var nonSyncConfig = new RealmConfiguration();
 
             syncedRealm.WriteCopy(nonSyncConfig);
 
