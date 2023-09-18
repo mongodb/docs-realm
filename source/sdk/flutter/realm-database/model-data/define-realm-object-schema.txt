@@ -316,15 +316,15 @@ Cleaning the generator cache can be useful when debugging.
 .. _flutter-define-an-asymmetric-object:
 
 Define an Asymmetric Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 .. versionadded:: 1.5.0
 
-To define an asymmetric object, you must use Flexible Sync. When you define your
-asymmetric object, pass ``ObjectType.asymmetricObject`` to ``@RealmModel()``.
+Asymmetric objects require Flexible Sync. To define an asymmetric object, pass
+``ObjectType.asymmetricObject`` to ``@RealmModel()``.
 
 .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.asymmetric-sync-object.dart
-   :language: dart   
+   :language: dart
 
 .. note:: Attempting to Read Asymmetric Objects
 
