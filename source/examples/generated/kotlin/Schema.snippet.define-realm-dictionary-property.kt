@@ -7,7 +7,7 @@ class Frog : RealmObject {
     // Dictionary of RealmObject type (value MUST be nullable)
     var favoriteFriendsByPond: RealmDictionary<Frog?> = realmDictionaryOf()
     // Dictionary of EmbeddedRealmObject type (value MUST be nullable)
-    var favoriteTreesInForest: RealmDictionary<Forest?> = realmDictionaryOf()
+    var favoriteTreesInForest: RealmDictionary<EmbeddedForest?> = realmDictionaryOf()
     // Dictionary of primitive type (value can be nullable)
     var favoritePondsByForest: RealmDictionary<String?> = realmDictionaryOf()
 }

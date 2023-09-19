@@ -1,6 +1,6 @@
 // Query an embedded object directly
-val queryAddress: Address =
-    realm.query<Address>("state == 'FL'").find().first()
+val queryAddress: EmbeddedAddress =
+    realm.query<EmbeddedAddress>("state == 'FL'").find().first()
 
 // Get the parent of an embedded object
 val getParent: Contact =

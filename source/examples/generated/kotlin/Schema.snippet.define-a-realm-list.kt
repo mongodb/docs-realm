@@ -6,7 +6,7 @@ class Frog : RealmObject {
     // List of RealmObject type (CANNOT be nullable)
     var favoritePonds: RealmList<Pond> = realmListOf()
     // List of EmbeddedRealmObject type (CANNOT be nullable)
-    var favoriteForests: RealmList<Forest> = realmListOf()
+    var favoriteForests: RealmList<EmbeddedForest> = realmListOf()
     // List of primitive type (can be nullable)
     var favoriteWeather: RealmList<String?> = realmListOf()
 }

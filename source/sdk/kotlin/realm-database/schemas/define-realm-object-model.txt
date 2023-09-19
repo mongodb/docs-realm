@@ -127,17 +127,20 @@ Define an Embedded Object
 
 An ``EmbeddedRealmObject`` is a special type of Realm object that models 
 complex data about a specific object. Realm treats each embedded object as 
-nested data inside of a single specific parent object.
+nested data inside of a single specific parent object. 
 
-Embedded objects are similar to relationships, 
-but an embedded object inherits the lifecycle of its parent object and cannot 
-exist as an independent Realm object. 
 Because of this, embedded objects have the following constraints: 
 
-- Embedded objects are automatically deleted when their parent object is 
-  deleted or their parent no longer references them. 
+- An embedded object requires a parent object and *cannot* exist as an 
+  independent Realm object. If the parent object no longer references the 
+  embedded object, the embedded object is automatically deleted.
+- An embedded object inherits the lifecycle of its parent object. For 
+  example, if you delete the parent object, the embedded object is also
+  deleted. 
+- Embedded objects have strict ownership with their parent object.
+  You *cannot* reassign an embedded object to a different parent object, or 
+  share an embedded object between multiple parent objects.
 - Embedded objects *cannot* have a :ref:`primary key <kotlin-primary-keys>`. 
-- You *cannot* reassign an embedded object to a different parent object.
 
 .. tip:: 
    
@@ -151,18 +154,19 @@ Because of this, embedded objects have the following constraints:
 To define an embedded object type, create a Kotlin class that implements the 
 `EmbeddedRealmObject 
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
-interface, then embed the object as a property of another Realm object in the
-same way as you would define a relationship:
+interface:
 
-.. literalinclude:: /examples/generated/kotlin/DataTypesTest.snippet.embedded-object-model.kt 
+.. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-embedded-object.kt 
     :language: kotlin
 
-.. tip:: Embedded Object Types are Reusable and Composable
+Embedded object types are reusable and composable. You can use the 
+same embedded object type in multiple parent object types, and
+you can embed objects inside other embedded objects. 
 
-   You can use the same embedded object type in multiple parent object types, and
-   you can embed objects inside other embedded objects. You can even
-   recursively reference an embedded object type as an optional property in its
-   own definition.
+After you define your embedded object type, you must define an 
+embedded relationship with a parent object in your data model. To 
+learn how to define an embedded relationship, refer to 
+:ref:`<kotlin-embedded-relationship>`.
 
 .. _kotlin-asymmetric-objects:
 
