@@ -78,7 +78,7 @@ class CreateTest: RealmTest() {
             val config = RealmConfiguration.Builder(
                 schema = setOf(RealmDictionary_Frog::class) // Pass the defined class as the object schema
             )
-                .directory("/tmp/") // default location for jvm is... in the project root
+                .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -114,7 +114,7 @@ class CreateTest: RealmTest() {
             val config = RealmConfiguration.Builder(
                 schema = setOf(RealmDictionary_Frog::class) // Pass the defined class as the object schema
             )
-                .directory("/tmp/") // default location for jvm is... in the project root
+                .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")

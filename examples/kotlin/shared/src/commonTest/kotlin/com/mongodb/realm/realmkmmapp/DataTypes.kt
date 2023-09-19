@@ -5,10 +5,10 @@ import io.realm.kotlin.ext.*
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.types.*
-import kotlinx.datetime.Instant
 import org.mongodb.kbson.Decimal128
 import org.mongodb.kbson.ObjectId
 import kotlin.test.*
+
 class CustomObjectType : RealmObject {
     var uuid: RealmUUID = RealmUUID.random()
 }
@@ -172,51 +172,6 @@ class RealmSupportedTypes : RealmObject {
     // :snippet-end:
 }
 
-// :snippet-start: timestamp-workaround
-// model class that stores an Instant (kotlinx-datetime) field as a RealmInstant via a conversion
-class RealmInstantConversion : RealmObject {
-    private var _timestamp: RealmInstant = RealmInstant.from(0, 0)
-    public var timestamp: Instant
-        get() {
-            return _timestamp.toInstant()
-        }
-        set(value) {
-            _timestamp = value.toRealmInstant()
-        }
-}
-
-fun RealmInstant.toInstant(): Instant {
-    val sec: Long = this.epochSeconds
-    // The value always lies in the range `-999_999_999..999_999_999`.
-    // minus for timestamps before epoch, positive for after
-    val nano: Int = this.nanosecondsOfSecond
-
-    return if (sec >= 0) { // For positive timestamps, conversion can happen directly
-        Instant.fromEpochSeconds(sec, nano.toLong())
-    } else {
-        // For negative timestamps, RealmInstant starts from the higher value with negative
-        // nanoseconds, while Instant starts from the lower value with positive nanoseconds
-        // TODO This probably breaks at edge cases like MIN/MAX
-        Instant.fromEpochSeconds(sec - 1, 1_000_000 + nano.toLong())
-    }
-}
-
-fun Instant.toRealmInstant(): RealmInstant {
-    val sec: Long = this.epochSeconds
-    // The value is always positive and lies in the range `0..999_999_999`.
-    val nano: Int = this.nanosecondsOfSecond
-
-    return if (sec >= 0) { // For positive timestamps, conversion can happen directly
-        RealmInstant.from(sec, nano)
-    } else {
-        // For negative timestamps, RealmInstant starts from the higher value with negative
-        // nanoseconds, while Instant starts from the lower value with positive nanoseconds
-        // TODO This probably breaks at edge cases like MIN/MAX
-        RealmInstant.from(sec + 1, -1_000_000 + nano)
-    }
-}
-// :snippet-end:
-
 class SupportedDataTypesTest : RealmTest() {
     @Test
     fun populateEnumPropertiesTest() {
@@ -362,6 +317,7 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateBSONPropertiesWithValuesTest() {
         runBlocking {
@@ -393,6 +349,7 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateRealmDefaultPropertiesTest() {
         runBlocking {
@@ -421,10 +378,12 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateRealmPropertiesWithValuesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(RealmSupportedTypes::class, CustomObjectType::class))
+                .name("populatePropertiesWithValues.realm")
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -477,6 +436,7 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateRealmObjectDefaultPropertiesTest() {
         runBlocking {
@@ -509,10 +469,12 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateRealmObjectPropertiesWithValuesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(EmbeddedObjectType::class, AnotherCustomObjectType::class, CustomObjectType::class))
+                .name("populateObjectPropertiesWithValues.realm")
                 .inMemory()
                 .build()
             val realm = Realm.open(config)

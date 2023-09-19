@@ -13,13 +13,16 @@ import org.mongodb.kbson.ObjectId
 //    "terms": {
 //       "ExampleRealmObject_": "",
 //       "RealmList_": "",
+//       "ExampleRealmDictionary_": "",
 //       "RealmDictionary_": "",
+//       "ExampleRealmSet_": "",
 //       "RealmSet_": ""
 //   }
 // }
 
 /*
 ** Define Realm Object Model page examples **
+* Tested in SchemaTest.kt file
  */
 
 // :snippet-start: define-realm-object
@@ -74,43 +77,62 @@ class RealmList_Pond : RealmObject {
 }
 // :snippet-end:
 
-/*
-Tested in Create, Read, Update, and Delete.kt files
- */
+
 // :snippet-start: define-a-realm-set
 // RealmSet<E> can be any supported primitive or
 // BSON type or a RealmObject
-class RealmSet_Frog : RealmObject {
+class ExampleRealmSet_Frog : RealmObject {
     var _id: ObjectId = ObjectId()
     var name: String = ""
     // Set of RealmObject type (CANNOT be nullable)
-    var favoriteSnacks: RealmSet<RealmSet_Snack> = realmSetOf()
+    var favoriteSnacks: RealmSet<ExampleRealmSet_Snack> = realmSetOf()
     // Set of primitive type (can be nullable)
     var favoriteWeather: RealmSet<String?> = realmSetOf()
+}
+
+class ExampleRealmSet_Snack : RealmObject {
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+}
+// :snippet-end:
+/*
+Tested in Create, Read, Update, and Delete.kt files
+ */
+class RealmSet_Frog : RealmObject {
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+
+    var favoriteSnacks: RealmSet<RealmSet_Snack> = realmSetOf()
 }
 
 class RealmSet_Snack : RealmObject {
     var _id: ObjectId = ObjectId()
     var name: String = ""
 }
-// :snippet-end:
 
-/*
-Tested in Create, Read, Update, and Delete.kt files
- */
 // :snippet-start: define-realm-dictionary-property
 // RealmDictionary<K, V> can be any supported
 // primitive or BSON types, a RealmObject, or
 // an EmbeddedRealmObject
-class RealmDictionary_Frog : RealmObject {
+class ExampleRealmDictionary_Frog : RealmObject {
     var _id: ObjectId = ObjectId()
     var name: String = ""
     // Dictionary of RealmObject type (value MUST be nullable)
-    var favoriteFriendsByForest: RealmDictionary<RealmDictionary_Frog?> = realmDictionaryOf()
+    var favoriteFriendsByPond: RealmDictionary<ExampleRealmDictionary_Frog?> = realmDictionaryOf()
     // Dictionary of EmbeddedRealmObject type (value MUST be nullable)
-    var favoriteForestsByForest: RealmDictionary<ExampleRealmObject_Forest?> = realmDictionaryOf()
+    var favoriteTreesInForest: RealmDictionary<ExampleRealmObject_Forest?> = realmDictionaryOf()
     // Dictionary of primitive type (value can be nullable)
     var favoritePondsByForest: RealmDictionary<String?> = realmDictionaryOf()
 }
 // :snippet-end:
+/*
+Tested in Create, Read, Update, and Delete.kt files
+ */
+class RealmDictionary_Frog : RealmObject {
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var favoriteFriendsByForest: RealmDictionary<RealmDictionary_Frog?> = realmDictionaryOf()
+    var favoritePondsByForest: RealmDictionary<String?> = realmDictionaryOf()
+}
+
 // :replace-end:
