@@ -36,9 +36,16 @@ export const WaitFirstTime = () => {
     createSubscription().catch(console.error);
   }, []);
 
-  // ...work with the subscribed results list or modify the subscription.
+  // :uncomment-start:
+  // return (
+  //   // Work with the subscribed results list or modify the subscription...
+  //   <></>
+  // );
+  // :uncomment-end:
 
   // :remove-start:
+  // This section of the component is only for testing - none of it
+  // should be included in docs example code.
   const writeRealmObject = async (name: string) => {
     realm.write(() => {
       realm.create(Bird, {

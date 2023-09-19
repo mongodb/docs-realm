@@ -36,13 +36,10 @@ export const SubscribeApiExamples = () => {
               rerunOnOpen: true,
             },
           }}>
-          {/* ...work with realm data in nested components. */}
-          {/* :remove-start: */}
           <BasicSubscription />
           <WaitFirstTime />
           <AlwaysWait />
           <Unsubscribe />
-          {/* :remove-end: */}
         </RealmProvider>
       </UserProvider>
     </AppProvider>

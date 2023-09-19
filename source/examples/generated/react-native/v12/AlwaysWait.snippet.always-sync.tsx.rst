@@ -29,6 +29,9 @@
        createSubscription().catch(console.error);
      }, []);
 
-     // ...work with the subscribed results list or modify the subscription.
+     return (
+       // Work with the subscribed results list or modify the subscription...
+       <></>
+     );
 
    };

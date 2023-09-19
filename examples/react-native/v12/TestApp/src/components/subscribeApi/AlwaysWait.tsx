@@ -37,9 +37,16 @@ export const AlwaysWait = () => {
     createSubscription().catch(console.error);
   }, []);
 
-  // ...work with the subscribed results list or modify the subscription.
+  // :uncomment-start:
+  // return (
+  //   // Work with the subscribed results list or modify the subscription...
+  //   <></>
+  // );
+  // :uncomment-end:
 
   // :remove-start:
+  // This section of the component is only for testing - none of it
+  // should be included in docs example code.
   return (
     <View>
       <Text>-------------------------------</Text>
