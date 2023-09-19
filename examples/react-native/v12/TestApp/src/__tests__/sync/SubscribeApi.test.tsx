@@ -8,8 +8,18 @@ import {render, screen, userEvent} from '@testing-library/react-native';
 // pass.
 
 describe('Subscribe API behavior tests', () => {
+  beforeEach(async () => {
+    // Close and remove all realms in the default directory.
+    Realm.clearTestState();
+  });
+
   test('Basic subscription with a name', async () => {
+    // This test consistently fails in CI. For whatever reason, the
+    // initial sync takes more than 10 seconds, which is the max
+    // allowed time by Jest config.
     render(<SubscribeApiExamples />);
+
+    console.debug('after render');
 
     // Get the subscription name node. If the `.subscribe()`
     // method works, its name will be written to this node.
@@ -19,6 +29,8 @@ describe('Subscribe API behavior tests', () => {
       timeout: 2000,
     });
     expect(subNameNode).toBeInTheDocument;
+
+    console.debug('after subnamenode found');
 
     const renderedSubName = subNameNode.children[1];
     // Ensure the subscription name matches what we expect.
