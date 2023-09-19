@@ -24,13 +24,13 @@ export const BasicSubscription = () => {
       // :emphasize-end:
     };
 
+    createSubscription().catch(console.error);
+
     // Get the subscription...
     const subscription = realm.subscriptions.findByName('Birds I have seen');
 
     // ... and set it to a stateful variable or manage it in `useEffect`.
     setSeenBirdsSubscription(subscription);
-
-    createSubscription().catch(console.error);
   }, []);
 
   // :uncomment-start:

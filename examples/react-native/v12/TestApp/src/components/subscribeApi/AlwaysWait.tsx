@@ -26,15 +26,15 @@ export const AlwaysWait = () => {
         name: 'Always wait',
         timeout: 500, // :emphasize:
       });
-
-      // Get the subscription...
-      const subscription = realm.subscriptions.findByName('Always wait');
-
-      // ... and set it to a stateful variable or manage it in `useEffect`.
-      setUnseenBirdsSubscription(subscription);
     };
 
     createSubscription().catch(console.error);
+
+    // Get the subscription...
+    const subscription = realm.subscriptions.findByName('Always wait');
+
+    // ... and set it to a stateful variable or manage it in `useEffect`.
+    setUnseenBirdsSubscription(subscription);
   }, []);
 
   // :uncomment-start:
