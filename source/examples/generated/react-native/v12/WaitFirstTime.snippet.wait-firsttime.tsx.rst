@@ -42,5 +42,4 @@
        // Work with the subscribed results list or modify the subscription...
        <></>
      );
-
    };

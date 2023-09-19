@@ -42,7 +42,6 @@ export const WaitFirstTime = () => {
   //   <></>
   // );
   // :uncomment-end:
-
   // :remove-start:
   // This section of the component is only for testing - none of it
   // should be included in docs example code.

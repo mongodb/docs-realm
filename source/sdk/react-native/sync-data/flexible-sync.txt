@@ -98,11 +98,17 @@ To subscribe to a query:
 .. include:: /examples/generated/react-native/v12/BasicSubscription.snippet.subscribe-query.tsx.rst
 
 Most of the time, you should give your subscriptions a name. If you don't, the
-name is set to :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`.
+name is set to ``null``.
 
 If you use ``filtered()`` on an unnamed query subscription, the subscription
 identifier is based on the ``filtered`` query. This means that every time your
 query string changes, ``subscribe()`` will create a new subscription.
+
+**API Reference**
+
+- :js-sdk:`subscribe() </classes/Results.html#subscribe>`
+- :js-sdk:`SubscriptionOptions </types/SubscriptionOptions.html>`
+- :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`
 
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -132,6 +138,10 @@ download runs:
 
 .. include:: /examples/generated/react-native/v12/AlwaysWait.snippet.always-sync.tsx.rst
 
+**API Reference**
+
+- :js-sdk:`waitForSync </enums/WaitForSync.html>`
+
 Unsubscribe from a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -153,6 +163,10 @@ on the new set of subscriptions.
 
 .. include:: /examples/generated/react-native/v12/Unsubscribe.snippet.unsubscribe-query.tsx.rst
 
+**API Reference**
+
+- :js-sdk:`unsubscribe() </classes/Results.html#unsubscribe>`
+
 .. _react-native-sync-subscribe-to-queryable-fields:
 
 Manually Manage Subscriptions
@@ -168,7 +182,8 @@ subscriptions to specific queries on queryable fields.
 
 If you're using ``@realm/react``, you can manage realm subscriptions inside of
 a :ref:`properly-configured RealmProvider <react-native-open-a-synced-realm>`. 
-The ``useRealm()`` hook gives you access to the currently-opened realm.
+The :realm-react-sdk:`useRealm() </functions/useRealm.html>` hook gives you
+access to the currently-opened realm.
 
 You can do the following with your subscriptions:
 
@@ -201,13 +216,17 @@ types. You can also have multiple queries on the same object type.
 Access All Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Within a ``RealmProvider`` that's configured for Flexible Sync, you can access
-a collection of all subscriptions for your app. This is called a
-``SubscriptionSet``.
+Within a ``RealmProvider`` configured for Flexible Sync, you can access
+a ``SubscriptionSet``. A SubscriptionSet is a collection of all subscriptions
+for your app.
 
 .. literalinclude:: /examples/generated/react-native/ts/get-subscriptions.test.snippet.get-subscriptions.tsx
    :language: javascript
    :emphasize-lines: 12
+
+**API Reference**
+
+- :js-sdk:`SubscriptionSet </classes/SubscriptionSet.html>`
 
 .. _react-native-sync-add-subscription:
 
@@ -239,10 +258,9 @@ Flexible Sync realm. Initial subscriptions let you define subscriptions when you
 :ref:`configure a synced realm <react-native-open-a-synced-realm>`.
 
 To open a synced realm with initial subscriptions, add an ``initialSubscriptions`` 
-property to ``RealmProvider``'s :realm-react-sdk:`FlexibleSyncConfiguration 
-<types/Realm.FlexibleSyncConfiguration.html>` object.
+property to a ``RealmProvider``'s sync configuration.
 
-You **cannot** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
+You **can't** use the ``@realm/react`` library hooks ``useQuery`` and ``useObject``
 when setting initial subscriptions. Instead, use the :ref:`Realm.js read and
 write operations <node-read-operations>`.
 
@@ -253,8 +271,12 @@ write operations <node-read-operations>`.
 By default, initial subscriptions are only created the first time a realm is
 opened. If your app needs to rerun this initial subscription every time the app
 starts, you can set ``rerunOnOpen`` to ``true``. You might need to do this to
-re-run dynamic time ranges or other queries that require a re-computation of
+rerun dynamic time ranges or other queries that require a recomputation of
 static variables for the subscription.
+
+**API Reference**
+
+- :realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
 
 .. _react-native-flexible-sync-wait-for-sync:
 
@@ -306,8 +328,8 @@ subscription that you want to update to the ``MutableSubscriptionSet.add()``
 method. Like adding a new subscription, you must update a subscription within a
 transaction by calling ``subscriptions.update()``.
 
-In the following example, long-running tasks are re-defined to be any tasks that
-have taken more than 180 minutes. 
+The following example, redefines long-running tasks as any tasks that take
+more than 180 minutes.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.update-subscriptions.js
 
@@ -315,6 +337,12 @@ have taken more than 180 minutes.
 
    Attempting to update a subscription that has the
    ``SubscriptionOptions.throwOnUpdate`` field set to true throws an exception.
+
+**API Reference**
+
+- :js-sdk:`MutableSubscriptionSet.add() </classes/MutableSubscriptionSet.html#add>`
+- :js-sdk:`SubScriptionSet.update() </classes/SubscriptionSet.html#update>`
+- :js-sdk:`SubscriptionOptions.throwOnUpdate </types/SubscriptionOptions.html>`
 
 .. _react-native-remove-subscription:
 
@@ -400,6 +428,10 @@ calling ``.removeUnnamed()`` on ``mutableSubs``. ``.removeUnnamed()`` returns
 the number of unnamed subscriptions removed.
 
 .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-remove-unnamed.ts
+
+**API Reference**
+
+- :js-sdk:`MutableSubscriptionSet.add() </classes/MutableSubscriptionSet.html#removeUnnamed>`
 
 Remove All Subscriptions
 ````````````````````````
