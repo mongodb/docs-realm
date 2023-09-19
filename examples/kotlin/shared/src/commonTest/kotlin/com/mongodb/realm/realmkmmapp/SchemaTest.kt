@@ -9,12 +9,14 @@ import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
-import io.realm.kotlin.types.*
+import io.realm.kotlin.types.RealmList
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.RealmSet
+import io.realm.kotlin.types.RealmUUID
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PersistedName
 import io.realm.kotlin.types.annotations.PrimaryKey
-import kotlinx.datetime.Instant
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 
@@ -79,24 +81,6 @@ class Cat: RealmObject {
     var _id: RealmUUID = RealmUUID.random()
 }
 
-// :snippet-start: example-schema
-class Car : RealmObject {
-    var make: String = ""
-    var model: String = ""
-    var miles: Int = 0
-}
-// :snippet-end:
-
-// :snippet-start: define-object-type
-// Defines a `Cat` object type
-// with several properties
-class Cat2 : RealmObject {
-    var name: String = ""
-    var color: String? = null
-    var age: Int = 0
-}
-// :snippet-end:
-
 // :snippet-start: declare-properties
 class Cat3 : RealmObject {
     @PrimaryKey
@@ -126,55 +110,10 @@ class PersistedName_Cat : RealmObject {
 }
 // :snippet-end:
 
-// :snippet-start: timestamp-workaround
-// model class that stores an Instant (kotlinx-datetime) field as a RealmInstant via a conversion
-class RealmInstantConversion : RealmObject {
-    private var _timestamp: RealmInstant = RealmInstant.from(0, 0)
-    public var timestamp: Instant
-        get() {
-            return _timestamp.toInstant()
-        }
-        set(value) {
-            _timestamp = value.toRealmInstant()
-        }
-}
-
-fun RealmInstant.toInstant(): Instant {
-    val sec: Long = this.epochSeconds
-    // The value always lies in the range `-999_999_999..999_999_999`.
-    // minus for timestamps before epoch, positive for after
-    val nano: Int = this.nanosecondsOfSecond
-
-    return if (sec >= 0) { // For positive timestamps, conversion can happen directly
-        Instant.fromEpochSeconds(sec, nano.toLong())
-    } else {
-        // For negative timestamps, RealmInstant starts from the higher value with negative
-        // nanoseconds, while Instant starts from the lower value with positive nanoseconds
-        // TODO This probably breaks at edge cases like MIN/MAX
-        Instant.fromEpochSeconds(sec - 1, 1_000_000 + nano.toLong())
-    }
-}
-
-fun Instant.toRealmInstant(): RealmInstant {
-    val sec: Long = this.epochSeconds
-    // The value is always positive and lies in the range `0..999_999_999`.
-    val nano: Int = this.nanosecondsOfSecond
-
-    return if (sec >= 0) { // For positive timestamps, conversion can happen directly
-        RealmInstant.from(sec, nano)
-    } else {
-        // For negative timestamps, RealmInstant starts from the higher value with negative
-        // nanoseconds, while Instant starts from the lower value with positive nanoseconds
-        // TODO This probably breaks at edge cases like MIN/MAX
-        RealmInstant.from(sec + 1, -1_000_000 + nano)
-    }
-}
-// :snippet-end:
 class SchemaTest: RealmTest() {
     @Test
     fun createUUIDTypes() {
         runBlocking {
-            // :snippet-start: open-with-class
             val config = RealmConfiguration.Builder(
                 schema = setOf(Cat::class) // Pass the defined class as the object schema
             )
@@ -183,7 +122,6 @@ class SchemaTest: RealmTest() {
                 // :remove-end:
                 .build()
             val realm = Realm.open(config)
-            // :snippet-end:
             Log.v("Successfully opened realm: ${realm.configuration.name}")
 
             // Delete cats to make this test successful on consecutive reruns

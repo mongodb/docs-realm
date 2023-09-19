@@ -1,3 +1,4 @@
+// Implements the `AsymmetricRealmObject` interface
 class WeatherSensor : AsymmetricRealmObject {
     @PersistedName("_id")
     @PrimaryKey

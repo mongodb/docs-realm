@@ -18,8 +18,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 // :snippet-start: embedded-object-model
-// Define an embedded object (cannot have primary key)
+// Implements `EmbeddedRealmObject` interface
 class Address() : EmbeddedRealmObject {
+    // (cannot have primary key)
     var street: String? = null
     var city: String? = null
     var state: String? = null
@@ -31,7 +32,6 @@ class Contact : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var name: String = ""
-
     // Embed a single object (must be optional)
     var address: Address? = null
 }
@@ -41,7 +41,6 @@ class Business : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var name: String = ""
-
     // Embed an array of objects (cannot be null)
     var addresses: RealmList<Address> = realmListOf()
 }

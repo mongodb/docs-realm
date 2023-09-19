@@ -1,5 +1,5 @@
 // Find frogs who have forests with favorite ponds
-val frogs = realm.query<DeleteTest_Frog>().find()
+val frogs = realm.query<Frog>().find()
 val frogsWithFavoritePonds = frogs.query("favoritePondsByForest.@count > 1").find()
 val thisFrog = frogsWithFavoritePonds.first()
 // Set an optional value for a key to null if the key exists
