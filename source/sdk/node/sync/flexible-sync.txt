@@ -137,7 +137,7 @@ The other supported ``WaitForSync`` options are:
   The app must have an internet connection at every launch.
 - ``Never``: Never wait to download matching objects. The app needs an internet
   connection for the user to authenticate the first time the app launches, but
-  can :ref:`open offline <ios-open-a-synced-realm-offline>` on subsequent 
+  can :ref:`open offline <node-sync-changes-in-the-background>` on subsequent 
   launches using cached credentials.
 
 You can optionally specify a ``timeout`` value to limit how long the sync download runs:
@@ -287,15 +287,29 @@ Node.js v12.0.0 added the :js-sdk:`SubscriptionSetState enum
 <enums/SubscriptionSetState.html>` that you can use to get the status of a
 subscription.
 
+Subscription State "Complete"
+`````````````````````````````
+
+The subscription set state "complete" does not mean "sync is done" or "all 
+documents have been synced". "Complete" means the following two things have happened:
+
+- The subscription has become the active subscription set that is currently being 
+  synchronized with the server.
+- The documents that matched the subscription at the time the subscription was 
+  sent to the server are now on the local device. Note that this does not necessarily 
+  include all documents that currently match the subscription.
+
+The Realm SDK does not provide a way to check whether all documents that match 
+a subscription have synced to the device.
+
 Update Subscriptions with a New Query
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can update a named subscription with a new query. To update a subscriptions
+You can update a named subscription with a new query. To update a subscription's
 query, pass the new query and a subscription option with the name of the
-subscription that you want to update to the
-``MutableSubscriptionSet.add()`` method. Like adding a new subscription,
-you must update a subscription within a transaction by calling
-``subscriptions.update()`` method.
+subscription that you want to update to the ``MutableSubscriptionSet.add()``
+method. Like adding a new subscription, you must update a subscription within a
+transaction by calling ``subscriptions.update()``.
 
 In the following example, long-running tasks are re-defined to be any tasks that
 have taken more than 180 minutes. 
@@ -342,6 +356,7 @@ removed from the subscriptions set.
 
 Remove a Subscription by Name
 `````````````````````````````
+
 To remove a specific subscription by name, execute a transaction on the
 subscriptions set. Within the transaction, pass the name to the
 :js-sdk:`removeByName()
