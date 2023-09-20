@@ -23,7 +23,7 @@ subscriptions.
 
 You can't create subscriptions for :ref:`Data Ingest <optimize-data-ingest>` and
 :ref:`asymmetric objects <react-native-define-an-asymmetric-object>` because
-they only send data to your app's backend.
+they only send data to your App Services backend.
 
 .. important:: Flexible Sync Query Limitations
 
@@ -85,7 +85,8 @@ Subscribe to a Query
 
 We recommend that you name your subscriptions. This makes finding and managing
 your subscriptions easier. Subscription names must be unique. Trying to add a
-subscription with the same name as an existing subscription throws an error.
+subscription with the same name as an existing subscription overwrites the
+existing subscription.
 
 To subscribe to a query:
 
@@ -114,9 +115,10 @@ Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you subscribe to a query's results, the results do not contain objects
-until synced data is downloaded. When you do need to wait for syned objects to
-finish downloading, use ``waitForSync``. You can specify different behavior for
-your subscriptions and how they handle witing for downloads.
+until synced data is downloaded. When you do need to wait for synced objects to
+finish downloading, configure the ``waitForSync`` option. You can specify
+different behavior for your subscriptions and how they handle writing for
+downloads.
 
 This example uses the ``FirstTime`` option, which is the default behavior.
 A subscription with ``FirstTime`` behavior only waits for sync to finish when a
@@ -145,7 +147,8 @@ download runs:
 Unsubscribe from a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can unsubscribe from a query's results using ``unsubscribe()``:
+Subscriptions persist across user sessions unless you unsubscribe from them.
+You can unsubscribe from a query's results using ``unsubscribe()``.
 
 This removes the subscription from the list of active subscriptions, similar to
 :ref:`manually removing a subscription <react-native-remove-subscription>`.

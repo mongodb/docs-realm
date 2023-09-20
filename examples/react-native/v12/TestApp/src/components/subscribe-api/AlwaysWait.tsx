@@ -12,7 +12,9 @@ import {Subscription} from 'realm/dist/bundle';
 export const AlwaysWait = () => {
   const realm = useRealm();
   // Get all local birds that have not been seen yet.
-  const unSeenBirds = useQuery(Bird).filtered('haveSeen == false'); // :emphasize:
+  const unSeenBirds = useQuery(Bird, collection =>
+    collection.filtered('haveSeen == false'),
+  ); // :emphasize:
   const [unSeenBirdsSubscription, setUnseenBirdsSubscription] =
     useState<Subscription | null>();
 

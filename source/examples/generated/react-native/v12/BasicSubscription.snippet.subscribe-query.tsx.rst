@@ -1,5 +1,5 @@
 .. code-block:: typescript
-   :emphasize-lines: 11, 19-21
+   :emphasize-lines: 13, 21-23
 
    import React, {useEffect, useState} from 'react';
    import {useRealm, useQuery} from '@realm/react';
@@ -11,7 +11,9 @@
    export const BasicSubscription = () => {
      const realm = useRealm();
      // Get all local birds that have not been seen yet.
-     const seenBirds = useQuery(Bird).filtered('haveSeen == true'); 
+     const seenBirds = useQuery(Bird, collection =>
+       collection.filtered('haveSeen == true'),
+     ); 
      const [seenBirdsSubscription, setSeenBirdsSubscription] =
        useState<Subscription | null>();
 

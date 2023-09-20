@@ -19,8 +19,6 @@ describe('Subscribe API behavior tests', () => {
     // allowed time by Jest config.
     render(<SubscribeApiExamples />);
 
-    console.debug('after render');
-
     // Get the subscription name node. If the `.subscribe()`
     // method works, its name will be written to this node.
     const subNameNode = await screen.findByTestId('basic-subscription', {
@@ -29,8 +27,6 @@ describe('Subscribe API behavior tests', () => {
       timeout: 2000,
     });
     expect(subNameNode).toBeInTheDocument;
-
-    console.debug('after subnamenode found');
 
     const renderedSubName = subNameNode.children[1];
     // Ensure the subscription name matches what we expect.

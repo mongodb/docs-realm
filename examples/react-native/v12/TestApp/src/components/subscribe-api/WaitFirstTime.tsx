@@ -12,7 +12,9 @@ export const WaitFirstTime = () => {
   const [birdName, setBirdName] = useState('Change me!');
 
   // Get local birds that have been marked as "haveSeen".
-  const seenBirds = useQuery(Bird).filtered('haveSeen == true'); // :emphasize:
+  const seenBirds = useQuery(Bird, collection =>
+    collection.filtered('haveSeen == true'),
+  ); // :emphasize:
   const [seenBirdsSubscription, setSeenBirdsSubscription] =
     useState<Subscription | null>();
 
