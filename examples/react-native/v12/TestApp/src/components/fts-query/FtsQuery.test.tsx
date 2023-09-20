@@ -1,14 +1,12 @@
 import React from 'react';
-import {render, screen, waitFor, userEvent} from '@testing-library/react-native';
-import {FtsQuery} from '../../src/components/FtsQuery'; 
+import {render, screen, userEvent} from '@testing-library/react-native';
+import {FtsQuery} from './FtsQuery';
 
-describe('Full text search query',  () => {
-
-  test('FTS query', async() => {
-    
+describe('Full text search query', () => {
+  test('FTS query', async () => {
     // render the query component
     render(<FtsQuery />);
-    
+
     const user = userEvent.setup();
     const bookNameNode = await screen.findByTestId('bookNameInput'); // get book name input box
     const addButton = await screen.findByTestId('addBookButton'); // get button

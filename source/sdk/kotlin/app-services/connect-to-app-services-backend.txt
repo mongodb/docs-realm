@@ -10,34 +10,99 @@ Connect to Atlas App Services - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-The ``App`` class is the interface to App Services. This class provides
-access to :ref:`authentication <kotlin-authenticate>` and Device Sync.
+This page describes how to initialize your App client and connect to the Atlas 
+App Services backend using the Kotlin SDK.
+
+The App client is the interface to the App Services backend. It provides 
+access to App Services functionality, including:
+
+- :ref:`Authenticating <kotlin-authenticate>` app users
+- :ref:`Synchronizing data <kotlin-sync>` between the Atlas backend and the 
+  client app using Device Sync
+- :ref:`Calling Atlas functions <kotlin-call-function>`
+
+Each App client is associated with a single App ID. 
+
+Prerequisites
+-------------
+
+Before you can connect to Atlas App Services, you need an App Services App 
+with an App ID. To get started, refer to :ref:`Create an App <create-a-realm-app>` 
+in the App Services documentation.
+
+To learn how to find your App ID in the App Services UI, refer to 
+:ref:`Find Your App ID <find-your-app-id>` in the App Services documentation.
 
 .. _kotlin-access-the-app-client:
 
-Access the App
---------------
+Access the App Client
+---------------------
 
-Pass the App ID for your App, which you can :ref:`find in the App Services UI
-<find-your-app-id>`.
+The Kotlin SDK uses the 
+`App <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/index.html>`__
+interface to access an ``App`` client. 
+
+You can initialize an App with default configuration values using 
+`App.create() 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-companion/create.html>`__. 
+You only need to pass the App ID for your App. 
 
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.initialize-app-client.kt
    :language: kotlin
-   :copyable: false
+
+Once you have initialized the App, you can use the ``App`` instance to
+access App Services functionality.
 
 .. _kotlin-app-client-configuration:
 
-Configuration
--------------
+Configure the App Client
+------------------------
 
-For most use cases, you only need your application's App ID to connect
-to App Services. For more granular control of the details of your app connection,
-such as custom timeouts for connections and keys for local encryption,
-use the `AppConfiguration.Builder
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html>`__ to control details of your ``App``:
+You can add optional arguments to the ``AppConfiguration`` for more
+granular control of your app connection details, such as custom 
+timeouts for connections and keys for local encryption. 
+
+To control the additional configuration options, use the 
+`AppConfiguration.Builder
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html>`__ and call the ``.build()`` method to pass a configuration 
+object:
 
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.configure-app-client.kt
    :language: kotlin
-   :copyable: false
 
 .. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+
+Set Custom HTTP Headers
+-----------------------
+
+.. versionadded:: 1.11.0
+
+If you use App Services or Device Sync with a proxy setup, you may need to set 
+custom HTTP headers. The Realm Kotlin SDK supports setting custom HTTP headers 
+on the App. These headers are appended to every request to the App Services 
+App, including :ref:`function calls <kotlin-call-function>`.
+
+When you initialize the App, you can pass:  
+
+- the custom `authorizationHeaderName 
+  <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/authorization-header-name.html>`__
+  ``String`` value
+- any `customRequestHeaders 
+  <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/custom-request-headers.html>`__ 
+  in a map of ``String`` header keys and values (SDK accepts empty values but 
+  not empty keys)
+
+.. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.set-custom-http-headers.kt
+   :language: kotlin
+
+Close the App Client
+--------------------
+
+You can manually close an App instance and release all underlying resources 
+using the `App.close() 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/close.html>`__ method:
+
+.. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.close-app-client.kt
+   :language: kotlin
+
+If not closed manually, resources are freed when the App instance is garbage collected.

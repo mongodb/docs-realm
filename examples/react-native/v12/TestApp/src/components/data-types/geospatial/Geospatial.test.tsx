@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {Geospatial} from '../../src/components/data-types/Geospatial';
+import {Geospatial} from './Geospatial';
 import {render, screen} from '@testing-library/react-native';
 
 test('Geospatial queries', async () => {
