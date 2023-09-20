@@ -1,8 +1,6 @@
-runBlocking {
-    // Logs in with anonymous user
-    val anonUser = app.login(Credentials.anonymous())
+// Logs in with an anonymous user
+val anonUser = app.login(Credentials.anonymous())
 
-    // Creates a new anonymous user
-    val otherAnonUser =
-        app.login(Credentials.anonymous(reuseExisting = false))
-}
+// Logs in with a new, different anonymous user
+val otherAnonUser =
+    app.login(Credentials.anonymous(reuseExisting = false))

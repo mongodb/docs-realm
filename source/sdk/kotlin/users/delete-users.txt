@@ -1,9 +1,9 @@
 .. _kotlin-delete-users:
-.. _kotlin-create-users:
+.. _kotlin-creating-and-deleting-users:
 
-====================================
-Create and Delete Users - Kotlin SDK
-====================================
+=========================
+Delete Users - Kotlin SDK
+=========================
 
 .. default-domain:: mongodb
 
@@ -13,19 +13,8 @@ Create and Delete Users - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-The Kotlin SDK provides methods to create and delete users in 
-your Atlas App Services App.
-
-Create a User
--------------
-
-For most :ref:`authentication methods <authentication-providers>`, Atlas App Services 
-automatically creates a :ref:`user object <user-objects>` the first time 
-a user authenticates. The only exception is email/password authentication. 
-When you use email/password authentication, you must :ref:`register 
-<kotlin-register-email-password-user>` and :ref:`confirm 
-<kotlin-confirm-a-new-users-email-address>` a user before the user can 
-authenticate to an App Services App.
+This page describes how to remove and delete authenticated users from 
+your Atlas App Services App. Learn how to :ref:`<kotlin-authenticate-users>`.
 
 .. include:: /includes/tip-acct-deletion-reqs.rst
 
@@ -34,48 +23,50 @@ authenticate to an App Services App.
 Remove a User
 -------------
 
-You can call the `remove <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/remove.html>`__
-method on a user to remove the ``User`` object from your client app. 
-This method *does not* delete the ``User`` object from the Atlas App Services App.
-
-The ``user.remove()`` method: 
-
-- :ref:`Logs the user <kotlin-logout>` out if they are logged in.
-- Deletes synced realms associated with the user from the device.
-- Sets the
-  `User.State <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/-state/index.html>`__ 
-  to ``REMOVED``. 
-
-Because removing a user deletes any synced realms owned by the user, you 
-should only call this method after closing the user's realms.
+To remove a ``User`` object from your client app, call the `remove 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/remove.html>`__
+method on a user: 
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.remove-user.kt
    :language: kotlin
 
+The ``user.remove()`` method: 
+
+- *does not* delete the ``User`` object from the Atlas App Services App
+- :ref:`logs the user <kotlin-logout>` out if they are logged in
+- deletes synced realms associated with the user from the device
+- sets the
+  `User.State <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/-state/index.html>`__ 
+  to ``REMOVED``
+
+Because removing a user deletes any synced realms owned by the user, you 
+should only call this method after closing the user's realms.
+
 Delete a User
 -------------
 
-You can call the 
-`delete <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/delete.html>`__ 
-method on a logged-in user to permanently delete the ``User`` object 
-from your client app *and* the Atlas App Services App.
-
-The ``user.delete()`` method:
-
-- Deletes synced realms associated with the user from the device.
-- Deletes the ``User`` object from the Atlas App Services server.
-- Sets the
-  `User.State <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/-state/index.html>`__ 
-  to ``REMOVED``.  
-
-Because this method deletes any synced realms owned by the user, you 
-should only call this method after closing the user's realms.
+To permanently delete a ``User`` object from both your client app 
+*and* the Atlas App Services App, call the `delete 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/delete.html>`__ 
+method on a logged-in user:
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.delete-user.kt
    :language: kotlin
 
-To use your app in the future, the user must sign up for a new account. 
-They can use the same credentials (depending on the authentication provider), 
+The ``user.delete()`` method:
+
+- deletes synced realms associated with the user from the device
+- deletes the ``User`` object from the Atlas App Services server
+- sets the
+  `User.State <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/-state/index.html>`__ 
+  to ``REMOVED``
+
+Because this method deletes any synced realms owned by the user, you 
+should only call this method after closing the user's realms.
+
+If the deleted user wants to use your app in the future, the user must 
+sign up for a new account. They can use the same credentials 
+(depending on the authentication provider), 
 but will not have the same user ID as their deleted account.
 
 .. include:: /includes/warning-delete-user-metadata.rst
