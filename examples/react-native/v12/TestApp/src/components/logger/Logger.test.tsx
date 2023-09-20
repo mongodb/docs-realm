@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {Logger} from '../components/Logger';
+import {Logger} from './Logger';
 import {render, screen, userEvent, within} from '@testing-library/react-native';
 
 test('Realm logger', async () => {

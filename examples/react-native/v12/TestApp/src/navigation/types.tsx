@@ -8,6 +8,7 @@ export type RootStackParamList = {
   Logger: undefined;
   Subscriptions: undefined;
   SubscribeApi: undefined;
+  FullTextSearch: undefined;
 };
 
 export type SubscriptionStackParamList = {

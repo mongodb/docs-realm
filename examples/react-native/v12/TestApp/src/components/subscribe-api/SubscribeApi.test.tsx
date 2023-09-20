@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import {SubscribeApiExamples} from '../../components/subscribeApi/Wrapper';
+import {SubscribeApiExamples} from './RealmWrapper';
 import {render, screen, userEvent} from '@testing-library/react-native';
 
 // The first time these tests run on a device, they may fail. This is

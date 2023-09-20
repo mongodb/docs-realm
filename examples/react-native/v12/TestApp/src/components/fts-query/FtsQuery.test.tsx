@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen, userEvent} from '@testing-library/react-native';
-import {FtsQuery} from '../../components/FtsQuery';
+import {FtsQuery} from './FtsQuery';
 
 describe('Full text search query', () => {
   test('FTS query', async () => {

@@ -7,13 +7,13 @@ const config: Config = {
   verbose: true,
   preset: 'react-native',
   testTimeout: 30000,
-  roots: ['<rootDir>/src/__tests__'],
+  roots: ['<rootDir>/src/'],
   setupFiles: ['./testSetup.ts'],
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
-  testRegex: '(/__tests__/.*.(test|spec)).(jsx?|tsx?|js?|ts?)$',
+  testRegex: '(/components/.*.(test|spec)).(tsx?|ts?)$',
   transformIgnorePatterns: [
     'node_modules/(?!(jest-)?@?react-native|@react-native-community|@react-navigation|@realm/react)',
   ],

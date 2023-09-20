@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "npx react-native run-android",
+    "ios": "npx react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
+    "start": "npx react-native start",
     "posttest": "npm run delete-realm-files",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
     "delete-realm-files": "rm -rf *realm.lock *.realm *realm.note *realm.management mongodb-realm *.realm.fresh.lock realm-files myrealm"
