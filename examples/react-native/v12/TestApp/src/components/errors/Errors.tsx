@@ -4,11 +4,11 @@ import {RealmProvider, useRealm} from '@realm/react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
 import {SyncWrapper} from '../realm-wrappers/SyncWrapper';
 
-// TODO: Import models
+import {Person, Turtle} from '../../models';
 
 export const Errors = () => {
   return (
-    <SyncWrapper>
+    <SyncWrapper objectModels={[Person, Turtle]}>
       <View>
         <Text>test</Text>
       </View>

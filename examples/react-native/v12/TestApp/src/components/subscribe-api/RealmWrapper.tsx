@@ -4,7 +4,7 @@ import {AppProvider, UserProvider, RealmProvider, useApp} from '@realm/react';
 
 import {APP_ID} from '../../../appServicesConfig';
 
-import {Bird} from '../../models/Bird';
+import {Bird} from '../../models';
 
 import {Unsubscribe} from './Unsubscribe';
 import {AlwaysWait} from './AlwaysWait';
