@@ -2,7 +2,7 @@ import React, {ReactNode, useEffect} from 'react';
 import Realm, {Credentials, RealmObjectConstructor} from 'realm';
 import {AppProvider, UserProvider, RealmProvider, useApp} from '@realm/react';
 
-import {APP_ID} from '../../../__tests__/testConfig';
+import {APP_ID} from '../../../appServicesConfig';
 
 function LogIn() {
   const app = useApp();
