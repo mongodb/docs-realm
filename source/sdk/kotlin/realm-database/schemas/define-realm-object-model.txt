@@ -31,7 +31,7 @@ defining your Realm object model, refer to
 Realm Objects
 -------------
 
-**Realm objects** are uniquely named Kotlin classes that you can work with 
+**Realm objects** are uniquely named instances of Kotlin classes that you can work with 
 as you would any other class instance. 
 
 Each object class represents an **object type**. Objects of the same type share 
@@ -109,7 +109,7 @@ classes to the realm's configuration when you :ref:`open a realm
 Define a Realm Object
 ~~~~~~~~~~~~~~~~~~~~~
 
-To define a Realm object, create a Kotlin class that implements the `RealmObject 
+To define a Realm object model, create a Kotlin class that implements the `RealmObject 
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ 
 interface:
 
@@ -146,9 +146,9 @@ Because of this, embedded objects have the following constraints:
    object, use a regular Realm object with a :ref:`to-one relationship 
    <kotlin-to-one-relationship>` instead. 
    For more information on when to use embedded relationships over non-embedded 
-   relationship, refer to :ref:`<kotlin-relationships>`.
+   relationships, refer to :ref:`<kotlin-relationships>`.
 
-To define an embedded object, create a Kotlin class that implements the 
+To define an embedded object type, create a Kotlin class that implements the 
 `EmbeddedRealmObject 
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
 interface, then embed the object as a property of another Realm object in the
@@ -177,7 +177,7 @@ Data Ingest with your application, refer to :ref:`kotlin-stream-data-to-atlas`.
 
 .. include:: /includes/kotlin-asymmetric-object.rst
 
-To define an :ref:`asymmetric object<kotlin-asymmetric-objects>`, create a 
+To define an :ref:`asymmetric object type<kotlin-asymmetric-objects>`, create a 
 Kotlin class that implements the `AsymmetricRealmObject 
 <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__
 interface:
@@ -237,7 +237,7 @@ default value using `realmSetOf()
 Define a RealmDictionary/RealmMap
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To define a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its 
+To define a property as a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its 
 type within the object schema as a ``RealmDictionary<K, V>`` and initialize the
 the default value using `realmDictionaryOf()
 <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-dictionary-of.html>`__:
