@@ -9,9 +9,11 @@ import {Subscription} from 'realm/dist/bundle';
 export const BasicSubscription = () => {
   const realm = useRealm();
   // Get all local birds that have not been seen yet.
+  // :emphasize-start:
   const seenBirds = useQuery(Bird, collection =>
     collection.filtered('haveSeen == true'),
-  ); // :emphasize:
+  );
+  // :emphasize-end:
   const [seenBirdsSubscription, setSeenBirdsSubscription] =
     useState<Subscription | null>();
 
