@@ -312,3 +312,26 @@ Cleaning the generator cache can be useful when debugging.
       .. code-block::
 
          dart run realm_dart generate --clean
+
+.. _flutter-define-an-asymmetric-object:
+
+Define an Asymmetric Object
+---------------------------
+
+.. versionadded:: 1.5.0
+
+Asymmetric objects require Flexible Sync. To define an asymmetric object, pass
+``ObjectType.asymmetricObject`` to ``@RealmModel()``.
+
+.. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.asymmetric-sync-object.dart
+   :language: dart
+   :emphasize-lines: 1
+
+.. note:: Attempting to Read Asymmetric Objects
+
+   Asymmetric objects can't be read. If you attempt to query an asymmetric
+   object, you will get the following error: "Error: You can't query an
+   asymmetric class.".
+
+To learn more about Data Ingest, refer to :ref:`Stream Data to Atlas 
+<flutter-stream-data-to-atlas>`.
