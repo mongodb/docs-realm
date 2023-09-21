@@ -16,10 +16,9 @@ can read from or write to a realm with Flexible Sync enabled. The
 ``@realm/react`` library streamlines permissions and queries for sync
 subscriptions.
 
-You can add, update, and remove query subscriptions to control what data 
-syncs to the client device. In the Realm.js v12.0.0 and later, you can
-subscribe to queries instead of or in addition to manually managing
-subscriptions.
+You can add, update, and remove subscriptions to control what data syncs to the
+client device. In Realm.js v12.0.0 and later, you can subscribe directly to
+queries. You can still manually manage subscriptions.
 
 You can't create subscriptions for :ref:`Data Ingest <optimize-data-ingest>` and
 :ref:`asymmetric objects <react-native-define-an-asymmetric-object>` because
@@ -49,8 +48,8 @@ Before you can add Flexible Sync subscriptions to a React Native client, you mus
 #. :ref:`Authenticate a user <react-native-login-anonymous>` in the client
 #. :ref:`Configure a synced Realm <react-native-flexible-sync-open-realm>`
 
-Align Subscriptions with Backend App
-------------------------------------
+Client Subscriptions and Backend App Sync Configuration
+-------------------------------------------------------
 
 Your client-side subscription queries must align with the Device Sync configuration
 in your backend App Services App.
@@ -76,40 +75,53 @@ Subscribe to Queries
 from a query's results. These APIs abstract away the details of
 manually adding and removing subscriptions.
 
-For all subscriptions, you need :ref:`an authenticated user 
-<react-native-authenticate-users>` and a :ref:`Flexible Sync realm 
-<react-native-synced-realm>`.
+After defining a query, you can create a subscription based on that query.
+Objects that match the query sync between the client and your App Services
+backend.
+
+For all subscriptions, you need:
+
+- An :ref:`authenticated user <react-native-authenticate-users>`
+- A :ref:`Flexible Sync realm <react-native-synced-realm>`
+
+Subscription Options
+~~~~~~~~~~~~~~~~~~~~
+
+The :js-sdk:`SubscriptionOptions <types/SubscriptionOptions.html>` object
+provides ways for you to customize subscriptions. Like giving them a name or
+specifying their sync behavior.
+
+Name
+````
+
+We recommend that you name your subscriptions. Finding and managing
+subscriptions is easier when they have unique names. If you add a subscription
+with the same name as an existing subscription, you overwrite the existing
+subscription. Subscription names default to ``null``.
+
+If you use :js-sdk:`filtered() <classes/List.html#filtered>` on an unnamed query
+subscription, the ``filtered`` query defines the subscription identifier. This
+means that every time your query string changes, ``subscribe()`` creates a
+new subscription.
 
 Subscribe to a Query
 ~~~~~~~~~~~~~~~~~~~~
 
-We recommend that you name your subscriptions. This makes finding and managing
-your subscriptions easier. Subscription names must be unique. Trying to add a
-subscription with the same name as an existing subscription overwrites the
-existing subscription.
+You can :js-sdk:`subscribe() <classes/Results.html#subscribe>` to the results
+of :realm-react-sdk:`useQuery() <functions/useQuery.html>` - even filtered
+results. This is useful when you want to sync data to a component outside of the
+scope you define in :ref:`initial subscriptions 
+<react-native-sync-bootstrap-initial-subscriptions>`.
 
 To subscribe to a query:
 
 #. Query for the objects that you want to read and write.
-#. Call ``subscribe()`` on the query results to create a sync subscription for
-   objects matching the query.
-#. Pass a ``SubscriptionOptions`` object that contains the ``name`` property to
+#. In a ``useEffect``, await ``subscribe()`` the query results to create a sync
+   subscription.
+#. Pass a ``SubscriptionOptions`` object that has the ``name`` property to
    ``subscribe()``.
 
 .. include:: /examples/generated/react-native/v12/BasicSubscription.snippet.subscribe-query.tsx.rst
-
-Most of the time, you should give your subscriptions a name. If you don't, the
-name is set to ``null``.
-
-If you use ``filtered()`` on an unnamed query subscription, the subscription
-identifier is based on the ``filtered`` query. This means that every time your
-query string changes, ``subscribe()`` will create a new subscription.
-
-**API Reference**
-
-- :js-sdk:`subscribe() <classes/Results.html#subscribe>`
-- :js-sdk:`SubscriptionOptions <types/SubscriptionOptions.html>`
-- :mdn:`null <Web/JavaScript/Reference/Global_Objects/null>`
 
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
