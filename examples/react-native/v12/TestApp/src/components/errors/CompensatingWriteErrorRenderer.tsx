@@ -7,13 +7,9 @@ import {Person, Turtle} from '../../models';
 
 type errorsProps = {
   error: CompensatingWriteError | undefined;
-  compensatingWrites: CompensatingWriteInfo[] | undefined;
 };
 
-export const CompensatingWriteErrorRenderer = ({
-  error,
-  compensatingWrites,
-}: errorsProps) => {
+export const CompensatingWriteErrorRenderer = ({error}: errorsProps) => {
   const realm = useRealm();
   const people = useQuery(Person, collection =>
     collection.filtered('age < 30'),
@@ -22,17 +18,20 @@ export const CompensatingWriteErrorRenderer = ({
     collection.filtered('age > 5'),
   );
 
+  console.debug(error?.category);
+  console.debug(people.length);
+  console.debug(turtles.length);
+
   useEffect(() => {
     const updateSubs = async () => {
       await realm.subscriptions.update(mutableSubs => {
-        mutableSubs.removeAll();
         mutableSubs.add(people, {name: 'People under 30'});
         mutableSubs.add(turtles, {name: 'Turtles over 5'});
       });
     };
 
     updateSubs();
-  }, [realm]);
+  }, []);
 
   const writeWithinSubscriptions = () => {
     realm.write(() => {
@@ -125,15 +124,17 @@ export const CompensatingWriteErrorRenderer = ({
           {error?.category} | {error?.name}{' '}
         </Text>
         <Text>{error?.message}</Text>
-        <FlatList
-          testID="error-list-container"
-          data={compensatingWrites}
-          renderItem={({item}) => (
-            <Text testID="compensating-write-error">
-              --- {item.objectName} | {item.reason}
-            </Text>
-          )}
-        />
+        {error && (
+          <FlatList
+            testID="error-list-container"
+            data={error.writes}
+            renderItem={({item}) => (
+              <Text testID="compensating-write-error">
+                --- {item.objectName} | {item.reason}
+              </Text>
+            )}
+          />
+        )}
       </View>
     </View>
   );

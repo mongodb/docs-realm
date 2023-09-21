@@ -1,10 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Credentials,
-  CompensatingWriteError,
-  CompensatingWriteInfo,
-  ErrorCallback,
-} from 'realm';
+import {Credentials, CompensatingWriteError, ErrorCallback} from 'realm';
 import {AppProvider, UserProvider, RealmProvider, useApp} from '@realm/react';
 
 import {CompensatingWriteErrorRenderer} from './CompensatingWriteErrorRenderer';
@@ -27,17 +22,21 @@ export const CompensatingWriteErrorHandling = () => {
   const [error, setError] = useState<CompensatingWriteError | undefined>(
     undefined,
   );
-  const [compensatingWrites, setCompensatingWrites] = useState<
-    CompensatingWriteInfo[] | undefined
-  >(undefined);
 
   const errorCallback: ErrorCallback = (session, error) => {
     // Check if error type matches CompensatingWriteError.
     if (error instanceof CompensatingWriteError) {
       // Handle the compensating write error as needed.
-      setError(error);
+      // console.debug({
+      //   code: error.code,
+      //   name: error.name,
+      //   category: error.category,
+      //   message: error.message,
+      //   url: error.logUrl,
+      //   writes: error.writes,
+      // });
 
-      setCompensatingWrites(error.writes);
+      setError(error);
     }
   };
 
@@ -50,10 +49,7 @@ export const CompensatingWriteErrorHandling = () => {
             flexible: true,
             onError: errorCallback,
           }}>
-          <CompensatingWriteErrorRenderer
-            error={error}
-            compensatingWrites={compensatingWrites}
-          />
+          <CompensatingWriteErrorRenderer error={error} />
         </RealmProvider>
       </UserProvider>
     </AppProvider>
