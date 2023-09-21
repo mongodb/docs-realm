@@ -4,50 +4,24 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmDictionaryOf
-import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
-import io.realm.kotlin.types.RealmDictionary
-import io.realm.kotlin.types.RealmObject
-import io.realm.kotlin.types.RealmSet
-import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 // :replace-start: {
 //    "terms": {
-//       "CreateTest_": "",
+//       "RealmDictionary_": "",
 //       "RealmSet_": ""
 //    }
 // }
-
-// :snippet-start: define-realm-dictionary-property
-class CreateTest_Frog : RealmObject {
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    var favoritePondsByForest: RealmDictionary<String> = realmDictionaryOf()
-}
-// :snippet-end:
-
-// :snippet-start: define-a-realm-set
-class RealmSet_Frog : RealmObject {
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    var favoriteSnacks: RealmSet<Snack> = realmSetOf()
-}
-
-class Snack : RealmObject {
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-}
-// :snippet-end:
 
 class CreateTest: RealmTest() {
 
     @Test
     fun createRealmSetType() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(RealmSet_Frog::class, Snack::class))
+            val config = RealmConfiguration.Builder(setOf(RealmSet_Frog::class, RealmSet_Snack::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -60,7 +34,7 @@ class CreateTest: RealmTest() {
                 val frog = copyToRealm(
                     RealmSet_Frog().apply {
                         name = "Kermit"
-                        favoriteSnacks.add(Snack().apply { name = "flies" })
+                        favoriteSnacks.add(RealmSet_Snack().apply { name = "flies" })
                     }
                 )
                 assertEquals(1, frog.favoriteSnacks.size) // :remove:
@@ -73,14 +47,14 @@ class CreateTest: RealmTest() {
                 val frog = query<RealmSet_Frog>().find().first()
                 val snackSet = frog.favoriteSnacks
 
-                // Create two more Snack objects
+                // Create two more RealmSet_Snack objects
                 val cricketsSnack = copyToRealm(
-                    Snack().apply {
+                    RealmSet_Snack().apply {
                         name = "crickets"
                     }
                 )
                 val wormsSnack = copyToRealm(
-                    Snack().apply {
+                    RealmSet_Snack().apply {
                         name = "worms"
                     }
                 )
@@ -102,9 +76,9 @@ class CreateTest: RealmTest() {
     fun createRealmDictionaryType() {
         runBlocking {
             val config = RealmConfiguration.Builder(
-                schema = setOf(CreateTest_Frog::class) // Pass the defined class as the object schema
+                schema = setOf(RealmDictionary_Frog::class) // Pass the defined class as the object schema
             )
-                .directory("/tmp/") // default location for jvm is... in the project root
+                .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -112,7 +86,7 @@ class CreateTest: RealmTest() {
             // Delete frogs to make this test successful on consecutive reruns
             realm.write {
                 // fetch all frogs from the realm
-                val frogs: RealmResults<CreateTest_Frog> = this.query<CreateTest_Frog>().find()
+                val frogs: RealmResults<RealmDictionary_Frog> = this.query<RealmDictionary_Frog>().find()
                 // call delete on the results of a query to delete those objects permanently
                 delete(frogs)
                 assertEquals(0, frogs.size)
@@ -120,13 +94,13 @@ class CreateTest: RealmTest() {
 
             // :snippet-start: create-dictionary
             realm.write {
-                this.copyToRealm(CreateTest_Frog().apply {
+                this.copyToRealm(RealmDictionary_Frog().apply {
                     name = "Kermit"
                     favoritePondsByForest = realmDictionaryOf("Hundred Acre Wood" to "Picnic Pond", "Lothlorien" to "Linya")
                 })
             }
             // :snippet-end:
-            val frogs: RealmResults<CreateTest_Frog> = realm.query<CreateTest_Frog>().find()
+            val frogs: RealmResults<RealmDictionary_Frog> = realm.query<RealmDictionary_Frog>().find()
             assertEquals(1, frogs.size)
             val thisFrog = frogs.first()
             assertEquals(2, thisFrog.favoritePondsByForest.size)
@@ -138,9 +112,9 @@ class CreateTest: RealmTest() {
     fun createRealmDictionaryPercentEncodedDisallowedCharacter() {
         runBlocking {
             val config = RealmConfiguration.Builder(
-                schema = setOf(CreateTest_Frog::class) // Pass the defined class as the object schema
+                schema = setOf(RealmDictionary_Frog::class) // Pass the defined class as the object schema
             )
-                .directory("/tmp/") // default location for jvm is... in the project root
+                .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -148,7 +122,7 @@ class CreateTest: RealmTest() {
             // Delete frogs to make this test successful on consecutive reruns
             realm.write {
                 // fetch all frogs from the realm
-                val frogs: RealmResults<CreateTest_Frog> = this.query<CreateTest_Frog>().find()
+                val frogs: RealmResults<RealmDictionary_Frog> = this.query<RealmDictionary_Frog>().find()
                 // call delete on the results of a query to delete those objects permanently
                 delete(frogs)
                 assertEquals(0, frogs.size)
@@ -164,13 +138,13 @@ class CreateTest: RealmTest() {
             // Not testing encoding/decoding here because (Dachary) could not figure out how to add java.net as a dependency
             // This functionality seems to be provided by java.net.URLEncoder/URLDecoder
             realm.write {
-                this.copyToRealm(CreateTest_Frog().apply {
+                this.copyToRealm(RealmDictionary_Frog().apply {
                     name = "Kermit"
                     favoritePondsByForest = realmDictionaryOf(encodedMapKey to "Picnic Pond")
                 })
             }
 
-            val frogs: RealmResults<CreateTest_Frog> = realm.query<CreateTest_Frog>().find()
+            val frogs: RealmResults<RealmDictionary_Frog> = realm.query<RealmDictionary_Frog>().find()
             val thisFrog = frogs.first()
             val savedEncodedMapKey = thisFrog.favoritePondsByForest.keys.first()
             assertEquals(encodedMapKey, savedEncodedMapKey)

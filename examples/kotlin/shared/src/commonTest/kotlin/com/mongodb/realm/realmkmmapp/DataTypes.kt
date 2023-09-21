@@ -8,6 +8,7 @@ import io.realm.kotlin.types.*
 import org.mongodb.kbson.Decimal128
 import org.mongodb.kbson.ObjectId
 import kotlin.test.*
+
 class CustomObjectType : RealmObject {
     var uuid: RealmUUID = RealmUUID.random()
 }
@@ -170,6 +171,7 @@ class RealmSupportedTypes : RealmObject {
     var uuidOpt: RealmUUID? = null
     // :snippet-end:
 }
+
 class SupportedDataTypesTest : RealmTest() {
     @Test
     fun populateEnumPropertiesTest() {
@@ -315,6 +317,7 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateBSONPropertiesWithValuesTest() {
         runBlocking {
@@ -346,6 +349,7 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateRealmDefaultPropertiesTest() {
         runBlocking {
@@ -374,10 +378,12 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateRealmPropertiesWithValuesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(RealmSupportedTypes::class, CustomObjectType::class))
+                .name("populatePropertiesWithValues.realm")
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -430,6 +436,7 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateRealmObjectDefaultPropertiesTest() {
         runBlocking {
@@ -462,10 +469,12 @@ class SupportedDataTypesTest : RealmTest() {
             realm.close()
         }
     }
+
     @Test
     fun populateRealmObjectPropertiesWithValuesTest() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(EmbeddedObjectType::class, AnotherCustomObjectType::class, CustomObjectType::class))
+                .name("populateObjectPropertiesWithValues.realm")
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
