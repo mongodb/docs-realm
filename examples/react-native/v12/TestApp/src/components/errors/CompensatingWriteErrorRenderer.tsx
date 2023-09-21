@@ -1,15 +1,23 @@
-import React, {useEffect} from 'react';
-import {BSON, CompensatingWriteError, CompensatingWriteInfo} from 'realm';
+import React, {useEffect, useState} from 'react';
+import {
+  BSON,
+  CompensatingWriteError,
+  CompensatingWriteInfo,
+  WaitForSync,
+} from 'realm';
 import {useRealm, useQuery} from '@realm/react';
 import {View, Text, Button, FlatList} from 'react-native';
 
 import {Person, Turtle} from '../../models';
+import {Subscription} from 'realm/dist/bundle';
 
 type errorsProps = {
   error: CompensatingWriteError | undefined;
 };
 
 export const CompensatingWriteErrorRenderer = ({error}: errorsProps) => {
+  // const [peopleSub, setPeopleSub] = useState<Subscription | null>(null);
+
   const realm = useRealm();
   const people = useQuery(Person, collection =>
     collection.filtered('age < 30'),
@@ -17,21 +25,6 @@ export const CompensatingWriteErrorRenderer = ({error}: errorsProps) => {
   const turtles = useQuery(Turtle, collection =>
     collection.filtered('age > 5'),
   );
-
-  console.debug(error?.category);
-  console.debug(people.length);
-  console.debug(turtles.length);
-
-  useEffect(() => {
-    const updateSubs = async () => {
-      await realm.subscriptions.update(mutableSubs => {
-        mutableSubs.add(people, {name: 'People under 30'});
-        mutableSubs.add(turtles, {name: 'Turtles over 5'});
-      });
-    };
-
-    updateSubs();
-  }, []);
 
   const writeWithinSubscriptions = () => {
     realm.write(() => {
@@ -74,6 +67,7 @@ export const CompensatingWriteErrorRenderer = ({error}: errorsProps) => {
 
   return (
     <View>
+      {/* <Text testID="subscription-name">{peopleSub?.name}</Text> */}
       <Button
         testID="write-within-subscriptions"
         title="Write within subscriptions"

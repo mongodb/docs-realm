@@ -48,6 +48,17 @@ export const CompensatingWriteErrorHandling = () => {
           sync={{
             flexible: true,
             onError: errorCallback,
+            initialSubscriptions: {
+              update: (subs, realm) => {
+                subs.add(realm.objects(Person).filtered('age < 30'), {
+                  name: 'People under 30',
+                });
+                subs.add(realm.objects(Turtle).filtered('age > 5'), {
+                  name: 'Turtles over 5',
+                });
+              },
+              rerunOnOpen: true,
+            },
           }}>
           <CompensatingWriteErrorRenderer error={error} />
         </RealmProvider>
