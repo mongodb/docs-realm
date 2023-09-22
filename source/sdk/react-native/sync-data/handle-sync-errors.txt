@@ -51,6 +51,14 @@ errors in a way that makes sense for your app. The :js-sdk:`CompensatingWriteErr
 <classes/CompensatingWriteError.html>` class can help you identify and react to
 compensating write errors in your custom error handler.
 
+To handle compensating write errors:
+
+#. Write an error handler function that uses ``CompensatingWriteError`` to
+   identify compensating write errors.
+#. Create a ``FlexibleSyncConfiguration`` object for your ``RealmProvider``.
+#. Pass your error handler to the ``onError`` property of the
+   ``FlexibleSyncConfiguration`` object.
+
 .. include:: /examples/generated/react-native/v12/CompensatingWriteWrapper.snippet.handle-compensating-write-error.tsx.rst
 
 .. _react-native-client-resets:

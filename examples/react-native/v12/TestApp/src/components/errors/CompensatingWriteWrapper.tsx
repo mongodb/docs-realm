@@ -48,7 +48,7 @@ export const CompensatingWriteErrorHandling = () => {
           schema={[Person, Turtle]}
           sync={{
             flexible: true,
-            onError: errorCallback,
+            onError: errorCallback, // :emphasize:
             // :remove-start:
             initialSubscriptions: {
               update: (subs, realm) => {
