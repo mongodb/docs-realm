@@ -1,26 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {
-  BSON,
-  CompensatingWriteError,
-  CompensatingWriteInfo,
-  WaitForSync,
-} from 'realm';
+import React from 'react';
+import {BSON, CompensatingWriteError} from 'realm';
 import {useRealm, useQuery} from '@realm/react';
 import {View, Text, Button, FlatList} from 'react-native';
 
 import {Person, Turtle} from '../../models';
-import {Subscription} from 'realm/dist/bundle';
 
 type errorsProps = {
   error: CompensatingWriteError | undefined;
 };
 
-export const CompensatingWriteErrorRenderer = ({error}: errorsProps) => {
+export const CompensatingWriteErrorHandler = ({error}: errorsProps) => {
   // const [peopleSub, setPeopleSub] = useState<Subscription | null>(null);
 
   const realm = useRealm();
   const people = useQuery(Person, collection =>
-    collection.filtered('age < 30'),
+    collection.filtered('name == "Luigi"'),
   );
   const turtles = useQuery(Turtle, collection =>
     collection.filtered('age > 5'),
@@ -36,7 +30,7 @@ export const CompensatingWriteErrorRenderer = ({error}: errorsProps) => {
 
       realm.create(Turtle, {
         _id: new BSON.ObjectId(),
-        name: 'Goomba',
+        name: 'Koopa',
         owner: luigi,
         age: 6,
       });
@@ -47,7 +41,7 @@ export const CompensatingWriteErrorRenderer = ({error}: errorsProps) => {
     realm.write(() => {
       const tom = realm.create(Person, {
         _id: new BSON.ObjectId(),
-        name: 'Tom',
+        name: 'Daisy',
         age: 36,
       });
       realm.create(Turtle, {

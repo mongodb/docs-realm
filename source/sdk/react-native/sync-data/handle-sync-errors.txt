@@ -10,22 +10,48 @@ Handle Sync Errors - React Native SDK
    :depth: 3
    :class: singlecol
 
+When you use Atlas Device Sync in your Realm app, you can encounter a new class
+of errors: :ref:`sync errors <sync-errors>`.
+
+The Realm React Native SDK can help you detect and handle sync errors. For
+example, you can write your own sync error handler to respond to specific
+errors. You can also define how your client app handles client resets.
+
+Sync Error Handler
+------------------
+
+You should set an error handler for apps that use Atlas Device Sync. A generic
+error handler will detect and respond to failed sync-related API calls to your
+App Services backend.
+
 Add a Generic Sync Error Handler
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-While developing an application that uses Device Sync, you should set an error
-handler. This error handler will detect and respond to any failed sync-related
-API calls.
+A generic sync error handler is a good way to keep track of sync errors. Using
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`,
+you can define your error handling behavior.
 
-Set an error handler by registering an error callback as part of the
-:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`.
-If you're using ``@realm/react``, pass the ``SyncConfiguration`` object
-to the ``sync`` property of a ``RealmProvider``.
+To add a generic sync error handler:
+
+#. Write an error handler function.
+#. Create a ``FlexibleSyncConfiguration`` object for your ``RealmProvider``.
+#. Pass your error handler to the ``onError`` property of the
+   ``FlexibleSyncConfiguration`` object.
 
 .. literalinclude:: /examples/generated/react-native/ts/handle-sync-errors.test.snippet.handle-sync-error.tsx
    :language: javascript
 
 .. include:: /includes/sync-errors-in-app-services.rst
+
+Handle Compensating Write Errors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You may want your sync error handler to specifically address compensating write
+errors in a way that makes sense for your app. The :js-sdk:`CompensatingWriteError 
+<classes/CompensatingWriteError.html>` class can help you identify and react to
+compensating write errors in your custom error handler.
+
+.. include:: /examples/generated/react-native/v12/CompensatingWriteWrapper.snippet.handle-compensating-write-error.tsx.rst
 
 .. _react-native-client-resets:
 
