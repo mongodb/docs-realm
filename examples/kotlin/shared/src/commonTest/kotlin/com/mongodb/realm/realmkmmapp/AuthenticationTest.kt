@@ -180,6 +180,7 @@ class AuthenticationTest: RealmTest() {
             // :snippet-end:
             assertNotNull(token)
             // :snippet-start: access-token-refresh
+            // Gets the current refresh token for the user
             fun getRefreshToken(): String {
                 return user.refreshToken
             }
