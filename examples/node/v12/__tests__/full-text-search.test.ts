@@ -8,11 +8,11 @@ describe('Full text search query',  () => {
         price?: number;
     
         static schema: ObjectSchema = {
-        name: 'Book',
-        properties: {
-            name: {type: 'string', indexed: 'full-text'},
-            price: 'int?',
-        },
+            name: 'Book',
+            properties: {
+                name: {type: 'string', indexed: 'full-text'},
+                price: 'int?',
+            },
         };
     }
     // :snippet-end:
