@@ -156,6 +156,27 @@ property.
    :language: javascript
    :emphasize-lines: 5
 
+.. _node-set-fts-index:
+
+Set a Full-Text Search Index
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to standard indexes, Realm also supports Full-Text Search (FTS)
+indexes on string properties. While you can query a string field with or without 
+a standard index, an FTS index enables searching for multiple words and phrases 
+and excluding others.
+
+For more information on querying FTS indexes, see :ref:`Filter with Full-Text Search <node-fts-filter>`.
+
+To create an FTS index, set the `indexed <https://www.mongodb.com/docs/realm-sdks/js/latest/types/_internal_.IndexedType.html>`__ 
+type to ``'full-text'``. This enables full-text queries on the property. In the 
+following example, we set the indexed type for the ``name`` property to ``'full-text'``:
+
+.. literalinclude:: /examples/generated/node/v12/full-text-search.test.snippet.node-fts-query.ts
+   :language: typescript
+   :emphasize-lines: 8
+
+
 .. _node-define-a-default-property-value:
 .. _node-default-values:
 
