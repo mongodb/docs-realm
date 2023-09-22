@@ -13,7 +13,7 @@ test('Compensating write error handling', async () => {
   // time for communication and sync.
   const writeWithinSubscriptionsButton = await screen.findByTestId(
     'write-within-subscriptions',
-    {timeout: 2000},
+    {timeout: 3000},
   );
   const writeOutsideSubscriptionsButton = await screen.findByTestId(
     'write-outside-subscriptions',
