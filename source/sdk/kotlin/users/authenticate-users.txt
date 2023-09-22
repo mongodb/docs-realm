@@ -38,7 +38,7 @@ Once you have a logged-in user, you can:
 - Log the user out
 - :ref:`Remove or delete the user's account <kotlin-delete-users>`
 
-Additionally, upon successful log in, App Services begins a 
+Upon successful log in, App Services begins a 
 **user session** for the user.
 
 .. include:: /includes/manage-user-sessions.rst
@@ -52,7 +52,7 @@ App Services App with one or more authentication providers enabled.
 To set up an App Services App with authentication providers, 
 refer to the following:
 
-#. :ref:`Connect to Atlas App Services <kotlin-connect-to-backend>`
+#. :ref:`Connect your app to Atlas App Services <kotlin-connect-to-backend>`
 #. :ref:`Enable and Configure Authentication Providers 
    <authentication-providers>` in the App Services documentation
 
@@ -90,7 +90,7 @@ refer to :ref:`<user-objects>` in the App Services documentation.
 
 .. _kotlin-login:
 
-Log a User In
+Log In a User
 -------------
 
 To authenticate and log users in to your `App 
@@ -432,7 +432,7 @@ The ``user.logOut()`` method:
 
 - Deletes locally stored user credentials from the device.
 - Immediately halts any synchronization to and from the user's realms.
-- For anonymous users, this :ref:`removes the user <kotlin-remove-a-user>`.
+- For anonymous users, :ref:`removes the user <kotlin-remove-a-user>`.
 
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
