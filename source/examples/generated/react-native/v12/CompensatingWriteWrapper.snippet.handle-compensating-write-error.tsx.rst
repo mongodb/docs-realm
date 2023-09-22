@@ -1,4 +1,5 @@
 .. code-block:: typescript
+   :emphasize-lines: 30
 
    export const CompensatingWriteErrorHandling = () => {
      const [error, setError] = useState<CompensatingWriteError | undefined>(
@@ -29,7 +30,7 @@
              schema={[Person, Turtle]}
              sync={{
                flexible: true,
-               onError: errorCallback,
+               onError: errorCallback, 
              }}>
              <CompensatingWriteErrorHandler error={error} />
            </RealmProvider>
