@@ -51,14 +51,14 @@ You can use Realm Query Language (RQL) to query on properties that have a
 :ref:`Full-Text Search <node-set-fts-index>` (FTS) index. 
 To query an FTS indexed property, use the ``TEXT`` predicate in your :js-sdk:`filtered <classes/Results.html#filtered>` query. 
 
-Exclude results for a word by placing the ``-`` character in front of the word. 
+Exclude results for a word by placing the hyphen (``-``) character in front of the word. 
 For example, a search for ``swan -lake`` would include all search results for 
 ``swan`` excluding those with ``lake``.
 
 In the following example, we query on the ``Book.name`` field using the 
 following ``Book`` object model:
 
-.. literalinclude:: /examples/generated/node/v12/full-text-search.test.snippet.node-fts-annotation.ts
+.. literalinclude:: /examples/generated/node/v12/full-text-search.test.snippet.node-fts-query.ts
    :language: typescript
 
 .. _node-fts-details:
