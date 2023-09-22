@@ -3,10 +3,10 @@ class Book extends Realm.Object<Book> {
     price?: number;
 
     static schema: ObjectSchema = {
-    name: 'Book',
-    properties: {
-        name: {type: 'string', indexed: 'full-text'},
-        price: 'int?',
-    },
+        name: 'Book',
+        properties: {
+            name: {type: 'string', indexed: 'full-text'},
+            price: 'int?',
+        },
     };
 }
