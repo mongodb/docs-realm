@@ -15,7 +15,7 @@ var session = syncedRealm.SyncSession;
 await session.WaitForUploadAsync();
 await session.WaitForDownloadAsync();
 
-var nonSyncConfig = new RealmConfiguration("my.realm");
+var nonSyncConfig = new RealmConfiguration();
 
 syncedRealm.WriteCopy(nonSyncConfig);
 
