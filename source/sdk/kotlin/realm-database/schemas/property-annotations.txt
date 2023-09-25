@@ -168,14 +168,19 @@ within a class.
 Index Properties
 ----------------
 
+You can use indexes support the efficient execution of queries in a realm.
 **Indexes** are special data structures that store a small portion of 
-a realm's data in an easy-to-traverse form. The index stores the value 
-of a specific field ordered by the value of the field. The ordering of 
-the index entries supports efficient equality matches and range-based 
-query operations. Note that indexes speed up some queries at the cost 
-of slightly slower write times and additional storage and memory 
-overhead: Realm stores indexes on disk, and each index entry is a 
-minimum of 12 bytes.
+a realm's data in an easy-to-traverse form. When an appropriate index 
+exists for a query, Realm uses the index to limit the number of 
+documents that it must inspect. Otherwise, Realm must scan every 
+document in a collection and select those documents that match a query.
+
+The index stores the value of a specific field ordered by the value of 
+the field. The ordering of the index entries supports efficient equality 
+matches and range-based query operations. Note that indexes speed up some 
+queries at the cost of slightly slower write times and additional storage 
+and memory overhead: Realm stores indexes on disk, which makes your realm
+files larger. Each index entry is a minimum of 12 bytes.
 
 To create an index on a property, use the `@Index
 <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-index/index.html>`__
