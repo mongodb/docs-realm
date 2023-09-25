@@ -37,7 +37,7 @@ The ``user.remove()`` method acts as follows:
 - Deletes synced realms associated with the user from the device.
 - Sets the
   `User.State <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/-state/index.html>`__ 
-  to ``REMOVED``
+  to ``REMOVED``.
 
 Because removing a user deletes any synced realms owned by the user, you 
 should only call this method after closing the user's realms.
@@ -55,7 +55,7 @@ method on a logged-in user:
 
 The ``user.delete()`` method performs the following:
 
-- deletes synced realms associated with the user from the device
+- Deletes synced realms associated with the user from the device.
 - deletes the ``User`` object from the Atlas App Services server
 - sets the
   `User.State <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/-state/index.html>`__ 
