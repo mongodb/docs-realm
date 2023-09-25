@@ -68,9 +68,7 @@ namespace Examples
             Assert.AreEqual(0, myObject.Counter);
         }
 
-        //[Test]
-        // TODO: re-enable this test once the core fix
-        // is released (~ end of Sept 2023)
+        [Test]
         public async Task WorkWithDictionaries()
         {
             if (realm == null) realm = await Realm.GetInstanceAsync();
