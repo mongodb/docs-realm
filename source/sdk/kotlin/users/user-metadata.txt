@@ -1,8 +1,8 @@
 .. _kotlin-user-metadata:
 
-==========================
-User Metadata - Kotlin SDK
-==========================
+=================================
+Manage User Metadata - Kotlin SDK
+=================================
 
 .. contents:: On this page
    :local:
@@ -10,9 +10,13 @@ User Metadata - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-Atlas App Services can read :ref:`user metadata <auth-provider-metadata>` 
-from authentication providers. Then, App Services exposes each user's 
-data in a field of their user object. For example, you might want to 
+This page describes how to manage user metadata for an authorized App 
+Services App user using the Realm Kotlin SDK. For more information, 
+refer to :ref:`<auth-provider-metadata>` in the App Services documentation.
+
+Atlas App Services can read **user metadata** from authentication providers. 
+Then, App Services exposes each user's 
+data in a field of their ``User`` object. For example, you might want to 
 access a user's name, email, birthday, or gender.
 
 .. _kotlin-read-user-metadata:
