@@ -1,3 +1,37 @@
+# September 22, 2023
+
+## Flutter SDK
+
+- Realm Database/Model Data/Define a Realm Object Schema: Add new section for defining an asymmetric object.
+- Sync Device Data/Stream Data to Atlas: Create new page with information on using data ingest with the Flutter SDK.
+
+## Kotlin SDK
+
+- Realm/Model Data
+  - Landing Page: Unlist landing page and turn it into a container in the TOC.
+  - Define an Object Model: Update code examples and move relevant content from landing page to this page.
+- Sync Device Data/Manage Sync Session: Add details for ``.reconnect()`` method, which manually triggers an attempt to reconnect to Sync.
+- Atlas App Services/Connect to App Services: Add information about custom HTTP headers and additional configuration details about ``app.close()``. 
+
+## .NET SDK
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add information about the Flexible Sync ``SubscribeAsync`` API.
+
+## Node.js SDK
+
+- Sync Data/Handle Sync Errors: Document updates for handling compensating write errors.
+
+## React Native SDK
+
+- Sync Data/Manage Flexible Sync Subscriptions: Document new subscribe API and update code examples for v12.
+- Model Data/Define an Object Model: Add documentation for setting a full-text search index.
+- CRUD/Query Data: Add documentation for full-text search functionality on filtering.
+
+## Other
+
+- Realm Landing Page: Add link to Atlas App services in introductory content and move the App Services card higher up on the page.
+- Realm Example Projects: Add Vehicle Simulator and Controller, Analytics, and Smart Factory Interface projects.
+
 # September 15, 2023
 
 ## C++ SDK
