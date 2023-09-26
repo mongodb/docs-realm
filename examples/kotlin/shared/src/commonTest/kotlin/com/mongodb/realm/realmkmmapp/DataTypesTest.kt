@@ -4,11 +4,9 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.ext.parent
 import io.realm.kotlin.ext.query
-import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.types.EmbeddedRealmObject
-import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.coroutines.Deferred
@@ -17,36 +15,49 @@ import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+
+/*
+** Leaving these here until the Read, Update, and Delete pages are updated
+* to use the new object model and this page can be deleted
+*
+* See the Schema.kt file for the new object model and CreateTest.kt for new tested Create snippets
+ */
+
+class EmbeddedAddress : EmbeddedRealmObject {
+    var street: String? = null
+    var city: String? = null
+    var state: String? = null
+    var postalCode: String? = null
+}
+
+class Contact : RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var address: EmbeddedAddress? = null
+}
+
 class DataTypesTest : RealmTest() {
     @Test
     fun createEmbeddedObject() {
         runBlocking {
-            // :snippet-start: open-realm-embedded-object
-            // Include parent and embedded object classes in schema
             val config = RealmConfiguration.Builder(
                 setOf(Contact::class, EmbeddedAddress::class)
             )
                 .build()
             val realm = Realm.open(config)
-            // :snippet-end:
-
-            // :snippet-start: create-embedded-object
-            // Create a parent object with one embedded address
             realm.write {
                 val contact = copyToRealm(Contact())
-                    contact.apply {
-                        name = "Nick Riviera"
-
-                        // Embed the address in the contact object
-                        address = EmbeddedAddress().apply {
-                            street = "123 Fake St"
-                            city = "Some Town"
-                            state = "MA"
-                            postalCode = "12345"
-                        }
+                contact.apply {
+                    name = "Nick Riviera"
+                    address = EmbeddedAddress().apply {
+                        street = "123 Fake St"
+                        city = "Some Town"
+                        state = "MA"
+                        postalCode = "12345"
                     }
+                }
             }
-            // :snippet-end:
 
             val asyncCall: Deferred<Unit> = async {
                 val address: EmbeddedAddress = realm.query<EmbeddedAddress>().find().first()
@@ -74,22 +85,22 @@ class DataTypesTest : RealmTest() {
                 }
                 // :snippet-end:
 
-            // :snippet-start: overwrite-embedded-object
-            // Overwrite the embedded object in a write transaction
-            realm.write {
-                // Fetch the parent object
-                val parentObject: Contact =
-                    realm.query<Contact>("name == 'Nick Riviera'").find().first()
+                // :snippet-start: overwrite-embedded-object
+                // Overwrite the embedded object in a write transaction
+                realm.write {
+                    // Fetch the parent object
+                    val parentObject: Contact =
+                        realm.query<Contact>("name == 'Nick Riviera'").find().first()
 
-                // Overwrite the embedded object (deletes the existing object)
-                parentObject.address = EmbeddedAddress().apply {
-                    street = "202 Coconut Court"
-                    city = "Los Angeles"
-                    state = "CA"
-                    postalCode = "90210"
+                    // Overwrite the embedded object (deletes the existing object)
+                    parentObject.address = EmbeddedAddress().apply {
+                        street = "202 Coconut Court"
+                        city = "Los Angeles"
+                        state = "CA"
+                        postalCode = "90210"
+                    }
                 }
-            }
-            // :snippet-end:
+                // :snippet-end:
 
             }
             asyncCall.cancel()
@@ -154,15 +165,15 @@ class DataTypesTest : RealmTest() {
 
             realm.write {
                 val contact1 = copyToRealm(Contact())
-                    contact1.apply {
-                        name = "Marvin Monroe"
-                        address = EmbeddedAddress().apply {
-                            street = "123 Fake St"
-                            city = "Some Town"
-                            state = "MA"
-                            postalCode = "12345"
-                        }
+                contact1.apply {
+                    name = "Marvin Monroe"
+                    address = EmbeddedAddress().apply {
+                        street = "123 Fake St"
+                        city = "Some Town"
+                        state = "MA"
+                        postalCode = "12345"
                     }
+                }
                 val contact2 = copyToRealm(Contact())
                 contact2.apply {
                     name = "Nick Riviera"

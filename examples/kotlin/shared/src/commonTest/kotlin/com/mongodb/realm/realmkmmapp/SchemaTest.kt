@@ -68,17 +68,7 @@ class SchemaTest : RealmTest() {
     @Test
     fun createRealmObjectsTest() {
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(
-                    ExampleRealmObject_Frog::class,
-                    ExampleRealmSet_Frog::class,
-                    ExampleRealmSet_Snack::class,
-                    ExampleRealmDictionary_Frog::class,
-                    ExampleRealmObject_EmbeddedForest::class,
-                    RealmList_Frog::class,
-                    RealmList_Pond::class
-                )
-            )
+            val config = RealmConfiguration.Builder(setOf(ExampleRealmObject_Frog::class, ExampleRealmSet_Frog::class, ExampleRealmSet_Snack::class, ExampleRealmDictionary_Frog::class, ExampleEmbeddedObject_EmbeddedForest::class, ExampleRealmList_Frog::class, ExampleRealmList_Pond::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -100,30 +90,30 @@ class SchemaTest : RealmTest() {
                 assertEquals(0, query<ExampleRealmObject_Frog>().find().size)
 
                 // create realm list object
-                copyToRealm(RealmList_Frog().apply {
+                copyToRealm(ExampleRealmList_Frog().apply {
                     name = "Timerk"
-                    favoritePonds.add(RealmList_Pond().apply {
+                    favoritePonds.add(ExampleRealmList_Pond().apply {
                         name = "Pond1"
                     })
-                    favoritePonds.add(RealmList_Pond().apply {
+                    favoritePonds.add(ExampleRealmList_Pond().apply {
                         name = "Pond2"
                     })
-                    favoriteForests.add(ExampleRealmObject_EmbeddedForest().apply {
+                    favoriteForests.add(ExampleEmbeddedObject_EmbeddedForest().apply {
                         name = "Forest1"
                     })
-                    favoriteForests.add(ExampleRealmObject_EmbeddedForest().apply {
+                    favoriteForests.add(ExampleEmbeddedObject_EmbeddedForest().apply {
                         name = "Forest2"
                     })
                     favoriteWeather.add("rain")
                     favoriteWeather.add("snow")
                 })
-                val realmListFrog = query<RealmList_Frog>().find().first()
+                val realmListFrog = query<ExampleRealmList_Frog>().find().first()
                 assertEquals("Timerk", realmListFrog.name)
                 assertEquals(2, realmListFrog.favoritePonds.size)
                 assertEquals(2, realmListFrog.favoriteForests.size)
                 assertEquals(2, realmListFrog.favoriteWeather.size)
                 delete(realmListFrog)
-                assertEquals(0, query<RealmList_Frog>().find().size)
+                assertEquals(0, query<ExampleRealmList_Frog>().find().size)
 
                 // create realm set object
                 copyToRealm(ExampleRealmSet_Frog().apply {
@@ -149,7 +139,7 @@ class SchemaTest : RealmTest() {
                     favoriteFriendsByPond["Pond1"] = ExampleRealmDictionary_Frog().apply {
                         name = "Frog1"
                     }
-                    favoriteTreesInForest["Forest1"] = ExampleRealmObject_EmbeddedForest().apply {
+                    favoriteTreesInForest["Forest1"] = ExampleEmbeddedObject_EmbeddedForest().apply {
                         name = "Tree1"
                     }
                     favoritePondsByForest["Forest2"] = "Pond1"

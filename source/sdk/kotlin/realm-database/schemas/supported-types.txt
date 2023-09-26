@@ -297,6 +297,8 @@ Additionally, ``MutableRealmInt`` fields:
   they create a new, unmanaged ``MutableRealmInt`` instance with the updated 
   value.
 
+Learn how to :ref:`<kotlin-create-mutablerealmint>`.
+
 .. _kotlin-timestamps:
 
 RealmInstant (Timestamp)
@@ -363,20 +365,14 @@ that contains zero or more instances of one supported data type.
 Realm collections are homogenous (all objects in a collection are of the 
 same type) and are backed by their corresponding built-in Kotlin classes.
 
-User-created collections are unmanaged until they are copied to the realm 
-and can contain both managed and unmanaged objects. Unmanaged collections 
-behave like their corresponding Kotlin classes and are not persisted to the realm.
-Refer to :ref:`Managed vs. Unmanaged Objects <kotlin-managed-vs-unmanaged-objects>`
-for more information.
-
 Collection types are non-null. When you define a collection property, you must 
 initialize it. 
-Learn how to :ref:`Create a Collection <kotlin-create-a-collection>`. 
+For more information, refer to :ref:`Create a Collection <kotlin-create-a-collection>`. 
 
 .. _kotlin-realm-list:
 
-RealmLists
-~~~~~~~~~~
+RealmList
+~~~~~~~~~
 
 The `RealmList <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html>`__
 type implements Kotlin's 
@@ -403,8 +399,8 @@ containing:
 
 .. _kotlin-realm-set:
 
-RealmSets
-~~~~~~~~~
+RealmSet
+~~~~~~~~
 
 The `RealmSet 
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__   
@@ -431,8 +427,8 @@ You cannot use ``EmbeddedRealmObject`` elements in a ``RealmSet``.
 
 .. _kotlin-realm-dictionary:
 
-RealmMap/RealmDictionaries
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+RealmMap/RealmDictionary
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The `RealmMap <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-map/index.html>`__ 
 type implements Kotlin's `Map 
