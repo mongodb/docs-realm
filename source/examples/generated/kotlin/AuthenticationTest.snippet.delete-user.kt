@@ -1,4 +1,4 @@
-val app: App = App.create(YOUR_APP_ID) // Replace with your App ID
+val app: App = App.create(YOUR_APP_ID)
 runBlocking {
     // Log user in
     val user = app.login(credentials)

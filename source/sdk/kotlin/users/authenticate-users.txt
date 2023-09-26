@@ -110,7 +110,7 @@ authentication provider.
 
 If successful, ``app.login()`` returns a ``User`` object.
 In the event of a failure, ``app.login()`` throws an
-exception of type ``AppException``.
+exception of type ``AppException``. 
 
 .. tip:: 
 
@@ -118,7 +118,7 @@ exception of type ``AppException``.
    through the `user.provider 
    <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/provider.html>`__
    property. If the user is currently logged out, the most recent 
-   provider used to log in the user is returned.
+   provider used to log in the user is returned. 
 
 .. _kotlin-anonymous-login:
 
@@ -358,7 +358,7 @@ You can retrieve the currently logged-in user with the `App.currentUser
 property:
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.retrieve-current-user.kt
-   :language: kotlin. 
+   :language: kotlin 
 
 Use this to log in offline or :ref:`call an Atlas Function 
 <kotlin-call-function>` upon subsequent app opens. 

@@ -430,10 +430,8 @@ class AuthenticationTest: RealmTest() {
     @OptIn(ExperimentalRealmSerializerApi::class)
     @Test
     fun deleteUserTest() {
-        val email = getRandom()
-        val password = getRandom()
         // :snippet-start: delete-user
-        val app: App = App.create(TESTER_APP_ID) // Replace with your App ID
+        val app: App = App.create(TESTER_APP_ID)
         runBlocking {
             val credentials = Credentials.anonymous(reuseExisting = false) // :remove:
             // Log user in
@@ -469,6 +467,100 @@ class AuthenticationTest: RealmTest() {
             // :remove-end:
         }
         // :snippet-end:
+        app.close()
+    }
+
+    /*
+ ** Tests for Multi-User Applications page **
+  */
+
+    private val joeEmail = getRandom()
+    private val emmaEmail = getRandom()
+    private val joePassword = getRandom()
+    private val emmaPassword = getRandom()
+    @Test
+    fun multipleUsersTest () {
+        // :snippet-start: add-a-new-user
+        val app = App.create(YOUR_APP_ID) // Replace with your App ID
+        runBlocking {
+            // Log in as Joe
+            app.emailPasswordAuth.registerUser(joeEmail, joePassword) // :remove:
+            val joeCredentials = Credentials.emailPassword(joeEmail, joePassword)
+            try {
+                val joe = app.login(joeCredentials)
+                // The active user is now Joe
+                val user = app.currentUser
+                Log.v("Successfully logged in. User state: ${joe.state}. Current user is now: ${user?.id}")
+                assertEquals(joe, user)
+            } catch (e: Exception) {
+                Log.e("Failed to log in: ${e.message}")
+            }
+
+            // Log in as Emma
+            app.emailPasswordAuth.registerUser(emmaEmail, emmaPassword) // :remove:
+            val emmaCredentials = Credentials.emailPassword(emmaEmail, emmaPassword)
+            try {
+                val emma = app.login(emmaCredentials)
+                // The active user is now Emma
+                val user = app.currentUser
+                Log.v("Successfully logged in. User state: ${emma.state}. Current user is now: ${user?.id}")
+                assertEquals(emma, user)
+            } catch (e: Exception) {
+                Log.e("Failed to log in: ${e.message}")
+            }
+        }
+        // :snippet-end:
+
+        runBlocking {
+            val joeCredentials = Credentials.emailPassword(joeEmail, joePassword)
+            val emmaCredentials = Credentials.emailPassword(emmaEmail, emmaPassword)
+            val device = app.currentUser?.deviceId
+            // :snippet-start: list-all-users
+            // Get all known users on device
+            val allUsers = app.allUsers()
+            for ((key) in allUsers) {
+                Log.v("User on Device $device: $key")
+            }
+            // :snippet-end:
+            val confirmEmma = app.currentUser
+            assertTrue(allUsers.containsKey(confirmEmma?.id))
+
+            val joe = app.login(joeCredentials)
+            assertEquals(joe, app.currentUser)
+            assertTrue(allUsers.containsKey(joe.id))
+            // :snippet-start: log-out-a-user
+            try {
+                joe.logOut()
+                Log.v("Successfully logged out user. User state: ${joe.state}. Current user is now: ${app.currentUser?.id}")
+                assertFalse(joe.loggedIn) // :remove:
+            } catch (e: Exception) {
+                Log.e("Failed to log out: ${e.message}")
+            }
+            val joeIsAUser = app.allUsers().containsKey(joe.id)
+            assertTrue(joeIsAUser)
+            // :snippet-end:
+            val deleteJoe = app.login(joeCredentials)
+            deleteJoe.delete()
+            val noJoe = app.allUsers()
+            assertFalse(noJoe.containsKey(deleteJoe.id))
+
+            val emma = app.login(emmaCredentials)
+            assertEquals(emma.id, app.currentUser?.id)
+            // :snippet-start: remove-a-user
+            assertEquals(emma, app.currentUser)
+            try {
+                emma.remove()
+                Log.v("Successfully removed user. User state: ${emma.state}. Current user is now: ${app.currentUser?.id}")
+            } catch (e: Exception) {
+                Log.e("Failed to remove user: ${e.message}")
+            }
+            val emmaIsAUser = app.allUsers().containsKey(emma.id)
+            assertFalse(emmaIsAUser)
+            assertNull(app.currentUser)
+            // :snippet-end:
+            val deleteEmma = app.login(emmaCredentials)
+            deleteEmma.delete()
+        }
         app.close()
     }
 }
