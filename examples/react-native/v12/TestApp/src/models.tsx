@@ -49,3 +49,145 @@ export class Turtle extends Realm.Object {
     primaryKey: '_id',
   };
 }
+
+/*
+  Begin to-one relationship object models
+*/
+export class ToOneManufacturer extends Realm.Object {
+  _id!: BSON.ObjectId;
+  name!: string;
+  car?: Car;
+
+  static schema: Realm.ObjectSchema = {
+    name: 'ToOneManufacturer',
+    properties: {
+      _id: 'objectId',
+      name: 'string',
+      // A manufacturer that may have one car
+      car: 'Car?',
+    },
+  };
+}
+
+export class Car extends Realm.Object {
+  _id!: BSON.ObjectId;
+  model!: string;
+  miles?: number;
+
+  static schema: Realm.ObjectSchema = {
+    name: 'Car',
+    properties: {
+      _id: 'objectId',
+      model: 'string',
+      miles: 'int?',
+    },
+  };
+}
+
+/*
+  End to-one relationship models
+*/
+
+/*
+  Begin to-many relationship object models
+*/
+
+export class ToManyManufacturer extends Realm.Object {
+  _id!: BSON.ObjectId;
+  name!: string;
+  cars!: Realm.List<LinkedCar>;
+
+  static schema: Realm.ObjectSchema = {
+    name: 'ToManyManufacturer',
+    properties: {
+      _id: 'objectId',
+      name: 'string',
+      // A manufacturer that may have many cars
+      cars: 'LinkedCar[]',
+    },
+  };
+}
+
+export class LinkedCar extends Realm.Object {
+  _id!: BSON.ObjectId;
+  model!: string;
+  miles?: number;
+  manufacturer!: Realm.Collection<ToManyManufacturer>;
+
+  static schema: Realm.ObjectSchema = {
+    name: 'LinkedCar',
+    properties: {
+      _id: 'objectId',
+      model: 'string',
+      miles: 'int?',
+      manufacturer: {
+        type: 'linkingObjects',
+        objectType: 'ToManyManufacturer',
+        property: 'cars',
+      },
+    },
+  };
+}
+
+/*
+  End to-many relationship models
+*/
+
+/*
+  Begin embedded relationship object models
+*/
+export class Manufacturer extends Realm.Object {
+  _id!: BSON.ObjectId;
+  name!: string;
+  cars!: Realm.List<CarWithEmbed>;
+  warranties!: Realm.List<Warranty>;
+
+  static schema: Realm.ObjectSchema = {
+    name: 'Manufacturer',
+    properties: {
+      _id: 'objectId',
+      name: 'string',
+      cars: 'CarWithEmbed[]',
+      // Embed an array of objects
+      warranties: 'Warranty[]',
+    },
+  };
+}
+
+export class CarWithEmbed extends Realm.Object {
+  _id!: BSON.ObjectId;
+  model!: string;
+  miles?: number;
+  warranty?: Warranty;
+
+  static schema: Realm.ObjectSchema = {
+    name: 'CarWithEmbed',
+    properties: {
+      _id: 'objectId',
+      model: 'string',
+      miles: 'int?',
+      // Embed one object
+      warranty: 'Warranty?',
+    },
+  };
+}
+
+export class Warranty extends Realm.Object {
+  name!: string;
+  termLength!: number;
+  cost!: number;
+
+  static schema: Realm.ObjectSchema = {
+    name: 'Warranty',
+    embedded: true,
+    properties: {
+      name: 'string',
+      termLength: 'int',
+      cost: 'int',
+    },
+  };
+}
+
+/*
+  End embedded relationship models
+*/
