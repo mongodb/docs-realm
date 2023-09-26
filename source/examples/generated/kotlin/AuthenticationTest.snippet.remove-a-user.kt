@@ -7,4 +7,3 @@ try {
 }
 val emmaIsAUser = app.allUsers().containsKey(emma.id)
 assertFalse(emmaIsAUser)
-assertNull(app.currentUser)

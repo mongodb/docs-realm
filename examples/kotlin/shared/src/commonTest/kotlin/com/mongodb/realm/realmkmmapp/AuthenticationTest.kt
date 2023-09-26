@@ -474,12 +474,17 @@ class AuthenticationTest: RealmTest() {
  ** Tests for Multi-User Applications page **
   */
 
-    private val joeEmail = getRandom()
-    private val emmaEmail = getRandom()
-    private val joePassword = getRandom()
-    private val emmaPassword = getRandom()
+    private val app = App.create(YOUR_APP_ID)
+    val joeEmail = getRandomEmail()
+    val emmaEmail = getRandom()
+    val joePassword = getRandomEmail()
+    val emmaPassword = getRandom()
+    val joeCredentials = Credentials.emailPassword(joeEmail, joePassword)
+    val emmaCredentials = Credentials.emailPassword(emmaEmail, emmaPassword)
+
     @Test
-    fun multipleUsersTest () {
+    fun addMultipleUsersTest () {
+
         // :snippet-start: add-a-new-user
         val app = App.create(YOUR_APP_ID) // Replace with your App ID
         runBlocking {
@@ -510,11 +515,23 @@ class AuthenticationTest: RealmTest() {
             }
         }
         // :snippet-end:
-
         runBlocking {
-            val joeCredentials = Credentials.emailPassword(joeEmail, joePassword)
-            val emmaCredentials = Credentials.emailPassword(emmaEmail, emmaPassword)
+            val joe = app.login(joeCredentials)
+            joe.delete()
+            val emma = app.login(emmaCredentials)
+            emma.delete()
+        }
+        app.close()
+    }
+
+    @Test
+    fun listMultipleUsersTest () {
+        runBlocking {
+            app.emailPasswordAuth.registerUser(joeEmail, joePassword)
+            app.emailPasswordAuth.registerUser(emmaEmail, emmaPassword)
             val device = app.currentUser?.deviceId
+            val loginJoe = app.login(joeCredentials)
+            val loginEmma = app.login(emmaCredentials)
             // :snippet-start: list-all-users
             // Get all known users on device
             val allUsers = app.allUsers()
@@ -522,30 +539,43 @@ class AuthenticationTest: RealmTest() {
                 Log.v("User on Device $device: $key")
             }
             // :snippet-end:
-            val confirmEmma = app.currentUser
-            assertTrue(allUsers.containsKey(confirmEmma?.id))
+            assertEquals(loginEmma, app.currentUser)
+            assertTrue(allUsers.containsKey(loginEmma.id))
+            assertTrue(allUsers.containsKey(loginJoe.id))
+            loginJoe.delete()
+            loginEmma.delete()
+        }
+        app.close()
+    }
 
+    @Test
+    fun manageMultipleUsersTest () {
+        runBlocking {
+            app.emailPasswordAuth.registerUser(joeEmail, joePassword)
+            app.emailPasswordAuth.registerUser(emmaEmail, emmaPassword)
+            val loginEmma = app.login(emmaCredentials)
             val joe = app.login(joeCredentials)
             assertEquals(joe, app.currentUser)
-            assertTrue(allUsers.containsKey(joe.id))
             // :snippet-start: log-out-a-user
             try {
                 joe.logOut()
                 Log.v("Successfully logged out user. User state: ${joe.state}. Current user is now: ${app.currentUser?.id}")
                 assertFalse(joe.loggedIn) // :remove:
+                assertEquals(app.currentUser, loginEmma) // :remove:
             } catch (e: Exception) {
                 Log.e("Failed to log out: ${e.message}")
             }
             val joeIsAUser = app.allUsers().containsKey(joe.id)
             assertTrue(joeIsAUser)
             // :snippet-end:
+
             val deleteJoe = app.login(joeCredentials)
             deleteJoe.delete()
             val noJoe = app.allUsers()
             assertFalse(noJoe.containsKey(deleteJoe.id))
+            assertTrue(app.allUsers().containsKey(loginEmma.id))
 
             val emma = app.login(emmaCredentials)
-            assertEquals(emma.id, app.currentUser?.id)
             // :snippet-start: remove-a-user
             assertEquals(emma, app.currentUser)
             try {
@@ -556,10 +586,10 @@ class AuthenticationTest: RealmTest() {
             }
             val emmaIsAUser = app.allUsers().containsKey(emma.id)
             assertFalse(emmaIsAUser)
-            assertNull(app.currentUser)
             // :snippet-end:
             val deleteEmma = app.login(emmaCredentials)
             deleteEmma.delete()
+            assertFalse(app.allUsers().containsKey(deleteEmma.id))
         }
         app.close()
     }
