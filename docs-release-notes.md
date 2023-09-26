@@ -3,7 +3,7 @@
 ## Flutter SDK
 
 - Realm Database/Model Data/Define a Realm Object Schema: Add new section for defining an asymmetric object.
-- Sync Device Data/Stream Data to Atlas: Create new page with information on using data ingest with the Flutter SDK.
+- Sync Device Data/Stream Data to Atlas: Create new page with information on using Data Ingest with the Flutter SDK.
 
 ## Kotlin SDK
 
@@ -23,13 +23,13 @@
 
 ## React Native SDK
 
-- Sync Data/Manage Flexible Sync Subscriptions: Document new subscribe API and update code examples for v12.
+- Sync Data/Manage Flexible Sync Subscriptions: Add documentation for new subscribe API and update code examples for v12.
 - Model Data/Define an Object Model: Add documentation for setting a full-text search index.
 - CRUD/Query Data: Add documentation for full-text search functionality on filtering.
 
 ## Other
 
-- Realm Landing Page: Add link to Atlas App services in introductory content and move the App Services card higher up on the page.
+- Realm Landing Page: Add link to Atlas App Services in introductory content and move the App Services card higher up on the page.
 - Realm Example Projects: Add Vehicle Simulator and Controller, Analytics, and Smart Factory Interface projects.
 
 # September 15, 2023
