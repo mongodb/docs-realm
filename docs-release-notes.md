@@ -19,7 +19,7 @@
 
 ## Node.js SDK
 
-- Sync Data/Handle Sync Errors: Document updates for handling compensating write errors.
+- Sync Data/Handle Sync Errors: Add information for updates on handling compensating write errors.
 
 ## React Native SDK
 
