@@ -117,7 +117,9 @@ a realm:
       .. important:: Querying by Remapped Class Names
         
           When querying an inverse relationship on an object with a 
-          remapped class name, you must use the persisted class name. 
+          remapped class name, you must use the persisted class name.
+          In the example above, you must query ``Frog_Entity`` instead of 
+          ``Frog``. 
           For more information, refer to :ref:`Inverse Relationships 
           <kotlin-inverse-relationships>`.
 
@@ -150,8 +152,7 @@ By default, Realm manages properties defined in your Realm object
 model. However, you can choose to ignore properties that you don't 
 want to persist in a realm.
 
-To ignore a property and prevent it from persisting in a realm or 
-being included in the object schema, use the 
+To ignore a property and prevent it from persisting in a realm, use the 
 `@Ignore <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-ignore/index.html>`__
 annotation:
 
@@ -168,19 +169,19 @@ within a class.
 Index Properties
 ----------------
 
-You can use indexes support the efficient execution of queries in a realm.
 **Indexes** are special data structures that store a small portion of 
-a realm's data in an easy-to-traverse form. When an appropriate index 
+a realm's data in an easy-to-traverse form. Indexes support more 
+efficient query execution in a realm. When an appropriate index 
 exists for a query, Realm uses the index to limit the number of 
 documents that it must inspect. Otherwise, Realm must scan every 
 document in a collection and select those documents that match a query.
 
 The index stores the value of a specific field ordered by the value of 
 the field. The ordering of the index entries supports efficient equality 
-matches and range-based query operations. Note that indexes speed up some 
-queries at the cost of slightly slower write times and additional storage 
-and memory overhead: Realm stores indexes on disk, which makes your realm
-files larger. Each index entry is a minimum of 12 bytes.
+matches and range-based query operations. While indexes speed up some 
+queries, they also cause slightly slower writes. They come with additional 
+storage and memory overhead. Realm stores indexes on disk, which makes your 
+realm files larger. Each index entry is a minimum of 12 bytes.
 
 To create an index on a property, use the `@Index
 <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-index/index.html>`__
@@ -219,8 +220,7 @@ In addition to standard indexes, Realm also supports Full-Text Search
 field with or without a standard index, an FTS index enables searching 
 for multiple words and phrases and excluding others.
 
-To create an FTS index on a property (and enable full-text queries on
-the property), use the `@FullText
+To create an FTS index on a property, use the `@FullText
 <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations
 /-full-text/index.html>`__ 
 annotation:
