@@ -26,10 +26,10 @@ describe('Full text search query',  () => {
         // function to create books
         const writeBooks = (bookName: string, bookPrice: number) => {
             realm.write(() => {
-            realm.create(Book, {
-                name: bookName,
-                price: bookPrice,
-            });
+                realm.create(Book, {
+                    name: bookName,
+                    price: bookPrice,
+                });
             });
         };
 
