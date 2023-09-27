@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {BSON} from 'realm';
 import {useQuery, useRealm} from '@realm/react';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 
 import {ToOneManufacturer, Car} from '../../models';
 
@@ -37,9 +37,11 @@ export const CreateToOneRelationship = () => {
     <View>
       <Text>To-One Relationship</Text>
       <TextInput
-        testID={'to-one-input'}
+        testID={'to-one-model-input'}
         onChangeText={setCarModel}
         value={carModel}
+        placeholder="Car model"
+        style={styles.textInput}
       />
 
       {toOneManufacturer && toOneManufacturer.car && (
@@ -65,3 +67,10 @@ export const CreateToOneRelationship = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  textInput: {
+    backgroundColor: 'lightgrey',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+});

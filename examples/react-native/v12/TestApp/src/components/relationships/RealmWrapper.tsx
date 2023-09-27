@@ -4,6 +4,7 @@ import {RealmProvider} from '@realm/react';
 
 import {CreateToOneRelationship} from './ToOneRelationship';
 import {CreateToManyRelationship} from './ToManyRelationship';
+import {EmbeddedRelationship} from './EmbeddedRelationship';
 
 import {
   Manufacturer,
@@ -27,12 +28,15 @@ export const RelationshipExamples = () => {
         CarWithEmbed,
         Warranty,
       ]}
-      path="realm/ToOneRelationship">
+      path="relationships.realm">
       <View style={styles.separator}>
         <CreateToOneRelationship />
       </View>
       <View style={styles.separator}>
         <CreateToManyRelationship />
+      </View>
+      <View style={styles.separator}>
+        <EmbeddedRelationship />
       </View>
     </RealmProvider>
   );

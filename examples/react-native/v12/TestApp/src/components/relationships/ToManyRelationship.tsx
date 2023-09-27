@@ -1,7 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {BSON} from 'realm';
 import {useQuery, useRealm} from '@realm/react';
-import {View, Text, TextInput, Button, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
 
 import {ToManyManufacturer, LinkedCar} from '../../models';
 
@@ -50,9 +57,11 @@ export const CreateToManyRelationship = () => {
     <View>
       <Text>To-Many Relationship</Text>
       <TextInput
-        testID={'to-many-input'}
+        testID={'to-many-model-input'}
         onChangeText={setCarModel}
         value={carModel}
+        placeholder="Car model"
+        style={styles.textInput}
       />
 
       {cars.length ? (
@@ -82,3 +91,10 @@ export const CreateToManyRelationship = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  textInput: {
+    backgroundColor: 'lightgrey',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+});
