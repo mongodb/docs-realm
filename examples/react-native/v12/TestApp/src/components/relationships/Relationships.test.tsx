@@ -5,7 +5,6 @@ import {render, screen, userEvent, within} from '@testing-library/react-native';
 
 describe('Atlas Device SDK relationships', () => {
   test('to-one relationship', async () => {
-    // render the query component
     render(<RelationshipExamples />);
 
     const user = userEvent.setup();
@@ -30,7 +29,6 @@ describe('Atlas Device SDK relationships', () => {
   });
 
   test('to-many relationship', async () => {
-    // render the query component
     render(<RelationshipExamples />);
 
     const user = userEvent.setup();
@@ -62,6 +60,7 @@ describe('Atlas Device SDK relationships', () => {
     const firstCarManufacturer = await within(carNodes[0]).findByTestId(
       'manufacturer',
     );
+
     // Search within the second <View> component for model and manufacturer info
     const secondCarModel = await within(carNodes[1]).findByTestId('model');
     const secondCarManufacturer = await within(carNodes[1]).findByTestId(
@@ -77,8 +76,7 @@ describe('Atlas Device SDK relationships', () => {
     await user.press(removeButton);
   });
 
-  test('to-many relationship', async () => {
-    // render the query component
+  test('embedded relationship', async () => {
     render(<RelationshipExamples />);
 
     const user = userEvent.setup();
@@ -122,6 +120,7 @@ describe('Atlas Device SDK relationships', () => {
     const firstCarManufacturer = await within(carNodes[0]).findByTestId(
       'embedded-manufacturer',
     );
+
     // Search within the second <View> component for model and manufacturer info
     const secondCarModel = await within(carNodes[1]).findByTestId(
       'embedded-model',
