@@ -4,16 +4,19 @@ import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
+// Components
 import {HomeScreen} from './src/screens/HomeScreen';
 import {Geospatial} from './src/components/data-types/geospatial/Geospatial';
-
 import {FtsQuery} from './src/components/fts-query/FtsQuery';
-
 import {Logger} from './src/components/logger/Logger';
 import {ObjectModels} from './src/components/object-models/ObjectModels';
 import {RelationshipExamples} from './src/components/relationships/RealmWrapper';
+import {CompensatingWriteErrorHandling} from './src/components/errors/CompensatingWriteWrapper';
+
+// Screens
 import {SubscriptionScreen} from './src/screens/SubscriptionScreen';
 
+// Types
 import {RootStackParamList} from './src/navigation/types';
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -41,6 +44,10 @@ function App(): JSX.Element {
         <Drawer.Screen name="ObjectModels" component={ObjectModels} />
         <Drawer.Screen name="Subscriptions" component={SubscriptionScreen} />
         <Drawer.Screen name="Relationships" component={RelationshipExamples} />
+        <Drawer.Screen
+          name="Errors"
+          component={CompensatingWriteErrorHandling}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

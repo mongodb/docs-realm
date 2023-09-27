@@ -10,6 +10,7 @@ export type RootStackParamList = {
   SubscribeApi: undefined;
   FullTextSearch: undefined;
   Relationships: undefined;
+  Errors: undefined;
 };
 
 export type SubscriptionStackParamList = {
