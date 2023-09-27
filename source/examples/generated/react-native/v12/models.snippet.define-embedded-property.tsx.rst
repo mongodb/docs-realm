@@ -1,20 +1,19 @@
 .. code-block:: typescript
-   :emphasize-lines: 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 5, 12, 14, 23, 32, 4, 5, 12, 14, 23, 32
 
    class Manufacturer extends Realm.Object {
      _id!: BSON.ObjectId;
      name!: string;
-     cars!: Realm.List<CarWithEmbed>; 
-     warranties!: Realm.List<Warranty>; 
+     cars!: Realm.List<CarWithEmbed>;
+     warranties!: Realm.List<Warranty>;
 
      static schema: Realm.ObjectSchema = {
        name: 'Manufacturer',
        properties: {
          _id: 'objectId',
          name: 'string',
-         cars: 'CarWithEmbed[]', 
+         cars: 'CarWithEmbed[]',
          // Embed an array of objects
-         warranties: 'Warranty[]', 
+         warranties: 'Warranty[]',
        },
      };
    }
@@ -23,7 +22,7 @@
      _id!: BSON.ObjectId;
      model!: string;
      miles?: number;
-     warranty?: Warranty; 
+     warranty?: Warranty;
 
      static schema: Realm.ObjectSchema = {
        name: 'CarWithEmbed',
@@ -32,7 +31,7 @@
          model: 'string',
          miles: 'int?',
          // Embed one object
-         warranty: 'Warranty?', 
+         warranty: 'Warranty?',
        },
      };
    }

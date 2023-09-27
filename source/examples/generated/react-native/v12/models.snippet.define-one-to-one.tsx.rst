@@ -1,10 +1,9 @@
 .. code-block:: typescript
-   :emphasize-lines: 4, 12
 
    class ToOneManufacturer extends Realm.Object {
      _id!: BSON.ObjectId;
      name!: string;
-     car?: Car; 
+     car?: Car;
 
      static schema: Realm.ObjectSchema = {
        name: 'ToOneManufacturer',
@@ -12,7 +11,7 @@
          _id: 'objectId',
          name: 'string',
          // A manufacturer that may have one car
-         car: 'Car?', 
+         car: 'Car?',
        },
      };
    }

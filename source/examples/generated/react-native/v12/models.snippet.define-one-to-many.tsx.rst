@@ -20,7 +20,7 @@
      _id!: BSON.ObjectId;
      model!: string;
      miles?: number;
-     manufacturer!: Realm.Collection<ToManyManufacturer>;
+     manufacturer!: Realm.List<ToManyManufacturer>;
 
      static schema: Realm.ObjectSchema = {
        name: 'LinkedCar',
