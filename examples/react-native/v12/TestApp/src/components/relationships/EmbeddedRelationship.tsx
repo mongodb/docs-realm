@@ -13,7 +13,7 @@ import {
 import {Manufacturer, CarWithEmbed, Warranty} from '../../models';
 
 export const EmbeddedRelationship = () => {
-  const [carModel, setCarModel] = useState('');
+  const [embeddedCarModel, setEmbeddedCarModel] = useState('');
   const [carWarranty, setCarWarranty] = useState('');
 
   const realm = useRealm();
@@ -84,8 +84,8 @@ export const EmbeddedRelationship = () => {
       <Text>Embedded Relationship</Text>
       <TextInput
         testID={'embedded-model-input'}
-        onChangeText={setCarModel}
-        value={carModel}
+        onChangeText={setEmbeddedCarModel}
+        value={embeddedCarModel}
         placeholder="Car model"
         style={styles.textInput}
       />
@@ -101,6 +101,7 @@ export const EmbeddedRelationship = () => {
         <FlatList
           data={cars}
           keyExtractor={item => item._id.toString()}
+          scrollEnabled={false}
           renderItem={({item}) => (
             <View testID="embedded-car">
               <Text testID="embedded-model">Model: {item.model}</Text>
@@ -118,10 +119,13 @@ export const EmbeddedRelationship = () => {
       )}
 
       <Button
-        testID="create-embedded-relationship"
-        title="Create embedded relationship"
+        testID="create-embedded-car"
+        title="Create car"
         onPress={() => {
-          createRelationship({model: carModel, warrantyType: carWarranty});
+          createRelationship({
+            model: embeddedCarModel,
+            warrantyType: carWarranty,
+          });
         }}
       />
     </View>

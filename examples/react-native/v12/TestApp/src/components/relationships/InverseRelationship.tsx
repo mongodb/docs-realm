@@ -12,27 +12,13 @@ import {
 
 import {ManufacturerInverse, CarInverse} from '../../models';
 
-export const CreateInverseRelationship = () => {
-  const [carModel, setCarModel] = useState('');
-  // const [manufacturerId, setManufacturerId] = useState<BSON.ObjectId | undefined>(undefined);
+export const InverseRelationship = () => {
+  const [inverseCarModel, setInverseCarModel] = useState('');
+  const [manufacturerId, setManufacturerId] = useState('');
 
   const realm = useRealm();
   const manufacturerInverse = useQuery(ManufacturerInverse)[0];
   const cars = useQuery(CarInverse);
-  const manufacturerId = new BSON.ObjectID();
-
-  // Create a manufacturer to add cars to. This is a hack to streamline
-  // testing. Could also implement a UI flow to create a manufacturer, then
-  // create cars.
-  if (!manufacturerInverse) {
-    realm.write(() => {
-      realm.create(ManufacturerInverse, {
-        _id: manufacturerId,
-        name: 'Nissan',
-        cars: [],
-      });
-    });
-  }
 
   const getManufacturerId = (car: CarInverse): string => {
     const carManufacturer = car.manufacturer[0];
@@ -40,7 +26,21 @@ export const CreateInverseRelationship = () => {
     return carManufacturer._id.toString();
   };
 
-  const createRelationship = (model: string): void => {
+  const createManufacturer = (): void => {
+    realm.write(() => {
+      realm.create(ManufacturerInverse, {
+        _id: new BSON.ObjectID(manufacturerId),
+        name: 'Nissan',
+        cars: [],
+      });
+    });
+  };
+
+  const createCar = (model: string): void => {
+    if (!manufacturerInverse) {
+      return;
+    }
+
     realm.write(() => {
       const thisCar = realm.create(CarInverse, {
         _id: new BSON.ObjectID(),
@@ -55,36 +55,54 @@ export const CreateInverseRelationship = () => {
   return (
     <View>
       <Text>Inverse Relationship</Text>
+      <Text testID="inverse-manufacturer-id-original" selectable={true}>
+        Test id: 313233343536373839313233
+      </Text>
       <TextInput
         testID={'inverse-model-input'}
-        onChangeText={setCarModel}
-        value={carModel}
+        onChangeText={setInverseCarModel}
+        value={inverseCarModel}
         placeholder="Car model"
+        style={styles.textInput}
+      />
+      <TextInput
+        testID={'inverse-id-input'}
+        onChangeText={setManufacturerId}
+        value={manufacturerId}
+        placeholder="Manufacturer Id"
         style={styles.textInput}
       />
 
       {cars.length ? (
         <FlatList
           data={cars}
+          keyExtractor={item => item._id.toString()}
+          scrollEnabled={false}
           renderItem={({item}) => (
             <View testID="inverse-car">
               <Text testID="inverse-model">Model: {item.model}</Text>
-              <Text testID="inverse-manufacturer">
-                Manufacturer: {getManufacturerId(item)}
+              <Text testID="inverse-manufacturer-id">
+                Manufacturer id: {getManufacturerId(item)}
               </Text>
             </View>
           )}
-          keyExtractor={item => item._id.toString()}
         />
       ) : (
         <Text>No cars found!</Text>
       )}
 
       <Button
-        testID="create-inverse-relationship"
-        title="Create inverse relationship"
+        testID="create-inverse-car"
+        title="Create car"
         onPress={() => {
-          createRelationship(carModel);
+          createCar(inverseCarModel);
+        }}
+      />
+      <Button
+        testID="create-inverse-manufacturer"
+        title="Create manufacturer"
+        onPress={() => {
+          createManufacturer();
         }}
       />
     </View>

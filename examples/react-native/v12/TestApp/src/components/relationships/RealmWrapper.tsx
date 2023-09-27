@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, ScrollView, StyleSheet} from 'react-native';
 import {RealmProvider} from '@realm/react';
 
-import {CreateToOneRelationship} from './ToOneRelationship';
-import {CreateToManyRelationship} from './ToManyRelationship';
+import {ToOneRelationship} from './ToOneRelationship';
+import {ToManyRelationship} from './ToManyRelationship';
 import {EmbeddedRelationship} from './EmbeddedRelationship';
+import {InverseRelationship} from './InverseRelationship';
 
 import {
   Manufacturer,
@@ -32,17 +33,22 @@ const realmModels: Realm.RealmObjectConstructor[] = [
 
 export const RelationshipExamples = () => {
   return (
-    <RealmProvider schema={realmModels} path="relationships.realm">
-      <View style={styles.separator}>
-        <CreateToOneRelationship />
-      </View>
-      <View style={styles.separator}>
-        <CreateToManyRelationship />
-      </View>
-      <View style={styles.separator}>
-        <EmbeddedRelationship />
-      </View>
-    </RealmProvider>
+    <ScrollView>
+      <RealmProvider schema={realmModels} path="relationships.realm">
+        <View style={styles.separator}>
+          <ToOneRelationship />
+        </View>
+        <View style={styles.separator}>
+          <ToManyRelationship />
+        </View>
+        <View style={styles.separator}>
+          <EmbeddedRelationship />
+        </View>
+        <View style={styles.separator}>
+          <InverseRelationship />
+        </View>
+      </RealmProvider>
+    </ScrollView>
   );
 };
 

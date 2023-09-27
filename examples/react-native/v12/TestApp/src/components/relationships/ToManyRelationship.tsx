@@ -12,8 +12,8 @@ import {
 
 import {ToManyManufacturer, LinkedCar} from '../../models';
 
-export const CreateToManyRelationship = () => {
-  const [carModel, setCarModel] = useState('');
+export const ToManyRelationship = () => {
+  const [toManyCarModel, setToManyCarModel] = useState('');
 
   const realm = useRealm();
   const toManyManufacturer = useQuery(ToManyManufacturer)[0];
@@ -58,8 +58,8 @@ export const CreateToManyRelationship = () => {
       <Text>To-Many Relationship</Text>
       <TextInput
         testID={'to-many-model-input'}
-        onChangeText={setCarModel}
-        value={carModel}
+        onChangeText={setToManyCarModel}
+        value={toManyCarModel}
         placeholder="Car model"
         style={styles.textInput}
       />
@@ -67,6 +67,8 @@ export const CreateToManyRelationship = () => {
       {cars.length ? (
         <FlatList
           data={cars}
+          keyExtractor={item => item._id.toString()}
+          scrollEnabled={false}
           renderItem={({item}) => (
             <View testID="car">
               <Text testID="model">Model: {item.model}</Text>
@@ -75,17 +77,16 @@ export const CreateToManyRelationship = () => {
               </Text>
             </View>
           )}
-          keyExtractor={item => item._id.toString()}
         />
       ) : (
         <Text>No cars found!</Text>
       )}
 
       <Button
-        testID="create-to-many-relationship"
-        title="Create to-many relationship"
+        testID="create-to-many-car"
+        title="Create car"
         onPress={() => {
-          createRelationship(carModel);
+          createRelationship(toManyCarModel);
         }}
       />
     </View>

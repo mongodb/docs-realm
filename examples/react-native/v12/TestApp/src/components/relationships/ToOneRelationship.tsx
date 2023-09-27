@@ -5,8 +5,8 @@ import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 
 import {ToOneManufacturer, Car} from '../../models';
 
-export const CreateToOneRelationship = () => {
-  const [carModel, setCarModel] = useState('');
+export const ToOneRelationship = () => {
+  const [toOneCarModel, setToOneCarModel] = useState('');
 
   const realm = useRealm();
   const toOneManufacturer = useQuery(ToOneManufacturer)[0];
@@ -38,8 +38,8 @@ export const CreateToOneRelationship = () => {
       <Text>To-One Relationship</Text>
       <TextInput
         testID={'to-one-model-input'}
-        onChangeText={setCarModel}
-        value={carModel}
+        onChangeText={setToOneCarModel}
+        value={toOneCarModel}
         placeholder="Car model"
         style={styles.textInput}
       />
@@ -51,10 +51,10 @@ export const CreateToOneRelationship = () => {
       )}
 
       <Button
-        testID="create-to-one-relationship"
-        title="Create to-one relationship"
+        testID="create-to-one-car"
+        title="Create car"
         onPress={() => {
-          createRelationship(carModel);
+          createRelationship(toOneCarModel);
         }}
       />
       <Button
