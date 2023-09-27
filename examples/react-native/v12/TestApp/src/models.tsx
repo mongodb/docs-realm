@@ -154,7 +154,7 @@ export class CarInverse extends Realm.Object {
   _id!: BSON.ObjectId;
   model!: string;
   miles?: number;
-  manufacturer!: Realm.Collection<ManufacturerInverse>;
+  manufacturer!: Realm.List<ManufacturerInverse>;
 
   static schema: Realm.ObjectSchema = {
     name: 'CarInverse',

@@ -10,54 +10,53 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import {ToManyManufacturer, LinkedCar} from '../../models';
+import {ManufacturerInverse, CarInverse} from '../../models';
 
-export const CreateToManyRelationship = () => {
+export const CreateInverseRelationship = () => {
   const [carModel, setCarModel] = useState('');
+  // const [manufacturerId, setManufacturerId] = useState<BSON.ObjectId | undefined>(undefined);
 
   const realm = useRealm();
-  const toManyManufacturer = useQuery(ToManyManufacturer)[0];
-  const cars = useQuery(LinkedCar);
+  const manufacturerInverse = useQuery(ManufacturerInverse)[0];
+  const cars = useQuery(CarInverse);
+  const manufacturerId = new BSON.ObjectID();
 
   // Create a manufacturer to add cars to. This is a hack to streamline
   // testing. Could also implement a UI flow to create a manufacturer, then
   // create cars.
-  if (!toManyManufacturer) {
+  if (!manufacturerInverse) {
     realm.write(() => {
-      realm.create(ToManyManufacturer, {
-        _id: new BSON.ObjectID(),
+      realm.create(ManufacturerInverse, {
+        _id: manufacturerId,
         name: 'Nissan',
         cars: [],
       });
     });
   }
 
-  const getLinkedManufacturer = (car: LinkedCar): string => {
-    const manufacturer = car.linkingObjects<ToManyManufacturer>(
-      'ToManyManufacturer',
-      'cars',
-    )[0];
+  const getManufacturerId = (car: CarInverse): string => {
+    const carManufacturer = car.manufacturer[0];
 
-    return manufacturer.name;
+    return carManufacturer._id.toString();
   };
 
   const createRelationship = (model: string): void => {
     realm.write(() => {
-      const thisCar = realm.create(LinkedCar, {
+      const thisCar = realm.create(CarInverse, {
         _id: new BSON.ObjectID(),
         model: model,
         miles: 1000,
       });
 
-      toManyManufacturer.cars.push(thisCar);
+      manufacturerInverse.cars.push(thisCar);
     });
   };
 
   return (
     <View>
-      <Text>To-Many Relationship</Text>
+      <Text>Inverse Relationship</Text>
       <TextInput
-        testID={'to-many-model-input'}
+        testID={'inverse-model-input'}
         onChangeText={setCarModel}
         value={carModel}
         placeholder="Car model"
@@ -68,10 +67,10 @@ export const CreateToManyRelationship = () => {
         <FlatList
           data={cars}
           renderItem={({item}) => (
-            <View testID="car">
-              <Text testID="model">Model: {item.model}</Text>
-              <Text testID="manufacturer">
-                Manufacturer: {getLinkedManufacturer(item)}
+            <View testID="inverse-car">
+              <Text testID="inverse-model">Model: {item.model}</Text>
+              <Text testID="inverse-manufacturer">
+                Manufacturer: {getManufacturerId(item)}
               </Text>
             </View>
           )}
@@ -82,8 +81,8 @@ export const CreateToManyRelationship = () => {
       )}
 
       <Button
-        testID="create-to-many-relationship"
-        title="Create to-many relationship"
+        testID="create-inverse-relationship"
+        title="Create inverse relationship"
         onPress={() => {
           createRelationship(carModel);
         }}

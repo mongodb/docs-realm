@@ -45,7 +45,7 @@ export const EmbeddedRelationship = () => {
     });
   }
 
-  const getLinkedManufacturer = (car: CarWithEmbed) => {
+  const getLinkedManufacturer = (car: CarWithEmbed): string => {
     const manufacturer = car.linkingObjects<Manufacturer>(
       'Manufacturer',
       'cars',
@@ -60,7 +60,7 @@ export const EmbeddedRelationship = () => {
   }: {
     model: string;
     warrantyType: string;
-  }) => {
+  }): void => {
     realm.write(() => {
       const thisCar = realm.create(CarWithEmbed, {
         _id: new BSON.ObjectID(),

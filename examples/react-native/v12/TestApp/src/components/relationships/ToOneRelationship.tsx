@@ -11,7 +11,7 @@ export const CreateToOneRelationship = () => {
   const realm = useRealm();
   const toOneManufacturer = useQuery(ToOneManufacturer)[0];
 
-  const createRelationship = (model: string) => {
+  const createRelationship = (model: string): void => {
     realm.write(() => {
       const thisCar = realm.create(Car, {
         _id: new BSON.ObjectID(),
@@ -27,7 +27,7 @@ export const CreateToOneRelationship = () => {
     });
   };
 
-  const removeAllObjects = () => {
+  const removeAllObjects = (): void => {
     realm.write(() => {
       realm.deleteAll();
     });
