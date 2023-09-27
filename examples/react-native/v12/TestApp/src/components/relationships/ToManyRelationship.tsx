@@ -32,6 +32,7 @@ export const ToManyRelationship = () => {
     });
   }
 
+  // :snippet-start: obtain-inverse-relationship-dynamically
   const getLinkedManufacturer = (car: LinkedCar): string => {
     const manufacturer = car.linkingObjects<ToManyManufacturer>(
       'ToManyManufacturer',
@@ -40,6 +41,7 @@ export const ToManyRelationship = () => {
 
     return manufacturer.name;
   };
+  // :snippet-end:
 
   const createRelationship = (model: string): void => {
     realm.write(() => {
