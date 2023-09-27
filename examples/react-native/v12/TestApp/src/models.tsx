@@ -1,5 +1,12 @@
 import Realm, {BSON, ObjectSchema} from 'realm';
 
+// Remove "export " from object model examples.
+// :replace-start: {
+//    "terms": {
+//       "export ": ""
+//    }
+// }
+
 export class Bird extends Realm.Object<Bird> {
   _id!: BSON.ObjectId;
   name!: string;
@@ -51,8 +58,10 @@ export class Turtle extends Realm.Object {
 }
 
 /*
-  Begin to-one relationship object models
+  Begin relationship object models
 */
+
+// :snippet-start: define-one-to-one
 export class ToOneManufacturer extends Realm.Object {
   _id!: BSON.ObjectId;
   name!: string;
@@ -83,15 +92,9 @@ export class Car extends Realm.Object {
     },
   };
 }
+// :snippet-end:
 
-/*
-  End to-one relationship models
-*/
-
-/*
-  Begin to-many relationship object models
-*/
-
+// :snippet-start: define-one-to-many
 export class ToManyManufacturer extends Realm.Object {
   _id!: BSON.ObjectId;
   name!: string;
@@ -128,14 +131,48 @@ export class LinkedCar extends Realm.Object {
     },
   };
 }
+// :snippet-end:
 
-/*
-  End to-many relationship models
-*/
+// :snippet-start: define-inverse
+export class ManufacturerInverse extends Realm.Object {
+  _id!: BSON.ObjectId;
+  name!: string;
+  cars!: Realm.List<CarInverse>;
 
-/*
-  Begin embedded relationship object models
-*/
+  static schema: Realm.ObjectSchema = {
+    name: 'ManufacturerInverse',
+    properties: {
+      _id: 'objectId',
+      name: 'string',
+      // A manufacturer that may have many cars
+      cars: 'CarInverse[]',
+    },
+  };
+}
+
+export class CarInverse extends Realm.Object {
+  _id!: BSON.ObjectId;
+  model!: string;
+  miles?: number;
+  manufacturer!: Realm.Collection<ManufacturerInverse>;
+
+  static schema: Realm.ObjectSchema = {
+    name: 'CarInverse',
+    properties: {
+      _id: 'objectId',
+      model: 'string',
+      miles: 'int?',
+      manufacturer: {
+        type: 'linkingObjects',
+        objectType: 'ManufacturerInverse',
+        property: 'cars',
+      },
+    },
+  };
+}
+// :snippet-end:
+
+// :snippet-start: define-embedded-property
 export class Manufacturer extends Realm.Object {
   _id!: BSON.ObjectId;
   name!: string;
@@ -187,7 +224,10 @@ export class Warranty extends Realm.Object {
     },
   };
 }
+// :snippet-end:
 
 /*
-  End embedded relationship models
+  End relationship object models
 */
+
+// :replace-end:

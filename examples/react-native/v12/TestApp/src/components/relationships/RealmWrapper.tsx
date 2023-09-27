@@ -8,27 +8,31 @@ import {EmbeddedRelationship} from './EmbeddedRelationship';
 
 import {
   Manufacturer,
+  ManufacturerInverse,
   ToOneManufacturer,
   ToManyManufacturer,
   Car,
+  CarInverse,
   LinkedCar,
   CarWithEmbed,
   Warranty,
 } from '../../models';
 
+const realmModels: Realm.RealmObjectConstructor[] = [
+  Manufacturer,
+  ToOneManufacturer,
+  ToManyManufacturer,
+  ManufacturerInverse,
+  Car,
+  CarInverse,
+  LinkedCar,
+  CarWithEmbed,
+  Warranty,
+];
+
 export const RelationshipExamples = () => {
   return (
-    <RealmProvider
-      schema={[
-        Manufacturer,
-        ToOneManufacturer,
-        ToManyManufacturer,
-        Car,
-        LinkedCar,
-        CarWithEmbed,
-        Warranty,
-      ]}
-      path="relationships.realm">
+    <RealmProvider schema={realmModels} path="relationships.realm">
       <View style={styles.separator}>
         <CreateToOneRelationship />
       </View>
