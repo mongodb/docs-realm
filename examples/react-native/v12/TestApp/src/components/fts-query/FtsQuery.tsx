@@ -99,13 +99,11 @@ function FtsQueryInnards(): JSX.Element {
         }}
       />
       <Text style={styles.container} testID="swanQueryResults">
-        {' '}
-        Query: Books with 'swan' without 'lake':{' '}
-        {booksWithSwanWithoutLake.length}{' '}
+        Query: Books with 'swan' without 'lake':
+        {booksWithSwanWithoutLake.length}
       </Text>
       <Text style={styles.container} testID="hungerQueryResults">
-        {' '}
-        Query: Books with 'hunger': {booksWithHunger.length}{' '}
+        Query: Books with 'hunger': {booksWithHunger.length}
       </Text>
 
       <Text style={styles.container}>Books list </Text>
