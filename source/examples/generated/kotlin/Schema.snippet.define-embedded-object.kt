@@ -1,6 +1,8 @@
 // Implements `EmbeddedRealmObject` interface
-class Forest : EmbeddedRealmObject {
-    // Cannot have a primary key
-    var id: ObjectId = ObjectId()
-    var name: String = ""
+class EmbeddedAddress : EmbeddedRealmObject {
+    // CANNOT have primary key
+    var street: String? = null
+    var city: String? = null
+    var state: String? = null
+    var postalCode: String? = null
 }

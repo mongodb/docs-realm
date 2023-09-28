@@ -36,8 +36,14 @@ The Kotlin SDK does *not* natively support:
   :ref:`RealmInstant <kotlin-timestamps>` section for more information on 
   how to use timestamps in your Realm objects.
 
-Additionally, the Kotlin SDK does not currently support abstract properties.
-Kotlin properties *must* be initialized. 
+
+.. _kotlin-optional:
+
+Realm object properties *must* be mutable and initialized when declared. 
+The Kotlin SDK does not currently support abstract properties. You 
+can declare properties optional (nullable) using the built-in 
+``?`` Kotlin operator, or you can assign a default value to a property 
+when you declare it.
 
 .. note:: 
    
@@ -522,7 +528,6 @@ is a special type of ``RealmObject``.
 - must be nullable values within a dictionary
 - *cannot* be nullable elements within a list 
 - *cannot* be used as a :ref:`primary key <kotlin-primary-keys>` 
-- can be recursively referenced as an optional property in its own definition
 - can be properties within an asymmetric object
 
 For more information, refer to :ref:`Embedded Objects <kotlin-embedded-objects>`.
