@@ -1,4 +1,4 @@
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import User from './User';
 
 // TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
@@ -8,7 +8,7 @@ class Post extends Realm.Object<Post> {
   title!: string;
   user!: Realm.Results<User>;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Post',
     properties: {
       _id: 'objectId',

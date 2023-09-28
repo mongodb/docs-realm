@@ -1,8 +1,8 @@
-class Post extends Realm.Object<Post, "_id" | "title"> {
+class Post extends Realm.Object<Post, '_id' | 'title'> {
   _id!: Realm.BSON.ObjectId;
   title!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Post',
     properties: {
       _id: 'objectId',

@@ -1,4 +1,4 @@
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import Person from './Person';
 
 // TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
@@ -11,7 +11,7 @@ class Task extends Realm.Object<Task> {
   assignee?: Person;
   age?: number;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Task',
     properties: {
       _id: 'int',

@@ -1,4 +1,4 @@
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import Pet from './Pet';
 
 // TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
@@ -15,15 +15,15 @@ class HomeOwner extends Realm.Object<HomeOwner> {
   home!: Home;
   pets?: Pet[];
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'HomeOwner',
     properties: {
       name: 'string',
-      home: '{}',
+      home: 'mixed{}',
       pets: {
         type: 'dictionary',
         objectType: 'Pet',
-        optional: true
+        optional: true,
       },
     },
   };

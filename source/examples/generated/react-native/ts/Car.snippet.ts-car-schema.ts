@@ -4,7 +4,7 @@ class Car extends Realm.Object {
   miles: number = 0;
   timestamp: number = Math.round(new Date().getTime() / 1000);
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Car',
     properties: {
       make: 'string',
@@ -13,7 +13,7 @@ class Car extends Realm.Object {
       timestamp: {
         type: 'int',
         default: () => Math.round(new Date().getTime() / 1000),
-      }
+      },
     },
   };
 }

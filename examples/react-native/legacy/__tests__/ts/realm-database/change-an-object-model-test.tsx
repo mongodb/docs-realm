@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import {createRealmContext} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
 
@@ -25,7 +25,7 @@ describe('Change an Object Model Tests', () => {
     lastName!: string;
     age!: number;
 
-    static schema = {
+    static schema: ObjectSchema = {
       name: 'Person',
       properties: {
         _id: 'string',
@@ -75,7 +75,7 @@ describe('Change an Object Model Tests', () => {
       lastName!: string;
       age!: number;
 
-      static schema = {
+      static schema: ObjectSchema = {
         name: 'Person',
         properties: {
           _id: 'string',
@@ -138,7 +138,7 @@ describe('Change an Object Model Tests', () => {
       firstName!: string;
       age!: number;
 
-      static schema = {
+      static schema: ObjectSchema = {
         name: 'Person',
         properties: {
           _id: 'string',
@@ -198,7 +198,7 @@ describe('Change an Object Model Tests', () => {
       fullName!: string;
       age!: number;
 
-      static schema = {
+      static schema: ObjectSchema = {
         name: 'Person',
         properties: {
           _id: 'string',
@@ -216,7 +216,7 @@ describe('Change an Object Model Tests', () => {
       lastName!: string;
       age!: number;
 
-      static schema = {
+      static schema: ObjectSchema = {
         name: 'Person',
         properties: {
           _id: 'string',
@@ -296,7 +296,7 @@ describe('Change an Object Model Tests', () => {
       lastName!: string;
       age!: number;
 
-      static schema = {
+      static schema: ObjectSchema = {
         name: 'Person',
         properties: {
           // Update the data type of '_id' to be 'objectId' within the schema.

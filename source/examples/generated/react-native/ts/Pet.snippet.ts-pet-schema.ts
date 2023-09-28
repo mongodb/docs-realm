@@ -3,7 +3,7 @@ class Pet extends Realm.Object<Pet> {
   age!: number;
   animalType!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Pet',
     properties: {
       name: 'string',

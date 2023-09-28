@@ -16,7 +16,7 @@ export class Bird extends Realm.Object<Bird> {
   };
 }
 
-export class Person extends Realm.Object {
+export class Person extends Realm.Object<Person> {
   _id!: BSON.ObjectId;
   name!: string;
   age!: number;
@@ -32,7 +32,7 @@ export class Person extends Realm.Object {
   };
 }
 
-export class Turtle extends Realm.Object {
+export class Turtle extends Realm.Object<Turtle> {
   _id!: BSON.ObjectId;
   name!: string;
   owner?: Person;

@@ -20,8 +20,7 @@ const config = {
   onMigration: (oldRealm, newRealm) => {
     // only apply this change if upgrading schemaVersion
     if (oldRealm.schemaVersion < 1) {
-      const oldObjects =
-        oldRealm.objects(Person);
+      const oldObjects = oldRealm.objects(Person);
       const newObjects = newRealm.objects(Person);
       // loop through all objects and set the fullName property in the
       // new schema
