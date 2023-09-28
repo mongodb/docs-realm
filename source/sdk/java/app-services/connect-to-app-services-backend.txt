@@ -47,21 +47,15 @@ Pass the App ID for your App, which you can :ref:`find in the Realm UI
    You must initialize your App connection with
    ``Realm.init()`` before creating any instance of an ``App``.
 
-.. note::
-
-   You can create multiple ``App`` instances to connect to multiple
-   Apps or to the same App with different configurations. All
-   ``App`` instances that share the same App ID use the same underlying
-   connection.
-
 .. _java-app-client-configuration:
 
 Configuration
 -------------
 
-For more granular control of the details of your app connection,
+For most use cases, you only need your application's App ID to connect
+to App Services. For more granular control of the details of your app connection,
 such as custom timeouts for connections, codecs used for MongoDB Data Access,
-and keys for local encryption, you can use the ``AppConfiguration``
+and keys for local encryption, you can optionally use the ``AppConfiguration``
 Builder to control details of your ``App``:
 
 .. tabs-realm-languages::
@@ -80,7 +74,4 @@ Builder to control details of your ``App``:
          :language: kotlin
          :copyable: false
 
-.. note:: 
-
-   For most use cases, you only need your application's App ID to connect
-   to Realm. The other settings demonstrated here are optional.
+.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst

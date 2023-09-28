@@ -17,6 +17,7 @@ import kotlinx.coroutines.runBlocking
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.seconds
 
 // :replace-start: {
@@ -128,7 +129,12 @@ class SyncedRealmCRUD : RealmTest() {
                     complexity = 7 })}
             syncRealm.syncSession.uploadAllLocalChanges(30.seconds)
             val exception: CompensatingWriteException = channel.receiveOrFail()
-            assertEquals("[Session][CompensatingWrite(231)] Client attempted a write that is disallowed by permissions, or modifies an object outside the current query, and the server undid the change.", exception.message)
+            exception.message?.let { message ->
+                assertTrue(
+                    message.contains("[Sync][CompensatingWrite(1033)] Client attempted a write that is outside of permissions or query filters; it has been reverted"),
+                    "Exception message did not contain the expected substring"
+                )
+            }
             assertEquals(1, exception.writes.size)
             channel.close()
             user.delete()
@@ -166,7 +172,12 @@ class SyncedRealmCRUD : RealmTest() {
             // :snippet-end:
             syncRealm.syncSession.uploadAllLocalChanges(30.seconds)
             val exception: CompensatingWriteException = channel.receiveOrFail()
-            assertEquals("[Session][CompensatingWrite(231)] Client attempted a write that is disallowed by permissions, or modifies an object outside the current query, and the server undid the change.", exception.message)
+            exception.message?.let { message ->
+                assertTrue(
+                    message.contains("[Sync][CompensatingWrite(1033)] Client attempted a write that is outside of permissions or query filters; it has been reverted"),
+                    "Exception message did not contain the expected substring"
+                )
+            }
             assertEquals(1, exception.writes.size)
             channel.close()
             user.delete()
@@ -205,7 +216,12 @@ class SyncedRealmCRUD : RealmTest() {
             // :snippet-end:
             syncRealm.syncSession.uploadAllLocalChanges(30.seconds)
             val exception: CompensatingWriteException = channel.receiveOrFail()
-            assertEquals("[Session][CompensatingWrite(231)] Client attempted a write that is disallowed by permissions, or modifies an object outside the current query, and the server undid the change.", exception.message)
+            exception.message?.let { message ->
+                assertTrue(
+                    message.contains("[Sync][CompensatingWrite(1033)] Client attempted a write that is outside of permissions or query filters; it has been reverted"),
+                    "Exception message did not contain the expected substring"
+                )
+            }
             assertEquals(1, exception.writes.size)
             channel.close()
             syncRealm.close()

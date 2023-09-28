@@ -53,10 +53,9 @@ open class RealmTest {
     val TMP_PATH = "tmp"
     val mainThreadSurrogate = newSingleThreadContext("UI thread")
     val defaultRealmConfiguration = RealmConfiguration.Builder(setOf())
-        // :remove-start:
+        .inMemory()
         .directory(TMP_PATH)
         .name(getRandom())
-        // :remove-end:
         .build()
 
     suspend fun <T : Any?> Channel<T>.receiveOrFail(timeout: Duration = 30.seconds): T {

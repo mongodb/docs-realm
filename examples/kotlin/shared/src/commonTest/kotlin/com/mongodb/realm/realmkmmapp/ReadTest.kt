@@ -6,11 +6,8 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmDictionaryOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
-import io.realm.kotlin.types.RealmDictionary
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.FullText
-import io.realm.kotlin.types.annotations.PrimaryKey
-import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -18,23 +15,18 @@ import kotlin.test.assertTrue
 
 // :replace-start: {
 //    "terms": {
-//       "ReadTest_": "",
+//       "RealmDictionary_": "",
 //       "RealmSet_": ""
 //    }
 // }
 
-class ReadTest_Frog : RealmObject {
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    var favoritePondsByForest: RealmDictionary<String> = realmDictionaryOf()
-}
 
 class ReadTest: RealmTest() {
 
     @Test
     fun readRealmSetType() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(RealmSet_Frog::class, Snack::class))
+            val config = RealmConfiguration.Builder(setOf(RealmSet_Frog::class, RealmSet_Snack::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -47,9 +39,9 @@ class ReadTest: RealmTest() {
                 val frog = copyToRealm(
                     RealmSet_Frog().apply {
                         name = "Kermit"
-                        favoriteSnacks.add(Snack().apply { name = "Flies" })
-                        favoriteSnacks.add(Snack().apply { name = "Crickets" })
-                        favoriteSnacks.add(Snack().apply { name = "Worms" })
+                        favoriteSnacks.add(RealmSet_Snack().apply { name = "Flies" })
+                        favoriteSnacks.add(RealmSet_Snack().apply { name = "Crickets" })
+                        favoriteSnacks.add(RealmSet_Snack().apply { name = "Worms" })
                     }
                 )
                 // Query for frogs that have worms as a favorite snack
@@ -89,7 +81,7 @@ class ReadTest: RealmTest() {
     fun readRealmDictionaryType() {
         runBlocking {
             val config = RealmConfiguration.Builder(
-                schema = setOf(ReadTest_Frog::class) // Pass the defined class as the object schema
+                schema = setOf(RealmDictionary_Frog::class) // Pass the defined class as the object schema
             )
                 .directory("/tmp/") // default location for jvm is... in the project root
                 .build()
@@ -99,7 +91,7 @@ class ReadTest: RealmTest() {
             // Delete frogs to make this test successful on consecutive reruns
             realm.write {
                 // fetch all frogs from the realm
-                val frogs: RealmResults<ReadTest_Frog> = this.query<ReadTest_Frog>().find()
+                val frogs: RealmResults<RealmDictionary_Frog> = this.query<RealmDictionary_Frog>().find()
                 // call delete on the results of a query to delete those objects permanently
                 delete(frogs)
                 assertEquals(0, frogs.size)
@@ -107,14 +99,14 @@ class ReadTest: RealmTest() {
 
             // Create an object with a dictionary property to set up the test
             realm.write {
-                this.copyToRealm(ReadTest_Frog().apply {
+                this.copyToRealm(RealmDictionary_Frog().apply {
                     name = "Kermit"
                     favoritePondsByForest = realmDictionaryOf("Hundred Acre Wood" to "Picnic Pond", "Lothlorien" to "Linya")
                 })
             }
             // :snippet-start: read-realm-dictionary
             // Find frogs who have forests with favorite ponds
-            val frogs = realm.query<ReadTest_Frog>().find()
+            val frogs = realm.query<RealmDictionary_Frog>().find()
             val frogsWithFavoritePonds = frogs.query("favoritePondsByForest.@count > $0", 1).find()
             val thisFrog = frogsWithFavoritePonds.first()
             assertEquals(2, thisFrog.favoritePondsByForest.size) // :remove:
@@ -140,50 +132,57 @@ class ReadTest: RealmTest() {
     @Test
     fun fullTextSearch () {
         // :snippet-start: kotlin-fts-property
-        class Book() : RealmObject {
-            @PrimaryKey
-            var _id: ObjectId = ObjectId() // Primary key
-
+        class Book : RealmObject {
             var name: String = ""
-
             @FullText // Marks the property with FTS
             var genre: String = ""
         }
         // :snippet-end:
 
-        val config = RealmConfiguration.Builder(
-            schema = setOf(Book::class) // Pass the defined class as the object schema
-        )
-            .directory("/tmp/") // default location for jvm is... in the project root
+        val config = RealmConfiguration.Builder(setOf(Book::class))
+            .inMemory()
             .build()
-        val realmFts = Realm.open(config)
-        Log.v("Successfully opened realm: ${realmFts.configuration.name}")
+        val realm = Realm.open(config)
+        Log.v("Successfully opened realm: ${realm.configuration.name}")
 
-        realmFts.writeBlocking {
-            copyToRealm(Book().apply {
-                _id = ObjectId()
-                name = "Peaches"
-                genre = "fiction"
-            })
+        runBlocking {
+            realm.writeBlocking {
+                copyToRealm(Book().apply {
+                    genre = "sci fi"
+                })
+                copyToRealm(Book().apply {
+                    genre = "fiction"
+                })
+                copyToRealm(Book().apply {
+                    genre = "science fiction"
+                })
+                copyToRealm(Book().apply {
+                    genre = "sci fi fantasy"
+                }) }
+
+            // :snippet-start: kotlin-fts-query
+            // Find all books with "science fiction" as the genre
+            val scienceFiction =
+                realm.query<Book>("genre TEXT $0", "science fiction").find()
+
+            // Find all books with "fiction" but not "science" in the genre
+            val fictionNotScience =
+                realm.query<Book>("genre TEXT $0", "fiction -science").find()
+
+            // Find all books with "sci-" and "fi-" prefixes in the genre
+            val sciFi =
+                realm.query<Book>("genre TEXT $0", "sci* fi*").find()
+            // :snippet-end:
+
+            assertEquals(1, scienceFiction.size) // "science fiction"
+            assertEquals(1, fictionNotScience.size) // "fiction"
+            assertEquals(3, sciFi.size) // "sci fi", "science fiction", "sci fi fantasy"
+
+            realm.writeBlocking {
+                val books = query<Book>().find()
+                delete(books)
+            }
         }
-
-        // :snippet-start: kotlin-fts-query
-        // Find all the books with science fiction as the genre
-        var scienceFiction = realmFts.query<Book>("genre TEXT $0", "science fiction").find()
-
-        // Find all the books with fiction but not science in the genre
-        var fictionNotScience = realmFts.query<Book>("genre TEXT $0", "fiction -science").find()
-        // :snippet-end:
-
-        assertEquals(0, scienceFiction.count())
-        assertEquals(1, fictionNotScience.count())
-
-        realmFts.writeBlocking {
-            // fetch all frogs from the realm
-            val books: RealmResults<Book> = this.query<Book>().find()
-            // call delete on the results of a query to delete those objects permanently
-            delete(books)
-        }
-        realmFts.close()
+        realm.close()
     }
 }

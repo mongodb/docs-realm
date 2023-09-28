@@ -108,9 +108,26 @@ namespace Examples
             Assert.AreEqual(1, ItemssStartWithE.Count());
             Assert.AreEqual(1, itemsContains.Count());
             Assert.AreEqual(0, null_or_empty.Count());
-
+            // :snippet-start: read_all
+            // :replace-start: {
+            // "terms": {
+            //   "UserTask": "Items",
+            //   "useritems": "items",
+            //   "UserProject": "Project"}
+            // }
             var projects = realm.All<UserProject>();
-
+            var useritems = realm.All<UserTask>();
+            // :replace-end:
+            // :snippet-end:
+            var projectId = projects.First().ID;
+            // :snippet-start: get_by_id
+            // :replace-start: {
+            // "terms": {
+            //   "UserProject": "Project"}
+            // }
+            var myProject = realm.Find<UserProject>(projectId);
+            // :replace-end:
+            // :snippet-end:
             // :snippet-start: aggregate
             // Get all projects with an average Item priorty > 5:
             var avgPriority = projects.Filter(

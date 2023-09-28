@@ -24,7 +24,8 @@ import kotlin.time.Duration.Companion.minutes
 
 // :replace-start: {
 //   "terms": {
-//      "SyncTask": "Task"
+//      "SyncTask": "Task",
+//      "FLEXIBLE_APP_ID": "YOUR_APP_ID"
 //   }
 // }
 class ManageSyncSession : RealmTest() {
@@ -205,6 +206,58 @@ class ManageSyncSession : RealmTest() {
             flow.cancel()
             user.remove()
             realm.close()
+        }
+    }
+
+    // NOTE: Can't test `.reconnect()` since it requires device reconnecting after going offline
+    @Test
+    fun appSyncSessionsTest() {
+        runBlocking {
+        // Most of this is commented out until `app.sync.waitForSessionsToTerminate()` is confirmed
+        // to be working as expected and can be documented
+
+            // :snippet-start: open-sync-session
+            val app = App.create(FLEXIBLE_APP_ID)
+            val user = app.login(credentials)
+            val config = SyncConfiguration.Builder(user, setOf(SyncTask::class))
+                .build()
+
+            // Open the synced realm
+            val realm = Realm.open(config)
+
+            // Sync session is now active
+            assertTrue(app.sync.hasSyncSessions) // :remove:
+
+            // ... do something with the synced realm
+
+            // :snippet-end:
+            // :snippet-start: app-sync-reconnect
+            app.sync.reconnect()
+            // :snippet-end:
+            user.delete()
+            realm.close()
+            app.close()
+
+//            val config1 = SyncConfiguration.Builder(user, setOf()).name("other.realm").build()
+//            val config2 = SyncConfiguration.Builder(user, setOf()).name("another.realm").build()
+//            val realm1 = Realm.open(config1)
+//            val realm2 = Realm.open(config2)
+//            assertTrue(
+//                // snippet-start
+//                app.sync.hasSyncSessions
+//                // snippet-end
+//            )
+//            realm1.close()
+//            realm2.close()
+//            assertTrue(realm1.isClosed())
+//            assertTrue(realm2.isClosed())
+//            // snippet-start
+//            app.sync.waitForSessionsToTerminate()
+//            // snippet-end
+//            assertFalse(app.sync.hasSyncSessions)
+//            app.close()
+//            Realm.deleteRealm(config1) // if I don't close app first, I get an IllegalStateException: [RLM_ERR_DELETE_OPENED_REALM]: Cannot delete files of an open Realm:
+//            Realm.deleteRealm(config2)
         }
     }
 }

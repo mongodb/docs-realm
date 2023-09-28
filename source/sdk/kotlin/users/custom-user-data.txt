@@ -1,8 +1,8 @@
 .. _kotlin-custom-user-data:
 
-=============================
-Custom User Data - Kotlin SDK
-=============================
+====================================
+Manage Custom User Data - Kotlin SDK
+====================================
 
 .. contents:: On this page
    :local:
@@ -10,15 +10,8 @@ Custom User Data - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-You can store arbitrary :ref:`custom user data <custom-user-data>` about your users 
-with Atlas App Services. 
-For example, you might store a user's preferred language, date of birth, or local timezone. 
-Before writing and reading this data, you must enable custom user data in the backend. 
-
-.. versionadded:: 1.9.0
-
-You can serialize custom user data using an EJSON encoder. For more information,
-including examples, refer to :ref:`<kotlin-ejson-encoding-for-atlas>`.
+This page describes custom user data in an App Services App and how to manage it 
+with the Realm Kotlin SDK.
 
 .. important:: 
 
@@ -29,14 +22,28 @@ including examples, refer to :ref:`<kotlin-ejson-encoding-for-atlas>`.
    You can create, update, or delete custom user data using one of the other
    Realm SDKs, with Atlas Functions, or by directly querying Atlas.
 
-Before You Begin
-----------------
+Atlas App Services lets you associate data with an authenticated user, 
+such as a user's preferred language, date of birth, or local timezone. 
+You can store this arbitrary **custom user data** about your users and read 
+it from your client application. 
 
-To use custom user data, you must first enable custom user data
-in App Services:
+.. versionadded:: 1.9.0
 
-#. :ref:`Create an App <create-a-realm-app>`.
-#. :ref:`Enable custom user data <enable-custom-user-data-procedure>`.
+You can serialize custom user data using an EJSON encoder. For more information,
+including examples, refer to :ref:`<kotlin-ejson-encoding-for-atlas>`.
+
+Prerequisites
+-------------
+
+To use custom user data, you must have an 
+App Services App with custom user data enabled. 
+
+To set up an App Services App that uses custom user data, refer to the 
+following:
+
+#. :ref:`Connect your app to Atlas App Services <kotlin-connect-to-backend>`
+#. :ref:`Enable Custom User Data <enable-custom-user-data-procedure>` 
+   in the App Services documentation
 
 .. _kotlin-read-custom-user-data:
 
@@ -44,7 +51,8 @@ Read Custom User Data
 ---------------------
 
 You can retrieve custom user data of a currently logged-in user using the 
-`User.customDataAsBsonDocument() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/index.html?_ga=2.49412835.435931992.1679924388-638302271.1666007294#1591200691%2FExtensions%2F645295071>`__ 
+`User.customDataAsBsonDocument() 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/custom-data-as-bson-document.html>`__ 
 extension function:
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.read-custom-user-data.kt
@@ -53,9 +61,9 @@ extension function:
 Atlas App Services does *not* dynamically update the value of the client-side
 user custom data document immediately when underlying data changes.
 Instead, App Services fetches the most recent version of custom user
-data whenever a user refreshes their :ref:`access token
-<user-sessions>` or when you explicitly call the
-`User.refreshCustomData() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/index.html#2029004456%2FFunctions%2F645295071>`__
+data whenever a user refreshes their access token or when you explicitly 
+call the `User.refreshCustomData() 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/refresh-custom-data.html>`__
 function to request the latest version of a user's custom data.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.refresh-custom-user-data.kt
@@ -70,7 +78,7 @@ You can write to custom user data with an Atlas Function.
 Atlas Functions are server-side JavaScript functions that are built into your backend App.
 You can :ref:`call an Atlas Function <kotlin-call-function>` directly from the Realm Kotlin SDK.
 
-Currently, it is not possible to write to custom user data directly from the Realm Kotlin SDK.
+Currently, it is *not* possible to write to custom user data directly from the Realm Kotlin SDK.
 
 There is no single pattern for adding custom user data from an Atlas Function.
 You should write your Function or Functions to suit your application's use case.

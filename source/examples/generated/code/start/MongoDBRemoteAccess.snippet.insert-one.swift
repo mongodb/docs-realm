@@ -1,5 +1,5 @@
 // This document represents a CoffeeDrink object
-let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 43"]
+let drink: Document = [ "name": "Colombian Blend", "beanRegion": "Timbio, Colombia", "containsDairy": false, "storeNumber": 43]
 
 // Insert the document into the collection
 collection.insertOne(drink) { result in

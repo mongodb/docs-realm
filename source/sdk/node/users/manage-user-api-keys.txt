@@ -18,7 +18,7 @@ Create a User API Key
 
 To create a new :ref:`user API key <api-key-authentication-user-api-key>`, pass
 a name that's unique among all of the user's API keys to
-:js-sdk:`ApiKeyAuth.create() <Realm.Auth.ApiKeyAuth.html#create>`.
+:js-sdk:`ApiKeyAuth.create() <classes/ApiKeyAuth.html#create>`.
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.create-user-api-key.js
    :language: javascript
@@ -37,10 +37,10 @@ Look up a User API Key
 ----------------------
 
 To get an array that lists all of a user's API keys, call
-:js-sdk:`ApiKeyAuth.fetchAll() <Realm.Auth.ApiKeyAuth.html#fetchAll>`.
+:js-sdk:`ApiKeyAuth.fetchAll() <classes/ApiKeyAuth.html#fetchAll>`.
 
 To find a specific API key, pass the key's ``_id`` to
-:js-sdk:`ApiKeyAuth.fetch() <Realm.Auth.ApiKeyAuth.html#fetch>`.
+:js-sdk:`ApiKeyAuth.fetch() <classes/ApiKeyAuth.html#fetch>`.
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.look-up-user-api-key.js
    :language: javascript
@@ -51,8 +51,8 @@ Enable or Disable an API Key
 ----------------------------
 
 To enable or disable a user API key, pass the key's ``_id`` to
-:js-sdk:`ApiKeyAuth.enable() <Realm.Auth.ApiKeyAuth.html#enable>` or
-:js-sdk:`ApiKeyAuth.disable() <Realm.Auth.ApiKeyAuth.html#disable>`. When a key
+:js-sdk:`ApiKeyAuth.enable() <classes/ApiKeyAuth.html#enable>` or
+:js-sdk:`ApiKeyAuth.disable() <classes/ApiKeyAuth.html#disable>`. When a key
 is disabled, it cannot be used to log in on behalf of the user.
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.enable-disable-user-api-key.js
@@ -64,7 +64,7 @@ Delete an API Key
 -----------------
 
 To permanently delete a user API, pass the key's ``_id`` to
-:js-sdk:`ApiKeyAuth.delete() <Realm.Auth.ApiKeyAuth.html#delete>`. Deleted keys
+:js-sdk:`ApiKeyAuth.delete() <classes/ApiKeyAuth.html#delete>`. Deleted keys
 cannot be recovered.
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.delete-user-api-key.js

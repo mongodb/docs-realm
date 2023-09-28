@@ -11,16 +11,27 @@ Handle Sync Errors - Node.js SDK
    :depth: 3
    :class: singlecol
 
+When you use Atlas Device Sync in your Realm app, you can encounter a new class
+of errors: :ref:`sync errors <sync-errors>`.
+
+The Realm Node.js SDK can help you detect and handle sync errors. For example,
+you can write your own sync error handler to respond to specific errors. You can
+also define how your client app handles client resets.
+
 .. _node-set-error-handler:
 
+Sync Error Handler
+------------------
+
+You should set an error handler for apps that use Atlas Device Sync. A generic
+error handler will detect and respond to failed sync-related API calls to your
+Atlas backend.
+
 Add a Generic Sync Error Handler
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-While developing an application that uses Device Sync, you should set an error
-handler. This error handler will detect and respond to any failed sync-related
-API calls. 
-
-Set an error handler by registering an error callback as part of the :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+Set an error handler by registering an error callback function as part of the 
+:js-sdk:`SyncConfiguration <types/BaseSyncConfiguration.html#__type.onError>`.
 
 .. tabs-realm-languages::
 
@@ -37,6 +48,26 @@ Set an error handler by registering an error callback as part of the :js-sdk:`Sy
         :language: javascript
 
 .. include:: /includes/sync-errors-in-app-services.rst
+
+Handle Compensating Write Errors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You may want your sync error handler to specifically address compensating write
+errors in a way that makes sense for your app. The :js-sdk:`CompensatingWriteError 
+<classes/CompensatingWriteError.html>` class can help you identify and react to
+compensating write errors in your custom error handler.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /examples/generated/node/v12/errors.test.snippet.handle-compensating-write-error.ts.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /examples/generated/node/v12/errors.test.snippet.handle-compensating-write-error.js.rst
 
 .. _node-perform-a-client-reset:
 
@@ -143,9 +174,9 @@ the client attempts to recover unsynced changes with Client Recovery.
 Choose this mode when you do not want to fall through to discard unsynced changes.
 
 To handle client resets with the recover unsynced changes mode,
-pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
+pass a :js-sdk:`ClientResetConfig <types/ClientResetConfig.html>`
 to the ``clientReset`` field of your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:js-sdk:`SyncConfiguration <types/BaseSyncConfiguration.html#__type.clientReset>`.
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"recoverUnsyncedChanges"``.
@@ -179,9 +210,9 @@ Do not use recover or discard unsynced changes mode if your application
 cannot lose local data that has not yet synced to the backend.
 
 To handle client resets with the recover or discard unsynced changes mode,
-pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
+pass a :js-sdk:`ClientResetConfig <types/ClientResetConfig.html>`
 to the ``clientReset`` field of your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:js-sdk:`SyncConfiguration <types/BaseSyncConfiguration.html#__type.clientReset>`.
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"recoverOrDiscardUnsyncedChanges"``.
@@ -214,7 +245,7 @@ You must provide a manual client reset implementation
 in the ``SyncConfiguration.onFallback()`` callback. ``onFallback()`` takes two
 arguments:
 
-- ``session``: :js-sdk:`Session <Realm.App.Sync.Session.html>` object representing
+- ``session``: :js-sdk:`Session <classes/SyncSession.html>` object representing
   the state of the Device Sync session.
 - ``path``: String with the path to the current realm file.
 
@@ -243,9 +274,9 @@ Do not use discard unsynced changes mode if your application cannot lose local
 data that has not yet synced to the backend.
 
 To handle client resets with the discard unsynced changes mode,
-pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
+pass a :js-sdk:`ClientResetConfig <types/ClientResetConfig.html>`
 to the ``clientReset`` field of your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:js-sdk:`SyncConfiguration <types/BaseSyncConfiguration.html#__type.clientReset>`.
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"discardUnsyncedChanges"``.
@@ -294,9 +325,9 @@ You might want to use a manual client reset handler if the Automatic Recovery lo
 does not work for your app and you can't discard unsynced local data.
 
 To handle client resets with manual mode,
-pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
+pass a :js-sdk:`ClientResetConfig <types/ClientResetConfig.html>`
 to the ``clientReset`` field of your
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+:js-sdk:`SyncConfiguration <types/BaseSyncConfiguration.html#__type.clientReset>`.
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"manual"``.

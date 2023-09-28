@@ -4,6 +4,12 @@
 Connect to an Atlas App Services Backend - Node.js SDK
 ======================================================
 
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
 The App client is the interface to the Atlas App Services
 backend. It provides access to the :ref:`authentication functionality
 <node-authenticate-users>`, :ref:`functions <node-call-a-function>`, and
@@ -21,14 +27,16 @@ Access the App Client
 ---------------------
 
 To connect to the App Services backend from your client, you need to create a 
-:js-sdk:`configuration object <Realm.App.html#~AppConfiguration>`. Then, pass
+:js-sdk:`configuration object <types/AppConfiguration.html>`. Then, pass
 that configuration object to a ``Realm.App()`` instance.
- 
+
 You must include the ``id`` field and the :guilabel:`App ID` for your App Services App, which you can 
 :ref:`find in the App Services UI <find-your-app-id>`.
 
 .. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.js
   :language: javascript
+
+.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
 
 .. _node-app-retrieve-client:
 
@@ -36,9 +44,28 @@ Retrieve an Instance of the App Client
 --------------------------------------
 
 To retrieve an instance of the App Client from anywhere in your application, 
-call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your 
+call :js-sdk:`Realm.App.getApp() <classes/App.html#getApp>` and pass in your 
 :guilabel:`App ID`. 
 
 .. literalinclude:: /examples/generated/node/authenticate.snippet.get-app-instance.ts
   :language: javascript
-  
+
+.. _node-app-client-configure-timeout:
+
+Configure a Timeout for the App Client
+--------------------------------------
+
+You can configure an optional ``timeout`` for requests in your 
+:js-sdk:`AppConfiguration <types/AppConfiguration.html>`. It accepts a number
+of milliseconds before the request should timeout.
+
+You can use this timeout interval with the optional Sync configuration 
+``cancelWaitsOnNonFatalErrors`` boolean. When the timeout interval elapses, 
+any outstanding work that is awaiting uploads and downloads cancels. When
+this setting is false, awaiting uploads and downloads does not cancel 
+because Realm treats these timeouts as non-fatal errors. 
+
+For an example, refer to :ref:`node-cancel-async-after-timeout`.
+
+.. literalinclude:: /examples/generated/node/v12/configure-and-open-synced-realm.test.snippet.app-config-with-timeout.ts
+   :language: javascript

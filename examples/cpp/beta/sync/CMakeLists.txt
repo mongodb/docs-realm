@@ -14,12 +14,13 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        v0.2.0-preview
+  GIT_TAG        v0.3.0-preview
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-beta-sync 
+  app.cpp
   authentication.cpp
   call-function.cpp
   custom-user-data.cpp

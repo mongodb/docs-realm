@@ -1,6 +1,12 @@
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper'); // avoid error: Cannot find module 'NativeAnimatedHelper'
+import {jest} from '@jest/globals';
 
-jest.setTimeout(10000);
+// Needed to clear the test state.
+import {flags} from 'realm';
+flags.ALLOW_CLEAR_TEST_STATE = true;
+
+// avoid error: Cannot find module 'NativeAnimatedHelper'
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+
 global.console = {
   ...global.console,
   log: jest.fn(),

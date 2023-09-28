@@ -5,6 +5,5 @@ await realm.subscriptions.update((mutableSubs) => {
   mutableSubs.add(bensTasks);
   mutableSubs.add(realm.objects("Team"), {
     name: "teamsSubscription",
-    throwOnUpdate: true,
   });
 });

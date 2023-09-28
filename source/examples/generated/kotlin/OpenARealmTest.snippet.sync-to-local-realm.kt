@@ -2,20 +2,20 @@
 val app = App.create(YOUR_APP_ID)
 
 runBlocking {
-    val user = app.login(Credentials.anonymous())
+    val user = app.login(credentials)
     // Create the synced realm configuration
-    val syncConfig = SyncConfiguration.Builder(user, setOf(Toad::class))
+    val syncConfig = SyncConfiguration.Builder(user, setOf(Frog::class))
         .initialSubscriptions { realm ->
-            add(realm.query<Toad>(),"subscription name")
+            add(realm.query<Frog>(),"all-frogs")
         }
         .build()
 
     // Open the synced realm and add data to it
     val syncRealm = Realm.open(syncConfig)
-    Log.v("Successfully opened realm: ${syncRealm.configuration}")
+    Log.v("Successfully opened realm: ${syncRealm.configuration.name}")
 
     syncRealm.write {
-        this.copyToRealm(Toad().apply {
+        this.copyToRealm(Frog().apply {
             name = "Kermit"
         })
     }
@@ -23,7 +23,7 @@ runBlocking {
     syncRealm.syncSession.uploadAllLocalChanges(30.seconds)
 
     // Create the local realm
-    val localConfig = RealmConfiguration.Builder(setOf(Toad::class))
+    val localConfig = RealmConfiguration.Builder(setOf(Frog::class))
         .name("local.realm")
         .build()
     // Copy data from synced realm to the new realm
@@ -34,10 +34,9 @@ runBlocking {
     // Open the new local realm
     val localRealm = Realm.open(localConfig)
 
-    // Copied Toad object is available in the new realm
-    val toad: Toad =
-        localRealm.query<Toad>().find().first()
-    Log.v("Copied Toad: ${toad.name}")
+    // Copied Frog object is available in the new realm
+    val frog = localRealm.query<Frog>().find().first()
+    Log.v("Copied Frog: ${frog.name}")
 
     localRealm.close()
 }

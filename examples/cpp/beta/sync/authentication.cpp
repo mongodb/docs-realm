@@ -158,3 +158,28 @@ void testSignInWithGoogleIdTokenSyntax() {
     auto user = app.login(realm::App::credentials::google(idToken)).get();
     // :snippet-end:
 }
+
+TEST_CASE("get the current user", "[realm][sync]") {
+    auto app = realm::App(APP_ID);
+    app.get_sync_manager().set_log_level(realm::logger::level::warn);
+    auto user = app.login(realm::App::credentials::anonymous()).get();
+
+    // :snippet-start: beta-get-current-user
+    auto currentUser = app.get_current_user();
+    // :snippet-end:
+
+    REQUIRE(!currentUser.value().access_token().empty());
+    user.log_out().get();
+    REQUIRE(user.access_token().empty());
+}
+
+TEST_CASE("confirm the user is logged in", "[realm][sync]") {
+    auto app = realm::App(APP_ID);
+    app.get_sync_manager().set_log_level(realm::logger::level::warn);
+    // :snippet-start: check-user-is-logged-in
+    auto user = app.login(realm::App::credentials::anonymous()).get();
+    CHECK(user.is_logged_in());
+    // :snippet-end:
+    user.log_out().get();
+    REQUIRE(user.access_token().empty());
+}

@@ -67,15 +67,18 @@
      };
 
      // Query geospatial data
-     const companiesInBasicPolygon = useQuery(Company).filtered(
-       'location geoWithin $0',
-       basicPolygon,
+     const companiesInBasicPolygon = useQuery(
+       Company,
+       collection => collection.filtered('location geoWithin $0', basicPolygon),
+       [basicPolygon],
      );
 
      // Query geospatial data
-     const companiesInPolygonWithTwoHoles = useQuery(Company).filtered(
-       'location geoWithin $0',
-       polygonWithTwoHoles,
+     const companiesInPolygonWithTwoHoles = useQuery(
+       Company,
+       collection =>
+         collection.filtered('location geoWithin $0', polygonWithTwoHoles),
+       [polygonWithTwoHoles],
      );
 
      return (

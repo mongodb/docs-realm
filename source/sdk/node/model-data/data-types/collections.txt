@@ -29,7 +29,7 @@ notifications <node-register-a-collection-change-listener>`.
 
 Results
 -------
-A :js-sdk:`Results <Realm.Results.html>` collection represents the
+A :js-sdk:`Results <classes/Results.html>` collection represents the
 lazily-evaluated results of a query operation. Results are immutable:
 you cannot add or remove elements to or from the results collection.
 Results have an associated query that determines their contents.
@@ -42,14 +42,14 @@ Results have an associated query that determines their contents.
 
 Lists
 -----
-A :js-sdk:`List <Realm.List.html>` represents a collection of values of a single 
+A :js-sdk:`List <classes/List.html>` represents a collection of values of a single 
 type. Lists are declared as a property within an 
 :ref:`object model <node-object-schemas>`, and are not associated with a query.
 
 Lists behave like normal JavaScript arrays, except that they 
 can only store values of a single type, which you indicate by setting the 
-:js-sdk:`type <Realm.List.html#type>` property to one of the 
-valid :js-sdk:`property types <Realm.html#~PropertyType>` or to the name of 
+``type`` property to the name of a valid 
+:js-sdk:`property type <types/PropertyTypeName.html>` or to the name of 
 another Realm object type. 
 
 .. literalinclude:: /examples/generated/node/data-types.snippet.node_list.js
@@ -88,7 +88,7 @@ A collection is **not** live when:
   even if you have deleted or modified the collection's objects to exclude them 
   from the filter that produced the results collection.
 
-- the collection is a frozen :js-sdk:`Results.snapshot() <Realm.Collection.html#snapshot>`.
+- the collection is a frozen :js-sdk:`Results.snapshot() <classes/Results.html#snapshot>`.
 
 Combined with :ref:`collection notifications
 <node-change-notifications>`, live collections enable
