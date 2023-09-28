@@ -17,6 +17,13 @@ export const InverseRelationship = () => {
   const [manufacturerId, setManufacturerId] = useState('');
 
   const realm = useRealm();
+  const testCollections = useQuery(ManufacturerInverse);
+  // TODO: Can't get linking objects property syntax working.
+  // Investgate this as part of DOCSP-33344
+  // https://jira.mongodb.org/browse/DOCSP-33344
+  // const testManufacturer = testCollections.filtered(
+  //   '@links.ManufacturerInverse.CarInverse.model == Sentra',
+  // );
   const manufacturerInverse = useQuery(ManufacturerInverse)[0];
   const cars = useQuery(CarInverse);
 

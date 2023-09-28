@@ -21,12 +21,9 @@ specify the property type as the related Realm object type.
 
 .. example::
 
-   In the following example of a **one-to-one** relationship, a
-   a ``Manufacturer`` may make a single ``Car``:
+   In this example, a ``Manufacturer`` may make a single ``Car``:
 
-.. TODO: Add new sample
-
-.. include:: /examples/generated/react-native/v12/ToOneRelationship.snippet.define-one-to-one.tsx.rst
+   .. include:: /examples/generated/react-native/v12/models.snippet.define-one-to-one.ts.rst
 
 .. _react-native-to-many-relationship:
 
@@ -40,50 +37,25 @@ schema <react-native-object-schemas>`.
 
 .. example::
 
-   In the following example of a **one-to-many** relationship, a
-   ``User`` may own multiple ``Post`` objects:
+   In this example, a ``Manufacturer`` may make many ``Car`` models:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: typescript
-
-         .. literalinclude:: /examples/generated/react-native/ts/User.snippet.ts-user-schema.ts
-            :language: typescript
-            :emphasize-lines: 5, 13
-            :linenos:
-
-         .. literalinclude:: /examples/generated/react-native/ts/Post.snippet.ts-post-schema.ts
-            :language: typescript
-            :linenos:
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/generated/react-native/js/User.snippet.js-user-schema.js
-            :language: javascript
-            :emphasize-lines: 8
-            :linenos:
-
-         .. literalinclude:: /examples/generated/react-native/js/Post.snippet.js-post-schema.js
-            :language: typescript
-            :linenos:
+   .. include:: /examples/generated/react-native/v12/models.snippet.define-one-to-many.ts.rst
 
 .. _react-native-inverse-relationship:
 
 Inverse Relationship
 --------------------
 
-An inverse relationship connects an object to all other objects that
-refer to it in a one-to-one or one-to-many relationship. Whenever you
-define a relationship, you also implicity create an inverse
+An inverse relationship links an object back to any other objects that refer
+to it in a defined to-one or to-many relationship.
+Relationship definitions are unidirectional by default.
+You must explicitly define a property in the object's model as an inverse
 relationship.
 
-You can use inverse relationships to "backlink" from one object to
-another based on a particular relationship. For example, if you define a
-relationship that maps ``User.posts`` to a list of ``Post`` objects,
-then you could use an inverse relationship to look up the ``User``
-object related to a given ``Post`` object in this way.
+For example, the to-many relationship "Manufacturer has many Cars" does not
+automatically create the inverse relationship "Car belongs to Manufacturer".
+If you don't specify the inverse relationship in the object model,
+you need to run a separate query to look up the manufacturer who makes a car.
 
 .. _react-native-define-an-inverse-relationship-property:
 
@@ -91,8 +63,8 @@ Define Inverse Relationship Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can assign an inverse relationship to a property in the object
-schema using the ``linkingObjects`` property type. This lets you access
-the inverse relationship like a normal property.
+schema using ``linkingObjects``. This lets you access the inverse relationship
+like a normal property.
 
 A ``linkingObjects`` property backlinks to a specific relationship. You
 specify which relationship to backlink with the object type and property
@@ -100,36 +72,15 @@ name of the relationship.
 
 .. example::
 
-   In the following example of an inverse relationship, each ``Post``
-   object may belong to a single ``User`` object.
+   In this example, the ``Manufacturer`` object's ``cars`` property is defined
+   as a to-many  relationship with a :js-sdk:`Realm.List <classes/List.html>` of
+   ``Car`` objects. It contains all of a given manufacturer's cars.
 
-   .. tabs-realm-languages::
+   The ``Car`` object's ``manufacturer`` property inverts this relationship.
+   The ``manufacturer`` property automatically updates to refer back to any 
+   ``Manufacturer`` object that contains the ``Car`` in its ``cars`` property.
 
-      .. tab::
-         :tabid: typescript
-
-         .. literalinclude:: /examples/generated/react-native/ts/User.snippet.ts-user-schema.ts
-            :language: typescript
-            :emphasize-lines: 5, 13
-            :linenos:
-
-         .. literalinclude:: /examples/generated/react-native/ts/InverseRelationshipPost.snippet.ts-inverserelationshippost-schema.ts
-            :language: typescript
-            :emphasize-lines: 4, 11-14
-            :linenos:
-
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/generated/react-native/js/User.snippet.js-user-schema.js
-            :language: javascript
-            :emphasize-lines: 8
-            :linenos:
-
-         .. literalinclude:: /examples/generated/react-native/js/InverseRelationshipPost.snippet.js-inverserelationshippost-schema.js
-            :language: typescript
-            :emphasize-lines: 7-11
-            :linenos:
+   .. include:: /examples/generated/react-native/v12/models.snippet.define-inverse.ts.rst
 
 
 .. _react-native-linkingObjects-method:
@@ -139,69 +90,68 @@ Find Linking Objects In Code
 
 You can find all objects that link to a given object by calling the
 object's :js-sdk:`Realm.Object.linkingObjects()
-<Realm.Object.html#linkingObjects>` method. This is useful for when you
+<classes/Object.html#linkingObjects>` method. This is useful for when you
 want to access all linking objects for a particular relationship without
 adding a property to the object schema.
 
 .. example::
 
-   A ``User`` object may reference multiple ``Post`` objects in the
-   ``User.posts`` property. You can use the ``linkingObjects()`` method
-   to find all the ``User`` objects that reference a given ``Post``:
+   In the following continuation from the inverse relationship example, we 
+   have removed the ``manufacturer`` field with type 'linkingObjects' from 
+   the ``Car`` schema. An application developer creates several manufacturers 
+   and car objects, and the application pushes the newly-created cars into a 
+   manufacturer's ``cars`` field.
 
-   .. tabs-realm-languages::
+   To find the manufacturer who makes a specific car object, call ``linkingObjects()``
+   and pass the "Manufacturer" class name and "cars" field as parameters.
 
-      .. tab::
-         :tabid: typescript
+   The ``linkingObjects()`` method returns a :ref:`Results collection 
+   <node-realm-results>` of objects whose property inverts the relationship. 
+   In this example, only one manufacturer makes the Sentra car model, so we 
+   can expect that manufacturer to be named Nissan.
 
-         .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.dynamically-obtain-inverse-relationship.tsx
-            :language: typescript
-            :emphasize-lines: 3
-            :linenos:
+   .. include:: /examples/generated/react-native/v12/ToManyRelationship.snippet.obtain-inverse-relationship-dynamically.tsx.rst
 
-      .. tab::
-         :tabid: javascript
-
-         .. literalinclude:: /examples/generated/react-native/js/relationships-test.snippet.dynamically-obtain-inverse-relationship.jsx
-            :language: typescript
-            :emphasize-lines: 3
-            :linenos:
-
+.. 
+// TODO: Can't get linking objects property syntax working.
+// Investgate this as part of DOCSP-33344
+// https://jira.mongodb.org/browse/DOCSP-33344
+.. 
 .. _react-native-backlinks-query:
 
-Filter a Query Based On Linking Objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. Filter a Query Based On Linking Objects
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can reference linking objects in an RQL query by using the
-``@links.<Type>.<Property>`` syntax. This is useful for when you want to
-use inverse relationships in queries and subscriptions. For more
-information, see :ref:`Backlink Queries <rql-backlinks>`.
+.. You can reference linking objects in an RQL query by using the
+.. ``@links.<Type>.<Property>`` syntax. This is useful for when you want to
+.. use inverse relationships in queries and subscriptions. For more
+.. information, see :ref:`Backlink Queries <rql-backlinks>`.
 
-.. example::
+.. .. example::
 
-   A filter can match a ``Post`` object based on properties of the
-   ``User`` object that references it. In the following example, the
-   ``@links`` operator references the relationship defined for
-   ``User.posts``. If a ``User`` was born on or after January 1, 2000,
-   then their ``Post`` objects are included in the query results.
+..    A filter can match a ``Post`` object based on properties of the
+..    ``User`` object that references it. In the following example, the
+..    ``@links`` operator references the relationship defined for
+..    ``User.posts``. If a ``User`` was born on or after January 1, 2000,
+..    then their ``Post`` objects are included in the query results.
 
-   .. tabs-realm-languages::
+..    .. tabs-realm-languages::
 
-      .. tab::
-         :tabid: typescript
+..       .. tab::
+..          :tabid: typescript
 
-         .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.query-backlinks.tsx
-            :language: typescript
-            :emphasize-lines: 4-6
-            :linenos:
+..          .. literalinclude:: /examples/generated/react-native/ts/relationships-test.snippet.query-backlinks.tsx
+..             :language: typescript
+..             :emphasize-lines: 4-6
+..             :linenos:
 
-      .. tab::
-         :tabid: javascript
+..       .. tab::
+..          :tabid: javascript
 
-         .. literalinclude:: /examples/generated/react-native/js/relationships-test.snippet.query-backlinks.jsx
-            :language: typescript
-            :emphasize-lines: 4-6
-            :linenos:
+..          .. literalinclude:: /examples/generated/react-native/js/relationships-test.snippet.query-backlinks.jsx
+..             :language: typescript
+..             :emphasize-lines: 4-6
+..             :linenos:
 
 .. _react-native-embedded-objects:
 
@@ -243,49 +193,8 @@ To define an embedded object, set ``embedded``
 to ``true``. You can reference an embedded object type from parent object types
 in the same way as you would define a relationship:
 
-.. tabs-realm-languages::
-
-    .. tab::
-       :tabid: typescript
-
-       .. literalinclude:: /examples/generated/react-native/ts/Address.snippet.ts-address-schema.ts
-          :language: typescript
-          :emphasize-lines: 9
-          :linenos:
-
-       .. literalinclude:: /examples/generated/react-native/ts/Contact.snippet.ts-contact-schema.ts
-          :language: typescript
-          :emphasize-lines: 13
-          :linenos:
-
-       .. literalinclude:: /examples/generated/react-native/ts/Business.snippet.ts-business-schema.ts
-          :language: typescript
-          :emphasize-lines: 12
-          :linenos:
-
-    .. tab::
-       :tabid: javascript
-
-       .. literalinclude:: /examples/generated/react-native/js/Address.snippet.js-address-schema.js
-          :language: javascript
-          :emphasize-lines: 4
-          :linenos:
-
-       .. literalinclude:: /examples/generated/react-native/js/Contact.snippet.js-contact-schema.js
-          :language: javascript
-          :emphasize-lines: 9
-          :linenos:
-
-       .. literalinclude:: /examples/generated/react-native/js/Business.snippet.js-business-schema.js
-          :language: javascript
-          :emphasize-lines: 9
-          :linenos:
+.. include:: /examples/generated/react-native/v12/models.snippet.define-embedded-property.ts.rst
 
 .. important::
    
    Embedded objects cannot have a :ref:`primary key <react-native-primary-keys>`.
-
-JSON Schema
-~~~~~~~~~~~
-
-.. include:: /includes/embedded-object-json-schema.rst
