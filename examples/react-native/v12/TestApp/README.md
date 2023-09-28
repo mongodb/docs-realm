@@ -66,8 +66,12 @@ To mimic a user in a Jest test:
    `const user = userEvent.setup();`
 2. Get any UI elements you want the user to interact with.
    `const bookNameNode = await screen.findByTestId('bookNameInput');`
+   or
+   `const addButton = await screen.findByTestId('addBookButton');`
 3. Have the artifical user interact with the UI element.
    `await user.type(bookNameNode, 'The Hunger Games');`
+   or
+   `await user.press(addButton);`
 4. Get the UI element where the updated data is rendered.
    `const checkForHunger = await screen.findByTestId('hungerQueryResults');`
 5. Assert that the rendered data matches an expected value.
