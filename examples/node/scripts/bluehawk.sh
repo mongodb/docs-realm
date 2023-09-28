@@ -21,7 +21,7 @@ GREEN_BG_BOLD="\x1B[1;42m"
 
 PROJECT=$(git rev-parse --show-toplevel)
 INPUT_DIRECTORY=$PROJECT/examples/node/v12
-OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/v12
+OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/v12/formatted
 
 # standard bluehawking
 echo "${GREEN_BG_BOLD}Bluehawk: ${CLEAR} ${GREEN} Generate Node.js v12 examples ${CLEAR}"

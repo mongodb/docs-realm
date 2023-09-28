@@ -3,7 +3,7 @@ class Task extends Realm.Object<Task> {
   name!: string;
   owner_id?: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     // Set the schema's `name` property to the name you want to store.
     // Here, we store items as `Todo_Item` instead of the class's `Task` name.
     name: "Todo_Item",
