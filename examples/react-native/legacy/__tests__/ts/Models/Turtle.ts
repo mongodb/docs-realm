@@ -1,8 +1,8 @@
 import Realm, {BSON} from 'realm';
 
 class Turtle extends Realm.Object {
-  _id!: BSON.objectId;
-  owner_id!: BSON.objectId;
+  _id!: BSON.ObjectId;
+  owner_id!: BSON.ObjectId;
   name!: string;
   birthDate?: Realm.Mixed;
 
