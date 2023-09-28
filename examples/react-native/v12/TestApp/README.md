@@ -36,12 +36,59 @@ directories.
 7. Create a test file in the same directory as your component file. Run the test
    with `npm test -- FILENAME`.
 
-# Testing Conventions
+# Test Conventions
 
 There are a number of testing conventions in this test suite that you should
 know about. Some of these are simply side effects of how React Native and Jest
 work together and others are more stylistic choices that we want to be consistent
 with.
+
+## Write Jest Tests Like a User
+
+We want our Jest tests to mimic user interactions as closely as possible. Write
+your components like a Realm developer would, then use Jest to interact with
+the completed product.
+
+We can do this by including actual UI elements in our components and rendering
+data to the UI. For example, in `FtsQuery.tsx`, we want users to be able to
+create book objects. So, we have an input field for a book name. Users input
+a name, then click a create button and the new object is added to the realm. At
+this point, we render some element of the data to the UI, like how many books
+match a query.
+
+What does all this effort give us? In our Jest test, we can mimic all of these
+steps and then access the data rendered in the UI to test against expected
+values.
+
+To mimic a user in a Jest test:
+
+1. Set up an artificial user with Jest's `userEvent`.
+   `const user = userEvent.setup();`
+2. Get any UI elements you want the user to interact with.
+   `const bookNameNode = await screen.findByTestId('bookNameInput');`
+3. Have the artifical user interact with the UI element.
+   `await user.type(bookNameNode, 'The Hunger Games');`
+4. Get the UI element where the updated data is rendered.
+   `const checkForHunger = await screen.findByTestId('hungerQueryResults');`
+5. Assert that the rendered data matches an expected value.
+   `expect(checkForHunger.children[1]).toBe('1');`
+
+## Test With Jest and A Simulator
+
+We use both manual testing in a simulator and automated Jest tests to ensure
+our code does what it should do.
+
+There are some important differences between the two tests that you should
+know about
+
+The simulator and Jest tests don't share Realm files. Think of them as two
+different devices using the same app. The simulator uses a realm file that's
+saved to the simulator's sandbox. Jest uses your computer's file directory.
+For Device Sync apps, you can share data between the two with Device Sync, but
+they still don't use the same realm file.
+
+Becuase of this, you can't assume that what works in the simulator will work in
+the Jest test or the other way around.
 
 ## TypeScript Only
 
