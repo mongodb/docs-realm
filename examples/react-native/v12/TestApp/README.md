@@ -18,7 +18,23 @@ before you can do anything else.
 Creating a new component for the test app isn't always straightforward, but this
 basic plan should apply to most situations.
 
-1.
+Check out the file names section for guidance on how to name your files and
+directories.
+
+1. In `src/components`, create a new directory for your component.
+2. In the new directory, create a new component file. Add a very basic component
+   to test for now.
+3. In `App.tsx`, import your new component and add it to the navigation as a new
+   `<Drawer.Screen>`.
+4. In `src/navigation/types.tsx`, add your component to the `RootStackParamList`
+   type. This makes TypeScript happy with new navigation added in the previous
+   step.
+5. Run `npm run android` or `npm run ios` to see your component in the app's
+   drawer navigation.
+6. Write your component code while the simulator runs. Make sure it works as
+   you would expect.
+7. Create a test file in the same directory as your component file. Run the test
+   with `npm test -- FILENAME`.
 
 # Testing Conventions
 
@@ -83,7 +99,7 @@ These are important parts of the `src` directory:
 - `screens`. Contains standalone screens, like the home page, or parts of the
   test app that need their own sub navigation.
 
-## File Naming
+## File Names
 
 - Components: Pascal case, followed by the `.tsx` file extension. For
   example, `ObjectModels.tsx`.
@@ -92,6 +108,7 @@ These are important parts of the `src` directory:
   `ObjectModels.tsx` is the component and `ObjectModels.test.ts` is the test
   file.
 - Directories: directories should use Kebab case. For example, `object-model`.
+  The directory name should clearly indicate what components might be inside it.
 
 # Learn More
 
