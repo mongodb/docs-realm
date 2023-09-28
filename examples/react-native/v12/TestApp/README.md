@@ -1,8 +1,6 @@
 The React Native SDK docs testing suite contains a real, functional, React
 Native app.
 
-- TypeScript only - code and examples
-
 # Get Started with the React Native SDK Docs Test Suite
 
 Before you begin, follow the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions. You need a working React Native environment
@@ -12,9 +10,88 @@ before you can do anything else.
 2. Install the testing suite's dependencies
 3. Run the test app in an Android or iOS simulator or physical device
 4. Write components for features
-5. Add Bluehawk markup
-6. Write tests for components
-7. Run the tests
+5. Write and run tests for components
+6. Add Bluehawk markup and generate Bluehawk snippets
+
+# Write a New Component
+
+Creating a new component for the test app isn't always straightforward, but this
+basic plan should apply to most situations.
+
+1.
+
+# Testing Conventions
+
+There are a number of testing conventions in this test suite that you should
+know about. Some of these are simply side effects of how React Native and Jest
+work together and others are more stylistic choices that we want to be consistent
+with.
+
+## TypeScript Only
+
+The React Native SDK docs should only contain TypeScript examples. We don't
+need to generate JavaScript versions of TypeScript code. We take this approach
+because:
+
+- React Native itself and its template apps are TypeScript only
+- Most React Native developers work with TypeScript
+- Working in TypeScript files is a better experience and results in better code
+  examples.
+- It's relatively easy to adapt TypeScript-specific examples to work in a
+  JavaScript-only environment.
+
+## File Structure
+
+The test app's file structure should stay consistent so that it's easy to find
+what you're looking for.
+
+This section covers file structure conventions and information about important
+files and directories.
+
+### Top Level
+
+| src
+| App.tsx
+| index.ts
+| package.json
+
+These are important parts of the app's top-level directory:
+
+- `src` contains all of the TestApp's screens, components, and component tests.
+- `App.tsx` is the top-level component for the app and contains the app's primary
+  navigation structure.
+- `index.ts` is the app's entry point. This file will rarely change or be tested
+  in any way.
+- `package.json` contains the app's dependencies and scripts.
+
+### `src`
+
+| components
+| - component directory
+| - component directory
+| navigation
+| - types.ts
+| screens
+| - HomeScreen.tsx
+| - screen with sub navigation
+
+These are important parts of the `src` directory:
+
+- `components`. Contains most of the app's component and test files. See "Write
+  a New Component" for a description of component directories.
+- `navigation`. Contains the type definitions for the test app's navigation.
+- `screens`. Contains standalone screens, like the home page, or parts of the
+  test app that need their own sub navigation.
+
+## File Naming
+
+- Components: Pascal case, followed by the `.tsx` file extension. For
+  example, `ObjectModels.tsx`.
+- Component tests: Pascal case, followed by the `.test.ts`. Test files should
+  have the same name as their component counterparts. For example,
+  `ObjectModels.tsx` is the component and `ObjectModels.test.ts` is the test
+  file.
+- Directories: directories should use Kebab case. For example, `object-model`.
 
 # Learn More
 

@@ -1,29 +1,30 @@
 The React Native SDK docs testing suite contains a real, functional, React
 Native app. This is important because the primary goal of this testing suite
-is to ensure that code examples in the docs are tested. Side effects of this
-approach include the following benefits:
+is to ensure that code examples in the docs are tested and runable. Side effects
+of this approach include the following benefits:
 
 - Ensure the `@realm/react` library and Realm.js SDK work like we say they do.
 - Expose unexpected behavior that should be addressed in the docs.
 - Provide developers with examples of how to test React Native apps that use
   the `@realm/react` library and Realm.js SDK.
 
-# Turtles All the Way Down
+# Layers of Abstraction
 
 The React Native SDK can be hard to reason about because it contains several
 layers of abstraction. At a high level, we can break it down like this:
 
-Realm Core -> Realm.js -> `@realm/react`, which sits on top of React Native.
-React Native itself is an abstraction of React that works with native
+Realm Core -> Realm.js -> `@realm/react`, all of which sits on top of React
+Native. React Native itself is an abstraction of React that works with native
 components.
 
-To this, we add Jest for testing and things can get confusing very quickly.
-This README aims to provide guidance so that it doesn't become overwhelming.
+To all of this, we add Jest for testing and things can get confusing very
+quickly. This README aims to provide guidance so that it doesn't become
+overwhelming.
 
 # Bluehawk
 
 We use the Bluehawk CLI to generate code snippets for the React Native SDK docs.
-To streamline its use, you can use the bluehawk scripts in the `./scripts`
+To streamline its use, you can use the bluehawk scripts in the `v12/scripts`
 directory.
 
 ## Generate All Test Suite Snippets
@@ -70,3 +71,6 @@ is that we can use Bluehawk's `:emphasize:` tag.
 
 This creates a stronger relationship between the code and the docs. As code
 changes, so will the automatically-generated snippets that are based on the code.
+
+The generated `.rst` files are consumed by the simple `.. include:: ` Sphinx
+directive.
