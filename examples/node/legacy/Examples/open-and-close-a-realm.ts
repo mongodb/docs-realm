@@ -1,4 +1,4 @@
-import Realm from "realm";
+import Realm, { ObjectSchema } from "realm";
 import { existsSync } from "node:fs";
 import nock from "nock";
 
@@ -10,7 +10,7 @@ class Car extends Realm.Object<Car> {
   model!: string;
   miles!: number;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: "Car",
     properties: {
       _id: "objectId",

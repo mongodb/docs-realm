@@ -1,1 +1,1 @@
-import Realm from "realm";
+import Realm, { ObjectSchema } from "realm";

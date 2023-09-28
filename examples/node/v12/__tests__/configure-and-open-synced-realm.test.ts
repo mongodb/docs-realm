@@ -1,4 +1,4 @@
-import Realm, { BSON, Credentials } from "realm";
+import Realm, { BSON, Credentials, ObjectSchema } from "realm";
 import { APP_ID } from "../config";
 
 describe("Configure & Open a Synced Realm", () => {
@@ -9,22 +9,16 @@ describe("Configure & Open a Synced Realm", () => {
       owner_id!: String;
       age?: Number;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Doggie",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          name: {
-            type: "string",
-          },
+          _id: "objectId",
+          name: "string",
           age: {
             type: "int",
             optional: true,
           },
-          owner_id: {
-            type: "string",
-          },
+          owner_id: "string",
         },
         primaryKey: "_id",
       };

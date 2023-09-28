@@ -4,7 +4,7 @@ class Task extends Realm.Object<Task> {
   status?: string;
   owner_id?: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: "Task",
     properties: {
       _id: "int",
