@@ -17,34 +17,6 @@ import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-// :snippet-start: embedded-object-model
-// Implements `EmbeddedRealmObject` interface
-class Address() : EmbeddedRealmObject {
-    // (cannot have primary key)
-    var street: String? = null
-    var city: String? = null
-    var state: String? = null
-    var postalCode: String? = null
-}
-
-// Define an object containing one embedded object
-class Contact : RealmObject {
-    @PrimaryKey
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    // Embed a single object (must be optional)
-    var address: Address? = null
-}
-
-// Define an object containing an array of embedded objects
-class Business : RealmObject {
-    @PrimaryKey
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    // Embed an array of objects (cannot be null)
-    var addresses: RealmList<Address> = realmListOf()
-}
-// :snippet-end:
 class DataTypesTest : RealmTest() {
     @Test
     fun createEmbeddedObject() {
@@ -52,7 +24,7 @@ class DataTypesTest : RealmTest() {
             // :snippet-start: open-realm-embedded-object
             // Include parent and embedded object classes in schema
             val config = RealmConfiguration.Builder(
-                setOf(Contact::class, Address::class)
+                setOf(Contact::class, EmbeddedAddress::class)
             )
                 .build()
             val realm = Realm.open(config)
@@ -66,7 +38,7 @@ class DataTypesTest : RealmTest() {
                         name = "Nick Riviera"
 
                         // Embed the address in the contact object
-                        address = Address().apply {
+                        address = EmbeddedAddress().apply {
                             street = "123 Fake St"
                             city = "Some Town"
                             state = "MA"
@@ -77,7 +49,7 @@ class DataTypesTest : RealmTest() {
             // :snippet-end:
 
             val asyncCall: Deferred<Unit> = async {
-                val address: Address = realm.query<Address>().find().first()
+                val address: EmbeddedAddress = realm.query<EmbeddedAddress>().find().first()
                 val contact: Contact = realm.query<Contact>().find().first()
                 // :snippet-start: update-embedded-object
                 // Modify embedded object properties in a write transaction
@@ -110,7 +82,7 @@ class DataTypesTest : RealmTest() {
                     realm.query<Contact>("name == 'Nick Riviera'").find().first()
 
                 // Overwrite the embedded object (deletes the existing object)
-                parentObject.address = Address().apply {
+                parentObject.address = EmbeddedAddress().apply {
                     street = "202 Coconut Court"
                     city = "Los Angeles"
                     state = "CA"
@@ -131,7 +103,7 @@ class DataTypesTest : RealmTest() {
         val realmName = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(Contact::class, Address::class))
+            val config = RealmConfiguration.Builder(setOf(Contact::class, EmbeddedAddress::class))
                 .name(realmName)
                 .build()
             val realm = Realm.open(config)
@@ -140,7 +112,7 @@ class DataTypesTest : RealmTest() {
                 val contact = copyToRealm(Contact())
                 contact.apply {
                     name = "Nick Riviera"
-                    address = Address().apply {
+                    address = EmbeddedAddress().apply {
                         street = "999 Imaginary Blvd"
                         city = "Some Town"
                         state = "FL"
@@ -151,8 +123,8 @@ class DataTypesTest : RealmTest() {
 
             // :snippet-start: query-embedded-objects
             // Query an embedded object directly
-            val queryAddress: Address =
-                realm.query<Address>("state == 'FL'").find().first()
+            val queryAddress: EmbeddedAddress =
+                realm.query<EmbeddedAddress>("state == 'FL'").find().first()
 
             // Get the parent of an embedded object
             val getParent: Contact =
@@ -175,7 +147,7 @@ class DataTypesTest : RealmTest() {
         val realmName = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(Contact::class, Address::class))
+            val config = RealmConfiguration.Builder(setOf(Contact::class, EmbeddedAddress::class))
                 .name(realmName)
                 .build()
             val realm = Realm.open(config)
@@ -184,7 +156,7 @@ class DataTypesTest : RealmTest() {
                 val contact1 = copyToRealm(Contact())
                     contact1.apply {
                         name = "Marvin Monroe"
-                        address = Address().apply {
+                        address = EmbeddedAddress().apply {
                             street = "123 Fake St"
                             city = "Some Town"
                             state = "MA"
@@ -194,7 +166,7 @@ class DataTypesTest : RealmTest() {
                 val contact2 = copyToRealm(Contact())
                 contact2.apply {
                     name = "Nick Riviera"
-                    address = Address().apply {
+                    address = EmbeddedAddress().apply {
                         street = "999 Imaginary Blvd"
                         city = "Some Town"
                         state = "FL"
@@ -206,8 +178,8 @@ class DataTypesTest : RealmTest() {
             // :snippet-start: delete-embedded-object
             //  Delete an embedded object directly
             realm.write {
-                val addressToDelete: Address =
-                    this.query<Address>("street == '123 Fake St'").find().first()
+                val addressToDelete: EmbeddedAddress =
+                    this.query<EmbeddedAddress>("street == '123 Fake St'").find().first()
 
                 // Delete the embedded object (nullifies the parent property)
                 delete(addressToDelete)
@@ -230,7 +202,7 @@ class DataTypesTest : RealmTest() {
             }
             // :snippet-end:
 
-            assertEquals(0, realm.query<Address>().find().size)
+            assertEquals(0, realm.query<EmbeddedAddress>().find().size)
             assertEquals(0, realm.query<Contact>("name == 'Nick Riviera'").find().size)
 
             realm.close()
