@@ -7,16 +7,12 @@ val config =
         schema = setOf(List::class, Item::class)
     )
         // Define an initial subscription with queries that include
-        // the user's lists and incomplete items
+        // the user's lists with incomplete items
         .initialSubscriptions{ realm ->
-            add(realm.query<List>(
-                "ownerId == $0", myAuthenticatedUser.id
-            ),
+            add(realm.query<List>("ownerId == $0", myAuthenticatedUser.id),
                 name = "user-lists"
             )
-            add(realm.query<Item>(
-                "complete = false"
-            ),
+            add(realm.query<Item>("complete = false"),
                 name = "incomplete-items"
             )
         }

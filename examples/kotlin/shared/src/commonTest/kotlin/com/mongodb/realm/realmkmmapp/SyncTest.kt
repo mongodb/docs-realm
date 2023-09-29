@@ -59,16 +59,12 @@ class SyncTest: RealmTest() {
                     schema = setOf(ExampleSyncObject_List::class, ExampleSyncObject_Item::class)
                 )
                     // Define an initial subscription with queries that include
-                    // the user's lists and incomplete items
+                    // the user's lists with incomplete items
                     .initialSubscriptions{ realm ->
-                        add(realm.query<ExampleSyncObject_List>(
-                            "ownerId == $0", myAuthenticatedUser.id
-                        ),
+                        add(realm.query<ExampleSyncObject_List>("ownerId == $0", myAuthenticatedUser.id),
                             name = "user-lists"
                         )
-                        add(realm.query<ExampleSyncObject_Item>(
-                            "complete = false"
-                        ),
+                        add(realm.query<ExampleSyncObject_Item>("complete = false"),
                             name = "incomplete-items"
                         )
                     }
@@ -93,6 +89,7 @@ class SyncTest: RealmTest() {
                     ownerId = myAuthenticatedUser.id
                     items.add(ExampleSyncObject_Item().apply {
                         name = "Check email"
+                        complete = false
                     })
                 }
                 copyToRealm(list)

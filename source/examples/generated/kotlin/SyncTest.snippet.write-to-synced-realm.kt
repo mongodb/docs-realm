@@ -6,6 +6,7 @@ realm.write {
         ownerId = myAuthenticatedUser.id
         items.add(Item().apply {
             name = "Check email"
+            complete = false
         })
     }
     copyToRealm(list)
