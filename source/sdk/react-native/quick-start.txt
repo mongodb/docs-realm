@@ -59,19 +59,8 @@ object type.
 To learn more, refer to
 :ref:`Define a Realm Object Model <react-native-define-a-realm-object-model>`.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.setup-define-model.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.setup-define-model.jsx
-         :language: javascript
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.setup-define-model.tsx
+   :language: typescript
 
 .. _react-native-quickstart-local-import-realm:
 .. _react-native-quickstart-local-open-a-realm:
@@ -96,21 +85,10 @@ to set up context and providers from ``@realm/react``. To learn more, refer to
 #. Expose a realm with ``RealmProvider``. To expose a realm, you need a 
    realm context. From that context, extract ``RealmProvider``, which 
    contains your realm's context.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
    
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
-         :language: typescript
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
+   :language: typescript
    
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.quickstart-setup.jsx
-         :language: javascript
-
 Work With Realm Objects
 -----------------------
 
@@ -141,22 +119,10 @@ After finding a collection, you can filter or sort the results using
 :ref:`Realm Query Language (RQL) <rql>`.
 
 To learn more, refer to the :ref:`Query Data <react-native-query-data>`.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
    
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart-find-sort-filter.test.snippet.find-sort-filter.tsx
-         :language: typescript
-         :emphasize-lines: 44, 45
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart-find-sort-filter.test.snippet.find-sort-filter.jsx
-         :language: javascript
-         :emphasize-lines: 37, 38
+.. literalinclude:: /examples/generated/react-native/ts/quickstart-find-sort-filter.test.snippet.find-sort-filter.tsx
+   :language: typescript
+   :emphasize-lines: 44, 45
 
 .. _react-native-quickstart-local-create-realm-objects:
 .. _react-native-quickstart-local-modify-an-object:
@@ -170,22 +136,10 @@ and delete objects inside of the realm in a :realm-react-sdk:`Realm.write()
 <classes/Realm-1.html#write>` transaction block.
 
 To learn more, refer to :ref:`Write Transactions <react-native-write-transactions>`.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
    
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart-userealm.test.snippet.quickstart-setup.tsx
-         :language: typescript
-         :emphasize-lines: 44, 47-49
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart-userealm.test.snippet.quickstart-setup.jsx
-         :language: javascript
-         :emphasize-lines: 37, 40-42
+.. literalinclude:: /examples/generated/react-native/ts/quickstart-userealm.test.snippet.quickstart-setup.tsx
+   :language: typescript
+   :emphasize-lines: 44, 47-49
 
 Create Objects
 ``````````````
@@ -194,20 +148,9 @@ To create a new Realm object, specify the object type, pass in the object's
 initial values, and add it to the realm in a write transaction block.
 
 To learn more, refer to :ref:`CRUD - Create <react-native-create-objects>`.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
    
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-create.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.objects-create.jsx
-         :language: javascript
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-create.tsx
+   :language: typescript
 
 Update Objects
 ``````````````
@@ -215,20 +158,9 @@ Update Objects
 To update a Realm Object, update its properties in a write transaction block.
 
 To learn more, refer to :ref:`CRUD - Update <react-native-update-objects>`.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
    
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-modify.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.objects-modify.jsx
-         :language: javascript
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-modify.tsx
+   :language: typescript
 
 Delete Objects
 ``````````````
@@ -238,19 +170,8 @@ To delete a Realm Object, call the :realm-react-sdk:`Realm.delete()
 
 To learn more, refer to :ref:`CRUD - Delete <react-native-delete-objects>`.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-delete.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.objects-delete.jsx
-         :language: javascript
+.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-delete.tsx
+   :language: typescript
 
 .. _react-native-quickstart-local-close-a-realm:
 
@@ -293,7 +214,7 @@ first access your App Services App using your App ID. You can
 :ref:`find your App ID <find-your-app-id>` in the App Services UI.
 
 .. literalinclude:: /examples/generated/react-native/ts/quickstart-sync-app-provider.test.snippet.app-provider.tsx
-  :language: javascript
+  :language: typescript
   :emphasize-lines: 6-8
 
 Authenticate a User with UserProvider
@@ -310,7 +231,7 @@ after they have authenticated. If there's no authenticated user,
 the ``fallback`` component renders and nested components do not.
 
 .. literalinclude:: /examples/generated/react-native/ts/quickstart-sync-user-provider.test.snippet.user-provider.tsx
-  :language: javascript
+  :language: typescript
   :emphasize-lines: 8-10
 
 Configure a Synced Realm with RealmProvider
@@ -338,22 +259,10 @@ You need at least one sync subscription before you can read or write synced data
 You can add subscriptions in your components or set up 
 :ref:`initial subscriptions <react-native-sync-bootstrap-initial-subscriptions>` on
 ``RealmProvider``.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
    
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart-sync.test.snippet.quickstart-setup.tsx
-         :language: javascript
-         :emphasize-lines: 34-45
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart-sync.test.snippet.quickstart-setup.jsx
-         :language: javascript
-         :emphasize-lines: 31-42
+.. literalinclude:: /examples/generated/react-native/ts/quickstart-sync.test.snippet.quickstart-setup.tsx
+   :language: typescript
+   :emphasize-lines: 34-45
 
 The syntax to create, read, update, and delete objects in a synced realm is
 identical to the syntax for non-synced realms. While you work with local data, a
