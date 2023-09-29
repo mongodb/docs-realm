@@ -29,7 +29,7 @@ App Services creates an associated unique ``User`` object when a user first
 successfully authenticates and logs in to an app on a device. After log in, 
 the SDK saves the user's information and keeps track of the 
 user's state on the device. This data remains on the 
-device, even if the user log out, unless you actively remove the user 
+device, even if the user logs out, unless you actively remove the user 
 from the device. For more information about App Services users and user 
 accounts, refer to :ref:`<user-accounts>` in the App Services documentation.
 
@@ -132,12 +132,12 @@ Log a User Out
 
 You can log a logged-in user out of an app using the 
 `user.logOut() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/log-out.html>`__ 
-method. Once logged out, the user is still stored on the device, but
+method. Once logged out, the user is still stored on the device but
 must log back in to use the app. 
 
 In the following example, Joe is currently logged-in as the current user. 
 After we log Joe out of the app, we confirm that he is still stored on 
-the device as a user and Emma is now the current user: 
+the device as a user and that Emma is now the current user: 
 
 .. io-code-block::
 
