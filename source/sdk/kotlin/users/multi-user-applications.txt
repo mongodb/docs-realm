@@ -12,7 +12,8 @@ Manage Multi-User Applications - Kotlin SDK
 
 This page describes how to manage multiple Atlas App Services users 
 within a single device using the Kotlin SDK. To learn how to authenticate and 
-log in users to an App, refer to :ref:`<kotlin-authenticate-users>`.
+log in users to a client app, refer to 
+:ref:`<kotlin-authenticate-users>`.
 
 Realm allows multiple users to be logged in to an app simultaneously on a 
 given device. Realm client applications run in the context of a single 
@@ -25,7 +26,7 @@ User Accounts
 
 A **user account** represents a single, distinct user of your application. 
 App Services creates an associated unique ``User`` object when a user first 
-successfully authenticates and logs in to an App on a device. After log in, 
+successfully authenticates and logs in to an app on a device. After log in, 
 the SDK saves the user's information and keeps track of the 
 user's state on the device. This data remains on the 
 device, even if the user log out, unless you actively remove the user 
@@ -160,7 +161,7 @@ You can actively remove a user, and all information about that user, from
 a device using 
 `user.remove() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/remove.html>`__. 
 Once removed, the user must re-authenticate to use the app again.
-This *does not* delete the ``User`` object from the Atlas App Services App.
+This *does not* delete the ``User`` object from the App Services App.
 
 In the following example, Emma is the current (and only) logged-in user 
 on the device. After we remove her, we confirm that Emma is removed from the 
