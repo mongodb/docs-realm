@@ -1,6 +1,6 @@
 // :snippet-start: quickstart-setup
 import React from 'react';
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import {createRealmContext} from '@realm/react';
 // :remove-start:
 import {useState} from 'react';
