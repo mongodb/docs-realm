@@ -1,4 +1,4 @@
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 
 class Bird extends Realm.Object<Bird> {
   _id!: string;
@@ -7,7 +7,7 @@ class Bird extends Realm.Object<Bird> {
   haveSeen!: boolean;
   birthDate?: Realm.Mixed;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Bird',
     properties: {
       _id: 'string',

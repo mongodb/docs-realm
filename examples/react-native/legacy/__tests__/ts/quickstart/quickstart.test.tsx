@@ -1,6 +1,6 @@
 // :snippet-start: quickstart-setup
 import React from 'react';
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import {createRealmContext} from '@realm/react';
 // :remove-start:
 import {useState} from 'react';
@@ -16,7 +16,7 @@ class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Profile',
     properties: {
       _id: 'objectId',
@@ -98,9 +98,10 @@ function RestOfApp() {
           keyExtractor={item => item._id.toHexString()}
           renderItem={({item}) => {
             return (
-              <Pressable onPress={() => {
-                setSelectedProfileId(item._id)
-              }}>
+              <Pressable
+                onPress={() => {
+                  setSelectedProfileId(item._id);
+                }}>
                 <Text>{item.name}</Text>
               </Pressable>
             );
@@ -110,8 +111,8 @@ function RestOfApp() {
       <View>
         <Text>Active profile: {activeProfile?.name}</Text>
         <Button
-          onPress={()=> {
-            changeProfileName(activeProfile!, 'NewName')
+          onPress={() => {
+            changeProfileName(activeProfile!, 'NewName');
           }}
           testID='test-change-name' // :remove:
           title='Change name'
@@ -134,9 +135,8 @@ beforeEach(async () => {
 
     realm.create('Profile', {
       name: 'SecondProfile',
-      _id: new Realm.BSON.ObjectId,
+      _id: new Realm.BSON.ObjectId(),
     });
-
   });
 
   primaryKey = id;

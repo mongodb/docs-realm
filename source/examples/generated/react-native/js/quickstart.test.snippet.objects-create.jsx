@@ -1,4 +1,4 @@
-const addProfile = (name) => {
+const addProfile = name => {
   realm.write(() => {
     realm.create('Profile', {
       name: name,
