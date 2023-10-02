@@ -10,7 +10,7 @@
        properties: {
          _id: 'objectId',
          name: 'string',
-         // A manufacturer that may have many cars
+         // A manufacturer that may have many CarInverse objects
          cars: 'CarInverse[]',
        },
      };
@@ -19,8 +19,8 @@
    class CarInverse extends Realm.Object {
      _id!: BSON.ObjectId;
      model!: string;
-     miles?: number;
      manufacturer!: Realm.List<ManufacturerInverse>;
+     miles?: number;
 
      static schema: Realm.ObjectSchema = {
        name: 'CarInverse',

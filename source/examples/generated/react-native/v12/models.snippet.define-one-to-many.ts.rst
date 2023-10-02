@@ -10,7 +10,7 @@
        properties: {
          _id: 'objectId',
          name: 'string',
-         // A manufacturer that may have many cars
+         // A manufacturer that may have many LinkedCar objects
          cars: 'LinkedCar[]',
        },
      };
@@ -20,7 +20,6 @@
      _id!: BSON.ObjectId;
      model!: string;
      miles?: number;
-     manufacturer!: Realm.List<ToManyManufacturer>;
 
      static schema: Realm.ObjectSchema = {
        name: 'LinkedCar',

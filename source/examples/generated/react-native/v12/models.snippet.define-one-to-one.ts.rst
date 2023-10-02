@@ -10,7 +10,7 @@
        properties: {
          _id: 'objectId',
          name: 'string',
-         // A manufacturer that may have one car
+         // A manufacturer that may have one Car object
          car: 'Car?',
        },
      };
