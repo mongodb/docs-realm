@@ -42,8 +42,8 @@ export class Person extends Realm.Object {
 export class Turtle extends Realm.Object {
   _id!: BSON.ObjectId;
   name!: string;
-  owner?: Person;
   age!: number;
+  owner?: Person;
 
   static schema: ObjectSchema = {
     name: 'Turtle',
@@ -72,7 +72,7 @@ export class ToOneManufacturer extends Realm.Object {
     properties: {
       _id: 'objectId',
       name: 'string',
-      // A manufacturer that may have one car
+      // A manufacturer that may have one Car object
       car: 'Car?',
     },
   };
@@ -105,7 +105,7 @@ export class ToManyManufacturer extends Realm.Object {
     properties: {
       _id: 'objectId',
       name: 'string',
-      // A manufacturer that may have many cars
+      // A manufacturer that may have many LinkedCar objects
       cars: 'LinkedCar[]',
     },
   };
@@ -115,7 +115,6 @@ export class LinkedCar extends Realm.Object {
   _id!: BSON.ObjectId;
   model!: string;
   miles?: number;
-  manufacturer!: Realm.List<ToManyManufacturer>;
 
   static schema: Realm.ObjectSchema = {
     name: 'LinkedCar',
@@ -144,7 +143,7 @@ export class ManufacturerInverse extends Realm.Object {
     properties: {
       _id: 'objectId',
       name: 'string',
-      // A manufacturer that may have many cars
+      // A manufacturer that may have many CarInverse objects
       cars: 'CarInverse[]',
     },
   };
@@ -153,8 +152,8 @@ export class ManufacturerInverse extends Realm.Object {
 export class CarInverse extends Realm.Object {
   _id!: BSON.ObjectId;
   model!: string;
-  miles?: number;
   manufacturer!: Realm.List<ManufacturerInverse>;
+  miles?: number;
 
   static schema: Realm.ObjectSchema = {
     name: 'CarInverse',
