@@ -9,6 +9,7 @@ function updateSetAndOrderedSetArray(set, orderedArray, value) {
 let playerOne;
 let levelsCompletedInOrder = [];
 const realm = await Realm.open({
+  path: "realm-files/data-type-realm",
   schema: [characterSchema],
 });
 realm.write(() => {

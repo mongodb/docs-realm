@@ -7,6 +7,6 @@ class Car extends Realm.Object {
       model_name: { type: "string", mapTo: "modelName" },
       miles: { type: "int", default: 0 },
     },
-    primaryKey: '_id',
+    primaryKey: "_id",
   };
 }

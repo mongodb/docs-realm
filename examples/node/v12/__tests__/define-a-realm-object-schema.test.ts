@@ -1,4 +1,4 @@
-import Realm from "realm";
+import Realm, { ObjectSchema } from "realm";
 
 describe("Define a Realm Object Schema", () => {
   test("should persist realm objects under the schema name, not class name", async () => {
@@ -14,7 +14,7 @@ describe("Define a Realm Object Schema", () => {
       name!: string;
       owner_id?: string;
 
-      static schema = {
+      static schema: ObjectSchema = {
         // Set the schema's `name` property to the name you want to store.
         // Here, we store items as `Todo_Item` instead of the class's `Task` name.
         name: "Todo_Item",

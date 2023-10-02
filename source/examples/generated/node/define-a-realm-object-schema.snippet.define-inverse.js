@@ -4,7 +4,7 @@ class Manufacturer extends Realm.Object {
     properties: {
       _id: "objectId",
       // A manufacturer that may have many cars
-      cars: "Car[]"
+      cars: "Car[]",
     },
   };
 }
@@ -23,7 +23,7 @@ class Car extends Realm.Object {
         type: "linkingObjects",
         objectType: "Manufacturer",
         property: "cars",
-      }
+      },
     },
   };
 }
