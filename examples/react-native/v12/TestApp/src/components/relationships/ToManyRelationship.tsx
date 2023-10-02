@@ -39,6 +39,8 @@ export const ToManyRelationship = () => {
       'cars',
     )[0];
 
+    // Returns 'Nissan', as only one manufacturer is linked
+    // to this car object.
     return manufacturer.name;
   };
   // :snippet-end:
