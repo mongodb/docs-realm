@@ -29,6 +29,7 @@ export const LoginExample = () => {
 };
 // :snippet-end:
 
+// :snippet-start: log-user-out
 function RestOfApp() {
   const user = useUser();
   const {logOut} = useAuth();
@@ -46,3 +47,4 @@ function RestOfApp() {
     return <Text>No user logged in</Text>;
   }
 }
+// :snippet-end:

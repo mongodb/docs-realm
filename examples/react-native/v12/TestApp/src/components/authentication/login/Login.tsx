@@ -11,9 +11,10 @@ import {useAuth} from '@realm/react';
 
 import {LoginWithApiKey} from './LoginWithApiKey';
 import {LoginWithEmail} from './LoginWithEmail';
+import {LogInWithAnonymous} from './LoginWithAnonymous';
 
 export const LogIn = () => {
-  const {logIn, logInWithAnonymous, result} = useAuth();
+  const {logIn, result} = useAuth();
 
   const loginWithbadAuth = () => {
     logIn('bad auth');
@@ -28,7 +29,7 @@ export const LogIn = () => {
   // useEffect(() => logIn(Realm.Credentials.anonymous()), []);
 
   return (
-    <ScrollView style={[styles.container]}>
+    <ScrollView style={styles.container}>
       <View style={styles.section}>
         <Text>To get to the rest of the app, you need to log in.</Text>
         <View>
@@ -41,7 +42,7 @@ export const LogIn = () => {
       <View style={styles.section}>
         <Text>Try these log in methods</Text>
         <View style={styles.buttonGroup}>
-          <Button title="Anonymous" onPress={logInWithAnonymous} />
+          <LogInWithAnonymous />
           <LoginWithApiKey />
           <Button title="Bad auth" onPress={loginWithbadAuth} />
         </View>

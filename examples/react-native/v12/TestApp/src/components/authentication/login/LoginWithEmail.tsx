@@ -5,10 +5,16 @@ import {useEmailPasswordAuth} from '@realm/react';
 import {Button} from '../../utility-components/Button';
 
 export const LoginWithEmail = () => {
-  const {register, logIn} = useEmailPasswordAuth();
+  // :snippet-start: email-password-login
+  const {logIn} = useEmailPasswordAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const performLogin = () => {
+    logIn({email, password});
+  };
+  // :snippet-end:
 
   return (
     <View style={styles.section}>
@@ -30,23 +36,29 @@ export const LoginWithEmail = () => {
       </View>
 
       <View style={styles.buttonGroup}>
-        <Button
-          title="Log in"
-          onPress={() => {
-            logIn({email, password});
-          }}
-        />
-        <Button
-          title="Create account"
-          onPress={() => {
-            register({email, password});
-            logIn({email, password});
-          }}
-        />
+        <Button title="Log in" onPress={performLogin} />
+        <RegisterButton email={email} password={password} />
       </View>
     </View>
   );
 };
+
+// :snippet-start: email-password-register
+type RegisterButtonProps = {
+  email: string;
+  password: string;
+};
+
+const RegisterButton = ({email, password}: RegisterButtonProps) => {
+  const {register} = useEmailPasswordAuth();
+
+  const performRegistration = () => {
+    register({email, password});
+  };
+
+  return <Button title="Register" onPress={performRegistration} />;
+};
+// :snippet-end:
 
 const styles = StyleSheet.create({
   section: {
