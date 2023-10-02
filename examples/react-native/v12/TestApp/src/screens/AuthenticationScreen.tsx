@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {LoginExample} from '../components/authentication/login/Realm.Wrapper';
+import {LoginExample} from '../components/authentication/login/RealmWrapper';
 
 import {AuthenticationStackParamList} from '../navigation/types';
 import {AuthenticationHomeProps} from '../navigation/types';

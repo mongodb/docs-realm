@@ -39,7 +39,7 @@ export const LogIn = () => {
       </View>
 
       <View style={styles.section}>
-        <Text>Try these log in methods:</Text>
+        <Text>Try these log in methods</Text>
         <View style={styles.buttonGroup}>
           <Button title="Anonymous" onPress={logInWithAnonymous} />
           <LoginWithApiKey />

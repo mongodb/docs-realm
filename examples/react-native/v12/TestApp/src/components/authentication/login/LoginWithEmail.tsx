@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
-import {useAuth, useEmailPasswordAuth} from '@realm/react';
+import {useEmailPasswordAuth} from '@realm/react';
 
 import {Button} from '../../utility-components/Button';
 
@@ -39,8 +39,8 @@ export const LoginWithEmail = () => {
         <Button
           title="Create account"
           onPress={() => {
-            // TODO: figure out why this doesn't work
             register({email, password});
+            logIn({email, password});
           }}
         />
       </View>

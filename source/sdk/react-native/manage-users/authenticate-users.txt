@@ -37,21 +37,20 @@ and ``UserProvider`` components and ``useApp()`` and ``useUser()`` hooks.
 
 To set up user authentication:
 
-#. Wrap all components you want to use with App Services in an ``AppProvider`` component.
+#. Wrap all components that need to access App Services in ``AppProvider``.
 #. Inside of ``AppProvider``, wrap all components that you want to have access
-   to an authenticated user with a ``UserProvider`` component.
-#. In ``UserProvider``, include a ``fallback`` prop with another component
+   to an authenticated user with ``UserProvider``.
+#. In ``UserProvider``, include a ``fallback`` prop with a component
    that logs a user in. The app renders this component if there
    is no authenticated user.
-#. In the component passed to the ``UserProvider.fallback`` prop, authenticate a user
-   with ``Realm.App.logIn()``, which you can access with the ``useApp()`` hook.
+#. In the component passed to the ``UserProvider.fallback`` prop, authenticate a
+   user with the ``useEmailPasswordAuth()`` hook.
 
 Components wrapped by ``UserProvider`` only render if your app has
 an authenticated user. These components can access the authenticated user
 with the ``useUser()`` hook.
 
-.. literalinclude:: /examples/generated/react-native/ts/log-in.test.snippet.log-in-user.tsx
-   :language: ts
+.. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.configure-user-provider.tsx.rst
 
 Log In
 ------
