@@ -28,6 +28,7 @@
          _id: 'objectId',
          model: 'string',
          miles: 'int?',
+         // A car's related ManufacturerInverse objects
          manufacturer: {
            type: 'linkingObjects',
            objectType: 'ManufacturerInverse',

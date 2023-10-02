@@ -10,7 +10,7 @@
        properties: {
          _id: 'objectId',
          name: 'string',
-         // A manufacturer that may have many LinkedCar objects
+         // A manufacturer's related LinkedCar objects
          cars: 'LinkedCar[]',
        },
      };
@@ -27,6 +27,7 @@
          _id: 'objectId',
          model: 'string',
          miles: 'int?',
+         // A car's related ToManyManufacturer objects
          manufacturer: {
            type: 'linkingObjects',
            objectType: 'ToManyManufacturer',

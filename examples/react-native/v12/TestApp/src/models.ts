@@ -105,7 +105,7 @@ export class ToManyManufacturer extends Realm.Object {
     properties: {
       _id: 'objectId',
       name: 'string',
-      // A manufacturer that may have many LinkedCar objects
+      // A manufacturer's related LinkedCar objects
       cars: 'LinkedCar[]',
     },
   };
@@ -122,6 +122,7 @@ export class LinkedCar extends Realm.Object {
       _id: 'objectId',
       model: 'string',
       miles: 'int?',
+      // A car's related ToManyManufacturer objects
       manufacturer: {
         type: 'linkingObjects',
         objectType: 'ToManyManufacturer',
@@ -143,7 +144,7 @@ export class ManufacturerInverse extends Realm.Object {
     properties: {
       _id: 'objectId',
       name: 'string',
-      // A manufacturer that may have many CarInverse objects
+      // A manufacturer's related CarInverse objects
       cars: 'CarInverse[]',
     },
   };
@@ -161,6 +162,7 @@ export class CarInverse extends Realm.Object {
       _id: 'objectId',
       model: 'string',
       miles: 'int?',
+      // A car's related ManufacturerInverse objects
       manufacturer: {
         type: 'linkingObjects',
         objectType: 'ManufacturerInverse',
