@@ -10,7 +10,7 @@
        properties: {
          _id: 'objectId',
          name: 'string',
-         // A manufacturer that may have many CarInverse objects
+         // A manufacturer's related CarInverse objects
          cars: 'CarInverse[]',
        },
      };
