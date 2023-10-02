@@ -12,7 +12,7 @@ class Character extends Realm.Object {
       inventory: {
         type: 'set',
         objectType: 'string',
-      }
+      },
     },
   };
 }

@@ -8,7 +8,7 @@ import Realm, {
 import { APP_ID } from "../config";
 
 describe("Sync Errors", () => {
-  class Person extends Realm.Object {
+  class Person extends Realm.Object<Person> {
     _id!: BSON.ObjectId;
     name!: string;
     age!: number;
@@ -24,7 +24,7 @@ describe("Sync Errors", () => {
     };
   }
 
-  class Turtle extends Realm.Object {
+  class Turtle extends Realm.Object<Turtle> {
     _id!: BSON.ObjectId;
     name!: string;
     owner?: Person;

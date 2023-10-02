@@ -1,6 +1,6 @@
 // :snippet-start: find-sort-filter
 import React, {useState} from 'react';
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import {createRealmContext} from '@realm/react';
 // :remove-start:
 import {Button} from 'react-native';
@@ -14,7 +14,7 @@ class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Profile',
     properties: {
       _id: 'objectId',
@@ -45,7 +45,9 @@ type FindSortFilterComponentProps = {
   objectPrimaryKey: Realm.BSON.ObjectId;
 };
 
-const FindSortFilterComponent = ({objectPrimaryKey}: FindSortFilterComponentProps) => {
+const FindSortFilterComponent = ({
+  objectPrimaryKey,
+}: FindSortFilterComponentProps) => {
   const [activeProfile, setActiveProfile] = useState<Profile>();
   const [allProfiles, setAllProfiles] = useState<Realm.Results<Profile>>();
   const currentlyActiveProfile = useObject(Profile, objectPrimaryKey);
@@ -57,7 +59,10 @@ const FindSortFilterComponent = ({objectPrimaryKey}: FindSortFilterComponentProp
     setAllProfiles(sorted);
   };
 
-  const filterProfiles = (filter: 'BEGINSWITH' | 'ENDSWITH', letter: string) => {
+  const filterProfiles = (
+    filter: 'BEGINSWITH' | 'ENDSWITH',
+    letter: string,
+  ) => {
     // Use [c] for case-insensitivity.
     const filtered = profiles.filtered(`name ${filter}[c] "${letter}"`);
 

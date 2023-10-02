@@ -1,8 +1,8 @@
 #!/bin/bash
 
 PROJECT=$(git rev-parse --show-toplevel)
-JS_RN_EXAMPLES=$PROJECT/examples/react-native/__tests__/js/
-TS_RN_EXAMPLES=$PROJECT/examples/react-native/__tests__/ts
+JS_RN_EXAMPLES=$PROJECT/examples/react-native/legacy/__tests__/js
+TS_RN_EXAMPLES=$PROJECT/examples/react-native/legacy/__tests__/ts
 
 echo $JS_RN_EXAMPLES
 
@@ -13,4 +13,3 @@ echo $JS_GENERATED_EXAMPLES
 bluehawk snip $JS_RN_EXAMPLES -o $JS_GENERATED_EXAMPLES
 
 bluehawk snip $TS_RN_EXAMPLES -o $TS_GENERATED_EXAMPLES
-

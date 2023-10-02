@@ -1,4 +1,4 @@
-import Realm, { BSON } from "realm";
+import Realm, { BSON, ObjectSchema } from "realm";
 
 describe("Define Relationship Properties", () => {
   test("should define a to-one relationship", async () => {
@@ -8,7 +8,7 @@ describe("Define Relationship Properties", () => {
       name!: string;
       car?: Car;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Manufacturer",
         properties: {
           _id: "objectId",
@@ -24,7 +24,7 @@ describe("Define Relationship Properties", () => {
       model!: string;
       miles?: number;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Car",
         properties: {
           _id: "objectId",
@@ -71,7 +71,7 @@ describe("Define Relationship Properties", () => {
       name!: string;
       cars!: Realm.List<Car>;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Manufacturer",
         properties: {
           _id: "objectId",
@@ -87,7 +87,7 @@ describe("Define Relationship Properties", () => {
       model!: string;
       miles?: number;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Car",
         properties: {
           _id: "objectId",
@@ -150,7 +150,7 @@ describe("Define Relationship Properties", () => {
       name!: string;
       cars!: Realm.List<Car>;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Manufacturer",
         properties: {
           _id: "objectId",
@@ -167,7 +167,7 @@ describe("Define Relationship Properties", () => {
       miles?: number;
       manufacturer!: Realm.Collection<Manufacturer>;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Car",
         properties: {
           _id: "objectId",
@@ -226,7 +226,7 @@ describe("Define Relationship Properties", () => {
       cars!: Realm.List<Car>;
       warranties!: Realm.List<Warranty>;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Manufacturer",
         properties: {
           _id: "objectId",
@@ -244,7 +244,7 @@ describe("Define Relationship Properties", () => {
       miles?: number;
       warranty?: Warranty;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Car",
         properties: {
           _id: "objectId",
@@ -261,7 +261,7 @@ describe("Define Relationship Properties", () => {
       termLength!: number;
       cost!: number;
 
-      static schema: Realm.ObjectSchema = {
+      static schema: ObjectSchema = {
         name: "Warranty",
         embedded: true,
         properties: {

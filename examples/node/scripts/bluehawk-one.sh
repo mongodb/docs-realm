@@ -34,7 +34,7 @@ while getopts ":f:" option; do
 done
 
 PROJECT=$(git rev-parse --show-toplevel)
-OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/v12
+OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/v12/formatted
 INPUT_FILE=$(find $PROJECT/examples/node/v12 -type f -print | grep -i $FILE_NAME)
 FILE_EXTENSION="${FILE_NAME##*.}"
 BASE_FILE_NAME="${FILE_NAME%.*}"

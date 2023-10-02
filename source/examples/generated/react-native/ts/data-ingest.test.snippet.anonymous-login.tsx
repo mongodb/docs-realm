@@ -1,9 +1,9 @@
 function LogIn() {
-    const app = useApp();
-  
-    useEffect(() => {
-      app.logIn(Realm.Credentials.anonymous());
-    }, []);
-  
-    return <></>;
+  const app = useApp();
+
+  useEffect(() => {
+    app.logIn(Realm.Credentials.anonymous());
+  }, []);
+
+  return <></>;
 }

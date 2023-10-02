@@ -10,6 +10,7 @@ import {
 import {render, waitFor, fireEvent} from '@testing-library/react-native';
 import {useApp} from '@realm/react';
 import {Button, View, Text} from 'react-native';
+import {ObjectSchema} from 'realm';
 
 const APP_ID = 'js-flexible-oseso';
 const testId = 'test-log-in';
@@ -24,7 +25,7 @@ class SharedDocument extends Realm.Object<SharedDocument> {
   title!: string;
   createdDate?: Date;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'SharedDocument',
     properties: {
       _id: 'objectId',
@@ -41,7 +42,7 @@ class LocalDocument extends Realm.Object<LocalDocument> {
   name!: string;
   createdDate?: Date;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'LocalDocument',
     properties: {
       _id: 'objectId',

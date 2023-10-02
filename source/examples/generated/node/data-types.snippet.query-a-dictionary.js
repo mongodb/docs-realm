@@ -1,7 +1,7 @@
 // query for all Person objects
 const persons = realm.objects("Person");
 
-// run the `.filtered()` method on all the returned persons to 
+// run the `.filtered()` method on all the returned persons to
 // find the house with the address "Summerhill St."
 const summerHillHouse = persons.filtered(
   `home['address'] = "Summerhill St."`
