@@ -14,7 +14,7 @@ config = new RealmConfiguration()
         var oneHundredMB = 100 * 1024 * 1024;
 
         return (totalBytes > (double)oneHundredMB) ||
-            ((double)usedBytes / totalBytes > 0.5);
+            ((double)usedBytes / totalBytes < 0.5);
     }
 };
 var realm = await Realm.GetInstanceAsync(config);
