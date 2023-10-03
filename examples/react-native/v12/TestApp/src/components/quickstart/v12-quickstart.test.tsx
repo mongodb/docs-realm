@@ -6,26 +6,11 @@ import {createRealmContext} from '@realm/react';
 import {useState} from 'react';
 import {FlatList, Pressable, Text, View, Button} from 'react-native';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
+import {Profile} from '../../models'
+
 let higherOrderProfileName: string;
 let primaryKey: Realm.BSON.ObjectId;
 // :remove-end:
-
-// :snippet-start: setup-define-model
-// Define your object model
-class Profile extends Realm.Object<Profile> {
-  _id!: Realm.BSON.ObjectId;
-  name!: string;
-
-  static schema: ObjectSchema = {
-    name: 'Profile',
-    properties: {
-      _id: 'objectId',
-      name: 'string',
-    },
-    primaryKey: '_id',
-  };
-}
-// :snippet-end:
 
 // Create a configuration object
 const realmConfig: Realm.Configuration = {
@@ -46,7 +31,7 @@ function AppWrapper() {
 }
 // :snippet-end:
 
-function RestOfApp() {
+export function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
   // :replace-start: {
   //    "terms": {
