@@ -1,3 +1,40 @@
+# September 29, 2023
+
+## Kotlin SDK
+
+- Realm/Model Data
+
+  - Define an Object Model: Wording improvements around embedded objects. Update code example.
+  - Relationships: Wording improvements, code example updates, and link cleanup.
+  - Supported Types: Add details about optional properties and default values.
+  - Property Annotations: Wording improvements, code example updates, and link cleanup.
+
+- Manage Users
+  - Landing Page: Convert the landing page to a container page with no content. Move content onto relevant child pages.
+  - Create & Authenticate Users: Move info on creating users onto the "Authenticate Users" page. Rename it to "Create and Authenticate Users."
+  - Delete Users: Rename page from "Create and Delete Users" to "Delete Users." Move content about creating users off of page.
+  - Manage Custom User Data: Rename title from "Custom User Data" to match verb-based page names. Minor rewrites.
+  - Manage User Metadata: Rename title from "user Metadata" to match verb-based page names. Minor rewrites.
+  - Manage Multi-User Apps: New page with tested, Bluehawked code examples describing how to manage multiple users on a device.
+
+## .NET SDK
+
+- Internal: Bump Nuget package version. Update unit test.
+
+## Node.js SDK
+
+- Model Data/Define a Realm Object Model: New "Set a Full-Text Search Index" section with tested, Bluehawked code example showing how to set a Full-Text Search index on a property.
+- CRUD/Query Data: New "Filter with Full-Text Search" section with tested, Bluehawked code examples describing how to query with Full-Text Search.
+
+## React Native SDK
+
+- Sync Data/Handle Sync Errors: Add an example of handling a `CompensatingWriteError`.
+
+## Other
+
+- Add an App Services docs-wide banner with a link to the blog post announcing that "Realm is now Atlas Device SDK."
+- Add manual facet tags with relevant keywords to improve docs search results.
+
 # September 22, 2023
 
 ## Flutter SDK
@@ -10,12 +47,12 @@
 - Realm/Model Data
   - Landing Page: Unlist landing page and turn it into a container in the TOC.
   - Define an Object Model: Update code examples and move relevant content from landing page to this page.
-- Sync Device Data/Manage Sync Session: Add details for ``.reconnect()`` method, which manually triggers an attempt to reconnect to Sync.
-- Atlas App Services/Connect to App Services: Add information about custom HTTP headers and additional configuration details about ``app.close()``. 
+- Sync Device Data/Manage Sync Session: Add details for `.reconnect()` method, which manually triggers an attempt to reconnect to Sync.
+- Atlas App Services/Connect to App Services: Add information about custom HTTP headers and additional configuration details about `app.close()`.
 
 ## .NET SDK
 
-- Sync Data/Manage Flexible Sync Subscriptions: Add information about the Flexible Sync ``SubscribeAsync`` API.
+- Sync Data/Manage Flexible Sync Subscriptions: Add information about the Flexible Sync `SubscribeAsync` API.
 
 ## Node.js SDK
 
