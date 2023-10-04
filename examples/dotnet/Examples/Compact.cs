@@ -21,7 +21,7 @@ namespace Examples
                      * the realm file
                      */
 
-                    // Compact if the file is over 100MB in size or less
+                    // Compact if the file is over 100MB in size and less
                     // than 50% 'used'
 
                     var oneHundredMB = 100 * 1024 * 1024;
