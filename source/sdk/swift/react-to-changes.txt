@@ -530,3 +530,14 @@ never sees the write before the notifications arrive.
 .. literalinclude:: /examples/generated/code/start/Notifications.snippet.update-table-async-write.swift
    :language: swift
    :copyable: false
+
+.. _swift-change-notification-limits:
+
+Change Notification Limits
+--------------------------
+
+.. include:: change-notification-limit.rst
+
+In the Swift SDK, you can also use 
+:ref:`key path filtering <ios-register-a-keypath-change-listener>` to work 
+around this limitation. This feature is not available in the other SDKs.
