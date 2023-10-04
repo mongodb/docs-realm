@@ -85,8 +85,8 @@ These calculations might look like this:
    /* Check for the realm file size to be greater than the max file size, 
     * and the amount of bytes currently used to be less than 50% of the
     * total realm file size */
-   return (totalBytes > (double)maxFileSize) ||
-      ((double)usedBytes / totalBytes > 0.5);
+   return (totalBytes > (double)maxFileSize) &&
+      ((double)usedBytes / totalBytes < 0.5);
 
 Experiment with conditions to find the right balance of how often to 
 compact realm files in your application.
