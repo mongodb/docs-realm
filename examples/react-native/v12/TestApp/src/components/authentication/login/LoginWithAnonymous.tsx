@@ -13,7 +13,7 @@ export const LogInWithAnonymous = () => {
 
   return (
     <Button
-      title="API key"
+      title="Log in anonymously"
       onPress={() => {
         performAnonymousLogin();
       }}

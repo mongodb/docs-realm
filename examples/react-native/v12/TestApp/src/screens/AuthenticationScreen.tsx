@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {LoginExample} from '../components/authentication/login/RealmWrapper';
+import {LinkIdentities} from '../components/authentication/link-identities/LinkIdentities';
 
 import {AuthenticationStackParamList} from '../navigation/types';
 import {AuthenticationHomeProps} from '../navigation/types';
@@ -18,6 +19,7 @@ export const AuthenticationScreen = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen name="Login" component={LoginExample} />
+      <Stack.Screen name="LinkIdentities" component={LinkIdentities} />
     </Stack.Navigator>
   );
 };
@@ -25,14 +27,26 @@ export const AuthenticationScreen = () => {
 const AuthenticationHome = ({navigation}: AuthenticationHomeProps) => {
   return (
     <View style={styles.globalScreen}>
-      <Text>This is the Login section</Text>
+      <Text>This is the Log in section</Text>
       <View style={styles.exampleList}>
-        <View style={styles.loginExample}>
+        <View style={styles.example}>
           <Text style={styles.exampleTitle}>Log in</Text>
           <Button
             title={'Check it out'}
             onPress={() => {
               navigation.navigate('Login');
+            }}
+          />
+        </View>
+      </View>
+      <Text>This is Link Identities section</Text>
+      <View style={styles.exampleList}>
+        <View style={styles.example}>
+          <Text style={styles.exampleTitle}>Link identities</Text>
+          <Button
+            title={'Check it out'}
+            onPress={() => {
+              navigation.navigate('LinkIdentities');
             }}
           />
         </View>
@@ -59,7 +73,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textAlign: 'center',
   },
-  loginExample: {
+  example: {
     maxWidth: '45%',
     minWidth: '35%',
     borderWidth: 1,

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   View,
@@ -12,6 +12,7 @@ import {useAuth} from '@realm/react';
 import {LoginWithApiKey} from './LoginWithApiKey';
 import {LoginWithEmail} from './LoginWithEmail';
 import {LogInWithAnonymous} from './LoginWithAnonymous';
+import {Button} from '../../utility-components/Button';
 
 export const LogIn = () => {
   const {logIn, result} = useAuth();
@@ -68,19 +69,6 @@ function ErrorComponent() {
     </View>
   );
 }
-
-type ButtonProps = {
-  title: string;
-  onPress: () => void | null | undefined;
-};
-
-const Button = ({title, onPress}: ButtonProps) => {
-  return (
-    <Pressable style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonText}>{title}</Text>
-    </Pressable>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {
