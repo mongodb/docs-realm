@@ -20,7 +20,8 @@ you may have used in other Realm SDKs.
 Access a Live Version of Frozen Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In order to modify objects, they must be live. You can convert a frozen
+In order to :ref:`update <kotlin-update-objects>` or :ref:`delete <kotlin-delete-objects>`
+objects, they must be live. You can convert a frozen
 object to a live object in a transaction with `mutableRealm.findLatest()
 <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/find-latest.html>`__.
 Live objects are only accessible inside of a write transaction within
@@ -33,7 +34,12 @@ write transaction completes.
 
 .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.snippet.deletes.kt
    :language: kotlin
-   :copyable: false
+
+.. tip:: 
+
+   You can check if an object is frozen with the 
+   `isFrozen() <{+kotlin-local-prefix+}io.realm.kotlin.ext/is-frozen.html>`__ 
+   method.
 
 Thread-safe Realms
 ------------------
@@ -60,7 +66,7 @@ support change listeners.
 
 .. important:: Flows API Requires Kotlinx Coroutines
 
-   To use the Flows API in your Kotlin Multiplatform project, install the
+   To use the Flows API in your KMP project, install the
    :github:`kotlinx.coroutines <Kotlin/kotlinx.coroutines#multiplatform>`
    library.
 
