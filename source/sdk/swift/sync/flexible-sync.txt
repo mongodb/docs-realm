@@ -29,7 +29,7 @@ To use Flexible Sync in an iOS client:
 - :ref:`Add subscriptions to the client application <ios-sync-subscribe-to-queryable-fields>`
 
 You can manually add, update, and remove subscriptions to determine which 
-data syncs to the client device. In Realm Swift SDK version INSERT-VERSION-NUMBER-HERE
+data syncs to the client device. In Realm Swift SDK version 10.43.0
 and later, you can subscribe to queries instead of or in addition to manually
 managing subscriptions.
 
@@ -109,7 +109,7 @@ You can:
 
 - Add subscriptions with an optional subscription name:
   
-  - In Realm Swift SDK version <INSERT-VERSION-NUMBER-HERE> and later, you 
+  - In Realm Swift SDK version 10.43.0 and later, you 
     can use ``.subscribe()`` to subscribe to query ``Results``. This 
     automatically adds the subscription to the subscription set. 
   - Manually add a subscription to the subscription set with the 
@@ -148,12 +148,17 @@ Flexible Sync configuration:
 Subscribe to Queries
 --------------------
 
-.. versionadded:: INSERT-VERSION-NUMBER-HERE
+.. versionadded:: 10.43.0
 
-To simplify subscription management, Realm Swift SDK version INSERT-VERSION-NUMBER-HERE
-adds experimental APIs to subscribe and unsubscribe from a query's
+To simplify subscription management, Realm Swift SDK version 10.43.0
+adds APIs to subscribe and unsubscribe from a query's
 ``Results`` set. These APIs abstract away the details of manually adding 
 and removing subscriptions.
+
+.. important:: The .subcribe() API is in Preview
+
+   The ``.subscribe()`` and ``.unsubscribe()`` APIs described here are 
+   currently in Preview. These APIs may be subject to changes in the future.
 
 Subscribe to a Query
 ~~~~~~~~~~~~~~~~~~~~
@@ -479,7 +484,7 @@ If you want to remove all subscriptions to a specific object type, use the
 Remove All Unnamed Subscriptions
 `````````````````````````````````
 
-.. versionadded:: INSERT-VERSION-NUMBER-HERE
+.. versionadded:: 10.43.0
 
 You may want to remove unnamed subscriptions that are transient or dynamically 
 generated, but leave named subscriptions in place.
