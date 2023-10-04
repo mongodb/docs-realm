@@ -26,7 +26,7 @@ namespace Examples
 
                     var oneHundredMB = 100 * 1024 * 1024;
 
-                    return (totalBytes > (double)oneHundredMB) ||
+                    return (totalBytes > (double)oneHundredMB) &&
                         ((double)usedBytes / totalBytes < 0.5);
                 }
             };
