@@ -88,11 +88,6 @@ class RealmActorTests: XCTestCase {
         try await actor.removeAll()
         await actor.close()
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
     
 #if swift(>=5.8)
     func testActorIsolatedRealmAsync() async throws {
