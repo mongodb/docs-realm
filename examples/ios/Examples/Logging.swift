@@ -71,7 +71,7 @@ class Logging: XCTestCase {
             // You may pass log information to a logging service, or
             // you could simply print the logs for debugging. Define
             // the log function that makes sense for your application.
-            "REALM DEBUG: \(Date.now) \(level) \(message) \n"
+            print("REALM DEBUG: \(Date.now) \(level) \(message) \n")
         }
         // :snippet-end:
         Logger.shared = logger
@@ -99,7 +99,10 @@ class Logging: XCTestCase {
         // :snippet-start: set-default-logger
         let logger = Logger(level: .info) { level, message in
             logs += "\(Date.now) \(level) \(message) \n" // :remove:
-            "REALM DEBUG: \(Date.now) \(level) \(message) \n"
+            // You may pass log information to a logging service, or
+            // you could simply print the logs for debugging. Define
+            // the log function that makes sense for your application.
+            print("REALM DEBUG: \(Date.now) \(level) \(message) \n")
         }
         
         // Set a logger as the default
