@@ -285,7 +285,7 @@ not enough memory is available.
 
 If you are building for iOS 15+ or iPad 15+, you can add the 
 :apple:`Extended Virtual Addressing Entitlement 
-<bundleresources/entitlements/com_apple_developer_kernel_extended-virtual-addressing>`
+<documentation/bundleresources/entitlements/com_apple_developer_kernel_extended-virtual-addressing>`
 to resolve this issue. 
 
 Add these keys to your Property List, and set the values to ``true``:
@@ -293,6 +293,6 @@ Add these keys to your Property List, and set the values to ``true``:
 .. code-block:: console
 
    <key>com.apple.developer.kernel.extended-virtual-addressing</key>
-	<true/>
-	<key>com.apple.developer.kernel.increased-memory-limit</key>
-	<true/>
+   <true/>
+   <key>com.apple.developer.kernel.increased-memory-limit</key>
+   <true/>
