@@ -31,7 +31,8 @@ network connection, Device Sync uploads and downloads
 data in the background and manages conflict resolution. 
 
 The data that syncs between your client app and Atlas is determined by 
-a user's permissions to access eligible data. 
+a user's permissions to access eligible data. Eligible data is the
+intersection of:
 
 - Data model: your data type information
 - Subscription queries: the conditions that define what data to store
@@ -84,16 +85,12 @@ App Services ensures that your client-side queries are consistent with
 your App Services schema through **queryable fields**. These are the 
 fields from your data model that can be used in a subscription query. You 
 cannot define a subscription using a field that isn't in your queryable fields.
+
 When Development Mode is enabled, App Services automatically
 adds the fields that appear in your client queries as queryable fields.
 You can also manually add and remove queryable fields through the 
 App Services UI. For more information, refer to :ref:`<queryable-fields>` 
 in the App Services documentation.
-
-For our example app, our data model contains an ``Item`` object 
-with a ``complete`` field. When Development Mode is enabled and we define a 
-subscription to query only incomplete items, App Services 
-automatically adds ``complete`` as a queryable field when we sync the data.
 
 User Permissions
 ~~~~~~~~~~~~~~~~
@@ -178,6 +175,8 @@ then add the default "User can read and write all data
 default" role. This means that, for an authorized user with a network 
 connection, Device Sync downloads eligible data to the client 
 *and* Atlas permits writes to the client and then syncs them the backend. 
+To learn more about what happens when an authorized user does not have
+a network connection, refer to :ref:`<kotlin-compensating-writes>`.
 
 Add Sync to Your Client App
 ---------------------------
@@ -322,11 +321,12 @@ Once your app is successfully syncing the desired data to Atlas, you
 can learn more about how to use Sync with the Kotlin SDK:
 
 - :ref:`<kotlin-open-a-synced-realm>`: Learn about the available 
-  configuration options, including how to open a synced realm offline.
+  App client configuration options, such as setting a debug app name, 
+  providing custom request headers, or specifying a dispatcher.
 - :ref:`<kotlin-subscriptions>`: Learn how to define and manage 
   the subscription queries in your app. 
 - :ref:`<kotlin-write-synced-realm>`: Learn more about how to write to
-  a synced realm, how to deal with compensating write errors, and how to 
+  a synced realm, how to handle compensating write errors, and how to 
   group writes for improved performance.
 - :ref:`<kotlin-manage-sync-session>`: Learn how to manage 
   communication with App Services through sync sessions.
