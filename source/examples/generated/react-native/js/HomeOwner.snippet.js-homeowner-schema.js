@@ -7,7 +7,7 @@ class HomeOwner extends Realm.Object {
       pets: {
         type: 'dictionary',
         objectType: 'Pet',
-        optional: true
+        optional: true,
       },
     },
   };

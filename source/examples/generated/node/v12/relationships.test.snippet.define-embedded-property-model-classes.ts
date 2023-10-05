@@ -4,7 +4,7 @@ class Manufacturer extends Realm.Object {
   cars!: Realm.List<Car>;
   warranties!: Realm.List<Warranty>;
 
-  static schema: Realm.ObjectSchema = {
+  static schema: ObjectSchema = {
     name: "Manufacturer",
     properties: {
       _id: "objectId",
@@ -22,7 +22,7 @@ class Car extends Realm.Object {
   miles?: number;
   warranty?: Warranty;
 
-  static schema: Realm.ObjectSchema = {
+  static schema: ObjectSchema = {
     name: "Car",
     properties: {
       _id: "objectId",
@@ -39,7 +39,7 @@ class Warranty extends Realm.Object {
   termLength!: number;
   cost!: number;
 
-  static schema: Realm.ObjectSchema = {
+  static schema: ObjectSchema = {
     name: "Warranty",
     embedded: true,
     properties: {

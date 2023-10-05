@@ -5,7 +5,7 @@ realm.write {
         realm.query<Contact>("name == 'Nick Riviera'").find().first()
 
     // Overwrite the embedded object (deletes the existing object)
-    parentObject.address = Address().apply {
+    parentObject.address = EmbeddedAddress().apply {
         street = "202 Coconut Court"
         city = "Los Angeles"
         state = "CA"

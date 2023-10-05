@@ -2,7 +2,7 @@
 
 PROJECT=$(git rev-parse --show-toplevel)
 INPUT_DIRECTORY=$PROJECT/examples/node/legacy
-OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/legacy
+OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node
 
 echo $INPUT_DIRECTORY
 

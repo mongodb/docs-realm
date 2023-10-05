@@ -4,14 +4,14 @@ class Pet extends Realm.Object<Pet> {
   age!: number;
   animalType!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Pet',
     primaryKey: '_id',
     properties: {
       _id: 'objectId',
-        name: 'string',
-        age: 'int',
-        animalType: 'string?',
+      name: 'string',
+      age: 'int',
+      animalType: 'string?',
     },
   };
 }
@@ -21,15 +21,15 @@ class PetOwner extends Realm.Object<PetOwner> {
   name!: string;
   age?: number;
   pet?: Pet;
-  
-  static schema = {
+
+  static schema: ObjectSchema = {
     name: 'PetOwner',
     primaryKey: '_id',
     properties: {
       _id: 'objectId',
       name: 'string',
       age: 'int',
-      pet: 'Pet?'
+      pet: 'Pet?',
     },
   };
 }

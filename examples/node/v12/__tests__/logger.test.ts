@@ -1,4 +1,4 @@
-import Realm, { BSON } from "realm";
+import Realm, { BSON, ObjectSchema } from "realm";
 
 describe("Test core Realm logger", () => {
   class Turtle extends Realm.Object<Turtle> {
@@ -6,7 +6,7 @@ describe("Test core Realm logger", () => {
     name!: string;
     birthday?: string;
 
-    static schema = {
+    static schema: ObjectSchema = {
       name: "Turtle",
       properties: {
         _id: "objectId",

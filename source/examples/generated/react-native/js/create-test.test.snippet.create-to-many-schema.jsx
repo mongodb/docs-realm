@@ -1,5 +1,4 @@
 class Employee extends Realm.Object {
-
   static schema = {
     name: 'Employee',
     primaryKey: '_id',
@@ -12,7 +11,6 @@ class Employee extends Realm.Object {
 }
 
 class Company extends Realm.Object {
-
   static schema = {
     name: 'Company',
     primaryKey: '_id',

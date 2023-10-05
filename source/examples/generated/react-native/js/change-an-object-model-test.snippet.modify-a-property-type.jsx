@@ -18,8 +18,7 @@ const config = {
   schemaVersion: 1,
   onMigration: (oldRealm, newRealm) => {
     if (oldRealm.schemaVersion < 1) {
-      const oldObjects =
-        oldRealm.objects(Person);
+      const oldObjects = oldRealm.objects(Person);
       const newObjects = newRealm.objects(Person);
       // loop through all objects and set the _id property
       // in the new schema

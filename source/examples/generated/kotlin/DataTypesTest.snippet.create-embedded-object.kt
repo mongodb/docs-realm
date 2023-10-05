@@ -5,7 +5,7 @@ realm.write {
             name = "Nick Riviera"
 
             // Embed the address in the contact object
-            address = Address().apply {
+            address = EmbeddedAddress().apply {
                 street = "123 Fake St"
                 city = "Some Town"
                 state = "MA"

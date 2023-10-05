@@ -7,7 +7,7 @@ import {useState} from 'react';
 import {FlatList, Pressable, Text, View, Button} from 'react-native';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 let higherOrderProfileName;
-const YOUR_PRIMARY_KEY= new Realm.BSON.ObjectId();
+const YOUR_PRIMARY_KEY = new Realm.BSON.ObjectId();
 // :remove-end:
 
 // Define your object model
