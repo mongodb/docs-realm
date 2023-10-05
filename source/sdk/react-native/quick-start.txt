@@ -25,21 +25,10 @@ The hooks watch the Realm data and re-render components as needed.
 The React Native SDK documentation uses the ``@realm/react``
 npm package for examples and describing concepts.
 
-Set Up Your Realm App
----------------------
-
-After installing the ``realm`` and ``@realm/react`` packages, there are a
-few more things to set up before you can access your realm and work with local
-data:
-
-- Define your object models
-- Configure a realm by creating a realm context object, extracting hooks, and 
-  setting up providers
-
 .. _react-native-quickstart-local-define-an-object-model:
 
 Define Object Models
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 Your application's :ref:`object models <react-native-object-schemas>` define the data
 types that you can store within a realm. Each object model becomes a Realm
@@ -52,41 +41,36 @@ object type.
    This lets you use the class with other Realm SDK methods
    that accept ``Realm.Object`` types.
 #. Add a ``schema`` field.
-#. For the ``schema`` value, create an object that contains ``properties`` and 
-   ``name`` properties. The name value must be unique among object types in a 
-   Realm object model.
+#. For the ``schema`` value, create an object that contains a ``name`` and ``properties``. 
+   The name value must be unique among object types in a Realm object model.
 
 To learn more, refer to
 :ref:`Define a Realm Object Model <react-native-define-a-realm-object-model>`.
 
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.setup-define-model.tsx
+.. literalinclude:: /examples/generated/react-native/v12/models.snippet.rn-quickstart-define-model.ts
    :language: typescript
 
 .. _react-native-quickstart-local-import-realm:
 .. _react-native-quickstart-local-open-a-realm:
 
 Configure a Realm
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Before you can work with data, you need to configure a realm. This means you need
-to set up context and providers from ``@realm/react``. To learn more, refer to 
+to set up a provider from ``@realm/react``. To learn more, refer to 
 :ref:`Configure a Realm <react-native-configure-realm>`.
 
 **To configure and access a local realm:** 
 
-#. Import ``createRealmContext()`` from ``@realm/react``.
-#. Create a realm :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`
-   object. You must include your Realm object models in the ``schema`` property.
-   You can also include optional configuration properties,
-   like making the realm read only or adding Atlas Device Sync.
+#. Import ``RealmProvider`` from ``@realm/react``.
+#. Pass your object models to the ``schema`` prop.
 #. Create a realm context with ``createRealmContext()``. A realm context is a 
    `React Context object <https://react.dev/learn/passing-data-deeply-with-context>`__
    that contains React providers and hooks for working with your realm.
-#. Expose a realm with ``RealmProvider``. To expose a realm, you need a 
-   realm context. From that context, extract ``RealmProvider``, which 
-   contains your realm's context.
+#. Add other :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>` 
+   properties as props to ``RealmProvider`` to configure your realm.
    
-.. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
+.. literalinclude:: /examples/generated/react-native/v12/RealmWrapperLocal.snippet.rn-quickstart-wrapper-local.tsx
    :language: typescript
    
 Work With Realm Objects

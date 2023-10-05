@@ -1,35 +1,13 @@
-// :snippet-start: quickstart-setup
 import React from 'react';
 import Realm, {ObjectSchema} from 'realm';
 import {createRealmContext} from '@realm/react';
-// :remove-start:
-import {useState} from 'react';
+import {useRealm, useQuery, useObject} from 'react';
 import {FlatList, Pressable, Text, View, Button} from 'react-native';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import {Profile} from '../../models'
 
 let higherOrderProfileName: string;
 let primaryKey: Realm.BSON.ObjectId;
-// :remove-end:
-
-// Create a configuration object
-const realmConfig: Realm.Configuration = {
-  schema: [Profile],
-};
-
-// Create a realm context
-const {RealmProvider, useRealm, useObject, useQuery} =
-  createRealmContext(realmConfig);
-
-// Expose a realm
-function AppWrapper() {
-  return (
-    <RealmProvider>
-      <RestOfApp />
-    </RealmProvider>
-  );
-}
-// :snippet-end:
 
 export function RestOfApp() {
   const [selectedProfileId, setSelectedProfileId] = useState(primaryKey);
