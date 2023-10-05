@@ -54,7 +54,7 @@ export class Turtle extends Realm.Object {
   Quick Start Object Model
 */
 
-// :snippet-start: setup-define-model
+// :snippet-start: rn-quickstart-define-model
 // Define your object model
 export class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.ObjectId;
