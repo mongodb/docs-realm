@@ -30,12 +30,12 @@ const LogIn = () => {
   const {logInWithAnonymous} = useAuth();
   console.debug('> In LogIn');
 
-  useEffect(() => {
-    console.debug('> Logging in anonymous user');
-    logInWithAnonymous();
-  }, []);
-
-  return null;
+  return (
+    <View>
+      <Text>No one is logged in yet.</Text>
+      <Button testID="log-in" title="Log in" onPress={logInWithAnonymous} />
+    </View>
+  );
 };
 
 type UserIdentity = {
@@ -48,7 +48,7 @@ type UserIdentity = {
 // confirms users' emails.
 const RegisterUser = () => {
   const {logOut} = useAuth();
-  const {logIn, register, result} = useEmailPasswordAuth();
+  const {register, result} = useEmailPasswordAuth();
   const user = useUser();
 
   const [email, setEmail] = useState('');
@@ -68,9 +68,7 @@ const RegisterUser = () => {
 
   useEffect(() => {
     if (result.operation === AuthOperationName.Register && result.success) {
-      console.debug('linking credentials...');
       linkCredentials();
-      console.debug('done linking credentials');
     }
   }, [result]);
 
@@ -89,6 +87,16 @@ const RegisterUser = () => {
     register({email, password});
   };
 
+  // For some reason, the function works when invoked in App Services,
+  // but not from client. Function is invoked and user id passed properly,
+  // but the user isn't deleted.
+  const deleteUser = async () => {
+    try {
+      await user.callFunction('deleteOneUser', [{userID: user.id}]);
+    } catch (error) {
+      console.debug(error);
+    }
+  };
   // :replace-start: {
   //    "terms": {
   //       "style={styles.section": "",
@@ -135,6 +143,11 @@ const RegisterUser = () => {
           testID="log-out" // :remove:
           title="Log out"
           onPress={logOut}
+        />
+        <Button
+          testID="delete-user" // :remove:
+          title="Delete user"
+          onPress={deleteUser}
         />
       </View>
     </View>

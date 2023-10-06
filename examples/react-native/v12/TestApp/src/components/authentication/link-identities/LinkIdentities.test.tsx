@@ -11,9 +11,15 @@ test('linking an anonymous user with an email/password account', async () => {
   const userEmail = `${new BSON.UUID()}@example.com`;
   const userPassword = 'v3ryv3rySECRET';
 
+  // Log in anonymous user in the fallback "Login" component.
+  const loginButton = await screen.findByTestId('log-in');
+  await user.press(loginButton);
+
+  // LinkIdentities component should render.
   const emailInput = await screen.findByTestId('email-input');
   const passwordInput = await screen.findByTestId('password-input');
   const registerButton = await screen.findByTestId('register-and-link');
+  const deleteUser = await screen.findByTestId('delete-user');
 
   const userIdentityList = await screen.findByTestId('list-container');
   const userIdentityNodes = await within(userIdentityList).findAllByTestId(
@@ -40,4 +46,7 @@ test('linking an anonymous user with an email/password account', async () => {
 
   // There should only be two identities: anonymous and email/password.
   expect(updatedUserIdentityNodes.length).toEqual(2);
+
+  // Delete user
+  await user.press(deleteUser);
 });

@@ -3,13 +3,11 @@ import {
   ActivityIndicator,
   View,
   Text,
-  Pressable,
   StyleSheet,
   ScrollView,
 } from 'react-native';
 import {useAuth} from '@realm/react';
 
-import {LoginWithApiKey} from './LoginWithApiKey';
 import {LoginWithEmail} from './LoginWithEmail';
 import {LogInWithAnonymous} from './LoginWithAnonymous';
 import {Button} from '../../utility-components/Button';
@@ -44,7 +42,15 @@ export const LogIn = () => {
         <Text>Try these log in methods</Text>
         <View style={styles.buttonGroup}>
           <LogInWithAnonymous />
-          <LoginWithApiKey />
+          {/* The following login options will be added
+              In future PRs. */}
+          {/* <LoginWithApiKey /> */}
+          {/* <LoginWithJwt /> */}
+          {/* <LoginWithFunction /> */}
+          {/* <LoginOffline /> */}
+          {/* <LoginWithGoogle /> */}
+          {/* <LoginWithFacebook /> */}
+          {/* <LoginWithApple /> */}
           <Button title="Bad auth" onPress={loginWithbadAuth} />
         </View>
       </View>

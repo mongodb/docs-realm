@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
-import {useEmailPasswordAuth} from '@realm/react';
+import {useEmailPasswordAuth, AuthOperationName} from '@realm/react';
 
 import {Button} from '../../utility-components/Button';
 
@@ -25,13 +25,15 @@ export const LoginWithEmail = () => {
 
       <View style={styles.inputGroup}>
         <TextInput
-          style={styles.textInput}
+          testID="email-input" // :remove:
+          style={styles.textInput} // :remove:
           onChangeText={setEmail}
           value={email}
           placeholder="email..."
         />
         <TextInput
-          style={styles.textInput}
+          testID="password-input" // :remove:
+          style={styles.textInput} // :remove:
           onChangeText={setPassword}
           value={password}
           placeholder="password..."
@@ -39,8 +41,9 @@ export const LoginWithEmail = () => {
       </View>
 
       <View style={styles.buttonGroup}>
-        <Button title="Log in" onPress={performLogin} />
+        <Button testID="log-in" title="Log in" onPress={performLogin} />
         <RegisterButton email={email} password={password} />
+        <ResetPasswordButton email={email} />
       </View>
     </View>
   );
@@ -61,9 +64,52 @@ const RegisterButton = ({email, password}: RegisterButtonProps) => {
     register({email, password});
   };
 
-  return <Button title="Register" onPress={performRegistration} />;
+  return (
+    <Button
+      testID="register-button" // :remove:
+      title="Register"
+      onPress={performRegistration}
+    />
+  );
 };
 // :snippet-end:
+
+interface Error {
+  name: string;
+  message: string;
+  stack?: string;
+}
+
+const ResetPasswordButton = ({email}: {email: string}) => {
+  const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
+  const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    if (
+      result.operation === AuthOperationName.SendResetPasswordEmail &&
+      result.error
+    ) {
+      setErrorMessage(result.error.message);
+    }
+  }, [result]);
+
+  const performPasswordReset = () => {
+    sendResetPasswordEmail({email: email});
+  };
+
+  return (
+    <View>
+      <Button
+        testID="reset-password" // :remove:
+        title="Reset password"
+        onPress={performPasswordReset}
+      />
+      {/* We expect an error because password resets through
+      email is disabled in this app's configuration. */}
+      {errorMessage && <Text>Error: {errorMessage}</Text>}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   section: {
