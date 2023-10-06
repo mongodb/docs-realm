@@ -250,8 +250,7 @@ class FlexibleSync: SwiftSyncTestCase {
         // Set up some test data for this code example. We'll create two objects;
         // one that should not be included in the Flexible Sync query, and one that should.
         do {
-            let credentials = emailPasswordCredentials(app: app)
-            let thisUser = try await app.login(credentials: credentials)
+            let thisUser = try await app.login(credentials: Credentials.anonymous)
             var thisFlexSyncConfig = thisUser.flexibleSyncConfiguration()
             thisFlexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -295,8 +294,7 @@ class FlexibleSync: SwiftSyncTestCase {
         }
 
         do {
-            let otherCredentials = emailPasswordCredentials(app: app)
-            let user = try await app.login(credentials: otherCredentials)
+            let user = try await app.login(credentials: Credentials.anonymous)
             // :snippet-start: add-initial-subscriptions-rerun-on-open
             // Set the date a week ago and the date a week from now, as those are the dates we'll use
             // in the Flexible Sync query. `rerunOnOpen` lets the app recalculate this query every
@@ -323,6 +321,10 @@ class FlexibleSync: SwiftSyncTestCase {
                 try realm.write {
                     realm.deleteAll()
                 }
+                try await subscriptions.update {
+                    subscriptions.removeAll()
+                }
+                XCTAssertEqual(subscriptions.count, 0)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
