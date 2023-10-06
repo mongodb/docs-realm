@@ -45,29 +45,17 @@ extension FlexibleSync_Task {
 // annotations in visible code examples.
 // This means individually annotating tests since the tearDown func
 // uses @MainActor. Otherwise Realm throws due to incorrect thread access.
-class FlexibleSync: XCTestCase {
-    
-    @MainActor
-    override func tearDown() async throws {
-        let app = App(id: APPID)
-
-        let user = try await app.login(credentials: Credentials.anonymous)
-        var flexSyncConfig = user.flexibleSyncConfiguration()
-        flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-
-        let realm = try await Realm(configuration: flexSyncConfig)
-        let subscriptions = realm.subscriptions
-        try await subscriptions.update {
-            subscriptions.removeAll()
-        }
-        XCTAssertEqual(subscriptions.count, 0)
+class FlexibleSync: SwiftSyncTestCase {
+    @globalActor actor CustomGlobalActor: GlobalActor {
+        static var shared = CustomGlobalActor()
     }
 
     func testAddSingleSubscription() async {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -104,7 +92,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -146,7 +135,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -182,7 +172,8 @@ class FlexibleSync: XCTestCase {
     func testAddSubscriptionWithOnComplete() {
         let expectation = XCTestExpectation(description: "it completes")
         let app = App(id: APPID)
-        app.login(credentials: Credentials.anonymous) { (result) in
+        let credentials = emailPasswordCredentials(app: app)
+        app.login(credentials: credentials) { (result) in
             switch result {
             case .failure(let error):
                 fatalError("Login failed: \(error.localizedDescription)")
@@ -227,7 +218,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             // :snippet-start: add-initial-subscriptions
             var flexSyncConfig = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
                 subs.append(
@@ -258,7 +250,8 @@ class FlexibleSync: XCTestCase {
         // Set up some test data for this code example. We'll create two objects;
         // one that should not be included in the Flexible Sync query, and one that should.
         do {
-            let thisUser = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let thisUser = try await app.login(credentials: credentials)
             var thisFlexSyncConfig = thisUser.flexibleSyncConfiguration()
             thisFlexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -302,7 +295,8 @@ class FlexibleSync: XCTestCase {
         }
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let otherCredentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: otherCredentials)
             // :snippet-start: add-initial-subscriptions-rerun-on-open
             // Set the date a week ago and the date a week from now, as those are the dates we'll use
             // in the Flexible Sync query. `rerunOnOpen` lets the app recalculate this query every
@@ -342,7 +336,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -386,7 +381,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -421,7 +417,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -441,7 +438,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -467,7 +465,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -491,11 +490,70 @@ class FlexibleSync: XCTestCase {
     }
     
     @MainActor
+    func testSubscribeApiOnMainActor() async throws {
+        let app = App(id: APPID)
+
+        do {
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                // :snippet-start: subscribe-to-results-on-main-actor
+                let realm = try await Realm(configuration: flexSyncConfig, actor: MainActor.shared)
+                XCTAssertEqual(realm.subscriptions.count, 0) // :remove:
+                let results = try await realm.objects(FlexibleSync_Team.self)
+                    .where { $0.teamName == "Developer Education" }
+                    .subscribe(name: "team_developer_education")
+                // Go on to work with subscribed results
+                // :snippet-end:
+                XCTAssertEqual(realm.subscriptions.count, 1)
+                XCTAssertEqual(realm.subscriptions[0]?.name, "team_developer_education")
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+    
+    @CustomGlobalActor
+    func testSubscribeApiOnCustomActor() async throws {
+        let app = App(id: APPID)
+
+        do {
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                // :snippet-start: subscribe-to-results-on-custom-actor
+                let realm = try await Realm(configuration: flexSyncConfig, actor: CustomGlobalActor.shared)
+                XCTAssertEqual(realm.subscriptions.count, 0) // :remove:
+                let results = try await realm.objects(FlexibleSync_Team.self)
+                    .where { $0.teamName == "Developer Education" }
+                    .subscribe(name: "team_developer_education")
+                // Go on to work with subscribed results
+                // :snippet-end:
+                XCTAssertEqual(realm.subscriptions.count, 1)
+                XCTAssertEqual(realm.subscriptions[0]?.name, "team_developer_education")
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
     func setupWaitForSyncTest() async throws {
         let app = App(id: APPID)
         
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             
@@ -512,7 +570,6 @@ class FlexibleSync: XCTestCase {
                     developerEducationTeam.members.append("Bob Smith")
                 }
                 XCTAssertEqual(developerEducationTeamResults.count, 1)
-                sleep(3)
                 try await setupRealmSubscriptions.update {
                     setupRealmSubscriptions.removeAll()
                 }
@@ -528,7 +585,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             // Remove object for teardown
@@ -541,7 +599,6 @@ class FlexibleSync: XCTestCase {
                 }
                 let resultsAfterCleanup = cleanupRealm.objects(FlexibleSync_Team.self).where { $0.teamName == "Developer Education" }
                 XCTAssertEqual(resultsAfterCleanup.count, 0)
-                sleep(3)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
             }
@@ -557,7 +614,8 @@ class FlexibleSync: XCTestCase {
             try await setupWaitForSyncTest()
             
             let app = App(id: APPID)
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             
@@ -592,7 +650,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -620,7 +679,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -669,7 +729,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -715,7 +776,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -772,7 +834,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -820,7 +883,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -853,7 +917,8 @@ class FlexibleSync: XCTestCase {
         let app = App(id: APPID)
 
         do {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
@@ -890,7 +955,8 @@ class FlexibleSync: XCTestCase {
         @MainActor
         func openFlexibleSyncRealm() async throws -> Realm {
             let app = App(id: APPID)
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let credentials = emailPasswordCredentials(app: app)
+            let user = try await app.login(credentials: credentials)
             var config = user.flexibleSyncConfiguration()
             // Pass object types to the Flexible Sync configuration
             // as a temporary workaround for not being able to add complete schema

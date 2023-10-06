@@ -1,7 +1,8 @@
 let app = App(id: APPID)
 
 do {
-    let user = try await app.login(credentials: Credentials.anonymous)
+    let credentials = emailPasswordCredentials(app: app)
+    let user = try await app.login(credentials: credentials)
     var flexSyncConfig = user.flexibleSyncConfiguration()
     flexSyncConfig.objectTypes = [Task.self, Team.self]
     do {

@@ -206,9 +206,9 @@ This option uses the ``RLMWaitForSyncMode`` enum, whose cases are:
 
 - .onCreation: Wait to download matching objects when your app creates the
   subscription. Otherwise, return without waiting for new downloads. The 
-  app must have an internet connection when you add the subscription.
-- .always: Wait to download matching objects every time your app launches.
-  The app must have an internet connection at every launch.
+  app must have an internet connection the first time you add the subscription.
+- .always: Wait to download matching objects when ``.subscribe()`` is executed.
+  The app must have an internet connection when ``.subscribe()`` is executed.
 - .never: Never wait to download matching objects. The app needs an internet
   connection for the user to authenticate the first time the app launches, but
   can :ref:`open offline <ios-open-a-synced-realm-offline>` on subsequent 
@@ -235,6 +235,22 @@ if another subscription exists that contains overlapping objects.
 
 Calling ``.unsubscribe()`` does not wait for objects to be removed from the
 realm. There is no API to wait for ``.unsubscribe()`` to sync with the server.
+
+Subscribe to an Actor-Confined Query
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can subscribe to an actor-confined query on the MainActor:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-on-main-actor.swift
+   :language: swift
+
+Or subscribe to a query on a custom actor:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-on-custom-actor.swift
+   :language: swift
+
+For more information about actor-confined realms, refer to 
+:ref:`swift-actor-isolated-realm`.
 
 .. _ios-sync-subscribe-to-queryable-fields:
 
@@ -519,13 +535,14 @@ Performance Considerations
 --------------------------
 
 API Efficiency
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
-Managing multiple subscriptions with the ``.subscribe()`` and ``.unsubscribe()``
+Adding several subscriptions with the ``.subscribe()`` and ``.unsubscribe()``
 APIs described in the :ref:`swift-flexible-sync-results-subscribe-api` section
 is less efficient than performing batch updates when you manually 
-manage subscriptions. For better performance when making multiple 
-subscription changes, use the ``subscriptions.update`` API described in the 
+manage subscriptions. On every ``.subscribe()``, the Swift SDK opens a new
+update block. For better performance adding multiple 
+subscriptions, use the ``subscriptions.update`` API described in the 
 :ref:`ios-sync-subscribe-to-queryable-fields` section.
 
 Group Updates for Improved Performance
