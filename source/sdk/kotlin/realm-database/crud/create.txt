@@ -10,14 +10,15 @@ Create Realm Objects - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-This page describes how to create a new object in a local or synced realm 
-using the Kotlin SDK. To learn more about Realm objects and how to define them, 
-refer to :ref:`<kotlin-object-type>`.
+This page describes the concepts of write transactions and managed objects in 
+a realm, then explains how to create and persist a new object to a local or 
+synced realm using the Kotlin SDK. To learn more about Realm objects and how 
+to define them, refer to :ref:`<kotlin-object-type>`.
 
 You can create objects whose object type is included in the 
 realm schema when you open the realm.
 For more information, refer to 
-:ref:`<kotlin-open-a-realm>` or :ref:`<kotlin-open-a-synced-realm>`.
+:ref:`<kotlin-open-a-realm>` or :ref:`<kotlin-flexible-sync-open-realm>`.
 
 .. note:: Write to a Synced Realm
 
@@ -33,10 +34,8 @@ Write Transactions
 ------------------
 
 Realm handles writes in terms of transactions. All writes must happen 
-within a transaction.
-
-A **transaction** is a list of read and write operations that
-Realm treats as a single indivisible operation: either *all* of the
+within a transaction. A **transaction** is a list of read and write operations 
+that Realm treats as a single indivisible operation: either *all* of the
 operations succeed or *none* of the operations in the transaction 
 take effect.
 
@@ -45,12 +44,18 @@ that contains zero or more read and write operations. To run
 a transaction, you define a transaction callback and pass it to
 the realm's 
 `write() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ 
-method. Within this callback, you are
-free to create, read, update, and delete objects within the realm. 
+or 
+`writeBlocking() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__
+method. Within this callback, you can access a 
+`MutableRealm <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/index.html>`__
+instance and then create, read, update, and delete objects within the realm. 
+The **mutable realm** represents the writeable state of a Realm file. 
+Mutable realms are provided and managed automatically through the 
+``realm.write`` or ``realm.writeBlocking`` methods.
 
 A realm allows only one open write transaction at a time. Realm
 blocks other writes on other threads until the open
-transaction is complete. Consequently, there is no race
+transaction on the mutable realm is complete. Consequently, there is no race
 condition when reading values from the realm within a
 transaction.
 
@@ -61,8 +66,7 @@ commits it or cancels it:
   all changes to disk. For synced realms, the SDK queues the change
   for synchronization with the backend.
 - When Realm cancels a write transaction or an operation in
-  the transaction causes an error, all changes are discarded
-  (or "rolled back").
+  the transaction causes an error, all changes are discarded.
 
 .. note:: Frozen Objects
    
@@ -77,7 +81,7 @@ Managed and Unmanaged Objects
 
 Realm APIs may refer to objects as managed or unmanaged. When you create 
 a Realm object with the Kotlin SDK, it is unmanaged by the realm. 
-You can create managed instance by copying an unmanaged object to a realm.
+You create a managed instance by copying an unmanaged object to a realm.
 To create an unmanaged copy of a managed object, refer to the
 :ref:`<kotlin-create-unmanaged-copy>` section on this page. 
 
@@ -102,13 +106,12 @@ To create an unmanaged copy of a managed object, refer to the
    `isManaged() <{+kotlin-local-prefix+}io.realm.kotlin.ext/is-managed.html>`__  
    method.
 
+Persist a Realm Object
+----------------------
 
-Create a New Managed Object
----------------------------
-
-Before you can create a managed object, you must 
-:ref:`<kotlin-define-a-new-object-type>` for the managed object.
-Then, you must include that object type in your realm schema
+Before you can create a new object and persist it to the realm, you must 
+:ref:`<kotlin-define-a-new-object-type>`.
+Then, you include that object type in your realm schema
 when you open the realm.
 
 .. important:: Object Types Must Be in Your Schema
@@ -119,20 +122,19 @@ when you open the realm.
    that isn't in your schema, Realm will return a 
    schema validation error.
 
-To persist a new managed object to a realm:
-
-1. Instantiate a new object instance with the class constructor. You
-   can use an `apply block
-   <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html>`__
-   to configure multiple properties at once.
+To persist a new object to the realm:
 
 #. Open a write transaction with `realm.write()
    <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
    `realm.writeBlocking()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__
-   to instantiate the unmanaged object.
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
 
-#. Pass the new object instance to `copyToRealm()
+#. Instantiate an unmanaged object instance with the class 
+   constructor. You can use an `apply block
+   <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html>`__
+   to configure multiple properties at once.
+
+#. Pass the unmanaged object instance to `copyToRealm()
    <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__
    to persist the object data to the realm. This method returns a
    live managed instance of the object. 
@@ -148,8 +150,8 @@ To persist a new managed object to a realm:
 
 #. Work with the persisted Realm object
    through the returned instance. The live object is accessible until the 
-   write transaction completes. This does not apply to asymmetric objects, 
-   which are write-only and do not persist to the realm.
+   write transaction completes. Note that this *does not* apply to 
+   asymmetric objects, which are write-only and do not persist to the realm.
 
 You can also upsert into a realm using specific criteria. For more 
 information, refer to :ref:`<kotlin-upsert-an-object>`.
@@ -306,7 +308,7 @@ For a list of the value types that ``RealmAny`` can hold, refer to
 :ref:`<kotlin-realmany>`.
 
 In the following example, we instantiate a new ``Frog`` object with a 
-``favoriteFood`` list of ``RealmAny`` type and pass the initial values to 
+``favoriteThings`` list of ``RealmAny`` type and pass the initial values to 
 ``RealmAny.create()``:
 
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-realmany-property.kt
@@ -326,8 +328,10 @@ Create Collection Properties
 Depending on how you define your object type, you might have properties 
 that are defined as one of the following 
 supported :ref:`<kotlin-collection-types>`:
-``RealmList``, ``RealmSet``, and ``RealmDictionary``. For more information, 
-refer to :ref:`<kotlin-define-collections>`.
+- ``RealmList``
+- ``RealmSet``
+- ``RealmDictionary`` 
+For more information, refer to :ref:`<kotlin-define-collections>`.
 
 Collections are mutable: you can add and remove elements in a collection
 within a write transaction. 
@@ -371,7 +375,7 @@ To create a new object instance with a
 `RealmSet 
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__  
 property, instantiate an object and pass any values of a 
-supported type to the ``RealmSet`` property. For a list of valid value types
+supported type to the ``RealmSet`` property. For a list of valid types
 that ``RealmSet`` can hold, refer to :ref:`<kotlin-realm-set>`. 
 
 You can instantiate an unmanaged set with `realmSetOf() <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-list-of.html>`__ 
@@ -396,7 +400,7 @@ To create a new object instance with a
 property, instantiate an object and pass any key-value pairs of a 
 supported type to the ``RealmDictionary`` property. 
 ``RealmDictionary`` only accepts a ``String`` key, but values may be 
-non-string types. For a list of valid value types, refer to 
+non-string types. For a list of valid types, refer to 
 :ref:`<kotlin-realm-dictionary>`. 
 
 You can instantiate an unmanaged dictionary with 
@@ -419,8 +423,8 @@ initial key-values for several dictionary properties:
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.percent-encode-disallowed-characters.kt
    :language: kotlin
 
-Create a Relationship
----------------------
+Create a Relationship Property
+------------------------------
 
 Depending on how you define your object type, you might have properties 
 that reference another Realm object. This can be a to-one, to-many, or
@@ -458,7 +462,7 @@ relationship collection property.
 
 In the following example, we instantiate a new ``Forest`` object with a 
 ``frogsThatLiveHere`` property that references a set of ``Frog`` 
-objects and a ``nearBy`` property that references a list of 
+objects and a ``nearByPonds`` property that references a list of 
 ``Pond`` objects:
 
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-to-many-realm-relationship.kt
@@ -487,7 +491,7 @@ the backlink itself.
 .. _kotlin-create-unmanaged-copy:
 
 Create an Unmanaged Copy of a Realm Object or Collection
--------------------------------------------------------
+--------------------------------------------------------
 
 You can create an unmanaged copy of a managed object or collection
 by passing it to 

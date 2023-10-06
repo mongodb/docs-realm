@@ -1,6 +1,5 @@
-// Open a write transaction
 realm.write {
-    // Create a new unmanaged Frog object with RealmSet properties
+    // Instantiate a new unmanaged Frog object with RealmSet properties
     val frog = Frog().apply {
         name = "Kermit"
         // Set initial values to each unmanaged set
@@ -11,6 +10,6 @@ realm.write {
         ))
         favoriteWeather.add("rain")
     }
-    // Copy all objects to realm to return managed instances
+    // Copy all objects to the realm to return managed instances
     copyToRealm(frog)
 }

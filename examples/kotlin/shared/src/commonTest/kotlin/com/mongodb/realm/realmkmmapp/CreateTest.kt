@@ -44,14 +44,17 @@ class CreateTest: RealmTest() {
             // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged Frog object
+                // Instantiate a new unmanaged Frog object
                 val frog = ExampleRealmObject_Frog().apply {
                     name = "Kermit"
                     age = 42
                     owner = "Jim Henson"
                 }
-                // Copy the object to realm to return a managed instance
+                assertFalse(frog.isManaged())
+
+                // Copy the object to the realm to return a managed instance
                 copyToRealm(frog)
+                assertTrue(frog.isManaged())
 
                 // Work with the managed object ...
             }
@@ -81,10 +84,9 @@ class CreateTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
             // :snippet-start: create-one-embedded-object
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a parent object with one embedded address
+                // Instantiate a parent object with one embedded address
                 val contact = ExampleRelationship_Contact().apply {
                     name = "Kermit"
                     address = ExampleRelationship_EmbeddedAddress().apply {
@@ -93,13 +95,13 @@ class CreateTest: RealmTest() {
                         country = ExampleRelationship_EmbeddedCountry().apply { name = "United States" }
                     }
                 }
-                // Copy all objects to realm to return a managed instance
+                // Copy all objects to the realm to return managed instances
                 copyToRealm(contact)
             }
             // :snippet-end:
             // :snippet-start: create-many-embedded-objects
             realm.write {
-                // Create a parent object with multiple embedded addresses
+                // Instantiate a parent object with multiple embedded addresses
                 val localOffice = ExampleRelationship_EmbeddedAddress().apply {
                     propertyOwner = ExampleRelationship_Contact().apply { name = "Michigan J. Frog" }
                     street = "456 Lily Pad Ln"
@@ -114,7 +116,7 @@ class CreateTest: RealmTest() {
                     name = "Big Frog Corp."
                     addresses = realmListOf(localOffice, remoteOffice)
                 }
-                // Copy all objects to realm to return a managed instance
+                // Copy all objects to the realm to return managed instances
                 copyToRealm(business)
             }
             // :snippet-end:
@@ -144,16 +146,15 @@ class CreateTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.path}")
 
             // :snippet-start: create-realminstant-property
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged Frog object with a RealmInstant property
+                // Instantiate a new unmanaged Frog object with a RealmInstant property
                 val frog = RealmObjectProperties_Frog().apply {
                     name = "Kermit"
                     // Set an initial value with RealmInstant.from() or RealmInstant.now()
                     birthdate = RealmInstant.from(1_577_996_800, 0)
                 }
-                // Copy the object to realm to return a managed instance
+                // Copy the object to the realm to return a managed instance
                 copyToRealm(frog)
             }
             // :snippet-end:
@@ -175,16 +176,15 @@ class CreateTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
             // :snippet-start: create-mutablerealm-property
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged Frog object with a MutableRealmInt property
+                // Instantiate a new unmanaged Frog object with a MutableRealmInt property
                 val frog = RealmObjectProperties_Frog().apply {
                     name = "Michigan J. Frog"
                     // Set an initial value with MutableRealmInt.create()
                     fliesEaten = MutableRealmInt.create(200)
                 }
-                // Copy the object to realm to return a managed instance
+                // Copy the object to the realm to return a managed instance
                 copyToRealm(frog)
             }
             // :snippet-end:
@@ -211,10 +211,9 @@ class CreateTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.path}")
 
             // :snippet-start: create-realmany-property
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged Frog object with a RealmAny property
+                // Instantiate a new unmanaged Frog object with a RealmAny property
                 val frog = RealmObjectProperties_Frog().apply {
                     name = "Kermit"
                     // Set initial values with RealmAny.create()
@@ -226,7 +225,7 @@ class CreateTest: RealmTest() {
                         })
                     )
                 }
-                // Copy the object to realm to return a managed instance
+                // Copy the object to the realm to return a managed instance
                 copyToRealm(frog)
             }
             // :snippet-end:
@@ -252,10 +251,9 @@ class CreateTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.path}")
 
             // :snippet-start: create-realm-list
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged Frog object with a RealmList property
+                // Instantiate a new unmanaged Frog object with a RealmList property
                 val frog = ExampleRealmList_Frog().apply {
                     name = "Kermit"
                     // Set values for each unmanaged list
@@ -266,7 +264,7 @@ class CreateTest: RealmTest() {
                     favoriteForests.add(ExampleEmbeddedObject_EmbeddedForest().apply { name = "Hundred Acre Wood" })
                     favoriteWeather = realmListOf("rain", "snow")
                 }
-                // Copy all objects to realm to return managed instances
+                // Copy all objects to the realm to return managed instances
                 copyToRealm(frog)
             }
             // :snippet-end:
@@ -293,10 +291,9 @@ class CreateTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.path}")
 
             // :snippet-start: create-realm-set
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged Frog object with RealmSet properties
+                // Instantiate a new unmanaged Frog object with RealmSet properties
                 val frog = ExampleRealmSet_Frog().apply {
                     name = "Kermit"
                     // Set initial values to each unmanaged set
@@ -307,7 +304,7 @@ class CreateTest: RealmTest() {
                     ))
                     favoriteWeather.add("rain")
                 }
-                // Copy all objects to realm to return managed instances
+                // Copy all objects to the realm to return managed instances
                 copyToRealm(frog)
             }
             // :snippet-end:
@@ -335,7 +332,6 @@ class CreateTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.name}")
 
             // :snippet-start: create-dictionary
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
                 val frog = ExampleRealmDictionary_Frog().apply {
@@ -352,7 +348,7 @@ class CreateTest: RealmTest() {
                             "Trout Pond" to "Sunny Wood"
                     ))
                 }
-                // Copy all objects to realm to return managed instances
+                // Copy all objects to the realm to return managed instances
                 copyToRealm(frog)
             }
             // :snippet-end:
@@ -408,17 +404,17 @@ class CreateTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
             // :snippet-start: create-to-one-realm-relationship
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged Frog object with to-one relationship with a Realm object
+                // Instantiate a new unmanaged Frog object with to-one
+                // relationship with a Realm object
                 val frog = ExampleRelationship_Frog().apply {
                     name = "Kermit"
                     age = 12
                     favoritePond = ExampleRelationship_Pond().apply { name = "Picnic Pond" }
                     bestFriend = ExampleRelationship_Frog().apply { name = "Froggy Jay" }
                 }
-                // Copy all objects to realm to return managed instances
+                // Copy all objects to the realm to return managed instances
                 copyToRealm(frog)
             }
             // :snippet-end:
@@ -442,10 +438,10 @@ class CreateTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
             // :snippet-start: create-to-many-realm-relationship
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged Forest object with to-many relationship with multiple Realm objects
+                // Instantiate a new unmanaged Forest object with to-many
+                // relationship with multiple Realm objects
                 val forest = ExampleRelationship_Forest().apply {
                     name = "Froggy Forest"
                     frogsThatLiveHere = realmSetOf(
@@ -457,7 +453,7 @@ class CreateTest: RealmTest() {
                         ExampleRelationship_Pond().apply { name = "Big Pond" }
                     )
                 }
-                // Copy all objects to realm to return managed instances
+                // Copy all objects to the realm to return managed instances
                 copyToRealm(forest)
             }
             // :snippet-end:
@@ -484,10 +480,10 @@ class CreateTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
             // :snippet-start: create-inverse-realm-relationship
-            // Open a write transaction
             realm.write {
                 deleteAll() // :remove:
-                // Create a new unmanaged User object with to-many relationship with multiple Realm objects
+                // Instantiate a new unmanaged User object with to-many
+                // relationship with multiple Realm objects
                 val post1 = ExampleRelationship_Post().apply {
                     title = "Forest Life"
                 }
@@ -499,7 +495,7 @@ class CreateTest: RealmTest() {
                     name = "Kermit"
                     posts = realmListOf(post1, post2)
                 }
-                // Copy all objects to realm to return managed instances
+                // Copy all objects to the realm to return managed instances
                 copyToRealm(user)
             }
             // :snippet-end:
@@ -537,8 +533,7 @@ class CreateTest: RealmTest() {
             }
 
             // :snippet-start: create-unmanaged-copy
-            // Open a write transaction
-            realm.writeBlocking {
+            realm.write {
                 // Fetch the managed object you want to copy
                 val managedPond = query<ExampleRealmObject_Pond>("name == $0", "Big Pond").find().first()
                 assertTrue(managedPond.isManaged())
@@ -548,7 +543,8 @@ class CreateTest: RealmTest() {
                 assertFalse(unmanagedPond.isManaged())
                 Log.v("Unmanaged pond name: ${unmanagedPond.name}")
 
-                // Confirm the unmanaged copy contains all elements in the copied object's RealmList
+                // Confirm the unmanaged copy contains all elements
+                // in the copied object's RealmList
                 val unmanagedFrogs = unmanagedPond.frogsThatLiveHere
                 assertFalse(unmanagedFrogs[0].isManaged())
                 assertFalse(unmanagedFrogs[1].isManaged())

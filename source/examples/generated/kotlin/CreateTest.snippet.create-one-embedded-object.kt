@@ -1,6 +1,5 @@
-// Open a write transaction
 realm.write {
-    // Create a parent object with one embedded address
+    // Instantiate a parent object with one embedded address
     val contact = Contact().apply {
         name = "Kermit"
         address = EmbeddedAddress().apply {
@@ -9,6 +8,6 @@ realm.write {
             country = EmbeddedCountry().apply { name = "United States" }
         }
     }
-    // Copy all objects to realm to return a managed instance
+    // Copy all objects to the realm to return managed instances
     copyToRealm(contact)
 }

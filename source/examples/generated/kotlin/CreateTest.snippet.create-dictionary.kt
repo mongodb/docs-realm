@@ -1,4 +1,3 @@
-// Open a write transaction
 realm.write {
     val frog = Frog().apply {
         name = "Kermit"
@@ -14,6 +13,6 @@ realm.write {
                 "Trout Pond" to "Sunny Wood"
         ))
     }
-    // Copy all objects to realm to return managed instances
+    // Copy all objects to the realm to return managed instances
     copyToRealm(frog)
 }

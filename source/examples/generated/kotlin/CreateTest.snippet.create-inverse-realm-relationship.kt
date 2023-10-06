@@ -1,6 +1,6 @@
-// Open a write transaction
 realm.write {
-    // Create a new unmanaged User object with to-many relationship with multiple Realm objects
+    // Instantiate a new unmanaged User object with to-many
+    // relationship with multiple Realm objects
     val post1 = Post().apply {
         title = "Forest Life"
     }
@@ -12,6 +12,6 @@ realm.write {
         name = "Kermit"
         posts = realmListOf(post1, post2)
     }
-    // Copy all objects to realm to return managed instances
+    // Copy all objects to the realm to return managed instances
     copyToRealm(user)
 }

@@ -57,10 +57,9 @@ class AsymmetricSyncTest : RealmTest() {
             // Insert the object into the realm with the insert() extension method
             insert(weatherSensor)
 
-        // The object is inserted into the realm, then syncs to the
-        // App Services backend. You CANNOT access the managed
-        // data locally.
-
+        // WeatherSensor object is inserted into the realm, then synced to the
+        // App Services backend. You CANNOT access the object locally because it's
+        // deleted from the local realm after sync is complete.
         }
         // :snippet-end:
         // Add a delay to give the document time to sync

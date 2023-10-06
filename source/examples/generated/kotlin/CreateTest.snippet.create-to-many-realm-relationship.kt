@@ -1,6 +1,6 @@
-// Open a write transaction
 realm.write {
-    // Create a new unmanaged Forest object with to-many relationship with multiple Realm objects
+    // Instantiate a new unmanaged Forest object with to-many
+    // relationship with multiple Realm objects
     val forest = Forest().apply {
         name = "Froggy Forest"
         frogsThatLiveHere = realmSetOf(
@@ -12,6 +12,6 @@ realm.write {
             Pond().apply { name = "Big Pond" }
         )
     }
-    // Copy all objects to realm to return managed instances
+    // Copy all objects to the realm to return managed instances
     copyToRealm(forest)
 }

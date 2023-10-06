@@ -1,5 +1,4 @@
-// Open a write transaction
-realm.writeBlocking {
+realm.write {
     // Fetch the managed object you want to copy
     val managedPond = query<Pond>("name == $0", "Big Pond").find().first()
     assertTrue(managedPond.isManaged())
@@ -9,7 +8,8 @@ realm.writeBlocking {
     assertFalse(unmanagedPond.isManaged())
     Log.v("Unmanaged pond name: ${unmanagedPond.name}")
 
-    // Confirm the unmanaged copy contains all elements in the copied object's RealmList
+    // Confirm the unmanaged copy contains all elements
+    // in the copied object's RealmList
     val unmanagedFrogs = unmanagedPond.frogsThatLiveHere
     assertFalse(unmanagedFrogs[0].isManaged())
     assertFalse(unmanagedFrogs[1].isManaged())

@@ -1,5 +1,5 @@
 realm.write {
-    // Create a parent object with multiple embedded addresses
+    // Instantiate a parent object with multiple embedded addresses
     val localOffice = EmbeddedAddress().apply {
         propertyOwner = Contact().apply { name = "Michigan J. Frog" }
         street = "456 Lily Pad Ln"
@@ -14,6 +14,6 @@ realm.write {
         name = "Big Frog Corp."
         addresses = realmListOf(localOffice, remoteOffice)
     }
-    // Copy all objects to realm to return a managed instance
+    // Copy all objects to the realm to return managed instances
     copyToRealm(business)
 }
