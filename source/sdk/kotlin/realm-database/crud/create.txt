@@ -46,7 +46,7 @@ a transaction, you define a transaction callback and pass it to
 the realm's 
 `write() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ 
 method. Within this callback, you are
-free to create, read, update, and delete on the realm. 
+free to create, read, update, and delete objects within the realm. 
 
 A realm allows only one open write transaction at a time. Realm
 blocks other writes on other threads until the open
@@ -72,23 +72,24 @@ commits it or cancels it:
 
 .. _kotlin-managed-vs-unmanaged-objects:
 
-Managed vs. Unmanaged Objects
+Managed and Unmanaged Objects
 -----------------------------
 
 Realm APIs may refer to objects as managed or unmanaged. When you create 
 a Realm object with the Kotlin SDK, it is unmanaged by the realm. 
 You can create managed instance by copying an unmanaged object to a realm.
 To create an unmanaged copy of a managed object, refer to the
-:ref:`<kotlin-create-unmanaged-copy>` section. 
+:ref:`<kotlin-create-unmanaged-copy>` section on this page. 
 
 - **Managed objects** are Realm objects that persist in a realm. Managed objects 
-  can only be accessed from an open realm. They can be automatically updated 
+  can only be accessed from an open realm. They can be updated 
   with changes within write transactions as long as that realm remains open. 
   Managed objects are tied to the realm instance from which they originated 
   and cannot be written to another realm.
 
-  You can use Realm APIs with managed objects, create relationships with 
-  other objects, and observe managed Realm objects for changes. 
+  You can use Realm APIs with managed objects. For example,
+  managed objects can have relationships with other objects and
+  be observed for changes. 
 
 - **Unmanaged objects** are instances of Realm objects that
   behave like normal Kotlin objects, but they are not persisted in a realm.
@@ -105,9 +106,10 @@ To create an unmanaged copy of a managed object, refer to the
 Create a New Managed Object
 ---------------------------
 
-After you :ref:`<kotlin-define-a-new-object-type>` in your object model 
-and include it in your realm schema when you open the realm,
-you can reference and write those objects in your realm.
+Before you can create a managed object, you must 
+:ref:`<kotlin-define-a-new-object-type>` for the managed object.
+Then, you must include that object type in your realm schema
+when you open the realm.
 
 .. important:: Object Types Must Be in Your Schema
 
@@ -142,7 +144,7 @@ To persist a new managed object to a realm:
       Instead, you pass the asymmetric object instance to the 
       ``insert()`` extension method within a write transaction.
       Refer to the :ref:`<kotlin-create-asymmetric-object>` section 
-      for more information.
+      on this page for more information.
 
 #. Work with the persisted Realm object
    through the returned instance. The live object is accessible until the 
@@ -310,7 +312,7 @@ In the following example, we instantiate a new ``Frog`` object with a
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-realmany-property.kt
    :language: kotlin
 
-After you create the object, you can *must* know the stored value type 
+After you create the object, you *must* know the stored value type 
 to work with the ``RealmAny`` property. 
 
 .. To learn how to work with ``RealmAny`` properties after 
@@ -330,7 +332,7 @@ refer to :ref:`<kotlin-define-collections>`.
 Collections are mutable: you can add and remove elements in a collection
 within a write transaction. 
 
-Collections can contain both managed and unmanaged objects. When a 
+Collections can contain both managed and unmanaged objects. When
 you copy a collection to the realm, you create a managed instance of the 
 collection *and* all elements in the collection, including any 
 unmanaged elements. Unmanaged collections behave like their corresponding 
@@ -429,14 +431,14 @@ refer to :ref:`<kotlin-define-a-relationship>`.
 You can also embed one Realm object directly within another to create 
 a nested data structure with an ``EmbeddedRealmObject`` type. 
 To create a relationship with an embedded object, refer to the 
-:ref:`<kotlin-create-an-embedded-object>` section.
+:ref:`<kotlin-create-an-embedded-object>` section on this page.
 
 Create a To-One Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a new object instance with a 
 :ref:`to-one relationship <kotlin-to-one-relationship>`
-property, instantiate both objects and pass the referenced object in the
+property, instantiate both objects and pass the referenced object to the
 relationship property. 
 
 In the following example, we instantiate a new ``Frog`` object with a 
@@ -451,7 +453,7 @@ Create a To-Many Relationship
 
 To create a new object instance with a 
 :ref:`to-many relationship <kotlin-to-many-relationship>`
-property, instantiate all objects and pass any referenced objects in the
+property, instantiate all objects and pass any referenced objects to the
 relationship collection property. 
 
 In the following example, we instantiate a new ``Forest`` object with a 
@@ -468,7 +470,7 @@ Create an Inverse Relationship
 To create a new object instance with an 
 :ref:`inverse relationship <kotlin-inverse-relationships>`
 property, instantiate the parent object and pass any referenced child
-objects in the backlink collection property. 
+objects to the backlink collection property. 
 
 In the following example, we instantiate a new ``User`` object with a 
 backlinks ``posts`` property that references a list of ``Post`` objects:
@@ -484,7 +486,7 @@ the backlink itself.
 
 .. _kotlin-create-unmanaged-copy:
 
-Create an Unmanaged Copy of a RealmObject or Collection
+Create an Unmanaged Copy of a Realm Object or Collection
 -------------------------------------------------------
 
 You can create an unmanaged copy of a managed object or collection
