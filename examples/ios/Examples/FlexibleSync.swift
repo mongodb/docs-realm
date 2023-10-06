@@ -552,8 +552,7 @@ class FlexibleSync: SwiftSyncTestCase {
         let app = App(id: APPID)
         
         do {
-            let credentials = emailPasswordCredentials(app: app)
-            let user = try await app.login(credentials: credentials)
+            let user = try await app.login(credentials: Credentials.anonymous)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             
@@ -585,8 +584,7 @@ class FlexibleSync: SwiftSyncTestCase {
         let app = App(id: APPID)
 
         do {
-            let credentials = emailPasswordCredentials(app: app)
-            let user = try await app.login(credentials: credentials)
+            let user = try await app.login(credentials: Credentials.anonymous)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             // Remove object for teardown
@@ -614,8 +612,7 @@ class FlexibleSync: SwiftSyncTestCase {
             try await setupWaitForSyncTest()
             
             let app = App(id: APPID)
-            let credentials = emailPasswordCredentials(app: app)
-            let user = try await app.login(credentials: credentials)
+            let user = try await app.login(credentials: Credentials.anonymous)
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             
