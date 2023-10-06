@@ -5,7 +5,7 @@ class WeatherSensor extends Realm.Object<WeatherSensor> {
   barometricPressureInHg!: number;
   windSpeedInMph!: number;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: "WeatherSensor",
     // sync WeatherSensor objects one way from your device
     // to your Atlas database.

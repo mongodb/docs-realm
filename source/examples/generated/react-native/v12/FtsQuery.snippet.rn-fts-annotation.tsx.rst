@@ -1,6 +1,6 @@
 .. code-block:: typescript
 
-   class Book extends Realm.Object {
+   class Book extends Realm.Object<Book> {
      name!: string;
      price?: number;
 

@@ -55,7 +55,7 @@ function RestOfApp() {
   const activeProfile = useObject(Profile, selectedProfileId);
 
   // :snippet-start: objects-create
-  const addProfile = (name) => {
+  const addProfile = name => {
     realm.write(() => {
       realm.create('Profile', {
         name: name,
@@ -78,7 +78,7 @@ function RestOfApp() {
   // :snippet-end:
 
   // :snippet-start: objects-delete
-  const deleteProfile = (profile) => {
+  const deleteProfile = profile => {
     realm.write(() => {
       realm.delete(profile);
     });
@@ -95,9 +95,10 @@ function RestOfApp() {
           keyExtractor={item => item._id.toHexString()}
           renderItem={({item}) => {
             return (
-              <Pressable onPress={() => {
-                setSelectedProfileId(item._id)
-              }}>
+              <Pressable
+                onPress={() => {
+                  setSelectedProfileId(item._id);
+                }}>
                 <Text>{item.name}</Text>
               </Pressable>
             );
@@ -107,8 +108,8 @@ function RestOfApp() {
       <View>
         <Text>Active profile: {activeProfile?.name}</Text>
         <Button
-          onPress={()=> {
-            changeProfileName(activeProfile, 'NewName')
+          onPress={() => {
+            changeProfileName(activeProfile, 'NewName');
           }}
           testID='test-change-name' // :remove:
           title='Change name'
@@ -131,9 +132,8 @@ beforeEach(async () => {
 
     realm.create('Profile', {
       name: 'SecondProfile',
-      _id: new Realm.BSON.ObjectId,
+      _id: new Realm.BSON.ObjectId(),
     });
-
   });
 
   primaryKey = id;

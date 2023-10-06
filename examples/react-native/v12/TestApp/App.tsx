@@ -10,6 +10,7 @@ import {Geospatial} from './src/components/data-types/geospatial/Geospatial';
 import {FtsQuery} from './src/components/fts-query/FtsQuery';
 import {Logger} from './src/components/logger/Logger';
 import {ObjectModels} from './src/components/object-models/ObjectModels';
+import {RelationshipExamples} from './src/components/relationships/RealmWrapper';
 import {CompensatingWriteErrorHandling} from './src/components/errors/CompensatingWriteWrapper';
 
 // Screens
@@ -42,6 +43,7 @@ function App(): JSX.Element {
         <Drawer.Screen name="Logger" component={Logger} />
         <Drawer.Screen name="ObjectModels" component={ObjectModels} />
         <Drawer.Screen name="Subscriptions" component={SubscriptionScreen} />
+        <Drawer.Screen name="Relationships" component={RelationshipExamples} />
         <Drawer.Screen
           name="Errors"
           component={CompensatingWriteErrorHandling}

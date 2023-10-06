@@ -1,4 +1,4 @@
-const deleteProfile = (profile) => {
+const deleteProfile = profile => {
   realm.write(() => {
     realm.delete(profile);
   });

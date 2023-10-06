@@ -4,7 +4,7 @@ class Character extends Realm.Object<Character> {
   levelsCompleted!: Realm.Set<number>;
   inventory!: Realm.Set<string>;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Character',
     primaryKey: '_id',
     properties: {

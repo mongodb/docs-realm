@@ -1,4 +1,4 @@
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 
 // :snippet-start: book-model-req-properties
 class Book extends Realm.Object<Book, 'name' | 'store'> {
@@ -6,7 +6,7 @@ class Book extends Realm.Object<Book, 'name' | 'store'> {
   store!: string;
   price?: number;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Book',
     properties: {
       name: {type: 'string', indexed: true},

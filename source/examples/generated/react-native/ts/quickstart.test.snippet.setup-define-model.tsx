@@ -3,7 +3,7 @@ class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Profile',
     properties: {
       _id: 'objectId',

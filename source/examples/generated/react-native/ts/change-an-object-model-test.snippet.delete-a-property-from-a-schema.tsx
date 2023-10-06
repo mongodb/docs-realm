@@ -3,7 +3,7 @@ class Person extends Realm.Object<Person> {
   firstName!: string;
   age!: number;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Person',
     properties: {
       _id: 'string',

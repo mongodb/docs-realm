@@ -12,7 +12,7 @@ class SharedDocument extends Realm.Object<SharedDocument> {
   title!: string;
   createdDate?: Date;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'SharedDocument',
     properties: {
       _id: 'objectId',
@@ -29,7 +29,7 @@ class LocalDocument extends Realm.Object<LocalDocument> {
   name!: string;
   createdDate?: Date;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'LocalDocument',
     properties: {
       _id: 'objectId',

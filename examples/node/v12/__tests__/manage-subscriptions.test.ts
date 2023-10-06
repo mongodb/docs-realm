@@ -1,4 +1,4 @@
-import Realm, { SubscriptionSetState, WaitForSync } from "realm";
+import Realm, { ObjectSchema, SubscriptionSetState, WaitForSync } from "realm";
 import { APP_ID } from "../config";
 
 class Task extends Realm.Object<Task> {
@@ -9,7 +9,7 @@ class Task extends Realm.Object<Task> {
   owner?: String;
   dueDate?: Date;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: "Task",
     properties: {
       _id: "objectId",

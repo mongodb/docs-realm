@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {Button, TextInput} from 'react-native';
 import {RealmProvider, useRealm} from '@realm/react';
 // :remove-start:
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import {render, fireEvent, act} from '@testing-library/react-native';
 import {useQuery} from '@realm/react';
 
@@ -12,7 +12,11 @@ let newObjectId = new Realm.BSON.ObjectID();
 // :remove-end:
 
 class Dog extends Realm.Object {
-  static schema = {
+  _id!: Realm.BSON.ObjectId;
+  name!: string;
+  age!: number;
+
+  static schema: ObjectSchema = {
     name: 'Dog',
     properties: {
       _id: 'objectId',

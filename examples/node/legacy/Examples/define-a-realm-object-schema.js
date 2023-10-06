@@ -8,12 +8,12 @@ describe("Define a Realm Object Schema", () => {
       static schema = {
         name: "Car",
         properties: {
-          _id: { type: 'objectId', default: () => new Realm.BSON.ObjectId() },
+          _id: { type: "objectId", default: () => new Realm.BSON.ObjectId() },
           make: "string",
           model: "string",
           miles: "int?",
         },
-        primaryKey: '_id',
+        primaryKey: "_id",
       };
       // :remove-start:
       get carName() {
@@ -75,7 +75,7 @@ describe("Define a Realm Object Schema", () => {
           model_name: { type: "string", mapTo: "modelName" },
           miles: { type: "int", default: 0 },
         },
-        primaryKey: '_id',
+        primaryKey: "_id",
       };
     }
     // :snippet-end:
@@ -91,11 +91,11 @@ describe("Define Relationship Properties", () => {
         properties: {
           _id: "objectId",
           // A manufacturer that may have one car
-          car: "Car?"
+          car: "Car?",
         },
       };
     }
-    
+
     class Car extends Realm.Object {
       static schema = {
         name: "Car",
@@ -126,7 +126,7 @@ describe("Define Relationship Properties", () => {
 
       manufacturer = realm.create(Manufacturer, {
         _id: new BSON.ObjectID(),
-        car: car1
+        car: car1,
       });
     });
 
@@ -150,11 +150,11 @@ describe("Define Relationship Properties", () => {
         properties: {
           _id: "objectId",
           // A manufacturer that may have many cars
-          cars: "Car[]"
+          cars: "Car[]",
         },
       };
     }
-    
+
     class Car extends Realm.Object {
       static schema = {
         name: "Car",
@@ -192,7 +192,7 @@ describe("Define Relationship Properties", () => {
 
       manufacturer = realm.create(Manufacturer, {
         _id: new BSON.ObjectID(),
-        cars: []
+        cars: [],
       });
 
       manufacturer.cars.push(car1, car2);
@@ -219,11 +219,11 @@ describe("Define Relationship Properties", () => {
         properties: {
           _id: "objectId",
           // A manufacturer that may have many cars
-          cars: "Car[]"
+          cars: "Car[]",
         },
       };
     }
-    
+
     class Car extends Realm.Object {
       static schema = {
         name: "Car",
@@ -238,7 +238,7 @@ describe("Define Relationship Properties", () => {
             type: "linkingObjects",
             objectType: "Manufacturer",
             property: "cars",
-          }
+          },
         },
       };
     }
@@ -261,7 +261,7 @@ describe("Define Relationship Properties", () => {
 
       manufacturer = realm.create(Manufacturer, {
         _id: new BSON.ObjectID(),
-        car: car1
+        car: car1,
       });
     });
 
@@ -286,11 +286,11 @@ describe("Define Relationship Properties", () => {
           _id: "objectId",
           name: "string",
           // Embed an array of objects
-          warranties: { type: "list", objectType: "Warranty" }
+          warranties: { type: "list", objectType: "Warranty" },
         },
       };
     }
-    
+
     class Car extends Realm.Object {
       static schema = {
         name: "Car",
@@ -329,7 +329,7 @@ describe("Define Relationship Properties", () => {
       warranty = realm.create(Warranty, {
         name: "Premium",
         termLength: 12,
-        cost: 500
+        cost: 500,
       });
 
       car1 = realm.create(Car, {
@@ -337,12 +337,12 @@ describe("Define Relationship Properties", () => {
         make: "Nissan",
         model: "Sentra",
         miles: 1000,
-        warranty: warranty
+        warranty: warranty,
       });
 
       manufacturer = realm.create(Manufacturer, {
         _id: new BSON.ObjectID(),
-        car: car1
+        car: car1,
       });
 
       manufacturer.cars.push(car1);

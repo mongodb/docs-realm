@@ -5,6 +5,7 @@ import {RealmProvider} from '@realm/react';
 import {Realm, useRealm} from '@realm/react';
 import {render, waitFor} from '@testing-library/react-native';
 import {View, Text} from 'react-native';
+import {ObjectSchema} from 'realm';
 
 let isRealmClosed = true;
 
@@ -22,13 +23,13 @@ function RestOfApp() {
   );
 }
 
-class YourObjectModel extends Realm.Object {
+class YourObjectModel extends Realm.Object<YourObjectModel> {
   _id!: string;
   owner_id!: string;
   name!: string;
   birthDate?: Realm.Mixed;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Turtle',
     properties: {
       _id: 'string',

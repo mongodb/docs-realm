@@ -75,7 +75,7 @@ function RestOfApp() {
   const profiles = useQuery(Profile);
   const activeProfile = useObject(Profile, selectedProfileId);
 
-  const addProfile = (name) => {
+  const addProfile = name => {
     realm.write(() => {
       realm.create('Profile', {
         name: name,
@@ -84,7 +84,7 @@ function RestOfApp() {
     });
   };
 
-  const changeProfileName = (newName) => {
+  const changeProfileName = newName => {
     realm.write(() => {
       activeProfile.name = newName;
     });
@@ -125,7 +125,7 @@ function RestOfApp() {
 }
 
 const app = new Realm.App(APP_ID);
-const createConfig = (user) => {
+const createConfig = user => {
   return {
     schema: [Profile],
     sync: {
