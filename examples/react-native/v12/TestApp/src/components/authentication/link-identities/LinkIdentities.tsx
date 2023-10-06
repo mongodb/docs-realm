@@ -4,9 +4,10 @@ import {Credentials} from 'realm';
 import {
   AppProvider,
   UserProvider,
-  useApp,
   useUser,
   useAuth,
+  useEmailPasswordAuth,
+  AuthOperationName,
 } from '@realm/react';
 
 import {Button} from '../../utility-components/Button';
@@ -27,8 +28,10 @@ export const LinkIdentities = () => {
 // authenticated user.
 const LogIn = () => {
   const {logInWithAnonymous} = useAuth();
+  console.debug('> In LogIn');
 
   useEffect(() => {
+    console.debug('> Logging in anonymous user');
     logInWithAnonymous();
   }, []);
 
@@ -45,7 +48,7 @@ type UserIdentity = {
 // confirms users' emails.
 const RegisterUser = () => {
   const {logOut} = useAuth();
-  const app = useApp();
+  const {logIn, register, result} = useEmailPasswordAuth();
   const user = useUser();
 
   const [email, setEmail] = useState('');
@@ -54,40 +57,43 @@ const RegisterUser = () => {
   // :remove-start:
   // This useEffect is for test purposes only. If the current
   // user has more than 1 identity, then log them out. We need
-  // an unlinked user for this test.
+  // an unlinked user for this test. Only runs once when the
+  // component is first mounted.
   useEffect(() => {
     if (userIdentities.length > 1) {
-      const logout = async () => {
-        await app.currentUser?.logOut();
-      };
-
-      logout();
+      logOut();
     }
   }, []);
   // :remove-end:
+
+  useEffect(() => {
+    if (result.operation === AuthOperationName.Register && result.success) {
+      console.debug('linking credentials...');
+      linkCredentials();
+      console.debug('done linking credentials');
+    }
+  }, [result]);
 
   if (!userIdentities.length) {
     setUserIdentities(user.identities);
   }
 
+  const linkCredentials = async () => {
+    const credentials = Credentials.emailPassword(email, password);
+    await user.linkCredentials(credentials);
+
+    setUserIdentities(user.identities);
+  };
+
   const registerAndLinkIdentities = async () => {
-    try {
-      await app.emailPasswordAuth.registerUser({email, password});
-
-      const credentials = Credentials.emailPassword(email, password);
-      await user.linkCredentials(credentials);
-
-      setUserIdentities(user.identities);
-    } catch (error) {
-      // Add error handling logic here
-      console.error(error);
-    }
+    register({email, password});
   };
 
   // :replace-start: {
   //    "terms": {
   //       "style={styles.section": "",
   //       "style={styles.inputGroup": "",
+  //       "style={styles.buttonGroup}": "",
   //       "testID="user-identity"": "",
   //    }
   // }
@@ -119,16 +125,18 @@ const RegisterUser = () => {
         />
       </View>
 
-      <Button
-        testID="register-and-link" // :remove:
-        title="Register"
-        onPress={registerAndLinkIdentities}
-      />
-      <Button
-        testID="log-out" // :remove:
-        title="Log out"
-        onPress={logOut}
-      />
+      <View style={styles.buttonGroup}>
+        <Button
+          testID="register-and-link" // :remove:
+          title="Register"
+          onPress={registerAndLinkIdentities}
+        />
+        <Button
+          testID="log-out" // :remove:
+          title="Log out"
+          onPress={logOut}
+        />
+      </View>
     </View>
   );
   // :replace-end:
@@ -148,5 +156,13 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     width: '100%',
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: 12,
+    paddingVertical: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

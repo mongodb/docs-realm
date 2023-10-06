@@ -4,6 +4,8 @@ import {useApp, useAuth} from '@realm/react';
 
 import {Button} from '../../utility-components/Button';
 
+// TODO: Look at realm.js test `credentials/api-keys.ts` for guidance.
+
 export const LoginWithApiKey = () => {
   const app = useApp();
 

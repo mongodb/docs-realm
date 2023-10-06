@@ -4,6 +4,9 @@ import {useEmailPasswordAuth} from '@realm/react';
 
 import {Button} from '../../utility-components/Button';
 
+// TODO: look at realm.js test `credentials/email-password.ts` for
+// guidance on testing confirmation emails and stuff.
+
 export const LoginWithEmail = () => {
   // :snippet-start: email-password-login
   const {logIn} = useEmailPasswordAuth();
