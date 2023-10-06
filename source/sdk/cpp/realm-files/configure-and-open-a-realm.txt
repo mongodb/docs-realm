@@ -208,6 +208,14 @@ To open a synced realm:
       .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.beta-flexible-sync-prerequisites.cpp
          :language: cpp
 
+      When you open a synced realm, you don't need to pass the pass the 
+      models you want the realm to manage into the template parameter list 
+      of the open function. This is a change from the deprecated Alpha API.
+
+      The only exception to this rule is opening a synced realm for 
+      asymmetric sync. For more information, refer to 
+      :ref:`cpp-stream-data-to-atlas`.
+
       .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
    .. tab:: Deprecated
