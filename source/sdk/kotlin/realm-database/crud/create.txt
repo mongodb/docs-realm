@@ -80,11 +80,8 @@ Managed and Unmanaged Objects
 -----------------------------
 
 Realm APIs may refer to objects as managed or unmanaged. When you create 
-a Realm object with the Kotlin SDK, it is unmanaged by the realm. 
-You create a managed instance by copying an unmanaged object to a realm.
-To create an unmanaged copy of a managed object, refer to the
-:ref:`Create an Unmanaged Copy of a Realm Object or Collection <kotlin-create-unmanaged-copy>` 
-section on this page. 
+a Realm object with the Kotlin SDK, it is unmanaged until it is copied 
+to a realm, which creates a managed instance.
 
 - **Managed objects** are Realm objects that persist in a realm. Managed objects 
   can only be accessed from an open realm. They can be updated 
@@ -95,10 +92,14 @@ section on this page.
   You can use Realm APIs with managed objects. For example,
   managed objects can have relationships with other objects and
   be observed for changes. 
+  You can also create an unmanaged copy of a managed object, refer to the
+  :ref:`Create an Unmanaged Copy of a Realm Object or Collection 
+  <kotlin-create-unmanaged-copy>` section on this page. 
 
 - **Unmanaged objects** are instances of Realm objects that
   behave like normal Kotlin objects, but they are not persisted in a realm.
-  All Realm objects are unmanaged until you write them to a realm.
+  All Realm objects are unmanaged until you copy them to a realm within 
+  a write transaction.
   You cannot use Realm APIs with unmanaged objects or observe them for changes.
 
 .. tip:: 
@@ -107,8 +108,8 @@ section on this page.
    `isManaged() <{+kotlin-local-prefix+}io.realm.kotlin.ext/is-managed.html>`__  
    method.
 
-Persist a Realm Object
-----------------------
+Create a Realm Object
+---------------------
 
 Before you can create a new object and persist it to the realm, you must 
 :ref:`<kotlin-define-a-new-object-type>`.
@@ -123,7 +124,7 @@ when you open the realm.
    that isn't in your schema, Realm will return a 
    schema validation error.
 
-To persist a new object to the realm:
+To create a new object and persist it to the realm:
 
 #. Open a write transaction with `realm.write()
    <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
@@ -192,7 +193,8 @@ Embedded objects have strict ownership with their parent object.
 After you create the embedded object, you *cannot* reassign it to a 
 different parent object or share it between multiple parent objects.
 
-In the following example, we instantiate a new  ``Contact`` object with an embedded ``Address``, which contains a ``Contact`` object and an embedded
+In the following example, we instantiate a new  ``Contact`` object with 
+an embedded ``Address``, which contains a ``Contact`` object and an embedded
 ``Country`` object:
 
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-one-embedded-object.kt 
@@ -229,7 +231,7 @@ object and pass it to ``insert()`` within a write transaction:
 
 .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
    :language: kotlin
-   :emphasize-lines: 10
+   :emphasize-lines: 10, 11
 
 Once inserted, the asymmetric object syncs to the App Services backend 
 and the linked Atlas database. You *cannot* access the managed data 
@@ -329,9 +331,11 @@ Create Collection Properties
 Depending on how you define your object type, you might have properties 
 that are defined as one of the following 
 supported :ref:`<kotlin-collection-types>`:
+
 - ``RealmList``
 - ``RealmSet``
 - ``RealmDictionary`` 
+  
 For more information, refer to :ref:`<kotlin-define-collections>`.
 
 Collections are mutable: you can add and remove elements in a collection
@@ -345,7 +349,9 @@ Kotlin classes and are not persisted to the realm.
 
 .. tip:: Listen for Changes to a Created Collection
    
-   After you create a collection, you can register a notification handler to listen for changes. For more information, refer to  :ref:`<kotlin-realm-list-change-listener>`.
+   After you create a collection, you can register a notification handler to 
+   listen for changes. For more information, refer to  
+   :ref:`<kotlin-realm-list-change-listener>`.
 
 Create a RealmList
 ~~~~~~~~~~~~~~~~~~
@@ -379,7 +385,8 @@ property, instantiate an object and pass any values of a
 supported type to the ``RealmSet`` property. For a list of valid types
 that ``RealmSet`` can hold, refer to :ref:`<kotlin-realm-set>`. 
 
-You can instantiate an unmanaged set with `realmSetOf() <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-list-of.html>`__ 
+You can instantiate an unmanaged set with 
+`realmSetOf() <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-list-of.html>`__ 
 or pass elements to the set using 
 `set.add() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-153241610%2FFunctions%2F878332154>`__
 or  
@@ -405,7 +412,8 @@ non-string types. For a list of valid types, refer to
 :ref:`<kotlin-realm-dictionary>`. 
 
 You can instantiate an unmanaged dictionary with 
-`realmDictionaryOf() <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-dictionary-of.html>`__ or 
+`realmDictionaryOf() <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-dictionary-of.html>`__ 
+or 
 `realmDictionaryEntryOf() <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-dictionary-entry-of.html>`__.
 Or you can pass key-values using 
 `put() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html#1052690691%2FFunctions%2F878332154>`__

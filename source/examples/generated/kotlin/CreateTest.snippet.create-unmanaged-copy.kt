@@ -1,4 +1,4 @@
-realm.write {
+realm.writeBlocking {
     // Fetch the managed object you want to copy
     val managedPond = query<Pond>("name == $0", "Big Pond").find().first()
     assertTrue(managedPond.isManaged())

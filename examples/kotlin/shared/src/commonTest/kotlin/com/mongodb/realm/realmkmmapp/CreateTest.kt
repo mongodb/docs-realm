@@ -45,16 +45,16 @@ class CreateTest: RealmTest() {
             realm.write {
                 deleteAll() // :remove:
                 // Instantiate a new unmanaged Frog object
-                val frog = ExampleRealmObject_Frog().apply {
+                val unmanagedFrog = ExampleRealmObject_Frog().apply {
                     name = "Kermit"
                     age = 42
                     owner = "Jim Henson"
                 }
-                assertFalse(frog.isManaged())
+                assertFalse(unmanagedFrog.isManaged())
 
-                // Copy the object to the realm to return a managed instance
-                copyToRealm(frog)
-                assertTrue(frog.isManaged())
+                // Copy the object to realm to return a managed instance
+                val managedFrog = copyToRealm(unmanagedFrog)
+                assertTrue(managedFrog.isManaged())
 
                 // Work with the managed object ...
             }
@@ -341,12 +341,16 @@ class CreateTest: RealmTest() {
                         "Picnic Pond" to ExampleRealmDictionary_Frog().apply { name = "Froggy Jay" },
                         "Big Pond" to ExampleRealmDictionary_Frog().apply { name = "Mr. Toad" }
                     )
-                    favoriteTreesInForest["Maple"] = ExampleEmbeddedObject_EmbeddedForest().apply { name = "Hundred Acre Wood" }
-                    favoritePondsByForest.putAll(mapOf(
+                    favoriteTreesInForest["Maple"] = ExampleEmbeddedObject_EmbeddedForest().apply {
+                        name = "Hundred Acre Wood"
+                    }
+                    favoritePondsByForest.putAll(
+                        mapOf(
                             "Silver Pond" to "Big Forest",
                             "Big Lake" to "Elm Wood",
                             "Trout Pond" to "Sunny Wood"
-                    ))
+                        )
+                    )
                 }
                 // Copy all objects to the realm to return managed instances
                 copyToRealm(frog)
@@ -385,7 +389,9 @@ class CreateTest: RealmTest() {
                 deleteAll()
                 val frog = ExampleRealmDictionary_Frog().apply {
                     name = "Kermit"
-                    favoriteTreesInForest[encodedMapKey] = ExampleEmbeddedObject_EmbeddedForest().apply { name = "Hundred Acre Wood" }
+                    favoriteTreesInForest[encodedMapKey] = ExampleEmbeddedObject_EmbeddedForest().apply {
+                        name = "Hundred Acre Wood"
+                    }
                 }
                 val savedEncodedMapKey = frog.favoriteTreesInForest.keys.first()
                 assertEquals(encodedMapKey, savedEncodedMapKey)
@@ -533,7 +539,7 @@ class CreateTest: RealmTest() {
             }
 
             // :snippet-start: create-unmanaged-copy
-            realm.write {
+            realm.writeBlocking {
                 // Fetch the managed object you want to copy
                 val managedPond = query<ExampleRealmObject_Pond>("name == $0", "Big Pond").find().first()
                 assertTrue(managedPond.isManaged())
