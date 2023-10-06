@@ -1,9 +1,74 @@
+# October 6, 2023
+
+## C++ SDK
+
+- Configure & Open a Realm: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change. 
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Data/Stream Data to Atlas: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change.
+
+## Flutter SDK
+
+- Realm Database/Model Data/React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Device Data/Troubleshooting: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+
+## Java SDK
+
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+
+## Kotlin SDK
+
+- Realm 
+  - Read & Write Data
+    - Landing Page: Convert the landing page to a container page. Move content to relevant child pages.
+    - Create: Update object models and add information on creating objects with the specific properties or relationships (dictionary property, inverse relationship, etc.).
+  - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Device Data
+  - Landing Page: Change to a container page.
+  - Add Sync to an App: Add this new page to document adding sync to an app.
+  - Troubleshooting: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+- Throughout documentation for the SDK: Rename Kotlin Multiplatform Mobile (KMM) to Kotlin Multiplatform (KMP), as KMM is deprecated.
+
+## .NET SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used. 
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Troubleshooting: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+
+## Node.js SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Data/Handle Sync Errors: Fix incorrect file paths for compensating write error examples.
+- Throughout documentation for the SDK: Update object models in accordance with JSv12 standards.
+
+## React Native SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used. 
+- Model Data/Relationships & Embedded Objects: Update inverse relationship examples for JSv12.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Test & Debug/Troubleshooting: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+- Throughout documentation for the SDK: Update object models in accordance with JSv12 standards.
+- Internal: Add React Native testing guidance for creating and testing code. 
+
+## Swift SDK
+
+- Model Data/Define an Object Model: Note that asymmetric objects can now link to non-embedded types.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Test & Debug: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+- Logging: Clarify requirement to set a logger before initializing an App.
+- Sync Data
+  - Manage Flexible Sync Subscriptions: Document Flex Sync Subscribe API.
+  - Stream Data to Atlas: Improve wording to direct users to information on defining an asymmetric object.
+
+# Other
+
+- Example Projects Page: Add Netflix-like Movie App project and Split Data into Multiple Realms core project.
+  
 # September 29, 2023
 
 ## Kotlin SDK
 
 - Realm/Model Data
-
   - Define an Object Model: Wording improvements around embedded objects. Update code example.
   - Relationships: Wording improvements, code example updates, and link cleanup.
   - Supported Types: Add details about optional properties and default values.
