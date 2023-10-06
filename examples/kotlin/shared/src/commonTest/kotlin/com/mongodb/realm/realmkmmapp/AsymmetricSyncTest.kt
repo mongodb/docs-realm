@@ -10,9 +10,6 @@ import io.realm.kotlin.mongodb.ext.call
 import io.realm.kotlin.mongodb.ext.insert
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.mongodb.syncSession
-import io.realm.kotlin.types.AsymmetricRealmObject
-import io.realm.kotlin.types.annotations.PersistedName
-import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -24,8 +21,12 @@ import kotlin.time.Duration.Companion.seconds
 //     "yourFlexAppId": "YOUR_APP_ID"
 //   }
 // }
-class AsymmetricSyncTest : RealmTest() {
 
+/*
+** Snippets used on Stream Data to Atlas, Define, and CRUD pages **
+** Object model defined in Schema.kt **
+ */
+class AsymmetricSyncTest : RealmTest() {
 
     @OptIn(ExperimentalAsymmetricSyncApi::class, ExperimentalRealmSerializerApi::class)
     @Test
@@ -43,14 +44,22 @@ class AsymmetricSyncTest : RealmTest() {
 
         val oid = ObjectId()
         // :snippet-start: create-asymmetric-object
+        // Open a write transaction
         realm.write {
-            insert(WeatherSensor().apply {
+            // Create a new asymmetric object
+            val weatherSensor = WeatherSensor().apply {
                 id = oid //:remove:
                 deviceId = "WX1278UIT"
                 temperatureInFarenheit = 6.7F
                 barometricPressureInHg = 29.65F
                 windSpeedInMph = 2
-            })
+            }
+            // Insert the object into the realm with the insert() extension method
+            insert(weatherSensor)
+
+        // WeatherSensor object is inserted into the realm, then synced to the
+        // App Services backend. You CANNOT access the object locally because it's
+        // deleted from the local realm after sync is complete.
         }
         // :snippet-end:
         // Add a delay to give the document time to sync

@@ -106,6 +106,8 @@ classes to the realm's configuration when you :ref:`open a realm
          constructor(): this("", 0) // Empty constructor required by Realm
       }
 
+.. _kotlin-define-realm-object-type:
+
 Define a Realm Object Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -180,8 +182,7 @@ Data Ingest with your application, refer to :ref:`kotlin-stream-data-to-atlas`.
 
 .. include:: /includes/kotlin-asymmetric-object.rst
 
-To define an :ref:`asymmetric object type<kotlin-asymmetric-objects>`, create a 
-Kotlin class that implements the `AsymmetricRealmObject 
+To define an asymmetric object type, create a Kotlin class that implements the `AsymmetricRealmObject 
 <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__
 interface:
 
@@ -197,7 +198,7 @@ A collection is an object that contains zero or more instances of a supported
 data type. Realm collections are homogenous (all objects in a collection are 
 of the same type) and are backed by their corresponding built-in Kotlin classes.
 For more information on the collection types used in the Kotlin SDK and their
-supported data types, refer to :ref:`Collection Types <kotlin-collection-types>`.
+supported data types, refer to :ref:`<kotlin-collection-types>`.
 
 The Kotlin SDK offers several collection types that you can use as 
 properties in your data model: ``RealmList``, ``RealmSet``, and 

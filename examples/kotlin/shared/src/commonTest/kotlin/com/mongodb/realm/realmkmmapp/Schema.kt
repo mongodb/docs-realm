@@ -13,8 +13,12 @@ import org.mongodb.kbson.ObjectId
 // :replace-start: {
 //    "terms": {
 //       "ExampleRealmObject_": "",
+//       "ExampleEmbeddedObject_": "",
+//       "RealmObjectProperties_": "",
+//       "RealmEmbeddedObject_": "",
 //       "ExampleRelationship_": "",
 //       "ExampleEmbeddedRelationship_": "",
+//       "ExampleRealmList_": "",
 //       "RealmList_": "",
 //       "ExampleRealmDictionary_": "",
 //       "RealmDictionary_": "",
@@ -40,34 +44,43 @@ class ExampleRealmObject_Frog : RealmObject { // Empty constructor required by R
     var owner: String? = null
 }
 // :snippet-end:
-class ExampleRealmObject_EmbeddedForest : EmbeddedRealmObject {
+
+class ExampleRealmObject_Pond : RealmObject {
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var frogsThatLiveHere: RealmList<ExampleRealmObject_Frog> = realmListOf()
+}
+class ExampleEmbeddedObject_EmbeddedForest : EmbeddedRealmObject {
     var id: ObjectId = ObjectId()
     var name: String = ""
 }
 
+
 // ** Tested in Create, Read, Update, and Delete.kt files **
+
+// :snippet-start: create-realm-properties
+class RealmObjectProperties_Frog : RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId()
+    var name: String = ""
+    var birthdate: RealmInstant? = null
+    var fliesEaten: MutableRealmInt? = null
+    var favoriteThings: RealmList<RealmAny?> = realmListOf()
+}
+// :snippet-end:
+
+
 // :snippet-start: define-embedded-object
 // Implements `EmbeddedRealmObject` interface
-class EmbeddedAddress : EmbeddedRealmObject {
+class ExampleEmbeddedObject_EmbeddedAddress : EmbeddedRealmObject {
     // CANNOT have primary key
     var street: String? = null
     var city: String? = null
     var state: String? = null
     var postalCode: String? = null
+    var propertyOwner: ExampleRelationship_Contact? = null
 }
 // :snippet-end:
-class Contact : RealmObject {
-    @PrimaryKey
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    var address: EmbeddedAddress? = null
-}
-class Business : RealmObject {
-    @PrimaryKey
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    var addresses: RealmList<EmbeddedAddress> = realmListOf()
-}
 
 // ** Tested in AsymmetricSyncTest.kt **
 // :snippet-start: define-asymmetric-model
@@ -86,18 +99,18 @@ class WeatherSensor : AsymmetricRealmObject {
 // :snippet-start: define-a-realm-list
 // RealmList<E> can be any supported primitive
 // or BSON type, a RealmObject, or an EmbeddedRealmObject
-class RealmList_Frog : RealmObject {
+class ExampleRealmList_Frog : RealmObject {
     var _id: ObjectId = ObjectId()
     var name: String = ""
     // List of RealmObject type (CANNOT be nullable)
-    var favoritePonds: RealmList<RealmList_Pond> = realmListOf()
+    var favoritePonds: RealmList<ExampleRealmList_Pond> = realmListOf()
     // List of EmbeddedRealmObject type (CANNOT be nullable)
-    var favoriteForests: RealmList<ExampleRealmObject_EmbeddedForest> = realmListOf()
+    var favoriteForests: RealmList<ExampleEmbeddedObject_EmbeddedForest> = realmListOf()
     // List of primitive type (can be nullable)
     var favoriteWeather: RealmList<String?> = realmListOf()
 }
 
-class RealmList_Pond : RealmObject {
+class ExampleRealmList_Pond : RealmObject {
     var _id: ObjectId = ObjectId()
     var name: String = ""
 }
@@ -143,7 +156,7 @@ class ExampleRealmDictionary_Frog : RealmObject {
     // Dictionary of RealmObject type (value MUST be nullable)
     var favoriteFriendsByPond: RealmDictionary<ExampleRealmDictionary_Frog?> = realmDictionaryOf()
     // Dictionary of EmbeddedRealmObject type (value MUST be nullable)
-    var favoriteTreesInForest: RealmDictionary<ExampleRealmObject_EmbeddedForest?> = realmDictionaryOf()
+    var favoriteTreesInForest: RealmDictionary<ExampleEmbeddedObject_EmbeddedForest?> = realmDictionaryOf()
     // Dictionary of primitive type (value can be nullable)
     var favoritePondsByForest: RealmDictionary<String?> = realmDictionaryOf()
 }
@@ -228,6 +241,7 @@ class ExampleRelationship_Contact : RealmObject {
 }
 
 class ExampleRelationship_EmbeddedAddress : EmbeddedRealmObject {
+    var propertyOwner: ExampleRelationship_Contact? = null
     var street: String? = ""
     // Embed another EmbeddedRealmObject type
     var country: ExampleRelationship_EmbeddedCountry? = null
@@ -273,7 +287,6 @@ class ExampleEmbeddedRelationship_Post : EmbeddedRealmObject {
     val user: ExampleEmbeddedRelationship_User by backlinks(ExampleEmbeddedRelationship_User::posts)
 }
 // :snippet-end:
-
 
 /*
 ******** Property Annotations page examples *********
