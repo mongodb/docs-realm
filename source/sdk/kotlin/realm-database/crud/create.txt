@@ -299,6 +299,8 @@ In the following example, we instantiate a new ``Frog`` object with a
 .. To learn how to increment, decrement, and set the counter value after 
 .. you create the object, refer to :ref:`<kotlin-update-mutablerealm>`.
 
+.. _kotlin-create-realmany:
+
 Create a RealmAny (Mixed) Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -318,10 +320,8 @@ In the following example, we instantiate a new ``Frog`` object with a
    :language: kotlin
 
 After you create the object, you *must* know the stored value type 
-to work with the ``RealmAny`` property. 
-
-.. To learn how to work with ``RealmAny`` properties after 
-.. you create the object, refer to :ref:`<kotlin-update-realmany>`.
+to work with the ``RealmAny`` property. To learn how to update ``RealmAny`` 
+properties after you create the object, refer to :ref:`<kotlin-update-realmany>`.
 
 .. _kotlin-create-a-collection:
 
@@ -353,6 +353,8 @@ Kotlin classes and are not persisted to the realm.
    listen for changes. For more information, refer to  
    :ref:`<kotlin-realm-list-change-listener>`.
 
+.. _kotlin-create-a-realmlist:
+
 Create a RealmList
 ~~~~~~~~~~~~~~~~~~
 
@@ -375,12 +377,13 @@ initial values for several ``RealmList`` properties:
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-realm-list.kt
    :language: kotlin
 
+.. _kotlin-create-a-realmset:
+
 Create a RealmSet Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a new object instance with a 
-`RealmSet 
-<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__  
+`RealmSet <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__  
 property, instantiate an object and pass any values of a 
 supported type to the ``RealmSet`` property. For a list of valid types
 that ``RealmSet`` can hold, refer to :ref:`<kotlin-realm-set>`. 
@@ -399,6 +402,8 @@ properties:
 
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.create-realm-set.kt
    :language: kotlin
+
+.. _kotlin-create-a-realmdictionary:
 
 Create a Dictionary Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -492,10 +497,9 @@ backlinks ``posts`` property that references a list of ``Post`` objects:
    :language: kotlin
 
 After you create the object, you can access the backlinks collection
-property to get the child objects. You *cannot* directly modify 
-the backlink itself. 
-
-.. For more information, refer to :ref:`<kotlin-update-inverse-relationships>`.
+property to get the child objects, but you *cannot* directly modify 
+the backlink itself. For more information, refer to 
+:ref:`<kotlin-update-inverse-relationships>`.
 
 .. _kotlin-create-unmanaged-copy:
 
