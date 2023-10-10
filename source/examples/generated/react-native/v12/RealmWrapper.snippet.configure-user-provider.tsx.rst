@@ -1,7 +1,7 @@
 .. code-block:: typescript
 
    import React from 'react';
-   import {AppProvider, UserProvider} from '@realm/react';
+   import {AppProvider, UserProvider, useApp} from '@realm/react';
 
    import {LogIn} from './Login';
 
@@ -18,7 +18,7 @@
                to the user.
                These components only mount if there's an
                authenticated user. */}
-           <RestOfApp />
+           <UserInformation />
          </UserProvider>
        </AppProvider>
      );

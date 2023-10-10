@@ -1,10 +1,9 @@
 // :snippet-start: configure-user-provider
 import React from 'react';
-import {AppProvider, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, useApp} from '@realm/react';
 
 import {LogIn} from './Login';
 // :remove-start:
-import {useEffect} from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {APP_ID} from '../../../../appServicesConfig';
 import {useUser, useAuth} from '@realm/react';
@@ -34,12 +33,25 @@ export const LoginExample = () => {
 // :snippet-start: log-user-out
 // :replace-start: {
 //    "terms": {
-//       "testID="log-out"": ""
+//       "testID=\"log-out\"": ""
 //    }
 // }
 function UserInformation() {
   const user = useUser();
   const {logOut} = useAuth();
+  const performLogout = () => {
+    logOut();
+  };
+  // :remove-start:
+  const app = useApp();
+  // Deletes the user, but @realm/react doesn't currently
+  // refrender or fall back to the fallback component.
+  const deleteUser = async () => {
+    // Type hack because @realm/react's User type doesn't quite match
+    // Realm's User type.
+    app.deleteUser(user as unknown as Realm.User);
+  };
+  // :remove-end:
 
   if (user) {
     return (
@@ -55,7 +67,10 @@ function UserInformation() {
           )}
         />
 
-        <Button testID="log-out" title="Log out" onPress={logOut} />
+        <Button testID="log-out" title="Log out" onPress={performLogout} />
+        {/* :remove-start: */}
+        <Button testID="delete-user" title="Delete user" onPress={deleteUser} />
+        {/* :remove-end: */}
       </View>
     );
   } else {

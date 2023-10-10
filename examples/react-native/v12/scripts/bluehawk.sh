@@ -20,7 +20,7 @@ GREEN_BG_BOLD="\x1B[1;42m"
 ### End of text formatting ###
 
 PROJECT=$(git rev-parse --show-toplevel)
-INPUT_DIRECTORY=$PROJECT/examples/react-native/v12/TestApp
+INPUT_DIRECTORY=$PROJECT/examples/react-native/v12/TestApp/src
 OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/react-native/v12
 
 # standard bluehawking

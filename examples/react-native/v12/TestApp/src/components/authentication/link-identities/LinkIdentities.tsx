@@ -1,3 +1,4 @@
+// :snippet-start: imports
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Credentials} from 'realm';
@@ -8,11 +9,15 @@ import {
   useAuth,
   useEmailPasswordAuth,
   AuthOperationName,
+  useApp,
 } from '@realm/react';
 
+// A custom wrapper around <Pressable> for styling
 import {Button} from '../../utility-components/Button';
+// :snippet-end:
 import {APP_ID} from '../../../../appServicesConfig'; // :remove:
 
+// :snippet-start: providers
 export const LinkIdentities = () => {
   return (
     <AppProvider id={APP_ID}>
@@ -28,7 +33,6 @@ export const LinkIdentities = () => {
 // authenticated user.
 const LogIn = () => {
   const {logInWithAnonymous} = useAuth();
-  console.debug('> In LogIn');
 
   return (
     <View>
@@ -37,7 +41,9 @@ const LogIn = () => {
     </View>
   );
 };
+// :snippet-end:
 
+// :snippet-start: user-identities
 type UserIdentity = {
   providerType: string;
   id: string;
@@ -47,9 +53,10 @@ type UserIdentity = {
 // For this example, the App Services backend automatically
 // confirms users' emails.
 const RegisterUser = () => {
+  const app = useApp();
+  const user = useUser();
   const {logOut} = useAuth();
   const {register, result} = useEmailPasswordAuth();
-  const user = useUser();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -87,22 +94,19 @@ const RegisterUser = () => {
     register({email, password});
   };
 
-  // For some reason, the function works when invoked in App Services,
-  // but not from client. Function is invoked and user id passed properly,
-  // but the user isn't deleted.
+  // Deletes the user, but @realm/react doesn't currently
+  // refrender or fall back to the fallback component.
   const deleteUser = async () => {
-    try {
-      await user.callFunction('deleteOneUser', [{userID: user.id}]);
-    } catch (error) {
-      console.debug(error);
-    }
+    // Type hack because @realm/react's User type doesn't quite match
+    // Realm's User type.
+    app.deleteUser(user as unknown as Realm.User);
   };
   // :replace-start: {
   //    "terms": {
   //       "style={styles.section": "",
   //       "style={styles.inputGroup": "",
   //       "style={styles.buttonGroup}": "",
-  //       "testID="user-identity"": "",
+  //       "testID=\"user-identity\"": ""
   //    }
   // }
   return (
@@ -154,6 +158,7 @@ const RegisterUser = () => {
   );
   // :replace-end:
 };
+// :snippet-end:
 
 const styles = StyleSheet.create({
   section: {
