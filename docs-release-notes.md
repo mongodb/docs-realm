@@ -9,7 +9,7 @@
 ## Flutter SDK
 
 - Realm Database/Model Data/React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
-- Sync Device Data/Troubleshooting: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+- Sync Device Data/Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
 
 ## Java SDK
 
@@ -25,14 +25,14 @@
 - Sync Device Data
   - Landing Page: Change to a container page.
   - Add Sync to an App: Add this new page to document adding sync to an app.
-  - Troubleshooting: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+  - Troubleshooting: Add new page with information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
 - Throughout documentation for the SDK: Rename Kotlin Multiplatform Mobile (KMM) to Kotlin Multiplatform (KMP), as KMM is deprecated.
 
 ## .NET SDK
 
 - Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used. 
 - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
-- Troubleshooting: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+- Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
 
 ## Node.js SDK
 
@@ -46,7 +46,7 @@
 - Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used. 
 - Model Data/Relationships & Embedded Objects: Update inverse relationship examples for JSv12.
 - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
-- Test & Debug/Troubleshooting: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+- Test & Debug/Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
 - Throughout documentation for the SDK: Update object models in accordance with JSv12 standards.
 - Internal: Add React Native testing guidance for creating and testing code. 
 
@@ -54,7 +54,7 @@
 
 - Model Data/Define an Object Model: Note that asymmetric objects can now link to non-embedded types.
 - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
-- Test & Debug: Add information about Apple extended virtual addressing entitlement usage to help with virtual memory issues.
+- Test & Debug: Add information about Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
 - Logging: Clarify requirement to set a logger before initializing an App.
 - Sync Data
   - Manage Flexible Sync Subscriptions: Document Flex Sync Subscribe API.
