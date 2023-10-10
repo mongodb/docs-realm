@@ -6,22 +6,25 @@ import io.realm.kotlin.ext.*
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
 import org.mongodb.kbson.ObjectId
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 // :replace-start: {
 //    "terms": {
 //       "ExampleRealmObject_": "",
+//       "RealmObjectProperties_": "",
+//       "ExampleEmbeddedObject_": "",
 //       "ExampleRelationship_": "",
-//       "ExampleEmbeddedRelationship_": "",
-//       "RealmDictionary_": "",
-//       "RealmSet_": ""
+//       "ExampleRealmList_": "",
+//       "ExampleRealmDictionary_": "",
+//       "ExampleRealmSet_": "",
+//       "RealmEmbeddedObject_": ""
 //    }
 // }
 
-
+/*
+** Snippets used on Delete page **
+** Object models defined in Schema.kt **
+*/
 class DeleteTest: RealmTest() {
 
     @Test
@@ -42,13 +45,12 @@ class DeleteTest: RealmTest() {
                 })
             }
             // :snippet-start: fetch-latest-to-delete-object
-            // Frog object is outside of the write transaction, so it is frozen
             val frozenFrog = realm.query<ExampleRealmObject_Frog>("name == $0", "Kermit").find().first()
-            assertTrue(frozenFrog.isFrozen())
+            assertTrue(frozenFrog.isFrozen()) // :remove:
 
             // Open a write transaction
             realm.writeBlocking {
-                // Get the live frog object with findLatest() to delete it
+                // Get the live frog object with findLatest(), then delete it
                 findLatest(frozenFrog)?.let { liveFrog ->
                     delete(liveFrog)
                 }
@@ -114,7 +116,8 @@ class DeleteTest: RealmTest() {
             // Open a write transaction
             realm.write {
                 // Query the Frog type and filter by primary key value
-                val frogToDelete: ExampleRealmObject_Frog = query<ExampleRealmObject_Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
+                val frogToDelete: ExampleRealmObject_Frog =
+                    query<ExampleRealmObject_Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
                 assertEquals(PRIMARY_KEY_VALUE, frogToDelete._id) // :remove:
                 // Pass the query results to delete()
                 delete(frogToDelete)
@@ -126,19 +129,20 @@ class DeleteTest: RealmTest() {
             // Open a write transaction
             realm.write {
                 // Query by species and limit to 3 results
-                val bullfrogsToDelete: RealmResults<ExampleRealmObject_Frog> = query<ExampleRealmObject_Frog>("species == 'bullfrog' LIMIT(3)").find()
+                val bullfrogsToDelete: RealmResults<ExampleRealmObject_Frog> =
+                    query<ExampleRealmObject_Frog>("species == 'bullfrog' LIMIT(3)").find()
                 // Pass the query results to delete()
                 delete(bullfrogsToDelete)
                 assertTrue(query<ExampleRealmObject_Frog>("species == 'bullfrog'").find().size == 3) // :remove:
             }
             // :snippet-end:
-            // :snippet-start: delete-all-realm-objects
+            // :snippet-start: delete-all-realm-object-types
             // Open a write transaction
             realm.write {
                 // Query Frog type with no filter to return all frog objects
                 val frogsLeftInTheRealm = query<ExampleRealmObject_Frog>().find()
                 delete(frogsLeftInTheRealm)
-                assertTrue(frogsLeftInTheRealm.size == 0)
+                assertTrue(frogsLeftInTheRealm.size == 0) // :remove:
                 deleteAll() // :remove:
             }
             // :snippet-end:
@@ -147,9 +151,49 @@ class DeleteTest: RealmTest() {
     }
 
     @Test
+    fun deleteAllObjects() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(ExampleRealmObject_Frog::class))
+                .inMemory()
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.path}")
+
+            realm.write {
+                deleteAll()
+                copyToRealm(ExampleRealmObject_Frog().apply {
+                    name = "Kermit"
+                    species = "tree frog"
+                    age = 12
+                })
+                copyToRealm(ExampleRealmObject_Frog().apply {
+                    species = "bullfrog"
+                    name = "Froggy"
+                    age = 2
+                })
+            }
+            // :snippet-start: delete-all-realm-objects
+            // Open a write transaction
+            realm.write {
+                // Delete all objects from the realm
+                deleteAll()
+            }
+            // :snippet-end:
+            assertEquals(0, realm.query<ExampleRealmObject_Frog>().find().size)
+            realm.close()
+        }
+    }
+
+    @Test
     fun deleteRealmObjectWithRelationship() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(ExampleRelationship_Frog::class, ExampleRelationship_Pond::class))
+            val config = RealmConfiguration.Builder(
+                setOf(
+                    ExampleRealmList_Frog::class,
+                    ExampleRealmList_Pond::class,
+                    ExampleEmbeddedObject_EmbeddedForest::class
+                )
+            )
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -158,29 +202,32 @@ class DeleteTest: RealmTest() {
             val PRIMARY_KEY_VALUE = ObjectId()
             realm.write {
                 deleteAll()
-                copyToRealm(ExampleRelationship_Frog().apply {
+                copyToRealm(ExampleRealmList_Frog().apply {
                     _id = PRIMARY_KEY_VALUE
                     name = "Kermit"
-                    age = 12
-                    favoritePond = ExampleRelationship_Pond().apply { name = "Picnic Pond" }
+                    favoritePonds.addAll(
+                        realmListOf(
+                            ExampleRealmList_Pond().apply { name = "Picnic Pond" },
+                            ExampleRealmList_Pond().apply { name = "Big Pond" },
+                        )
+                    )
                 })
             }
             // :snippet-start: delete-realm-object-with-related-objects
             // Open a write transaction
             realm.write {
-                // Query for the parent frog object
-                val frogWithAPond = query<ExampleRelationship_Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
-                assertEquals(PRIMARY_KEY_VALUE, frogWithAPond._id) // :remove:
-                // Confirm pond is available through the favoritePond property
-                assertEquals("Picnic Pond", frogWithAPond.favoritePond?.name)
+                // Query for the parent frog object with ponds
+                val parentObject = query<ExampleRealmList_Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
+                assertEquals(PRIMARY_KEY_VALUE, parentObject._id) // :remove:
+                assertEquals(2, parentObject.favoritePonds.size)
 
                 // Delete the frog
-                delete(frogWithAPond)
-                assertFalse(frogWithAPond.isValid())
+                delete(parentObject)
+                assertFalse(parentObject.isValid()) // :remove:
 
-                // Confirm the pond is still in the realm
-                val pondsLeftInTheRealm = query<ExampleRelationship_Pond>().find()
-                assertEquals("Picnic Pond", pondsLeftInTheRealm.first().name)
+                // Confirm all ponds are still in the realm
+                val ponds = query<ExampleRealmList_Pond>().find()
+                assertEquals(2, ponds.size)
                 deleteAll() // :remove:
             }
             // :snippet-end:
@@ -191,7 +238,13 @@ class DeleteTest: RealmTest() {
     @Test
     fun deleteRealmList() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(ExampleRelationship_Forest::class, ExampleRelationship_Frog::class, ExampleRelationship_Pond::class))
+            val config = RealmConfiguration.Builder(
+                setOf(
+                    ExampleRelationship_Forest::class,
+                    ExampleRelationship_Frog::class,
+                    ExampleRelationship_Pond::class
+                )
+            )
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -234,13 +287,8 @@ class DeleteTest: RealmTest() {
             // :snippet-end:
             realm.write {
                 val forest = query<ExampleRelationship_Forest>("name == $0", "Hundred Acre Wood").find().first()
-                forest.nearbyPonds.addAll(realmListOf(
-                    ExampleRelationship_Pond().apply { name = "Frog Corner" },
-                    ExampleRelationship_Pond().apply { name = "The Pond" },
-                    ExampleRelationship_Pond().apply { name = "Enchanted Pool" },
-                    ExampleRelationship_Pond().apply { name = "Bubbling Spring" },
-                    ExampleRelationship_Pond().apply { name = "Big Spring" }
-                ))
+                val ponds = query<ExampleRelationship_Pond>().find()
+                forest.nearbyPonds.addAll(ponds)
             }
             // :snippet-start: list-clear
             // Open a write transaction
@@ -267,8 +315,9 @@ class DeleteTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
 
-            realm.write { copyToRealm(
-                RealmSet_Frog().apply {
+            realm.write {
+                deleteAll()
+                copyToRealm(RealmSet_Frog().apply {
                     name = "Kermit"
                     favoriteSnacks.add(RealmSet_Snack().apply { name = "Flies" })
                     favoriteSnacks.add(RealmSet_Snack().apply { name = "Crickets" })
@@ -276,16 +325,18 @@ class DeleteTest: RealmTest() {
                 })
             }
             // :snippet-start: remove-item-from-set
+            // Open a write transaction
             realm.write {
+                // Query for the parent frog object
                 val myFrog = query<RealmSet_Frog>("name == $0", "Kermit").find().first()
-                val snackSet = findLatest(myFrog)!!.favoriteSnacks
+                val snackSet = myFrog.favoriteSnacks
+                assertEquals(3, snackSet.size)
 
-                // Remove the Flies snack from the set
-                val fliesSnack = snackSet.first { it.name == "Flies" }
-                snackSet.remove(fliesSnack)
-                assertFalse(snackSet.contains(fliesSnack)) // :remove:
+                // Remove one snack from the set
+                snackSet.remove(snackSet.first { it.name == "Flies" })
+                assertEquals(2, snackSet.size)
 
-                // Remove all snacks from the set
+                // Remove the remaining two snacks from the set
                 val allSnacks = findLatest(myFrog)!!.favoriteSnacks
                 snackSet.removeAll(allSnacks)
                 // :remove-start:
@@ -293,32 +344,22 @@ class DeleteTest: RealmTest() {
                 // assertTrue(set.isEmpty())
                 snackSet.removeAll(allSnacks) // have to call twice to actually remove all items until bug is fixed
                 // :remove-end:
-                val snacks = query<RealmSet_Snack>().find()
-                Log.v("There are ${snacks.size} snacks left in the realm")
+                assertEquals(0, snackSet.size)
             }
             // :snippet-end:
+            // :snippet-start: clear-set
             realm.write {
                 val myFrog = realm.query<RealmSet_Frog>("name == $0", "Kermit").find().first()
                 val snackSet = findLatest(myFrog)!!.favoriteSnacks
-                val snack1 = this.copyToRealm(RealmSet_Snack().apply {
-                    name = "snack1"
-                })
-                val snack2 = this.copyToRealm(RealmSet_Snack().apply {
-                    name = "snack2"
-                })
-                val snack3 = this.copyToRealm(RealmSet_Snack().apply {
-                    name = "snack3"
-                })
-
-                snackSet.addAll(setOf(snack1, snack2, snack3))
+                snackSet.addAll(query<RealmSet_Snack>().find()) // :remove:
                 assertEquals(3, snackSet.size)
 
-                // :snippet-start: clear-set
                 // Clear all snacks from the set
                 snackSet.clear()
-                // :snippet-end:
-                 assertTrue(snackSet.isEmpty())
+                assertEquals(0, snackSet.size)
+                deleteAll() // :remove:
             }
+            // :snippet-end:
             realm.close()
         }
     }
@@ -326,35 +367,23 @@ class DeleteTest: RealmTest() {
     @Test
     fun deleteRealmDictionaryType() {
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                schema = setOf(RealmDictionary_Frog::class) // Pass the defined class as the object schema
-            )
-                .directory("/tmp/") // default location for jvm is... in the project root
+            val config = RealmConfiguration.Builder(setOf(RealmDictionary_Frog::class))
+                .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
 
-            // Delete frogs to make this test successful on consecutive reruns
             realm.write {
-                // fetch all frogs from the realm
-                val frogs: RealmResults<RealmDictionary_Frog> = this.query<RealmDictionary_Frog>().find()
-                // call delete on the results of a query to delete those objects permanently
-                delete(frogs)
-                assertEquals(0, frogs.size)
-            }
-
-            // Create an object with a dictionary property to set up the test
-            realm.write {
-                this.copyToRealm(RealmDictionary_Frog().apply {
+                deleteAll()
+                copyToRealm(RealmDictionary_Frog().apply {
                     name = "Kermit"
-                    favoritePondsByForest = realmDictionaryOf("Hundred Acre Wood" to "Picnic Pond", "Lothlorien" to "Linya")
+                    favoritePondsByForest =
+                        realmDictionaryOf("Hundred Acre Wood" to "Picnic Pond", "Lothlorien" to "Linya")
                 })
             }
             // :snippet-start: delete-realm-dictionary
             // Find frogs who have forests with favorite ponds
-            val frogs = realm.query<RealmDictionary_Frog>().find()
-            val frogsWithFavoritePonds = frogs.query("favoritePondsByForest.@count > 1").find()
-            val thisFrog = frogsWithFavoritePonds.first()
+            val thisFrog = realm.query<RealmDictionary_Frog>("favoritePondsByForest.@count > 1").find().first()
             // :remove-start:
             assertEquals(2, thisFrog.favoritePondsByForest.size)
             assertTrue(thisFrog.favoritePondsByForest.containsKey("Hundred Acre Wood"))
@@ -369,15 +398,161 @@ class DeleteTest: RealmTest() {
                     }
                 }
             }
-            // Remove a key and its value
             realm.write {
+                // Remove a key and its value
                 findLatest(thisFrog)?.favoritePondsByForest?.remove("Lothlorien")
+                // :remove-start:
+                val thisFrogUpdated = query<RealmDictionary_Frog>().find().first()
+                assertFalse(thisFrogUpdated.favoritePondsByForest.containsKey("Lothlorien"))
+                assertTrue(thisFrogUpdated.favoritePondsByForest.containsKey("Hundred Acre Wood"))
+                assertFalse(thisFrogUpdated.favoritePondsByForest.containsValue("Picnic Pond"))
+                // :remove-end:
+                // Remove all keys and values
+                findLatest(thisFrog)?.favoritePondsByForest?.clear()
+                assertTrue(thisFrogUpdated.favoritePondsByForest.isEmpty())
+                deleteAll() // :remove:
             }
             // :snippet-end:
-            val thisFrogUpdated = realm.query<RealmDictionary_Frog>().find().first()
-            assertFalse(thisFrogUpdated.favoritePondsByForest.containsKey("Lothlorien"))
-            assertTrue(thisFrogUpdated.favoritePondsByForest.containsKey("Hundred Acre Wood"))
-            assertFalse(thisFrogUpdated.favoritePondsByForest.containsValue("Picnic Pond"))
+            realm.close()
+        }
+    }
+
+    @Test
+    fun deleteEmbeddedObject() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(
+                setOf(
+                    ExampleRelationship_Business::class,
+                    ExampleRelationship_Contact::class,
+                    ExampleRelationship_EmbeddedCountry::class,
+                    ExampleRelationship_EmbeddedAddress::class
+                )
+            )
+                .inMemory()
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.path}")
+            realm.write {
+                deleteAll()
+                copyToRealm(ExampleRelationship_Contact().apply {
+                    name = "Kermit"
+                    address = ExampleRelationship_EmbeddedAddress().apply {
+                        propertyOwner = ExampleRelationship_Contact().apply { name = "Mr. Frog" }
+                        street = "123 Pond St"
+                        country = ExampleRelationship_EmbeddedCountry().apply { name = "United States" }
+                    }
+                })
+                copyToRealm(ExampleRelationship_Contact().apply {
+                    name = "Froggy J. Frog"
+                    address = ExampleRelationship_EmbeddedAddress().apply {
+                        propertyOwner = ExampleRelationship_Contact().apply { name = "Mr. Toad" }
+                        street = "456 Lily Pad Ln"
+                        country = ExampleRelationship_EmbeddedCountry().apply { name = "United States" }
+                    }
+                })
+                val localOffice = ExampleRelationship_EmbeddedAddress().apply {
+                    propertyOwner = ExampleRelationship_Contact().apply { name = "Michigan J. Frog" }
+                    street = "456 Lily Pad Ln"
+                    country = ExampleRelationship_EmbeddedCountry().apply { name = "United States" }
+                }
+                val remoteOffice = ExampleRelationship_EmbeddedAddress().apply {
+                    propertyOwner = ExampleRelationship_Contact().apply { name = "Mr. Toad" }
+                    street = "789 Leaping Frog Ave"
+                    country = ExampleRelationship_EmbeddedCountry().apply { name = "Ireland" }
+                }
+                val business = ExampleRelationship_Business().apply {
+                    name = "Big Frog Corp."
+                    addresses = realmListOf(localOffice, remoteOffice)
+                }
+                copyToRealm(business)
+            }
+            // :snippet-start: delete-embedded-object
+            realm.write {
+                // Delete an embedded object directly
+                val addressToDelete = query<ExampleRelationship_EmbeddedAddress>("street == $0", "456 Lily Pad Ln").find().first()
+                // Delete the embedded object (nullifies the parent property)
+                delete(addressToDelete)
+
+                // Delete an embedded object through the parent
+                val propertyToClear = query<ExampleRelationship_Contact>("name == $0", "Kermit").find().first()
+                // Clear the parent property (deletes the embedded object instance)
+                propertyToClear.address = null
+                assertNull(propertyToClear.address) // :remove:
+
+                // Delete the parent object (deletes all embedded objects)
+                val businessToDelete = query<ExampleRelationship_Business>("name == $0", "Big Frog Corp.").find().first()
+                assertEquals(2, businessToDelete.addresses.size)
+                delete(businessToDelete)
+                assertFalse(businessToDelete.isValid()) // :remove:
+            }
+            // :snippet-end:
+            realm.write {
+                val nulledAddress = query<ExampleRelationship_Contact>("name == $0", "Froggy J. Frog").find().first()
+                assertNull(nulledAddress.address)
+                val deletedBusiness = query<ExampleRelationship_Business>("name == $0", "Big Frog Corp.").find().firstOrNull()
+                assertNull(deletedBusiness)
+                deleteAll()
+            }
+            realm.close()
+        }
+    }
+
+    @Test
+    fun chainDeleteRealmList() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(
+                setOf(
+                    ExampleRealmList_Frog::class,
+                    ExampleRealmList_Pond::class,
+                    ExampleEmbeddedObject_EmbeddedForest::class
+                )
+            )
+                .inMemory()
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.path}")
+
+            realm.write {
+                deleteAll()
+                copyToRealm(ExampleRealmList_Frog().apply {
+                    name = "Kermit"
+                    favoritePonds.addAll(
+                        realmListOf(
+                            ExampleRealmList_Pond().apply { name = "Picnic Pond" },
+                            ExampleRealmList_Pond().apply { name = "Big Pond" },
+                            ExampleRealmList_Pond().apply { name = "Small Pond" },
+                            ExampleRealmList_Pond().apply { name = "Huge Pond" },
+                        )
+                    )
+                })
+            }
+            // :snippet-start: chain-delete-realm-list
+            realm.write {
+                // Query for the parent frog object
+                val frog = query<ExampleRealmList_Frog>("name == $0", "Kermit").find().first()
+                val ponds = frog.favoritePonds
+                assertEquals(4, ponds.size)
+                // Iterate over the list and delete each pond
+                if (ponds.isNotEmpty()) {
+                    ponds.forEach { pond ->
+                        delete(pond)
+                    }
+                }
+                // Delete the parent frog object
+                val frogToDelete = findLatest(frog)
+                if (frogToDelete != null) {
+                    delete(frogToDelete)
+                }
+            }
+            // :snippet-end:
+            realm.write {
+                val frogs = query<ExampleRealmList_Frog>().find()
+                Log.v("Frogs: ${frogs.size}")
+                delete(frogs)
+                val ponds = query<ExampleRealmList_Pond>().find()
+                Log.v("Ponds: ${ponds.size}")
+                delete(ponds)
+            }
             realm.close()
         }
     }

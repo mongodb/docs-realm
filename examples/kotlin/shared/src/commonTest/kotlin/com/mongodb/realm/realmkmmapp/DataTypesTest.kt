@@ -17,7 +17,7 @@ import kotlin.test.assertEquals
 
 
 /*
-** Leaving these here until the Read, Update, and Delete pages are updated
+** Leaving these here until the Read and Update pages are updated
 * to use the new object model and this page can be deleted
 *
 * See the Schema.kt file for the new object model and CreateTest.kt for new tested Create snippets
@@ -66,8 +66,8 @@ class DataTypesTest : RealmTest() {
                 // Modify embedded object properties in a write transaction
                 realm.write {
                     // Fetch the objects
-                    val addressToUpdate = findLatest(address)?: error("Cannot find latest version of embedded object")
-                    val contactToUpdate = findLatest(contact)?: error("Cannot find latest version of parent object")
+                    val addressToUpdate = findLatest(address) ?: error("Cannot find latest version of embedded object")
+                    val contactToUpdate = findLatest(contact) ?: error("Cannot find latest version of parent object")
 
                     // Update a single embedded object property directly
                     addressToUpdate.street = "100 10th St N"
@@ -152,72 +152,5 @@ class DataTypesTest : RealmTest() {
             Realm.deleteRealm(config)
         }
     }
-
-    @Test
-    fun deleteEmbeddedObject() {
-        val realmName = getRandom()
-
-        runBlocking {
-            val config = RealmConfiguration.Builder(setOf(Contact::class, EmbeddedAddress::class))
-                .name(realmName)
-                .build()
-            val realm = Realm.open(config)
-
-            realm.write {
-                val contact1 = copyToRealm(Contact())
-                contact1.apply {
-                    name = "Marvin Monroe"
-                    address = EmbeddedAddress().apply {
-                        street = "123 Fake St"
-                        city = "Some Town"
-                        state = "MA"
-                        postalCode = "12345"
-                    }
-                }
-                val contact2 = copyToRealm(Contact())
-                contact2.apply {
-                    name = "Nick Riviera"
-                    address = EmbeddedAddress().apply {
-                        street = "999 Imaginary Blvd"
-                        city = "Some Town"
-                        state = "FL"
-                        postalCode = "55555"
-                    }
-                }
-            }
-
-            // :snippet-start: delete-embedded-object
-            //  Delete an embedded object directly
-            realm.write {
-                val addressToDelete: EmbeddedAddress =
-                    this.query<EmbeddedAddress>("street == '123 Fake St'").find().first()
-
-                // Delete the embedded object (nullifies the parent property)
-                delete(addressToDelete)
-            }
-
-            // Delete an embedded object through the parent
-            realm.write {
-                val propertyToClear: Contact =
-                    this.query<Contact>("name == 'Nick Riviera'").find().first()
-
-                // Clear the parent property (deletes the embedded object instance)
-                propertyToClear.address = null
-            }
-
-            // Delete parent object (deletes all embedded objects)
-            realm.write {
-                val contactToDelete: Contact =
-                    this.query<Contact>("name == 'Nick Riviera'").find().first()
-                delete(contactToDelete)
-            }
-            // :snippet-end:
-
-            assertEquals(0, realm.query<EmbeddedAddress>().find().size)
-            assertEquals(0, realm.query<Contact>("name == 'Nick Riviera'").find().size)
-
-            realm.close()
-            Realm.deleteRealm(config)
-        }
-    }
 }
+

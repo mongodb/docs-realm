@@ -1,12 +1,16 @@
+// Open a write transaction
 realm.write {
-    val myFrog = realm.query<Frog>("name == $0", "Kermit").find().first()
-    val snackSet = findLatest(myFrog)!!.favoriteSnacks
+    // Query for the parent frog object
+    val myFrog = query<RealmSet_Frog>("name == $0", "Kermit").find().first()
+    val snackSet = myFrog.favoriteSnacks
+    assertEquals(3, snackSet.size)
 
-    // Remove the Flies snack from the set
-    val fliesSnack = snackSet.first { it.name == "Flies" }
-    snackSet.remove(fliesSnack)
+    // Remove one snack from the set
+    snackSet.remove(snackSet.first { it.name == "Flies" })
+    assertEquals(2, snackSet.size)
 
-    // Remove all snacks from the set
+    // Remove the remaining two snacks from the set
     val allSnacks = findLatest(myFrog)!!.favoriteSnacks
     snackSet.removeAll(allSnacks)
+    assertEquals(0, snackSet.size)
 }

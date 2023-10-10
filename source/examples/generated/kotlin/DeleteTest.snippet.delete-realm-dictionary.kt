@@ -1,7 +1,5 @@
 // Find frogs who have forests with favorite ponds
-val frogs = realm.query<Frog>().find()
-val frogsWithFavoritePonds = frogs.query("favoritePondsByForest.@count > 1").find()
-val thisFrog = frogsWithFavoritePonds.first()
+val thisFrog = realm.query<RealmDictionary_Frog>("favoritePondsByForest.@count > 1").find().first()
 // Set an optional value for a key to null if the key exists
 if (thisFrog.favoritePondsByForest.containsKey("Hundred Acre Wood")) {
     realm.write {
@@ -11,7 +9,10 @@ if (thisFrog.favoritePondsByForest.containsKey("Hundred Acre Wood")) {
         }
     }
 }
-// Remove a key and its value
 realm.write {
+    // Remove a key and its value
     findLatest(thisFrog)?.favoritePondsByForest?.remove("Lothlorien")
+    // Remove all keys and values
+    findLatest(thisFrog)?.favoritePondsByForest?.clear()
+    assertTrue(thisFrogUpdated.favoritePondsByForest.isEmpty())
 }
