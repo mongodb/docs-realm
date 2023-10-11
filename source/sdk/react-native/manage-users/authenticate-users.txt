@@ -32,10 +32,17 @@ Before you can authenticate a user, you must:
 Configure User Authentication in Client
 ---------------------------------------
 
-Configure user authentication with the ``@realm/react`` ``AppProvider``
-and ``UserProvider`` components and ``useApp()`` and ``useUser()`` hooks.
+Configure user authentication with the ``@realm/react`` providers and hooks.
 
-To set up user authentication:
+Components wrapped by ``AppProvider`` can access the ``useApp`` and
+``useAuth`` hooks. These components only render if ``AppProvider`` successfully
+connects to your App Services backend.
+
+Components wrapped by ``UserProvider`` can access authenticated users with the
+``useUser()`` hook. These components will only render if your app has an
+authenticated user
+
+To configure user authentication:
 
 #. Wrap all components that need to access App Services in ``AppProvider``.
 #. Inside of ``AppProvider``, wrap all components that you want to have access
@@ -45,10 +52,8 @@ To set up user authentication:
    is no authenticated user.
 #. In the component passed to the ``UserProvider.fallback`` prop, authenticate a
    user with the ``useEmailPasswordAuth()`` hook.
-
-Components wrapped by ``UserProvider`` only render if your app has
-an authenticated user. These components can access the authenticated user
-with the ``useUser()`` hook.
+   This example uses email/password authentication, but you could use any of the
+   ``useAuth`` methods.
 
 .. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.configure-user-provider.tsx.rst
 
@@ -342,6 +347,7 @@ useAuth Hook
      - Result of authentication hook operation. Possible result values are:
 
        .. code:: typescript
+
          {
             state, // "not-started", "pending", "success", "error"
             operation, // enum AuthOperationName
@@ -351,15 +357,15 @@ useAuth Hook
          }
 
    * - ``logIn``
-     - Logs a user in using an email and password. You could also call
-       ``logIn(Realm.Credentials.emailPassword(email, password))``.
-       Returns a ``Realm.User`` instance of the logged-in user.
+     - Log in with an anonymous `Realm.Credentials` instance. Allows log in with
+       any authentication mechanism supported by Realm. If called when a user is
+       currently logged in, the current user switches to the new user.
 
        .. code:: typescript
 
         const {logIn, result} = useAuth();
 
-        useEffect(() => logIn(Realm.Credential.anonymous()), []);
+        useEffect(() => logIn(Realm.Credentials.anonymous()), []);
 
         if(result.pending) {
           return (<LoadingSpinner/>)
