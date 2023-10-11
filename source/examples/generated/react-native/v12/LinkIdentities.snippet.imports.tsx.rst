@@ -6,11 +6,11 @@
    import {
      AppProvider,
      UserProvider,
+     useApp,
      useUser,
      useAuth,
      useEmailPasswordAuth,
      AuthOperationName,
-     useApp,
    } from '@realm/react';
 
    // A custom wrapper around <Pressable> for styling

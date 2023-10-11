@@ -5,11 +5,11 @@ import {Credentials} from 'realm';
 import {
   AppProvider,
   UserProvider,
+  useApp,
   useUser,
   useAuth,
   useEmailPasswordAuth,
   AuthOperationName,
-  useApp,
 } from '@realm/react';
 
 // A custom wrapper around <Pressable> for styling
@@ -28,9 +28,13 @@ export const LinkIdentities = () => {
   );
 };
 
-// Log in an anonymous user when the app opens.
-// This component only mounts if there is no
-// authenticated user.
+// :replace-start: {
+//    "terms": {
+//       "testID=\"log-in\"": ""
+//    }
+// }
+// Log in an anonymous user. This component only mounts
+// if there is no authenticated user.
 const LogIn = () => {
   const {logInWithAnonymous} = useAuth();
 
@@ -41,6 +45,7 @@ const LogIn = () => {
     </View>
   );
 };
+// :replace-end:
 // :snippet-end:
 
 // :snippet-start: user-identities
@@ -49,7 +54,7 @@ type UserIdentity = {
   id: string;
 };
 
-// Convert an anonymous user to an email/password account.
+// Link an anonymous user to an email/password identity.
 // For this example, the App Services backend automatically
 // confirms users' emails.
 const RegisterUser = () => {
@@ -73,6 +78,8 @@ const RegisterUser = () => {
   }, []);
   // :remove-end:
 
+  // Use `result` to react to successful registration
+  // by linking credentials with the current user.
   useEffect(() => {
     if (result.operation === AuthOperationName.Register && result.success) {
       linkCredentials();
@@ -85,7 +92,7 @@ const RegisterUser = () => {
 
   const linkCredentials = async () => {
     const credentials = Credentials.emailPassword(email, password);
-    await user.linkCredentials(credentials);
+    await user.linkCredentials(credentials); // :emphasize:
 
     setUserIdentities(user.identities);
   };
@@ -97,6 +104,7 @@ const RegisterUser = () => {
   const deleteUser = async () => {
     app.deleteUser(app.currentUser!);
   };
+
   // :replace-start: {
   //    "terms": {
   //       "style={styles.section": "",

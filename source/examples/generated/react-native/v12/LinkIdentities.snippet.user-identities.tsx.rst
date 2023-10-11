@@ -1,4 +1,5 @@
 .. code-block:: typescript
+   :emphasize-lines: 33
 
    type UserIdentity = {
      providerType: string;
@@ -18,6 +19,8 @@
      const [password, setPassword] = useState('');
      const [userIdentities, setUserIdentities] = useState(user.identities);
 
+     // Use `result` to react to successful registration
+     // by linking credentials with the current user.
      useEffect(() => {
        if (result.operation === AuthOperationName.Register && result.success) {
          linkCredentials();
@@ -30,7 +33,7 @@
 
      const linkCredentials = async () => {
        const credentials = Credentials.emailPassword(email, password);
-       await user.linkCredentials(credentials);
+       await user.linkCredentials(credentials); 
 
        setUserIdentities(user.identities);
      };

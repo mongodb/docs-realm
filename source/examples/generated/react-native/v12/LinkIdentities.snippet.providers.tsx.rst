@@ -10,16 +10,15 @@
      );
    };
 
-   // Log in an anonymous user when the app opens.
-   // This component only mounts if there is no
-   // authenticated user.
+   // Log in an anonymous user. This component only mounts
+   // if there is no authenticated user.
    const LogIn = () => {
      const {logInWithAnonymous} = useAuth();
 
      return (
        <View>
          <Text>No one is logged in yet.</Text>
-         <Button testID="log-in" title="Log in" onPress={logInWithAnonymous} />
+         <Button  title="Log in" onPress={logInWithAnonymous} />
        </View>
      );
    };

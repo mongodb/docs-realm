@@ -19,6 +19,10 @@ You can link identities with the :realm-react-sdk:`useUser hook
 
    .. step:: Set up Providers
 
+         You need a logged-in user before you can link identities. This means
+         you need an ``AppProvider`` and ``UserProvider``. Then you can link
+         identities to the current user in any component within ``UserProvider``.
+
          .. include:: /examples/generated/react-native/v12/LinkIdentities.snippet.providers.tsx.rst
 
    .. step:: Create UI and Link Identities
