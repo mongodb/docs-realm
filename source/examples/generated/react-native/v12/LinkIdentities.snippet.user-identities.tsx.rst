@@ -6,7 +6,7 @@
      id: string;
    };
 
-   // Convert an anonymous user to an email/password account.
+   // Link an anonymous user to an email/password identity.
    // For this example, the App Services backend automatically
    // confirms users' emails.
    const RegisterUser = () => {
@@ -45,6 +45,7 @@
      const deleteUser = async () => {
        app.deleteUser(app.currentUser!);
      };
+
      return (
        <View }>
          {/* Show all identities associated with the current user */}

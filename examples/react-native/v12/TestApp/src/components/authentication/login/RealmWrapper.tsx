@@ -30,19 +30,16 @@ export const LoginExample = () => {
 };
 // :snippet-end:
 
-// :snippet-start: log-user-out
-// :replace-start: {
-//    "terms": {
-//       "testID=\"log-out\"": ""
-//    }
-// }
 function UserInformation() {
   const user = useUser();
+  // :snippet-start: log-user-out
   const {logOut} = useAuth();
+
   const performLogout = () => {
     logOut();
   };
-  // :remove-start:
+  // :snippet-end:
+
   const app = useApp();
   // Deletes the user, but @realm/react doesn't currently
   // refrender or fall back to the fallback component.
@@ -51,7 +48,6 @@ function UserInformation() {
     // Realm's User type.
     app.deleteUser(user as unknown as Realm.User);
   };
-  // :remove-end:
 
   if (user) {
     return (
@@ -68,17 +64,13 @@ function UserInformation() {
         />
 
         <Button testID="log-out" title="Log out" onPress={performLogout} />
-        {/* :remove-start: */}
         <Button testID="delete-user" title="Delete user" onPress={deleteUser} />
-        {/* :remove-end: */}
       </View>
     );
   } else {
     return <Text>No user logged in</Text>;
   }
 }
-// :replace-end:
-// :snippet-end:
 
 const UserIdentity = ({
   id,
