@@ -94,12 +94,8 @@ const RegisterUser = () => {
     register({email, password});
   };
 
-  // Deletes the user, but @realm/react doesn't currently
-  // refrender or fall back to the fallback component.
   const deleteUser = async () => {
-    // Type hack because @realm/react's User type doesn't quite match
-    // Realm's User type.
-    app.deleteUser(user as unknown as Realm.User);
+    app.deleteUser(app.currentUser!);
   };
   // :replace-start: {
   //    "terms": {
@@ -111,6 +107,7 @@ const RegisterUser = () => {
   // }
   return (
     <View style={styles.section}>
+      {/* Show all identities associated with the current user */}
       <FlatList
         testID="list-container" // :remove:
         data={userIdentities}
@@ -119,6 +116,7 @@ const RegisterUser = () => {
         )}
         keyExtractor={item => item.id}
       />
+
       <Text>Link anonymous user with email/password account</Text>
       <View style={styles.inputGroup}>
         <TextInput

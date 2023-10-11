@@ -8,9 +8,24 @@ Realm provides :ref:`many authentication providers <authentication-providers>`
 to log users into your app. Each provider creates a unique user identity.
 Realm lets you merge multiple credentials into one user identity.
 
-You can link identities using :js-sdk:`User.linkCredentials() <Realm.User.html#linkCredentials>`.
-This links authentication providers to a logged-in ``User`` object.
+You can link identities with the :realm-react-sdk:`useUser hook 
+<functions/useUser.html>`.
 
-.. literalinclude:: /examples/generated/react-native/ts/link-identities.test.snippet.link-identities.tsx
-   :language: typescript
-   :emphasize-lines: 40-49
+.. procedure::
+
+   .. step:: Import Dependencies
+
+      .. include:: /examples/generated/react-native/v12/LinkIdentities.snippet.imports.tsx.rst
+
+   .. step:: Set up Providers
+
+         .. include:: /examples/generated/react-native/v12/LinkIdentities.snippet.providers.tsx.rst
+
+   .. step:: Create UI and Link Identities
+
+         The following example renders the user ID for each identity associated
+         with the app's current user. Initially, only the anonymou user
+         identity renders, but you can create an email/password identity and
+         link it to the anonymous user.
+
+         .. include:: /examples/generated/react-native/v12/LinkIdentities.snippet.user-identities.tsx.rst

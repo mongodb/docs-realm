@@ -5,11 +5,13 @@ import {Button} from '../../utility-components/Button';
 
 export const LogInWithAnonymous = () => {
   // :snippet-start: login-anonymous
-  const {logInWithAnonymous} = useAuth();
+  const {logInWithAnonymous, result} = useAuth();
 
   const performAnonymousLogin = () => {
     logInWithAnonymous();
   };
+
+  // Handle `result`...
   // :snippet-end:
 
   return (

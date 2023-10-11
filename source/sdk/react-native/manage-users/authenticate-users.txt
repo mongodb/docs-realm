@@ -78,10 +78,19 @@ Anonymous User
 The :ref:`Anonymous <anonymous-authentication>` provider allows users to log in
 to your application with temporary accounts that have no associated information.
 
-To log in, create an anonymous credential and pass it to ``App.logIn()``:
+Calling any log in method when a user is currently logged in, switches the 
+current user to the new user.
 
-.. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
-   :language: javascript
+If you call ``logInWithAnonymous()`` in the fallback of the ``UserProvider``,
+then ``UserProvider``'s children render as soon as the anonymous log in succeeds.
+
+To log in an anonymous user:
+
+#. Destructure ``logInWithAnonymous`` and ``result`` from the ``useAuth`` hook.
+#. Call ``logInWithAnonymous()`` without any arguments.
+#. Handle the ``result``.
+
+.. include:: /examples/generated/react-native/v12/LoginWithAnonymous.snippet.login-anonymous.tsx.rst
 
 .. _react-native-email-password-login:
 .. _react-native-login-email-password:
@@ -93,12 +102,13 @@ The :ref:`email/password <email-password-authentication>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
-To log in, create an email/password credential with the user's email address and
-password and pass it to ``App.logIn()``:
+To log a user in with email and password:
 
-.. literalinclude:: /examples/generated/node/authenticate.snippet.email-password-login.js
-   :language: javascript
+#. Destructure ``logIn`` and ``result`` from the ``useEmailPasswordAuth`` hook.
+#. Pass the user's email and password to ``LogIn()`` as an object.
+#. Handle the ``result``.
 
+.. include:: /examples/generated/react-native/v12/LoginWithEmail.snippet.email-password-login.tsx.rst
 
 .. _react-native-api-key-login:
 .. _react-native-login-api-key:
@@ -311,6 +321,3 @@ To log any user out, call the ``User.logOut()`` method on their user instance.
 .. include:: /includes/log-out-queries-in-progress.rst
 
 .. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.log-user-out.tsx.rst
-
-.. .. literalinclude:: /examples/generated/node/authenticate.snippet.logout-current-user.js
-..    :language: javascript

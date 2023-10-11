@@ -4,12 +4,9 @@ import {useEmailPasswordAuth, AuthOperationName} from '@realm/react';
 
 import {Button} from '../../utility-components/Button';
 
-// TODO: look at realm.js test `credentials/email-password.ts` for
-// guidance on testing confirmation emails and stuff.
-
 export const LoginWithEmail = () => {
   // :snippet-start: email-password-login
-  const {logIn} = useEmailPasswordAuth();
+  const {logIn, result} = useEmailPasswordAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +14,8 @@ export const LoginWithEmail = () => {
   const performLogin = () => {
     logIn({email, password});
   };
+
+  // Handle `result`...
   // :snippet-end:
 
   return (
@@ -93,7 +92,7 @@ const SendResetPasswordEmailButton = ({email}: {email: string}) => {
     sendResetPasswordEmail({email: email});
   };
 
-  // Work with `result`...
+  // Handle `result`...
   // :snippet-end:
 
   useEffect(() => {
@@ -139,7 +138,7 @@ const ResetPasswordButton = ({
     resetPassword({token, tokenId, password});
   };
 
-  // Work with `result`...
+  // Handle `result`...
   // :snippet-end:
 
   useEffect(() => {

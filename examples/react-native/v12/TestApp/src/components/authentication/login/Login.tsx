@@ -19,15 +19,6 @@ export const LogIn = () => {
     logIn('bad auth');
   };
 
-  // TODO: work this info into content
-  // Log in with a `Realm.Credentials` instance. This allows login with any
-  // authentication mechanism supported by Realm.
-  // If this is called when a user is currently logged in, it will switch the user.
-  // Typically the other methods from `useAuth` would be used.
-  // If this is rendered in the fallback of the `UserProvider`,
-  // then it's children will be rendered as soon as this succeeds.
-  // useEffect(() => logIn(Realm.Credentials.anonymous()), []);
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
