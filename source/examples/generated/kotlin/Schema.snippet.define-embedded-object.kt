@@ -5,4 +5,5 @@ class EmbeddedAddress : EmbeddedRealmObject {
     var city: String? = null
     var state: String? = null
     var postalCode: String? = null
+    var propertyOwner: Contact? = null
 }

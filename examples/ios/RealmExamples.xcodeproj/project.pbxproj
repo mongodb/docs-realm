@@ -62,6 +62,7 @@
 		914601F726A86B9100BC91EA /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914601F526A86B9000BC91EA /* Sync.swift */; };
 		914AC1BD28A3EAE00005E3C3 /* QuickStartFlexSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914AC1BC28A3EAE00005E3C3 /* QuickStartFlexSync.swift */; };
 		914E8AD827F4C08100B8591D /* ClientReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914E8AD727F4C08100B8591D /* ClientReset.swift */; };
+		9157C1BC2AD059FF0059281A /* SyncTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9157C1BB2AD059FF0059281A /* SyncTestUtils.swift */; };
 		915B8EE529258B4300150F01 /* CreateObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B8EE429258B4300150F01 /* CreateObjects.swift */; };
 		915B8EE629258B4300150F01 /* CreateObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B8EE429258B4300150F01 /* CreateObjects.swift */; };
 		915B8EF929267CC100150F01 /* SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B8EF829267CC100150F01 /* SwiftUI.swift */; };
@@ -206,6 +207,7 @@
 		914601F526A86B9000BC91EA /* Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
 		914AC1BC28A3EAE00005E3C3 /* QuickStartFlexSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStartFlexSync.swift; sourceTree = "<group>"; };
 		914E8AD727F4C08100B8591D /* ClientReset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientReset.swift; sourceTree = "<group>"; };
+		9157C1BB2AD059FF0059281A /* SyncTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTestUtils.swift; sourceTree = "<group>"; };
 		915B8EE429258B4300150F01 /* CreateObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateObjects.swift; sourceTree = "<group>"; };
 		915B8EF829267CC100150F01 /* SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.swift; sourceTree = "<group>"; };
 		915C666927B41B0900E7BDB4 /* BundleRealms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleRealms.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 		48DBFACD25101C3100391E2B = {
 			isa = PBXGroup;
 			children = (
+				9157C1BA2AD059DA0059281A /* TestUtils */,
 				91A09A33290AF9410009FD7E /* RealmExamplesHostApp.entitlements */,
 				4896EE4D2510514B00D1FABF /* Examples */,
 				4803B325251068F800CCAF97 /* HostApp */,
@@ -456,6 +459,14 @@
 				912ACA8128415294006CDDD8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9157C1BA2AD059DA0059281A /* TestUtils */ = {
+			isa = PBXGroup;
+			children = (
+				9157C1BB2AD059FF0059281A /* SyncTestUtils.swift */,
+			);
+			path = TestUtils;
 			sourceTree = "<group>";
 		};
 		91713AFA28AC3D8200519F9D /* SwiftUICatalog */ = {
@@ -806,6 +817,7 @@
 				4834235C25D6E0CB002CE6B0 /* Functions.m in Sources */,
 				48BD8FE72580017D009DE2E6 /* OpenCloseRealm.m in Sources */,
 				914601F626A86B9100BC91EA /* Sync.m in Sources */,
+				9157C1BC2AD059FF0059281A /* SyncTestUtils.swift in Sources */,
 				48944DA025C0E79C0092B8AC /* EmbeddedObjects.m in Sources */,
 				914E8AD827F4C08100B8591D /* ClientReset.swift in Sources */,
 				48F38B562527926500DDEB65 /* Functions.swift in Sources */,
@@ -1458,8 +1470,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.41.0;
+				kind = exactVersion;
+				version = 10.43.0;
 			};
 		};
 		917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {

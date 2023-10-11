@@ -1,3 +1,105 @@
+# October 6, 2023
+
+## C++ SDK
+
+- Configure & Open a Realm: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change. 
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Data/Stream Data to Atlas: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change.
+
+## Flutter SDK
+
+- Realm Database/Model Data/React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Device Data/Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+
+## Java SDK
+
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+
+## Kotlin SDK
+
+- Realm 
+  - Read & Write Data
+    - Landing Page: Convert the landing page to a container page. Move content to relevant child pages.
+    - Create: Update object models and add information on creating objects with the specific properties or relationships (dictionary property, inverse relationship, etc.).
+  - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Device Data
+  - Landing Page: Change to a container page.
+  - Add Sync to an App: Add this new page to document adding sync to an app.
+  - Troubleshooting: Add new page with information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+- Throughout documentation for the SDK: Rename Kotlin Multiplatform Mobile (KMM) to Kotlin Multiplatform (KMP), as KMM is deprecated.
+
+## .NET SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used. 
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+
+## Node.js SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Data/Handle Sync Errors: Fix incorrect file paths for compensating write error examples.
+- Throughout documentation for the SDK: Update object models in accordance with JSv12 standards.
+
+## React Native SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used. 
+- Model Data/Relationships & Embedded Objects: Update inverse relationship examples for JSv12.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Test & Debug/Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+- Throughout documentation for the SDK: Update object models in accordance with JSv12 standards.
+- Internal: Add React Native testing guidance for creating and testing code. 
+
+## Swift SDK
+
+- Model Data/Define an Object Model: Note that asymmetric objects can now link to non-embedded types.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Test & Debug: Add information about Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+- Logging: Clarify requirement to set a logger before initializing an App.
+- Sync Data
+  - Manage Flexible Sync Subscriptions: Document Flex Sync Subscribe API.
+  - Stream Data to Atlas: Improve wording to direct users to information on defining an asymmetric object.
+
+# Other
+
+- Example Projects Page: Add Netflix-like Movie App project and Split Data into Multiple Realms core project.
+  
+# September 29, 2023
+
+## Kotlin SDK
+
+- Realm/Model Data
+  - Define an Object Model: Wording improvements around embedded objects. Update code example.
+  - Relationships: Wording improvements, code example updates, and link cleanup.
+  - Supported Types: Add details about optional properties and default values.
+  - Property Annotations: Wording improvements, code example updates, and link cleanup.
+
+- Manage Users
+  - Landing Page: Convert the landing page to a container page with no content. Move content onto relevant child pages.
+  - Create & Authenticate Users: Move info on creating users onto the "Authenticate Users" page. Rename it to "Create and Authenticate Users."
+  - Delete Users: Rename page from "Create and Delete Users" to "Delete Users." Move content about creating users off of page.
+  - Manage Custom User Data: Rename title from "Custom User Data" to match verb-based page names. Minor rewrites.
+  - Manage User Metadata: Rename title from "user Metadata" to match verb-based page names. Minor rewrites.
+  - Manage Multi-User Apps: New page with tested, Bluehawked code examples describing how to manage multiple users on a device.
+
+## .NET SDK
+
+- Internal: Bump Nuget package version. Update unit test.
+
+## Node.js SDK
+
+- Model Data/Define a Realm Object Model: New "Set a Full-Text Search Index" section with tested, Bluehawked code example showing how to set a Full-Text Search index on a property.
+- CRUD/Query Data: New "Filter with Full-Text Search" section with tested, Bluehawked code examples describing how to query with Full-Text Search.
+
+## React Native SDK
+
+- Sync Data/Handle Sync Errors: Add an example of handling a `CompensatingWriteError`.
+
+## Other
+
+- Add an App Services docs-wide banner with a link to the blog post announcing that "Realm is now Atlas Device SDK."
+- Add manual facet tags with relevant keywords to improve docs search results.
+
 # September 22, 2023
 
 ## Flutter SDK
@@ -10,12 +112,12 @@
 - Realm/Model Data
   - Landing Page: Unlist landing page and turn it into a container in the TOC.
   - Define an Object Model: Update code examples and move relevant content from landing page to this page.
-- Sync Device Data/Manage Sync Session: Add details for ``.reconnect()`` method, which manually triggers an attempt to reconnect to Sync.
-- Atlas App Services/Connect to App Services: Add information about custom HTTP headers and additional configuration details about ``app.close()``. 
+- Sync Device Data/Manage Sync Session: Add details for `.reconnect()` method, which manually triggers an attempt to reconnect to Sync.
+- Atlas App Services/Connect to App Services: Add information about custom HTTP headers and additional configuration details about `app.close()`.
 
 ## .NET SDK
 
-- Sync Data/Manage Flexible Sync Subscriptions: Add information about the Flexible Sync ``SubscribeAsync`` API.
+- Sync Data/Manage Flexible Sync Subscriptions: Add information about the Flexible Sync `SubscribeAsync` API.
 
 ## Node.js SDK
 

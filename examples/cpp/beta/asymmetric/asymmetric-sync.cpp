@@ -27,9 +27,9 @@ TEST_CASE("Beta asymmetric object example", "[write][sync]") {
     auto app = realm::App(APP_ID);
     auto user = app.login(realm::App::credentials::anonymous()).get();
     // :snippet-end:
-    // :snippet-start: beta-open-synced-realm
+    // :snippet-start: beta-open-asymmetric-synced-realm
     auto syncConfig = user.flexible_sync_configuration();
-    auto realm = db(syncConfig);
+    auto realm = open<Beta_WeatherSensorReading>(syncConfig);
     // :snippet-end:
     
     // Doing this for simplicity in testing, but should not be relevant to

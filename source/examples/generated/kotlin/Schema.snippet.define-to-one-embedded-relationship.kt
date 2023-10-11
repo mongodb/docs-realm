@@ -8,6 +8,7 @@ class Contact : RealmObject {
 }
 
 class EmbeddedAddress : EmbeddedRealmObject {
+    var propertyOwner: Contact? = null
     var street: String? = ""
     // Embed another EmbeddedRealmObject type
     var country: EmbeddedCountry? = null
