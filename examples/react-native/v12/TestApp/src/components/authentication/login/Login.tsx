@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import {useAuth} from '@realm/react';
+import {AuthError, useAuth} from '@realm/react';
 
 import {LoginWithEmail} from './LoginWithEmail';
 import {LogInWithAnonymous} from './LoginWithAnonymous';
@@ -19,6 +19,7 @@ export const LogIn = () => {
     logIn('bad auth');
   };
 
+  // TODO: work this info into content
   // Log in with a `Realm.Credentials` instance. This allows login with any
   // authentication mechanism supported by Realm.
   // If this is called when a user is currently logged in, it will switch the user.
@@ -30,10 +31,12 @@ export const LogIn = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
-        <Text>To get to the rest of the app, you need to log in.</Text>
+        {!result.error && (
+          <Text>To get to the rest of the app, you need to log in.</Text>
+        )}
         <View>
           {result.pending && <ActivityIndicator />}
-          {result.error && <ErrorComponent />}
+          {result.error && <ErrorComponent error={result.error} />}
           {result.success && <SuccessComponent />}
         </View>
       </View>
@@ -63,15 +66,16 @@ export const LogIn = () => {
 function SuccessComponent() {
   return (
     <View>
-      <Text>Successfully logged in!</Text>
+      <Text testID="result-success-message">Successful auth operation!</Text>
     </View>
   );
 }
 
-function ErrorComponent() {
+function ErrorComponent({error}: {error: AuthError}) {
   return (
     <View>
-      <Text>Log in error occured!</Text>
+      <Text>{error.name}</Text>
+      <Text>{error.message}</Text>
     </View>
   );
 }

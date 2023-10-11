@@ -43,7 +43,12 @@ export const LoginWithEmail = () => {
       <View style={styles.buttonGroup}>
         <Button testID="log-in" title="Log in" onPress={performLogin} />
         <RegisterButton email={email} password={password} />
-        <ResetPasswordButton email={email} />
+        <SendResetPasswordEmailButton email={email} />
+        <ResetPasswordButton
+          password={password}
+          token={'e30='}
+          tokenId={'test-token-id'}
+        />
       </View>
     </View>
   );
@@ -80,9 +85,16 @@ interface Error {
   stack?: string;
 }
 
-const ResetPasswordButton = ({email}: {email: string}) => {
-  const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
+const SendResetPasswordEmailButton = ({email}: {email: string}) => {
   const [errorMessage, setErrorMessage] = useState('');
+  // :snippet-start: password-reset-send-email
+  const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
+  const performSendResetPasswordEmail = () => {
+    sendResetPasswordEmail({email: email});
+  };
+
+  // Work with `result`...
+  // :snippet-end:
 
   useEffect(() => {
     if (
@@ -93,20 +105,61 @@ const ResetPasswordButton = ({email}: {email: string}) => {
     }
   }, [result]);
 
+  return (
+    <View>
+      <Button
+        testID="send-reset-email"
+        title="Send reset email"
+        onPress={performSendResetPasswordEmail}
+      />
+      {/* We expect an error because password resets through
+      email is disabled in this app's configuration. */}
+      {errorMessage && (
+        <Text testID="send-reset-email-error">{errorMessage}</Text>
+      )}
+    </View>
+  );
+};
+
+interface resetPasswordButtonProps {
+  password: string;
+  token: string;
+  tokenId: string;
+}
+
+const ResetPasswordButton = ({
+  password,
+  token,
+  tokenId,
+}: resetPasswordButtonProps) => {
+  const [errorMessage, setErrorMessage] = useState('');
+  // :snippet-start: password-reset
+  const {resetPassword, result} = useEmailPasswordAuth();
   const performPasswordReset = () => {
-    sendResetPasswordEmail({email: email});
+    resetPassword({token, tokenId, password});
   };
+
+  // Work with `result`...
+  // :snippet-end:
+
+  useEffect(() => {
+    if (result.operation === AuthOperationName.ResetPassword && result.error) {
+      setErrorMessage(result.error.message);
+    }
+  }, [result]);
 
   return (
     <View>
       <Button
-        testID="reset-password" // :remove:
+        testID="reset-password"
         title="Reset password"
         onPress={performPasswordReset}
       />
       {/* We expect an error because password resets through
       email is disabled in this app's configuration. */}
-      {errorMessage && <Text>Error: {errorMessage}</Text>}
+      {errorMessage && (
+        <Text testID="password-reset-error">{errorMessage}</Text>
+      )}
     </View>
   );
 };
