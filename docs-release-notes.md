@@ -1,3 +1,13 @@
+# October 13, 2023
+
+## Node.js SDK
+
+- Install Realm for Node.js: Fix incorrect syntax in Realm import example.
+
+## Other
+
+- Example Projects: Add ObjectAsAPI, Flexible Sync Playground, Connection State Change, and Offline Support and Realm Access projects.
+
 # October 6, 2023
 
 ## C++ SDK
@@ -60,9 +70,9 @@
   - Manage Flexible Sync Subscriptions: Document Flex Sync Subscribe API.
   - Stream Data to Atlas: Improve wording to direct users to information on defining an asymmetric object.
 
-# Other
+## Other
 
-- Example Projects Page: Add Netflix-like Movie App project and Split Data into Multiple Realms core project.
+- Example Projects: Add Netflix-like Movie App project and Split Data into Multiple Realms core project.
   
 # September 29, 2023
 
