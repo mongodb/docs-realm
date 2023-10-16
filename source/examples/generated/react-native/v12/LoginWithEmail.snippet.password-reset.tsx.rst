@@ -1,8 +1,22 @@
 .. code-block:: typescript
 
-   const {resetPassword, result} = useEmailPasswordAuth();
-   const performPasswordReset = () => {
-     resetPassword({token, tokenId, password});
-   };
+   interface resetPasswordButtonProps {
+     password: string;
+     token: string;
+     tokenId: string;
+   }
 
-   // Handle `result`...
+   const ResetPasswordButton = ({
+     password,
+     token,
+     tokenId,
+   }: resetPasswordButtonProps) => {
+     const [errorMessage, setErrorMessage] = useState('');
+     const {resetPassword, result} = useEmailPasswordAuth();
+     const performPasswordReset = () => {
+       resetPassword({token, tokenId, password});
+     };
+
+     // Handle `result`...
+
+   };

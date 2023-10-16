@@ -18,7 +18,7 @@ authentication providers.
 For a quick ``useAuth`` reference, refer to :ref:`useAuth Hook 
 <react-native-auth-hook>` on this page. For a quick ``useEmailPasswordAuth``
 reference, refer to :ref:`useEmailPasswordAuth Hook 
-<react-native-email-pass-hook>`.
+<react-native-email-pass-hook>` on the Manage Email/Password Users page.
 
 You can also use the Realm.js APIs directly. Instantiate a
 :js-sdk:`Credentials <classes/Credentials.html>` object and pass it to
@@ -68,10 +68,8 @@ To configure user authentication:
 
 .. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.configure-user-provider.tsx.rst
 
-Write a Fallback Component for ``UserProvider``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. TODO: add fallback example. Explain how to handle `result`
+Write a Fallback Component for UserProvider
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your app doesn't have an authenticated and logged-in user, ``UserProvider``
 and its children will not render. To handle this case, you can pass a fallaback

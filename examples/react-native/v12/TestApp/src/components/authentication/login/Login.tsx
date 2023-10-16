@@ -18,9 +18,9 @@ export const LogIn = () => {
   // Result contains the result of `logInWithAnonymous`.
   const {logInWithAnonymous, result} = useAuth();
 
-  // Log in an anyonmouse user on component render.
-  // On successfull login, this fallback component unmounts.
   // :uncomment-start:
+  // // Log in an anyonmouse user on component render.
+  // // On successfull login, this fallback component unmounts.
   // useEffect(() => {
   //   logInWithAnonymous();
   // }, [])
