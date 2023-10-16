@@ -1,7 +1,7 @@
-const {getDefaultConfig} = require('@react-native/metro-config');
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 
 const projectRoot = __dirname;
 
 const config = getDefaultConfig(projectRoot);
 
-module.exports = config;
+module.exports = mergeConfig(config, {});
