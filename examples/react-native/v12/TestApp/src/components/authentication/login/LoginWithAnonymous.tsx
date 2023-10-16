@@ -12,7 +12,6 @@ export const LogInWithAnonymous = () => {
   };
 
   // Handle `result`...
-
   // :remove-start:
   return (
     <Button

@@ -1,28 +1,27 @@
 // :snippet-start: configure-user-provider
 import React from 'react';
-import {AppProvider, UserProvider, useApp} from '@realm/react';
+import {AppProvider, UserProvider} from '@realm/react';
 
+// Fallback log in component that's defined in another file.
 import {LogIn} from './Login';
 // :remove-start:
 import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {useUser, useAuth, useApp} from '@realm/react';
 import {APP_ID} from '../../../../appServicesConfig';
-import {useUser, useAuth} from '@realm/react';
 import {Button} from '../../utility-components/Button';
 // :remove-end:
 
 export const LoginExample = () => {
   return (
     <AppProvider id={APP_ID}>
-      {/* If there is no authenticated user,
-          mount the `fallback` component.
-          When user successfully authenticates,
-          the app unmounts the `fallback` component
-          (in this case, th `LogIn` component). */}
+      {/* If there is no authenticated user, mount the
+         `fallback` component. When user successfully
+          authenticates, the app unmounts the `fallback`
+          component (in this case, the `LogIn` component). */}
       <UserProvider fallback={LogIn}>
         {/* Components inside UserProvider have access
-            to the user.
-            These components only mount if there's an
-            authenticated user. */}
+            to the user. These components only mount if
+            there's an authenticated user. */}
         <UserInformation />
       </UserProvider>
     </AppProvider>
@@ -30,16 +29,17 @@ export const LoginExample = () => {
 };
 // :snippet-end:
 
+// :snippet-start: log-user-out
 function UserInformation() {
   const user = useUser();
-  // :snippet-start: log-user-out
   const {logOut} = useAuth();
 
   const performLogout = () => {
     logOut();
   };
-  // :snippet-end:
 
+  // Add UI for logging out...
+  // :remove-start:
   const app = useApp();
   // Deletes the user, but @realm/react doesn't currently
   // refrender or fall back to the fallback component.
@@ -55,7 +55,7 @@ function UserInformation() {
         <Text>User state: {user.state}</Text>
         {user.profile.email && <Text>Email: {user.profile.email}</Text>}
         <FlatList
-          testID="list-container" // :remove:
+          testID="list-container"
           data={user.identities}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
@@ -70,7 +70,9 @@ function UserInformation() {
   } else {
     return <Text>No user logged in</Text>;
   }
+  // :remove-end:
 }
+// :snippet-end:
 
 const UserIdentity = ({
   id,

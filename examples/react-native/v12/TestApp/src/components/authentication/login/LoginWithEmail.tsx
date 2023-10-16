@@ -89,12 +89,12 @@ interface Error {
 const SendResetPasswordEmailButton = ({email}: {email: string}) => {
   const [errorMessage, setErrorMessage] = useState('');
   const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
+
   const performSendResetPasswordEmail = () => {
     sendResetPasswordEmail({email: email});
   };
 
   // Handle `result`...
-
   // :remove-start:
   useEffect(() => {
     if (
@@ -123,13 +123,13 @@ const SendResetPasswordEmailButton = ({email}: {email: string}) => {
 };
 // :snippet-end:
 
-// :snippet-start: password-reset
 interface resetPasswordButtonProps {
   password: string;
   token: string;
   tokenId: string;
 }
 
+// :snippet-start: password-reset
 const ResetPasswordButton = ({
   password,
   token,
@@ -137,12 +137,12 @@ const ResetPasswordButton = ({
 }: resetPasswordButtonProps) => {
   const [errorMessage, setErrorMessage] = useState('');
   const {resetPassword, result} = useEmailPasswordAuth();
+
   const performPasswordReset = () => {
     resetPassword({token, tokenId, password});
   };
 
   // Handle `result`...
-
   // :remove-start:
   useEffect(() => {
     if (result.operation === AuthOperationName.ResetPassword && result.error) {

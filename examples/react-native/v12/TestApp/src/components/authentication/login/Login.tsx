@@ -15,7 +15,10 @@ import {LogInWithAnonymous} from './LoginWithAnonymous';
 //    }
 // }
 export const LogIn = () => {
-  // Result contains the result of `logInWithAnonymous`.
+  // `logInWithAnonymous` logs in a user using an
+  // anonymous Realm Credential.
+  // `result` gives us access to the result of the
+  // current operation. In this case, `logInWithAnonymous`.
   const {logInWithAnonymous, result} = useAuth();
 
   // :uncomment-start:

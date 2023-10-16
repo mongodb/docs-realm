@@ -82,8 +82,10 @@ To write an authentication fallback component for ``UserProvider``:
 
 #. Create a functional component.
 #. Destructure ``logInWithAnonymous`` and ``result`` from the ``useAuth`` hook.
-#. Call ``logInWithAnonymous()`` within a ``useEffect`` block with an _react-native-email-password-retry-user-confirmation
+#. Call ``logInWithAnonymous()`` within a ``useEffect`` block that has an empty
    dependency array.
+#. Handle ``result``. If the authentication operation doesn't succeed, you can
+   write error handling based on ``result``.
 
 .. include:: /examples/generated/react-native/v12/Login.snippet.user-provider-fallback.tsx.rst
 
@@ -95,11 +97,6 @@ with access tokens and refresh tokens.
 
 To learn more about session management, refer to  :ref:`<user-sessions>`
 in the App Services documentation.
-
-Handle User Authentication Errors
----------------------------------
-
-.. TODO: Add examples of using `result.error`.
 
 .. _react-native-anonymous-login:
 .. _react-native-login-anonymous:
@@ -367,7 +364,12 @@ useAuth Hook
      - Description and Example
 
    * - ``result``
-     - Result of authentication hook operation. Possible result values are:
+     - Result of authentication hook operation. ``result.operation`` gives you
+       the name of the current operation. For a list of all operation names,
+       refer to the :realm-react-sdk:`API documentation 
+       <enums/AuthOperationName.html>`.
+     
+       Possible result values:
 
        .. code:: typescript
 
@@ -430,8 +432,8 @@ useAuth Hook
        .. code:: typescript
 
           const {logInWithEmailPassword, result} = useAuth();
-          const [email, setEmail] = useState("");
-          const [password, setPassword] = useState("");
+          const [email, setEmail] = useState('');
+          const [password, setPassword] = useState('');
 
           const performLogin = () => {
             logInWithEmailPassword({email, password});

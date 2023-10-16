@@ -1,7 +1,12 @@
 .. code-block:: typescript
 
-   const {logOut} = useAuth();
+   function UserInformation() {
+     const user = useUser();
+     const {logOut} = useAuth();
 
-   const performLogout = () => {
-     logOut();
-   };
+     const performLogout = () => {
+       logOut();
+     };
+
+     // Add UI for logging out...
+   }
