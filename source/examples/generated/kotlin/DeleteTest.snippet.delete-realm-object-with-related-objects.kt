@@ -4,10 +4,10 @@ realm.write {
     val parentObject = query<Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
     assertEquals(2, parentObject.favoritePonds.size)
 
-    // Delete the frog
+    // Delete the frog and all references to ponds
     delete(parentObject)
 
-    // Confirm all ponds are still in the realm
+    // Confirm pond objects are still in the realm
     val ponds = query<Pond>().find()
     assertEquals(2, ponds.size)
 }
