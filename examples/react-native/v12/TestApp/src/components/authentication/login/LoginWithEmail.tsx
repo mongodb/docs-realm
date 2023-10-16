@@ -4,8 +4,8 @@ import {useEmailPasswordAuth, AuthOperationName} from '@realm/react';
 
 import {Button} from '../../utility-components/Button';
 
+// :snippet-start: email-password-login
 export const LoginWithEmail = () => {
-  // :snippet-start: email-password-login
   const {logIn, result} = useEmailPasswordAuth();
 
   const [email, setEmail] = useState('');
@@ -16,13 +16,12 @@ export const LoginWithEmail = () => {
   };
 
   // Handle `result`...
-  // :snippet-end:
-
+  // :remove-start:
   return (
     <View style={styles.section}>
       <Text>Log in with email and password</Text>
 
-      <View style={styles.inputGroup}>
+      <View>
         <TextInput
           testID="email-input" // :remove:
           style={styles.textInput} // :remove:
@@ -51,7 +50,9 @@ export const LoginWithEmail = () => {
       </View>
     </View>
   );
+  // :remove-end:
 };
+// :snippet-end:
 
 // :snippet-start: email-password-register
 type RegisterButtonProps = {
@@ -84,17 +85,17 @@ interface Error {
   stack?: string;
 }
 
+// :snippet-start: password-reset-send-email
 const SendResetPasswordEmailButton = ({email}: {email: string}) => {
   const [errorMessage, setErrorMessage] = useState('');
-  // :snippet-start: password-reset-send-email
   const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
   const performSendResetPasswordEmail = () => {
     sendResetPasswordEmail({email: email});
   };
 
   // Handle `result`...
-  // :snippet-end:
 
+  // :remove-start:
   useEffect(() => {
     if (
       result.operation === AuthOperationName.SendResetPasswordEmail &&
@@ -118,8 +119,11 @@ const SendResetPasswordEmailButton = ({email}: {email: string}) => {
       )}
     </View>
   );
+  // :remove-end:
 };
+// :snippet-end:
 
+// :snippet-start: password-reset
 interface resetPasswordButtonProps {
   password: string;
   token: string;
@@ -132,15 +136,14 @@ const ResetPasswordButton = ({
   tokenId,
 }: resetPasswordButtonProps) => {
   const [errorMessage, setErrorMessage] = useState('');
-  // :snippet-start: password-reset
   const {resetPassword, result} = useEmailPasswordAuth();
   const performPasswordReset = () => {
     resetPassword({token, tokenId, password});
   };
 
   // Handle `result`...
-  // :snippet-end:
 
+  // :remove-start:
   useEffect(() => {
     if (result.operation === AuthOperationName.ResetPassword && result.error) {
       setErrorMessage(result.error.message);
@@ -161,23 +164,20 @@ const ResetPasswordButton = ({
       )}
     </View>
   );
+  // :remove-end:
 };
+// :snippet-end:
 
 const styles = StyleSheet.create({
   section: {
-    flex: 1,
     borderTopWidth: StyleSheet.hairlineWidth,
     marginTop: 8,
     paddingVertical: 12,
-    alignItems: 'center',
   },
   textInput: {
     backgroundColor: '#C5CAE9',
     borderBottomWidth: StyleSheet.hairlineWidth,
     marginVertical: 5,
-  },
-  inputGroup: {
-    width: '100%',
   },
   buttonGroup: {
     flexDirection: 'row',
@@ -185,6 +185,5 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     paddingVertical: 8,
     justifyContent: 'center',
-    alignItems: 'center',
   },
 });

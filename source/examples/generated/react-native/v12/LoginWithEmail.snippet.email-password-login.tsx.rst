@@ -1,12 +1,14 @@
 .. code-block:: typescript
 
-   const {logIn, result} = useEmailPasswordAuth();
+   export const LoginWithEmail = () => {
+     const {logIn, result} = useEmailPasswordAuth();
 
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
+     const [email, setEmail] = useState('');
+     const [password, setPassword] = useState('');
 
-   const performLogin = () => {
-     logIn({email, password});
+     const performLogin = () => {
+       logIn({email, password});
+     };
+
+     // Handle `result`...
    };
-
-   // Handle `result`...

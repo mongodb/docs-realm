@@ -1,9 +1,12 @@
 .. code-block:: typescript
 
-   const {logInWithAnonymous, result} = useAuth();
+   export const LogInWithAnonymous = () => {
+     const {logInWithAnonymous, result} = useAuth();
 
-   const performAnonymousLogin = () => {
-     logInWithAnonymous();
+     const performAnonymousLogin = () => {
+       logInWithAnonymous();
+     };
+
+     // Handle `result`...
+
    };
-
-   // Handle `result`...

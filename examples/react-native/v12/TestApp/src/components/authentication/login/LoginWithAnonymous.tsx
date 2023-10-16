@@ -3,8 +3,8 @@ import {useAuth} from '@realm/react';
 
 import {Button} from '../../utility-components/Button';
 
+// :snippet-start: login-anonymous
 export const LogInWithAnonymous = () => {
-  // :snippet-start: login-anonymous
   const {logInWithAnonymous, result} = useAuth();
 
   const performAnonymousLogin = () => {
@@ -12,8 +12,8 @@ export const LogInWithAnonymous = () => {
   };
 
   // Handle `result`...
-  // :snippet-end:
 
+  // :remove-start:
   return (
     <Button
       testID="log-in-anonymous"
@@ -23,4 +23,6 @@ export const LogInWithAnonymous = () => {
       }}
     />
   );
+  // :remove-end:
 };
+// :snippet-end:
