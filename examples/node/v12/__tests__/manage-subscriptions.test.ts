@@ -64,41 +64,22 @@ describe("Managing Sync Subscriptions", () => {
 
     // There shouldn't be any active subscriptions.
     expect(realm.subscriptions.length).toBe(0);
-
     // :remove-end:
     const completedTasks = await realm
       .objects(Task)
-      .filtered('status == "Complete"')
-      .subscribe({
-        name: "testSubAwait",
-        behavior: Realm.WaitForSync.Always,
-      });
-
-    console.debug(completedTasks, completedTasks.length);
-
-    const thenTasks = realm
-      .objects(Task)
-      .filtered('status == "Complete"')
-      .subscribe({
-        name: "testSub.Then",
-        behavior: Realm.WaitForSync.Always,
-      })
-      .then((item) => {
-        console.debug(item, item.length);
-      });
+      .filtered('status == "completed"')
+      .subscribe();
 
     // ...work with the subscribed results list
     // :snippet-end:
 
-    // expect(realm.subscriptions.length).toBe(1);
+    expect(realm.subscriptions.length).toBe(1);
 
     // :snippet-start: sub-remove-unnamed
     // Remove unnamed subscriptions.
     let numberRemovedSubscriptions = 0;
     await realm.subscriptions.update((mutableSubs) => {
       numberRemovedSubscriptions = mutableSubs.removeUnnamed();
-      mutableSubs.removeByName("testSubAwait");
-      mutableSubs.removeByName("testSub.Then");
     });
     // :snippet-end:
 
@@ -239,7 +220,7 @@ describe("Managing Sync Subscriptions", () => {
     expect(realm.subscriptions.length).toEqual(0);
   });
 
-  test.skip("open an FS realm with initial subscriptions", async () => {
+  test("open an FS realm with initial subscriptions", async () => {
     // :snippet-start: set-initial-subscriptions
     const config: Realm.Configuration = {
       schema: [Task],
