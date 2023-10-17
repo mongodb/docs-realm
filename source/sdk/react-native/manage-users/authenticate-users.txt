@@ -49,12 +49,14 @@ user authentication:
 Set up @realm/react Providers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Components wrapped by ``AppProvider`` can access the ``useApp`` and
-``useAuth`` hooks. These components only render if ``AppProvider`` successfully
-connects to your App Services backend.
+Components wrapped by :realm-react-sdk:`AppProvider <functions/AppProvider.html>`
+can access the :realm-react-sdk:`useApp <functions/useApp.html>` and
+:realm-react-sdk:`useAuth <functions/useAuth.html>` hooks. These components only
+render if ``AppProvider`` successfully connects to your App Services backend.
 
-Components wrapped by ``UserProvider`` can access authenticated users with the
-``useUser()`` hook. These components only render if your app has an
+Components wrapped by :realm-react-sdk:`UserProvider <functions/UserProvider.html>`
+can access authenticated users with the :realm-react-sdk:`useUser 
+<functions/useUser.html>` hook. These components only render if your app has an
 authenticated user
 
 To configure user authentication:
@@ -101,8 +103,14 @@ in the App Services documentation.
 .. _react-native-anonymous-login:
 .. _react-native-login-anonymous:
 
+Authentication Providers and Client Authentication
+--------------------------------------------------
+
+After you configure user authentication in your client and authentication
+providers in your App Services App, you can log users in.
+
 Anonymous User
---------------
+~~~~~~~~~~~~~~
 
 The :ref:`Anonymous <anonymous-authentication>` provider allows users to log in
 to your application with temporary accounts that have no associated information.
@@ -125,11 +133,16 @@ To log in an anonymous user:
 .. _react-native-login-email-password:
 
 Email/Password User
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 The :ref:`email/password <email-password-authentication>` authentication
 provider allows users to log in to your application with an email address and a
 password.
+
+You can use the ``useEmailPasswordAuth`` hook to handle user log in in your
+client. For a quick ``useEmailPasswordAuth`` reference, refer to
+:ref:`useEmailPasswordAuth Hook <react-native-email-pass-hook>` on the Manage
+Email/Password Users page.
 
 To log a user in with email and password:
 
@@ -143,7 +156,7 @@ To log a user in with email and password:
 .. _react-native-login-api-key:
 
 API Key User
-------------
+~~~~~~~~~~~~
 
 The :ref:`API key <api-key-authentication>` authentication provider allows
 server processes to access your app directly or on behalf of a user.
@@ -158,7 +171,7 @@ API key and pass it to ``App.logIn()``:
 .. _react-native-login-custom-jwt:
 
 Custom JWT User
----------------
+~~~~~~~~~~~~~~~
 
 The :ref:`Custom JWT <custom-jwt-authentication>` authentication provider
 allows you to handle user authentication with any authentication system that
@@ -174,7 +187,7 @@ and pass it to ``App.logIn()``:
 .. _react-native-login-custom-function:
 
 Custom Function User
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 The :ref:`Custom Function <custom-function-authentication>` authentication
 provider allows you to handle user authentication by running a :ref:`function
@@ -190,7 +203,7 @@ with a payload object and pass it to ``App.logIn()``:
 .. _react-native-login-facebook:
 
 Facebook User
--------------
+~~~~~~~~~~~~~
 
 The :ref:`Facebook <facebook-authentication>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
@@ -222,7 +235,7 @@ to your React Native app and use to finish logging the user in to your app.
 .. _react-native-login-google:
 
 Google User
------------
+~~~~~~~~~~~
 
 The :ref:`Google <google-authentication>` authentication provider allows you to
 authenticate users with their existing Google account.
@@ -273,7 +286,7 @@ Use that ID token to log into Realm.
 .. _react-native-login-apple:
 
 Apple User
-----------
+~~~~~~~~~~
 
 The :ref:`Apple <apple-id-authentication>` authentication provider allows you to
 authenticate users through Sign-in With Apple.
@@ -353,8 +366,10 @@ To log any user out, call the ``User.logOut()`` method on their user instance.
 
 .. _react-native-auth-hook:
 
-useAuth Hook
-------------
+useAuth Hook Reference
+----------------------
+
+API documentation: :realm-react-sdk:`useAuth <functions/useAuth.html>`
 
 .. list-table::
    :header-rows: 1
