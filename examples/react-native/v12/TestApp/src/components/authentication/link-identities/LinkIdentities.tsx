@@ -1,6 +1,13 @@
 // :snippet-start: imports
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import {Credentials} from 'realm';
 import {
   AppProvider,
@@ -11,11 +18,8 @@ import {
   useEmailPasswordAuth,
   AuthOperationName,
 } from '@realm/react';
-
-// A custom wrapper around <Pressable> for styling
-import {Button} from '../../utility-components/Button';
 // :snippet-end:
-import {APP_ID} from '../../../../appServicesConfig'; 
+import {APP_ID} from '../../../../appServicesConfig';
 
 // :snippet-start: providers
 export const LinkIdentities = () => {
@@ -41,7 +45,12 @@ const LogIn = () => {
   return (
     <View>
       <Text>No one is logged in yet.</Text>
-      <Button testID="log-in" title="Log in" onPress={logInWithAnonymous} />
+      <Pressable
+        testID="log-in" // :remove:
+        style={styles.button} // :remove:
+        onPress={logInWithAnonymous}>
+        <Text style={styles.buttonText}>Log in</Text>
+      </Pressable>
     </View>
   );
 };
@@ -144,21 +153,24 @@ const RegisterUser = () => {
       </View>
 
       <View style={styles.buttonGroup}>
-        <Button
-          testID="register-and-link" // :remove:
-          title="Register"
-          onPress={registerAndLinkIdentities}
-        />
-        <Button
+        <Pressable
+          style={styles.button} // :remove:
+          testID="register-link" // :remove:
+          onPress={registerAndLinkIdentities}>
+          <Text style={styles.buttonText}>Register</Text>
+        </Pressable>
+        <Pressable
+          style={styles.button} // :remove:
           testID="log-out" // :remove:
-          title="Log out"
-          onPress={logOut}
-        />
-        <Button
+          onPress={logOut}>
+          <Text style={styles.buttonText}>Log out</Text>
+        </Pressable>
+        <Pressable
+          style={styles.button} // :remove:
           testID="delete-user" // :remove:
-          title="Delete user"
-          onPress={deleteUser}
-        />
+          onPress={deleteUser}>
+          <Text style={styles.buttonText}>Delete user</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -188,5 +200,18 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#3F51B5',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#ffffff',
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    marginVertical: 5,
+    marginHorizontal: 8,
+  },
+  buttonText: {
+    color: '#ffffff',
+    textAlign: 'center',
   },
 });

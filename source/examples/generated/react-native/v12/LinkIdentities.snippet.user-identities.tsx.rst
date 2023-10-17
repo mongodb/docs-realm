@@ -72,18 +72,18 @@
          </View>
 
          <View >
-           <Button
-             title="Register"
-             onPress={registerAndLinkIdentities}
-           />
-           <Button
-             title="Log out"
-             onPress={logOut}
-           />
-           <Button
-             title="Delete user"
-             onPress={deleteUser}
-           />
+           <Pressable
+             onPress={registerAndLinkIdentities}>
+             <Text style={styles.buttonText}>Register</Text>
+           </Pressable>
+           <Pressable
+             onPress={logOut}>
+             <Text style={styles.buttonText}>Log out</Text>
+           </Pressable>
+           <Pressable
+             onPress={deleteUser}>
+             <Text style={styles.buttonText}>Delete user</Text>
+           </Pressable>
          </View>
        </View>
      );

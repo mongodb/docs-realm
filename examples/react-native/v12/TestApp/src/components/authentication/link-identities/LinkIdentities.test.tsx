@@ -18,7 +18,7 @@ test('linking an anonymous user with an email/password account', async () => {
   // LinkIdentities component should render.
   const emailInput = await screen.findByTestId('email-input');
   const passwordInput = await screen.findByTestId('password-input');
-  const registerButton = await screen.findByTestId('register-and-link');
+  const registerButton = await screen.findByTestId('register-link');
   const deleteUser = await screen.findByTestId('delete-user');
 
   const userIdentityList = await screen.findByTestId('list-container');

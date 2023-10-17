@@ -18,7 +18,10 @@
      return (
        <View>
          <Text>No one is logged in yet.</Text>
-         <Button  title="Log in" onPress={logInWithAnonymous} />
+         <Pressable
+           onPress={logInWithAnonymous}>
+           <Text style={styles.buttonText}>Log in</Text>
+         </Pressable>
        </View>
      );
    };
