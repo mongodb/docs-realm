@@ -123,18 +123,18 @@ const SendResetPasswordEmailButton = ({email}: {email: string}) => {
 };
 // :snippet-end:
 
-interface resetPasswordButtonProps {
+// :snippet-start: password-reset
+interface ResetPasswordButtonProps {
   password: string;
   token: string;
   tokenId: string;
 }
 
-// :snippet-start: password-reset
 const ResetPasswordButton = ({
   password,
   token,
   tokenId,
-}: resetPasswordButtonProps) => {
+}: ResetPasswordButtonProps) => {
   const [errorMessage, setErrorMessage] = useState('');
   const {resetPassword, result} = useEmailPasswordAuth();
 
