@@ -42,7 +42,7 @@ function UserInformation() {
   // :remove-start:
   const app = useApp();
   // Deletes the user, but @realm/react doesn't currently
-  // refrender or fall back to the fallback component.
+  // rerender or fall back to the fallback component.
   const deleteUser = async () => {
     // Type hack because @realm/react's User type doesn't quite match
     // Realm's User type.

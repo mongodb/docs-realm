@@ -23,7 +23,7 @@ export const LoginWithEmail = () => {
 
       <View>
         <TextInput
-          testID="email-input" // :remove:
+          testID="email-input" 
           style={styles.textInput} // :remove:
           onChangeText={setEmail}
           value={email}

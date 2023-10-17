@@ -15,7 +15,7 @@ import {
 // A custom wrapper around <Pressable> for styling
 import {Button} from '../../utility-components/Button';
 // :snippet-end:
-import {APP_ID} from '../../../../appServicesConfig'; // :remove:
+import {APP_ID} from '../../../../appServicesConfig'; 
 
 // :snippet-start: providers
 export const LinkIdentities = () => {
