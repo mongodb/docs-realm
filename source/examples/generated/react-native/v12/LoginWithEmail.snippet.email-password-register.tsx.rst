@@ -6,7 +6,14 @@
    };
 
    const RegisterButton = ({email, password}: RegisterButtonProps) => {
-     const {register} = useEmailPasswordAuth();
+     const {register, result, logIn} = useEmailPasswordAuth();
+
+     // Log in the user after successful registration
+     useEffect(() => {
+       if (result.success && result.operation === AuthOperationName.Register) {
+         logIn({email, password});
+       }
+     }, [result, logIn, email, password]);
 
      // For this example, the App Services backend automatically
      // confirms users' emails.
