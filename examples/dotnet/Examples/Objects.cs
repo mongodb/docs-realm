@@ -62,7 +62,8 @@ namespace Examples.Models
     // :snippet-start: default
     // :replace-start: {
     //  "terms": {
-    //      "PersonB": "Person" }
+    //      "PersonB": "Person",
+    //      "Person_Required": "PhoneNumber"}
     // }
     public partial class PersonB : IRealmObject
     {
@@ -72,6 +73,8 @@ namespace Examples.Models
         public ObjectId ID { get; set; }
         //:remove-end:
         public string Name { get; set; } = "foo";
+
+        public IList<Person_Required> PhoneNumbers { get; } = null!;
     }
     // :replace-end:
     // :snippet-end:
