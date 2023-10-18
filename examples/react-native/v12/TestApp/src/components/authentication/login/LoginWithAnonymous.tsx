@@ -7,9 +7,7 @@ import {Button} from '../../utility-components/Button';
 export const LogInWithAnonymous = () => {
   const {logInWithAnonymous, result} = useAuth();
 
-  const performAnonymousLogin = () => {
-    logInWithAnonymous();
-  };
+  const performAnonymousLogin = logInWithAnonymous;
 
   // Handle `result`...
   // :remove-start:

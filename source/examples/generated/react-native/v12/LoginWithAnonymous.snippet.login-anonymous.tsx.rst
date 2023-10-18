@@ -3,9 +3,7 @@
    export const LogInWithAnonymous = () => {
      const {logInWithAnonymous, result} = useAuth();
 
-     const performAnonymousLogin = () => {
-       logInWithAnonymous();
-     };
+     const performAnonymousLogin = logInWithAnonymous;
 
      // Handle `result`...
    };
