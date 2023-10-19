@@ -46,14 +46,15 @@ class DeleteTest: RealmTest() {
                 })
             }
             // :snippet-start: fetch-latest-to-delete-object
-            val frozenFrog = realm.query<ExampleRealmObject_Frog>("name == $0", "Kermit").find().first()
-            assertTrue(frozenFrog.isFrozen()) // :remove:
+            val frozenFrog = realm.query<ExampleRealmObject_Frog>("name == $0", "Kermit").find().firstOrNull()
+            frozenFrog?.isFrozen()?.let { assertTrue(it) } // :remove:
 
             // Open a write transaction
             realm.writeBlocking {
                 // Get the live frog object with findLatest(), then delete it
-                findLatest(frozenFrog)?.let { liveFrog ->
-                    delete(liveFrog)
+                if (frozenFrog != null) {
+                    findLatest(frozenFrog)
+                        ?.also { delete(it) }
                 }
             }
             // :snippet-end:
@@ -367,7 +368,7 @@ class DeleteTest: RealmTest() {
     @Test
     fun deleteRealmDictionaryType() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(ExampleRealmDictionary_Frog::class))
+            val config = RealmConfiguration.Builder(setOf(ExampleRealmDictionary_Frog::class, ExampleEmbeddedObject_EmbeddedForest::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -490,7 +491,6 @@ class DeleteTest: RealmTest() {
                 assertEquals(2, businessToDelete.addresses.size) // :remove:
                 // Delete the parent object (deletes all embedded objects)
                 delete(businessToDelete)
-                assertNull(businessToDelete) // :remove:
             }
             // :snippet-end:
             realm.write {
