@@ -15,6 +15,7 @@ import {CompensatingWriteErrorHandling} from './src/components/errors/Compensati
 
 // Screens
 import {SubscriptionScreen} from './src/screens/SubscriptionScreen';
+import {AuthenticationScreen} from './src/screens/AuthenticationScreen';
 
 // Types
 import {RootStackParamList} from './src/navigation/types';
@@ -48,6 +49,7 @@ function App(): JSX.Element {
           name="Errors"
           component={CompensatingWriteErrorHandling}
         />
+        <Drawer.Screen name="Authentication" component={AuthenticationScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
