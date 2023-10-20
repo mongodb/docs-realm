@@ -11,11 +11,20 @@ export type RootStackParamList = {
   FullTextSearch: undefined;
   Relationships: undefined;
   Errors: undefined;
+  QuickStart: undefined;
+  QuickStart2: undefined;
+  QuickStartSync: undefined;
 };
 
 export type SubscriptionStackParamList = {
   SubscriptionHome: undefined;
   SubscribeApi: undefined;
+};
+
+export type QuickStartStackParamList = {
+  QuickStartHome: undefined;
+  QuickStartLocal: undefined;
+  QuickStartSync: undefined; 
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -26,6 +35,7 @@ export type SubscriptionHomeProps = StackScreenProps<
   SubscriptionStackParamList,
   'SubscriptionHome'
 >;
+export type QuickStartHomeProps = StackScreenProps< QuickStartStackParamList, 'QuickStartHome'>
 
 declare global {
   namespace ReactNavigation {

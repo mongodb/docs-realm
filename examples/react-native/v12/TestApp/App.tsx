@@ -15,9 +15,11 @@ import {CompensatingWriteErrorHandling} from './src/components/errors/Compensati
 
 // Screens
 import {SubscriptionScreen} from './src/screens/SubscriptionScreen';
+import { QuickStartScreen } from './src/screens/QuickStartScreen';
 
 // Types
 import {RootStackParamList} from './src/navigation/types';
+import { QuickStartLocal } from './src/components/quickstart/RealmWrapperLocal';
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
@@ -44,10 +46,8 @@ function App(): JSX.Element {
         <Drawer.Screen name="ObjectModels" component={ObjectModels} />
         <Drawer.Screen name="Subscriptions" component={SubscriptionScreen} />
         <Drawer.Screen name="Relationships" component={RelationshipExamples} />
-        <Drawer.Screen
-          name="Errors"
-          component={CompensatingWriteErrorHandling}
-        />
+        <Drawer.Screen name="Errors" component={CompensatingWriteErrorHandling} />
+        <Drawer.Screen name="QuickStart" component={QuickStartScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

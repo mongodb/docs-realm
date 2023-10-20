@@ -71,7 +71,7 @@ export class Profile extends Realm.Object<Profile> {
     name: 'Profile',
     properties: {
       _id: 'objectId',
-      name: 'string',
+      name: {type: 'string', indexed: 'full-text'}, 
     },
     primaryKey: '_id',
   };

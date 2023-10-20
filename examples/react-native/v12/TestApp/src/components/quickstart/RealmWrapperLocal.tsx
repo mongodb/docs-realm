@@ -1,5 +1,5 @@
 import {Profile} from '../../models';
-import {RestOfApp} from './v12-quickstart.test';
+import {FindSortFilter} from './Filter';
 
 // :snippet-start: rn-quickstart-wrapper-local
 import React from 'react';
@@ -7,10 +7,10 @@ import {RealmProvider} from '@realm/react';
 
 // Create a configuration object
 
-function AppWrapper() {
+export const QuickStartLocal = () => {
   return (
     <RealmProvider schema={[Profile]}>
-      <RestOfApp />
+      <FindSortFilter />
     </RealmProvider>
   );
 }
