@@ -6,6 +6,8 @@ import Contact from './Models/Contact';
 import Bird from './Models/Bird';
 import Turtle from './Models/Turtle';
 
+import {createRealmContext} from '@realm/react';
+
 export const RealmContext = createRealmContext({
   // Pass all of your models into the schema value.
   schema: [Business, Address],

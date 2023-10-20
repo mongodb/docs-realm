@@ -205,8 +205,12 @@ describe('Dictionary Tests', () => {
     const UpdateHome = ({homeOwnerName}: {homeOwnerName: string}) => {
       const [address, setAddress] = useState('3 jefferson lane');
       const realm = useRealm();
-      const homeOwner = useQuery(HomeOwner).filtered(
-        `name == '${homeOwnerName}'`,
+      const homeOwner = useQuery(
+        HomeOwner,
+        homeOwners => {
+          return homeOwners.filtered(`name == '${homeOwnerName}'`);
+        },
+        [homeOwnerName],
       )[0];
 
       const updateAddress = () => {
@@ -267,8 +271,12 @@ describe('Dictionary Tests', () => {
 
     const HomeInfo = ({homeOwnerName}: {homeOwnerName: string}) => {
       const realm = useRealm();
-      const homeOwner = useQuery(HomeOwner).filtered(
-        `name == '${homeOwnerName}'`,
+      const homeOwner = useQuery(
+        HomeOwner,
+        homeOwners => {
+          return homeOwners.filtered(`name == '${homeOwnerName}'`);
+        },
+        [homeOwnerName],
       )[0];
 
       const deleteExtraHomeInfo = () => {

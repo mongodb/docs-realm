@@ -9,7 +9,8 @@
     "test": "jest --onlyChanged --runInBand --forceExit ",
     "test:all": "jest --runInBand --forceExit ",
     "lint": "eslint --fix __tests__/ --ext .js,.jsx,.ts,.tsx",
-    "prettier": "prettier --write __tests__/*"
+    "prettier": "prettier --write __tests__/*",
+    "delete-realm-files": "rm -rf *realm.lock *.realm *realm.note *realm.management mongodb-realm *.realm.fresh.lock realm-files myrealm"
   },
   "dependencies": {
     "@realm/react": "^0.5.1",

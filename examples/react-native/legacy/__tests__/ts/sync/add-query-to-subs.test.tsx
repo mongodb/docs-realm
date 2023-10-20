@@ -1,18 +1,13 @@
-// :replace-start: {
-//   "terms": {
-//     "SubscriptionRealmContext": "RealmContext"
-//   }
-// }
 // :snippet-start: add-query
 import React, {useEffect} from 'react';
-// get realm context from createRealmContext()
-import {SubscriptionRealmContext} from '../RealmConfig';
 import {Text, FlatList} from 'react-native';
+import {useRealm, useQuery} from '@realm/react';
 // :remove-start:
-import {AppProvider, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 import {App, Credentials} from 'realm';
 import {useApp} from '@realm/react';
-import {render, waitFor} from '@testing-library/react-native';
+import {render, screen} from '@testing-library/react-native';
+import {Bird} from '../Models/Bird';
 
 const APP_ID = 'js-flexible-oseso';
 
@@ -28,16 +23,17 @@ function LogIn() {
   return <></>;
 }
 
-const {RealmProvider} = SubscriptionRealmContext;
-
 function AppWrapper() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Bird]}
           sync={{
             flexible: true,
-            onError: console.log,
+            onError: (_session, error) => {
+              console.debug(error);
+            },
           }}>
           <SubscriptionManager />
         </RealmProvider>
@@ -47,36 +43,34 @@ function AppWrapper() {
 }
 // :remove-end:
 
-const {useRealm} = SubscriptionRealmContext;
-
 function SubscriptionManager() {
   const realm = useRealm();
-  const seenBirds = realm.objects('Bird').filtered('haveSeen == true');
+  const seenBirds = useQuery(Bird, birds => {
+    return birds.filtered('haveSeen == true');
+  });
 
   useEffect(() => {
-    realm.subscriptions.update((mutableSubs, realm) => {
-      mutableSubs.removeAll(); // :remove:
-      // Create subscription query
-      const seenBirdsSubQuery = realm
-        .objects('Bird')
-        .filtered('haveSeen == true');
+    realm.subscriptions.update(
+      (mutableSubs: Realm.App.Sync.MutableSubscriptionSet) => {
+        mutableSubs.removeAll(); // :remove:
 
-      // Create subscription for filtered results.
-      mutableSubs.add(seenBirdsSubQuery, {name: 'seenBirds'});
-    });
+        // Create subscription for filtered collection.
+        mutableSubs.add(seenBirds, {name: 'seenBirds'});
+      },
+    );
     numSubs = realm.subscriptions.length; // :remove:
   });
 
   return (
     <FlatList
+      testID='seen-birds-list' // :remove:
       data={seenBirds}
-      keyExtractor={bird => bird._id.toString()}
-      renderItem={({item}) => <Text>{item._id}</Text>}
+      keyExtractor={item => item._id.toString()}
+      renderItem={({item}) => <Text>{item._id.toString()}</Text>}
     />
   );
 }
 // :snippet-end:
-// :replace-end:
 
 afterEach(async () => {
   await App.getApp(APP_ID).currentUser?.logOut();
@@ -84,10 +78,13 @@ afterEach(async () => {
 
 test('Instantiate AppWrapper and test number of subscriptions', async () => {
   render(<AppWrapper />);
-  await waitFor(
-    () => {
-      expect(numSubs).toBe(1);
-    },
-    {timeout: 2000},
-  );
+
+  // Get bird list. Waits until the list is rendered.
+  const seenBirdsList = await screen.findByTestId('seen-birds-list', {
+    // Timeout set to 2000 ms to account for variability in the time it takes
+    // the sub sync behavior to work out.
+    timeout: 2000,
+  });
+
+  expect(numSubs).toBe(1);
 });

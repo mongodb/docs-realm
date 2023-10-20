@@ -1,18 +1,19 @@
 import Realm, {BSON, ObjectSchema} from 'realm';
+import Person from './Person';
 
-class Turtle extends Realm.Object {
+class Turtle extends Realm.Object<Turtle> {
   _id!: BSON.ObjectId;
-  owner_id!: BSON.ObjectId;
   name!: string;
-  birthDate?: Realm.Mixed;
+  age!: number;
+  owner?: Person;
 
   static schema: ObjectSchema = {
     name: 'Turtle',
     properties: {
       _id: 'objectId',
       name: 'string',
-      birthDate: 'mixed',
-      owner_id: 'objectId',
+      owner: 'Person?',
+      age: 'int',
     },
     primaryKey: '_id',
   };
