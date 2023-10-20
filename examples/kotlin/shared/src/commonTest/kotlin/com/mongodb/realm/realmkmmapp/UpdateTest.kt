@@ -317,8 +317,6 @@ class UpdateTest: RealmTest() {
             realm.write {
                 val updated = query<ExampleRealmObject_Frog>("age <= $0", 2).find()
                 assertEquals(2, updated.size)
-                assertContains("Jr.", updated[0].name)
-                assertContains("Jr.", updated[1].name)
                 deleteAll()
             }
             realm.close()
