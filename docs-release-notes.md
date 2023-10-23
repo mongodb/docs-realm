@@ -1,3 +1,25 @@
+# October 20, 2023
+
+## Kotlin SDK
+
+- Landing Page: Add card for Offline Login project to Example Projects section.
+-  Realm/Read & Write Data/Delete: Update page with sections on embedded objects, RealmSet elements, RealmAny properties, and objects and their related objects. Update code examples. 
+
+## .NET SDK
+
+- Model Data/Define an Object Model: Update Default Field Values section to note that you cannot set default values for collections.
+
+## React Native SDK
+
+- Install Realm: Clarify that the install instructions are geared towards developers working with a bare React Native app. Include links to "Bootstrap with Expo" page for install instructions for developers using Expo. 
+- Bootstrap with Expo: Add link to compatibility chart to determine which version of Expo is compatible with a React Native SDK version. 
+- Manage Users
+  - Authenticate Users: Add new reference table for ``useAuth`` and update page with new information on authentication hooks. 
+  - Manage Email/Password Users: Update examples and content with new information on authentication hooks and add new reference table for ``userEmailPasswordAuth``. 
+  - Link User Identities: Add new procedure with updated examples for authentication hooks. 
+- API Reference/@realm/react Package Reference: Add instructions for creating a new app with ``@realm/react``.
+- Internal: Update metro bundler dependencies to fix simulator runtime problems. 
+
 # October 13, 2023
 
 ## Node.js SDK
