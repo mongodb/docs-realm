@@ -2,13 +2,12 @@
 
 ## Kotlin SDK
 
-- Landing Page: Add card fo Offline Login project to Example Projects section.
--  Realm/Read & Write Data/Delete: Update page with sections on embedded objects, RealmSet elements, values of Realm Any properties, and objects and their related objects. Update code examples. 
+- Landing Page: Add card for Offline Login project to Example Projects section.
+-  Realm/Read & Write Data/Delete: Update page with sections on embedded objects, RealmSet elements, RealmAny properties, and objects and their related objects. Update code examples. 
 
 ## .NET SDK
 
-- Model Data/Define an Object Model: Document that you cannot set default values for collections.
-
+- Model Data/Define an Object Model: Update Default Field Values section to note that you cannot set default values for collections.
 
 ## React Native SDK
 
@@ -19,7 +18,7 @@
   - Manage Email/Password Users: Update examples and content with new information on authentication hooks and add new reference table for ``userEmailPasswordAuth``. 
   - Link User Identities: Add new procedure with updated examples for authentication hooks. 
 - API Reference/@realm/react Package Reference: Add instructions for creating a new app with ``@realm/react``.
-- Internal: Update metro bundler dependencies to fix simulator run time problems. 
+- Internal: Update metro bundler dependencies to fix simulator runtime problems. 
 
 # October 13, 2023
 
