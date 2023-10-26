@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Realm, { Results} from 'realm';
-import {useRealm, useQuery} from '@realm/react';
+import {useRealm, useQuery, useUser} from '@realm/react';
 import {Profile} from '../../models';
 import {
   View,
@@ -20,7 +20,12 @@ export const FindSortFilter = () => {
   const searched = "N/A"; 
  
   // Find
-  const profiles = useQuery(Profile);
+   // Access linked MongoDB collection
+   // Get currently logged in user
+  const user = useUser();
+   const mongodb = user.mongoClient('mongodb-atlas');
+   const profiles = mongodb.db('quickstart').collection<Profile>('profiles');
+
 
   // Sort
   var sorted;
@@ -29,6 +34,15 @@ export const FindSortFilter = () => {
   const filtered = profiles.filtered('name TEXT $0', 'Leafy');
 
   // :snippet-start: objects-create
+  const result = await profiles.insertOne({
+    name: "lily of the valley",
+    sunlight: "full",
+    color: "white",
+    type: "perennial",
+    _partition: "Store 47",
+  });
+  console.log(result);
+  
   const addProfile = (name: string) => {
     realm.write(() => {
       realm.create('Profile', {
@@ -40,18 +54,16 @@ export const FindSortFilter = () => {
   // :snippet-end:
 
   // get profile based on supplied name
-  const getProfile = (filteredName: string): Profile => {
+  const getProfile = async (filteredName: string) => {
     // filter for which profile to delete
-    const deleteThisProfile = profiles.filtered('name TEXT $0', filteredName);
+    const deleteThisProfile = profiles.findOne({filteredName});
 
-    return deleteThisProfile[0];
+    return deleteThisProfile;
   };
 
   // :snippet-start: objects-delete
-  const deleteProfile = (profile: Profile) => {
-    realm.write(() => {
-      realm.delete(profile);
-    });
+  const deleteProfile = async (name: string) => {
+    const result = await profiles.deleteOne ({name});
   };
   // :snippet-end:
 
@@ -119,7 +131,7 @@ export const FindSortFilter = () => {
         const searched = profiles.filtered('name TEXT $0', filterProfileTerm);
       }}
       />
-      <Text> Term Found: {searched} </Text>
+      <Text> Term Found: {searched.name} </Text>
 
       <Button title='Sort Profiles' onPress={() => {
         sorted = profiles.sorted('name', false);

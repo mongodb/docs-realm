@@ -23,7 +23,7 @@ function LogIn() {
 // Expose a sync realm
 export function AppWrapperSync() {
     return (
-      <AppProvider id={APP_ID}>
+      <AppProvider id={'rn_quickstartsync-pnbks'}>
         <UserProvider fallback={LogIn}>
           <RealmProvider
             sync={{
