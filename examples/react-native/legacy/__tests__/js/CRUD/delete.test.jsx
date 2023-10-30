@@ -104,7 +104,9 @@ describe('Delete Data Tests', () => {
       const myDogs = useQuery(Dog);
 
       const deleteAllYoungDogObjects = () => {
-        const youngDogs = myDogs.filtered('age < 3');
+        const youngDogs = useQuery(Dog, dogs => {
+          return dogs.filtered('age < 3');
+        });
         realm.write(() => {
           realm.delete(youngDogs);
         });

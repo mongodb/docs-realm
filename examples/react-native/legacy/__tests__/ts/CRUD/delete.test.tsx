@@ -81,7 +81,9 @@ describe('Delete Data Tests', () => {
 
     fireEvent.press(firstDeleteDogButton);
 
-    await waitFor(() => {expect(getAllByTestId('deleteDog').length).toBe(2)});
+    await waitFor(() => {
+      expect(getAllByTestId('deleteDog').length).toBe(2);
+    });
 
     expect(assertionRealm.objects('Dog').length).toBe(2);
     expect(getAllByTestId('deleteDog').length).toBe(2);
@@ -99,7 +101,9 @@ describe('Delete Data Tests', () => {
       const myDogs = useQuery(Dog);
 
       const deleteAllYoungDogObjects = () => {
-        const youngDogs = myDogs.filtered('age < 3');
+        const youngDogs = useQuery(Dog, dogs => {
+          return dogs.filtered('age < 3');
+        });
         realm.write(() => {
           realm.delete(youngDogs);
         });
@@ -167,7 +171,6 @@ describe('Delete Data Tests', () => {
     });
 
     expect(assertionRealm.objects('Dog').length).toBe(0);
-
   });
 
   it('should delete all objects', async () => {
@@ -207,7 +210,7 @@ describe('Delete Data Tests', () => {
     await act(async () => {
       fireEvent.press(deleteAllDataBtn);
     });
-    
+
     expect(assertionRealm.objects('Dog').length).toBe(0);
     expect(assertionRealm.objects('Person').length).toBe(0);
   });

@@ -25,7 +25,10 @@ describe('Read Data Tests', () => {
       assertionRealm.delete(assertionRealm.objects('Person'));
       assertionRealm.delete(assertionRealm.objects('Task'));
 
-      const annieObj = assertionRealm.create('Person', {name: 'Annie', age: 54});
+      const annieObj = assertionRealm.create('Person', {
+        name: 'Annie',
+        age: 54,
+      });
       const bobObj = assertionRealm.create('Person', {name: 'Bob', age: 29});
 
       assertionRealm.create('Task', {
@@ -111,16 +114,19 @@ describe('Read Data Tests', () => {
     //   }
     // }
     const TaskList = () => {
-      // retrieve the set of Task objects
-      const tasks = useQuery(Task);
-
       // filter for tasks with a high priority
-      const highPriorityTasks = tasks.filtered('priority >= $0', 4);
+      const highPriorityTasks = useQuery(Task, tasks => {
+        return tasks.filtered('priority >= $0', 4);
+      });
 
       // filter for tasks that have just-started or short-running progress
-      const lowProgressTasks = tasks.filtered(
-        '$0 <= progressMinutes && progressMinutes < $1', 1, 10
-      );
+      const lowProgressTasks = useQuery(Task, tasks => {
+        return tasks.filtered(
+          '$0 <= progressMinutes && progressMinutes < $1',
+          1,
+          10,
+        );
+      });
 
       return (
         <>
@@ -297,7 +303,7 @@ describe('Read Data Tests', () => {
       () => getAllByTestId('tasks-by-assignee-name-item'),
       {timeout: 5000},
     );
-    
+
     expect(tasksByAssigneeNameUIList[0].children[0].toString()).toBe(
       'Wash the dishes',
     );
