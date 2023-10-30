@@ -38,7 +38,13 @@ const FindSortFilterComponent = ({objectPrimaryKey}) => {
   const profiles = useQuery(Profile);
 
   const sortProfiles = reversed => {
-    const sorted = profiles.sorted('name', reversed);
+    const sorted = useQuery(
+      Profile,
+      profiles => {
+        return profiles.sorted('name', reversed);
+      },
+      [reversed],
+    );
 
     setAllProfiles(sorted);
   };

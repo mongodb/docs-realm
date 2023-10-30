@@ -41,13 +41,16 @@ type FindSortFilterComponentProps = {
 const FindSortFilterComponent = ({
   objectPrimaryKey,
 }: FindSortFilterComponentProps) => {
-  const [activeProfile, setActiveProfile] = useState<Profile>();
   const [allProfiles, setAllProfiles] = useState<Realm.Results<Profile>>();
-  const currentlyActiveProfile = useObject(Profile, objectPrimaryKey);
-  const profiles = useQuery(Profile);
 
   const sortProfiles = (reversed: true | false) => {
-    const sorted = profiles.sorted('name', reversed);
+    const sorted = useQuery(
+      Profile,
+      profiles => {
+        return profiles.sorted('name', reversed);
+      },
+      [reversed],
+    );
 
     setAllProfiles(sorted);
   };
