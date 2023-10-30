@@ -1,8 +1,12 @@
 const UpdateHome = ({homeOwnerName}: {homeOwnerName: string}) => {
   const [address, setAddress] = useState('');
   const realm = useRealm();
-  const homeOwner = useQuery(HomeOwner).filtered(
-    `name == '${homeOwnerName}'`,
+  const homeOwner = useQuery(
+    HomeOwner,
+    homeOwners => {
+      return homeOwners.filtered(`name == '${homeOwnerName}'`);
+    },
+    [homeOwnerName],
   )[0];
 
   const updateAddress = () => {

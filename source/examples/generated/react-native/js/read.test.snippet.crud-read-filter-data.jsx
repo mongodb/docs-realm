@@ -1,16 +1,17 @@
 const TaskList = () => {
-  // retrieve the set of Task objects
-  const tasks = useQuery(Task);
-
   // filter for tasks with a high priority
-  const highPriorityTasks = tasks.filtered('priority >= $0', 4);
+  const highPriorityTasks = useQuery(Task, tasks => {
+    return tasks.filtered('priority >= $0', 4);
+  });
 
   // filter for tasks that have just-started or short-running progress
-  const lowProgressTasks = tasks.filtered(
-    '$0 <= progressMinutes && progressMinutes < $1',
-    1,
-    10,
-  );
+  const lowProgressTasks = useQuery(Task, tasks => {
+    return tasks.filtered(
+      '$0 <= progressMinutes && progressMinutes < $1',
+      1,
+      10,
+    );
+  });
 
   return (
     <>

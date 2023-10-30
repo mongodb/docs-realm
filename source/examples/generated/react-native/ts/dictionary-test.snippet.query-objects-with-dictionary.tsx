@@ -4,17 +4,22 @@ const HomeList = () => {
 
   // run the `.filtered()` method on all the returned homeOwners to
   // find all homeOwners that have a house with a listed price
-  const listedPriceHomes = homeOwners.filtered('home.@keys = "price"');
+  const listedPriceHomes = useQuery(HomeOwner, homeOwners => {
+    return homeOwners.filtered('home.@keys = "price"');
+  });
 
   // run the `.filtered()` method on all the returned homeOwners to
   // find the house with the address "Summerhill St."
-  const summerHillHouse = homeOwners.filtered(
-    'home["address"] = "Summerhill St."',
-  )[0].home;
+  const summerHillHouse = useQuery(HomeOwner, homeOwners => {
+    return homeOwners.filtered('home["address"] = "Summerhill St."');
+  })[0].home;
 
   // run the `.filtered()` method on all the returned homeOwners to
   // find the first house that has any field with a value of 'red'
-  const redHouse = homeOwners.filtered('home.@values = "red"')[0].home;
+  const redHouse = useQuery(HomeOwner, homeOwners => {
+    return homeOwners.filtered('home.@values = "red"');
+  })[0].home;
+
   return (
     <View>
       <Text>All homes:</Text>

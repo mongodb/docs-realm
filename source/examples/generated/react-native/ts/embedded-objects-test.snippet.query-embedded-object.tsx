@@ -1,18 +1,14 @@
 const ContactList = ({postalCode}: {postalCode: string}) => {
-  // Query for all Contact objects
-  const contacts = useQuery(Contact);
-
-  // Run the `.filtered()` method on all the returned Contacts to get
+  // Run the `.filtered()` method on all Contact objects to get
   // contacts with a specific postal code.
-  const contactsInArea = contacts.filtered(
-    `address.postalCode == '${postalCode}'`,
-  );
+  const contactsInArea = useQuery(Contact, contacts => {
+    return contacts.filtered(`address.postalCode == '${postalCode}'`);
+  });
 
   if (contactsInArea.length) {
     return (
       <>
         <FlatList
-          testID='contactsList'
           data={contactsInArea}
           renderItem={({item}) => {
             <Text>{item.name}</Text>;

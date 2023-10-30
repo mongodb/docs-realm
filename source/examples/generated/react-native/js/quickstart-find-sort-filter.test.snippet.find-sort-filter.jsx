@@ -45,7 +45,13 @@ const FindSortFilterComponent = ({objectPrimaryKey}) => {
 
   const filterProfiles = (filter, letter) => {
     // Use [c] for case-insensitivity.
-    const filtered = profiles.filtered(`name ${filter}[c] "${letter}"`);
+    const filtered = useQuery(
+      Profile,
+      profiles => {
+        return profiles.filtered(`name ${filter}[c] "${letter}"`);
+      },
+      [filter, letter],
+    );
 
     setAllProfiles(filtered);
   };

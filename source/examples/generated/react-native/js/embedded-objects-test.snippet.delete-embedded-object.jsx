@@ -1,12 +1,19 @@
 const ContactInfo = ({contactCity, postalCode}) => {
-  const contacts = useQuery(Contact);
-  const parentsToDelete = contacts.filtered(
-    `address.city == '${contactCity}'`,
-  );
-  const embeddedToDelete = contacts.filtered(
-    `address.postalCode == '${postalCode}'`,
-  );
   const realm = useRealm();
+  const parentsToDelete = useQuery(
+    Contact,
+    contacts => {
+      return contacts.filtered(`address.city == '${contactCity}'`);
+    },
+    [contactCity],
+  );
+  const embeddedToDelete = useQuery(
+    Contact,
+    contacts => {
+      return contacts.filtered(`address.postalCode == '${postalCode}'`);
+    },
+    [postalCode],
+  );
 
   const deleteParentObject = () => {
     realm.write(() => {

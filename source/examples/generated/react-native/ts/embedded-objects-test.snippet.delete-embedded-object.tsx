@@ -4,13 +4,12 @@ type ContactInfoProps = {
 };
 
 const ContactInfo = ({contactCity, postalCode}: ContactInfoProps) => {
-  const contacts = useQuery(Contact);
-  const parentsToDelete = contacts.filtered(
-    `address.city == '${contactCity}'`,
-  );
-  const embeddedToDelete = contacts.filtered(
-    `address.postalCode == '${postalCode}'`,
-  );
+  const parentsToDelete = useQuery(Contact, contacts => {
+    return contacts.filtered(`address.city == '${contactCity}'`);
+  });
+  const embeddedToDelete = useQuery(Contact, contacts => {
+    return contacts.filtered(`address.postalCode == '${postalCode}'`);
+  });
   const realm = useRealm();
 
   const deleteParentObject = () => {

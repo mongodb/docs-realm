@@ -7,8 +7,12 @@ const TraverseCharacterInventory = ({
   const [inventoryItem, setInventoryItem] = useState<string>('');
   const [inventory, setInventory] = useState<string[]>([]);
 
-  const character = useQuery(Character).filtered(
-    `name = '${characterName}'`,
+  const character = useQuery(
+    Character,
+    characters => {
+      return characters.filtered(`name = '${characterName}'`);
+    },
+    [characterName],
   )[0];
 
   const addInventoryItem = () => {
