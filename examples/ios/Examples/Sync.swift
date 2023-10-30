@@ -26,8 +26,8 @@ class Sync: AnonymouslyLoggedInTestCase {
             if app.currentUser != nil {
                 return app.currentUser!
             } else {
-                // Instantiate the app using your Realm app ID
-                let app = App(id: YOUR_APP_SERVICES_APP_ID)
+                // Instantiate the app using your App Services App ID
+                let app = App(id: APPID)
                 // Authenticate with the instance of the app that points
                 // to your backend. Here, we're using anonymous login.
                 let loggedInUser = try await app.login(credentials: Credentials.anonymous)
@@ -40,16 +40,12 @@ class Sync: AnonymouslyLoggedInTestCase {
         func getRealm() async throws -> Realm {
             // Get a logged-in app user
             let user = try await getUser()
-            // Specify which data this authenticated user should
-            // be able to access.
-            let partitionValue = "some partition value"
             // Store a configuration that consists of the current user,
-            // authenticated to this instance of your app, who should be
-            // able to access this data (partition).
-            var configuration = user.configuration(partitionValue: partitionValue)
-            // :remove-start:
-            configuration.objectTypes = [SyncExamples_Task.self]
-            // :remove-end:
+            // authenticated to this instance of your app,
+            // and what object types this database should manage.
+            var configuration = user.flexibleSyncConfiguration()
+            configuration.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            
             // Open a Realm with this configuration.
             let realm = try await Realm(configuration: configuration)
             print("Successfully opened realm: \(realm)")
@@ -58,44 +54,43 @@ class Sync: AnonymouslyLoggedInTestCase {
 
         // Get a realm
         let realm = try await getRealm()
-        // Do something with the realm
         print("The open realm is: \(realm)")
+        // Add subscriptions and work with the realm
         // :snippet-end:
         expectation.fulfill()
-        wait(for: [expectation], timeout: 10)
+        await fulfillment(of: [expectation], timeout: 10, enforceOrder: true)
     }
 
-    // :snippet-start: specify-download-behavior
     func testSpecifyDownloadBehavior() async throws {
         // :remove-start:
         let expectation = XCTestExpectation(description: "it completes")
         // :remove-end:
-        let app = App(id: YOUR_APP_SERVICES_APP_ID)
-        let user = try await app.login(credentials: Credentials.anonymous)
-        let partitionValue = "some partition value"
-        var configuration = user.configuration(partitionValue: partitionValue)
-        // :remove-start:
-        configuration.objectTypes = [SyncExamples_Task.self]
-        // :remove-end:
-        let realm = try await Realm(configuration: configuration, downloadBeforeOpen: .always) // :emphasize:
-        print("Successfully opened realm after downloading: \(realm)")
-        // :remove-start:
-        expectation.fulfill()
-        wait(for: [expectation], timeout: 10)
-        // :remove-end:
-    }
-    // :snippet-end:
+        // :snippet-start: specify-download-behavior
+        func getRealmAfterDownloadingUpdates() async throws -> Realm {
+            let app = App(id: APPID)
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var configuration = user.flexibleSyncConfiguration()
+            configuration.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
 
-    func testPauseResumeSyncSession() {
-        let app = App(id: YOUR_APP_SERVICES_APP_ID)
-        // Log in...
-        let user = app.currentUser
-        let partitionValue = "some partition value"
-        var configuration = user!.configuration(partitionValue: partitionValue)
-        // :remove-start:
-        configuration.objectTypes = [SyncExamples_Task.self]
-        // :remove-end:
-        let syncedRealm = try! Realm(configuration: configuration)
+            let realm = try await Realm(configuration: configuration, downloadBeforeOpen: .always) // :emphasize:
+            print("Successfully opened realm after downloading: \(realm)")
+            return realm
+        }
+        
+        let realm = try await getRealmAfterDownloadingUpdates()
+        print("The open realm is: \(realm)")
+        // Add subscription and work with the realm
+        // :snippet-end:
+        expectation.fulfill()
+        await fulfillment(of: [expectation], timeout: 10, enforceOrder: true)
+    }
+
+    func testPauseResumeSyncSession() async throws {
+        let app = App(id: APPID)
+        let user = try await app.login(credentials: Credentials.anonymous)
+        var configuration = user.flexibleSyncConfiguration()
+        configuration.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+        let syncedRealm = try! await Realm(configuration: configuration)
 
         // :snippet-start: pause-resume-sync-session
         let syncSession = syncedRealm.syncSession!
@@ -138,6 +133,8 @@ class Sync: AnonymouslyLoggedInTestCase {
         // :snippet-end:
     }
 
+    // Leaving this example using Partition-Based Sync
+    // since progress notifications are currently only supported in PBS
     func testCheckProgress() {
         let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let user = app.currentUser
@@ -222,6 +219,22 @@ class Sync: AnonymouslyLoggedInTestCase {
             AnalyticsProvider.shared.logEvent("\(logLevel) : \(message)", category: "Engineering debugging")
         }
         // :snippet-end:
+    }
+    
+    func testSyncSessionReconnect() async throws {
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
+        let user = try await app.login(credentials: Credentials.anonymous)
+        var configuration = user.flexibleSyncConfiguration()
+        configuration.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+        let realm = try! await Realm(configuration: configuration)
+
+        // :snippet-start: sync-session-reconnect
+        let syncSession = realm.syncSession!
+        
+        // Work with the realm. When you need to force the sync session to reconnect...
+        syncSession.reconnect()
+        // :snippet-end:
+        
     }
 }
 // :replace-end:
