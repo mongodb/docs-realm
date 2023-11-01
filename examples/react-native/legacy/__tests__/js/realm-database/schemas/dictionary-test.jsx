@@ -67,7 +67,7 @@ describe('Dictionary Tests', () => {
       // run the `.filtered()` method on all the returned homeOwners to
       // find the house with the address "Summerhill St."
       const summerHillHouse = useQuery(HomeOwner, homeOwners => {
-        return homeOwner.filtered('home["address"] = "Summerhill St."');
+        return homeOwners.filtered('home["address"] = "Summerhill St."');
       })[0].home;
 
       // run the `.filtered()` method on all the returned homeOwners to
