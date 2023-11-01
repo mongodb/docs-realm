@@ -1,7 +1,11 @@
 const HomeInfo = ({homeOwnerName}) => {
   const realm = useRealm();
-  const homeOwner = useQuery(HomeOwner).filtered(
-    `name == '${homeOwnerName}'`,
+  const homeOwner = useQuery(
+    HomeOwner,
+    homeOwners => {
+      return homeOwners.filtered(`name == '${homeOwnerName}'`);
+    },
+    [homeOwnerName],
   )[0];
 
   const deleteExtraHomeInfo = () => {

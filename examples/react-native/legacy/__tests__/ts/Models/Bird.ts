@@ -1,23 +1,17 @@
-import Realm, {ObjectSchema} from 'realm';
+import Realm from 'realm';
 
-class Bird extends Realm.Object<Bird> {
-  _id!: string;
-  owner_id!: string;
+export class Bird extends Realm.Object<Bird> {
+  _id!: Realm.BSON.ObjectId;
   name!: string;
   haveSeen!: boolean;
-  birthDate?: Realm.Mixed;
 
-  static schema: ObjectSchema = {
+  static schema: Realm.ObjectSchema = {
     name: 'Bird',
     properties: {
-      _id: 'string',
+      _id: 'objectId',
       name: 'string',
-      birthDate: 'mixed',
-      owner_id: 'string',
       haveSeen: 'bool',
     },
     primaryKey: '_id',
   };
 }
-
-export default Bird;

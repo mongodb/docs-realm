@@ -108,8 +108,12 @@ describe('Set schema', () => {
     const AddInventoryToCharacter = ({characterName}) => {
       const realm = useRealm();
       const [inventoryItem, setInventoryItem] = useState('');
-      const character = useQuery(Character).filtered(
-        `name = '${characterName}'`,
+      const character = useQuery(
+        Character,
+        characters => {
+          return characters.filtered(`name = '${characterName}'`);
+        },
+        [characterName],
       )[0];
 
       const addInventoryItem = () => {
@@ -170,8 +174,12 @@ describe('Set schema', () => {
     // }
     const QueryCharacterInventory = ({characterName}) => {
       const [inventoryItem, setInventoryItem] = useState('');
-      const character = useQuery(Character).filtered(
-        `name = '${characterName}'`,
+      const character = useQuery(
+        Character,
+        characters => {
+          return characters.filtered(`name = '${characterName}'`);
+        },
+        [characterName],
       )[0];
 
       const queryCharacterInventory = () => {
@@ -247,8 +255,12 @@ describe('Set schema', () => {
     const RemoveInventoryFromCharacter = ({characterName}) => {
       const realm = useRealm();
       const [inventoryItem, setInventoryItem] = useState('');
-      const character = useQuery(Character).filtered(
-        `name = '${characterName}'`,
+      const character = useQuery(
+        Character,
+        characters => {
+          return characters.filtered(`name = '${characterName}'`);
+        },
+        [characterName],
       )[0];
 
       const removeInventoryItem = () => {
@@ -336,8 +348,12 @@ describe('Set schema', () => {
       const [inventoryItem, setInventoryItem] = useState('');
       const [inventory, setInventory] = useState([]);
 
-      const character = useQuery(Character).filtered(
-        `name = '${characterName}'`,
+      const character = useQuery(
+        Character,
+        characters => {
+          return characters.filtered(`name = '${characterName}'`);
+        },
+        [characterName],
       )[0];
 
       const addInventoryItem = () => {

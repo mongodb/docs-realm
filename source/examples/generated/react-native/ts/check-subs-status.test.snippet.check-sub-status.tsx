@@ -1,18 +1,22 @@
 import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
-// get realm context from createRealmContext()
-import {RealmContext} from '../RealmConfig';
-
-const {useRealm, useQuery} = RealmContext;
+import {useRealm, useQuery} from '@realm/react';
+import {Bird} from '../Models/Bird';
 
 function SubscriptionManager() {
   const realm = useRealm();
+  const seenBirds = useQuery(Bird, birds => {
+    return birds.filtered('haveSeen == true');
+  });
 
   useEffect(() => {
-    realm.subscriptions.update((mutableSubs, realm) => {
-      // Create subscription for filtered results.
-      mutableSubs.add(realm.objects('Bird').filtered('haveSeen == true'));
-    });
+    realm.subscriptions.update(
+      (mutableSubs: Realm.App.Sync.MutableSubscriptionSet) => {
+
+        // Create subscription for filtered collection.
+        mutableSubs.add(seenBirds, {name: 'seenBirds'});
+      },
+    );
   });
 
   // Returns state of all subscriptions, not individual subscriptions.
@@ -22,7 +26,9 @@ function SubscriptionManager() {
 
   return (
     <View>
-      <Text>Status of all subscriptions: {allSubscriptionState}</Text>
+      <Text >
+        Status of all subscriptions: {allSubscriptionState}
+      </Text>
     </View>
   );
 }

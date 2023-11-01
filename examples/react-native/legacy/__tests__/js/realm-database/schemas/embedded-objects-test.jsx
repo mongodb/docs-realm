@@ -159,13 +159,14 @@ describe('embedded objects tests', () => {
     //   }
     // }
     const ContactList = ({postalCode}) => {
-      // Query for all Contact objects
-      const contacts = useQuery(Contact);
-
       // Run the `.filtered()` method on all the returned Contacts to get
       // contacts with a specific postal code.
-      const contactsInArea = contacts.filtered(
-        `address.postalCode == '${postalCode}'`,
+      const contactsInArea = useQuery(
+        Contact,
+        contacts => {
+          return contacts.filtered(`address.postalCode == '${postalCode}'`);
+        },
+        [postalCode],
       );
       higherScopedContactsInArea = contactsInArea; // :remove:
 
@@ -210,14 +211,21 @@ describe('embedded objects tests', () => {
     //   }
     // }
     const ContactInfo = ({contactCity, postalCode}) => {
-      const contacts = useQuery(Contact);
-      const parentsToDelete = contacts.filtered(
-        `address.city == '${contactCity}'`,
-      );
-      const embeddedToDelete = contacts.filtered(
-        `address.postalCode == '${postalCode}'`,
-      );
       const realm = useRealm();
+      const parentsToDelete = useQuery(
+        Contact,
+        contacts => {
+          return contacts.filtered(`address.city == '${contactCity}'`);
+        },
+        [contactCity],
+      );
+      const embeddedToDelete = useQuery(
+        Contact,
+        contacts => {
+          return contacts.filtered(`address.postalCode == '${postalCode}'`);
+        },
+        [postalCode],
+      );
 
       const deleteParentObject = () => {
         realm.write(() => {

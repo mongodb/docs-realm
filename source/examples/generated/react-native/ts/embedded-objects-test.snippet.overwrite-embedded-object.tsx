@@ -1,5 +1,7 @@
-const OverwriteContact = ({contactId}: {
-  contactId: Realm.BSON.ObjectId
+const OverwriteContact = ({
+  contactId,
+}: {
+  contactId: Realm.BSON.ObjectId;
 }) => {
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');

@@ -1,22 +1,15 @@
-// :replace-start: {
-//   "terms": {
-//     "SubscriptionRealmContext": "RealmContext"
-//   }
-// }
 // :snippet-start: get-subscriptions
-import React, {useEffect} from 'react';
-// get realm context from createRealmContext()
-import {SubscriptionRealmContext} from '../RealmConfig';
+import React, {useEffect, useState} from 'react';
 import {Text, FlatList} from 'react-native';
+import {useRealm, useQuery} from '@realm/react';
+import {Bird} from '../Models/Bird';
 // :remove-start:
-import {AppProvider, UserProvider} from '@realm/react';
+import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 import {App, Credentials} from 'realm';
 import {useApp} from '@realm/react';
-import {render, waitFor} from '@testing-library/react-native';
+import {render, screen, within} from '@testing-library/react-native';
 
 const APP_ID = 'js-flexible-oseso';
-
-let numSubs: number;
 
 function LogIn() {
   const app = useApp();
@@ -28,21 +21,22 @@ function LogIn() {
   return <></>;
 }
 
-const {RealmProvider} = SubscriptionRealmContext;
-
 function AppWrapper() {
   return (
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          schema={[Bird]}
           sync={{
+            onError: (_session, error) => {
+              console.debug(_session, error);
+            },
             flexible: true,
             initialSubscriptions: {
               update(subs, realm) {
-                subs.add(realm.objects('Turtle'));
+                subs.add(realm.objects(Bird), {name: 'all birds'});
               },
             },
-            onError: console.log,
           }}>
           <SubscriptionManager />
         </RealmProvider>
@@ -52,36 +46,43 @@ function AppWrapper() {
 }
 // :remove-end:
 
-const {useRealm, useQuery} = SubscriptionRealmContext;
-
 function SubscriptionManager() {
   const realm = useRealm();
 
-  // Returns a subscription set that contains all subscriptions.
-  const allSubscriptions = realm.subscriptions;
-
   // Pass object model to useQuery and filter results.
   // This does not create a subscription.
-  const seenBirds = useQuery('Bird').filtered('haveSeen == true');
+  const seenBirds = useQuery(Bird, birds => {
+    return birds.filtered('haveSeen == true');
+  });
+
+  const [subscriptions, setSubcriptions] = useState<
+    App.Sync.SubscriptionSet | undefined
+  >();
 
   useEffect(() => {
-    realm.subscriptions.update(mutableSubs => {
+    const createSubscription = async () => {
       // Create subscription for filtered results.
-      mutableSubs.add(seenBirds);
-    });
-    numSubs = realm.subscriptions.length; // :remove:
-  });
+      await realm.subscriptions.update(mutableSubs => {
+        mutableSubs.add(seenBirds, {name: 'seen birds'});
+      });
+    };
+
+    createSubscription().catch(console.error);
+
+    // Set to state variable.
+    setSubcriptions(realm.subscriptions);
+  }, []);
 
   return (
     <FlatList
-      data={allSubscriptions}
+      testID='sub-list' // :remove:
+      data={subscriptions}
       keyExtractor={subscription => subscription.id.toString()}
       renderItem={({item}) => <Text>{item.name}</Text>}
     />
   );
 }
 // :snippet-end:
-// :replace-end:
 
 afterEach(async () => {
   await App.getApp(APP_ID).currentUser?.logOut();
@@ -89,10 +90,16 @@ afterEach(async () => {
 
 test('Instantiate AppWrapper and test number of subscriptions', async () => {
   render(<AppWrapper />);
-  await waitFor(
-    () => {
-      expect(numSubs).toBe(2);
-    },
-    {timeout: 2000},
-  );
+
+  // Get bird list. Waits until the list is rendered.
+  const subListNode = await screen.findByTestId('sub-list', {
+    // Timeout set to 2000 ms to account for variability in the time it takes
+    // the sub sync behavior to work out.
+    timeout: 2000,
+  });
+  const allBirdsNode = await within(subListNode).findByText('all birds');
+  const seenBirdsNode = await within(subListNode).findByText('seen birds');
+
+  expect(allBirdsNode.children[0]).toBe('all birds');
+  expect(seenBirdsNode.children[0]).toBe('seen birds');
 });

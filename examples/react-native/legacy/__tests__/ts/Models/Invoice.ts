@@ -1,18 +1,23 @@
 import Realm, {ObjectSchema} from 'realm';
+
 // TODO: Replace `static schema` with TS-first models + realm-babel-plugin (https://www.npmjs.com/package/@realm/babel-plugin) approach once realm-babel-plugin version 0.1.2 releases with bug fixes
-// :snippet-start: ts-profile-schema
-class Profile extends Realm.Object<Profile> {
+class Invoice extends Realm.Object<Invoice> {
   _id!: Realm.BSON.ObjectId;
-  name!: string;
+  item!: string;
+  quantity!: number;
+  price!: number;
 
   static schema: ObjectSchema = {
-    name: 'Profile',
+    name: 'Invoice',
+    // sync Invoice objects one way from your device to your Atlas database.
     primaryKey: '_id',
     properties: {
       _id: 'objectId',
-      name: 'string',
+      item: 'string',
+      quantity: 'int',
+      price: 'int',
     },
   };
 }
-// :snippet-end:
-export default Profile;
+
+export default Invoice;

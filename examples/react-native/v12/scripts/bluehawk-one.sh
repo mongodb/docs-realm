@@ -44,7 +44,7 @@ then
 # Bluehawk a single file
 echo "${GREEN_BG_BOLD} Bluehawk: ${CLEAR} ${GREEN}Generate samples from '$FILE_NAME' ${CLEAR}"
 
-bluehawk snip $INPUT_FILE -o $OUTPUT_DIRECTORY --format=rst
+npx bluehawk snip $INPUT_FILE -o $OUTPUT_DIRECTORY --format=rst
 
 # TODO: There's probably a more idiomatic way to do this results filtering.
 GENERATED_FILES=$(find $OUTPUT_DIRECTORY -type f | grep -i $BASE_FILE_NAME)

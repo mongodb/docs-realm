@@ -1,31 +1,28 @@
 import React, {useEffect} from 'react';
-// get realm context from createRealmContext()
-import {RealmContext} from '../RealmConfig';
 import {Text, FlatList} from 'react-native';
-
-const {useRealm} = RealmContext;
+import {useRealm, useQuery} from '@realm/react';
 
 function SubscriptionManager() {
   const realm = useRealm();
-  const seenBirds = realm.objects('Bird').filtered('haveSeen == true');
+  const seenBirds = useQuery(Bird, birds => {
+    return birds.filtered('haveSeen == true');
+  });
 
   useEffect(() => {
-    realm.subscriptions.update((mutableSubs, realm) => {
-      // Create subscription query
-      const seenBirdsSubQuery = realm
-        .objects('Bird')
-        .filtered('haveSeen == true');
+    realm.subscriptions.update(
+      (mutableSubs: Realm.App.Sync.MutableSubscriptionSet) => {
 
-      // Create subscription for filtered results.
-      mutableSubs.add(seenBirdsSubQuery, {name: 'seenBirds'});
-    });
+        // Create subscription for filtered collection.
+        mutableSubs.add(seenBirds, {name: 'seenBirds'});
+      },
+    );
   });
 
   return (
     <FlatList
       data={seenBirds}
-      keyExtractor={bird => bird._id.toString()}
-      renderItem={({item}) => <Text>{item._id}</Text>}
+      keyExtractor={item => item._id.toString()}
+      renderItem={({item}) => <Text>{item._id.toString()}</Text>}
     />
   );
 }

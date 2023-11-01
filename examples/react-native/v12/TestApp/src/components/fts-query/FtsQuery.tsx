@@ -68,10 +68,14 @@ function FtsQueryInnards(): JSX.Element {
   const books = useQuery(Book);
 
   // Filter for books with 'hunger' in the name
-  const booksWithHunger = books.filtered('name TEXT $0', 'hunger');
+  const booksWithHunger = useQuery(Book, books => {
+    return books.filtered('name TEXT $0', 'hunger');
+  });
 
   // Filter for books with 'swan' but not 'lake' in the name
-  const booksWithSwanWithoutLake = books.filtered('name TEXT $0', 'swan -lake');
+  const booksWithSwanWithoutLake = useQuery(Book, books => {
+    return books.filtered('name TEXT $0', 'swan -lake');
+  });
   // :snippet-end:
 
   // Return the number of books in query
@@ -82,7 +86,10 @@ function FtsQueryInnards(): JSX.Element {
         onChangeText={setBookName}
         value={bookName}
       />
-      <TextInput onChangeText={setBookPrice} value={bookPrice} />
+      <TextInput
+        onChangeText={setBookPrice}
+        value={bookPrice}
+      />
 
       <Button
         testID="addBookButton"
@@ -98,11 +105,15 @@ function FtsQueryInnards(): JSX.Element {
           clearRealm();
         }}
       />
-      <Text style={styles.container} testID="swanQueryResults">
+      <Text
+        style={styles.container}
+        testID="swanQueryResults">
         Query: Books with 'swan' without 'lake':
         {booksWithSwanWithoutLake.length}
       </Text>
-      <Text style={styles.container} testID="hungerQueryResults">
+      <Text
+        style={styles.container}
+        testID="hungerQueryResults">
         Query: Books with 'hunger': {booksWithHunger.length}
       </Text>
 
