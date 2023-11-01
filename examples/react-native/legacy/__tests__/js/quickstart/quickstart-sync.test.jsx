@@ -43,7 +43,6 @@ function AppWrapperSync() {
         <RealmProvider
           sync={{
             flexible: true,
-            onError: console.error,
             initialSubscriptions: {
               update(subs, realm) {
                 subs.add(realm.objects('Profile'));
@@ -131,7 +130,6 @@ const createConfig = user => {
     sync: {
       user: user,
       flexible: true,
-      onError: console.error,
     },
   };
 };

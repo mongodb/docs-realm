@@ -87,7 +87,6 @@ const createConfig = user => {
     sync: {
       user: user,
       flexible: true,
-      onError: console.error,
     },
   };
 };

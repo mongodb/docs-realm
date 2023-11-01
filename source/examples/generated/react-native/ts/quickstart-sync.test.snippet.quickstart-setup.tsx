@@ -34,7 +34,6 @@ function AppWrapperSync() {
         <RealmProvider
           sync={{
             flexible: true,
-            onError: console.error,
             initialSubscriptions: {
               update(subs, realm) {
                 subs.add(realm.objects('Profile'));
