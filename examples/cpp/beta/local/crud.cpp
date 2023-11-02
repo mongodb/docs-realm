@@ -624,7 +624,6 @@ TEST_CASE("Test Set Object", "[write]") {
     
     realm.write([&] {
         realm.remove(docsRealm);
-        realm.remove(managedDocsRealm);
     });
 }
 // :replace-end:
