@@ -7,7 +7,8 @@
 // :replace-start: {
 //   "terms": {
 //     "Beta_": "",
-//     "Beta_Map_": ""
+//     "Beta_Map_": "",
+//     "Beta_Set_": ""
 //   }
 // }
 
@@ -80,6 +81,14 @@ struct Beta_Map_Employee {
     std::map<std::string, WorkLocation> locationByDay;
 };
 REALM_SCHEMA(Beta_Map_Employee, _id, firstName, lastName, locationByDay)
+// :snippet-end:
+
+// :snippet-start: beta-model-with-set-property
+struct Beta_Set_Repository {
+    std::string ownerAndName;
+    std::set<int64_t> openPullRequestNumbers;
+};
+REALM_SCHEMA(Beta_Set_Repository, ownerAndName, openPullRequestNumbers)
 // :snippet-end:
 
 TEST_CASE("Beta define model example", "[write]") {
@@ -485,5 +494,137 @@ TEST_CASE("test map object with percent-encoded map key", "[write]") {
             realm.remove(tommy);
         });
     }
+}
+
+TEST_CASE("Test Set Object", "[write]") {
+    auto relative_realm_path_directory = "beta_set_repository/";
+    std::filesystem::create_directories(relative_realm_path_directory);
+    std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+    path = path.append("repository_objects");
+    path = path.replace_extension("realm");
+    auto config = realm::db_config();
+    config.set_path(path);
+    
+    // :snippet-start: write-set-object
+    auto realm = db(std::move(config));
+    
+    // Create an object that has a set property
+    auto docsRealmRepo = Beta_Set_Repository {
+        .ownerAndName = "mongodb/docs-realm"
+    };
+    
+    // Add the object to the realm and get the managed object
+    auto managedDocsRealm = realm.write([&]() {
+        return realm.add(std::move(docsRealmRepo));
+    });
+
+    // Insert items into the set
+    auto openPullRequestNumbers = { 3059, 3062, 3064 };
+
+    realm.write([&] {
+        for (auto number: openPullRequestNumbers) {
+            // You can only mutate the set in a write transaction.
+            // This means you can't set values at initialization,
+            // but must do it during a write.
+            managedDocsRealm.openPullRequestNumbers.insert(number);
+        }
+    });
+    // :snippet-end:
+    
+    auto it3059 = managedDocsRealm.openPullRequestNumbers.find(3059);
+    REQUIRE(*it3059 == static_cast<long long>(3059));
+    
+//    auto it3062 = managedDocsRealm.openPullRequestNumbers.find(3062);
+//    REQUIRE(*it3062 == static_cast<long long>(3062));
+    
+//    auto it3064 = managedDocsRealm.openPullRequestNumbers.find(3064);
+//    REQUIRE(it3064 != managedDocsRealm.openPullRequestNumbers.end());
+//    REQUIRE(*it3064 == static_cast<long long>(3064));
+    
+    // :snippet-start: read-set
+    auto repositories = realm.objects<Beta_Set_Repository>();
+    
+    auto repositoriesNamedDocsRealm = repositories.where([](auto &repository) {
+        return repository.ownerAndName == "mongodb/docs-realm";
+    });
+    
+    auto docsRealm = repositoriesNamedDocsRealm[0];
+    
+    // You can check the size of the set
+    auto numberOfPullRequests = docsRealm.openPullRequestNumbers.size();
+    CHECK(numberOfPullRequests == 3); // :remove:
+    
+    // Find an element in the set whose value is 3064
+    auto it = managedDocsRealm.openPullRequestNumbers.find(3064);
+    // :remove-start:
+    CHECK(it != managedDocsRealm.openPullRequestNumbers.end());
+    CHECK(*it == static_cast<long long>(3064));
+    // :remove-end:
+    
+    // Get a copy of the set that exists independent of the managed set
+    auto openRealmPullRequests = docsRealm.openPullRequestNumbers.detach();
+    // :snippet-end:
+
+    CHECK(openRealmPullRequests == std::set<int64_t>({ 3059, 3062, 3064 }));
+    CHECK(openRealmPullRequests.size() == 3);
+    CHECK(docsRealm.openPullRequestNumbers.size() == 3);
+    
+    // After clearing the copy of the set, the managed set is unchanged
+    openRealmPullRequests.clear();
+    CHECK(openRealmPullRequests.size() == 0);
+    CHECK(docsRealm.openPullRequestNumbers.size() == 3);
+    
+    // :snippet-start: update-set
+    // Add elements to the set in a write transaction
+    realm.write([&] {
+        managedDocsRealm.openPullRequestNumbers.insert(3066);
+    });
+    CHECK(managedDocsRealm.openPullRequestNumbers.size() == 4);
+    
+    // Use std::set algorithms to update a set
+    // In this example, use std::set_union to add elements to the set
+    // 3064 already exists, so it won't be added, but 3065 and 3067 are unique
+    // values and will be added to the set.
+    auto newOpenPullRequests = std::set<int64_t>({ 3064, 3065, 3067 });
+    realm.write([&] {
+        std::set_union(
+                       docsRealm.openPullRequestNumbers.begin(),
+                       docsRealm.openPullRequestNumbers.end(),
+                       newOpenPullRequests.begin(),
+                       newOpenPullRequests.end(),
+                       std::inserter(
+                                     managedDocsRealm.openPullRequestNumbers,
+                                     managedDocsRealm.openPullRequestNumbers.end()));
+    });
+    CHECK(managedDocsRealm.openPullRequestNumbers.size() == 6);
+    
+    // Erase elements from a set
+    auto it3065 = managedDocsRealm.openPullRequestNumbers.find(3065);
+    CHECK(it3065 != managedDocsRealm.openPullRequestNumbers.end());
+    realm.write([&] {
+        managedDocsRealm.openPullRequestNumbers.erase(it3065);
+    });
+    // :snippet-end:
+    CHECK(managedDocsRealm.openPullRequestNumbers.size() == 5);
+    // :snippet-start: delete-set
+    // Remove an element from the set with erase()
+    auto it3064 = managedDocsRealm.openPullRequestNumbers.find(3064);
+    CHECK(it3064 != managedDocsRealm.openPullRequestNumbers.end());
+    realm.write([&] {
+        managedDocsRealm.openPullRequestNumbers.erase(it3065);
+    });
+    CHECK(managedDocsRealm.openPullRequestNumbers.size() == 4);
+    
+    // Clear the entire contents of the set
+    realm.write([&] {
+        managedDocsRealm.openPullRequestNumbers.clear();
+    });
+    CHECK(managedDocsRealm.openPullRequestNumbers.size() == 0);
+    // :snippet-end:
+    
+    realm.write([&] {
+        realm.remove(docsRealm);
+        realm.remove(managedDocsRealm);
+    });
 }
 // :replace-end:

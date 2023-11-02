@@ -436,6 +436,32 @@ For more information about supported map data types, refer to:
       .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-map-property.cpp
          :language: cpp
 
+.. _cpp-create-object-set-property:
+
+Create an Object with a Set Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create objects that contain ``std::set`` properties as you would any
+Realm object, but you can only mutate a set property within a write transaction.
+This means you can only set the value(s) of a mutable set property within a 
+write transaction.
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.write-set-object.cpp
+   :language: cpp
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+Model
+`````
+
+For more information about supported set data types, refer to: 
+:ref:`cpp-set-collections`.
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-set-property.cpp
+   :language: cpp
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst
+
 .. _cpp-create-asymmetric-object:
 
 Create an Asymmetric Object
