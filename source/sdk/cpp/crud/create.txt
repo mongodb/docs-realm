@@ -443,10 +443,11 @@ Create an Object with a Set Property
 
 .. versionadded:: v0.4.0-preview
 
-You can create objects that contain ``std::set`` properties as you would any
-Realm object, but you can only mutate a set property within a write transaction.
-This means you can only set the value(s) of a mutable set property within a 
-write transaction.
+You can create objects that contain :cpp-sdk:`set 
+<structrealm_1_1experimental_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>` 
+properties as you would any Realm object, but you can only mutate a set 
+property within a write transaction. This means you can only set the value(s) 
+of a set property within a write transaction.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.write-set-object.cpp
    :language: cpp
