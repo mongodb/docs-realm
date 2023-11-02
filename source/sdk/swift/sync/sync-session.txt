@@ -170,21 +170,26 @@ Manually Reconnect All Sync Sessions
 
 Realm automatically detects when a device regains connectivity after being 
 offline and attempts to reconnect using an incremental backoff strategy.
+For example, on Apple platforms, Realm listens for network change notifications 
+and automatically triggers a reconnect immediately after receiving one.
 
 In Swift SDK version 10.44.0 and later, you can choose to manually trigger a 
 reconnect attempt with ``SyncSession.reconnect()``
 instead of waiting for the duration of the incremental backoff. This is 
 useful if you have a more accurate understanding of 
 the network conditions and don't want to rely on Realm's automatic 
-reconnect detection. The SDK also automatically calls this method when a device 
-toggles off airplane mode.
+reconnect detection.
 
 .. literalinclude:: /examples/generated/code/start/Sync.snippet.sync-session-reconnect.swift
    :language: swift
 
-When you call this method, the SDK forces all sync sessions to attempt to 
-reconnect immediately and resets any timers used for incremental 
-backoff.
+When you call this method, the SDK forces all sync sessions to *attempt* to 
+reconnect immediately. This resets any timers used for incremental 
+backoff. 
+
+Calling this method does not guarantee the device can reconnect. If the SDK
+gets a fatal error, or if the device is already connected or is trying to
+connect, calling this method has no effect.
 
 .. important:: Cannot Reconnect Within Socket Read Timeout Duration
    
