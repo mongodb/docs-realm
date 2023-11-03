@@ -10,9 +10,6 @@ Encrypt a Realm - Node.js SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 You can encrypt the realm file on disk with AES-256 +
 SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
 realm <node-open-a-local-realm>`.
@@ -26,13 +23,24 @@ integrity using a :wikipedia:`hash-based message authentication code
 
 .. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
 
-Considerations
---------------
+The following code demonstrates how to generate an encryption key and
+open an encrypted realm:
 
-The following are key impacts to consider when encrypting a realm.
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /examples/generated/node/v12/formatted/metadata.test.snippet.encrypt-realm.ts.rst
+   
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /examples/generated/node/v12/formatted/metadata.test.snippet.encrypt-realm.js.rst
+
 
 Storing & Reusing Keys
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 You **must** pass the same encryption key every time you open the encrypted realm. 
 If you don't provide a key or specify the wrong key for an encrypted
@@ -42,12 +50,12 @@ Apps should store the encryption key securely, typically in the target
 platform's secure key/value storage, so that other apps cannot read the key.
 
 Performance Impact
-~~~~~~~~~~~~~~~~~~
+------------------
 
 Reads and writes on encrypted realms can be up to 10% slower than unencrypted realms.
 
 Encryption and Atlas Device Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 You can encrypt a :ref:`synced realm <node-open-a-synced-realm>`. 
 
@@ -58,29 +66,25 @@ use one of the :ref:`Realm authentication providers <users-and-authentication>`
 and an :ref:`authentication trigger<authentication-triggers>`
 to create a 64-bit key and store that key in a :ref:`user object <user-objects>`.
 
-Accessing an Encrypted Realm from Multiple Processes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Access an Encrypted Realm from Multiple Processes
+-------------------------------------------------
 
 .. versionchanged:: ``realm@11.8.0``
 
-Starting with Realm Node.js SDK version 11.8.0, Realm supports opening
+Starting with Realm Node.js SDK version v11.8.0, Realm supports opening
 the same encrypted realm in multiple processes.
 
-If your app uses Realm Node.js SDK version 11.7.0 or earlier, attempting to 
+If your app uses Realm Node.js SDK version v11.7.0 or earlier, attempting to 
 open an encrypted realm from multiple processes throws this error:
 ``Encrypted interprocess sharing is currently unsupported.``
 
-Example
--------
+Encrypt App Services App Metadata
+---------------------------------
 
-The following code demonstrates how to generate an encryption key and
-open an encrypted realm:
+If you use Atlas Device Sync with your realm, your App Services App uses an
+on-device metadata file to determine changes that should sync.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+You can encrypt this metadata file in a similar manner as encrypting your
+realm.
 
-      .. literalinclude:: /examples/Encrypt/encrypt.js
-         :language: javascript
-
+To learn more, refer to :ref:`Ecrypt App Metadata <>`.
