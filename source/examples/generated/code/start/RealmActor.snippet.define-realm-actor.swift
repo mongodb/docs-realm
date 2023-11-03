@@ -20,7 +20,6 @@ actor RealmActor {
             ])
         }
     }
-    
     func updateTodo(_id: ObjectId, name: String, owner: String, status: String) async throws {
         try await realm.asyncWrite {
             realm.create(Todo.self, value: [
@@ -32,9 +31,10 @@ actor RealmActor {
         }
     }
     
-    func deleteTodo(todo: Todo) async throws {
+    func deleteTodo(id: ObjectId) async throws {
         try await realm.asyncWrite {
-            realm.delete(todo)
+            let todoToDelete = realm.object(ofType: Todo.self, forPrimaryKey: id)
+            realm.delete(todoToDelete!)
         }
     }
     

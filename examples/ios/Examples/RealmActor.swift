@@ -40,7 +40,14 @@ actor RealmActor {
         }
     }
     // :snippet-end:
-    
+    // :remove-start:
+    func getObjectId(forTodoNamed name: String) async -> ObjectId {
+        let todo = realm.objects(RealmActor_Todo.self).where {
+            $0.name == name
+        }.first!
+        return todo._id
+    }
+    // :remove-end:
     // :snippet-start: update-async
     func updateTodo(_id: ObjectId, name: String, owner: String, status: String) async throws {
         try await realm.asyncWrite {
@@ -55,9 +62,10 @@ actor RealmActor {
     // :snippet-end:
     
     // :snippet-start: delete-async
-    func deleteTodo(todo: RealmActor_Todo) async throws {
+    func deleteTodo(id: ObjectId) async throws {
         try await realm.asyncWrite {
-            realm.delete(todo)
+            let todoToDelete = realm.object(ofType: RealmActor_Todo.self, forPrimaryKey: id)
+            realm.delete(todoToDelete!)
         }
     }
     // :snippet-end:
@@ -145,26 +153,36 @@ class RealmActorTests: XCTestCase {
         // :snippet-start: update-object
         // :snippet-start: read-objects
         let actor = try await RealmActor()
+        try await createObject(in: actor) // :remove:
         
-        try await createObject(in: actor)
-        
-        let todo = await actor.realm.objects(RealmActor_Todo.self).where {
-            $0.name == "Keep it safe"
-        }.first!
+        // Read objects in functions isolated to the actor and pass primitive values to the caller
+        func getObjectId(in actor: isolated RealmActor, forTodoNamed name: String) async -> ObjectId {
+            let todo = actor.realm.objects(RealmActor_Todo.self).where {
+                $0.name == name
+            }.first!
+            return todo._id
+        }
+        let objectId = await getObjectId(in: actor, forTodoNamed: "Keep it safe")
         // :snippet-end:
-        XCTAssertNotNil(todo) // :remove:
-        
-        try await actor.updateTodo(_id: todo._id, name: todo.name, owner: todo.owner, status: "Completed")
+        XCTAssertNotNil(objectId) // :remove:
+
+        try await actor.updateTodo(_id: objectId, name: "Keep it safe", owner: "Frodo", status: "Completed")
         // :snippet-end:
-        sleep(1)
-        XCTAssertEqual(todo.status, "Completed")
+        func getTodoStatus(in actor: isolated RealmActor, for id: ObjectId) async -> String {
+            let todo = actor.realm.objects(RealmActor_Todo.self).where {
+                $0._id == id
+            }.first!
+            return todo.status
+        }
+        let todoStatus = await getTodoStatus(in: actor, for: objectId)
+        XCTAssertEqual(todoStatus, "Completed")
         await actor.close()
     }
     
     func testActorIsolatedRealmDelete() async throws {
-        func createObject(in actor: isolated RealmActor) async throws -> RealmActor_Todo {
-            return try actor.realm.write {
-                return actor.realm.create(RealmActor_Todo.self, value: [
+        func createObject(in actor: isolated RealmActor) async throws {
+            try actor.realm.write {
+                actor.realm.create(RealmActor_Todo.self, value: [
                     "name": "Keep Mr. Frodo safe from that Gollum",
                     "owner": "Sam",
                     "status": "In Progress"
@@ -173,14 +191,15 @@ class RealmActorTests: XCTestCase {
         }
         // :snippet-start: delete-object
         let actor = try await RealmActor()
-        
-        let todo = try await createObject(in: actor)
-        XCTAssertNotNil(todo) // :remove:
-        print("Successfully created an object with id: \(todo._id)")
+        // :remove-start:
+        try await createObject(in: actor)
         let todoCount = await actor.count
-        XCTAssertEqual(todoCount, 1) // :remove:
+        XCTAssertEqual(todoCount, 1)
+        // :remove-end:
+        let todoId = await actor.getObjectId(forTodoNamed: "Keep Mr. Frodo safe from that Gollum")
+        XCTAssertNotNil(todoId) // :remove:
         
-        try await actor.deleteTodo(todo: todo)
+        try await actor.deleteTodo(id: todoId)
         let updatedTodoCount = await actor.count
         XCTAssertEqual(updatedTodoCount, 0) // :remove:
         if updatedTodoCount == todoCount - 1 {
@@ -346,92 +365,129 @@ class RealmActorTests: XCTestCase {
     func testObserveCollectionOnActor() async throws {
         let expectation = expectation(description: "A notification is triggered")
         // :snippet-start: observe-collection-on-actor
-        let actor = try await RealmActor()
-        
-        // Add a todo to the realm so the collection has something to observe
-        try await actor.createTodo(name: "Arrive safely in Bree", owner: "Merry", status: "In Progress")
-        let todoCount = await actor.count
-        print("The actor currently has \(todoCount) tasks")
-        XCTAssertEqual(todoCount, 1) // :remove:
-        
-        // Get a collection
-        let todos = await actor.realm.objects(RealmActor_Todo.self)
-        
-        // Register a notification token, providing the actor
-        let token = await todos.observe(on: actor, { actor, changes in
-            print("A change occurred on actor: \(actor)")
-            switch changes {
-            case .initial:
-                print("The initial value of the changed object was: \(changes)")
-            case .update(_, let deletions, let insertions, let modifications):
-                if !deletions.isEmpty {
-                    print("An object was deleted: \(changes)")
-                } else if !insertions.isEmpty {
-                    print("An object was inserted: \(changes)")
-                } else if !modifications.isEmpty {
-                    print("An object was modified: \(changes)")
-                    expectation.fulfill() // :remove:
+        // Create a simple actor
+        @globalActor actor BackgroundActor: GlobalActor {
+            static var shared = BackgroundActor()
+            
+            public func deleteTodo(tsrToTodo tsr: ThreadSafeReference<RealmActor_Todo>) throws {
+                let realm = try! Realm()
+                try realm.write {
+                    let todoOnActor = realm.resolve(tsr)
+                    realm.delete(todoOnActor!)
                 }
-            case .error(let error):
-                print("An error occurred: \(error.localizedDescription)")
             }
-        })
-        
-        // Make an update to an object to trigger the notification
-        await actor.realm.writeAsync {
-            todos.first!.status = "Completed"
         }
-        
-        await fulfillment(of: [expectation], timeout: 2) // :remove:
-        // Invalidate the token when done observing
-        token.invalidate()
+
+        // Execute some code on a different actor - in this case, the MainActor
+        @MainActor
+        func mainThreadFunction() async throws {
+            let realm = try! await Realm()
+            
+            // Create a todo item so there is something to observe
+            try await realm.asyncWrite {
+                return realm.create(RealmActor_Todo.self, value: [
+                    "_id": ObjectId.generate(),
+                    "name": "Arrive safely in Bree",
+                    "owner": "Merry",
+                    "status": "In Progress"
+                ])
+            }
+            
+            // Get the collection of todos on the current actor
+            let todoCollection = realm.objects(RealmActor_Todo.self)
+            XCTAssertEqual(todoCollection.count, 1) // :remove:
+            
+            // Register a notification token, providing the actor where you want to observe changes.
+            // This is only required if you want to observe on a different actor.
+            let token = await todoCollection.observe(on: BackgroundActor.shared, { actor, changes in
+                print("A change occurred on actor: \(actor)")
+                switch changes {
+                case .initial:
+                    print("The initial value of the changed object was: \(changes)")
+                    expectation.fulfill() // :remove:
+                case .update(_, let deletions, let insertions, let modifications):
+                    if !deletions.isEmpty {
+                        print("An object was deleted: \(changes)")
+                    } else if !insertions.isEmpty {
+                        print("An object was inserted: \(changes)")
+                    } else if !modifications.isEmpty {
+                        print("An object was modified: \(changes)")
+                    }
+                case .error(let error):
+                    print("An error occurred: \(error.localizedDescription)")
+                }
+            })
+            
+            // Update an object to trigger the notification.
+            // We can pass a thread-safe reference to an object to update it on a different actor.
+            // This triggers a notification that the object is deleted.
+            let threadSafeReferenceToTodo = ThreadSafeReference(to: todoCollection.first!)
+            try await BackgroundActor.shared.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)
+
+            // Invalidate the token when done observing
+            token.invalidate()
+        }
         // :snippet-end:
-        await actor.close()
+        
+        try await mainThreadFunction()
+
+        await fulfillment(of: [expectation], timeout: 5)
     }
     
     func testObserveObjectOnActor() async throws {
         let expectation = expectation(description: "A notification is triggered")
         // :snippet-start: observe-object-on-actor
-        let actor = try await RealmActor()
-        
-        // Add a todo to the realm so we can observe it
-        try await actor.createTodo(name: "Scour the Shire", owner: "Merry", status: "In Progress")
-        let todoCount = await actor.count
-        print("The actor currently has \(todoCount) tasks")
-        XCTAssertEqual(todoCount, 1) // :remove:
-        
-        // Get an object
-        let todo = await actor.realm.objects(RealmActor_Todo.self).where {
-            $0.name == "Scour the Shire"
-        }.first!
-        
-        // Register a notification token, providing the actor
-        let token = await todo.observe(on: actor, { actor, change in
-            print("A change occurred on actor: \(actor)")
-            switch change {
-            case .change(let object, let properties):
-                for property in properties {
-                    print("Property '\(property.name)' of object \(object) changed to '\(property.newValue!)'")
-                    expectation.fulfill() // :remove:
-                }
-            case .error(let error):
-                print("An error occurred: \(error)")
-            case .deleted:
-                print("The object was deleted.")
-            }
-        })
-        
-        // Make an update to an object to trigger the notification
-        await actor.realm.writeAsync {
-            todo.status = "Completed"
+        // Create a simple actor
+        @globalActor actor BackgroundActor: GlobalActor {
+            static var shared = BackgroundActor()
         }
-        
-        await fulfillment(of: [expectation], timeout: 2) // :remove:
-        // Invalidate the token when done observing
-        token.invalidate()
+
+        // Execute some code on a different actor - in this case, the MainActor
+        @MainActor
+        func mainThreadFunction() async throws {
+            // Create a todo item so there is something to observe
+            let realm = try! await Realm()
+            let scourTheShire = try await realm.asyncWrite {
+                return realm.create(RealmActor_Todo.self, value: [
+                    "_id": ObjectId.generate(),
+                    "name": "Scour the Shire",
+                    "owner": "Merry",
+                    "status": "In Progress"
+                ])
+            }
+            XCTAssertNotNil(scourTheShire) // :remove:
+            
+            // Register a notification token, providing the actor
+            let token = await scourTheShire.observe(on: BackgroundActor.shared, { actor, change in
+                print("A change occurred on actor: \(actor)")
+                switch change {
+                case .change(let object, let properties):
+                    for property in properties {
+                        print("Property '\(property.name)' of object \(object) changed to '\(property.newValue!)'")
+                    }
+                    expectation.fulfill() // :remove:
+                case .error(let error):
+                    print("An error occurred: \(error)")
+                case .deleted:
+                    print("The object was deleted.")
+                }
+            })
+            XCTAssertEqual(scourTheShire.status, "In Progress") // :remove:
+            
+            // Update the object to trigger the notification.
+            // This triggers a notification that the object's `status` property has been changed.
+            try await realm.asyncWrite {
+                scourTheShire.status = "Complete"
+            }
+            
+            // Invalidate the token when done observing
+            token.invalidate()
+        }
         // :snippet-end:
-        XCTAssertEqual(todo.status, "Completed")
-        await actor.close()
+        
+        try await mainThreadFunction()
+        
+        await fulfillment(of: [expectation], timeout: 5)
     }
 #endif
 }
