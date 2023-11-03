@@ -1,9 +1,39 @@
+# November 3, 2023
+
+## C++ SDK
+
+- Model Data
+  - Object Types and Schemas: Note that as of version v0.4.0-preview, asymmetric objects can link to non-embedded objects.
+  - Supported Data Types: Add documentation for new set data type.
+- CRUD
+  - Create: New "Create an Object with a Set Property" section with info and tested, Bluehawked code example.
+  - Read: New "Read a Set Property" section with info and tested, Bluehawked code example.
+  - Update: New "Update a Set Property" section with info and tested, Bluehawked code example.
+  - Delete: New "Delete Set Values" section with info and tested, Bluehawked code example.
+- React to Changes: Note that collection notifications are provided for both set and map in addition to list.
+
+## Java SDK
+
+- Landing Page: Add note that the SDK no longer receives new development or non-critical bug fixes. Recommend Kotlin SDK, or using both SDKs together in a project.
+- Install: Add note that the SDK no longer receives new development or non-critical bug fixes. Recommend Kotlin SDK, or using both SDKs together in a project.
+
+## React Native SDK
+
+- Update code examples throughout docs:
+  - Change syntax for `useQuery()` when used with `.filtered()` and `.sorted()` to improve performance.
+  - Remove unnecessary `onError` from configuration object.
+- Internal: Fix an issue in the docs test suite.
+
+## Swift SDK
+
+- Sync Data/Manage Sync Sessions: Add documentation for `SyncSession.reconnect()`.
+
 # October 20, 2023
 
 ## Kotlin SDK
 
 - Landing Page: Add card for Offline Login project to Example Projects section.
--  Realm/Read & Write Data/Delete: Update page with sections on embedded objects, RealmSet elements, RealmAny properties, and objects and their related objects. Update code examples. 
+- Realm/Read & Write Data/Delete: Update page with sections on embedded objects, RealmSet elements, RealmAny properties, and objects and their related objects. Update code examples.
 
 ## .NET SDK
 
@@ -11,14 +41,14 @@
 
 ## React Native SDK
 
-- Install Realm: Clarify that the install instructions are geared towards developers working with a bare React Native app. Include links to "Bootstrap with Expo" page for install instructions for developers using Expo. 
-- Bootstrap with Expo: Add link to compatibility chart to determine which version of Expo is compatible with a React Native SDK version. 
+- Install Realm: Clarify that the install instructions are geared towards developers working with a bare React Native app. Include links to "Bootstrap with Expo" page for install instructions for developers using Expo.
+- Bootstrap with Expo: Add link to compatibility chart to determine which version of Expo is compatible with a React Native SDK version.
 - Manage Users
-  - Authenticate Users: Add new reference table for ``useAuth`` and update page with new information on authentication hooks. 
-  - Manage Email/Password Users: Update examples and content with new information on authentication hooks and add new reference table for ``userEmailPasswordAuth``. 
-  - Link User Identities: Add new procedure with updated examples for authentication hooks. 
-- API Reference/@realm/react Package Reference: Add instructions for creating a new app with ``@realm/react``.
-- Internal: Update metro bundler dependencies to fix simulator runtime problems. 
+  - Authenticate Users: Add new reference table for `useAuth` and update page with new information on authentication hooks.
+  - Manage Email/Password Users: Update examples and content with new information on authentication hooks and add new reference table for `userEmailPasswordAuth`.
+  - Link User Identities: Add new procedure with updated examples for authentication hooks.
+- API Reference/@realm/react Package Reference: Add instructions for creating a new app with `@realm/react`.
+- Internal: Update metro bundler dependencies to fix simulator runtime problems.
 
 # October 13, 2023
 
@@ -34,7 +64,7 @@
 
 ## C++ SDK
 
-- Configure & Open a Realm: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change. 
+- Configure & Open a Realm: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change.
 - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
 - Sync Data/Stream Data to Atlas: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change.
 
@@ -49,7 +79,7 @@
 
 ## Kotlin SDK
 
-- Realm 
+- Realm
   - Read & Write Data
     - Landing Page: Convert the landing page to a container page. Move content to relevant child pages.
     - Create: Update object models and add information on creating objects with the specific properties or relationships (dictionary property, inverse relationship, etc.).
@@ -62,7 +92,7 @@
 
 ## .NET SDK
 
-- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used. 
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used.
 - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
 - Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
 
@@ -75,12 +105,12 @@
 
 ## React Native SDK
 
-- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used. 
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used.
 - Model Data/Relationships & Embedded Objects: Update inverse relationship examples for JSv12.
 - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
 - Test & Debug/Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
 - Throughout documentation for the SDK: Update object models in accordance with JSv12 standards.
-- Internal: Add React Native testing guidance for creating and testing code. 
+- Internal: Add React Native testing guidance for creating and testing code.
 
 ## Swift SDK
 
@@ -95,12 +125,13 @@
 ## Other
 
 - Example Projects: Add Netflix-like Movie App project and Split Data into Multiple Realms core project.
-  
+
 # September 29, 2023
 
 ## Kotlin SDK
 
 - Realm/Model Data
+
   - Define an Object Model: Wording improvements around embedded objects. Update code example.
   - Relationships: Wording improvements, code example updates, and link cleanup.
   - Supported Types: Add details about optional properties and default values.
