@@ -12,6 +12,7 @@ import {Logger} from './src/components/logger/Logger';
 import {ObjectModels} from './src/components/object-models/ObjectModels';
 import {RelationshipExamples} from './src/components/relationships/RealmWrapper';
 import {CompensatingWriteErrorHandling} from './src/components/errors/CompensatingWriteWrapper';
+import {EncryptMetadata} from './src/components/encryption/EncryptMetadata';
 
 // Screens
 import {SubscriptionScreen} from './src/screens/SubscriptionScreen';
@@ -21,6 +22,9 @@ import {AuthenticationScreen} from './src/screens/AuthenticationScreen';
 import {RootStackParamList} from './src/navigation/types';
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
+
+// Create encryption key for encryption examples.
+const encryptionKey = new ArrayBuffer(64);
 
 /* 
 // Each screen has its own RealmProvider and realm. However, they all point to
@@ -38,18 +42,46 @@ function App(): JSX.Element {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Geospatial" component={Geospatial} />
-        <Drawer.Screen name="FullTextSearch" component={FtsQuery} />
-        <Drawer.Screen name="Logger" component={Logger} />
-        <Drawer.Screen name="ObjectModels" component={ObjectModels} />
-        <Drawer.Screen name="Subscriptions" component={SubscriptionScreen} />
-        <Drawer.Screen name="Relationships" component={RelationshipExamples} />
+        <Drawer.Screen
+          name="Home"
+          component={HomeScreen}
+        />
+        <Drawer.Screen
+          name="Geospatial"
+          component={Geospatial}
+        />
+        <Drawer.Screen
+          name="FullTextSearch"
+          component={FtsQuery}
+        />
+        <Drawer.Screen
+          name="Logger"
+          component={Logger}
+        />
+        <Drawer.Screen
+          name="ObjectModels"
+          component={ObjectModels}
+        />
+        <Drawer.Screen
+          name="Subscriptions"
+          component={SubscriptionScreen}
+        />
+        <Drawer.Screen
+          name="Relationships"
+          component={RelationshipExamples}
+        />
         <Drawer.Screen
           name="Errors"
           component={CompensatingWriteErrorHandling}
         />
-        <Drawer.Screen name="Authentication" component={AuthenticationScreen} />
+        <Drawer.Screen
+          name="Authentication"
+          component={AuthenticationScreen}
+        />
+        <Drawer.Screen
+          name="Encryption"
+          component={() => <EncryptMetadata encryptionKey={encryptionKey} />}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

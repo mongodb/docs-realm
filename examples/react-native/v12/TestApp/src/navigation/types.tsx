@@ -12,6 +12,9 @@ export type RootStackParamList = {
   Relationships: undefined;
   Errors: undefined;
   Authentication: undefined;
+  Encryption: {
+    encryptionKey: ArrayBuffer;
+  };
 };
 
 export type SubscriptionStackParamList = {
