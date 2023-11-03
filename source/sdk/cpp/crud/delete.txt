@@ -100,3 +100,19 @@ pass the key name to ``erase()``:
 
       .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.delete-map-value.cpp
          :language: cpp
+
+.. _cpp-delete-set-values:
+
+Delete Set Values
+~~~~~~~~~~~~~~~~~
+
+.. versionadded:: v0.4.0-preview
+
+You can delete a :cpp-sdk:`set element 
+<structrealm_1_1experimental_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>` 
+with ``erase()``, or remove all elements from a set with ``clear()``.
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.delete-set.cpp
+   :language: cpp
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst

@@ -46,10 +46,11 @@ A **to-many** relationship means that an object relates to more than one
 other object. In Realm, a to-many relationship is a list of 
 references to other objects. For example, a person might have many dogs.
 
-Realm represents a to-many relationship between two Realm
-types as a list. Lists are mutable: within a write transaction, you can 
-add and remove elements to and from a list. Lists are not associated with 
-a query and are declared as a property of the object model.
+You can represent a to-many relationship between two Realm
+types as a list, map, or a set. Lists, maps, and sets are mutable: within 
+a write transaction, you can add and remove elements to and from these 
+collection types. Lists, maps, and sets are not associated with a query 
+and are declared as a property of the object model.
 
 .. _cpp-inverse-relationship:
 
