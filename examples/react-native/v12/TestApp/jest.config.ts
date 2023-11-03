@@ -8,8 +8,10 @@ const config: Config = {
   preset: 'react-native',
   testTimeout: 30000,
   roots: ['<rootDir>/src/'],
-  setupFiles: ['./testSetup.ts'],
-  setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
+  setupFilesAfterEnv: [
+    '@testing-library/jest-native/extend-expect',
+    './testSetup.ts',
+  ],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },

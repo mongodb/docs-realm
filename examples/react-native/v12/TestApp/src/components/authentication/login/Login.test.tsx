@@ -6,7 +6,7 @@ import {render, screen, userEvent, within} from '@testing-library/react-native';
 
 describe('Log in with App Services auth providers', () => {
   // Make sure the same user isn't persisted across tests.
-  beforeEach(async () => {
+  afterEach(async () => {
     render(<LoginExample />);
 
     const user = userEvent.setup();
@@ -22,9 +22,8 @@ describe('Log in with App Services auth providers', () => {
     }
 
     // <Login> component should render because there's no auth'd user
-    const newLoginAnonymousButton = await screen.findByTestId(
-      'log-in-anonymous',
-    );
+    const newLoginAnonymousButton =
+      await screen.findByTestId('log-in-anonymous');
     expect(newLoginAnonymousButton).toBeInTheDocument;
   });
 
@@ -97,9 +96,8 @@ describe('Log in with App Services auth providers', () => {
     const emailInput = await screen.findByTestId('email-input');
     const passwordInput = await screen.findByTestId('password-input');
     const registerButton = await screen.findByTestId('register-button');
-    const sendResetPasswordEmailButton = await screen.findByTestId(
-      'send-reset-email',
-    );
+    const sendResetPasswordEmailButton =
+      await screen.findByTestId('send-reset-email');
 
     // Register user with email and password
     await user.type(emailInput, userEmail);
