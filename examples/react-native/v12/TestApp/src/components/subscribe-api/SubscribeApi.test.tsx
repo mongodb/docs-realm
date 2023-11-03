@@ -8,11 +8,6 @@ import {render, screen, userEvent} from '@testing-library/react-native';
 // pass.
 
 describe('Subscribe API behavior tests', () => {
-  beforeEach(async () => {
-    // Close and remove all realms in the default directory.
-    Realm.clearTestState();
-  });
-
   test('Basic subscription with a name', async () => {
     // This test consistently fails in CI. For whatever reason, the
     // initial sync takes more than 10 seconds, which is the max
