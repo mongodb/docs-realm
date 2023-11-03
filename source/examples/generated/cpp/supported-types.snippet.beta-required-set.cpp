@@ -1,1 +1,1 @@
-std::set<std::string> setTypeName;
+std::set<SomeType> setTypeName;
