@@ -91,7 +91,7 @@ struct Beta_AllTypesObject {
     std::vector<SomeType> listTypeName;
     // :snippet-end:
     // :snippet-start: beta-required-set
-    std::set<std::string> setTypeName;
+    std::set<SomeType> setTypeName;
     // :snippet-end:
 };
 REALM_SCHEMA(Beta_AllTypesObject, boolName, optBoolName, intName, optIntName,
