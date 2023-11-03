@@ -16,7 +16,9 @@ describe("Handle Realm Metadata", () => {
     // Use encryption key in app configuration
     const config: AppConfiguration = {
       id: APP_ID,
-      metadata: { mode: MetadataMode.Encryption, encryptionKey },
+      // :emphasize-start:
+      metadata: { mode: MetadataMode.Encryption, encryptionKey: encryptionKey },
+      // :emphasize-end:
     };
     const app = new Realm.App(config);
     // :snippet-end:
@@ -33,7 +35,7 @@ describe("Handle Realm Metadata", () => {
     // Use encryption key in realm configuration
     const config: Configuration = {
       schema: [Task],
-      encryptionKey: encryptionKey,
+      encryptionKey: encryptionKey, // :emphasize:
     };
 
     const realm = await Realm.open(config);

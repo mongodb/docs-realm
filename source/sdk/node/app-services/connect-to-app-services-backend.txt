@@ -73,8 +73,15 @@ For an example, refer to :ref:`node-cancel-async-after-timeout`.
 Encrypt App Metadata
 --------------------
 
-You can encrypt the metadata App Services stores on client devices. This process
-is similar to encrypting a realm.
+You can encrypt the metadata App Services stores on client devices.
+
+To encrypt App metadata:
+
+#. Import ``MetadataMode`` from ``Realm``.
+#. Create an App configuration object that contains the ``metadata`` property.
+#. Set ``metadata.mode`` to a value from the ``MetadataMode`` enum.
+#. Set ``metadata.encryptionKey`` to the key you want to use for encryption.
+#. Pass the App configuration object to ``new Realm.App()``.
 
 .. tabs-realm-languages::
 
