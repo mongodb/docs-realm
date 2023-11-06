@@ -10,22 +10,22 @@
    :depth: 3
    :class: singlecol
 
-:npm:`@realm/react <package/@realm/react>` is an npm package that provides
-an easy-to-use API to perform common Realm operations, such as querying,
-writing to a realm, and listening to realm objects.
+:npm:`@realm/react <package/@realm/react>` is an npm package that streamlines
+common Realm operations like querying, writing to a realm, and listening to
+realm objects. This reduces boilerplate code, like creating your own listeners
+and state management.
 
-``@realm/react`` helps you avoid creating boilerplate code, such as creating
-your own listeners and state management. ``@realm/react`` provides access to
-Realm through a set of hooks that update React state when the Realm data changes.
-This means that components using these hooks re-render on any changes to data
+``@realm/react`` provides access to Realm through a set of providers that have
+various hooks. The hooks update React state when the Realm data changes.
+This means that components using these hooks rerender on any changes to data
 in the realm.
 
 .. include:: /includes/note-realmreact-version-requirements-for-realmjs.rst
 
 .. _react-native-setup-realm-hooks:
 
-Setup @realm/react
-------------------
+Set Up @realm/react
+-------------------
 
 To set up ``@realm/react``, start with a new `bare React Native app 
 <https://reactnative.dev/docs/environment-setup#creating-a-new-application>`_ 
@@ -67,6 +67,75 @@ where your ``package.json`` file is located:
     npm install @realm/react
 
 .. _react-native-realm-context:
+
+AppProvider
+-----------
+
+.. TODO: Add introduction
+
+Use AppProvider
+~~~~~~~~~~~~~~~
+
+.. TODO: Add example
+
+AppProvider Reference
+~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/realm-react-provider-app.rst
+
+UserProvider
+------------
+
+.. TODO: Add introduction
+
+Use UserProvider
+~~~~~~~~~~~~~~~~
+
+.. TODO: Add example
+
+UserProvider Reference
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/realm-react-provider-user.rst
+
+RealmProvider
+-------------
+
+``RealmProvider`` provides child components access to a configured
+Realm through hooks.
+
+For simple use-cases, you may want to wrap your entire application in the
+``RealmProvider`` component. For more complex apps, you may only want to give
+specific screens access to a realm.
+
+Use RealmProvider
+~~~~~~~~~~~~~~~~~
+
+.. TODO: Add example
+
+Dynamically Update the Realm Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can dynamically update the Realm configuration by setting
+:reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
+component. The props you set on the ``RealmProvider`` will overwrite any
+property passed into ``createRealmContext()``.
+
+In the following example, we update the ``RealmProvider`` with a 
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
+and a ``fallback`` property that is used to render a temporary
+``LoadingSpinner`` component while waiting for Device Sync to fully synchronize
+data before opening the realm:
+
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
+    :language: typescript
+
+RealmProvider Reference
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/realm-react-provider-realm.rst
+
+.. TODO: clean up and figure out how to address this bit
 
 createRealmContext()
 --------------------
@@ -140,23 +209,6 @@ app access to the realm by wrapping the ``RealmProvider`` around
 the ``App`` component, which renders the application.
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-realm-provider.tsx
-    :language: typescript
-
-Dynamically Update the Realm Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can dynamically update the Realm configuration by setting
-:reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
-component. The props you set on the ``RealmProvider`` will overwrite any
-property passed into ``createRealmContext()``.
-
-In the following example, we update the ``RealmProvider`` with a 
-:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
-and a ``fallback`` property that is used to render a temporary
-``LoadingSpinner`` component while waiting for Device Sync to fully synchronize
-data before opening the realm:
-
-.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
     :language: typescript
 
 The Realm Hooks
