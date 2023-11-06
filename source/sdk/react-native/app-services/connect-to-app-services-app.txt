@@ -74,12 +74,11 @@ to determine encryption behavior.
 
 To encrypt App metadata:
 
-#. Import ``MetadataMode`` from ``Realm``.
+#. Import ``MetadataMode`` from ``Realm`` and other dependencies.
+   .. include:: /examples/generated/react-native/v12/EncryptMetadata.snippet.imports.tsx.rst
 #. Create an App configuration object that contains the ``metadata`` property.
 #. Set ``metadata.mode`` to a value from the ``MetadataMode`` enum.
 #. Set ``metadata.encryptionKey`` to the key you want to use for encryption.
 #. Pass the App configuration object to ``new Realm.App()``.
-
-.. include:: /examples/generated/react-native/v12/EncryptMetadata.snippet.imports.tsx.rst
 
 .. include:: /examples/generated/react-native/v12/EncryptMetadata.snippet.encrypt-metadata.tsx.rst
