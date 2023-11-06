@@ -90,8 +90,7 @@ Define a Custom Realm Actor
 ---------------------------
 
 You can define a specific actor to manage Realm in asynchronous contexts.
-You can use this actor to manage realm access, perform write operations,
-and get notifications for changes.
+You can use this actor to manage realm access and perform write operations.
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.define-realm-actor.swift
    :language: swift
@@ -175,17 +174,16 @@ Pass a ThreadSafeReference
 You can create a 
 :swift-sdk:`ThreadSafeReference <Structs/ThreadSafeReference.html>` on an 
 actor where you have access to the object. In this case, we create a 
-``ThreadSafeReference`` on the ``MainActor``.
+``ThreadSafeReference`` on the ``MainActor``. Then, pass the ``ThreadSafeReference`` to the destination actor. 
 
-.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-isolated-realm-async.swift
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.pass-tsr-across-actor-boundaries.swift
    :language: swift
 
-Then, pass the ``ThreadSafeReference`` to the destination actor. 
 On the destination actor, you must ``resolve()`` the reference within a 
 write transaction before you can use it. This retrieves a version of the 
 object local to that actor.
 
-.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-isolated-realm-async.swift
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.resolve-tsr-on-actor.swift
    :language: swift
 
 You can only resolve a ``ThreadSafeReference`` once. If you may need 
