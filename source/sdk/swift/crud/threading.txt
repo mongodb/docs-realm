@@ -37,7 +37,7 @@ simplify this for you.
    <ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
    across threads.
 
-Actor-Isolated Realms
+Use Realm with Actors
 ---------------------
 
 This page describes how to manually manage realm files and objects across threads.
@@ -90,11 +90,11 @@ Perform a Background Write
 .. versionadded:: 10.26.0
 
 You can add, modify, or delete objects in the background using 
-:swift-sdk:`writeAsync <Structs/Realm.html#/s:10RealmSwift0A0V10writeAsync_10onCompletes6UInt32Vyyc_ys5Error_pSgcSgtF>`. 
+:swift-sdk:`asyncWrite <Structs/Realm.html#/s:10RealmSwift0A0V10writeAsync_10onCompletes6UInt32Vyyc_ys5Error_pSgcSgtF>`. 
 
 With async write, you don't need to pass a :ref:`thread-safe reference 
 <ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
-across threads. Instead, call ``realm.writeAsync``. You can provide 
+across threads. Instead, call ``realm.asyncWrite``. You can provide 
 a completion block for the method to execute on the source thread after 
 the write completes or fails.
 
@@ -115,7 +115,7 @@ performing an async write. The
 <Structs/Realm.html#/s:10RealmSwift0A0V39isPerformingAsynchronousWriteOperationsSbvp>` 
 variable becomes ``true`` after a call to one of:
 
-- ``writeAsync``
+- ``asyncWrite``
 - ``beginAsyncWrite``
 - ``commitAsyncWrite``
 
@@ -131,17 +131,17 @@ To complete an async write, you or the SDK must call either:
 - :swift-sdk:`commitAsyncWrite <Structs/Realm.html#/s:10RealmSwift0A0V16commitAsyncWrite13allowGrouping_s6UInt32VSb_ys5Error_pSgcSgtF>` 
 - :swift-sdk:`cancelAsyncWrite <Structs/Realm.html#/s:10RealmSwift0A0V16cancelAsyncWriteyys6UInt32VKF>`
 
-When you use the ``writeAsync`` method, the SDK handles committing or 
+When you use the ``asyncWrite`` method, the SDK handles committing or 
 canceling the transaction. This provides the convenience of the async write 
 without the need to manually keep state tied to the scope of the object. 
-However, while in the writeAsync block, you *can* explicitly call 
+However, while in the asyncWrite block, you *can* explicitly call 
 ``commitAsyncWrite`` or ``cancelAsyncWrite``. If you return without 
-calling one of these methods, ``writeAsync`` either:
+calling one of these methods, ``asyncWrite`` either:
 
 - Commits the write after executing the instructions in the write block
 - Returns an error
 
-In either case, this completes the ``writeAsync`` operation.
+In either case, this completes the ``asyncWrite`` operation.
 
 For more control over when to commit or cancel the async write transaction, 
 use the ``beginAsyncWrite`` method. When you use this method, you must 
@@ -207,9 +207,10 @@ on your use case:
 - To keep and share many read-only views of the object in your app, copy
   the object from the realm.
 
-- To share an instance of a realm or specific object with another thread, share
-  a :ref:`thread_safe_reference <ios-thread-safe-reference>` to the realm
-  instance or object.
+- To share an instance of a realm or specific object with another thread or
+  across actor boundaries, share a :ref:`thread_safe_reference 
+  <ios-thread-safe-reference>` to the realm instance or object. For more 
+  information, refer to :ref:`swift-pass-thread-safe-reference-across-actors`.
 
 .. _ios-use-serial-queues-for-non-main-threads:
 
@@ -281,6 +282,7 @@ regardless of whether it has a primary key.
    .. literalinclude:: /examples/generated/code/start/Threading.snippet.threadsafe-wrapper-function-parameter.swift
       :language: swift
 
+.. _ios-thread-safe-reference:
 
 Use ThreadSafeReference (Legacy Swift / Objective-C)
 ````````````````````````````````````````````````````
@@ -398,6 +400,13 @@ exists on disk, and does not need to be deeply copied when passed around
 to other threads. You can freely share the frozen object across threads
 without concern for thread issues. When you freeze a realm, its child 
 objects also become frozen.
+
+.. tip:: Use ThreadSafeReference with Swift Actors
+
+   Realm does not currently support using ``thaw()`` with Swift Actors.
+   To work with Realm data across actor boundaries, use 
+   ``ThreadSafeReference`` instead of frozen objects. For more information,
+   refer to :ref:`swift-pass-thread-safe-reference-across-actors`.
 
 Frozen objects are not live and do not automatically update.
 They are effectively snapshots of the object state at the

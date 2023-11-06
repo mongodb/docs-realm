@@ -48,6 +48,28 @@ actor RealmActor {
         return todo._id
     }
     // :remove-end:
+    
+    func getTodoOwner(forTodoNamed name: String) -> String {
+        let todo = realm.objects(RealmActor_Todo.self).where {
+            $0.name == name
+        }.first!
+        return todo.owner
+    }
+    
+    // :snippet-start: pass-data-as-struct
+    struct TodoStruct {
+        var id: ObjectId
+        var name, owner, status: String
+    }
+    
+    func getTodoAsStruct(forTodoNamed name: String) -> TodoStruct {
+        let todo = realm.objects(RealmActor_Todo.self).where {
+            $0.name == name
+        }.first!
+        return TodoStruct(id: todo._id, name: todo.name, owner: todo.owner, status: todo.status)
+    }
+    // :snippet-end:
+    
     // :snippet-start: update-async
     func updateTodo(_id: ObjectId, name: String, owner: String, status: String) async throws {
         try await realm.asyncWrite {
@@ -366,17 +388,21 @@ class RealmActorTests: XCTestCase {
         let expectation = expectation(description: "A notification is triggered")
         // :snippet-start: observe-collection-on-actor
         // Create a simple actor
+        // :snippet-start: resolve-tsr-on-actor
         @globalActor actor BackgroundActor: GlobalActor {
             static var shared = BackgroundActor()
             
             public func deleteTodo(tsrToTodo tsr: ThreadSafeReference<RealmActor_Todo>) throws {
                 let realm = try! Realm()
                 try realm.write {
+                    // Resolve the thread safe reference on the Actor where you want to use it.
+                    // Then, do something with the object.
                     let todoOnActor = realm.resolve(tsr)
                     realm.delete(todoOnActor!)
                 }
             }
         }
+        // :snippet-end:
 
         // Execute some code on a different actor - in this case, the MainActor
         @MainActor
@@ -419,10 +445,15 @@ class RealmActorTests: XCTestCase {
             })
             
             // Update an object to trigger the notification.
+            // This example triggers a notification that the object is deleted.
+            // :snippet-start: pass-tsr-across-actor-boundaries
             // We can pass a thread-safe reference to an object to update it on a different actor.
-            // This triggers a notification that the object is deleted.
-            let threadSafeReferenceToTodo = ThreadSafeReference(to: todoCollection.first!)
+            let todo = todoCollection.where {
+                $0.name == "Arrive safely in Bree"
+            }.first!
+            let threadSafeReferenceToTodo = ThreadSafeReference(to: todo)
             try await BackgroundActor.shared.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)
+            // :snippet-end:
 
             // Invalidate the token when done observing
             token.invalidate()
@@ -482,12 +513,84 @@ class RealmActorTests: XCTestCase {
             
             // Invalidate the token when done observing
             token.invalidate()
+            await realm.asyncRefresh() // :remove:
         }
         // :snippet-end:
         
         try await mainThreadFunction()
         
         await fulfillment(of: [expectation], timeout: 5)
+    }
+    
+    func testQueryForDataOnAnotherActor() async throws {
+        try await mainThreadFunction()
+        
+        // :snippet-start: query-for-data-on-another-actor
+        // A simple example of a custom global actor
+        @globalActor actor BackgroundActor: GlobalActor {
+            static var shared = BackgroundActor()
+        }
+
+        @BackgroundActor
+        func createObjectOnBackgroundActor() async throws -> ObjectId {
+            // Explicitly specifying the actor is required for anything that is not MainActor
+            let realm = try await Realm(actor: BackgroundActor.shared)
+            let newTodo = try await realm.asyncWrite {
+                return realm.create(RealmActor_Todo.self, value: [
+                    "name": "Pledge fealty and service to Gondor",
+                    "owner": "Pippin",
+                    "status": "In Progress"
+                ])
+            }
+            XCTAssertEqual(realm.objects(RealmActor_Todo.self).count, 1) // :remove:
+            // Share the todo's primary key so we can easily query for it on another actor
+            return newTodo._id
+        }
+        
+        @MainActor
+        func mainThreadFunction() async throws {
+            let newTodoId = try await createObjectOnBackgroundActor()
+            let realm = try await Realm()
+            let todoOnMainActor = realm.object(ofType: RealmActor_Todo.self, forPrimaryKey: newTodoId)
+            XCTAssertNotNil(todoOnMainActor) // :remove:
+        }
+        // :snippet-end:
+    }
+    
+    func testPassPrimitiveDataAcrossActors() async throws {
+        try await mainThreadFunction()
+        
+        // :snippet-start: pass-primitive-data-across-actors
+        @MainActor
+        func mainThreadFunction() async throws {
+            // Create an object in an actor-isolated realm.
+            // Pass primitive data to the actor instead of
+            // creating the object here and passing the object.
+            let actor = try await RealmActor()
+            try await actor.createTodo(name: "Prepare fireworks for birthday party", owner: "Gandalf", status: "In Progress")
+            
+            // Later, get information off the actor-confined realm
+            let todoOwner = await actor.getTodoOwner(forTodoNamed: "Prepare fireworks for birthday party")
+            XCTAssertEqual(todoOwner, "Gandalf") // :remove:
+        }
+        // :snippet-end:
+    }
+    
+    func testGetDataAsStruct() async throws {
+        try await mainThreadFunction()
+        
+        // :snippet-start: get-actor-confined-data-as-struct
+        @MainActor
+        func mainThreadFunction() async throws {
+            // Create an object in an actor-isolated realm.
+            let actor = try await RealmActor()
+            try await actor.createTodo(name: "Leave the ring on the mantle", owner: "Bilbo", status: "In Progress")
+            
+            // Get information as a struct or other Sendable type.
+            let todoAsStruct = await actor.getTodoAsStruct(forTodoNamed: "Leave the ring on the mantle")
+            XCTAssertNotNil(todoAsStruct.id) // :remove:
+        }
+        // :snippet-end:
     }
 #endif
 }

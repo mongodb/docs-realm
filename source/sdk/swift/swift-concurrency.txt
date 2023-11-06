@@ -17,14 +17,10 @@ topic <https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html>`__.
 
 While the considerations on this page broadly apply to using realm with 
 Swift concurrency features, Realm Swift SDK version 10.39.0 adds support
-for actor-isolated realms. Actor-isolated realms support Swift concurrency 
-features including:
+for using Realm with Swift Actors. You can use Realm isolated to a single
+actor, or work with realm across actors.
 
-- Opening an actor-isolated realm
-- Reading and writing from an actor-isolated realm
-- Getting notifications on actor-isolated objects and collections
-
-This provides support for using realm in a MainActor and background actor
+Realm's actor support simplifies using realm in a MainActor and background actor
 context, and supersedes much of the advice on this page regarding concurrency
 considerations. For more information, refer to :ref:`swift-actor-isolated-realm`.
 
@@ -102,7 +98,7 @@ Perform Background Writes
 A commonly-requested use case for asynchronous code is to perform write 
 operations in the background without blocking the main thread. While the 
 Realm Swift SDK does not currently support an async/await API for this, it 
-does have an API specifically for performing background writes: ``writeAsync``.
+does have an API specifically for performing background writes: ``asyncWrite``.
 
 This API allows you to add, update, or delete objects in the background 
 without using frozen objects or passing a thread-safe reference. With this 
@@ -113,7 +109,7 @@ frozen objects or passing references across threads.
 
 However, while the write block itself is executed, this does block new 
 transactions on the calling thread. This means that a large write using
-the ``writeAsync`` API could block small, quick writes while it executes.
+the ``asyncWrite`` API could block small, quick writes while it executes.
 
 For more information, including a code example, refer to: :ref:`ios-async-write`.
 
@@ -192,7 +188,7 @@ To avoid threading-related issues in code that uses Swift concurrency features:
   where you access the realm asynchronously with ``@MainActor`` to ensure it
   always runs on the main thread. Remember that ``await`` marks a suspension 
   point that could change to a different thread.
-- Apps that do not use actor-isolated realms can use the ``writeAsync`` API to 
+- Apps that do not use actor-isolated realms can use the ``asyncWrite`` API to 
   :ref:`perform a background write <ios-async-write>`. This manages realm 
   access in a thread-safe way without requiring you to write specialized code 
   to do it yourself. This is a special API that outsources aspects of the 
@@ -202,11 +198,10 @@ To avoid threading-related issues in code that uses Swift concurrency features:
   in your code.
 - If you want to explicitly write concurrency code that is not actor-isolated 
   where accessing a realm is done in a thread-safe way, you can explicitly 
-  :ref:`pass instances across threads <ios-thread-safe-reference>` or use 
-  :ref:`frozen objects <ios-frozen-objects>` where applicable to avoid 
-  threading-related crashes. This does require a good understanding of 
-  Realm's threading model, as well as being mindful of Swift concurrency 
-  threading behaviors.
+  :ref:`pass instances across threads <ios-thread-safe-reference>` where 
+  applicable to avoid threading-related crashes. This does require a good 
+  understanding of Realm's threading model, as well as being mindful of 
+  Swift concurrency threading behaviors.
 
 .. _concurrency-page-sendable-thread-confined-reference:
 

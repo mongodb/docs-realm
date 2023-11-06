@@ -5,6 +5,8 @@
     public func deleteTodo(tsrToTodo tsr: ThreadSafeReference<Todo>) throws {
         let realm = try! Realm()
         try realm.write {
+            // Resolve the thread safe reference on the Actor where you want to use it.
+            // Then, do something with the object.
             let todoOnActor = realm.resolve(tsr)
             realm.delete(todoOnActor!)
         }
@@ -50,9 +52,12 @@ func mainThreadFunction() async throws {
     })
     
     // Update an object to trigger the notification.
+    // This example triggers a notification that the object is deleted.
     // We can pass a thread-safe reference to an object to update it on a different actor.
-    // This triggers a notification that the object is deleted.
-    let threadSafeReferenceToTodo = ThreadSafeReference(to: todoCollection.first!)
+    let todo = todoCollection.where {
+        $0.name == "Arrive safely in Bree"
+    }.first!
+    let threadSafeReferenceToTodo = ThreadSafeReference(to: todo)
     try await BackgroundActor.shared.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)
 
     // Invalidate the token when done observing
