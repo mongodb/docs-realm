@@ -1,5 +1,5 @@
 .. code-block:: typescript
-   :emphasize-lines: 6-9
+   :emphasize-lines: 7-8
 
    const EncryptMetadata = ({
      encryptionKey,

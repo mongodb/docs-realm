@@ -19,12 +19,12 @@ export const EncryptMetadata = ({
 }: {
   encryptionKey: ArrayBuffer;
 }) => {
-  // :emphasize-start:
   const metadataConfig = {
+    // :emphasize-start:
     mode: MetadataMode.Encryption,
     encryptionKey: encryptionKey,
+    // :emphasize-end:
   };
-  // :emphasize-end:
 
   return (
     <AppProvider
