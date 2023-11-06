@@ -1,5 +1,3 @@
-**AppProvider**
-
 .. list-table::
   :header-rows: 1
   :widths: 15 50 35
@@ -18,13 +16,13 @@
       context.
     - .. code:: javascript
 
-      const app = useApp();
+        const app = useApp();
 
   * - :realm-react-sdk:`useAuth <functions/useAuth.html>`
     - Provides methods and state for authenticating with an App Services App.
     - .. code:: javascript
 
-      const auth = useAuth();
+        const auth = useAuth();
 
   * - :realm-react-sdk:`useEmailPasswordAuth <functions/useEmailPasswordAuth.html>`
     - Provides methods and state for authenticating with an App Services App
@@ -32,4 +30,4 @@
       like resetting a password and confirming a user.
     - .. code:: javascript
 
-      const auth = useEmailPasswordAuth();
+        const auth = useEmailPasswordAuth();
