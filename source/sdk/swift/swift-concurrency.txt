@@ -51,7 +51,7 @@ mechanisms for :ref:`sharing objects across threads
 your code to do some explicit handling to safely pass data across threads.
 
 You can use some of these mechanisms, such as :ref:`frozen objects 
-<ios-frozen-objects>` or the :ref:`@ThreadSafe property wrapper 
+<ios-frozen-objects>` or the :ref:`ThreadSafeReference 
 <ios-thread-safe-reference>`, to safely use Realm objects and instances 
 across threads with the ``await`` keyword. You can also avoid 
 threading-related issues by marking any asynchronous Realm code with 
@@ -198,7 +198,7 @@ To avoid threading-related issues in code that uses Swift concurrency features:
   in your code.
 - If you want to explicitly write concurrency code that is not actor-isolated 
   where accessing a realm is done in a thread-safe way, you can explicitly 
-  :ref:`pass instances across threads <ios-thread-safe-reference>` where 
+  :ref:`pass instances across threads <ios-legacy-thread-safe-reference>` where 
   applicable to avoid threading-related crashes. This does require a good 
   understanding of Realm's threading model, as well as being mindful of 
   Swift concurrency threading behaviors.
