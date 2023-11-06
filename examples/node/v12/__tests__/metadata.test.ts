@@ -1,9 +1,11 @@
+// :snippet-start: imports
 import Realm, {
   AppConfiguration,
   BSON,
   MetadataMode,
   Configuration,
 } from "realm";
+// :snippet-end:
 import { Task } from "./models/models";
 import { APP_ID } from "../config";
 

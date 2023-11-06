@@ -82,8 +82,21 @@ to determine encryption behavior.
 To encrypt App metadata:
 
 #. Import ``MetadataMode`` from ``Realm``.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: typescript
+
+         .. include:: /examples/generated/node/v12/formatted/metadata.test.snippet.imports.ts.rst
+      
+      .. tab::
+         :tabid: javascript
+
+         .. include:: /examples/generated/node/v12/formatted/metadata.test.snippet.imports.js.rst
+
 #. Create an App configuration object that contains the ``metadata`` property.
-#. Set ``metadata.mode`` to a value from the ``MetadataMode`` enum.
+#. Set ``metadata.mode`` to ``MetadataMode.Encryption``.
 #. Set ``metadata.encryptionKey`` to the key you want to use for encryption.
 #. Pass the App configuration object to ``new Realm.App()``.
 
