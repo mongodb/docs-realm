@@ -81,7 +81,10 @@ on a device. For more information about these metadata files, refer to
 You can encrypt the metadata that App Services stores on client devices, 
 similar to :ref:`encrypting the realm <cpp-encrypt-a-realm>`. 
 
-To encrypt the metadata, create a 64-byte encryption key. Then, set the 
+On Apple devices, the metadata is encrypted by default. To disable this, 
+add ``REALM_DISABLE_METADATA_ENCRYPTION`` to your environment variables.
+
+To enable metadata encryption on other platforms, you must set a 
 ``metadata_encryption_key`` on your 
 :cpp-sdk:`realm::App::configuration <structrealm_1_1App_1_1configuration.html>`.
 
