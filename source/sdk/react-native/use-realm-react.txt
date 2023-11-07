@@ -156,18 +156,13 @@ RealmProvider Hooks
 useRealm()
 ``````````
 
-The ``useRealm()`` hook returns the opened realm instance.
+The ``useRealm()`` hook returns an opened realm instance. The realm instance
+gives you access to realm methods and properties. For example, you can call
+``realm.write()`` to add a realm object to your realm.
 
-The ``handleAddTask()`` method of the ``App`` component writes to the realm
-returned by the ``useRealm()`` hook in the following example.
-
-.. literalinclude:: /examples/generated/expo/App.snippet.example-userealm-hook-usage.tsx
-    :language: typescript
-
-The :realm-react-sdk:`Realm.create() <classes/Realm-1.html#create>` call invokes
-the ``Task.generate()`` method defined in the ``Task`` class.  This method
-instantiates a JavaScript object with default values for the ``_id``,
-``isComplete``, and ``createdAt`` properties.
+.. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
+   :language: typescript
+   :emphasize-lines: 3, 6-8, 15
 
 To learn more about modifying Realm data, refer to :ref:`Write Transactions
 <react-native-write-transactions>`.
@@ -178,18 +173,15 @@ useObject()
 ```````````
 
 The ``useObject()`` hook returns a Realm object for a given
-:ref:`primary key <react-native-primary-keys>`. You can invoke it with the class
-model definition (this will add types to the returned object in TypeScript) or
-the class name as a string and the primary key. The ``useObject()`` method
-returns null if the object doesn't exist or you have deleted it.  The hook will
-automatically subscribe to updates and re-render the component using the hook on
-any change to the object.
+:ref:`primary key <react-native-primary-keys>`. You can pass an object class
+or the class name as a string and the primary key.
 
-In the following example, the ``useObject()`` hook retrieves a ``Task`` object,
-and its description is rendered in the UI.
+The ``useObject()`` method returns null if the object doesn't exist or you have
+deleted it. The hook will automatically subscribe to updates and rerender the
+component using the hook on any change to the object.
 
-.. literalinclude:: /examples/generated/expo/SampleTask.snippet.example-useobject-hook-usage.tsx
-    :language: typescript
+.. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-object-by-id.tsx
+         :language: typescript
 
 .. _react-native-use-query-hook:
 
@@ -197,21 +189,19 @@ useQuery()
 ``````````
 
 The ``useQuery()`` hook returns a collection of realm objects of a given type.
-Like ``useObject``, it is either invoked with the Object Schema class or the model
-name as a string.  The ``useQuery()`` method subscribes to updates to any
-objects in the collection and re-renders the component using it on any change to the query results.
+These are the results of your query. A query can be an object class or the class
+name as a string.
 
-In the following example, of a ``TaskList`` component, The ``Task``
-class is passed to the ``useQuery()`` and the tasks are set as a ``data`` prop
-of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
+The ``useQuery()`` method subscribes to updates to any objects in the collection
+and rerenders the component using it on any change to the results.
 
-.. literalinclude:: /examples/generated/expo/TaskList.snippet.tasklist-use-query-example.tsx
-    :language: typescript
-    :emphasize-lines: 2, 6
-
-To learn how to render a :ref:`filtered <react-native-filter-results>` or
-:ref:`sorted <react-native-sort-results>` list of tasks, read the :ref:`CRUD - Read
+You can use ``.filtered()`` and ``.sorted()`` to filter and sort your query
+results. For more details, refer to the :ref:`CRUD - Read 
 <react-native-read-objects>` docs.
+
+.. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-filter-data.tsx
+    :language: typescript
+    :emphasize-lines: 4-6, 8-14
 
 .. _react-native-app-provider:
 
