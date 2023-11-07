@@ -25,13 +25,14 @@ integrity using a :wikipedia:`hash-based message authentication code
 
 .. versionadded:: v0.4.0-preview
 
-Considerations
---------------
+Encrypt a realm by calling the ``set_encryption_key()`` function on
+your :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`:
 
-The following are key impacts to consider when encrypting a realm.
+.. literalinclude:: /examples/generated/cpp/realm-files.snippet.beta-open-encrypted-realm.cpp
+   :language: cpp
 
-Storing & Reusing Keys
-~~~~~~~~~~~~~~~~~~~~~~
+Store & Reuse Keys
+------------------
 
 You **must** pass the same encryption key every time you open the encrypted realm. 
 If you don't provide a key or specify the wrong key for an encrypted
@@ -41,12 +42,12 @@ Apps should store the encryption key securely on the device so that other
 apps cannot read the key.
 
 Performance Impact
-~~~~~~~~~~~~~~~~~~
+------------------
 
 Reads and writes on encrypted realms can be up to 10% slower than unencrypted realms.
 
 Encryption and Atlas Device Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 You can encrypt a :ref:`synced realm <cpp-open-synced-realm>`. 
 
@@ -56,12 +57,3 @@ If you need unique keys for each user of your application, you can use an OAuth 
 use one of the :ref:`Realm authentication providers <users-and-authentication>` 
 and an :ref:`authentication trigger<authentication-triggers>`
 to create a 64-bit key and store that key in a :ref:`user object <user-objects>`.
-
-Example
--------
-
-You can encrypt a realm by calling the ``set_encryption_key()`` function on
-your :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`:
-
-.. literalinclude:: /examples/generated/cpp/realm-files.snippet.beta-open-encrypted-realm.cpp
-   :language: cpp
