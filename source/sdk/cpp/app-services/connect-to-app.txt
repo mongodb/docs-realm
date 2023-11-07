@@ -47,13 +47,14 @@ Access the App Client
 Set Custom HTTP Headers
 -----------------------
 
-.. versionadded:: v0.3.0-preview
+.. versionchanged:: v0.4.0-preview replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
 
 If you use App Services or Device Sync with a proxy setup, you may need
 to set custom HTTP headers. The Realm C++ SDK supports setting custom 
-HTTP headers on the ``App``, and on the ``flexible_sync_configuration()``.
+HTTP headers on the :cpp-sdk:`App <structrealm_1_1App_1_1configuration.html>`, 
+and on the ``flexible_sync_configuration()``.
 
-When you initialize the ``App``, pass in a map of string header keys
+When you initialize the App configuration, pass in a map of string header keys
 and values.
 
 .. literalinclude:: /examples/generated/cpp/app.snippet.set-custom-headers-for-app.cpp
@@ -65,3 +66,24 @@ these custom headers.
 If you want to use custom headers with Device Sync, you must 
 additionally :ref:`set the headers on the Flexible Sync configuration 
 <cpp-set-custom-headers-using-synced-realm>`.
+
+.. _cpp-encrypt-app-metadata:
+
+Encrypt App Metadata
+--------------------
+
+.. versionadded:: v0.4.0-preview
+
+When you connect to App Services, Realm creates additional metadata files 
+on a device. For more information about these metadata files, refer to 
+:ref:`cpp-realm-database`.
+
+You can encrypt the metadata that App Services stores on client devices, 
+similar to :ref:`encrypting the realm <cpp-encrypt-a-realm>`. 
+
+To encrypt the metadata, create a 64-byte encryption key. Then, set the 
+``metadata_encryption_key`` on your 
+:cpp-sdk:`realm::App::configuration <structrealm_1_1App_1_1configuration.html>`.
+
+.. literalinclude:: /examples/generated/cpp/app.snippet.encrypt-metadata.cpp
+   :language: cpp
