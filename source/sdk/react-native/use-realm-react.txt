@@ -128,23 +128,25 @@ Configure RealmProvider
       .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
         :language: typescript
 
+Configure More Than One Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Dynamically Update the Realm Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When you import ``RealmProvider`` from ``@realm/react``, that provider has a
+specific context and is associated with a single realm. If you need to configure
+more than one realm, use ``createRealmContext()`` to instantiate a new provider
+for each realm.
 
-You can dynamically update the Realm configuration by setting
-:reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
-component. The props you set on the ``RealmProvider`` will overwrite any
-property passed into ``createRealmContext()``.
+If you import ``useRealm()``, ``useQuery()``, or ``useObject()`` directly from
+``@realm/react``, those hooks use the default realm context. To work with more
+than one realm, you need to destructure a new realm provider and its associated
+hooks from the result of ``createRealmContext()``. You should namespace providers
+to avoid confusion about which provider and hooks you're working with.
 
-In the following example, we update the ``RealmProvider`` with a 
-:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
-and a ``fallback`` property that is used to render a temporary
-``LoadingSpinner`` component while waiting for Device Sync to fully synchronize
-data before opening the realm:
+For a detailed guide, refer to :ref:`Expose more than one realm 
+<react-native-expose-multiple-realms>`.
 
-.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
-    :language: typescript
+For a details about ``createRealmContext()``, refer to :ref:`createRealmContext() 
+<react-native-realm-context>` on this page.
 
 RealmProvider Hooks
 ~~~~~~~~~~~~~~~~~~~
@@ -254,14 +256,8 @@ useApp()
 The ``useApp()`` hook provides access to the :js-sdk:`Realm.App <Realm.App.html>`
 instance.
 
-In the following example, we call ``useApp()`` within a ``LoginComponent``, and
-then use the app instance to log in with email/password authentication.
-
-.. TODO: change this to a table reference?
-
-.. literalinclude:: /examples/generated/expo/LoginComponent.snippet.useApp-hook-usage.tsx
-    :language: typescript
-    :emphasize-lines: 1, 7, 11
+.. literalinclude:: /examples/generated/react-native/ts/use-app.test.snippet.use-app.tsx
+   :language: typescript
 
 .. _react-native-user-provider:
 
@@ -305,75 +301,30 @@ UserProvider Hooks
 useUser()
 `````````
 
-The ``useUser()`` hook provides access to the logged-in user.
+The ``useUser()`` hook provides access to the logged-in user. For example,
+you can use ``useUser()`` to log the current user out.
 
-In the following example, we call ``useApp()`` within a ``SampleTask``
-component and display the logged-in user's ``_id``.
-
-.. literalinclude:: /examples/generated/expo/SampleSyncedTask.snippet.useUser-hook-usage.tsx
-    :language: typescript
-    :emphasize-lines: 1, 5, 11
-
-.. TODO: clean up and figure out how to address this bit. Using default 
-    RealmProvider context imported from @realm/react or creating your own
-    context objects with createRealmContext().
+.. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.log-user-out.tsx.rst
 
 .. _react-native-realm-context:
 
 createRealmContext()
 --------------------
 
+Most of the time, you will only use ``createRealmContext()`` if you need to
+configure more than one realm. Otherwise, you should import``RealmProvider``
+and hooks directly from ``@realm/react``.
+
 The ``createRealmContext()`` method creates a :reactjs:`React Context
 <docs/context.html>` object for a realm with a given
 :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
 ``Context`` object contains the following: 
 
-- A :reactjs:`Context Provider <docs/context.html#contextprovider>` component that wraps around a component and provides any of its child components with access to the hooks.
-- Various pre-built :reactjs:`Hooks <docs/hooks-intro.html>` that you can use to access the opened realm, query the realm, etc.
+- A :reactjs:`Context Provider <docs/context.html#contextprovider>` (referred to
+  as ``RealmProvider`` elsewhere) component that wraps around a child components
+  and provides them with access to hooks.
+- Various prebuilt :reactjs:`Hooks <docs/hooks-intro.html>` that access the
+  configured realm.
 
-Setup
-~~~~~
-
-We recommend creating a file where you will define a Realm object type, a Realm
-configuration, and create a Realm ``Context``. At the top of the file, import
-Realm and the ``createRealmContext()`` method.
-
-.. literalinclude:: /examples/generated/expo/Task.snippet.add-imports-to-task.ts
-    :language: typescript
-
-Next, define a Object Schema using a JavaScript class. The ``Task``
-class below contains the following:
-
-- A ``generate()`` method that returns a ``Task`` insertion object that automatically sets computed values, such as ``_id`` and ``createdAt``. This insertion can be forwarded to ``realm.create`` to perform an insertion 
-- A ``schema`` property that defines this Object Schema. Read the :ref:`Define a Realm Object Schema <react-native-define-a-realm-object-schema>` documentation to learn more.
-
-.. literalinclude:: /examples/generated/expo/Task.snippet.create-task-class.ts
-    :language: typescript
-
-Finally, create a ``Realm.Configuration`` object and set its ``schema`` property
-to the classes you have created. Pass the configuration object to the
-``createRealmContext()`` method. Export the return value of
-``createRealmContext()``, so you can use the ``Context`` object in other files.
-
-.. literalinclude:: /examples/generated/expo/Task.snippet.create-realm-context.ts
-    :language: typescript
-
-Usage
-~~~~~
-
-Import the ``Context`` object that you created. In the example below, the
-``Context`` object is called ``TaskContext`` since it refers to the Realm ``Context`` of
-the Task. You can :mdn:`Destructure
-<Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the ``TaskContext`` object to get its ``RealmProvider``. 
-
-.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.import-task-context.tsx
-    :language: typescript
-
-Wrap the ``RealmProvider`` around the component that you want
-to give access to the configured realm. In the example below, we give the entire
-app access to the realm by wrapping the ``RealmProvider`` around
-the ``App`` component, which renders the application.
-
-.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-realm-provider.tsx
-    :language: typescript
+For a detailed guide, refer to :ref:`Expose more than one realm 
+<react-native-expose-multiple-realms>`.
