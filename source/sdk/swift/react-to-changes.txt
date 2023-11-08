@@ -454,7 +454,7 @@ checking ``realm.isInWriteTransaction``, and if so making changes, calling
 notifications and potential for error make this manual manipulation 
 error-prone and difficult to debug.
 
-You can use the :ref:`asyncWrite API <ios-async-write>` to sidestep complexity
+You can use the :ref:`writeAsync API <ios-async-write>` to sidestep complexity
 if you don't need fine-grained change information from inside your write block.
 Observing an async write similar to this provides notifications even if the 
 notification happens to be delivered inside a write transaction:
@@ -464,7 +464,7 @@ notification happens to be delivered inside a write transaction:
 
    let token = dog.observe(keyPaths: [\Dog.age]) { change in
       guard case let .change(dog, _) = change else { return }
-      dog.realm!.asyncWrite {
+      dog.realm!.writeAsync {
          dog.isPuppy = dog.age < 2
       }
    }
