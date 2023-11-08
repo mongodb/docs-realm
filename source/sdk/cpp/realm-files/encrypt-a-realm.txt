@@ -49,6 +49,9 @@ Reads and writes on encrypted realms can be up to 10% slower than unencrypted re
 Encryption and Atlas Device Sync
 --------------------------------
 
+Encrypt a Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~
+
 You can encrypt a :ref:`synced realm <cpp-open-synced-realm>`. 
 
 .. include:: /includes/encrypt-atlas-device-sync.rst
@@ -57,3 +60,9 @@ If you need unique keys for each user of your application, you can use an OAuth 
 use one of the :ref:`Realm authentication providers <users-and-authentication>` 
 and an :ref:`authentication trigger<authentication-triggers>`
 to create a 64-bit key and store that key in a :ref:`user object <user-objects>`.
+
+Encrypt Metadata
+~~~~~~~~~~~~~~~~
+
+You can encrypt the metadata that Realm stores on the device. For more 
+information, refer to :ref:`cpp-encrypt-app-metadata`.
