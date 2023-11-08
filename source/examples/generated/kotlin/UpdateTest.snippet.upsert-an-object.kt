@@ -1,12 +1,17 @@
 realm.write {
-    // The ID of a particular frog can either already exist or be a new ObjectId
-    val frogId = ObjectId()
-    // If a frog matching the ID exists, update its properties, otherwise create it
-    this.copyToRealm(Frog().apply {
-        _id = frogId
+    val existingFrog = query<Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
+    assertEquals(existingFrog.name, "Kermit")
+
+    // Use copyToRealm() to insert the object with the primary key
+    // ** UpdatePolicy determines whether to update or throw an error if object already exists**
+    copyToRealm(Frog().apply {
+        _id = PRIMARY_KEY_VALUE
         name = "Wirt"
         age = 4
         species = "Greyfrog"
         owner = "L'oric"
-    }, updatePolicy = UpdatePolicy.ALL)
+    }, UpdatePolicy.ALL)
+
+    val upsertFrog = query<Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
+    assertEquals(upsertFrog.name, "Wirt")
 }

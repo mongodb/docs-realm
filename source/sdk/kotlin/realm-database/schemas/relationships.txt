@@ -68,8 +68,10 @@ enforce a strict one-to-one relationship, use an embedded object instead.
 
 .. note:: 
   
-    Setting a to-one relationship field to ``null`` removes the connection between the objects, but Realm does not delete the referenced object.
-    If you want to delete the referenced object when the parent object is deleted, use an embedded object instead.
+    Setting a to-one relationship field to ``null`` removes the connection 
+    between the objects, but Realm does not delete the referenced object.
+    If you want to delete the referenced object when the parent object is 
+    deleted, use an embedded object instead.
 
 To define a to-one relationship between objects, 
 define an optional object property whose type is a ``RealmObject`` object 

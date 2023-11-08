@@ -129,7 +129,7 @@ To delete specific objects from a realm:
 
    You can check whether an object is still valid to use by calling 
    `isValid() <{+kotlin-local-prefix+}io.realm.kotlin.ext/is-valid.html>`__.
-   Deleted items return ``false``.
+   Deleted objects return ``false``.
 
 .. _kotlin-delete-a-single-object:
 
@@ -294,16 +294,19 @@ until you manually delete them. Alternatively, deleting a Realm object from a
 realm also deletes that object from any collection instances that contain 
 the object.
 
-Remove Items from a RealmList
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _kotlin-remove-realmlist-elements:
 
-You can remove one or more items from a ``RealmList`` at a time:
+Remove Elements from a RealmList
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- To remove one item from the list, pass the element to 
+You can remove one or more elements in a single transaction from a 
+`RealmList <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html>`__:
+
+- To remove one element from the list, pass the element to 
   `list.remove() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html#731697687%2FFunctions%2F878332154>`__.
-- To remove one item at a specified index in the list, pass the index to 
+- To remove one element at a specified index in the list, pass the index to 
   `list.removeAt() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html#1522148962%2FFunctions%2F878332154>`__.
-- To remove multiple items from the list, pass the elements to
+- To remove multiple elements from the list, pass the elements to
   `list.removeAll() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html#1522148962%2FFunctions%2F878332154>`__.
 
 You can also remove *all* list elements at once by calling
@@ -322,15 +325,18 @@ In the following example, we have a ``Forest`` object with a list of
 .. literalinclude:: /examples/generated/kotlin/DeleteTest.snippet.list-clear.kt
    :language: kotlin
 
-Remove Items from a RealmSet
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _kotlin-remove-realmset-elements:
 
-You can remove one or more items from a ``RealmSet`` at a time:
+Remove Elements from a RealmSet
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- To remove one item from the set, pass the element 
+You can remove one or more elements in a single transaction from a 
+`RealmSet <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__:
+
+- To remove one element from the set, pass the element 
   you want to delete to 
   `set.remove() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-1503494415%2FFunctions%2F-1651551339>`__.
-- To remove multiple items from the set, pass the 
+- To remove multiple elements from the set, pass the 
   elements you want to delete to
   `set.removeAll() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#430447804%2FFunctions%2F-1651551339>`__.
 
@@ -355,7 +361,9 @@ In the following example, we have a ``Frog`` object with a set of
 Remove Dictionary Keys/Values
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can remove ``RealmDictionary`` entries in a few ways:
+You can remove 
+`RealmDictionary <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-dictionary/index.html>`__ 
+entries in a few ways:
 
 - To remove the value but keep the key, set the key to ``null`` (the 
   dictionary's value must be nullable)
