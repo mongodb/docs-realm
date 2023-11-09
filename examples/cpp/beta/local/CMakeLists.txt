@@ -23,6 +23,7 @@ add_executable(examples-beta-local
   crud.cpp
   filter-data.cpp
   notifications.cpp
+  realm-files.cpp
   relationships.cpp
   supported-types.cpp
   threading.cpp
