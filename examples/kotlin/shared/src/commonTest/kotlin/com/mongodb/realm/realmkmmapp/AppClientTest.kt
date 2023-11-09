@@ -51,20 +51,18 @@ class AppClientTest: RealmTest() {
         val myEncryptionKey = getEncryptionKey()
         val config =
         // :snippet-start: encrypted-app-client
-            AppConfiguration.Builder(YOUR_APP_ID) // Replace with your App ID
+            AppConfiguration.Builder(YOUR_APP_ID)
                 // Specify the encryption key
                 .encryptionKey(myEncryptionKey)
                 .build()
         // :snippet-end:
-        assertEquals(config.encryptionKey, myEncryptionKey)
+        assertTrue(config.encryptionKey.contentEquals(myEncryptionKey))
     }
 
     @Test
     fun setCustomHttpHeadersTest() {
-        val myEncryptionKey = getEncryptionKey()
         val config1 = AppConfiguration.Builder(YOUR_APP_ID)
                 .appName("my-app-name")
-                .encryptionKey(myEncryptionKey)
                 .build()
         val config2 =
             // :snippet-start: set-custom-http-headers

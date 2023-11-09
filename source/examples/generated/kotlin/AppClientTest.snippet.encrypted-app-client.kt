@@ -1,4 +1,4 @@
-AppConfiguration.Builder(YOUR_APP_ID) // Replace with your App ID
+AppConfiguration.Builder(YOUR_APP_ID)
     // Specify the encryption key
     .encryptionKey(myEncryptionKey)
     .build()
