@@ -21,5 +21,5 @@ runBlocking {
         .build()
     // Open the realm with the configuration
     val realm = Realm.open(config)
-    Log.v("Successfully opened encrypted realm:" + realm.configuration.name)
+    Log.v("Successfully opened encrypted realm: ${realm.configuration.name}")
 }

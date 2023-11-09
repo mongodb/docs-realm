@@ -47,7 +47,7 @@ class EncryptARealmTest : RealmTest() {
                 .build()
             // Open the realm with the configuration
             val realm = Realm.open(config)
-            Log.v("Successfully opened encrypted realm:" + realm.configuration.name)
+            Log.v("Successfully opened encrypted realm: ${realm.configuration.name}")
             // :remove-start:
             assertEquals(generatedKey, realm.configuration.encryptionKey)
             realm.close()
@@ -64,15 +64,15 @@ class EncryptARealmTest : RealmTest() {
         runBlocking {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: encrypt-synced-realm
-            val config = SyncConfiguration.Builder(user, setOf(Frog::class))
+            val syncConfig = SyncConfiguration.Builder(user, setOf(Frog::class))
                 .initialSubscriptions { realm ->
                     add(realm.query<Frog>())
                 }
                 // Specify the encryption key
                 .encryptionKey(generatedKey)
                 .build()
-            val realm = Realm.open(config)
-            Log.v("Successfully opened encrypted realm: ${realm.configuration}")
+            val realm = Realm.open(syncConfig)
+            Log.v("Successfully opened encrypted realm: ${realm.configuration.name}")
             // :snippet-end:
             assertEquals(generatedKey, realm.configuration.encryptionKey)
             realm.close()
