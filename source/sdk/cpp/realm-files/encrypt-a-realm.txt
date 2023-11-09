@@ -30,6 +30,12 @@ your :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.h
 
 .. literalinclude:: /examples/generated/cpp/realm-files.snippet.beta-open-encrypted-realm.cpp
    :language: cpp
+   :emphasize-lines: 22-23
+
+.. tip:: You cannot encrypt a realm that already exists on device
+
+   The C++ SDK Preview does not yet support encrypting a realm that already 
+   exists on device. You must encrypt the realm the first time you open it.
 
 Store & Reuse Keys
 ------------------
