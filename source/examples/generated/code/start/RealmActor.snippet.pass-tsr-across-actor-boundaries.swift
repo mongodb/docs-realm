@@ -3,4 +3,4 @@ let todo = todoCollection.where {
     $0.name == "Arrive safely in Bree"
 }.first!
 let threadSafeReferenceToTodo = ThreadSafeReference(to: todo)
-try await BackgroundActor.shared.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)
+try await backgroundActor.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)

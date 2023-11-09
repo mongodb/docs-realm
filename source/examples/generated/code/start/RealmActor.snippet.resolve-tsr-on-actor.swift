@@ -1,6 +1,4 @@
-@globalActor actor BackgroundActor: GlobalActor {
-    static var shared = BackgroundActor()
-    
+actor BackgroundActor {
     public func deleteTodo(tsrToTodo tsr: ThreadSafeReference<Todo>) throws {
         let realm = try! Realm()
         try realm.write {

@@ -1,11 +1,10 @@
-// Create a simple actor
-@globalActor actor BackgroundActor: GlobalActor {
-    static var shared = BackgroundActor()
-}
-
-// Execute some code on a different actor - in this case, the MainActor
+// Execute some code on a specific actor - in this case, the MainActor
 @MainActor
 func mainThreadFunction() async throws {
+    // Initialize an instance of another actor
+    // where you want to do background work
+    let backgroundActor = BackgroundActor()
+    
     // Create a todo item so there is something to observe
     let realm = try! await Realm()
     let scourTheShire = try await realm.asyncWrite {
@@ -18,7 +17,7 @@ func mainThreadFunction() async throws {
     }
     
     // Register a notification token, providing the actor
-    let token = await scourTheShire.observe(on: BackgroundActor.shared, { actor, change in
+    let token = await scourTheShire.observe(on: backgroundActor, { actor, change in
         print("A change occurred on actor: \(actor)")
         switch change {
         case .change(let object, let properties):

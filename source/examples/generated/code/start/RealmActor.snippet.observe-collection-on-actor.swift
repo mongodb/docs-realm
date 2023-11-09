@@ -1,7 +1,5 @@
 // Create a simple actor
-@globalActor actor BackgroundActor: GlobalActor {
-    static var shared = BackgroundActor()
-    
+actor BackgroundActor {
     public func deleteTodo(tsrToTodo tsr: ThreadSafeReference<Todo>) throws {
         let realm = try! Realm()
         try realm.write {
@@ -16,11 +14,12 @@
 // Execute some code on a different actor - in this case, the MainActor
 @MainActor
 func mainThreadFunction() async throws {
+    let backgroundActor = BackgroundActor()
     let realm = try! await Realm()
     
     // Create a todo item so there is something to observe
     try await realm.asyncWrite {
-        return realm.create(Todo.self, value: [
+        realm.create(Todo.self, value: [
             "_id": ObjectId.generate(),
             "name": "Arrive safely in Bree",
             "owner": "Merry",
@@ -33,7 +32,7 @@ func mainThreadFunction() async throws {
     
     // Register a notification token, providing the actor where you want to observe changes.
     // This is only required if you want to observe on a different actor.
-    let token = await todoCollection.observe(on: BackgroundActor.shared, { actor, changes in
+    let token = await todoCollection.observe(on: backgroundActor, { actor, changes in
         print("A change occurred on actor: \(actor)")
         switch changes {
         case .initial:
@@ -58,7 +57,7 @@ func mainThreadFunction() async throws {
         $0.name == "Arrive safely in Bree"
     }.first!
     let threadSafeReferenceToTodo = ThreadSafeReference(to: todo)
-    try await BackgroundActor.shared.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)
+    try await backgroundActor.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)
 
     // Invalidate the token when done observing
     token.invalidate()

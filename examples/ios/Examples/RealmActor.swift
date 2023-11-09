@@ -389,9 +389,7 @@ class RealmActorTests: XCTestCase {
         // :snippet-start: observe-collection-on-actor
         // Create a simple actor
         // :snippet-start: resolve-tsr-on-actor
-        @globalActor actor BackgroundActor: GlobalActor {
-            static var shared = BackgroundActor()
-            
+        actor BackgroundActor {
             public func deleteTodo(tsrToTodo tsr: ThreadSafeReference<RealmActor_Todo>) throws {
                 let realm = try! Realm()
                 try realm.write {
@@ -407,11 +405,12 @@ class RealmActorTests: XCTestCase {
         // Execute some code on a different actor - in this case, the MainActor
         @MainActor
         func mainThreadFunction() async throws {
+            let backgroundActor = BackgroundActor()
             let realm = try! await Realm()
             
             // Create a todo item so there is something to observe
             try await realm.asyncWrite {
-                return realm.create(RealmActor_Todo.self, value: [
+                realm.create(RealmActor_Todo.self, value: [
                     "_id": ObjectId.generate(),
                     "name": "Arrive safely in Bree",
                     "owner": "Merry",
@@ -425,7 +424,7 @@ class RealmActorTests: XCTestCase {
             
             // Register a notification token, providing the actor where you want to observe changes.
             // This is only required if you want to observe on a different actor.
-            let token = await todoCollection.observe(on: BackgroundActor.shared, { actor, changes in
+            let token = await todoCollection.observe(on: backgroundActor, { actor, changes in
                 print("A change occurred on actor: \(actor)")
                 switch changes {
                 case .initial:
@@ -452,7 +451,7 @@ class RealmActorTests: XCTestCase {
                 $0.name == "Arrive safely in Bree"
             }.first!
             let threadSafeReferenceToTodo = ThreadSafeReference(to: todo)
-            try await BackgroundActor.shared.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)
+            try await backgroundActor.deleteTodo(tsrToTodo: threadSafeReferenceToTodo)
             // :snippet-end:
 
             // Invalidate the token when done observing
@@ -467,15 +466,15 @@ class RealmActorTests: XCTestCase {
     
     func testObserveObjectOnActor() async throws {
         let expectation = expectation(description: "A notification is triggered")
+        actor BackgroundActor { }
         // :snippet-start: observe-object-on-actor
-        // Create a simple actor
-        @globalActor actor BackgroundActor: GlobalActor {
-            static var shared = BackgroundActor()
-        }
-
-        // Execute some code on a different actor - in this case, the MainActor
+        // Execute some code on a specific actor - in this case, the MainActor
         @MainActor
         func mainThreadFunction() async throws {
+            // Initialize an instance of another actor
+            // where you want to do background work
+            let backgroundActor = BackgroundActor()
+            
             // Create a todo item so there is something to observe
             let realm = try! await Realm()
             let scourTheShire = try await realm.asyncWrite {
@@ -489,7 +488,7 @@ class RealmActorTests: XCTestCase {
             XCTAssertNotNil(scourTheShire) // :remove:
             
             // Register a notification token, providing the actor
-            let token = await scourTheShire.observe(on: BackgroundActor.shared, { actor, change in
+            let token = await scourTheShire.observe(on: backgroundActor, { actor, change in
                 print("A change occurred on actor: \(actor)")
                 switch change {
                 case .change(let object, let properties):
@@ -524,32 +523,31 @@ class RealmActorTests: XCTestCase {
     
     func testQueryForDataOnAnotherActor() async throws {
         try await mainThreadFunction()
+        actor BackgroundActor { }
         
         // :snippet-start: query-for-data-on-another-actor
-        // A simple example of a custom global actor
-        @globalActor actor BackgroundActor: GlobalActor {
-            static var shared = BackgroundActor()
-        }
-
-        @BackgroundActor
-        func createObjectOnBackgroundActor() async throws -> ObjectId {
-            // Explicitly specifying the actor is required for anything that is not MainActor
-            let realm = try await Realm(actor: BackgroundActor.shared)
-            let newTodo = try await realm.asyncWrite {
-                return realm.create(RealmActor_Todo.self, value: [
-                    "name": "Pledge fealty and service to Gondor",
-                    "owner": "Pippin",
-                    "status": "In Progress"
-                ])
-            }
-            XCTAssertEqual(realm.objects(RealmActor_Todo.self).count, 1) // :remove:
-            // Share the todo's primary key so we can easily query for it on another actor
-            return newTodo._id
-        }
-        
+        // Execute code on a specific actor - in this case, the @MainActor
         @MainActor
         func mainThreadFunction() async throws {
-            let newTodoId = try await createObjectOnBackgroundActor()
+            // Create an object off the main actor
+            func createObject(in actor: isolated BackgroundActor) async throws -> ObjectId {
+                let realm = try await Realm(actor: actor)
+                let newTodo = try await realm.asyncWrite {
+                    return realm.create(RealmActor_Todo.self, value: [
+                        "name": "Pledge fealty and service to Gondor",
+                        "owner": "Pippin",
+                        "status": "In Progress"
+                    ])
+                }
+                
+                XCTAssertEqual(realm.objects(RealmActor_Todo.self).count, 1) // :remove:
+                // Share the todo's primary key so we can easily query for it on another actor
+                return newTodo._id
+            }
+
+            // Initialize an actor where you want to perform background work
+            let actor = BackgroundActor()
+            let newTodoId = try await createObject(in: actor)
             let realm = try await Realm()
             let todoOnMainActor = realm.object(ofType: RealmActor_Todo.self, forPrimaryKey: newTodoId)
             XCTAssertNotNil(todoOnMainActor) // :remove:
