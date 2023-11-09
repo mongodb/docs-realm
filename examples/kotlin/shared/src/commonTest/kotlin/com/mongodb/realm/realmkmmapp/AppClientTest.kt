@@ -30,23 +30,47 @@ class AppClientTest: RealmTest() {
     }
 
     @Test
-    fun setCustomHttpHeadersTest() {
-        val myEncryptionKey = getEncryptionKey()
-        val config1 =
-            // :snippet-start: configure-app-client
+    fun configureAppClient() {
+        val config =
+        // :snippet-start: configure-app-client
             // Creates an App with custom configuration values
             AppConfiguration.Builder(YOUR_APP_ID) // Replace with your App ID
+                // Specify your custom configuration values
                 .appName("my-app-name")
+                .appVersion("1.0.0")
+                .baseUrl("http://localhost:9090")
+                .build()
+        // :snippet-end:
+        assertEquals(config.appName, "my-app-name")
+        assertEquals(config.baseUrl, "http://localhost:9090")
+        assertEquals(config.appVersion, "1.0.0")
+    }
+
+    @Test
+    fun encryptAppMetadata() {
+        val myEncryptionKey = getEncryptionKey()
+        val config =
+        // :snippet-start: encrypted-app-client
+            AppConfiguration.Builder(YOUR_APP_ID) // Replace with your App ID
+                // Specify the encryption key
                 .encryptionKey(myEncryptionKey)
                 .build()
         // :snippet-end:
+        assertEquals(config.encryptionKey, myEncryptionKey)
+    }
+
+    @Test
+    fun setCustomHttpHeadersTest() {
+        val myEncryptionKey = getEncryptionKey()
+        val config1 = AppConfiguration.Builder(YOUR_APP_ID)
+                .appName("my-app-name")
+                .encryptionKey(myEncryptionKey)
+                .build()
         val config2 =
             // :snippet-start: set-custom-http-headers
             AppConfiguration.Builder(YOUR_APP_ID)
                 .authorizationHeaderName("MyApp-Authorization")
-                .customRequestHeaders {
-                    put("X-MyApp-Version", "1.0.0")
-                }
+                .customRequestHeaders { put("X-MyApp-Version", "1.0.0") }
                 .build()
         // :snippet-end:
         assertEquals(config1.authorizationHeaderName, "Authorization")

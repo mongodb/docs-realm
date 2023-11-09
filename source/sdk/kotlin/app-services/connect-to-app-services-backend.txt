@@ -60,20 +60,44 @@ Configure the App Client
 
 You can add optional arguments to the ``AppConfiguration`` for more
 granular control of your app connection details, such as custom 
-timeouts for connections and keys for local encryption. 
+request headers and keys for local encryption. 
 
 To control the additional configuration options, use the 
 `AppConfiguration.Builder
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html>`__ and call the ``.build()`` method to pass a configuration 
-object:
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html>`__ 
+and call the ``.build()`` method to pass a configuration object:
 
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.configure-app-client.kt
    :language: kotlin
 
 .. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
 
+.. _kotlin-encrypt-app-metadata:
+
+Encrypt App Metadata 
+~~~~~~~~~~~~~~~~~~~~
+
+When you connect to App Services, Realm creates additional metadata files on 
+a device. For more information about these metadata files, refer to 
+:ref:`<kotlin-realm-database-internals>`.
+
+You can encrypt the metadata that App Services stores on client devices,
+similar to how you :ref:`<kotlin-encrypt-a-synced-realm>`. 
+
+To encrypt App metadata, pass your encryption key to the 
+`encryptionKey <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/encryption-key.html>`__
+property when you initialize the App: 
+
+.. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.encrypted-app-client.kt
+   :language: kotlin
+
+.. note:: Metadata Encrypted By Default on Apple Devices
+
+   On Apple devices, metadata is encrypted by default. To disable this, 
+   add ``REALM_DISABLE_METADATA_ENCRYPTION`` to your environment variables.
+
 Set Custom HTTP Headers
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 1.11.0
 
