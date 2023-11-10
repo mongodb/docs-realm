@@ -117,6 +117,36 @@ When to Pause a Sync Session
 
 .. include:: /includes/when-to-pause-sync.rst
 
+.. _swift-sync-wait-for-changes:
+
+Wait for Changes to Upload or Download
+--------------------------------------
+
+To wait for all changes to upload to Atlas from your synced realm,
+call ``realm.syncSession?.wait(for: .upload)``. 
+
+To wait for all changes on Atlas to download from the Device Sync 
+server to your synced realm, call 
+``realm.syncSession?.wait(for: .download)``.
+
+You can use these methods with Swift's async/await syntax, or with the 
+callback syntax. The callback version can take a queue to dispatch the 
+callback onto, and a block to invoke when waiting is complete.
+
+.. tabs::
+
+   .. tab:: Async/Await
+      :tabid: async-await
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.awaitable-wait-for-upload-download.swift
+         :language: swift
+
+   .. tab:: Callback
+      :tabid: callback
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.callback-wait-for-upload-download.swift
+         :language: swift
+
 .. _swift-check-upload-download-progress:
 .. _ios-check-sync-progress:
 

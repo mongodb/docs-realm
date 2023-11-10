@@ -220,12 +220,14 @@ class Sync: AnonymouslyLoggedInTestCase {
         }
         // :snippet-end:
     }
-    
+}
+
+class SyncSession_FS: AnonymouslyLoggedInTestCase {
     func testSyncSessionReconnect() async throws {
-        let app = App(id: YOUR_APP_SERVICES_APP_ID)
+        let app = App(id: APPID)
         let user = try await app.login(credentials: Credentials.anonymous)
         var configuration = user.flexibleSyncConfiguration()
-        configuration.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+        configuration.objectTypes = [FlexibleSync_Task.self]
         let realm = try! await Realm(configuration: configuration)
 
         // :snippet-start: sync-session-reconnect
@@ -235,6 +237,120 @@ class Sync: AnonymouslyLoggedInTestCase {
         syncSession.reconnect()
         // :snippet-end:
         
+    }
+
+    @MainActor
+    func testWaitForUploadAsyncSyntax() async throws {
+        let app = App(id: APPID)
+        let user = try await app.login(credentials: Credentials.anonymous)
+        var configuration = user.flexibleSyncConfiguration()
+        configuration.objectTypes = [FlexibleSync_Task.self]
+        let realm = try! await Realm(configuration: configuration)
+        let results = try await realm.objects(FlexibleSync_Task.self).where { $0.completed == false }.subscribe()
+
+        try realm.write {
+            realm.deleteAll()
+        }
+        XCTAssertEqual(results.count, 0)
+        let date = Date.now
+        
+        // :snippet-start: awaitable-wait-for-upload-download
+        // Wait to download all pending changes from Atlas
+        try await realm.syncSession?.wait(for: .download)
+        
+        // Add data locally
+        try realm.write {
+            realm.create(FlexibleSync_Task.self, value: [
+                "taskName": "Review proposal",
+                "assignee": "Emma",
+                "completed": false,
+                "progressMinutes": 0,
+                "dueDate": date
+            ])
+        }
+        
+        // Wait for local changes to be uploaded to Atlas
+        try await realm.syncSession?.wait(for: .upload)
+        // :snippet-end:
+        XCTAssertEqual(results.count, 1)
+        try realm.write {
+            realm.deleteAll()
+        }
+        XCTAssertEqual(results.count, 0)
+    }
+    
+    func testWaitForUploadCallback() {
+        let expectation = XCTestExpectation(description: "Waits for download and upload")
+
+        let app = App(id: APPID)
+        app.login(credentials: Credentials.anonymous) { [self] (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success(let user):
+                // Assign the user object to a variable to demonstrate user deletion
+                var flexSyncConfig = user.flexibleSyncConfiguration()
+                flexSyncConfig.objectTypes = [FlexibleSync_Task.self]
+                Realm.asyncOpen(configuration: flexSyncConfig) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to open realm: \(error.localizedDescription)")
+                        // handle error
+                    case .success(let realm):
+                        print("Successfully opened realm: \(realm)")
+                        let subscriptions = realm.subscriptions
+                        subscriptions.update({
+                            subscriptions.append(
+                                QuerySubscription<FlexibleSync_Task> {
+                                    $0.completed == false
+                                })
+                        })
+                        XCTAssertEqual(realm.objects(FlexibleSync_Task.self).count, 0)
+                        let date = Date.now
+                        // :snippet-start: callback-wait-for-upload-download
+                        // Wait to download all pending changes from Atlas
+                        realm.syncSession?.wait(for: .download, block: { _ in
+                            // You can provide a block to execute
+                            // after waiting for download to complete
+                        })
+                        
+                        // Add data locally
+                        do {
+                            try realm.write {
+                                realm.create(FlexibleSync_Task.self, value: [
+                                    "taskName": "Review proposal",
+                                    "assignee": "Emma",
+                                    "completed": false,
+                                    "progressMinutes": 0,
+                                    "dueDate": date
+                                ])
+                            }
+                        } catch {
+                            print("There was an error writing to realm: \(error.localizedDescription)")
+                        }
+                        // Wait for local changes to be uploaded to Atlas
+                        realm.syncSession?.wait(for: .upload, block: { _ in
+                            // You can provide a block to execute after
+                            // waiting for upload to complete
+                        })
+                        // :snippet-end:
+                        XCTAssertEqual(realm.objects(FlexibleSync_Task.self).count, 1)
+                        
+                        do {
+                            try realm.write {
+                                realm.deleteAll()
+                            }
+                        } catch {
+                            print("There was an error writing to realm: \(error.localizedDescription)")
+                        }
+                        XCTAssertEqual(realm.objects(FlexibleSync_Task.self).count, 0)
+                        realm.syncSession?.wait(for: .upload, block: { _ in })
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        wait(for: [expectation], timeout: 10)
     }
 }
 // :replace-end:
