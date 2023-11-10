@@ -1,6 +1,7 @@
 // :replace-start: {
 //   "terms": {
-//     "SyncExamples_": ""
+//     "SyncExamples_": "",
+//     "FlexibleSync_": ""
 //   }
 // }
 import RealmSwift

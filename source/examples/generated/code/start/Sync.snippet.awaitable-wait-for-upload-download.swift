@@ -3,7 +3,7 @@ try await realm.syncSession?.wait(for: .download)
 
 // Add data locally
 try realm.write {
-    realm.create(FlexibleSync_Task.self, value: [
+    realm.create(Task.self, value: [
         "taskName": "Review proposal",
         "assignee": "Emma",
         "completed": false,

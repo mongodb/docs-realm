@@ -23,7 +23,7 @@ func getRealm() async throws -> Realm {
     // authenticated to this instance of your app,
     // and what object types this database should manage.
     var configuration = user.flexibleSyncConfiguration()
-    configuration.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+    configuration.objectTypes = [Task.self, Team.self]
     
     // Open a Realm with this configuration.
     let realm = try await Realm(configuration: configuration)
