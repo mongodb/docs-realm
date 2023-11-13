@@ -4,10 +4,6 @@ import {BSON} from 'realm';
 import {LoginExample} from './RealmWrapper';
 import {render, screen, userEvent} from '@testing-library/react-native';
 
-// TODO: Figure out why the UI isn't lining up. Authentication succeeds
-// in App Services, but we're not seeing the right UI in this test.
-// Simulator shows the correct things.
-
 describe('Log in with App Services auth providers', () => {
   // Make sure the same user isn't persisted across tests.
   beforeEach(async () => {
