@@ -1,3 +1,38 @@
+# November 10, 2023
+
+## C++ SDK
+
+- Realm Files/Encrypt a Realm: New page with tested, Bluehawked code examples for encrypting a realm, similar to other SDKs.
+- App Services/Connect to App Services: New "Encrypt App Metadata" section with code example and details. Update custom HTTP section for deprecated `realm::App(...)`.
+
+## Flutter SDK
+
+- Landing Page: Add "Example Projects" section with relevant project links.
+
+## Kotlin SDK
+
+- Realm
+  - Model Data/Supported Data Types: Add details about `RealmAny` converting Kotlin types internally to `int_64`. Add `RealmAny` aggregation and sort options.
+  - Read & Write Data
+    - Update: Add new examples and details for updating `RealmSet`, `RealmAny`, relationship properties, and inverse relationship properties.
+    - Delete: Change "items" to "objects" or "elements" respectively to clarify wording.
+
+## Node.js SDK
+
+- Landing Page: Add "Example Projects" section with relevant project links.
+- Realm Files/Encrypt a Realm: New "Encrypt App Services App Metadata" section with a link to the "Connect to App Services" page for details.
+- App Services/Connect to App Services: New "Encrypt App Metadata" section with code examples and details.
+
+## React Native SDK
+
+- Landing Page: Add "Example Projects" section with relevant project links.
+- Realm Files/Encrypt a Realm: New "Encrypt App Services App Metadata" section with a link to the "Connect to App Services" page for details.
+- App Services/Connect to App Services: New "Encrypt App Metadata" section with code examples and details.
+
+## Web SDK
+
+- Landing Page: Add "Example Projects" section with relevant project links.
+
 # November 3, 2023
 
 ## C++ SDK
