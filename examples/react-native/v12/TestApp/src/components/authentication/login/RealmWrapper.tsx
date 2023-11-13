@@ -9,6 +9,7 @@ import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {useUser, useAuth, useApp} from '@realm/react';
 import {APP_ID} from '../../../../appServicesConfig';
 import {Button} from '../../utility-components/Button';
+import {LogInWithJWT} from './LoginWithJwt';
 // :remove-end:
 
 export const LoginExample = () => {
@@ -23,6 +24,7 @@ export const LoginExample = () => {
             to the user. These components only mount if
             there's an authenticated user. */}
         <UserInformation />
+        <LogInWithJWT />
       </UserProvider>
     </AppProvider>
   );
@@ -59,12 +61,23 @@ function UserInformation() {
           data={user.identities}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <UserIdentity id={item.id} providerType={item.providerType} />
+            <UserIdentity
+              id={item.id}
+              providerType={item.providerType}
+            />
           )}
         />
 
-        <Button testID="log-out" title="Log out" onPress={performLogout} />
-        <Button testID="delete-user" title="Delete user" onPress={deleteUser} />
+        <Button
+          testID="log-out"
+          title="Log out"
+          onPress={performLogout}
+        />
+        <Button
+          testID="delete-user"
+          title="Delete user"
+          onPress={deleteUser}
+        />
       </View>
     );
   } else {
@@ -82,7 +95,9 @@ const UserIdentity = ({
   providerType: string;
 }) => {
   return (
-    <View testID="user-identity" style={styles.identity}>
+    <View
+      testID="user-identity"
+      style={styles.identity}>
       <Text testID="user-id">ID: {id}</Text>
       {providerType && (
         <Text testID="user-provider">Provider type: {providerType}</Text>
