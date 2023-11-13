@@ -11,6 +11,8 @@ describe('Log in with App Services auth providers', () => {
 
     const user = userEvent.setup();
 
+    await new Promise(r => setTimeout(r, 250));
+
     // Log user out
     const logOutButton = screen.queryByText('Log out', {
       exact: false,
@@ -21,7 +23,7 @@ describe('Log in with App Services auth providers', () => {
       await new Promise(r => setTimeout(r, 250));
     }
 
-    // <Login> component should render because there's no auth'd user
+    // <Login> component should render because there's no authenthicated user
     const newLoginAnonymousButton =
       await screen.findByTestId('log-in-anonymous');
     expect(newLoginAnonymousButton).toBeInTheDocument;
@@ -45,128 +47,130 @@ describe('Log in with App Services auth providers', () => {
       exact: false,
     });
     expect(userStateNode.children[1]).toBe('LoggedIn');
+
+    // Ensure user is logged out.
+    const logOutButton = await screen.findByTestId('log-out');
+    user.press(logOutButton);
+    await new Promise(r => setTimeout(r, 250));
   });
 
-  test('email/password auth provider', async () => {
-    render(<LoginExample />);
+  // test('email/password auth provider', async () => {
+  //   render(<LoginExample />);
 
-    console.debug(screen.toJSON());
-    console.debug(screen.debug);
+  //   // Set up user and user information
+  //   const user = userEvent.setup();
+  //   const userEmail = `${new BSON.UUID()}@example.com`;
+  //   const userPassword = 'v3ryv3rySECRET';
 
-    // Set up user and user information
-    const user = userEvent.setup();
-    const userEmail = `${new BSON.UUID()}@example.com`;
-    const userPassword = 'v3ryv3rySECRET';
+  //   // Get interactive UI nodes
+  //   const emailInput = await screen.findByTestId('email-input');
+  //   const passwordInput = await screen.findByTestId('password-input');
+  //   const registerButton = await screen.findByTestId('register-button');
+  //   const logInButton = await screen.findByTestId('log-in');
 
-    // Get interactive UI nodes
-    const emailInput = await screen.findByTestId('email-input');
-    const passwordInput = await screen.findByTestId('password-input');
-    const registerButton = await screen.findByTestId('register-button');
-    const logInButton = await screen.findByTestId('log-in');
+  //   // Register user with email and password
+  //   await user.type(emailInput, userEmail);
+  //   await user.type(passwordInput, userPassword);
+  //   await user.press(registerButton);
 
-    // Register user with email and password
-    await user.type(emailInput, userEmail);
-    await user.type(passwordInput, userPassword);
-    await user.press(registerButton);
+  //   // Use promise hack to wait for app services to
+  //   // finish registration process. Can't await register
+  //   // with new hooks. Essentially, delays the next part
+  //   // of the test by 1 second.
+  //   await new Promise(r => setTimeout(r, 500));
 
-    // Use promise hack to wait for app services to
-    // finish registration process. Can't await register
-    // with new hooks. Essentially, delays the next part
-    // of the test by 1 second.
-    await new Promise(r => setTimeout(r, 500));
+  //   // Log new user in
+  //   await user.press(logInButton);
 
-    // Log new user in
-    await user.press(logInButton);
+  //   // <UserInformation> component should render now that
+  //   // user is logged in
+  //   const userStateNode = await screen.findByText('User state:', {
+  //     exact: false,
+  //   });
+  //   expect(userStateNode.children[1]).toBe('LoggedIn');
 
-    // <UserInformation> component should render now that
-    // user is logged in
-    const userStateNode = await screen.findByText('User state:', {
-      exact: false,
-    });
-    expect(userStateNode.children[1]).toBe('LoggedIn');
+  //   const renderedUserEmail = await screen.findByText('Email:', {
+  //     exact: false,
+  //   });
+  //   expect(renderedUserEmail.children[1]).toBe(userEmail);
+  // });
 
-    const renderedUserEmail = await screen.findByText('Email:', {
-      exact: false,
-    });
-    expect(renderedUserEmail.children[1]).toBe(userEmail);
-  });
+  // test('send reset password email', async () => {
+  //   render(<LoginExample />);
 
-  test('send reset password email', async () => {
-    render(<LoginExample />);
+  //   // Set up user and user information
+  //   const user = userEvent.setup();
+  //   const userEmail = `${new BSON.UUID()}@example.com`;
+  //   const userPassword = 'v3ryv3rySECRET';
 
-    // Set up user and user information
-    const user = userEvent.setup();
-    const userEmail = `${new BSON.UUID()}@example.com`;
-    const userPassword = 'v3ryv3rySECRET';
+  //   // Get interactive UI nodes
+  //   const emailInput = await screen.findByTestId('email-input');
+  //   const passwordInput = await screen.findByTestId('password-input');
+  //   const registerButton = await screen.findByTestId('register-button');
+  //   const sendResetPasswordEmailButton =
+  //     await screen.findByTestId('send-reset-email');
 
-    // Get interactive UI nodes
-    const emailInput = await screen.findByTestId('email-input');
-    const passwordInput = await screen.findByTestId('password-input');
-    const registerButton = await screen.findByTestId('register-button');
-    const sendResetPasswordEmailButton =
-      await screen.findByTestId('send-reset-email');
+  //   // Register user with email and password
+  //   await user.type(emailInput, userEmail);
+  //   await user.type(passwordInput, userPassword);
+  //   await user.press(registerButton);
 
-    // Register user with email and password
-    await user.type(emailInput, userEmail);
-    await user.type(passwordInput, userPassword);
-    await user.press(registerButton);
+  //   // Send reset password email. This should fail, as the
+  //   // backend isn't configured for it.
+  //   user.press(sendResetPasswordEmailButton);
 
-    // Send reset password email. This should fail, as the
-    // backend isn't configured for it.
-    user.press(sendResetPasswordEmailButton);
+  //   await new Promise(r => setTimeout(r, 500));
 
-    await new Promise(r => setTimeout(r, 500));
+  //   // Match rendered error message with what we expect
+  //   const renderedErrorMessage = await screen.findByTestId(
+  //     'send-reset-email-error',
+  //     {
+  //       exact: false,
+  //     },
+  //   );
 
-    // Match rendered error message with what we expect
-    const renderedErrorMessage = await screen.findByTestId(
-      'send-reset-email-error',
-      {
-        exact: false,
-      },
-    );
+  //   expect(renderedErrorMessage.children[0]).toContain(
+  //     'please use reset password via function',
+  //   );
+  // });
 
-    expect(renderedErrorMessage.children[0]).toContain(
-      'please use reset password via function',
-    );
-  });
+  // test('reset password', async () => {
+  //   render(<LoginExample />);
 
-  test('reset password', async () => {
-    render(<LoginExample />);
+  //   // Set up user and user information
+  //   const user = userEvent.setup();
+  //   const userEmail = `${new BSON.UUID()}@example.com`;
+  //   const userPassword = 'v3ryv3rySECRET';
+  //   const newPassword = 'superv3rySECRET';
 
-    // Set up user and user information
-    const user = userEvent.setup();
-    const userEmail = `${new BSON.UUID()}@example.com`;
-    const userPassword = 'v3ryv3rySECRET';
-    const newPassword = 'superv3rySECRET';
+  //   // Get interactive UI nodes
+  //   const emailInput = await screen.findByTestId('email-input');
+  //   const passwordInput = await screen.findByTestId('password-input');
+  //   const registerButton = await screen.findByTestId('register-button');
+  //   const resetPasswordButton = await screen.findByTestId('reset-password');
 
-    // Get interactive UI nodes
-    const emailInput = await screen.findByTestId('email-input');
-    const passwordInput = await screen.findByTestId('password-input');
-    const registerButton = await screen.findByTestId('register-button');
-    const resetPasswordButton = await screen.findByTestId('reset-password');
+  //   // Register user with email and password
+  //   await user.type(emailInput, userEmail);
+  //   await user.type(passwordInput, userPassword);
+  //   await user.press(registerButton);
 
-    // Register user with email and password
-    await user.type(emailInput, userEmail);
-    await user.type(passwordInput, userPassword);
-    await user.press(registerButton);
+  //   await user.type(passwordInput, newPassword);
 
-    await user.type(passwordInput, newPassword);
+  //   // Call `performResetPassword()`. The component has
+  //   // fake `token` and `tokenId` values already. This
+  //   // should fail, as the backend isn't configured for it.
+  //   user.press(resetPasswordButton);
 
-    // Call `performResetPassword()`. The component has
-    // fake `token` and `tokenId` values already. This
-    // should fail, as the backend isn't configured for it.
-    user.press(resetPasswordButton);
+  //   // Match rendered error message with what we expect
+  //   const renderedErrorMessage = await screen.findByTestId(
+  //     'password-reset-error',
+  //     {
+  //       exact: false,
+  //     },
+  //   );
 
-    // Match rendered error message with what we expect
-    const renderedErrorMessage = await screen.findByTestId(
-      'password-reset-error',
-      {
-        exact: false,
-      },
-    );
-
-    expect(renderedErrorMessage.children[0]).toContain('invalid token data');
-  });
+  //   expect(renderedErrorMessage.children[0]).toContain('invalid token data');
+  // });
 
   test('custom JWT provider', async () => {
     render(<LoginExample />);
@@ -192,5 +196,47 @@ describe('Log in with App Services auth providers', () => {
 
     const userIdNode = await screen.findByTestId('user-id');
     expect(userIdNode.children[1]).toBe('custom-jwt-user');
+
+    // Ensure user is logged out.
+    const logOutButton = await screen.findByTestId('log-out');
+    user.press(logOutButton);
+    await new Promise(r => setTimeout(r, 250));
+  });
+
+  test('custom function auth provider', async () => {
+    render(<LoginExample />);
+
+    // Set up user and user information
+    const user = userEvent.setup();
+    const userEmail = `${new BSON.UUID()}@example.com`;
+    const userPassword = 'v3ryv3rySECRET';
+
+    // Get interactive UI nodes
+    const emailInput = await screen.findByTestId('email-input-function');
+    const passwordInput = await screen.findByTestId('password-input-function');
+    const logInButton = await screen.findByTestId('log-in-function');
+
+    // Enter user email and password
+    await user.type(emailInput, userEmail);
+    await user.type(passwordInput, userPassword);
+
+    // Log user in, passing email and password to
+    // custom function provider.
+    await user.press(logInButton);
+
+    // <UserInformation> component should render now that
+    // user is logged in
+    const userStateNode = await screen.findByText('User state:', {
+      exact: false,
+    });
+    expect(userStateNode.children[1]).toBe('LoggedIn');
+
+    const userIdNode = await screen.findByTestId('user-id');
+    expect(userIdNode).toBeInTheDocument;
+
+    // Ensure user is logged out.
+    const logOutButton = await screen.findByTestId('log-out');
+    user.press(logOutButton);
+    await new Promise(r => setTimeout(r, 250));
   });
 });

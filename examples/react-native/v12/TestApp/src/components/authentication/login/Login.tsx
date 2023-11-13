@@ -6,6 +6,7 @@ import {StyleSheet} from 'react-native';
 import {AuthError} from '@realm/react';
 import {LoginWithEmail} from './LoginWithEmail';
 import {LogInWithAnonymous} from './LoginWithAnonymous';
+import {LogInWithFunction} from './LoginWithFunction';
 // :remove-end:
 
 // :snippet-start: user-provider-fallback
@@ -43,8 +44,6 @@ export const LogIn = () => {
           {/* The following login options will be added
               In future PRs. */}
           {/* <LoginWithApiKey /> */}
-          {/* <LoginWithJwt /> */}
-          {/* <LoginWithFunction /> */}
           {/* <LoginOffline /> */}
           {/* <LoginWithGoogle /> */}
           {/* <LoginWithFacebook /> */}
@@ -53,6 +52,8 @@ export const LogIn = () => {
       </View>
 
       <LoginWithEmail />
+
+      <LogInWithFunction />
       {/* :remove-end: */}
     </View>
   );

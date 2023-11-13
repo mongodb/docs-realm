@@ -193,15 +193,22 @@ To log in a custom JWT user:
 Custom Function User
 ~~~~~~~~~~~~~~~~~~~~
 
-The :ref:`Custom Function <custom-function-authentication>` authentication
+The Custom Function authentication
 provider allows you to handle user authentication by running a :ref:`function
-<functions>` that receives a payload of arbitrary information about a user.
+<functions>` that receives a payload of arbitrary information about a user. Refer
+to :ref:`Custom Function Authentication <custom-function-authentication>` for
+details.
 
-To log in with the custom function provider, create a Custom Function credential
-with a payload object and pass it to ``App.logIn()``:
+To log in a user with the custom function provider:
 
-.. literalinclude:: /examples/generated/node/authenticate.snippet.custom-function-login.js
-   :language: javascript
+#. Create an App Services function to handle your authentication needs.
+#. Enable the Custom Function Provider for your App Services App and configure
+   it to use the function you created earlier.
+#. Destructure ``logInWithFunction`` and ``result`` from the ``useAuth`` hook.
+#. Pass any relevant user data (like a username) to ``logInWithFunction()``.
+#. Handle the ``result``.
+
+.. include:: examples/generated/react-native/v12/LoginWithFunction.snippet.login-function.tsx.rst
 
 .. _react-native-facebook-login:
 .. _react-native-login-facebook:

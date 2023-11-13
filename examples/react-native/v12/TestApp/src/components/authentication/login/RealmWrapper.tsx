@@ -5,7 +5,7 @@ import {AppProvider, UserProvider} from '@realm/react';
 // Fallback log in component that's defined in another file.
 import {LogIn} from './Login';
 // :remove-start:
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet, ScrollView} from 'react-native';
 import {useUser, useAuth, useApp} from '@realm/react';
 import {APP_ID} from '../../../../appServicesConfig';
 import {Button} from '../../utility-components/Button';
@@ -14,19 +14,24 @@ import {LogInWithJWT} from './LoginWithJwt';
 
 export const LoginExample = () => {
   return (
-    <AppProvider id={APP_ID}>
-      {/* If there is no authenticated user, mount the
+    <ScrollView>
+      <AppProvider id={APP_ID}>
+        {/* If there is no authenticated user, mount the
          `fallback` component. When user successfully
           authenticates, the app unmounts the `fallback`
           component (in this case, the `LogIn` component). */}
-      <UserProvider fallback={LogIn}>
-        {/* Components inside UserProvider have access
+        <UserProvider fallback={LogIn}>
+          {/* Components inside UserProvider have access
             to the user. These components only mount if
             there's an authenticated user. */}
-        <UserInformation />
-        <LogInWithJWT />
-      </UserProvider>
-    </AppProvider>
+          <UserInformation />
+          {/* JWT log in component needs to be here, as we
+            need an anonymous user to call an app services
+            function. */}
+          <LogInWithJWT />
+        </UserProvider>
+      </AppProvider>
+    </ScrollView>
   );
 };
 // :snippet-end:
