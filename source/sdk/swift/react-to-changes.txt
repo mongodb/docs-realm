@@ -322,21 +322,21 @@ does support this for code compatibility.
    Examples of using Realm with :github:`ReactiveCocoa from Objective-C<realm/realm-swift/tree/master/examples/ios/objc/TableView>`, 
    and :github:`ReactKit from Swift<realm/realm-swift/tree/v2.3.0/examples/ios/swift-2.2/ReactKit>`.
 
-.. _swift-react-to-changes-actor-confined-realm:
+.. _swift-react-to-changes-different-actor:
 
-React to Changes in an Actor-Isolated Realm
--------------------------------------------
+React to Changes on a Different Actor
+-------------------------------------
 
-You can observe notifications on an actor-isolated realm using Swift's 
-async/await syntax. Calling ``await object.observe()`` or 
-``await collection.observe`` registers a block to be called each time the 
-object or collection changes.
+You can observe notifications on a different actor. Calling 
+``await object.observe(on: Actor)`` or 
+``await collection.observe(on: Actor)`` registers a block to be called each 
+time the object or collection changes.
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.observe-collection-on-actor.swift
    :language: swift
 
-For more information about change notifications on actor-isolated realms, 
-refer to :ref:`swift-observe-notifications-on-actor-confined-realm`.
+For more information about change notifications on another actor, 
+refer to :ref:`swift-observe-notifications-on-another-actor`.
 
 .. _ios-react-to-changes-to-a-class-projection:
 

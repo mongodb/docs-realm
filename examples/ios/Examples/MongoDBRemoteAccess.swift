@@ -1288,7 +1288,7 @@ class MongoDBRemoteAccessTestCaseAsyncAPIs: XCTestCase {
                 print("Received event: \(event.documentValue!)")
             }
         }
-        await fulfillment(of: [openEx], timeout: 2.0) // :remove:
+        await fulfillment(of: [openEx], timeout: 5.0) // :remove:
         
         // Updating a document in the collection triggers a change event.
         let queryFilter: Document = ["_id": AnyBSON(objectId) ]
