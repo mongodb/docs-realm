@@ -220,7 +220,7 @@ The :ref:`Facebook <facebook-authentication>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
 account.
 
-To log a user in with their existing Facebook account, you must configure and
+To log a user in with an existing Facebook account, you must configure and
 enable the :ref:`Facebook authentication provider <facebook-authentication>`
 for your App Services App.
 
@@ -233,14 +233,19 @@ to your React Native app and use to finish logging the user in to your app.
 
 .. code-block:: javascript
 
-   // Get the access token from a client application using the Facebook SDK
-   const accessToken = getFacebookAccessToken();
+   export const LogInWithFacebook = () => {
+     const {logInWithFacebook, result} = useAuth();
 
-   // Log the user in to your app
-   const credentials = Realm.Credentials.facebook(accessToken);
-   app.logIn(credentials).then(user => {
-   console.log(`Logged in with id: ${user.id}`);
-   });
+     const performLogin = () => {
+       // Get an access token using the Facebook SDK.
+       // You must define this function.
+       const token = getFacebookToken();
+
+       logInWithFacebook(token);
+     };
+
+     // Handle `result`...
+   };
 
 .. _react-native-google-login:
 .. _react-native-login-google:
@@ -254,44 +259,32 @@ authenticate users with their existing Google account.
 To authenticate a Google user, you must configure the :ref:`Google
 authentication provider <google-authentication>` for your App Services App.
 
-There is no official Sign in with Google integration with React Native. The simplest
-approach to integrating Sign in With Google into your React Native app
-with Realm authentication is to use a third-party library.
-The below example uses the library
-:github:`React Native Google Sign In <react-native-google-signin/google-signin>`.
-You can also build your own solution using :google:`Google Identity Services <identity>` to handle the user
-authentication and redirect flow from a client application.
+There is no official Sign in With Google integration for React Native. The
+simplest approach to integrating Sign in With Google into your React Native app
+with Realm authentication is to use a third-party library. You can also build
+your own solution using :google:`Google Identity Services <identity>` to handle
+the user authentication and redirect flow from a client application.
 
-Regardless of implementation, you must retrieve an ID token from the Google Authorization server.
-Use that ID token to log into Realm.
-
-.. code-block:: javascript
-
-   // Get the Google OAuth 2.0 access token
-   const idToken = getGoogleAccessToken();
-
-   // Log the user in to your app
-   const credentials = Realm.Credentials.google({ idToken });
-   app.logIn(credentials).then((user) => {
-      console.log(`Logged in with id: ${user.id}`);
-   });
+Regardless of implementation, you must retrieve an ID token from the Google
+Authorization server. Use that ID token to log into Realm.
 
 .. _example-auth-google-react-native:
 
-.. example:: Authenticate with Google in React Native
+.. code-block:: javascript
 
-   This example uses the library
-   :github:`React Native Google Sign In<react-native-google-signin/google-signin>`.
-   In addition to the React Native code, you must also set up additional configuration
-   in your project's ``ios`` and ``android`` directories to use Sign in with Google.
-   Refer to the package's documentation for
-   :github:`iOS-specific <react-native-google-signin/google-signin/blob/master/docs/ios-guide.md>`
-   and :github:`Android-specific <react-native-google-signin/google-signin/blob/master/docs/android-guide.md>`
-   documentation.
+   export const LogInWithGoogle = () => {
+     const {logInWithGoogle, result} = useAuth();
 
-   .. literalinclude:: /examples/generated/rn/sign-in-with-google.snippet.react-native-sign-in-with-google.jsx
-      :caption: SignInWithGoogleButton.jsx
-      :language: javascript
+     const performLogin = () => {
+       // Get an access token using a third-party library
+       // or build your own solution. You must define this function.
+       const token = getGoogleToken();
+
+       logInWithGoogle(token);
+     };
+
+     // Handle `result`...
+   };
 
 .. _react-native-apple-login:
 .. _react-native-login-apple:
@@ -313,14 +306,19 @@ use to finish logging the user in to your app.
 
 .. code-block:: javascript
 
-   // Get the access token from a client application using the Apple JS SDK
-   const idToken = getAppleIdToken();
+   export const LogInWithApple = () => {
+     const {logInWithApple, result} = useAuth();
 
-   // Log the user in to your app
-   const credentials = Realm.Credentials.apple(idToken);
-   app.logIn(credentials).then(user => {
-      console.log(`Logged in with id: ${user.id}`);
-   });
+     const performLogin = () => {
+       // Get an access token using the Apple SDK.
+       // You must define this function.
+       const token = getAppleToken();
+
+       logInWithApple(token);
+     };
+
+     // Handle `result`...
+   };
 
 .. include:: /includes/authorization-appleidcredential-string.rst
 
