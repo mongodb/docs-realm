@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import { FindSortFilter } from './Filter';
+import { FindSortFilter } from './LocalQuickStart';
 import {render, screen, userEvent} from '@testing-library/react-native';
 import { QuickStartLocal } from './RealmWrapperLocal';
 

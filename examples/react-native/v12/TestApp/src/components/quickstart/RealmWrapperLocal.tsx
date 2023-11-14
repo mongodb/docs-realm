@@ -1,5 +1,5 @@
 import {Profile} from '../../models';
-import {FindSortFilter} from './Filter';
+import {FindSortFilter} from './LocalQuickStart';
 
 // :snippet-start: rn-quickstart-wrapper-local
 import React from 'react';

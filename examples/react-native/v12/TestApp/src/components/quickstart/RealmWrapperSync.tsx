@@ -1,5 +1,5 @@
 import {Profile} from '../../models';
-import {FindSortFilter} from './Filter';
+import {FindSortFilter} from './LocalQuickStart';
 
 import React from 'react';
 import {RealmProvider, AppProvider, UserProvider, createRealmContext, useApp} from '@realm/react';

@@ -19,7 +19,6 @@ import { QuickStartScreen } from './src/screens/QuickStartScreen';
 
 // Types
 import {RootStackParamList} from './src/navigation/types';
-import { QuickStartLocal } from './src/components/quickstart/RealmWrapperLocal';
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
