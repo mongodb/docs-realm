@@ -5,7 +5,7 @@
    * - Method
      - Description and Example
 
-   * - ``result``
+   * - **result** 
      - Result of authentication hook operation. ``result.operation`` gives you
        the name of the current operation. For a list of all operation names,
        refer to the :realm-react-sdk:`API documentation 
@@ -23,7 +23,9 @@
             error // Error-based object or undefined
          }
 
-   * - ``logIn(credentials: Realm.Credentials): void``
+   * - **logIn()**
+       Props: *credentials: Realm.Credentials*
+       Return: *void*
      - Logs in a user with any authentication mechanism supported by
        Realm. If called when a user is logged in, the current user switches to
        the new user. Usually, it's better to use the more specific login
@@ -48,7 +50,9 @@
         }
         //...
 
-   * - ``logInWithAnonymous(): void``
+   * - **logInWithAnonymous()**
+       Props: none
+       Return: *void*
      - Log in with the anonymous authentication provider.
        
        .. code:: typescript
@@ -58,7 +62,9 @@
             logInWithAnonymous();
           };
 
-   * - ``logInWithApiKey(key: string): void``
+   * - **logInWithApiKey()**
+       Props: *key: string*
+       Return: *void*
      - Log in with an API key.
        
        .. code:: typescript
@@ -69,13 +75,9 @@
             logInWithApiKey(key);
           };
 
-   * - .. code:: typescript
-          :copyable: false
-
-          logInWithEmailPassword(credentials: {
-            email: string;
-            password: string;
-          }): void
+   * - **logInWithEmailPassword()**
+       Props: *credentials: {email: string; password: string;}*
+       Return: *void*
      - Log in with Email/Password.
        
        .. code:: typescript
@@ -88,7 +90,9 @@
             logInWithEmailPassword({email, password});
           };
 
-   * - `` logInWithJWT(token: string): void``
+   * - **logInWithJWT()**
+       Props: *token: string*
+       Return: *void*
      - Log in with a JSON Web Token (JWT).
        
        .. code:: typescript
@@ -100,14 +104,9 @@
             logInWithJWT(token);
           };
 
-   * - .. code:: typescript
-          :copyable: false
-
-          logInWithGoogle(credentials: {
-            idToken: string;
-          } | {
-            authCode: string;
-          }): void
+   * - **logInWithGoogle()**
+       Props: *credentials: {idToken: string;} | {authCode: string;}*
+       Return: *void*
      - Log in with Google.
        
        .. code:: typescript
@@ -119,7 +118,9 @@
             logInWithGoogle({idToken: token});
           };
 
-   * - ``logInWithApple(idToken: string): void``
+   * - **logInWithApple()**
+       Props: *credentials: idToken: string;*
+       Return: *void*
      - Log in with Apple.
        
        .. code:: typescript
@@ -131,7 +132,9 @@
             logInWithApple(token);
           };
 
-   * - ``logInWithFacebook(accessToken: string): void``
+   * - **logInWithFacebook()**
+       Props: *credentials: accessToken: string;*
+       Return: *void*
      - Log in with Facebook.
        
        .. code:: typescript
@@ -143,7 +146,9 @@
             logInWithFacebook(token);
           };
 
-   * - ``logInWithFunction<PayloadType extends Record<string, unknown>>(payload: PayloadType): void``
+   * - **logInWithFunction()**
+       Props: *payload: PayloadType*
+       Return: *void*
      - Log in with a custom function.
        
        .. code:: typescript
@@ -155,7 +160,9 @@
             logInWithFunction(customPayload);
           };
 
-   * - ``logOut(): void``
+   * - **logOut()**
+       Props: none
+       Return: *void*
      - Logs out the current user.
        
        .. code:: typescript
