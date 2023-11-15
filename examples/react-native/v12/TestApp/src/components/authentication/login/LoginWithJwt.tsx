@@ -12,10 +12,8 @@ export const LogInWithJWT = () => {
 
   const performJWTLogin = async () => {
     // Get a JWT from a provider. In this case, from
-    // an App Services Function.
-    const token = (await await anonymousUser.callFunction(
-      'generateJWT',
-    )) as string;
+    // an App Services Function called "generateJWT".
+    const token = (await anonymousUser.functions.generateJWT()) as string;
 
     logInWithJWT(token);
   };
