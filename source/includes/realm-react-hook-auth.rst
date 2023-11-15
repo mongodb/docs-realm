@@ -23,10 +23,11 @@
             error // Error-based object or undefined
          }
 
-   * - ``logIn``
-     - Log in with an anonymous ``Realm.Credentials`` instance. Allows log in with
-       any authentication mechanism supported by Realm. If called when a user is
-       currently logged in, the current user switches to the new user.
+   * - ``logIn(credentials: Realm.Credentials): void``
+     - Logs in a user with any authentication mechanism supported by
+       Realm. If called when a user is logged in, the current user switches to
+       the new user. Usually, it's better to use the more specific login
+       methods.
 
        .. code:: typescript
 
@@ -47,8 +48,8 @@
         }
         //...
 
-   * - ``logInWithAnonymous``
-     - Log in with the Anonymous authentication provider.
+   * - ``logInWithAnonymous(): void``
+     - Log in with the anonymous authentication provider.
        
        .. code:: typescript
 
@@ -57,7 +58,7 @@
             logInWithAnonymous();
           };
 
-   * - ``logInWithApiKey``
+   * - ``logInWithApiKey(key: string): void``
      - Log in with an API key.
        
        .. code:: typescript
@@ -68,7 +69,13 @@
             logInWithApiKey(key);
           };
 
-   * - ``logInWithEmailPassword``
+   * - .. code:: typescript
+          :copyable: false
+
+          logInWithEmailPassword(credentials: {
+            email: string;
+            password: string;
+          }): void
      - Log in with Email/Password.
        
        .. code:: typescript
@@ -81,7 +88,7 @@
             logInWithEmailPassword({email, password});
           };
 
-   * - ``logInWithJWT``
+   * - `` logInWithJWT(token: string): void``
      - Log in with a JSON Web Token (JWT).
        
        .. code:: typescript
@@ -93,7 +100,14 @@
             logInWithJWT(token);
           };
 
-   * - ``logInWithGoogle``
+   * - .. code:: typescript
+          :copyable: false
+
+          logInWithGoogle(credentials: {
+            idToken: string;
+          } | {
+            authCode: string;
+          }): void
      - Log in with Google.
        
        .. code:: typescript
@@ -105,7 +119,7 @@
             logInWithGoogle({idToken: token});
           };
 
-   * - ``logInWithApple``
+   * - ``logInWithApple(idToken: string): void``
      - Log in with Apple.
        
        .. code:: typescript
@@ -117,7 +131,7 @@
             logInWithApple(token);
           };
 
-   * - ``logInWithFacebook``
+   * - ``logInWithFacebook(accessToken: string): void``
      - Log in with Facebook.
        
        .. code:: typescript
@@ -129,7 +143,7 @@
             logInWithFacebook(token);
           };
 
-   * - ``logInWithCustomFunction``
+   * - ``logInWithFunction<PayloadType extends Record<string, unknown>>(payload: PayloadType): void``
      - Log in with a custom function.
        
        .. code:: typescript
@@ -141,7 +155,7 @@
             logInWithFunction(customPayload);
           };
 
-   * - ``logOut``
+   * - ``logOut(): void``
      - Logs out the current user.
        
        .. code:: typescript
