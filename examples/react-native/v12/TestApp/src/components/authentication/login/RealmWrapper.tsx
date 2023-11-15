@@ -5,6 +5,7 @@ import {AppProvider, UserProvider} from '@realm/react';
 // Fallback log in component that's defined in another file.
 import {LogIn} from './Login';
 // :remove-start:
+import {useState} from 'react';
 import {View, Text, FlatList, StyleSheet, ScrollView} from 'react-native';
 import {useUser, useAuth, useApp} from '@realm/react';
 import {APP_ID} from '../../../../appServicesConfig';
@@ -25,10 +26,13 @@ export const LoginExample = () => {
             to the user. These components only mount if
             there's an authenticated user. */}
           <UserInformation />
+          {/* :remove-start: */}
           {/* JWT log in component needs to be here, as we
             need an anonymous user to call an app services
             function. */}
           <LogInWithJWT />
+          <RefreshUserAcessToken />
+          {/* :remove-end: */}
         </UserProvider>
       </AppProvider>
     </ScrollView>
@@ -65,6 +69,7 @@ function UserInformation() {
           testID="list-container"
           data={user.identities}
           keyExtractor={item => item.id}
+          scrollEnabled={false}
           renderItem={({item}) => (
             <UserIdentity
               id={item.id}
@@ -90,6 +95,38 @@ function UserInformation() {
   }
   // :remove-end:
 }
+// :snippet-end:
+
+// :snippet-start: refresh-access-token
+const RefreshUserAcessToken = () => {
+  const user = useUser();
+  const [accessToken, setAccessToken] = useState<string | null>();
+
+  // Gets a valid user access token to authenticate requests
+  const refreshAccessToken = async () => {
+    // An already logged in user's access token might be stale. To
+    // guarantee that the token is valid, refresh it if necessary.
+    await user.refreshCustomData();
+
+    setAccessToken(user.accessToken);
+  };
+
+  // Use access token...
+  // :remove-start:
+  return (
+    <View>
+      <Text testID="access-token">
+        {accessToken ? accessToken : 'No access token found.'}
+      </Text>
+      <Button
+        testID="refresh-token"
+        title="Refresh token"
+        onPress={refreshAccessToken}
+      />
+    </View>
+  );
+  // :remove-end:
+};
 // :snippet-end:
 
 const UserIdentity = ({

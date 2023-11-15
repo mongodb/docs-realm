@@ -23,7 +23,7 @@ export const LoginWithEmail = () => {
 
       <View>
         <TextInput
-          testID="email-input" 
+          testID="email-input"
           style={styles.textInput} // :remove:
           onChangeText={setEmail}
           value={email}
@@ -39,8 +39,15 @@ export const LoginWithEmail = () => {
       </View>
 
       <View style={styles.buttonGroup}>
-        <Button testID="log-in" title="Log in" onPress={performLogin} />
-        <RegisterButton email={email} password={password} />
+        <Button
+          testID="log-in"
+          title="Log in"
+          onPress={performLogin}
+        />
+        <RegisterButton
+          email={email}
+          password={password}
+        />
         <SendResetPasswordEmailButton email={email} />
         <ResetPasswordButton
           password={password}
@@ -164,8 +171,8 @@ const ResetPasswordButton = ({
         title="Reset password"
         onPress={performPasswordReset}
       />
-      {/* We expect an error because password resets through
-      email is disabled in this app's configuration. */}
+      {/* We expect an error because we don't have
+          a valid token to reset with. */}
       {errorMessage && (
         <Text testID="password-reset-error">{errorMessage}</Text>
       )}
