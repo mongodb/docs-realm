@@ -71,6 +71,8 @@ where your ``package.json`` file is located:
 RealmProvider
 -------------
 
+Type signature: *RealmProvider(props, context?): null | ReactElement<any, any>* 
+
 Components nested within ``RealmProvider`` can access the configured realm
 and use the ``RealmProvider`` hooks.
 
@@ -156,6 +158,8 @@ RealmProvider Hooks
 useRealm()
 ``````````
 
+Type signature: *useRealm(): Realm* 
+
 The ``useRealm()`` hook returns an opened realm instance. The realm instance
 gives you access to realm methods and properties. For example, you can call
 ``realm.write()`` to add a realm object to your realm.
@@ -172,6 +176,8 @@ To learn more about modifying Realm data, refer to :ref:`Write Transactions
 useObject()
 ```````````
 
+Type signature: *useObject<T>(type, primaryKey): T & Realm.Object<T> | null* 
+
 The ``useObject()`` hook returns a Realm object for a given
 :ref:`primary key <react-native-primary-keys>`. You can pass an object class
 or the class name as a string and the primary key.
@@ -187,6 +193,8 @@ component using the hook on any change to the object.
 
 useQuery()
 ``````````
+
+Type signature: *useQuery<T>(type, query?, deps?): Realm.Results<T & Realm.Object<T>>* 
 
 The ``useQuery()`` hook returns a collection of realm objects of a given type.
 These are the results of your query. A query can be an object class or the class
@@ -207,6 +215,8 @@ results. For more details, refer to the :ref:`CRUD - Read
 
 AppProvider
 -----------
+
+Type signature: *AppProvider(props, context?): null | ReactElement<any, any>* 
 
 Components nested within ``AppProvider`` can access your App Services App
 and use the ``AppProvider`` hooks.
@@ -231,6 +241,8 @@ AppProvider Hooks
 useAuth()
 `````````
 
+Type signature: *useAuth(): UseAuth* 
+
 .. include:: /includes/realm-react-hook-auth.rst
 
 useEmailPasswordAuth()
@@ -243,6 +255,8 @@ useEmailPasswordAuth()
 useApp()
 ````````
 
+Type signature: *useApp<FunctionsFactoryType, CustomDataType>(): Realm.App<FunctionsFactoryType, CustomDataType>* 
+
 The ``useApp()`` hook provides access to the :js-sdk:`Realm.App <Realm.App.html>`
 instance.
 
@@ -253,6 +267,8 @@ instance.
 
 UserProvider
 ------------
+
+Type signature: *UserProvider(props, context?): null | ReactElement<any, any>* 
 
 Components nested within ``UserProvider`` can access the logged-in user object
 and use the ``UserProvider`` hooks.
@@ -291,6 +307,8 @@ UserProvider Hooks
 useUser()
 `````````
 
+Type signature: *useUser<FunctionsFactoryType, CustomDataType, UserProfileDataType>(): Realm.User<FunctionsFactoryType, CustomDataType, UserProfileDataType>* 
+
 The ``useUser()`` hook provides access to the logged-in user. For example,
 you can use ``useUser()`` to log the current user out.
 
@@ -300,6 +318,8 @@ you can use ``useUser()`` to log the current user out.
 
 createRealmContext()
 --------------------
+
+Type signature: *createRealmContext(realmConfig?): RealmContext* 
 
 Most of the time, you will only use ``createRealmContext()`` if you need to
 configure more than one realm. Otherwise, you should import``RealmProvider``
