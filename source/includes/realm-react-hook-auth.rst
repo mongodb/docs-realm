@@ -6,6 +6,7 @@
      - Description and Example
 
    * - **result** 
+
      - Result of authentication hook operation. ``result.operation`` gives you
        the name of the current operation. For a list of all operation names,
        refer to the :realm-react-sdk:`API documentation 
@@ -24,6 +25,7 @@
          }
 
    * - **logIn()**
+
        Props: *credentials: Realm.Credentials*
        Return: *void*
      - Logs in a user with any authentication mechanism supported by
@@ -51,6 +53,7 @@
         //...
 
    * - **logInWithAnonymous()**
+
        Props: none
        Return: *void*
      - Log in with the anonymous authentication provider.
@@ -63,6 +66,7 @@
           };
 
    * - **logInWithApiKey()**
+
        Props: *key: string*
        Return: *void*
      - Log in with an API key.
@@ -76,6 +80,7 @@
           };
 
    * - **logInWithEmailPassword()**
+
        Props: *credentials: {email: string; password: string;}*
        Return: *void*
      - Log in with Email/Password.
@@ -91,6 +96,7 @@
           };
 
    * - **logInWithJWT()**
+
        Props: *token: string*
        Return: *void*
      - Log in with a JSON Web Token (JWT).
@@ -105,6 +111,7 @@
           };
 
    * - **logInWithGoogle()**
+
        Props: *credentials: {idToken: string;} | {authCode: string;}*
        Return: *void*
      - Log in with Google.
@@ -119,6 +126,7 @@
           };
 
    * - **logInWithApple()**
+
        Props: *credentials: idToken: string;*
        Return: *void*
      - Log in with Apple.
@@ -133,6 +141,7 @@
           };
 
    * - **logInWithFacebook()**
+
        Props: *credentials: accessToken: string;*
        Return: *void*
      - Log in with Facebook.
@@ -147,6 +156,7 @@
           };
 
    * - **logInWithFunction()**
+   
        Props: *payload: PayloadType*
        Return: *void*
      - Log in with a custom function.
@@ -161,6 +171,7 @@
           };
 
    * - **logOut()**
+
        Props: none
        Return: *void*
      - Logs out the current user.
