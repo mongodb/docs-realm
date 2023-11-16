@@ -1,184 +1,181 @@
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
+**result**
 
-   * - Method
-     - Description and Example
+Type signature:
 
-   * - **result** 
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-     - Result of authentication hook operation. ``result.operation`` gives you
-       the name of the current operation. For a list of all operation names,
-       refer to the :realm-react-sdk:`API documentation 
-       <enums/AuthOperationName.html>`.
-     
-       Possible result values:
+   result: AuthResult
 
-       .. code:: typescript
+Result of authentication hook operation. ``result.operation`` gives you
+the name of the current operation. For a list of all operation names,
+refer to the :realm-react-sdk:`API documentation 
+<enums/AuthOperationName.html>`.
 
-         {
-            state, // "not-started", "pending", "success", "error"
-            operation, // enum AuthOperationName
-            pending, // true or false
-            success, // true or false
-            error // Error-based object or undefined
-         }
+Possible result values:
 
-   * - **logIn()**
+.. code:: typescript
 
-       Props: *credentials: Realm.Credentials*
-       Return: *void*
-     - Logs in a user with any authentication mechanism supported by
-       Realm. If called when a user is logged in, the current user switches to
-       the new user. Usually, it's better to use the more specific login
-       methods.
+  {
+    state, // "not-started", "pending", "success", "error"
+    operation, // enum AuthOperationName
+    pending, // true or false
+    success, // true or false
+    error // Error-based object or undefined
+  }
 
-       .. code:: typescript
+**logIn(credentials: Realm.Credentials)**
 
-        const {logIn, result} = useAuth();
+Type signature:
 
-        useEffect(() => logIn(Realm.Credentials.anonymous()), []);
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-        if(result.pending) {
-          return (<LoadingSpinner/>)
-        }
+   logIn(credentials: Realm.Credentials): void
 
-        if(result.error) {
-          return (<ErrorComponent/>)
-        }
+Logs in a user with any authentication mechanism supported by
+Realm. If called when a user is logged in, the current user switches to
+the new user. Usually, it's better to use the more specific login
+methods.
 
-        if(result.success) {
-          return (<SuccessComponent/>)
-        }
-        //...
+.. code:: typescript
 
-   * - **logInWithAnonymous()**
+  const {logIn, result} = useAuth();
 
-       Props: none
-       Return: *void*
-     - Log in with the anonymous authentication provider.
-       
-       .. code:: typescript
+  useEffect(() => logIn(Realm.Credentials.anonymous()), []);
 
-          const {logInWithAnonymous, result} = useAuth();
-          const performLogin = () => {
-            logInWithAnonymous();
-          };
+  if(result.pending) {
+    return (<LoadingSpinner/>)
+  }
 
-   * - **logInWithApiKey()**
+  if(result.error) {
+    return (<ErrorComponent/>)
+  }
 
-       Props: *key: string*
-       Return: *void*
-     - Log in with an API key.
-       
-       .. code:: typescript
+  if(result.success) {
+    return (<SuccessComponent/>)
+  }
+  //...
 
-          const {logInWithApiKey, result} = useAuth();
-          const performLogin = () => {
-          const key = getApiKey(); // user defined function
-            logInWithApiKey(key);
-          };
+  *Parameters*
 
-   * - **logInWithEmailPassword()**
+  ``credentials``. A Realm credential supplied by any supported Realm
+  authentication.
 
-       Props: *credentials: {email: string; password: string;}*
-       Return: *void*
-     - Log in with Email/Password.
-       
-       .. code:: typescript
+  *Returns*
 
-          const {logInWithEmailPassword, result} = useAuth();
-          const [email, setEmail] = useState('');
-          const [password, setPassword] = useState('');
+  void
 
-          const performLogin = () => {
-            logInWithEmailPassword({email, password});
-          };
+**logInWithAnonymous()**
 
-   * - **logInWithJWT()**
+Type signature:
 
-       Props: *token: string*
-       Return: *void*
-     - Log in with a JSON Web Token (JWT).
-       
-       .. code:: typescript
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-          const {logInWithJWT, result} = useAuth();
+   logInWithAnonymous(): void
 
-          const performLogin = () => {
-          const token = authorizeWithCustomerProvider(); // user defined function
-            logInWithJWT(token);
-          };
 
-   * - **logInWithGoogle()**
 
-       Props: *credentials: {idToken: string;} | {authCode: string;}*
-       Return: *void*
-     - Log in with Google.
-       
-       .. code:: typescript
+**logInWithApiKey()**
 
-          const {logInWithGoogle, result} = useAuth();
+Type signature:
 
-          const performLogin = () => {
-          const token = getGoogleToken(); // user defined function
-            logInWithGoogle({idToken: token});
-          };
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-   * - **logInWithApple()**
+   logInWithApiKey(key: string): void
 
-       Props: *credentials: idToken: string;*
-       Return: *void*
-     - Log in with Apple.
-       
-       .. code:: typescript
 
-          const {logInWithApple, result} = useAuth();
 
-          const performLogin = () => {
-          const token = getAppleToken(); // user defined function
-            logInWithApple(token);
-          };
+**logInWithEmailPassword()**
 
-   * - **logInWithFacebook()**
+Type signature:
 
-       Props: *credentials: accessToken: string;*
-       Return: *void*
-     - Log in with Facebook.
-       
-       .. code:: typescript
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-          const {logInWithFacebook, result} = useAuth();
+   logInWithEmailPassword(credentials: {
+     email: string;
+     password: string;
+   }): void
 
-          const performLogin = () => {
-          const token = getFacebookToken(); // user defined function
-            logInWithFacebook(token);
-          };
 
-   * - **logInWithFunction()**
-   
-       Props: *payload: PayloadType*
-       Return: *void*
-     - Log in with a custom function.
-       
-       .. code:: typescript
 
-          const {logInWithFunction, result} = useAuth();
+**logInWithJWT()**
 
-          const performLogin = () => {
-          const customPayload = getAuthParams(); // user defined arguments
-            logInWithFunction(customPayload);
-          };
+Type signature:
 
-   * - **logOut()**
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-       Props: none
-       Return: *void*
-     - Logs out the current user.
-       
-       .. code:: typescript
+   logInWithJWT(token: string): void
 
-          const {logOut, result} = useEmailPasswordAuth();
-          const performLogout = () => {
-            logOut();
-          }
+
+
+**logInWithGoogle()**
+
+Type signature:
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   result: AuthResult
+
+
+
+**logInWithApple()**
+
+Type signature:
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   result: AuthResult
+
+
+]
+**logInWithFacebook()**
+
+Type signature:
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   result: AuthResult
+
+
+
+**logInWithFunction()**
+
+Type signature:
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   result: AuthResult
+
+
+
+**logOut()**
+
+Type signature:
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   result: AuthResult
+
+
+
