@@ -34,7 +34,9 @@ REALM_SCHEMA(Beta_SyncError_Dog, _id, name, age)
 
 TEST_CASE("set a sync error handler", "[error]") {
     // :snippet-start: create-error-handler
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     auto user = app.login(realm::App::credentials::anonymous()).get();
     auto dbConfig = user.flexible_sync_configuration();
 
@@ -71,7 +73,9 @@ TEST_CASE("set a sync error handler", "[error]") {
 
 TEST_CASE("beta set a sync error handler", "[error]") {
     // :snippet-start: beta-create-error-handler
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     auto user = app.login(realm::App::credentials::anonymous()).get();
     auto dbConfig = user.flexible_sync_configuration();
 

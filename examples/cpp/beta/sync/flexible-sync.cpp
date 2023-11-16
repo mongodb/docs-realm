@@ -38,7 +38,9 @@ struct Alpha_Sync_Dog : realm::object<Alpha_Sync_Dog> {
 };
 
 TEST_CASE("subscribe to a all objects of a type", "[sync]") {
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     auto user = app.login(realm::App::credentials::anonymous()).get();
     auto syncConfig = user.flexible_sync_configuration();
     auto syncedRealmRef = realm::async_open<FlexibleSync_Dog>(syncConfig).get_future().get();
@@ -73,7 +75,9 @@ TEST_CASE("subscribe to a all objects of a type", "[sync]") {
 TEST_CASE("subscribe to a subset of objects", "[sync]") {
     // :snippet-start: flexible-sync-prerequisites
     // Initialize the App, authenticate a user, and open the realm
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     auto user = app.login(realm::App::credentials::anonymous()).get();
     auto syncConfig = user.flexible_sync_configuration();
     auto syncedRealmRef = realm::async_open<FlexibleSync_Dog>(syncConfig).get_future().get();
@@ -133,7 +137,9 @@ REALM_SCHEMA(Beta_FlexibleSync_Dog, _id, name, age)
 // so I'm removing the Bluehawk markup but keeping the test to
 // verify it all works as expected in the experimental namespace
 TEST_CASE("beta subscribe to a all objects of a type", "[sync]") {
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     auto user = app.login(realm::App::credentials::anonymous()).get();
     auto syncConfig = user.flexible_sync_configuration();
     auto syncedRealm = realm::experimental::db(syncConfig);
@@ -158,7 +164,9 @@ TEST_CASE("beta subscribe to a all objects of a type", "[sync]") {
 TEST_CASE("beta subscribe to a subset of objects", "[sync]") {
     // :snippet-start: beta-flexible-sync-prerequisites
     // Initialize the App, authenticate a user, and open the realm
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     auto user = app.login(realm::App::credentials::anonymous()).get();
     auto syncConfig = user.flexible_sync_configuration();
     auto syncedRealm = realm::experimental::db(syncConfig);
@@ -196,7 +204,9 @@ TEST_CASE("beta subscribe to a subset of objects", "[sync]") {
 
 TEST_CASE("open a synced realm with old syntax", "[realm][sync]") {
     // :snippet-start: open-a-synced-realm
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     // Ensure anonymous authentication is enabled in the App Services App
     auto user = app.login(realm::App::credentials::anonymous()).get();
     auto sync_config = user.flexible_sync_configuration();
