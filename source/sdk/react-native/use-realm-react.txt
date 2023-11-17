@@ -80,7 +80,46 @@ RealmProvider
 Components nested within ``RealmProvider`` can access the configured realm
 and use the ``RealmProvider`` hooks.
 
-.. include:: /includes/realm-react-provider-realm.rst
+**Props**
+
+All properties of :realm-react-sdk:`BaseConfiguration 
+<types/Realm.BaseConfiguration.html>` can be passed as props.
+
+.. code:: typescript
+   :copyable: false
+
+   BaseConfiguration: {
+      deleteRealmIfMigrationNeeded?: boolean;
+      disableFormatUpgrade?: boolean;
+      encryptionKey?: ArrayBuffer | ArrayBufferView | Int8Array;
+      fifoFilesFallbackPath?: string;
+      inMemory?: boolean;
+      onMigration?: MigrationCallback;
+      path?: string;
+      readOnly?: boolean;
+      schema?: (RealmObjectConstructor<AnyRealmObject> | ObjectSchema)[];
+      schemaVersion?: number;
+      shouldCompact?: ((totalBytes, usedBytes) => boolean);
+      sync?: SyncConfiguration;
+   }
+
+``RealmProvider`` has more props that define its behavior:
+
+.. code:: typescript
+   :copyable: false
+
+   ProviderProps: {
+      // The fallback component to render if the Realm is not opened.
+      fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined;
+      // Default is ``true``. If false, realm will not close when the
+      // component unmounts.
+      closeOnUnmount?: boolean;
+      // A ref to the realm instance. This is useful if you need to
+      // access the realm instance outside of the scope of the realm.
+      realmRef?: React.MutableRefObject<Realm | null>;
+      children: React.ReactNode;
+   }
+   
 
 Configure RealmProvider
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -241,7 +280,22 @@ AppProvider
 Components nested within ``AppProvider`` can access your App Services App
 and use the ``AppProvider`` hooks.
 
-.. include:: /includes/realm-react-provider-app.rst
+**Props**
+
+All properties of :realm-react-sdk:`AppConfiguration 
+<types/Realm.AppConfiguration.html>` can be passed as props to ``AppProvider``.
+
+.. code:: typescript
+   :copyable: false
+
+   AppConfiguration: {
+      app?: LocalAppConfiguration;
+      baseFilePath?: string;
+      baseUrl?: string;
+      id: string;
+      multiplexSessions?: boolean;
+      timeout?: number;
+   }
 
 Configure AppProvider
 ~~~~~~~~~~~~~~~~~~~~~
@@ -382,7 +436,7 @@ Log in with an API key.
 
 **Parameters**
 
-- ``key``.
+- ``key``. A string that is linked to an App Services user.
 
 **Returns**
 
@@ -414,7 +468,7 @@ Log in with Email/Password.
 
 **Parameters**
 
-- ``credentials``.
+- ``credentials``. An object with ``email`` and ``password`` fields.
 
 **Returns**
 
@@ -442,7 +496,7 @@ Log in with a JSON Web Token (JWT).
 
 **Parameters**
 
-- ``credentials``.
+- ``credentials``. A string representation of a user's JWT.
 
 **Returns**
 
@@ -474,7 +528,8 @@ Log in with Google.
 
 **Parameters**
 
-- ``credentials``.
+- ``credentials``. An object with and ``idToken`` field that should contain
+  the string token you get from Google Identity Services.
 
 **Returns**
 
@@ -502,7 +557,7 @@ Log in with Apple.
 
 **Parameters**
 
-- ``idToken``. 
+- ``idToken``. A string you get from an Apple SDK.
 
 **Returns**
 
@@ -530,7 +585,7 @@ Log in with Facebook.
 
 **Parameters**
 
-- ``accessToken``.
+- ``accessToken``. A string you get from the Facebook SDK.
 
 **Returns**
 
@@ -558,7 +613,8 @@ Log in with a custom function.
 
 **Parameters**
 
-- ``payload``. 
+- ``payload``. An object that contains user information you want to pass to
+  the App Services function that processes log in requests.
 
 **Returns**
 
@@ -626,7 +682,23 @@ UserProvider
 Components nested within ``UserProvider`` can access the logged-in user object
 and use the ``UserProvider`` hooks.
 
-.. include:: /includes/realm-react-provider-user.rst
+**Props**
+
+All properties of :realm-react-sdk:`AppConfiguration 
+<types/Realm.AppConfiguration.html>` can be passed as props to ``AppProvider``.
+
+.. code:: typescript
+   :copyable: false
+
+   UserProviderProps {
+      /**
+      * The fallback component to render if there is no authorized user.
+      * This can be used to render a log in screen or otherwise handle
+      * authentication.
+      */
+      fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined;
+      children: React.ReactNode;
+   }
 
 Configure UserProvider
 ~~~~~~~~~~~~~~~~~~~~~~
