@@ -1,3 +1,42 @@
+# November 17, 2023
+
+## Flutter SDK
+
+- Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
+- Realm Database/Model Data/Manage Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm. 
+
+## Kotlin SDK
+
+- Realm/Manage Realm Files/Encrypt a Realm: Add information on encryption for local and synced realms. 
+- Connect to Atlas/Connect to App Services: Add information on encryption for app metadata.
+- Internal: Rename Kotlin Multiplatform Mobile (KMM) to Kotlin Multiplatform (KMP), as KMM is deprecated in Kotlin template app ``README.md``.
+
+## .NET SDK
+
+- Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm. 
+
+## Node.js SDK
+
+- Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
+- Realm Files/Encrypt a Realm: Add note that you can encrypt a realm the first time you open it or copy the unencrypted realm to a new encrypted realm. 
+
+## React Native SDK
+
+- Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
+- Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm. 
+
+## Swift SDK
+
+- Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm.
+- CRUD/Threading: Add more detail on using threading with actors. 
+- React to Changes: Add details on setting up notifications for changes to different actors. 
+- Use Realm with Actors: Add more details about how to use Realm across actors based on docs feedback.
+- Swift Concurrency: Add information on difference between methods for asynchronous writes (``writeAsync()`` and ``asyncwrite()``) and concurrency code that is not actor-isolated. 
+
+## Web SDK
+
+- Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
+
 # November 10, 2023
 
 ## C++ SDK
