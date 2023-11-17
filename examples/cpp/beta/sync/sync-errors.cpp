@@ -60,13 +60,13 @@ TEST_CASE("set a sync error handler", "[error]") {
     auto syncRealmRef = realm::async_open<SyncError_Dog>(dbConfig).get_future().get();
     auto syncRealm = syncRealmRef.resolve();
     // :snippet-end:
-
+    auto syncSession = syncRealm.get_sync_session();
     auto updateSubscriptionSuccess = syncRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
         subs.clear();
     }).get();
     CHECK(updateSubscriptionSuccess == true);
     CHECK(syncRealm.subscriptions().size() == 0);
-    sleep(5);
+    syncSession->wait_for_upload_completion().get();
     updateSubscriptionSuccess = syncRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
         subs.add<SyncError_Dog>("dogs");
     }).get();
@@ -80,7 +80,7 @@ TEST_CASE("set a sync error handler", "[error]") {
     syncRealm.write([&syncRealm, &dog] {
         syncRealm.add(dog);
     });
-    sleep(5);
+    syncSession->wait_for_upload_completion().get();
 }
 
 TEST_CASE("beta set a sync error handler", "[error]") {
@@ -98,13 +98,13 @@ TEST_CASE("beta set a sync error handler", "[error]") {
 
     auto syncRealm = realm::experimental::db(dbConfig);
     // :snippet-end:
-
+    auto syncSession = syncRealm.get_sync_session();
     auto updateSubscriptionSuccess = syncRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
         subs.clear();
     }).get();
     CHECK(updateSubscriptionSuccess == true);
     CHECK(syncRealm.subscriptions().size() == 0);
-    sleep(5);
+    syncSession->wait_for_upload_completion().get();
     updateSubscriptionSuccess = syncRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
         subs.add<Beta_SyncError_Dog>("dogs");
     }).get();
@@ -118,7 +118,7 @@ TEST_CASE("beta set a sync error handler", "[error]") {
     syncRealm.write([&] {
         syncRealm.add(std::move(dog));
     });
-    sleep(5);
+    syncSession->wait_for_upload_completion().get();
 }
 
 TEST_CASE("beta compensating write error outside query", "[error]") {
@@ -141,12 +141,13 @@ TEST_CASE("beta compensating write error outside query", "[error]") {
     // :remove-end:
     auto syncRealm = realm::experimental::db(dbConfig);
     // :remove-start:
+    auto syncSession = syncRealm.get_sync_session();
     auto updateSubscriptionSuccess = syncRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
         subs.clear();
     }).get();
     CHECK(updateSubscriptionSuccess == true);
     CHECK(syncRealm.subscriptions().size() == 0);
-    sleep(5);
+    syncSession->wait_for_upload_completion().get();
     // :remove-end:
     // Add subscription
     auto subscriptionUpdateSuccess = syncRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
@@ -184,7 +185,6 @@ TEST_CASE("beta compensating write error outside query", "[error]") {
     syncRealm.write([&] {
         syncRealm.remove(specificItem);
     });
-    auto syncSession = syncRealm.get_sync_session();
     syncSession->wait_for_upload_completion().get();
     
     // :snippet-start: compensating-write-example
@@ -203,7 +203,7 @@ TEST_CASE("beta compensating write error outside query", "[error]") {
         syncRealm.add(std::move(complexItem));
     });
     // :snippet-end:
-    sleep(5);
+    syncSession->wait_for_upload_completion().get();
     
     std::string pkString = primaryKey.to_string();
     auto receivedSyncError = future.get();
@@ -235,15 +235,16 @@ TEST_CASE("beta compensating write error write doesn't match permissions", "[err
     
     dbConfig.sync_config().set_error_handler([&](const realm::sync_session& session, std::optional<realm::internal::bridge::sync_error> error) {
         std::cerr << "A sync error occurred. Message: " << error->message() << std::endl;
-        errorPromise.set_value(*error); // :remove:
+        errorPromise.set_value(*error);
     });
     auto syncRealm = realm::experimental::db(dbConfig);
+    auto syncSession = syncRealm.get_sync_session();
     auto updateSubscriptionSuccess = syncRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
         subs.clear();
     }).get();
     CHECK(updateSubscriptionSuccess == true);
     CHECK(syncRealm.subscriptions().size() == 0);
-    sleep(5);
+    syncSession->wait_for_upload_completion().get();
     // Add subscription
     auto subscriptionUpdateSuccess = syncRealm.subscriptions().update([](realm::mutable_sync_subscription_set &subs) {
         // Get Items from Atlas that match this query.
@@ -271,7 +272,6 @@ TEST_CASE("beta compensating write error write doesn't match permissions", "[err
         syncRealm.add(std::move(itemWithWrongOwner));
     });
     // :snippet-end:
-    auto syncSession = syncRealm.get_sync_session();
     syncSession->wait_for_upload_completion().get();
     
     std::string pkString = primaryKey.to_string();
