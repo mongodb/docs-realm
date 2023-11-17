@@ -149,7 +149,8 @@ Compensating Writes
 
 When the write doesn't match *either* the query subscription or user 
 permissions, Realm reverts the write and provides an array of
-:cpp-sdk:`realm::sync_error::compensating_writes_info() <structrealm_1_1internal_1_1bridge_1_1compensating__write__error__info.html>`. 
+:cpp-sdk:`compensating_write_error_info <structrealm_1_1internal_1_1bridge_1_1compensating__write__error__info.html>`
+objects. 
 
 In more detail, when you write data that is outside the bounds of a query
 subscription or does not match the user's permissions, the following occurs:
@@ -166,7 +167,7 @@ object "disappears" when Realm syncs with the App Services backend and
 performs the compensating write. 
 
 When this occurs, you can refer to the :ref:`App Services logs <logs-sync>` or use the 
-:ref:`CompensatingWriteInfo <cpp-compensating-write-info>` object in the 
+:ref:`compensating_writes_info() <cpp-compensating-write-info>` function in the 
 client to get additional information on the error. 
 
 .. _cpp-writes-outside-subscription:
@@ -248,9 +249,10 @@ Compensating Write Error Information
 .. versionadded:: v0.3.0-preview
 
 You can get additional information in the client about why a compensating 
-write occurs using the :cpp-sdk:`CompensatingWriteInfo 
+write occurs using the :cpp-sdk:`compensating_writes_info()
 <structrealm_1_1internal_1_1bridge_1_1compensating__write__error__info.html>` 
-object, which provides:
+function, which provides an array of ``compensating_write_error_info`` 
+structs that contain:
 
 - The ``object_name`` of the object the client attempted to write
 - The ``primary_key`` of the specific object
@@ -277,9 +279,9 @@ about compensating write errors:
       table "Item" not allowed; object is outside of the current query view.
 
 - The ``Item`` in this message is ``Item`` object used in the :ref:`object model <cpp-client-data-model-and-configuration>` on this page.
-- The primary key is the ``objectId`` of the specific object the client attempted to write. 
 - The ``table "Item"`` refers to the Atlas collection where this object would sync.
 - The reason ``object is outside of the current query view`` in this example is because the query subscription was set to require the object's ``complexity`` property to be less than or equal to ``4``, and the client attempted to write an object outside of this boundary.
+- The primary key is the ``objectId`` of the specific object the client attempted to write. 
 
 Group Writes for Improved Performance
 -------------------------------------
