@@ -1,21 +1,29 @@
 ## Pull Request Info
 
-### Jira
-
-- https://jira.mongodb.org/browse/DOCSP-NNNNN
-
-### Staged Changes
+Jira ticket: https://jira.mongodb.org/browse/DOCSP-NNNNN
+Staged changes:
 
 - [PAGE_NAME](https://docs-mongodbcom-staging.corp.mongodb.com/realm/docsworker-xlarge/BRANCH_NAME/)
 
+<!--
+- Write a summary of the changes and the related issue
+- Include relevant motivation and context
+- List any required dependencies for this change
+-->
+
 ### Reminder Checklist
 
-If your PR modifies the docs, you might need to also update some corresponding
-pages. Check if completed or N/A.
+Before merging your PR, make sure to check a few things.
 
-- [ ] Create Jira ticket for corresponding docs-app-services update(s), if any
-- [ ] Checked/updated Admin API
-- [ ] Checked/updated CLI reference
+- [ ] Create a Jira ticket for corresponding docs-app-services update(s), if any
+- [ ] In your final commit message, summarize your PR for the docs release notes
+
+Final commit message template:
+
+```
+- Kotlin SDK
+  - Realm/Manage Realm Files/Encrypt a Realm: Add information on encryption for local and synced realms.
+```
 
 ### Review Guidelines
 
