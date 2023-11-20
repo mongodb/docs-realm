@@ -86,7 +86,7 @@ and add the Realm React Native SDK to it.
 
                npm install realm
 
-         .. step:: Enable Hermes (optional)
+         .. step:: Enable Hermes
 
             .. note::
 
@@ -120,25 +120,27 @@ and add the Realm React Native SDK to it.
             Xcode to run your application.
 
 
-         .. step:: Enable TypeScript (optional)
+         .. step:: Enable TypeScript (recommended, but optional)
 
 
             .. include:: /includes/react-native-enable-typescript.rst
 
          .. step:: Install the @realm/react Library
 
-            :npm:`@realm/react <package/@realm/react>` is an npm package that provides an easy-to-use API to perform
-            common Realm operations, such as querying or writing to a realm
-            and listening to realm objects.
+            :npm:`@realm/react <package/@realm/react>` is an npm package that
+            streamlines common Realm operations like querying, writing to a
+            realm, and listening to realm objects. This reduces boilerplate code,
+            like creating your own listeners and state management.
 
-            ``@realm/react`` helps you avoid creating boilerplate code, such as creating
-            your own listeners and state management. ``@realm/react`` provides access to
-            Realm through a set of hooks that update React state when the realm data changes. This means that components using these hooks
-            will re-render on any changes to data in the realm.
+            ``@realm/react`` provides access to Realm through a set of providers
+            that have various hooks. The hooks update React state when the Realm
+            data changes. This means that components using these hooks rerender
+            on any changes to data in the realm.
 
             .. include:: /includes/note-realmreact-version-requirements-for-realmjs.rst
 
-            In your React Native project directory, add ``@realm/react`` to your project with the following command:
+            In your React Native project directory, add ``@realm/react`` to your
+            project with the following command:
 
             .. code-block:: shell
 
