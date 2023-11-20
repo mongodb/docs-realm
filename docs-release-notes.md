@@ -3,13 +3,13 @@
 ## Flutter SDK
 
 - Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
-- Realm Database/Model Data/Manage Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm. 
+- Realm Database/Model Data/Manage Realm Files/Encrypt a Realm: Add note that you must encrypt a realm on first open, or use ``writeCopy`` to create an encrypted realm. 
 
 ## Kotlin SDK
 
 - Realm/Manage Realm Files/Encrypt a Realm: Add information on encryption for local and synced realms. 
 - Connect to Atlas/Connect to App Services: Add information on encryption for app metadata.
-- Internal: Rename Kotlin Multiplatform Mobile (KMM) to Kotlin Multiplatform (KMP), as KMM is deprecated in Kotlin template app ``README.md``.
+- Internal: Rename Kotlin Multiplatform Mobile (KMM) to Kotlin Multiplatform (KMP) in Kotlin template app ``README.md``, as KMM is deprecated.
 
 ## .NET SDK
 
@@ -28,8 +28,8 @@
 ## Swift SDK
 
 - Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm.
-- CRUD/Threading: Add more detail on using threading with actors. 
-- React to Changes: Add details on setting up notifications for changes to different actors. 
+- CRUD/Threading: Recommend using `ThreadSafeReference` instead of frozen objects with Swift Actors. 
+- React to Changes: Clarify details on observing notifications across Swift Actors.
 - Use Realm with Actors: Add more details about how to use Realm across actors based on docs feedback.
 - Swift Concurrency: Add information on difference between methods for asynchronous writes (``writeAsync()`` and ``asyncwrite()``) and concurrency code that is not actor-isolated. 
 
