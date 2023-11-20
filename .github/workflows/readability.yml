@@ -23,7 +23,7 @@ jobs:
       - name: Checkout docdoctor repo.
         uses: actions/checkout@v3
         with:
-          repository: dacharyc/docdoctor
+          repository: cbush/docdoctor
           ref: "readability"
           path: "docdoctor"
       - name: Display workspace directory structure (debugging log statement)
@@ -37,7 +37,7 @@ jobs:
         run: |
           pushd docdoctor && npm i && npm run build && popd
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            node ./docdoctor getReadabilityText "$file"
+            node ./docdoctor/build/main getReadabilityText "$file"
           done
       - name: Setup Python
         uses: actions/setup-python@v4.3.0
