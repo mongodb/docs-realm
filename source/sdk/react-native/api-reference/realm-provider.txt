@@ -19,7 +19,8 @@
 Components nested within ``RealmProvider`` can access the configured realm
 and use the ``RealmProvider`` hooks.
 
-**Props**
+Props
+-----
 
 All properties of :realm-react-sdk:`BaseConfiguration 
 <types/Realm.BaseConfiguration.html>` can be passed as props.
@@ -27,17 +28,20 @@ All properties of :realm-react-sdk:`BaseConfiguration
 ``RealmProvider`` has more props that define its behavior:
 
 - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
+
   The fallback component to render if the Realm is not opened.
 - ``closeOnUnmount?: boolean``
+
   Default is ``true``. If set to ``false``, realm will not close when the
   component unmounts.
 - ``realmRef?: React.MutableRefObject<Realm | null>``
-   A ref to the realm instance. This is useful if you need to access the realm
-   instance outside of the scope of the realm.
+
+  A ref to the realm instance. This is useful if you need to access the realm
+  instance outside of the scope of the realm.
 - ``children: React.ReactNode``
 
-Configure RealmProvider
------------------------
+Configure a Realm with RealmProvider
+------------------------------------
 
 You can configure a ``RealmProvider`` in two ways. This section details how to
 configure a ``RealmProvider`` imported directly from ``@realm/react``. You can
@@ -132,12 +136,12 @@ The ``useRealm()`` hook returns an opened realm instance. The realm instance
 gives you access to realm methods and properties. For example, you can call
 ``realm.write()`` to add a realm object to your realm.
 
+To learn more about modifying Realm data, refer to :ref:`Write Transactions
+<react-native-write-transactions>`.
+
 .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
    :language: typescript
    :emphasize-lines: 3, 6-8, 15
-
-To learn more about modifying Realm data, refer to :ref:`Write Transactions
-<react-native-write-transactions>`.
 
 *Returns*
 
@@ -199,12 +203,12 @@ The ``useQuery()`` method subscribes to updates to any objects in the collection
 and rerenders the component using it on any change to the results.
 
 You can use ``.filtered()`` and ``.sorted()`` to filter and sort your query
-results. For more details, refer to the :ref:`CRUD - Read 
-<react-native-read-objects>` docs.
+results. You should do this in the ``query`` argument of ``useQuery``. For more
+details, refer to the :ref:`CRUD - Read <react-native-read-objects>` docs.
 
 .. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-filter-data.tsx
     :language: typescript
-    :emphasize-lines: 4-6, 8-14
+    :emphasize-lines: 3-5, 8-14
 
 *Parameters* 
 

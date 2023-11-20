@@ -14,12 +14,13 @@
    :copyable: false
    :caption: Type signature
 
-   UserProvider(props, context?): null | ReactElement<any, any>
+   UserProvider(props): null | ReactElement<any, any>
 
 Components nested within ``UserProvider`` can access the logged-in user object
 and use the ``UserProvider`` hooks.
 
-**Props**
+Props
+-----
 
 - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
   The fallback component to render if there is no authorized user. This can be

@@ -19,7 +19,8 @@
 Components nested within ``AppProvider`` can access your App Services App
 and use the ``AppProvider`` hooks.
 
-**Props**
+Props
+-----
 
 All properties of :realm-react-sdk:`AppConfiguration 
 <types/Realm.AppConfiguration.html>` can be passed as props to ``AppProvider``.
@@ -36,8 +37,8 @@ Wrap any components that need to access the App with ``AppProvider``.
 
 .. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
 
-AppProvider Hooks
------------------
+Hooks Used with AppProvider
+---------------------------
 
 .. _react-native-use-auth:
 
@@ -65,7 +66,7 @@ result
 Result of authentication hook operation. For example, ``result.operation`` gives
 you the name of the current operation.
 
-Enum values:
+*Enum values* 
 
 - ``state``. Can be "not-started", "pending", "success", "error".
 - ``operation``. For a list of all operation names, refer to the
