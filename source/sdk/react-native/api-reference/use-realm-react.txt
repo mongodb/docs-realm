@@ -1,0 +1,73 @@
+.. _react-native-use-realm-react:
+
+======================
+@realm/react Reference
+======================
+
+.. toctree::
+   :titlesonly:
+
+   @realm JavaScript SDK Reference <https://www.mongodb.com/docs/realm-sdks/js/latest/>
+   @realm/react Package Reference </sdk/react-native/api-reference/use-realm-react>
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+:npm:`@realm/react <package/@realm/react>` is an npm package that streamlines
+common Realm operations like querying, writing to a realm, and listening to
+realm objects. This reduces boilerplate code, like creating your own listeners
+and state management.
+
+``@realm/react`` provides access to Realm through a set of providers that have
+various hooks. The hooks update React state when the Realm data changes.
+This means that components using these hooks rerender on any changes to data
+in the realm.
+
+.. include:: /includes/note-realmreact-version-requirements-for-realmjs.rst
+
+.. _react-native-setup-realm-hooks:
+
+Set Up @realm/react
+-------------------
+
+To set up ``@realm/react``, start with a new `bare React Native app 
+<https://reactnative.dev/docs/environment-setup#creating-a-new-application>`_ 
+or use the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`.
+
+You can also install ``@realm/react`` for existing React Native apps.
+
+Add @realm/react to a New App
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can start with a new bare React Native app  or use the :github:`Realm Expo 
+template <expo/examples/tree/master/with-realm>`.
+
+The React Native SDK documentation generally assumes that you're using a bare
+React Native app and not Expo.
+
+To create a bare React Native app:
+
+#. Follow the `React Native documentation 
+   <https://reactnative.dev/docs/environment-setup#creating-a-new-application>`_.
+#. Install ``@realm/react``.
+
+   .. code-block:: shell
+
+      npm install @realm/react
+
+To create a new app with ``@realm/react`` and Expo, follow the :ref:`Quick Start
+with Expo <react-native-client-bootstrap-with-expo>` documentation.
+
+Add @realm/react to an Existing App
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To install ``@realm/react`` on an existing React Native application, run the
+following command in your terminal from the root of your application
+where your ``package.json`` file is located:
+
+.. code-block:: shell
+
+    npm install @realm/react
