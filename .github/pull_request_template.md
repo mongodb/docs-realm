@@ -15,15 +15,16 @@ Staged changes:
 
 Before merging your PR, make sure to check a few things.
 
-- [ ] Create a Jira ticket for corresponding docs-app-services update(s), if any
-- [ ] In your final commit message, summarize your PR for the docs release notes
+- [ ] Describe your PR's changes in the Release Notes section
+- [ ] Create a Jira ticket for corresponding docs-realm docs-app-services, if any
 
-Final commit message template:
+### Release Notes
 
-```
-- Kotlin SDK
-  - Realm/Manage Realm Files/Encrypt a Realm: Add information on encryption for local and synced realms.
-```
+<!--
+- **Kotlin** SDK
+  - Realm/Manage Realm Files/Encrypt a Realm: Add information on encryption for
+    local and synced realms.
+-->
 
 ### Review Guidelines
 
