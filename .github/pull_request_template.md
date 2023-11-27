@@ -15,6 +15,8 @@ Staged changes:
 
 Before merging your PR, make sure to check a few things.
 
+- [ ] Did you tag pages appropriately? (genre, programming_language, keywords)
+      Refer to "Manual tagging" in the (tagging instructions)[https://wiki.corp.mongodb.com/display/DE/Taxonomy+tagging+instructions]
 - [ ] Describe your PR's changes in the Release Notes section
 - [ ] Create a Jira ticket for corresponding docs-realm docs-app-services, if any
 
