@@ -5,11 +5,11 @@ Staged changes:
 
 - [PAGE_NAME](https://docs-mongodbcom-staging.corp.mongodb.com/realm/docsworker-xlarge/BRANCH_NAME/)
 
-<!--
+### Description
+
 - Write a summary of the changes and the related issue
 - Include relevant motivation and context
 - List any required dependencies for this change
--->
 
 ### Reminder Checklist
 
