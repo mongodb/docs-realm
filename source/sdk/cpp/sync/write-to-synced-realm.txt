@@ -106,11 +106,22 @@ the ``user.identifier()`` of the logged-in user cannot sync to this realm.
 Client Data Model and Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using the :ref:`object model <cpp-sync-example-object-model>`, the examples 
-configure the synced realm to synchronize objects matching this subscription query:
+The examples on this page configure the synced realm to synchronize objects 
+matching this subscription query:
 
-.. literalinclude:: /examples/generated/cpp/sync-errors.snippet.compensating-write-setup.cpp
-   :language: cpp
+.. tabs::
+
+   .. tab:: Sync Query
+      :tabid: sync-query
+
+      .. literalinclude:: /examples/generated/cpp/sync-errors.snippet.compensating-write-setup.cpp
+         :language: cpp
+
+   .. tab:: Item Object Model
+      :tabid: item-model
+
+      .. literalinclude:: /examples/generated/cpp/sync-errors.snippet.compensating-write-model.cpp
+         :language: cpp
 
 Any object in the Atlas collection where the ``complexity`` property's 
 value is greater than ``4`` cannot sync to this realm.
@@ -173,9 +184,10 @@ In practice, this may look like the write succeeding, but then the
 object "disappears" when Realm syncs with the App Services backend and 
 performs the compensating write. 
 
-When this occurs, you can refer to the :ref:`App Services logs <logs-sync>` or use the 
-:ref:`compensating_writes_info() <cpp-compensating-write-info>` function in the 
-client to get additional information on the error. 
+When this occurs, you can refer to the :ref:`App Services logs <logs-sync>` 
+or use the ``compensating_writes_info()`` function in the client to get 
+additional information on the error. For more information, refer 
+to the :ref:`cpp-compensating-write-info` section on this page.
 
 .. _cpp-writes-outside-subscription:
 
@@ -287,7 +299,7 @@ about compensating write errors:
 
 - The ``Item`` in this message is ``Item`` object used in the :ref:`object model <cpp-client-data-model-and-configuration>` on this page.
 - The ``table "Item"`` refers to the Atlas collection where this object would sync.
-- The reason ``object is outside of the current query view`` in this example is because the query subscription was set to require the object's ``complexity`` property to be less than or equal to ``4``, and the client attempted to write an object outside of this boundary.
+- The reason ``object is outside of the current query view`` in this message is because the query subscription was set to require the object's ``complexity`` property to be less than or equal to ``4``. The client attempted to write an object outside of this boundary.
 - The primary key is the ``objectId`` of the specific object the client attempted to write. 
 
 Group Writes for Improved Performance
