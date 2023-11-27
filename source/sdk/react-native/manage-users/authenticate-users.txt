@@ -115,8 +115,8 @@ Anonymous User
 The :ref:`Anonymous <anonymous-authentication>` provider allows users to log in
 to your application with temporary accounts that have no associated information.
 
-Calling any log in method when a user is currently logged in, switches the 
-current user to the new user.
+Calling an authentication method when a user is currently logged in, switches
+the current user to the new user.
 
 If you call ``logInWithAnonymous()`` in the fallback of the ``UserProvider``,
 then ``UserProvider``'s children render as soon as the anonymous log in succeeds.
@@ -139,7 +139,7 @@ The :ref:`email/password <email-password-authentication>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
-You can use the ``useEmailPasswordAuth`` hook to handle user log in in your
+You can use the ``useEmailPasswordAuth`` hook to handle user log in your
 client. For a quick ``useEmailPasswordAuth`` reference, refer to
 :ref:`useEmailPasswordAuth Hook <react-native-email-pass-hook>` on the Manage
 Email/Password Users page.
