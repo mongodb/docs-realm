@@ -2,9 +2,9 @@
 
 ## Internal
 
-- Update Readability workflow to use upstream `docdoctor` repo with new build syntax
-- Add `meta::description` to relevant pages to improve SEO for top 250 docs pages
-- Remove the `genre` tag from landing pages to improve docs search results
+- Update Readability workflow to use upstream `docdoctor` repo with new build syntax.
+- Add `meta::description` to relevant pages to improve SEO for top 250 docs pages.
+- Remove the `genre` tag from landing pages to improve docs search results.
 
 # November 17, 2023
 
