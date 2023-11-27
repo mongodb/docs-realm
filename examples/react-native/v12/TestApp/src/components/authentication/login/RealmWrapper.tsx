@@ -5,26 +5,37 @@ import {AppProvider, UserProvider} from '@realm/react';
 // Fallback log in component that's defined in another file.
 import {LogIn} from './Login';
 // :remove-start:
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {useState} from 'react';
+import {View, Text, FlatList, StyleSheet, ScrollView} from 'react-native';
 import {useUser, useAuth, useApp} from '@realm/react';
 import {APP_ID} from '../../../../appServicesConfig';
 import {Button} from '../../utility-components/Button';
+import {LogInWithJWT} from './LoginWithJwt';
 // :remove-end:
 
 export const LoginExample = () => {
   return (
-    <AppProvider id={APP_ID}>
-      {/* If there is no authenticated user, mount the
+    <ScrollView>
+      <AppProvider id={APP_ID}>
+        {/* If there is no authenticated user, mount the
          `fallback` component. When user successfully
           authenticates, the app unmounts the `fallback`
           component (in this case, the `LogIn` component). */}
-      <UserProvider fallback={LogIn}>
-        {/* Components inside UserProvider have access
+        <UserProvider fallback={LogIn}>
+          {/* Components inside UserProvider have access
             to the user. These components only mount if
             there's an authenticated user. */}
-        <UserInformation />
-      </UserProvider>
-    </AppProvider>
+          <UserInformation />
+          {/* :remove-start: */}
+          {/* JWT log in component needs to be here, as we
+            need an anonymous user to call an app services
+            function. */}
+          <LogInWithJWT />
+          <RefreshUserAcessToken />
+          {/* :remove-end: */}
+        </UserProvider>
+      </AppProvider>
+    </ScrollView>
   );
 };
 // :snippet-end:
@@ -58,13 +69,25 @@ function UserInformation() {
           testID="list-container"
           data={user.identities}
           keyExtractor={item => item.id}
+          scrollEnabled={false}
           renderItem={({item}) => (
-            <UserIdentity id={item.id} providerType={item.providerType} />
+            <UserIdentity
+              id={item.id}
+              providerType={item.providerType}
+            />
           )}
         />
 
-        <Button testID="log-out" title="Log out" onPress={performLogout} />
-        <Button testID="delete-user" title="Delete user" onPress={deleteUser} />
+        <Button
+          testID="log-out"
+          title="Log out"
+          onPress={performLogout}
+        />
+        <Button
+          testID="delete-user"
+          title="Delete user"
+          onPress={deleteUser}
+        />
       </View>
     );
   } else {
@@ -72,6 +95,38 @@ function UserInformation() {
   }
   // :remove-end:
 }
+// :snippet-end:
+
+// :snippet-start: refresh-access-token
+const RefreshUserAcessToken = () => {
+  const user = useUser();
+  const [accessToken, setAccessToken] = useState<string | null>();
+
+  // Gets a valid user access token to authenticate requests
+  const refreshAccessToken = async () => {
+    // An already logged in user's access token might be stale. To
+    // guarantee that the token is valid, refresh it if necessary.
+    await user.refreshCustomData();
+
+    setAccessToken(user.accessToken);
+  };
+
+  // Use access token...
+  // :remove-start:
+  return (
+    <View>
+      <Text testID="access-token">
+        {accessToken ? accessToken : 'No access token found.'}
+      </Text>
+      <Button
+        testID="refresh-token"
+        title="Refresh token"
+        onPress={refreshAccessToken}
+      />
+    </View>
+  );
+  // :remove-end:
+};
 // :snippet-end:
 
 const UserIdentity = ({
@@ -82,7 +137,9 @@ const UserIdentity = ({
   providerType: string;
 }) => {
   return (
-    <View testID="user-identity" style={styles.identity}>
+    <View
+      testID="user-identity"
+      style={styles.identity}>
       <Text testID="user-id">ID: {id}</Text>
       {providerType && (
         <Text testID="user-provider">Provider type: {providerType}</Text>

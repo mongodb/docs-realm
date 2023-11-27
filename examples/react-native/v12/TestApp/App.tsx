@@ -78,10 +78,14 @@ function App(): JSX.Element {
           name="Authentication"
           component={AuthenticationScreen}
         />
-        <Drawer.Screen
-          name="Encryption"
-          component={() => <EncryptMetadata encryptionKey={encryptionKey} />}
-        />
+        <Drawer.Screen name="Encryption">
+          {props => (
+            <EncryptMetadata
+              {...props}
+              encryptionKey={encryptionKey}
+            />
+          )}
+        </Drawer.Screen>
       </Drawer.Navigator>
     </NavigationContainer>
   );

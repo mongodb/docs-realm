@@ -8,17 +8,19 @@
 
    export const LoginExample = () => {
      return (
-       <AppProvider id={APP_ID}>
-         {/* If there is no authenticated user, mount the
+       <ScrollView>
+         <AppProvider id={APP_ID}>
+           {/* If there is no authenticated user, mount the
             `fallback` component. When user successfully
              authenticates, the app unmounts the `fallback`
              component (in this case, the `LogIn` component). */}
-         <UserProvider fallback={LogIn}>
-           {/* Components inside UserProvider have access
+           <UserProvider fallback={LogIn}>
+             {/* Components inside UserProvider have access
                to the user. These components only mount if
                there's an authenticated user. */}
-           <UserInformation />
-         </UserProvider>
-       </AppProvider>
+             <UserInformation />
+           </UserProvider>
+         </AppProvider>
+       </ScrollView>
      );
    };

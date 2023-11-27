@@ -115,8 +115,8 @@ Anonymous User
 The :ref:`Anonymous <anonymous-authentication>` provider allows users to log in
 to your application with temporary accounts that have no associated information.
 
-Calling any log in method when a user is currently logged in, switches the 
-current user to the new user.
+Calling an authentication method when a user is currently logged in, switches
+the current user to the new user.
 
 If you call ``logInWithAnonymous()`` in the fallback of the ``UserProvider``,
 then ``UserProvider``'s children render as soon as the anonymous log in succeeds.
@@ -139,7 +139,7 @@ The :ref:`email/password <email-password-authentication>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
-You can use the ``useEmailPasswordAuth`` hook to handle user log in in your
+You can use the ``useEmailPasswordAuth`` hook to handle user log in your
 client. For a quick ``useEmailPasswordAuth`` reference, refer to
 :ref:`useEmailPasswordAuth Hook <react-native-email-pass-hook>` on the Manage
 Email/Password Users page.
@@ -174,14 +174,18 @@ Custom JWT User
 ~~~~~~~~~~~~~~~
 
 The :ref:`Custom JWT <custom-jwt-authentication>` authentication provider
-allows you to handle user authentication with any authentication system that
-returns a :ref:`JSON web token <json-web-tokens>`.
+handles user authentication with any authentication system that returns a
+:ref:`JSON web token <json-web-tokens>`.
 
-To log in, create a Custom JWT credential with a JWT from the external system
-and pass it to ``App.logIn()``:
+To log in a custom JWT user:
 
-.. literalinclude:: /examples/generated/node/authenticate.snippet.custom-jwt-login.js
-   :language: javascript
+#. Set up the JWT authentication provider in your App Services backend.
+#. Get a JWT from an external system.
+#. Destructure ``logInWithJWT`` and ``result`` from the ``useAuth`` hook.
+#. Pass the JWT to ``logInWithJWT()``.
+#. Handle the ``result``.
+
+.. include:: /examples/generated/react-native/v12/LoginWithJwt.snippet.login-jwt.tsx.rst
 
 .. _react-native-custom-function-login:
 .. _react-native-login-custom-function:
@@ -189,15 +193,22 @@ and pass it to ``App.logIn()``:
 Custom Function User
 ~~~~~~~~~~~~~~~~~~~~
 
-The :ref:`Custom Function <custom-function-authentication>` authentication
+The Custom Function authentication
 provider allows you to handle user authentication by running a :ref:`function
-<functions>` that receives a payload of arbitrary information about a user.
+<functions>` that receives a payload of arbitrary information about a user. Refer
+to :ref:`Custom Function Authentication <custom-function-authentication>` for
+details.
 
-To log in with the custom function provider, create a Custom Function credential
-with a payload object and pass it to ``App.logIn()``:
+To log in a user with the custom function provider:
 
-.. literalinclude:: /examples/generated/node/authenticate.snippet.custom-function-login.js
-   :language: javascript
+#. Create an App Services function to handle your authentication needs.
+#. Enable the Custom Function Provider for your App Services App and configure
+   it to use the function you created earlier.
+#. Destructure ``logInWithFunction`` and ``result`` from the ``useAuth`` hook.
+#. Pass any relevant user data (like a username) to ``logInWithFunction()``.
+#. Handle the ``result``.
+
+.. include:: examples/generated/react-native/v12/LoginWithFunction.snippet.login-function.tsx.rst
 
 .. _react-native-facebook-login:
 .. _react-native-login-facebook:
@@ -209,7 +220,7 @@ The :ref:`Facebook <facebook-authentication>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
 account.
 
-To log a user in with their existing Facebook account, you must configure and
+To log a user in with an existing Facebook account, you must configure and
 enable the :ref:`Facebook authentication provider <facebook-authentication>`
 for your App Services App.
 
@@ -222,14 +233,19 @@ to your React Native app and use to finish logging the user in to your app.
 
 .. code-block:: javascript
 
-   // Get the access token from a client application using the Facebook SDK
-   const accessToken = getFacebookAccessToken();
+   export const LogInWithFacebook = () => {
+     const {logInWithFacebook, result} = useAuth();
 
-   // Log the user in to your app
-   const credentials = Realm.Credentials.facebook(accessToken);
-   app.logIn(credentials).then(user => {
-   console.log(`Logged in with id: ${user.id}`);
-   });
+     const performLogin = () => {
+       // Get an access token using the Facebook SDK.
+       // You must define this function.
+       const token = getFacebookToken();
+
+       logInWithFacebook(token);
+     };
+
+     // Handle `result`...
+   };
 
 .. _react-native-google-login:
 .. _react-native-login-google:
@@ -243,44 +259,32 @@ authenticate users with their existing Google account.
 To authenticate a Google user, you must configure the :ref:`Google
 authentication provider <google-authentication>` for your App Services App.
 
-There is no official Sign in with Google integration with React Native. The simplest
-approach to integrating Sign in With Google into your React Native app
-with Realm authentication is to use a third-party library.
-The below example uses the library
-:github:`React Native Google Sign In <react-native-google-signin/google-signin>`.
-You can also build your own solution using :google:`Google Identity Services <identity>` to handle the user
-authentication and redirect flow from a client application.
+There is no official Sign in With Google integration for React Native. The
+simplest approach to integrating Sign in With Google into your React Native app
+with Realm authentication is to use a third-party library. You can also build
+your own solution using :google:`Google Identity Services <identity>` to handle
+the user authentication and redirect flow from a client application.
 
-Regardless of implementation, you must retrieve an ID token from the Google Authorization server.
-Use that ID token to log into Realm.
-
-.. code-block:: javascript
-
-   // Get the Google OAuth 2.0 access token
-   const idToken = getGoogleAccessToken();
-
-   // Log the user in to your app
-   const credentials = Realm.Credentials.google({ idToken });
-   app.logIn(credentials).then((user) => {
-      console.log(`Logged in with id: ${user.id}`);
-   });
+Regardless of implementation, you must retrieve an ID token from the Google
+Authorization server. Use that ID token to log into Realm.
 
 .. _example-auth-google-react-native:
 
-.. example:: Authenticate with Google in React Native
+.. code-block:: javascript
 
-   This example uses the library
-   :github:`React Native Google Sign In<react-native-google-signin/google-signin>`.
-   In addition to the React Native code, you must also set up additional configuration
-   in your project's ``ios`` and ``android`` directories to use Sign in with Google.
-   Refer to the package's documentation for
-   :github:`iOS-specific <react-native-google-signin/google-signin/blob/master/docs/ios-guide.md>`
-   and :github:`Android-specific <react-native-google-signin/google-signin/blob/master/docs/android-guide.md>`
-   documentation.
+   export const LogInWithGoogle = () => {
+     const {logInWithGoogle, result} = useAuth();
 
-   .. literalinclude:: /examples/generated/rn/sign-in-with-google.snippet.react-native-sign-in-with-google.jsx
-      :caption: SignInWithGoogleButton.jsx
-      :language: javascript
+     const performLogin = () => {
+       // Get an access token using a third-party library
+       // or build your own solution. You must define this function.
+       const token = getGoogleToken();
+
+       logInWithGoogle(token);
+     };
+
+     // Handle `result`...
+   };
 
 .. _react-native-apple-login:
 .. _react-native-login-apple:
@@ -302,14 +306,19 @@ use to finish logging the user in to your app.
 
 .. code-block:: javascript
 
-   // Get the access token from a client application using the Apple JS SDK
-   const idToken = getAppleIdToken();
+   export const LogInWithApple = () => {
+     const {logInWithApple, result} = useAuth();
 
-   // Log the user in to your app
-   const credentials = Realm.Credentials.apple(idToken);
-   app.logIn(credentials).then(user => {
-      console.log(`Logged in with id: ${user.id}`);
-   });
+     const performLogin = () => {
+       // Get an access token using the Apple SDK.
+       // You must define this function.
+       const token = getAppleToken();
+
+       logInWithApple(token);
+     };
+
+     // Handle `result`...
+   };
 
 .. include:: /includes/authorization-appleidcredential-string.rst
 
@@ -334,19 +343,7 @@ Get a User Access Token
 
 .. include:: /includes/user-access-token.rst
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.get-user-access-token.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/authenticate.snippet.get-user-access-token.ts
-         :language: typescript
+.. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.refresh-access-token.tsx.rst
 
 Refresh Token Expiration
 ------------------------
