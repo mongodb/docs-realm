@@ -1,8 +1,8 @@
 .. _ios-realm-database:
 
-======================
-Device SDK - Swift SDK
-======================
+====================
+Device SDK for Swift
+====================
 
 .. contents:: On this page
    :local:
@@ -10,8 +10,8 @@ Device SDK - Swift SDK
    :depth: 2
    :class: singlecol
 
-Device SDK is a collection of tools to accelerate app development on a broad 
-range of devices:
+Atlas Device SDK is a collection of tools to accelerate app development 
+on a broad range of devices:
 
 - A local object store to use on device - Realm.
 - A built-in Sync client that can synchronize your data between devices and 
@@ -169,7 +169,7 @@ Realm uses a :wikipedia:`zero-copy <Zero-copy>` design to
 make queries faster than an ORM, and often faster than raw SQLite.
 
 Copy-on-Write: The Secret Sauce of Data Versioning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``````````````````````````````````````````````````
 
 Realm uses a technique called **copy-on-write**, which
 copies data to a new location on disk for every write operation instead
@@ -189,7 +189,7 @@ such as large write operations, can work with a single version of data
 for a longer period of time before committing their changes.
 
 Memory Mapping
-~~~~~~~~~~~~~~
+``````````````
 
 Writes use :wikipedia:`memory mapping <Memory-mapped_file>` to avoid
 copying data back and forth from memory to storage. Accessors and
@@ -202,7 +202,7 @@ operating system to implement memory mapping and persistence better than
 a single library could on its own.
 
 Compaction
-~~~~~~~~~~
+``````````
 
 Realm automatically reuses free space that is no longer
 needed after database writes. However, realm files never shrink
