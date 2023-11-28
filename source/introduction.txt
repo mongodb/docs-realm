@@ -1,11 +1,11 @@
 .. _intro-realm-database:
 
-=====================
-Introduction to Realm
-=====================
+===========================
+Introduction to Device SDK
+===========================
 
 .. meta:: 
-   :description: Realm is an offline-first mobile object database that also offers secure cloud synchronization, MongoDB Atlas access, and serverless JavaScript functions.
+   :description: Device SDK is an offline-first mobile object database that also offers secure cloud synchronization, MongoDB Atlas access, and serverless JavaScript functions.
    :keywords: atlas, atlas app services
 
 .. contents:: On this page
@@ -14,59 +14,59 @@ Introduction to Realm
    :depth: 2
    :class: singlecol
 
-This introduction explains Realm for mobile application developers.
-After reading, you should understand:
+Atlas Device SDK is a collection of tools to accelerate app development 
+on a broad range of devices:
 
-- What Realm is and what problems it solves.
-- Reasons to use Atlas Device Sync to synchronize application data with MongoDB.
-- Ways to use the Realm SDKs with Atlas App Services to work with your application
-  data.
+- A local object store to use on device - Realm.
+- A built-in Sync client that can synchronize your data between devices and 
+  with a MongoDB Atlas backend.
+- The ability to call Atlas Functions to do work in the cloud.
+- A client to query MongoDB data sources directly from your app.
+- The ability to access the MongoDB GraphQL API from the client.
 
-What Problem Does Realm Solve?
-------------------------------
+You can use Device SDK's local object store, Realm, to read, write, and 
+react to changes in your data on device. Or you can add Device Sync, 
+Atlas Functions, or the MongoDB Atlas client to take advantage of 
+MongoDB Atlas features and data sources from your app.
 
-Mobile developers face a number of unique challenges. You must:
+What Problem Does Device SDK Solve?
+-----------------------------------
 
-- Handle the unpredictable environment of mobile apps. Connections can be lost,
-  devices can shut down at any time, and clients often update long after release.
-- Maintain common data schemas and APIs between mobile clients, backend APIs, and databases.
+Mobile and edge developers face a number of unique challenges. You must:
+
+- Handle the unpredictable environment of mobile and edge devices. Connections 
+  can be lost, devices can shut down at any time, and clients often update 
+  long after release.
+- Maintain common data schemas and APIs between clients, backend APIs, and databases.
 - Stay aware of security vulnerabilities across all components in an ecosystem.
 - Consistently serialize objects between networks, database storage, and application memory.
-- Program in the languages and frameworks for one or more mobile operating systems.
+- Program in the languages and frameworks for one or more operating systems.
 
 All of these challenges present different obstacles. You can solve each in isolation
-with a wide variety of libraries and frameworks. Deciding the right solution for each
-problem with the right tradeoffs is a challenge mobile developers know all too well.
+with a wide variety of libraries and frameworks. Selecting the best solution for each
+problem with the right tradeoffs is a challenge mobile and edge developers 
+know all too well.
 
-The combination of multiple environments creates even more challenges.
-For instance, you can use a Java library on your Android client to serialize objects,
-but that library likely wouldn't work on iOS. And this doesn't even take into account
+The combination of multiple environments creates more challenges. For instance, 
+you can use a Java library on your Android client to serialize objects,
+but that library won't work on iOS. And this doesn't take into account
 consistency across backend services.
 
-Realm 
------
+Device SDK solves many common mobile and edge programming headaches:
 
-Many of these challenges arise due to particularities of the mobile environment.
-These challenges include network reliability, local storage, and keeping UIs
-:wikipedia:`reactive <Reactive_user_interface>`.
-Realm solves many common mobile programming headaches:
-
-- **Local storage**: Realm runs right on client devices. Access objects
+- **Local storage**: Device SDK runs right on client devices. Access objects
   using the native query language for each platform. Storing, accessing, and updating
   your data is simple and lightweight.
-- **Network reliability**: Realm is offline-first. You
-  always read from and write to the local database, not over the network.
-  When Device Sync is enabled, Realm synchronizes
+- **Network reliability**: Device SDK is offline-first. You
+  always read from and write to the local Realm database, not over the network.
+  When Device Sync is enabled, Device SDK synchronizes
   data with App Services over the network in a background thread.
   The sync protocol resolves conflicts
   consistently on each client and in the
   linked Atlas cluster.
 - **Reactive UI**: Live objects always reflect
-  the latest data stored in Realm. You can
+  the latest data stored in the database. You can
   subscribe to changes, letting you keep your UI consistently up to date.
-
-The Realm SDKs connect to local realms for Android, iOS,
-Node.js, React Native, Flutter, and UWP development.
 
 Sync Data with MongoDB Atlas
 ----------------------------
@@ -75,7 +75,7 @@ Client applications generate a lot of data. Whether it's uploaded
 reviews and ratings, posts and comments on a blog, or inventory
 in a kitchen, you need to store that data somewhere.
 
-The Realm SDKs use Atlas Device Sync to synchronize app data between clients and
+The Device SDKs use Atlas Device Sync to synchronize app data between clients and
 MongoDB Atlas. Atlas Device Sync handles network access and conflict resolution
 in a background thread of your application, so your application logic stays
 the same regardless of network conditions.
@@ -91,10 +91,10 @@ easy to share data across users and platforms.
 Use Atlas App Services
 ----------------------
 
-The Realm SDKs integrate with App Services to easily and securely work
+The Device SDKs integrate with App Services to easily and securely work
 with data from your app:
 
-- Query MongoDB Atlas directly from the Realm SDKs using built-in
+- Query MongoDB Atlas directly from the Device SDKs using built-in
   MongoDB interfaces. You can also configure the :ref:`Atlas Data API <data-api>`
   to query MongoDB using an HTTP client in your app.
 - :ref:`App Services Users and Authentication <users-and-authentication>`
@@ -113,33 +113,182 @@ with data from your app:
   define global variables and private credentials once and
   use them across your entire App.
 
-Get Started with Realm
-----------------------
+Device SDK versus MongoDB Drivers
+---------------------------------
 
-Learn more about the Realm SDKs:
+Use Device SDK instead of MongoDB Drivers if you want:
 
-- :ref:`C++ SDK <cpp-intro>`
-- :ref:`Flutter SDK <flutter-intro>`
-- :ref:`Java SDK <java-intro>`
-- :ref:`Kotlin SDK <kotlin-intro>`
-- :ref:`.NET SDK <dotnet-intro>`
-- :ref:`Node.js SDK <node-intro>`
-- :ref:`React Native SDK <react-native-intro>`
-- :ref:`Swift SDK <ios-intro>`
-- :ref:`Web SDK <web-intro>`
+- A cross-platform local object store optimized for mobile and edge devices 
+  that can sync data automatically with MongoDB Atlas.
+- The ability to access data on a device regardless of network connectivity.
+- Reactive UIs driven by your data.
+- Built-in user management and authentication for client devices.
+- Support for complex user permissions and sync logic to determine what data
+  clients can read and write.
+- Optimization for heavy insert-only workloads from mobile or edge devices.
+- The ability to execute Atlas Functions from the client.
 
-Summary
--------
+Use MongoDB Drivers instead of Device SDK if:
 
-- Realm is an offline-first mobile object database in
-  which you can directly access and store live objects without an
-  :wikipedia:`ORM <Object-relational_mapping>`.
-- Live Objects always reflect the latest state of data in the database,
-  which simplifies keeping your UI in sync with changes to your data.
-- Atlas Device Sync synchronizes data between client-side realms and the
-  server-side MongoDB Atlas cluster linked to your app.
-  Realm synchronizes data in a background thread,
-  abstracting away network usage so you don't have to worry about
-  latency or dropped connections.
-- The Realm SDKs integrate with App Services to easily and securely work
-  with your data in Atlas.
+- You host MongoDB on your own infrastructure. Device SDK is either local-only
+  or works with MongoDB Atlas.
+- You want to directly work with documents instead of objects, or you have 
+  your own mapping layer. Device SDK stores data as objects on the device,
+  and Device Sync maps them to MongoDB documents when it syncs with Atlas.
+- You already have a stack like MERN or MEAN and don't need the functionality
+  provided by Device SDK.
+
+Device SDK Wraps Realm Database
+-------------------------------
+
+The persistence layer that Device SDK uses on the device is Realm. Device SDK
+wraps the Realm Core C++ database, and provides language-idiomatic APIs 
+to work with files on the filesystem and perform read and write operations.
+
+Realm is a reactive, object-oriented, cross-platform,
+mobile database:
+
+- **Reactive**: query the current state of data
+  and subscribe to state changes like the result of a query, or even
+  changes to a single object.
+
+- **Object-oriented**: organizes data as objects, rather than rows,
+  documents, or columns.
+
+- **Cross-platform**: use the same database on iOS, Android,
+  Linux, macOS, or Windows. Just define a schema for each SDK you use.
+
+- **Mobile**: designed for the low-power, battery-sensitive, real-time
+  environment of a mobile device.
+
+Realm is a cross-platform and mobile-optimized alternative to other
+mobile databases such as `SQLite <https://www.sqlite.org/index.html>`__,
+:apple:`Core Data <documentation/coredata>`, and :android:`Room
+<jetpack/androidx/releases/room>`.
+
+Realm vs Other Databases
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Realm data model is similar to both relational and
+document databases but has distinct differences from both. Realm stores 
+objects in files on the device, and an app may use multiple realm files
+to organize data and enforce access controls.
+
+A realm is not a single, application-wide database.
+    Applications based on other database systems generally store all of their
+    data in a single database. Apps often split data across multiple
+    realms to organize data more efficiently and to enforce access controls.
+
+A realm is not a relational table.
+    Normalized tables in relational databases only store one type of
+    information, such as street addresses or items in a store inventory. A
+    realm can contain any number of object types that are relevant to a
+    given domain.
+
+A realm is not a collection of schemaless documents.
+    Document databases don't necessarily enforce a strict schema for the data in
+    each collection. While similar to documents in form, every Realm object
+    conforms to a schema for a specific object type in the realm. An object
+    cannot contain a property that is not described by its schema.
+
+Live Queries
+~~~~~~~~~~~~
+
+You can read back the data that you have stored in Realm by finding,
+filtering, and sorting objects. You can optionally section these 
+results by a key path, making it easier to populate sectioned tables.
+
+Live Object
+~~~~~~~~~~~
+
+All Realm objects are **live objects**, which means they
+automatically update whenever they're modified. Realm emits a
+notification event whenever any property changes.
+
+You can use live objects to work with object-oriented data natively
+without an :wikipedia:`ORM <Object-relational_mapping>` tool. Live
+objects are direct proxies to the underlying stored data, which means
+that a live object doesn't directly contain data. Instead, a live object
+always references the most up-to-date data on disk and :wikipedia:`lazy
+loads <Lazy_loading>` property values when you access them from a
+collection. This means that a realm can contain many objects but only pay 
+the performance cost for data that the application is actually using.
+
+Valid write operations on a live object automatically persist to the
+realm and propagate to any other synced clients. You do not need to
+call an update method, modify the realm, or otherwise "push"
+updates.
+
+Native Database Engine
+~~~~~~~~~~~~~~~~~~~~~~
+
+Realm is an entire database written from
+scratch in C++, instead of building on top of an underlying database
+engine like SQLite. Realm's underlying storage layer uses
+:wikipedia:`B+ trees <B%2B_tree>` to organize objects. As a result,
+Realm controls optimizations from the storage level all
+the way up to the access level.
+
+Realm stores data in **realms**: collections of
+heterogeneous realm objects. You can think of each realm as a
+database. Each object in a realm is equivalent to a row
+in a SQL database table or a MongoDB document. Unlike SQL, realms do
+not separate different object types into individual tables.
+
+Realm stores objects as groups of property values. We call
+this column-based storage. This means that queries or writes for
+individual objects can be slower than row-based storage equivalents when
+unindexed, but querying a single field across multiple objects or
+fetching multiple objects can be much faster due to spatial locality and
+in-CPU vector operations.
+
+Realm uses a :wikipedia:`zero-copy <Zero-copy>` design to
+make queries faster than an ORM, and often faster than raw SQLite.
+
+Copy-on-Write: The Secret Sauce of Data Versioning
+``````````````````````````````````````````````````
+
+Realm uses a technique called **copy-on-write**, which
+copies data to a new location on disk for every write operation instead
+of overwriting older data on disk. Once the new copy of data is fully
+written, the database updates existing references to that data. Older
+data is only garbage collected when it is no longer referenced or
+actively in use by a client application.
+
+Because of copy-on-write, older copies of data remain valid, since all
+of the references in those copies still point to other valid data.
+Realm leverages this fact to offer multiple versions of
+data simultaneously to different threads in client applications. Most
+applications tie data refreshes to the repaint cycle of the looper
+thread that controls the UI, since data only needs to refresh as often
+as the UI does. Longer-running procedures on background threads,
+such as large write operations, can work with a single version of data
+for a longer period of time before committing their changes.
+
+Memory Mapping
+``````````````
+
+Writes use :wikipedia:`memory mapping <Memory-mapped_file>` to avoid
+copying data back and forth from memory to storage. Accessors and
+mutators read and write to disk via memory mapping. As a result, object
+data is never stored on the stack or heap of your app. By default, data
+is memory-mapped as read-only to prevent accidental writes.
+
+Realm uses operating system level paging, trusting each
+operating system to implement memory mapping and persistence better than
+a single library could on its own.
+
+Compaction
+``````````
+
+Realm automatically reuses free space that is no longer
+needed after database writes. However, realm files never shrink
+automatically, even if the amount of data stored in your realm
+decreases significantly. Compact your realm to optimize storage
+space and decrease file size if possible.
+
+You should compact your realms occasionally to keep them at an
+optimal size. You can do this manually, or by configuring your
+realms to compact on launch. However, Realm
+reclaims unused space for future writes, so compaction is only an
+optimization to conserve space on-device.

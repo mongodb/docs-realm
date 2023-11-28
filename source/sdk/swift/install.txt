@@ -1,8 +1,8 @@
 .. _ios-install:
 
-===============================================
-Install Realm for iOS, macOS, tvOS, and watchOS
-===============================================
+====================================================
+Install Device SDK for iOS, macOS, tvOS, and watchOS
+====================================================
 
 .. contents:: On this page
    :local:
@@ -13,10 +13,9 @@ Install Realm for iOS, macOS, tvOS, and watchOS
 Overview
 --------
 
-Realm's Swift SDK enables your iOS, macOS, tvOS,
-and watchOS applications to interact with Realm using either
-the Swift or Objective-C programming languages. This page
-details how to install Realm in your project and get
+Atlas Device SDK for Swift SDK enables you to build iOS, macOS, tvOS,
+and watchOS applications using either the Swift or Objective-C programming 
+languages. This page details how to install Device SDK in your project and get
 started.
 
 Prerequisites
@@ -26,9 +25,9 @@ Before getting started, ensure your development environment
 meets the following prerequisites:
 
 - Xcode 14.1-14.3.1 with a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
-- Reflection is enabled in your project. The Realm Swift SDK uses reflection to 
+- Reflection is enabled in your project. The Device SDK for Swift uses reflection to 
   determine your model's properties. Your project must not set 
-  ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or Realm cannot see properties 
+  ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or Device SDK cannot see properties 
   in your model. Reflection is enabled by default if your project does 
   not specifically set a level for this setting. 
 
@@ -50,7 +49,12 @@ Installation
 ------------
 
 You can use ``SwiftPM``, ``CocoaPods``, or ``Carthage`` to add the
-Realm Swift SDK to your project.
+Device SDK for Swift to your project.
+
+.. tip:: Device SDK and Realm
+
+   Device SDK wraps Realm Core database for local data persistence. When you
+   install Device SDK for Swift, the package names still reflect Realm naming.
 
 .. tabs::
 
@@ -112,7 +116,7 @@ Realm Swift SDK to your project.
             to specify project dependencies to CocoaPods.
 
 
-         .. step:: Add Realm as a Dependency in Your Podfile
+         .. step:: Add Device SDK as a Dependency in Your Podfile
 
 
             .. tabs-realm-languages::
@@ -133,11 +137,11 @@ Realm Swift SDK to your project.
 
                      platform :ios, '12.0'
 
-                     target 'MyRealmProject' do
+                     target 'MyDeviceSDKProject' do
                        # Comment the next line if you don't want to use dynamic frameworks
                        use_frameworks!
 
-                       # Pods for MyRealmProject
+                       # Pods for MyDeviceSDKProject
                        pod 'RealmSwift', '~>10'
 
                      end
@@ -159,11 +163,11 @@ Realm Swift SDK to your project.
                      # Uncomment the next line to define a global platform for your project
                      # platform :ios, '11.0'
 
-                     target 'MyRealmProject' do
+                     target 'MyDeviceSDKProject' do
                      # Comment the next line if you don't want to use dynamic frameworks
                      use_frameworks!
 
-                     # Pods for MyRealmProject
+                     # Pods for MyDeviceSDKProject
                      pod 'Realm', '~>10'
 
                      target 'MyRealmProjectTests' do
@@ -197,10 +201,10 @@ Realm Swift SDK to your project.
 
       .. procedure::
 
-         .. step:: Add Realm as a Dependency in Your Cartfile
+         .. step:: Add Device SDK as a Dependency in Your Cartfile
 
 
-            Add Realm as a dependency by appending the line ``github
+            Add Device SDK as a dependency by appending the line ``github
             "realm/realm-swift"`` to your Cartfile.
 
             You can create a Cartfile or append to an existing one by
@@ -242,7 +246,7 @@ Realm Swift SDK to your project.
    .. tab:: Static Framework
       :tabid: static-framework
 
-      Installing the Realm Swift SDK as a static framework is only available
+      Installing the Device SDK for Swift as a static framework is only available
       for iOS targets.
 
       .. procedure::
@@ -250,7 +254,7 @@ Realm Swift SDK to your project.
          .. step:: Download and Extract the Framework
 
 
-            Download the `latest release of Realm
+            Download the `latest release of Device SDK for Swift
             <https://github.com/realm/realm-swift/releases>`__ and extract the zip.
 
 
@@ -272,7 +276,7 @@ Realm Swift SDK to your project.
        
       .. tip::
       
-         If using the Realm Objective-C API within a Swift project, we 
+         If using the Objective-C API within a Swift project, we 
          recommend you include both Realm Swift and Realm Objective-C in your 
          project. Within your Swift files, you can access the Swift API and 
          all required wrappers. Using the RealmSwift API in mixed 
@@ -280,11 +284,15 @@ Realm Swift SDK to your project.
          RealmSwift types are directly aliased from their Objective-C 
          counterparts.
 
-Import Realm
-------------
+Import Device SDK
+-----------------
 
-Add the following line at the top of your source files
-to use Realm:
+.. tip:: Device SDK and Realm
+
+   Device SDK wraps Realm Core database for local data persistence. When you
+   install Device SDK for Swift, the package names still reflect Realm naming.
+
+Add the following line at the top of your source files to use Device SDK:
 
 .. tabs-realm-languages::
 
@@ -305,7 +313,7 @@ to use Realm:
 App Download File Size
 ----------------------
 
-Realm should only add around 5 to 8 MB to your app's download 
+Device SDK should only add around 5 to 8 MB to your app's download 
 size. The releases we distribute are significantly larger because they 
 include support for the iOS, watchOS and tvOS simulators, some debug symbols, 
 and bitcode, all of which are stripped by the App Store automatically when 
@@ -315,8 +323,8 @@ Troubleshooting
 ---------------
 
 If you have build issues after using one of these methods to install 
-Realm, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
-for information about resolving those issues in realm.
+Device SDK, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
+for information about resolving those issues.
 
 .. _swift-os-support:
 
@@ -325,7 +333,7 @@ OS Support
 
 .. important::
 
-   There are special considerations when using Realm with
+   There are special considerations when using Device SDK with
    tvOS. See :ref:`ios-tvos` for more information.
 
 Xcode 14
@@ -337,7 +345,7 @@ Xcode 14
    :class: index-table
 
    * - Supported OS
-     - Realm
+     - Device SDK
      - Atlas App Services
 
    * - iOS 11.0+
@@ -367,7 +375,7 @@ Xcode 15
    :class: index-table
 
    * - Supported OS
-     - Realm
+     - Device SDK
      - Atlas App Services
 
    * - iOS 12.0+
@@ -393,8 +401,8 @@ Xcode 15
 Swift Concurrency Support
 -------------------------
 
-The Realm Swift SDK supports Swift's concurrency-related language features.
-For best practices on using Realm with Swift concurrency features, refer 
+The Device SDK for Swift supports Swift's concurrency-related language features.
+For best practices on using Device SDK with Swift concurrency features, refer 
 to the documentation below.
 
 Async/Await Support
@@ -402,11 +410,11 @@ Async/Await Support
 
 .. include:: /includes/swift-async-await-support.rst
 
-For more information about async/await support in the Realm Swift SDK, refer
+For more information about async/await support in the Device SDK for Swift, refer
 to :ref:`Swift Concurrency: Async/Await APIs <swift-async-await-apis>`.
 
 Actor Support
 ~~~~~~~~~~~~~
 
-The Realm Swift SDK supports actor-isolated realm instances. For more information,
+The Device SDK for Swift supports actor-isolated realm instances. For more information,
 refer to :ref:`swift-actor-isolated-realm`.
