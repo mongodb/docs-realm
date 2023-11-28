@@ -68,6 +68,10 @@ useUser()
 The ``useUser()`` hook provides access to the logged-in user. For example,
 you can use ``useUser()`` to log the current user out.
 
+When changes to the user object happen, this hook will rerender its parent
+component. For example, if you call ``user.refreshCustomData`` to get updated
+custom user data, ``useUser()`` the parent component will rerender.
+
 .. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.log-user-out.tsx.rst
 
 *Returns*

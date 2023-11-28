@@ -44,22 +44,34 @@ All properties of :realm-react-sdk:`BaseConfiguration
 Configure a Realm with RealmProvider
 ------------------------------------
 
-You can configure a ``RealmProvider`` in two ways. This section details how to
-configure a ``RealmProvider`` imported directly from ``@realm/react``. You can
-also use ``createRealmContext()`` to configure a ``RealmProvider`` and create 
-hooks on your own. For details, refer to :ref:`Create Context with
-createRealmContext() <react-native-realm-context>`
+You can configure a ``RealmProvider`` in two ways:
+
+- Import ``RealmProvider`` directly from ``@realm/react``
+- Use ``createRealmContext()`` to configure a ``RealmProvider`` and create hooks
+
+This section details how to configure a ``RealmProvider`` imported directly from
+``@realm/react``. For information about using ``createRealmContext()``, refer
+to :ref:`Create Context with createRealmContext() <react-native-realm-context>`.
+
+Object models are part of most realm configurations. To learn more about Realm and
+data models, refer to :ref:`Define a Realm Object Model 
+<react-native-define-a-realm-object-model>`.
 
 .. tabs::
 
    .. tab:: Configure realm with sync
       :tabid: configure-sync-realm
    
-      Configure a synced realm using the providers from ``@realm/react``.
+      Configure a synced realm using the providers from ``@realm/react``. To do
+      this, you need three providers from ``@realm/react``:
+
+      - :ref:`AppProvider reference <react-native-app-provider>`
+      - :ref:`UserProvider reference <react-native-user-provider>`
+      - :ref:`RealmProvider reference <react-native-realm-provider>`
 
       By default, Realm syncs all data from the server before returning anything.
-      If you want to sync data in the background, read :ref:`Configure a Synced Realm
-      While Offline <react-native-open-synced-realm-offline>`.
+      If you want to sync data in the background, read :ref:`Configure a Synced
+      Realm While Offline <react-native-open-synced-realm-offline>`.
 
       To configure a synced realm:
 
@@ -67,6 +79,9 @@ createRealmContext() <react-native-realm-context>`
       #. Configure ``AppProvider``.
       #. Configure ``UserProvider`` and nest it within ``AppProvider``.
       #. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
+      #. Pass your object models to the ``schema`` prop.
+      #. Add other :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>` 
+         properties as props to ``RealmProvider``.
 
       You must set up a sync subscription. The example below uses an initial subscription,
       but you can also set up subscriptions in ``RealmProvider`` child components.
@@ -76,13 +91,13 @@ createRealmContext() <react-native-realm-context>`
       .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
         :language: javascript
 
-      For for information about configuring a synced realm, refer to
+      For more information about configuring a synced realm, refer to
       :ref:`Configure a Synced Realm <react-native-synced-realm>`.
 
    .. tab:: Configure realm without sync
       :tabid: configure-non-sync-realm
    
-      :realm-react-sdk:`RealmProvider <functions/RealmProvider.html>` is a wrapper
+      :ref:`RealmProvider reference <react-native-realm-provider>` is a wrapper
       that exposes a realm to its child components. You configure your realm by
       passing props to ``RealmProvider``.
 
@@ -94,7 +109,7 @@ createRealmContext() <react-native-realm-context>`
       #. Import ``RealmProvider`` from ``@realm/react``.
       #. Pass your object models to the ``schema`` prop.
       #. Add other :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>` 
-         properties as props to ``RealmProvider`` to configure your realm.
+         properties as props to ``RealmProvider``.
 
       .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
         :language: typescript
@@ -204,8 +219,9 @@ The ``useQuery()`` method subscribes to updates to any objects in the collection
 and rerenders the component using it on any change to the results.
 
 You can use ``.filtered()`` and ``.sorted()`` to filter and sort your query
-results. You should do this in the ``query`` argument of ``useQuery``. For more
-details, refer to the :ref:`CRUD - Read <react-native-read-objects>` docs.
+results. You should do this in the ``query`` argument of ``useQuery`` so that
+they only run when there are changes in the dependency array. For more examples,
+refer to the :ref:`CRUD - Read <react-native-read-objects>` docs.
 
 .. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-filter-data.tsx
     :language: typescript

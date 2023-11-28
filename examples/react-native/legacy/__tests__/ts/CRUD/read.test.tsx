@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 import {render, waitFor} from '@testing-library/react-native';
 import Realm from 'realm';
@@ -114,10 +114,15 @@ describe('Read Data Tests', () => {
     //   }
     // }
     const TaskList = () => {
+      const [priority, setPriority] = useState(4);
       // filter for tasks with a high priority
-      const highPriorityTasks = useQuery(Task, tasks => {
-        return tasks.filtered('priority >= $0', 4);
-      });
+      const highPriorityTasks = useQuery(
+        Task,
+        tasks => {
+          return tasks.filtered('priority >= $0', priority);
+        },
+        [priority],
+      );
 
       // filter for tasks that have just-started or short-running progress
       const lowProgressTasks = useQuery(Task, tasks => {
