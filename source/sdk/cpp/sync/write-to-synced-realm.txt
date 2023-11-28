@@ -106,8 +106,8 @@ the ``user.identifier()`` of the logged-in user cannot sync to this realm.
 Client Data Model and Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The examples on this page configure the synced realm to synchronize objects 
-matching this subscription query:
+The examples on this page use the following synced realm configuration with 
+this sync query and object model:
 
 .. tabs::
 
@@ -117,14 +117,15 @@ matching this subscription query:
       .. literalinclude:: /examples/generated/cpp/sync-errors.snippet.compensating-write-setup.cpp
          :language: cpp
 
-   .. tab:: Item Object Model
-      :tabid: item-model
+   .. tab:: Object Model
+      :tabid: object-model
 
       .. literalinclude:: /examples/generated/cpp/sync-errors.snippet.compensating-write-model.cpp
          :language: cpp
 
-Any object in the Atlas collection where the ``complexity`` property's 
-value is greater than ``4`` cannot sync to this realm.
+With this Sync query, any object in the Atlas collection where the 
+``complexity`` property's value is greater than ``4`` cannot sync to this 
+realm.
 
 Write to a Synced Realm
 -----------------------
