@@ -330,10 +330,267 @@ Logs out the current user.
 
 - none
 
+.. _react-native-use-emailpassword-auth:
+
 useEmailPasswordAuth()
 ~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/realm-react-hook-emailpasswordauth.rst
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   result: AuthResult
+
+Result of authentication hook operation. For example, ``result.operation`` gives
+you the name of the current operation.
+
+*Enum values* 
+
+- ``state``. Can be "not-started", "pending", "success", "error".
+- ``operation``. For a list of all operation names, refer to the
+  :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
+- ``pending``. Can be ``true`` or ``false``.
+- ``success``. Can be ``true`` or ``false``.
+- ``error``. Error-based object or undefined.
+
+logIn(credentials)
+``````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   logIn(credentials: { email: string; password: string }): void;
+
+Logs a user in using an email and password. You could also call
+``logIn(Realm.Credentials.emailPassword(email, password))``. Returns a
+``Realm.User`` instance of the logged-in user.
+
+.. code:: typescript
+
+   const {logIn, result} = useEmailPasswordAuth();
+
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+
+   const performLogin = () => {
+      logIn({email, password});
+   };
+
+   if(result.pending) {
+      return (<LoadingSpinner/>)
+   }
+
+   if(result.error) {
+      return (<ErrorComponent/>)
+   }
+
+   if(result.success) {
+      return (<SuccessComponent/>)
+   }
+   //...
+
+*Parameters*
+
+- ``credentials``. An object that contains ``email`` and ``password`` properties.
+
+logOut()
+````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   logOut(): void;
+
+Logs out the current user.
+       
+.. code:: typescript
+
+   const {logOut, result} = useEmailPasswordAuth();
+   const performLogout = () => {
+      logOut();
+   }
+
+register(args)
+``````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   register(args: { email: string; password: string }): void;
+
+Registers a new user. Requires a user email and password.
+       
+.. code:: typescript
+
+   const {register, result} = useEmailPasswordAuth();
+
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+
+   const performRegister = () => {
+      register({email, password});
+   };
+
+*Parameters*
+
+- ``args``. An object that contains ``email`` and ``password`` properties.
+
+confirm(args)
+`````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   confirm(args: { token: string; tokenId: string }): void;
+
+Confirms a user account. Requires a ``token`` and ``tokenId``.
+       
+.. code:: typescript
+
+   const {confirm, result} = useEmailPasswordAuth();
+
+   const performConfirmation = () => {
+      confirm({token, tokenId});
+   };
+
+*Parameters*
+
+- ``args``. An object that contains ``token`` and ``tokenId`` properties.
+
+resendConfirmationEmail(args)
+`````````````````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   resendConfirmationEmail(args: { email: string }): void;
+
+Resends a confirmation email.
+
+.. code:: typescript
+
+   const {resendConfirmationEmail, result} = useEmailPasswordAuth();
+   const [email, setEmail] = useState('');
+
+   const performResendConfirmationEmail = () => {
+      resendConfirmationEmail({email});
+   };
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+retryCustomConfirmation(args)
+`````````````````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   retryCustomConfirmation(args: { email: string }): void;
+
+Retries confirmation with a custom function.
+
+.. code:: typescript
+
+   const {retryCustomConfirmation, result} = useEmailPasswordAuth();
+   const [email, setEmail] = useState('');
+
+   const performRetryCustomConfirmation = () => {
+      retryCustomConfirmation({email});
+   };
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+sendResetPasswordEmail(args)
+`````````````````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   sendResetPasswordEmail(args: { email: string }): void;
+
+Sends a password reset email.
+
+.. code:: typescript
+
+   const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
+   const [email, setEmail] = useState('');
+
+   const performSendResetPasswordEmail = () => {
+      sendResetPasswordEmail({email});
+   };
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+resetPassword(args)
+```````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   resetPassword(args: { token: string; tokenId: string; password: string }): void;
+
+Completes resetting a user's password.
+
+.. code:: typescript
+
+   const {resetPassword, result} = useEmailPasswordAuth();
+   const [password, setPassword] = useState('');
+
+   const performResetPassword = () => {
+      resetPassword({token, tokenId, password});
+   };
+
+*Parameters*
+
+- ``args``. An object that contains ``token``, ``tokenId``, and ``password``
+  properties.
+
+callResetPasswordFunction(args, restArgs)
+`````````````````````````````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   callResetPasswordFunction<Args extends unknown[] = []>(
+    args: {
+      email: string;
+      password: string;
+    },
+    ...restArgs: Args
+  ): void;
+
+Calls your App Services backend password reset function. Can pass arguments to
+the function as needed.
+
+.. code:: typescript
+
+   const {callResetPasswordFunction, result} = useEmailPasswordAuth();
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+
+   const performResetPassword = () => {
+      callResetPasswordFunction({email, password}, "extraArg1", "extraArg2");
+   };
+
+*Parameters*
+
+- ``args``. An object that contains ``email`` and ``password`` properties.
+- ``restArgs``. Additional arguments that you need to pass to your custom
+  reset password function.
 
 .. _react-native-use-app-hook:
 
