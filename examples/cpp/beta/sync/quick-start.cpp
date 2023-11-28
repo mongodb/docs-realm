@@ -109,7 +109,9 @@ TEST_CASE("local quick start", "[realm][write]") {
 // After skipping and then un-skipping this test with #if 0/#endif, I can't
 // seem to replicate the issue. May require debugging in the future.
 TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     auto logLevel = realm::logger::level::info;
     app.get_sync_manager().set_log_level(logLevel);
     // :snippet-start: beta-authenticate-user
