@@ -1,8 +1,8 @@
 .. _ios-realm-database:
 
-=================
-Realm - Swift SDK
-=================
+======================
+Device SDK - Swift SDK
+======================
 
 .. contents:: On this page
    :local:
@@ -10,14 +10,77 @@ Realm - Swift SDK
    :depth: 2
    :class: singlecol
 
-.. include:: /includes/realm-database.rst
+Device SDK is a collection of tools to accelerate app development on a broad 
+range of devices:
+
+- A local object store to use on device - Realm.
+- A built-in Sync client that can synchronize your data between devices and 
+  with a MongoDB Atlas backend.
+- The ability to call Atlas Functions to do work in the cloud.
+- A client to query MongoDB data sources directly from your app.
+- The ability to access the MongoDB GraphQL API from the client.
+
+You can use Device SDK's local object store, Realm, to read, write, and 
+react to changes in your data on device. Or you can add Device Sync, 
+Atlas Functions, or the MongoDB Atlas client to take advantage of 
+MongoDB Atlas features and data sources from your app.
+
+Device SDK versus MongoDB Drivers
+---------------------------------
+
+Use Device SDK instead of MongoDB Drivers if you want:
+
+- A cross-platform local object store optimized for mobile and edge devices 
+  that can sync data automatically with MongoDB Atlas.
+- The ability to access data on a device regardless of network connectivity.
+- Reactive UIs driven by your data.
+- Built-in user management and authentication for client devices.
+- Support for complex user permissions and sync logic to determine what data
+  clients can read and write.
+- Optimization for heavy insert-only workloads from mobile or edge devices.
+- The ability to execute Atlas Functions from the client.
+
+Use MongoDB Drivers instead of Device SDK if:
+
+- You host MongoDB on your own infrastructure. Device SDK is either local-only
+  or works with MongoDB Atlas.
+- You want to directly work with documents instead of objects, or you have 
+  your own mapping layer. Device SDK stores data as objects on the device,
+  and Device Sync maps them to MongoDB documents when it syncs with Atlas.
+- You already have a stack like MERN or MEAN and don't need the functionality
+  provided by Device SDK.
+
+Device SDK Wraps Realm Database
+-------------------------------
+
+The persistence layer that Device SDK uses on the device is Realm.
+
+Realm is a reactive, object-oriented, cross-platform,
+mobile database:
+
+- **Reactive**: query the current state of data
+  and subscribe to state changes like the result of a query, or even
+  changes to a single object.
+
+- **Object-oriented**: organizes data as objects, rather than rows,
+  documents, or columns.
+
+- **Cross-platform**: use the same database on iOS, Android,
+  Linux, macOS, or Windows. Just define a schema for each SDK you use.
+
+- **Mobile**: designed for the low-power, battery-sensitive, real-time
+  environment of a mobile device.
+
+Realm is a cross-platform and mobile-optimized alternative to other
+mobile databases such as `SQLite <https://www.sqlite.org/index.html>`__,
+:apple:`Core Data <documentation/coredata>`, and :android:`Room
+<jetpack/androidx/releases/room>`.
 
 Realm vs Other Databases
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Realm data model is similar to both relational and
-document databases but has distinct differences from both. To underscore
-these differences, it's helpful to highlight what a realm **is
+document databases but has distinct differences from both. A realm **is
 not**:
 
 A realm is not a single, application-wide database.
@@ -41,7 +104,7 @@ A realm is not a collection of schemaless documents.
 .. _ios-live-queries:
 
 Live Queries
-------------
+~~~~~~~~~~~~
 
 You can read back the data that you have :ref:`stored
 <ios-write-transactions>` in Realm by finding,
@@ -79,32 +142,76 @@ realm and propagate to any other synced clients. You do not need to
 call an update method, modify the realm, or otherwise "push"
 updates.
 
-.. _ios-additional-examples:
+Native Database Engine
+~~~~~~~~~~~~~~~~~~~~~~
 
-Realm Swift SDK Examples
-------------------------
+Realm is an entire database written from
+scratch in C++, instead of building on top of an underlying database
+engine like SQLite. Realm's underlying storage layer uses
+:wikipedia:`B+ trees <B%2B_tree>` to organize objects. As a result,
+Realm controls optimizations from the storage level all
+the way up to the access level.
 
-Each of the pages in the Swift SDK documentation contain example code showing
-a specific task. The Quick Starts folder contains several example applications
-you can run to experiment with different ways of using Realm.
+Realm stores data in **realms**: collections of
+heterogeneous realm objects. You can think of each realm as a
+database. Each object in a realm is equivalent to a row
+in a SQL database table or a MongoDB document. Unlike SQL, realms do
+not separate different object types into individual tables.
 
-Beyond the examples in this documentation, the Realm community 
-has created many applications that demonstrate the usage of the 
-Realm Swift SDK.
+Realm stores objects as groups of property values. We call
+this column-based storage. This means that queries or writes for
+individual objects can be slower than row-based storage equivalents when
+unindexed, but querying a single field across multiple objects or
+fetching multiple objects can be much faster due to spatial locality and
+in-CPU vector operations.
 
-.. note:: 
+Realm uses a :wikipedia:`zero-copy <Zero-copy>` design to
+make queries faster than an ORM, and often faster than raw SQLite.
 
-   These community examples are not part of the documentation, and may not
-   be actively maintained or show the most up-to-date way of working with Realm. 
+Copy-on-Write: The Secret Sauce of Data Versioning
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Examples by the Realm Engineering Team
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The :github:`realm-swift example applications
-<realm/realm-swift/tree/master/examples>` provide examples for both iOS and
-macOS that demonstrate how to use Realm features such as migrations
-and encryption. The examples also demonstrate how to combine Realm
-with common iOS concepts like ``UITableViewController``. 
+Realm uses a technique called **copy-on-write**, which
+copies data to a new location on disk for every write operation instead
+of overwriting older data on disk. Once the new copy of data is fully
+written, the database updates existing references to that data. Older
+data is only garbage collected when it is no longer referenced or
+actively in use by a client application.
 
-Community Examples
-~~~~~~~~~~~~~~~~~~
-- :github:`Performing a Client Reset with Swift by "pmanna-tse-realm" <mongodb/realm-practice/tree/main/swift/RealmPractice>`
+Because of copy-on-write, older copies of data remain valid, since all
+of the references in those copies still point to other valid data.
+Realm leverages this fact to offer multiple versions of
+data simultaneously to different threads in client applications. Most
+applications tie data refreshes to the repaint cycle of the looper
+thread that controls the UI, since data only needs to refresh as often
+as the UI does. Longer-running procedures on background threads,
+such as large write operations, can work with a single version of data
+for a longer period of time before committing their changes.
+
+Memory Mapping
+~~~~~~~~~~~~~~
+
+Writes use :wikipedia:`memory mapping <Memory-mapped_file>` to avoid
+copying data back and forth from memory to storage. Accessors and
+mutators read and write to disk via memory mapping. As a result, object
+data is never stored on the stack or heap of your app. By default, data
+is memory-mapped as read-only to prevent accidental writes.
+
+Realm uses operating system level paging, trusting each
+operating system to implement memory mapping and persistence better than
+a single library could on its own.
+
+Compaction
+~~~~~~~~~~
+
+Realm automatically reuses free space that is no longer
+needed after database writes. However, realm files never shrink
+automatically, even if the amount of data stored in your realm
+decreases significantly. Compact your realm to optimize storage
+space and decrease file size if possible.
+
+You should compact your realms occasionally to keep them at an
+optimal size. You can do this manually, or by configuring your
+realms to compact on launch. However, Realm
+reclaims unused space for future writes, so compaction is only an
+optimization to conserve space on-device.
