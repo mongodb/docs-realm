@@ -73,7 +73,15 @@ You can create a primary key with any of the following types:
 - ``Long``
 - ``ObjectId``
 - ``RealmUUID``
- 
+
+.. important:: Device Sync Requires an _id Primary Key Field
+
+  If you use Device Sync, your object models *must* include a primary key 
+  field named ``_id``, which must be be of type ``String``, ``Int``, or 
+  ``ObjectId``.  
+  
+  For more information, refer to :ref:`<kotlin-model-data-device-sync>`.
+
 .. _kotlin-remap-a-property:
 
 Map a Property or Class to a Different Name
