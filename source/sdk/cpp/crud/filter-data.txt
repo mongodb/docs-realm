@@ -12,7 +12,8 @@ Filter Data - C++ SDK Preview
    :class: singlecol
 
 To filter data in your realm, you can leverage
-Realm's query engine. 
+Realm's query engine. You can also sort filtered data. For an example of
+how to sort query results, refer to :ref:`cpp-sort-lists-and-results`.
 
 .. note::
 
@@ -69,14 +70,6 @@ You can set up the realm for these examples with the following code:
 
       .. literalinclude:: /examples/generated/cpp/filter-data.snippet.set-up-filter-data-tests.cpp
          :language: cpp
-
-.. note:: Sort Functionality for the C++ SDK
-
-  The C++ SDK has not yet implemented sort functionality. If you use
-  `std::sort <https://en.cppreference.com/w/cpp/algorithm/sort>`__, 
-  the function pulls the entire results set into memory. If your data 
-  set is large, this could cause problems in a resource-constrained or 
-  performance-constrained environment.
 
 Filter Data
 -----------
