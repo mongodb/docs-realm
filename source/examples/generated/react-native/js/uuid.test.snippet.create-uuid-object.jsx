@@ -2,10 +2,10 @@ const CreateProfileInput = () => {
   const realm = useRealm();
   const [name, setName] = useState('');
 
-  // createProfile creates a new 'UuidProfile' Realm Object with a new UUID based on user input
+  // createProfile creates a new 'Profile' Realm Object with a new UUID based on user input
   const createProfile = () => {
     realm.write(() => {
-      realm.create('UuidProfile', {
+      realm.create('Profile', {
         name,
         _id: new Realm.BSON.UUID(),
       });

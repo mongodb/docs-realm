@@ -5,6 +5,11 @@ import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
 import UuidProfile from '../../Models/UuidProfile';
 
+// :replace-start: {
+//    "terms": {
+//       "UuidProfile": "Profile"
+//    }
+// }
 const realmConfig = {
   schema: [UuidProfile],
   deleteRealmIfMigrationNeeded: true,
@@ -97,3 +102,4 @@ describe('uuid schema', () => {
     expect(profiles[1].name).toBe('Steve Rogers');
   });
 });
+// :replace-end:

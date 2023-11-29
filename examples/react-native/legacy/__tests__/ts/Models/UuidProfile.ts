@@ -1,6 +1,11 @@
 import Realm, {ObjectSchema} from 'realm';
 
 // :snippet-start: uuid-profile-schema
+// :replace-start: {
+//    "terms": {
+//       "UuidProfile": "Profile"
+//    }
+// }
 class UuidProfile extends Realm.Object<UuidProfile> {
   _id!: Realm.BSON.UUID;
   name!: string;
@@ -14,5 +19,6 @@ class UuidProfile extends Realm.Object<UuidProfile> {
     },
   };
 }
+// :replace-end:
 // :snippet-end:
 export default UuidProfile;

@@ -1,6 +1,6 @@
-class UuidProfile extends Realm.Object {
+class Profile extends Realm.Object {
   static schema = {
-    name: 'UuidProfile',
+    name: 'Profile',
     primaryKey: '_id',
     properties: {
       _id: 'uuid',

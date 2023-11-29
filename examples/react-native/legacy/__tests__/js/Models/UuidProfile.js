@@ -1,6 +1,11 @@
 import Realm from 'realm';
 
 // :snippet-start: uuid-profile-schema
+// :replace-start: {
+//    "terms": {
+//       "UuidProfile": "Profile"
+//    }
+// }
 class UuidProfile extends Realm.Object {
   static schema = {
     name: 'UuidProfile',
@@ -11,5 +16,6 @@ class UuidProfile extends Realm.Object {
     },
   };
 }
+// :replace-end:
 // :snippet-end:
 export default UuidProfile;
