@@ -67,17 +67,10 @@ an App Services schema, and both schemas must be consistent with each other.
 You can define your schema in the client app 
 or in Atlas first, depending on your preference and use case. 
 You can then generate a corresponding schema with matching 
-object models.  
+object models. 
 
-.. important:: Device Sync Requires an _id Primary Key Field
-
-    To work with Atlas Device Sync, your object models *must* 
-    have a :ref:`primary key <kotlin-primary-keys>` field called ``_id``. 
-    It can be of type ``String``, ``Int``, or ``ObjectId``. Device Sync 
-    uses this to identify objects in the Atlas collections.
-
-Generate a Schema with Development Mode
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate a Schema from the Client App
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are developing a new client application, you likely want to 
 iterate on the data model in the client app. After you
@@ -98,8 +91,32 @@ exists in Atlas, you can generate a schema from that data, and then generate
 SDK object models to use in your Kotlin client app. To learn more, refer to 
 :ref:`<sync-data-in-atlas-with-client>` in the App Services documentation.
   
-Map Realm Objects
------------------
+Device Sync Requirements 
+------------------------
+
+There are a few requirements to successfully sync objects. As outlined 
+earlier, you must have matching Realm and App Services 
+schemas that contain the objects that you want to sync. 
+
+Additionally, Device Sync requires that: 
+
+- Your object models *must* have a :ref:`primary key <kotlin-primary-keys>` 
+  field called ``_id``. It can be of type ``String``, ``Int``, or ``ObjectId``. 
+  Device Sync uses this to identify objects in the Atlas collections.
+ 
+  If an object does not have an ``_id`` field defined, Realm throws the 
+  the following schema validation error:
+  ``There must be a primary key property named '_id' on a synchronized Realm``.
+
+- Each class *must* have at least one queryable field. 
+
+  When Development Mode is enabled, fields that you include in client 
+  subscription queries are automatically added as queryable fields in Atlas.
+  For more information on configuring subscriptions with the Kotlin SDK, 
+  refer to :ref:`<kotlin-subscriptions-overview>`.
+
+Realm Object Mapping 
+--------------------
 
 Realm objects are the uniquely named instances of Kotlin classes 
 defined in your Realm schema that determine the properties and 
@@ -108,21 +125,17 @@ relationships for objects of that type.
 App Services maps Realm objects to Atlas in the following ways:
 
 - Realm object names map to Atlas collections in your linked Device Sync 
-  data source. 
-  
-  .. tip:: Map with Development Mode
+  data source. Note the following:
 
-      When Development Mode is enabled, App Services automatically
-      creates a collection and schema for each new Realm object 
-      type that you sync. 
+  - When Development Mode is enabled, App Services automatically creates 
+    a collection and schema for each new Realm object type that you sync.
+  - Embedded objects are *not* stored in their own collection in 
+    Atlas. This is because they cannot exist outside of their parent object 
+    type. Refer to the :ref:`<kotlin-device-sync-embedded-object>` section on 
+    this page for more information.
 
 - The Realm object schema maps to an App Services schema within its 
   appropriate collection. 
-
-Note that embedded objects are *not* stored in their own collection in 
-Atlas. This is because they cannot exist outside of their parent object 
-type. Refer to the :ref:`<kotlin-device-sync-embedded-object>` section on 
-this page for more information.
 
 In the following example, we have ``Frog`` and ``Pond``
 objects with basic properties defined in our Realm schema: 
@@ -132,9 +145,8 @@ objects with basic properties defined in our Realm schema:
   :caption: Frog and Pond Realm Objects
  
 In Atlas, we can see how these object types map to corresponding 
-App Services schemas in respective Frog and Pond collections as well as what
-frog and pond objects that conform to the data model might look like in 
-those collections: 
+App Services schemas -- each object maps to its respective collection. 
+We also see example frog and pond objects that conform to this data model: 
 
 .. tabs::
 
@@ -204,8 +216,8 @@ those collections:
         "name": "Kermit's Pond"
       }
 
-Map Realm Relationships
------------------------
+Realm Relationship Mapping
+--------------------------
 
 Your Realm object model might include :ref:`relationships <kotlin-relationships>`
 between objects. There are two primary types of relationships: 
@@ -559,8 +571,8 @@ Types <kotlin-types-table>`.
      - .. code-block:: json
         
           "stringReq": {
-          "bsonType": "string"
-        }
+            "bsonType": "string"
+          }
 
    * - ``Byte``
      - .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.byte-required.kt
@@ -577,8 +589,8 @@ Types <kotlin-types-table>`.
      - .. code-block:: json
         
           "shortReq": {
-          "bsonType": "long"
-        }
+            "bsonType": "long"
+          }
 
    * - ``Int``
      - .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.int-required.kt
@@ -586,8 +598,8 @@ Types <kotlin-types-table>`.
      - .. code-block:: json
         
           "intReq": {
-          "bsonType": "long"
-        }
+            "bsonType": "long"
+          }
 
    * - ``Long``
      - .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.long-required.kt
@@ -595,8 +607,8 @@ Types <kotlin-types-table>`.
      - .. code-block:: json
         
           "longReq": {
-          "bsonType": "long"
-        }
+            "bsonType": "long"
+          }
 
    * - ``Float``
      - .. literalinclude:: /examples/generated/kotlin/DataTypes.snippet.float-required.kt

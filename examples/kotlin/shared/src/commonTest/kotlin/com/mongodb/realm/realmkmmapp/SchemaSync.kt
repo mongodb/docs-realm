@@ -14,9 +14,9 @@ import org.mongodb.kbson.ObjectId
 //   "terms": {
 //      "ExampleSyncObject_": "",
 //      "ExampleSyncRelationship_": "",
-//      "_Inverse": "",
-//      "_Many": "",
-//      "_Embedded": "",
+//      "Inverse_": "",
+//      "Many_": "",
+//      "Embedded_": "",
 //      "SyncTask": "Task"
 //   }
 // }

@@ -1,20 +1,20 @@
-class _Frog : RealmObject {
+class Frog : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var name: String = ""
     var age: Int? = null
     // Embed a single object (MUST be optional)
-    var favoritePond: Pond? = null
+    var favoritePond: EmbeddedPond? = null
 }
 
-class _Forest : RealmObject {
+class Forest : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var name: String = ""
     // Embed multiple objects (can have many ponds)
-    var forestPonds: RealmList<Pond> = realmListOf()
+    var forestPonds: RealmList<EmbeddedPond> = realmListOf()
 }
 
-class Pond : EmbeddedRealmObject {
+class EmbeddedPond : EmbeddedRealmObject {
     var name: String? = null
 }

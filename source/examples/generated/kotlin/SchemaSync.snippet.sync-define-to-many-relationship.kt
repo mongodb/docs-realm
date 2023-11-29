@@ -1,4 +1,4 @@
-class _Frog : RealmObject {
+class Frog : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
     var name: String = ""
