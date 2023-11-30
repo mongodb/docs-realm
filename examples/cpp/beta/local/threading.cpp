@@ -130,4 +130,137 @@ TEST_CASE("scheduler", "[write]") {
     // :uncomment-end:
     // :snippet-end:
 }
+
+TEST_CASE("test freeze", "[write]") {
+    auto relative_realm_path_directory = "beta_freeze/";
+    std::filesystem::create_directories(relative_realm_path_directory);
+    std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+    path = path.append("frozen_objects");
+    path = path.replace_extension("realm");
+    
+    auto config = realm::db_config();
+    config.set_path(path);
+    
+    // :snippet-start: freeze
+    auto realm = db(std::move(config));
+
+    // :remove-start:
+    auto item = Beta_ThreadingExample_Item {
+        .name = "Save the cheerleader",
+    };
+
+    realm.write([&] {
+        realm.add(std::move(item));
+    });
+    // :remove-end:
+    // Get an immutable copy of the realm that can be passed across threads
+    auto frozenRealm = realm.freeze();
+    
+    // :snippet-start: is-frozen
+    CHECK(frozenRealm.is_frozen()); // :remove:
+    if (frozenRealm.is_frozen()) {
+        // Do something with the frozen realm.
+        // You may pass a frozen realm, collection, or objects
+        // across threads. Or you may need to `.thaw()`
+        // to make it mutable again.
+    }
+    // :snippet-end:
+
+    // You can freeze collections
+    auto managedItems = realm.objects<Beta_ThreadingExample_Item>();
+    auto frozenItems = managedItems.freeze();
+    
+    CHECK(frozenItems.is_frozen());
+    
+    // You can read from frozen realms
+    auto itemsFromFrozenRealm = frozenRealm.objects<Beta_ThreadingExample_Item>();
+    
+    CHECK(itemsFromFrozenRealm.is_frozen());
+    
+    // You can freeze objects
+    auto managedItem = managedItems[0];
+    
+    CHECK(!managedItem.m_realm.is_frozen());
+    
+    auto frozenItem = managedItem.freeze();
+    
+    CHECK(frozenItem.is_frozen());
+    
+    // Frozen objects have a reference to a frozen realm
+    CHECK(frozenItem.m_realm.is_frozen());
+    // :snippet-end:
+    
+    realm.write([&] {
+        realm.remove(managedItem);
+    });
+}
+
+TEST_CASE("test thaw", "[write]") {
+    auto relative_realm_path_directory = "beta_thaw/";
+    std::filesystem::create_directories(relative_realm_path_directory);
+    std::filesystem::path path = std::filesystem::current_path().append(relative_realm_path_directory);
+    path = path.append("thaw_test_objects");
+    path = path.replace_extension("realm");
+    
+    auto config = realm::db_config();
+    config.set_path(path);
+    auto realm = db(std::move(config));
+    auto item = Beta_ThreadingExample_Item {
+        .name = "Save the cheerleader",
+    };
+
+    realm.write([&] {
+        realm.add(std::move(item));
+    });
+
+    auto frozenRealm = realm.freeze();
+    
+    CHECK(frozenRealm.is_frozen());
+
+    // :snippet-start: thaw
+    // Read from a frozen realm
+    auto frozenItems = frozenRealm.objects<Beta_ThreadingExample_Item>();
+    
+    // The collection that we pull from the frozen realm is also frozen
+    CHECK(frozenItems.is_frozen());
+    
+    // :remove-start:
+    // Removing this part of the example as it's waiting for
+    // .thaw() to be exposed on an object
+    // Get an individual item from the collection
+    auto frozenItem = frozenItems[0];
+    
+    // To modify the item, you must first thaw it
+    // You can also thaw collections and realms
+    // This won't compile with the error 'No member named 'thaw' in 'realm::experimental::managed<Beta_ThreadingExample_Item>''
+    //auto thawedItem = frozenItem.thaw();
+    // :remove-end:
+    // To modify objects, you must first thaw them.
+    // Currently, you can thaw collections or realms.
+    auto thawedItems = frozenItems.thaw();
+    
+    auto thawedItem = thawedItems[0];
+    
+    // Check to make sure the item is valid. An object is
+    // invalidated when it is deleted from its managing realm,
+    // or when its managing realm has invalidate() called on it.
+    REQUIRE(thawedItem.is_invalidated() == false);
+    
+    // :snippet-end:
+    // Ending the snippet here because I'm getting issues with what
+    // I'm trying to do below. I'll update after the `.thaw()`
+    // PR that adds a realm getter and use that method to retrieve
+    // the managing realm and write to it.
+    SKIP();
+    auto thawedRealm = frozenRealm.thaw();
+    
+    thawedRealm.write([&] {
+        thawedItem.name = "Save the world";
+    });
+    REQUIRE(thawedItem.name == "Save the world");
+    
+    thawedRealm.write([&] {
+        thawedRealm.remove(thawedItem);
+    });
+}
 // :replace-end:
