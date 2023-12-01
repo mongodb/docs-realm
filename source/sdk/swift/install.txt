@@ -1,8 +1,8 @@
 .. _ios-install:
 
-====================================================
-Install Device SDK for iOS, macOS, tvOS, and watchOS
-====================================================
+=================================================
+Install the SDK for iOS, macOS, tvOS, and watchOS
+=================================================
 
 .. contents:: On this page
    :local:
@@ -15,7 +15,7 @@ Overview
 
 Atlas Device SDK for Swift SDK enables you to build iOS, macOS, tvOS,
 and watchOS applications using either the Swift or Objective-C programming 
-languages. This page details how to install Device SDK in your project and get
+languages. This page details how to install the SDK in your project and get
 started.
 
 Prerequisites
@@ -25,9 +25,9 @@ Before getting started, ensure your development environment
 meets the following prerequisites:
 
 - Xcode 14.1-14.3.1 with a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
-- Reflection is enabled in your project. The Device SDK for Swift uses reflection to 
+- Reflection is enabled in your project. The Swift SDK uses reflection to 
   determine your model's properties. Your project must not set 
-  ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or Device SDK cannot see properties 
+  ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or the SDK cannot see properties 
   in your model. Reflection is enabled by default if your project does 
   not specifically set a level for this setting. 
 
@@ -42,19 +42,19 @@ these Xcode 13 requirements apply:
 
 .. note::
 
-   There are special considerations when using Realm with
+   There are special considerations when using the SDK with
    tvOS. See :ref:`ios-tvos` for more information.
 
 Installation
 ------------
 
 You can use ``SwiftPM``, ``CocoaPods``, or ``Carthage`` to add the
-Device SDK for Swift to your project.
+Swift SDK to your project.
 
 .. tip:: Device SDK and Realm
 
-   Device SDK wraps Realm Core database for local data persistence. When you
-   install Device SDK for Swift, the package names still reflect Realm naming.
+   The SDK wraps Realm Core database for local data persistence. When you
+   install the Swift SDK, the package names reflect Realm naming.
 
 .. tabs::
 
@@ -116,7 +116,7 @@ Device SDK for Swift to your project.
             to specify project dependencies to CocoaPods.
 
 
-         .. step:: Add Device SDK as a Dependency in Your Podfile
+         .. step:: Add the SDK as a Dependency in Your Podfile
 
 
             .. tabs-realm-languages::
@@ -201,10 +201,10 @@ Device SDK for Swift to your project.
 
       .. procedure::
 
-         .. step:: Add Device SDK as a Dependency in Your Cartfile
+         .. step:: Add the SDK as a Dependency in Your Cartfile
 
 
-            Add Device SDK as a dependency by appending the line ``github
+            Add the SDK as a dependency by appending the line ``github
             "realm/realm-swift"`` to your Cartfile.
 
             You can create a Cartfile or append to an existing one by
@@ -246,7 +246,7 @@ Device SDK for Swift to your project.
    .. tab:: Static Framework
       :tabid: static-framework
 
-      Installing the Device SDK for Swift as a static framework is only available
+      Installing the the Swift SDK as a static framework is only available
       for iOS targets.
 
       .. procedure::
@@ -254,7 +254,7 @@ Device SDK for Swift to your project.
          .. step:: Download and Extract the Framework
 
 
-            Download the `latest release of Device SDK for Swift
+            Download the `latest release of the Swift SDK
             <https://github.com/realm/realm-swift/releases>`__ and extract the zip.
 
 
@@ -284,15 +284,15 @@ Device SDK for Swift to your project.
          RealmSwift types are directly aliased from their Objective-C 
          counterparts.
 
-Import Device SDK
------------------
+Import the SDK
+--------------
 
 .. tip:: Device SDK and Realm
 
-   Device SDK wraps Realm Core database for local data persistence. When you
-   install Device SDK for Swift, the package names still reflect Realm naming.
+   The SDK wraps Realm Core database for device data persistence. When you
+   install the Swift SDK, the package names reflect Realm naming.
 
-Add the following line at the top of your source files to use Device SDK:
+Add the following line at the top of your source files to use the SDK:
 
 .. tabs-realm-languages::
 
@@ -313,7 +313,7 @@ Add the following line at the top of your source files to use Device SDK:
 App Download File Size
 ----------------------
 
-Device SDK should only add around 5 to 8 MB to your app's download 
+The SDK should only add around 5 to 8 MB to your app's download 
 size. The releases we distribute are significantly larger because they 
 include support for the iOS, watchOS and tvOS simulators, some debug symbols, 
 and bitcode, all of which are stripped by the App Store automatically when 
@@ -323,7 +323,7 @@ Troubleshooting
 ---------------
 
 If you have build issues after using one of these methods to install 
-Device SDK, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
+the SDK, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
 for information about resolving those issues.
 
 .. _swift-os-support:
@@ -333,7 +333,7 @@ OS Support
 
 .. important::
 
-   There are special considerations when using Device SDK with
+   There are special considerations when using the SDK with
    tvOS. See :ref:`ios-tvos` for more information.
 
 Xcode 14
@@ -345,7 +345,7 @@ Xcode 14
    :class: index-table
 
    * - Supported OS
-     - Device SDK
+     - Realm
      - Atlas App Services
 
    * - iOS 11.0+
@@ -375,7 +375,7 @@ Xcode 15
    :class: index-table
 
    * - Supported OS
-     - Device SDK
+     - Realm
      - Atlas App Services
 
    * - iOS 12.0+
@@ -401,8 +401,8 @@ Xcode 15
 Swift Concurrency Support
 -------------------------
 
-The Device SDK for Swift supports Swift's concurrency-related language features.
-For best practices on using Device SDK with Swift concurrency features, refer 
+The Swift SDK supports Swift's concurrency-related language features.
+For best practices on using the Swift SDK's concurrency features, refer 
 to the documentation below.
 
 Async/Await Support
@@ -410,11 +410,11 @@ Async/Await Support
 
 .. include:: /includes/swift-async-await-support.rst
 
-For more information about async/await support in the Device SDK for Swift, refer
+For more information about async/await support in the Swift SDK, refer
 to :ref:`Swift Concurrency: Async/Await APIs <swift-async-await-apis>`.
 
 Actor Support
 ~~~~~~~~~~~~~
 
-The Device SDK for Swift supports actor-isolated realm instances. For more information,
+The Swift SDK supports actor-isolated realm instances. For more information,
 refer to :ref:`swift-actor-isolated-realm`.

@@ -1,11 +1,11 @@
 .. _intro-realm-database:
 
-===========================
-Introduction to Device SDK
-===========================
+================================
+Introduction to Atlas Device SDK
+================================
 
 .. meta:: 
-   :description: Device SDK is an offline-first mobile object database that also offers secure cloud synchronization, MongoDB Atlas access, and serverless JavaScript functions.
+   :description: Atlas Device SDK is an offline-first mobile object database that offers secure cloud synchronization, MongoDB Atlas access, and serverless JavaScript functions.
    :keywords: atlas, atlas app services
 
 .. contents:: On this page
@@ -17,20 +17,20 @@ Introduction to Device SDK
 Atlas Device SDK is a collection of tools to accelerate app development 
 on a broad range of devices:
 
-- A local object store to use on device - Realm.
 - A built-in Sync client that can synchronize your data between devices and 
   with a MongoDB Atlas backend.
+- An offline-first object database to persist data on device.
 - The ability to call Atlas Functions to do work in the cloud.
 - A client to query MongoDB data sources directly from your app.
 - The ability to access the MongoDB GraphQL API from the client.
 
-You can use Device SDK's local object store, Realm, to read, write, and 
-react to changes in your data on device. Or you can add Device Sync, 
-Atlas Functions, or the MongoDB Atlas client to take advantage of 
-MongoDB Atlas features and data sources from your app.
+You can use the SDK's object store, Realm, to read, write, and 
+react to changes in your data on device. Add Device Sync, Atlas Functions, 
+or the MongoDB Atlas client to take advantage of MongoDB Atlas features 
+and access data sources from your app.
 
-What Problem Does Device SDK Solve?
------------------------------------
+Mobile and Edge Development Challenges
+--------------------------------------
 
 Mobile and edge developers face a number of unique challenges. You must:
 
@@ -52,14 +52,14 @@ you can use a Java library on your Android client to serialize objects,
 but that library won't work on iOS. And this doesn't take into account
 consistency across backend services.
 
-Device SDK solves many common mobile and edge programming headaches:
+The SDKs solve many common mobile and edge programming headaches:
 
-- **Local storage**: Device SDK runs right on client devices. Access objects
+- **Device storage**: The SDKs run right on client devices. Access objects
   using the native query language for each platform. Storing, accessing, and updating
   your data is simple and lightweight.
-- **Network reliability**: Device SDK is offline-first. You
-  always read from and write to the local Realm database, not over the network.
-  When Device Sync is enabled, Device SDK synchronizes
+- **Network reliability**: The SDKs are offline-first. You
+  always read from and write to the persistence layer on the device, not 
+  over the network. When Device Sync is enabled, the SDK synchronizes
   data with App Services over the network in a background thread.
   The sync protocol resolves conflicts
   consistently on each client and in the
@@ -75,7 +75,7 @@ Client applications generate a lot of data. Whether it's uploaded
 reviews and ratings, posts and comments on a blog, or inventory
 in a kitchen, you need to store that data somewhere.
 
-The Device SDKs use Atlas Device Sync to synchronize app data between clients and
+The SDKs use Atlas Device Sync to synchronize app data between clients and
 MongoDB Atlas. Atlas Device Sync handles network access and conflict resolution
 in a background thread of your application, so your application logic stays
 the same regardless of network conditions.
@@ -91,10 +91,10 @@ easy to share data across users and platforms.
 Use Atlas App Services
 ----------------------
 
-The Device SDKs integrate with App Services to easily and securely work
+The SDKs integrate with App Services to easily and securely work
 with data from your app:
 
-- Query MongoDB Atlas directly from the Device SDKs using built-in
+- Query MongoDB Atlas directly from the SDKs using built-in
   MongoDB interfaces. You can also configure the :ref:`Atlas Data API <data-api>`
   to query MongoDB using an HTTP client in your app.
 - :ref:`App Services Users and Authentication <users-and-authentication>`
@@ -113,13 +113,14 @@ with data from your app:
   define global variables and private credentials once and
   use them across your entire App.
 
-Device SDK versus MongoDB Drivers
----------------------------------
+Atlas Device SDK versus MongoDB Drivers
+---------------------------------------
 
-Use Device SDK instead of MongoDB Drivers if you want:
+Use the SDKs instead of MongoDB Drivers if you want:
 
 - A cross-platform local object store optimized for mobile and edge devices 
   that can sync data automatically with MongoDB Atlas.
+- Built-in conflict resolution when syncing data across users and devices.
 - The ability to access data on a device regardless of network connectivity.
 - Reactive UIs driven by your data.
 - Built-in user management and authentication for client devices.
@@ -128,21 +129,21 @@ Use Device SDK instead of MongoDB Drivers if you want:
 - Optimization for heavy insert-only workloads from mobile or edge devices.
 - The ability to execute Atlas Functions from the client.
 
-Use MongoDB Drivers instead of Device SDK if:
+Use MongoDB Drivers instead of the SDKs if:
 
-- You host MongoDB on your own infrastructure. Device SDK is either local-only
-  or works with MongoDB Atlas.
+- You host MongoDB on your own infrastructure. The SDKs are either device-only
+  or work with MongoDB Atlas.
 - You want to directly work with documents instead of objects, or you have 
-  your own mapping layer. Device SDK stores data as objects on the device,
+  your own mapping layer. The SDKs store data as objects on the device,
   and Device Sync maps them to MongoDB documents when it syncs with Atlas.
 - You already have a stack like MERN or MEAN and don't need the functionality
-  provided by Device SDK.
+  provided by the SDKs.
 
-Device SDK Wraps Realm Database
--------------------------------
+The SDKs Wrap Realm Database
+----------------------------
 
-The persistence layer that Device SDK uses on the device is Realm. Device SDK
-wraps the Realm Core C++ database, and provides language-idiomatic APIs 
+The persistence layer that the SDKs use on the device is Realm. The SDKs
+wrap the Realm Core C++ database, and provide language-idiomatic APIs 
 to work with files on the filesystem and perform read and write operations.
 
 Realm is a reactive, object-oriented, cross-platform,
