@@ -1,1 +1,1 @@
-await app.EmailPasswordAuth.RetryCustomConfirmationAsync(userEmail);
+await app.EmailPasswordAuth.RetryCustomConfirmationAsync("<userEmail>");

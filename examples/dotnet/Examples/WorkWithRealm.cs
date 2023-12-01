@@ -74,7 +74,7 @@ namespace Examples
                 userEmail, myNewPassword);
             //:snippet-end:
             // :snippet-start: retry-custom-confirmation
-            await app.EmailPasswordAuth.RetryCustomConfirmationAsync(userEmail);
+            await app.EmailPasswordAuth.RetryCustomConfirmationAsync("<userEmail>");
             // :snippet-end:
 
             user = await app.LogInAsync(Config.EPCreds);
