@@ -23,13 +23,14 @@
 - Model Data/Data Types/UUID: Fix object model example that erroneously used BSON.ObjectId instead of BSON.UUID.
 - Manage Users/Authenticate Users: Update page with new examples and copy for Custom JWT, Custom Function, Offline Login, Get a User Access Token, and Facebook, Google, and Apple Authentication.
 
-# Other
-
-- Example Projects: Add Intelligent Cache (.NET) and Integrating In-App Purchases (Swift) projects. Move Template Apps to top of table and edit header titles to "Source Code for Available SDKs".
- 
 ## Swift SDK
 
 - Landing Page: Add the "Integrating In-App Purchases" example app to the Example Projects cards.
+
+## Other
+
+- Example Projects: Add Intelligent Cache (.NET) and Integrating In-App Purchases (Swift) projects. Move Template Apps to top of table and edit header titles to "Source Code for Available SDKs".
+ 
 
 # November 24, 2023
 
