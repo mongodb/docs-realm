@@ -29,6 +29,32 @@ TEST_CASE("test custom headers compile", "[realm][sync]") {
     REQUIRE(user.access_token().empty());
 }
 
+TEST_CASE("test proxy config compiles", "[realm][sync]") {
+    // :snippet-start: set-proxy-config
+    auto proxyConfig = realm::proxy_config();
+    proxyConfig.port = 8080;
+    proxyConfig.address = "127.0.0.1";
+    proxyConfig.username_password = {"username", "password"};
+
+    auto appConfig = realm::App::configuration();
+    appConfig.proxy_configuration = proxyConfig;
+    // :remove-start:
+    // Skipping the rest of this test because of the complexity
+    // involved in setting up a proxy we can use in the CI.
+    // It's not a good use of docs time to test this properly.
+    // But maintaining this example in the test suite does give us
+    // compiler checking for code correctness.
+    SKIP();
+    // :remove-end:
+    auto app = realm::App(appConfig);
+    
+    auto user = app.get_current_user();
+    auto syncConfig = user->flexible_sync_configuration();
+    syncConfig.set_proxy_config(proxyConfig);
+    auto syncedRealm = realm::experimental::db(syncConfig);
+    // :snippet-end:
+}
+
 struct Beta_FlexibleSync_Dog {
     realm::experimental::primary_key<realm::object_id> _id{realm::object_id::generate()};
     std::string name;

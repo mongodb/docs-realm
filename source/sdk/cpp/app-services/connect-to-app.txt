@@ -81,6 +81,27 @@ If you want to use custom headers with Device Sync, you must
 additionally :ref:`set the headers on the Flexible Sync configuration 
 <cpp-set-custom-headers-using-synced-realm>`.
 
+.. _cpp-http_proxy:
+
+Use an HTTP Proxy with Realm
+----------------------------
+
+.. versionadded:: v0.5.0-preview
+
+If you have configured an HTTP proxy, you can use HTTP tunneling to 
+route your Realm traffic. 
+
+To configure Realm to use your HTTP proxy:
+
+1. Initialize a 
+   :cpp-sdk:`proxy_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1sync__config_1_1proxy__config.html>` 
+   with the details for your proxy. 
+#. Set the proxy config on your :cpp-sdk:`realm::App::configuration <structrealm_1_1App_1_1configuration.html>`.
+#. Set the proxy config on your :cpp-sdk:`sync_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1sync__config.html>`.
+
+.. literalinclude:: /examples/generated/cpp/app.snippet.set-proxy-config.cpp
+   :language: cpp
+
 .. _cpp-encrypt-app-metadata:
 
 Encrypt App Metadata
