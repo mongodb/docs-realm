@@ -10,9 +10,10 @@ TEST_CASE("call a function", "[realm][sync]")
     // :snippet-start: beta-call-a-function
     // Connect to an App Services App and authenticate a user
     // :snippet-start: connect-app-services
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     // :snippet-end:
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
     auto user = app.login(realm::App::credentials::anonymous()).get();
     auto sync_config = user.flexible_sync_configuration();
 

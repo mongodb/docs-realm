@@ -6,6 +6,13 @@
 Add Device Sync to an App - Kotlin SDK
 =============================================
 
+.. meta:: 
+  :keywords: code example, android, kmm, kmp, ios, mongodb atlas device sync
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -20,7 +27,6 @@ from the client.
 Already familiar with Device Sync? Skip ahead to the 
 :ref:`<kotlin-enable-sync-in-app-services>` section 
 to get started.
-
 
 Device Sync
 -----------
@@ -72,6 +78,10 @@ in Atlas first:
 - If you already have data in Atlas and would
   prefer to define your data model through Atlas first, refer to 
   :ref:`<sync-data-in-atlas-with-client>` in the App Services documentation.
+
+.. note:: Data Model Mapping in App Services 
+
+  To learn more about how data maps between the client and Atlas, refer to :ref:`<kotlin-model-data-device-sync>`.
 
 Subscriptions
 ~~~~~~~~~~~~~
@@ -171,8 +181,8 @@ documentation.
    App Services documentation.
 
 For our example app, we enable Device Sync with Development Mode, and 
-then add the default "User can read and write all data 
-default" role. This means that, for an authorized user with a network 
+then add the default "User can read and write all data" 
+default role. This means that, for an authorized user with a network 
 connection, Device Sync downloads eligible data to the client 
 *and* Atlas permits writes to the client and then syncs them the backend. 
 To learn more about what happens when an authorized user does not have

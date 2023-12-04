@@ -20,8 +20,9 @@ static const std::string APP_ID = "cpp-tester-uliix";
 
 TEST_CASE("create and log in an email/password user", "[realm][sync]") {
     // :snippet-start: beta-register-user
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     
     auto userEmail = "testUser" + random_string() + "@example.com";
     auto userPassword = "password1234";
@@ -43,8 +44,9 @@ TEST_CASE("create and log in an email/password user", "[realm][sync]") {
 
 TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
     // :snippet-start: beta-anonymous-login
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
 
     auto user = app.login(realm::App::credentials::anonymous()).get();
     // :snippet-end:
@@ -59,8 +61,9 @@ TEST_CASE("test custom function authentication", "[realm][sync]") {
     // The parameter details vary depending on how you define your custom authentication function.
     realm::bson::BsonDocument params = {{ "username", "bob" }};
 
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
 
     auto user = app.login(realm::App::credentials::function(params)).get();
     // :snippet-end:
@@ -70,8 +73,9 @@ TEST_CASE("test custom function authentication", "[realm][sync]") {
 }
 
 TEST_CASE("test get user access token", "[realm][sync]") {
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
 
     auto user = app.login(realm::App::credentials::anonymous()).get();
     // :snippet-start: get-user-access-token
@@ -93,8 +97,9 @@ void testAPIKeyAuthSyntax() {
     auto API_KEY = "this was tested with a valid API key when written";
 
     // :snippet-start: beta-api-key
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
 
     auto user = app.login(realm::App::credentials::api_key(API_KEY)).get();
     // :snippet-end:
@@ -104,8 +109,9 @@ void testCustomJWTAuthSyntax() {
     // :snippet-start: beta-custom-jwt
     auto token = "<jwt>";
 
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
 
     auto user = app.login(realm::App::credentials::custom(token)).get();
     // :snippet-end:
@@ -113,8 +119,9 @@ void testCustomJWTAuthSyntax() {
 
 void testSignInWithFacebookAuthSyntax() {
     // :snippet-start: beta-facebook
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
 
     auto accessToken = "<token>";
 
@@ -124,8 +131,9 @@ void testSignInWithFacebookAuthSyntax() {
 
 void testSignInWithAppleAuthSyntax() {
     // :snippet-start: beta-apple
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
 
     auto idToken = "<token>";
 
@@ -138,8 +146,9 @@ void testSignInWithGoogleAuthCodeSyntax() {
     auto authCode = realm::App::credentials::auth_code{ myAuthCode };
 
     // :snippet-start: beta-google-auth-code
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     
     // The auth_code below is the user's server auth code you got from Google
     auto user = app.login(realm::App::credentials::google(authCode)).get();
@@ -151,8 +160,9 @@ void testSignInWithGoogleIdTokenSyntax() {
     auto idToken = realm::App::credentials::id_token{ myIdToken };
 
     // :snippet-start: beta-google-id-token
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn); // :remove:
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     
     // The id_token below is the user's OpenID Connect id_token you got from the Google OAuth response
     auto user = app.login(realm::App::credentials::google(idToken)).get();
@@ -160,8 +170,9 @@ void testSignInWithGoogleIdTokenSyntax() {
 }
 
 TEST_CASE("get the current user", "[realm][sync]") {
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     auto user = app.login(realm::App::credentials::anonymous()).get();
 
     // :snippet-start: beta-get-current-user
@@ -174,8 +185,9 @@ TEST_CASE("get the current user", "[realm][sync]") {
 }
 
 TEST_CASE("confirm the user is logged in", "[realm][sync]") {
-    auto app = realm::App(APP_ID);
-    app.get_sync_manager().set_log_level(realm::logger::level::warn);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
     // :snippet-start: check-user-is-logged-in
     auto user = app.login(realm::App::credentials::anonymous()).get();
     CHECK(user.is_logged_in());
