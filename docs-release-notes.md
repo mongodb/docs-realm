@@ -1,3 +1,37 @@
+# December 1, 2023
+
+## C++ SDK
+
+- CRUD
+  - Read: Add a "Sort Lists and Query Results" section with tested, Bluehawked code examples for sorting in C++ SDK.
+  - Filter Data: Remove the note about not yet supporting sort, and link to the sort example on the Read page.
+- Application Services/Connect to an App Services App: Add a "Use an HTTP Proxy with Realm" section with details and Bluehawked code example.
+- Sync Data/Write to a Synced Realm: New page similar to other SDKs with tested, Bluehawked code examples about sync subscriptions, permissions, and compensating writes.
+- Throughout Docs for the SDK
+  - Update App init examples to use realm::App(configuration).
+  - Add version changed details to specify realm::App(...) deprecation in favor of realm::App(configuration) in v0.4.0-preview.
+
+## Kotlin SDK
+
+- Realm/Model Data
+  - Model Data with Device Sync: Add new page with tested, Bluehawked code examples that describes how to map data from the Device Sync App Services schema to the Realm schema used by the Kotlin SDK.
+  - Property Annotations: Update Primary Key section to note that Device Sync requires a primary key named '_id'.
+- Sync Device Data/Add Sync to an App: Add note pointing users to the new Model Data with Device Sync page to learn more about mapping data between Atlas and the Kotlin SDK.
+
+## React Native SDK
+
+- Model Data/Data Types/UUID: Fix object model example that erroneously used BSON.ObjectId instead of BSON.UUID.
+- Manage Users/Authenticate Users: Update page with new examples and copy for Custom JWT, Custom Function, Offline Login, Get a User Access Token, and Facebook, Google, and Apple Authentication.
+
+## Swift SDK
+
+- Landing Page: Add the "Integrating In-App Purchases" example app to the Example Projects cards.
+
+## Other
+
+- Example Projects: Add Intelligent Cache (.NET) and Integrating In-App Purchases (Swift) projects. Move Template Apps to top of table and edit header titles to "Source Code for Available SDKs".
+ 
+
 # November 24, 2023
 
 ## Internal
