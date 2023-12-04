@@ -35,7 +35,7 @@ namespace Examples
 
         public async System.Threading.Tasks.Task LotsaStuff()
         {
-            string userEmail = "bob@bob.com";
+            string userEmail = "bob@example.com";
 
             // :snippet-start: initialize-realm
             var myRealmAppId = "<your_app_id>";
@@ -73,6 +73,12 @@ namespace Examples
             await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
                 userEmail, myNewPassword);
             //:snippet-end:
+            // :snippet-start: resend-confirmation
+            await app.EmailPasswordAuth.ResendConfirmationEmailAsync("<userEmail>");
+            // :snippet-end:
+            // :snippet-start: retry-custom-confirmation
+            await app.EmailPasswordAuth.RetryCustomConfirmationAsync("<userEmail>");
+            // :snippet-end:
 
             user = await app.LogInAsync(Config.EPCreds);
 
@@ -239,6 +245,8 @@ namespace Examples
         [Test]
         public void ChangeSetCleared()
         {
+            var config = new RealmConfiguration("");
+
             myRealmAppId = Config.AppId;
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
