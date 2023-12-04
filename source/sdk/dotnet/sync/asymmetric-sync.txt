@@ -26,6 +26,8 @@ within the same realm.
 Sync Data Unidirectionally from a Client Application
 ----------------------------------------------------
 
+.. versionchanged:: 11.6.0
+
 Before you set up Data Ingest, you need to understand the following rules:
 
 - The C# objects that you will sync with Atlas must implement the 
@@ -33,9 +35,14 @@ Before you set up Data Ingest, you need to understand the following rules:
   interface or derive from the 
   :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>` class.
 
-- An object that implements ``IAsymmetricObject`` can contain 
+- Starting in .NET SDK version 11.6.0 and later, an object that implements 
+  ``IAsymmetricObject`` can contain
   :dotnet-sdk:`IEmbeddedObject <reference/Realms.IEmbeddedObject.html>` types, 
-  but not ``IRealmObject`` types or other ``IAsymmetricObject`` types.
+  and links to ``IRealmObject`` types. In .NET SDK versions 11.5.0 and earlier, 
+  an object that implements ``IAsymmetricObject`` can only contain
+  :dotnet-sdk:`IEmbeddedObject <reference/Realms.IEmbeddedObject.html>` types - 
+  it does not support links to ``IRealmObject`` types or other 
+  ``IAsymmetricObject`` types. 
 
 - ``IRealmObject`` and ``IEmbeddedObject`` types cannot contain ``IAsymmetricObject``
   types as properties. 
