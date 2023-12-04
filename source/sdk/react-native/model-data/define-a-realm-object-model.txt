@@ -275,6 +275,11 @@ on your object schema.
          :language: typescript
          :emphasize-lines: 12
 
+In ``realm`` JS SDK versions 12.2.0 and earlier, you cannot link from
+asymmetric objects to ``Realm.Object`` types. In SDK versions 
+12.2.1 and later, asymmetric objects can link to ``Realm.Object``
+types in addition to embedded objects.
+
 .. note:: Attempting to Read Asymmetric Objects
 
    Asymmetric objects cannot be read. If you attempt to query an asymmetric object, you
