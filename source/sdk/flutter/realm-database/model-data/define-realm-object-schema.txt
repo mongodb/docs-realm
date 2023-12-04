@@ -327,6 +327,11 @@ Asymmetric objects require Flexible Sync. To define an asymmetric object, pass
    :language: dart
    :emphasize-lines: 1
 
+In versions Flutter SDK versions 1.5.0 and earlier, you cannot link from
+``asymmetricObject`` types to ``RealmObjects``. In SDK versions 1.6.0 and
+later, ``asymmetricObject`` types can link to ``RealmObjects`` types in 
+addition to :ref:`embedded object types <flutter-embedded-objects>`.
+
 .. note:: Attempting to Read Asymmetric Objects
 
    Asymmetric objects can't be read. If you attempt to query an asymmetric
