@@ -73,6 +73,9 @@ namespace Examples
             await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
                 userEmail, myNewPassword);
             //:snippet-end:
+            // :snippet-start: resend-confirmation
+            await app.EmailPasswordAuth.ResendConfirmationEmailAsync("<userEmail>");
+            // :snippet-end:
             // :snippet-start: retry-custom-confirmation
             await app.EmailPasswordAuth.RetryCustomConfirmationAsync("<userEmail>");
             // :snippet-end:
