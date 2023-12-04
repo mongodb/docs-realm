@@ -246,7 +246,6 @@ namespace Examples
         public void ChangeSetCleared()
         {
             var config = new RealmConfiguration("");
-            Realm.DeleteRealm(config);
 
             myRealmAppId = Config.AppId;
             var app = App.Create(myRealmAppId);
