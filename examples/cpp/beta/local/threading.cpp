@@ -9,10 +9,12 @@
 
 using namespace realm::experimental;
 
+// :snippet-start: item-model
 struct Beta_ThreadingExample_Item {
   std::string name;
 };
 REALM_SCHEMA(Beta_ThreadingExample_Item, name)
+// :snippet-end:
 
 TEST_CASE("thread safe reference", "[write]") {
   auto relative_realm_path_directory = "beta_tsr/";

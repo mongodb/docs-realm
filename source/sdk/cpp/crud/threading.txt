@@ -230,21 +230,38 @@ Append to a Frozen Collection
 `````````````````````````````
 
 When you append to a frozen :ref:`collection <cpp-collection-types>`, 
-you must thaw both the collection and the object that you want to append. 
-In this example, we query for two objects in a frozen Realm:
-
-- A ``Project`` object that has a list property of ``Item`` objects
-- An ``Item`` object
-
-We must thaw both objects before we can append the Item to 
-the ``Items`` list collection on the ``Project``. If we thaw only the 
-``Project`` object but not the ``Item``, Realm throws an error.
+you must thaw both the object containing the collection and the object 
+that you want to append. 
 
 The same rule applies when passing frozen objects across threads. A common 
 case might be calling a function on a background thread to do some work 
 instead of blocking the UI.
 
-.. TODO: add a code example once thawing an object is added
+.. tabs::
+
+   .. tab:: Append to frozen collection
+      :tabid: append-to-collection
+
+      In this example, we query for two objects in a frozen Realm:
+
+      - A ``Project`` object that has a list property of ``Item`` objects
+      - An ``Item`` object
+
+      We must thaw both objects before we can append the Item to 
+      the ``items`` list collection on the ``Project``. If we thaw only the 
+      ``Project`` object but not the ``Item``, Realm throws an error.
+
+      .. literalinclude:: /examples/generated/cpp/threading.snippet.append-to-frozen-collection.cpp
+         :language: cpp
+
+   .. tab:: Object Models
+      :tabid: models
+
+      .. literalinclude:: /examples/generated/cpp/threading.snippet.item-model.cpp
+         :language: cpp
+
+      .. literalinclude:: /examples/generated/cpp/threading.snippet.model-with-collection-property.cpp
+         :language: cpp
 
 .. _cpp-scheduler-thread-management:
 
