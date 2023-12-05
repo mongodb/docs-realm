@@ -32,6 +32,7 @@ class ReadTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
 
+            realm.query<>()
             // :snippet-start: read-realm-set
             realm.write {
                 // Create a Frog object named 'Kermit'

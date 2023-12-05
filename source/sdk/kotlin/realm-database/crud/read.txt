@@ -4,11 +4,132 @@
 Read Realm Objects - Kotlin SDK
 ===============================
 
+.. meta:: 
+  :keywords: code example, android, kmm, kmp, ios
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+This page describes how to query and read objects from a local or synced realm using the
+Kotlin SDK.
+
+You can query Realm using platform-native queries or a raw query language that works across platforms
+
+You *cannot* query for asymmetric objects. This is because asymmetric objects 
+are special write-only objects that do not persist to the realm. For information 
+on how to use asymmetric objects in your application, 
+refer to :ref:`kotlin-stream-data-to-atlas`.
+
+Read Operations
+---------------
+
+You can read back the data that you have stored in Realm. The standard data access pattern across Realm SDKs is to find, filter, and sort objects:
+
+#. Find the objects you want to read.
+#. Filter the results to retrieve a specific segment of objects. For more information, refer to :ref:`kotlin-filter-data`.
+#. Sort the results.
+
+Read Characteristics
+~~~~~~~~~~~~~~~~~~~~
+
+To get the best performance from Realm, you should have a solid understanding of 
+Realm's **read characteristics** so that you can design your app's data access 
+patterns around them. Then, as your app grows and your queries become more 
+complex, you can be confident that you are reading data as efficiently as possible.
+
+
+Results Are Not Copies
+``````````````````````
+
+.. important:: Kotlin Results are Not Live
+
+   Unlike the other Realm SDKs, query results for the Kotlin SDK are *not* live 
+   objects and collections that update simultaneously with underlying data.
+   To 
+   For more information, refer to :ref:`<kotlin-frozen-architecture>`.
+
+Frozen by default: All objects are now frozen. Unlike live objects, frozen objects do not automatically update after database writes. You can still access live objects within a write transaction, but passing a live object out of a write transaction freezes the object.
+
+
+
+Results Are Lazy
+````````````````
+
+Realm only runs a query when you actually request the results of that query. 
+This lazy evaluation enables you to write elegant, highly performant code 
+for handling large data sets and complex queries. This also means that the 
+first access to a field of an object will always return the most recent data.
+You can chain several filter and sort operations without requiring extra 
+work to process the intermediate state. 
+
+References Are Retained
+```````````````````````
+
+One benefit of Realm's object model is that Realm automatically retains 
+all of an object's relationships as direct references, so you can traverse 
+your graph of relationships directly through the results of a query.
+
+A **direct reference**, or pointer, allows you to access a related object's 
+properties directly through the reference.
+
+Other databases typically copy objects from database storage into application 
+memory when you need to work with them directly. Because application objects 
+contain direct references, you are left with a choice: copy the object 
+referred to by each direct reference out of the database in case it's needed, 
+or just copy the foreign key for each object and query for the object with 
+that key if it's accessed. If you choose to copy referenced objects into 
+application memory, you can use up a lot of resources for objects that are 
+never accessed, but if you choose to only copy the foreign key, referenced 
+object lookups can cause your application to slow down.
+
+Realm bypasses all of this using zero-copy live objects. Realm object 
+accessors point directly into database storage using memory mapping, so 
+there is no distinction between the objects in Realm and the results of 
+your query in application memory. Because of this, you can traverse direct 
+references across an entire realm from any query result.
+
+Limit Query Results
+~~~~~~~~~~~~~~~~~~~
+
+As a result of lazy evaluation, you do not need any special mechanism to 
+limit query results with Realm. For example, if your query matches thousands 
+of objects, but you only want to load the first ten, simply access only the 
+first ten elements of the results collection.
+
+Pagination
+~~~~~~~~~~
+
+Thanks to lazy evaluation, the common task of pagination becomes quite simple. 
+For example, suppose you have a results collection associated with a query 
+that matches thousands of objects in your realm. You display one hundred 
+objects per page. To advance to any page, simply access the elements of the 
+results collection starting at the index that corresponds to the target page.
+
+
+
+
+
+
+
+
+Find Realm Objects
+------------------
+
+
+
+
+- In the Kotlin SDK, query asynchronously with realmQuery.asFlow(). Once you have a flow of results, you can collect the results. 
+-  In the Kotlin SDK, query synchronously with realmQuery.find().
+
+
+The Kotlin SDK provides mutableRealm.findLatest() to access a live version of any frozen object. In a write transaction, you can directly query for live objects and delete them without using findLatest()
 
 .. tip:: ``find()`` is Synchronous
    
@@ -21,8 +142,23 @@ Read Realm Objects - Kotlin SDK
    <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__ in
    time-sensitive environments.
 
-Find Objects
+Find Object by Primary Key
+Find All Objects of a Given Type
+Find 
+
+
+Sort Results
 ------------
+
+
+
+
+
+
+
+
+
+
 
 .. _kotlin-find-object-by-primary-key:
 
