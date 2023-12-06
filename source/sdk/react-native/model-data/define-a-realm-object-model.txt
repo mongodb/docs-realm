@@ -5,6 +5,13 @@
 Define a Realm Object Model - React Native SDK
 ===============================================
 
+.. meta:: 
+  :keywords: code example, android, ios, data modeling
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -275,7 +282,9 @@ on your object schema.
          :language: typescript
          :emphasize-lines: 12
 
-In ``realm`` JS SDK versions 12.2.0 and earlier, you cannot link from
+.. versionchanged:: realm@12.2.1
+
+In JS SDK versions 12.2.0 and earlier, you cannot link from
 asymmetric objects to ``Realm.Object`` types. In SDK versions 
 12.2.1 and later, asymmetric objects can link to ``Realm.Object``
 types in addition to embedded objects.
