@@ -4,6 +4,13 @@
 Define a Realm Object Model- Node.js SDK
 ========================================
 
+.. meta:: 
+  :keywords: code example, data modeling
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -375,6 +382,8 @@ A ``Manufacturer`` object can embed a list of ``Warranty`` objects, whereas a
 Define an Asymmetric Object
 ---------------------------
 
+.. versionchanged:: 12.2.1
+
 If you are using Flexible Sync and need to sync a collection unidirectionally
 from your device to your Atlas database, you can set the ``asymmetric`` property
 on your object schema.
@@ -394,6 +403,11 @@ on your object schema.
       .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync-object.js
          :language: javascript
          :emphasize-lines: 6
+
+In Node.js SDK versions 12.2.0 and earlier, you cannot link from
+asymmetric objects to ``Realm.Object`` types. In SDK versions 
+12.2.1 and later, asymmetric objects can link to ``Realm.Object``
+types in addition to embedded objects.
 
 .. note:: Attempting to Read Asymmetric Objects
 

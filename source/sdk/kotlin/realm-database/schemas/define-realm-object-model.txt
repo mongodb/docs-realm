@@ -202,6 +202,11 @@ interface:
 .. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-asymmetric-model.kt 
     :language: kotlin
 
+In Kotlin SDK versions 1.11.1 and earlier, you cannot link from
+``AsymmetricRealmObject`` types to ``RealmObject`` types. In SDK versions 
+1.12.0 and later, ``AsymmetricRealmObject`` types can link to ``RealmObject``
+types in addition to ``EmbeddedRealmObject`` types.
+
 .. _kotlin-define-collections:
 
 Define Collection Properties

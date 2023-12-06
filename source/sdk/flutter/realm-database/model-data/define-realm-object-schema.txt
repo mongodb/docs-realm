@@ -4,6 +4,13 @@
 Define a Realm Object Schema - Flutter SDK
 ==========================================
 
+.. meta:: 
+  :keywords: code example, android, ios, data modeling
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -326,6 +333,11 @@ Asymmetric objects require Flexible Sync. To define an asymmetric object, pass
 .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.asymmetric-sync-object.dart
    :language: dart
    :emphasize-lines: 1
+
+In Flutter SDK versions 1.5.0 and earlier, you cannot link from
+``asymmetricObject`` types to ``RealmObjects``. In SDK versions 1.6.0 and
+later, ``asymmetricObject`` types can link to ``RealmObjects`` in 
+addition to :ref:`embedded object types <flutter-embedded-objects>`.
 
 .. note:: Attempting to Read Asymmetric Objects
 
