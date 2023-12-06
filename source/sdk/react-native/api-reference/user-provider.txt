@@ -4,6 +4,10 @@
 UserProvider (@realm/react)
 ===========================
 
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -25,7 +29,6 @@ Props
 - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
   The fallback component to render if there is no authorized user. This can be
   used to render a log in screen or otherwise handle authentication.
-- ``children: React.ReactNode``
 
 Configure UserProvider
 ----------------------
@@ -70,7 +73,7 @@ you can use ``useUser()`` to log the current user out.
 
 When changes to the user object happen, this hook will rerender its parent
 component. For example, if you call ``user.refreshCustomData`` to get updated
-custom user data, ``useUser()`` the parent component will rerender.
+custom user data, the ``useUser()`` parent component will rerender.
 
 .. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.log-user-out.tsx.rst
 

@@ -4,6 +4,10 @@
 AppProvider (@realm/react)
 ==========================
 
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -89,6 +93,13 @@ Realm. If called when a user is logged in, the current user switches to
 the new user. Usually, it's better to use the more specific login
 methods.
 
+*Parameters*
+
+- ``credentials``. A Realm credential supplied by any supported Realm
+  authentication.
+
+*Example* 
+
 .. code:: typescript
 
   const {logIn, result} = useAuth();
@@ -108,11 +119,6 @@ methods.
   }
   //...
 
-*Parameters*
-
-- ``credentials``. A Realm credential supplied by any supported Realm
-  authentication.
-
 logInWithAnonymous()
 ````````````````````
 
@@ -123,6 +129,8 @@ logInWithAnonymous()
    logInWithAnonymous(): void
 
 Log in with the anonymous authentication provider.
+
+*Example* 
 
 .. code:: typescript
 
@@ -142,6 +150,12 @@ logInWithApiKey(key)
 
 Log in with an API key.
 
+*Parameters*
+
+- ``key``. A string that is linked to an App Services user.
+
+*Example* 
+
 .. code:: typescript
 
    const {logInWithApiKey, result} = useAuth();
@@ -149,10 +163,6 @@ Log in with an API key.
    const key = getApiKey(); // user defined function
       logInWithApiKey(key);
    };
-
-*Parameters*
-
-- ``key``. A string that is linked to an App Services user.
 
 logInWithEmailPassword(credentials)
 ```````````````````````````````````
@@ -232,8 +242,8 @@ Log in with Google.
 
 *Parameters*
 
-- ``credentials``. An object with an ``idToken`` field that should contain
-  the string token you get from Google Identity Services.
+- ``credentials``. An object with an ``idToken`` or ``authCode`` field that
+  should contain the string token you get from Google Identity Services.
 
 logInWithApple(idToken)
 ```````````````````````
@@ -325,10 +335,6 @@ Logs out the current user.
    const performLogout = () => {
       logOut();
    }
-
-*Parameters*
-
-- none
 
 .. _react-native-use-emailpassword-auth:
 
@@ -603,7 +609,7 @@ useApp()
 
    useApp<FunctionsFactoryType, CustomDataType>(): Realm.App<FunctionsFactoryType, CustomDataType>
 
-The ``useApp()`` hook provides access to the :js-sdk:`Realm.App <Realm.App.html>`
+The ``useApp()`` hook provides access to a :js-sdk:`Realm.App <classes/App.html>`
 instance.
 
 .. literalinclude:: /examples/generated/react-native/ts/use-app.test.snippet.use-app.tsx
