@@ -88,17 +88,17 @@ logIn(credentials)
 
    logIn(credentials: Realm.Credentials): void
 
-Logs in a user with any authentication mechanism supported by
-Realm. If called when a user is logged in, the current user switches to
-the new user. Usually, it's better to use the more specific login
-methods.
-
 *Parameters*
 
 - ``credentials``. A Realm credential supplied by any supported Realm
   authentication.
 
-*Example* 
+*Example*
+
+Logs in a user with any authentication mechanism supported by
+Realm. If called when a user is logged in, the current user switches to
+the new user. Usually, it's better to use the more specific login
+methods.
 
 .. code:: typescript
 
@@ -128,9 +128,9 @@ logInWithAnonymous()
 
    logInWithAnonymous(): void
 
-Log in with the anonymous authentication provider.
+*Example*
 
-*Example* 
+Log in with the anonymous authentication provider.
 
 .. code:: typescript
 
@@ -148,13 +148,13 @@ logInWithApiKey(key)
 
    logInWithApiKey(key: string): void
 
-Log in with an API key.
-
 *Parameters*
 
 - ``key``. A string that is linked to an App Services user.
 
-*Example* 
+*Example*
+
+Log in with an API key.
 
 .. code:: typescript
 
@@ -176,6 +176,12 @@ logInWithEmailPassword(credentials)
      password: string;
    }): void
 
+*Parameters*
+
+- ``credentials``. An object with ``email`` and ``password`` fields.
+
+*Example*
+
 Log in with Email/Password.
 
 .. code:: typescript
@@ -188,10 +194,6 @@ Log in with Email/Password.
       logInWithEmailPassword({email, password});
    };
 
-*Parameters*
-
-- ``credentials``. An object with ``email`` and ``password`` fields.
-
 logInWithJWT(credentials)
 `````````````````````````
 
@@ -200,6 +202,12 @@ logInWithJWT(credentials)
    :caption: Type signature
 
    logInWithJWT(token: string): void
+
+*Parameters*
+
+- ``credentials``. A string representation of a user's JWT.
+
+*Example*
 
 Log in with a JSON Web Token (JWT).
        
@@ -211,10 +219,6 @@ Log in with a JSON Web Token (JWT).
    const token = authorizeWithCustomerProvider(); // user defined function
       logInWithJWT(token);
    };
-
-*Parameters*
-
-- ``credentials``. A string representation of a user's JWT.
 
 logInWithGoogle(credentials)
 ````````````````````````````
@@ -229,6 +233,13 @@ logInWithGoogle(credentials)
         authCode: string;
     }): void;
 
+*Parameters*
+
+- ``credentials``. An object with an ``idToken`` or ``authCode`` field that
+  should contain the string token you get from Google Identity Services.
+
+*Example*
+
 Log in with Google.
        
 .. code:: typescript
@@ -240,11 +251,6 @@ Log in with Google.
       logInWithGoogle({idToken: token});
    };
 
-*Parameters*
-
-- ``credentials``. An object with an ``idToken`` or ``authCode`` field that
-  should contain the string token you get from Google Identity Services.
-
 logInWithApple(idToken)
 ```````````````````````
 
@@ -253,6 +259,12 @@ logInWithApple(idToken)
    :caption: Type signature
 
    logInWithApple(idToken: string): void;
+
+*Parameters*
+
+- ``idToken``. A string you get from an Apple SDK.
+
+*Example*
 
 Log in with Apple.
        
@@ -265,10 +277,6 @@ Log in with Apple.
       logInWithApple(token);
    };
 
-*Parameters*
-
-- ``idToken``. A string you get from an Apple SDK.
-
 logInWithFacebook(accessToken)
 ``````````````````````````````
 
@@ -277,6 +285,12 @@ logInWithFacebook(accessToken)
    :caption: Type signature
 
    logInWithFacebook(accessToken: string): void;
+
+*Parameters*
+
+- ``accessToken``. A string you get from the Facebook SDK.
+
+*Example*
 
 Log in with Facebook.
        
@@ -289,10 +303,6 @@ Log in with Facebook.
       logInWithFacebook(token);
    };
 
-*Parameters*
-
-- ``accessToken``. A string you get from the Facebook SDK.
-
 logInWithFunction(payload)
 ``````````````````````````
 
@@ -301,6 +311,13 @@ logInWithFunction(payload)
    :caption: Type signature
 
    logInWithFunction<PayloadType extends Record<string, unknown>>(payload: PayloadType): void;
+
+*Parameters*
+
+- ``payload``. An object that contains user information you want to pass to
+  the App Services function that processes log in requests.
+
+*Example*
 
 Log in with a custom function.
        
@@ -313,11 +330,6 @@ Log in with a custom function.
       logInWithFunction(customPayload);
    };
 
-*Parameters*
-
-- ``payload``. An object that contains user information you want to pass to
-  the App Services function that processes log in requests.
-
 logOut()
 ````````
 
@@ -326,6 +338,8 @@ logOut()
    :caption: Type signature
 
    logOut(): void;
+
+*Example*
 
 Logs out the current user.
        
@@ -368,6 +382,12 @@ logIn(credentials)
 
    logIn(credentials: { email: string; password: string }): void;
 
+*Parameters*
+
+- ``credentials``. An object that contains ``email`` and ``password`` properties.
+
+*Example*
+
 Logs a user in using an email and password. You could also call
 ``logIn(Realm.Credentials.emailPassword(email, password))``. Returns a
 ``Realm.User`` instance of the logged-in user.
@@ -396,10 +416,6 @@ Logs a user in using an email and password. You could also call
    }
    //...
 
-*Parameters*
-
-- ``credentials``. An object that contains ``email`` and ``password`` properties.
-
 logOut()
 ````````
 
@@ -408,6 +424,8 @@ logOut()
    :caption: Type signature
 
    logOut(): void;
+
+*Example*
 
 Logs out the current user.
        
@@ -427,6 +445,12 @@ register(args)
 
    register(args: { email: string; password: string }): void;
 
+*Parameters*
+
+- ``args``. An object that contains ``email`` and ``password`` properties.
+
+*Example*
+
 Registers a new user. Requires a user email and password.
        
 .. code:: typescript
@@ -440,10 +464,6 @@ Registers a new user. Requires a user email and password.
       register({email, password});
    };
 
-*Parameters*
-
-- ``args``. An object that contains ``email`` and ``password`` properties.
-
 confirm(args)
 `````````````
 
@@ -452,6 +472,12 @@ confirm(args)
    :caption: Type signature
 
    confirm(args: { token: string; tokenId: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains ``token`` and ``tokenId`` properties.
+
+*Example*
 
 Confirms a user account. Requires a ``token`` and ``tokenId``.
        
@@ -463,10 +489,6 @@ Confirms a user account. Requires a ``token`` and ``tokenId``.
       confirm({token, tokenId});
    };
 
-*Parameters*
-
-- ``args``. An object that contains ``token`` and ``tokenId`` properties.
-
 resendConfirmationEmail(args)
 `````````````````````````````
 
@@ -475,6 +497,12 @@ resendConfirmationEmail(args)
    :caption: Type signature
 
    resendConfirmationEmail(args: { email: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+*Example*
 
 Resends a confirmation email.
 
@@ -487,10 +515,6 @@ Resends a confirmation email.
       resendConfirmationEmail({email});
    };
 
-*Parameters*
-
-- ``args``. An object that contains an ``email`` property.
-
 retryCustomConfirmation(args)
 `````````````````````````````
 
@@ -499,6 +523,12 @@ retryCustomConfirmation(args)
    :caption: Type signature
 
    retryCustomConfirmation(args: { email: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+*Example*
 
 Retries confirmation with a custom function.
 
@@ -511,10 +541,6 @@ Retries confirmation with a custom function.
       retryCustomConfirmation({email});
    };
 
-*Parameters*
-
-- ``args``. An object that contains an ``email`` property.
-
 sendResetPasswordEmail(args)
 `````````````````````````````
 
@@ -523,6 +549,12 @@ sendResetPasswordEmail(args)
    :caption: Type signature
 
    sendResetPasswordEmail(args: { email: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+*Example*
 
 Sends a password reset email.
 
@@ -535,10 +567,6 @@ Sends a password reset email.
       sendResetPasswordEmail({email});
    };
 
-*Parameters*
-
-- ``args``. An object that contains an ``email`` property.
-
 resetPassword(args)
 ```````````````````
 
@@ -547,6 +575,13 @@ resetPassword(args)
    :caption: Type signature
 
    resetPassword(args: { token: string; tokenId: string; password: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains ``token``, ``tokenId``, and ``password``
+  properties.
+
+*Example*
 
 Resets a user's password.
 
@@ -558,11 +593,6 @@ Resets a user's password.
    const performResetPassword = () => {
       resetPassword({token, tokenId, password});
    };
-
-*Parameters*
-
-- ``args``. An object that contains ``token``, ``tokenId``, and ``password``
-  properties.
 
 callResetPasswordFunction(args, restArgs)
 `````````````````````````````````````````
@@ -579,6 +609,14 @@ callResetPasswordFunction(args, restArgs)
     ...restArgs: Args
   ): void;
 
+*Parameters*
+
+- ``args``. An object that contains ``email`` and ``password`` properties.
+- ``restArgs``. Additional arguments that you need to pass to your custom
+  reset password function.
+
+*Example*
+
 Calls your App Services backend password reset function. Can pass arguments to
 the function as needed.
 
@@ -592,12 +630,6 @@ the function as needed.
       callResetPasswordFunction({email, password}, "extraArg1", "extraArg2");
    };
 
-*Parameters*
-
-- ``args``. An object that contains ``email`` and ``password`` properties.
-- ``restArgs``. Additional arguments that you need to pass to your custom
-  reset password function.
-
 .. _react-native-use-app-hook:
 
 useApp()
@@ -608,6 +640,8 @@ useApp()
    :caption: Type signature
 
    useApp<FunctionsFactoryType, CustomDataType>(): Realm.App<FunctionsFactoryType, CustomDataType>
+
+*Example*
 
 The ``useApp()`` hook provides access to a :js-sdk:`Realm.App <classes/App.html>`
 instance.
