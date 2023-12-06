@@ -63,11 +63,10 @@ data models, refer to :ref:`Define a Realm Object Model
       :tabid: configure-sync-realm
    
       Configure a synced realm using the providers from ``@realm/react``. To do
-      this, you need three providers from ``@realm/react``:
+      Along with a ``RealmProvider``, you need the following two providers from ``@realm/react`` to do so:
 
-      - :ref:`AppProvider reference <react-native-app-provider>`
-      - :ref:`UserProvider reference <react-native-user-provider>`
-      - :ref:`RealmProvider reference <react-native-realm-provider>`
+      - :ref:`AppProvider <react-native-app-provider>`
+      - :ref:`UserProvider <react-native-user-provider>`
 
       By default, Realm syncs all data from the server before returning anything.
       If you want to sync data in the background, read :ref:`Configure a Synced
@@ -86,7 +85,7 @@ data models, refer to :ref:`Define a Realm Object Model
       You must set up a sync subscription. The example below uses an initial subscription,
       but you can also set up subscriptions in ``RealmProvider`` child components.
 
-      This is how you nest providers:
+      You must nest providers as in the following example:
 
       .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
         :language: javascript
@@ -128,11 +127,11 @@ than one realm, you need to destructure a new realm provider and its associated
 hooks from the result of ``createRealmContext()``. You should namespace providers
 to avoid confusion about which provider and hooks you're working with.
 
-For a detailed guide, refer to :ref:`Expose more than one realm 
+For a detailed guide, refer to :ref:`Expose More Than One Realm 
 <react-native-expose-multiple-realms>`.
 
-For a details about ``createRealmContext()``, refer to :ref:`createRealmContext() 
-<react-native-realm-context>` on this page.
+For a details about ``createRealmContext()``, refer to the below section Create Context with createRealmContext() 
+ on this page.
 
 RealmProvider Hooks
 -------------------
@@ -163,7 +162,7 @@ To learn more about modifying Realm data, refer to :ref:`Write Transactions
 
 - ``Realm``
   Returns a realm instance. This is the realm created by the hook's parent,
-  ``RealmProvider``
+  ``RealmProvider``.
 
 .. _react-native-use-object-hook:
 
@@ -256,7 +255,7 @@ Create Context with createRealmContext()
    createRealmContext(realmConfig?): RealmContext
 
 Most of the time, you will only use ``createRealmContext()`` if you need to
-configure more than one realm. Otherwise, you should import``RealmProvider``
+configure more than one realm. Otherwise, you should import ``RealmProvider``
 and hooks directly from ``@realm/react``.
 
 The ``createRealmContext()`` method creates a :reactjs:`React Context
@@ -265,12 +264,12 @@ The ``createRealmContext()`` method creates a :reactjs:`React Context
 ``Context`` object contains the following: 
 
 - A :reactjs:`Context Provider <docs/context.html#contextprovider>` (referred to
-  as ``RealmProvider`` elsewhere) component that wraps around a child components
+  as ``RealmProvider`` elsewhere) component that wraps around child components
   and provides them with access to hooks.
 - Various prebuilt :reactjs:`Hooks <docs/hooks-intro.html>` that access the
   configured realm.
 
-For a detailed guide, refer to :ref:`Expose more than one realm 
+For a detailed guide, refer to :ref:`Expose More Than One Realm 
 <react-native-expose-multiple-realms>`.
 
 *Parameters* 
@@ -283,4 +282,4 @@ For a detailed guide, refer to :ref:`Expose more than one realm
 
 - ``RealmContext``
   An object containing a ``RealmProvider`` component, and the ``useRealm``,
-  ``useQuery``and ``useObject`` hooks
+  ``useQuery`` and ``useObject`` hooks
