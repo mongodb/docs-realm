@@ -68,6 +68,17 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
+You can't create subscriptions for :ref:`asymmetric objects <dotnet-data-ingest>` and
+because they only send data to your App Services backend.
+
+In the Realm .NET version 11.6.1 and later, you can create subscriptions to 
+geospatial queries. If you try to subscribe to a geospatial query with an 
+older version of the SDK, you will receive a server error and cause a 
+compensating write.
+
+For more information, refer to :ref:`<geospatial>` in the App Services 
+documentation.
+
 .. _dotnet-sync-add-subscription:
 
 Add a Subscription

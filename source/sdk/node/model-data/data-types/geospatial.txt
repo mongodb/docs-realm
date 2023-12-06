@@ -17,10 +17,20 @@ surface. With the geodata types, you can create queries that check whether a giv
 point is contained within a shape. For example, you can find all coffee shops within 
 15 km of a specified point.
 
-.. include:: /includes/no-geospatial-sync.rst
+.. versionchanged:: 12.3.0
+   Geospatial data supported in Atlas Device Sync
+
+Realm Node.js SDK v12.3.0 and later adds support for geospatial data
+in Atlas Device Sync. This allows you to subscribe to geospatial queries
+in a synced realm. For more information, refer to :ref:`<node-flexible-sync>`.
+
+If you try to subscribe to a geospatial query with an older version of the SDK,
+you will receive a server error and cause a compensating write.
 
 Geospatial Data Types
 ---------------------
+
+.. include:: /includes/important-cant-persist-geospatial.rst
 
 .. _node-geopoint:
 

@@ -56,8 +56,10 @@ You might have multiple subscriptions if you have
 many types of Realm objects. You can also have multiple subscriptions on the same 
 object type. 
 
-However, note the following if you use :ref:`linked objects <kotlin-relationships>` or 
-:ref:`asymmetric objects <kotlin-asymmetric-objects>` in your app:
+However, if you use :ref:`linked objects <kotlin-relationships>`,
+:ref:`asymmetric objects <kotlin-asymmetric-objects>`, or 
+:ref:`geospatial data <kotlin-geospatial>` in your app, refer the following 
+sections for additional information:
 
 Linked Objects
 ``````````````
@@ -79,6 +81,20 @@ unidirectionally sync **asymmetric objects**, you *cannot* create subscriptions 
 those objects. If your app contains asymmetric objects and non-asymmetric objects in the 
 same realm, you can add Flexible Sync subscription queries for the
 non-asymmetric objects.
+
+Geospatial Data
+```````````````
+
+.. versionchanged:: 1.13.0
+   Geospatial data supported in Atlas Device Sync
+
+In Kotlin SDK version 1.13.0 and later, you can create subscriptions to 
+geospatial queries. If you try to subscribe to a geospatial query with an 
+older version of the SDK, you will receive a server error and cause a 
+compensating write.
+
+For more information, refer to :ref:`<geospatial>` in the App Services 
+documentation.
 
 Initial Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~

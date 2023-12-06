@@ -10,15 +10,27 @@ Geospatial Data Types - .NET SDK
    :depth: 2
    :class: singlecol
 
+.. versionadded:: 11.1.0
+
 Geospatial data, or "geodata", specifies points and geometric objects on the Earth's 
 surface. With the geodata types, you can create queries that check whether a given  
 point is contained within a shape. For example, you can find all coffee shops within 
 15 km of a specified point.
 
-.. include:: /includes/no-geospatial-sync.rst
+.. versionchanged:: 11.6.1
+   Geospatial data supported in Atlas Device Sync
+
+Realm .NET SDK version 11.16.1 and later adds support for geospatial data
+in Atlas Device Sync. This allows you to subscribe to geospatial queries
+in a synced realm. For more information, refer to :ref:`<dotnet-flexible-sync>`.
+
+If you try to subscribe to a geospatial query with an older version of the SDK,
+you will receive a server error and cause a compensating write.
 
 Geospatial Data Types
 ---------------------
+
+.. include:: /includes/important-cant-persist-geospatial.rst
 
 .. _geopoint:
 

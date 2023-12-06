@@ -20,7 +20,15 @@ that support querying with geospatial data. These queries can check whether a gi
 point is contained within a shape. For example, you can find all coffee shops within 
 15 km of a specified point.
 
-.. include:: /includes/no-geospatial-sync.rst
+.. versionchanged:: 1.13.0
+   Geospatial data supported in Atlas Device Sync
+
+Kotlin SDK version 1.13.0 and later adds support for geospatial data
+in Atlas Device Sync. This allows you to subscribe to geospatial queries
+in a synced realm. For more information, refer to :ref:`<kotlin-subscriptions>`.
+
+If you try to subscribe to a geospatial query with an older version of the SDK,
+you will receive a server error and cause a compensating write.
 
 Geospatial Data Types
 ---------------------
@@ -32,12 +40,7 @@ The Kotlin SDK supports geospatial queries using the following data types:
 - GeoBox
 - GeoPolygon
 
-.. important:: Cannot Persist Geospatial Data Types
-
-   Currently, geospatial data types *cannot* be persisted. For example, you 
-   can't declare a property that is of type ``GeoBox``. 
-   
-   These types can only be used as arguments for geospatial queries.
+.. include:: /includes/important-cant-persist-geospatial.rst
 
 .. _kotlin-geopoint:
 
