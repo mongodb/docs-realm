@@ -29,5 +29,7 @@ add_executable(examples-beta-local
   threading.cpp
 )
 
+set(USE_EXAMPLE_MAIN 1)
+
 target_link_libraries(examples-beta-local PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(examples-beta-local PRIVATE cpprealm)

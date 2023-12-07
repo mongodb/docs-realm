@@ -247,7 +247,7 @@ instead of blocking the UI.
       - A ``Project`` object that has a list property of ``Item`` objects
       - An ``Item`` object
 
-      We must thaw both objects before we can append the Item to 
+      We must thaw both objects before we can append the ``Item`` to 
       the ``items`` list collection on the ``Project``. If we thaw only the 
       ``Project`` object but not the ``Item``, Realm throws an error.
 
@@ -259,9 +259,11 @@ instead of blocking the UI.
 
       .. literalinclude:: /examples/generated/cpp/threading.snippet.item-model.cpp
          :language: cpp
+         :caption: Item Model
 
       .. literalinclude:: /examples/generated/cpp/threading.snippet.model-with-collection-property.cpp
          :language: cpp
+         :caption: Project Model
 
 .. _cpp-scheduler-thread-management:
 

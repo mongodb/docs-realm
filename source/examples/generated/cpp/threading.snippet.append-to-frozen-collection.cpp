@@ -3,7 +3,7 @@
 // but you might also be passing them across threads.
 auto frozenItems = frozenRealm.objects<Item>();
 
-// The collection that we pull from the frozen realm is also frozen
+// The collection that we pull from the frozen realm is also frozen.
 CHECK(frozenItems.is_frozen());
 
 // Get the individual objects we want to work with.

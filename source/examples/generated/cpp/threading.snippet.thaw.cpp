@@ -1,14 +1,14 @@
-// Read from a frozen realm
+// Read from a frozen realm.
 auto frozenItems = frozenRealm.objects<Item>();
 
-// The collection that we pull from the frozen realm is also frozen
+// The collection that we pull from the frozen realm is also frozen.
 CHECK(frozenItems.is_frozen());
 
-// Get an individual item from the collection
+// Get an individual item from the collection.
 auto frozenItem = frozenItems[0];
 
-// To modify the item, you must first thaw it
-// You can also thaw collections and realms
+// To modify the item, you must first thaw it.
+// You can also thaw collections and realms.
 auto thawedItem = frozenItem.thaw();
 
 // Check to make sure the item is valid. An object is
@@ -16,7 +16,7 @@ auto thawedItem = frozenItem.thaw();
 // or when its managing realm has invalidate() called on it.
 REQUIRE(thawedItem.is_invalidated() == false);
 
-// Thawing the item also thaws the frozen realm it references
+// Thawing the item also thaws the frozen realm it references.
 auto thawedRealm = thawedItem.get_realm();
 REQUIRE(thawedRealm.is_frozen() == false);
 
