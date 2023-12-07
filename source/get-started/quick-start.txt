@@ -1,0 +1,645 @@
+.. _device-sdk-quick-start:
+.. _realm-sync-get-started:
+
+===========
+Quick Start
+===========
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+To sync data across devices, :ref:`enable Device Sync <enable-sync>` for your
+App and then use Atlas Device SDK to read, write data, and react to changes 
+on devices.
+
+Before You Start
+----------------
+
+- If you don't already have one, `sign up for a free MongoDB Atlas account
+  <https://www.mongodb.com/cloud/atlas/register?tck=docs_realm>`__.
+
+- Flexible Sync requires MongoDB version 5.0 or later. You can use a free shared
+  M0 cluster to explore and develop your app. We recommend that you use a
+  dedicated tier cluster (M10 and above) for production applications. You cannot
+  use sync with a :ref:`serverless instance <serverless-caveats>` or
+  :ref:`{+adf-instance+} <data-federation-caveats>`.
+  
+- If you don't already have one, :ref:`create a new App
+  <create-app>` linked to your Atlas cluster.
+
+Configure Your Data Model
+-------------------------
+
+Choose an SDK
+~~~~~~~~~~~~~
+
+Atlas Device SDK, available for multiple languages and platforms, includes 
+everything you need to work with synced databases in your client code. You 
+can use multiple SDKs to work with the same set of synced data across devices 
+and platforms.
+
+This guide focuses on configuring sync with an SDK.
+
+Select an appropriate language or framework SDK for your application's needs.
+
+Define Data Model
+~~~~~~~~~~~~~~~~~
+
+A synced database uses object models that you define to determine the type of
+objects in the database Additionally, Sync requires a server-side document schema
+for each synced object type so that App Services can translate and apply changes
+between synced databases and MongoDB Atlas.
+
+To define your synced object models, do one of the following for each object
+type:
+
+- Write data models as language-idiomatic classes and structs in the
+  client code, and create Atlas schemas from this code.
+- Define Atlas schemas manually, or generate them by sampling existing
+  data in Atlas. Then, generate language or framework-specific classes
+  and structs from your Atlas schemas.
+
+Requirements
+````````````
+
+Atlas Device Sync has two requirements for modeling data:
+
+- Your data model **must** have a primary key field called ``_id``. ``_id`` 
+  can be of type ``string``, ``int``, ``uuid``, ``ObjectId``, or ``objectId``.
+- Your object :ref:`type names <sync-type-name>` cannot exceed 
+  {+name-char-limit+} UTF-8 characters.
+
+.. tabs::
+
+   .. tab:: Start with Atlas Schema
+      :tabid: create-rom-from-schema
+
+      .. include:: /includes/create-rom-from-schema.rst
+
+   .. tab:: Start with Client Model
+      :tabid: create-schema-from-rom
+
+      .. include:: /includes/create-schema-from-rom.rst
+
+Define Data Access Patterns
+---------------------------
+
+Once you have decided on your app's data model, you can define a data access 
+pattern and access rules for your app's data. 
+
+Client applications can query the queryable fields of a document to determine
+which objects to sync. Then, App Services applies rules and default roles to
+determine whether users can read or write the objects that match the query.
+
+Define Data Access Rules
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Data access rules determine which data to sync, as well as each user's 
+ability to read and write data. Rules are closely linked to your app's data 
+model.
+
+With Flexible Sync, you specify which data to sync through queries for matching
+objects in a client application. App Services then evaluates :ref:`roles and
+rules <flexible-sync-roles>` to determine which of those matching objects a user
+can read and write.
+
+You can define roles on specific collections. Default roles provide read and
+write permissions when more specific roles do not apply. Default roles apply to
+all collections an App can access, but you can restrict a role to a specific
+collection by specifying the collection name.
+
+Enable Sync
+~~~~~~~~~~~
+
+When you enable Sync, you specify how clients can access data in your App.
+For a walkthrough of how to turn on sync, refer to :ref:`enable-sync`.
+
+.. _flexible-sync-query-subscription:
+
+Create Queries in Your Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+With Flexible Sync enabled, you can start creating queries from your client
+application. 
+
+The SDKs provide methods to create, update, and remove queries from the
+client application. The SDKs use **subscriptions** to maintain those queries on
+the client side. Through these subscriptions, your applications sync objects
+with the backend app and can watch for and react to changes.
+
+To create queries from your client application, refer to the SDK documentation:
+
+- :ref:`Sync Subscriptions - C++ SDK <cpp-flexible-sync>`
+- :ref:`Sync Subscriptions - Flutter SDK <flutter-sync>`
+- :ref:`Sync Subscriptions - Java SDK<java-flexible-sync>`
+- :ref:`Sync Subscriptions - Kotlin SDK <kotlin-subscriptions>`
+- :ref:`Sync Subscriptions - .NET SDK <dotnet-flexible-sync>`
+- :ref:`Sync Subscriptions - Node.js SDK <node-flexible-sync>`
+- :ref:`Sync Subscriptions - React Native SDK <react-native-flexible-sync>`
+- :ref:`Sync Subscriptions - Swift SDK <ios-flexible-sync>`
+
+Read, Write, and Update Data from Devices
+-----------------------------------------
+
+Install the SDK in a Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install the SDK in your client application. Refer to a specific SDK for 
+information about how to install it.
+
+- :ref:`Install - C++ SDK <cpp-install>`
+- :ref:`Install - Flutter SDK <flutter-install>`
+- :ref:`Install - Java SDK <java-install>`
+- :ref:`Install - Kotlin SDK <kotlin-install>`
+- :ref:`Install - .NET SDK <dotnet-install>`
+- :ref:`Install - Node.js SDK <node-install>`
+- :ref:`Install - React Native SDK <react-native-install>`
+- :ref:`Install - Swift SDK <ios-install>`
+
+Import the package in the file where you want to use it.
+
+Model Data in the Client
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The client database stores data natively as objects, rather than rows,
+documents, or columns. Depending on how you get started, you may model
+data directly in the client and use it to create an App Services schema,
+or generate client data models from your App Services Schema.
+
+The SDK uses the client data model to decode the data that comes from 
+Device Sync to objects on the device. This quick start uses these data
+models:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-model.cpp
+         :language: cpp
+
+
+      For more information about modeling data for the C++ SDK, refer to 
+      :ref:`cpp-object-models`.
+
+   .. tab::
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/car.snippet.define-model-dart.dart
+         :language: dart
+         :caption: car.dart
+
+      In the Flutter SDK, you must generate a RealmObject class ``Car`` 
+      from the data model class ``Car``:
+
+      .. code-block:: dart
+
+         dart run realm_dart generate
+
+      Running this creates a ``Car`` class in a ``car.g.dart`` file located 
+      in the directory where you defined the model class per the preceding 
+      Create Data Model section. This ``Car`` class is public and part of 
+      the same library as the ``_Car`` data model class. The generated 
+      ``Car`` class is what's used throughout your application.
+
+      For more information about modeling data for the Flutter SDK, refer 
+      to :ref:`flutter-define-realm-object-schema`.
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-model.kt
+         :language: kotlin
+         :copyable: false
+
+      For more information about modeling data for the Kotlin SDK, refer 
+      to :ref:`kotlin-define-object-model`.
+
+Set Up the Client
+~~~~~~~~~~~~~~~~~
+
+Before you can start reading and writing synced data from a device, you
+must set up the client. Your app must:
+
+- Connect to Atlas
+- Authenticate a user
+- Open the database
+
+For the first connection, the user must be online. After the initial 
+connection, the SDK caches information on the device and your app can
+read and write data even when the user is offline.
+
+If you want to start reading and writing on first app launch even if the
+user is offline, you must add logic to your app to open a non-synced database, 
+and then copy the information over to the synced database when the user 
+has network connectivity.
+
+Connect to Atlas
+````````````````
+
+To connect client applications to Atlas, initialize an ``App``. This 
+enables you to configure settings your client code can use when connecting
+to Atlas, including:
+
+- Specify a base URL
+- Set a Sync timeout
+- Whether to use a single or multiple connections
+- Set an encryption key for app metadata
+- Customize networking, including custom HTTP headers or HTTP tunneling
+
+You need your App ID when initializing a client connection to Atlas. You 
+can :ref:`find your App ID <find-your-app-id>` in the App Services UI.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.connect-to-backend.cpp
+         :language: cpp
+
+      For more information, refer to :ref:`cpp-connect-to-backend`.
+
+   .. tab::
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/app_services_test.snippet.access-app-client.dart
+         :language: dart
+
+      For more information, refer to :ref:`flutter-connect-to-backend`.
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.initialize-app-client.kt
+         :language: kotlin
+
+      For more information, refer to :ref:`kotlin-connect-to-backend`.
+
+Authenticate a User
+```````````````````
+
+In this quick start, you use :ref:`anonymous authentication <anonymous-authentication>`
+to log in users without requiring them to provide any identifying information.
+After authenticating the user, you can open a realm for that user.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-authenticate-user.cpp
+         :language: cpp
+
+      The C++ SDK provides many additional ways to authenticate, register, and link users.
+      For other authentication providers, see: :ref:`cpp-authenticate-users`.
+
+   .. tab::
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.log-in.dart
+         :language: dart
+
+      The Flutter SDK provides many additional ways to authenticate, register, and link users.
+      For other authentication providers, see: :ref:`flutter-authenticate`.
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-authenticate.kt
+         :language: kotlin
+
+      The Kotlin SDK provides many additional ways to authenticate, register, and link users.
+      For other authentication providers, see: :ref:`kotlin-authenticate`.
+
+Open a Database
+```````````````
+
+Once you have enabled Device Sync and authenticated a user, you can create
+a sync configuration object and open the database. You can then subscribe to a 
+Sync query that determines what data the database can read and write.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-open-synced-realm.cpp
+         :language: cpp
+
+      For more information about the options you can specify when you open
+      a synced database, refer to :ref:`cpp-configure-and-open-a-realm`.
+
+      For more information about managing sync query subscriptions, refer 
+      to :ref:`cpp-flexible-sync`.
+
+   .. tab::
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.open-sync-realm.dart
+         :language: dart
+         :caption: Open a synced database
+
+      For more information about the options you can specify when you open
+      a synced database, refer to :ref:`flutter-open-synced-realm`.
+
+      .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.add-sync-subscription.dart
+         :language: dart
+         :caption: Subscribe to a Sync query
+
+      For more information about managing sync query subscriptions, refer 
+      to :ref:`flutter-flexible-sync-manage-subscriptions`.
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-open-a-synced-realm.kt
+         :language: kotlin
+         :copyable: false
+
+      For more information about the options you can specify when you open
+      a synced database, refer to :ref:`kotlin-open-a-synced-realm`.
+
+      For more information about managing sync query subscriptions, refer 
+      to :ref:`kotlin-subscriptions`.
+
+Perform CRUD Operations
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The user writes data to the database on the device. Device Sync automatically
+handles synchronizing the data to other devices and resolving conflicts.
+Because the database persists data on the device, users can read and write 
+data even when they're offline.
+
+The APIs to read and write data are the same regardless of whether you're 
+writing to a synced or non-synced database.
+
+The database stores data as objects. Create, read, update, and delete objects
+from the database in a write transaction block.
+
+Create Objects
+``````````````
+
+Instantiate a new object and add it to the database in a write block:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-create-todo.cpp
+         :language: cpp
+
+      For more information about creating objects, refer to 
+      :ref:`cpp-crud-create`.
+
+   .. tab::
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
+         :language: dart
+
+      For more information about creating objects, refer to 
+      :ref:`flutter-create-objects`.
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-create.kt
+         :language: kotlin
+         :copyable: false
+
+      For more information about creating objects, refer to 
+      :ref:`kotlin-create-a-new-object`.
+
+Read from the Database
+``````````````````````
+
+You read from the database by retrieving a collection of all objects of 
+a specific type. You can filter the collection using language-idiomatic query
+engines or Realm Query Language.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      You can retrieve a live :ref:`results collection <cpp-read-operations>` of 
+      all todos in the realm:
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.get-all-todos.cpp
+         :language: cpp
+
+      You can also filter that collection using :ref:`where <cpp-client-query-engine>`:
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.filter.cpp
+         :language: cpp
+
+      For more information about reading objects, refer to 
+      :ref:`cpp-crud-read`.
+
+   .. tab::
+      :tabid: dart
+
+      Retrieve a collection of all objects of a data model in the realm with the
+      :flutter-sdk:`Realm.all() <realm/Realm/all.html>` method:
+
+      .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
+         :language: dart
+
+      Filter a collection to retrieve a specific segment
+      of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method.
+      In the ``query()`` method's argument,
+      use :ref:`Realm Query Language operators<rql-operators>` to perform filtering.
+
+      .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
+         :language: dart
+
+      For more information about reading objects, refer to 
+      :ref:`flutter-read-operations`.
+
+   .. tab::
+      :tabid: kotlin
+
+      You can retrieve a collection of all Todo items in the realm with
+      `query.find() <{+kotlin-local-prefix+}io.realm.kotlin.query/find.html>`__:
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-read.kt
+         :language: kotlin
+         :copyable: false
+
+      For more information about reading objects, refer to 
+      :ref:`kotlin-read-objects`.
+
+      You can also filter a collection to retrieve a more specific collection
+      of objects:
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-read-filtered.kt
+         :language: kotlin
+         :copyable: false
+
+      Find more information about string Realm queries in :ref:`Filter Data <kotlin-filter-data>`.
+
+Update Objects
+``````````````
+
+To modify an object, update its properties in a write transaction block:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-modify-write-block.cpp
+         :language: cpp
+
+
+      For more information about updating objects, refer to 
+      :ref:`cpp-crud-update`.
+
+   .. tab::
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.update-realm-object.dart
+         :language: dart
+
+      For more information about updating objects, refer to 
+      :ref:`flutter-read-operations`.
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-update.kt
+         :language: kotlin
+         :copyable: false
+
+      For more information about updating objects, refer to 
+      :ref:`kotlin-update-objects`.
+
+Delete Objects
+``````````````
+
+You can delete a specific object, all objects of a specific type, or all 
+objects in the database inside a write transaction block.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-delete.cpp
+         :language: cpp
+
+
+      For more information about deleting objects, refer to 
+      :ref:`cpp-crud-delete`.
+
+   .. tab::
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
+         :language: dart
+
+      For more information about deleting objects, refer to 
+      :ref:`flutter-delete-objects`.
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-delete.kt
+         :language: kotlin
+         :copyable: false
+
+      For more information about deleting objects, refer to 
+      :ref:`kotlin-delete-objects`.
+
+React to Changes
+~~~~~~~~~~~~~~~~
+
+Listen and respond to changes to a query, a single object, or a list within 
+an object.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: cpp
+
+      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.watch-for-changes.cpp
+         :language: cpp
+
+      For more information about reacting to changes, refer to 
+      :ref:`cpp-react-to-changes`.
+
+   .. tab::
+      :tabid: dart
+
+      The change listener is a Stream that invokes a callback function with an containing
+      changes since last invocation as its argument.
+
+      To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
+      <realm/RealmResultsChanges-class.html>`.
+
+      .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
+         :language: dart
+
+      You can pause and resume subscriptions as well.
+
+      .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.pause-resume-subscription.dart
+         :language: dart
+
+      Once you've finished listening to changes, close the change listener to prevent memory leaks.
+
+      .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.cancel-subscription.dart
+         :language: dart
+
+      For more information, refer to :ref:`flutter-react-to-changes`.
+
+   .. tab::
+      :tabid: kotlin
+
+      In the following example, we listen for changes on all ``Item`` objects.
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-watch-for-changes.kt
+         :language: kotlin
+         :copyable: false
+
+      Later, when you're done observing, cancel the job to cancel the coroutine:
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-unsubscribe-to-changes.kt
+         :language: kotlin
+         :copyable: false
+
+Close a Database
+~~~~~~~~~~~~~~~~
+
+In some versions of the SDK, you must manually close the database when you're
+finished with it to prevent memory leaks. The SDKs where you must manually
+close a database include:
+
+- Flutter SDK
+- Java SDK
+- Kotlin SDK
+- .NET SDK
+- Node.js SDK
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
+         :language: dart
+
+      For more information, refer to :ref:`flutter-close-realm`.
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-close-realm.kt
+         :language: kotlin
+         :copyable: false
+
+      For more information, refer to :ref:`kotlin-close-a-realm`.
