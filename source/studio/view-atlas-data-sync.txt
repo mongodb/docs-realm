@@ -27,6 +27,8 @@ app in development, or experiment with permissions and subscription changes.
 Prerequisites
 -------------
 
+Minimum Realm Studio version: 14.1.2.
+
 Because Device Sync connects Realm Studio to the App Services backend 
 through an Atlas App Services App, you need to following before you 
 can get started:
@@ -44,7 +46,7 @@ provider types:
 - API Key
 - JWT
 
-If your app uses Email & Password, API Key, or JWT authentication, you must 
+If your App uses Email & Password, API Key, or JWT authentication, you must 
 create a credential of the appropriate type to use when you connect from 
 Realm Studio. For more information about creating credentials, refer to 
 the App Services documentation:
@@ -56,14 +58,11 @@ the App Services documentation:
 Connect to Atlas from Realm Studio
 ----------------------------------
 
-.. versionadded:: 14.1.2
-
 .. procedure:: 
 
    .. step:: Select Connect via Atlas Device Sync
       
-      Open Realm Studio, and press the 
-      :guilabel:`Connect via Atlas Device Sync` button.
+      Open Realm Studio, and click :guilabel:`Connect via Atlas Device Sync`.
 
    .. step:: Provide the requested metadata
 
@@ -75,7 +74,7 @@ Connect to Atlas from Realm Studio
 
    .. step:: Connect
 
-      Press the :guilabel:`Connect` button.
+      Click :guilabel:`Connect`.
 
       After you have successfully connected, Realm Studio shows the App ID
       in the menu bar of the application window. You can open connections to 
@@ -86,7 +85,7 @@ Connect to Atlas from Realm Studio
 Specify the Data to Sync
 ------------------------
 
-After you connect to Atlas from Realm Studio, the app displays a list of 
+After you connect to Atlas, Realm Studio displays a list of 
 object types matching the schemas for your App Services App. 
 
 For more information about App Services schemas, refer to :ref:`schemas` 
@@ -128,10 +127,10 @@ Add a Subscription
       label with a :guilabel:`+` button displays at the bottom of the left
       pane of the Realm Studio window.
 
-      Press the :guilabel:`+` button next to the label to open the 
+      Click :guilabel:`+` next to the label to open the 
       ``Add subscription on Object`` modal.
 
-   .. step:: Provide a Query
+   .. step:: Provide a query
 
       Use Realm Query Language (RQL) to create a query for the objects you want 
       to sync with Realm Studio. Only the objects that match your query will
@@ -175,8 +174,8 @@ Add a Subscription
 
    .. step:: Add the subscription
 
-      Press the :guilabel:`Add subscription` button to complete the process
-      of adding a subscription. This triggers an initial sync with Device Sync
+      Click :guilabel:`Add subscription` to complete the process of adding 
+      a subscription. This triggers an initial sync with Device Sync
       for:
 
       - Items of the selected object type.
