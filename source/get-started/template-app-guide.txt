@@ -1,0 +1,183 @@
+.. _device-sdk-quick-start:
+.. _realm-sync-get-started:
+
+===============================
+Template App Guided Exploration
+===============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+You can use the Atlas Device Sync template apps to quickly get set up to 
+see data syncing across devices in real time.
+
+The Atlas Device Sync template apps consist of two components:
+
+- The Atlas server-side setup and configuration
+- The Atlas Device SDK app client that you run on a simulator or device
+
+This guide walks you through how to quickly get up and running with these
+components, and then explore the template app that demonstrates syncing
+data in real time.
+
+Setup
+-----
+
+.. procedure::
+
+   .. step:: Create a template app.
+
+      When you create a template app, we use a custom Atlas App Services
+      App configuration to set up things like:
+      
+      - Authentication
+      - Permissions
+      - The linked data source
+      - The App Services schema
+      - The Device Sync settings
+
+      This lets you quickly see Device Sync in action without having to 
+      configure these things yourself.
+
+      When you create the template app, choose the :guilabel:`Real-time Sync` 
+      template.
+
+      .. include:: /includes/create-template-app.rst
+
+   .. step:: Get a template app client.
+
+      .. include:: /includes/get-template-app-client.rst
+
+.. _explore-template-app:
+
+Start Syncing Data
+------------------
+
+Each template app comes with a :file:`README.md` to help you get started. 
+Find the :file:`README.md` in the ``.zip`` file that you downloaded or the 
+repository that you cloned. Follow the instructions to install any required 
+dependencies and build and run the app.
+
+Select your favorite simulator or device, and get going!
+
+.. procedure::
+
+   .. step:: Create a user
+
+      The template apps use email/password authentication. When you provide
+      an email and password and sign in, this creates a user in App Services.
+
+      For more information about users, refer to :ref:`users-and-authentication`.
+
+   .. step:: Add and update items
+
+      The template app is a simple todo list. Add items to the list. There 
+      are a few ways you can see real-time sync in action when you add
+      items:
+
+      - Open a second simulator or device, and sign in as the same user 
+        or a different user. If you sign in as the same user, you should see 
+        the tasks appear on the second device. If you sign in as a different
+        user, you can see the items you create from the first device, but
+        you can't edit them. If you don't see the items from the first device,
+        you may need to toggle :guilabel:`Show only my tasks`.
+      - Browse to the ``Item`` collection in the Atlas UI or MongoDB Compass.
+        You may need to refresh to see new items appear in the ``Item`` 
+        collection.
+      - Open Realm Studio, and connect to Atlas via Device Sync. You can see
+        new ``Item`` objects appear as you add them through the device.
+
+      Device Sync is bi-directional. You can add new ``Item`` objects in your
+      second simulator, in the Atlas collection, or with Realm Studio, and 
+      you can see those changes reflected in your first simulator. You can
+      also rename items, mark them as complete, or delete them in one place 
+      and see the changes reflect across everywhere you're viewing them.
+
+   .. step:: Simulate offline state
+
+      You can toggle the :icon-fa5:`wifi` icon to simulate the device being
+      offline. When the device is in an "offline" state, you can continue
+      to add, update, or remove items from the device. Because the data 
+      persists locally, there is no interruption to the ability to use the
+      app when the user is offline. You don't see changes on the device
+      reflected on other devices or in Atlas, because those changes can't 
+      sync until you re-enable the network connection.
+
+      Alternately, you can make changes to Atlas data or other connected
+      devices while one device is offline. You continue to see the changes
+      populate in real-time in Atlas and across other devices, but the 
+      device that is offline does not get the updates.
+
+      Then, when you toggle the :icon-fa5:`wifi` icon again to simulate
+      the network connection resuming, the device automatically resumes 
+      syncing its data. Changes made on the other devices now appear on 
+      the reconnected device, and changes that you made while the device
+      was offline populate to the other devices. 
+      
+      If you make conflicting changes to an item while the device is offline,
+      you can see Device Sync's conflict resolution at work when you reconnect.
+      For example, if you change the item's name on the device, and delete 
+      the item on the server or a different device, you can see how 
+      Device Sync applies the conflicting changes. The delete wins and the 
+      name change does not populate to other devices. For more information 
+      about conflict resolution, refer to :ref:`conflict-resolution`.
+
+   .. step:: See my tasks versus all tasks
+
+      The template app has a toggle that lets you see only your own tasks, 
+      or see all tasks. When you switch this toggle, the template app changes 
+      the query that determines what data syncs to the device. When the 
+      query changes, the data that you can see on the device changes.
+
+      This functionality is based on two implementation details in the 
+      template app:
+
+      - The server-side permissions that determine what data the user can 
+        read and write. In the template app server permissions, users can 
+        read all data but can only write their own. The server evaluates the
+        permissions when the data syncs. If you attempt to write data where 
+        your logged-in user.id does not match the ``owner_id``, the server 
+        rejects the changes. It undoes the write on the device and does not
+        populate the changes to other devices.
+      - The query on the device that determines what data syncs. In the 
+        template app client, you can sync only the data where ``owner_id`` 
+        matches the user.id of the logged in user, or you can sync all data.
+        These are two different sync queries. The template app client adds or 
+        removes the sync query to sync all data when you switch the toggle.
+        Changing the sync query changes which data is synced to the device.
+
+      You can use a combination of permissions and sync query to support 
+      a wide range of use cases, such as:
+
+      - User can read and write only their own data
+      - User can read all data, but write only their own data
+      - An "admin" user can read and write all data, but other users can
+        read and write only their own data
+      - User can read and write their own data, and can "subscribe" to 
+        other users to read their data, similar to a social media app
+      - User can read and write their own data, and add other users as 
+        collaborators who can read and write the data, similar to a 
+        shared workspace or shared document
+      - Users can write their own data, read the data of all the members 
+        of their "team", and an "admin" user can read and write all data
+
+      This is just a few of the common use cases that the intersection of
+      permissions and sync query can support. For more information about 
+      how you might implement these permissions strategies, refer to 
+      :ref:`flexible-sync-permissions-guide`.
+
+Next Steps
+----------
+
+Now that you've seen Device Sync and a client app in action, you might want to:
+
+- Explore a tutorial that shows you how to build on top of the template app: 
+  :ref:`app-services-get-started-tutorials`
+- Explore a walkthrough that gives you an overview of how all the pieces fit 
+  together with Atlas Device Sync and Atlas Device SDK client applications:
+  :ref:`device-sdk-walkthrough`
+- Learn more about CRUD operations in Atlas Device SDK client operations: 
+  :ref:`sdk-quick-start`
