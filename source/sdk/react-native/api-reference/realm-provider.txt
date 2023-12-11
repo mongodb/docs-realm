@@ -65,12 +65,17 @@ data models, refer to :ref:`Define a Realm Object Model
 
    .. tab:: Configure realm with sync
       :tabid: configure-sync-realm
-   
-      Configure a synced realm using the providers from ``@realm/react``. To do
-      Along with a ``RealmProvider``, you need the following two providers from ``@realm/react`` to do so:
 
-      - :ref:`AppProvider <react-native-app-provider>`
-      - :ref:`UserProvider <react-native-user-provider>`
+      :ref:`RealmProvider <react-native-realm-provider>` is a wrapper
+      that exposes a realm to its child components. You configure your realm by
+      passing props to ``RealmProvider``.
+
+      When ``RealmProvider`` is rendered, it opens the realm. This means that the
+      provider renders successfully or its child components can't access the realm.
+
+      In addition to ``RealmProvider``, you also need to configure
+      :ref:`AppProvider <react-native-app-provider>` and :ref:`UserProvider 
+      <react-native-user-provider>`.
 
       By default, Realm syncs all data from the server before returning anything.
       If you want to sync data in the background, read :ref:`Configure a Synced
@@ -100,7 +105,7 @@ data models, refer to :ref:`Define a Realm Object Model
    .. tab:: Configure realm without sync
       :tabid: configure-non-sync-realm
    
-      :ref:`RealmProvider reference <react-native-realm-provider>` is a wrapper
+      :ref:`RealmProvider <react-native-realm-provider>` is a wrapper
       that exposes a realm to its child components. You configure your realm by
       passing props to ``RealmProvider``.
 
@@ -134,8 +139,8 @@ to avoid confusion about which provider and hooks you're working with.
 For a detailed guide, refer to :ref:`Expose More Than One Realm 
 <react-native-expose-multiple-realms>`.
 
-For a details about ``createRealmContext()``, refer to the below section Create Context with createRealmContext() 
- on this page.
+For details about ``createRealmContext()``, refer to "Create Context with
+createRealmContext()" on this page.
 
 RealmProvider Hooks
 -------------------
@@ -286,4 +291,4 @@ For a detailed guide, refer to :ref:`Expose More Than One Realm
 
 - ``RealmContext``
   An object containing a ``RealmProvider`` component, and the ``useRealm``,
-  ``useQuery`` and ``useObject`` hooks
+  ``useQuery`` and ``useObject`` hooks.
