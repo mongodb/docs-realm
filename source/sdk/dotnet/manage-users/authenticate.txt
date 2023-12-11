@@ -178,3 +178,18 @@ Refresh Token Expiration
 
 .. include:: /includes/refresh-token-expiry.rst
    
+
+Observe Authentication Changes
+------------------------------
+
+.. versionadded:: v11.6.0
+
+You can observe a flow of authentication change events by calling
+:dotnet-sdk:`.Changed() <reference/Realms.Sync.User.html#Realms_Sync_User_Changed>`
+on a valid user object.
+
+Currently, ``.Changed()`` responds to all user events and you should add code
+to ensure your responses to events are idempotent.
+
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.observe-auth-change.cs
+   :language: csharp
