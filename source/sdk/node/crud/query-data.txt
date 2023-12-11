@@ -1,5 +1,6 @@
 .. _node-client-query-engine:
 .. _node-query-data:
+.. _node-live-queries:
 
 ========================
 Query Data - Node.js SDK
@@ -12,8 +13,37 @@ Query Data - Node.js SDK
    :class: singlecol
 
 To filter data in your Realms, construct queries with Realm Query Language.
+Queries always reflect the latest state of an
+object and emit :ref:`notifications <node-change-notifications>` that can
+update your app whenever data changes.
+
 For more information about syntax, usage and limitations,
 refer to the :ref:`Realm Query Language reference <realm-query-language>`.
+
+.. _node-results-collections:
+.. _node-limits:
+.. _node-pagination:
+
+Results Collections
+-------------------
+
+A results collection represents all objects in a realm that match a query
+operation. In general you can work with a collection like a regular JavaScript
+array but collections don't actually hold matching Realm objects in memory.
+Instead they reference the matched objects, which themselves map directly to data
+in the realm file.
+
+.. note:: Pagination & Limits
+   
+   Some queries only need to access a subset of all objects that match the query.
+   Realm's lazy-loaded collections only fetch objects when you actually
+   access them, so you do not need any special mechanism to limit query results.
+   
+   For example, if you only want to find 10 matching objects at a time (such as
+   in a paged product catalog) you can just access ten elements of the results
+   collection. To advance to the next page, access the next ten elements of the
+   results collection starting at the index immediately following the last
+   element of the previous page.
 
 Examples on This Page
 ---------------------
