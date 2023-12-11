@@ -1,8 +1,8 @@
 .. _flutter-install:
 
-===========================
-Install Realm - Flutter SDK
-===========================
+=======================
+Install the Flutter SDK
+=======================
 
 .. contents:: On this page
    :local:
@@ -15,18 +15,18 @@ Prerequisites
 -------------
 
 - `Install Flutter in your development environment <https://docs.flutter.dev/get-started/install>`__.
-  To use the latest version of the Realm SDK, you must use Flutter version 3.10.2 or later and Dart version 3.0.2 or later.
+  To use the latest version of the Atlas Device SDK for Flutter, you must use Flutter version 3.10.2 or later and Dart version 3.0.2 or later.
 
 .. warning:: Incompatible with Dart 2.17.3
 
-   The Realm Flutter SDK and Realm Dart Standalone SDK are not compatible with
+   The Flutter SDK and Dart Standalone SDK are not compatible with
    Dart 2.17.3 due to an issue with the Dart virtual machine in this version.
-   You may use Dart 2.17.5 version or later with Realm.
+   You may use Dart 2.17.5 version or later with the SDK.
 
 Supported Platforms
 ~~~~~~~~~~~~~~~~~~~
 
-You can use the Realm Flutter SDK on the following platforms:
+You can use the Flutter SDK on the following platforms:
 
 - iOS
 - Android
@@ -34,7 +34,7 @@ You can use the Realm Flutter SDK on the following platforms:
 - Windows
 - Linux running on 64-bit architecture
 
-You **cannot** use the Realm Flutter SDK on the following platforms:
+You **cannot** use the Flutter SDK on the following platforms:
 
 - Web
 - Linux running on ARM64 or 32-bit architectures
@@ -44,10 +44,16 @@ You **cannot** use the Realm Flutter SDK on the following platforms:
 Installation
 ------------
 
-Follow these steps to add the Realm Flutter SDK to
-your Flutter project.
+You can use the SDK in a Flutter project, or in a standalone Dart project.
 
-.. include:: /includes/note-use-realm-with-only-dart.rst
+.. tip:: Atlas Device SDK and Realm
+
+   The SDK uses Realm Core database for device data persistence. When you
+   install the Flutter or Dart standalone SDK, the package names reflect 
+   Realm naming.
+
+Install the SDK in a Flutter Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. procedure::
 
@@ -61,9 +67,9 @@ your Flutter project.
         flutter create <app_name>
         cd <app_name>
 
-   .. step:: Add Realm to the Project
+   .. step:: Add the SDK to the Project
 
-      To add the `Realm Flutter SDK <https://pub.dev/packages/realm>`__ to your project, run the command:
+      To add the `Flutter SDK <https://pub.dev/packages/realm>`__ to your project, run the command:
 
       .. code-block::
 
@@ -79,9 +85,9 @@ your Flutter project.
           realm: <latest_version>
 
 
-   .. step:: Import Realm Package
+   .. step:: Import the Package
 
-      To use the Realm Flutter SDK within your app, import the package
+      To use the Flutter SDK within your app, import the package
       into files where you will use it:
 
       .. code-block:: dart
@@ -90,20 +96,19 @@ your Flutter project.
 
 .. note:: Using Networking in your macOS App
 
-   If you are developing with the Realm Flutter SDK in the macOS App Sandbox,
+   If you are developing with the Flutter SDK in the macOS App Sandbox,
    network requests do not work by default due to built-in macOS security settings.
    To fix this, you must change the Flutter app's macOS network entitlements.
 
-   To learn how to do this, refer to :ref:`Use Realm with the macOS App Sandbox
+   To learn how to do this, refer to :ref:`Use the SDK with the macOS App Sandbox
    <flutter-macos-development>`.
-
 
 .. _dart-install-steps:
 
 Dart Standalone Installation
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To use Realm with Dart but not Flutter, there is a separate
+To use the SDK with Dart but not Flutter, there is a separate
 Dart SDK package with its own installation process.
 The Dart SDK can be used for CLI applications or when running Dart in a server environment.
 The Dart standalone package ``realm_dart`` has the same usage as the Flutter package
@@ -122,10 +127,10 @@ except where otherwise noted.
 
         `See the official documentation. <https://dart.dev/server>`_
 
-   .. step:: Add Realm to the Project
+   .. step:: Add the SDK to the Project
 
 
-      To add the `Realm Dart SDK <https://pub.dev/packages/realm_dart>`__ to your project, run the command:
+      To add the `Dart SDK <https://pub.dev/packages/realm_dart>`__ to your project, run the command:
 
       .. code-block::
 
@@ -140,7 +145,7 @@ except where otherwise noted.
         dependencies:
           realm_dart: <latest_version>
 
-   .. step:: Install Realm into Application
+   .. step:: Install the SDK into the Application
 
       Install the ``realm_dart`` package into the application.
       This downloads and copies the required native binaries to the app directory.
@@ -149,9 +154,9 @@ except where otherwise noted.
 
         dart run realm_dart install
 
-   .. step:: Import Realm Package
+   .. step:: Import the Package
 
-      To use the Realm Dart SDK within your app, import the package
+      To use the SDK within your Dart app, import the package
       into files where you will use it:
 
       .. code-block:: dart
@@ -185,7 +190,7 @@ follow these steps.
 
             flutter pub upgrade realm
 
-      #. Regenerate your Realm Object models.
+      #. Regenerate your object models.
 
          .. code-block::
 
@@ -193,7 +198,7 @@ follow these steps.
 
       These steps should make the updated SDK version work in your application.
       If issues persist, you can delete the application from your linked client and
-      restart it. Note that this will also delete all data stored in the realm
+      restart it. Note that this will also delete all data stored in the database
       on that client.
 
    .. tab:: Dart Standalone
@@ -219,7 +224,7 @@ follow these steps.
 
             dart run realm_dart install
 
-      #. Regenerate your Realm Object models.
+      #. Regenerate your object models.
 
          .. code-block::
 
@@ -228,5 +233,5 @@ follow these steps.
       These steps should make the updated SDK version work in your application.
       If issues persist, delete the ``.realm`` database file created by the SDK,
       and restart the application.
-      Note that deleting the ``.realm`` file also deletes all data stored in the realm
-      on that client.
+      Note that deleting the ``.realm`` file also deletes all data stored in 
+      the database on that client.

@@ -3,15 +3,21 @@
 :noprevnext:
 
 .. _flutter-intro:
+.. _flutter-realm-database:
+.. _flutter-realm-database-overview:
+.. _flutter-realm-database-internals:
 
-=================
-Realm Flutter SDK
-=================
+============================
+Atlas Device SDK for Flutter
+============================
+
+.. meta::
+   :description: Use the Atlas Device SDK for Flutter to store and sync data in cross-platform apps with Dart and Flutter.
 
 .. toctree::
    :titlesonly:
 
-   Install Realm for Flutter </sdk/flutter/install>
+   Install </sdk/flutter/install>
    Quick Start </sdk/flutter/quick-start>
    Realm Database </sdk/flutter/realm-database>
    Atlas App Services </sdk/flutter/app-services>
@@ -26,15 +32,15 @@ Realm Flutter SDK
    Release Notes <https://github.com/realm/realm-dart/releases>
 
 
-The Realm Flutter SDK enables client applications written in
+Use the Atlas Device SDK for Flutter to write client applications in
 `Dart <https://dart.dev/>`__ for the `Flutter <https://flutter.dev/>`__
-platform to access data stored in realms, sync data with Atlas,
+platform. Read and write data on devices, sync data with Atlas,
 and use Atlas App Services.
 
 .. kicker:: Learning Paths
 
-Get Started with Realm Flutter
-------------------------------
+Get Started with the Flutter SDK
+--------------------------------
 
 .. card-group::
    :columns: 3
@@ -47,17 +53,16 @@ Get Started with Realm Flutter
       :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
       :icon-alt: Functions Icon
 
-      Minimal-explanation code examples of how to work with the Realm Flutter SDK.
+      Minimal-explanation code examples of how to work with the Flutter SDK.
 
    .. card::
       :headline: Working Example App
       :cta: Explore an Example App
       :url: https://www.mongodb.com/docs/atlas/app-services/template-apps/
       :icon: /images/icons/branding_2022/Technical_REALM_Mobile3x.png
-      :icon-alt: Realm Mobile Icon
+      :icon-alt: Atlas Device SDK Mobile Icon
 
-      Learn by example through dissecting a working app that uses the Realm Flutter SDK
-      and Atlas Device Sync.
+      Learn by example through dissecting a working app that uses the Flutter SDK.
 
    .. card::
       :headline: Guided Tutorial
@@ -67,123 +72,117 @@ Get Started with Realm Flutter
       :icon-alt: Tutorial Icon
 
       Follow a guided tutorial to learn how to adapt the example app to
-      create your own working Flutter app with Realm and Atlas Device Sync.
+      create your own working app.
 
 .. kicker:: What You Can Do
 
-Develop Apps with the Realm Flutter SDK
----------------------------------------
+Develop Apps with the SDK
+-------------------------
+
+Use the SDK's open-source database - Realm - as an object store on the device. 
+Use Device Sync to keep data in sync with your MongoDB Atlas cluster and 
+other clients.
 
 .. tabs::
 
-   .. tab:: Use Realm Locally
-      :tabid: local-realm
+   .. tab:: Store Data with the SDK
+      :tabid: device-persistence
 
-      .. container::
+      .. procedure::
 
-         Use Realm to persist data on your device.
+         .. step:: Install the Flutter SDK
 
-         .. procedure::
+            To get started, :ref:`install the Flutter SDK <flutter-install>`.
+            Then, import the SDK in your project files.
 
-            .. step:: Install the Realm Flutter SDK
+         .. step:: Define an Object Schema
 
-               To get started, :ref:`install the Realm Flutter SDK <flutter-install>`.
-               Then, import the Realm SDK in your project files.
+            Use Dart to idiomatically :ref:`define an object schema <flutter-define-realm-object-schema>`.
 
-            .. step:: Define an Object Schema
+         .. step:: Configure & Open a Database
 
-               Use Dart to idiomatically :ref:`define a Realm object schema <flutter-define-realm-object-schema>`.
+            You can configure your database to do things
+            like populate initial data on load, use an encryption key to 
+            secure data, and more. To begin working with your data,
+            :ref:`configure and open a database <flutter-open-close-realm>`.
 
-            .. step:: Configure & Open a Realm
+         .. step:: Read and Write Data
 
-               You can configure your realm to do things
-               like populate initial data on load, be encrypted, and more.
-               To begin working with your data,
-               :ref:`configure and open a realm <flutter-open-close-realm>`.
+            You can :ref:`create, read, update, and delete objects <flutter-read-write-data>`
+            from the database on the device. Construct complex queries to 
+            :ref:`filter data <flutter-filter-results>`.
 
-            .. step:: Read and Write Data
+         .. step:: React to Changes
 
-               You can :ref:`create, read, update, and delete objects <flutter-read-write-data>`
-               from a realm. Construct complex queries to :ref:`filter data in a realm <flutter-filter-results>`.
-
-            .. step:: React to Changes
-
-               Realm's live objects mean that your data is always up-to-date.
-               Register a change listener to :ref:`react to changes and perform logic like updating
-               your UI <flutter-react-to-changes>`.
+            Live objects mean that your data is always up-to-date.
+            Register a change listener to :ref:`react to changes <flutter-react-to-changes>` 
+            and perform logic like updating your UI.
 
       .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
-         :alt: Realm Mobile Illustration
+         :alt: Atlas Device SDK Mobile Illustration
 
    .. tab:: Sync Data Across Devices
       :tabid: device-sync
 
-      .. container::
+      .. procedure::
 
-         Use Atlas Device Sync to automatically sync data between your app
-         and MongoDB Atlas.
+         .. step:: Configure Atlas Device Sync
 
-         .. procedure::
+            Configure :ref:`Device Sync in an App Services App <realm-sync-get-started>`.
+            Define data access rules or use Development Mode to infer a schema
+            from your client's data model.
 
-            .. step:: Configure Atlas Device Sync
+         .. step:: Connect to an Atlas App Services App
 
-               Configure :ref:`Device Sync in an App Services App <realm-sync-get-started>`.
-               Define data access rules or use Development Mode to infer a schema
-               from your client's data model.
+            To use the App Services App with Device Sync in your Flutter app,
+            :ref:`connect to the backend App <flutter-connect-to-backend>`.
 
-            .. step:: Connect to an Atlas App Services App
+         .. step:: Authenticate a User
 
-               To use the App Services App with Device Sync in your Flutter app,
-               :ref:`connect to the backend App <flutter-connect-to-backend>`.
+            App Services provides access to custom JWT authentication,
+            our built-in email/password provider, anonymous
+            authentication, and popular
+            authentication providers like Apple, Google, and Facebook.
+            Use these providers to :ref:`authenticate a user in your client <flutter-authenticate>`.
 
-            .. step:: Authenticate a User
+         .. step:: Open a Synced Database
 
-               App Services provides access to custom JWT authentication,
-               our built-in email/password provider, anonymous
-               authentication, and popular
-               authentication providers like Apple, Google, and Facebook.
-               Use these providers to :ref:`authenticate a user in your client <flutter-authenticate>`.
+            To get started syncing data, :ref:`open a synced database <flutter-open-synced-realm>`.
+            To determine what data a synced database can read and write,
+            :ref:`subscribe to a query <flutter-flexible-sync-manage-subscriptions>`.
 
-            .. step:: Open a Synced Realm
+         .. step:: Read and Write Synced Data
 
-               To get started syncing data, :ref:`open a synced realm <flutter-open-synced-realm>`.
-               To determine what data a synced realm can read and write,
-               :ref:`subscribe to a query <flutter-flexible-sync-manage-subscriptions>`.
-
-            .. step:: Read and Write Synced Data
-
-               The APIs to read and write data from a realm are the same
-               whether you're using a synced or local realm. Data that you
-               read and write is automatically kept in sync with your Atlas
-               cluster and other clients. Apps keep working offline and
-               sync changes whenever a network connection is available.
+            The APIs to read and write data are the same whether you're using 
+            a synced or non-synced database. Data that you read and write is 
+            automatically kept in sync with your Atlas cluster and other 
+            clients. Apps keep working offline and sync changes whenever a 
+            network connection is available.
 
       .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
-         :alt: Realm Sync Illustration
+         :alt: Device Sync Illustration
 
    .. tab:: Build with Atlas App Services
       :tabid: app-services
 
-      .. container::
+      Call Serverless Functions
+      ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         Call Serverless Functions
-         ~~~~~~~~~~~~~~~~~~~~~~~~~
+      You can :ref:`call serverless Atlas Functions <flutter-call-function>`
+      that run in an App Services backend from your client application.
 
-         You can :ref:`call serverless Atlas Functions <flutter-call-function>`
-         that run in an App Services backend from your client application.
+      Query MongoDB Atlas with GraphQL
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         Query MongoDB Atlas with GraphQL
-         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      You can :ref:`query data stored in MongoDB with the Atlas GraphQL API <flutter-graphql-api>`
+      directly from your client application code.
 
-         You can :ref:`query data stored in MongoDB with the Atlas GraphQL API <flutter-graphql-api>`
-         directly from your client application code.
+      Authenticate Users
+      ~~~~~~~~~~~~~~~~~~
 
-         Authenticate Users
-         ~~~~~~~~~~~~~~~~~~
-
-         Authenticate users with built-in and third-party :ref:`authentication
-         providers <flutter-authenticate>`. Use the authenticated user to
-         access App Services.
+      Authenticate users with built-in and third-party :ref:`authentication
+      providers <flutter-authenticate>`. Use the authenticated user to
+      access App Services.
 
       .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
          :alt: App Services Illustration
@@ -198,54 +197,53 @@ Recommended Reading
    :style: extra-compact
 
    .. card::
-      :headline: Realm Flutter Reference
-      :cta: Realm Flutter Reference
+      :headline: Flutter API Reference
+      :cta: Flutter API Reference
       :url: https://pub.dev/documentation/realm/latest/
       :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
       :icon-alt: Reference Icon
 
-      Explore reference docs for the Realm Dart and Flutter on pub.dev.
+      Explore Dart and Flutter reference docs for the SDK on pub.dev.
 
    .. card::
-      :headline: Install Realm Flutter
-      :cta: Add Realm to Flutter project
+      :headline: Install the SDK
+      :cta: Add the SDK to Flutter project
       :url: https://www.mongodb.com/docs/realm/sdk/flutter/install/
       :icon: /images/icons/flutter.svg
       :icon-alt: Flutter Logo Icon
 
-      Learn how to add the Realm SDK to your Flutter project.
+      Learn how to add the SDK to your Flutter project.
 
-Dart Standalone Realm
----------------------
+Dart Standalone SDK
+-------------------
 
-In addition to using Realm with Flutter, you can also use Realm with projects
-that just use Dart, like a CLI application or web server.
+In addition to using the SDK with Flutter, you can also use the SDK with 
+projects that just use Dart, like a CLI application or web server.
 
-The usage for Realm with Dart is the same as the Flutter SDK, except you must
+The usage for the SDK with Dart is the same as the Flutter SDK, except you must
 install and set up a separate package.
 
-:ref:`Learn how to set up Realm in your Dart project. <dart-install-steps>`
+:ref:`Learn how to set up the SDK in your Dart project. <dart-install-steps>`
 
 Example Projects
 ----------------
 
 Explore engineering and expert-provided example projects to learn best 
-practices and common development patterns for Realm and Atlas App Services
-using the Flutter SDK. Check out the :ref:`<realm-example-projects-table>` page
-for more Flutter sample apps.
+practices and common development patterns using the Flutter SDK. Check out 
+the :ref:`<realm-example-projects-table>` page for more Flutter sample apps.
 
 .. card-group::
    :columns: 3
    :style: extra-compact
    
    .. card::
-      :headline: Offline Login and Realm Access
+      :headline: Offline Login and Database Access
       :cta: Example project
       :url: https://github.com/realm/realm-dart-samples/tree/kilochat/kilochat
       :icon: /images/icons/branding_2023/Technical_REALM_Offline10x.png
-      :icon-alt: Realm Offline Icon
+      :icon-alt: Atlas Device SDK Offline Icon
 
-      Log in a Device Sync user and open a synced realm offline.
+      Log in a Device Sync user and open a synced database offline.
 
    .. card::
       :headline: User's Online State
@@ -261,6 +259,7 @@ for more Flutter sample apps.
       :cta: Example project
       :url: https://github.com/realm/realm-dart-samples/tree/main/provider_shopper
       :icon: /images/icons/branding_2023/Technical_MDB_StaticHosting10x.png
-      :icon-alt: Local Realm Icon
+      :icon-alt: Local Atlas Device SDK Icon
 
-      Build a modified Flutter sample app that uses a local Realm instead of in-memory collection.
+      Build a modified Flutter sample app that uses a non-synced database 
+      to store data on the device.
