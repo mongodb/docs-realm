@@ -3,16 +3,19 @@
 :noprevnext:
 
 .. _cpp-intro:
+.. _cpp-realm-database:
 
-===============
-C++ SDK Preview
-===============
+==================================
+Atlas Device SDK for C++ (Preview)
+==================================
+
+.. meta:: 
+   :description: Use Atlas Device SDK for C++ to write applications that access data stored locally on devices and sync data with Atlas.
 
 .. toctree::
    :titlesonly:
 
-   Why Realm? </sdk/cpp/realm-database>
-   Install Realm </sdk/cpp/install>
+   Install </sdk/cpp/install>
    Quick Start </sdk/cpp/quick-start>
    Model Data </sdk/cpp/model-data>
    Realm Files </sdk/cpp/realm-files>
@@ -28,8 +31,8 @@ C++ SDK Preview
    Example Projects <https://github.com/realm/realm-cpp/tree/main/examples>
    Release Notes <https://github.com/realm/realm-cpp/releases>
 
-Use the Realm C++ SDK to write applications in C++ that access data
-stored in realms and sync data with Atlas.
+Use Atlas Device SDK for C++ to write applications that access data
+stored locally on devices and sync data with Atlas.
 
 Preview SDK
 -----------
@@ -39,26 +42,26 @@ to try out the features and `give feedback
 <https://feedback.mongodb.com/forums/923521-realm/>`__. However, be
 aware that APIs and functionality are subject to change.
 
-The C++ SDK does not yet support all Realm features or Atlas App
+The C++ SDK does not yet support all database features or Atlas App
 Services integrations.
 
 .. kicker:: What You Can Do
 
-Develop Apps with Realm
------------------------
+Develop Apps with the SDK
+-------------------------
 
-Use free open-source Realm as a local object store on a device.
-Use Device Sync to keep data in sync with your MongoDB Atlas cluster and
+Use the SDK's open-source database - Realm - as an object store on the device. 
+Use Device Sync to keep data in sync with your MongoDB Atlas cluster and 
 other clients.
 
 .. tabs::
 
-   .. tab:: Use Realm Locally
-      :tabid: local-realm
+   .. tab:: Store Data with the SDK
+      :tabid: device-persistence
 
       .. procedure::
 
-         .. step:: Install the Realm C++ SDK
+         .. step:: Install the C++ SDK
 
             Use Swift Package Manager or Cmake to :ref:`cpp-install` 
             in your project.
@@ -71,28 +74,28 @@ other clients.
             Use C++ to idiomatically :ref:`define an object type
             <cpp-define-a-new-object-type>`.
 
-         .. step:: Open a Realm
+         .. step:: Open a Database
 
-            Realm stores objects in realm files on your device.
-            :ref:`Configure and open a realm <cpp-configure-and-open-a-realm>`
+            The SDK's database - Realm - stores objects in files on your device.
+            :ref:`Configure and open a database <cpp-configure-and-open-a-realm>`
             to get started reading and writing data.
 
          .. step:: Read and Write Data
 
             :ref:`Create <cpp-crud-create>`, :ref:`read <cpp-crud-read>`,
             :ref:`update <cpp-crud-update>`, and :ref:`delete <cpp-crud-delete>`
-            objects from the realm. Filter data using Realm's
+            objects from the realm. Filter data using the SDK's
             :ref:`query engine <cpp-filter-data>`.
 
          .. step:: React to Changes
 
-            Realm's live objects mean that your data is always up-to-date.
+            Live objects mean that your data is always up-to-date.
             You can :ref:`register a notification handler <cpp-react-to-changes>`
             to watch for changes and perform some logic, such as updating
             your UI.
 
       .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
-         :alt: Realm Mobile Illustration
+         :alt: Atlas Device SDK Mobile Illustration
 
    .. tab:: Sync Data Across Devices
       :tabid: device-sync
@@ -119,24 +122,23 @@ other clients.
             integrate with other authentication providers. Anonymous authentication
             provides access without requiring a login or persisting user data.
 
-         .. step:: Open a Synced Realm
+         .. step:: Open a Synced Database
 
-            Instead of opening a local realm, :ref:`configure and open a
-            synced Realm <cpp-open-synced-realm>`.
+            :ref:`Configure and open a synced database <cpp-open-synced-realm>`.
             :ref:`Subscribe to a query <cpp-manage-flexible-sync-subscriptions>`
-            to determine what data the synced realm can read and write.
+            to determine what data the synced database can read and write.
 
          .. step:: Read and Write Synced Data
 
-            The APIs to read and write data from a realm are the same
-            whether you're using a synced or local realm. Data that you
-            read and write is automatically kept in sync with your Atlas
+            The APIs to read and write data are the same whether you're using 
+            a synced or non-synced database. Data that you read and write to 
+            the device is automatically kept in sync with your Atlas
             cluster and other clients. Apps keep working offline and
             deterministically sync changes whenever a network connection is
             available.
 
       .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
-         :alt: Realm Sync Illustration
+         :alt: Device Sync Illustration
 
    .. tab:: Build with Atlas App Services
       :tabid: app-services
@@ -175,22 +177,22 @@ Recommended Reading
       :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
       :icon-alt: Functions Icon
 
-      Minimal-explanation code examples of how to work with Realm.
+      Minimal-explanation code examples of how to work with the SDK.
 
    .. card::
       :headline: C++ API Reference
       :cta: C++ SDK Reference
       :url: https://www.mongodb.com/docs/realm-sdks/cpp/latest
       :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
-      :icon-alt: Realm Icon
+      :icon-alt: SDK Icon
 
-      Explore generated Doxygen reference docs for the Realm C++ APIs.
+      Explore generated Doxygen reference docs for the C++ APIs.
 
    .. card::
       :headline: C++ SDK on GitHub
       :cta: C++ SDK Repository
       :url: https://github.com/realm/realm-cpp
       :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
-      :icon-alt: Realm Icon
+      :icon-alt: SDK Icon
 
-      Explore the Realm C++ SDK on GitHub.
+      Explore the C++ SDK on GitHub.
