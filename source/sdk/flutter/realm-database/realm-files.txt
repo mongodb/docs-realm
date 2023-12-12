@@ -45,8 +45,22 @@ path <flutter-customize-default-configuration>` that you can define when you ope
 You can open, view, and edit the contents of these files with
 :ref:`realm-studio`.
 
-Realm also creates additional files for each realm.
-To learn more about these files, see :ref:`Realm Internals
-<flutter-realm-database-internals>`. Deleting these files has important implications.
-For more information about deleting ``.realm`` or auxiliary files, refer to
+Auxiliary Files
+~~~~~~~~~~~~~~~
+
+Realm creates additional files for each realm:
+
+- **realm files**, suffixed with "realm", e.g. :file:`default.realm`:
+  contain object data.
+- **lock files**, suffixed with "lock", e.g. :file:`default.realm.lock`:
+  keep track of which versions of data in a realm are
+  actively in use. This prevents realm from reclaiming storage space
+  that is still used by a client application. 
+- **note files**, suffixed with "note", e.g. :file:`default.realm.note`:
+  enable inter-thread and inter-process notifications.
+- **management files**, suffixed with "management", e.g. :file:`default.realm.management`:
+  internal state management.
+
+Deleting these files has important implications.
+For more information about deleting ``.realm`` or auxiliary files, see: 
 :ref:`Delete a Realm <flutter-delete-realm>`.

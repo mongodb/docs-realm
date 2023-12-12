@@ -1,4 +1,5 @@
 .. _ios-react-to-changes:
+.. _ios-live-object:
 
 ============================
 React to Changes - Swift SDK
@@ -9,6 +10,18 @@ React to Changes - Swift SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+All Realm objects are **live objects**, which means they
+automatically update whenever they're modified. Realm emits a
+notification event whenever any property changes. You can register a 
+notification handler to listen for these notification events, and update
+your UI with the latest data.
+
+This page shows how to manually register notification listeners in Swift.
+Atlas Device SDK for Swift offers SwiftUI property wrappers to make it easy to
+automatically update the UI when data changes. For more about how to use 
+the SwiftUI property wrappers to react to changes, refer to 
+:ref:`swiftui-update-ui-when-objects-change`.
 
 .. _ios-register-a-realm-change-listener:
 

@@ -35,22 +35,29 @@ you define when you open the realm.
    Every production application should implement a ``shouldCompactOnLaunch`` 
    callback to periodically reduce the realm file size.
 
-.. note:: Auxiliary Realm Files
-   
-   Realm creates additional files for each realm.
+Auxiliary Files
+~~~~~~~~~~~~~~~
 
-.. warning:: Use Caution When Deleting Realm Files
+Realm creates additional files for each realm:
+
+- **realm files**, suffixed with "realm", e.g. :file:`default.realm`:
+  contain object data.
+- **lock files**, suffixed with "lock", e.g. :file:`default.realm.lock`:
+  keep track of which versions of data in a realm are
+  actively in use. This prevents realm from reclaiming storage space
+  that is still used by a client application. 
+- **note files**, suffixed with "note", e.g. :file:`default.realm.note`:
+  enable inter-thread and inter-process notifications.
+- **management files**, suffixed with "management", e.g. :file:`default.realm.management`:
+  internal state management.
    
-   In some circumstances, such as a client reset scenario, you might need to
-   delete a realm file and its auxiliary files.
-   
-   If you delete a realm file or any of its auxiliary files while one or
-   more instances of the realm are open, you might corrupt the realm or
-   disrupt :ref:`sync <sync>`.
-   
-   You may safely delete these files when all instances of a realm are
-   closed. Before you delete a realm file, make sure that you back up any
-   important objects as you will lose all unsynced data in the realm.
+If you delete a realm file or any of its auxiliary files while one or
+more instances of the realm are open, you might corrupt the realm or
+disrupt sync.
+
+You may safely delete these files when all instances of a realm are
+closed. Before you delete a realm file, make sure that you back up any
+important objects as you will lose all unsynced data in the realm.
 
 .. _react-native-in-memory-realm:
 
