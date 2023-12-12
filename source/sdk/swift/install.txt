@@ -27,7 +27,7 @@ meets the following prerequisites:
 - Xcode 14.1-14.3.1 with a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
 - Reflection is enabled in your project. The Swift SDK uses reflection to 
   determine your model's properties. Your project must not set 
-  ``SWIFT_REFLECTION_METADATA_LEVEL = none`` or the SDK cannot see properties 
+  ``SWIFT_REFLECTION_METADATA_LEVEL = none``, or the SDK cannot see properties 
   in your model. Reflection is enabled by default if your project does 
   not specifically set a level for this setting. 
 
@@ -290,7 +290,7 @@ Import the SDK
 .. tip:: Atlas Device SDK and Realm
 
    The SDK uses Realm Core database for device data persistence. When you
-   install the Swift SDK, the package names reflect Realm naming.
+   import the Swift SDK, the package names reflect Realm naming.
 
 Add the following line at the top of your source files to use the SDK:
 
