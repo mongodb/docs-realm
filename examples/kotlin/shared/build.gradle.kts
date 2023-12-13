@@ -31,7 +31,7 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(kotlin("test-junit"))
-                implementation("com.google.android.gms:play-services-auth:20.2.0")
+                implementation("com.google.android.gms:play-services-auth:20.7.0")
                 implementation("com.google.android.gms:play-services-base:18.2.0")
             }
         }
@@ -39,7 +39,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.android)
-                implementation("com.google.android.gms:play-services-auth:20.2.0")
+                implementation("com.google.android.gms:play-services-auth:20.7.0")
                 implementation("com.google.android.gms:play-services-base:18.2.0")
             }
         }
