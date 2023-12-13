@@ -17,6 +17,7 @@ android {
             isMinifyEnabled = false
         }
     }
+    namespace = "com.mongodb.realm.realmkmmapp.android"
 }
 
 dependencies {

@@ -11,7 +11,7 @@ buildscript {
         val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
         classpath(libs.findLibrary("realm-plugin").get())
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21")
-        classpath("com.android.tools.build:gradle:7.2.2")
+        classpath("com.android.tools.build:gradle:7.4.2")
     }
 }
 

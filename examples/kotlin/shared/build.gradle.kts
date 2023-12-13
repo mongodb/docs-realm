@@ -82,6 +82,7 @@ android {
         minSdk = 28
         targetSdk = 33
     }
+    namespace = "com.mongodb.realm.realmkmmapp"
 }
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
