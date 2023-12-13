@@ -1,3 +1,31 @@
+# December 8, 2023
+
+## Flutter SDK
+
+- Realm Database/Model Data/Define a Realm Object Schema: Note that asymmetric objects support linking to Realm objects starting in v1.6.0.
+
+## Kotlin SDK
+
+- Realm/Model Data/Define an Object Model: Note that asymmetric objects support linking to Realm objects starting in v1.12.0.
+
+## .NET SDK
+
+- Manage Users/Manage Email/Password Users: Add an example for the new `App.EmailPassword.retryCustomConfirmation` method and the older, undocumented, `App.EmailPassword.ResendConfirmationEmailAsync` method.
+- Sync Data/Stream Data to Atlas: Note that asymmetric objects support linking to Realm objects starting in v11.6.0.
+
+## Node.js SDK
+
+- Model Data/Define an Object Model: Note that asymmetric objects support linking to Realm objects starting in v12.2.1.
+
+## React Native SDK
+
+- Model Data/Define an Object Model: Note that asymmetric objects support linking to Realm objects starting in v12.2.1.
+
+## Realm Studio
+
+- Landing Page: Add a bullet listing the ability to connect, view, and modify data using Device Sync.
+- View Data with Device Sync: New page describing how to use Realm Studio to test subscriptions and view Atlas data changes in real time with Device Sync.
+
 # December 1, 2023
 
 ## C++ SDK
@@ -15,7 +43,7 @@
 
 - Realm/Model Data
   - Model Data with Device Sync: Add new page with tested, Bluehawked code examples that describes how to map data from the Device Sync App Services schema to the Realm schema used by the Kotlin SDK.
-  - Property Annotations: Update Primary Key section to note that Device Sync requires a primary key named '_id'.
+  - Property Annotations: Update Primary Key section to note that Device Sync requires a primary key named `_id`.
 - Sync Device Data/Add Sync to an App: Add note pointing users to the new Model Data with Device Sync page to learn more about mapping data between Atlas and the Kotlin SDK.
 
 ## React Native SDK
@@ -30,7 +58,6 @@
 ## Other
 
 - Example Projects: Add Intelligent Cache (.NET) and Integrating In-App Purchases (Swift) projects. Move Template Apps to top of table and edit header titles to "Source Code for Available SDKs".
- 
 
 # November 24, 2023
 

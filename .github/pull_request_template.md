@@ -1,22 +1,19 @@
 ## Pull Request Info
 
 Jira ticket: https://jira.mongodb.org/browse/DOCSP-NNNNN
-Staged changes:
 
-- [PAGE_NAME](https://docs-mongodbcom-staging.corp.mongodb.com/realm/docsworker-xlarge/BRANCH_NAME/)
-
-<!--
-- Write a summary of the changes and the related issue
-- Include relevant motivation and context
-- List any required dependencies for this change
--->
+- [PAGE_NAME](https://docs-mongodbcom-staging.corp.mongodb.com/realm/docsworker-xlarge/BRANCH_NAME/): description of changes
 
 ### Reminder Checklist
 
 Before merging your PR, make sure to check a few things.
 
+- [ ] Did you tag pages appropriately?
+  - genre
+  - meta.keywords
+  - meta.description
 - [ ] Describe your PR's changes in the Release Notes section
-- [ ] Create a Jira ticket for corresponding docs-realm docs-app-services, if any
+- [ ] Create a Jira ticket for related docs-app-services work, if any
 
 ### Release Notes
 

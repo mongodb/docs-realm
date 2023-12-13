@@ -1,4 +1,5 @@
 .. _cpp-react-to-changes:
+.. _cpp-live-object:
 
 ==================================
 React to Changes - C++ SDK Preview
@@ -9,6 +10,12 @@ React to Changes - C++ SDK Preview
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+All Realm objects are **live objects**, which means they
+automatically update whenever they're modified. Realm emits a
+notification event whenever any property changes. You can register a 
+notification handler to listen for these notification events, and update
+your UI with the latest data.
 
 .. _cpp-register-an-object-change-listener:
 
@@ -83,7 +90,7 @@ inserted, and modified.
    result in unexpected behavior.
   
 Collection notifications provide a :cpp-sdk:`collection_change 
-<structrealm_1_1collection__change.html>` 
+<structrealm_1_1experimental_1_1collection__change.html>` 
 struct that reports the index of the objects that are removed, added, or 
 modified. It can also notify you if the collection was deleted.
 

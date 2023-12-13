@@ -1,8 +1,8 @@
 .. _cpp-install:
 
-===============================
-Install Realm - C++ SDK Preview
-===============================
+===================
+Install the C++ SDK
+===================
 
 .. contents:: On this page
    :local:
@@ -10,9 +10,9 @@ Install Realm - C++ SDK Preview
    :depth: 1
    :class: singlecol
 
-The Realm C++ SDK enables client applications written in C++ to access data
-stored in realms and sync data with Atlas. This page details how to 
-install Realm in your project and get started.
+Atlas Device SDK for C++ enables client applications written in C++ to access 
+data stored on devices and sync data with Atlas. This page details how to 
+install the C++ SDK in your project and get started.
 
 Requirements
 ------------
@@ -24,6 +24,11 @@ Requirements
 
 Install
 -------
+
+.. tip:: Atlas Device SDK and Realm
+
+   The SDK uses Realm Core database for device data persistence. When you
+   install the C++ SDK, the package names reflect Realm naming.
 
 .. tabs::
 
@@ -51,13 +56,13 @@ Install
 
             Under :guilabel:`Package Product`, select ``realm-cpp-sdk``. Under
             :guilabel:`Add to Target`, select the target you would like to add
-            Realm to. For example, the target might be the main executable of
+            the SDK to. For example, the target might be the main executable of
             your app. Click :guilabel:`Add Package`.
 
    .. tab:: CMake
       :tabid: cmake
 
-      You can use CMake with the FetchContent module to manage Realm and its
+      You can use CMake with the FetchContent module to manage the SDK and its
       dependencies in your C++ project.
 
       Create or modify your ``CMakeLists.txt`` in the root directory of your 
@@ -65,11 +70,11 @@ Install
 
       1. Add ``Include(FetchContent)`` to include the FetchContent module 
          in your project build.
-      #. Use ``FetchContent_Declare`` to locate the Realm dependency 
+      #. Use ``FetchContent_Declare`` to locate the SDK dependency 
          and specify the version tag you want to use. 
       #. Use the ``FetchContent_MakeAvailable()`` command to check whether 
          the named dependencies have been populated, and if not, populate them. 
-      #. Finally, ``target_link_libraries()`` links the Realm dependency to 
+      #. Finally, ``target_link_libraries()`` links the SDK dependency to 
          your target executable. 
       
       To get the most recent version tag, refer to the releases on GitHub: 
@@ -84,7 +89,7 @@ Install
 
          cmake_minimum_required(VERSION 3.15)
 
-         project(MyRealmCppProject)
+         project(MyDeviceSDKCppProject)
 
          # Minimum C++ standard
          set(CMAKE_CXX_STANDARD 17)
@@ -94,14 +99,14 @@ Install
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:preprocessor /bigobj")
          endif()
 
-         # Include the FetchContent module so you can download the Realm C++ SDK
+         # Include the FetchContent module so you can download the C++ SDK
          Include(FetchContent)
 
-         # Declare the version of the Realm C++ SDK you want to download
+         # Declare the version of the C++ SDK you want to download
          FetchContent_Declare(
            cpprealm
            GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-           GIT_TAG        v0.1.1-alpha
+           GIT_TAG        v0.5.0-preview
          )
 
          # The MakeAvailable command ensures the named dependencies have been populated
@@ -133,7 +138,7 @@ Usage
 Include the Header
 ~~~~~~~~~~~~~~~~~~
 
-Make the Realm C++ SDK available in your code by including the
+Make the C++ SDK available in your code by including the
 ``cpprealm/sdk.hpp`` header in the translation unit where you want to use it:
 
 .. literalinclude:: /examples/generated/cpp/open-realm.snippet.includes.cpp
@@ -146,7 +151,7 @@ Experimental Preview Features
 
 .. versionadded:: v0.2.0-preview
 
-The Realm C++ SDK Preview provides some features in a ``realm::experimental``
+The C++ SDK Preview provides some features in a ``realm::experimental``
 namespace. When working with these experimental features, you must
 import the experimental header.
 
@@ -163,11 +168,11 @@ And you can access features in the experimental namespace:
 Build an Android App
 --------------------
 
-The Realm C++ SDK Preview supports building Android apps. To build an Android
+The C++ SDK Preview supports building Android apps. To build an Android
 app:
 
 - Add ``<uses-permission android:name="android.permission.INTERNET" />`` to your ``AndroidManifest.xml``
-- Add the subdirectory of the Realm C++ SDK to your native library's ``CMakeLists.txt``
+- Add the subdirectory of the C++ SDK to your native library's ``CMakeLists.txt``
   and link it as a target library:
 
   .. code-block:: text
@@ -178,15 +183,15 @@ app:
      target_link_libraries( 
         # Specifies the target library.
         myapplication
-        # make sure to link the Realm C++ SDK.
+        # make sure to link the C++ SDK.
         cpprealm
      )
 
 - Ensure that the git submodules are initialized inside of the ``realm-cpp`` folder before building. 
-- When instantiating the Realm or the Realm App, you must pass the ``filesDir.path`` as the ``path`` 
-  parameter in the respective constructor or realm open template. 
+- When instantiating the database or the SDK App, you must pass the ``filesDir.path`` as the ``path`` 
+  parameter in the respective constructor or database open template. 
 
-For an example of how to use the Realm C++ SDK Preview in an Android app, refer to
+For an example of how to use the C++ SDK Preview in an Android app, refer to
 the :github:`Android RealmExample App <realm/realm-cpp/tree/main/examples/Android>`
 in the ``realm-cpp`` GitHub repository.
 

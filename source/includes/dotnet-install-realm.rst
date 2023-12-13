@@ -1,10 +1,10 @@
-Follow these steps to add the Realm .NET SDK to your project.
+Follow these steps to add the .NET SDK to your project.
 
 .. important:: Install the SDK for all projects
 
    If you have a multi-platform solution, be sure to install the SDK for 
    **all of the platform projects**, even if the given project doesn't contain 
-   any Realm-specific code. 
+   any SDK-specific code. 
 
 .. tabs::
 

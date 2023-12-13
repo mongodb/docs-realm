@@ -1,8 +1,8 @@
 .. _react-native-install:
 
-==============================
-Install Realm for React Native
-==============================
+============================
+Install the React Native SDK
+============================
 
 .. contents:: On this page
    :local:
@@ -10,24 +10,24 @@ Install Realm for React Native
    :depth: 2
    :class: singlecol
 
-The Realm React Native SDK enables development of `React Native 
+The Atlas Device SDK for React Native enables development of `React Native 
 <https://facebook.github.io/react-native/>`__ applications using the JavaScript
-and `TypeScript <https://www.typescriptlang.org/>`__ languages. React Native
-enables you to build cross-platform iOS and Android apps with a single codebase
-using the `React <https://react.dev/>`__ framework.
+and TypeScript languages. React Native enables you to build cross-platform 
+iOS and Android apps with a single codebase using the 
+`React <https://react.dev/>`__ framework.
 
 Prerequisites
 -------------
 
 Before getting started, ensure your development environment
 meets the following prerequisites. These are required for the latest version
-of the Realm React Native SDK:
+of the React Native SDK:
 
 - Follow the `official React Native CLI Quickstart instructions <https://reactnative.dev/docs/environment-setup>`__
   to set up your environment.
 - React Native v0.71.4 or later. Check out the `compatibility chart <https://github.com/realm/realm-js/blob/master/COMPATIBILITY.md>`__
   to determine which version of React Native is compatible with specific
-  Realm React Native SDK versions.
+  React Native SDK versions.
 
 .. note:: Realm JS v10.6.0 and Later Support Mac Catalyst
 
@@ -36,8 +36,8 @@ of the Realm React Native SDK:
    :doc:`build your application when using Mac Catalyst
    </sdk/react-native/integrations/mac-catalyst>`.
 
-Use Realm with Expo
-~~~~~~~~~~~~~~~~~~~
+Use the SDK with Expo
+~~~~~~~~~~~~~~~~~~~~~
 
 You can use the React Native SDK with a bare React Native app or Expo. This page
 and the React Native SDK documentation generally assume that you're using a bare
@@ -46,12 +46,17 @@ React Native app and not Expo.
 If you want to use the React Native SDK with Expo, check out the :ref:`Bootstrap 
 with Expo <react-native-client-bootstrap-with-expo>` page.
 
-Install Realm in a Bare React Native App
-----------------------------------------
+Install the SDK in a Bare React Native App
+------------------------------------------
 
 Select the tab below that corresponds to your React Native
 version. Follow the steps to create a React Native project
-and add the Realm React Native SDK to it.
+and add the React Native SDK to it.
+
+.. tip:: Atlas Device SDK and Realm
+
+   The SDK uses Realm Core database for device data persistence. When you
+   install the React Native SDK, the package names reflect Realm naming.
 
 .. tabs::
 
@@ -68,35 +73,35 @@ and add the Realm React Native SDK to it.
 
             .. code-block:: bash
 
-               npx react-native init MyRealmApp
+               npx react-native init MyApp
 
             Change to the project directory that the previous command
             just created:
 
             .. code-block:: bash
 
-               cd MyRealmApp
+               cd MyApp
 
-         .. step:: Install Realm with npm
+         .. step:: Install the SDK with npm
 
-            In your React Native project directory, add Realm to your
+            In your React Native project directory, add the SDK to your
             project with the following command:
 
             .. code-block:: bash
 
                npm install realm
 
-         .. step:: Enable Hermes (optional)
+         .. step:: Enable Hermes
 
             .. note::
 
                To use Hermes, your app must use Realm v11 or later and React Native 0.70.0 or later
 
-            Realm supports React Native's mobile-optimized JavaScript
+            The SDK supports React Native's mobile-optimized JavaScript
             engine, Hermes. By default, new apps created with the React
             Native CLI already have Hermes enabled.
 
-            We recommend that you use Hermes with Realm. However, Realm
+            We recommend that you use Hermes with the SDK. However, the SDK
             also supports the :apple:`JavaScriptCore (JSC) engine
             <documentation/javascriptcore>` if your app requires it.
 
@@ -115,30 +120,30 @@ and add the Realm React Native SDK to it.
 
                cd ios && pod install && cd ..
 
-            This downloads the Realm libraries and regenerates the
+            This downloads the SDK libraries and regenerates the
             project ``.xcworkspace`` file that you can work with in
             Xcode to run your application.
 
-
-         .. step:: Enable TypeScript (optional)
-
+         .. step:: Enable TypeScript (recommended, but optional)
 
             .. include:: /includes/react-native-enable-typescript.rst
 
          .. step:: Install the @realm/react Library
 
-            :npm:`@realm/react <package/@realm/react>` is an npm package that provides an easy-to-use API to perform
-            common Realm operations, such as querying or writing to a realm
-            and listening to realm objects.
+            :npm:`@realm/react <package/@realm/react>` is an npm package that
+            streamlines common SDK operations like querying, writing to a
+            database, and listening for object change notifications. This reduces 
+            boilerplate code, like creating your own listeners and state management.
 
-            ``@realm/react`` helps you avoid creating boilerplate code, such as creating
-            your own listeners and state management. ``@realm/react`` provides access to
-            Realm through a set of hooks that update React state when the realm data changes. This means that components using these hooks
-            will re-render on any changes to data in the realm.
+            ``@realm/react`` provides access to the SDK through a set of providers
+            that have various hooks. The hooks update React state when the
+            data changes. This means that components using these hooks rerender
+            on any changes to data in the database.
 
             .. include:: /includes/note-realmreact-version-requirements-for-realmjs.rst
 
-            In your React Native project directory, add ``@realm/react`` to your project with the following command:
+            In your React Native project directory, add ``@realm/react`` to your
+            project with the following command:
 
             .. code-block:: shell
 
@@ -146,83 +151,79 @@ and add the Realm React Native SDK to it.
 
          .. step:: Run the App
 
-
             .. include:: /includes/react-native-run-the-app.rst
-
 
    .. tab:: Older React Native Versions
       :tabid: rn-pre-v-60
 
       .. note:: @realm/react Version Requirement
          
-         The :npm:`@realm/react <package/@realm/react>` library requires react-native version ``>= 0.59``. If you are developing using older versions of React Native, you can use Realm JS without ``@realm/react``. Since the React Native SDK documentation makes heavy use of the ``@realm/react`` package, you may want to refer to the :ref:`Node.js SDK documentation <node-intro>`
+         The :npm:`@realm/react <package/@realm/react>` library requires 
+         react-native version ``>= 0.59``. If you are developing using older 
+         versions of React Native, you can use the SDK without ``@realm/react``. 
+         Since the React Native SDK documentation makes heavy use of the 
+         ``@realm/react`` package, you may want to refer to the 
+         :ref:`Node.js SDK documentation <node-intro>`.
 
       .. procedure::
 
          .. step:: Create a React Native Project
-
 
             Create your React Native project with the following
             command:
 
             .. code-block:: bash
 
-               react-native init MyRealmApp
+               react-native init MyApp
 
             Change to the project directory that the previous command
             just created:
 
             .. code-block:: bash
 
-               cd MyRealmApp
+               cd MyApp
 
+         .. step:: Install the SDK Using NPM
 
-         .. step:: Install Realm Using NPM
-
-
-            In your React Native project directory, add Realm to your
+            In your React Native project directory, add the SDK to your
             project with the following command:
 
             .. code-block:: bash
 
                npm install realm
 
+         .. step:: Link the SDK's Native Module
 
-         .. step:: Link the Realm Native Module
-
-
-            In your React Native project directory, link the Realm
+            In your React Native project directory, link the SDK's
             native module to your project with the following command:
 
             .. code-block:: bash
 
                react-native link realm
 
-
          .. step:: Confirm the Link Step (Android)
 
-
             For Android development, confirm that the link step
-            correctly added the Realm module to the Gradle
+            correctly added the SDK module to the Gradle
             configuration files. In some versions, React Native has
-            been known to fail to link Realm properly. If this
-            happens, you can link Realm manually by adding any
+            been known to fail to link the SDK properly. If this
+            happens, you can link the SDK manually by adding any
             missing lines below to the corresponding files.
 
             First, ensure the ``android/settings.gradle`` file
-            includes Realm and specifies Realm's project directory:
+            includes the SDK and specifies the SDK's project directory:
 
             .. code-block:: text
                :emphasize-lines: 2-3
 
-               rootProject.name = 'MyRealmApp'
+               rootProject.name = 'MyApp'
                include ':realm'
                project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
                apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
                include ':app'
 
             Second, ensure the ``android/app/build.gradle`` file's
-            ``dependencies`` section declares Realm as a dependency:
+            ``dependencies`` section declares the SDK as a dependency:
 
             .. code-block:: text
                :emphasize-lines: 2
@@ -254,23 +255,19 @@ and add the Realm React Native SDK to it.
                    // ...
                }
 
-
          .. step:: Enable TypeScript (optional)
-
 
             .. include:: /includes/react-native-enable-typescript.rst
 
-
          .. step:: Run the App
-
 
             .. include:: /includes/react-native-run-the-app.rst
 
-Import Realm
-------------
+Import the SDK
+--------------
 
 Add the following line to the top of your source files where
-you want to use Realm:
+you want to use the SDK:
 
 .. code-block:: typescript
 

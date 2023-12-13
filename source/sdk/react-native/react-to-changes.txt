@@ -1,4 +1,5 @@
 .. _react-native-react-to-changes:
+.. _react-native-change-notifications:
 
 ===================================
 React to Changes - React Native SDK
@@ -12,6 +13,17 @@ React to Changes - React Native SDK
 
 .. _react-native-register-a-realm-change-listener:
 .. _react-native-realm-listener:
+
+Realm objects and collections always reflect the latest state of your data when
+you read them. Realm emits a change notification whenever the state of your data
+changes, which lets you reactively update your app in response to committed
+:ref:`write transaction <react-native-write-transactions>`.
+
+You can register three types of notification listeners:
+
+- A **realm listener** fires whenever any object in a realm changes.
+- A **collection listener** fires whenever a specific query matches a new set of objects or when any matched object changes.
+- An **object listener** fires whenever a specific object is deleted or has one or more properties modified.
 
 Register a Realm Change Listener
 --------------------------------

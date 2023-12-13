@@ -1,4 +1,6 @@
 .. _react-native-read-objects:
+.. _react-native-realm-database-reads:
+.. _react-native-live-objects:
 
 ==============================
 CRUD - Read - React Native SDK
@@ -12,8 +14,13 @@ CRUD - Read - React Native SDK
 
 .. _react-native-read-operations:
 
-Read operations are queries to find your data stored in Realm. Use the
-following ``@realm/react`` hooks to read data in a realm:
+Read operations are queries to find your data stored in Realm. Data in Realm 
+is *live*, which means that an object always reflects its most recent saved 
+state and read operations never block. Objects automatically update in 
+response to changes, so you can see up-to-date data in your application 
+without running a new query.
+
+Use the following ``@realm/react`` hooks to read data in a realm:
 
 - ``useObject()``: Find a specific object by primary key.
 - ``useQuery()``: Get a collection of objects by object type.
