@@ -85,7 +85,7 @@ android {
     namespace = "com.mongodb.realm.realmkmmapp"
 }
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.activity:activity-ktx:1.2.0")
     implementation("androidx.fragment:fragment-ktx:1.3.0")
