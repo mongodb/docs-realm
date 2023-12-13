@@ -36,10 +36,9 @@ import kotlin.time.Duration.Companion.seconds
 //   }
 // }
 class SyncTest: RealmTest() {
+    private val hideNotReusingAnonymousUser = Credentials.anonymous(reuseExisting = false)
     @Test
     fun addSyncToAppTest() {
-        val hideNotReusingAnonymousUser = Credentials.anonymous(reuseExisting = false)
-
         // :snippet-start: connect-to-backend
         // Replace `YOUR_APP_ID` with your Atlas App ID
         val app = App.create(yourFlexAppId)
@@ -115,7 +114,7 @@ class SyncTest: RealmTest() {
         // :snippet-start: open-a-synced-realm
         val app = App.create(yourAppId)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
+            val user = app.login(hideNotReusingAnonymousUser)
             val config =
                 SyncConfiguration.Builder(user, PARTITION, setOf(/*realm object models here*/))
                     // specify name so realm doesn't just use the "default.realm" file for this user
@@ -124,7 +123,7 @@ class SyncTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             realm.close()
-            assertEquals(PARTITION, realm.configuration.name) // :remove:
+            assertEquals(PARTITION + ".realm", realm.configuration.name) // :remove:
         }
         // :snippet-end:
     }

@@ -40,7 +40,7 @@ class EncryptARealmTest : RealmTest() {
             val config = RealmConfiguration.Builder(setOf(Frog::class))
                 // :remove-start:
                 .deleteRealmIfMigrationNeeded()
-                .directory("tmp/encrypted")
+                .directory("temp/encrypted")
                 // :remove-end:
                 // Specify the encryption key
                 .encryptionKey(generatedKey)
