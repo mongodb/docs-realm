@@ -32,7 +32,7 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
                 implementation(kotlin("test-junit"))
                 implementation("com.google.android.gms:play-services-auth:20.2.0")
-                implementation("com.google.android.gms:play-services-base:18.0.1")
+                implementation("com.google.android.gms:play-services-base:18.2.0")
             }
         }
         sourceSets["commonTest"].kotlin.setSrcDirs(listOf("src/commonTest/kotlin"))
@@ -40,7 +40,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlinx.coroutines.android)
                 implementation("com.google.android.gms:play-services-auth:20.2.0")
-                implementation("com.google.android.gms:play-services-base:18.0.1")
+                implementation("com.google.android.gms:play-services-base:18.2.0")
             }
         }
         sourceSets["androidMain"].kotlin.setSrcDirs(listOf("src/androidMain/kotlin"))
@@ -92,7 +92,7 @@ dependencies {
     implementation("com.facebook.android:facebook-login:latest.release")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.gms:play-services-base:18.0.1")
+    implementation("com.google.android.gms:play-services-base:18.2.0")
 }
 
 // Don't cache SNAPSHOT (changing) dependencies.
