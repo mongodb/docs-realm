@@ -29,6 +29,17 @@ namespace Examples
             };
 
             app = App.Create(appConfig);
+
+            // :snippet-start: observe-auth-change
+            app.CurrentUser.Changed += (change, _) =>
+            {
+                Debug.WriteLine($"Auth change: {change}, {_}");
+                // :remove-start:
+                Assert.IsInstanceOf<System.EventArgs>(_);
+                // :remove-end:
+            };
+            // :snippet-end:
+
             user = await app.LogInAsync(Config.EPCreds);
             return;
         }
