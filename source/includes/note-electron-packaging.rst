@@ -1,6 +1,6 @@
 .. note:: 
 
-    Current React Native binaries are included in the ``realm`` package. 
-    When you're using ``electron-builder``, you might want to remove 
-    the ``react-native`` folder from the build by adding the following 
-    entry to the ``build.files`` of your ``package.json``: ``"!**/node_modules/realm/react-native"``
+    Current React Native binaries are included in the ``realm`` package. You can
+    remove the binaries and the ``react-native`` directory from the build. In your
+    ``package.json`` file, add a ``build.files`` entry and set its value to
+    ``!**/node_modules/realm/react-native``.
