@@ -80,7 +80,6 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 28
-        targetSdk = 33
     }
     namespace = "com.mongodb.realm.realmkmmapp"
 }
