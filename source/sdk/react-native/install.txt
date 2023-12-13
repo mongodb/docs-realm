@@ -124,6 +124,16 @@ and add the React Native SDK to it.
             project ``.xcworkspace`` file that you can work with in
             Xcode to run your application.
 
+         .. step:: Extending your Proguard configuration
+
+            For the Android app, you might have to extend the
+            Proguard configuration if Proguard is enabled.
+            Simply add the following:
+
+            .. code-block:: text
+
+               -keep class io.realm.react.**
+
          .. step:: Enable TypeScript (recommended, but optional)
 
             .. include:: /includes/react-native-enable-typescript.rst
