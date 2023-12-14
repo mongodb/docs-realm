@@ -30,6 +30,11 @@ You can subscribe to changes on the following events:
 - :ref:`Realm object <kotlin-realm-object-change-listener>`
 - :ref:`Realm collections (e.g. list) <kotlin-realm-list-change-listener>`
 
+The SDK only provides notifications for objects nested up to four layers deep. 
+If you need to react to changes in more deeply-nested objects, register a
+key path change listener. For more information, refer to 
+**Register a Key Path Change Listener** on this page.
+
 You can also react to changes in user authentication state. For more information,
 refer to :ref:`kotlin-authentication-change-listener`.
 
@@ -273,6 +278,36 @@ changes to the collection.
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.realm-list-change-listener.kt
    :language: kotlin
    
+.. _kotlin-key-path-notification:
+
+Register a Key Path Change Listener
+-----------------------------------
+
+.. versionadded:: 1.13.0
+
+When you register a notification handler, you can pass an optional list of 
+string property names to specify the key path or key paths to watch.
+
+When you specify key paths, only changes to those key paths trigger 
+notification blocks. Any other changes do not trigger notification blocks.
+
+.. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.realm-object-keypath-listener.kt
+   :language: kotlin
+
+You can use dot notation to observe nested key paths. By default, the SDK
+only reports notifications for objects nested up to four layers deep. Observe
+a specific key path if you need to observe changes on more deeply nested 
+objects.
+
+.. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.nested-keypath-listener.kt
+   :language: kotlin
+
+You can use wildcards (``*``) to observe changes to all key paths at the 
+level of the wildcard.
+
+.. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.wildcard-keypath-listener.kt
+   :language: kotlin
+
 Unsubscribe a Change Listener
 -----------------------------
 
