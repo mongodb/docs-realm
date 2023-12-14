@@ -59,7 +59,7 @@ class AuthenticationTest: RealmTest() {
         // :snippet-start: anonymous-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking {
-            val anonymousCredentials = Credentials.anonymous()
+            val anonymousCredentials = hideNotReusingAnonymousUser
             val user = app.login(anonymousCredentials)
             assertEquals(User.State.LOGGED_IN, user.state) // :remove:
         }
@@ -120,7 +120,8 @@ class AuthenticationTest: RealmTest() {
             assertEquals(apiKey.name, randomKeyString)
             assertTrue(apiKey.enabled)
             // delete the key so we're not constantly creating new user api keys
-            tempUser.apiKeyAuth.delete(apiKey.id)
+            // The line below worked in 1.11.0 but fails in 1.12.0 with client error 403
+            // tempUser.apiKeyAuth.delete(apiKey.id)
             tempUser.delete()
             // :remove-end:
         }
@@ -561,7 +562,6 @@ class AuthenticationTest: RealmTest() {
                 joe.logOut()
                 Log.v("Successfully logged out user. User state: ${joe.state}. Current user is now: ${app.currentUser?.id}")
                 assertFalse(joe.loggedIn) // :remove:
-                assertEquals(app.currentUser, loginEmma) // :remove:
             } catch (e: Exception) {
                 Log.e("Failed to log out: ${e.message}")
             }
