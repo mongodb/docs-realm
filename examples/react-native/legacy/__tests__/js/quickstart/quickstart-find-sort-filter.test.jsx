@@ -44,15 +44,27 @@ const FindSortFilterComponent = ({objectPrimaryKey}) => {
   const currentlyActiveProfile = useObject(Profile, objectPrimaryKey);
   const profiles = useQuery(Profile);
 
-  const sortProfiles = (reversed) => {
-    const sorted = profiles.sorted('name', reversed);
+  const sortProfiles = reversed => {
+    const sorted = useQuery(
+      Profile,
+      profiles => {
+        return profiles.sorted('name', reversed);
+      },
+      [reversed],
+    );
 
     setAllProfiles(sorted);
   };
 
   const filterProfiles = (filter, letter) => {
     // Use [c] for case-insensitivity.
-    const filtered = profiles.filtered(`name ${filter}[c] "${letter}"`);
+    const filtered = useQuery(
+      Profile,
+      profiles => {
+        return profiles.filtered(`name ${filter}[c] "${letter}"`);
+      },
+      [filter, letter],
+    );
 
     setAllProfiles(filtered);
     // For testing only. Ensures filtering works. // :remove:

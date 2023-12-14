@@ -14,7 +14,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        v0.3.0-preview
+  GIT_TAG        v0.5.0-preview
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
@@ -23,6 +23,7 @@ add_executable(examples-beta-local
   crud.cpp
   filter-data.cpp
   notifications.cpp
+  realm-files.cpp
   relationships.cpp
   supported-types.cpp
   threading.cpp

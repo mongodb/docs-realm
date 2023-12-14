@@ -4,6 +4,13 @@
 Define a Realm Object Model- Node.js SDK
 ========================================
 
+.. meta:: 
+  :keywords: code example, data modeling
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -155,6 +162,26 @@ property.
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-advanced-properties.js
    :language: javascript
    :emphasize-lines: 5
+
+.. _node-set-fts-index:
+
+Set a Full-Text Search Index
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to standard indexes, Realm also supports Full-Text Search (FTS)
+indexes on string properties. While you can query a string field with or without 
+a standard index, an FTS index enables searching for multiple words and phrases 
+and excluding others.
+
+For more information on querying FTS indexes, see :ref:`Filter with Full-Text Search <node-fts-filter>`.
+
+To create an FTS index, set the `indexed <https://www.mongodb.com/docs/realm-sdks/js/latest/types/_internal_.IndexedType.html>`__ 
+type to ``'full-text'``. This enables full-text queries on the property. In the 
+following example, we set the indexed type for the ``name`` property to ``'full-text'``:
+
+.. literalinclude:: /examples/generated/node/v12/full-text-search.test.snippet.node-fts-annotation.ts
+   :language: typescript
+   :emphasize-lines: 8
 
 .. _node-define-a-default-property-value:
 .. _node-default-values:
@@ -355,6 +382,8 @@ A ``Manufacturer`` object can embed a list of ``Warranty`` objects, whereas a
 Define an Asymmetric Object
 ---------------------------
 
+.. versionchanged:: 12.2.1
+
 If you are using Flexible Sync and need to sync a collection unidirectionally
 from your device to your Atlas database, you can set the ``asymmetric`` property
 on your object schema.
@@ -374,6 +403,11 @@ on your object schema.
       .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync-object.js
          :language: javascript
          :emphasize-lines: 6
+
+In Node.js SDK versions 12.2.0 and earlier, you cannot link from
+asymmetric objects to ``Realm.Object`` types. In SDK versions 
+12.2.1 and later, asymmetric objects can link to ``Realm.Object``
+types in addition to embedded objects.
 
 .. note:: Attempting to Read Asymmetric Objects
 

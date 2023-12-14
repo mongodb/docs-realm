@@ -165,27 +165,19 @@ describe('embedded objects tests', () => {
   it('should query for an embedded object', async () => {
     let higherScopedContactsInArea;
     // :snippet-start: query-embedded-object
-    // :replace-start: {
-    //  "terms": {
-    //   " testID='addressText'": ""
-    //   }
-    // }
     const ContactList = ({postalCode}: {postalCode: string}) => {
-      // Query for all Contact objects
-      const contacts = useQuery(Contact);
-
-      // Run the `.filtered()` method on all the returned Contacts to get
+      // Run the `.filtered()` method on all Contact objects to get
       // contacts with a specific postal code.
-      const contactsInArea = contacts.filtered(
-        `address.postalCode == '${postalCode}'`,
-      );
+      const contactsInArea = useQuery(Contact, contacts => {
+        return contacts.filtered(`address.postalCode == '${postalCode}'`);
+      });
       higherScopedContactsInArea = contactsInArea; // :remove:
 
       if (contactsInArea.length) {
         return (
           <>
             <FlatList
-              testID='contactsList'
+              testID='contactsList' // :remove:
               data={contactsInArea}
               renderItem={({item}) => {
                 <Text>{item.name}</Text>;
@@ -197,7 +189,6 @@ describe('embedded objects tests', () => {
         return <Text>No contacts found in this area.</Text>;
       }
     };
-    // :replace-end:
     // :snippet-end:
     const App = () => (
       <RealmProvider>
@@ -227,13 +218,12 @@ describe('embedded objects tests', () => {
     };
 
     const ContactInfo = ({contactCity, postalCode}: ContactInfoProps) => {
-      const contacts = useQuery(Contact);
-      const parentsToDelete = contacts.filtered(
-        `address.city == '${contactCity}'`,
-      );
-      const embeddedToDelete = contacts.filtered(
-        `address.postalCode == '${postalCode}'`,
-      );
+      const parentsToDelete = useQuery(Contact, contacts => {
+        return contacts.filtered(`address.city == '${contactCity}'`);
+      });
+      const embeddedToDelete = useQuery(Contact, contacts => {
+        return contacts.filtered(`address.postalCode == '${postalCode}'`);
+      });
       const realm = useRealm();
 
       const deleteParentObject = () => {
@@ -372,8 +362,10 @@ describe('embedded objects tests', () => {
     //   "E1 7AA": ""
     //   }
     // }
-    const OverwriteContact = ({contactId}: {
-      contactId: Realm.BSON.ObjectId
+    const OverwriteContact = ({
+      contactId,
+    }: {
+      contactId: Realm.BSON.ObjectId;
     }) => {
       const [street, setStreet] = useState('12 Grimmauld Place');
       const [city, setCity] = useState('London');

@@ -20,12 +20,12 @@ GREEN_BG_BOLD="\x1B[1;42m"
 ### End of text formatting ###
 
 PROJECT=$(git rev-parse --show-toplevel)
-INPUT_DIRECTORY=$PROJECT/examples/react-native/v12/TestApp
+INPUT_DIRECTORY=$PROJECT/examples/react-native/v12/TestApp/src
 OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/react-native/v12
 
 # standard bluehawking
 echo "${GREEN_BG_BOLD}Bluehawk: ${CLEAR} ${GREEN} Generate React Native v12 examples ${CLEAR}"
-bluehawk snip $INPUT_DIRECTORY -o $OUTPUT_DIRECTORY --format=rst
+npx bluehawk snip $INPUT_DIRECTORY -o $OUTPUT_DIRECTORY --format=rst
 
 FILES_TO_REMOVE=$(find $OUTPUT_DIRECTORY -type f -not -name "*.rst")
 

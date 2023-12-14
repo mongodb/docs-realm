@@ -2,7 +2,7 @@ class Employee extends Realm.Object {
   _id!: string;
   first_name!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Employee',
     properties: {
       _id: 'string',

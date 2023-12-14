@@ -9,11 +9,22 @@ export type RootStackParamList = {
   Subscriptions: undefined;
   SubscribeApi: undefined;
   FullTextSearch: undefined;
+  Relationships: undefined;
+  Errors: undefined;
+  Authentication: undefined;
+  Encryption: {
+    encryptionKey: ArrayBuffer;
+  };
 };
 
 export type SubscriptionStackParamList = {
   SubscriptionHome: undefined;
   SubscribeApi: undefined;
+};
+export type AuthenticationStackParamList = {
+  AuthenticationHome: undefined;
+  Login: undefined;
+  LinkIdentities: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -23,6 +34,10 @@ export type LoggerScreenProps = DrawerScreenProps<RootStackParamList, 'Logger'>;
 export type SubscriptionHomeProps = StackScreenProps<
   SubscriptionStackParamList,
   'SubscriptionHome'
+>;
+export type AuthenticationHomeProps = StackScreenProps<
+  AuthenticationStackParamList,
+  'AuthenticationHome'
 >;
 
 declare global {

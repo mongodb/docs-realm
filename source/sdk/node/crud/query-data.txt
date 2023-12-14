@@ -1,5 +1,6 @@
 .. _node-client-query-engine:
 .. _node-query-data:
+.. _node-live-queries:
 
 ========================
 Query Data - Node.js SDK
@@ -12,8 +13,37 @@ Query Data - Node.js SDK
    :class: singlecol
 
 To filter data in your Realms, construct queries with Realm Query Language.
+Queries always reflect the latest state of an
+object and emit :ref:`notifications <node-change-notifications>` that can
+update your app whenever data changes.
+
 For more information about syntax, usage and limitations,
 refer to the :ref:`Realm Query Language reference <realm-query-language>`.
+
+.. _node-results-collections:
+.. _node-limits:
+.. _node-pagination:
+
+Results Collections
+-------------------
+
+A results collection represents all objects in a realm that match a query
+operation. In general you can work with a collection like a regular JavaScript
+array but collections don't actually hold matching Realm objects in memory.
+Instead they reference the matched objects, which themselves map directly to data
+in the realm file.
+
+.. note:: Pagination & Limits
+   
+   Some queries only need to access a subset of all objects that match the query.
+   Realm's lazy-loaded collections only fetch objects when you actually
+   access them, so you do not need any special mechanism to limit query results.
+   
+   For example, if you only want to find 10 matching objects at a time (such as
+   in a paged product catalog) you can just access ten elements of the results
+   collection. To advance to the next page, access the next ten elements of the
+   results collection starting at the index immediately following the last
+   element of the previous page.
 
 Examples on This Page
 ---------------------
@@ -41,6 +71,41 @@ To filter data, pass a query made with Realm Query Language to
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.simple-query.js
    :language: js
    :emphasize-lines: 3
+
+.. _node-fts-filter:
+
+Filter with Full-Text Search
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use Realm Query Language (RQL) to query on properties that have a 
+:ref:`Full-Text Search <node-set-fts-index>` (FTS) index. 
+To query an FTS indexed property, use the ``TEXT`` predicate in your :js-sdk:`filtered <classes/Results.html#filtered>` query. 
+
+Exclude results for a word by placing the hyphen (``-``) character in front of the word. 
+For example, a search for ``swan -lake`` would include all search results for 
+``swan`` excluding those with ``lake``.
+
+In the following example, we query on the ``Book.name`` field using the 
+following ``Book`` object model:
+
+.. literalinclude:: /examples/generated/node/v12/full-text-search.test.snippet.node-fts-annotation.ts
+  :language: typescript
+
+.. literalinclude:: /examples/generated/node/v12/full-text-search.test.snippet.node-fts-query.ts
+   :language: typescript
+
+.. _node-fts-details:
+
+Full-Text Search Tokenizer Details
+''''''''''''''''''''''''''''''''''
+
+Full-Text Search (FTS) indexes support:
+
+- Boolean match word searches, not searches for relevance.
+- Tokens are diacritics- and case-insensitive.
+- Words split by a hyphen (``-``), like ``full-text``, are split into two tokens.
+- Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages). 
+  All other characters are considered whitespace. 
 
 Operators
 ---------

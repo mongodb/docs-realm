@@ -168,7 +168,10 @@ Default Field Values
 ~~~~~~~~~~~~~~~~~~~~
 
 You can use the built-in language features to assign a default value to a property. 
-In C#, you can assign a default value in the property declaration. 
+In C#, you can assign a default value on primitives in the property declaration. 
+You cannot set a default value on a collection, except to set it to ``null!``. 
+Even if you set a collection to ``null!``, collections are always initialized on 
+first access, so will never be null. 
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.default.cs
    :language: csharp
@@ -303,7 +306,7 @@ following rules:
 - You must declare properties that are Realm object types as nullable.
 
 - You cannot declare collections (list, sets, backlinks, and dictionaries) as 
-  nullable, but their parameters may be:
+  nullable, but their parameters may be nullable according to the following rules:
 
   - For all types of collections, if the parameters are primitives 
     (value- or reference-types), they can be required or nullable.

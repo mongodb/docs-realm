@@ -34,7 +34,7 @@ while getopts ":f:" option; do
 done
 
 PROJECT=$(git rev-parse --show-toplevel)
-OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/v12
+OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/v12/formatted
 INPUT_FILE=$(find $PROJECT/examples/node/v12 -type f -print | grep -i $FILE_NAME)
 FILE_EXTENSION="${FILE_NAME##*.}"
 BASE_FILE_NAME="${FILE_NAME%.*}"
@@ -44,7 +44,7 @@ then
 # Bluehawk a single file
 echo "${GREEN_BG_BOLD} Bluehawk: ${CLEAR} ${GREEN}Generate samples from '$FILE_NAME' ${CLEAR}"
 
-bluehawk snip $INPUT_FILE -o $OUTPUT_DIRECTORY --format=rst
+npx bluehawk snip $INPUT_FILE -o $OUTPUT_DIRECTORY --format=rst
 
 # TODO: There's probably a more idiomatic way to do this results filtering.
 GENERATED_FILES=$(find $OUTPUT_DIRECTORY -type f | grep -i $BASE_FILE_NAME)

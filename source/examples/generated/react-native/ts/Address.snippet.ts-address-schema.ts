@@ -4,14 +4,14 @@ class Address extends Realm.Object<Address> {
   country?: string;
   postalCode?: string;
 
-  static schema = {
-    name: "Address",
+  static schema: ObjectSchema = {
+    name: 'Address',
     embedded: true, // default: false
     properties: {
-      street: "string?",
-      city: "string?",
-      country: "string?",
-      postalCode: "string?",
+      street: 'string?',
+      city: 'string?',
+      country: 'string?',
+      postalCode: 'string?',
     },
   };
 }

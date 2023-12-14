@@ -1,15 +1,28 @@
 .. _cpp-crud-read:
 .. _cpp-read-from-realm:
+.. _cpp-realm-database-reads:
+.. _cpp-live-queries:
 
 =============================
 CRUD - Read - C++ SDK Preview
 =============================
+
+.. meta:: 
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
 
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+You can read back the data that you have :ref:`stored
+<cpp-write-transactions>` in Realm by finding,
+filtering, and sorting objects.
 
 A read from a realm generally consists of the following
 steps:
@@ -178,3 +191,54 @@ as you would a standard C++ `map <https://en.cppreference.com/w/cpp/container/ma
 
 .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.read-map-value.cpp
     :language: cpp
+
+.. _cpp-read-and-iterate-set:
+
+Read a Set Property
+~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: v0.4.0-preview
+
+You can iterate, check the size of a set, and find values in a :cpp-sdk:`set property
+<structrealm_1_1experimental_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>`:
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.read-set.cpp
+    :language: cpp
+
+.. _cpp-sort-lists-and-results:
+
+Sort Lists and Query Results
+----------------------------
+
+.. versionadded:: v0.5.0-preview
+
+A sort operation allows you to configure the order in which Realm returns 
+list objects and query results. You can sort based on one or more properties 
+of the objects in the list or results collection. Realm only guarantees a 
+consistent order if you explicitly sort.
+
+Unlike using `std::sort <https://en.cppreference.com/w/cpp/algorithm/sort>`__, 
+Realm's sort implementation preserves the lazy loading of objects. It does
+not pull the entire set of results or list objects into memory, but only
+loads them into memory when you access them.
+
+To sort, call the ``.sort()`` function on a list or results set with one or more 
+:cpp-sdk:`sort_descriptors <structrealm_1_1internal_1_1bridge_1_1sort__descriptor.html>`.
+
+A ``sort_descriptor`` includes:
+
+- The desired key path to sort by, as a string.
+- A bool to specify sort order, where``true`` is ascending and ``false`` 
+  is descending.
+
+In this example, we sort a results set on ``priority`` in descending order.
+
+.. literalinclude:: /examples/generated/cpp/filter-data.snippet.sort-results-by-single-property.cpp
+   :language: cpp
+
+You can also sort a list or results set by multiple sort descriptors. In 
+this example, we sort a list property on ``assignee`` in ascending order, 
+and then on ``priority`` in descending order. 
+
+.. literalinclude:: /examples/generated/cpp/filter-data.snippet.sort-list-by-multiple-properties.cpp
+   :language: cpp

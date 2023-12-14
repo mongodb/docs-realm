@@ -5,7 +5,7 @@ class Manufacturer extends Realm.Object {
       _id: "objectId",
       name: "string",
       // Embed an array of objects
-      warranties: { type: "list", objectType: "Warranty" }
+      warranties: { type: "list", objectType: "Warranty" },
     },
   };
 }

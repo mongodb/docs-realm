@@ -3,10 +3,15 @@ import {Button, TextInput, View} from 'react-native';
 import {render, fireEvent, waitFor, act} from '@testing-library/react-native';
 import Realm from 'realm';
 import {createRealmContext} from '@realm/react';
-import Profile from '../../Models/Profile';
+import UuidProfile from '../../Models/UuidProfile';
 
+// :replace-start: {
+//    "terms": {
+//       "UuidProfile": "Profile"
+//    }
+// }
 const realmConfig = {
-  schema: [Profile],
+  schema: [UuidProfile],
   deleteRealmIfMigrationNeeded: true,
 };
 
@@ -22,9 +27,9 @@ describe('uuid schema', () => {
 
     // delete every object in the realmConfig in the Realm to make test idempotent
     assertionRealm.write(() => {
-      assertionRealm.delete(assertionRealm.objects(Profile));
+      assertionRealm.delete(assertionRealm.objects(UuidProfile));
 
-      assertionRealm.create('Profile', {
+      assertionRealm.create('UuidProfile', {
         name: 'Tony Stark',
         _id: new Realm.BSON.UUID(),
       });
@@ -42,10 +47,10 @@ describe('uuid schema', () => {
       const realm = useRealm();
       const [name, setName] = useState('');
 
-      // createProfile creates a new 'Profile' Realm Object with a new UUID based on user input
+      // createProfile creates a new 'UuidProfile' Realm Object with a new UUID based on user input
       const createProfile = () => {
         realm.write(() => {
-          realm.create('Profile', {
+          realm.create('UuidProfile', {
             name,
             _id: new Realm.BSON.UUID(),
           });
@@ -75,7 +80,7 @@ describe('uuid schema', () => {
 
     const {getByTestId} = render(<App />);
 
-    // Test that the createProfileButton's onPress method creates a new Profile Object with a new UUID
+    // Test that the createProfileButton's onPress method creates a new UuidProfile Object with a new UUID
     const nameInput = await waitFor(() => getByTestId('nameInput'), {
       timeout: 5000,
     });
@@ -91,9 +96,10 @@ describe('uuid schema', () => {
       fireEvent.press(createProfileButton);
     });
 
-    // Test that the Profile Object with the new UUID was created using the assertionRealm and that the name is correct
-    const profiles = assertionRealm.objects(Profile);
+    // Test that the UuidProfile Object with the new UUID was created using the assertionRealm and that the name is correct
+    const profiles = assertionRealm.objects(UuidProfile);
     expect(profiles.length).toBe(2);
     expect(profiles[1].name).toBe('Steve Rogers');
   });
 });
+// :replace-end:

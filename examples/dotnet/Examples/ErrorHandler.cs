@@ -44,7 +44,7 @@ namespace Examples
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new PartitionSyncConfiguration("myPartition", user);
             //:remove-start:
-            config.Schema = new[] { typeof(Examples.Models.User) };
+            config.Schema = new[] { typeof(Models.User) };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :snippet-start:handle-errors
@@ -54,7 +54,7 @@ namespace Examples
                 {
                     // See https://www.mongodb.com/docs/realm-sdks/dotnet/latest/reference/Realms.Sync.Exceptions.ErrorCode.html
                     // for a list of all error codes
-                    case ErrorCode.Unknown:
+                    case ErrorCode.BadQuery:
                         break;
                 }
             };

@@ -173,7 +173,7 @@ This example uses the following model:
 
 .. include:: /includes/tip-cpp-beta-experimental-features.rst
 
-.. _cpp-read-and-iterate-map:
+.. _cpp-update-map:
 
 Update a Map Property
 ~~~~~~~~~~~~~~~~~~~~~
@@ -217,3 +217,34 @@ This example uses the following model:
 
       .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-map-property.cpp
          :language: cpp
+
+.. _cpp-update-set:
+
+Update a Set Property
+~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: v0.4.0-preview
+
+You can update a :cpp-sdk:`set property
+<structrealm_1_1experimental_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>`
+in a write transaction. You can ``.insert()`` elements into the set, ``erase()``
+elements from a set, or use ``std::set`` algorithms to mutate sets:
+
+- `std::set_union <https://en.cppreference.com/w/cpp/algorithm/set_union>`__
+- `std::set_intersection <https://en.cppreference.com/w/cpp/algorithm/set_intersection>`__
+- `std::set_difference <https://en.cppreference.com/w/cpp/algorithm/set_difference>`__
+- `std::set_symmetric_difference <https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference>`__
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.update-set.cpp
+   :language: cpp
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+**Model**
+
+This example uses the following model:
+
+.. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-set-property.cpp
+   :language: cpp
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst

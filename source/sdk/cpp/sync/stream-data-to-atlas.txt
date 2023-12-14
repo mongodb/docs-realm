@@ -4,6 +4,13 @@
 Stream Data to Atlas - C++ SDK Preview
 ======================================
 
+.. meta:: 
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -56,6 +63,7 @@ Sync Data Unidirectionally from a Client Application
       and :ref:`authenticate a user <cpp-authenticate-users>`.
 
       .. versionchanged:: 0.2.0 app.login returns std::future instead of std::promise
+      .. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
 
       .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-connect-and-authenticate.cpp
          :language: cpp
@@ -68,9 +76,12 @@ Sync Data Unidirectionally from a Client Application
             :tabid: current
 
             After you have an authenticated user, you can open a synced realm
-            using a ``flexibleSyncConfiguration()``.
+            using a ``flexibleSyncConfiguration()``. Unlike opening other 
+            types of realms in the ``experimental`` namespace, when you 
+            open a realm for Data Ingest, you *must* specify the
+            ``asymmetric_object`` types you want to sync.
 
-            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-open-synced-realm.cpp
+            .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.beta-open-asymmetric-synced-realm.cpp
                :language: cpp
 
             Unlike bidirectional Sync, Data Ingest does not use a 

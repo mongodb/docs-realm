@@ -10,15 +10,15 @@ class HomeOwner extends Realm.Object<HomeOwner> {
   home!: Home;
   pets?: Pet[];
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'HomeOwner',
     properties: {
       name: 'string',
-      home: '{}',
+      home: 'mixed{}',
       pets: {
         type: 'dictionary',
         objectType: 'Pet',
-        optional: true
+        optional: true,
       },
     },
   };

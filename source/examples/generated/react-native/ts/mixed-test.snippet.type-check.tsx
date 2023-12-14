@@ -11,7 +11,13 @@ const isString = (
 type CatInfoCardProps = {catName: string};
 
 const CatInfoCard = ({catName}: CatInfoCardProps) => {
-  const cat = useQuery(Cat).filtered(`name = '${catName}'`)[0];
+  const cat = useQuery(
+    Cat,
+    cats => {
+      return cats.filtered(`name = '${catName}'`);
+    },
+    [catName],
+  )[0];
   // Use the type check to handle your data.
   const catBirthDate = isString(cat.birthDate, 'birthDate', cat)
     ? cat.birthDate

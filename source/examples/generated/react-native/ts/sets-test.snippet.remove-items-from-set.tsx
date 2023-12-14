@@ -5,8 +5,12 @@ const RemoveInventoryFromCharacter = ({
 }) => {
   const realm = useRealm();
   const [inventoryItem, setInventoryItem] = useState('');
-  const character = useQuery(Character).filtered(
-    `name = '${characterName}'`,
+  const character = useQuery(
+    Character,
+    characters => {
+      return characters.filtered(`name = '${characterName}'`);
+    },
+    [characterName],
   )[0];
 
   const removeInventoryItem = () => {

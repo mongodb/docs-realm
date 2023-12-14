@@ -7,19 +7,13 @@ describe("Configure & Open a Synced Realm", () => {
       static schema = {
         name: "Doggie",
         properties: {
-          _id: {
-            type: "objectId",
-          },
-          name: {
-            type: "string",
-          },
+          _id: "objectId",
+          name: "string",
           age: {
             type: "int",
             optional: true,
           },
-          owner_id: {
-            type: "string",
-          },
+          owner_id: "string",
         },
         primaryKey: "_id",
       };

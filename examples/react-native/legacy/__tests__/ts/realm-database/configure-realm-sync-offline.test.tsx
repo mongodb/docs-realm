@@ -3,7 +3,7 @@ import React from 'react';
 import {AppProvider, UserProvider, RealmProvider} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import {render, waitFor} from '@testing-library/react-native';
 import {useApp, useQuery, useRealm} from '@realm/react';
 import {Text} from 'react-native';
@@ -15,7 +15,7 @@ class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.UUID;
   name!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Profile',
     primaryKey: '_id',
     properties: {
@@ -40,7 +40,6 @@ function AppWrapperOfflineSync() {
             flexible: true,
             newRealmFileBehavior: realmAccessBehavior,
             existingRealmFileBehavior: realmAccessBehavior,
-            onError: console.error,
           }}>
           <RestOfApp />
         </RealmProvider>

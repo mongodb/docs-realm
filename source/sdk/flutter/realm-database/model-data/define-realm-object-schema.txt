@@ -4,6 +4,13 @@
 Define a Realm Object Schema - Flutter SDK
 ==========================================
 
+.. meta:: 
+  :keywords: code example, android, ios, data modeling
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -232,7 +239,8 @@ Generate the RealmObject
 ------------------------
 
 Once you've completed your Realm model, you must generate the
-:flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>` class to use it in your application.
+:flutter-sdk:`RealmObject <realm/RealmObjectBase-mixin.html>` class to use 
+it in your application.
 
 Run the following command to generate ``RealmObjects``:
 
@@ -312,3 +320,31 @@ Cleaning the generator cache can be useful when debugging.
       .. code-block::
 
          dart run realm_dart generate --clean
+
+.. _flutter-define-an-asymmetric-object:
+
+Define an Asymmetric Object
+---------------------------
+
+.. versionadded:: 1.5.0
+
+Asymmetric objects require Flexible Sync. To define an asymmetric object, pass
+``ObjectType.asymmetricObject`` to ``@RealmModel()``.
+
+.. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.asymmetric-sync-object.dart
+   :language: dart
+   :emphasize-lines: 1
+
+In Flutter SDK versions 1.5.0 and earlier, you cannot link from
+``asymmetricObject`` types to ``RealmObjects``. In SDK versions 1.6.0 and
+later, ``asymmetricObject`` types can link to ``RealmObjects`` in 
+addition to :ref:`embedded object types <flutter-embedded-objects>`.
+
+.. note:: Attempting to Read Asymmetric Objects
+
+   Asymmetric objects can't be read. If you attempt to query an asymmetric
+   object, you will get the following error: "Error: You can't query an
+   asymmetric class.".
+
+To learn more about Data Ingest, refer to :ref:`Stream Data to Atlas 
+<flutter-stream-data-to-atlas>`.

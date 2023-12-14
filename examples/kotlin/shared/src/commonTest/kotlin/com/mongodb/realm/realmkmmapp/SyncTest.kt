@@ -17,10 +17,6 @@ import io.realm.kotlin.mongodb.subscriptions
 import io.realm.kotlin.mongodb.sync.*
 import io.realm.kotlin.mongodb.syncSession
 import io.realm.kotlin.query.RealmResults
-import io.realm.kotlin.types.RealmInstant
-import io.realm.kotlin.types.RealmList
-import io.realm.kotlin.types.RealmObject
-import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -34,43 +30,91 @@ import kotlin.time.Duration.Companion.seconds
 //     "yourFlexAppId": "YOUR_APP_ID",
 //      "strategy2": "clientResetStrategy",
 //      "strategy3": "clientResetStrategy",
+//     "hideNotReusingAnonymousUser": "Credentials.anonymous()",
+//      "ExampleSyncObject_": "",
 //      "SyncTask": "Task"
 //   }
 // }
 class SyncTest: RealmTest() {
+    private val hideNotReusingAnonymousUser = Credentials.anonymous(reuseExisting = false)
+    @Test
+    fun addSyncToAppTest() {
+        // :snippet-start: connect-to-backend
+        // Replace `YOUR_APP_ID` with your Atlas App ID
+        val app = App.create(yourFlexAppId)
+        // :snippet-end:
+        runBlocking {
+            // :snippet-start: authenticate-user
+            // Authenticate the Atlas App Services user
+            val myAuthenticatedUser = app.login(hideNotReusingAnonymousUser)
+            // :snippet-end:
+            // :snippet-start: define-synced-realm
+            // Define the configuration for the synced realm
+            val config =
+                // Pass the authenticated user and the set of
+                // all objects types you want to be able to sync
+                SyncConfiguration.Builder(
+                    user = myAuthenticatedUser,
+                    schema = setOf(ExampleSyncObject_List::class, ExampleSyncObject_Item::class)
+                )
+                    // Define an initial subscription with queries that include
+                    // the user's lists with incomplete items
+                    .initialSubscriptions{ realm ->
+                        add(realm.query<ExampleSyncObject_List>("ownerId == $0", myAuthenticatedUser.id),
+                            name = "user-lists"
+                        )
+                        add(realm.query<ExampleSyncObject_Item>("complete = false"),
+                            name = "incomplete-items"
+                        )
+                    }
+                    .build()
+            // :snippet-end:
 
-    class Toad : RealmObject {
-        @PrimaryKey
-        var _id: ObjectId = ObjectId()
-        var name: String = ""
+            // :snippet-start: open-synced-realm
+            // Open the synced realm with the defined configuration
+            val realm = Realm.open(config)
+            Log.v("Successfully opened synced realm: ${realm.configuration.name}")
+            // Wait for initial subscriptions to sync to Atlas
+            realm.subscriptions.waitForSynchronization()
+            // :snippet-end:
+            val oid = ObjectId()
+            // :snippet-start: write-to-synced-realm
+            // Write ExampleSyncObject_List and ExampleSyncObject_Item objects to the synced realm
+            // Objects that match the subscription query are synced to Atlas
+            realm.write {
+                val list = ExampleSyncObject_List().apply {
+                    _id = oid // :remove:
+                    name = "My Todo List"
+                    ownerId = myAuthenticatedUser.id
+                    items.add(ExampleSyncObject_Item().apply {
+                        name = "Check email"
+                        complete = false
+                    })
+                }
+                copyToRealm(list)
+            }
+            realm.syncSession.uploadAllLocalChanges(30.seconds)
+            // :snippet-end:
+            realm.write {
+                val todo = query<ExampleSyncObject_List>().find()
+                assertEquals(oid, todo[0]._id)
+                assertEquals(1, todo.size)
+                assertEquals("Check email", todo[0].items[0].name)
+                delete(todo)
+                assertEquals(0, todo.size)
+            }
+            myAuthenticatedUser.delete()
+            realm.close()
+            app.close()
+        }
     }
-
-    // :snippet-start: flexible-sync-models
-    class SyncTask : RealmObject {
-        @PrimaryKey
-        var _id: ObjectId = ObjectId()
-        var taskName: String = ""
-        var assignee: String? = null
-        var completed: Boolean = false
-        var progressMinutes: Int = 0
-        var dueDate: RealmInstant? = null
-    }
-
-    class Team : RealmObject {
-        @PrimaryKey
-        var _id: ObjectId = ObjectId()
-        var teamName: String = ""
-        var tasks: RealmList<SyncTask>? = realmListOf()
-        var members: RealmList<String> = realmListOf()
-    }
-    // :snippet-end:
 
     @Test
     fun openASyncedRealmTest() {
         // :snippet-start: open-a-synced-realm
         val app = App.create(yourAppId)
         runBlocking {
-            val user = app.login(Credentials.anonymous())
+            val user = app.login(hideNotReusingAnonymousUser)
             val config =
                 SyncConfiguration.Builder(user, PARTITION, setOf(/*realm object models here*/))
                     // specify name so realm doesn't just use the "default.realm" file for this user
@@ -79,7 +123,7 @@ class SyncTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             realm.close()
-            assertEquals(PARTITION, realm.configuration.name) // :remove:
+            assertEquals(PARTITION + ".realm", realm.configuration.name) // :remove:
         }
         // :snippet-end:
     }

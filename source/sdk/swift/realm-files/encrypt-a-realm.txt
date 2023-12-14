@@ -26,6 +26,14 @@ integrity using a :wikipedia:`hash-based message authentication code
 
 .. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
 
+.. note:: Cannot Encrypt an Existing Unencrypted Realm
+
+    You must encrypt a realm the first time you open it. 
+    If you try to open an existing unencrypted realm using a configuration
+    that contains an encryption key, Realm throws an error.
+
+    .. update with writeCopy API when available
+
 Considerations
 --------------
 

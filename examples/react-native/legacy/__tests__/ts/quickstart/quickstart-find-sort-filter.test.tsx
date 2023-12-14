@@ -1,6 +1,6 @@
 // :snippet-start: find-sort-filter
 import React, {useState} from 'react';
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import {createRealmContext} from '@realm/react';
 // :remove-start:
 import {Button} from 'react-native';
@@ -14,7 +14,7 @@ class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Profile',
     properties: {
       _id: 'objectId',
@@ -45,21 +45,35 @@ type FindSortFilterComponentProps = {
   objectPrimaryKey: Realm.BSON.ObjectId;
 };
 
-const FindSortFilterComponent = ({objectPrimaryKey}: FindSortFilterComponentProps) => {
-  const [activeProfile, setActiveProfile] = useState<Profile>();
+const FindSortFilterComponent = ({
+  objectPrimaryKey,
+}: FindSortFilterComponentProps) => {
   const [allProfiles, setAllProfiles] = useState<Realm.Results<Profile>>();
-  const currentlyActiveProfile = useObject(Profile, objectPrimaryKey);
-  const profiles = useQuery(Profile);
 
   const sortProfiles = (reversed: true | false) => {
-    const sorted = profiles.sorted('name', reversed);
+    const sorted = useQuery(
+      Profile,
+      profiles => {
+        return profiles.sorted('name', reversed);
+      },
+      [reversed],
+    );
 
     setAllProfiles(sorted);
   };
 
-  const filterProfiles = (filter: 'BEGINSWITH' | 'ENDSWITH', letter: string) => {
+  const filterProfiles = (
+    filter: 'BEGINSWITH' | 'ENDSWITH',
+    letter: string,
+  ) => {
     // Use [c] for case-insensitivity.
-    const filtered = profiles.filtered(`name ${filter}[c] "${letter}"`);
+    const filtered = useQuery(
+      Profile,
+      profiles => {
+        return profiles.filtered(`name ${filter}[c] "${letter}"`);
+      },
+      [filter, letter],
+    );
 
     setAllProfiles(filtered);
     // For testing only. Ensures filtering works. // :remove:

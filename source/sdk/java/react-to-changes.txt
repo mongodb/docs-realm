@@ -1,5 +1,7 @@
 .. _java-react-to-changes:
 .. _java-client-notifications:
+.. _java-live-queries:
+.. _java-live-object:
 
 ===========================
 React to Changes - Java SDK
@@ -13,8 +15,11 @@ React to Changes - Java SDK
 
 .. _java-subscribe-to-changes:
 
-Notifications
--------------
+Objects in Realm clients are **live objects** that
+update automatically to reflect data changes, including
+:ref:`synced <sync>` remote changes, and emit
+notification events that you
+can subscribe to whenever their underlying data changes.
 
 Any modern app should be able to react when data changes,
 regardless of where that change originated. When a user adds
@@ -31,6 +36,27 @@ Realm emits three kinds of notifications:
 - :ref:`Realm notifications <java-realm-notifications>` whenever a specific realm commits a write transaction.
 - :ref:`Collection notifications <java-collection-notifications>` whenever any Realm object in a collection changes, including inserts, updates, and deletes.
 - :ref:`Object notifications <java-object-notifications>` whenever a specific Realm object changes, including updates and deletes.
+
+.. _java-auto-refresh:
+
+Auto-Refresh
+------------
+
+Realm objects accessed on a thread associated with a
+:android:`Looper <reference/android/os/Looper.html>` automatically
+update periodically to reflect changes to underlying data.
+
+The Android UI thread always contains a ``Looper`` instance. If you need
+to keep Realm objects around for long periods of time on
+any other thread, you should configure a ``Looper`` for that thread.
+
+.. warning:: Always Close Realm Instances on Non-Looper Threads to Avoid Resource Leaks
+
+   Realms on a thread without a :android:`Looper <reference/android/os/Looper>`
+   do not automatically advance their version. This can increase the size of the
+   realm in memory and on disk. Avoid using realm instances on
+   non-Looper threads when possible. If you *do* open a realm on a non-Looper
+   thread, close the realm when you're done using it.
 
 .. _java-register-a-realm-change-listener:
 .. _java-realm-notifications:
@@ -277,3 +303,10 @@ An example of such a policy is provided below:
    The default security policies are now much more modularized.
    Read more about that
    `here <https://source.android.com/security/selinux/images/SELinux_Treble.pdf>`__.
+
+.. _java-change-notification-limits:
+
+Change Notification Limits
+--------------------------
+
+.. include:: /includes/change-notification-limit.rst

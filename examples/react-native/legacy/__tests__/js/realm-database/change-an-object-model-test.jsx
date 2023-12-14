@@ -111,11 +111,11 @@ describe('Change an Object Model Tests', () => {
     render(<App />);
 
     // Wait for `RestOfApp` to render and change higher order values.
-await waitFor(() => {
-  // This test assumes only one object model exists.
-  expect(higherOrderSchema).toHaveProperty('properties.age');
-  expect(higherOrderSchemaVersion).toBe(2);
-});
+    await waitFor(() => {
+      // This test assumes only one object model exists.
+      expect(higherOrderSchema).toHaveProperty('properties.age');
+      expect(higherOrderSchemaVersion).toBe(2);
+    });
   });
 
   test('delete a property from a schema', async () => {
@@ -201,8 +201,7 @@ await waitFor(() => {
       onMigration: (oldRealm, newRealm) => {
         // only apply this change if upgrading schemaVersion
         if (oldRealm.schemaVersion < 4) {
-          const oldObjects =
-            oldRealm.objects(Person);
+          const oldObjects = oldRealm.objects(Person);
           const newObjects = newRealm.objects(Person);
           // loop through all objects and set the fullName property in the
           // new schema
@@ -276,8 +275,7 @@ await waitFor(() => {
       schemaVersion: 5,
       onMigration: (oldRealm, newRealm) => {
         if (oldRealm.schemaVersion < 5) {
-          const oldObjects =
-            oldRealm.objects(Person);
+          const oldObjects = oldRealm.objects(Person);
           const newObjects = newRealm.objects(Person);
           // loop through all objects and set the _id property
           // in the new schema

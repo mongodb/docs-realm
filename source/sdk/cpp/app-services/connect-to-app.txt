@@ -4,6 +4,13 @@
 Connect to App Services - C++ SDK Preview
 =========================================
 
+.. meta:: 
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -20,12 +27,19 @@ your App's functions.
 Prerequisites
 -------------
 
-#. :ref:`Create an App Services app <create-a-realm-app>`
+Before you can connect to Atlas App Services, you need an App Services App 
+with an App ID. To get started, refer to :ref:`Create an App <create-a-realm-app>` 
+in the App Services documentation.
+
+To learn how to find your App ID in the App Services UI, refer to 
+:ref:`Find Your App ID <find-your-app-id>` in the App Services documentation.
 
 .. _cpp-access-the-app-client:
 
 Access the App Client
 ---------------------
+
+.. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
 
 #. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
 #. Create an :cpp-sdk:`App object <classrealm_1_1App.html>` 
@@ -47,13 +61,14 @@ Access the App Client
 Set Custom HTTP Headers
 -----------------------
 
-.. versionadded:: v0.3.0-preview
+.. versionchanged:: v0.4.0-preview replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
 
 If you use App Services or Device Sync with a proxy setup, you may need
 to set custom HTTP headers. The Realm C++ SDK supports setting custom 
-HTTP headers on the ``App``, and on the ``flexible_sync_configuration()``.
+HTTP headers on the :cpp-sdk:`App <structrealm_1_1App_1_1configuration.html>`
+and on the ``flexible_sync_configuration()``.
 
-When you initialize the ``App``, pass in a map of string header keys
+When you initialize the App configuration, pass in a map of string header keys
 and values.
 
 .. literalinclude:: /examples/generated/cpp/app.snippet.set-custom-headers-for-app.cpp
@@ -65,3 +80,49 @@ these custom headers.
 If you want to use custom headers with Device Sync, you must 
 additionally :ref:`set the headers on the Flexible Sync configuration 
 <cpp-set-custom-headers-using-synced-realm>`.
+
+.. _cpp-http_proxy:
+
+Use an HTTP Proxy with Realm
+----------------------------
+
+.. versionadded:: v0.5.0-preview
+
+If you have configured an HTTP proxy, you can use HTTP tunneling to 
+route your Realm traffic. 
+
+To configure Realm to use your HTTP proxy:
+
+1. Initialize a 
+   :cpp-sdk:`proxy_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1sync__config_1_1proxy__config.html>` 
+   with the details for your proxy. 
+#. Set the proxy config on your :cpp-sdk:`realm::App::configuration <structrealm_1_1App_1_1configuration.html>`.
+#. Set the proxy config on your :cpp-sdk:`sync_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1sync__config.html>`.
+
+.. literalinclude:: /examples/generated/cpp/app.snippet.set-proxy-config.cpp
+   :language: cpp
+
+.. _cpp-encrypt-app-metadata:
+
+Encrypt App Metadata
+--------------------
+
+.. versionadded:: v0.4.0-preview
+
+When you connect to App Services, Realm creates additional metadata files 
+on a device. For more information about these metadata files, refer to 
+:ref:`cpp-realm-database`.
+
+You can encrypt the metadata that App Services stores on client devices, 
+similar to :ref:`encrypting the realm <cpp-encrypt-a-realm>`. 
+
+On Apple devices, the metadata is encrypted by default. To disable this, 
+add ``REALM_DISABLE_METADATA_ENCRYPTION`` to your environment variables.
+
+To enable metadata encryption on other platforms, you must set a 
+``metadata_encryption_key`` on your 
+:cpp-sdk:`realm::App::configuration <structrealm_1_1App_1_1configuration.html>`.
+
+.. literalinclude:: /examples/generated/cpp/app.snippet.encrypt-metadata.cpp
+   :language: cpp
+   :emphasize-lines: 20-21

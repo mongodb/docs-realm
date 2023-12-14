@@ -1,4 +1,5 @@
 .. _cpp-react-to-changes:
+.. _cpp-live-object:
 
 ==================================
 React to Changes - C++ SDK Preview
@@ -9,6 +10,12 @@ React to Changes - C++ SDK Preview
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+All Realm objects are **live objects**, which means they
+automatically update whenever they're modified. Realm emits a
+notification event whenever any property changes. You can register a 
+notification handler to listen for these notification events, and update
+your UI with the latest data.
 
 .. _cpp-register-an-object-change-listener:
 
@@ -65,7 +72,7 @@ Register a Collection Change Listener
 -------------------------------------
 
 You can register a notification handler on a collection. A collection is
-a list property that can contain any :ref:`supported data type 
+a list, map, or set property that can contain any :ref:`supported data type 
 <cpp-supported-property-types>`, including primitives or other objects.
 
 Realm notifies your handler whenever a write transaction 
@@ -83,7 +90,7 @@ inserted, and modified.
    result in unexpected behavior.
   
 Collection notifications provide a :cpp-sdk:`collection_change 
-<structrealm_1_1collection__change.html>` 
+<structrealm_1_1experimental_1_1collection__change.html>` 
 struct that reports the index of the objects that are removed, added, or 
 modified. It can also notify you if the collection was deleted.
 
@@ -184,3 +191,10 @@ invalid. You can explicitly invalidate a token by calling its
    if the token is in a local variable that goes out of scope. You can
    use ``std::move`` to transfer the token to a variable in a different 
    scope. 
+
+.. _cpp-change-notification-limits:
+
+Change Notification Limits
+--------------------------
+
+.. include:: /includes/change-notification-limit.rst

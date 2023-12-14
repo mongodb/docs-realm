@@ -36,8 +36,14 @@ The Kotlin SDK does *not* natively support:
   :ref:`RealmInstant <kotlin-timestamps>` section for more information on 
   how to use timestamps in your Realm objects.
 
-Additionally, the Kotlin SDK does not currently support abstract properties.
-Kotlin properties *must* be initialized. 
+
+.. _kotlin-optional:
+
+Realm object properties *must* be mutable and initialized when declared. 
+The Kotlin SDK does not currently support abstract properties. You 
+can declare properties optional (nullable) using the built-in 
+``?`` Kotlin operator, or you can assign a default value to a property 
+when you declare it.
 
 .. note:: 
    
@@ -233,7 +239,7 @@ You can initialize an ``ObjectId`` using ``ObjectId()``.
 
    In Realm Kotlin SDK version 1.5.0 and newer, 
    `io.realm.kotlin.types.ObjectId 
-   <{+kotlin-local-prefix+}/io.realm.kotlin.types/-object-id/index.html>`__ 
+   <{+kotlin-local-prefix+}io.realm.kotlin.types/-object-id/index.html>`__ 
    is deprecated. You must import ``ObjectId`` from 
    :github:`org.mongodb.kbson.ObjectId <mongodb/kbson>` instead.
 
@@ -291,6 +297,9 @@ Additionally, ``MutableRealmInt`` fields:
   they create a new, unmanaged ``MutableRealmInt`` instance with the updated 
   value.
 
+Learn how to :ref:`<kotlin-create-mutablerealmint>` and 
+:ref:`<kotlin-update-mutablerealm>`.
+
 .. _kotlin-timestamps:
 
 RealmInstant (Timestamp)
@@ -319,7 +328,9 @@ RealmAny (Mixed)
 represents a non-nullable mixed data type. It behaves like the value type 
 that it contains. ``RealmAny`` can hold:
 
-- :ref:`supported Kotlin data types <kotlin-types-table>` 
+- :ref:`supported Kotlin data types <kotlin-types-table>` (note that 
+  ``Byte``, ``Char``, ``Int``, ``Long``, and ``Short`` values are converted 
+  internally to ``int64_t`` values) 
 - :ref:`supported BSON types <kotlin-bson-types-table>`
 - the following Realm-specific types: 
 
@@ -335,7 +346,21 @@ or another ``RealmAny``.
 
 - are :ref:`indexable <kotlin-indices>` but *cannot* be used as a 
   :ref:`primary key <kotlin-primary-keys>`
-- must be declared nullable (``RealmAny?``), but *cannot* store null values
+- must be declared nullable (``RealmAny?``), but they *cannot* store null values
+- can be aggregated with 
+  `RealmQuery.max <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/max.html>`__,
+  `RealmQuery.min <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/min.html>`__,
+  and
+  `RealmQuery.sum <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/sum.html>`__.
+- can be sorted. Sort order from highest to lowest:
+  
+  #. ``Boolean``
+  #. ``Byte``, ``Double``, ``Decimal128``, ``Int``, ``Float``, ``Long``, ``Short``
+  #. ``byte[]``, ``String``
+  #. ``Date``
+  #. ``ObjectId``
+  #. ``UUID``
+  #. ``RealmObject``
 
 You can store multiple ``RealmAny`` instances in ``RealmList``, 
 ``RealmDictionary``, or ``RealmSet`` fields.  
@@ -357,20 +382,14 @@ that contains zero or more instances of one supported data type.
 Realm collections are homogenous (all objects in a collection are of the 
 same type) and are backed by their corresponding built-in Kotlin classes.
 
-User-created collections are unmanaged until they are copied to the realm 
-and can contain both managed and unmanaged objects. Unmanaged collections 
-behave like their corresponding Kotlin classes and are not persisted to the realm.
-Refer to :ref:`Managed vs. Unmanaged Objects <kotlin-managed-vs-unmanaged-objects>`
-for more information.
-
 Collection types are non-null. When you define a collection property, you must 
 initialize it. 
-Learn how to :ref:`Create a Collection <kotlin-create-a-collection>`. 
+For more information, refer to :ref:`Create a Collection <kotlin-create-a-collection>`. 
 
 .. _kotlin-realm-list:
 
-RealmLists
-~~~~~~~~~~
+RealmList
+~~~~~~~~~
 
 The `RealmList <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/index.html>`__
 type implements Kotlin's 
@@ -397,8 +416,8 @@ containing:
 
 .. _kotlin-realm-set:
 
-RealmSets
-~~~~~~~~~
+RealmSet
+~~~~~~~~
 
 The `RealmSet 
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__   
@@ -425,8 +444,8 @@ You cannot use ``EmbeddedRealmObject`` elements in a ``RealmSet``.
 
 .. _kotlin-realm-dictionary:
 
-RealmMap/RealmDictionaries
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+RealmMap/RealmDictionary
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The `RealmMap <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-map/index.html>`__ 
 type implements Kotlin's `Map 
@@ -522,7 +541,6 @@ is a special type of ``RealmObject``.
 - must be nullable values within a dictionary
 - *cannot* be nullable elements within a list 
 - *cannot* be used as a :ref:`primary key <kotlin-primary-keys>` 
-- can be recursively referenced as an optional property in its own definition
 - can be properties within an asymmetric object
 
 For more information, refer to :ref:`Embedded Objects <kotlin-embedded-objects>`.

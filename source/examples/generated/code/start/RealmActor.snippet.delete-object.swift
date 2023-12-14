@@ -1,10 +1,7 @@
 let actor = try await RealmActor()
+let todoId = await actor.getObjectId(forTodoNamed: "Keep Mr. Frodo safe from that Gollum")
 
-let todo = try await createObject(in: actor)
-print("Successfully created an object with id: \(todo._id)")
-let todoCount = await actor.count
-
-try await actor.deleteTodo(todo: todo)
+try await actor.deleteTodo(id: todoId)
 let updatedTodoCount = await actor.count
 if updatedTodoCount == todoCount - 1 {
     print("Successfully deleted the todo")

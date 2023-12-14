@@ -1,5 +1,5 @@
 // :snippet-start: import-realm
-import Realm from "realm";
+import Realm, { ObjectSchema } from "realm";
 // :snippet-end:
 
 describe("QuickStart Local", () => {
@@ -17,7 +17,7 @@ describe("QuickStart Local", () => {
       status?: string;
       owner_id?: string;
 
-      static schema = {
+      static schema: ObjectSchema = {
         name: "Task",
         properties: {
           _id: "int",
@@ -209,7 +209,7 @@ describe("Quickstart Sync", () => {
       owner_id?: string;
       dueDate?: Date;
 
-      static schema = {
+      static schema: ObjectSchema = {
         name: "Task",
         properties: {
           _id: "int",

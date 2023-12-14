@@ -3,7 +3,7 @@ class Employee extends Realm.Object<Employee> {
   name!: string;
   birthdate!: Date;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Employee',
     primaryKey: '_id',
     properties: {
@@ -17,9 +17,9 @@ class Employee extends Realm.Object<Employee> {
 class Company extends Realm.Object<Company> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
-  employees!: Realm.List<Employee>
-  
-  static schema = {
+  employees!: Realm.List<Employee>;
+
+  static schema: ObjectSchema = {
     name: 'Company',
     primaryKey: '_id',
     properties: {

@@ -1,3 +1,345 @@
+# December 8, 2023
+
+## Flutter SDK
+
+- Realm Database/Model Data/Define a Realm Object Schema: Note that asymmetric objects support linking to Realm objects starting in v1.6.0.
+
+## Kotlin SDK
+
+- Realm/Model Data/Define an Object Model: Note that asymmetric objects support linking to Realm objects starting in v1.12.0.
+
+## .NET SDK
+
+- Manage Users/Manage Email/Password Users: Add an example for the new `App.EmailPassword.retryCustomConfirmation` method and the older, undocumented, `App.EmailPassword.ResendConfirmationEmailAsync` method.
+- Sync Data/Stream Data to Atlas: Note that asymmetric objects support linking to Realm objects starting in v11.6.0.
+
+## Node.js SDK
+
+- Model Data/Define an Object Model: Note that asymmetric objects support linking to Realm objects starting in v12.2.1.
+
+## React Native SDK
+
+- Model Data/Define an Object Model: Note that asymmetric objects support linking to Realm objects starting in v12.2.1.
+
+## Realm Studio
+
+- Landing Page: Add a bullet listing the ability to connect, view, and modify data using Device Sync.
+- View Data with Device Sync: New page describing how to use Realm Studio to test subscriptions and view Atlas data changes in real time with Device Sync.
+
+# December 1, 2023
+
+## C++ SDK
+
+- CRUD
+  - Read: Add a "Sort Lists and Query Results" section with tested, Bluehawked code examples for sorting in C++ SDK.
+  - Filter Data: Remove the note about not yet supporting sort, and link to the sort example on the Read page.
+- Application Services/Connect to an App Services App: Add a "Use an HTTP Proxy with Realm" section with details and Bluehawked code example.
+- Sync Data/Write to a Synced Realm: New page similar to other SDKs with tested, Bluehawked code examples about sync subscriptions, permissions, and compensating writes.
+- Throughout Docs for the SDK
+  - Update App init examples to use realm::App(configuration).
+  - Add version changed details to specify realm::App(...) deprecation in favor of realm::App(configuration) in v0.4.0-preview.
+
+## Kotlin SDK
+
+- Realm/Model Data
+  - Model Data with Device Sync: Add new page with tested, Bluehawked code examples that describes how to map data from the Device Sync App Services schema to the Realm schema used by the Kotlin SDK.
+  - Property Annotations: Update Primary Key section to note that Device Sync requires a primary key named `_id`.
+- Sync Device Data/Add Sync to an App: Add note pointing users to the new Model Data with Device Sync page to learn more about mapping data between Atlas and the Kotlin SDK.
+
+## React Native SDK
+
+- Model Data/Data Types/UUID: Fix object model example that erroneously used BSON.ObjectId instead of BSON.UUID.
+- Manage Users/Authenticate Users: Update page with new examples and copy for Custom JWT, Custom Function, Offline Login, Get a User Access Token, and Facebook, Google, and Apple Authentication.
+
+## Swift SDK
+
+- Landing Page: Add the "Integrating In-App Purchases" example app to the Example Projects cards.
+
+## Other
+
+- Example Projects: Add Intelligent Cache (.NET) and Integrating In-App Purchases (Swift) projects. Move Template Apps to top of table and edit header titles to "Source Code for Available SDKs".
+
+# November 24, 2023
+
+## Internal
+
+- Update Readability workflow to use upstream `docdoctor` repo with new build syntax.
+- Add `meta::description` to relevant pages to improve SEO for top 250 docs pages.
+- Remove the `genre` tag from landing pages to improve docs search results.
+
+# November 17, 2023
+
+## Flutter SDK
+
+- Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
+- Realm Database/Model Data/Manage Realm Files/Encrypt a Realm: Add note that you must encrypt a realm on first open, or use `writeCopy` to create an encrypted realm.
+
+## Kotlin SDK
+
+- Realm/Manage Realm Files/Encrypt a Realm: Add information on encryption for local and synced realms.
+- Connect to Atlas/Connect to App Services: Add information on encryption for app metadata.
+- Internal: Rename Kotlin Multiplatform Mobile (KMM) to Kotlin Multiplatform (KMP) in Kotlin template app `README.md`, as KMM is deprecated.
+
+## .NET SDK
+
+- Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm.
+
+## Node.js SDK
+
+- Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
+- Realm Files/Encrypt a Realm: Add note that you can encrypt a realm the first time you open it or copy the unencrypted realm to a new encrypted realm.
+
+## React Native SDK
+
+- Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
+- Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm.
+
+## Swift SDK
+
+- Realm Files/Encrypt a Realm: Add note that you cannot encrypt an existing unencrypted realm.
+- CRUD/Threading: Recommend using `ThreadSafeReference` instead of frozen objects with Swift Actors.
+- React to Changes: Clarify details on observing notifications across Swift Actors.
+- Use Realm with Actors: Add more details about how to use Realm across actors based on docs feedback.
+- Swift Concurrency: Add information on difference between methods for asynchronous writes (`writeAsync()` and `asyncwrite()`) and concurrency code that is not actor-isolated.
+
+## Web SDK
+
+- Landing Page: Add section for a selection of the SDK's example projects from the Example Projects page.
+
+# November 10, 2023
+
+## C++ SDK
+
+- Realm Files/Encrypt a Realm: New page with tested, Bluehawked code examples for encrypting a realm, similar to other SDKs.
+- App Services/Connect to App Services: New "Encrypt App Metadata" section with code example and details. Update custom HTTP section for deprecated `realm::App(...)`.
+
+## Flutter SDK
+
+- Landing Page: Add "Example Projects" section with relevant project links.
+
+## Kotlin SDK
+
+- Realm
+  - Model Data/Supported Data Types: Add details about `RealmAny` converting Kotlin types internally to `int_64`. Add `RealmAny` aggregation and sort options.
+  - Read & Write Data
+    - Update: Add new examples and details for updating `RealmSet`, `RealmAny`, relationship properties, and inverse relationship properties.
+    - Delete: Change "items" to "objects" or "elements" respectively to clarify wording.
+
+## Node.js SDK
+
+- Landing Page: Add "Example Projects" section with relevant project links.
+- Realm Files/Encrypt a Realm: New "Encrypt App Services App Metadata" section with a link to the "Connect to App Services" page for details.
+- App Services/Connect to App Services: New "Encrypt App Metadata" section with code examples and details.
+
+## React Native SDK
+
+- Landing Page: Add "Example Projects" section with relevant project links.
+- Realm Files/Encrypt a Realm: New "Encrypt App Services App Metadata" section with a link to the "Connect to App Services" page for details.
+- App Services/Connect to App Services: New "Encrypt App Metadata" section with code examples and details.
+
+## Web SDK
+
+- Landing Page: Add "Example Projects" section with relevant project links.
+
+# November 3, 2023
+
+## C++ SDK
+
+- Model Data
+  - Object Types and Schemas: Note that as of version v0.4.0-preview, asymmetric objects can link to non-embedded objects.
+  - Supported Data Types: Add documentation for new set data type.
+- CRUD
+  - Create: New "Create an Object with a Set Property" section with info and tested, Bluehawked code example.
+  - Read: New "Read a Set Property" section with info and tested, Bluehawked code example.
+  - Update: New "Update a Set Property" section with info and tested, Bluehawked code example.
+  - Delete: New "Delete Set Values" section with info and tested, Bluehawked code example.
+- React to Changes: Note that collection notifications are provided for both set and map in addition to list.
+
+## Java SDK
+
+- Landing Page: Add note that the SDK no longer receives new development or non-critical bug fixes. Recommend Kotlin SDK, or using both SDKs together in a project.
+- Install: Add note that the SDK no longer receives new development or non-critical bug fixes. Recommend Kotlin SDK, or using both SDKs together in a project.
+
+## React Native SDK
+
+- Update code examples throughout docs:
+  - Change syntax for `useQuery()` when used with `.filtered()` and `.sorted()` to improve performance.
+  - Remove unnecessary `onError` from configuration object.
+- Internal: Fix an issue in the docs test suite.
+
+## Swift SDK
+
+- Sync Data/Manage Sync Sessions: Add documentation for `SyncSession.reconnect()`.
+
+# October 20, 2023
+
+## Kotlin SDK
+
+- Landing Page: Add card for Offline Login project to Example Projects section.
+- Realm/Read & Write Data/Delete: Update page with sections on embedded objects, RealmSet elements, RealmAny properties, and objects and their related objects. Update code examples.
+
+## .NET SDK
+
+- Model Data/Define an Object Model: Update Default Field Values section to note that you cannot set default values for collections.
+
+## React Native SDK
+
+- Install Realm: Clarify that the install instructions are geared towards developers working with a bare React Native app. Include links to "Bootstrap with Expo" page for install instructions for developers using Expo.
+- Bootstrap with Expo: Add link to compatibility chart to determine which version of Expo is compatible with a React Native SDK version.
+- Manage Users
+  - Authenticate Users: Add new reference table for `useAuth` and update page with new information on authentication hooks.
+  - Manage Email/Password Users: Update examples and content with new information on authentication hooks and add new reference table for `userEmailPasswordAuth`.
+  - Link User Identities: Add new procedure with updated examples for authentication hooks.
+- API Reference/@realm/react Package Reference: Add instructions for creating a new app with `@realm/react`.
+- Internal: Update metro bundler dependencies to fix simulator runtime problems.
+
+# October 13, 2023
+
+## Node.js SDK
+
+- Install Realm for Node.js: Fix incorrect syntax in Realm import example.
+
+## Other
+
+- Example Projects: Add ObjectAsAPI, Flexible Sync Playground, Connection State Change, and Offline Support and Realm Access projects.
+
+# October 6, 2023
+
+## C++ SDK
+
+- Configure & Open a Realm: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Data/Stream Data to Atlas: Update guidance for asymmetric sync for 0.3.0-preview to account for a breaking change.
+
+## Flutter SDK
+
+- Realm Database/Model Data/React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Device Data/Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+
+## Java SDK
+
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+
+## Kotlin SDK
+
+- Realm
+  - Read & Write Data
+    - Landing Page: Convert the landing page to a container page. Move content to relevant child pages.
+    - Create: Update object models and add information on creating objects with the specific properties or relationships (dictionary property, inverse relationship, etc.).
+  - React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Device Data
+  - Landing Page: Change to a container page.
+  - Add Sync to an App: Add this new page to document adding sync to an app.
+  - Troubleshooting: Add new page with information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+- Throughout documentation for the SDK: Rename Kotlin Multiplatform Mobile (KMM) to Kotlin Multiplatform (KMP), as KMM is deprecated.
+
+## .NET SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+
+## Node.js SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Sync Data/Handle Sync Errors: Fix incorrect file paths for compensating write error examples.
+- Throughout documentation for the SDK: Update object models in accordance with JSv12 standards.
+
+## React Native SDK
+
+- Realm Files/Reduce Realm File Size: Fix manual compaction example so file will compact if less than 50% of file size is used.
+- Model Data/Relationships & Embedded Objects: Update inverse relationship examples for JSv12.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Test & Debug/Troubleshooting: Add information about enabling Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+- Throughout documentation for the SDK: Update object models in accordance with JSv12 standards.
+- Internal: Add React Native testing guidance for creating and testing code.
+
+## Swift SDK
+
+- Model Data/Define an Object Model: Note that asymmetric objects can now link to non-embedded types.
+- React to Changes: Note that changes in nested documents deeper than four levels down do not trigger change notifications, as well as workarounds.
+- Test & Debug: Add information about Apple Extended Virtual Addressing entitlement to resolve virtual memory issues.
+- Logging: Clarify requirement to set a logger before initializing an App.
+- Sync Data
+  - Manage Flexible Sync Subscriptions: Document Flex Sync Subscribe API.
+  - Stream Data to Atlas: Improve wording to direct users to information on defining an asymmetric object.
+
+## Other
+
+- Example Projects: Add Netflix-like Movie App project and Split Data into Multiple Realms core project.
+
+# September 29, 2023
+
+## Kotlin SDK
+
+- Realm/Model Data
+
+  - Define an Object Model: Wording improvements around embedded objects. Update code example.
+  - Relationships: Wording improvements, code example updates, and link cleanup.
+  - Supported Types: Add details about optional properties and default values.
+  - Property Annotations: Wording improvements, code example updates, and link cleanup.
+
+- Manage Users
+  - Landing Page: Convert the landing page to a container page with no content. Move content onto relevant child pages.
+  - Create & Authenticate Users: Move info on creating users onto the "Authenticate Users" page. Rename it to "Create and Authenticate Users."
+  - Delete Users: Rename page from "Create and Delete Users" to "Delete Users." Move content about creating users off of page.
+  - Manage Custom User Data: Rename title from "Custom User Data" to match verb-based page names. Minor rewrites.
+  - Manage User Metadata: Rename title from "user Metadata" to match verb-based page names. Minor rewrites.
+  - Manage Multi-User Apps: New page with tested, Bluehawked code examples describing how to manage multiple users on a device.
+
+## .NET SDK
+
+- Internal: Bump Nuget package version. Update unit test.
+
+## Node.js SDK
+
+- Model Data/Define a Realm Object Model: New "Set a Full-Text Search Index" section with tested, Bluehawked code example showing how to set a Full-Text Search index on a property.
+- CRUD/Query Data: New "Filter with Full-Text Search" section with tested, Bluehawked code examples describing how to query with Full-Text Search.
+
+## React Native SDK
+
+- Sync Data/Handle Sync Errors: Add an example of handling a `CompensatingWriteError`.
+
+## Other
+
+- Add an App Services docs-wide banner with a link to the blog post announcing that "Realm is now Atlas Device SDK."
+- Add manual facet tags with relevant keywords to improve docs search results.
+
+# September 22, 2023
+
+## Flutter SDK
+
+- Realm Database/Model Data/Define a Realm Object Schema: Add new section for defining an asymmetric object.
+- Sync Device Data/Stream Data to Atlas: Create new page with information on using Data Ingest with the Flutter SDK.
+
+## Kotlin SDK
+
+- Realm/Model Data
+  - Landing Page: Unlist landing page and turn it into a container in the TOC.
+  - Define an Object Model: Update code examples and move relevant content from landing page to this page.
+- Sync Device Data/Manage Sync Session: Add details for `.reconnect()` method, which manually triggers an attempt to reconnect to Sync.
+- Atlas App Services/Connect to App Services: Add information about custom HTTP headers and additional configuration details about `app.close()`.
+
+## .NET SDK
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add information about the Flexible Sync `SubscribeAsync` API.
+
+## Node.js SDK
+
+- Sync Data/Handle Sync Errors: Add information for updates on handling compensating write errors.
+
+## React Native SDK
+
+- Sync Data/Manage Flexible Sync Subscriptions: Add documentation for new subscribe API and update code examples for v12.
+- Model Data/Define an Object Model: Add documentation for setting a full-text search index.
+- CRUD/Query Data: Add documentation for full-text search functionality on filtering.
+
+## Other
+
+- Realm Landing Page: Add link to Atlas App Services in introductory content and move the App Services card higher up on the page.
+- Realm Example Projects: Add Vehicle Simulator and Controller, Analytics, and Smart Factory Interface projects.
+
 # September 15, 2023
 
 ## C++ SDK

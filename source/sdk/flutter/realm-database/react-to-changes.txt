@@ -1,4 +1,5 @@
 .. _flutter-react-to-changes:
+.. _flutter-live-object:
 
 ==============================
 React to Changes - Flutter SDK
@@ -10,8 +11,11 @@ React to Changes - Flutter SDK
    :depth: 2
    :class: singlecol
 
-Any modern app should be able to react when data changes,
-regardless of where that change originated. When a user adds a new item to a list,
+All Realm objects are **live objects**, which means they
+automatically update whenever they're modified. Realm emits a
+notification event whenever any property changes. 
+
+When a user adds a new item to a list,
 you may want to update the UI, show a notification, or log a message.
 When someone updates that item, you may want to change its visual state
 or fire off a network request.
@@ -197,3 +201,10 @@ notifications on updates to the data it's watching.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.cancel-subscription.dart
    :language: dart
+
+.. _flutter-change-notification-limits:
+
+Change Notification Limits
+--------------------------
+
+.. include:: /includes/change-notification-limit.rst

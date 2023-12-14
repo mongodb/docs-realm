@@ -1,4 +1,4 @@
-.. tip:: Google and Apple Account Deletion Requirements
+.. important:: Google and Apple Account Deletion Requirements
 
    `Google <https://support.google.com/googleplay/android-developer/answer/13316080?sjid=9059006274298096173-NA#account_deletion>`__ 
    and :apple:`Apple <app-store/review/guidelines/#5.1.1>` require that 

@@ -6,7 +6,9 @@ static const std::string APP_ID = "cpp-tester-uliix";
 
 TEST_CASE("custom user data", "[realm][sync]")
 {
-    auto app = realm::App(APP_ID);
+    auto appConfig = realm::App::configuration();
+    appConfig.app_id = APP_ID;
+    auto app = realm::App(appConfig);
 
     // :snippet-start: beta-create
     auto user = app.login(realm::App::credentials::anonymous()).get();

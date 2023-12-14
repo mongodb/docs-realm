@@ -1,8 +1,8 @@
 .. _kotlin-install:
 
-==========================
-Install Realm - Kotlin SDK
-==========================
+======================
+Install the Kotlin SDK
+======================
 
 .. contents:: On this page
    :local:
@@ -15,7 +15,7 @@ The Kotlin SDK supports two platforms, each with its own installation
 method:
 
 - :ref:`Android <kotlin-install-android>`
-- :ref:`Kotlin Multiplatform <kotlin-install-kotlin-multiplatform>`
+- :ref:`Kotlin Multiplatform (KMP) <kotlin-install-kotlin-multiplatform>`
 
 Prerequisites
 -------------
@@ -28,17 +28,18 @@ meets the following prerequisites:
 - Kotlin Plugin for Android Studio, version 1.6.10 or higher.
 - An Android Virtual Device (AVD) using a supported CPU architecture.
 
-Additionally, Kotlin Multiplatform (KMM) projects require the following:
+Additionally, Kotlin Multiplatform (KMP) for mobile projects require the following:
 
 - `Kotlin Multiplatform Mobile (KMM) Plugin
   <https://kotlinlang.org/docs/mobile/kmm-plugin-releases.html#release-details>`__
   for Android Studio, version 0.3.1 or higher.
-- A KMM App created using the "KMM Application" template in Android
-  Studio. Follow the instructions in the `KMM documentation
+- A Kotlin Multiplatform (KMP) App created using the "Kotlin Multiplatform App" 
+  template in Android Studio. Follow the instructions in the 
+  `Kotlin Multiplatform documentation 
   <https://kotlinlang.org/docs/mobile/create-first-app.html>`__.
 
-For more details on setting up your KMM environment, refer to the `official Kotlin
-Multiplatform documentation
+For more details on setting up your KMP environment, refer to the `official Kotlin
+Kotlin Multiplatform for mobile documentation
 <https://kotlinlang.org/docs/multiplatform-mobile-setup.html>`__. To verify your
 environment setup, follow Kotlin's `guide to checking your
 environment
@@ -46,7 +47,7 @@ environment
 
 .. tip:: Kotlin Plugin Version
 
-   The Kotlin Multiplatform ecosystem frequently changes. If you experience
+   The Kotlin Multiplatform (KMP) ecosystem frequently changes. If you experience
    any issues installing the SDK, check your Kotlin Plugin version, since
    outdated plugins can lead to difficult to debug errors. To see which
    versions of the Kotlin Plugin are compatible with the SDK, see the
@@ -58,9 +59,14 @@ environment
 Installation
 ------------
 
+.. tip:: Atlas Device SDK and Realm
+
+   The SDK uses Realm Core database for device data persistence. When you
+   install the Kotlin SDK, the package names reflect Realm naming.
+
 .. procedure::
 
-   .. step:: Add Realm to the Project
+   .. step:: Add the SDK to the Project
 
       .. tabs::
 
@@ -109,8 +115,8 @@ Installation
                   implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}' // If using coroutines with the SDK
                }
 
-         .. tab:: Kotlin Multiplatform (KMM)
-            :tabid: kmm
+         .. tab:: Kotlin Multiplatform (KMP)
+            :tabid: kmp
 
             Add the following to your app-level Gradle build file, typically
             found at :file:`<project>/app/build.gradle`:
@@ -180,7 +186,7 @@ Installation
 Supported Target Environments
 -----------------------------
 
-Kotlin Multiplatform supports a `wide range of application environments
+Kotlin Multiplatform (KMP) supports a `wide range of application environments
 <https://kotlinlang.org/docs/multiplatform-dsl-reference.html#targets>`__.
 
 Supported Environments

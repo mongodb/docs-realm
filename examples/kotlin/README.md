@@ -1,6 +1,6 @@
 # Kotlin SDK Example App
 
-A Kotlin Multiplatform Mobile (KMM) application showcasing Realm Kotlin SDK (realm-kotlin) functionality.
+A Kotlin Multiplatform (KMP) mobile application showcasing Realm Kotlin SDK (realm-kotlin) functionality.
 Used to generate code snippets for the Kotlin SDK documentation.
 
 ## Test

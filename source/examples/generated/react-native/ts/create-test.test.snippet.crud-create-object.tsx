@@ -10,7 +10,7 @@ const CreatePersonInput = () => {
 
   return (
     <>
-      <TextInput value={name} onChangeText={setName} /> 
+      <TextInput value={name} onChangeText={setName}  />
       <Button
         onPress={() => handleAddPerson()}
         title='Add Person'

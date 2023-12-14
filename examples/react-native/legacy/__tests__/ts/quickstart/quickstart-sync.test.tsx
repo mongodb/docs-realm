@@ -1,6 +1,6 @@
 // :snippet-start: quickstart-setup
 import React from 'react';
-import Realm from 'realm';
+import Realm, {ObjectSchema} from 'realm';
 import {AppProvider, UserProvider, createRealmContext} from '@realm/react';
 // :remove-start:
 import {useEffect} from 'react';
@@ -19,7 +19,7 @@ class Profile extends Realm.Object<Profile> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
 
-  static schema = {
+  static schema: ObjectSchema = {
     name: 'Profile',
     properties: {
       _id: 'objectId',
@@ -46,7 +46,6 @@ function AppWrapperSync() {
         <RealmProvider
           sync={{
             flexible: true,
-            onError: console.error,
             initialSubscriptions: {
               update(subs, realm) {
                 subs.add(realm.objects('Profile'));
@@ -132,7 +131,6 @@ const createConfig = (user: Realm.User): Realm.ConfigurationWithSync => {
     sync: {
       user: user,
       flexible: true,
-      onError: console.error,
     },
   };
 };

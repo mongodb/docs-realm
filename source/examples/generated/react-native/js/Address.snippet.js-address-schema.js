@@ -1,12 +1,12 @@
 class Address extends Realm.Object {
   static schema = {
-    name: "Address",
+    name: 'Address',
     embedded: true, // default: false
     properties: {
-      street: "string?",
-      city: "string?",
-      country: "string?",
-      postalCode: "string?",
+      street: 'string?',
+      city: 'string?',
+      country: 'string?',
+      postalCode: 'string?',
     },
   };
 }

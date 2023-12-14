@@ -3,7 +3,7 @@ class Manufacturer extends Realm.Object {
   name!: string;
   cars!: Realm.List<Car>;
 
-  static schema: Realm.ObjectSchema = {
+  static schema: ObjectSchema = {
     name: "Manufacturer",
     properties: {
       _id: "objectId",
@@ -20,7 +20,7 @@ class Car extends Realm.Object {
   miles?: number;
   manufacturer!: Realm.Collection<Manufacturer>;
 
-  static schema: Realm.ObjectSchema = {
+  static schema: ObjectSchema = {
     name: "Car",
     properties: {
       _id: "objectId",

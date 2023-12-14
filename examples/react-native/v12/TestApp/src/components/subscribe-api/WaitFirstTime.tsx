@@ -4,7 +4,7 @@ import {BSON, WaitForSync} from 'realm';
 import {useRealm, useQuery} from '@realm/react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
 
-import {Bird} from './models/Bird';
+import {Bird} from '../../models';
 import {Subscription} from 'realm/dist/bundle';
 
 export const WaitFirstTime = () => {

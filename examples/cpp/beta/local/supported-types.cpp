@@ -90,12 +90,15 @@ struct Beta_AllTypesObject {
     // :snippet-start: beta-required-list
     std::vector<SomeType> listTypeName;
     // :snippet-end:
+    // :snippet-start: beta-required-set
+    std::set<SomeType> setTypeName;
+    // :snippet-end:
 };
 REALM_SCHEMA(Beta_AllTypesObject, boolName, optBoolName, intName, optIntName,
     doubleName, optDoubleName, stringName, optStringName, enumName,
     optEnumName, binaryDataName, optBinaryDataName, dateName, optDateName,
     decimal128Name, optDecimal128Name, uuidName, optUuidName, objectIdName, 
-    optObjectIdName, mixedName, mapName, listTypeName
+    optObjectIdName, mixedName, mapName, listTypeName, setTypeName
 )
 
 // :snippet-start: beta-dog-map-model
@@ -135,7 +138,8 @@ TEST_CASE("Test supported types", "[model][write]") {
             .objectIdName = objectId,
             .mixedName = realm::mixed("mixed data"),
             .mapName = std::map<std::string, std::string>({{"foo", "bar"}}),
-            .listTypeName = std::vector<std::string>({"bar", "baz"})
+            .listTypeName = std::vector<std::string>({"bar", "baz"}),
+            .setTypeName = { "Lita", "Maui", "Ash" }
         };
 
         realm.write([&] {
@@ -158,6 +162,10 @@ TEST_CASE("Test supported types", "[model][write]") {
         REQUIRE(*specificAllTypeObjects.mixedName == realm::mixed("mixed data"));
         REQUIRE(specificAllTypeObjects.mapName["foo"] == "bar");
         REQUIRE(specificAllTypeObjects.listTypeName[0] == "bar");
+
+        auto it = specificAllTypeObjects.setTypeName.find("Lita");
+        REQUIRE(it != specificAllTypeObjects.setTypeName.end());
+        REQUIRE(*it == "Lita");
 
         realm.write([&] {
             realm.remove(specificAllTypeObjects);

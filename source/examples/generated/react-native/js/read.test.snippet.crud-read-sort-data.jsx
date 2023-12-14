@@ -2,16 +2,24 @@ const TaskList = () => {
   // retrieve the set of Task objects
   const tasks = useQuery(Task);
   // Sort tasks by name in ascending order
-  const tasksByName = tasks.sorted('name');
+  const tasksByName = useQuery(Task, tasks => {
+    return tasks.sorted('name');
+  });
   // Sort tasks by name in descending order
-  const tasksByNameDescending = tasks.sorted('name', true);
+  const tasksByNameDescending = useQuery(Task, tasks => {
+    return tasks.sorted('name', true);
+  });
   // Sort tasks by priority in descending order and then by name alphabetically
-  const tasksByPriorityDescendingAndName = tasks.sorted([
-    ['priority', true],
-    ['name', false],
-  ]);
+  const tasksByPriorityDescendingAndName = useQuery(Task, tasks => {
+    return tasks.sorted([
+      ['priority', true],
+      ['name', false],
+    ]);
+  });
   // Sort Tasks by Assignee's name.
-  const tasksByAssigneeName = tasks.sorted('assignee.name');
+  const tasksByAssigneeName = useQuery(Task, tasks => {
+    return tasks.sorted('assignee.name');
+  });
 
   return (
     <>

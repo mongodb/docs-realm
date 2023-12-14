@@ -6,10 +6,8 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmDictionaryOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.query.RealmResults
-import io.realm.kotlin.types.RealmDictionary
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.FullText
-import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -17,23 +15,18 @@ import kotlin.test.assertTrue
 
 // :replace-start: {
 //    "terms": {
-//       "ReadTest_": "",
+//       "RealmDictionary_": "",
 //       "RealmSet_": ""
 //    }
 // }
 
-class ReadTest_Frog : RealmObject {
-    var _id: ObjectId = ObjectId()
-    var name: String = ""
-    var favoritePondsByForest: RealmDictionary<String> = realmDictionaryOf()
-}
 
 class ReadTest: RealmTest() {
 
     @Test
     fun readRealmSetType() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(RealmSet_Frog::class, Snack::class))
+            val config = RealmConfiguration.Builder(setOf(RealmSet_Frog::class, RealmSet_Snack::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
@@ -46,9 +39,9 @@ class ReadTest: RealmTest() {
                 val frog = copyToRealm(
                     RealmSet_Frog().apply {
                         name = "Kermit"
-                        favoriteSnacks.add(Snack().apply { name = "Flies" })
-                        favoriteSnacks.add(Snack().apply { name = "Crickets" })
-                        favoriteSnacks.add(Snack().apply { name = "Worms" })
+                        favoriteSnacks.add(RealmSet_Snack().apply { name = "Flies" })
+                        favoriteSnacks.add(RealmSet_Snack().apply { name = "Crickets" })
+                        favoriteSnacks.add(RealmSet_Snack().apply { name = "Worms" })
                     }
                 )
                 // Query for frogs that have worms as a favorite snack
@@ -88,7 +81,7 @@ class ReadTest: RealmTest() {
     fun readRealmDictionaryType() {
         runBlocking {
             val config = RealmConfiguration.Builder(
-                schema = setOf(ReadTest_Frog::class) // Pass the defined class as the object schema
+                schema = setOf(RealmDictionary_Frog::class) // Pass the defined class as the object schema
             )
                 .directory("/tmp/") // default location for jvm is... in the project root
                 .build()
@@ -98,7 +91,7 @@ class ReadTest: RealmTest() {
             // Delete frogs to make this test successful on consecutive reruns
             realm.write {
                 // fetch all frogs from the realm
-                val frogs: RealmResults<ReadTest_Frog> = this.query<ReadTest_Frog>().find()
+                val frogs: RealmResults<RealmDictionary_Frog> = this.query<RealmDictionary_Frog>().find()
                 // call delete on the results of a query to delete those objects permanently
                 delete(frogs)
                 assertEquals(0, frogs.size)
@@ -106,14 +99,14 @@ class ReadTest: RealmTest() {
 
             // Create an object with a dictionary property to set up the test
             realm.write {
-                this.copyToRealm(ReadTest_Frog().apply {
+                this.copyToRealm(RealmDictionary_Frog().apply {
                     name = "Kermit"
                     favoritePondsByForest = realmDictionaryOf("Hundred Acre Wood" to "Picnic Pond", "Lothlorien" to "Linya")
                 })
             }
             // :snippet-start: read-realm-dictionary
             // Find frogs who have forests with favorite ponds
-            val frogs = realm.query<ReadTest_Frog>().find()
+            val frogs = realm.query<RealmDictionary_Frog>().find()
             val frogsWithFavoritePonds = frogs.query("favoritePondsByForest.@count > $0", 1).find()
             val thisFrog = frogsWithFavoritePonds.first()
             assertEquals(2, thisFrog.favoritePondsByForest.size) // :remove:
