@@ -302,6 +302,9 @@ notification blocks. Any other changes do not trigger notification blocks.
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.realm-object-keypath-listener.kt
    :language: kotlin
 
+Observe Nested Key Paths
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 You can use dot notation to observe nested key paths. By default, the SDK
 only reports notifications for objects nested up to four layers deep. Observe
 a specific key path if you need to observe changes on more deeply nested 
@@ -309,6 +312,9 @@ objects.
 
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.nested-keypath-listener.kt
    :language: kotlin
+
+Observe Key Paths with Wildcards
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use wildcards (``*``) to observe changes to all key paths at the 
 level of the wildcard.
