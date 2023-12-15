@@ -6,6 +6,7 @@ part of 'backlinks_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
   User(
     ObjectId id,

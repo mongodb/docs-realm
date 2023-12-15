@@ -6,6 +6,7 @@ part of 'migrations_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class PersonV2 extends _PersonV2
     with RealmEntity, RealmObjectBase, RealmObject {
   PersonV2(

@@ -6,6 +6,7 @@ part of 'write_copy_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
     String name,

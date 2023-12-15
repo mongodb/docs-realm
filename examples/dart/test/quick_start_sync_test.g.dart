@@ -6,6 +6,7 @@ part of 'quick_start_sync_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Todo extends _Todo with RealmEntity, RealmObjectBase, RealmObject {
   static var _defaultsSet = false;
 
