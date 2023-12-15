@@ -22,15 +22,28 @@ point is contained within a shape. For example, you can find all coffee shops wi
 
 Realm .NET SDK version 11.16.1 and later adds support for geospatial data
 in Atlas Device Sync. This allows you to subscribe to geospatial queries
-in a synced realm. For more information, refer to :ref:`<dotnet-flexible-sync>`.
+in a synced realm. If you try to subscribe to a geospatial query with an older version of the SDK,
+you will receive a server error with a compensating write.
+For more information about managing your Sync subscriptions, 
+refer to :ref:`<dotnet-flexible-sync>`.
 
-If you try to subscribe to a geospatial query with an older version of the SDK,
-you will receive a server error and cause a compensating write.
+For more information on querying geospatial data with Device Sync, 
+refer to :ref:`<geospatial>` in the App Services documentation.
 
 Geospatial Data Types
 ---------------------
 
-.. include:: /includes/important-cant-persist-geospatial.rst
+The SDK supports geospatial queries using the following data types:
+
+- GeoPoint
+- GeoCircle
+- GeoBox
+- GeoPolygon
+
+The SDK provides these geospatial data types to simplify querying geospatial data. You *cannot* persist these data types directly. 
+
+For information on how to persist geospatial data, refer to the 
+:ref:`<persist-geopoint>` section on this page.
 
 .. _geopoint:
 
@@ -118,6 +131,9 @@ with two holes:
 
 Persisting GeoPoint Data
 ------------------------ 
+
+.. include:: /includes/important-cant-persist-geospatial.rst
+
 If you want to persist ``GeoPoint`` data, it must conform to the 
 `GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 
 
@@ -164,8 +180,10 @@ The following image shows the results of creating these two company objects.
    :width: 150
    :lightbox:
 
-Querying Geospatial Data
-------------------------
+.. _dotnet-query-geospatial:
+
+Query Geospatial Data
+---------------------
 To query against geospatial data, you can use the 
 :dotnet-sdk:`GeoWithin <reference/Realms.QueryMethods.html#Realms_QueryMethods_GeoWithin_Realms_IEmbeddedObject_Realms_GeoShapeBase_>` 
 method, or you can use the ``geoWithin`` operator with :ref:`RQL <dotnet-realm-query-language>`. 

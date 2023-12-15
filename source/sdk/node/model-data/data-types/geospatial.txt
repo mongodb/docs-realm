@@ -22,15 +22,28 @@ point is contained within a shape. For example, you can find all coffee shops wi
 
 Realm Node.js SDK v12.3.0 and later adds support for geospatial data
 in Atlas Device Sync. This allows you to subscribe to geospatial queries
-in a synced realm. For more information, refer to :ref:`<node-flexible-sync>`.
+in a synced realm. If you try to subscribe to a geospatial query with an older version of the SDK,
+you will receive a server error with a compensating write.
+For more information about managing your Sync subscriptions, 
+refer to :ref:`<node-flexible-sync>`.
 
-If you try to subscribe to a geospatial query with an older version of the SDK,
-you will receive a server error and cause a compensating write.
+For more information on querying geospatial data with Device Sync, 
+refer to :ref:`<geospatial>` in the App Services documentation.
 
 Geospatial Data Types
 ---------------------
 
-.. include:: /includes/important-cant-persist-geospatial.rst
+The Node.js SDK supports geospatial queries using the following data types:
+
+- GeoPoint
+- GeoCircle
+- GeoBox
+- GeoPolygon
+
+The SDK provides these geospatial data types to simplify querying geospatial data. You *cannot* persist these data types directly. 
+
+For information on how to persist geospatial data, refer to the 
+:ref:`<node-persist-geopoint>` section on this page.
 
 .. _node-geopoint:
 
@@ -167,6 +180,8 @@ with two holes:
 
 Persist Geospatial Data
 -----------------------
+
+.. include:: /includes/important-cant-persist-geospatial.rst
 
 If you want to persist geospatial data, it must conform to the 
 `GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 

@@ -25,10 +25,13 @@ point is contained within a shape. For example, you can find all coffee shops wi
 
 Kotlin SDK version 1.13.0 and later adds support for geospatial data
 in Atlas Device Sync. This allows you to subscribe to geospatial queries
-in a synced realm. For more information, refer to :ref:`<kotlin-subscriptions>`.
+in a synced realm. If you try to subscribe to a geospatial query with an older version of the SDK,
+you will receive a server error with a compensating write.
 
-If you try to subscribe to a geospatial query with an older version of the SDK,
-you will receive a server error and cause a compensating write.
+For more information about managing your Sync subscriptions, refer to :ref:`<kotlin-subscriptions>`.
+
+For more information on querying geospatial data with Device Sync, 
+refer to :ref:`<geospatial>` in the App Services documentation.
 
 Geospatial Data Types
 ---------------------
@@ -40,7 +43,10 @@ The Kotlin SDK supports geospatial queries using the following data types:
 - GeoBox
 - GeoPolygon
 
-.. include:: /includes/important-cant-persist-geospatial.rst
+The SDK provides these geospatial data types to simplify querying geospatial data. You *cannot* persist these data types directly. 
+
+For information on how to persist geospatial data, refer to the 
+:ref:`<kotlin-persist-geopoint>` section on this page.
 
 .. _kotlin-geopoint:
 
@@ -132,11 +138,16 @@ The following example creates 3 polygons:
 Persist Geospatial Data
 ----------------------- 
 
+.. include:: /includes/important-cant-persist-geospatial.rst
+
 If you want to persist geospatial data, it must conform to the 
 `GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`__. 
 
-Creating a GeoJSON-Compatible Class
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To do this with the Kotlin SDK, you can create a GeoJSON-compatible 
+embedded class that you can then use in your data model.
+
+Create a GeoJSON-Compatible Class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a class that conforms to the GeoJSON spec, you:
 
@@ -159,8 +170,8 @@ to persist geospatial data:
 .. literalinclude:: /examples/generated/kotlin/Geospatial.snippet.custom-geopoint.kt
    :language: kotlin
 
-Using the Embedded Class
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Use the Embedded Class
+~~~~~~~~~~~~~~~~~~~~~~
 
 Use the ``customGeoPoint`` class in your realm model, as shown in the 
 following example:
@@ -181,8 +192,10 @@ The following image shows the results of creating these two ``Company`` objects:
    :width: 150
    :lightbox:
 
-Querying Geospatial Data
-------------------------
+.. _kotlin-query-geospatial:
+
+Query Geospatial Data
+---------------------
 
 To query against geospatial data, you can use the ``GEOWITHIN`` operator with 
 :ref:`RQL <realm-query-language>`. This method takes the ``coordinates`` 
@@ -196,14 +209,11 @@ the geodata region.
    
    You cannot use parameterized queries with geospatial data.
 
-Examples
-~~~~~~~~
-
 The following examples show querying against various shapes to return a list of 
-companies within the shape:
+companies within the shape.
 
 GeoCircle
-`````````
+~~~~~~~~~
 
 .. io-code-block::
 
@@ -221,7 +231,7 @@ GeoCircle
    :lightbox:
 
 GeoBox
-``````
+~~~~~~
 
 .. io-code-block::
 
@@ -238,7 +248,7 @@ GeoBox
    :width: 150
 
 GeoPolygon
-``````````
+~~~~~~~~~~
 
 .. io-code-block::
 
