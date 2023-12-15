@@ -1,3 +1,25 @@
+# December 15, 2023
+
+## Kotlin SDK
+
+- Internal: Update unit test suite for SDK v 1.13.0.
+
+## .NET SDK
+
+- Manage Users/Authenticate Users: Add information and example for new ``User.Changed`` method that observes user object changes.
+
+## Node.js SDK
+
+- Sync Data/Configure & Open a Synced Realm: Fix a small typo.
+
+## React Native SDK
+
+- Install: Document configuration for using Proguard with an Android app.
+
+## Internal
+
+- Throughout docs: Fix broken links.
+
 # December 8, 2023
 
 ## Flutter SDK
