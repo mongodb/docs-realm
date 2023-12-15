@@ -10,15 +10,40 @@ Geospatial Data Types - .NET SDK
    :depth: 2
    :class: singlecol
 
+.. versionadded:: 11.1.0
+
 Geospatial data, or "geodata", specifies points and geometric objects on the Earth's 
 surface. With the geodata types, you can create queries that check whether a given  
 point is contained within a shape. For example, you can find all coffee shops within 
 15 km of a specified point.
 
-.. include:: /includes/no-geospatial-sync.rst
+.. versionchanged:: 11.6.1
+   Geospatial data supported in Atlas Device Sync
+
+Realm .NET SDK version 11.16.1 and later adds support for geospatial data
+in Atlas Device Sync. This allows you to subscribe to geospatial queries
+in a synced realm. If you try to subscribe to a geospatial query with an older version of the SDK,
+you will receive a server error with a compensating write.
+For more information about managing your Sync subscriptions, 
+refer to :ref:`<dotnet-flexible-sync>`.
+
+For more information on querying geospatial data with Device Sync, 
+refer to :ref:`<geospatial>` in the App Services documentation.
 
 Geospatial Data Types
 ---------------------
+
+The SDK supports geospatial queries using the following data types:
+
+- GeoPoint
+- GeoCircle
+- GeoBox
+- GeoPolygon
+
+The SDK provides these geospatial data types to simplify querying geospatial data. You *cannot* persist these data types directly. 
+
+For information on how to persist geospatial data, refer to the 
+:ref:`<persist-geopoint>` section on this page.
 
 .. _geopoint:
 
@@ -106,6 +131,9 @@ with two holes:
 
 Persisting GeoPoint Data
 ------------------------ 
+
+.. include:: /includes/important-cant-persist-geospatial.rst
+
 If you want to persist ``GeoPoint`` data, it must conform to the 
 `GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 
 
@@ -152,8 +180,10 @@ The following image shows the results of creating these two company objects.
    :width: 150
    :lightbox:
 
-Querying Geospatial Data
-------------------------
+.. _dotnet-query-geospatial:
+
+Query Geospatial Data
+---------------------
 To query against geospatial data, you can use the 
 :dotnet-sdk:`GeoWithin <reference/Realms.QueryMethods.html#Realms_QueryMethods_GeoWithin_Realms_IEmbeddedObject_Realms_GeoShapeBase_>` 
 method, or you can use the ``geoWithin`` operator with :ref:`RQL <dotnet-realm-query-language>`. 

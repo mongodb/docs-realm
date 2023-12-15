@@ -80,6 +80,16 @@ For all subscriptions, you need :ref:`an authenticated user
 <react-native-authenticate-users>` and a :ref:`Flexible Sync realm 
 <react-native-synced-realm>`.
 
+.. versionchanged:: ``realm@12.3.0``
+   Geospatial data supported in Atlas Device Sync
+
+In the Realm.js v12.3.0 and later, you can create subscriptions to 
+geospatial queries. If you try to subscribe to a geospatial query with an 
+older version of the SDK, you will receive a server error with a 
+compensating write.
+
+For more information, refer to :ref:`<react-native-data-types-geospatial>`. 
+
 Subscribe to a Query
 ~~~~~~~~~~~~~~~~~~~~
 
