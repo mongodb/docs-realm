@@ -1,6 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cpprealm/sdk.hpp>
-#include <cpprealm/experimental/sdk.hpp>
 #include <chrono>
 #include <string>
 #include <vector>
@@ -12,7 +11,7 @@
 //   }
 // }
 
-using namespace realm::experimental;
+using namespace realm;
 
 struct Beta_AllTypesObject {
     using SomeType = std::string;

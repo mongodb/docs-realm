@@ -19,19 +19,11 @@ jobs:
               - 'examples/cpp/alpha/**'
             beta-asymmetric:
               - 'examples/cpp/beta/asymmetric/**'
-            beta-local:
-              - 'examples/cpp/beta/local/**'
+            local:
+              - 'examples/cpp/local/**'
             beta-sync:
               - 'examples/cpp/beta/sync/**'
 
-      - name: Realm C++ Alpha Tests
-        if: steps.filter.outputs.alpha == 'true'
-        run: |
-          cd examples/cpp/alpha
-          mkdir build && cd build
-          cmake ..
-          make
-          ./examples
       - name: Realm C++ Beta Asymmetric Tests
         if: steps.filter.outputs.beta-asymmetric == 'true'
         run: |
@@ -40,13 +32,13 @@ jobs:
           cmake ..
           make
           ./examples-beta-asymmetric
-      - name: Realm C++ Beta Local Tests
-        if: steps.filter.outputs.beta-local == 'true'
+      - name: Realm C++ Local Tests
+        if: steps.filter.outputs.local == 'true'
         run: |
-          cd examples/cpp/beta/local
+          cd examples/cpp/local
           mkdir build && cd build
           cmake ..
-          make
+          cmake --build .
           ./examples-beta-local
       - name: Realm C++ Beta Flexible Sync Tests
         if: steps.filter.outputs.beta-sync == 'true'

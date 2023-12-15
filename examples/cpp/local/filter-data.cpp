@@ -1,9 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
-#include <cpprealm/experimental/sdk.hpp>
 #include <cpprealm/sdk.hpp>
 #include <string>
 
-using namespace realm::experimental;
+using namespace realm;
 
 // :replace-start: {
 //   "terms": {

@@ -119,7 +119,7 @@ cmake ../
 You can `ls` to see that a Makefile has been generated. Then, build the app:
 
 ```shell
-make
+cmake --build .
 ```
 
 ## Add a New Test File
