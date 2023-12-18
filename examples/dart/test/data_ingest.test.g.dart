@@ -6,6 +6,7 @@ part of 'data_ingest.test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class WeatherSensor extends _WeatherSensor
     with RealmEntity, RealmObjectBase, AsymmetricObject {
   WeatherSensor(

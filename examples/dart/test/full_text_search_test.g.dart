@@ -6,6 +6,7 @@ part of 'full_text_search_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Rug extends _Rug with RealmEntity, RealmObjectBase, RealmObject {
   Rug(
     ObjectId id,
