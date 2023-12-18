@@ -9,7 +9,7 @@ Geospatial - Flutter SDK
   :values: tutorial
 
 .. meta::
-   :description: Use geospatial data to store and query location data in the Flutter SDK.
+   :description: Use geospatial data to store and query location data with the Flutter SDK.
 
 .. contents:: On this page
    :local:
@@ -26,7 +26,7 @@ all coffee shops within 15 km of a specified point.
 
 Flutter SDK v1.6.1 and later adds support for geospatial data
 in Atlas Device Sync. This allows you to subscribe to geospatial queries
-in a synced realm. If you try to subscribe to a geospatial query with an 
+in a synced database. If you try to subscribe to a geospatial query with an 
 older version of the SDK, you will receive a server error with a compensating 
 write. For more information about managing your Sync subscriptions, 
 refer to :ref:`<flutter-flexible-sync-manage-subscriptions>`.
@@ -67,7 +67,8 @@ A GeoPoint is used only as a building block of the other shapes:
 GeoCircle and GeoBox. These shapes, and the GeoPoint type, 
 are used in queries, not for persistance.
 
-To save geospatial data to realm, refer to :ref:`flutter-persist-geopoint`.
+To save geospatial data to the database, refer to 
+:ref:`flutter-persist-geopoint`.
 
 .. _flutter-geocircle:
 
@@ -141,7 +142,7 @@ To create a class that conforms to the GeoJSON spec, you:
 #. At a minimum, add the two fields required by the GeoJSON spec:
 
    - A field of type ``double[]`` that maps to a "coordinates" (case sensitive) 
-     property in the realm schema. 
+     property in the schema. 
 
    - A field of type ``string`` that maps to a "type" property. The value of this 
      field must be "Point".
@@ -161,7 +162,7 @@ in the following example:
 .. literalinclude:: /examples/generated/flutter/geospatial_data_test.snippet.use-geopoint-class.dart
    :language: dart
 
-You add instances of your class to the realm just like any other model.
+You add instances of your class to the database just like any other model.
 
 .. literalinclude:: /examples/generated/flutter/geospatial_data_test.snippet.write-geospatial-object.dart
    :language: dart
