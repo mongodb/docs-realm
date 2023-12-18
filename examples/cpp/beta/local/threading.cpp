@@ -85,7 +85,7 @@ TEST_CASE("scheduler", "[write]") {
       // ... Call in the processor thread(s) and block until return ...
     }
 
-    void invoke(realm::Function<void()>&& task) override {
+    void invoke(std::function<void()>&& task) override {
       // ... Add the task to the (lock-free) processor queue ...
     }
 
