@@ -1,4 +1,4 @@
-// Then use it as a property in your model.
+// Use the GeoJSON-compatible class as a property in your model.
 @RealmModel()
 class _Company {
   @PrimaryKey()
