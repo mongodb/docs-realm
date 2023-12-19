@@ -140,5 +140,27 @@ main() {
       streamListener.cancel();
       expect(isConnected, isTrue);
     });
+
+    test("Manually reconnect all sync sessions", () async {
+      final session = realm.syncSession;
+
+      session.pause();
+      expect(session.connectionState, ConnectionState.disconnected);
+
+      expectLater(
+        session.connectionStateChanges.map((c) => c.current).distinct(),
+        emitsInOrder(<ConnectionState>[
+          ConnectionState.connecting,
+          ConnectionState.connected,
+        ]),
+      );
+
+      session.resume();
+
+      // :snippet-start: session-reconnect
+      app.reconnect();
+      // :snippet-end:
+      expect(session.connectionState, ConnectionState.connected);
+    });
   });
 }

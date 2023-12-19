@@ -4,6 +4,14 @@
 Manage a Sync Session - Flutter SDK
 ===================================
 
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. meta::
+   :description: Pause and resume sync sessions and monitor sync upload progress
+     with the Atlas Device SDK for Flutter.
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -124,3 +132,28 @@ You can access the current and previous ``ConnectionState`` from ``ConnectionSta
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-network-connection.dart
    :language: dart
+
+Manually Reconnect All Sync Sessions
+------------------------------------
+
+The Flutter SDK automatically detects when a device regains connectivity after
+being offline and attempts to reconnect using an incremental backoff strategy.
+
+You can choose to manually trigger a reconnect attempt with the 
+:flutter-sdk:`App.reconnect() <realm/App/reconnect.html>` instead of waiting for
+the duration of the incremental backoff. This is useful if you have a more
+accurate understanding of the network conditions and don't want to rely on
+automatic reconnect detection.
+
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.session-reconnect.dart
+   :language: dart
+
+When you call this method, the SDK forces all sync sessions to attempt to 
+reconnect immediately and resets any timers used for incremental backoff.
+
+.. important:: Cannot Reconnect Within Socket Read Timeout Duration
+   
+   The Flutter SDK has an internal default socket read timeout of 2 minutes,
+   where the SDK will time out if a read operation does not receive any data 
+   within a 2-minute window. If you call ``App.Sync.reconnect()`` 
+   within that window, the Flutter SDK does *not* attempt to reconnect.
