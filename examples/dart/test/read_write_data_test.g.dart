@@ -6,6 +6,7 @@ part of 'read_write_data_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
     ObjectId id,

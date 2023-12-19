@@ -4,6 +4,13 @@
 Threading - C++ SDK Preview
 ===========================
 
+.. meta:: 
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -78,6 +85,9 @@ on your use case:
   a :ref:`thread_safe_reference <cpp-thread-safe-reference>` to the realm
   instance or object.
 
+- To send a fast, read-only view of the object to other threads,
+  :ref:`"freeze" <cpp-pass-immutable-copies-across-threads>` the object.
+
 .. _cpp-thread-safe-reference:
 
 Pass Instances Across Threads
@@ -127,7 +137,7 @@ again on that thread. But if the object does not have a primary
 key, it is not trivial to query for it. You can use ``thread_safe_reference`` 
 on any object, regardless of whether it has a primary key.
 
-.. _ios-use-realm-across-threads:
+.. _cpp-use-realm-across-threads:
 
 Use the Same Realm Across Threads
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,10 +149,129 @@ each thread. As long as you use the same :cpp-sdk:`configuration
 <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`, all Realm
 instances will map to the same file on disk.
 
+.. _cpp-pass-immutable-copies-across-threads:
+
+Pass Immutable Copies Across Threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: v0.5.0-preview & v0.6.0-preview
+
+Live, thread-confined objects work fine in most cases.
+However, some apps -- those based on reactive, event
+stream-based architectures, for example -- need to send
+immutable copies around to many threads for processing
+before ultimately ending up on the UI thread. Making a deep
+copy every time would be expensive, and Realm does not allow
+live instances to be shared across threads. In this case,
+you can **freeze** and **thaw** objects, collections, and realms.
+
+Freezing creates an immutable view of a specific object,
+collection, or realm. The frozen object, collection, or realm still 
+exists on disk, and does not need to be deeply copied when passed around 
+to other threads. You can freely share the frozen object across threads
+without concern for thread issues. When you freeze a realm, its child 
+objects also become frozen.
+
+Frozen objects are not live and do not automatically update.
+They are effectively snapshots of the object state at the
+time of freezing. Thawing an object returns a live version of the frozen 
+object.
+
+To freeze a realm, collection, or object, call the ``.freeze()`` method:
+
+.. literalinclude:: /examples/generated/cpp/threading.snippet.freeze.cpp
+   :language: cpp
+
+.. include:: /includes/tip-cpp-beta-experimental-features.rst
+
+When working with frozen objects, an attempt to do any of
+the following throws an exception:
+
+- Opening a write transaction on a frozen realm.
+- Modifying a frozen object.
+- Adding a change listener to a frozen realm, collection, or object.
+
+You can use ``.is_frozen()`` to check if the object is frozen. This is always
+thread-safe. 
+
+.. literalinclude:: /examples/generated/cpp/threading.snippet.is-frozen.cpp
+   :language: cpp
+
+Frozen objects remain valid as long as the live realm that
+spawned them stays open. Therefore, avoid closing the live
+realm until all threads are done with the frozen objects.
+You can close a frozen realm before the live realm is closed.
+
+.. important:: On caching frozen objects
+
+   Caching too many frozen objects can have a negative
+   impact on the realm file size. "Too many" depends on your
+   specific target device and the size of your Realm
+   objects. If you need to cache a large number of versions,
+   consider copying what you need out of the realm instead.
+
+.. _cpp-modify-frozen-object:
+
+Modify a Frozen Object
+``````````````````````
+
+To modify a frozen object, you must thaw the object. Alternately, you can 
+query for it on an unfrozen realm, then modify it. Calling ``.thaw()`` 
+on a live object, collection, or realm returns itself.
+
+Thawing an object or collection also thaws the realm it references.
+
+.. literalinclude:: /examples/generated/cpp/threading.snippet.thaw.cpp
+   :language: cpp
+
+.. _cpp-append-to-frozen-collection:
+
+Append to a Frozen Collection
+`````````````````````````````
+
+When you append to a frozen :ref:`collection <cpp-collection-types>`, 
+you must thaw both the object containing the collection and the object 
+that you want to append. 
+
+The same rule applies when passing frozen objects across threads. A common 
+case might be calling a function on a background thread to do some work 
+instead of blocking the UI.
+
+.. tabs::
+
+   .. tab:: Append to frozen collection
+      :tabid: append-to-collection
+
+      In this example, we query for two objects in a frozen Realm:
+
+      - A ``Project`` object that has a list property of ``Item`` objects
+      - An ``Item`` object
+
+      We must thaw both objects before we can append the ``Item`` to 
+      the ``items`` list collection on the ``Project``. If we thaw only the 
+      ``Project`` object but not the ``Item``, Realm throws an error.
+
+      .. literalinclude:: /examples/generated/cpp/threading.snippet.append-to-frozen-collection.cpp
+         :language: cpp
+
+   .. tab:: Object Models
+      :tabid: models
+
+      .. literalinclude:: /examples/generated/cpp/threading.snippet.item-model.cpp
+         :language: cpp
+         :caption: Item Model
+
+      .. literalinclude:: /examples/generated/cpp/threading.snippet.model-with-collection-property.cpp
+         :language: cpp
+         :caption: Project Model
+
 .. _cpp-scheduler-thread-management:
 
 Schedulers (Run Loops)
 ----------------------
+
+.. versionchanged:: v0.6.0-preview 
+   ``realm::Function`` replaced with ``std::function``
 
 Some platforms or frameworks automatically set up a **scheduler** (or **run
 loop**), which continuously processes events during the lifetime of your

@@ -6,6 +6,7 @@ part of 'freeze_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
     ObjectId id,

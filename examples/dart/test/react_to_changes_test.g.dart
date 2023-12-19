@@ -6,6 +6,7 @@ part of 'react_to_changes_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Character extends _Character
     with RealmEntity, RealmObjectBase, RealmObject {
   Character(

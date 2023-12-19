@@ -6,6 +6,7 @@ part of 'open_flexible_sync_realm_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Tricycle extends _Tricycle
     with RealmEntity, RealmObjectBase, RealmObject {
   Tricycle(

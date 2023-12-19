@@ -6,6 +6,7 @@ part of 'manage_sync_subscription_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Plane extends _Plane with RealmEntity, RealmObjectBase, RealmObject {
   Plane(
     int id,
