@@ -47,11 +47,18 @@ void main() {
 
     // Find rugs with a wool material but not sheep wool
     final notSheepWoolRugs = realm.query<Rug>("material TEXT \$0", [" -sheep wool"]);
+
+    // Find rugs with a material starting with "wo-"
+    final woRugs = realm.query<Rug>("material TEXT \$0", ["wo*"]);
     // :snippet-end: 
 
-    // Make sure query ran correctly
+    // Make sure 'not' query ran correctly
     print(notSheepWoolRugs.first.material);
     expect(notSheepWoolRugs.first.id, objectId1);
+
+    // Make sure prefix query ran correctly
+    print(woRugs.first.material);
+    expect(woRugs.first.id, objectId1);
 
     // Clean up and close the realm. This deletes any existing objects.
     await cleanUpRealm(realm);
