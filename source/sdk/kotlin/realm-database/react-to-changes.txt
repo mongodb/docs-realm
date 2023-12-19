@@ -299,6 +299,8 @@ string property names to specify the key path or key paths to watch.
 When you specify key paths, only changes to those key paths trigger 
 notification blocks. Any other changes do not trigger notification blocks.
 
+In the following example, we register a key path change listener for the ``age`` property:
+
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.realm-object-keypath-listener.kt
    :language: kotlin
 
@@ -309,6 +311,8 @@ You can use dot notation to observe nested key paths. By default, the SDK
 only reports notifications for objects nested up to four layers deep. Observe
 a specific key path if you need to observe changes on more deeply nested 
 objects.
+
+In the following example, we watch for updates to the nested property ``members.age``. Note that the SDK reports the change to the top-level ``members`` property, even though we're watching for changes to a nested property:
 
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.nested-keypath-listener.kt
    :language: kotlin
