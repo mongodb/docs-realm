@@ -136,14 +136,14 @@ You can access the current and previous ``ConnectionState`` from ``ConnectionSta
 Manually Reconnect All Sync Sessions
 ------------------------------------
 
-Realm automatically detects when a device regains connectivity after being 
-offline and attempts to reconnect using an incremental backoff strategy.
+The Flutter SDK automatically detects when a device regains connectivity after
+being offline and attempts to reconnect using an incremental backoff strategy.
 
 You can choose to manually trigger a reconnect attempt with the 
 :flutter-sdk:`App.reconnect() <realm/App/reconnect.html>` instead of waiting for
 the duration of the incremental backoff. This is useful if you have a more
 accurate understanding of the network conditions and don't want to rely on
-Realm's automatic reconnect detection.
+automatic reconnect detection.
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.session-reconnect.dart
    :language: dart
@@ -153,7 +153,7 @@ reconnect immediately and resets any timers used for incremental backoff.
 
 .. important:: Cannot Reconnect Within Socket Read Timeout Duration
    
-   Realm has an internal default socket read timeout of 2 minutes, where 
-   Realm will time out if a read operation does not receive any data 
+   The Flutter SDK has an internal default socket read timeout of 2 minutes,
+   where the SDK will time out if a read operation does not receive any data 
    within a 2-minute window. If you call ``App.Sync.reconnect()`` 
-   within that window, the Kotlin SDK does *not* attempt to reconnect.
+   within that window, the Flutter SDK does *not* attempt to reconnect.
