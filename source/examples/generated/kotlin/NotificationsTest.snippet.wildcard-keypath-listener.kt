@@ -21,7 +21,7 @@ runBlocking {
         assertIs<UpdatedObject<*>>(objChange)
         assertEquals(1, objChange.changedFields.size)
         // While you can watch for updates to a nested property, the notification
-        // only reports the change to the top-level property. In this case, there
+        // only reports the change on the top-level property. In this case, there
         // was a change to one of the elements in the `members` property, so `members`
         // is what the notification reports - not `age`.
         assertEquals("members", objChange.changedFields.first())

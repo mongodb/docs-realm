@@ -299,10 +299,13 @@ string property names to specify the key path or key paths to watch.
 When you specify key paths, only changes to those key paths trigger 
 notification blocks. Any other changes do not trigger notification blocks.
 
-In the following example, we register a key path change listener for the ``age`` property:
+In the following example, we register a key path change listener for the ``age`` 
+property:
 
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.realm-object-keypath-listener.kt
    :language: kotlin
+
+.. include:: /includes/note-key-path-notification-execution.rst
 
 Observe Nested Key Paths
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -312,7 +315,10 @@ only reports notifications for objects nested up to four layers deep. Observe
 a specific key path if you need to observe changes on more deeply nested 
 objects.
 
-In the following example, we watch for updates to the nested property ``members.age``. Note that the SDK reports the change to the top-level ``members`` property, even though we're watching for changes to a nested property:
+In the following example, we watch for updates to the nested property 
+``members.age``. Note that the SDK reports the change to the top-level 
+``members`` property, even though we're watching for changes to a nested 
+property:
 
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.nested-keypath-listener.kt
    :language: kotlin
@@ -322,6 +328,13 @@ Observe Key Paths with Wildcards
 
 You can use wildcards (``*``) to observe changes to all key paths at the 
 level of the wildcard.
+
+In the following example, we use the wildcard watch for changes to any nested 
+properties one level deep within the ``members`` property. Based on the model
+used in this example, this change listener would report changes to any member's
+``age``, ``species``, or ``name`` properties. Note that the SDK reports the 
+change to the top-level ``members`` property, even though we're watching for 
+changes to a nested property:
 
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.wildcard-keypath-listener.kt
    :language: kotlin
