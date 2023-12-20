@@ -213,6 +213,11 @@ Exclude results for a word by placing the ``-`` character in front of the word.
 For example, a search for ``-sheep wool`` would include all search results for 
 ``wool`` excluding those with ``sheep``.
 
+In Kotlin SDK version 1.6.0 and later, you can specify prefixes by placing 
+the ``*`` character at the end of a word. For example, ``wo*`` would include 
+all search results for ``wool`` and ``woven``. The Flutter SDK does *not* 
+currently support suffix searches.
+
 In the following example, we query on the ``Rug.pattern`` and ``Rug.material``
 fields:
 
