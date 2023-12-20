@@ -4,6 +4,7 @@ class _Person {
   late ObjectId id;
 
   late String name;
+  late List<String> hobbies;
 }
 
 @RealmModel()

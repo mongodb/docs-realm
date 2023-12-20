@@ -15,6 +15,7 @@ class _Person {
   late ObjectId id;
 
   late String name;
+  late List<String> hobbies;
 }
 
 @RealmModel()
@@ -72,6 +73,43 @@ void main() {
       // :snippet-end:
       expect(lukeAndLeia.length, 2);
       expect(lukeAndLeia.query("name == 'Luke'").length, 1);
+      realm.write(() {
+        realm.deleteMany(realm.all<Person>());
+        realm.deleteMany(realm.all<Team>());
+      });
+      cleanUpRealm(realm);
+    });
+    test("Lists asResults", () {
+      // :snippet-start: list-as-results
+      final config = Configuration.local([Person.schema, Team.schema]);
+      final realm = Realm(config);
+      final heroes = Team(ObjectId(), 'Millenium Falcon Crew', crew: [
+        Person(ObjectId(), 'Luke', hobbies: [
+          'Going to Tashi Station',
+          'Fixing the Moisture Vaporators'
+        ]),
+        Person(ObjectId(), 'Leia', hobbies: [
+          'Going on diplomatic missions',
+          'Rescuing short stormtroopers'
+        ]),
+        Person(ObjectId(), 'Han',
+            hobbies: ['Shooting first', 'Making fast Kessel Runs']),
+        Person(ObjectId(), 'Chewbacca', hobbies: [
+          'Fixing the Millenium Falcon',
+          'Tearing the arms off of droids'
+        ])
+      ]);
+      realm.write(() => realm.add(heroes));
+
+      // This turns the Team object's 'crew' List into a RealmResults<Person>.
+      final heroesCrewAsResults = heroes.crew.asResults();
+
+      final luke = heroesCrewAsResults.query("name == 'Luke'").first;
+      // This turns Luke's 'hobbies' list into a RealmResults<String>
+      final lukeHobbiesAsResults = luke.hobbies.asResults();
+      // :snippet-end:
+      expect(heroesCrewAsResults.length, equals(4));
+      expect(lukeHobbiesAsResults.contains('Going to Tashi Station'), true);
       realm.write(() {
         realm.deleteMany(realm.all<Person>());
         realm.deleteMany(realm.all<Team>());
