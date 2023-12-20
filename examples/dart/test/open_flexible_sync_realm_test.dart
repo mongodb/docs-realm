@@ -211,17 +211,15 @@ void main() {
 
       expect(testCompensatingWriteError, isA<CompensatingWriteError>());
 
-      final sessionError =
-          testCompensatingWriteError.as<CompensatingWriteError>();
-      expect(sessionError.category, SyncErrorCategory.session);
-      expect(sessionError.code, SyncSessionErrorCode.compensatingWrite);
-      expect(sessionError.compensatingWrites, isNotNull);
+      final sessionError = testCompensatingWriteError as CompensatingWriteError;
 
+      expect(sessionError.message,
+          startsWith('Client attempted a write that is not allowed'));
       final writeReason = sessionError.compensatingWrites!.first;
       expect(writeReason, isNotNull);
       expect(writeReason.objectType, "Car");
       expect(writeReason.reason,
-          'write to "$carId" in table "${writeReason.objectType}" not allowed; object is outside of the current query view');
+          'write to ObjectID("$carId") in table "${writeReason.objectType}" not allowed; object is outside of the current query view');
       expect(writeReason.primaryKey.value, carId);
 
       await cleanUpRealm(realm, app);
