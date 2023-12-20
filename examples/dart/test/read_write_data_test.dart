@@ -101,11 +101,11 @@ void main() {
       ]);
       realm.write(() => realm.add(heroes));
 
-      // This turns the Team object's 'crew' List into a RealmResults<Person>.
+      // Converts the Team object's 'crew' List into a RealmResults<Person>.
       final heroesCrewAsResults = heroes.crew.asResults();
 
       final luke = heroesCrewAsResults.query("name == 'Luke'").first;
-      // This turns Luke's 'hobbies' list into a RealmResults<String>
+      // Converts Luke's 'hobbies' list into a RealmResults<String>
       final lukeHobbiesAsResults = luke.hobbies.asResults();
       // :snippet-end:
       expect(heroesCrewAsResults.length, equals(4));
