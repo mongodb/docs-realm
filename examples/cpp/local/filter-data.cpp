@@ -160,4 +160,3 @@ TEST_CASE("sort list and results", "[write]") {
   CHECK(projects.size() == 0);
   CHECK(items.size() == 0);
 }
-// :replace-end:

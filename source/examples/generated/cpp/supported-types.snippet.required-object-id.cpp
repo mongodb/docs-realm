@@ -1,1 +1,1 @@
-realm::persisted<realm::object_id> objectIdName;
+realm::object_id objectIdName;

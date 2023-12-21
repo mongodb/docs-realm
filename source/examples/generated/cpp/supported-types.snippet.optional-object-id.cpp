@@ -1,1 +1,1 @@
-realm::persisted<std::optional<realm::object_id>> optObjectIdName;
+std::optional<realm::object_id> optObjectIdName;

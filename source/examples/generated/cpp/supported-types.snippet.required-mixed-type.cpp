@@ -1,1 +1,1 @@
-realm::persisted<realm::mixed> mixedName;
+realm::mixed mixedName;

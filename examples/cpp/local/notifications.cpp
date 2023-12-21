@@ -1,13 +1,13 @@
-#include <catch2/catch_test_macros.hpp>
-#include <cpprealm/sdk.hpp>
-#include <string>
-
 // :replace-start: {
 //   "terms": {
 //     "ToMany_": "",
-//     "Notification_"
+//     "Notification_": ""
 //   }
 // }
+
+#include <catch2/catch_test_macros.hpp>
+#include <cpprealm/sdk.hpp>
+#include <string>
 
 namespace realm {
 struct Notification_Dog {
