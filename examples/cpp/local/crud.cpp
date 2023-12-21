@@ -200,11 +200,18 @@ TEST_CASE("Embedded object example", "[write]") {
   // :snippet-end:
 
   // :snippet-start: update-embedded-object
+  // :snippet-start: check-size-and-access-results
+  // :snippet-start: read-objects-from-realm
   auto managedBusinesses = realm.objects<realm::Business>();
+  // :snippet-end:
   REQUIRE(managedBusinesses.size() == 1);  // :remove:
+  // :snippet-start: filter-using-type-safe-query
   auto businessesNamedMongoDB = managedBusinesses.where(
       [](auto &business) { return business.name == "MongoDB"; });
+  // :snippet-end:
+  CHECK(businessesNamedMongoDB.size() >= 1);
   auto mongoDB = businessesNamedMongoDB[0];
+  // :snippet-end:
   // :remove-start:
   REQUIRE(mongoDB._id == objectId);
   REQUIRE(mongoDB.name == "MongoDB");
@@ -368,11 +375,13 @@ TEST_CASE("test map object", "[write]") {
   CHECK(employee.locationByDay["Friday"] ==
         realm::Map_Employee::WorkLocation::HOME);
   SECTION("Test code example functions as intended") {
+    // :snippet-start: read-map-value
     auto employees = realm.objects<realm::Map_Employee>();
     auto employeesNamedTommy = employees.where(
         [](auto &employee) { return employee.firstName == "Tommy"; });
     REQUIRE(employeesNamedTommy.size() >= 1);  // :remove:
     auto tommy = employeesNamedTommy[0];
+    // :remove-start:
     // You can iterate through keys and values and do something with them
     //            for (auto [k, v] : tommy.locationByDay) {
     //                if (k == "Monday") CHECK(v ==
@@ -380,12 +389,14 @@ TEST_CASE("test map object", "[write]") {
     //                "Tuesday") CHECK(v ==
     //                Map_Employee::WorkLocation::OFFICE);
     //            }
+    // :remove-end:
     // You can get an iterator for an element matching a key using `find()`
     auto tuesdayIterator = tommy.locationByDay.find("Tuesday");
     CHECK(tuesdayIterator != tommy.locationByDay.end());  // :remove:
 
     // You can access values for keys like any other map type
     auto mondayLocation = tommy.locationByDay["Monday"];
+    // :snippet-end:
 
     CHECK(tommy.locationByDay["Tuesday"] ==
           realm::Map_Employee::WorkLocation::OFFICE);  // :remove:

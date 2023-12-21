@@ -52,6 +52,7 @@ TEST_CASE("set up tests", "[write]") {
   CHECK(projects.size() == 1);
   CHECK(items.size() == 1);
 
+  // :snippet-start: comparison-operators
   auto highPriorityItems =
       items.where([](auto const& item) { return item.priority > 5; });
 
@@ -66,20 +67,25 @@ TEST_CASE("set up tests", "[write]") {
     return item.assignee == std::string("Ali") ||
            item.assignee == std::string("Jamie");
   });
+  // :snippet-end:
 
   CHECK(highPriorityItems.size() >= 1);
   CHECK(quickItems.size() == 0);
   CHECK(unassignedItems.size() == 0);
   CHECK(aliOrJamieItems.size() == 0);
 
+  // :snippet-start: logical-operators
   auto completedItemsForAli = items.where([](auto const& item) {
     return item.assignee == std::string("Ali") && item.isComplete == true;
   });
+  // :snippet-end:
 
   CHECK(completedItemsForAli.size() == 0);
 
+  // :snippet-start: string-operators
   auto containIe =
       items.where([](auto const& item) { return item.name.contains("ie"); });
+  // :snippet-end:
 
   CHECK(containIe.size() == 0);
 

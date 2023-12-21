@@ -139,7 +139,7 @@ To query for objects of a given type in a realm, pass the object type
 This returns a :cpp-sdk:`Results <structrealm_1_1results.html>` object
 representing all objects of the given type in the realm.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.read-objects-from-realm.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.read-objects-from-realm.cpp
     :language: cpp
 
 .. _cpp-filter-queries-based-on-object-properties:
@@ -151,7 +151,7 @@ A filter selects a subset of results based on the value(s) of one or
 more object properties. Realm provides a full-featured 
 query engine that you can use to define filters.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.filter-using-type-safe-query.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.filter-using-type-safe-query.cpp
     :language: cpp
 
 .. _cpp-supported-query-operators:
@@ -174,7 +174,7 @@ Realm :cpp-sdk:`Results <structrealm_1_1results.html>` exposes member
 functions to work with results. You may want to check the size of a results
 set, or access the object at a specific index.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.check-size-and-access-results.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.check-size-and-access-results.cpp
     :language: cpp
 
 Additionally, you can iterate through the results, or observe a results
@@ -189,7 +189,7 @@ You can iterate and check the values of a realm :cpp-sdk:`map property
 <classrealm_1_1persisted__map__base.html>` 
 as you would a standard C++ `map <https://en.cppreference.com/w/cpp/container/map>`__:
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.read-map-value.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.read-map-value.cpp
     :language: cpp
 
 .. _cpp-read-and-iterate-set:

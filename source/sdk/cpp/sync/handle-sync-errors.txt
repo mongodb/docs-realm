@@ -34,25 +34,7 @@ object and the :cpp-sdk:`sync_session
 <structrealm_1_1internal_1_1bridge_1_1sync__session.html>` where the error
 occurred.
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
-
-      .. literalinclude:: /examples/generated/cpp/sync-errors.snippet.beta-create-error-handler.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. versionchanged:: 0.2.0 app.login returns std::future instead of std::promise
-      .. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
-
-      .. literalinclude:: /examples/generated/cpp/sync-errors.snippet.create-error-handler.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/sync-errors.snippet.create-error-handler.cpp
+   :language: cpp
 
 .. include:: /includes/sync-errors-in-app-services.rst

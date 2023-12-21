@@ -54,16 +54,20 @@ TEST_CASE("non-sync quick start", "[realm][write]") {
   realm.write([&] { realm.add(std::move(todo)); });
   // :snippet-end:
 
+  // :snippet-start: get-all-todos
   auto todos = realm.objects<realm::Local_Todo>();
+  // :snippet-end:
 
   CHECK(todos.size() == 1);
 
+  // :snippet-start: filter
   auto todosInProgress = todos.where(
       [](auto const& todo) { return todo.status == "In Progress"; });
-
+  // :snippet-end:
   CHECK(todosInProgress.size() == 1);
 
   auto specificTodo = todos[0];
+  // :snippet-start: watch-for-changes
   auto token = specificTodo.observe([&](auto&& change) {
     try {
       if (change.error) {
@@ -82,6 +86,7 @@ TEST_CASE("non-sync quick start", "[realm][write]") {
       std::cerr << "Error: " << e.what() << "\n";
     }
   });
+  // :snippet-end:
 
   // :snippet-start: modify-write-block
   auto todoToUpdate = todosInProgress[0];
@@ -100,20 +105,28 @@ TEST_CASE("non-sync quick start", "[realm][write]") {
 // After skipping and then un-skipping this test with #if 0/#endif, I can't
 // seem to replicate the issue. May require debugging in the future.
 TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
+  // :snippet-start: connect-to-backend
   auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   auto app = realm::App(appConfig);
+  // :snippet-end:
+  // :snippet-start: set-sync-log-level
   auto logLevel = realm::logger::level::info;
   app.get_sync_manager().set_log_level(logLevel);
+  // :snippet-end:
   // :snippet-start: authenticate-user
   auto user = app.login(realm::App::credentials::anonymous()).get();
   // :snippet-end:
   // :snippet-start: open-synced-realm
   auto syncConfig = user.flexible_sync_configuration();
   auto realm = realm::db(syncConfig);
-  // :remove-start:
+  // :snippet-start: sync-session
   auto syncSession = realm.get_sync_session();
+  // :snippet-end:
+  // :snippet-start: sync-state
   syncSession->state();
+  // :snippet-end:
+  // :remove-start:
   syncSession->wait_for_download_completion().get();
   realm.refresh();
   // Remove any existing subscriptions before adding the one for this example

@@ -1,5 +1,7 @@
 auto syncConfig = user.flexible_sync_configuration();
 auto realm = realm::db(syncConfig);
+auto syncSession = realm.get_sync_session();
+syncSession->state();
 // For this example, get the userId for the Flexible Sync query
 auto userId = user.identifier();
 auto subscriptions = realm.subscriptions();

@@ -54,6 +54,7 @@ TEST_CASE("object notification", "[notification]") {
   //  Set up the listener & observe object notifications.
   auto token = specificDog.observe([&](auto&& change) {
     try {
+      // :snippet-start: property-changes
       if (change.error) {
         rethrow_exception(change.error);
       }
@@ -70,6 +71,7 @@ TEST_CASE("object notification", "[notification]") {
           CHECK(newPropertyValue == "Wolfie");  // :remove:
         }
       }
+      // :snippet-end:
     } catch (std::exception const& e) {
       std::cerr << "Error: " << e.what() << "\n";
     }

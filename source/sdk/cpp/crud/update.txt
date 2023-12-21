@@ -20,41 +20,15 @@ Update an Object
 
 You can modify properties of a Realm object inside of a write transaction.
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-update-an-object.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.update-an-object.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.update-an-object.cpp
+   :language: cpp
 
 **Model**
 
 This example uses the following model:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-single-object-model.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.single-object-model.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.single-object-model.cpp
+   :language: cpp
 
 Update an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,86 +36,31 @@ Update an Embedded Object Property
 To update a property in an embedded object, modify the property in a
 write transaction.
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-update-embedded-object.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.update-embedded-object.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.update-embedded-object.cpp
+   :language: cpp
 
 **Model**
 
 This example uses the following model:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-embedded-object.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-embedded-object.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.model-with-embedded-object.cpp
+   :language: cpp
 
 Overwrite an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs::
+To overwrite an embedded object, reassign the embedded object property
+to the raw pointer of a new instance in a write transaction.
 
-   .. tab:: Current
-      :tabid: current
-
-      To overwrite an embedded object, reassign the embedded object property
-      to the raw pointer of a new instance in a write transaction.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-overwrite-embedded-object.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      To overwrite an embedded object, reassign the embedded object property
-      to a new instance in a write transaction.
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.overwrite-embedded-object.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.overwrite-embedded-object.cpp
+   :language: cpp
 
 **Model**
 
 This example uses the following model:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-update-embedded-object.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.update-embedded-object.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.update-embedded-object.cpp
+   :language: cpp
 
 .. _cpp-update-inverse-relationship:
 
@@ -159,19 +78,15 @@ In this example, a ``Person`` object has a to-one relationship to a
 inverse relationship automatically updates when the ``Person`` object updates 
 its ``Dog`` relationship.
 
-.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-update-inverse-relationship.cpp
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.update-inverse-relationship.cpp
    :language: cpp
-
-.. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 **Model**
 
 This example uses the following model:
 
-.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-define-inverse-relationship.cpp
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.define-inverse-relationship.cpp
    :language: cpp
-
-.. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-update-map:
 
@@ -182,41 +97,15 @@ You can update a realm :cpp-sdk:`map property
 <classrealm_1_1persisted__map__base.html>` 
 as you would a standard C++ `map <https://en.cppreference.com/w/cpp/container/map>`__:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-update-map-value.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.update-map-value.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.update-map-value.cpp
+   :language: cpp
 
 **Model**
 
 This example uses the following model:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-map-property.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.model-with-map-property.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.model-with-map-property.cpp
+   :language: cpp
 
 .. _cpp-update-set:
 
@@ -238,13 +127,9 @@ elements from a set, or use ``std::set`` algorithms to mutate sets:
 .. literalinclude:: /examples/generated/cpp/crud.snippet.update-set.cpp
    :language: cpp
 
-.. include:: /includes/tip-cpp-beta-experimental-features.rst
-
 **Model**
 
 This example uses the following model:
 
-.. literalinclude:: /examples/generated/cpp/crud.snippet.beta-model-with-set-property.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.model-with-set-property.cpp
    :language: cpp
-
-.. include:: /includes/tip-cpp-beta-experimental-features.rst

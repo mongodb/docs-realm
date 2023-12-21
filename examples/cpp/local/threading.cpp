@@ -33,7 +33,9 @@ TEST_CASE("thread safe reference", "[write]") {
 
   realm.write([&] { realm.add(std::move(item)); });
 
+  // :snippet-start: realm-refresh
   realm.refresh();
+  // :snippet-end:
 
   auto managedItems = realm.objects<realm::ThreadingExample_Item>();
   auto managedItem = managedItems[0];
