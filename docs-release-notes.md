@@ -1,3 +1,55 @@
+# December 21, 2023
+
+## C++ SDK
+
+- CRUD/Threading: Add a "Pass Immutable Copies Across Threads" section with tested, Bluehawked code examples for freeze/thaw.
+
+## Flutter SDK
+
+- Realm Database
+  - Model Data/Geospatial Data: New page with info and tested, Bluehawked code examples for persisting and querying geospatial data.
+  - Read & Write Data: Break out the single page to a new CRUD section.
+  - CRUD/Read
+    - New "Convert Lists or Sets to Results" section with tested, Bluehawked code example demonstrating the functionality.
+    - Full Text Search: New information and code example for using prefixes.
+- Sync/Manage A Sync Session
+  - Add documentation for `App.reconnect()`.
+  - Add `cancellationToken` parameter to `Session.wait` methods.
+- Internal/Code Example Unit Tests:
+  - Update dependencies.
+  - Fix failing code example tests related to SDK changes.
+
+## Kotlin SDK
+
+- Realm
+  - Model Data/Geospatial Data: Add version change information describing support for geospatial data in Atlas Device Sync.
+  - React to Changes: Add a new "Register a Key Path Change Listener" section with details and tested, Bluehawked code examples for key path filtering.
+- Sync Device Data/Manage Subscriptions: Add version change information to Subscribe to Object Types subsection to note that you can create subscriptions to geospatial queries.
+
+## .NET SDK
+
+- Model Data/Supported Data Types/Geospatial Data: Add version change information describing support for geospatial data in Atlas Device Sync. Add important callout to clarify that you cannot currently persist geospatial data types with the SDK.
+- Sync Data/Manage Flexible Sync Subscriptions: Add version change information to Manage Your Subscriptions section to note that you can create subscriptions to geospatial queries.
+
+## Node.js SDK
+
+- Model Data/Data Types/Geospatial Data:Add version change information describing support for geospatial data in Atlas Device Sync.
+- Sync Data/Manage Flexible Sync Subscriptions: Add version change information to Subscribe to Queries section to note that you can create subscriptions to geospatial queries.
+
+## React Native SDK
+
+- Model Data/Data Types/Geospatial Data: Add version change information describing support for geospatial data in Atlas Device Sync.
+- Sync Data/Manage Flexible Sync Subscriptions: Add version change information to Subscribe to Queries section to note that you can create subscriptions to geospatial queries.
+
+## Swift SDK
+
+- CRUD/Threading: Typo fix.
+- Sync Data/Manage Sync Sessions: New "Wait for Changes to Upload or Download" section with Bluehawked, tested code examples.
+
+## Other
+
+- Example Projects Page: Update page title and description to reflect new Atlas Device SDK naming.
+
 # December 15, 2023
 
 ## Kotlin SDK
@@ -6,7 +58,7 @@
 
 ## .NET SDK
 
-- Manage Users/Authenticate Users: Add information and example for new ``User.Changed`` method that observes user object changes.
+- Manage Users/Authenticate Users: Add information and example for new `User.Changed` method that observes user object changes.
 
 ## Node.js SDK
 
