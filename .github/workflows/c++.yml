@@ -15,23 +15,21 @@ jobs:
         id: filter
         with:
           filters: |
-            alpha:
-              - 'examples/cpp/alpha/**'
-            beta-asymmetric:
-              - 'examples/cpp/beta/asymmetric/**'
+            asymmetric:
+              - 'examples/cpp/asymmetric/**'
             local:
               - 'examples/cpp/local/**'
             sync:
               - 'examples/cpp/sync/**'
 
-      - name: Realm C++ Beta Asymmetric Tests
-        if: steps.filter.outputs.beta-asymmetric == 'true'
+      - name: Realm C++ Asymmetric Tests
+        if: steps.filter.outputs.asymmetric == 'true'
         run: |
-          cd examples/cpp/beta/asymmetric
+          cd examples/cpp/asymmetric
           mkdir build && cd build
           cmake ..
           make
-          ./examples-beta-asymmetric
+          ./examples-asymmetric
       - name: Realm C++ Local Tests
         if: steps.filter.outputs.local == 'true'
         run: |
