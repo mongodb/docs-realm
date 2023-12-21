@@ -8,7 +8,7 @@ Future<void> cleanUpRealm(Realm realm, [App? app]) async {
   if (!realm.isClosed) {
     realm.close();
   }
-  sleep(Duration(milliseconds: 250));
+  sleep(Duration(milliseconds: 500));
   Realm.deleteRealm(realm.config.path);
 }
 

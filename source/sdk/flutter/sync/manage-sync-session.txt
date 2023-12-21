@@ -54,6 +54,13 @@ to download to your synced realm, call :flutter-sdk:`Session.waitForDownload()
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.wait-upload-download.dart
    :language: dart
 
+You can add an optional :flutter-sdk:`CancellationToken 
+<realm/CancellationToken-class.html>` to ``waitForUpload()`` and
+``waitForDownload()``.
+
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.cancel-waitfor.dart
+   :language: dart
+
 .. _flutter-pause-resume-sync:
 
 Pause and Resume a Sync Session
