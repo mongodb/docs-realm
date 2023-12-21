@@ -1,9 +1,18 @@
 #include <catch2/catch_test_macros.hpp>
-#include <future>
 #include <cpprealm/sdk.hpp>
+#include <future>
 
 static const std::string APP_ID = "cpp-tester-uliix";
 
+// This test is currently commented out because the SDK has removed the
+// exposed Core headers that gave it access to a BSON library.
+// See PR https://github.com/realm/realm-cpp/pull/123/
+// Per Lee, a separate project will create a C++ SDK BSON library, but in
+// the meantime, I'll need to use some other library to make this test work.
+// I need to figure out how to create BSON strings in C++ and pass them
+// instead of using realm::bson::Bson for the params.
+// TODO: Figure out what library to use and how to make this test/example work.
+#if 0
 TEST_CASE("custom user data", "[realm][sync]")
 {
     auto appConfig = realm::App::configuration();
@@ -43,3 +52,4 @@ TEST_CASE("custom user data", "[realm][sync]")
     // :snippet-end:
     CHECK(deleteResult);
 }
+#endif

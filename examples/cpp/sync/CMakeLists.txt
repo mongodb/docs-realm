@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(examples-beta-sync)
+project(examples-sync)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -14,15 +14,20 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        948b98325c839d633b3859046c0c58e88fe3513d
+  GIT_TAG        080ad8f73c2887e6bd0a61edf35177430ba191a0
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
-add_executable(examples-beta-sync 
+add_executable(examples-sync 
   app.cpp
-  #authentication.cpp
+  authentication.cpp
+  call-function.cpp
+  custom-user-data.cpp
+  flexible-sync.cpp
+  quick-start.cpp
+  sync-errors.cpp
 )
 
-target_link_libraries(examples-beta-sync PRIVATE Catch2::Catch2WithMain)
-target_link_libraries(examples-beta-sync PRIVATE cpprealm)
+target_link_libraries(examples-sync PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(examples-sync PRIVATE cpprealm)
