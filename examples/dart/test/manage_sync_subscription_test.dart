@@ -61,8 +61,8 @@ void main() {
       final planeQuery = realm.all<Plane>();
       final longTrainQuery = realm.all<Train>().query("numCars >= 4");
       realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.add(planeQuery, name: "all-planes");
-        mutableSubscriptions.add(longTrainQuery, name: 'long-trains');
+        mutableSubscriptions.add(planeQuery, name: "all-planes"); // +1
+        mutableSubscriptions.add(longTrainQuery, name: 'long-trains'); // +1
       });
       await realm.subscriptions.waitForSynchronization();
     });
@@ -75,6 +75,7 @@ void main() {
       await Future.delayed(Duration(milliseconds: 300));
       Realm.deleteRealm(realm.config.path);
     });
+    // Starting with 2 subscriptions from setUp: all-planes, long-trains
     test('Add query to subscription set', () async {
       // :snippet-start: add-subscription
       final planeQuery = realm.all<Plane>();
@@ -86,13 +87,13 @@ void main() {
       });
       await realm.subscriptions.waitForSynchronization();
       // :snippet-end:
-      expect(realm.subscriptions.length, 3);
+      expect(realm.subscriptions.length, 3); // +1 planes
     });
     test('Get subscriptions', () async {
       // :snippet-start: get-subscriptions
       final subscriptions = realm.subscriptions;
       // :snippet-end:
-      expect(subscriptions.length, 2);
+      expect(subscriptions.length, 2); // 0
     });
     test('Wait for subscription changes to sync', () async {
       // :snippet-start: wait-for-subscription-change
@@ -110,8 +111,8 @@ void main() {
             name: 'long-trains', update: true);
       });
       // :snippet-end:
-      expect(realm.subscriptions.findByName('long-trains')?.queryString.trim(),
-          "numCars > 10");
+      expect(realm.subscriptions.length, 2); // 0
+      expect(realm.subscriptions.findByName('long-trains')?.queryString.trim(), "numCars > 10");
     });
     test('Remove subscription by query', () async {
       // :snippet-start: remove-subscriptions-by-query
@@ -119,7 +120,7 @@ void main() {
         mutableSubscriptions.removeByQuery(realm.all<Plane>());
       });
       // :snippet-end:
-      // expect(realm.subscriptions.length, 1);
+      expect(realm.subscriptions.length, 1); // -1
     });
     test('Remove subscription by name', () async {
       // :snippet-start: remove-subscriptions-by-name
@@ -127,7 +128,7 @@ void main() {
         mutableSubscriptions.removeByName('long-trains');
       });
       // :snippet-end:
-      expect(realm.subscriptions.length, 1);
+      expect(realm.subscriptions.length, 1); // -1
     });
     test('Remove all subscriptions by reference', () async {
       // :snippet-start: remove-subscriptions-by-reference
@@ -136,7 +137,7 @@ void main() {
         mutableSubscriptions.remove(sub);
       });
       // :snippet-end:
-      expect(realm.subscriptions.length, 1);
+      expect(realm.subscriptions.length, 1); // -1
     });
     test('Remove all subscriptions by object type', () async {
       // :snippet-start: remove-subscriptions-by-object-type
@@ -144,13 +145,91 @@ void main() {
         mutableSubscriptions.removeByType<Train>();
       });
       // :snippet-end:
-      expect(realm.subscriptions.length, 1);
+      expect(realm.subscriptions.length, 1); // -1
     });
     test('Remove all subscriptions', () async {
       // :snippet-start: remove-all-subscriptions
       realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
         mutableSubscriptions.clear();
       });
+      // :snippet-end:
+      expect(realm.subscriptions, isEmpty); // clear all
+    });
+    test('Add query with subscribe api', () async {
+      // :snippet-start: add-subscription-subscribe-api
+      final boatQuery = realm.all<Boat>();
+      final bigPlaneQuery = realm.query<Plane>("numSeats > 100");
+
+      final boatSubscription = await boatQuery.subscribe(name: "boats");
+      final planeSubscription = await bigPlaneQuery.subscribe(name: "big-planes");
+      // :snippet-end:
+      expect(realm.subscriptions.length, 4); // +2
+      expect(realm.subscriptions.findByName("boats")?.queryString.trim(), "TRUEPREDICATE");
+      expect(realm.subscriptions.findByName("big-planes")?.queryString.trim(), "numSeats > 100");
+    });
+    test('Update query with subscribe api', () async {
+      final planeQuery = realm.query<Plane>("numSeats > 100");
+      planeQuery.subscribe(name: "big-planes");
+      // :snippet-start: update-subscription-subscribe-api
+      final updatedPlaneQuery = realm.query<Plane>("numSeats > 200");
+
+      final planeSubscription = await updatedPlaneQuery.subscribe(
+          name: "big-planes",
+          update: true
+      );
+      // :snippet-end:
+      expect(realm.subscriptions.length, 3); // +1
+      final updatedSubscription = realm.subscriptions.findByName("big-planes");
+      expect(updatedSubscription?.queryString.trim(), "numSeats > 200");
+    });
+    test('Wait for query to sync with subscribe api', () async {
+      realm.write(() {
+        realm.deleteAll<Plane>();
+        realm.addAll([
+          Plane(1, "Plane1", 201),
+          Plane(2, "Plane2", 50)
+        ]);
+      });
+      realm.syncSession.waitForUpload(TimeoutCancellationToken(Duration(seconds: 5)));
+      // :snippet-start: wait-first-time-subscribe-api
+      final bigPlaneQuery = realm.query<Plane>("numSeats > 100");
+
+      final planeSubscription = await bigPlaneQuery.subscribe(
+          name: "firstTimeSync",
+          waitForSyncMode: WaitForSyncMode.firstTime,
+      );
+      // :snippet-end:
+      expect(realm.subscriptions.length, 3); // +1
+      expect(bigPlaneQuery.length, 1);
+    });
+    test('Wait with timeout with subscribe api', () async {
+      realm.write(() {
+        realm.deleteAll<Plane>();
+        realm.addAll([
+          Plane(1, "Plane1", 201),
+          Plane(2, "Plane2", 500)
+        ]);
+      });
+      // :snippet-start: wait-with-timeout-subscribe-api
+      final bigPlaneQuery = realm.query<Plane>("numSeats > 200");
+
+      final planeSubscription = await bigPlaneQuery.subscribe(
+          name: "alwaysWaitSync",
+          waitForSyncMode: WaitForSyncMode.always,
+          cancellationToken: TimeoutCancellationToken(Duration(seconds: 5)),
+      );
+      // :snippet-end:
+      expect(realm.subscriptions.length, 3); // +1
+      expect(bigPlaneQuery.length, 2);
+
+    });
+    test('Remove subscription with unsubscribe api', () async {
+      final planeQuery = realm.all<Plane>();
+      final trainSubscription = realm.subscriptions.findByName("long-trains")?.queryString;
+      final trainQuery = realm.query(trainSubscription!);
+      // :snippet-start: remove-subscription-unsubscribe-api
+      planeQuery.unsubscribe();
+      trainQuery.unsubscribe();
       // :snippet-end:
       expect(realm.subscriptions, isEmpty);
     });
