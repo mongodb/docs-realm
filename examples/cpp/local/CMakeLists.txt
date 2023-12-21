@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(examples-beta-local)
+project(examples-local)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -14,12 +14,12 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        v0.6.0-preview
+  GIT_TAG        080ad8f73c2887e6bd0a61edf35177430ba191a0
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
-add_executable(examples-beta-local
+add_executable(examples-local
   crud.cpp
   filter-data.cpp
   notifications.cpp
@@ -31,5 +31,5 @@ add_executable(examples-beta-local
 
 set(USE_EXAMPLE_MAIN 1)
 
-target_link_libraries(examples-beta-local PRIVATE Catch2::Catch2WithMain)
-target_link_libraries(examples-beta-local PRIVATE cpprealm)
+target_link_libraries(examples-local PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(examples-local PRIVATE cpprealm)
