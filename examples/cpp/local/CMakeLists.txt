@@ -22,6 +22,7 @@ FetchContent_MakeAvailable(Catch2 cpprealm)
 add_executable(examples-local
   crud.cpp
   filter-data.cpp
+  logger.cpp
   notifications.cpp
   realm-files.cpp
   relationships.cpp
