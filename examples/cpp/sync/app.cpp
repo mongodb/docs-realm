@@ -1,7 +1,10 @@
+// :replace-start: {
+//   "terms": {
+//     "FlexibleSync_": ""
+//   }
+// }
 #include <catch2/catch_test_macros.hpp>
 #include <cpprealm/sdk.hpp>
-
-using namespace realm;
 
 static const std::string APP_ID = "cpp-tester-uliix";
 
@@ -10,13 +13,15 @@ TEST_CASE("test custom headers compile", "[realm][sync]") {
   std::map<std::string, std::string> customHttpHeaders;
   customHttpHeaders.emplace("CUSTOM_HEADER_NAME", "CUSTOM_HEADER_VALUE");
 
-  auto app = App(App::configuration(
-      {APP_ID, std::nullopt, std::nullopt, customHttpHeaders}));
+  auto appConfig = realm::App::configuration();
+  appConfig.app_id = APP_ID;
+  appConfig.custom_http_headers = customHttpHeaders;
+  auto app = realm::App(appConfig);
   // :snippet-end:
 
   app.get_sync_manager().set_log_level(realm::logger::level::warn);
 
-  auto user = app.login(App::credentials::anonymous()).get();
+  auto user = app.login(realm::App::credentials::anonymous()).get();
   // :snippet-start: set-custom-headers-for-sync-config
   std::map<std::string, std::string> customHeaders;
   customHeaders.emplace("CUSTOM_HEADER_NAME", "CUSTOM_HEADER_VALUE");
@@ -31,12 +36,13 @@ TEST_CASE("test custom headers compile", "[realm][sync]") {
 
 TEST_CASE("test proxy config compiles", "[realm][sync]") {
   // :snippet-start: set-proxy-config
-  auto proxyConfig = proxy_config();
+  auto proxyConfig = realm::proxy_config();
   proxyConfig.port = 8080;
   proxyConfig.address = "127.0.0.1";
   proxyConfig.username_password = {"username", "password"};
 
-  auto appConfig = App::configuration();
+  auto appConfig = realm::App::configuration();
+  appConfig.app_id = APP_ID;
   appConfig.proxy_configuration = proxyConfig;
   // :remove-start:
   // Skipping the rest of this test because of the complexity
@@ -46,21 +52,23 @@ TEST_CASE("test proxy config compiles", "[realm][sync]") {
   // compiler checking for code correctness.
   SKIP();
   // :remove-end:
-  auto app = App(appConfig);
+  auto app = realm::App(appConfig);
 
   auto user = app.get_current_user();
   auto syncConfig = user->flexible_sync_configuration();
   syncConfig.set_proxy_config(proxyConfig);
-  auto syncedRealm = db(syncConfig);
+  auto syncedRealm = realm::db(syncConfig);
   // :snippet-end:
 }
 
-struct Beta_FlexibleSync_Dog {
-  primary_key<object_id> _id{object_id::generate()};
+namespace realm {
+struct FlexibleSync_Dog {
+  realm::primary_key<object_id> _id{object_id::generate()};
   std::string name;
   int64_t age;
 };
-REALM_SCHEMA(Beta_FlexibleSync_Dog, _id, name, age)
+REALM_SCHEMA(FlexibleSync_Dog, _id, name, age)
+}  // namespace realm
 
 TEST_CASE("test metadata encryption", "[realm][sync]") {
   // :snippet-start: encrypt-metadata
@@ -75,35 +83,35 @@ TEST_CASE("test metadata encryption", "[realm][sync]") {
       0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 0};
 
   // Create and populate an App configuration.
-  auto appConfig = App::configuration();
+  auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   // Specify the metadata key.
   appConfig.metadata_encryption_key = exampleKey;
 
   // Use the configuration when you open the app.
-  auto app = App(appConfig);
+  auto app = realm::App(appConfig);
   // :snippet-end:
 
   // The code from here down isn't relevant to the example - just confirming
   // we can open and write to a realm whose metadata is encrypted.
-  app.get_sync_manager().set_log_level(logger::level::warn);
+  app.get_sync_manager().set_log_level(realm::logger::level::warn);
 
-  auto user = app.login(App::credentials::anonymous()).get();
+  auto user = app.login(realm::App::credentials::anonymous()).get();
   REQUIRE(user.is_logged_in());
 
   auto syncConfig = user.flexible_sync_configuration();
 
-  auto syncedRealm = db(syncConfig);
+  auto syncedRealm = realm::db(syncConfig);
 
   syncedRealm.subscriptions()
-      .update([](mutable_sync_subscription_set &subs) {
-        subs.add<Beta_FlexibleSync_Dog>("puppies",
-                                        [](auto &obj) { return obj.age < 3; });
+      .update([](realm::mutable_sync_subscription_set &subs) {
+        subs.add<realm::FlexibleSync_Dog>(
+            "puppies", [](auto &obj) { return obj.age < 3; });
       })
       .get();
 
-  auto objectId = object_id::generate();
-  auto maui = Beta_FlexibleSync_Dog();
+  auto objectId = realm::object_id::generate();
+  auto maui = realm::FlexibleSync_Dog();
   maui._id = objectId;
   maui.name = "Maui";
   maui.age = 2;
@@ -113,14 +121,14 @@ TEST_CASE("test metadata encryption", "[realm][sync]") {
   auto syncSession = syncedRealm.get_sync_session();
   syncSession->wait_for_upload_completion().get();
 
-  auto dogs = syncedRealm.objects<Beta_FlexibleSync_Dog>();
+  auto dogs = syncedRealm.objects<realm::FlexibleSync_Dog>();
   REQUIRE(dogs.size() == 1);
   auto dogsNamedMaui = dogs.where([](auto &dog) { return dog.name == "Maui"; });
   auto persistedMaui = dogsNamedMaui[0];
 
   syncedRealm.write([&] { syncedRealm.remove(persistedMaui); });
 
-  auto managedDogsAfterDelete = syncedRealm.objects<Beta_FlexibleSync_Dog>();
+  auto managedDogsAfterDelete = syncedRealm.objects<realm::FlexibleSync_Dog>();
   REQUIRE(managedDogsAfterDelete.size() == 0);
 
   syncSession->wait_for_upload_completion().get();
@@ -128,3 +136,4 @@ TEST_CASE("test metadata encryption", "[realm][sync]") {
   user.log_out().get();
   REQUIRE(user.access_token().empty());
 }
+// :replace-end:

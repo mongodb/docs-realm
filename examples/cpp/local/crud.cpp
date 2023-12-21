@@ -3,69 +3,67 @@
 
 // :replace-start: {
 //   "terms": {
-//     "Beta_": "",
-//     "Beta_Map_": "",
-//     "Beta_Set_": ""
+//     "Map_": "",
+//     "Set_": ""
 //   }
 // }
-
-using namespace realm;
-
-// :snippet-start: beta-realm-define-model
-// :snippet-start: beta-single-object-model
-struct Beta_Dog {
+namespace realm {
+// :snippet-start: define-model
+// :snippet-start: single-object-model
+struct Dog {
   std::string name;
   int64_t age;
 };
-REALM_SCHEMA(Beta_Dog, name, age)
+REALM_SCHEMA(Dog, name, age)
 // :snippet-end:
 
-// :snippet-start: beta-person-model
-struct Beta_Person {
-  primary_key<int64_t> _id;
+// :snippet-start: person-model
+struct Person {
+  realm::primary_key<int64_t> _id;
   std::string name;
   int64_t age;
 
-  Beta_Dog *dog;
+  // Create relationships by pointing an Object field to another struct or class
+  Dog *dog;
 };
-REALM_SCHEMA(Beta_Person, _id, name, age, dog)
+REALM_SCHEMA(Person, _id, name, age, dog)
 // :snippet-end:
 // :snippet-end:
 
-// :snippet-start: beta-employee-model
-struct Beta_Employee {
-  primary_key<int64_t> _id;
+// :snippet-start: employee-model
+struct Employee {
+  realm::primary_key<int64_t> _id;
   std::string firstName;
   std::string lastName;
 
   // You can use this property as you would any other member
-  // Omitting it from the schema means Realm ignores it
+  // Omitting it from the schema means the SDK ignores it
   std::string jobTitle_notPersisted;
 };
 // The REALM_SCHEMA omits the `jobTitle_notPersisted` property
-// Realm does not store and cannot retrieve a value for this property
-REALM_SCHEMA(Beta_Employee, _id, firstName, lastName)
+// The SDK does not store and cannot retrieve a value for this property
+REALM_SCHEMA(Employee, _id, firstName, lastName)
 // :snippet-end:
 
-// :snippet-start: beta-model-with-embedded-object
-struct Beta_ContactDetails {
+// :snippet-start: model-with-embedded-object
+struct ContactDetails {
   // Because ContactDetails is an embedded object, it cannot have its own _id
   // It does not have a lifecycle outside of the top-level object
   std::string emailAddress;
   std::string phoneNumber;
 };
-REALM_EMBEDDED_SCHEMA(Beta_ContactDetails, emailAddress, phoneNumber)
+REALM_EMBEDDED_SCHEMA(ContactDetails, emailAddress, phoneNumber)
 
-struct Beta_Business {
+struct Business {
   realm::object_id _id;
   std::string name;
-  Beta_ContactDetails *contactDetails;
+  ContactDetails *contactDetails;
 };
-REALM_SCHEMA(Beta_Business, _id, name, contactDetails)
+REALM_SCHEMA(Business, _id, name, contactDetails)
 // :snippet-end:
 
-// :snippet-start: beta-model-with-map-property
-struct Beta_Map_Employee {
+// :snippet-start: model-with-map-property
+struct Map_Employee {
   enum class WorkLocation { HOME, OFFICE };
 
   int64_t _id;
@@ -73,38 +71,47 @@ struct Beta_Map_Employee {
   std::string lastName;
   std::map<std::string, WorkLocation> locationByDay;
 };
-REALM_SCHEMA(Beta_Map_Employee, _id, firstName, lastName, locationByDay)
+REALM_SCHEMA(Map_Employee, _id, firstName, lastName, locationByDay)
 // :snippet-end:
 
-// :snippet-start: beta-model-with-set-property
-struct Beta_Set_Repository {
+// :snippet-start: model-with-set-property
+struct Set_Repository {
   std::string ownerAndName;
   std::set<int64_t> openPullRequestNumbers;
 };
-REALM_SCHEMA(Beta_Set_Repository, ownerAndName, openPullRequestNumbers)
+REALM_SCHEMA(Set_Repository, ownerAndName, openPullRequestNumbers)
 // :snippet-end:
 
-TEST_CASE("Beta define model example", "[write]") {
-  auto relative_realm_path_directory = "beta_dog/";
+// :snippet-start: dog-map-model
+struct Map_Dog {
+  std::string name;
+  std::map<std::string, std::string> favoriteParkByCity;
+};
+REALM_SCHEMA(Map_Dog, name, favoriteParkByCity)
+// :snippet-end:
+}  // namespace realm
+
+TEST_CASE("Define model example", "[write]") {
+  auto relative_realm_path_directory = "dog/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
   path = path.append("dog_objects");
   path = path.replace_extension("realm");
-  // :snippet-start: beta-open-realm
+  // :snippet-start: open-realm
   auto config = realm::db_config();
   config.set_path(path);  // :remove:
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
   // :snippet-end:
 
-  auto dog = Beta_Dog{.name = "Maui", .age = 2};
+  auto dog = realm::Dog{.name = "Maui", .age = 2};
 
   auto person =
-      Beta_Person{._id = 123, .name = "Dachary", .age = 42, .dog = &dog};
+      realm::Person{._id = 123, .name = "Dachary", .age = 42, .dog = &dog};
 
   realm.write([&] { realm.add(std::move(person)); });
 
-  auto managedPeople = realm.objects<Beta_Person>();
+  auto managedPeople = realm.objects<realm::Person>();
   auto specificPerson = managedPeople[0];
   REQUIRE(specificPerson._id == static_cast<long long>(123));
   REQUIRE(specificPerson.name == "Dachary");
@@ -112,7 +119,7 @@ TEST_CASE("Beta define model example", "[write]") {
   REQUIRE(specificPerson.dog->name == "Maui");
   REQUIRE(specificPerson.dog->age == static_cast<long long>(2));
   REQUIRE(managedPeople.size() == 1);
-  auto managedDogs = realm.objects<Beta_Dog>();
+  auto managedDogs = realm.objects<realm::Dog>();
   REQUIRE(managedDogs.size() == 1);
   auto specificDog = managedDogs[0];
 
@@ -120,38 +127,38 @@ TEST_CASE("Beta define model example", "[write]") {
     realm.remove(specificPerson);
     realm.remove(specificDog);
   });
-  auto managedPeopleAfterDelete = realm.objects<Beta_Person>();
+  auto managedPeopleAfterDelete = realm.objects<realm::Person>();
   REQUIRE(managedPeopleAfterDelete.size() == 0);
-  auto managedDogsAfterDelete = realm.objects<Beta_Dog>();
+  auto managedDogsAfterDelete = realm.objects<realm::Dog>();
   REQUIRE(managedDogsAfterDelete.size() == 0);
 }
 
-TEST_CASE("Beta ignored property example", "[write]") {
-  // :snippet-start: beta-open-realm-at-path
+TEST_CASE("Ignored property example", "[write]") {
+  // :snippet-start: open-db-at-path
   auto relative_realm_path_directory = "custom_path_directory/";
   std::filesystem::create_directories(
       relative_realm_path_directory);  // :remove:
   // Construct a path
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
-  // Add a name for the realm file
+  // Add a name for the database file
   path = path.append("employee_objects");
   // Add the .realm extension
   path = path.replace_extension("realm");
-  // Set the path on the config, and open a realm at the path
+  // Set the path on the config, and open the database at the path
   auto config = realm::db_config();
   config.set_path(path);
-  auto realmInstance = db(std::move(config));
+  auto realmInstance = realm::db(std::move(config));
   // :snippet-end:
 
-  auto employee = Beta_Employee{._id = 12345,
-                                .firstName = "Leslie",
-                                .lastName = "Knope",
-                                .jobTitle_notPersisted = "Deputy Director"};
+  auto employee = realm::Employee{._id = 12345,
+                                  .firstName = "Leslie",
+                                  .lastName = "Knope",
+                                  .jobTitle_notPersisted = "Deputy Director"};
 
   realmInstance.write([&] { realmInstance.add(std::move(employee)); });
 
-  auto managedEmployees = realmInstance.objects<Beta_Employee>();
+  auto managedEmployees = realmInstance.objects<realm::Employee>();
   auto specificEmployee = managedEmployees[0];
   REQUIRE(specificEmployee._id == static_cast<long long>(12345));
   REQUIRE(specificEmployee.firstName == "Leslie");
@@ -159,31 +166,31 @@ TEST_CASE("Beta ignored property example", "[write]") {
   REQUIRE(managedEmployees.size() == 1);
 
   realmInstance.write([&] { realmInstance.remove(specificEmployee); });
-  auto managedEmployeesAfterDelete = realmInstance.objects<Beta_Employee>();
+  auto managedEmployeesAfterDelete = realmInstance.objects<realm::Employee>();
   REQUIRE(managedEmployeesAfterDelete.size() == 0);
 }
 
-TEST_CASE("Beta embedded object example", "[write]") {
-  auto relative_realm_path_directory = "beta_business/";
+TEST_CASE("Embedded object example", "[write]") {
+  auto relative_realm_path_directory = "business/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
   path = path.append("business_objects");
   path = path.replace_extension("realm");
 
-  // :snippet-start: beta-create-embedded-object
+  // :snippet-start: create-embedded-object
   auto config = realm::db_config();
   config.set_path(path);  // :remove:
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
   // :remove-start:
   // Generating an objectId here and will set it after
   // the "public" example below for covenient testing later
   auto objectId = realm::object_id::generate();
   // :remove-end:
-  auto contactDetails = Beta_ContactDetails{.emailAddress = "email@example.com",
-                                            .phoneNumber = "123-456-7890"};
-  auto business = Beta_Business();
+  auto contactDetails = realm::ContactDetails{
+      .emailAddress = "email@example.com", .phoneNumber = "123-456-7890"};
+  auto business = realm::Business();
   business._id = realm::object_id::generate();
   business._id = objectId;  // :remove:
   business.name = "MongoDB";
@@ -192,8 +199,8 @@ TEST_CASE("Beta embedded object example", "[write]") {
   realm.write([&] { realm.add(std::move(business)); });
   // :snippet-end:
 
-  // :snippet-start: beta-update-embedded-object
-  auto managedBusinesses = realm.objects<Beta_Business>();
+  // :snippet-start: update-embedded-object
+  auto managedBusinesses = realm.objects<realm::Business>();
   REQUIRE(managedBusinesses.size() == 1);  // :remove:
   auto businessesNamedMongoDB = managedBusinesses.where(
       [](auto &business) { return business.name == "MongoDB"; });
@@ -212,14 +219,14 @@ TEST_CASE("Beta embedded object example", "[write]") {
             << mongoDB.contactDetails->emailAddress.detach() << "\n";
   // :snippet-end:
   REQUIRE(mongoDB.contactDetails->emailAddress == "info@example.com");
-  // :snippet-start: beta-overwrite-embedded-object
-  auto businesses = realm.objects<Beta_Business>();
+  // :snippet-start: overwrite-embedded-object
+  auto businesses = realm.objects<realm::Business>();
   auto mongoDBBusinesses = businesses.where(
       [](auto &business) { return business.name == "MongoDB"; });
   auto theMongoDB = mongoDBBusinesses[0];
 
   realm.write([&] {
-    auto newContactDetails = Beta_ContactDetails{
+    auto newContactDetails = realm::ContactDetails{
         .emailAddress = "info@example.com", .phoneNumber = "234-567-8901"};
     // Overwrite the embedded object
     theMongoDB.contactDetails = &newContactDetails;
@@ -229,70 +236,70 @@ TEST_CASE("Beta embedded object example", "[write]") {
   REQUIRE(mongoDB.contactDetails->phoneNumber == "234-567-8901");
   realm.write([&] { realm.remove(mongoDB); });
 
-  auto managedBusinessesAfterDelete = realm.objects<Beta_Business>();
+  auto managedBusinessesAfterDelete = realm.objects<realm::Business>();
   REQUIRE(managedBusinessesAfterDelete.size() == 0);
 }
 
 TEST_CASE("create a dog", "[write]") {
-  // :snippet-start: beta-create-an-object
-  // Create a Realm object like a regular object.
-  auto dog = Beta_Dog{.name = "Rex", .age = 1};
+  // :snippet-start: create-an-object
+  // Create an object like any other object.
+  auto dog = realm::Dog{.name = "Rex", .age = 1};
 
   std::cout << "dog: " << dog.name << "\n";
 
-  // Open a realm with compile-time schema checking.
+  // Open the database with compile-time schema checking.
   auto config = realm::db_config();
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
   // Persist your data in a write transaction
   // Optionally return the managed object to work with it immediately
   auto managedDog = realm.write([&] { return realm.add(std::move(dog)); });
   // :snippet-end:
   REQUIRE(managedDog.name == "Rex");
-  auto dogs = realm.objects<Beta_Dog>();
+  auto dogs = realm.objects<realm::Dog>();
   auto dogsCount = dogs.size();
   REQUIRE(dogsCount >= 1);
-  // :snippet-start: beta-delete-an-object
+  // :snippet-start: delete-an-object
   realm.write([&] { realm.remove(managedDog); });
   // :snippet-end:
-  auto updatedDogsCount = realm.objects<Beta_Dog>().size();
+  auto updatedDogsCount = realm.objects<realm::Dog>().size();
   REQUIRE(updatedDogsCount < dogsCount);
 }
 
 TEST_CASE("Pass a subset of classes to a realm", "[write]") {
-  auto relative_realm_path_directory = "beta_business/";
+  auto relative_realm_path_directory = "dog/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
   path = path.append("business_objects");
   path = path.replace_extension("realm");
 
-  auto dog = Beta_Dog{.name = "Rex", .age = 1};
+  auto dog = realm::Dog{.name = "Rex", .age = 1};
 
   std::cout << "dog: " << dog.name << "\n";
 
-  // :snippet-start: beta-realm-specify-classes
+  // :snippet-start: realm-specify-classes
   auto config = realm::db_config();
-  auto realm = realm::open<Beta_Dog>(std::move(config));
+  auto realm = realm::open<realm::Dog>(std::move(config));
   // :snippet-end:
 
   auto managedDog = realm.write([&] { return realm.add(std::move(dog)); });
 
   REQUIRE(managedDog.name == "Rex");
-  auto dogs = realm.objects<Beta_Dog>();
+  auto dogs = realm.objects<realm::Dog>();
   auto dogsCount = dogs.size();
   REQUIRE(dogsCount >= 1);
 
   realm.write([&] { realm.remove(managedDog); });
 
-  auto updatedDogsCount = realm.objects<Beta_Dog>().size();
+  auto updatedDogsCount = realm.objects<realm::Dog>().size();
   REQUIRE(updatedDogsCount < dogsCount);
 }
 
 TEST_CASE("update a dog", "[write][update]") {
-  auto mauiDog = Beta_Dog{.name = "Maui", .age = 1};
+  auto mauiDog = realm::Dog{.name = "Maui", .age = 1};
 
-  auto relative_realm_path_directory = "beta_dog/";
+  auto relative_realm_path_directory = "dog/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -300,13 +307,13 @@ TEST_CASE("update a dog", "[write][update]") {
   path = path.replace_extension("realm");
   auto config = realm::db_config();
   config.set_path(path);
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
   realm.write([&] { realm.add(std::move(mauiDog)); });
   SECTION("Test code example functions as intended") {
-    // :snippet-start: beta-update-an-object
+    // :snippet-start: update-an-object
     // Query for the object you want to update
-    auto dogs = realm.objects<Beta_Dog>();
+    auto dogs = realm.objects<realm::Dog>();
     // auto dogsNamedMaui = dogs.where("name == $0", {"Maui"});
     auto dogsNamedMaui =
         dogs.where([](auto &dog) { return dog.name == "Maui"; });
@@ -336,32 +343,32 @@ TEST_CASE("test map object", "[write]") {
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
-  path = path.append("beta_employee_map_objects");
+  path = path.append("employee_map_objects");
   path = path.replace_extension("realm");
-  // :snippet-start: beta-create-map-object
+  // :snippet-start: create-map-object
   auto config = realm::db_config();
   config.set_path(path);  // :remove:
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
-  auto employee = Beta_Map_Employee{
+  auto employee = realm::Map_Employee{
       ._id = 8675309, .firstName = "Tommy", .lastName = "Tutone"};
 
   employee.locationByDay = {
-      {"Monday", Beta_Map_Employee::WorkLocation::HOME},
-      {"Tuesday", Beta_Map_Employee::WorkLocation::OFFICE},
-      {"Wednesday", Beta_Map_Employee::WorkLocation::HOME},
-      {"Thursday", Beta_Map_Employee::WorkLocation::OFFICE}};
+      {"Monday", realm::Map_Employee::WorkLocation::HOME},
+      {"Tuesday", realm::Map_Employee::WorkLocation::OFFICE},
+      {"Wednesday", realm::Map_Employee::WorkLocation::HOME},
+      {"Thursday", realm::Map_Employee::WorkLocation::OFFICE}};
 
   realm.write([&] {
     realm.add(std::move(employee));
-    employee.locationByDay["Friday"] = Beta_Map_Employee::WorkLocation::HOME;
+    employee.locationByDay["Friday"] = realm::Map_Employee::WorkLocation::HOME;
   });
   // :snippet-end:
 
   CHECK(employee.locationByDay["Friday"] ==
-        Beta_Map_Employee::WorkLocation::HOME);
+        realm::Map_Employee::WorkLocation::HOME);
   SECTION("Test code example functions as intended") {
-    auto employees = realm.objects<Beta_Map_Employee>();
+    auto employees = realm.objects<realm::Map_Employee>();
     auto employeesNamedTommy = employees.where(
         [](auto &employee) { return employee.firstName == "Tommy"; });
     REQUIRE(employeesNamedTommy.size() >= 1);  // :remove:
@@ -369,9 +376,9 @@ TEST_CASE("test map object", "[write]") {
     // You can iterate through keys and values and do something with them
     //            for (auto [k, v] : tommy.locationByDay) {
     //                if (k == "Monday") CHECK(v ==
-    //                Beta_Map_Employee::WorkLocation::HOME); else if (k ==
+    //                Map_Employee::WorkLocation::HOME); else if (k ==
     //                "Tuesday") CHECK(v ==
-    //                Beta_Map_Employee::WorkLocation::OFFICE);
+    //                Map_Employee::WorkLocation::OFFICE);
     //            }
     // You can get an iterator for an element matching a key using `find()`
     auto tuesdayIterator = tommy.locationByDay.find("Tuesday");
@@ -381,19 +388,20 @@ TEST_CASE("test map object", "[write]") {
     auto mondayLocation = tommy.locationByDay["Monday"];
 
     CHECK(tommy.locationByDay["Tuesday"] ==
-          Beta_Map_Employee::WorkLocation::OFFICE);  // :remove:
-    // :snippet-start: beta-update-map-value
+          realm::Map_Employee::WorkLocation::OFFICE);  // :remove:
+    // :snippet-start: update-map-value
     // You can check that a key exists using `find`
     auto findTuesday = tommy.locationByDay.find("Tuesday");
     if (findTuesday != tommy.locationByDay.end())
       realm.write([&] {
-        tommy.locationByDay["Tuesday"] = Beta_Map_Employee::WorkLocation::HOME;
+        tommy.locationByDay["Tuesday"] =
+            realm::Map_Employee::WorkLocation::HOME;
       });
     ;
     // :snippet-end:
     CHECK(tommy.locationByDay["Tuesday"] ==
-          Beta_Map_Employee::WorkLocation::HOME);
-    // :snippet-start: beta-delete-map-value
+          realm::Map_Employee::WorkLocation::HOME);
+    // :snippet-start: delete-map-value
     realm.write([&] { tommy.locationByDay.erase("Tuesday"); });
     // :snippet-end:
     CHECK(tommy.locationByDay.find("Tuesday") == tommy.locationByDay.end());
@@ -407,14 +415,14 @@ TEST_CASE("test map object with percent-encoded map key", "[write]") {
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
-  path = path.append("beta_employee_map_objects");
+  path = path.append("employee_map_objects");
   path = path.replace_extension("realm");
 
   auto config = realm::db_config();
   config.set_path(path);  // :remove:
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
-  auto employee = Beta_Map_Employee{
+  auto employee = realm::Map_Employee{
       ._id = 8675309, .firstName = "Tommy", .lastName = "Tutone"};
 
   // :snippet-start: percent-encode-disallowed-characters
@@ -424,13 +432,13 @@ TEST_CASE("test map object with percent-encoded map key", "[write]") {
   // :snippet-end:
 
   employee.locationByDay = {
-      {encodedMapKey, Beta_Map_Employee::WorkLocation::HOME},
-      {"Monday%2EAfternoon", Beta_Map_Employee::WorkLocation::OFFICE}};
+      {encodedMapKey, realm::Map_Employee::WorkLocation::HOME},
+      {"Monday%2EAfternoon", realm::Map_Employee::WorkLocation::OFFICE}};
 
   realm.write([&] { realm.add(std::move(employee)); });
 
   SECTION("Test code example functions as intended") {
-    auto employees = realm.objects<Beta_Map_Employee>();
+    auto employees = realm.objects<realm::Map_Employee>();
     auto employeesNamedTommy = employees.where(
         [](auto &employee) { return employee.firstName == "Tommy"; });
     REQUIRE(employeesNamedTommy.size() >= 1);
@@ -445,7 +453,7 @@ TEST_CASE("test map object with percent-encoded map key", "[write]") {
 }
 
 TEST_CASE("Test Set Object", "[write]") {
-  auto relative_realm_path_directory = "beta_set_repository/";
+  auto relative_realm_path_directory = "set_repository/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -455,13 +463,13 @@ TEST_CASE("Test Set Object", "[write]") {
   config.set_path(path);
 
   // :snippet-start: write-set-object
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
   // Create an object that has a set property
   auto docsRealmRepo =
-      Beta_Set_Repository{.ownerAndName = "mongodb/docs-realm"};
+      realm::Set_Repository{.ownerAndName = "mongodb/docs-realm"};
 
-  // Add the object to the realm and get the managed object
+  // Add the object to the database and get the managed object
   auto managedDocsRealm =
       realm.write([&]() { return realm.add(std::move(docsRealmRepo)); });
 
@@ -489,7 +497,7 @@ TEST_CASE("Test Set Object", "[write]") {
   //    REQUIRE(*it3064 == static_cast<long long>(3064));
 
   // :snippet-start: read-set
-  auto repositories = realm.objects<Beta_Set_Repository>();
+  auto repositories = realm.objects<realm::Set_Repository>();
 
   auto repositoriesNamedDocsRealm = repositories.where([](auto &repository) {
     return repository.ownerAndName == "mongodb/docs-realm";
@@ -528,8 +536,8 @@ TEST_CASE("Test Set Object", "[write]") {
 
   // Use std::set algorithms to update a set
   // In this example, use std::set_union to add elements to the set
-  // 3064 already exists, so it won't be added, but 3065 and 3067 are unique
-  // values and will be added to the set.
+  // 3064 already exists, so it won't be added, but 3065 and 3067 are
+  // unique values and will be added to the set.
   auto newOpenPullRequests = std::set<int64_t>({3064, 3065, 3067});
   realm.write([&] {
     std::set_union(
@@ -560,5 +568,51 @@ TEST_CASE("Test Set Object", "[write]") {
   // :snippet-end:
 
   realm.write([&] { realm.remove(docsRealm); });
+}
+
+TEST_CASE("test string map object", "[model][write]") {
+  auto relative_realm_path_directory = "map_dog/";
+  std::filesystem::create_directories(relative_realm_path_directory);
+  std::filesystem::path path =
+      std::filesystem::current_path().append(relative_realm_path_directory);
+  path = path.append("dog_map_objects");
+  path = path.replace_extension("realm");
+  auto config = realm::db_config();
+  config.set_path(path);
+  auto realm = realm::db(std::move(config));
+
+  auto dog = realm::Map_Dog{.name = "Maui"};
+
+  dog.favoriteParkByCity = {{"Boston", "Fort Point"},
+                            {"New York", "Central Park"}};
+
+  SECTION("Test code example functions as intended") {
+    realm.write([&] { realm.add(std::move(dog)); });
+
+    auto dogs = realm.objects<realm::Map_Dog>();
+    auto dogsNamedMaui =
+        dogs.where([](auto &dog) { return dog.name == "Maui"; });
+    REQUIRE(dogsNamedMaui.size() >= 1);
+    auto maui = dogsNamedMaui[0];
+    for (auto [k, v] : maui.favoriteParkByCity) {
+      if (k == "Boston")
+        CHECK(v == "Fort Point");
+      else if (k == "New York")
+        CHECK(v == "Central Park");
+    }
+    // Use `find()` for read-only access as `operator[]` could create an entry
+    auto favoriteBostonPark = maui.favoriteParkByCity.find("Boston");
+    CHECK(favoriteBostonPark != maui.favoriteParkByCity.end());
+    auto favoriteNewYorkPark = maui.favoriteParkByCity["New York"];
+    CHECK(favoriteNewYorkPark == "Central Park");
+    realm.write(
+        [&] { maui.favoriteParkByCity["New York"] = "Some other park"; });
+    CHECK(favoriteNewYorkPark == "Some other park");
+    realm.write([&] { maui.favoriteParkByCity.erase("New York"); });
+    CHECK(maui.favoriteParkByCity.find("New York") ==
+          maui.favoriteParkByCity.end());
+    // Clean up after test
+    realm.write([&] { realm.remove(maui); });
+  }
 }
 // :replace-end:

@@ -2,55 +2,54 @@
 #include <cpprealm/sdk.hpp>
 #include <string>
 
-using namespace realm;
-
 // :replace-start: {
 //   "terms": {
-//     "Beta_ToMany_": "",
-//     "Beta_": ""
+//     "ToMany_": "",
+//     "Notification_"
 //   }
 // }
 
-struct Beta_Notification_Dog {
+namespace realm {
+struct Notification_Dog {
   std::string name;
   int64_t age;
 };
-REALM_SCHEMA(Beta_Notification_Dog, name, age)
+REALM_SCHEMA(Notification_Dog, name, age)
 
-struct Beta_Notification_Person {
+struct Notification_Person {
   std::string _id;
   std::string name;
   int64_t age;
-  Beta_Notification_Dog* dog;
+  Notification_Dog* dog;
 };
-REALM_SCHEMA(Beta_Notification_Person, _id, name, age, dog)
+REALM_SCHEMA(Notification_Person, _id, name, age, dog)
 
-// :snippet-start: beta-collection-model
-struct Beta_ToMany_Person {
+// :snippet-start: collection-model
+struct ToMany_Person {
   std::string name;
-  std::vector<Beta_Notification_Dog*> dogs;
+  std::vector<Notification_Dog*> dogs;
 };
-REALM_SCHEMA(Beta_ToMany_Person, name, dogs)
+REALM_SCHEMA(ToMany_Person, name, dogs)
 // :snippet-end:
+}  // namespace realm
 
 TEST_CASE("object notification", "[notification]") {
-  auto relative_realm_path_directory = "beta_notifications/";
+  auto relative_realm_path_directory = "notifications/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
   path = path.append("notification_objects");
   path = path.replace_extension("realm");
-  // :snippet-start: beta-object
+  // :snippet-start: object
   auto config = realm::db_config();
   config.set_path(path);  // :remove:
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
-  auto dog = Beta_Notification_Dog{.name = "Max"};
-
-  // Create an object in the realm.
+  // Create an object and move it into the database.
+  auto dog = realm::Notification_Dog{.name = "Max"};
   realm.write([&] { realm.add(std::move(dog)); });
 
-  auto dogs = realm.objects<Beta_Notification_Dog>();
+  auto dogs = realm.objects<realm::Notification_Dog>();
   auto specificDog = dogs[0];
   //  Set up the listener & observe object notifications.
   auto token = specificDog.observe([&](auto&& change) {
@@ -82,7 +81,7 @@ TEST_CASE("object notification", "[notification]") {
   // Deleting the object triggers a delete notification.
   realm.write([&] { realm.remove(specificDog); });
 
-  // Refresh the realm after the change to trigger the notification.
+  // Refresh the database after the change to trigger the notification.
   realm.refresh();
 
   // :snippet-start: unregister
@@ -93,7 +92,7 @@ TEST_CASE("object notification", "[notification]") {
 }
 
 TEST_CASE("collection notification", "[notification]") {
-  auto relative_realm_path_directory = "beta_notifications/";
+  auto relative_realm_path_directory = "notifications/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -101,20 +100,19 @@ TEST_CASE("collection notification", "[notification]") {
   path = path.replace_extension("realm");
   auto config = realm::db_config();
   config.set_path(path);
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
-  auto setupPerson = Beta_ToMany_Person{.name = "Dachary"};
-  auto dog1 = Beta_Notification_Dog{.name = "Ben"};
-  auto dog2 = Beta_Notification_Dog{.name = "Lita"};
+  // Create an object with a collection property and move it into the database.
+  auto setupPerson = realm::ToMany_Person{.name = "Dachary"};
+  auto dog1 = realm::Notification_Dog{.name = "Ben"};
+  auto dog2 = realm::Notification_Dog{.name = "Lita"};
 
   setupPerson.dogs.push_back(&dog1);
-
-  // Create an object in the realm.
   realm.write([&] { realm.add(std::move(setupPerson)); });
 
-  auto people = realm.objects<Beta_ToMany_Person>();
+  auto people = realm.objects<realm::ToMany_Person>();
   auto person = people[0];
-  // :snippet-start: beta-collection
+  // :snippet-start: collection
   //  Set up the listener & observe a collection.
   auto token = person.dogs.observe([&](auto&& changes) {
     if (changes.collection_root_was_deleted) {
@@ -153,7 +151,7 @@ TEST_CASE("collection notification", "[notification]") {
   token.unregister();
   // :snippet-end:
   // Clean up after the test
-  auto dogs = realm.objects<Beta_Notification_Dog>();
+  auto dogs = realm.objects<realm::Notification_Dog>();
   auto firstDog = dogs[0];
   realm.write([&] {
     realm.remove(firstDog);
@@ -162,7 +160,7 @@ TEST_CASE("collection notification", "[notification]") {
 }
 
 TEST_CASE("results notification", "[notification]") {
-  auto relative_realm_path_directory = "beta_notifications/";
+  auto relative_realm_path_directory = "notifications/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -170,17 +168,16 @@ TEST_CASE("results notification", "[notification]") {
   path = path.replace_extension("realm");
   auto config = realm::db_config();
   config.set_path(path);
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
-  auto dog1 = Beta_Notification_Dog{.name = "Max"};
-  auto dog2 = Beta_Notification_Dog{.name = "Maui"};
+  auto dog1 = realm::Notification_Dog{.name = "Max"};
+  auto dog2 = realm::Notification_Dog{.name = "Maui"};
 
-  // Create an object in the realm.
   realm.write([&] { realm.add(std::move(dog1)); });
 
-  // :snippet-start: beta-results
+  // :snippet-start: results
   // Get a results collection to observe
-  auto dogs = realm.objects<Beta_Notification_Dog>();
+  auto dogs = realm.objects<realm::Notification_Dog>();
   auto firstDog = dogs[0];  // :remove:
   //  Set up the listener & observe results notifications.
   auto token = dogs.observe([&](auto&& changes) {
@@ -216,7 +213,7 @@ TEST_CASE("results notification", "[notification]") {
   // Modify an object to see a modification.
   realm.write([&] { dog2.age = 2; });
 
-  // Refresh the realm after the change to trigger the notification.
+  // Refresh the database after the change to trigger the notification.
   realm.refresh();
 
   // Unregister the token when done observing.
@@ -226,5 +223,4 @@ TEST_CASE("results notification", "[notification]") {
   // Clean up after the test
   realm.write([&] { realm.remove(mauiDog); });
 }
-
 // :replace-end:

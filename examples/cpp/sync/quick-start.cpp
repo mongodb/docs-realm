@@ -1,60 +1,60 @@
 #include <catch2/catch_test_macros.hpp>
 #include <future>
-// :snippet-start: include-header-using-namespace
+// :snippet-start: include-header
 #include <cpprealm/sdk.hpp>
-
-using namespace realm;
 // :snippet-end:
 
 // :replace-start: {
 //   "terms": {
-//     "Beta_Local_": "",
-//     "Beta_Sync_": ""
+//     "Local_": "",
+//     "Sync_": ""
 //   }
 // }
 
 static const std::string APP_ID = "cpp-tester-uliix";
 
-struct Beta_Local_Todo {
-  primary_key<realm::object_id> _id{realm::object_id::generate()};
+namespace realm {
+struct Local_Todo {
+  realm::primary_key<realm::object_id> _id{realm::object_id::generate()};
   std::string name;
   std::string status;
 };
-REALM_SCHEMA(Beta_Local_Todo, _id, name, status);
+REALM_SCHEMA(Local_Todo, _id, name, status);
 
-// :snippet-start: beta-model
-struct Beta_Sync_Todo {
-  primary_key<realm::object_id> _id{realm::object_id::generate()};
+// :snippet-start: model
+struct Sync_Todo {
+  realm::primary_key<realm::object_id> _id{realm::object_id::generate()};
   std::string name;
   std::string status;
   // The ownerId property stores the user.identifier() of a
   // logged-in user. Omit this property for the non-sync example.
   std::string ownerId;
 };
-REALM_SCHEMA(Beta_Sync_Todo, _id, name, status, ownerId);
+REALM_SCHEMA(Sync_Todo, _id, name, status, ownerId);
 // :snippet-end:
+}  // namespace realm
 
-TEST_CASE("local quick start", "[realm][write]") {
-  auto relative_realm_path_directory = "beta_quick-start/";
+TEST_CASE("non-sync quick start", "[realm][write]") {
+  auto relative_realm_path_directory = "quick-start/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
   path = path.append("project_and_item_objects");
   path = path.replace_extension("realm");
-  // :snippet-start: beta-realm-open
+  // :snippet-start: realm-open
   auto config = realm::db_config();
   config.set_path(path);  // :remove:
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
   // :snippet-end:
 
-  // :snippet-start: beta-create-todo
-  auto todo = Beta_Local_Todo{.name = "Create my first todo item",
-                              .status = "In Progress"};
+  // :snippet-start: create-todo
+  auto todo = realm::Local_Todo{.name = "Create my first todo item",
+                                .status = "In Progress"};
 
   realm.write([&] { realm.add(std::move(todo)); });
   // :snippet-end:
 
-  auto todos = realm.objects<Beta_Local_Todo>();
+  auto todos = realm.objects<realm::Local_Todo>();
 
   CHECK(todos.size() == 1);
 
@@ -83,13 +83,13 @@ TEST_CASE("local quick start", "[realm][write]") {
     }
   });
 
-  // :snippet-start: beta-modify-write-block
+  // :snippet-start: modify-write-block
   auto todoToUpdate = todosInProgress[0];
   realm.write([&] { todoToUpdate.status = "Complete"; });
   // :snippet-end:
   CHECK(todoToUpdate.status == "Complete");
 
-  // :snippet-start: beta-delete
+  // :snippet-start: delete
   realm.write([&] { realm.remove(specificTodo); });
   // :snippet-end:
   token.unregister();
@@ -105,12 +105,12 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
   auto app = realm::App(appConfig);
   auto logLevel = realm::logger::level::info;
   app.get_sync_manager().set_log_level(logLevel);
-  // :snippet-start: beta-authenticate-user
+  // :snippet-start: authenticate-user
   auto user = app.login(realm::App::credentials::anonymous()).get();
   // :snippet-end:
-  // :snippet-start: beta-open-synced-realm
+  // :snippet-start: open-synced-realm
   auto syncConfig = user.flexible_sync_configuration();
-  auto realm = db(syncConfig);
+  auto realm = realm::db(syncConfig);
   // :remove-start:
   auto syncSession = realm.get_sync_session();
   syncSession->state();
@@ -128,7 +128,7 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
   auto updateSubscriptionSuccess =
       subscriptions
           .update([&](realm::mutable_sync_subscription_set& subs) {
-            subs.add<Beta_Sync_Todo>("todos", [&userId](auto& obj) {
+            subs.add<realm::Sync_Todo>("todos", [&userId](auto& obj) {
               // For this example, get only Sync_Todo items where the ownerId
               // property value is equal to the userId of the logged-in user.
               return obj.ownerId == userId;
@@ -140,24 +140,24 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
   // We don't actually need this here - we use it up above
   // in the Bluehawk remove block, but adding it to show
   // a relevant Bluehawked example in the docs
-  // :snippet-start: beta-wait-for-download
+  // :snippet-start: wait-for-download
   syncSession->wait_for_download_completion().get();
   realm.refresh();
   // :snippet-end:
-  // :snippet-start: beta-write-to-synced-realm
-  auto todo = Beta_Sync_Todo{.name = "Create a Sync todo item",
-                             .status = "In Progress",
-                             .ownerId = userId};
+  // :snippet-start: write-to-synced-realm
+  auto todo = realm::Sync_Todo{.name = "Create a Sync todo item",
+                               .status = "In Progress",
+                               .ownerId = userId};
 
   realm.write([&] { realm.add(std::move(todo)); });
 
-  auto todos = realm.objects<Beta_Sync_Todo>();
+  auto todos = realm.objects<realm::Sync_Todo>();
   // :snippet-end:
   CHECK(todos.size() == 1);
   auto specificTodo = todos[0];
   realm.write([&] { realm.remove(specificTodo); });
 
-  // :snippet-start: beta-wait-for-upload
+  // :snippet-start: wait-for-upload
   syncSession->wait_for_upload_completion().get();
   // :snippet-end:
 }

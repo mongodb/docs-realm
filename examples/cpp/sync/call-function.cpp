@@ -15,7 +15,7 @@ static const std::string APP_ID = "cpp-tester-uliix";
 // TODO: Figure out what library to use and how to make this test/example work.
 #if 0
 TEST_CASE("call a function", "[realm][sync]") {
-  // :snippet-start: beta-call-a-function
+  // :snippet-start: call-a-function
   // Connect to an App Services App and authenticate a user
   // :snippet-start: connect-app-services
   auto appConfig = realm::App::configuration();

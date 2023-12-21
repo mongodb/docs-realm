@@ -16,7 +16,7 @@ auto random_string() { return std::to_string(random_number()); }
 static const std::string APP_ID = "cpp-tester-uliix";
 
 TEST_CASE("create and log in an email/password user", "[realm][sync]") {
-  // :snippet-start: beta-register-user
+  // :snippet-start: register-user
   auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   auto app = realm::App(appConfig);
@@ -27,7 +27,7 @@ TEST_CASE("create and log in an email/password user", "[realm][sync]") {
   app.register_user(userEmail, userPassword).get();
   // :snippet-end:
 
-  // :snippet-start: beta-log-user-in
+  // :snippet-start: log-user-in
   auto user = app.login(realm::App::credentials::username_password(
                             userEmail, userPassword))
                   .get();
@@ -41,7 +41,7 @@ TEST_CASE("create and log in an email/password user", "[realm][sync]") {
 }
 
 TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
-  // :snippet-start: beta-anonymous-login
+  // :snippet-start: anonymous-login
   auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   auto app = realm::App(appConfig);
@@ -55,7 +55,7 @@ TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
 
 // TODO: Figure out how to do this properly in the updated SDK
 // TEST_CASE("test custom function authentication", "[realm][sync]") {
-//     // :snippet-start: beta-custom-function
+//     // :snippet-start: custom-function
 //     // Custom function authentication takes a BSON Document with parameters.
 //     // The parameter details vary depending on how you define your custom
 //     authentication function. realm::bson::BsonDocument params = {{
@@ -97,7 +97,7 @@ TEST_CASE("test get user access token", "[realm][sync]") {
 void testAPIKeyAuthSyntax() {
   auto API_KEY = "this was tested with a valid API key when written";
 
-  // :snippet-start: beta-api-key
+  // :snippet-start: api-key
   auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   auto app = realm::App(appConfig);
@@ -107,7 +107,7 @@ void testAPIKeyAuthSyntax() {
 }
 
 void testCustomJWTAuthSyntax() {
-  // :snippet-start: beta-custom-jwt
+  // :snippet-start: custom-jwt
   auto token = "<jwt>";
 
   auto appConfig = realm::App::configuration();
@@ -119,7 +119,7 @@ void testCustomJWTAuthSyntax() {
 }
 
 void testSignInWithFacebookAuthSyntax() {
-  // :snippet-start: beta-facebook
+  // :snippet-start: facebook
   auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   auto app = realm::App(appConfig);
@@ -131,7 +131,7 @@ void testSignInWithFacebookAuthSyntax() {
 }
 
 void testSignInWithAppleAuthSyntax() {
-  // :snippet-start: beta-apple
+  // :snippet-start: apple
   auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   auto app = realm::App(appConfig);
@@ -148,7 +148,7 @@ void testSignInWithAppleAuthSyntax() {
 //   auto myAuthCode = "some auth code string";
 //   auto authCode = realm::App::credentials::auth_code{myAuthCode};
 
-//   // :snippet-start: beta-google-auth-code
+//   // :snippet-start: google-auth-code
 //   auto appConfig = realm::App::configuration();
 //   appConfig.app_id = APP_ID;
 //   auto app = realm::App(appConfig);
@@ -164,7 +164,7 @@ void testSignInWithAppleAuthSyntax() {
 //   auto myIdToken = "some ID token string";
 //   auto idToken = realm::App::credentials::id_token{myIdToken};
 
-//   // :snippet-start: beta-google-id-token
+//   // :snippet-start: google-id-token
 //   auto appConfig = realm::App::configuration();
 //   appConfig.app_id = APP_ID;
 //   auto app = realm::App(appConfig);
@@ -182,7 +182,7 @@ TEST_CASE("get the current user", "[realm][sync]") {
   auto app = realm::App(appConfig);
   auto user = app.login(realm::App::credentials::anonymous()).get();
 
-  // :snippet-start: beta-get-current-user
+  // :snippet-start: get-current-user
   auto currentUser = app.get_current_user();
   // :snippet-end:
 

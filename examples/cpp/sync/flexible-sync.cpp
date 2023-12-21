@@ -4,24 +4,22 @@
 
 // :replace-start: {
 //   "terms": {
-//     "FlexibleSync_": "",
-//     "Beta_FlexibleSync_":"",
-//     "Alpha_Sync_": ""
+//     "FlexibleSync_": ""
 //   }
 // }
 
-using namespace realm;
-
 static const std::string APP_ID = "cpp-tester-uliix";
 
-struct Beta_FlexibleSync_Dog {
-  primary_key<realm::object_id> _id{realm::object_id::generate()};
+namespace realm {
+struct FlexibleSync_Dog {
+  realm::primary_key<realm::object_id> _id{realm::object_id::generate()};
   std::string name;
   int64_t age;
 };
-REALM_SCHEMA(Beta_FlexibleSync_Dog, _id, name, age)
+REALM_SCHEMA(FlexibleSync_Dog, _id, name, age)
+}  // namespace realm
 
-TEST_CASE("beta subscribe to a all objects of a type", "[sync]") {
+TEST_CASE("subscribe to a all objects of a type", "[sync]") {
   auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   auto app = realm::App(appConfig);
@@ -39,7 +37,7 @@ TEST_CASE("beta subscribe to a all objects of a type", "[sync]") {
   auto updateSubscriptionSuccess =
       syncedRealm.subscriptions()
           .update([](realm::mutable_sync_subscription_set &subs) {
-            subs.add<Beta_FlexibleSync_Dog>("dogs");
+            subs.add<realm::FlexibleSync_Dog>("dogs");
           })
           .get();
   // The .update() function returns a bool, which confirms whether or not the
@@ -64,9 +62,9 @@ TEST_CASE("beta subscribe to a all objects of a type", "[sync]") {
   // :snippet-end:
 }
 
-TEST_CASE("beta subscribe to a subset of objects", "[sync]") {
-  // :snippet-start: beta-flexible-sync-prerequisites
-  // Initialize the App, authenticate a user, and open the realm
+TEST_CASE("subscribe to a subset of objects", "[sync]") {
+  // :snippet-start: flexible-sync-prerequisites
+  // Initialize the App, authenticate a user, and open the database
   auto appConfig = realm::App::configuration();
   appConfig.app_id = APP_ID;
   auto app = realm::App(appConfig);
@@ -89,7 +87,7 @@ TEST_CASE("beta subscribe to a subset of objects", "[sync]") {
   updateSubscriptionSuccess =
       syncedRealm.subscriptions()
           .update([](realm::mutable_sync_subscription_set &subs) {
-            subs.add<Beta_FlexibleSync_Dog>(
+            subs.add<realm::FlexibleSync_Dog>(
                 "puppies", [](auto &obj) { return obj.age < 3; });
           })
           .get();
@@ -105,14 +103,14 @@ TEST_CASE("beta subscribe to a subset of objects", "[sync]") {
   CHECK(puppySubscription.name == "puppies");
 
   // Get information about the subscription
-  CHECK(puppySubscription.object_class_name == "Beta_FlexibleSync_Dog");
+  CHECK(puppySubscription.object_class_name == "FlexibleSync_Dog");
   CHECK(puppySubscription.query_string == "age < 3");
   // :snippet-end:
   // :snippet-start: change-subscription-query
   updateSubscriptionSuccess =
       syncedRealm.subscriptions()
           .update([](realm::mutable_sync_subscription_set &subs) {
-            subs.update_subscription<Beta_FlexibleSync_Dog>(
+            subs.update_subscription<realm::FlexibleSync_Dog>(
                 "puppies", [](auto &obj) { return obj.age < 2; });
           })
           .get();

@@ -19,7 +19,7 @@ TEST_CASE("custom user data", "[realm][sync]")
     appConfig.app_id = APP_ID;
     auto app = realm::App(appConfig);
 
-    // :snippet-start: beta-create
+    // :snippet-start: create
     auto user = app.login(realm::App::credentials::anonymous()).get();
 
     // Functions take an argument of BsonArray, so initialize the custom data as a BsonDocument

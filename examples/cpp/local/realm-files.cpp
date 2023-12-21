@@ -1,22 +1,22 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cpprealm/sdk.hpp>
 
-using namespace realm;
-
+namespace realm {
 struct Dog {
   std::string name;
   int64_t age;
 };
 REALM_SCHEMA(Dog, name, age)
+}  // namespace realm
 
-TEST_CASE("Encrypt a realm example", "[write]") {
-  auto relative_realm_path_directory = "beta_encrypt-realm/";
+TEST_CASE("Encrypt a database example", "[write]") {
+  auto relative_realm_path_directory = "encrypt-realm/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
   path = path.append("encrypted");
   path = path.replace_extension("realm");
-  // :snippet-start: beta-open-encrypted-realm
+  // :snippet-start: open-encrypted-realm
   // Check if we already have a key stored in the platform's secure storage.
   // If we don't, generate a new one.
   // Use your preferred method to generate a key. This example key is
@@ -36,15 +36,15 @@ TEST_CASE("Encrypt a realm example", "[write]") {
   // Set the encryption key in your config.
   config.set_encryption_key(exampleKey);
 
-  // Open or create a realm with the config containing the encryption key.
-  auto realm = db(config);
+  // Open or create a database with the config containing the encryption key.
+  auto realm = realm::db(config);
   // :snippet-end:
 
-  auto dog = Dog{.name = "Maui", .age = 3};
+  auto dog = realm::Dog{.name = "Maui", .age = 3};
 
   realm.write([&] { realm.add(std::move(dog)); });
 
-  auto managedDogs = realm.objects<Dog>();
+  auto managedDogs = realm.objects<realm::Dog>();
   auto specificDog = managedDogs[0];
   REQUIRE(specificDog.name == "Maui");
   REQUIRE(specificDog.age == static_cast<long long>(3));
@@ -52,6 +52,6 @@ TEST_CASE("Encrypt a realm example", "[write]") {
 
   realm.write([&] { realm.remove(specificDog); });
 
-  auto managedDogsAfterDelete = realm.objects<Dog>();
+  auto managedDogsAfterDelete = realm.objects<realm::Dog>();
   REQUIRE(managedDogsAfterDelete.size() == 0);
 }

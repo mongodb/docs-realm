@@ -1,22 +1,22 @@
 // :replace-start: {
 //   "terms": {
-//     "Beta_ThreadingExample_": ""
+//     "ThreadingExample_": ""
 //   }
 // }
 #include <catch2/catch_test_macros.hpp>
 #include <cpprealm/sdk.hpp>
 
-using namespace realm;
-
+namespace realm {
 // :snippet-start: item-model
-struct Beta_ThreadingExample_Item {
+struct ThreadingExample_Item {
   std::string name;
 };
-REALM_SCHEMA(Beta_ThreadingExample_Item, name)
+REALM_SCHEMA(ThreadingExample_Item, name)
 // :snippet-end:
+}  // namespace realm
 
 TEST_CASE("thread safe reference", "[write]") {
-  auto relative_realm_path_directory = "beta_tsr/";
+  auto relative_realm_path_directory = "tsr/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -25,9 +25,9 @@ TEST_CASE("thread safe reference", "[write]") {
 
   auto config = realm::db_config();
   config.set_path(path);
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
-  auto item = Beta_ThreadingExample_Item{
+  auto item = realm::ThreadingExample_Item{
       .name = "Save the cheerleader",
   };
 
@@ -35,21 +35,21 @@ TEST_CASE("thread safe reference", "[write]") {
 
   realm.refresh();
 
-  auto managedItems = realm.objects<Beta_ThreadingExample_Item>();
+  auto managedItems = realm.objects<realm::ThreadingExample_Item>();
   auto managedItem = managedItems[0];
 
-  // :snippet-start: beta-thread-safe-reference
-  // Put a managed realm object into a thread safe reference
+  // :snippet-start: thread-safe-reference
+  // Put a managed object into a thread safe reference
   auto threadSafeItem =
-      realm::thread_safe_reference<Beta_ThreadingExample_Item>{managedItem};
+      realm::thread_safe_reference<realm::ThreadingExample_Item>{managedItem};
 
   // Move the thread safe reference to a background thread
   auto thread =
       std::thread([threadSafeItem = std::move(threadSafeItem), path]() mutable {
-        // Open the realm again on the background thread
+        // Open the database again on the background thread
         auto backgroundConfig = realm::db_config();
         backgroundConfig.set_path(path);
-        auto backgroundRealm = db(std::move(backgroundConfig));
+        auto backgroundRealm = realm::db(std::move(backgroundConfig));
 
         // Resolve the ThreadingExample_Item instance via the thread safe
         // reference
@@ -66,14 +66,14 @@ TEST_CASE("thread safe reference", "[write]") {
 TEST_CASE("scheduler", "[write]") {
   auto shouldQuitProgram = true;
 
-  auto relative_realm_path_directory = "beta_scheduler/";
+  auto relative_realm_path_directory = "scheduler/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
   path = path.append("scheduler");
   path = path.replace_extension("realm");
 
-  // :snippet-start: beta-scheduler
+  // :snippet-start: scheduler
   struct MyScheduler : realm::scheduler {
     MyScheduler() {
       // ... Kick off task processor thread(s) and run until the scheduler
@@ -139,7 +139,7 @@ TEST_CASE("scheduler", "[write]") {
 }
 
 TEST_CASE("test freeze", "[write]") {
-  auto relative_realm_path_directory = "beta_freeze/";
+  auto relative_realm_path_directory = "freeze/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -150,22 +150,22 @@ TEST_CASE("test freeze", "[write]") {
   config.set_path(path);
 
   // :snippet-start: freeze
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
   // :remove-start:
-  auto item = Beta_ThreadingExample_Item{
+  auto item = realm::ThreadingExample_Item{
       .name = "Save the cheerleader",
   };
 
   realm.write([&] { realm.add(std::move(item)); });
   // :remove-end:
-  // Get an immutable copy of the realm that can be passed across threads.
+  // Get an immutable copy of the database that can be passed across threads.
   auto frozenRealm = realm.freeze();
 
   // :snippet-start: is-frozen
   CHECK(frozenRealm.is_frozen());  // :remove:
   if (frozenRealm.is_frozen()) {
-    // Do something with the frozen realm.
+    // Do something with the frozen database.
     // You may pass a frozen realm, collection, or objects
     // across threads. Or you may need to `.thaw()`
     // to make it mutable again.
@@ -173,13 +173,14 @@ TEST_CASE("test freeze", "[write]") {
   // :snippet-end:
 
   // You can freeze collections.
-  auto managedItems = realm.objects<Beta_ThreadingExample_Item>();
+  auto managedItems = realm.objects<realm::ThreadingExample_Item>();
   auto frozenItems = managedItems.freeze();
 
   CHECK(frozenItems.is_frozen());
 
-  // You can read from frozen realms.
-  auto itemsFromFrozenRealm = frozenRealm.objects<Beta_ThreadingExample_Item>();
+  // You can read from frozen databases.
+  auto itemsFromFrozenRealm =
+      frozenRealm.objects<realm::ThreadingExample_Item>();
 
   CHECK(itemsFromFrozenRealm.is_frozen());
 
@@ -198,7 +199,7 @@ TEST_CASE("test freeze", "[write]") {
 }
 
 TEST_CASE("test thaw", "[write]") {
-  auto relative_realm_path_directory = "beta_thaw/";
+  auto relative_realm_path_directory = "thaw/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -207,8 +208,8 @@ TEST_CASE("test thaw", "[write]") {
 
   auto config = realm::db_config();
   config.set_path(path);
-  auto realm = db(std::move(config));
-  auto item = Beta_ThreadingExample_Item{
+  auto realm = realm::db(std::move(config));
+  auto item = realm::ThreadingExample_Item{
       .name = "Save the cheerleader",
   };
 
@@ -219,10 +220,10 @@ TEST_CASE("test thaw", "[write]") {
   CHECK(frozenRealm.is_frozen());
 
   // :snippet-start: thaw
-  // Read from a frozen realm.
-  auto frozenItems = frozenRealm.objects<Beta_ThreadingExample_Item>();
+  // Read from a frozen database.
+  auto frozenItems = frozenRealm.objects<realm::ThreadingExample_Item>();
 
-  // The collection that we pull from the frozen realm is also frozen.
+  // The collection that we pull from the frozen database is also frozen.
   CHECK(frozenItems.is_frozen());
 
   // Get an individual item from the collection.
@@ -233,15 +234,15 @@ TEST_CASE("test thaw", "[write]") {
   auto thawedItem = frozenItem.thaw();
 
   // Check to make sure the item is valid. An object is
-  // invalidated when it is deleted from its managing realm,
+  // invalidated when it is deleted from its managing database,
   // or when its managing realm has invalidate() called on it.
   REQUIRE(thawedItem.is_invalidated() == false);
 
-  // Thawing the item also thaws the frozen realm it references.
+  // Thawing the item also thaws the frozen database it references.
   auto thawedRealm = thawedItem.get_realm();
   REQUIRE(thawedRealm.is_frozen() == false);
 
-  // With both the object and its managing realm thawed, you
+  // With both the object and its managing database thawed, you
   // can safely modify the object.
   thawedRealm.write([&] { thawedItem.name = "Save the world"; });
   // :snippet-end:
@@ -250,16 +251,18 @@ TEST_CASE("test thaw", "[write]") {
   thawedRealm.write([&] { thawedRealm.remove(thawedItem); });
 }
 
+namespace realm {
 // :snippet-start: model-with-collection-property
-struct Beta_ThreadingExample_Project {
+struct ThreadingExample_Project {
   std::string name;
-  std::vector<Beta_ThreadingExample_Item*> items;
+  std::vector<realm::ThreadingExample_Item*> items;
 };
-REALM_SCHEMA(Beta_ThreadingExample_Project, name, items)
+REALM_SCHEMA(ThreadingExample_Project, name, items)
 // :snippet-end:
+}  // namespace realm
 
 TEST_CASE("append to frozen collection", "[write]") {
-  auto relative_realm_path_directory = "beta_frozen_collection/";
+  auto relative_realm_path_directory = "frozen_collection/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -268,11 +271,11 @@ TEST_CASE("append to frozen collection", "[write]") {
 
   auto config = realm::db_config();
   config.set_path(path);
-  auto realm = db(std::move(config));
-  auto item = Beta_ThreadingExample_Item{
+  auto realm = realm::db(std::move(config));
+  auto item = realm::ThreadingExample_Item{
       .name = "Save the cheerleader",
   };
-  auto project = Beta_ThreadingExample_Project{
+  auto project = realm::ThreadingExample_Project{
       .name = "Heroes: Genesis",
   };
 
@@ -287,18 +290,18 @@ TEST_CASE("append to frozen collection", "[write]") {
 
   // :snippet-start: append-to-frozen-collection
   // Get frozen objects.
-  // Here, we're getting them from a frozen realm,
+  // Here, we're getting them from a frozen database,
   // but you might also be passing them across threads.
-  auto frozenItems = frozenRealm.objects<Beta_ThreadingExample_Item>();
+  auto frozenItems = frozenRealm.objects<realm::ThreadingExample_Item>();
 
-  // The collection that we pull from the frozen realm is also frozen.
+  // The collection that we pull from the frozen database is also frozen.
   CHECK(frozenItems.is_frozen());
 
   // Get the individual objects we want to work with.
   auto specificFrozenItems = frozenItems.where(
       [](auto const& item) { return item.name == "Save the cheerleader"; });
   auto frozenProjects =
-      frozenRealm.objects<Beta_ThreadingExample_Project>().where(
+      frozenRealm.objects<realm::ThreadingExample_Project>().where(
           [](auto const& project) {
             return project.name == "Heroes: Genesis";
           });

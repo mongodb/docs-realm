@@ -2,57 +2,51 @@
 #include <cpprealm/sdk.hpp>
 #include <string>
 
-using namespace realm;
-
-// :replace-start: {
-//   "terms": {
-//     "Beta_": ""
-//   }
-// }
-
-// :snippet-start: beta-models
-struct Beta_Item {
+namespace realm {
+// :snippet-start: models
+struct Item {
   std::string name;
   bool isComplete;
   std::optional<std::string> assignee;
   int64_t priority;
   int64_t progressMinutes;
 };
-REALM_SCHEMA(Beta_Item, name, isComplete, assignee, priority, progressMinutes)
+REALM_SCHEMA(Item, name, isComplete, assignee, priority, progressMinutes)
 
-struct Beta_Project {
+struct Project {
   std::string name;
-  std::vector<Beta_Item*> items;
+  std::vector<Item*> items;
 };
-REALM_SCHEMA(Beta_Project, name, items)
+REALM_SCHEMA(Project, name, items)
 // :snippet-end:
+}  // namespace realm
 
 TEST_CASE("set up tests", "[write]") {
-  auto relative_realm_path_directory = "beta_project/";
+  auto relative_realm_path_directory = "project/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
   path = path.append("project_objects");
   path = path.replace_extension("realm");
-  // :snippet-start: beta-set-up-filter-data-tests
+  // :snippet-start: set-up-filter-data-tests
   auto config = realm::db_config();
   config.set_path(path);  // :remove:
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
-  auto item1 = Beta_Item{.name = "Save the cheerleader",
-                         .assignee = std::string("Peter"),
-                         .isComplete = false,
-                         .priority = 6,
-                         .progressMinutes = 30};
+  auto item1 = realm::Item{.name = "Save the cheerleader",
+                           .assignee = std::string("Peter"),
+                           .isComplete = false,
+                           .priority = 6,
+                           .progressMinutes = 30};
 
-  auto project = Beta_Project{.name = "New project"};
+  auto project = realm::Project{.name = "New project"};
 
   project.items.push_back(&item1);
 
   realm.write([&] { realm.add(std::move(project)); });
 
-  auto items = realm.objects<Beta_Item>();
-  auto projects = realm.objects<Beta_Project>();
+  auto items = realm.objects<realm::Item>();
+  auto projects = realm.objects<realm::Project>();
   // :snippet-end:
 
   CHECK(projects.size() == 1);
@@ -101,7 +95,7 @@ TEST_CASE("set up tests", "[write]") {
 }
 
 TEST_CASE("sort list and results", "[write]") {
-  auto relative_realm_path_directory = "beta_project_items/";
+  auto relative_realm_path_directory = "project_items/";
   std::filesystem::create_directories(relative_realm_path_directory);
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);
@@ -110,21 +104,21 @@ TEST_CASE("sort list and results", "[write]") {
 
   auto config = realm::db_config();
   config.set_path(path);
-  auto realm = db(std::move(config));
+  auto realm = realm::db(std::move(config));
 
-  auto item1 = Beta_Item{.name = "Save the cheerleader",
-                         .assignee = std::string("Peter"),
-                         .isComplete = false,
-                         .priority = 6,
-                         .progressMinutes = 30};
+  auto item1 = realm::Item{.name = "Save the cheerleader",
+                           .assignee = std::string("Peter"),
+                           .isComplete = false,
+                           .priority = 6,
+                           .progressMinutes = 30};
 
-  auto item2 = Beta_Item{.name = "Save the world",
-                         .assignee = std::string("Peter"),
-                         .isComplete = false,
-                         .priority = 7,
-                         .progressMinutes = 90};
+  auto item2 = realm::Item{.name = "Save the world",
+                           .assignee = std::string("Peter"),
+                           .isComplete = false,
+                           .priority = 7,
+                           .progressMinutes = 90};
 
-  auto project = Beta_Project{.name = "Heroes Project"};
+  auto project = realm::Project{.name = "Heroes Project"};
 
   project.items.push_back(&item1);
   project.items.push_back(&item2);
@@ -132,7 +126,7 @@ TEST_CASE("sort list and results", "[write]") {
   realm.write([&] { realm.add(std::move(project)); });
 
   // :snippet-start: sort-results-by-single-property
-  auto items = realm.objects<Beta_Item>();
+  auto items = realm.objects<realm::Item>();
   CHECK(items.size() == 2);  // :remove:
 
   // Sort with `false` returns objects in descending order.
@@ -142,7 +136,7 @@ TEST_CASE("sort list and results", "[write]") {
   // sorting in descending order based on priority.
   CHECK(itemsSorted[0].name == "Save the world");
 
-  auto projects = realm.objects<Beta_Project>();
+  auto projects = realm.objects<realm::Project>();
   CHECK(projects.size() == 1);  // :remove:
   auto specificProject = projects[0];
 
