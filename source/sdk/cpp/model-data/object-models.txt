@@ -73,32 +73,16 @@ expose a schema.
 Realm Object Schema
 ~~~~~~~~~~~~~~~~~~~
 
-.. tabs::
+A Realm C++ SDK **realm object schema** maps property names for a 
+specific object type. A schema must accompany your object model, and 
+it may be one of:
 
-   .. tab:: Current
-      :tabid: current
+- ``REALM_SCHEMA``
+- ``REALM_EMBEDDED_SCHEMA``
+- ``REALM_ASYMMETRIC_SCHEMA``
 
-      A Realm C++ SDK **realm object schema** maps property names for a 
-      specific object type. A schema must accompany your object model, and 
-      it may be one of:
-
-      - ``REALM_SCHEMA``
-      - ``REALM_EMBEDDED_SCHEMA``
-      - ``REALM_ASYMMETRIC_SCHEMA``
-
-      The schema, combined with your object model, gives the C++ SDK the 
-      information it needs to store and retrieve objects.
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      A Realm C++ SDK **realm object schema** maps property names, 
-      relationships, and any property metadata for a specific object type. 
-      Because C++ does not have reflection, your model must expose a public 
-      static **constexpr** member that explicitly declares your schema. 
-      The object schema includes details like the property name and type, 
-      whether the property is a primary key, and whether it forms a 
-      relationship with other object types.
+The schema, combined with your object model, gives the C++ SDK the 
+information it needs to store and retrieve objects.
 
 .. _cpp-define-a-new-object-type:
 
