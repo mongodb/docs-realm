@@ -15,6 +15,10 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
+
+
 
 class AppClientTest: RealmTest() {
     @Test
@@ -34,7 +38,7 @@ class AppClientTest: RealmTest() {
         val config =
         // :snippet-start: configure-app-client
             // Creates an App with custom configuration values
-            AppConfiguration.Builder(YOUR_APP_ID) // Replace with your App ID
+            AppConfiguration.Builder(YOUR_APP_ID)
                 // Specify your custom configuration values
                 .appName("my-app-name")
                 .appVersion("1.0.0")
@@ -44,6 +48,48 @@ class AppClientTest: RealmTest() {
         assertEquals(config.appName, "my-app-name")
         assertEquals(config.baseUrl, "http://localhost:9090")
         assertEquals(config.appVersion, "1.0.0")
+    }
+
+    @Test
+    fun multiplexingTest() {
+        // :snippet-start: enable-multiplexing
+        val config = AppConfiguration.Builder(YOUR_APP_ID)
+            .enableSessionMultiplexing(true)
+            .build()
+        // :snippet-end:
+        assertTrue(config.enableSessionMultiplexing)
+        // :snippet-start: enable-multiplexing-with-timeout
+        val configCustomLingerTime = AppConfiguration.Builder(YOUR_APP_ID)
+            .enableSessionMultiplexing(true)
+            .syncTimeouts {
+                connectionLingerTime = 10.seconds // Overrides default 30 secs
+            }
+            .build()
+        // :snippet-end:
+        assertTrue(configCustomLingerTime.enableSessionMultiplexing)
+        assertEquals(configCustomLingerTime.syncTimeoutOptions.connectionLingerTime.inWholeSeconds, 30)
+    }
+
+    @Test
+    fun syncTimeoutTest() {
+        // :snippet-start: sync-timeout-configuration
+        val config = AppConfiguration.Builder(YOUR_APP_ID)
+            .syncTimeouts {
+                connectTimeout = 1.minutes
+                connectionLingerTime = 15.seconds
+                pingKeepalivePeriod = 30.seconds
+                pongKeepalivePeriod = 1.minutes
+                fastReconnectLimit = 30.seconds
+            }
+            .build()
+        // :snippet-end:
+        with(config.syncTimeoutOptions) {
+            assertEquals(1.minutes, connectTimeout)
+            assertEquals(15.seconds, connectionLingerTime)
+            assertEquals(30.seconds, pingKeepalivePeriod)
+            assertEquals(1.minutes, pongKeepalivePeriod)
+            assertEquals(30.seconds, fastReconnectLimit)
+        }
     }
 
     @Test
