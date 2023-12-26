@@ -5,6 +5,14 @@
 Manage Sync Subscriptions - Flutter SDK
 =======================================
 
+.. meta::
+   :keywords: code example
+   :description: Create, update, and delete query subscriptions used by Atlas Device Sync.
+
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -17,10 +25,10 @@ to determine which data to sync between Atlas and your app.
 You can add, update, and remove query subscriptions to determine which data
 syncs to the client device.
 
-.. include:: /includes/note-flexible-sync-prerequisite.rst
+Prerequisites
+-------------
 
-Before You Begin
-----------------
+.. include:: /includes/note-flexible-sync-prerequisite.rst
 
 To use Flexible Sync in a Flutter application:
 
@@ -53,8 +61,118 @@ You subscription queries can either:
     refer to the :ref:`Flexible Sync RQL Limitations
     <flutter-flexible-sync-rql-limitations>` section.
 
-Manage Your Subscriptions
--------------------------
+.. _flutter-subscribe-api:
+
+Subscribe to Queries
+--------------------
+
+.. versionadded:: v1.6.0
+
+Flutter v1.6.0 adds experimental APIs that subscribe to and unsubscribe
+from a query's results. These APIs abstract away the details of
+manually adding and removing subscriptions.
+
+For all subscriptions, you need an :ref:`authenticated user <flutter-authenticate>` and a :ref:`synced realm <flutter-open-synced-realm>`.
+
+If you need more control over subscriptions for performance optimization or 
+business logic reasons, you can 
+:ref:`manually manage the subscription set <flutter-manually-manage-subscriptions>` 
+using the ``subscriptions`` API. Refer to the 
+:ref:`Performance Considerations <flutter-flex-sync-performance-considerations>` 
+section on this page for more information.
+
+Subscribe to a Query
+~~~~~~~~~~~~~~~~~~~~
+
+You can subscribe to the ``RealmResults`` of a query using the 
+:flutter-sdk:`subscribe() <realm/RealmResultsOfRealmObject/subscribe.html>` 
+method. When called, the SDK creates the new subscription and adds it to the
+``MutableSubscriptionSet``, similar to  
+:ref:`manually creating subscription <flutter-sync-add-subscription>`.
+
+You can optionally pass a unique subscription name for the query. If you 
+add a subscription with the same name as an existing subscription, the SDK
+overwrites the existing subscription.
+
+If you do not pass a subscription name, the name is set to ``null``, and 
+the subscription identifier is based on the query string. This means that 
+every time your query string changes, ``subscribe()`` creates a new subscription.
+
+To subscribe to a query, pass the following arguments to ``subscribe()``:
+
+- ``RealmResults query``: Required. A ``RealmResults`` object that you can create using the
+  :ref:`Realm Query Language <rql>`.
+- ``String name``: Optional. Name for the subscription that you can refer to. 
+- ``bool update``:  Optional. When true, adding a subscription with an existing name
+  replaces the existing query with the new query. When false, the SDK
+  throws an exception for duplicate subscriptions. Only use with named subscriptions.
+
+In the following example, we subscribe to two new named queries.
+
+.. literalinclude:: /examples/generated/flutter/manage_sync_subscription_test.snippet.add-subscription-subscribe-api.dart
+   :language: dart 
+
+.. tip:: Specify a Subscription Name
+
+   We recommend that you always specify a subscription name, especially if your application uses 
+   multiple subscriptions. This makes finding and managing
+   your subscriptions easier.
+
+Wait for a Query Subscription to Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you subscribe to a query's results, the results do not contain objects
+until synced data is downloaded. When you do need to wait for synced objects to
+finish downloading, configure the :flutter-sdk:`waitForSyncMode <realm/WaitForSyncMode.html>` option. 
+
+This example uses the ``firstTime`` option, which is the default behavior.
+A subscription with ``firstTime`` behavior only waits for sync to finish when a
+subscription is first created.
+
+.. literalinclude:: /examples/generated/flutter/manage_sync_subscription_test.snippet.wait-first-time-subscribe-api.dart
+   :language: dart
+   :emphasize-lines: 5
+
+The other supported ``waitForSyncMode`` options are:
+
+- ``always``: Wait to download matching objects every time your app launches.
+  The app must have an internet connection at every launch.
+- ``never``: Never wait to download matching objects. The app needs an internet
+  connection for the user to authenticate the first time the app launches, but
+  can open offline on
+  subsequent launches using cached credentials.
+
+You can optionally specify a :flutter-sdk:`cancellationToken <realm/CancellationToken-class.html>` 
+to limit how long the sync download runs:
+
+.. literalinclude:: /examples/generated/flutter/manage_sync_subscription_test.snippet.wait-with-timeout-subscribe-api.dart
+   :language: dart
+   :emphasize-lines: 5-6
+
+Unsubscribe from a Query
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Subscriptions persist across user sessions unless you unsubscribe from them.
+You can unsubscribe from a query's results using :flutter-sdk:`unsubscribe() <realm/RealmResultsOfRealmObject/unsubscribe.html>`.
+
+This removes the subscription from the list of active subscriptions, similar to
+:ref:`manually removing a subscription <flutter-remove-subscriptions>`.
+Note that the results list may still contain objects after calling ``unsubscribe()`` 
+if another subscription exists that contains overlapping objects.
+
+When you call ``unsubscribe()`` on a query, the SDK removes any 
+subscriptions with queries that exactly match the one you call 
+``unsubscribe()`` on. This method returns before objects matching the 
+removed subscription are deleted from the realm. Sync continues in the 
+background based on the new set of subscriptions.
+
+.. literalinclude:: /examples/generated/flutter/manage_sync_subscription_test.snippet.remove-subscription-unsubscribe-api.dart
+   :language: dart
+
+.. _flutter-manually-manage-subscriptions:
+
+Manually Manage Subscriptions
+-----------------------------
 
 When configuring Flexible Sync on the backend, you specify which fields your
 client application can query. In the client application, use the
@@ -285,3 +403,23 @@ Flexible Sync RQL Requirements and Limitations
 -----------------------------------------------
 
 .. include:: /includes/flex-sync-limitations.rst
+
+.. _flutter-flex-sync-performance-considerations:
+
+Performance Considerations
+--------------------------
+
+API Efficiency
+~~~~~~~~~~~~~~
+
+Managing multiple subscriptions with the ``.subscribe()`` 
+API described in the :ref:`flutter-subscribe-api` section
+is less efficient than performing batch updates when you 
+manually manage subscriptions through the subscription set API. For better performance when 
+making multiple subscription changes, use the ``subscriptions.update`` API described in the 
+:ref:`flutter-manually-manage-subscriptions` section.
+
+Group Updates for Improved Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/sync-memory-performance.rst
