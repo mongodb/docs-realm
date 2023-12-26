@@ -67,7 +67,7 @@ class AppClientTest: RealmTest() {
             .build()
         // :snippet-end:
         assertTrue(configCustomLingerTime.enableSessionMultiplexing)
-        assertEquals(configCustomLingerTime.syncTimeoutOptions.connectionLingerTime.inWholeSeconds, 30)
+        assertEquals(configCustomLingerTime.syncTimeoutOptions.connectionLingerTime.inWholeSeconds, 10)
     }
 
     @Test
