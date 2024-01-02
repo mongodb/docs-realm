@@ -90,10 +90,10 @@ Define a New Object Type
 ------------------------
 
 In the C++ SDK Preview, you can define your models or classes as regular 
-C++ structs. Using the ``realm::experimental`` namespace, provide a
-:ref:`cpp-object-schema` with the struct name and the names of any 
-properties that you want Realm to persist. When you add the object 
-to a realm, the SDK ignores any properties that you omit from the schema.
+C++ structs. Provide a :ref:`cpp-object-schema` with the struct name and 
+the names of any properties that you want Realm to persist. When you add 
+the object to a realm, the SDK ignores any properties that you omit from 
+the schema.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.define-model.cpp
    :language: cpp
@@ -180,8 +180,7 @@ is embedded. This differs from a :ref:`to-one <cpp-to-one-relationship>`
 or :ref:`to-many <cpp-to-many-relationship>` relationship, in which the 
 related objects have independent lifecycles.
 
-Using the ``realm::experimental`` namespace, provide a
-``REALM_EMBEDDED_SCHEMA`` with the struct name and the names of 
+Provide a ``REALM_EMBEDDED_SCHEMA`` with the struct name and the names of 
 any properties that you want Realm to persist.
 
 Define a property as an embedded object on the parent object by setting 
@@ -224,9 +223,8 @@ For more information, see: :ref:`Create an Asymmetric Object
 <cpp-create-asymmetric-object>`.
 
 In the C++ SDK Preview, define an asymmetric object the same way you would 
-a regular C++ struct. Using the ``realm::experimental`` namespace, 
-provide a ``REALM_ASYMMETRIC_SCHEMA`` with the struct name and the 
-names of any properties that you want Realm to persist.
+a regular C++ struct. Provide a ``REALM_ASYMMETRIC_SCHEMA`` with the struct 
+name and the names of any properties that you want Realm to persist.
 
 .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
    :language: cpp

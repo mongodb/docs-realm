@@ -1,6 +1,5 @@
 // Query for the object you want to update
 auto dogs = realm.objects<realm::Dog>();
-// auto dogsNamedMaui = dogs.where("name == $0", {"Maui"});
 auto dogsNamedMaui =
     dogs.where([](auto &dog) { return dog.name == "Maui"; });
 CHECK(dogsNamedMaui.size() >= 1);

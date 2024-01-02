@@ -9,7 +9,6 @@ REALM_SCHEMA(Person, _id, name, age, dog)
 struct Dog {
   realm::primary_key<int64_t> _id;
   std::string name;
-
   int64_t age = 0;
   linking_objects<&Person::dog> owners;
 };

@@ -34,8 +34,8 @@ TEST_CASE("Asymmetric object example", "[write][sync]") {
 
   // :snippet-start: create-asymmetric-object
   auto weatherSensorReading =
-      realm::WeatherSensorReading{._id = oid,  // :remove:
-                                  .deviceId = "WX1278UIT",
+      realm::WeatherSensorReading{.deviceId = "WX1278UIT",
+                                  ._id = oid,  // :remove:
                                   .temperatureInFahrenheit = 64.7,
                                   .windSpeedInMph = 7};
 

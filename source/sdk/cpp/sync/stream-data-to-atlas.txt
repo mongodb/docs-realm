@@ -32,7 +32,7 @@ Sync Data Unidirectionally from a Client Application
       .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
          :language: cpp
 
-      For more information on how to define an ``REALM_ASYMMETRIC_SCHEMA``, 
+      For more information on how to define a ``REALM_ASYMMETRIC_SCHEMA``, 
       including limitations when linking to other object types, see: 
       :ref:`Define an Asymmetric Object <cpp-define-asymmetric-object>`.
 
@@ -51,10 +51,9 @@ Sync Data Unidirectionally from a Client Application
    .. step:: Open a Realm
 
       After you have an authenticated user, you can open a synced realm
-      using a ``flexibleSyncConfiguration()``. Unlike opening other 
-      types of realms in the ``experimental`` namespace, when you 
-      open a realm for Data Ingest, you *must* specify the
-      ``asymmetric_object`` types you want to sync.
+      using a ``flexibleSyncConfiguration()``. Unlike opening a realm for 
+      non-asymmetric object types, when you open a realm for Data Ingest, 
+      you *must* specify the ``asymmetric_object`` types you want to sync.
 
       .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.open-asymmetric-synced-realm.cpp
          :language: cpp

@@ -23,8 +23,7 @@ Realm. A realm is a collection of the objects that you use
 in your application, called Realm objects, as well as additional metadata 
 that describe the objects.
 
-When opening a realm using the ``realm::experimental`` namespace, 
-you must specify a :cpp-sdk:`db_config 
+When opening a realm, you must specify a :cpp-sdk:`db_config 
 <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
 The ``db_config`` may contain information such as:
 
@@ -117,9 +116,11 @@ Open the Default Realm
 Opening a realm without specifying an optional path opens the default realm 
 in the current directory.
 
-When opening a realm using the ``realm::experimental`` namespace, the 
-C++ SDK Preview can automatically infer which models are available in the
-project. You don't need to manually specify the available models.
+When opening a realm, the C++ SDK Preview can automatically infer which 
+models are available in the project. You don't need to manually specify 
+the available models unless you are opening a realm to sync data 
+unidirectionally with asymmetric objects. For more information, refer to 
+Open a Synced Realm on this page.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.open-realm.cpp
    :language: cpp
@@ -223,7 +224,7 @@ By default, the C++ SDK automatically adds all object types that have a
 
 However, if you want the realm to manage only a subset of models, you
 can specify those models by passing them into the template parameter list
-of the ``realm::experimental::open()`` function.
+of the ``realm::open()`` function.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.realm-specify-classes.cpp
    :language: cpp

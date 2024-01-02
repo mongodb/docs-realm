@@ -1,5 +1,5 @@
 auto weatherSensorReading =
-                                .deviceId = "WX1278UIT",
+    realm::WeatherSensorReading{.deviceId = "WX1278UIT",
                                 .temperatureInFahrenheit = 64.7,
                                 .windSpeedInMph = 7};
 
