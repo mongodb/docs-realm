@@ -1,5 +1,5 @@
 .. code-block:: typescript
-   :emphasize-lines: 16, 24
+   :emphasize-lines: 14-16, 24
 
    import React, {useEffect, useState} from 'react';
    import {BSON, WaitForSync} from 'realm';
@@ -16,7 +16,7 @@
      // Get local birds that have been marked as "haveSeen".
      const seenBirds = useQuery(Bird, collection =>
        collection.filtered('haveSeen == true'),
-     ); 
+     );
      const [seenBirdsSubscription, setSeenBirdsSubscription] =
        useState<Subscription | null>();
 

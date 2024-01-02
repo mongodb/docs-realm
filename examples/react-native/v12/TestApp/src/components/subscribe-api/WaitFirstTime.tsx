@@ -12,9 +12,11 @@ export const WaitFirstTime = () => {
   const [birdName, setBirdName] = useState('Change me!');
 
   // Get local birds that have been marked as "haveSeen".
+  // :emphasize-start:
   const seenBirds = useQuery(Bird, collection =>
     collection.filtered('haveSeen == true'),
-  ); // :emphasize:
+  );
+  // :emphasize-end:
   const [seenBirdsSubscription, setSeenBirdsSubscription] =
     useState<Subscription | null>();
 
@@ -71,7 +73,10 @@ export const WaitFirstTime = () => {
         </Text>
       )}
 
-      <TextInput onChangeText={setBirdName} value={birdName} />
+      <TextInput
+        onChangeText={setBirdName}
+        value={birdName}
+      />
 
       <Button
         testID="add-bird"

@@ -1,12 +1,12 @@
 .. code-block:: typescript
-   :emphasize-lines: 6, 16, 18
+   :emphasize-lines: 4-6, 16, 18
 
    export const AlwaysWait = () => {
      const realm = useRealm();
      // Get all local birds that have not been seen yet.
      const unSeenBirds = useQuery(Bird, collection =>
        collection.filtered('haveSeen == false'),
-     ); 
+     );
      const [unSeenBirdsSubscription, setUnseenBirdsSubscription] =
        useState<Subscription | null>();
 

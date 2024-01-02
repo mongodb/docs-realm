@@ -6,13 +6,17 @@ part of 'read_write_data_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
     ObjectId id,
-    String name,
-  ) {
+    String name, {
+    Iterable<String> hobbies = const [],
+  }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set<RealmList<String>>(
+        this, 'hobbies', RealmList<String>(hobbies));
   }
 
   Person._();
@@ -28,6 +32,13 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
+  RealmList<String> get hobbies =>
+      RealmObjectBase.get<String>(this, 'hobbies') as RealmList<String>;
+  @override
+  set hobbies(covariant RealmList<String> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
   Stream<RealmObjectChanges<Person>> get changes =>
       RealmObjectBase.getChanges<Person>(this);
 
@@ -41,6 +52,8 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
     return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
+      SchemaProperty('hobbies', RealmPropertyType.string,
+          collectionType: RealmCollectionType.list),
     ]);
   }
 }

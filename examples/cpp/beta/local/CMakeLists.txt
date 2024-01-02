@@ -9,12 +9,12 @@ Include(FetchContent)
 FetchContent_Declare(
   Catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v3.0.1 # or a later release
+  GIT_TAG        v3.4.0 # or a later release
 )
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        v0.5.0-preview
+  GIT_TAG        v0.6.0-preview
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
@@ -28,6 +28,8 @@ add_executable(examples-beta-local
   supported-types.cpp
   threading.cpp
 )
+
+set(USE_EXAMPLE_MAIN 1)
 
 target_link_libraries(examples-beta-local PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(examples-beta-local PRIVATE cpprealm)
