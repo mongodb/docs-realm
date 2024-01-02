@@ -20,9 +20,6 @@ Authenticate Users - C++ SDK Preview
 Log In
 ------
 
-.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
-.. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
-
 .. _cpp-login-anonymous:
 
 Anonymous User
@@ -148,8 +145,6 @@ on a logged-in user to refresh the user's auth session. Then, get the
 as a string you can use in your code. You might use code similar to this to 
 fetch an access token:
 
-.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
-
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.get-user-access-token.cpp
    :language: cpp
 
@@ -167,8 +162,6 @@ Once logged in, you can log out.
 
 .. include:: /includes/log-out-queries-in-progress.rst
 
-.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
-
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.log-user-out.cpp
    :language: cpp
 
@@ -176,8 +169,6 @@ Once logged in, you can log out.
 
 Get the Current User
 --------------------
-
-.. versionadded:: v0.3.0-preview
 
 You can get the current user with ``app::get_current_user()``:
 
@@ -188,8 +179,6 @@ You can get the current user with ``app::get_current_user()``:
 
 Confirm a User is Logged In
 ---------------------------
-
-.. versionadded:: v0.3.0-preview
 
 You can confirm a user is logged in with ``user::is_logged_in()``:
 

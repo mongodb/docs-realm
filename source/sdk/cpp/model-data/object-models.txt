@@ -297,13 +297,10 @@ Atlas App Services App.
 An ``asymmetric_object`` broadly has the same :ref:`supported types 
 <cpp-supported-property-types>` as ``realm::object``, with a few exceptions:
 
-- Asymmetric objects can only link to embedded objects in some versions
-   - ``object`` and ``std::vector<object>`` properties are not supported 
-     in C++ SDK versions v0.4.0-preview and earlier. In C++ SDK versions
-     v0.4.0-preview and later, asymmetric objects can link to ``object``
-     types in addition to ``embedded_object`` types.
-   - ``embedded_object`` and ``std::vector<embedded_object>`` links *are* 
-     supported in all versions of the C++ SDK that support Data Ingest.
+- Asymmetric objects can link to the following types:
+  - ``object``
+  - ``embedded_object``
+  - ``std::vector<embedded_object>``
 
 Asymmetric objects do not function in the same way as other Realm objects. 
 You cannot:
