@@ -29,7 +29,7 @@ export type AuthenticationStackParamList = {
 };
 export type QuickstartStackParamList = {
   QuickstartHome: undefined;
-  Quickstart: undefined;
+  QuickstartNoSync: undefined;
   QuickstartSync: undefined;
 };
 

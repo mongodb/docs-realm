@@ -24,7 +24,7 @@ export const QuickstartScreen = () => {
         component={AppWrapperSync}
       /> */}
       <Stack.Screen
-        name="Quickstart"
+        name="QuickstartNoSync"
         component={Quickstart}
       />
     </Stack.Navigator>
@@ -50,7 +50,7 @@ const QuickstartHome = ({navigation}: QuickstartHomeProps) => {
           <Button
             title={'Check it out'}
             onPress={() => {
-              navigation.navigate('Quickstart');
+              navigation.navigate('QuickstartNoSync');
             }}
           />
         </View>
