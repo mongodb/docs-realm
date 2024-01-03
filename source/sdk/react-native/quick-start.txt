@@ -19,11 +19,17 @@ About the @realm/react Package
 ------------------------------
 
 :github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is a
-package used in the React Native SDK. It provides state-aware React hooks for Realm data. 
-The hooks watch the Realm data and re-render components as needed.
+package used in the React Native SDK. It provides state-aware React hooks for
+Realm data. The hooks watch the Realm data and re-render components as needed.
 
 The React Native SDK documentation uses the ``@realm/react``
 npm package for examples and describing concepts.
+
+Refer to these pages for more details:
+
+- :ref:`AppProvider (@realm/react) <react-native-app-provider>`
+- :ref:`UserProvider (@realm/react) <react-native-user-provider>`
+- :ref:`RealmProvider (@realm/react) <react-native-realm-provider>`
 
 Set Up Your Realm App
 ---------------------
@@ -48,30 +54,15 @@ object type.
 **To define a Realm object model:**
 
 #. Create a class that extends :js-sdk:`Realm.Object <Realm.Object.html>`.
-   For TypeScript, include the class name as a type.
-   This lets you use the class with other Realm SDK methods
-   that accept ``Realm.Object`` types.
 #. Add a ``schema`` field.
 #. For the ``schema`` value, create an object that contains ``properties`` and 
-   ``name`` properties. The name value must be unique among object types in a 
-   Realm object model.
+   ``name`` properties. The name value must be unique among object types in your 
+   realm.
 
 To learn more, refer to
 :ref:`Define a Realm Object Model <react-native-define-a-realm-object-model>`.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.setup-define-model.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.setup-define-model.jsx
-         :language: javascript
+.. include:: /examples/generated/react-native/v12/models.snippet.qs-define-model.ts.rst
 
 .. _react-native-quickstart-local-import-realm:
 .. _react-native-quickstart-local-open-a-realm:
@@ -85,31 +76,13 @@ to set up context and providers from ``@realm/react``. To learn more, refer to
 
 **To configure and access a local realm:** 
 
-#. Import ``createRealmContext()`` from ``@realm/react``.
-#. Create a realm :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`
-   object. You must include your Realm object models in the ``schema`` property.
-   You can also include optional configuration properties,
-   like making the realm read only or adding Atlas Device Sync.
-#. Create a realm context with ``createRealmContext()``. A realm context is a 
-   `React Context object <https://react.dev/learn/passing-data-deeply-with-context>`__
-   that contains React providers and hooks for working with your realm.
-#. Expose a realm with ``RealmProvider``. To expose a realm, you need a 
-   realm context. From that context, extract ``RealmProvider``, which 
-   contains your realm's context.
+#. Import ``RealmProvider`` from ``@realm/react``.
+#. Pass your object models to the ``schema`` prop.
+#. Add other :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>` 
+   properties as props to ``RealmProvider``. For example, make the realm read
+   only or add Atlas Device Sync.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.quickstart-setup.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.quickstart-setup.jsx
-         :language: javascript
+.. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.qs-realm-provider.tsx.rst
 
 Work With Realm Objects
 -----------------------
@@ -117,10 +90,12 @@ Work With Realm Objects
 After you have a data model and a configured realm, you can create, read, update, or 
 delete Realm objects.
 
-You must nest any components that perform these operations inside of a 
+You must nest components that perform these operations inside of
 ``RealmProvider``. The ``useRealm()``, ``useQuery()``, and ``useObject()`` hooks 
 enable you to perform read and write operations in your realm.
 
+For detailed descriptions of ``RealmProvider`` and its hooks, refer to
+:ref:`RealmProvider (@realm/react) <react-native-realm-provider>`
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
 .. _react-native-quickstart-local-watch-a-collection:
@@ -131,32 +106,15 @@ Find, Sort, and Filter Objects
 ``@realm/react`` provides hooks to help you find a collection of Realm objects
 or a single Realm object.
 
-- ``useQuery()``: Takes ``Realm.Object`` type as argument. Returns 
-  :js-sdk:`Realm.Results <Realm.Results.html>` with all objects in the realm
-  for the type that you pass to it.
-- ``useObject()``. Takes ``Realm.Object`` type and primary key as arguments.
-  Returns the Realm object for the primary key that you pass to it.
+- :ref:`useQuery() <react-native-use-query-hook>`
+- :ref:`useObject() <react-native-use-object-hook>`
 
-After finding a collection, you can filter or sort the results using 
+As part of ``useQuery()``, you can filter or sort the results using 
 :ref:`Realm Query Language (RQL) <rql>`.
 
-To learn more, refer to the :ref:`Query Data <react-native-query-data>`.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
+To learn more, refer to :ref:`Query Data <react-native-query-data>`.
    
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart-find-sort-filter.test.snippet.find-sort-filter.tsx
-         :language: typescript
-         :emphasize-lines: 47-53, 63-69
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart-find-sort-filter.test.snippet.find-sort-filter.jsx
-         :language: javascript
-         :emphasize-lines: 41-47, 54-60
+.. include:: /examples/generated/react-native/v12/Read.snippet.qs-find-sort-filter.tsx.rst
 
 .. _react-native-quickstart-local-create-realm-objects:
 .. _react-native-quickstart-local-modify-an-object:

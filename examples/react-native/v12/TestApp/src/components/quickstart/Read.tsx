@@ -1,37 +1,33 @@
-import React, {useState} from 'react';
-import {FlatList, Text, TextInput, View, StyleSheet} from 'react-native';
-import {useQuery} from '@realm/react';
+import {FlatList, Text, View} from 'react-native';
 
+// :snippet-start: qs-find-sort-filter
+import React from 'react';
+import {useQuery} from '@realm/react';
 import {Profile} from '../../models';
-import {Button} from '../utility-components/Button';
 
 export const Read = () => {
+  // Find
   const profiles = useQuery(Profile);
+  // Sort
+  const sortedProfiles = useQuery(Profile, profiles => {
+    return profiles.sorted('name', false);
+  });
+  // Filter
+  const filteredProfiles = useQuery(Profile, profiles => {
+    return profiles.filtered('name == "testProfile"');
+  });
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [mutatedProfiles, setMutatedProfiles] = useState(profiles);
+  // ... rest of component
 
-  const sortProfiles = (reversed: boolean) => {
-    const sortedProfiles = profiles.sorted('name', reversed);
-
-    setMutatedProfiles(sortedProfiles);
-  };
-
-  const filterProfiles = () => {
-    const filteredProfiles = profiles.filtered('name TEXT $0', searchTerm);
-
-    setMutatedProfiles(filteredProfiles);
-  };
-
+  // :remove-start:
   return (
     <View>
-      <Text style={styles.heading}>Read</Text>
-      {mutatedProfiles.length ? (
+      {profiles.length ? (
         <View>
           <Text>Profiles: </Text>
           <FlatList
             scrollEnabled={false}
-            data={mutatedProfiles}
+            data={profiles}
             renderItem={({item}) => <Text> • {item.name}</Text>}
             keyExtractor={item => item.name}
           />
@@ -40,60 +36,35 @@ export const Read = () => {
         <Text>🛑 No profiles found</Text>
       )}
 
-      <View style={styles.buttonGroup}>
-        <Button
-          title={'Sort alphabetically'}
-          onPress={() => {
-            sortProfiles(false);
-          }}
-        />
+      {sortedProfiles.length ? (
+        <View>
+          <Text>Sorted: </Text>
+          <FlatList
+            scrollEnabled={false}
+            data={sortedProfiles}
+            renderItem={({item}) => <Text> • {item.name}</Text>}
+            keyExtractor={item => item.name}
+          />
+        </View>
+      ) : (
+        <Text>🛑 No profiles found</Text>
+      )}
 
-        <Button
-          title={'Sort in reverse'}
-          onPress={() => {
-            sortProfiles(true);
-          }}
-        />
-      </View>
-
-      <TextInput
-        style={styles.textInput}
-        onChangeText={setSearchTerm}
-        value={searchTerm}
-        placeholder="Search profiles..."
-      />
-
-      <View style={styles.buttonGroup}>
-        <Button
-          title="Filter"
-          onPress={filterProfiles}
-        />
-        <Button
-          title="Clear filter"
-          onPress={() => {
-            setMutatedProfiles(profiles);
-          }}
-        />
-      </View>
+      {filteredProfiles.length ? (
+        <View>
+          <Text>Filtered: </Text>
+          <FlatList
+            scrollEnabled={false}
+            data={filteredProfiles}
+            renderItem={({item}) => <Text> • {item.name}</Text>}
+            keyExtractor={item => item.name}
+          />
+        </View>
+      ) : (
+        <Text>🛑 No profiles found</Text>
+      )}
     </View>
   );
+  // :remove-end:
 };
-
-const styles = StyleSheet.create({
-  heading: {
-    fontSize: 20,
-  },
-  textInput: {
-    marginVertical: 8,
-    backgroundColor: 'lightgrey',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  buttonGroup: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginVertical: 12,
-    paddingVertical: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+// :snippet-end:

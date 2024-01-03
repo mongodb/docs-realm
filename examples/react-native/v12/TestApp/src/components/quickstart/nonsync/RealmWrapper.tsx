@@ -1,31 +1,41 @@
-import React from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
-import {RealmProvider} from '@realm/react';
+import {StyleSheet, View, ScrollView} from 'react-native';
 
-import {Profile} from '../../../models';
 import {Create} from '../Create';
 import {Read} from '../Read';
 import {Update} from '../Update';
 import {Delete} from '../Delete';
 
+// :snippet-start: qs-realm-provider
+import React from 'react';
+import {RealmProvider} from '@realm/react';
+// Import your models
+import {Profile} from '../../../models';
+
 export const Quickstart = () => {
   return (
     <RealmProvider schema={[Profile]}>
-      <ScrollView>
-        <View style={styles.separator}>
-          <Read />
-        </View>
-        <View style={styles.separator}>
-          <Create />
-        </View>
-        <View style={styles.separator}>
-          <Update />
-        </View>
-        <View style={styles.separator}>
-          <Delete />
-        </View>
-      </ScrollView>
+      <RestOfApp />
     </RealmProvider>
+  );
+};
+// :snippet-end:
+
+const RestOfApp = () => {
+  return (
+    <ScrollView>
+      <View style={styles.separator}>
+        <Read />
+      </View>
+      <View style={styles.separator}>
+        <Create />
+      </View>
+      <View style={styles.separator}>
+        <Update />
+      </View>
+      <View style={styles.separator}>
+        <Delete />
+      </View>
+    </ScrollView>
   );
 };
 
