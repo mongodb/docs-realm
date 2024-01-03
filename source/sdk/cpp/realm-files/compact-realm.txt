@@ -47,7 +47,13 @@ Specify conditions to execute this method, such as:
 - The size of the file on disk
 - How much free space the file contains
 
+The following example shows setting the conditions to compact a realm if the 
+file is above 100 MB and 50% or more of the space in the realm file is unused.
+
 .. literalinclude:: /examples/generated/cpp/compact.snippet.compact-database.cpp
    :language: cpp
+
+Tips for Manually Compacting a Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/compaction-tips.rst
