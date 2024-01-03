@@ -105,8 +105,13 @@ Specify a Client Reset Mode
 
 The SDK provides the option to specify a client reset handler in your 
 :cpp-sdk:`database configuration <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`. 
-This client reset handler can take blocks to execute before and after the
-client reset, as well as the mode to use when handling the client reset:
+This client reset handler can take a 
+:cpp-sdk:`client_reset_mode_base <structrealm_1_1internal_1_1bridge_1_1client__reset__mode__base.html>`.
+This struct allows you to specify:
+
+- A block to execute before the client reset
+- A block to execute after the client reset
+- The mode to use when handling the client reset
 
 .. literalinclude:: /examples/generated/cpp/client-reset.snippet.recover-unsynced-changes.cpp
    :language: cpp
