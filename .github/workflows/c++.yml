@@ -28,7 +28,7 @@ jobs:
           cd examples/cpp/asymmetric
           mkdir build && cd build
           cmake ..
-          make
+          cmake --build .
           ./examples-asymmetric
       - name: Realm C++ Local Tests
         if: steps.filter.outputs.local == 'true'
@@ -44,5 +44,5 @@ jobs:
           cd examples/cpp/sync
           mkdir build && cd build
           cmake ..
-          make
+          cmake --build .
           ./examples-sync

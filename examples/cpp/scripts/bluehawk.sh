@@ -6,12 +6,12 @@ GENERATED_EXAMPLES=$PROJECT/source/examples/generated/cpp
 
 # Bluehawk asymmetric examples
 echo "Bluehawking C++ asymmetric sync examples"
-npx bluehawk snip $CPP_EXAMPLES/asymmetric -o $GENERATED_EXAMPLES
+npx bluehawk snip $CPP_EXAMPLES/asymmetric --ignore build -o $GENERATED_EXAMPLES
 
 # Bluehawk local examples
 echo "Bluehawking C++ local examples"
-npx bluehawk snip $CPP_EXAMPLES/local -o $GENERATED_EXAMPLES
+npx bluehawk snip $CPP_EXAMPLES/local --ignore build -o $GENERATED_EXAMPLES
 
 # Bluehawk sync examples
 echo "Bluehawking C++ sync SDK examples"
-npx bluehawk snip $CPP_EXAMPLES/sync -o $GENERATED_EXAMPLES
+npx bluehawk snip $CPP_EXAMPLES/sync --ignore build -o $GENERATED_EXAMPLES

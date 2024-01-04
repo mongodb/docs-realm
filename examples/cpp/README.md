@@ -11,6 +11,34 @@ If you just want to run the tests, go to **Run the Tests**.
 
 The Flexible Sync backend that this app hits is the [cpp-tester App Services app in the Realm Example Testers Atlas project of the Bushicorp Atlas Organization](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/6388f860cb722c5a5e002425/dashboard)
 
+## Unit Test Structure
+
+The unit tests are broken out into three separate test suites:
+
+- asymmetric: Examples for Asymmetric Sync/Data Ingest
+- local: Examples that don't require Sync (basic CRUD, notifications, logging, data modeling, threading)
+- sync: Examples that involve connecting to App Services and/or Device Sync (sync session, manage subscriptions, error handling, calling a function, managing users)
+
+Separating local from Sync simplifies running the tests. When you run the Sync
+test suite on macOS, you're prompted to enter your laptop user password to 
+give permission to make network requests. Separating the local tests means
+you don't have to deal with that prompt for tests that don't require network
+access. It also makes running the local tests faster.
+
+Separating asymmetric from Sync is required because asymmetric requires you
+to explicity pass the asymmetric object types when opening the synced database,
+while sync does not. Most of the Sync examples use the database open template
+that does not require you to explicitly pass objects, which causes issues
+when the project contains asymmetric object types.
+
+The C++ GitHub workflow looks for changes in the corresponding directory,
+and only runs the tests for the relevant test suite. For example, if you
+only make changes in the `local` directory, GitHub only builds and runs the
+`local` test suite when you make a PR. This speeds up the tests in CI.
+
+Navigate to the relevant test suite when you need to add or make change to
+tests.
+
 ## First-time Setup
 
 The project uses [CMake](https://cmake.org/) to create build files (Makefile, .xcodeproj...) for the
@@ -27,10 +55,11 @@ you don't, you can install CMake with brew or by downloading it directly from CM
 brew install cmake
 ```
 
-Run CMake in a gitignored directory, such as `build`, to generate build
-configurations that you can then use to compile your app. If this is the
-first time you're setting up the project, you'll need to make a `build`
-directory.
+## Build the Project
+
+Add a `build` directory to the relevant test suite directory - for example, 
+`/examples/local/build`. The `build` directory is in `.gitignore`, so you
+don't have to worry about accidentally committing build files.
 
 ```shell
 # build/ is in .gitignore
@@ -38,10 +67,8 @@ mkdir build
 cd build
 ```
 
-## Build the Project
-
-From `/examples/cpp/build`, run `cmake` to create a Makefile by reading
-`CMakeLists.txt` in the parent directory.
+From the relevant test suite directory - for example, `/examples/local/build`, 
+run `cmake` to create a Makefile by reading `CMakeLists.txt` in the parent directory.
 
 ```shell
 cmake ../
@@ -50,22 +77,24 @@ cmake ../
 Use `ls` to see that a Makefile has been generated. Then, build the app:
 
 ```shell
-make
+cmake --build .
 ```
 
-The first time you run `make`, the process will take some time because it's
-doing a full build. On subsequent runs, `make` does incremental builds, so
-rebuilding will be faster.
+The first time you run `cmake --build .`, the process will take some time 
+because it's doing a full build. On subsequent runs, `cmake --build .` does 
+incremental builds, so rebuilding will be faster.
 
-When the build is complete, `ls` should reveal an `examples` executable
-at the root of the `build` directory.
+When the build is complete, `ls` should reveal an `examples-asymmetric`,
+`examples-local`, or `examples-sync` executable at the root of the `build` 
+directory, depending on which test suite you're running.
 
 ## Run the Tests
 
-To run the tests, execute the `examples` file from the `build` directory:
+To run the tests, execute the relevant examples executable from the `build` 
+directory - for example, `local/build`:
 
 ```shell
-./examples
+./examples-local
 ```
 
 ### How to Skip Tests
@@ -100,32 +129,25 @@ FetchContent_Declare(
 ```
 
 To change the version of the SDK we use in the build, change the value
-of the `GIT_TAG`. While in pre-Alpha, this is a commit hash, but it will
-likely be a version tag once the SDK starts doing tagged releases. For more
+of the `GIT_TAG`. For an unreleased build containing new features, this is a 
+commit hash, but it should be a version tag for a release version. For more
 information, refer to the
 [FetchContent Module docs](https://cmake.org/cmake/help/latest/module/FetchContent.html).
 
 For best results, when changing the SDK version, delete everything in the
-`build` directory. Then, create a new Makefile and build the project again
-before running the tests.
+`build` directory. You could do this by recursively deleting the build 
+directory. From the relevant unit test suite:
 
-From `/examples/cpp/build`, run `cmake` to create a Makefile by reading
-`CMakeLists.txt` in the parent directory.
-
-```shell
-cmake ../
+```
+rm -rf build
 ```
 
-You can `ls` to see that a Makefile has been generated. Then, build the app:
-
-```shell
-cmake --build .
-```
+Then, follow the instructions above to build and run the tests.
 
 ## Add a New Test File
 
-To add a new test file, create a file with a `.cpp` extension in `examples/cpp/`.
-For example, `my-new-test-file.cpp`.
+To add a new test file, create a file with a `.cpp` extension in the relevant
+test suite. For example, `my-new-test-file.cpp`.
 
 Include the relevant headers. They probably look something like:
 
@@ -141,8 +163,7 @@ Add the new file name to the appropriate spot in the alphabetical list of files.
 For example:
 
 ```txt
-add_executable(examplesm
-  asymmetric-sync.cpp
+add_executable(examples-local
   crud.cpp
   my-new-test-file.cpp
   notifications.cpp
@@ -181,14 +202,14 @@ TEST_CASE("add a dog object to a realm", "[write]") {
 }
 ```
 
-To verify your new example works, from the `/build` directory, run `make`and then
+To verify your new example works, from the `/build` directory, run `cmake --build .` and then
 [run the tests](https://github.com/mongodb/docs-realm/tree/master/examples/cpp#run-the-tests)
 again.
 
 ## Build and Run for Xcode
 
-If you want to use Xcode for breakpoints and debugging, you can build
-the project to run in Xcode.
+If you want to use Xcode for breakpoints, debugging, and easy symbol lookup, 
+you can build the project to run in Xcode.
 
 From the `/build` directory, run CMake with a `-G Xcode` flag:
 
@@ -208,16 +229,26 @@ To address this error, you can run `cmake ../ -G Xcode` from a clean build direc
 create a new subdirectory for xcode (`/build/xcode`), or remove the files specified
 in the error.
 
-On a successful build, you should see `examples.xcodeproj` in the directory
-Xcode builds to.
+On a successful build, you should see the relevant xcodeproj file in the 
+directory you tell Xcode to build to - for example, `examples-local.xcodeproj`.
 
 Open the project in Xcode.
 
 Inside the project, you'll see all the linked files, but the source files
-for the examples are located in:
+for the examples are located in the root of the test suite directory - 
+for example:
 
-`examples/Source Files`
+`examples-local/Source Files`
 
 To build and run these source files in Xcode, select the `examples` executable
 target and press the `Start` (▶) button. You should see the results and any
 print output in the console.
+
+## Generate Code Examples
+
+The `cpp/scripts` directory has a bash script to generate Bluehawk snippets
+for all of the test suites.
+
+From this directory, run the bash script to generate updated Bluehawk snippets:
+
+`./bluehawk.sh`
