@@ -166,6 +166,15 @@ You can watch an :ref:`object for changes
 .. literalinclude:: /examples/generated/cpp/quick-start.snippet.watch-for-changes.cpp
    :language: cpp
 
+Close a Realm
+-------------
+
+To close a realm and release all underlying resources, call ``db::close()``.
+Closing the database invalidates any remaining objects.
+
+.. literalinclude:: /examples/generated/cpp/close-realm.snippet.close-realm.cpp
+   :language: cpp
+
 Add Device Sync (Optional)
 --------------------------
 
