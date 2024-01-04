@@ -11,4 +11,4 @@ config.should_compact_on_launch([&](uint64_t totalBytes, uint64_t usedBytes) {
 
 // The database is compacted on the first open if the configuration block
 // conditions were met.
-auto realm = db(config);
+auto realm = realm::db(config);
