@@ -33,7 +33,7 @@ within a realm. Realm notifies your handler:
    
    auto token = object.observe([&](auto&& change) { ... }
 
-The handler receives an :cpp-sdk:`ObjectChange <structrealm_1_1ObjectChange.html>`
+The handler receives an :cpp-sdk:`object_change <structrealm_1_1object__change.html>`
 object that contains information about the changes, such as whether the 
 object was deleted. It may include a list 
 of :cpp-sdk:`PropertyChange 
@@ -75,7 +75,7 @@ inserted, and modified.
    result in unexpected behavior.
   
 Collection notifications provide a :cpp-sdk:`collection_change 
-<structrealm_1_1experimental_1_1collection__change.html>` 
+<structrealm_1_1collection__change.html>` 
 struct that reports the index of the objects that are removed, added, or 
 modified. It can also notify you if the collection was deleted.
 
@@ -113,7 +113,7 @@ inserted, and modified.
    result in unexpected behavior.
   
 Results collection notifications provide a :cpp-sdk:`results_change 
-<structrealm_1_1results__base_1_1results__change.html>` struct that 
+<structrealm_1_1results__common__base_1_1results__change.html>` struct that 
 reports the index of the objects that are deleted, added, or modified.
 It can also notify you if the collection was deleted.
 

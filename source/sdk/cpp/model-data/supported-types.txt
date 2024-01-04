@@ -154,8 +154,9 @@ Some of the supported types above are aliases for:
 Map/Dictionary
 --------------
 
-The :cpp-sdk:`Map <classrealm_1_1persisted__map__base.html>` is an 
-associative array that contains key-value pairs with unique keys.
+The 
+:cpp-sdk:`Map <structrealm_1_1managed_3_01std_1_1map_3_01std_1_1string_00_01T_01_4_00_01void_01_4.html>` 
+is an associative array that contains key-value pairs with unique keys.
 
 You can declare a Map as a property of an object:
 
@@ -196,7 +197,7 @@ notifications <cpp-register-a-collection-change-listener>`.
 Results
 ~~~~~~~
 
-The C++ SDK :cpp-sdk:`Results <structrealm_1_1experimental_1_1results.html>` 
+The C++ SDK :cpp-sdk:`Results <structrealm_1_1internal_1_1bridge_1_1results.html>` 
 collection is a type representing objects retrieved from queries. A 
 ``Results`` collection represents the lazily-evaluated results of a 
 query operation. Results are immutable: you cannot add or remove elements 
@@ -242,15 +243,15 @@ in your data model:
    <structrealm_1_1internal_1_1bridge_1_1list.html>`, a type representing 
    :ref:`to-many relationships <cpp-list-collections>` in models.
 #. :cpp-sdk:`Set 
-   <structrealm_1_1experimental_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>`, 
+   <structrealm_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>`, 
    a type representing :ref:`to-many relationships <cpp-to-many-relationship>`
    in models where values are unique.
 #. :cpp-sdk:`linking_objects 
-   <structrealm_1_1experimental_1_1linking__objects.html>`, a type 
+   <structrealm_1_1linking__objects.html>`, a type 
    representing :ref:`inverse relationships 
    <cpp-define-an-inverse-relationship-property>` in models.
-#. :ref:`Map <cpp-map>`, a type representing an associative array of key-value 
-   pairs with unique keys.
+#. :cpp-sdk:`Map <structrealm_1_1managed_3_01std_1_1map_3_01std_1_1string_00_01T_01_4_00_01void_01_4.html>`, 
+   a type representing an associative array of key-value pairs with unique keys.
 
 .. _cpp-live-collections:
 
