@@ -41,7 +41,7 @@ TEST_CASE("Asymmetric object example", "[write][sync]") {
 
   realm.write([&] { realm.add(std::move(weatherSensorReading)); });
   // :snippet-end:
-  sleep(5);
+  realm.get_sync_session()->wait_for_upload_completion().get();
 
 // This test is currently commented out because the SDK has removed the
 // exposed Core headers that gave it access to a BSON library.
