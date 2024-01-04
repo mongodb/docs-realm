@@ -235,8 +235,8 @@ directory you tell Xcode to build to - for example, `examples-local.xcodeproj`.
 Open the project in Xcode.
 
 Inside the project, you'll see all the linked files, but the source files
-for the examples are located in the root of the test suite directory - 
-for example:
+for the examples are located in the `Source Files` folder in the directory 
+that has the same name as the project executable - for example:
 
 `examples-local/Source Files`
 
