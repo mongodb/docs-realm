@@ -116,9 +116,9 @@ const RegisterUser = () => {
 
   // :replace-start: {
   //    "terms": {
-  //       "style={styles.section": "",
-  //       "style={styles.inputGroup": "",
-  //       "style={styles.buttonGroup}": "",
+  //       " style={styles.section}": "",
+  //       " style={styles.inputGroup}": "",
+  //       " style={styles.buttonGroup}": "",
   //       "testID=\"user-identity\"": ""
   //    }
   // }

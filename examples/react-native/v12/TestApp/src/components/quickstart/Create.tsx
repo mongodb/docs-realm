@@ -1,10 +1,11 @@
+import {StyleSheet} from 'react-native';
+import {Button} from '../utility-components/Button';
+// :snippet-start: qs-create
 import React, {useState} from 'react';
-import {Text, TextInput, View, StyleSheet} from 'react-native';
+import {Text, TextInput, View} from 'react-native';
 import {BSON} from 'realm';
 import {useRealm} from '@realm/react';
-
 import {Profile} from '../../models';
-import {Button} from '../utility-components/Button';
 
 export const Create = () => {
   const realm = useRealm();
@@ -19,6 +20,12 @@ export const Create = () => {
     });
   };
 
+  // :replace-start: {
+  //    "terms": {
+  //       " style={styles.heading}": "",
+  //       " style={styles.textInput}": ""
+  //    }
+  // }
   return (
     <View>
       <Text style={styles.heading}>Create</Text>
@@ -36,7 +43,9 @@ export const Create = () => {
       />
     </View>
   );
+  // :replace-end:
 };
+// :snippet-end:
 
 const styles = StyleSheet.create({
   heading: {

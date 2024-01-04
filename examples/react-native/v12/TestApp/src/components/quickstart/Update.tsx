@@ -1,16 +1,11 @@
+import {StyleSheet} from 'react-native';
+import {Button} from '../utility-components/Button';
+// :snippet-start: qs-update
 import React, {useState} from 'react';
-import {
-  Text,
-  FlatList,
-  View,
-  StyleSheet,
-  Pressable,
-  TextInput,
-} from 'react-native';
+import {Text, FlatList, View, Pressable, TextInput} from 'react-native';
 import {useRealm, useQuery} from '@realm/react';
 
 import {Profile} from '../../models';
-import {Button} from '../utility-components/Button';
 
 export const Update = () => {
   const realm = useRealm();
@@ -28,6 +23,12 @@ export const Update = () => {
     });
   };
 
+  // :replace-start: {
+  //    "terms": {
+  //       " style={styles.heading}": "",
+  //       " style={styles.profileName}": ""
+  //    }
+  // }
   return (
     <View>
       <Text style={styles.heading}>Update</Text>
@@ -40,11 +41,18 @@ export const Update = () => {
             data={profiles}
             horizontal={true}
             renderItem={({item}) => (
-              <ProfileItem
-                profile={item.name}
-                profileToUpdate={profileToUpdate}
-                setProfileToUpdate={setProfileToUpdate}
-              />
+              <Pressable
+                // :remove-start:
+                style={[
+                  profileToUpdate == item.name ? styles.selected : null,
+                  styles.profileItem,
+                ]}
+                // :remove-end:
+                onPress={() => {
+                  setProfileToUpdate(item.name);
+                }}>
+                <Text style={styles.profileName}>{item.name}</Text>
+              </Pressable>
             )}
             keyExtractor={item => item.name}
           />
@@ -68,32 +76,9 @@ export const Update = () => {
       />
     </View>
   );
+  // :replace-end:
 };
-
-interface ProfileTypes {
-  profile: string;
-  profileToUpdate: string;
-  setProfileToUpdate: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const ProfileItem = ({
-  profile,
-  profileToUpdate,
-  setProfileToUpdate,
-}: ProfileTypes) => {
-  return (
-    <Pressable
-      style={[
-        profileToUpdate == profile ? styles.selected : null,
-        styles.profileItem,
-      ]}
-      onPress={() => {
-        setProfileToUpdate(profile);
-      }}>
-      <Text style={styles.profileName}>{profile}</Text>
-    </Pressable>
-  );
-};
+// :snippet-end:
 
 const styles = StyleSheet.create({
   heading: {

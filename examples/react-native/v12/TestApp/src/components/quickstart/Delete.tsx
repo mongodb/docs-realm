@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {Text, FlatList, View, StyleSheet, Pressable} from 'react-native';
-import {useRealm, useQuery} from '@realm/react';
-
-import {Profile} from '../../models';
+import {StyleSheet} from 'react-native';
 import {Button} from '../utility-components/Button';
+// :snippet-start: qs-delete
+import React, {useState} from 'react';
+import {Text, FlatList, View, Pressable} from 'react-native';
+import {useRealm, useQuery} from '@realm/react';
+import {Profile} from '../../models';
 
 export const Delete = () => {
   const realm = useRealm();
@@ -20,6 +21,12 @@ export const Delete = () => {
     });
   };
 
+  // :replace-start: {
+  //    "terms": {
+  //       " style={styles.heading}": "",
+  //       " style={styles.profileName}": ""
+  //    }
+  // }
   return (
     <View>
       <Text style={styles.heading}>Delete</Text>
@@ -32,11 +39,18 @@ export const Delete = () => {
             data={profiles}
             horizontal={true}
             renderItem={({item}) => (
-              <ProfileItem
-                profile={item.name}
-                profileToDelete={profileToDelete}
-                setProfileToDelete={setProfileToDelete}
-              />
+              <Pressable
+                // :remove-start:
+                style={[
+                  profileToDelete == item.name ? styles.selected : null,
+                  styles.profileItem,
+                ]}
+                // :remove-end:
+                onPress={() => {
+                  setProfileToDelete(item.name);
+                }}>
+                <Text style={styles.profileName}>{item.name}</Text>
+              </Pressable>
             )}
             keyExtractor={item => item.name}
           />
@@ -51,32 +65,9 @@ export const Delete = () => {
       />
     </View>
   );
+  // :replace-end:
 };
-
-interface ProfileTypes {
-  profile: string;
-  profileToDelete: string;
-  setProfileToDelete: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const ProfileItem = ({
-  profile,
-  profileToDelete,
-  setProfileToDelete,
-}: ProfileTypes) => {
-  return (
-    <Pressable
-      style={[
-        profileToDelete == profile ? styles.selected : null,
-        styles.profileItem,
-      ]}
-      onPress={() => {
-        setProfileToDelete(profile);
-      }}>
-      <Text style={styles.profileName}>{profile}</Text>
-    </Pressable>
-  );
-};
+// :snippet-end:
 
 const styles = StyleSheet.create({
   heading: {

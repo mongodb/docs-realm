@@ -100,7 +100,7 @@ For detailed descriptions of ``RealmProvider`` and its hooks, refer to
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
 .. _react-native-quickstart-local-watch-a-collection:
 
-Find, Sort, and Filter Objects
+Read, Sort, and Filter Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``@realm/react`` provides hooks to help you find a collection of Realm objects
@@ -116,34 +116,29 @@ To learn more, refer to :ref:`Query Data <react-native-query-data>`.
    
 .. include:: /examples/generated/react-native/v12/Read.snippet.qs-find-sort-filter.tsx.rst
 
+Read Operations Outside of hooks
+````````````````````````````````
+
+Sometimes, you may need to use Realm read operations, but not at the top level
+of your React Native component. Because hooks only work at the top level of
+components, you can't use the ``@realm/react`` hooks in these situations.
+
+Instead, you can use :js-sdk:`Realm.objects <classes/Realm-1.html#objects>` for
+collections or :js-sdk:`Realm.objectForPrimaryKey 
+<classes/Realm-1.html#objectForPrimaryKey>` a single object.
+
 .. _react-native-quickstart-local-create-realm-objects:
 .. _react-native-quickstart-local-modify-an-object:
 .. _react-native-quickstart-local-delete-an-object:
 
-Create, Modify, and Delete Realm Objects
+Create, Update, and Delete Realm Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After accessing the realm with ``useRealm()``, you can create, modify,
-and delete objects inside of the realm in a :realm-react-sdk:`Realm.write() 
-<classes/Realm-1.html#write>` transaction block.
+After accessing the realm with ``useRealm()``, you can create, update,
+and delete objects inside of the realm. All operations must be in a 
+:realm-react-sdk:`Realm.write() <classes/Realm-1.html#write>` transaction block.
 
 To learn more, refer to :ref:`Write Transactions <react-native-write-transactions>`.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart-userealm.test.snippet.quickstart-setup.tsx
-         :language: typescript
-         :emphasize-lines: 44, 47-49
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart-userealm.test.snippet.quickstart-setup.jsx
-         :language: javascript
-         :emphasize-lines: 37, 40-42
 
 Create Objects
 ``````````````
@@ -153,62 +148,26 @@ initial values, and add it to the realm in a write transaction block.
 
 To learn more, refer to :ref:`CRUD - Create <react-native-create-objects>`.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-create.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.objects-create.jsx
-         :language: javascript
+.. include:: /examples/generated/react-native/v12/Read.snippet.qs-create.tsx.rst
 
 Update Objects
 ``````````````
 
-To update a Realm Object, update its properties in a write transaction block.
+To update a Realm object, update its properties in a write transaction block.
 
 To learn more, refer to :ref:`CRUD - Update <react-native-update-objects>`.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-modify.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.objects-modify.jsx
-         :language: javascript
+.. include:: /examples/generated/react-native/v12/Read.snippet.qs-update.tsx.rst
 
 Delete Objects
 ``````````````
 
-To delete a Realm Object, call the :realm-react-sdk:`Realm.delete() 
-<classes/Realm-1.html#delete>` method in a write transaction block.
+To delete a Realm object, pass the object to :realm-react-sdk:`Realm.delete() 
+<classes/Realm-1.html#delete>` within a write transaction block.
 
 To learn more, refer to :ref:`CRUD - Delete <react-native-delete-objects>`.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart.test.snippet.objects-delete.tsx
-         :language: typescript
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart.test.snippet.objects-delete.jsx
-         :language: javascript
+.. include:: /examples/generated/react-native/v12/Read.snippet.qs-delete.tsx.rst
 
 .. _react-native-quickstart-local-close-a-realm:
 
