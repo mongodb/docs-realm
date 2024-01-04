@@ -1,8 +1,8 @@
 .. _cpp-stream-data-to-atlas:
 
-======================================
-Stream Data to Atlas - C++ SDK Preview
-======================================
+==============================
+Stream Data to Atlas - C++ SDK
+==============================
 
 .. meta:: 
   :keywords: code example
@@ -41,9 +41,6 @@ Sync Data Unidirectionally from a Client Application
       To stream data from the client to your backend App, you must 
       :ref:`connect to an App Services backend <cpp-connect-to-backend>` 
       and :ref:`authenticate a user <cpp-authenticate-users>`.
-
-      .. versionchanged:: 0.2.0 app.login returns std::future instead of std::promise
-      .. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
 
       .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.connect-and-authenticate.cpp
          :language: cpp

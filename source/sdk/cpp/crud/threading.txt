@@ -1,8 +1,8 @@
 .. _cpp-client-threading:
 
-===========================
-Threading - C++ SDK Preview
-===========================
+===================
+Threading - C++ SDK
+===================
 
 .. meta:: 
   :keywords: code example
@@ -141,8 +141,6 @@ instances will map to the same file on disk.
 Pass Immutable Copies Across Threads
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: v0.5.0-preview & v0.6.0-preview
-
 Live, thread-confined objects work fine in most cases.
 However, some apps -- those based on reactive, event
 stream-based architectures, for example -- need to send
@@ -254,9 +252,6 @@ instead of blocking the UI.
 
 Schedulers (Run Loops)
 ----------------------
-
-.. versionchanged:: v0.6.0-preview 
-   ``realm::Function`` replaced with ``std::function``
 
 Some platforms or frameworks automatically set up a **scheduler** (or **run
 loop**), which continuously processes events during the lifetime of your

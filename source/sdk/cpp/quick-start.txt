@@ -1,9 +1,9 @@
 .. _cpp-client-quick-start:
 .. _cpp-client-quick-start-with-sync:
 
-=============================
-Quick Start - C++ SDK Preview
-=============================
+=====================
+Quick Start - C++ SDK
+=====================
 
 .. contents:: On this page
    :local:
@@ -87,6 +87,15 @@ You can watch an :ref:`object for changes
 <cpp-react-to-changes>` with the ``observe`` method.
 
 .. literalinclude:: /examples/generated/cpp/quick-start.snippet.watch-for-changes.cpp
+   :language: cpp
+
+Close a Realm
+-------------
+
+To close a realm and release all underlying resources, call ``db::close()``.
+Closing the database invalidates any remaining objects.
+
+.. literalinclude:: /examples/generated/cpp/close-realm.snippet.close-realm.cpp
    :language: cpp
 
 Add Device Sync (Optional)

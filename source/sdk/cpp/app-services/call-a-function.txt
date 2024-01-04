@@ -1,8 +1,8 @@
 .. _cpp-call-a-function:
 
-=================================
-Call a Function - C++ SDK Preview
-=================================
+=========================
+Call a Function - C++ SDK
+=========================
 
 .. meta:: 
   :keywords: code example
@@ -40,9 +40,6 @@ To execute a function from the C++ SDK, use the
 member function on the ``user`` object. Pass in the name of the 
 function as a string for the first parameter. This function takes two arguments,
 which we provide as a ``BsonArray`` of arguments:
-
-.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
-.. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
 
 .. literalinclude:: /examples/generated/cpp/call-function.snippet.call-a-function.cpp
    :language: cpp

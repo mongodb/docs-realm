@@ -1,8 +1,8 @@
 .. _cpp-encrypt-a-realm:
 
-=================================
-Encrypt a Realm - C++ SDK Preview
-=================================
+=========================
+Encrypt a Realm - C++ SDK
+=========================
 
 .. contents:: On this page
    :local:
@@ -23,8 +23,6 @@ integrity using a :wikipedia:`hash-based message authentication code
 
 .. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
 
-.. versionadded:: v0.4.0-preview
-
 Encrypt a realm by calling the ``set_encryption_key()`` function on
 your :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`:
 
@@ -34,7 +32,7 @@ your :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.h
 
 .. tip:: You cannot encrypt a realm that already exists on device
 
-   The C++ SDK Preview does not yet support encrypting a realm that already 
+   The C++ SDK does not yet support encrypting a realm that already 
    exists on device. You must encrypt the realm the first time you open it.
 
 Store & Reuse Keys

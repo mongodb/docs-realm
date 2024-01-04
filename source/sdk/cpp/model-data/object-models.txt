@@ -1,8 +1,8 @@
 .. _cpp-object-models:
 
-===============================
-Object Models - C++ SDK Preview
-===============================
+=======================
+Object Models - C++ SDK
+=======================
 
 .. contents:: On this page
    :local:
@@ -89,7 +89,7 @@ information it needs to store and retrieve objects.
 Define a New Object Type
 ------------------------
 
-In the C++ SDK Preview, you can define your models or classes as regular 
+In the C++ SDK, you can define your models or classes as regular 
 C++ structs. Provide a :ref:`cpp-object-schema` with the struct name and 
 the names of any properties that you want Realm to persist. When you add 
 the object to a realm, the SDK ignores any properties that you omit from 
@@ -202,13 +202,10 @@ Atlas App Services App.
 An ``asymmetric_object`` broadly has the same :ref:`supported types 
 <cpp-supported-property-types>` as ``realm::object``, with a few exceptions:
 
-- Asymmetric objects can only link to embedded objects in some versions
-   - ``object`` and ``std::vector<object>`` properties are not supported 
-     in C++ SDK versions v0.4.0-preview and earlier. In C++ SDK versions
-     v0.4.0-preview and later, asymmetric objects can link to ``object``
-     types in addition to ``embedded_object`` types.
-   - ``embedded_object`` and ``std::vector<embedded_object>`` links *are* 
-     supported in all versions of the C++ SDK that support Data Ingest.
+- Asymmetric objects can link to the following types:
+  - ``object``
+  - ``embedded_object``
+  - ``std::vector<embedded_object>``
 
 Asymmetric objects do not function in the same way as other Realm objects. 
 You cannot:
@@ -222,7 +219,7 @@ to the Atlas database linked to your App with Device Sync.
 For more information, see: :ref:`Create an Asymmetric Object 
 <cpp-create-asymmetric-object>`.
 
-In the C++ SDK Preview, define an asymmetric object the same way you would 
+In the C++ SDK, define an asymmetric object the same way you would 
 a regular C++ struct. Provide a ``REALM_ASYMMETRIC_SCHEMA`` with the struct 
 name and the names of any properties that you want Realm to persist.
 

@@ -1,8 +1,8 @@
 .. _cpp-connect-to-backend:
 
-=========================================
-Connect to App Services - C++ SDK Preview
-=========================================
+=================================
+Connect to App Services - C++ SDK
+=================================
 
 .. meta:: 
   :keywords: code example
@@ -39,8 +39,6 @@ To learn how to find your App ID in the App Services UI, refer to
 Access the App Client
 ---------------------
 
-.. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
-
 #. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
 #. Create an :cpp-sdk:`App object <classrealm_1_1App.html>` 
    with your App's ID as the argument. You use this ``App`` instance to access 
@@ -51,7 +49,7 @@ Access the App Client
 
 .. tip:: Building an Android App
 
-   When building an Android app that uses the Realm C++ SDK Preview, 
+   When building an Android app that uses the Realm C++ SDK, 
    you must pass the ``filesDir.path`` to the ``file_path`` parameter in the 
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
@@ -60,8 +58,6 @@ Access the App Client
 
 Set Custom HTTP Headers
 -----------------------
-
-.. versionchanged:: v0.4.0-preview replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
 
 If you use App Services or Device Sync with a proxy setup, you may need
 to set custom HTTP headers. The Realm C++ SDK supports setting custom 
@@ -86,8 +82,6 @@ additionally :ref:`set the headers on the Flexible Sync configuration
 Use an HTTP Proxy with Realm
 ----------------------------
 
-.. versionadded:: v0.5.0-preview
-
 If you have configured an HTTP proxy, you can use HTTP tunneling to 
 route your Realm traffic. 
 
@@ -106,8 +100,6 @@ To configure Realm to use your HTTP proxy:
 
 Encrypt App Metadata
 --------------------
-
-.. versionadded:: v0.4.0-preview
 
 When you connect to App Services, Realm creates additional metadata files 
 on a device. For more information about these metadata files, refer to 

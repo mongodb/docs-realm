@@ -1,9 +1,9 @@
 .. _cpp-configure-and-open-a-realm:
 .. _cpp-realms:
 
-==========================================
-Configure & Open a Realm - C++ SDK Preview
-==========================================
+==================================
+Configure & Open a Realm - C++ SDK
+==================================
 
 .. meta:: 
   :keywords: code example
@@ -116,7 +116,7 @@ Open the Default Realm
 Opening a realm without specifying an optional path opens the default realm 
 in the current directory.
 
-When opening a realm, the C++ SDK Preview can automatically infer which 
+When opening a realm, the C++ SDK can automatically infer which 
 models are available in the project. You don't need to manually specify 
 the available models unless you are opening a realm to sync data 
 unidirectionally with asymmetric objects. For more information, refer to 
@@ -127,7 +127,7 @@ Open a Synced Realm on this page.
 
 .. tip:: Building an Android App
 
-   When building an Android app that uses the Realm C++ SDK Preview, 
+   When building an Android app that uses the Realm C++ SDK, 
    you must pass the ``filesDir.path`` to the ``path`` parameter in the 
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
@@ -145,7 +145,7 @@ to use when opening the realm.
 
 .. tip:: Building an Android App
 
-   When building an Android app that uses the Realm C++ SDK Preview, 
+   When building an Android app that uses the Realm C++ SDK, 
    you must pass the ``filesDir.path`` as the ``path`` parameter in the
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
@@ -181,7 +181,7 @@ information, refer to :ref:`cpp-stream-data-to-atlas`.
 
 .. tip:: Building an Android App
 
-   When building an Android app that uses the Realm C++ SDK Preview, 
+   When building an Android app that uses the Realm C++ SDK, 
    you must pass the ``filesDir.path`` to the ``path`` parameter in the 
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
@@ -190,8 +190,6 @@ information, refer to :ref:`cpp-stream-data-to-atlas`.
 
 Set Custom HTTP Headers When Using a Synced Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: v0.3.0-preview
 
 To use custom HTTP headers with Device Sync, you must :ref:`set the headers
 on the App <cpp-set-custom-http-headers-on-app>` *and* on the 
@@ -227,4 +225,15 @@ can specify those models by passing them into the template parameter list
 of the ``realm::open()`` function.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.realm-specify-classes.cpp
+
+.. _cpp-close-realm:
+
+Close a Realm
+-------------
+
+To avoid memory leaks, close the database when you're done using it. Closing
+the database invalidates any remaining objects. Close the database with 
+``db::close()``.
+
+.. literalinclude:: /examples/generated/cpp/close-realm.snippet.close-realm-and-related-methods.cpp
    :language: cpp
