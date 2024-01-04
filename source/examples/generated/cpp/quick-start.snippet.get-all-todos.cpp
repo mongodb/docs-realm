@@ -1,1 +1,1 @@
-auto todos = realm.objects<Todo>();
+auto todos = realm.objects<realm::Todo>();

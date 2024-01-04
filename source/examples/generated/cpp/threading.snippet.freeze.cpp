@@ -1,23 +1,24 @@
-auto realm = db(std::move(config));
+auto realm = realm::db(std::move(config));
 
-// Get an immutable copy of the realm that can be passed across threads.
+// Get an immutable copy of the database that can be passed across threads.
 auto frozenRealm = realm.freeze();
 
 if (frozenRealm.is_frozen()) {
-  // Do something with the frozen realm.
+  // Do something with the frozen database.
   // You may pass a frozen realm, collection, or objects
   // across threads. Or you may need to `.thaw()`
   // to make it mutable again.
 }
 
 // You can freeze collections.
-auto managedItems = realm.objects<Item>();
+auto managedItems = realm.objects<realm::Item>();
 auto frozenItems = managedItems.freeze();
 
 CHECK(frozenItems.is_frozen());
 
-// You can read from frozen realms.
-auto itemsFromFrozenRealm = frozenRealm.objects<Item>();
+// You can read from frozen databases.
+auto itemsFromFrozenRealm =
+    frozenRealm.objects<realm::Item>();
 
 CHECK(itemsFromFrozenRealm.is_frozen());
 

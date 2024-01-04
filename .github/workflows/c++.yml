@@ -15,44 +15,34 @@ jobs:
         id: filter
         with:
           filters: |
-            alpha:
-              - 'examples/cpp/alpha/**'
-            beta-asymmetric:
-              - 'examples/cpp/beta/asymmetric/**'
-            beta-local:
-              - 'examples/cpp/beta/local/**'
-            beta-sync:
-              - 'examples/cpp/beta/sync/**'
+            asymmetric:
+              - 'examples/cpp/asymmetric/**'
+            local:
+              - 'examples/cpp/local/**'
+            sync:
+              - 'examples/cpp/sync/**'
 
-      - name: Realm C++ Alpha Tests
-        if: steps.filter.outputs.alpha == 'true'
+      - name: Realm C++ Asymmetric Tests
+        if: steps.filter.outputs.asymmetric == 'true'
         run: |
-          cd examples/cpp/alpha
+          cd examples/cpp/asymmetric
           mkdir build && cd build
           cmake ..
-          make
-          ./examples
-      - name: Realm C++ Beta Asymmetric Tests
-        if: steps.filter.outputs.beta-asymmetric == 'true'
+          cmake --build .
+          ./examples-asymmetric
+      - name: Realm C++ Local Tests
+        if: steps.filter.outputs.local == 'true'
         run: |
-          cd examples/cpp/beta/asymmetric
+          cd examples/cpp/local
           mkdir build && cd build
           cmake ..
-          make
-          ./examples-beta-asymmetric
-      - name: Realm C++ Beta Local Tests
-        if: steps.filter.outputs.beta-local == 'true'
+          cmake --build .
+          ./examples-local
+      - name: Realm C++ Sync Tests
+        if: steps.filter.outputs.sync == 'true'
         run: |
-          cd examples/cpp/beta/local
+          cd examples/cpp/sync
           mkdir build && cd build
           cmake ..
-          make
-          ./examples-beta-local
-      - name: Realm C++ Beta Flexible Sync Tests
-        if: steps.filter.outputs.beta-sync == 'true'
-        run: |
-          cd examples/cpp/beta/sync
-          mkdir build && cd build
-          cmake ..
-          make
-          ./examples-beta-sync
+          cmake --build .
+          ./examples-sync

@@ -1,1 +1,1 @@
-realm::persisted<realm::uuid> uuidName;
+realm::uuid uuidName;

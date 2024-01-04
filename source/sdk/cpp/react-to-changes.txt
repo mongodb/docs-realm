@@ -48,23 +48,8 @@ of the fields.
 When you make changes, :cpp-sdk:`refresh() <structrealm_1_1db.html>` the 
 realm to emit a notification.
 
-.. example::
-
-   .. tabs::
-
-      .. tab:: Current
-         :tabid: current
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-object.cpp
-            :language: cpp
-
-         .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-      .. tab:: Deprecated
-         :tabid: deprecated
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
-            :language: cpp
+.. literalinclude:: /examples/generated/cpp/notifications.snippet.object.cpp
+   :language: cpp
 
 .. _cpp-register-a-collection-change-listener:
 
@@ -94,39 +79,16 @@ Collection notifications provide a :cpp-sdk:`collection_change
 struct that reports the index of the objects that are removed, added, or 
 modified. It can also notify you if the collection was deleted.
 
-.. example::
+In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
 
-   .. tabs::
+.. literalinclude:: /examples/generated/cpp/notifications.snippet.collection-model.cpp
+   :language: cpp
 
-      .. tab:: Current
-         :tabid: current
+Removing a dog, adding a new dog, or modifying a dog triggers the notification
+handler:
 
-         In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-collection-model.cpp
-            :language: cpp
-
-         Removing a dog, adding a new dog, or modifying a dog triggers the notification
-         handler:
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-collection.cpp
-            :language: cpp
-
-         .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-      .. tab:: Deprecated
-         :tabid: deprecated
-
-         In this example, the ``Person`` object has a list of ``Dog`` objects as a property:
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection-model.cpp
-            :language: cpp
-
-         Removing a dog, adding a new dog, or modifying a dog triggers the notification
-         handler:
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.collection.cpp
-            :language: cpp
+.. literalinclude:: /examples/generated/cpp/notifications.snippet.collection.cpp
+   :language: cpp
 
 .. _cpp-register-a-results-collection-change-listener:
 
@@ -155,23 +117,8 @@ Results collection notifications provide a :cpp-sdk:`results_change
 reports the index of the objects that are deleted, added, or modified.
 It can also notify you if the collection was deleted.
 
-.. example::
-
-   .. tabs::
-
-      .. tab:: Current
-         :tabid: current
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.beta-results.cpp
-            :language: cpp
-
-         .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-      .. tab:: Deprecated
-         :tabid: deprecated
-
-         .. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
-            :language: cpp
+.. literalinclude:: /examples/generated/cpp/notifications.snippet.results.cpp
+   :language: cpp
 
 .. _cpp-stop-watching-for-changes:
 

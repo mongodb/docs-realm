@@ -23,39 +23,18 @@ Realm. A realm is a collection of the objects that you use
 in your application, called Realm objects, as well as additional metadata 
 that describe the objects.
 
-.. tabs::
+When opening a realm, you must specify a :cpp-sdk:`db_config 
+<structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
+The ``db_config`` may contain information such as:
 
-   .. tab:: Current
-      :tabid: current
+- An optional path where the realm is stored on device
+- An optional list of models that the realm should manage
+- An optional scheduler if you need to customize the run loop
+- A ``sync_config`` if you want to use the realm with Device Sync
 
-      When opening a realm using the ``realm::experimental`` namespace, 
-      you must specify a :cpp-sdk:`db_config 
-      <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
-      The ``db_config`` may contain information such as:
-
-      - An optional path where the realm is stored on device
-      - An optional list of models that the realm should manage
-      - An optional scheduler if you need to customize the run loop
-      - A ``sync_config`` if you want to use the realm with Device Sync
-
-      You can use the default ``db_config`` constructor if you do not need
-      to specify a realm file path, a Device Sync configuration, or other
-      configuration details.
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      When you open a realm, the ``open`` or ``async_open`` templates 
-      construct a :cpp-sdk:`db_config 
-      <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` that 
-      specifies details about how to configure the realm file. This can include:
-
-      - The models that the realm file should manage
-      - An optional path where the realm is stored on device
-      - An optional scheduler if you need to customize the run loop
-      - A ``sync_config`` if you want to use the realm with Device Sync
+You can use the default ``db_config`` constructor if you do not need
+to specify a realm file path, a Device Sync configuration, or other
+configuration details.
 
 .. _cpp-realm-file:
 
@@ -137,28 +116,14 @@ Open the Default Realm
 Opening a realm without specifying an optional path opens the default realm 
 in the current directory.
 
-.. tabs::
+When opening a realm, the C++ SDK can automatically infer which 
+models are available in the project. You don't need to manually specify 
+the available models unless you are opening a realm to sync data 
+unidirectionally with asymmetric objects. For more information, refer to 
+Open a Synced Realm on this page.
 
-   .. tab:: Current
-      :tabid: current
-
-      When opening a realm using the ``realm::experimental`` namespace, the 
-      C++ SDK can automatically infer which models are available in the
-      project. You don't need to manually specify the available models.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      When opening a realm, you must specify which models are available by passing 
-      the models into the template parameter list of the ``realm::open()`` function.
-
-      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.open-realm.cpp
+   :language: cpp
 
 .. tip:: Building an Android App
 
@@ -172,27 +137,11 @@ in the current directory.
 Open a Realm at a File Path
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs::
+You can use ``set_path()`` to specify a path for the ``db_config`` 
+to use when opening the realm.
 
-   .. tab:: Current
-      :tabid: current
-
-      You can use ``set_path()`` to specify a path for the ``db_config`` 
-      to use when opening the realm.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-open-realm-at-path.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      If you need to open a realm at a specific file path, you can pass a path 
-      to the realm open template.
-
-      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-realm-at-path.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.open-db-at-path.cpp
+   :language: cpp
 
 .. tip:: Building an Android App
 
@@ -217,38 +166,18 @@ To open a synced realm:
 #. Create a sync configuration.
 #. Open the user's synced realm with the configuration.
 
-.. tabs::
+.. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.flexible-sync-prerequisites.cpp
+   :language: cpp
 
-   .. tab:: Current
-      :tabid: current
+When you open a synced realm, you don't need to pass the models you 
+want the realm to manage into the template parameter list of the 
+open function. This is a change from the deprecated Alpha API.
 
-      .. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
-
-      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.beta-flexible-sync-prerequisites.cpp
-         :language: cpp
-
-      When you open a synced realm, you don't need to pass the models you 
-      want the realm to manage into the template parameter list of the 
-      open function. This is a change from the deprecated Alpha API.
-
-      The only exception to this rule is opening a synced realm to sync
-      ``asymmetric_object`` types. When you open a synced realm to sync 
-      ``asymmetric_object`` types, you must explicitly specify the objects
-      in the template parameter list for the open function. For more 
-      information, refer to :ref:`cpp-stream-data-to-atlas`.
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      To open a synced realm, pass the models you want the realm to manage into the 
-      template parameter list of the :cpp-sdk:`async_open 
-      <structrealm_1_1async__open__promise.html>` function, and pass the configuration 
-      as an argument to the function.
-
-      .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.open-a-synced-realm.cpp
-         :language: cpp
+The only exception to this rule is opening a synced realm to sync
+``asymmetric_object`` types. When you open a synced realm to sync 
+``asymmetric_object`` types, you must explicitly specify the objects
+in the template parameter list for the open function. For more 
+information, refer to :ref:`cpp-stream-data-to-atlas`.
 
 .. tip:: Building an Android App
 
@@ -287,32 +216,15 @@ Provide a Subset of Models to a Realm
    To optimize your realm memory usage for low-memory environments, open the 
    realm with a subset of models.
 
-.. tabs::
+By default, the C++ SDK automatically adds all object types that have a
+:ref:`cpp-object-schema` in your executable to your 
+:ref:`cpp-realm-schema`. 
 
-   .. tab:: Current
-      :tabid: current
+However, if you want the realm to manage only a subset of models, you
+can specify those models by passing them into the template parameter list
+of the ``realm::open()`` function.
 
-      By default, the C++ SDK automatically adds all object types that have a
-      :ref:`cpp-object-schema` in your executable to your 
-      :ref:`cpp-realm-schema`. 
-
-      However, if you want the realm to manage only a subset of models, you
-      can specify those models by passing them into the template parameter list
-      of the ``realm::experimental::open()`` function.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-realm-specify-classes.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      When opening a realm, you must specify which models are available by passing 
-      the models into the template parameter list of the ``realm::open()`` function.
-
-      .. literalinclude:: /examples/generated/cpp/open-realm.snippet.open-default-realm.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.realm-specify-classes.cpp
 
 .. _cpp-close-realm:
 

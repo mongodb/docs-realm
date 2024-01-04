@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.25)
+
+project(examples-asymmetric)
+
+set(CMAKE_CXX_STANDARD 17)
+
+Include(FetchContent)
+
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.5.0
+)
+FetchContent_Declare(
+  cpprealm
+  GIT_REPOSITORY https://github.com/realm/realm-cpp.git
+  GIT_TAG        8eba9728ea535a6cd78beaef37ed6d22b73fe889
+)
+
+FetchContent_MakeAvailable(Catch2 cpprealm)
+
+add_executable(examples-asymmetric 
+  asymmetric-sync.cpp
+)
+
+target_link_libraries(examples-asymmetric PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(examples-asymmetric PRIVATE cpprealm)
