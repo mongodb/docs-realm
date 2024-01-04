@@ -320,7 +320,8 @@ Close a Realm
 -------------
 
 To avoid memory leaks, close the database when you're done using it. Closing
-the database any remaining objects. Close the database with ``db::close()``.
+the database invalidates any remaining objects. Close the database with 
+``db::close()``.
 
 .. literalinclude:: /examples/generated/cpp/close-realm.snippet.close-realm-and-related-methods.cpp
    :language: cpp
