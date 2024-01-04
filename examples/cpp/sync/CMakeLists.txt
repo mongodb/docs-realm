@@ -23,6 +23,7 @@ add_executable(examples-sync
   app.cpp
   authentication.cpp
   call-function.cpp
+  client-reset.cpp
   custom-user-data.cpp
   flexible-sync.cpp
   quick-start.cpp

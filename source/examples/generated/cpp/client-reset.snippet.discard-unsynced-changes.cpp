@@ -5,4 +5,4 @@ auto syncConfig = user.flexible_sync_configuration();
 syncConfig.set_client_reset_handler(
     realm::client_reset::discard_unsynced_changes(beforeReset, afterReset));
 
-auto syncedRealm = realm::experimental::db(syncConfig);
+auto syncedRealm = realm::db(syncConfig);
