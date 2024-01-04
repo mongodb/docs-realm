@@ -142,39 +142,34 @@ void testSignInWithAppleAuthSyntax() {
   // :snippet-end:
 }
 
-// TODO: This has been renamed to realm::App::credentials::google_auth_code
-// but is not working here. Figure out how to use it in the updated SDK.
-// void testSignInWithGoogleAuthCodeSyntax() {
-//   auto myAuthCode = "some auth code string";
-//   auto authCode = realm::App::credentials::auth_code{myAuthCode};
+void testSignInWithGoogleAuthCodeSyntax() {
+  auto myAuthCode = "some auth code string";
 
-//   // :snippet-start: google-auth-code
-//   auto appConfig = realm::App::configuration();
-//   appConfig.app_id = APP_ID;
-//   auto app = realm::App(appConfig);
+  // :snippet-start: google-auth-code
+  auto appConfig = realm::App::configuration();
+  appConfig.app_id = APP_ID;
+  auto app = realm::App(appConfig);
 
-//   // The auth_code below is the user's server auth code you got from Google
-//   auto user = app.login(realm::App::credentials::google(authCode)).get();
-//   // :snippet-end:
-// }
+  // The auth_code below is the user's server auth code you got from Google
+  auto user =
+      app.login(realm::App::credentials::google_auth_code(myAuthCode)).get();
+  // :snippet-end:
+}
 
-// TODO: This has been renamed to realm::App::credentials::google_id_token
-// but is not working here. Figure out how to use it in the updated SDK.
-// void testSignInWithGoogleIdTokenSyntax() {
-//   auto myIdToken = "some ID token string";
-//   auto idToken = realm::App::credentials::id_token{myIdToken};
+void testSignInWithGoogleIdTokenSyntax() {
+  auto myIdToken = "some ID token string";
 
-//   // :snippet-start: google-id-token
-//   auto appConfig = realm::App::configuration();
-//   appConfig.app_id = APP_ID;
-//   auto app = realm::App(appConfig);
+  // :snippet-start: google-id-token
+  auto appConfig = realm::App::configuration();
+  appConfig.app_id = APP_ID;
+  auto app = realm::App(appConfig);
 
-//   // The id_token below is the user's OpenID Connect id_token you got from
-//   the
-//   // Google OAuth response
-//   auto user = app.login(realm::App::credentials::google(idToken)).get();
-//   // :snippet-end:
-// }
+  // The id_token below is the user's OpenID Connect id_token you got from
+  // the Google OAuth response
+  auto user =
+      app.login(realm::App::credentials::google_id_token(myIdToken)).get();
+  // :snippet-end:
+}
 
 TEST_CASE("get the current user", "[realm][sync]") {
   auto appConfig = realm::App::configuration();
