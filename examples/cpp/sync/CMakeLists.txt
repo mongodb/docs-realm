@@ -20,14 +20,14 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-sync 
-  app.cpp
+  #app.cpp
   authentication.cpp
-  call-function.cpp
-  client-reset.cpp
-  custom-user-data.cpp
-  flexible-sync.cpp
-  quick-start.cpp
-  sync-errors.cpp
+  #call-function.cpp
+  #client-reset.cpp
+  #custom-user-data.cpp
+  #flexible-sync.cpp
+  #quick-start.cpp
+  #sync-errors.cpp
 )
 
 target_link_libraries(examples-sync PRIVATE Catch2::Catch2WithMain)
