@@ -20,7 +20,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-sync 
-  #app.cpp
+  app.cpp
   authentication.cpp
   call-function.cpp
   client-reset.cpp
