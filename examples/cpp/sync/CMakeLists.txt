@@ -27,7 +27,7 @@ add_executable(examples-sync
   #custom-user-data.cpp
   flexible-sync.cpp
   quick-start.cpp
-  #sync-errors.cpp
+  sync-errors.cpp
 )
 
 target_link_libraries(examples-sync PRIVATE Catch2::Catch2WithMain)
