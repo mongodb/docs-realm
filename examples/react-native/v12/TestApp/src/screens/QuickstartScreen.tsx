@@ -2,7 +2,8 @@ import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {Quickstart} from '../components/quickstart/nonsync/RealmWrapper';
+import {AppWrapper} from '../components/quickstart/nonsync/RealmWrapper';
+import {AppWrapperSync} from '../components/quickstart/sync/RealmWrapperSync';
 
 import {
   QuickstartStackParamList,
@@ -19,13 +20,13 @@ export const QuickstartScreen = () => {
         component={QuickstartHome}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="QuickstartSync"
         component={AppWrapperSync}
-      /> */}
+      />
       <Stack.Screen
         name="QuickstartNoSync"
-        component={Quickstart}
+        component={AppWrapper}
       />
     </Stack.Navigator>
   );

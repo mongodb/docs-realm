@@ -5,7 +5,7 @@
    // Import your models
    import {Profile} from '../../../models';
 
-   export const Quickstart = () => {
+   export const AppWrapper = () => {
      return (
        <RealmProvider schema={[Profile]}>
          <RestOfApp />

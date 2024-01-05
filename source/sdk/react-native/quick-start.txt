@@ -59,10 +59,10 @@ object type.
    ``name`` properties. The name value must be unique among object types in your 
    realm.
 
+.. include:: /examples/generated/react-native/v12/models.snippet.qs-define-model.ts.rst
+
 To learn more, refer to
 :ref:`Define a Realm Object Model <react-native-define-a-realm-object-model>`.
-
-.. include:: /examples/generated/react-native/v12/models.snippet.qs-define-model.ts.rst
 
 .. _react-native-quickstart-local-import-realm:
 .. _react-native-quickstart-local-open-a-realm:
@@ -111,10 +111,10 @@ or a single Realm object.
 
 As part of ``useQuery()``, you can filter or sort the results using 
 :ref:`Realm Query Language (RQL) <rql>`.
-
-To learn more, refer to :ref:`Query Data <react-native-query-data>`.
    
 .. include:: /examples/generated/react-native/v12/Read.snippet.qs-find-sort-filter.tsx.rst
+
+To learn more, refer to :ref:`Query Data <react-native-query-data>`.
 
 Read Operations Outside of hooks
 ````````````````````````````````
@@ -146,18 +146,18 @@ Create Objects
 To create a new Realm object, specify the object type, pass in the object's
 initial values, and add it to the realm in a write transaction block.
 
-To learn more, refer to :ref:`CRUD - Create <react-native-create-objects>`.
+.. include:: /examples/generated/react-native/v12/Create.snippet.qs-create.tsx.rst
 
-.. include:: /examples/generated/react-native/v12/Read.snippet.qs-create.tsx.rst
+To learn more, refer to :ref:`CRUD - Create <react-native-create-objects>`.
 
 Update Objects
 ``````````````
 
 To update a Realm object, update its properties in a write transaction block.
 
-To learn more, refer to :ref:`CRUD - Update <react-native-update-objects>`.
+.. include:: /examples/generated/react-native/v12/Update.snippet.qs-update.tsx.rst
 
-.. include:: /examples/generated/react-native/v12/Read.snippet.qs-update.tsx.rst
+To learn more, refer to :ref:`CRUD - Update <react-native-update-objects>`.
 
 Delete Objects
 ``````````````
@@ -165,22 +165,23 @@ Delete Objects
 To delete a Realm object, pass the object to :realm-react-sdk:`Realm.delete() 
 <classes/Realm-1.html#delete>` within a write transaction block.
 
-To learn more, refer to :ref:`CRUD - Delete <react-native-delete-objects>`.
+.. include:: /examples/generated/react-native/v12/Delete.snippet.qs-delete.tsx.rst
 
-.. include:: /examples/generated/react-native/v12/Read.snippet.qs-delete.tsx.rst
+To learn more, refer to :ref:`CRUD - Delete <react-native-delete-objects>`.
 
 .. _react-native-quickstart-local-close-a-realm:
 
 Add Atlas Device Sync (Optional)
 --------------------------------
 
-After getting your local-only realm running, you can add Atlas Device Sync
-so that your realm's data can sync with a MongoDB Atlas cluster and other client devices.
+After getting your non-sync realm running, you can add Atlas Device Sync.
+This enables your realm data to sync with a MongoDB Atlas cluster and other
+client devices.
 
 To use Device Sync, you need to set up a couple more things:
 
 - Create a backend in Atlas App Services (see the prerequisites below)
-- Configure a Flexible Sync realm instead of a local-only realm
+- Configure a Flexible Sync realm instead of a non-sync realm
 
 Prerequisites
 ~~~~~~~~~~~~~
@@ -194,83 +195,32 @@ Prerequisites
 Configure and Access a Synced Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To configure and access a synced realm:
+To use a Device Sync, you need to configure three ``@realm/react`` providers:
 
-#. Initialize the App using ``AppProvider``
-#. Authenticate a User with ``UserProvider``
-#. Configure a Synced Realm with ``RealmProvider``
+- :ref:`AppProvider (@realm/react) <react-native-app-provider>`
+- :ref:`UserProvider (@realm/react) <react-native-user-provider>`
+- :ref:`RealmProvider (@realm/react) <react-native-realm-provider>`
 
-To learn more, refer to :ref:`Configure a Synced Realm <react-native-synced-realm>`.
-
-Initialize the App using AppProvider
-``````````````````````````````````````
-
-To use App Services features, such as authentication and Device Sync, you must 
-first access your App Services App using your App ID. You can 
-:ref:`find your App ID <find-your-app-id>` in the App Services UI.
-
-.. literalinclude:: /examples/generated/react-native/ts/quickstart-sync-app-provider.test.snippet.app-provider.tsx
-  :language: javascript
-  :emphasize-lines: 6-8
-
-Authenticate a User with UserProvider
-```````````````````````````````````````
-
-Use the ``UserProvider`` to handle sections of your app that need an authenticated user.
-
-To authenticate and log in a user, provide a ``fallback`` prop for ``UserProvider``. 
-This could be a log in screen component or a simple function that calls 
-:js-sdk:`App.logIn() <Realm.App.html#logIn>`. 
-
-Users can only access the parts of your app nested within ``UserProvider``
-after they have authenticated. If there's no authenticated user,
-the ``fallback`` component renders and nested components do not.
-
-.. literalinclude:: /examples/generated/react-native/ts/quickstart-sync-user-provider.test.snippet.user-provider.tsx
-  :language: javascript
-  :emphasize-lines: 8-10
-
-Configure a Synced Realm with RealmProvider
-`````````````````````````````````````````````
-
-After you have initialized your App, authenticated a user, and defined your
+After you initialize your App, authenticate a user, and define your
 object model, you can configure a synced realm. This is similar to configuring
 a local realm. However, you need to add some additional props to the
 ``RealmProvider``.
 
-#. Create the realm's :js-sdk:`Configuration <Realm.html#~Configuration>` object.
-   The Configuration object defines the parameters of a realm and identifies it.
-   When creating a configuration object, make sure to pass your data models into
-   the ``schema`` property.
-#. Create a realm context with ``createRealmContext()``. A realm context is a 
-   `React Context object <https://react.dev/learn/passing-data-deeply-with-context>`__
-   that contains app-wide access to your realm.
-#. Extract the ``RealmProvider`` from the realm context, and then expose it
-   to your app.
-#. Add the ``sync`` property to ``RealmProvider`` and pass it a
-   :realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
-   object. This sync object must contain ``flexible: true``.
+Add the ``sync`` prop to ``RealmProvider`` and pass it a
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
+object. This sync object must contain ``flexible: true`` You should also add
+:ref:`initial subscriptions <react-native-sync-bootstrap-initial-subscriptions>`.
+You must have at least one sync subscription before you can read or write synced
+data.
 
-You need at least one sync subscription before you can read or write synced data.
-You can add subscriptions in your components or set up 
-:ref:`initial subscriptions <react-native-sync-bootstrap-initial-subscriptions>` on
-``RealmProvider``.
+**To configure and access a synced realm:** 
 
-.. tabs-realm-languages::
+#. Initialize the App using ``AppProvider``. You can 
+   :ref:`find your App ID <find-your-app-id>` in the App Services UI.
+#. Authenticate a User with ``UserProvider``
+#. Configure a Synced Realm with ``RealmProvider``
 
-   .. tab::
-      :tabid: typescript
-   
-      .. literalinclude:: /examples/generated/react-native/ts/quickstart-sync.test.snippet.quickstart-setup.tsx
-         :language: javascript
-         :emphasize-lines: 34-44
-   
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/react-native/js/quickstart-sync.test.snippet.quickstart-setup.jsx
-         :language: javascript
-         :emphasize-lines: 31-41
+.. include:: /examples/generated/react-native/v12/RealmWrapperSync.snippet.qs-realm-sync.tsx.rst
 
 The syntax to create, read, update, and delete objects in a synced realm is
 identical to the syntax for non-synced realms. While you work with local data, a
