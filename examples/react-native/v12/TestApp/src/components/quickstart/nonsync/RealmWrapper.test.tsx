@@ -1,14 +1,13 @@
 import 'react-native';
 import React from 'react';
-import {BSON} from 'realm';
 import {AppWrapper} from './RealmWrapper';
-import {render, screen, userEvent, within} from '@testing-library/react-native';
+import {render, screen, userEvent} from '@testing-library/react-native';
+
+const user = userEvent.setup();
 
 describe('Quick Start minimum viable app', () => {
   beforeEach(async () => {
     render(<AppWrapper />);
-
-    const user = userEvent.setup();
 
     const createInput = await screen.findByTestId('create-input');
     const createProfileButton = await screen.findByTestId('create-profile');
@@ -23,9 +22,6 @@ describe('Quick Start minimum viable app', () => {
   });
 
   afterEach(async () => {
-    render(<AppWrapper />);
-
-    const user = userEvent.setup();
     const removeButton = await screen.findByTestId('remove-all-objects');
 
     // Delete any existing realm objects
@@ -33,8 +29,6 @@ describe('Quick Start minimum viable app', () => {
   });
 
   test('Read', async () => {
-    render(<AppWrapper />);
-
     // Get profile lists
     const profiles = await screen.findAllByTestId('profile');
     expect(profiles.length).toBeGreaterThan(0);
@@ -52,10 +46,6 @@ describe('Quick Start minimum viable app', () => {
   });
 
   test('Create', async () => {
-    render(<AppWrapper />);
-
-    const user = userEvent.setup();
-
     const createInput = await screen.findByTestId('create-input');
     const createProfileButton = await screen.findByTestId('create-profile');
     const profiles = await screen.findAllByTestId('profile');
@@ -74,8 +64,6 @@ describe('Quick Start minimum viable app', () => {
   });
 
   test('Update', async () => {
-    const user = userEvent.setup();
-
     const profilesToUpdate = await screen.findAllByTestId('profile-to-update');
     // Should already have 2 objects from `beforeEach()`
     expect(profilesToUpdate.length).toBeGreaterThan(0);
@@ -100,8 +88,6 @@ describe('Quick Start minimum viable app', () => {
   });
 
   test('Delete', async () => {
-    const user = userEvent.setup();
-
     // Should already have 2 objects from `beforeEach()`
     const profilesToDelete = await screen.findAllByTestId('profile-to-delete');
     expect(profilesToDelete.length).toBeGreaterThan(0);

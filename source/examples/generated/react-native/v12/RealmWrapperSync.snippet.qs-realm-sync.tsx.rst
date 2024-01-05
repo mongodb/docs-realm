@@ -3,7 +3,6 @@
    import React from 'react';
    import {Credentials} from 'realm';
    import {RealmProvider, AppProvider, UserProvider, useApp} from '@realm/react';
-   import {Button} from 'react-native';
    // Import your models
    import {Profile} from '../../../models';
 
@@ -16,30 +15,20 @@
              schema={[Profile]}
              sync={{
                flexible: true,
-               onError: console.error,
+               onError: (_session, error) => {
+                 console.log(error);
+               },
                initialSubscriptions: {
                  update(subs, realm) {
                    subs.add(realm.objects('Profile'));
                  },
                  rerunOnOpen: true,
                },
-             }}>
+             }}
+             fallback={fallback}>
              <RestOfApp />
            </RealmProvider>
          </UserProvider>
        </AppProvider>
-     );
-   }
-
-   function LogIn() {
-     const app = useApp();
-     async function logInUser() {
-       await app.logIn(Credentials.anonymous());
-     }
-     return (
-       <Button
-         title="Log In"
-         onPress={logInUser}
-       />
      );
    }

@@ -38,7 +38,10 @@
                    onPress={() => {
                      setProfileToUpdate(item.name);
                    }}>
-                   <Text>{item.name}</Text>
+                   <Text
+                    >
+                     {item.name}
+                   </Text>
                  </Pressable>
                )}
                keyExtractor={item => item.name}

@@ -1,4 +1,5 @@
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {useEffect} from 'react';
+import {StyleSheet, View, ScrollView, Text} from 'react-native';
 
 import {Create} from '../Create';
 import {Read} from '../Read';
@@ -10,7 +11,6 @@ import {APP_ID} from '../../../../appServicesConfig';
 import React from 'react';
 import {Credentials} from 'realm';
 import {RealmProvider, AppProvider, UserProvider, useApp} from '@realm/react';
-import {Button} from 'react-native';
 // Import your models
 import {Profile} from '../../../models';
 
@@ -20,37 +20,41 @@ export function AppWrapperSync() {
     <AppProvider id={APP_ID}>
       <UserProvider fallback={LogIn}>
         <RealmProvider
+          path="quickstartsync.realm" // :remove:
           schema={[Profile]}
           sync={{
             flexible: true,
-            onError: console.error,
+            onError: (_session, error) => {
+              console.log(error);
+            },
             initialSubscriptions: {
               update(subs, realm) {
                 subs.add(realm.objects('Profile'));
               },
               rerunOnOpen: true,
             },
-          }}>
+          }}
+          fallback={fallback}>
           <RestOfApp />
         </RealmProvider>
       </UserProvider>
     </AppProvider>
   );
 }
+// :snippet-end:
+
+function fallback() {
+  return <Text>Not happy!</Text>;
+}
 
 function LogIn() {
   const app = useApp();
-  async function logInUser() {
-    await app.logIn(Credentials.anonymous());
-  }
-  return (
-    <Button
-      title="Log In"
-      onPress={logInUser}
-    />
-  );
+  useEffect(() => {
+    app.logIn(Credentials.anonymous());
+  }, []);
+
+  return <Text>Just for testing</Text>;
 }
-// :snippet-end:
 
 const RestOfApp = () => {
   return (
