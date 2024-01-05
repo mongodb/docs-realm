@@ -23,7 +23,7 @@ Delete an Object
 ~~~~~~~~~~~~~~~~
 
 To delete an object from a realm, pass the object to
-:cpp-sdk:`Realm.remove() function <structrealm_1_1experimental_1_1db.html>`
+:cpp-sdk:`Realm.remove() function <structrealm_1_1db.html>`
 inside of a write transaction.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-an-object.cpp
@@ -59,7 +59,7 @@ This example uses the following model:
 Delete Map Keys/Values
 ~~~~~~~~~~~~~~~~~~~~~~
 
-To delete a :cpp-sdk:`map key <classrealm_1_1persisted__map__base.html>`, 
+To delete a :cpp-sdk:`map key <structrealm_1_1managed_3_01std_1_1map_3_01std_1_1string_00_01T_01_4_00_01void_01_4.html>`, 
 pass the key name to ``erase()``:
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-map-value.cpp
@@ -71,7 +71,7 @@ Delete Set Values
 ~~~~~~~~~~~~~~~~~
 
 You can delete a :cpp-sdk:`set element 
-<structrealm_1_1experimental_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>` 
+<structrealm_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>` 
 with ``erase()``, or remove all elements from a set with ``clear()``.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-set.cpp
