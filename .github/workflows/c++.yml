@@ -11,9 +11,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Build
         run: |
           cd examples/cpp/sync
           mkdir build && cd build
           cmake ..
           cmake --build .
+      - name: Test
+        run: |
           ./examples-sync
