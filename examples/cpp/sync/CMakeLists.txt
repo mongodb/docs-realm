@@ -21,7 +21,7 @@ FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-sync 
   app.cpp
-  # authentication.cpp
+  authentication.cpp
   call-function.cpp
   client-reset.cpp
   custom-user-data.cpp
