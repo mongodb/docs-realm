@@ -32,10 +32,11 @@ export const Read = () => {
         <View>
           <Text>Profiles: </Text>
           <FlatList
-            testID="all-profiles" // :remove:
             scrollEnabled={false}
             data={profiles}
-            renderItem={({item}) => <Text> • {item.name}</Text>}
+            renderItem={({item}) => (
+              <Text testID="profile"> • {item.name}</Text>
+            )}
             keyExtractor={item => item.name}
           />
         </View>

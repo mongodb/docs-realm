@@ -5,18 +5,13 @@ import {AppWrapper} from './RealmWrapper';
 import {render, screen, userEvent, within} from '@testing-library/react-native';
 
 describe('Quick Start minimum viable app', () => {
-  test('CRUD', async () => {
+  beforeEach(async () => {
     render(<AppWrapper />);
 
     const user = userEvent.setup();
 
     const createInput = await screen.findByTestId('create-input');
     const createProfileButton = await screen.findByTestId('create-profile');
-
-    const removeButton = await screen.findByTestId('remove-all-objects');
-
-    // Clear any existing realm objects
-    await user.press(removeButton);
 
     // Create test objects
     await user.type(createInput, 'Book Worm');
@@ -25,10 +20,24 @@ describe('Quick Start minimum viable app', () => {
     await user.type(createInput, 'testProfile');
     await user.press(createProfileButton);
     await user.clear(createInput);
+  });
+
+  afterEach(async () => {
+    render(<AppWrapper />);
+
+    const user = userEvent.setup();
+    const removeButton = await screen.findByTestId('remove-all-objects');
+
+    // Delete any existing realm objects
+    await user.press(removeButton);
+  });
+
+  test('Read', async () => {
+    render(<AppWrapper />);
 
     // Get profile lists
-    const allProfilesList = await screen.findByTestId('all-profiles');
-    expect(allProfilesList.children.length).toBeGreaterThan(0);
+    const profiles = await screen.findAllByTestId('profile');
+    expect(profiles.length).toBeGreaterThan(0);
 
     const sortedProfiles = await screen.findAllByTestId('sorted-profile');
     expect(sortedProfiles.length).toBeGreaterThan(0);
@@ -40,8 +49,35 @@ describe('Quick Start minimum viable app', () => {
     expect(filteredProfiles.length).toEqual(1);
     // Profile should match "testProfile"
     expect(filteredProfiles[0].children[1]).toBe('testProfile');
+  });
+
+  test('Create', async () => {
+    render(<AppWrapper />);
+
+    const user = userEvent.setup();
+
+    const createInput = await screen.findByTestId('create-input');
+    const createProfileButton = await screen.findByTestId('create-profile');
+    const profiles = await screen.findAllByTestId('profile');
+    // Should already have 2 objects from `beforeEach()`
+    expect(profiles.length).toBeGreaterThan(0);
+
+    // Create test objects
+    await user.type(createInput, 'React Native');
+    await user.press(createProfileButton);
+    await user.clear(createInput);
+
+    const refreshedProfiles = await screen.findAllByTestId('profile');
+    // Rerendered list should have more profile items than the
+    // initially-rendered list
+    expect(refreshedProfiles.length).toBeGreaterThan(profiles.length);
+  });
+
+  test('Update', async () => {
+    const user = userEvent.setup();
 
     const profilesToUpdate = await screen.findAllByTestId('profile-to-update');
+    // Should already have 2 objects from `beforeEach()`
     expect(profilesToUpdate.length).toBeGreaterThan(0);
 
     // Select first profile in list to update.
@@ -61,9 +97,15 @@ describe('Quick Start minimum viable app', () => {
 
     // Check that first profile inlist has been updated.
     expect(refreshedProfilesToUpdate[0].children[0]).toBe('test2');
+  });
 
+  test('Delete', async () => {
+    const user = userEvent.setup();
+
+    // Should already have 2 objects from `beforeEach()`
     const profilesToDelete = await screen.findAllByTestId('profile-to-delete');
     expect(profilesToDelete.length).toBeGreaterThan(0);
+
     const deleteProfileButton = await screen.findByTestId('delete-profile');
 
     // Select first profile in list to delete.
@@ -73,11 +115,10 @@ describe('Quick Start minimum viable app', () => {
 
     const refreshedProfilesToDelete =
       await screen.findAllByTestId('profile-to-delete');
+    // Rerendered list should have fewer profile items than the
+    // initially-rendered list
     expect(refreshedProfilesToDelete.length).toBeLessThan(
       profilesToDelete.length,
     );
-
-    // Clean up
-    await user.press(removeButton);
   });
 });
