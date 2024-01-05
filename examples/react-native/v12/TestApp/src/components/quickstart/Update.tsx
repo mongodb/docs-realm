@@ -51,7 +51,11 @@ export const Update = () => {
                 onPress={() => {
                   setProfileToUpdate(item.name);
                 }}>
-                <Text style={styles.profileName}>{item.name}</Text>
+                <Text
+                  testID="profile-to-update" // :remove:
+                  style={styles.profileName}>
+                  {item.name}
+                </Text>
               </Pressable>
             )}
             keyExtractor={item => item.name}
@@ -63,6 +67,7 @@ export const Update = () => {
 
       {profileToUpdate && (
         <TextInput
+          testID="update-input" // :remove:
           style={styles.textInput}
           onChangeText={setNewProfileName}
           value={newProfileName}
@@ -71,6 +76,7 @@ export const Update = () => {
       )}
 
       <Button
+        testID="update-profile" // :remove:
         title="Update profile"
         onPress={updateProfile}
       />

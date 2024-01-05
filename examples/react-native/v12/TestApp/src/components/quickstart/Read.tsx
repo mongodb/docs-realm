@@ -19,6 +19,12 @@ export const Read = () => {
 
   // ... rest of component
 
+  // :replace-start: {
+  //    "terms": {
+  //       " testID="sorted-profile"": "",
+  //       " testID="filtered-profile"": "",
+  //    }
+  // }
   // :remove-start:
   return (
     <View>
@@ -26,6 +32,7 @@ export const Read = () => {
         <View>
           <Text>Profiles: </Text>
           <FlatList
+            testID="all-profiles" // :remove:
             scrollEnabled={false}
             data={profiles}
             renderItem={({item}) => <Text> • {item.name}</Text>}
@@ -42,7 +49,9 @@ export const Read = () => {
           <FlatList
             scrollEnabled={false}
             data={sortedProfiles}
-            renderItem={({item}) => <Text> • {item.name}</Text>}
+            renderItem={({item}) => (
+              <Text testID="sorted-profile"> • {item.name}</Text>
+            )}
             keyExtractor={item => item.name}
           />
         </View>
@@ -56,7 +65,9 @@ export const Read = () => {
           <FlatList
             scrollEnabled={false}
             data={filteredProfiles}
-            renderItem={({item}) => <Text> • {item.name}</Text>}
+            renderItem={({item}) => (
+              <Text testID="filtered-profile"> • {item.name}</Text>
+            )}
             keyExtractor={item => item.name}
           />
         </View>

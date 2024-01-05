@@ -20,6 +20,13 @@ export const Delete = () => {
       realm.delete(toDelete);
     });
   };
+  // :remove-start:
+  const deleteAllProfiles = () => {
+    realm.write(() => {
+      realm.deleteAll();
+    });
+  };
+  // :remove-end:
 
   // :replace-start: {
   //    "terms": {
@@ -49,7 +56,11 @@ export const Delete = () => {
                 onPress={() => {
                   setProfileToDelete(item.name);
                 }}>
-                <Text style={styles.profileName}>{item.name}</Text>
+                <Text
+                  testID="profile-to-delete" // :remove:
+                  style={styles.profileName}>
+                  {item.name}
+                </Text>
               </Pressable>
             )}
             keyExtractor={item => item.name}
@@ -60,9 +71,17 @@ export const Delete = () => {
       )}
 
       <Button
+        testID="delete-profile" // :remove:
         title="Delete profile"
         onPress={deleteProfile}
       />
+      {/* :remove-start: */}
+      <Button
+        testID="remove-all-objects"
+        title="Delete all"
+        onPress={deleteAllProfiles}
+      />
+      {/* :remove-end: */}
     </View>
   );
   // :replace-end:

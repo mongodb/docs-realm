@@ -31,6 +31,7 @@ export const Create = () => {
       <Text style={styles.heading}>Create</Text>
 
       <TextInput
+        testID="create-input" // :remove:
         style={styles.textInput}
         onChangeText={setProfileName}
         value={profileName}
@@ -38,6 +39,7 @@ export const Create = () => {
       />
 
       <Button
+        testID="create-profile" // :remove:
         title="Add Profile"
         onPress={addProfile}
       />
