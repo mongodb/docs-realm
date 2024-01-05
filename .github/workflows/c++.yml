@@ -21,7 +21,6 @@ jobs:
               - 'examples/cpp/local/**'
             sync:
               - 'examples/cpp/sync/**'
-
       - name: Realm C++ Asymmetric Tests
         if: steps.filter.outputs.asymmetric == 'true'
         run: |
