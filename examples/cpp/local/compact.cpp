@@ -1,14 +1,15 @@
 #include <catch2/catch_test_macros.hpp>
-#include <cpprealm/experimental/sdk.hpp>
 #include <cpprealm/sdk.hpp>
 
-using namespace realm::experimental;
+namespace realm {
 
 struct Dog {
   std::string name;
   int64_t age;
 };
 REALM_SCHEMA(Dog, name, age)
+
+}  // namespace realm
 
 TEST_CASE("Compact a realm example", "[write]") {
   auto relative_realm_path_directory = "compact-realm/";
@@ -32,14 +33,14 @@ TEST_CASE("Compact a realm example", "[write]") {
 
   // The database is compacted on the first open if the configuration block
   // conditions were met.
-  auto realm = db(config);
+  auto realm = realm::db(config);
   // :snippet-end:
 
-  auto dog = Dog{.name = "Maui", .age = 3};
+  auto dog = realm::Dog{.name = "Maui", .age = 3};
 
   realm.write([&] { realm.add(std::move(dog)); });
 
-  auto managedDogs = realm.objects<Dog>();
+  auto managedDogs = realm.objects<realm::Dog>();
   auto specificDog = managedDogs[0];
   REQUIRE(specificDog.name == "Maui");
   REQUIRE(specificDog.age == static_cast<long long>(3));
@@ -47,6 +48,6 @@ TEST_CASE("Compact a realm example", "[write]") {
 
   realm.write([&] { realm.remove(specificDog); });
 
-  auto managedDogsAfterDelete = realm.objects<Dog>();
+  auto managedDogsAfterDelete = realm.objects<realm::Dog>();
   REQUIRE(managedDogsAfterDelete.size() == 0);
 }

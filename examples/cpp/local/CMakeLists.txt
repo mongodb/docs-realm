@@ -20,6 +20,8 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2 cpprealm)
 
 add_executable(examples-local
+  close-realm.cpp
+  compact.cpp
   crud.cpp
   filter-data.cpp
   logger.cpp

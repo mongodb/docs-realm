@@ -1,6 +1,6 @@
 // Create a database configuration.
 auto config = realm::db_config();
-auto realm = db(config);
+auto realm = realm::db(config);
 
 // Use the database...
 

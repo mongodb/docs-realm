@@ -13,4 +13,4 @@ syncConfig.sync_config().set_error_handler(
       };
     });
 
-auto syncedRealm = realm::experimental::db(syncConfig);
+auto syncedRealm = realm::db(syncConfig);
