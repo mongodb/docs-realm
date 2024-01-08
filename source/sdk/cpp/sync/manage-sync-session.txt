@@ -54,10 +54,9 @@ Check the Network Connection
    ``connection_state()`` property is available if your app calls for some
    indication of connection state.
 
-To check the connection state, you can read the Sync session instance's 
-:cpp-sdk:`connection_state()
-<Extensions/SyncSession.html#/s:So14RLMSyncSessionC10RealmSwiftE15ConnectionStatea>`
-property directly.
+To check the connection state, you can read the  
+:cpp-sdk:`Sync session instance's <structrealm_1_1internal_1_1bridge_1_1sync__session.html>`
+``connection_state()`` property directly.
 
 .. literalinclude:: /examples/generated/cpp/sync-session.snippet.connection-state.cpp
    :language: cpp
@@ -101,7 +100,7 @@ method.
    :language: cpp
 
 To resume a sync session, call the sync session's 
-:cpp-sdk:`resume() structrealm_1_1internal_1_1bridge_1_1sync__session.html#a253ef9e08d9f4cf7c42edfd6b6f6df80>`
+:cpp-sdk:`resume() <structrealm_1_1internal_1_1bridge_1_1sync__session.html#a253ef9e08d9f4cf7c42edfd6b6f6df80>`
 method.
 
 .. literalinclude:: /examples/generated/cpp/sync-session.snippet.resume.cpp
@@ -118,7 +117,7 @@ Wait for Changes to Upload and Download
 ---------------------------------------
 
 To wait for all changes to upload to Atlas from your synced realm,
-use the member function ``.wait_for_upload_completion()``. 
+use the member function ``wait_for_upload_completion()``. 
 
 .. literalinclude:: /examples/generated/cpp/sync-session.snippet.wait-for-upload.cpp
    :language: cpp
