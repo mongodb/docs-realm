@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cpprealm/sdk.hpp>
+#include <nlohmann/json.hpp>
 
 static const std::string APP_ID = "cpp-tester-uliix";
 
@@ -43,38 +44,21 @@ TEST_CASE("Asymmetric object example", "[write][sync]") {
   // :snippet-end:
   realm.get_sync_session()->wait_for_upload_completion().get();
 
-// This test is currently commented out because the SDK has removed the
-// exposed Core headers that gave it access to a BSON library.
-// See PR https://github.com/realm/realm-cpp/pull/123/
-// Per Lee, a separate project will create a C++ SDK BSON library, but in
-// the meantime, I'll need to use some other library to make this test work.
-// I need to figure out how to create BSON strings in C++ and pass them
-// instead of using realm::bson::Bson for the params.
-// TODO: Figure out what library to use and how to make this test/example work.
-#if 0
   SECTION("Test asymmetric object has persisted") {
     // Check that the asymmetric data got inserted
     // Because we don't have MongoClient, we have to use a function
+    nlohmann::json jsonOid;
+    jsonOid.push_back(oid.to_string());
+    std::string jsonOidString = jsonOid.dump();
     auto getAsymmetricDataResult =
-        user.call_function("getAsymmetricSyncDataBeta",
-                           realm::bson::BsonArray({realm::bson::BsonDocument{
-                               {"_id", oid.to_string()}}}))
-            .get();
+        user.call_function("getAsymmetricSyncData", jsonOidString).get();
     CHECK(getAsymmetricDataResult);
-    auto asymmetricDataBsonArray =
-        realm::bson::BsonArray(*getAsymmetricDataResult);
-    CHECK(asymmetricDataBsonArray.size() == 1);
-    CHECK(realm::bson::BsonDocument(asymmetricDataBsonArray[0])["_id"]
-              .
-              operator realm::ObjectId()
-              .to_string() == oid.to_string());
-    // Delete the asymmetric data to clean up after the test
+    auto asymmetricDataObject =
+        nlohmann::json::parse(getAsymmetricDataResult.value());
+    CHECK(asymmetricDataObject[0]["_id"]["$oid"] == oid.to_string());
+    //   Delete the asymmetric data to clean up after the test
     auto deleteAsymmetricDataResult =
-        user.call_function("deleteAsymmetricSyncDataBeta",
-                           realm::bson::BsonArray({realm::bson::BsonDocument{
-                               {"_id", oid.to_string()}}}))
-            .get();
+        user.call_function("deleteAsymmetricSyncData", jsonOidString).get();
     CHECK(deleteAsymmetricDataResult);
   }
-#endif
 }
