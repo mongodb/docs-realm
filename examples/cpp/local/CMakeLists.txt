@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.25)
 
 project(examples-local)
 
@@ -14,7 +14,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   cpprealm
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-  GIT_TAG        8eba9728ea535a6cd78beaef37ed6d22b73fe889
+  GIT_TAG        v1.0.0
 )
 
 FetchContent_MakeAvailable(Catch2 cpprealm)
