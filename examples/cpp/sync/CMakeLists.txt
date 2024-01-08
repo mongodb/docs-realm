@@ -16,8 +16,12 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/realm/realm-cpp.git
   GIT_TAG        8eba9728ea535a6cd78beaef37ed6d22b73fe889
 )
+FetchContent_Declare(
+  json
+  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+)
 
-FetchContent_MakeAvailable(Catch2 cpprealm)
+FetchContent_MakeAvailable(Catch2 cpprealm json)
 
 add_executable(examples-sync 
   app.cpp
@@ -32,3 +36,4 @@ add_executable(examples-sync
 
 target_link_libraries(examples-sync PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(examples-sync PRIVATE cpprealm)
+target_link_libraries(examples-sync PRIVATE nlohmann_json::nlohmann_json)
