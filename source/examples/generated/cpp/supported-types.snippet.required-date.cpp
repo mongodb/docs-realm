@@ -1,1 +1,1 @@
-realm::persisted<std::chrono::time_point<std::chrono::system_clock>> dateName;
+std::chrono::time_point<std::chrono::system_clock> dateName;

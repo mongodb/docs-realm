@@ -1,7 +1,7 @@
-auto repositories = realm.objects<Repository>();
+auto repositories = realm.objects<realm::Repository>();
 
 auto repositoriesNamedDocsRealm = repositories.where([](auto &repository) {
-    return repository.ownerAndName == "mongodb/docs-realm";
+  return repository.ownerAndName == "mongodb/docs-realm";
 });
 
 auto docsRealm = repositoriesNamedDocsRealm[0];

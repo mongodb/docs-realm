@@ -1,8 +1,8 @@
 .. _cpp-client-threading:
 
-===========================
-Threading - C++ SDK Preview
-===========================
+===================
+Threading - C++ SDK
+===================
 
 .. meta:: 
   :keywords: code example
@@ -100,7 +100,7 @@ created them.
 You can copy thread-confined instances to another thread as follows:
 
 1. Initialize a :cpp-sdk:`thread_safe_reference 
-   <structrealm_1_1thread__safe__reference_3_01db_3_01Ts_8_8_8_01_4_01_4.html>` 
+   <structrealm_1_1thread__safe__reference_3_01T_01_4.html>` 
    with the thread-confined object.
 #. Pass the reference to the target thread.
 #. Resolve the reference on the target thread. If the referred object is a realm
@@ -116,21 +116,8 @@ You can copy thread-confined instances to another thread as follows:
    deallocated. For this reason, ``thread_safe_reference`` should be
    short-lived.
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/threading.snippet.beta-thread-safe-reference.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/threading.snippet.thread-safe-reference.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/threading.snippet.thread-safe-reference.cpp
+   :language: cpp
 
 Another way to work with an object on another thread is to query for it
 again on that thread. But if the object does not have a primary
@@ -153,8 +140,6 @@ instances will map to the same file on disk.
 
 Pass Immutable Copies Across Threads
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: v0.5.0-preview & v0.6.0-preview
 
 Live, thread-confined objects work fine in most cases.
 However, some apps -- those based on reactive, event
@@ -181,8 +166,6 @@ To freeze a realm, collection, or object, call the ``.freeze()`` method:
 
 .. literalinclude:: /examples/generated/cpp/threading.snippet.freeze.cpp
    :language: cpp
-
-.. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 When working with frozen objects, an attempt to do any of
 the following throws an exception:
@@ -270,9 +253,6 @@ instead of blocking the UI.
 Schedulers (Run Loops)
 ----------------------
 
-.. versionchanged:: v0.6.0-preview 
-   ``realm::Function`` replaced with ``std::function``
-
 Some platforms or frameworks automatically set up a **scheduler** (or **run
 loop**), which continuously processes events during the lifetime of your
 app. The Realm C++ SDK detects and uses schedulers on the following
@@ -291,21 +271,8 @@ use a custom scheduler, you can implement :cpp-sdk:`realm::scheduler
 <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` you use to
 configure the realm. Realm will use the scheduler you pass to it.
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/threading.snippet.beta-scheduler.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/threading.snippet.scheduler.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/threading.snippet.scheduler.cpp
+   :language: cpp
 
 .. _cpp-refreshing-realms:
 
@@ -324,7 +291,7 @@ a thread is not controlled by a run loop, then the :cpp-sdk:`realm.refresh()
 <structrealm_1_1db.html>` method must be called manually in order to advance the
 transaction to the most recent state.
 
-.. literalinclude:: /examples/generated/cpp/threading.snippet.refresh.cpp
+.. literalinclude:: /examples/generated/cpp/threading.snippet.realm-refresh.cpp
     :language: cpp
 
 .. note:: 

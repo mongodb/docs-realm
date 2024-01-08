@@ -1,1 +1,1 @@
-realm::persisted<std::map<std::string, std::string>> mapName;
+std::map<std::string, SomeType> mapName;

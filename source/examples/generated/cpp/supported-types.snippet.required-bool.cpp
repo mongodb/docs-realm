@@ -1,1 +1,1 @@
-realm::persisted<bool> boolName;
+bool boolName;

@@ -1,8 +1,8 @@
 .. _cpp-crud-delete:
 
-===============================
-CRUD - Delete - C++ SDK Preview
-===============================
+=======================
+CRUD - Delete - C++ SDK
+=======================
 
 .. contents:: On this page
    :local:
@@ -22,36 +22,17 @@ more information about write trasactions, see: :ref:`Write Transactions
 Delete an Object
 ~~~~~~~~~~~~~~~~
 
-.. tabs::
+To delete an object from a realm, pass the object to
+:cpp-sdk:`Realm.remove() function <structrealm_1_1db.html>`
+inside of a write transaction.
 
-   .. tab:: Current
-      :tabid: current
-
-      To delete an object from a realm, pass the object to
-      :cpp-sdk:`Realm.remove() function <structrealm_1_1experimental_1_1db.html>`
-      inside of a write transaction.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-delete-an-object.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      To delete an object from a realm, pass the object to
-      :cpp-sdk:`Realm.remove() function <structrealm_1_1db.html>`
-      inside of a write transaction.
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-an-object.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.delete-an-object.cpp
+   :language: cpp
 
 .. _cpp-delete-inverse-relationship:
 
 Delete an Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 0.2.0
 
 You can't delete an inverse relationship directly. Instead, an 
 inverse relationship automatically updates by removing the relationship 
@@ -62,57 +43,36 @@ and the ``Dog`` has an inverse relationship to ``Person``.
 Setting the ``Person.dog`` relationship to ``nullptr`` removes the inverse
 relationship from the ``Dog`` object. 
 
-.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-delete-inverse-relationship.cpp
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.delete-inverse-relationship.cpp
    :language: cpp
-
-.. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 Model
 `````
 
 This example uses the following model:
 
-.. literalinclude:: /examples/generated/cpp/relationships.snippet.beta-define-inverse-relationship.cpp
+.. literalinclude:: /examples/generated/cpp/relationships.snippet.define-inverse-relationship.cpp
    :language: cpp
-
-.. include:: /includes/tip-cpp-beta-experimental-features.rst
 
 .. _cpp-delete-map:
 
 Delete Map Keys/Values
 ~~~~~~~~~~~~~~~~~~~~~~
 
-To delete a :cpp-sdk:`map key <classrealm_1_1persisted__map__base.html>`, 
+To delete a :cpp-sdk:`map key <structrealm_1_1managed_3_01std_1_1map_3_01std_1_1string_00_01T_01_4_00_01void_01_4.html>`, 
 pass the key name to ``erase()``:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/crud.snippet.beta-delete-map-value.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/define-object-model.snippet.delete-map-value.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.delete-map-value.cpp
+   :language: cpp
 
 .. _cpp-delete-set-values:
 
 Delete Set Values
 ~~~~~~~~~~~~~~~~~
 
-.. versionadded:: v0.4.0-preview
-
 You can delete a :cpp-sdk:`set element 
-<structrealm_1_1experimental_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>` 
+<structrealm_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>` 
 with ``erase()``, or remove all elements from a set with ``clear()``.
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-set.cpp
    :language: cpp
-
-.. include:: /includes/tip-cpp-beta-experimental-features.rst

@@ -1,1 +1,1 @@
-realm::persisted<Enum> enumName;
+Enum enumName;

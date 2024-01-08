@@ -1,1 +1,1 @@
-realm::persisted<std::optional<bool>> optBoolName;
+std::optional<bool> optBoolName;

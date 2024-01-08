@@ -1,1 +1,1 @@
-realm::persisted<double> doubleName;
+double doubleName;

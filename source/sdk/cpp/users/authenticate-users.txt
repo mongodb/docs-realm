@@ -1,8 +1,8 @@
 .. _cpp-authenticate-users:
 
-====================================
-Authenticate Users - C++ SDK Preview
-====================================
+============================
+Authenticate Users - C++ SDK
+============================
 
 .. meta:: 
   :keywords: code example
@@ -20,9 +20,6 @@ Authenticate Users - C++ SDK Preview
 Log In
 ------
 
-.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
-.. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
-
 .. _cpp-login-anonymous:
 
 Anonymous User
@@ -32,7 +29,7 @@ If you have enabled :ref:`Anonymous authentication <anonymous-authentication>`
 in the App Services UI, users can immediately log into your app without providing any
 identifying information.
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-anonymous-login.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.anonymous-login.cpp
    :language: cpp
 
 .. _cpp-login-email-password:
@@ -44,7 +41,7 @@ If you have enabled :ref:`Email/Password authentication <email-password-authenti
 and have :ref:`registered an email/password user <cpp-register-email-password-user>`, 
 you can log that user in.
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-log-user-in.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.log-user-in.cpp
    :language: cpp
 
 .. _cpp-login-api-key:
@@ -55,7 +52,7 @@ API Key User
 If you have enabled :ref:`API Key authentication <api-key-authentication>`,
 you can log in using a user API key.
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-api-key.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.api-key.cpp
    :language: cpp
 
 .. _cpp-login-custom-function:
@@ -66,7 +63,7 @@ Custom Function User
 If you have enabled the :ref:`Custom Function authentication provider
 <custom-function-authentication>`, you can log in using a custom function.
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-custom-function.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.custom-function.cpp
    :language: cpp
 
 .. _cpp-login-custom-jwt:
@@ -77,7 +74,7 @@ Custom JWT User
 If you have enabled the :ref:`Custom JWT authentication provider
 <custom-jwt-authentication>`, you can log in using a custom JWT.
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-custom-jwt.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.custom-jwt.cpp
    :language: cpp
 
 .. _cpp-login-facebook:
@@ -93,7 +90,7 @@ account.
 
 .. include:: /includes/note-facebook-profile-picture-url.rst
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-facebook.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.facebook.cpp
    :language: cpp
 
 .. _cpp-login-google:
@@ -105,15 +102,15 @@ If you have configured the :ref:`Google authentication provider <google-authenti
 you can log in using an existing Google account.
 
 To log in with a Google authentication code, pass a Google authentication code to
-:cpp-sdk:`credentials::google(auth_code) <structrealm_1_1App_1_1credentials.html>`.
+:cpp-sdk:`credentials::google_auth_code() <structrealm_1_1App_1_1credentials.html>`.
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-google-auth-code.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.google-auth-code.cpp
    :language: cpp
 
 To log in with a Google ID token, pass a Google ID token to
-:cpp-sdk:`credentials::google(id_token) <structrealm_1_1App_1_1credentials.html>`.
+:cpp-sdk:`credentials::google_id_token() <structrealm_1_1App_1_1credentials.html>`.
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-google-id-token.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.google-id-token.cpp
    :language: cpp
 
 .. _cpp-login-apple:
@@ -124,7 +121,7 @@ Apple User
 If you have enabled :ref:`Sign-in with Apple authentication
 <apple-id-authentication>`, you can log a user in using an Apple ID token.
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-apple.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.apple.cpp
    :language: cpp
 
 .. _cpp-get-a-user-access-token:
@@ -148,8 +145,6 @@ on a logged-in user to refresh the user's auth session. Then, get the
 as a string you can use in your code. You might use code similar to this to 
 fetch an access token:
 
-.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
-
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.get-user-access-token.cpp
    :language: cpp
 
@@ -167,8 +162,6 @@ Once logged in, you can log out.
 
 .. include:: /includes/log-out-queries-in-progress.rst
 
-.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
-
 .. literalinclude:: /examples/generated/cpp/authentication.snippet.log-user-out.cpp
    :language: cpp
 
@@ -177,19 +170,15 @@ Once logged in, you can log out.
 Get the Current User
 --------------------
 
-.. versionadded:: v0.3.0-preview
-
 You can get the current user with ``app::get_current_user()``:
 
-.. literalinclude:: /examples/generated/cpp/authentication.snippet.beta-get-current-user.cpp
+.. literalinclude:: /examples/generated/cpp/authentication.snippet.get-current-user.cpp
    :language: cpp
 
 .. _cpp-confirm-user-is-logged-in:
 
 Confirm a User is Logged In
 ---------------------------
-
-.. versionadded:: v0.3.0-preview
 
 You can confirm a user is logged in with ``user::is_logged_in()``:
 
