@@ -17,5 +17,4 @@
      });
 
      // ... rest of component
-
    };

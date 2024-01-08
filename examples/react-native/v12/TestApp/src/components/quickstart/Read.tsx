@@ -18,13 +18,6 @@ export const Read = () => {
   });
 
   // ... rest of component
-
-  // :replace-start: {
-  //    "terms": {
-  //       " testID="sorted-profile"": "",
-  //       " testID="filtered-profile"": "",
-  //    }
-  // }
   // :remove-start:
   return (
     <View>
