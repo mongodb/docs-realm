@@ -53,24 +53,22 @@ TEST_CASE("create and log in an anonymous user", "[realm][sync]") {
   REQUIRE(user.access_token().empty());
 }
 
-// TODO: Figure out how to do this properly in the updated SDK
-// TEST_CASE("test custom function authentication", "[realm][sync]") {
-//     // :snippet-start: custom-function
-//     // Custom function authentication takes a BSON Document with parameters.
-//     // The parameter details vary depending on how you define your custom
-//     authentication function. realm::bson::BsonDocument params = {{
-//     "username", "bob" }};
+TEST_CASE("test custom function authentication", "[realm][sync]") {
+  // :snippet-start: custom-function
+  auto appConfig = realm::App::configuration();
+  appConfig.app_id = APP_ID;
+  auto app = realm::App(appConfig);
 
-//     auto appConfig = realm::App::configuration();
-//     appConfig.app_id = APP_ID;
-//     auto app = realm::App(appConfig);
-
-//     auto user = app.login(realm::App::credentials::function(params)).get();
-//     // :snippet-end:
-//     REQUIRE(!user.access_token().empty());
-//     user.log_out().get();
-//     REQUIRE(user.access_token().empty());
-// }
+  /* Custom function authentication takes a string parameters argument.
+  The parameter details vary depending on how you define your custom
+  authentication function. */
+  std::string params = "{\"username\": \"bob\"}";
+  auto user = app.login(realm::App::credentials::function(params)).get();
+  // :snippet-end:
+  REQUIRE(!user.access_token().empty());
+  user.log_out().get();
+  REQUIRE(user.access_token().empty());
+}
 
 TEST_CASE("test get user access token", "[realm][sync]") {
   auto appConfig = realm::App::configuration();

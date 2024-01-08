@@ -1,55 +1,62 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cpprealm/sdk.hpp>
 #include <future>
+#include <nlohmann/json.hpp>
 
 static const std::string APP_ID = "cpp-tester-uliix";
 
-// This test is currently commented out because the SDK has removed the
-// exposed Core headers that gave it access to a BSON library.
-// See PR https://github.com/realm/realm-cpp/pull/123/
-// Per Lee, a separate project will create a C++ SDK BSON library, but in
-// the meantime, I'll need to use some other library to make this test work.
-// I need to figure out how to create BSON strings in C++ and pass them
-// instead of using realm::bson::Bson for the params.
-// TODO: Figure out what library to use and how to make this test/example work.
-#if 0
-TEST_CASE("custom user data", "[realm][sync]")
-{
-    auto appConfig = realm::App::configuration();
-    appConfig.app_id = APP_ID;
-    auto app = realm::App(appConfig);
+TEST_CASE("custom user data", "[realm][sync]") {
+  auto appConfig = realm::App::configuration();
+  appConfig.app_id = APP_ID;
+  auto app = realm::App(appConfig);
 
-    // :snippet-start: create
-    auto user = app.login(realm::App::credentials::anonymous()).get();
+  // :snippet-start: create
+  auto user = app.login(realm::App::credentials::anonymous()).get();
 
-    // Functions take an argument of BsonArray, so initialize the custom data as a BsonDocument
-    auto customDataBson = realm::bson::BsonDocument({{"userId", user.identifier()}, {"favoriteColor", "gold"}});
+  // Functions take a string argument. Any quotes within the array must be
+  // escaped.
+  auto customData =
+      "[{\"userId\":\"" + user.identifier() + "\",\"favoriteColor\":\"gold\"}]";
 
-    // Call an Atlas Function to insert custom data for the user
-    auto result = user.call_function("updateCustomUserData", { customDataBson }).get();
-    // :snippet-end:
-    CHECK(result);
+  // Call an Atlas Function to insert custom data for the user
+  auto result = user.call_function("updateCustomUserData", customData).get();
+  // :snippet-end:
+  CHECK(result);
 
-    // :snippet-start: read
-    // Custom user data could be stale, so refresh it before reading it
-    user.refresh_custom_user_data().get();
-    CHECK((*user.custom_data())["favoriteColor"] == "gold");
-    // :snippet-end:
+  // :snippet-start: read
+  // Custom user data could be stale, so refresh it before reading it
+  user.refresh_custom_user_data().get();
+  auto userData = user.custom_data().value();
 
-    // :snippet-start: update
-    // Functions take an argument of BsonArray, so initialize the custom data as a BsonDocument
-    auto updatedDataBson = realm::bson::BsonDocument({{"userId", user.identifier()}, { "favoriteColor", "black" }});
+  /* Parse the string custom data to use it more easily in your code.
+     In this example, we're using the nlohmann/json library, but use whatever
+     works with your application's constraints. */
+  auto userDataObject = nlohmann::json::parse(userData);
+  CHECK(userDataObject["favoriteColor"] == "gold");
+  //  :snippet-end:
 
-    // Call an Atlas Function to update custom data for the user
-    auto updateResult = user.call_function("updateCustomUserData", { updatedDataBson }).get();
+  // :snippet-start: update
+  // Functions take a string argument. Any quotes within the array must be
+  // escaped.
+  auto updatedData = "[{\"userId\":\"" + user.identifier() +
+                     "\",\"favoriteColor\":\"black\"}]";
 
-    // Refresh the custom user data before reading it to verify it succeeded
-    user.refresh_custom_user_data().get();
-    CHECK((*user.custom_data())["favoriteColor"] == "black");
-    // :snippet-end:
-    // :snippet-start: delete
-    auto deleteResult = user.call_function("deleteCustomUserData", {}).get();
-    // :snippet-end:
-    CHECK(deleteResult);
+  // Call an Atlas Function to update custom data for the user
+  auto updateResult =
+      user.call_function("updateCustomUserData", updatedData).get();
+
+  // Refresh the custom user data before reading it to verify it succeeded
+  user.refresh_custom_user_data().get();
+  auto updatedUserData = user.custom_data().value();
+
+  /* Parse the string custom data to use it more easily in your code.
+     In this example, we're using the nlohmann/json library, but use whatever
+     works with your application's constraints. */
+  auto updatedUserDataObject = nlohmann::json::parse(updatedUserData);
+  CHECK(updatedUserDataObject["favoriteColor"] == "black");
+  // :snippet-end:
+  // :snippet-start: delete
+  auto deleteResult = user.call_function("deleteCustomUserData", "[]").get();
+  // :snippet-end:
+  CHECK(deleteResult);
 }
-#endif
