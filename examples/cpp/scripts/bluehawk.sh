@@ -13,5 +13,5 @@ echo "Bluehawking C++ local examples"
 npx bluehawk snip $CPP_EXAMPLES/local --ignore build -o $GENERATED_EXAMPLES
 
 # Bluehawk sync examples
-echo "Bluehawking C++ sync SDK examples"
+echo "Bluehawking C++ sync examples"
 npx bluehawk snip $CPP_EXAMPLES/sync --ignore build -o $GENERATED_EXAMPLES
