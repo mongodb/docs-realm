@@ -120,14 +120,8 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
   // :snippet-start: open-synced-realm
   auto syncConfig = user.flexible_sync_configuration();
   auto realm = realm::db(syncConfig);
-  // :snippet-start: sync-session
-  auto syncSession = realm.get_sync_session();
-  // :snippet-end:
-  // :snippet-start: sync-state
-  syncSession->state();
-  // :snippet-end:
   // :remove-start:
-  syncSession->wait_for_download_completion().get();
+  realm.get_sync_session()->wait_for_download_completion().get();
   realm.refresh();
   // Remove any existing subscriptions before adding the one for this example
   auto clearInitialSubscriptions =
@@ -150,13 +144,6 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
           .get();
   // :snippet-end:
   CHECK(updateSubscriptionSuccess == true);
-  // We don't actually need this here - we use it up above
-  // in the Bluehawk remove block, but adding it to show
-  // a relevant Bluehawked example in the docs
-  // :snippet-start: wait-for-download
-  syncSession->wait_for_download_completion().get();
-  realm.refresh();
-  // :snippet-end:
   // :snippet-start: write-to-synced-realm
   auto todo = realm::Sync_Todo{.name = "Create a Sync todo item",
                                .status = "In Progress",
@@ -169,10 +156,7 @@ TEST_CASE("sync quick start", "[realm][write][sync][sync-logger]") {
   CHECK(todos.size() == 1);
   auto specificTodo = todos[0];
   realm.write([&] { realm.remove(specificTodo); });
-
-  // :snippet-start: wait-for-upload
-  syncSession->wait_for_upload_completion().get();
-  // :snippet-end:
+  realm.get_sync_session()->wait_for_upload_completion().get();
 }
 
 // :replace-end:
