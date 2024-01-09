@@ -68,7 +68,7 @@ describe('Quick Start minimum viable app', () => {
     // Should already have 2 objects from `beforeEach()`
     expect(profilesToUpdate.length).toBeGreaterThan(0);
 
-    // Select first profile in list to update.
+    // Select first profile in list to update
     await user.press(profilesToUpdate[0]);
 
     // Update object. Requires a selected profile to update
@@ -83,7 +83,7 @@ describe('Quick Start minimum viable app', () => {
     const refreshedProfilesToUpdate =
       await screen.findAllByTestId('profile-to-update');
 
-    // Check that first profile inlist has been updated.
+    // Check that first profile inlist has been updated
     expect(refreshedProfilesToUpdate[0].children[0]).toBe('test2');
   });
 
@@ -94,7 +94,7 @@ describe('Quick Start minimum viable app', () => {
 
     const deleteProfileButton = await screen.findByTestId('delete-profile');
 
-    // Select first profile in list to delete.
+    // Select first profile in list to delete
     await user.press(profilesToDelete[0]);
     // Delete object. Requires a selected profile to delete
     await user.press(deleteProfileButton);
