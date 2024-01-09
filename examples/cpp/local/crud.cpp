@@ -41,7 +41,7 @@ struct Namespace_Dog {
   std::string name;
   int64_t age;
 };
-REALM_SCHEMA(Alternate_Dog, name, age)
+REALM_SCHEMA(Namespace_Dog, name, age)
 }  // namespace realm
 // :snippet-end:
 
