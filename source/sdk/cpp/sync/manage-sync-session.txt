@@ -63,7 +63,7 @@ Check the Network Connection
    indication of connection state.
 
 To check the connection state, you can read the  
-:cpp-sdk:`Sync session instance's <structrealm_1_1internal_1_1bridge_1_1sync__session.html>`
+:cpp-sdk:`sync session instance's <structrealm_1_1internal_1_1bridge_1_1sync__session.html>`
 ``connection_state()`` property directly.
 
 .. literalinclude:: /examples/generated/cpp/sync-session.snippet.connection-state.cpp
@@ -87,7 +87,7 @@ method to unregister an observation token.
 
 The network connection state is distinct from the Device Sync connection state
 that you can check with the ``state()`` method. For more information about
-Sync connection state, refer to the Check the Sync State documentation on 
+sync connection state, refer to the Check the Sync State documentation on 
 this page.
 
 .. _cpp-pause-resume-sync-session:
@@ -100,7 +100,7 @@ Pausing a sync session only suspends that realm's sync session. If you have
 more than one open realm, suspend does not affect the sync sessions for 
 other realms.
 
-To pause a sync session, call the Sync session's 
+To pause a sync session, call the sync session's 
 :cpp-sdk:`pause() <structrealm_1_1internal_1_1bridge_1_1sync__session.html#ab187b267f0391c8262a0edcff32fcc29>`
 method.
 
@@ -151,7 +151,7 @@ This returns an enum whose value reflects possible Device Sync states.
 .. literalinclude:: /examples/generated/cpp/sync-session.snippet.sync-state.cpp
    :language: cpp
 
-The Sync connection state is distinct from the network connection state
+The sync connection state is distinct from the network connection state
 that you can check with the ``connection_state()`` method. For more information 
 about network connection state, refer to the Check the Network Connection 
 documentation on this page.
