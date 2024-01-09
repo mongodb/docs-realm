@@ -1,3 +1,14 @@
+# January 5, 2024
+
+## Flutter SDK
+
+- Sync Device Data/Manage Subscriptions: Document the new Subscribe API with tested, Bluehawked code examples.
+
+## React Native SDK
+
+- Model Data/Data Types/Dictionaries: Typo fix.
+- Throughout: Fix highlighting in code examples.
+
 # December 21, 2023
 
 ## C++ SDK

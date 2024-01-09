@@ -4,15 +4,9 @@
 // NOT representative of a secure encryption key. It only exists to
 // illustrate the form your key might take.
 std::array<char, 64> exampleKey = {
-    0,0,0,0,0,0,0,0, 
-    1,1,0,0,0,0,0,0, 
-    2,2,0,0,0,0,0,0, 
-    3,3,0,0,0,0,0,0, 
-    4,4,0,0,0,0,0,0, 
-    5,5,0,0,0,0,0,0, 
-    6,6,0,0,0,0,0,0, 
-    7,7,0,0,0,0,0,0
-};
+    0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0,
+    0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0, 0, 5, 5, 0, 0,
+    0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 0};
 
 // Create and populate an App configuration.
 auto appConfig = realm::App::configuration();

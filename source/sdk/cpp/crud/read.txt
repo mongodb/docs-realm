@@ -3,9 +3,9 @@
 .. _cpp-realm-database-reads:
 .. _cpp-live-queries:
 
-=============================
-CRUD - Read - C++ SDK Preview
-=============================
+=====================
+CRUD - Read - C++ SDK
+=====================
 
 .. meta:: 
   :keywords: code example
@@ -139,7 +139,7 @@ To query for objects of a given type in a realm, pass the object type
 This returns a :cpp-sdk:`Results <structrealm_1_1results.html>` object
 representing all objects of the given type in the realm.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.read-objects-from-realm.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.read-objects-from-realm.cpp
     :language: cpp
 
 .. _cpp-filter-queries-based-on-object-properties:
@@ -151,7 +151,7 @@ A filter selects a subset of results based on the value(s) of one or
 more object properties. Realm provides a full-featured 
 query engine that you can use to define filters.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.filter-using-type-safe-query.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.filter-using-type-safe-query.cpp
     :language: cpp
 
 .. _cpp-supported-query-operators:
@@ -159,7 +159,7 @@ query engine that you can use to define filters.
 Supported Query Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Currently, the Realm C++ SDK Preview supports the following query operators:
+Currently, the Realm C++ SDK supports the following query operators:
 
 - Equality (``==``, ``!=``)
 - Greater than/less than (``>``, ``>=``, ``<``, ``<=``)
@@ -174,7 +174,7 @@ Realm :cpp-sdk:`Results <structrealm_1_1results.html>` exposes member
 functions to work with results. You may want to check the size of a results
 set, or access the object at a specific index.
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.check-size-and-access-results.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.check-size-and-access-results.cpp
     :language: cpp
 
 Additionally, you can iterate through the results, or observe a results
@@ -186,10 +186,10 @@ Read a Map Property
 ~~~~~~~~~~~~~~~~~~~
 
 You can iterate and check the values of a realm :cpp-sdk:`map property
-<classrealm_1_1persisted__map__base.html>` 
+<structrealm_1_1managed_3_01std_1_1map_3_01std_1_1string_00_01T_01_4_00_01void_01_4.html>` 
 as you would a standard C++ `map <https://en.cppreference.com/w/cpp/container/map>`__:
 
-.. literalinclude:: /examples/generated/cpp/define-object-model.snippet.read-map-value.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.read-map-value.cpp
     :language: cpp
 
 .. _cpp-read-and-iterate-set:
@@ -197,10 +197,8 @@ as you would a standard C++ `map <https://en.cppreference.com/w/cpp/container/ma
 Read a Set Property
 ~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: v0.4.0-preview
-
 You can iterate, check the size of a set, and find values in a :cpp-sdk:`set property
-<structrealm_1_1experimental_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>`:
+<structrealm_1_1managed_3_01std_1_1set_3_01T_01_5_01_4_01_4.html>`:
 
 .. literalinclude:: /examples/generated/cpp/crud.snippet.read-set.cpp
     :language: cpp
@@ -209,8 +207,6 @@ You can iterate, check the size of a set, and find values in a :cpp-sdk:`set pro
 
 Sort Lists and Query Results
 ----------------------------
-
-.. versionadded:: v0.5.0-preview
 
 A sort operation allows you to configure the order in which Realm returns 
 list objects and query results. You can sort based on one or more properties 

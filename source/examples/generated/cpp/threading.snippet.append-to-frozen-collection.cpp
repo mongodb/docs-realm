@@ -1,16 +1,16 @@
 // Get frozen objects.
-// Here, we're getting them from a frozen realm,
+// Here, we're getting them from a frozen database,
 // but you might also be passing them across threads.
-auto frozenItems = frozenRealm.objects<Item>();
+auto frozenItems = frozenRealm.objects<realm::Item>();
 
-// The collection that we pull from the frozen realm is also frozen.
+// The collection that we pull from the frozen database is also frozen.
 CHECK(frozenItems.is_frozen());
 
 // Get the individual objects we want to work with.
 auto specificFrozenItems = frozenItems.where(
     [](auto const& item) { return item.name == "Save the cheerleader"; });
 auto frozenProjects =
-    frozenRealm.objects<Project>().where(
+    frozenRealm.objects<realm::Project>().where(
         [](auto const& project) {
           return project.name == "Heroes: Genesis";
         });

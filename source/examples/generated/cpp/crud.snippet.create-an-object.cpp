@@ -1,12 +1,12 @@
-// Create a Realm object like a regular object.
-auto dog = Dog { .name = "Rex", .age = 1 };
+// Create an object like any other object.
+auto dog = realm::Dog{.name = "Rex", .age = 1};
 
-std::cout << "dog: " << dog << "\n";
+std::cout << "dog: " << dog.name << "\n";
 
-// Open a realm with compile-time schema checking.
-auto realm = realm::open<Dog>();
+// Open the database with compile-time schema checking.
+auto config = realm::db_config();
+auto realm = realm::db(std::move(config));
 
 // Persist your data in a write transaction
-realm.write([&realm, &dog] {
-    realm.add(dog);
-});
+// Optionally return the managed object to work with it immediately
+auto managedDog = realm.write([&] { return realm.add(std::move(dog)); });

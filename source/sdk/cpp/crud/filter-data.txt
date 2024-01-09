@@ -1,9 +1,9 @@
 .. _cpp-client-query-engine:
 .. _cpp-filter-data:
 
-=============================
-Filter Data - C++ SDK Preview
-=============================
+=====================
+Filter Data - C++ SDK
+=====================
 
 .. meta:: 
   :keywords: code example
@@ -22,10 +22,7 @@ To filter data in your realm, you can leverage
 Realm's query engine. You can also sort filtered data. For an example of
 how to sort query results, refer to :ref:`cpp-sort-lists-and-results`.
 
-.. note::
-
-   While the Realm C++ SDK is in development, it does not yet support the 
-   full range of query expressions that the other Realm SDKs provide.
+.. include:: /includes/note-cpp-supports-subset-of-rql.rst
 
 About the Examples on This Page
 -------------------------------
@@ -44,39 +41,13 @@ A ``Project`` has a name and a to-many relationship to zero or more ``Items``.
 
 The schemas for ``Project`` and ``Item`` are:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/filter-data.snippet.beta-models.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/filter-data.snippet.models.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/filter-data.snippet.models.cpp
+   :language: cpp
 
 You can set up the realm for these examples with the following code:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/filter-data.snippet.beta-set-up-filter-data-tests.cpp
-         :language: cpp
-
-      .. include:: /includes/tip-cpp-beta-experimental-features.rst
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/filter-data.snippet.set-up-filter-data-tests.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/filter-data.snippet.set-up-filter-data-tests.cpp
+   :language: cpp
 
 Filter Data
 -----------

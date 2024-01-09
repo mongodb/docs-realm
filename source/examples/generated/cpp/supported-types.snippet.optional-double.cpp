@@ -1,1 +1,1 @@
-realm::persisted<std::optional<double>> optDoubleName;
+std::optional<double> optDoubleName;

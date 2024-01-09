@@ -1,1 +1,1 @@
-realm::persisted<std::optional<realm::uuid>> optUuidName;
+std::optional<realm::uuid> optUuidName;

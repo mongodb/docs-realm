@@ -4,6 +4,14 @@
 Connect to Atlas App Services - Kotlin SDK
 ==========================================
 
+.. meta::
+   :keywords: code example
+   :description: Initialize your app client and connect to the Atlas App Services backend using the Kotlin SDK. 
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -71,6 +79,70 @@ and call the ``.build()`` method to pass a configuration object:
    :language: kotlin
 
 .. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+
+.. _kotlin-share-sync-connections:
+
+Share Sync Connections
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/kotlin-note-sync-config-option.rst
+
+.. versionadded:: 1.13.0
+
+By default, the SDK opens a separate connection to the server for 
+each synced realm. In Kotlin v1.13.0 and later, you can enable
+**session multiplexing**. When enabled, the SDK 
+shares a connection to the server for all synced realms opened with 
+a single App Services user. Sharing a connection across multiple 
+sessions reduces resources and can improve performance. 
+
+Multiplexing is disabled by default. You can enable it on the 
+``AppConfiguration`` using the `.enableSessionMultiplexing() 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html#-839865185%2FFunctions%2F380376748>`__ 
+method, which accepts a Boolean value. 
+
+.. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.enable-multiplexing.kt
+   :language: kotlin
+
+When enabled, the shared connection does not immediately close when all sessions are closed.
+Instead, it remains open for the ``connectionLingerTime``, which defaults to 
+30 seconds. You can override this duration by passing a new value to 
+`SyncTimeoutOptions.connectionLingerTime() 
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-timeout-options/connection-linger-time.html>`__ 
+on the ``AppConfiguration``. 
+
+.. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.enable-multiplexing-with-timeout.kt
+   :language: kotlin
+
+For more information, refer to the 
+:ref:`kotlin-configure-sync-timeouts` section on this page.
+
+.. _kotlin-configure-sync-timeouts:
+
+Configure Sync Timeouts
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/kotlin-note-sync-config-option.rst
+
+.. versionadded:: 1.13.0
+
+In Kotlin v1.13.0 and later, you can override the default 
+timeout settings used when syncing data between the Atlas backend 
+and the client app.
+
+You can set various sync timeout settings on the 
+``AppConfiguration`` using the `.syncTimeouts()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html#90306255%2FFunctions%2F380376748>`__ 
+method. Pass specific timeout property values you want to override. The 
+configured timeouts apply to all sync sessions in the app.
+
+.. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.sync-timeout-configuration.kt
+   :language: kotlin
+
+For a complete list of the available timeout properties and their 
+definitions, refer to the
+`SyncTimeoutOptionsBuilder <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-timeout-options-builder/index.html>`__ 
+API reference.
 
 .. _kotlin-encrypt-app-metadata:
 

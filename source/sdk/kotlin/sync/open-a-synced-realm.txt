@@ -4,11 +4,22 @@
 Configure & Open a Synced Realm - Kotlin SDK
 ============================================
 
+.. meta::
+   :keywords: code example
+   :description: Configure and open a synced database for apps using Atlas Device Sync. 
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+This page describes how to open a synced database and the various 
+configuration options available.
 
 Prerequisites
 -------------
@@ -39,7 +50,6 @@ an instance of the realm:
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-a-flexible-sync-realm.kt
    :language: kotlin
-   :copyable: false
 
 For more information on bootstrapping the realm with initial subscriptions
 and managing your synced realm subscriptions, 
@@ -56,7 +66,14 @@ To adjust specific configuration settings, use the options provided by
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-flexible-sync-realm.kt
    :language: kotlin
-   :copyable: false
+
+.. versionadded:: 1.13.0
+   Sync timeout configuration options added
+
+In Kotlin v1.13.0, you can override various default timeouts used for sync 
+operations. You can set these timeouts in the ``App`` client 
+configuration, and they apply to all sync sessions in the app. 
+To learn how, refer to :ref:`<kotlin-configure-sync-timeouts>`.
 
 .. _kotlin-download-changes-before-open:
 

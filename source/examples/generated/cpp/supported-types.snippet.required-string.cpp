@@ -1,1 +1,1 @@
-realm::persisted<std::string> stringName;
+std::string stringName;

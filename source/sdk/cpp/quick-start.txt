@@ -1,9 +1,17 @@
 .. _cpp-client-quick-start:
 .. _cpp-client-quick-start-with-sync:
 
-=============================
-Quick Start - C++ SDK Preview
-=============================
+=====================
+Quick Start - C++ SDK
+=====================
+
+.. meta:: 
+   :keywords: code example
+   :description: Learn how to quickly get started with Atlas Device SDK for C++.
+
+.. facet::
+  :name: genre
+  :values: tutorial
 
 .. contents:: On this page
    :local:
@@ -20,26 +28,8 @@ Import Realm
 Make the Realm C++ SDK available in your code by including the
 ``cpprealm/sdk.hpp`` header in the translation unit where you want to use it:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. versionadded:: v0.2.0-preview
-
-      The C++ SDK Preview exposes experimental APIs in the ``realm::experimental``
-      namespace. To use the experimental APIs shown in this quick start,
-      you must include the experimental header and use the experimental 
-      namespace to access these APIs.
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-includes.cpp
-         :language: cpp
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.includes.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.include-header.cpp
+   :language: cpp
 
 Define Your Object Model
 ------------------------
@@ -48,45 +38,19 @@ For a local-only realm you can define your :ref:`object model
 <cpp-object-models>` directly in code. In this quick start, you can remove
 ``ownerId`` unless you want to add the optional Device Sync.
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-model.cpp
-         :language: cpp
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.model.cpp
-         :language: cpp 
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.model.cpp
+   :language: cpp
 
 Open a Realm
 ------------
 
-.. tabs::
+When you open a realm, you must specify a :cpp-sdk:`db_config 
+<structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`. You can 
+optionally open a realm at a specific path, or provide a ``sync_config`` 
+to open a synced realm.
 
-   .. tab:: Current
-      :tabid: current
-
-      When using the ``realm::experimental::db`` API to open a realm, you
-      must specify a :cpp-sdk:`db_config 
-      <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`. You can 
-      optionally open a realm at a specific path, or provide a ``sync_config`` 
-      to open a synced realm.
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-realm-open.cpp
-         :language: cpp
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      In a local-only realm, the simplest option to open a realm
-      is to use the default realm with no configuration parameter:
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.realm-open.cpp
-         :language: cpp 
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.realm-open.cpp
+   :language: cpp
 
 For more information, see: :ref:`Configure and Open a Realm 
 <cpp-configure-and-open-a-realm>`.
@@ -100,19 +64,8 @@ block.
 
 To instantiate a new Todo object and add it to the realm in a write block:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-create-todo.cpp
-         :language: cpp
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.create-todo.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.create-todo.cpp
+   :language: cpp
 
 You can retrieve a live :ref:`results collection <cpp-read-operations>` of 
 all todos in the realm:
@@ -127,35 +80,13 @@ You can also filter that collection using :ref:`where <cpp-client-query-engine>`
 
 To modify a todo, update its properties in a write transaction block:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-modify-write-block.cpp
-         :language: cpp
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.modify-write-block.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.modify-write-block.cpp
+   :language: cpp
 
 Finally, you can delete a todo:
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-delete.cpp
-         :language: cpp
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.delete.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.delete.cpp
+   :language: cpp
 
 Watch for Changes
 -----------------
@@ -164,6 +95,15 @@ You can watch an :ref:`object for changes
 <cpp-react-to-changes>` with the ``observe`` method.
 
 .. literalinclude:: /examples/generated/cpp/quick-start.snippet.watch-for-changes.cpp
+   :language: cpp
+
+Close a Realm
+-------------
+
+To close a realm and release all underlying resources, call ``db::close()``.
+Closing the database invalidates any remaining objects.
+
+.. literalinclude:: /examples/generated/cpp/close-realm.snippet.close-realm.cpp
    :language: cpp
 
 Add Device Sync (Optional)
@@ -203,9 +143,7 @@ In this quick start, you use :ref:`anonymous authentication <anonymous-authentic
 to log in users without requiring them to provide any identifying information.
 After authenticating the user, you can open a realm for that user.
 
-.. versionchanged:: 0.2.0 Returns std::future instead of std::promise
-
-.. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-authenticate-user.cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.authenticate-user.cpp
    :language: cpp
 
 The Realm C++ SDK provides many additional ways to authenticate, register, and link users.
@@ -221,19 +159,8 @@ open the realm. You can then add a :ref:`Flexible Sync
 subscription <cpp-manage-flexible-sync-subscriptions>` that determines 
 what data the realm can read and write.
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-open-synced-realm.cpp
-         :language: cpp
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.open-synced-realm.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.open-synced-realm.cpp
+   :language: cpp
 
 Read, Write, and React to Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -249,19 +176,8 @@ Sync permissions to :guilabel:`Users can only read and write their own data`.
 
 For more information about Sync permissions, refer to :ref:`sync-permissions`.
 
-.. tabs::
-
-   .. tab:: Current
-      :tabid: current
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.beta-write-to-synced-realm.cpp
-         :language: cpp
-
-   .. tab:: Deprecated
-      :tabid: deprecated
-
-      .. literalinclude:: /examples/generated/cpp/quick-start.snippet.write-to-synced-realm.cpp
-         :language: cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.write-to-synced-realm.cpp
+   :language: cpp
 
 While you work with local data, a background thread efficiently integrates, 
 uploads, and downloads changesets. 

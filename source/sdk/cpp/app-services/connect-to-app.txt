@@ -1,8 +1,8 @@
 .. _cpp-connect-to-backend:
 
-=========================================
-Connect to App Services - C++ SDK Preview
-=========================================
+=================================
+Connect to App Services - C++ SDK
+=================================
 
 .. meta:: 
   :keywords: code example
@@ -39,19 +39,20 @@ To learn how to find your App ID in the App Services UI, refer to
 Access the App Client
 ---------------------
 
-.. versionchanged:: v0.4.0-preview Replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
-
 #. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
-#. Create an :cpp-sdk:`App object <classrealm_1_1App.html>` 
-   with your App's ID as the argument. You use this ``App`` instance to access 
-   App Services features throughout your client application.
+#. Create a :cpp-sdk:`realm::App::configuration() <structrealm_1_1App_1_1configuration.html>`
+   with with your App's ID as the argument. You can optionally configure
+   additional details through the App configuration.
+#. Initialize an :cpp-sdk:`App <classrealm_1_1App.html>` 
+   using this ``realm::App::configuration()``. You use this ``App`` instance 
+   to access App Services features throughout your client application.
 
 .. literalinclude:: /examples/generated/cpp/call-function.snippet.connect-app-services.cpp
    :language: cpp
 
 .. tip:: Building an Android App
 
-   When building an Android app that uses the Realm C++ SDK Preview, 
+   When building an Android app that uses the Realm C++ SDK, 
    you must pass the ``filesDir.path`` to the ``file_path`` parameter in the 
    :cpp-sdk:`db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
    constructor. For more information, refer to: :ref:`cpp-build-android-app`.
@@ -61,12 +62,12 @@ Access the App Client
 Set Custom HTTP Headers
 -----------------------
 
-.. versionchanged:: v0.4.0-preview replaces deprecated realm::App(...) with realm::App(const realm::App::configuration&)
-
 If you use App Services or Device Sync with a proxy setup, you may need
 to set custom HTTP headers. The Realm C++ SDK supports setting custom 
-HTTP headers on the :cpp-sdk:`App <structrealm_1_1App_1_1configuration.html>`
-and on the ``flexible_sync_configuration()``.
+HTTP headers on the 
+:cpp-sdk:`realm::App::configuration() <structrealm_1_1App_1_1configuration.html>`
+and on the 
+:cpp-sdk:`realm::db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
 
 When you initialize the App configuration, pass in a map of string header keys
 and values.
@@ -78,15 +79,13 @@ If you :ref:`call a function <cpp-call-a-function>`, the App uses
 these custom headers.
 
 If you want to use custom headers with Device Sync, you must 
-additionally :ref:`set the headers on the Flexible Sync configuration 
+additionally :ref:`set the headers on the realm::db_config 
 <cpp-set-custom-headers-using-synced-realm>`.
 
 .. _cpp-http_proxy:
 
 Use an HTTP Proxy with Realm
 ----------------------------
-
-.. versionadded:: v0.5.0-preview
 
 If you have configured an HTTP proxy, you can use HTTP tunneling to 
 route your Realm traffic. 
@@ -97,7 +96,7 @@ To configure Realm to use your HTTP proxy:
    :cpp-sdk:`proxy_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1sync__config_1_1proxy__config.html>` 
    with the details for your proxy. 
 #. Set the proxy config on your :cpp-sdk:`realm::App::configuration <structrealm_1_1App_1_1configuration.html>`.
-#. Set the proxy config on your :cpp-sdk:`sync_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1sync__config.html>`.
+#. Set the proxy config on your :cpp-sdk:`realm::db_config <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>`.
 
 .. literalinclude:: /examples/generated/cpp/app.snippet.set-proxy-config.cpp
    :language: cpp
@@ -106,8 +105,6 @@ To configure Realm to use your HTTP proxy:
 
 Encrypt App Metadata
 --------------------
-
-.. versionadded:: v0.4.0-preview
 
 When you connect to App Services, Realm creates additional metadata files 
 on a device. For more information about these metadata files, refer to 
@@ -125,4 +122,4 @@ To enable metadata encryption on other platforms, you must set a
 
 .. literalinclude:: /examples/generated/cpp/app.snippet.encrypt-metadata.cpp
    :language: cpp
-   :emphasize-lines: 20-21
+   :emphasize-lines: 14-15

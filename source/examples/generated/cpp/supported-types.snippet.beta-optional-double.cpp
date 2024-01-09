@@ -1,1 +1,0 @@
-std::optional<double> optDoubleName;
