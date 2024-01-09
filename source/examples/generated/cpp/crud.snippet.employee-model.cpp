@@ -1,3 +1,4 @@
+namespace realm {
 struct Employee {
   realm::primary_key<int64_t> _id;
   std::string firstName;
@@ -10,3 +11,4 @@ struct Employee {
 // The REALM_SCHEMA omits the `jobTitle_notPersisted` property
 // The SDK does not store and cannot retrieve a value for this property
 REALM_SCHEMA(Employee, _id, firstName, lastName)
+}  // namespace realm

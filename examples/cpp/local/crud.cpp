@@ -4,11 +4,13 @@
 // :replace-start: {
 //   "terms": {
 //     "Map_": "",
-//     "Set_": ""
+//     "Set_": "",
+//     "Namespace_": ""
 //   }
 // }
-namespace realm {
+
 // :snippet-start: define-model
+namespace realm {
 // :snippet-start: single-object-model
 struct Dog {
   std::string name;
@@ -28,9 +30,23 @@ struct Person {
 };
 REALM_SCHEMA(Person, _id, name, age, dog)
 // :snippet-end:
+}  // namespace realm
+// :snippet-end:
+
+// This is the same model as `Dog` above - I'm just using it here to show
+// the `namespace realm` in the model example for clarity in the docs.
+// :snippet-start: dog-model-shows-namespace
+namespace realm {
+struct Namespace_Dog {
+  std::string name;
+  int64_t age;
+};
+REALM_SCHEMA(Alternate_Dog, name, age)
+}  // namespace realm
 // :snippet-end:
 
 // :snippet-start: employee-model
+namespace realm {
 struct Employee {
   realm::primary_key<int64_t> _id;
   std::string firstName;
@@ -43,9 +59,11 @@ struct Employee {
 // The REALM_SCHEMA omits the `jobTitle_notPersisted` property
 // The SDK does not store and cannot retrieve a value for this property
 REALM_SCHEMA(Employee, _id, firstName, lastName)
+}  // namespace realm
 // :snippet-end:
 
 // :snippet-start: model-with-embedded-object
+namespace realm {
 struct ContactDetails {
   // Because ContactDetails is an embedded object, it cannot have its own _id
   // It does not have a lifecycle outside of the top-level object
@@ -60,9 +78,11 @@ struct Business {
   ContactDetails *contactDetails;
 };
 REALM_SCHEMA(Business, _id, name, contactDetails)
+}  // namespace realm
 // :snippet-end:
 
 // :snippet-start: model-with-map-property
+namespace realm {
 struct Map_Employee {
   enum class WorkLocation { HOME, OFFICE };
 
@@ -72,24 +92,28 @@ struct Map_Employee {
   std::map<std::string, WorkLocation> locationByDay;
 };
 REALM_SCHEMA(Map_Employee, _id, firstName, lastName, locationByDay)
+}  // namespace realm
 // :snippet-end:
 
 // :snippet-start: model-with-set-property
+namespace realm {
 struct Set_Repository {
   std::string ownerAndName;
   std::set<int64_t> openPullRequestNumbers;
 };
 REALM_SCHEMA(Set_Repository, ownerAndName, openPullRequestNumbers)
+}  // namespace realm
 // :snippet-end:
 
 // :snippet-start: dog-map-model
+namespace realm {
 struct Map_Dog {
   std::string name;
   std::map<std::string, std::string> favoriteParkByCity;
 };
 REALM_SCHEMA(Map_Dog, name, favoriteParkByCity)
-// :snippet-end:
 }  // namespace realm
+// :snippet-end:
 
 TEST_CASE("Define model example", "[write]") {
   auto relative_realm_path_directory = "dog/";
@@ -249,7 +273,7 @@ TEST_CASE("Embedded object example", "[write]") {
 
 TEST_CASE("create a dog", "[write]") {
   // :snippet-start: create-an-object
-  // Create an object like any other object.
+  // Create an object using the `realm` namespace.
   auto dog = realm::Dog{.name = "Rex", .age = 1};
 
   std::cout << "dog: " << dog.name << "\n";
