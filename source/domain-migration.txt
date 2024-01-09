@@ -2,6 +2,42 @@
 Domain Migration
 ================
 
-- base URLs are changing
-- SDK versions that handle this automatically
-- domain is active now. Begin migrating and updating domain access lists.
+The base URL that Atlas Device SDKs use will be updated from:
+``https://realm.mongodb.com/`` to a new URL: 
+``https://services.cloud.mongodb.com``.
+
+Relevant SDK versions
+---------------------
+
+This change will affect all SDKs starting in the following versions:
+
+- C++ SDK: version TBD
+- Flutter SDK: version TBD
+- Java SDK: version TBD
+- Kotlin SDK: version TBD
+- .NET SDK: version TBD
+- Node.js SDK: version TBD
+- React Native SDK: version TBD
+- Swift SDK: version TBD
+
+Begin Migration Now
+-------------------
+
+The new URL (``https://services.cloud.mongodb.com``) is available now and you
+can begin using it by specifying a base URL in your app configuration. You should
+also update your domain access lists to allow the new URL.
+
+Refer to the SDK docs for details about specifying a base URL:
+
+- :ref:`C++ SDK <cpp-connect-to-backend>`
+- :ref:`Flutter SDK <>`
+- :ref:`Java SDK <>`
+- :ref:`Kotlin SDK <>`
+- :ref:`.NET SDK <>`
+- :ref:`Node.js SDK <>`
+- :ref:`React Native SDK <>`
+- :ref:`Swift SDK <>`
+
+The old URL (``https://realm.mongodb.com/``) will continue to work, but will be
+deprecated in the future. We recommend migrating to the new URL as soon as
+possible.
