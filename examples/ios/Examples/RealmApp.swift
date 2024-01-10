@@ -15,7 +15,7 @@ class RealmAppTest: XCTestCase {
     func testRealmAppWithConfig() {
         // :snippet-start: realm-app-config
         let configuration = AppConfiguration(
-           baseURL: "https://realm.mongodb.com", // Custom base URL
+           baseURL: "https://services.cloud.mongodb.com", // Custom base URL
            transport: nil, // Custom RLMNetworkTransportProtocol
            localAppName: "My App",
            localAppVersion: "3.14.159",

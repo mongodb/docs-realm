@@ -15,7 +15,7 @@ describe("Set up Apollo Client", () => {
   it("Create an Apollo GraphQL Client", () => {
     // :snippet-start: create-apollo-client
     // Add your Realm App ID
-    const graphqlUri = `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`;
+    const graphqlUri = `https://services.cloud.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`;
     // Local apps should use a local URI!
     // const graphqlUri = `https://us-east-1.aws.stitch.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`
     // const graphqlUri = `https://eu-west-1.aws.stitch.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`
@@ -55,7 +55,7 @@ describe("Set up Apollo Client", () => {
     // Configure the ApolloClient to connect to your app's GraphQL endpoint
     const client = new ApolloClient({
       link: new HttpLink({
-        uri: `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`,
+        uri: `https://services.cloud.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`,
         // We define a custom fetch handler for the Apollo client that lets us authenticate GraphQL requests.
         // The function intercepts every Apollo HTTP request and adds an Authorization header with a valid
         // access token before sending the request.
@@ -88,7 +88,7 @@ describe("Set up Apollo Client", () => {
       );
     }
     expect(client.link.options.uri).toBe(
-      `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`
+      `https://services.cloud.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`
     );
   });
 });
