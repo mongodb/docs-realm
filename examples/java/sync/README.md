@@ -3,7 +3,7 @@
 The Realm Examples project contains Java and Kotlin code examples and unit tests for the Realm SDK.
 
 This project uses Realm Sync with the Realm app *android-example-testers-rztwe*, in the org *Bushicorp*. You can
-view the Realm app [here](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5fd8f1267b48d7cff86b1766/dashboard).
+view the Realm app [here](https://services.cloud.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5fd8f1267b48d7cff86b1766/dashboard).
 
 ## Get Started
 

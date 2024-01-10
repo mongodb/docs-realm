@@ -3,9 +3,9 @@
 The Realm Examples project contains the Swift, SwiftUI and iOS code examples 
 for Realm and their unit and UI tests.
 
-The Partition-Based Sync backend that this app hits is located in the [example-testers App Services app of the Realm Example Testers Atlas project of the Bushicorp Atlas organization](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5f6020d292050452b72032e2/dashboard).
+The Partition-Based Sync backend that this app hits is located in the [example-testers App Services app of the Realm Example Testers Atlas project of the Bushicorp Atlas organization](https://services.cloud.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5f6020d292050452b72032e2/dashboard).
 
-The Flexible Sync backend that this app hits is located in the [swift-flexible App Services app of the Realm Example Testers Atlas project of the Bushicorp Atlas Organization](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/61eeda562b57b7279f705b95/dashboard)
+The Flexible Sync backend that this app hits is located in the [swift-flexible App Services app of the Realm Example Testers Atlas project of the Bushicorp Atlas Organization](https://services.cloud.mongodb.com/groups/5f60207f14dfb25d23101102/apps/61eeda562b57b7279f705b95/dashboard)
 
 ## Get Started
 

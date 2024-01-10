@@ -12,7 +12,7 @@ import "dart:async"; // used to refresh access token
 // Note: using web tester b/c has GraphQL configured
 const YOUR_APP_ID = 'web_tester-ifnyw';
 const YOUR_GRAPHQL_URL =
-    'https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/web_tester-ifnyw/graphql';
+    'https://us-east-1.aws.services.cloud.mongodb.com/api/client/v2.0/app/web_tester-ifnyw/graphql';
 // :remove-end:
 void main() async {
   late GraphQLClient higherScopeClient;
