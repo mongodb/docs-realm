@@ -4,6 +4,14 @@
 CRUD - Create - C++ SDK
 =======================
 
+.. meta:: 
+   :keywords: code example
+   :description: Learn how to create objects with the C++ SDK.
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -54,8 +62,8 @@ Create a New Object
 Create an Object
 ~~~~~~~~~~~~~~~~
 
-To create an object, instantiate it as you would any other
-object. Move the object into the realm using the
+To create an object, you must instantiate it using the ``realm`` namespace. 
+Move the object into the realm using the
 :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>` 
 inside of a write transaction.
 
@@ -74,7 +82,7 @@ Model
 For more information about modeling an object, refer to: 
 :ref:`cpp-define-a-new-object-type`.
 
-.. literalinclude:: /examples/generated/cpp/crud.snippet.single-object-model.cpp
+.. literalinclude:: /examples/generated/cpp/crud.snippet.dog-model-shows-namespace.cpp
    :language: cpp
 
 .. _cpp-create-an-embedded-object:

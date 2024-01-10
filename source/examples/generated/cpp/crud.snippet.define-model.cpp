@@ -1,3 +1,4 @@
+namespace realm {
 struct Dog {
   std::string name;
   int64_t age;
@@ -13,3 +14,4 @@ struct Person {
   Dog *dog;
 };
 REALM_SCHEMA(Person, _id, name, age, dog)
+}  // namespace realm

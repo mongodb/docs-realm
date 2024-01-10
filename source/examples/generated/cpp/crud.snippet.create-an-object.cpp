@@ -1,4 +1,4 @@
-// Create an object like any other object.
+// Create an object using the `realm` namespace.
 auto dog = realm::Dog{.name = "Rex", .age = 1};
 
 std::cout << "dog: " << dog.name << "\n";
