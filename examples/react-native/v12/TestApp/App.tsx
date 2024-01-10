@@ -5,7 +5,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 // Components
-import {HomeScreen} from './src/screens/HomeScreen';
 import {Geospatial} from './src/components/data-types/geospatial/Geospatial';
 import {FtsQuery} from './src/components/fts-query/FtsQuery';
 import {Logger} from './src/components/logger/Logger';
@@ -15,8 +14,10 @@ import {CompensatingWriteErrorHandling} from './src/components/errors/Compensati
 import {EncryptMetadata} from './src/components/encryption/EncryptMetadata';
 
 // Screens
+import {HomeScreen} from './src/screens/HomeScreen';
 import {SubscriptionScreen} from './src/screens/SubscriptionScreen';
 import {AuthenticationScreen} from './src/screens/AuthenticationScreen';
+import {QuickstartScreen} from './src/screens/QuickstartScreen';
 
 // Types
 import {RootStackParamList} from './src/navigation/types';
@@ -86,6 +87,10 @@ function App(): JSX.Element {
             />
           )}
         </Drawer.Screen>
+        <Drawer.Screen
+          name="Quickstart"
+          component={QuickstartScreen}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

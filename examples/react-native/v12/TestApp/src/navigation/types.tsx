@@ -15,6 +15,7 @@ export type RootStackParamList = {
   Encryption: {
     encryptionKey: ArrayBuffer;
   };
+  Quickstart: undefined;
 };
 
 export type SubscriptionStackParamList = {
@@ -25,6 +26,11 @@ export type AuthenticationStackParamList = {
   AuthenticationHome: undefined;
   Login: undefined;
   LinkIdentities: undefined;
+};
+export type QuickstartStackParamList = {
+  QuickstartHome: undefined;
+  QuickstartNoSync: undefined;
+  QuickstartSync: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -38,6 +44,10 @@ export type SubscriptionHomeProps = StackScreenProps<
 export type AuthenticationHomeProps = StackScreenProps<
   AuthenticationStackParamList,
   'AuthenticationHome'
+>;
+export type QuickstartHomeProps = StackScreenProps<
+  QuickstartStackParamList,
+  'QuickstartHome'
 >;
 
 declare global {

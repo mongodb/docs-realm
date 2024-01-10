@@ -232,3 +232,28 @@ export class Warranty extends Realm.Object {
 */
 
 // :replace-end:
+
+/*
+  Quick Start Object Model
+*/
+
+// :snippet-start: qs-define-model
+// Define your object model
+export class Profile extends Realm.Object<Profile> {
+  _id!: BSON.ObjectId;
+  name!: string;
+
+  static schema: ObjectSchema = {
+    name: 'Profile',
+    properties: {
+      _id: 'objectId',
+      name: {type: 'string', indexed: 'full-text'},
+    },
+    primaryKey: '_id',
+  };
+}
+// :snippet-end:
+
+/*
+  End quick start object models
+*/

@@ -47,7 +47,7 @@
      };
 
      return (
-       <View }>
+       <View>
          {/* Show all identities associated with the current user */}
          <FlatList
            data={userIdentities}
@@ -58,7 +58,7 @@
          />
 
          <Text>Link anonymous user with email/password account</Text>
-         <View }>
+         <View>
            <TextInput
              onChangeText={setEmail}
              value={email}
@@ -71,7 +71,7 @@
            />
          </View>
 
-         <View >
+         <View>
            <Pressable
              onPress={registerAndLinkIdentities}>
              <Text style={styles.buttonText}>Register</Text>
