@@ -108,7 +108,8 @@ specific object that you want to update. Then, modify the object properties.
 .. tip:: Use Unique Identifying Information
 
    We recommend filtering with unique identifying information such as 
-   a primary key value to ensure your query returns the correct object.
+   a :ref:`primary key value <kotlin-find-by-primary-key>` 
+   to ensure your query returns the correct object.
 
 In the following example, we query a ``Frog`` object by primary key, 
 then update the ``name`` and ``age`` properties:
@@ -127,7 +128,8 @@ or by overwriting the entire embedded object.
 .. tip:: Access Embedded Objects with Dot Notation
 
    You can use dot notation to access embedded object 
-   properties as if it were in a regular, nested object.
+   properties as if it were in a regular, nested object. For more information, refer to 
+   :ref:`kotlin-query-embedded-object-property`.
 
 To update one or more properties in an embedded object, 
 fetch the parent or embedded object and reassign the 
