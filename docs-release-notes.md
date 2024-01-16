@@ -1,3 +1,51 @@
+# January 12, 2024
+
+## C++ SDK
+
+Prepare docs for C++ GA release, including:
+- Remove "Preview" from naming.
+- Move Bluehawked, tested code examples out of the experimental namespace, and generate updated examples.
+- Remove tabs for "Current" and "Deprecated" (Beta and Alpha) syntaxes.
+- Remove `.. versionadded::` and `.. versionchanged::` directives to reset for GA release.
+- Update API reference links.
+- Update the Google authentication examples for updated naming in v0.6.0-preview.
+- Add new documentation and Bluehawked code examples for new functionality and API changes in GA:
+  - Quick Start
+    - New section about closing a realm.
+    - Remove sync session initialization and method call from the "Open a Synced Realm" example.
+  - Realm Files
+    - Configure & Open a Realm: New section about closing a realm.
+    - Reduce Realm File Size: New page about compacting a realm.
+  - Application Services/Call a Function: Update the example to remove BSON and use the new string-based API.
+  - Manage Users
+    - Authenticate Users: Update the Custom Function User example to remove BSON and use the new string-based API.
+    - Custom User Data: Update examples that show calling a Function to create, update, and delete user data to remove BSON and use the new string-based API.
+  - Sync Device Data
+    - Manage Sync Sessions: Add new sync control methods.
+    - Handle Sync Errors: New "Client Reset" section with info and code examples for client resets.
+
+## Kotlin SDK
+
+- Connect to Atlas/Connect to App Services: Document new session multiplexing and sync timeout configuration options with Bluehawked, tested code examples.
+- Sync Device Data/Configure & Open a Synced Realm: Update "Configure a Synced Realm" section with information on the new sync timeout configuration options.
+
+## React Native SDK
+
+- Quick Start: Rewrite the Quick Start to use the latest `@realm/react` conventions and Realm.js v12 features.
+
+## Swift SDK
+
+- Internal: Update test suite versions.
+
+## Web SDK
+
+- Internal: Upgrade test suite dependencies and fix failing test.
+
+## Other
+
+- Throughout Docs
+  - Update base URL (realm.mongodb.com) to new App Services base URL (services.cloud.mongodb.com).
+
 # January 5, 2024
 
 ## Flutter SDK
