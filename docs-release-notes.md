@@ -19,7 +19,7 @@ Prepare docs for C++ GA release, including:
   - Application Services/Call a Function: Update the example to remove BSON and use the new string-based API.
   - Manage Users
     - Authenticate Users: Update the Custom Function User example to remove BSON and use the new string-based API.
-    - Custom User Data: Update examples that show calling a Function to create, update, and delete user data to remove BSON and use the new string-based API.
+    - Custom User Data: Update examples that call a Function to create, update, and delete user data to remove BSON and use the new string-based API.
   - Sync Device Data
     - Manage Sync Sessions: Add new sync control methods.
     - Handle Sync Errors: New "Client Reset" section with info and code examples for client resets.
