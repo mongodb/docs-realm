@@ -5,6 +5,14 @@
 Realm with SwiftUI QuickStart
 =============================
 
+.. meta:: 
+   :description: Learn how to use Atlas Device SDK with SwiftUI property wrappers. 
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -194,27 +202,19 @@ across devices. Before you can add sync to this app, make sure to:
   #. Specify a cluster and database.
   #. Turn on Development Mode.
   #. Use ``ownerId`` as the queryable field.
-  #. Use these permissions:
+  #. Enable Sync.
 
-     .. code-block:: json
+- :ref:`Define the rules <define-roles-and-permissions>` that determine which 
+  permissions users have when using Device Sync. For this example, we assign 
+  a default role, which applies to any collection that does not have a 
+  collection-specific role. In this example, a user can read and write data 
+  where the ``user.id`` of the logged-in user matches the ``ownerId`` of the 
+  object:
 
-        {
-          "rules": {},
-          "defaultRoles": [
-            {
-              "name": "owner-read-write",
-              "applyWhen": {},
-              "read": {
-                "ownerId": "%%user.id"
-              },
-              "write": {
-                "ownerId": "%%user.id"
-              }
-            }
-          ]
-        }
+  .. literalinclude:: /includes/swiftui-tutorial-default-role.json
+     :language: json
 
-  #. Enable Sync, and deploy your application updates.
+Now, deploy your application updates.
 
 .. tip::
 
