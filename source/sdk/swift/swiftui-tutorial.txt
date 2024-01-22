@@ -189,32 +189,27 @@ across devices. Before you can add sync to this app, make sure to:
 - :ref:`Create an App Services App <create-a-realm-app>`.
 - :ref:`Enable anonymous authentication <anonymous-authentication-configuration>`.
 - :ref:`Enable Device Sync <enable-sync>`.
+- :ref:`Define rules for a default role <define-roles-and-permissions>`.
 
   1. Choose :ref:`Flexible Sync <flexible-sync>`
   #. Specify a cluster and database.
   #. Turn on Development Mode.
   #. Use ``ownerId`` as the queryable field.
-  #. Use these permissions:
+  #. Enable Sync.
 
-     .. code-block:: json
+Separately, you must :ref:`define the rules <define-roles-and-permissions>` 
+that determine which permissions users have when using Device Sync. For this 
+example, we assign a default role, which applies to any collection that does 
+not have a collection-specific role.
 
-        {
-          "rules": {},
-          "defaultRoles": [
-            {
-              "name": "owner-read-write",
-              "applyWhen": {},
-              "read": {
-                "ownerId": "%%user.id"
-              },
-              "write": {
-                "ownerId": "%%user.id"
-              }
-            }
-          ]
-        }
+Use these permissions, which when evaluated, mean that a user can read and 
+write data where the ``user.id`` of the logged-in user matches the ``ownerId``
+of the object:
 
-  #. Enable Sync, and deploy your application updates.
+.. literalinclude:: /includes/swiftui-tutorial-default-role.json
+   :language: json
+
+Now, deploy your application updates.
 
 .. tip::
 
