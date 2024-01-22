@@ -6,7 +6,7 @@ Quick Start - Flutter SDK
 =========================
 
 .. meta:: 
-   :description: Get started use Atlas Device SDK with Flutter. 
+   :description: Get started using Atlas Device SDK with Flutter. 
    :keywords: code example
 
 .. facet::
@@ -252,18 +252,15 @@ you must configure Device Sync using Atlas App Services:
 #. :ref:`Enable Anonymous Authentication <anonymous-authentication>`
 #. :ref:`Enable Flexible Sync <enable-flexible-sync>`. Set ``owner_id`` as a 
    **queryable field**.
+#. :ref:`Define the rules <define-roles-and-permissions>` that determine which 
+   permissions users have when using Device Sync. For this example, we assign 
+   a default role, which applies to any collection that does not have a 
+   collection-specific role. In this example, a user can read and write data 
+   where the ``user.id`` of the logged-in user matches the ``owner_id`` of the 
+   object:
 
-Separately, you must :ref:`define the rules <define-roles-and-permissions>` 
-that determine which permissions users have when using Device Sync. For this 
-example, we assign a default role, which applies to any collection that does 
-not have a collection-specific role.
-
-Use these permissions, which when evaluated, mean that a user can read and 
-write data where the ``user.id`` of the logged-in user matches the ``owner_id``
-of the object:
-
-.. literalinclude:: /includes/quick-start-default-role.json
-   :language: json
+   .. literalinclude:: /includes/quick-start-default-role.json
+      :language: json
 
 Now, deploy your application updates.
 
