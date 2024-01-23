@@ -66,6 +66,7 @@ class RealmObjectProperties_Frog : RealmObject {
     var birthdate: RealmInstant? = null
     var fliesEaten: MutableRealmInt? = null
     var favoriteThings: RealmList<RealmAny?> = realmListOf()
+    var favoriteThing: RealmAny? = null // :remove:
 }
 // :snippet-end:
 

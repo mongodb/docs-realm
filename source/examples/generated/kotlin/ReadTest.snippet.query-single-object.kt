@@ -1,8 +1,8 @@
-val tadpoleQuery = realm.query<Frog>("age < $0", 1).first()
-val findTadpole = tadpoleQuery.find()
+val querySingleFrog = realm.query<Frog>().first()
+val singleFrog = querySingleFrog.find()
 
-if (findTadpole != null) {
-    println("${findTadpole.name} is a tadpole.")
+if (singleFrog != null) {
+    println("${singleFrog.name} is a frog.")
 } else {
-    println("No tadpoles found.")
+    println("No frogs found.")
 }

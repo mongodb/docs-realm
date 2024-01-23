@@ -18,8 +18,12 @@ import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.count
 import org.mongodb.kbson.ObjectId
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 // :replace-start: {
 //    "terms": {
@@ -30,7 +34,8 @@ import kotlin.test.*
 //       "ExampleRealmList_": "",
 //       "ExampleRealmDictionary_": "",
 //       "ExampleRealmSet_": "",
-//       "RealmEmbeddedObject_": ""
+//       "RealmEmbeddedObject_": "",
+//       "ExamplePropertyAnnotations_": ""
 //    }
 // }
 
@@ -46,7 +51,7 @@ class ReadTest: RealmTest() {
     fun readRealmObject() {
         runBlocking {
             val config = RealmConfiguration.Builder(setOf(ExampleRealmObject_Frog::class))
-                .inMemory()
+                .inMemory() // :remove:
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
@@ -69,44 +74,42 @@ class ReadTest: RealmTest() {
                 })
             }
             // :snippet-start: read-realm-object
-            val findFrogs =
-                // Pass the object type from your database schema that you want to query
-                realm.query<ExampleRealmObject_Frog>()
-                    // Filter results
-                    .query("owner == $0", "Jim Henson")
-                    // Sort results
-                    .sort("age", Sort.ASCENDING)
-                    // Run the query
-                    .find()
+            // Pass the object type as a query parameter
+            val findFrogs = realm.query<ExampleRealmObject_Frog>()
+                // Filter results
+                .query("owner == $0", "Jim Henson")
+                // Sort results
+                .sort("age", Sort.ASCENDING)
+                // Run the query
+                .find()
             // ... work with the results
             // :snippet-end:
             val frozenFrogs = findFrogs
+            val frog = frozenFrogs.first()
+            // :snippet-start: check-frozen
+            val isFrozen = frog.isFrozen()
+            // :snippet-end:
             // :snippet-start: find-latest-version
             // Open a write transaction to access the MutableRealm
             realm.write {  // this: MutableRealm
-                val livingFrog = findLatest(frozenFrogs.first())
-                if (livingFrog != null) {
-                    assertFalse(livingFrog.isFrozen())
-                }
                 for (frog in frozenFrogs) {
                     // Call 'findLatest()' on an earlier query's frozen results
                     // to return the latest live objects that you can modify
                     // within the current write transaction
-                    findLatest(frog)?.also { liveFrog ->  // :emphasize-line:
+                    findLatest(frog)?.also { liveFrog ->  // :emphasize:
                         copyToRealm(liveFrog.apply { age += 1 })
                         println(liveFrog.name + " is now " + liveFrog.age + " years old")
                     }
                 }
             }
-            assertTrue(frozenFrogs.first().isFrozen())
             // :snippet-end:
+            assertTrue(frozenFrogs.first().isFrozen())
             val thrownException = assertFailsWith<Exception> {
             // :snippet-start: frozen-vs-live-results
             // 'Realm.query()' always returns frozen results
-            val realmQuery =
-                realm.query<ExampleRealmObject_Frog>("age > $0", 50).find()
-            // Trying to modify a frozen object throws 'IllegalStateException'
-            realmQuery.first().age += 1
+            val frozenResults = realm.query<ExampleRealmObject_Frog>("age > $0", 50).find()
+            // If you try to modify the queried object, SDK throws 'IllegalStateException'
+            frozenResults.first().age += 1
 
             // :remove-start:
             }
@@ -115,14 +118,13 @@ class ReadTest: RealmTest() {
                 "Trying to modify database while in read transaction"
             )
             // :remove-end:
+            // 'MutableRealm.query()' returns live results
             // Open a write transaction to access the MutableRealm
             realm.write { // this: MutableRealm
-                // 'MutableRealm.query()' returns live results
-                val mutableRealmQuery =
-                    this.query<ExampleRealmObject_Frog>("age > $0", 50).find()
-                // Can successfully modify queried object
-                mutableRealmQuery.first().age += 1
-                assertEquals(102, mutableRealmQuery.first().age) // :remove:
+                val liveResults = this.query<ExampleRealmObject_Frog>("age > $0", 50).find()
+                // You can modify queried object
+                liveResults.first().age += 1
+                assertEquals(102, liveResults.first().age) // :remove:
             }
             // :snippet-end:
             realm.write { deleteAll() }
@@ -155,17 +157,33 @@ class ReadTest: RealmTest() {
                     age = 100
                     owner = "Jim Henson"
                 })
+            }
+            realm.write{
                 // :snippet-start: synchronous-query
                 val queryAllFrogs = realm.query<ExampleRealmObject_Frog>()
-                // Returns a RealmResults collection
-                val allFrogs: RealmResults<ExampleRealmObject_Frog> = queryAllFrogs.find()
+                val queryAllLiveFrogs = this.query<ExampleRealmObject_Frog>() // this: MutableRealm
 
-                val asyncQueryAllFrogs = this.query<ExampleRealmObject_Frog>() // this: MutableRealm
-                // Returns a ResultsChange Flow (MUST be called from 'MutableRealm.query()')
-                val allFrogsFlow = asyncQueryAllFrogs.asFlow()
-                // :snippet-end:
+                // Calling 'find()' on the query returns a RealmResults collection
+                // Can be called on a `Realm.query()` or `MutableRealm.query()`
+                val allFrogs: RealmResults<ExampleRealmObject_Frog> = queryAllFrogs.find()
+                val allLiveFrogs: RealmResults<ExampleRealmObject_Frog> = queryAllLiveFrogs.find()
+
+                // Calling 'asFlow()' on the query returns a ResultsChange Flow
+                // Can ONLY be called on a `Realm.query()`
+                val allFrogsFlow: Flow<ResultsChange<ExampleRealmObject_Frog>> = queryAllFrogs.asFlow()
+                val thrownException = assertFailsWith<Exception> { // :remove:
+                val allLiveFrogsFlow: Flow<ResultsChange<ExampleRealmObject_Frog>> = queryAllLiveFrogs.asFlow() // throws exception
+                    // :snippet-end:
+                }
+                    assertTrue(thrownException.message!!.contains("Observing changes are not supported by this Realm"))
+                val testFlow: Deferred<Unit> = async {
+                    assertEquals(3, allFrogsFlow.count())
+                }
+                testFlow.cancel()
+                assertEquals(3, allFrogs.size)
+                assertEquals(3, allLiveFrogs.size)
+                deleteAll()
             }
-            realm.write { deleteAll() }
             realm.close()
         }
     }
@@ -199,25 +217,31 @@ class ReadTest: RealmTest() {
                 })
             }
             // :snippet-start: query-by-object-type
-            // Query for all objects of a type
+            // Query all Frog objects in the database
             val queryAllFrogs = realm.query<ExampleRealmObject_Frog>()
             val allFrogs = queryAllFrogs.find()
             // :snippet-end:
             assertEquals(3, allFrogs.size)
             // :snippet-start: query-single-object
-            val tadpoleQuery = realm.query<ExampleRealmObject_Frog>("age < $0", 1).first()
-            val findTadpole = tadpoleQuery.find()
+            val querySingleFrog = realm.query<ExampleRealmObject_Frog>().first()
+            val singleFrog = querySingleFrog.find()
 
-            if (findTadpole != null) {
-                println("${findTadpole.name} is a tadpole.")
+            if (singleFrog != null) {
+                println("${singleFrog.name} is a frog.")
             } else {
-                println("No tadpoles found.")
+                println("No frogs found.")
             }
             // :snippet-end:
+            assertEquals("Jim Henson", singleFrog?.owner)
             // :snippet-start: find-by-primary-key
             val queryByPrimaryKey = realm.query<ExampleRealmObject_Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
             // :snippet-end:
             assertEquals(PRIMARY_KEY_VALUE, queryByPrimaryKey._id)
+            // :snippet-start: query-by-property
+            val queryByProperty = realm.query<ExampleRealmObject_Frog>("name == $0", "Kermit")
+            val frogsNamedKermit = queryByProperty.find()
+            // :snippet-end:
+            assertEquals(1, frogsNamedKermit.size)
             realm.write { deleteAll() }
             realm.close()
         }
@@ -248,22 +272,30 @@ class ReadTest: RealmTest() {
                     } })
             }
             // :snippet-start: find-embedded-object
-            val findEmbeddedObject = realm.query<ExampleRelationship_EmbeddedAddress>().find().first()
+            val queryAllEmbeddedAddresses = realm.query<ExampleRelationship_EmbeddedAddress>()
+            val allEmbeddedAddresses = queryAllEmbeddedAddresses.find()
             // :snippet-end:
+            assertEquals(1, allEmbeddedAddresses.size)
+            val embeddedObject = allEmbeddedAddresses.first()
             // :snippet-start: get-parent
-            val getParent = findEmbeddedObject.parent<ExampleRelationship_Contact>()
+            val getParent = embeddedObject.parent<ExampleRelationship_Contact>()
             // :snippet-end:
+            assertEquals("Kermit", getParent.name)
             // :snippet-start: query-embedded-object-property
             // Use dot notation to access the embedded object properties as if it
             // were in a regular nested object
             val queryEmbeddedObjectProperty =
-                realm.query<ExampleRelationship_Contact>("address.street == '123 Pond St'").find().first()
+                realm.query<ExampleRelationship_Contact>("address.street == '123 Pond St'")
 
             // You can also query properties nested within the embedded object
-            val queryNestedProperty = realm.query<ExampleRelationship_Contact>("address.propertyOwner.name == $0", "Mr.Frog").find().first()
+            val queryNestedProperty = realm.query<ExampleRelationship_Contact>()
+                .query("address.propertyOwner.name == $0", "Mr.Frog")
             // :snippet-end:
-            assertEquals("Mr. Frog", findEmbeddedObject.propertyOwner?.name)
-            assertEquals("Mr. Frog", queryEmbeddedObjectProperty.address?.propertyOwner?.name)
+            val findEmbeddedObjectProperty = queryEmbeddedObjectProperty.find().first()
+            val findNestedProperty = queryNestedProperty.find().first()
+            assertEquals("Mr. Frog", embeddedObject.propertyOwner?.name)
+            assertEquals("123 Pond St", findEmbeddedObjectProperty.address?.street)
+            assertEquals("Mr. Frog", findNestedProperty.address?.propertyOwner?.name)
             assertEquals("Kermit", getParent.name)
             realm.write { deleteAll() }
             realm.close()
@@ -281,55 +313,61 @@ class ReadTest: RealmTest() {
             realm.write {
                 deleteAll()
                 copyToRealm(RealmObjectProperties_Frog().apply {
-                    name = "Kermit, Jr."
-                    favoriteThings = realmListOf(
-                        RealmAny.create(42),
-                        RealmAny.create("rainbows"),
-                        RealmAny.create(RealmObjectProperties_Frog().apply {
-                            name = "Kermit Jr."
-                        })) })
+                    name = "Kermit"
+                    favoriteThing = RealmAny.create(42)
+                })
+                copyToRealm(RealmObjectProperties_Frog().apply {
+                    name = "Kermit Jr."
+                    favoriteThing = RealmAny.create("rainbow")
+                })
             }
-            // :snippet-start: query-realmany-property
-            val frog = realm.query<RealmObjectProperties_Frog>("ANY favoriteThings == $0", 42).find().first()
-            println("${frog.name} likes the number 42")
-            // :snippet-end:
-            val frogsFavoriteThings = frog.favoriteThings
-            // :snippet-start: get-realmany-property
-            // Use the getter method specific to the stored type
-            val correctType = frogsFavoriteThings[0]?.asInt()
-            assertEquals(correctType, 42) // :remove:
+            realm.write {
+                // :snippet-start: query-realmany-property
+                val queryFrogLovesNumbers = realm.query<RealmObjectProperties_Frog>("favoriteThing.@type == 'int'")
+                val findFrog = queryFrogLovesNumbers.find().first()
+                // :snippet-end:
+                // :snippet-start: get-realmany-property
+                val frogsFavoriteThing = findFrog.favoriteThing // Int
 
-            val thrownException = assertFailsWith<Exception> { // :remove:
-            val wrongType = frogsFavoriteThings[0]?.asRealmUUID() // throws exception
-            } // :remove:
-            assertTrue(thrownException.message!!.contains("RealmAny type mismatch"))
-            // :snippet-end:
-            // :snippet-start: polymorphism
-            // Handle possible types with a 'when' statement
-            frogsFavoriteThings.forEach { realmAny ->
-                if (realmAny != null) {
-                    when (realmAny.type) {
-                        RealmAny.Type.INT -> {
-                            val intValue = realmAny.asInt()
-                            // Do something with intValue ...
-                        }
-                        RealmAny.Type.STRING -> {
-                            val stringValue = realmAny.asString()
-                            // Do something with stringValue ...
-                        }
-                        RealmAny.Type.OBJECT -> {
-                            val objectValue = realmAny.asRealmObject(RealmObjectProperties_Frog::class)
-                            // Do something with objectValue ...
-                        }
-                        // Handle other possible types...
-                        else -> {
-                            // Debug or perform a default action for unhandled types
-                            Log.d("Unhandled type: ${realmAny.type}")
+                // Using the correct getter method returns the value
+                val frogsFavoriteNumber = frogsFavoriteThing?.asInt()
+                println("${findFrog.name} likes the number $frogsFavoriteNumber")
+                assertEquals(42, frogsFavoriteNumber) // :remove:
+
+                val thrownException = assertFailsWith<Exception> { // :remove:
+                // Using the wrong getter method throws an exception
+                val frogsFavoriteUUID = frogsFavoriteThing?.asRealmUUID()
+                    // :snippet-end:
+                }
+                assertTrue(thrownException.message!!.contains("RealmAny type mismatch"))
+                val frogsFavoriteThings = queryFrogLovesNumbers.find().map { it.favoriteThing }
+                // :snippet-start: polymorphism
+                // Handle possible types with a 'when' statement
+                frogsFavoriteThings.forEach { realmAny ->
+                    if (realmAny != null) {
+                        when (realmAny.type) {
+                            RealmAny.Type.INT -> {
+                                val intValue = realmAny.asInt()
+                                // Do something with intValue ...
+                            }
+                            RealmAny.Type.STRING -> {
+                                val stringValue = realmAny.asString()
+                                // Do something with stringValue ...
+                            }
+                            RealmAny.Type.OBJECT -> {
+                                val objectValue = realmAny.asRealmObject(RealmObjectProperties_Frog::class)
+                                // Do something with objectValue ...
+                            }
+                            // Handle other possible types...
+                            else -> {
+                                // Debug or perform a default action for unhandled types
+                                Log.d("Unhandled type: ${realmAny.type}")
+                            }
                         }
                     }
                 }
+                // :snippet-end:
             }
-            // :snippet-end:
             realm.write { deleteAll() }
             realm.close()
         }
@@ -365,7 +403,6 @@ class ReadTest: RealmTest() {
             }
             // :snippet-start: query-remapped-property
             val queryKotlinName = realm.query<ExamplePropertyAnnotations_Frog>("species == $0", "Muppetarium Amphibius").find().first()
-
             val queryRemappedName = realm.query<ExamplePropertyAnnotations_Frog>("latin_name == $0", "Muppetarium Amphibius").find().first()
 
             // Both queries return the same object
@@ -424,7 +461,7 @@ class ReadTest: RealmTest() {
                 val allFrogs = query<ExampleRealmList_Frog>().find()
                 val frogsWithFavoritePond = allFrogs.query("favoritePonds.@size > $0", 0).find()
 
-                // Iterate through the results for frogs who like Big Pond
+                // Check if the list contains a value
                 for (frog in frogsWithFavoritePond) {
                     val likesBigPond = frog.favoritePonds.any { pond -> pond.name == "Big Pond" }
                     if (likesBigPond) {
@@ -462,27 +499,26 @@ class ReadTest: RealmTest() {
                 copyToRealm(RealmSet_Frog().apply {
                     name = "Kermit, Jr."
                     favoriteSnacks.add(RealmSet_Snack().apply { name = "Flies" })
+                    favoriteSnacks.add(RealmSet_Snack().apply { name = "Crickets" })
                     favoriteSnacks.add(RealmSet_Snack().apply { name = "Gnats" })
                 })
             }
             realm.write {
                 // :snippet-start: read-realm-set
-                // Find frogs who have a favorite snack of flies or crickets
-                val potentialFrogs = query<RealmSet_Frog>("favoriteSnacks.name CONTAINS $0 OR favoriteSnacks.name CONTAINS $1", "Flies", "Crickets").find()
+                // Find frogs who have a favorite snack of flies and crickets
+                val potentialFrogs = query<RealmSet_Frog>("favoriteSnacks.name CONTAINS $0 AND favoriteSnacks.name CONTAINS $1", "Flies", "Crickets").find()
 
-                // Filter only frogs with both as a favorite snack
-                val requiredSnacks = setOf("Flies", "Crickets")
-                val frogsThatLikeBoth = potentialFrogs.filter { frog ->
-                    requiredSnacks.all { requiredSnack ->
-                        frog.favoriteSnacks.any { snack -> snack.name == requiredSnack }
-                    }
+                // Check if the set contains a value
+                val frogsThatLikeWorms = potentialFrogs.filter { frog ->
+                    val requiredSnacks = query<RealmSet_Snack>("name == $0", "Worms")
+                    frog.favoriteSnacks.contains(requiredSnacks.find().first())
                 }
-                for (frog in frogsThatLikeBoth) {
-                    Log.v("${frog.name} likes both Flies and Crickets")
+                for (frog in frogsThatLikeWorms) {
+                    Log.v("${frog.name} likes both Flies, Worms, and Crickets")
                 }
                 // :snippet-end:
                 assertEquals(2, potentialFrogs.size)
-                assertEquals(1, frogsThatLikeBoth.size)
+                assertEquals(1, frogsThatLikeWorms.size)
                 deleteAll()
             }
             realm.close()
@@ -492,20 +528,20 @@ class ReadTest: RealmTest() {
     @Test
     fun readRealmDictionaryType() {
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(RealmDictionary_Frog::class))
+            val config = RealmConfiguration.Builder(setOf(ExampleRealmDictionary_Frog::class, ExampleEmbeddedObject_EmbeddedForest::class))
                 .inMemory()
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             realm.write {
                 deleteAll()
-                copyToRealm(RealmDictionary_Frog().apply {
+                copyToRealm(ExampleRealmDictionary_Frog().apply {
                     name = "Kermit"
                     favoritePondsByForest = realmDictionaryOf("Hundred Acre Wood" to "Picnic Pond", "Lothlorien" to "Linya") })
             }
             // :snippet-start: read-realm-dictionary
             // Find frogs who have forests with favorite ponds
-            val frogs = realm.query<RealmDictionary_Frog>().find()
+            val frogs = realm.query<ExampleRealmDictionary_Frog>().find()
             val frogsWithFavoritePonds = frogs.query("favoritePondsByForest.@count > $0", 1).find()
             val thisFrog = frogsWithFavoritePonds.first()
 
@@ -532,7 +568,6 @@ class ReadTest: RealmTest() {
             realm.close()
         }
     }
-    // :replace-end:
 
     @Test
     fun queryRelationships() {
@@ -577,9 +612,9 @@ class ReadTest: RealmTest() {
                 val picnicPond = query<ExampleRelationship_Pond>("name == $0", "Picnic Pond").find().first()
                 assertEquals(kermit.favoritePond, picnicPond)
                 // :snippet-start: query-to-many-relationship
-                // Find all forests with nearby pond
-                val forests = query<ExampleRelationship_Forest>().find()
-                val forestsWithPonds = forests.query("nearbyPonds.@count > $0", 1).find()
+                // Find all forests with at least one nearby pond
+                val allForests = query<ExampleRelationship_Forest>().find()
+                val forestsWithPonds = allForests.query("nearbyPonds.@count > $0", 0).find()
                 val bigPond = query<ExampleRelationship_Pond>("name == $0", "Big Pond").find().first()
 
                 // Iterate through the results
@@ -616,7 +651,6 @@ class ReadTest: RealmTest() {
                     title = "Top Ponds of the Year!"
                     date = RealmInstant.from(1677628800, 0) // Mar 1 2023
                 }
-
                 val user = ExampleRelationship_User().apply {
                     name = "Kermit"
                     posts = realmListOf(post1, post2)
@@ -653,7 +687,7 @@ class ReadTest: RealmTest() {
         }
     }
 
-    // :snippet-start: query-inverse-persisted-name
+    // :snippet-start: persisted-name-inverse
     @PersistedName(name = "Blog_Author")
     class RealmObjectProperties_User : RealmObject {
         @PrimaryKey
@@ -661,12 +695,13 @@ class ReadTest: RealmTest() {
         var name: String = ""
         var posts: RealmList<RealmObjectProperties_Post> = realmListOf()
     }
-    // :remove-start:
+    // :snippet-end:
     class RealmObjectProperties_Post : RealmObject {
         var title: String = ""
         var date: RealmInstant = RealmInstant.now()
         val user: RealmResults<RealmObjectProperties_User> by backlinks(RealmObjectProperties_User::posts)
     }
+
     @Test
     fun queryInverseRelationshipWithPersistedName() {
         runBlocking {
@@ -677,30 +712,22 @@ class ReadTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.path}")
             realm.write {
                 deleteAll()
-                val post1 = RealmObjectProperties_Post().apply {
-                    title = "Forest Life"
-                }
-                val post2 = RealmObjectProperties_Post().apply {
-                    title = "Top Ponds of the Year!"
-                }
-
+                val post1 = RealmObjectProperties_Post().apply { title = "Forest Life" }
+                val post2 = RealmObjectProperties_Post().apply { title = "Top Ponds of the Year!" }
                 val user = RealmObjectProperties_User().apply {
                     name = "Kermit"
                     posts = realmListOf(post1, post2)
                 }
                 copyToRealm(user)
             }
-            // :remove-end:
-
-            realm.write {
-                // Query by the remapped class name
-                val postsByKermit = query<RealmObjectProperties_Post>()
-                    .query("@links.Blog_Author.name == $0", "Kermit")
-                    .find()
-                // :snippet-end:
-                assertEquals(2, postsByKermit.size)
-                deleteAll()
-            }
+            // :snippet-start: query-inverse-persisted-name
+            // Query by the remapped name 'Blog_Author'
+            val postsByKermit = realm.query<RealmObjectProperties_Post>()
+                .query("@links.Blog_Author.name == $0", "Kermit")
+                .find()
+            // :snippet-end:
+            assertEquals(2, postsByKermit.size)
+            realm.write {deleteAll() }
             realm.close()
         }
     }
@@ -745,14 +772,14 @@ class ReadTest: RealmTest() {
                 // :emphasize-end:
                 .find()
             organizedWithMethods.forEach { frog ->
-                Log.v("Method sort: ${frog.owner} owns a frog aged ${frog.age}")
+                Log.v("Method sort: ${frog.name} is ${frog.age}")
             }
 
             val organizedWithRql = realm.query<ExampleRealmObject_Frog>()
-                .query("owner == $0 SORT(age DESC) DISTINCT(name) LIMIT(2)", "Jim Henson") // :emphasize-line:
+                .query("owner == $0 SORT(age DESC) DISTINCT(name) LIMIT(2)", "Jim Henson") // :emphasize:
                 .find()
             organizedWithRql.forEach { frog ->
-                Log.v("RQL sort: ${frog.owner} owns a frog aged ${frog.age}")
+                Log.v("RQL sort: ${frog.name} is ${frog.age}")
             }
             assertEquals(organizedWithMethods, organizedWithRql) // :remove:
 
@@ -764,9 +791,10 @@ class ReadTest: RealmTest() {
                 // :emphasize-end:
                 .find()
             organizedWithBoth.forEach { frog ->
-                Log.v("Combined sort: ${frog.owner} owns a frog aged ${frog.age}")
+                Log.v("Combined sort: ${frog.name} is ${frog.age}")
             }
             // :snippet-end:
+            assertEquals(organizedWithMethods, organizedWithBoth)
         }
     }
 
@@ -798,42 +826,16 @@ class ReadTest: RealmTest() {
             }
             // :snippet-start: aggregate-results
             val jimHensonsFrogs = realm.query<ExampleRealmObject_Frog>("owner == $0", "Jim Henson")
+
+            // Find the total number of frogs owned by Jim Henson
+            val numberOfJimsFrogs = jimHensonsFrogs.count().find()
+            assertEquals(3, numberOfJimsFrogs) // :remove:
+
             // Find the oldest frog owned by Jim Henson
             val maxAge = jimHensonsFrogs.max<Int>("age").find()
             val oldestFrog = jimHensonsFrogs.query("age == $0", maxAge).find().first()
             // :snippet-end:
             assertEquals(100, oldestFrog.age)
-//            realm.write {
-//                copyToRealm(RealmObjectProperties_Frog().apply {
-//                    name = "Kermit"
-//                    favoriteThings = realmListOf(
-//                        RealmAny.create(42),
-//                        RealmAny.create("rainbows"),
-//                        RealmAny.create(RealmObjectProperties_Frog().apply { name = "Froggy Jay" }))
-//                })
-//                copyToRealm(RealmObjectProperties_Frog().apply {
-//                    name = "Kermit, Jr."
-//                    favoriteThings = realmListOf(
-//                        RealmAny.create(42.toByte()),
-//                        RealmAny.create(42.toChar()),
-//                        RealmAny.create(true))
-//                })
-//                copyToRealm(RealmObjectProperties_Frog().apply {
-//                    name = "Kermit, Sr."
-//                    favoriteThings = realmListOf(
-//                        RealmAny.create(42L),
-//                        RealmAny.create(ObjectId()),
-//                        RealmAny.create(42.toShort()))
-//                })
-//            }
-//
-//            val aggregateByRealmAny = realm.query<RealmObjectProperties_Frog>()
-//                .query("favoriteThings.@count > $0", 0)
-//                .find()
-//            val favoriteThing = aggregateByRealmAny.forEach { frog ->
-//                frog.
-//            }
-//            for (frog in aggregateByRealmAny) {
             realm.write { deleteAll() }
             realm.close()
         }
@@ -879,10 +881,7 @@ class ReadTest: RealmTest() {
                                 Log.v("Frog: $frog")
                             }
                         }
-
-                        else -> {
-                            // No-op
-                        }
+                        else -> { /* no-op */ }
                     }
                 }
             }
@@ -895,3 +894,4 @@ class ReadTest: RealmTest() {
         }
     }
 }
+// :replace-end:

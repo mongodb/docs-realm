@@ -1,1 +1,2 @@
-val findEmbeddedObject = realm.query<EmbeddedAddress>().find().first()
+val queryAllEmbeddedAddresses = realm.query<EmbeddedAddress>()
+val allEmbeddedAddresses = queryAllEmbeddedAddresses.find()

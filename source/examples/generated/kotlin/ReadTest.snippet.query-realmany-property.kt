@@ -1,2 +1,2 @@
-val frog = realm.query<Frog>("ANY favoriteThings == $0", 42).find().first()
-println("${frog.name} likes the number 42")
+val queryFrogLovesNumbers = realm.query<Frog>("favoriteThing.@type == 'int'")
+val findFrog = queryFrogLovesNumbers.find().first()

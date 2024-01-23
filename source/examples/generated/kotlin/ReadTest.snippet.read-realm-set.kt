@@ -1,13 +1,11 @@
-// Find frogs who have a favorite snack of flies or crickets
-val potentialFrogs = query<RealmSet_Frog>("favoriteSnacks.name CONTAINS $0 OR favoriteSnacks.name CONTAINS $1", "Flies", "Crickets").find()
+// Find frogs who have a favorite snack of flies and crickets
+val potentialFrogs = query<RealmSet_Frog>("favoriteSnacks.name CONTAINS $0 AND favoriteSnacks.name CONTAINS $1", "Flies", "Crickets").find()
 
-// Filter only frogs with both as a favorite snack
-val requiredSnacks = setOf("Flies", "Crickets")
-val frogsThatLikeBoth = potentialFrogs.filter { frog ->
-    requiredSnacks.all { requiredSnack ->
-        frog.favoriteSnacks.any { snack -> snack.name == requiredSnack }
-    }
+// Check if the set contains a value
+val frogsThatLikeWorms = potentialFrogs.filter { frog ->
+    val requiredSnacks = query<RealmSet_Snack>("name == $0", "Worms")
+    frog.favoriteSnacks.contains(requiredSnacks.find().first())
 }
-for (frog in frogsThatLikeBoth) {
-    Log.v("${frog.name} likes both Flies and Crickets")
+for (frog in frogsThatLikeWorms) {
+    Log.v("${frog.name} likes both Flies, Worms, and Crickets")
 }

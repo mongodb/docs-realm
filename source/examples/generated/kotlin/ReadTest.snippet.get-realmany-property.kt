@@ -1,5 +1,8 @@
-// Use the getter method specific to the stored type
-val correctType = frogsFavoriteThings[0]?.asInt()
+val frogsFavoriteThing = findFrog.favoriteThing // Int
 
-val wrongType = frogsFavoriteThings[0]?.asRealmUUID() // throws exception
-assertTrue(thrownException.message!!.contains("RealmAny type mismatch"))
+// Using the correct getter method returns the value
+val frogsFavoriteNumber = frogsFavoriteThing?.asInt()
+println("${findFrog.name} likes the number $frogsFavoriteNumber")
+
+// Using the wrong getter method throws an exception
+val frogsFavoriteUUID = frogsFavoriteThing?.asRealmUUID()

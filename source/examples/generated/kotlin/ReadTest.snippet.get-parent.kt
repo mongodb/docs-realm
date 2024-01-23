@@ -1,1 +1,1 @@
-val getParent = findEmbeddedObject.parent<Contact>()
+val getParent = embeddedObject.parent<Contact>()

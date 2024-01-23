@@ -1,20 +1,17 @@
 // Get a Flow of all frogs in the database
-val allFrogsQuery = realm.query<ExampleRealmObject_Frog>()
-val frogsFlow: Flow<ResultsChange<ExampleRealmObject_Frog>> = allFrogsQuery.asFlow()
+val allFrogsQuery = realm.query<Frog>()
+val frogsFlow: Flow<ResultsChange<Frog>> = allFrogsQuery.asFlow()
 
 // Iterate through the Flow with 'collect()'
 val frogsObserver: Deferred<Unit> = async {
     frogsFlow.collect { results ->
         when (results) {
-            is InitialResults<ExampleRealmObject_Frog> -> {
+            is InitialResults<Frog> -> {
                 for (frog in results.list) {
                     Log.v("Frog: $frog")
                 }
             }
-
-            else -> {
-                // No-op
-            }
+            else -> { /* no-op */ }
         }
     }
 }

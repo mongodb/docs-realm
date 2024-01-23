@@ -2,7 +2,7 @@
 val allFrogs = query<Frog>().find()
 val frogsWithFavoritePond = allFrogs.query("favoritePonds.@size > $0", 0).find()
 
-// Iterate through the results for frogs who like Big Pond
+// Check if the list contains a value
 for (frog in frogsWithFavoritePond) {
     val likesBigPond = frog.favoritePonds.any { pond -> pond.name == "Big Pond" }
     if (likesBigPond) {

@@ -1,5 +1,5 @@
 // Find frogs who have a favorite pond
-val allFrogs = query<ExampleRelationship_Frog>().find()
+val allFrogs = query<Frog>().find()
 val frogsWithFavoritePond = allFrogs.query("favoritePond.@count == $0", 1).find()
 
 // Iterate through the results
