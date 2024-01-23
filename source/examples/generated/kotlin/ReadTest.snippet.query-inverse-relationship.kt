@@ -7,8 +7,8 @@ user.posts.forEach { post ->
     Log.v("${user.name}'s Post: ${post.date} - ${post.title}")
 }
 
-// Query the backlink with  `@links.<ObjectType>.<PropertyName>`
-val oldPostsByKermit = query<User>("@links.Post.date < $0", 1704124023)
+// Query the backlink with `@links.<ObjectType>.<PropertyName>`
+val oldPostsByKermit = query<User>("@links.User.posts.date < $0", dateMinusFiveYears)
     .find()
 
 // Query the child object to access the parent

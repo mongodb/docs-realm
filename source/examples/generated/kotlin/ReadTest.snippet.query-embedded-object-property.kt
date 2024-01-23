@@ -5,4 +5,4 @@ val queryEmbeddedObjectProperty =
 
 // You can also query properties nested within the embedded object
 val queryNestedProperty = realm.query<Contact>()
-    .query("address.propertyOwner.name == $0", "Mr.Frog")
+    .query("address.propertyOwner.name == $0", "Mr. Frog")

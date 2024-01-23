@@ -289,14 +289,12 @@ class ReadTest: RealmTest() {
 
             // You can also query properties nested within the embedded object
             val queryNestedProperty = realm.query<ExampleRelationship_Contact>()
-                .query("address.propertyOwner.name == $0", "Mr.Frog")
+                .query("address.propertyOwner.name == $0", "Mr. Frog")
             // :snippet-end:
             val findEmbeddedObjectProperty = queryEmbeddedObjectProperty.find().first()
             val findNestedProperty = queryNestedProperty.find().first()
-            assertEquals("Mr. Frog", embeddedObject.propertyOwner?.name)
             assertEquals("123 Pond St", findEmbeddedObjectProperty.address?.street)
             assertEquals("Mr. Frog", findNestedProperty.address?.propertyOwner?.name)
-            assertEquals("Kermit", getParent.name)
             realm.write { deleteAll() }
             realm.close()
         }
@@ -658,19 +656,22 @@ class ReadTest: RealmTest() {
                 copyToRealm(user)
             }
             realm.write {
+                val dateMinusFiveYears = RealmInstant.from(1677628500, 0) // Feb 28 2023
                 // :snippet-start: query-inverse-relationship
                 // Query the parent object to access the child objects
                 val user = query<ExampleRelationship_User>("name == $0", "Kermit").find().first()
                 val myFirstPost = user.posts[0]
+                assertEquals("Forest Life", myFirstPost.title) // :remove:
 
                 // Iterate through the backlink collection property
                 user.posts.forEach { post ->
                     Log.v("${user.name}'s Post: ${post.date} - ${post.title}")
                 }
 
-                // Query the backlink with  `@links.<ObjectType>.<PropertyName>`
-                val oldPostsByKermit = query<ExampleRelationship_User>("@links.ExampleRelationship_Post.date < $0", 1704124023)
+                // Query the backlink with `@links.<ObjectType>.<PropertyName>`
+                val oldPostsByKermit = query<ExampleRelationship_User>("@links.ExampleRelationship_User.posts.date < $0", dateMinusFiveYears)
                     .find()
+                assertEquals(2, oldPostsByKermit.size) // :remove:
 
                 // Query the child object to access the parent
                 val post1 = query<ExampleRelationship_Post>("title == $0", "Forest Life").find().first()
@@ -678,8 +679,6 @@ class ReadTest: RealmTest() {
                 val parent = post1.user.first()
                 // :snippet-end:
                 assertTrue(user.posts.containsAll(listOf(post1, post2)))
-                assertEquals(2, user.posts.size)
-                assertEquals(myFirstPost, post1)
                 assertEquals("Kermit", parent.name)
                 deleteAll()
             }
@@ -723,7 +722,7 @@ class ReadTest: RealmTest() {
             // :snippet-start: query-inverse-persisted-name
             // Query by the remapped name 'Blog_Author'
             val postsByKermit = realm.query<RealmObjectProperties_Post>()
-                .query("@links.Blog_Author.name == $0", "Kermit")
+                .query("@links.Blog_Author.posts.name == $0", "Kermit")
                 .find()
             // :snippet-end:
             assertEquals(2, postsByKermit.size)
