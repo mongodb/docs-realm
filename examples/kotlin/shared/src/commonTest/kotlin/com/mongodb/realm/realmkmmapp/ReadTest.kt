@@ -18,7 +18,6 @@ import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.count
 import org.mongodb.kbson.ObjectId
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -158,7 +157,7 @@ class ReadTest: RealmTest() {
                     owner = "Jim Henson"
                 })
             }
-            realm.write{
+            realm.writeBlocking{
                 // :snippet-start: synchronous-query
                 val queryAllFrogs = realm.query<ExampleRealmObject_Frog>()
                 val queryAllLiveFrogs = this.query<ExampleRealmObject_Frog>() // this: MutableRealm
@@ -175,11 +174,7 @@ class ReadTest: RealmTest() {
                 val allLiveFrogsFlow: Flow<ResultsChange<ExampleRealmObject_Frog>> = queryAllLiveFrogs.asFlow() // throws exception
                     // :snippet-end:
                 }
-                    assertTrue(thrownException.message!!.contains("Observing changes are not supported by this Realm"))
-                val testFlow: Deferred<Unit> = async {
-                    assertEquals(3, allFrogsFlow.count())
-                }
-                testFlow.cancel()
+                assertTrue(thrownException.message!!.contains("Observing changes are not supported by this Realm"))
                 assertEquals(3, allFrogs.size)
                 assertEquals(3, allLiveFrogs.size)
                 deleteAll()
@@ -656,7 +651,8 @@ class ReadTest: RealmTest() {
                 copyToRealm(user)
             }
             realm.write {
-                val dateMinusFiveYears = RealmInstant.from(1677628500, 0) // Feb 28 2023
+                val today = RealmInstant.now()
+                    //RealmInstant.from(1677628500, 0) // Feb 28 2023
                 // :snippet-start: query-inverse-relationship
                 // Query the parent object to access the child objects
                 val user = query<ExampleRelationship_User>("name == $0", "Kermit").find().first()
@@ -669,7 +665,8 @@ class ReadTest: RealmTest() {
                 }
 
                 // Query the backlink with `@links.<ObjectType>.<PropertyName>`
-                val oldPostsByKermit = query<ExampleRelationship_User>("@links.ExampleRelationship_User.posts.date < $0", dateMinusFiveYears)
+                val oldPostsByKermit = realm.query<ExampleRelationship_Post>()
+                    .query("@links.ExampleRelationship_User.posts.name == $0 AND date < $1", "Kermit", today)
                     .find()
                 assertEquals(2, oldPostsByKermit.size) // :remove:
 

@@ -8,7 +8,8 @@ user.posts.forEach { post ->
 }
 
 // Query the backlink with `@links.<ObjectType>.<PropertyName>`
-val oldPostsByKermit = query<User>("@links.User.posts.date < $0", dateMinusFiveYears)
+val oldPostsByKermit = realm.query<Post>()
+    .query("@links.User.posts.name == $0 AND date < $1", "Kermit", today)
     .find()
 
 // Query the child object to access the parent
