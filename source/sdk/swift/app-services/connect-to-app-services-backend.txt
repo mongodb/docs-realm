@@ -2,8 +2,16 @@
 .. _ios-connect-to-a-mongodb-realm-backend-app:
 
 ====================================================
-Connect to an Atlas App Services backend - Swift SDK
+Connect to an Atlas App Services Backend - Swift SDK
 ====================================================
+
+.. meta:: 
+   :description: Connect to Atlas App Services from the Atlas Device SDK. Specify configuration details to customize network access.
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
 
 .. contents:: On this page
    :local:
@@ -11,14 +19,21 @@ Connect to an Atlas App Services backend - Swift SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 The App client is the interface to the App Services backend. It
 provides access to the :ref:`authentication functionality
 <ios-authenticate-users>`, :ref:`functions <ios-call-a-function>`, 
 :ref:`querying a MongoDB Atlas data source <ios-mongodb-data-access>`, 
 and :ref:`Device Sync <ios-sync-changes-between-devices>`.
+
+.. note:: Apple Privacy Manifest
+
+   The SDK's Apple privacy manifest does not cover connecting to Atlas, or
+   any usage of data through the App client. If your app connects to App
+   Services, and you intend to distribute it through the Apple App Store, 
+   you may need to provide your own disclosures in your app's Apple privacy 
+   manifest.
+
+   For more information, refer to :ref:`ios-apple-privacy-manifest`.
 
 .. _ios-access-the-app-client:
 

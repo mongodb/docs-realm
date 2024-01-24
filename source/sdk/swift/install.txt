@@ -4,6 +4,13 @@
 Install the SDK for iOS, macOS, tvOS, and watchOS
 =================================================
 
+.. meta:: 
+   :description: Install Atlas Device SDK for Swift using popular package managers, or as a static framework. 
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -418,3 +425,37 @@ Actor Support
 
 The Swift SDK supports actor-isolated realm instances. For more information,
 refer to :ref:`swift-actor-isolated-realm`.
+
+.. _ios-apple-privacy-manifest:
+
+Apple Privacy Manifest
+----------------------
+
+Starting in Spring 2024, Apple requires apps that use ``RealmSwift`` to
+provide details about the SDK's data collection and use practices when 
+submitting new apps or app updates to the App Store. For more details about 
+Apple's requirements, refer to 
+:apple:`Upcoming third-party SDK requirements <support/third-party-SDK-requirements/>`
+on the Apple Developer website.
+
+Starting in Swift SDK version 10.46.0, the SDK ships with privacy manifests
+for ``Realm`` and ``RealmSwift``.
+
+The only privacy-related implementation detail inherent in the SDK is the usage 
+of file timestamp APIs, which is declared in the privacy manifest. The Swift SDK does 
+not include analytics code in builds for the App Store. The SDK does not log into 
+Atlas on its own behalf. 
+
+If you write an app that uses any App Services functionality, such as 
+:ref:`initializing an App client <ios-init-appclient>` to:
+
+- :ref:`Call an Atlas Function <ios-call-a-function>`
+- :ref:`Authenticate and manage users <ios-work-with-users>`
+- :ref:`Query MongoDB Atlas <ios-mongodb-remote-access>`
+- :ref:`Open a synced database <ios-configure-and-open-a-synced-realm>`
+
+You may need to add additional disclosures to your app's privacy manifest 
+detailing your data collection and use practices when using these APIs. 
+
+For more information, refer to Apple's 
+:apple:`Privacy manifest files documentation <documentation/bundleresources/privacy_manifest_files>`.
