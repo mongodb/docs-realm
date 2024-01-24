@@ -85,6 +85,31 @@ class Sync: AnonymouslyLoggedInTestCase {
         expectation.fulfill()
         await fulfillment(of: [expectation], timeout: 10, enforceOrder: true)
     }
+    
+    func testInMemorySyncedRealm() async throws {
+        let expectation = XCTestExpectation(description: "it completes")
+        // :snippet-start: open-synced-realm-in-memory
+        // Instantiate the app and get a user.
+        let app = App(id: APPID)
+        let user = try await app.login(credentials: Credentials.anonymous)
+
+        // Create a configuration.
+        var configuration = user.flexibleSyncConfiguration()
+        configuration.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+        
+        // Specify an in-memory identifier for the configuration.
+        configuration.inMemoryIdentifier = "YOUR-IDENTIFIER-STRING"
+        
+        // Open a Realm with this configuration.
+        let realm = try await Realm(configuration: configuration)
+        print("Successfully opened realm: \(realm)")
+        // Add subscriptions and work with the realm
+        // :snippet-end:
+        XCTAssertNotNil(realm)
+        XCTAssert(realm.configuration.inMemoryIdentifier == "YOUR-IDENTIFIER-STRING")
+        expectation.fulfill()
+        await fulfillment(of: [expectation], timeout: 10, enforceOrder: true)
+    }
 
     func testPauseResumeSyncSession() async throws {
         let app = App(id: APPID)
