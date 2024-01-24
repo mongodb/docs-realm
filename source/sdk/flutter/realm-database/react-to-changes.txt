@@ -5,6 +5,14 @@
 React to Changes - Flutter SDK
 ==============================
 
+.. meta::
+  :description: SDK notifications allow you to watch for and react to changes in your data.
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -135,14 +143,15 @@ Register Collection Change Listeners
 You can register a notification handler on a collection of any of the
 supported data types within another ``RealmObject``.
 Realm notifies your handler when any of the items in the collection change.
-The handler receives one of the following objects that include description of 
+The handler receives one of the following objects that include a description of 
 changes since the last notification: 
 
 - a :flutter-sdk:`RealmListChanges <realm/RealmListChanges-class.html>` object
-for ``RealmList`` 
+  for ``RealmList`` 
 - :flutter-sdk:`RealmSetChanges <realm/RealmSetChanges-class.html>` object
-for ``RealmSet``
-- :flutter-sdk:`RealmMapChanges <realm/RealmMapChanges-class.html>` object for ``RealmMap``
+  for ``RealmSet``
+- :flutter-sdk:`RealmMapChanges <realm/RealmMapChanges-class.html>` object for 
+  ``RealmMap``
 
 .. tabs::
 
@@ -186,9 +195,6 @@ for ``RealmSet``
           - ``true`` when the list has been cleared by calling its
             :flutter-sdk:`RealmList.clear() <realm/RealmList-class.html>` method.
 
-      .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
-        :language: dart
-
    .. tab:: RealmSetChanges
       :tabid: set
 
@@ -229,9 +235,6 @@ for ``RealmSet``
           - ``true`` when a set has been cleared by calling its
             :flutter-sdk:`RealmSet.clear() <realm/RealmSet-class.html>` method.
 
-      .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-set-change-listener.dart
-        :language: dart
-
    .. tab:: RealmMapChanges
       :tabid: map
 
@@ -259,8 +262,8 @@ for ``RealmSet``
           - *RealmMap<T>* 
           - ``RealmMap`` being monitored for changes.
 
-      .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-map-change-listener.dart
-        :language: dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
+  :language: dart
 
 .. _flutter-pause-resume-change-listener:
 
