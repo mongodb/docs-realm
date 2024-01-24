@@ -41,7 +41,18 @@ You can pass a configuration object to ``App``:
 .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.realm-app-config.swift
    :language: swift
 
-.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+You can create multiple App client instances to connect to multiple
+Apps. All App client instances that share the same App ID use the same 
+underlying connection.
+
+.. important:: Changing an App Config After Initializing the App
+
+   Starting with Swift SDK version 10.46.0, you can change a ``baseURL``
+   in the App config and the App client uses the new ``baseURL``. In Swift
+   SDK versions 10.45.3 and earlier, when you initialize the App client, 
+   the configuration is cached internally. Attempting to "close" an App and 
+   then re-open it with a changed configuration within the same process has 
+   no effect. The client continues to use the cached configuration.
 
 Sync Connection Sharing
 ~~~~~~~~~~~~~~~~~~~~~~~
