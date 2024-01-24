@@ -4,6 +4,14 @@
 Configure & Open a Synced Realm - Swift SDK
 ===========================================
 
+.. meta:: 
+   :description: Open a synced database to share data across devices. Provide an app user, and specify whether to download changes before opening the database.
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -104,6 +112,26 @@ to open a synced realm.
 
    This does not apply to :ref:`Data Ingest <optimize-data-ingest>`.
    You cannot create a subscription for an ``AsymmetricObject``.
+
+.. _ios-open-sync-realm-in-memory:
+
+Open a Synced Realm In Memory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.46.0
+
+You can open a synced database entirely in memory, which does not create 
+a ``.realm`` file or its associated :ref:`auxiliary files
+<ios-realm-file>`. Instead the SDK stores objects in memory while the
+realm is open and discards them immediately when all instances are
+closed.
+
+To open a synced realm in memory, set the :swift-sdk:`inMemoryIdentifier
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV18inMemoryIdentifierSSSgvp>`
+property of the realm configuration to a string identifier.
+
+.. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm-in-memory.swift
+   :language: swift
 
 .. _ios-open-synced-realm-as-different-sync-user:
 

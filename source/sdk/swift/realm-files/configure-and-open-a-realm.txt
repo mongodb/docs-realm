@@ -4,6 +4,14 @@
 Configure & Open a Realm - Swift SDK
 ====================================
 
+.. meta:: 
+   :description: Open a database for persistence on device. Use configuration options to encrypt the database, reduce its file size, use it in memory, and more.
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -93,11 +101,17 @@ Open a Default Realm or Realm at a File URL
 Open an In-Memory Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+.. versionchanged:: 10.46.0 Supports opening a synced database in memory.
+
 You can open a realm entirely in memory, which will not create a
 ``.realm`` file or its associated :ref:`auxiliary files
 <ios-realm-file>`. Instead the SDK stores objects in memory while the
 realm is open and discards them immediately when all instances are
 closed.
+
+Note that this property cannot be combined with ``fileURL``. In Swift SDK 
+versions 10.45.3 and earlier, this property cannot be combined with 
+``syncConfiguration``.
 
 .. tabs-realm-languages::
    
@@ -106,8 +120,7 @@ closed.
 
       Set the :swift-sdk:`inMemoryIdentifier
       <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV18inMemoryIdentifierSSSgvp>`
-      property of the realm configuration. Note that this property
-      cannot be combined with ``fileURL`` or ``syncConfiguration``.
+      property of the realm configuration.
 
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.open-in-memory-realm.swift
          :language: swift
@@ -117,8 +130,7 @@ closed.
 
       Set the :objc-sdk:`inMemoryIdentifier
       <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)inMemoryIdentifier>`
-      property of the realm configuration. Note that this property
-      cannot be combined with ``fileURL`` or ``syncConfiguration``.
+      property of the realm configuration.
 
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.open-in-memory-realm.m
          :language: objectivec
