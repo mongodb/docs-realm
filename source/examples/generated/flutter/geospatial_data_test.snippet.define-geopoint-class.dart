@@ -4,7 +4,7 @@
 class _MyGeoPoint {
   // These two properties are required to persist geo data.
   final String type = 'Point';
-  final List<double> coordinates = const [0, 0];
+  final List<double> coordinates = const [];
 
   // You can optionally implement convenience methods to simplify
   // creating and working with geospatial data.

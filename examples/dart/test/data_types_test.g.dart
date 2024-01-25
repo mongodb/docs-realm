@@ -646,3 +646,50 @@ class BinaryExample extends _BinaryExample
     ]);
   }
 }
+
+class MapExample extends _MapExample
+    with RealmEntity, RealmObjectBase, RealmObject {
+  MapExample({
+    Map<String, int> map = const {},
+    Map<String, int?> nullableMap = const {},
+  }) {
+    RealmObjectBase.set<RealmMap<int>>(this, 'map', RealmMap<int>(map));
+    RealmObjectBase.set<RealmMap<int?>>(
+        this, 'nullableMap', RealmMap<int?>(nullableMap));
+  }
+
+  MapExample._();
+
+  @override
+  RealmMap<int> get map =>
+      RealmObjectBase.get<int>(this, 'map') as RealmMap<int>;
+  @override
+  set map(covariant RealmMap<int> value) => throw RealmUnsupportedSetError();
+
+  @override
+  RealmMap<int?> get nullableMap =>
+      RealmObjectBase.get<int?>(this, 'nullableMap') as RealmMap<int?>;
+  @override
+  set nullableMap(covariant RealmMap<int?> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<MapExample>> get changes =>
+      RealmObjectBase.getChanges<MapExample>(this);
+
+  @override
+  MapExample freeze() => RealmObjectBase.freezeObject<MapExample>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(MapExample._);
+    return const SchemaObject(
+        ObjectType.realmObject, MapExample, 'MapExample', [
+      SchemaProperty('map', RealmPropertyType.int,
+          collectionType: RealmCollectionType.map),
+      SchemaProperty('nullableMap', RealmPropertyType.int,
+          optional: true, collectionType: RealmCollectionType.map),
+    ]);
+  }
+}
