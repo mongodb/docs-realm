@@ -164,6 +164,35 @@ For more information about all available methods, refer to the
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-set-examples.dart
    :language: dart
 
+.. _flutter-realm-map:
+
+RealmMap
+~~~~~~~~
+
+Realm objects can contain maps of any supported data type.
+Realm uses the :flutter-sdk:`RealmList <realm/RealmMap-class.html>` data type
+to store the data. Map keys may not contain ``.`` or start with ``$``.
+
+A ``RealmMap`` is mutable and you can add and remove elements in a ``RealmMap``
+within a write transaction. You can listen for RealmMap entry changes using a
+:ref:`change listener <flutter-realm-list-change-listener>`.
+
+Add a RealmMap to a Schema
+``````````````````````````
+
+You can add a ``RealmMap`` to your Realm Object schema by defining a property as
+type ``RealmMap<T>`` where ``T`` can be any :ref:`supported Realm data type 
+<flutter-data-types>` (except other collections), in your Realm Object model.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.map-model.dart
+   :language: dart
+
+Work with a RealmMap
+````````````````````
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.map-work-with.dart
+   :language: dart
+
 .. _flutter-realm-results:
 
 RealmResults
