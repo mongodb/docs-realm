@@ -54,6 +54,7 @@
 		48F38B5C2527A3FE00DDEB65 /* ManageApiKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F38B5B2527A3FE00DDEB65 /* ManageApiKeys.m */; };
 		9107C21328D35EA600E9EAF7 /* AsymmetricSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9107C21228D35EA600E9EAF7 /* AsymmetricSync.swift */; };
 		911366EB27BC0C6100DF865D /* ConvertSyncLocalRealms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911366EA27BC0C6100DF865D /* ConvertSyncLocalRealms.swift */; };
+		9119CCC32B61C63700220A98 /* Geospatial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9119CCC22B61C63700220A98 /* Geospatial.swift */; };
 		912ACA7B28415292006CDDD8 /* SwiftUIFlexSyncExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912ACA7A28415292006CDDD8 /* SwiftUIFlexSyncExampleApp.swift */; };
 		912ACA7F28415294006CDDD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 912ACA7E28415294006CDDD8 /* Assets.xcassets */; };
 		912ACA8228415294006CDDD8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 912ACA8128415294006CDDD8 /* Preview Assets.xcassets */; };
@@ -198,6 +199,7 @@
 		48F38B5B2527A3FE00DDEB65 /* ManageApiKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManageApiKeys.m; sourceTree = "<group>"; };
 		9107C21228D35EA600E9EAF7 /* AsymmetricSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsymmetricSync.swift; sourceTree = "<group>"; };
 		911366EA27BC0C6100DF865D /* ConvertSyncLocalRealms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertSyncLocalRealms.swift; sourceTree = "<group>"; };
+		9119CCC22B61C63700220A98 /* Geospatial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geospatial.swift; sourceTree = "<group>"; };
 		9126A02E27ED00A1002006D2 /* RealmPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = RealmPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		912ACA7828415292006CDDD8 /* SwiftUIFlexSyncExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIFlexSyncExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		912ACA7A28415292006CDDD8 /* SwiftUIFlexSyncExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIFlexSyncExampleApp.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 				917097D9279F182600F1D65B /* FlexibleSync.swift */,
 				4834235B25D6E0CB002CE6B0 /* Functions.m */,
 				48F38B552527926500DDEB65 /* Functions.swift */,
+				9119CCC22B61C63700220A98 /* Geospatial.swift */,
 				48924B972515008100CC9567 /* Info.plist */,
 				9185DB1825E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift */,
 				91F046982A29299A000B43B2 /* Logging.swift */,
@@ -807,6 +810,7 @@
 			files = (
 				4870F8AA2593F56B004FF76D /* Notifications.swift in Sources */,
 				4813483025C21948006209FC /* Notifications.m in Sources */,
+				9119CCC32B61C63700220A98 /* Geospatial.swift in Sources */,
 				48BD8FEC25800AA3009DE2E6 /* AnonymouslyLoggedInTestCase.m in Sources */,
 				91AB031A2899662100A272E8 /* UpdateRealmObjects.swift in Sources */,
 				48F38B5A252794B300DDEB65 /* AnonymouslyLoggedInTestCase.swift in Sources */,
@@ -1472,8 +1476,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				kind = exactVersion;
-				version = 10.46.0;
+				branch = master;
+				kind = branch;
 			};
 		};
 		917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
