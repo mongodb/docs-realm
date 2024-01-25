@@ -4,6 +4,14 @@
 Connect to App Services - Flutter SDK
 =====================================
 
+.. meta::
+  :description: Connect your Atlas Device SDK for Flutter client app to the Atlas App Services backend.
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -11,25 +19,39 @@ Connect to App Services - Flutter SDK
    :class: singlecol
 
 The ``App`` client is the interface to the Atlas App Services
-backend. It provides access to the :ref:`authentication
+backend. It provides access to App Services features like :ref:`user authentication
 <flutter-authenticate>` and Device Sync.
 
 Before You Begin
 ----------------
 
 #. :ref:`Create an App Services App <create-a-realm-app>`
+#. :ref:`Find the App ID in the App Services UI <find-your-app-id>`
 
 .. _flutter-access-the-app-client:
 
 Access the App Client
 ---------------------
 
-#. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
+.. versionchanged:: 1.7.0
+   ``App`` must be created on the main isolate.
+
+Create an ``App`` instance to access App Services features throughout your 
+client application. We recommend that you create the ``App`` instance only 
+once on the main isolate, ideally as soon as the app starts.
+
+#. Get your App Services App's ID from the App Services UI. To learn how, 
+   refer to :ref:`Find your App ID <find-your-app-id>`.
 #. Create an :flutter-sdk:`AppConfiguration <realm/AppConfiguration-class.html>`
    object with your App's App ID as the argument.
 #. Create an :flutter-sdk:`App <realm/App-class.html>`
-   with the ``AppConfiguration`` you just created. You use this
-   ``App`` instance to access App Services features throughout your client application.
+   with the ``AppConfiguration`` you just created. In Flutter v1.7.0 and later, 
+   this must be done on the main isolate, otherwise the SDK throws an error.  
+
+After you create the ``App``, you can access the constructed ``App``'s instance 
+on a background isolate using ``App.getById``. Refer to the
+:ref:`Get App by ID <flutter-get-app-by-id>` section on this page for more 
+information.
 
 .. literalinclude:: /examples/generated/flutter/app_services_test.snippet.access-app-client.dart
    :language: dart
@@ -40,6 +62,9 @@ Access the App Client
 
 Advanced Configuration
 ----------------------
+
+.. versionchanged:: 1.6.0
+   Deprecated ``App.localAppName`` and ``App.localAppVersion``.
 
 You can add optional arguments to the ``AppConfiguration`` for more granular control
 of your ``App`` client. You may want to add things like custom timeouts
@@ -57,3 +82,20 @@ To learn about the available configuration options, refer to the
    a custom HTTP client to your ``AppConfiguration``. To learn more,
    refer to :ref:`Connect to App Services Using Android 7 or Older <flutter-connect-old-android>`.
 
+.. _flutter-get-app-by-id:
+
+Get App by ID
+-------------
+
+.. versionadded:: 1.7.0
+
+After you have created an ``App`` instance on the main isolate, you can access 
+the constructed instance on a background isolate by passing the App ID to the 
+:flutter-sdk:`App.getById() <realm/App/getById.html>` method. 
+
+.. literalinclude:: /examples/generated/flutter/app_services_test.snippet.access-app-by-id.dart
+   :language: dart
+   :emphasize-lines: 12
+
+Once you have the ``App`` instance, you can use it to work with users and synced
+databases.
