@@ -884,11 +884,11 @@ Geospatial Queries
 
 You can query against geospatial data using the ``GEOWITHIN`` operator.
 The ``geoWithin`` object takes the ``coordinates`` property of an embedded object 
-as the point we're querying for and a geospatial shape. The operator checks whether 
+as the coordinates of the point we're querying for and a geospatial shape. The operator checks whether 
 the point is contained within the geospatial shape. 
 
 In the following query, we are checking that the coordinates of the ``location`` point
-is contained within the geospatial shape, ``smallCircle``:
+are contained within the geospatial shape, ``smallCircle``:
 
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.geospatial.js
      :language: js
