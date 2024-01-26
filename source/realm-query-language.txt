@@ -877,6 +877,22 @@ operators interact with lists and comparison operators:
      - true
      - 0 and 1 are both less than none of 1 and 2
 
+.. _rql-geospatial:
+
+Geospatial Queries
+------------------
+
+You can query against geospatial data using the ``GEOWITHIN`` operator.
+The ``geoWithin`` object takes the ``coordinates`` property of an embedded object 
+as the point we're querying for and a geospatial shape. The operator checks whether 
+the point is contained within the geospatial shape. 
+
+In the following query, we are checking that the coordinates of the ``location`` point
+is contained within the geospatial shape, ``smallCircle``:
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.geospatial.js
+     :language: js
+
 .. _rql-backlinks:
 
 Backlink Queries

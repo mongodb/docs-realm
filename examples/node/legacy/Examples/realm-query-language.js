@@ -1,4 +1,7 @@
-import Realm, { BSON } from "realm";
+import Realm, { 
+  BSON,
+  GeoCircle, GeoPoint, kmToRadians
+} from "realm";
 import { ItemModel, ProjectModel } from "./schemas/rql-data-models";
 
 describe("Realm Query Language Reference", () => {
@@ -351,6 +354,76 @@ describe("Realm Query Language Reference", () => {
     expect(staticQuery.length).toBe(3);
     expect(parameterizedQuery.length).toBe(3);
   });
+
+  test("geospatial", async () => {
+
+    // Object class for persisted GeoPoint
+
+    class MyGeoPoint {
+      type = "Point";
+
+      constructor(long, lat) {
+        this.coordinates = [long, lat];
+      }
+
+      static schema = {
+        name: "MyGeoPoint",
+        embedded: true,
+        properties: {
+          type: "string",
+          coordinates: "double[]",
+        },
+      };
+    }
+
+    // Object class for Company
+  
+    class Company extends Realm.Object {
+      static schema = {
+        name: "Company",
+        properties: {
+          _id: "int",
+          location: "MyGeoPoint",
+        },
+        primaryKey: "_id",
+      };
+    }
+
+    const realm = await Realm.open({
+      // `MyGeoPoint` does not extend `Realm.Object`, so you pass
+      // only the `.schema` when opening the realm.
+      schema: [Company, MyGeoPoint.schema],
+    });
+    expect(realm.isClosed).toBe(false); // :remove:
+
+    // create companies
+     realm.write(() => {
+      realm.create(Company, {
+        _id: 6,
+        location: new MyGeoPoint(-122.35, 47.68),
+      });
+      realm.create(Company, {
+        _id: 9,
+        location: new MyGeoPoint(-121.85, 47.9),
+      });
+    });
+
+    const smallCircle = {
+      center: [-121.9, 47.3],
+      // The GeoCircle radius is measured in radians.
+      // This radian distance corresponds with 0.25 degrees.
+      distance: 0.004363323,
+    };
+
+    const companiesInSmallCircle = realm
+      .objects(Company)
+      .filtered(
+        // :snippet-start: geospatial
+        "location geoWithin $0", smallCircle
+        // :snippet-end:
+        );
+    console.debug(`Companies in smallCircle: ${companiesInSmallCircle.length}`);
+  })
 
   describe("Backlink queries", () => {
     test("dot-notation", () => {
