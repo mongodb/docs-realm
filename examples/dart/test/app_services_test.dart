@@ -2,28 +2,77 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import "dart:io";
 import "dart:convert";
+import "dart:isolate";
+
 
 void main() {
   const APP_ID = "example-testers-kvjdy";
+
   group('App Services client - ', () {
     test('Access App client', () {
       // :snippet-start: access-app-client
       final appConfig = AppConfiguration(APP_ID);
       final app = App(appConfig);
       //:snippet-end:
-      expect(app.currentUser, null);
+      expect(app, isNotNull);
+      expect(app.id, APP_ID);
     });
     test('App client advanced configuration', () {
       // :snippet-start: app-client-advanced-configuration
       final appConfig = AppConfiguration(APP_ID,
-          defaultRequestTimeout: const Duration(seconds: 120),
-          localAppVersion: '2.0'
+          defaultRequestTimeout: const Duration(seconds: 120)
           // ... see reference docs for all available configuration options
           );
       //:snippet-end:
       final app = App(appConfig);
-      expect(app.currentUser, null);
-      expect(appConfig.localAppVersion, '2.0');
+      expect(app, isNotNull);
+      expect(app.id, APP_ID);
+      expect(appConfig.defaultRequestTimeout, Duration(seconds: 120));
+    });
+
+    test('Access App on background isolate by id', () async {
+      // :snippet-start: access-app-by-id
+      // Create an App instance once on main isolate,
+      // ideally as soon as the app starts
+      final appConfig = AppConfiguration(APP_ID);
+      final app = App(appConfig);
+      final appId = app.id;
+      final receivePort = ReceivePort();
+      // :remove-start:
+      expect(app, isNotNull);
+      final anonUser =
+          await app.logIn(Credentials.anonymous(reuseCredentials: false));
+      expect(anonUser.id, app.currentUser?.id);
+      // :remove-end:
+
+      // Later, access the App instance on background isolate
+      await Isolate.spawn((List<Object> args) async {
+        final sendPort = args[0] as SendPort;
+        final appId = args[1] as String;
+
+        try {
+          final backgroundApp = App.getById(appId); // :emphasize:
+
+          // ... Access App users 
+          final user = backgroundApp?.currentUser!;
+          expect(user, isNotNull); // :remove:
+
+          // Use the App and user as needed.
+
+          sendPort.send('Background task completed');
+        } catch (e) {
+          sendPort.send('Error: $e');
+        }
+      }, [receivePort.sendPort, appId]);
+      // :snippet-end:
+
+      receivePort.listen((message) {
+        expect(message, equals('Background task completed'));
+        receivePort.close(); 
+      });
+        if (app.currentUser != null) {
+          app.deleteUser(anonUser);
+         }
     });
 
     test("Custom SSL Certificate", () async {
