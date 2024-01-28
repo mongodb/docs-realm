@@ -91,10 +91,9 @@ Get App by ID
 
 After you have created an ``App`` instance on the main isolate, you can access 
 the constructed instance on a background isolate by passing the App ID to the 
-:flutter-sdk:`App.getById() <realm/App/getById.html>` method. 
+:flutter-sdk:`App.getById() <realm/App/getById.html>` method. Then, you can use it to work with the ``App`` and users as needed.
 
 .. literalinclude:: /examples/generated/flutter/app_services_test.snippet.access-app-by-id.dart
    :language: dart
-   :emphasize-lines: 12
+   :emphasize-lines: 14
 
-Once you have the ``App`` instance, you can use it to work with the App and users as needed.
