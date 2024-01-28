@@ -7,13 +7,15 @@ import "dart:isolate";
 
 void main() {
   const APP_ID = "example-testers-kvjdy";
+
   group('App Services client - ', () {
     test('Access App client', () {
       // :snippet-start: access-app-client
       final appConfig = AppConfiguration(APP_ID);
       final app = App(appConfig);
       //:snippet-end:
-      expect(app.currentUser, null);
+      expect(app, isNotNull);
+      expect(app.id, APP_ID);
     });
     test('App client advanced configuration', () {
       // :snippet-start: app-client-advanced-configuration
@@ -23,7 +25,8 @@ void main() {
           );
       //:snippet-end:
       final app = App(appConfig);
-      expect(app.currentUser, null);
+      expect(app, isNotNull);
+      expect(app.id, APP_ID);
       expect(appConfig.defaultRequestTimeout, Duration(seconds: 120));
     });
 
@@ -34,22 +37,27 @@ void main() {
       final appConfig = AppConfiguration(APP_ID);
       final app = App(appConfig);
       final appId = app.id;
+      final receivePort = ReceivePort();
       // :remove-start:
       expect(app, isNotNull);
-      final receivePort = ReceivePort();
+      final anonUser =
+          await app.logIn(Credentials.anonymous(reuseCredentials: false));
+      expect(anonUser.id, app.currentUser?.id);
       // :remove-end:
+
       // Later, access the App instance on background isolate
       await Isolate.spawn((List<Object> args) async {
         final sendPort = args[0] as SendPort;
         final appId = args[1] as String;
 
         try {
-          final app = App.getById(appId); // :emphasize:
+          final backgroundApp = App.getById(appId); // :emphasize:
 
           // ... Access App users 
-          final user = app?.currentUser!;
+          final user = backgroundApp?.currentUser!;
+          expect(user, isNotNull); // :remove:
 
-          // ... Open and use the synced database as usual
+          // Use the App and user as needed.
 
           sendPort.send('Background task completed');
         } catch (e) {
@@ -62,6 +70,9 @@ void main() {
         expect(message, equals('Background task completed'));
         receivePort.close(); 
       });
+        if (app.currentUser != null) {
+          app.deleteUser(anonUser);
+         }
     });
 
     test("Custom SSL Certificate", () async {

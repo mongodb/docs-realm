@@ -48,7 +48,7 @@ once on the main isolate, ideally as soon as the app starts.
    with the ``AppConfiguration`` you just created. In Flutter v1.7.0 and later, 
    this must be done on the main isolate, otherwise the SDK throws an error.  
 
-After you create the ``App``, you can access the constructed ``App``'s instance 
+After you create the ``App``, you can access the constructed ``App`` instance 
 on a background isolate using ``App.getById``. Refer to the
 :ref:`Get App by ID <flutter-get-app-by-id>` section on this page for more 
 information.
@@ -63,8 +63,8 @@ information.
 Advanced Configuration
 ----------------------
 
-.. versionchanged:: 1.6.0
-   Deprecated ``App.localAppName`` and ``App.localAppVersion``.
+.. deprecated:: 1.6.0
+   ``App.localAppName`` and ``App.localAppVersion`` are no longer used.
 
 You can add optional arguments to the ``AppConfiguration`` for more granular control
 of your ``App`` client. You may want to add things like custom timeouts
@@ -97,5 +97,4 @@ the constructed instance on a background isolate by passing the App ID to the
    :language: dart
    :emphasize-lines: 12
 
-Once you have the ``App`` instance, you can use it to work with users and synced
-databases.
+Once you have the ``App`` instance, you can use it to work with the App and users as needed.
