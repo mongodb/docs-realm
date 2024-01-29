@@ -1,3 +1,36 @@
+# January 26, 2024
+
+## C++ SDK
+
+- CRUD/Threading: Fix a broken API reference link.
+
+## Flutter SDK
+
+- Quick Start: Move rules out of "Enable Device Sync" steps. Add more details about rules. Update to current rules structure.
+- Realm Database
+  - CRUD/Read: Fix a broken API reference link.
+  - React to Changes: Add information on registering a change listener on a `RealmMap`.
+- Manage Users/Get an Access Token: Fix a broken link to a Dart API reference document.
+
+## Node.js SDK
+
+- Sync Data/Set the Client Log Level: Correct the JS SDK version number for using the old syntax from 11.9.0 to 11.10.2.
+
+## React Native SDK
+
+- Sync Data/Set the Client Log Level: Correct the JS SDK version number for using the old syntax from 11.9.0 to 11.10.2.
+
+## Swift SDK
+
+- Install: New "Apple Privacy Manifest" section detailing what's covered in the SDK privacy manifest, additional disclosures that developers may need to make, and links out to the Apple documentation.
+- Realm Files/Configure & Open a Realm: Note that as of 10.46.0, you can use in-memory realms with `syncConfiguration`.
+- Sync Data/Configure & Open a Synced Realm: New "Open a Synced Realm In Memory" section with details and a tested, Bluehawked code example.
+- SwiftUI/Quick Start: Move rules out of "Enable Device Sync" steps. Add more details about rules. Update to current rules structure.
+- Application Services/Connect to an App Services App
+  - Add a note that developers may need to make additional disclosures about data collection in the privacy manifest, and link to the new section on the Install page.
+  - Note that starting in 10.46.0, you can change a `baseURL` and the App client no longer uses the cached value.
+- SDK Telemetry: Note that the SDK's privacy manifest does not cover SDK telemetry, since builds submitted to the App Store do not collect analytics.
+
 # January 12, 2024
 
 ## C++ SDK
