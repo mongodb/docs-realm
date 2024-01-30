@@ -175,9 +175,10 @@ RealmMap
 
 .. versionadded:: 1.7.0
 
-Realm objects can contain maps of any supported data type.
-Realm uses the :flutter-sdk:`RealmMap <realm/RealmMap-class.html>` data type
-to store the data. Map keys may not contain ``.`` or start with ``$``.
+:flutter-sdk:`RealmMap <realm/RealmMap-class.html>` is a collection that
+contains key-value pairs of ``<String, T>``, where ``T`` is any data type
+supported by the SDK. Map keys may not contain ``.`` or start with ``$`` unless
+you use `percent-encoding <https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding>`__.
 
 A ``RealmMap`` is mutable and you can add and remove elements in a ``RealmMap``
 within a write transaction. You can listen for RealmMap entry changes using a
@@ -187,7 +188,7 @@ Add a RealmMap to a Schema
 ``````````````````````````
 
 You can add a ``RealmMap`` to your Realm Object schema by defining a property as
-type ``RealmMap<T>`` where ``T`` can be any :ref:`supported Realm data type 
+type ``RealmMap<String, T>`` where ``T`` can be any :ref:`supported Realm data type 
 <flutter-data-types>` (except other collections), in your Realm Object model.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.map-model.dart
