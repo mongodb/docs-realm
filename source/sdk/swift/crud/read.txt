@@ -447,16 +447,13 @@ Define a shape to set the boundaries for your geospatial query. The SDK
 provides two specialized non-persistable data types to simplify these queries:
 
 - ``GeoPoint``: A struct that represents the coordinates of a point formed by 
-  a latitude and a longitude value.
+  a pair of doubles consisting of these values:
+  - Latitude: ranges between -90 and 90 degrees, inclusive.
+  - Longitude: ranges between -180 and 180 degrees, inclusive.
 - ``RLMDistance``: A helper struct to represent and convert a distance.
 
-``GeoPoint`` can be constructed with a pair of doubles consisting of these 
-values:
-
-- Latitude ranges between -90 and 90 degrees, inclusive.
-- Longitude ranges between -180 and 180 degrees, inclusive.
-
-Values outside these ranges return nil when trying to create a ``GeoPoint``.
+Define Geospatial Shapes
+````````````````````````
 
 .. tabs::
 
@@ -533,6 +530,9 @@ Values outside these ranges return nil when trying to create a ``GeoPoint``.
          :alt: 3 GeoPolygons
          :width: 250
          :lightbox:
+
+Query with Geospatial Shapes
+````````````````````````````
 
 You can then use these shapes in a geospatial query. You can query geospatial 
 data in three ways:
