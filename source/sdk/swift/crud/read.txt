@@ -439,7 +439,7 @@ Query Geospatial Data
 
 .. versionadded:: ?
 
-The Swift SDK provides several shapes to simplify querying geospatial data.
+The Swift SDK provides several shapes to simplify querying :ref:`geospatial data <swift-geospatial-data-type>`.
 You can use ``GeoCircle``, ``GeoBox``, and ``GeoPolygon`` to query geospatial
 data.
 
@@ -519,7 +519,7 @@ Values outside these ranges return nil when trying to create a ``GeoPoint``.
 
       - Holes may not cross. The boundary of a hole may not intersect both the 
         interior and the exterior of any other hole.
-      - Holes may not share edges. If a hole contains an edge AB, the no other 
+      - Holes may not share edges. If a hole contains an edge AB, then no other 
         hole may contain it.
       - Holes may share vertices. However, no vertex may appear twice in a 
         single hole.
