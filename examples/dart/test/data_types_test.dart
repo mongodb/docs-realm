@@ -136,6 +136,14 @@ class _BinaryExample {
 }
 // :snippet-end:
 
+// :snippet-start: map-model
+@RealmModel()
+class _MapExample {
+  late Map<String, int> map;
+  late Map<String, int?> nullableMap;
+}
+// :snippet-end:
+
 main() {
   test('Uuid', () {
     // :snippet-start: uuid-use
@@ -411,6 +419,52 @@ main() {
     expect(testObject.first.requiredBinaryProperty, Uint8List.fromList([1, 2]));
 
     print(testObject.length);
+    cleanUpRealm(realm);
+  });
+
+  test("Map model", () {
+    // :snippet-start: map-work-with
+    final realm = Realm(Configuration.local([MapExample.schema]));
+
+    // Pass native Dart Maps to the object to create RealmMaps
+    final mapExample = MapExample(
+      map: {
+        'first': 1,
+        'second': 2,
+        'third': 3,
+      },
+      nullableMap: {
+        'first': null,
+        'second': 2,
+        'third': null,
+      },
+    );
+
+    // Add RealmObject to realm database
+    realm.write(() => realm.add(mapExample));
+
+    // Qeury for all MapExample objects
+    final realmMap = realm.all<MapExample>()[0];
+
+    // :remove-start:
+    expect(realmMap, isA<MapExample>());
+    expect(realmMap.map['third'], 3);
+    expect(realmMap.nullableMap['third'], null);
+    // :remove-end:
+    // Modify RealmMaps in write transactions
+    realm.write(() {
+      realmMap.map.update('first', (value) => 5);
+      realmMap.nullableMap.update('second', (value) => null);
+
+      // Add a new Map to a RealmMap
+      const newMap = {'fourth': 4};
+      realmMap.map.addEntries(newMap.entries);
+    });
+    // :snippet-end:
+
+    expect(realmMap.map['first'], 5);
+    expect(realmMap.nullableMap['second'], null);
+    expect(realmMap.map.length, 4);
     cleanUpRealm(realm);
   });
 }
