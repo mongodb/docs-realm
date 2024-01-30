@@ -439,15 +439,16 @@ Query Geospatial Data
 
 .. versionadded:: ?
 
-The Swift SDK provides several shapes to simplify querying :ref:`geospatial data <swift-geospatial-data-type>`.
-You can use ``GeoCircle``, ``GeoBox``, and ``GeoPolygon`` to query geospatial
-data.
+The Swift SDK provides several shapes to simplify querying 
+:ref:`geospatial data <swift-geospatial-data-type>`. You can use the 
+``GeoCircle``, ``GeoBox``, and ``GeoPolygon`` shapes to set the boundaries for 
+your geospatial data queries.
 
-Define a shape to set the boundaries for your geospatial query. The SDK 
-provides two specialized non-persistable data types to simplify these queries:
+The SDK provides two specialized non-persistable data types to define shapes:
 
 - ``GeoPoint``: A struct that represents the coordinates of a point formed by 
   a pair of doubles consisting of these values:
+  
   - Latitude: ranges between -90 and 90 degrees, inclusive.
   - Longitude: ranges between -180 and 180 degrees, inclusive.
 - ``RLMDistance``: A helper struct to represent and convert a distance.
