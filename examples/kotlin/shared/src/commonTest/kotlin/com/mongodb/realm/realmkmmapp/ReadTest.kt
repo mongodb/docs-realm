@@ -83,7 +83,7 @@ class ReadTest: RealmTest() {
                 .find()
             // ... work with the results
             // :snippet-end:
-            assertEquals(2, findFrogs.size)
+            assertEquals(3, findFrogs.size)
             val frozenFrogs = findFrogs
             val frog = frozenFrogs.first()
             // :snippet-start: check-frozen
@@ -139,7 +139,7 @@ class ReadTest: RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.path}")
-            realm.write {
+            realm.writeBlocking {
                 deleteAll()
                 copyToRealm(ExampleRealmObject_Frog().apply {
                     name = "Kermit"
@@ -676,7 +676,7 @@ class ReadTest: RealmTest() {
 
                 // Filter posts through the parent's backlink property
                 // using `@links.<ObjectType>.<PropertyName>` syntax
-                val oldPostsByKermit = realm.query<ExampleRelationship_Post>("date < $1", today)
+                val oldPostsByKermit = realm.query<ExampleRelationship_Post>("date < $0", today)
                     .query("@links.ExampleRelationship_User.posts.name == $0", "Kermit")
                     .find()
                 assertEquals(2, oldPostsByKermit.size) // :remove:

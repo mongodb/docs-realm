@@ -12,7 +12,7 @@ kermit.posts.forEach { post ->
 
 // Filter posts through the parent's backlink property
 // using `@links.<ObjectType>.<PropertyName>` syntax
-val oldPostsByKermit = realm.query<Post>("date < $1", today)
+val oldPostsByKermit = realm.query<Post>("date < $0", today)
     .query("@links.User.posts.name == $0", "Kermit")
     .find()
 
