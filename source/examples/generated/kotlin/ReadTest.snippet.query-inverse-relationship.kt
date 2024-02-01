@@ -1,15 +1,19 @@
-// Query the parent object to access the child objects
-val user = query<User>("name == $0", "Kermit").find().first()
-val myFirstPost = user.posts[0]
+// Query the parent object
+val filterByUserName = query<User>("name == $0", "Kermit")
+val kermit = filterByUserName.find().first()
+
+// Use dot notation to access child objects
+val myFirstPost = kermit.posts[0]
 
 // Iterate through the backlink collection property
-user.posts.forEach { post ->
-    Log.v("${user.name}'s Post: ${post.date} - ${post.title}")
+kermit.posts.forEach { post ->
+    Log.v("${kermit.name}'s Post: ${post.date} - ${post.title}")
 }
 
-// Query the backlink with `@links.<ObjectType>.<PropertyName>`
-val oldPostsByKermit = realm.query<Post>()
-    .query("@links.User.posts.name == $0 AND date < $1", "Kermit", today)
+// Filter posts through the parent's backlink property
+// using `@links.<ObjectType>.<PropertyName>` syntax
+val oldPostsByKermit = realm.query<Post>("date < $1", today)
+    .query("@links.User.posts.name == $0", "Kermit")
     .find()
 
 // Query the child object to access the parent

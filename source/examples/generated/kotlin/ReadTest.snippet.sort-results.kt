@@ -1,5 +1,5 @@
 // Query for all frogs owned by Jim Henson, then:
-// 1. Sort the results by age in descending order
+// 1. Sort results by age in descending order
 // 2. Limit results to only distinct names
 // 3. Limit results to only the first 2 objects
 

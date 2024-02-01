@@ -9,4 +9,3 @@ val allLiveFrogs: RealmResults<Frog> = queryAllLiveFrogs.find()
 // Calling 'asFlow()' on the query returns a ResultsChange Flow
 // Can ONLY be called on a `Realm.query()`
 val allFrogsFlow: Flow<ResultsChange<Frog>> = queryAllFrogs.asFlow()
-val allLiveFrogsFlow: Flow<ResultsChange<Frog>> = queryAllLiveFrogs.asFlow() // throws exception

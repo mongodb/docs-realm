@@ -1,5 +1,6 @@
-// Find frogs who have a favorite snack of flies and crickets
-val potentialFrogs = query<RealmSet_Frog>("favoriteSnacks.name CONTAINS $0 AND favoriteSnacks.name CONTAINS $1", "Flies", "Crickets").find()
+// Find frogs with flies and crickets as a favorite snack
+val filterBySnackSet = query<RealmSet_Frog>("favoriteSnacks.name CONTAINS $0 AND favoriteSnacks.name CONTAINS $1", "Flies", "Crickets")
+val potentialFrogs = filterBySnackSet.find()
 
 // Check if the set contains a value
 val frogsThatLikeWorms = potentialFrogs.filter { frog ->

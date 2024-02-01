@@ -1,3 +1,5 @@
+// Filter by FTS property value using 'TEXT'
+
 // Find all frogs with "green" in the physical description
 val onlyGreenFrogs =
     realm.query<Frog>("physicalDescription TEXT $0", "green").find()

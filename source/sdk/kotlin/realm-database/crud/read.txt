@@ -19,93 +19,68 @@ Read Realm Objects - Kotlin SDK
    :depth: 3
    :class: singlecol
 
-This page describes how to query and read objects persisted in a database 
-with the Atlas Device SDK for Kotlin. To learn how to modify queried objects, 
-refer to :ref:`kotlin-update-objects`. To learn how to observe 
-changes to queried objects, refer to :ref:`kotlin-query-change-listener`.
+This page describes how to query and lazily read objects persisted in a database 
+with the Atlas Device SDK for Kotlin. This lazy evaluation enables code 
+efficiency and performance when handling large data sets and complex queries. 
 
-.. note:: 
+.. note:: Cannot Read Asymmetric Objects
    
-   The page demonstrates querying using Realm Query Language 
-   (RQL), but it is not an exhaustive guide. For in-depth information on RQL, 
-   its operators, and constructing queries, refer to :ref:`<rql>`.
-
-The standard data access pattern across Atlas Device SDK is to find, 
-filter, and sort database objects that you want to read, then the SDK lazily 
-evaluates the results. This lazy evaluation enables you to write elegant, 
-highly performant code for handling large data sets and complex queries. 
-This also means that you can chain several queries together without a separate 
-trip to the database for each successive query.
+   You *cannot* read asymmetric objects because they are special 
+   write-only objects that do not persist to the database. For information on 
+   how to use asymmetric objects in your application, refer to 
+   :ref:`kotlin-stream-data-to-atlas`.
 
 Read Operations
 ---------------
 
-You can perform read operations in a synced or non-synced database using the 
-SDK's query builder 
-`RealmQuery <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/index.html>`__. 
-The syntax for read operations is the same for synced and non-synced databases.
+A read operation consists of querying database objects, then running the query 
+when you're ready to access the results. The syntax for read operations is the 
+same for synced and non-synced databases.
 
-All queries are based on :ref:`object type <kotlin-object-type>`. You can 
-query any objects, including :ref:`embedded objects <kotlin-embedded-objects>`, 
-that persist to the database and whose type is included in your database schema. 
-This means that you *cannot* read asymmetric objects, which are special 
-write-only objects that do not persist to the database. For information on 
-how to use asymmetric objects in your application, refer to 
-:ref:`kotlin-stream-data-to-atlas`.
+All queries are based on :ref:`object type <kotlin-object-type>`. 
+You can query any object, including :ref:`embedded objects <kotlin-embedded-objects>`, 
+that persist to the database and whose type is included in your 
+:ref:`database schema <kotlin-realm-schema>`. 
 
-.. example:: Read Operation
+Construct queries using the SDK's query builder 
+`RealmQuery <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/index.html>`__, 
+passing the object type as the type parameter. You can query objects on a 
+``Realm`` or ``MutableRealm`` instance, a ``RealmResults`` collection, or a 
+``RealmList`` collection. 
 
-   .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-object.kt
-      :language: kotlin
+A basic ``RealmQuery`` returns all objects of the specified type: 
 
-You can query a ``Realm`` or ``MutableRealm`` instance, a ``RealmResults`` 
-collection, or a ``RealmList`` collection. And unlike other Atlas Device SDKs, 
-which always return live results, the SDK for Kotlin can return both frozen and 
-live results. 
+.. code:: kotlin
 
-The SDK *always* returns **frozen results** when you run a query on a 
-`Realm <{+kotlin-local-prefix+}io.realm.kotlin/-realm/query.html>`__. Frozen 
-results cannot be modified and do not reflect the latest changes to the 
-database. And because you can access a ``Realm`` inside or outside of a write 
-transaction, a ``Realm.query()`` does not require a write transaction. 
+   // Finds all objects of type <T>
+   .query<T>()
 
-To return **live results**, you must run a query on a 
-`MutableRealm <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/index.html>`__ 
-instance. A ``MutableRealm`` represents a writeable state of a database and 
-is *only* accessible through a write transaction. Results from a  
-`MutableRealm.query <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/query.html>`__ 
-are live, but are only valid on the calling thread and are frozen once the 
-write transaction completes. 
-You can also return live objects from frozen results by calling 
-`MutableRealm.findLatest() <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/find-latest.html>`__ . 
-For more information, refer to the :ref:`kotlin-find-latest-version` section 
-on this page. 
+You can refine your query with additional filters and conditions (for example, 
+sorting, aggregating, limiting results). You can refine results by one or 
+more property using  **Realm Query Language (RQL)**, a string-based query 
+language, in combination with built-in Kotlin extension functions and 
+helper methods provided by the SDK. 
 
-For more information on write transactions and accessing a ``MutableRealm``, 
-refer to :ref:`<kotlin-write-transactions>`.
+.. code:: kotlin
 
-.. example:: Access Live Results
+   // Finds all objects of type <T> that meet the filter conditions
+   // and returns them in the specified sort order
+   .query<T>(filter).sort(sort) 
 
-   .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.frozen-vs-live-results.kt
-      :language: kotlin
+You can also **chain queries** together using additional 
+`query() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__ 
+methods. Each appended ``query()`` acts as an ``AND`` query condition. 
+And because of the SDK's lazy evaluation, successive queries do not require 
+separate trips to the database.
 
-Filter and Sort
-~~~~~~~~~~~~~~~
+  .. code:: kotlin
 
-By default, the SDK returns all objects of the object type passed as a query
-parameter. To further refine and sort results, you can pass filters and 
-additional operators using **Realm Query Language (RQL)**. 
-
-RQL is a robust string-based query language that you can use to retrieve 
-specific objects from a database. It can also be used in combination with 
-built-in Kotlin extension functions and helper methods provided by the SDK.
-For in-depth information on querying with RQL, refer to :ref:`<rql>`.
-
-Run the Query
-~~~~~~~~~~~~~
+   // Finds all objects of type <T> that meet the first filter conditions
+   // AND the subsequent filter conditions
+   .query<T>(filter).query(filter)
 
 When you're ready to access the data and work with the returned results, 
-you can run the query:  
+run the query:  
 
 - Use `find() <{+kotlin-local-prefix+}io.realm.kotlin.query/find.html>`__ 
   to perform a **synchronous query**. The SDK lazily returns a 
@@ -126,11 +101,44 @@ Database objects in a results collection or flow reference the matched
 objects, which map directly to data in the database file. This also means 
 that you can traverse your graph of an object's 
 :ref:`relationships <kotlin-relationships>` directly through the results 
-of a query.
+of a query. 
 
 .. example:: Run the Query
 
    .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.synchronous-query.kt
+      :language: kotlin
+
+Frozen and Live Results
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Unlike other Atlas Device SDKs, which always return live results, 
+results with the Kotlin SDK can be frozen or live. For more information on the 
+Kotlin SDK's frozen architecture, refer to :ref:`kotlin-frozen-architecture`.
+
+To access **frozen results**, run a query on a 
+`Realm <{+kotlin-local-prefix+}io.realm.kotlin/-realm/query.html>`__. Frozen 
+results cannot be modified and do not reflect the latest changes to the 
+database. A ``Realm.query()`` does not require a write transaction. 
+
+To access **live results**, run a query on a 
+`MutableRealm <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/index.html>`__ 
+instance in a write transaction. A ``MutableRealm`` represents a writeable 
+state of a database and is *only* accessible through a write transaction. 
+Results from a  
+`MutableRealm.query <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/query.html>`__ 
+are live, but are only valid on the calling thread and are frozen once the 
+write transaction completes. 
+For more information on write transactions and accessing a ``MutableRealm``, 
+refer to :ref:`<kotlin-write-transactions>`.
+
+You can also access live objects from frozen results by calling 
+`MutableRealm.findLatest() <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/find-latest.html>`__ . 
+For more information, refer to the :ref:`kotlin-find-latest-version` section 
+on this page. 
+
+.. example:: Access Live Results
+
+   .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.frozen-vs-live-results.kt
       :language: kotlin
 
 Find Database Objects
@@ -142,15 +150,19 @@ To find objects stored within a database:
    `query() <{+kotlin-local-prefix+}io.realm.kotlin.ext/query.html>`__. 
    The object type must already be included in your database schema. 
 
-#. Pass any queries to further filter the results. You can append 
-   additional filters with 
-   `query() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__. 
-   If you don't specify a query filter, the SDK returns all objects of the 
-   specified type.
-
-#. Specify the sort order for the results. Because the database is unordered, 
-   if you don't include a sort order, the SDK cannot guarantee the query returns 
-   objects in any specific order.
+#. Optionally, pass any query conditions to further refine the results: 
+   
+   -  Specify a filter to only return objects that meet the condition. If 
+      you don't specify a filter, the SDK returns all objects of the specified 
+      type. 
+      
+      You can chain filters by appending additional 
+      `query() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__ 
+      methods to the ``RealmQuery``. 
+   - Specify the sort order for the results using 
+     `sort() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/sort.html>`__. 
+      Because the database is unordered, if you don't include a sort order, 
+      the SDK cannot guarantee the query returns objects in any specific order.
 
 #. Execute the query using either: 
 
@@ -159,16 +171,21 @@ To find objects stored within a database:
    -  `asFlow() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__ f
       or asynchronous queries. Subscribes to a ``Flow`` of results changes. 
 
-   .. tip:: Avoid ``find()`` on the UI Thread
+   .. tip:: Prefer ``asFlow()`` for Large Data Sets 
       
       ``find()`` runs a synchronous query on the thread it is called from. 
-      As a result, avoid using ``find()`` on the UI thread or in logic that 
+      As a result, avoid using ``find()`` for large data sets on the UI thread or in logic that 
       could delay the UI thread. 
       
-      Prefer ``asFlow()`` to prevent performance impacts.
+      Prefer ``asFlow()`` to prevent negative performance or UI impact.
 
 #. Work with the results. Objects may be frozen or live, depending on the
    type of query you ran. 
+
+.. example:: Read Operation
+
+   .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-object.kt
+      :language: kotlin
 
 .. _kotlin-find-latest-version:
 
@@ -178,15 +195,16 @@ Find Latest Version of an Object
 Because of the SDK's frozen architecture, you aren't always working 
 with the latest version of an object or collection. 
 
-To find the latest version of an object or collection, you can call 
+To get a version of an object or collection that reflects the latest changes to 
+the database, you can call 
 `findLatest() <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/find-latest.html>`__ 
-from a ``MutableRealm`` instance. This method returns a live copy of the 
-object or collection that reflects the latest changes to the database. 
-Like a ``MutableRealm.query()``, results are only valid on the calling thread 
-and are frozen once the write transaction completes.
+from a ``MutableRealm`` instance. 
+Like a ``MutableRealm.query()``, the results are live *but* are only valid on 
+the calling thread and are frozen once the write transaction completes.
 
-In the following example, we find the latest version of an existing 
-``frozenFrogs`` query's results collection, then modify the now-live objects:
+In the following example, we pass an existing ``frozenFrogs`` query's 
+``RealmResults`` to ``findLatest()`` to get the latest live copy of the 
+collection. We then modify the now-live objects within the write transaction:
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.find-latest-version.kt
    :language: kotlin
@@ -249,18 +267,37 @@ object:
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.query-single-object.kt
    :language: kotlin
 
+Filter By Property 
+~~~~~~~~~~~~~~~~~~
+
+You can filter a query by any property in the object type that persists in the 
+database. This includes child properties, which you can refer to using dot 
+notation.
+
+To filter by property, you can pass Realm Query Language (RQL) filters and 
+operators, use Kotlin's built-in extension methods or the SDK's convenience 
+methods, or use a combination. For information on all currently supported RQL 
+operators and syntax, refer to the :ref:`<rql>` reference documentation.
+
+In the following example, we query a ``Frog`` object type and filter by the 
+``name`` property:
+
+.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.query-by-property.kt
+   :language: kotlin
+
 .. _kotlin-find-by-primary-key:
 
-Query By Primary Key
-~~~~~~~~~~~~~~~~~~~~
+Filter By Primary Key
+`````````````````````
 
 :ref:`Primary keys <kotlin-primary-keys>` are unique identifiers for objects 
 in a database, which makes them useful for querying specific objects. 
 
-To find an object with a specific primary key, pass the object type as a type 
+To filter by a specific primary key, pass the object type as a type 
 parameter and query the primary key field for the desired value.
 
-In the following example, we query a ``Frog`` object by the primary key field ``_id``:
+In the following example, we query a ``Frog`` object and filter by the primary 
+key property ``_id``:
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.find-by-primary-key.kt
    :language: kotlin
@@ -272,24 +309,10 @@ In the following example, we query a ``Frog`` object by the primary key field ``
    objects have a primary key named ``_id``. For more information, refer to 
    :ref:`<kotlin-model-data-device-sync>`. 
 
-Query By Property 
-~~~~~~~~~~~~~~~~~
-
-You can query by any property in the object type that persists in the database. 
-You can also use dot notation to refer to child properties of an object. 
-For information on using dot notation with RQL, refer to 
-:ref:`<rql-dot-notation>`.
-
-In the following example, we query a ``Frog`` object type by the ``name``
-property:
-
-.. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.query-by-property.kt
-   :language: kotlin
-
 .. _kotlin-query-embedded-object-property:
 
-Query an Embedded Object Property
-`````````````````````````````````
+Filter By Embedded Object Property
+``````````````````````````````````
 
 :ref:`Embedded objects <kotlin-embedded-objects>` act as nested data inside of 
 a single specific parent object. You can query an embedded object directly or 
@@ -298,7 +321,7 @@ object directly, refer to the :ref:`kotlin-query-all-objects-of-type` section
 on this page.
 
 To find an embedded object through its parent object, pass the parent object 
-type as a type parameter and query the embedded object property using dot 
+type as a type parameter and filter by the embedded object property using dot 
 notation. 
 
 In the following example, we have a ``Contact`` parent object that contains an 
@@ -310,8 +333,8 @@ type against the embedded object's ``address.street`` property:
 
 .. _kotlin-query-realmany:
 
-Query a RealmAny (Mixed) Property
-`````````````````````````````````
+Filter By RealmAny (Mixed) Property
+```````````````````````````````````
 
 A :ref:`kotlin-realmany` property represents a polymorphic value that can 
 hold any one of its supported data types at a particular moment. You can query 
@@ -324,10 +347,13 @@ In the following example, we query a ``RealmAny`` property called
    :language: kotlin
 
 Unlike other properties, you must extract a ``RealmAny`` property's stored 
-value. You can return the currently stored type using 
-`RealmAny.type() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-any/type.html>`__, 
-then extract the value using the getter method for that type. If you use the
-wrong getter method, the SDK throws an exception. For a full list of getter 
+value before you can work with it. To extract the value, use 
+the SDK's getter method for the stored type. If you use the wrong getter for 
+the type, the SDK throws an exception. 
+
+A best practice is to use a conditional expression to get the currently stored 
+type with `RealmAny.type() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-any/type.html>`__, 
+then extract the value based on the type. For a full list of getter 
 methods, refer to the 
 `RealmAny <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-any/index.html>`__ 
 API reference.
@@ -341,7 +367,7 @@ since we know the returned frog's favorite thing is an ``Int`` type value:
 
 .. tip:: Handle Polymorphism with Conditional Expressions
 
-   We recommend using a ``when`` expression to handle the possible inner value 
+   Use a conditional ``when`` expression to handle the possible inner value 
    class of a given ``RealmAny`` property:
 
    .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.polymorphism.kt
@@ -355,14 +381,14 @@ would another value of that type.
    ``Byte``, ``Char``, ``Int``, ``Long``, and ``Short`` values are converted 
    internally to ``int64_t`` values. Keep this in mind when comparing, 
    sorting, or aggregating ``RealmAny`` values of these types.
-   
-Query a Remapped Property
-`````````````````````````
+
+Filter By Remapped Property
+```````````````````````````
 
 If your data model includes 
-:ref:`remapped property names <kotlin-remap-a-property>`, you can query by 
-both the Kotlin name used in your code and the remapped name that's persisted 
-in the database. 
+:ref:`remapped property names <kotlin-remap-a-property>`, you can filter by 
+both the Kotlin property name used in your code and the remapped property 
+name that's persisted in the database. 
 
 In the following example, the ``Frog`` object has a property named ``species`` 
 in the code that is remapped to ``latin_name`` in the database:
@@ -370,7 +396,7 @@ in the code that is remapped to ``latin_name`` in the database:
 .. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-persisted-name.kt
    :language: kotlin
 
-In the database, we can then query using both property names and return the same 
+In the database, we can filter by either property name and return the same 
 results:
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.query-remapped-property.kt
@@ -378,13 +404,14 @@ results:
 
 .. _kotlin-filter-fts:
 
-Query a Full-Text Search (FTS) Property
-```````````````````````````````````````
+Filter By Full-Text Search (FTS) Property
+`````````````````````````````````````````
+
 .. versionchanged:: 1.11.0
    Support for prefix wildcard searches
 
 If your data model includes a :ref:`Full-Text Search (FTS) <kotlin-fts-index>` 
-index property, you can query the property with the ``TEXT`` predicate. 
+index property, you can filter by the property with the ``TEXT`` predicate. 
 Words in the query are converted to tokens by a tokenizer using the following 
 rules:
 
@@ -409,13 +436,13 @@ The SDK returns a Boolean match for the specified query, instead of a
 relevance-based match. 
 
 In the following example, the ``Frog`` object type has an FTS index property  
-called ``physicalDescription`` that we can query to find different types of frogs:
+called ``physicalDescription`` that we can filter by to find different types of frogs:
 
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.query-fts-property.kt
   :language: kotlin
 
-Query a Collection Property
-```````````````````````````
+Filter By Collection (List, Set, Dictionary) Property
+`````````````````````````````````````````````````````
 
 Depending on how you define your object type, you might have properties that 
 are defined as one of the following supported :ref:`<kotlin-collection-types>`:
@@ -468,14 +495,14 @@ In the following example, we query a ``RealmDictionary`` property called
 .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-dictionary.kt
    :language: kotlin
 
-Query a Relationship
-````````````````````
+Filter By Relationship Property 
+```````````````````````````````
 
 Depending on how you define your object type, you might have properties that 
 reference another database object. This can be a to-one, to-many, or inverse 
 :ref:`relationship <kotlin-relationships>`.
 
-For information on querying relationship properties that reference an 
+For information on filtering by relationship properties that reference an 
 :ref:`embedded object <kotlin-embedded-relationship>`, refer to the 
 :ref:`<kotlin-query-embedded-object-property>` section on this page.
 
@@ -483,7 +510,7 @@ To-One Relationships
 ++++++++++++++++++++
 
 A :ref:`to-one relationship <kotlin-to-one-relationship>` property maps to 
-a single instance of another object type. You can query the relationship 
+a single instance of another object type. You can filter by the relationship 
 property using dot notation, the same way you would a nested object.
 
 In the following example, the ``Frog`` object type has a property called 
@@ -497,7 +524,7 @@ To-Many Relationships
 
 :ref:`To-many relationships <kotlin-to-many-relationship>` properties are 
 collections (a :ref:`RealmList <kotlin-realm-list>` or 
-:ref:`RealmSet <kotlin-realm-set>`) of another object type. You can query 
+:ref:`RealmSet <kotlin-realm-set>`) of another object type. You can filter by 
 and iterate through the relationship property the same way you would any other 
 collection property.
 
@@ -537,7 +564,7 @@ as the inverse ``Post.user`` relationship ("Post belongs to User"):
    
    .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.query-inverse-persisted-name.kt
       :language: kotlin
-      :emphasize-lines: 3
+      :emphasize-lines: 4
 
 Query Geospatial Data
 ~~~~~~~~~~~~~~~~~~~~~
@@ -545,19 +572,38 @@ Query Geospatial Data
 .. versionadded:: 1.11.0
 
 Kotlin SDK version 1.11.0 and later adds experimental geospatial APIs that 
-support querying with geospatial data. For more information on using 
-geospatial data in your app, refer to :ref:`<kotlin-geospatial>`.
+support querying with geospatial data. 
 
-To query against geospatial data, use the ``GEOWITHIN`` operator. This method 
-takes the ``coordinates`` property of an embedded object and checks if that 
-point is contained within the shape of a given geodata region. For example, 
-you can find all coffee shops (objects with embedded coordinates) within 15 km 
-of a location (the defined geodata region). The format for querying geospatial 
-data is the same, regardless of the shape of the geodata region.
+.. note:: 
 
-.. important:: 
-   
-   You *cannot* use parameterized queries with geospatial data.
+   To persist geospatial data, you must define a custom GeoJSON-compatible 
+   embedded class in your data model. For more information on the requirements, 
+   refer to :ref:`<kotlin-persist-geopoint>`.
+
+Geospatial data is persisted as latitude/longitude pair in a custom
+embedded object's ``coordinates`` property. A geospatial query checks 
+whether the point defined by the ``coordinates`` property is contained within
+the boundary of a defined geospatial shape.
+
+The SDK supports the following geospatial shapes:
+
+- ``GeoCircle``: defined by a center ``GeoPoint`` and a radius ``Distance``
+- ``GeoBox``: defined by two ``GeoPoint`` coordinates that represent the 
+  southwest and northeast corners of the box
+- ``GeoPolygon``: defined by a set of at least 4 ``GeoPoint`` coordinates that 
+  represent a closed shape
+
+For more information on geospatial shapes and how to define them, refer to 
+:ref:`kotlin-geospatial`.
+
+To query geospatial data: 
+
+1. Create an object containing the embedded geospatial data. 
+#. Define the geospatial shape to set the boundary for the query. 
+#. Query using the ``GEOWITHIN`` RQL operator. This method takes the 
+  ``coordinates`` property of your GeoJSON-compatible embedded object 
+  and checks if that point is contained within the boundary of a defined 
+  shape. The syntax is the same, regardless of the geospatial shape.
 
 In the following example, we have a ``Company`` object type with an 
 embedded object property called ``location``. We also have two 
@@ -565,8 +611,30 @@ defined geodata regions of type ``Geocircle``.
 We then query the ``location`` property for any ``Company`` objects contained 
 within the specified ``Geocircle`` region:
 
-.. literalinclude:: /examples/generated/kotlin/Geospatial.snippet.geocircle-query.kt
+In the following example, we want to query for geospatial data persisted in 
+a ``Company`` object through an embedded ``location`` property. We create 
+two ``GeoCircle`` objects to set our query boundary: 
+
+.. literalinclude:: /examples/generated/kotlin/Geospatial.snippet.geocircle.kt
    :language: kotlin
+
+We then query for any ``Company`` objects with a ``location``contained within 
+the defined ``GeoCircle`` boundaries:
+
+.. io-code-block::
+
+   .. input:: /examples/generated/kotlin/Geospatial.snippet.geocircle-query.kt
+    :language: kotlin
+
+   .. output:: 
+
+        Companies in large circle: 1
+        Companies in small circle: 0
+
+.. figure:: /images/geocircles-query.png
+   :alt: Querying a GeoCircle example
+   :width: 150
+   :lightbox:
 
 .. _kotlin-sort-queries:
 
@@ -596,7 +664,7 @@ RQL only, and then a combination of both to return the same results:
 
    .. input:: /examples/generated/kotlin/ReadTest.snippet.sort-results.kt
       :language: kotlin
-      :emphasize-lines: 8-10, 16, 23-25
+      :emphasize-lines: 7-9, 16, 23-25
 
    .. output:: 
 
@@ -606,6 +674,8 @@ RQL only, and then a combination of both to return the same results:
       RQL sort: Kermit is 42
       Combined sort: Kermit, Sr. is 100
       Combined sort: Kermit is 42
+
+.. include:: /includes/string-sort-and-query-limitations-note.rst
 
 .. _kotlin-aggregate-results:
 

@@ -1,2 +1,2 @@
-val queryByProperty = realm.query<Frog>("name == $0", "Kermit")
-val frogsNamedKermit = queryByProperty.find()
+val filterByProperty = realm.query<Frog>("name == $0", "Kermit")
+val frogsNamedKermit = filterByProperty.find()

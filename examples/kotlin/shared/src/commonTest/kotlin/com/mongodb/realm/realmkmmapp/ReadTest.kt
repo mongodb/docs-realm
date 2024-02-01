@@ -73,16 +73,17 @@ class ReadTest: RealmTest() {
                 })
             }
             // :snippet-start: read-realm-object
-            // Pass the object type as a query parameter
-            val findFrogs = realm.query<ExampleRealmObject_Frog>()
-                // Filter results
-                .query("owner == $0", "Jim Henson")
-                // Sort results
+            // Pass the object type as <T> parameter and filter by property
+            val findFrogs = realm.query<ExampleRealmObject_Frog>("age > 1")
+                // Chain another query filter
+                .query("owner == $0 AND name CONTAINS $1", "Jim Henson", "K")
+                // Sort results by property
                 .sort("age", Sort.ASCENDING)
                 // Run the query
                 .find()
             // ... work with the results
             // :snippet-end:
+            assertEquals(2, findFrogs.size)
             val frozenFrogs = findFrogs
             val frog = frozenFrogs.first()
             // :snippet-start: check-frozen
@@ -105,27 +106,26 @@ class ReadTest: RealmTest() {
             assertTrue(frozenFrogs.first().isFrozen())
             val thrownException = assertFailsWith<Exception> {
             // :snippet-start: frozen-vs-live-results
-            // 'Realm.query()' always returns frozen results
+            // 'Realm.query()' results are always frozen
             val frozenResults = realm.query<ExampleRealmObject_Frog>("age > $0", 50).find()
-            // If you try to modify the queried object, SDK throws 'IllegalStateException'
-            frozenResults.first().age += 1
 
-            // :remove-start:
+                // :remove-start:
+                // assert SDK throws 'IllegalStateException'
+                frozenResults.first().age += 1
             }
             assertTrue(
                 thrownException.message!!.contains("[RLM_ERR_WRONG_TRANSACTION_STATE]"),
                 "Trying to modify database while in read transaction"
             )
             // :remove-end:
-            // 'MutableRealm.query()' returns live results
-            // Open a write transaction to access the MutableRealm
+            // 'MutableRealm.query()' results are live within the current write transaction
             realm.write { // this: MutableRealm
                 val liveResults = this.query<ExampleRealmObject_Frog>("age > $0", 50).find()
-                // You can modify queried object
+                // :snippet-end:
+                // assert you can modify queried object
                 liveResults.first().age += 1
-                assertEquals(102, liveResults.first().age) // :remove:
+                assertEquals(102, liveResults.first().age)
             }
-            // :snippet-end:
             realm.write { deleteAll() }
             realm.close()
         }
@@ -170,9 +170,10 @@ class ReadTest: RealmTest() {
                 // Calling 'asFlow()' on the query returns a ResultsChange Flow
                 // Can ONLY be called on a `Realm.query()`
                 val allFrogsFlow: Flow<ResultsChange<ExampleRealmObject_Frog>> = queryAllFrogs.asFlow()
-                val thrownException = assertFailsWith<Exception> { // :remove:
-                val allLiveFrogsFlow: Flow<ResultsChange<ExampleRealmObject_Frog>> = queryAllLiveFrogs.asFlow() // throws exception
-                    // :snippet-end:
+                // :snippet-end:
+                // assert SDK throws exception
+                val thrownException = assertFailsWith<Exception> {
+                    val allLiveFrogsFlow: Flow<ResultsChange<ExampleRealmObject_Frog>> = queryAllLiveFrogs.asFlow()
                 }
                 assertTrue(thrownException.message!!.contains("Observing changes are not supported by this Realm"))
                 assertEquals(3, allFrogs.size)
@@ -229,12 +230,13 @@ class ReadTest: RealmTest() {
             // :snippet-end:
             assertEquals("Jim Henson", singleFrog?.owner)
             // :snippet-start: find-by-primary-key
-            val queryByPrimaryKey = realm.query<ExampleRealmObject_Frog>("_id == $0", PRIMARY_KEY_VALUE).find().first()
+            val filterByPrimaryKey = realm.query<ExampleRealmObject_Frog>("_id == $0", PRIMARY_KEY_VALUE)
+            val findPrimaryKey = filterByPrimaryKey.find().first()
             // :snippet-end:
-            assertEquals(PRIMARY_KEY_VALUE, queryByPrimaryKey._id)
+            assertEquals(PRIMARY_KEY_VALUE, findPrimaryKey._id)
             // :snippet-start: query-by-property
-            val queryByProperty = realm.query<ExampleRealmObject_Frog>("name == $0", "Kermit")
-            val frogsNamedKermit = queryByProperty.find()
+            val filterByProperty = realm.query<ExampleRealmObject_Frog>("name == $0", "Kermit")
+            val frogsNamedKermit = filterByProperty.find()
             // :snippet-end:
             assertEquals(1, frogsNamedKermit.size)
             realm.write { deleteAll() }
@@ -279,14 +281,14 @@ class ReadTest: RealmTest() {
             // :snippet-start: query-embedded-object-property
             // Use dot notation to access the embedded object properties as if it
             // were in a regular nested object
-            val queryEmbeddedObjectProperty =
+            val filterEmbeddedObjectProperty =
                 realm.query<ExampleRelationship_Contact>("address.street == '123 Pond St'")
 
-            // You can also query properties nested within the embedded object
+            // You can also access properties nested within the embedded object
             val queryNestedProperty = realm.query<ExampleRelationship_Contact>()
                 .query("address.propertyOwner.name == $0", "Mr. Frog")
             // :snippet-end:
-            val findEmbeddedObjectProperty = queryEmbeddedObjectProperty.find().first()
+            val findEmbeddedObjectProperty = filterEmbeddedObjectProperty.find().first()
             val findNestedProperty = queryNestedProperty.find().first()
             assertEquals("123 Pond St", findEmbeddedObjectProperty.address?.street)
             assertEquals("Mr. Frog", findNestedProperty.address?.propertyOwner?.name)
@@ -316,8 +318,8 @@ class ReadTest: RealmTest() {
             }
             realm.write {
                 // :snippet-start: query-realmany-property
-                val queryFrogLovesNumbers = realm.query<RealmObjectProperties_Frog>("favoriteThing.@type == 'int'")
-                val findFrog = queryFrogLovesNumbers.find().first()
+                val filterByRealmAnyInt = realm.query<RealmObjectProperties_Frog>("favoriteThing.@type == 'int'")
+                val findFrog = filterByRealmAnyInt.find().first()
                 // :snippet-end:
                 // :snippet-start: get-realmany-property
                 val frogsFavoriteThing = findFrog.favoriteThing // Int
@@ -325,15 +327,15 @@ class ReadTest: RealmTest() {
                 // Using the correct getter method returns the value
                 val frogsFavoriteNumber = frogsFavoriteThing?.asInt()
                 println("${findFrog.name} likes the number $frogsFavoriteNumber")
-                assertEquals(42, frogsFavoriteNumber) // :remove:
+                // :snippet-end:
+                assertEquals(42, frogsFavoriteNumber)
 
-                val thrownException = assertFailsWith<Exception> { // :remove:
-                // Using the wrong getter method throws an exception
-                val frogsFavoriteUUID = frogsFavoriteThing?.asRealmUUID()
-                    // :snippet-end:
+                val thrownException = assertFailsWith<Exception> {
+                // assert that wrong getter throws an exception
+                    val frogsFavoriteUUID = frogsFavoriteThing?.asRealmUUID()
                 }
                 assertTrue(thrownException.message!!.contains("RealmAny type mismatch"))
-                val frogsFavoriteThings = queryFrogLovesNumbers.find().map { it.favoriteThing }
+                val frogsFavoriteThings = filterByRealmAnyInt.find().map { it.favoriteThing }
                 // :snippet-start: polymorphism
                 // Handle possible types with a 'when' statement
                 frogsFavoriteThings.forEach { realmAny ->
@@ -395,13 +397,18 @@ class ReadTest: RealmTest() {
                     })
             }
             // :snippet-start: query-remapped-property
-            val queryKotlinName = realm.query<ExamplePropertyAnnotations_Frog>("species == $0", "Muppetarium Amphibius").find().first()
-            val queryRemappedName = realm.query<ExamplePropertyAnnotations_Frog>("latin_name == $0", "Muppetarium Amphibius").find().first()
+            val filterByKotlinName = realm.query<ExamplePropertyAnnotations_Frog>("species == $0", "Muppetarium Amphibius")
+            val findSpecies = filterByKotlinName.find().first()
+
+            val filterByRemappedName = realm.query<ExamplePropertyAnnotations_Frog>("latin_name == $0", "Muppetarium Amphibius")
+            val find_latin_name = filterByRemappedName.find().first()
 
             // Both queries return the same object
-            assertEquals(queryKotlinName, queryRemappedName)
+            assertEquals(findSpecies, find_latin_name)
             // :snippet-end:
             // :snippet-start: query-fts-property
+            // Filter by FTS property value using 'TEXT'
+
             // Find all frogs with "green" in the physical description
             val onlyGreenFrogs =
                 realm.query<ExamplePropertyAnnotations_Frog>("physicalDescription TEXT $0", "green").find()
@@ -498,8 +505,9 @@ class ReadTest: RealmTest() {
             }
             realm.write {
                 // :snippet-start: read-realm-set
-                // Find frogs who have a favorite snack of flies and crickets
-                val potentialFrogs = query<RealmSet_Frog>("favoriteSnacks.name CONTAINS $0 AND favoriteSnacks.name CONTAINS $1", "Flies", "Crickets").find()
+                // Find frogs with flies and crickets as a favorite snack
+                val filterBySnackSet = query<RealmSet_Frog>("favoriteSnacks.name CONTAINS $0 AND favoriteSnacks.name CONTAINS $1", "Flies", "Crickets")
+                val potentialFrogs = filterBySnackSet.find()
 
                 // Check if the set contains a value
                 val frogsThatLikeWorms = potentialFrogs.filter { frog ->
@@ -608,10 +616,10 @@ class ReadTest: RealmTest() {
                 // Find all forests with at least one nearby pond
                 val allForests = query<ExampleRelationship_Forest>().find()
                 val forestsWithPonds = allForests.query("nearbyPonds.@count > $0", 0).find()
-                val bigPond = query<ExampleRelationship_Pond>("name == $0", "Big Pond").find().first()
 
                 // Iterate through the results
                 for (forest in forestsWithPonds) {
+                    val bigPond = query<ExampleRelationship_Pond>("name == $0", "Big Pond").find().first()
                     if (forest.nearbyPonds.contains(bigPond)) {
                         Log.v("${forest.name} has a nearby pond named ${bigPond.name}")
                     } else {
@@ -652,21 +660,24 @@ class ReadTest: RealmTest() {
             }
             realm.write {
                 val today = RealmInstant.now()
-                    //RealmInstant.from(1677628500, 0) // Feb 28 2023
                 // :snippet-start: query-inverse-relationship
-                // Query the parent object to access the child objects
-                val user = query<ExampleRelationship_User>("name == $0", "Kermit").find().first()
-                val myFirstPost = user.posts[0]
+                // Query the parent object
+                val filterByUserName = query<ExampleRelationship_User>("name == $0", "Kermit")
+                val kermit = filterByUserName.find().first()
+
+                // Use dot notation to access child objects
+                val myFirstPost = kermit.posts[0]
                 assertEquals("Forest Life", myFirstPost.title) // :remove:
 
                 // Iterate through the backlink collection property
-                user.posts.forEach { post ->
-                    Log.v("${user.name}'s Post: ${post.date} - ${post.title}")
+                kermit.posts.forEach { post ->
+                    Log.v("${kermit.name}'s Post: ${post.date} - ${post.title}")
                 }
 
-                // Query the backlink with `@links.<ObjectType>.<PropertyName>`
-                val oldPostsByKermit = realm.query<ExampleRelationship_Post>()
-                    .query("@links.ExampleRelationship_User.posts.name == $0 AND date < $1", "Kermit", today)
+                // Filter posts through the parent's backlink property
+                // using `@links.<ObjectType>.<PropertyName>` syntax
+                val oldPostsByKermit = realm.query<ExampleRelationship_Post>("date < $1", today)
+                    .query("@links.ExampleRelationship_User.posts.name == $0", "Kermit")
                     .find()
                 assertEquals(2, oldPostsByKermit.size) // :remove:
 
@@ -675,7 +686,7 @@ class ReadTest: RealmTest() {
                 val post2 = query<ExampleRelationship_Post>("title == $0", "Top Ponds of the Year!").find().first()
                 val parent = post1.user.first()
                 // :snippet-end:
-                assertTrue(user.posts.containsAll(listOf(post1, post2)))
+                assertTrue(kermit.posts.containsAll(listOf(post1, post2)))
                 assertEquals("Kermit", parent.name)
                 deleteAll()
             }
@@ -717,7 +728,8 @@ class ReadTest: RealmTest() {
                 copyToRealm(user)
             }
             // :snippet-start: query-inverse-persisted-name
-            // Query by the remapped name 'Blog_Author'
+            // Filter by the remapped object type name
+            // using `@links.<RemappedObjectType>.<PropertyName>` syntax
             val postsByKermit = realm.query<RealmObjectProperties_Post>()
                 .query("@links.Blog_Author.posts.name == $0", "Kermit")
                 .find()
@@ -756,7 +768,7 @@ class ReadTest: RealmTest() {
             }
             // :snippet-start: sort-results
             // Query for all frogs owned by Jim Henson, then:
-            // 1. Sort the results by age in descending order
+            // 1. Sort results by age in descending order
             // 2. Limit results to only distinct names
             // 3. Limit results to only the first 2 objects
 
