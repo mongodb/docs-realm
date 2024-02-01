@@ -73,7 +73,7 @@ methods. Each appended ``query()`` acts as an ``AND`` query condition.
 And because of the SDK's lazy evaluation, successive queries do not require 
 separate trips to the database.
 
-  .. code:: kotlin
+.. code:: kotlin
 
    // Finds all objects of type <T> that meet the first filter conditions
    // AND the subsequent filter conditions
@@ -159,8 +159,7 @@ To find objects stored within a database:
       You can chain filters by appending additional 
       `query() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__ 
       methods to the ``RealmQuery``. 
-   - Specify the sort order for the results using 
-     `sort() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/sort.html>`__. 
+   -  Specify the sort order for the results. 
       Because the database is unordered, if you don't include a sort order, 
       the SDK cannot guarantee the query returns objects in any specific order.
 
@@ -601,24 +600,18 @@ To query geospatial data:
 1. Create an object containing the embedded geospatial data. 
 #. Define the geospatial shape to set the boundary for the query. 
 #. Query using the ``GEOWITHIN`` RQL operator. This method takes the 
-  ``coordinates`` property of your GeoJSON-compatible embedded object 
-  and checks if that point is contained within the boundary of a defined 
-  shape. The syntax is the same, regardless of the geospatial shape.
-
-In the following example, we have a ``Company`` object type with an 
-embedded object property called ``location``. We also have two 
-defined geodata regions of type ``Geocircle``. 
-We then query the ``location`` property for any ``Company`` objects contained 
-within the specified ``Geocircle`` region:
+   ``coordinates`` property of your GeoJSON-compatible embedded object 
+   and checks if that point is contained within the boundary of a defined 
+   shape. The syntax is the same, regardless of the geospatial shape.
 
 In the following example, we want to query for geospatial data persisted in 
-a ``Company`` object through an embedded ``location`` property. We create 
+a ``Company`` object through its embedded ``location`` property. We create 
 two ``GeoCircle`` objects to set our query boundary: 
 
 .. literalinclude:: /examples/generated/kotlin/Geospatial.snippet.geocircle.kt
    :language: kotlin
 
-We then query for any ``Company`` objects with a ``location``contained within 
+We then query for any ``Company`` objects with a ``location`` contained within 
 the defined ``GeoCircle`` boundaries:
 
 .. io-code-block::
