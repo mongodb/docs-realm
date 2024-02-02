@@ -1,3 +1,14 @@
+# February 2, 2024
+
+## Flutter SDK
+
+- Realm Database/Model Data/Data Types: Add new documentation for the `RealmMap` data type, which supports native Dart maps.
+- Atlas App Services/Connect to App Services: Add new "Get App by ID" section with tested, Bluehawked code example that documents how to access an App instance on a background isolate.
+
+## React Native SDK
+
+- Model Data/Relationships & Embedded Objects: Typo fix.
+
 # January 26, 2024
 
 ## C++ SDK
