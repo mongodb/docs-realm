@@ -157,7 +157,7 @@ Query Linked Objects
 
 .. versionadded:: 1.9.0
 
-You can find all objects that link to a given object by calling the
+You can find all objects with an inverse relationship to a given object by calling the
 object's :flutter-sdk:`getBacklinks() <realm/RealmObjectBase/getBacklinks.html>` method.
 
 In this example, we have a ``Bike`` object model with an ``owner`` property of type ``Person``: 
@@ -220,7 +220,7 @@ You can use iterable arguments in your filter. For example:
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter-iterable.dart
    :language: dart
 
-You can also filter by linking objects using the
+You can also filter by inverse relationships using the
 ``@links.<Type>.<Property>`` syntax. For example, a filter can match 
 a ``Task`` object based on properties of the ``User``
 object that references it: 
