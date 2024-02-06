@@ -31,13 +31,13 @@ class _Task {
 // :snippet-end:
 
 void main() {
-  test('Filter Backlinks with RQL', () {
+  test('Query Inverse Backlinks', () {
     final config = Configuration.local([User.schema, Task.schema]);
     final realm = Realm(config);
 
     final han = User(ObjectId(), 'han', tasks: [
       Task(ObjectId(), 'Pay Chewie back', false),
-      Task(ObjectId(), 'Get a haircut', true)
+      Task(ObjectId(), 'Get a haircut', false)
     ]);
     realm.write(() => realm.add(han));
     final jarjar = User(ObjectId(), 'jarjar_binks', tasks: [
@@ -48,20 +48,39 @@ void main() {
     realm.write(() => realm.add(jarjar));
 
     // :snippet-start: filter-backlinks-rql
-    // Filter tasks through the User's backlink property
+    // Filter Tasks through the User's backlink property
     // using `@links.<ObjectType>.<PropertyName>` syntax
     final jarjarsIncompleteTasks = realm.query<Task>(
         "ALL @links.User.tasks.username == 'jarjar_binks' AND isComplete == false");
 
-    final tasksForHan = realm.query<Task>("ALL @links.User.tasks.username == 'han'");
+    final tasksForHan =
+        realm.query<Task>("ALL @links.User.tasks.username == 'han'");
     // :snippet-end:
 
     expect(jarjarsIncompleteTasks.length, 2);
     expect(tasksForHan.length, 2);
+
+    // :snippet-start: query-backlink-inverse-relationship
+    // Tasks have an inverse relationship to Users
+    final inCompleteTasks = realm.query<Task>("isComplete == false");
+
+    // Find all Users who have an incomplete Task
+    for (final task in inCompleteTasks) {
+      final ownersWithIncompleteTasks = task.getBacklinks<User>('tasks');
+      for (final user in ownersWithIncompleteTasks) {
+        print("User ${user.username} has incomplete tasks.");
+      }
+    }
+    // :snippet-end:
+    expect(
+        inCompleteTasks
+            .any((element) => element.description == 'Get a haircut'),
+        true);
+
     cleanUpRealm(realm);
   });
 
-  test('Query Backlinks', () {
+  test('Query To-One Backlinks', () {
     // Use to-one models from Schemas.dart
     final config = Configuration.local([Person.schema, Bike.schema]);
     final realm = Realm(config);
@@ -78,15 +97,52 @@ void main() {
       realm.add(Bike(ObjectId(), 'Speeder Bike', owner: owner));
     });
 
-    // :snippet-start: query-backlinks
+    // :snippet-start: query-backlink-to-one-relationship
+    // Persons have a to-one relationship with Bikes
     final person = realm.query<Person>("firstName == 'Anakin'").first;
 
-    // Find all bikes that have an owner named Anakin
+    // Find all Bikes that have an Owner named 'Anakin'
     final allBikes = person.getBacklinks<Bike>('owner');
     // :snippet-end:
     expect(allBikes.length, 2);
     expect(allBikes.any((element) => element.id == bikeId), true);
     expect(allBikes.any((element) => element.owner!.id == ownerId), true);
+    cleanUpRealm(realm);
+  });
+
+  test('Query To-Many Backlinks', () {
+    // Use to-many models from Schemas.dart
+    final config = Configuration.local(
+        [Scooter.schema, ScooterShop.schema, Person.schema]);
+    final realm = Realm(config);
+
+    final scooterId = ObjectId();
+    final shopId = ObjectId();
+
+    realm.write(() {
+      Scooter roadHog = realm.add(Scooter(ObjectId(), 'Road Hog 9000'));
+      Scooter scooterbug = realm.add(Scooter(scooterId, 'Scooterbug'));
+      Scooter bigBen = realm.add(Scooter(ObjectId(), 'Big Ben'));
+
+      realm.add(ScooterShop(ObjectId(), 'The Scoot Zone',
+          scooters: [roadHog, bigBen, scooterbug]));
+
+      realm.add(
+          ScooterShop(ObjectId(), 'Scooterz', scooters: [scooterbug, bigBen]));
+
+      realm.add(ScooterShop(shopId, 'Scoot n Shop', scooters: [roadHog]));
+    });
+    // :snippet-start: query-backlinks-to-many-relationship
+    // Scooters have a to-many relationship with ScooterShops
+    final scooters = realm.query<Scooter>("name == 'Scooterbug'").first;
+
+    // Find all ScooterShops that sell the Scooterbug
+    final shops = scooters.getBacklinks<ScooterShop>('scooters');
+
+    // :snippet-end:
+    expect(shops.length, 2);
+    expect(scooters.id, scooterId);
+    expect(shops.any((element) => element.id == shopId), false);
     cleanUpRealm(realm);
   });
 }

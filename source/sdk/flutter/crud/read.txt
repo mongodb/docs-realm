@@ -152,25 +152,46 @@ Retrieve a collection of all objects of a data model in the database with the
 
 .. _flutter-get-backlinks:
 
-Query Linked Objects
-~~~~~~~~~~~~~~~~~~~~
+Query Related Objects
+~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 1.9.0
 
-You can find all objects with an inverse relationship to a given object by calling the
-object's :flutter-sdk:`getBacklinks() <realm/RealmObjectBase/getBacklinks.html>` method.
+If your data model includes objects that reference other objects, you can 
+query the :ref:`relationship <flutter-client-relationships>` 
+using the :flutter-sdk:`getBacklinks() <realm/RealmObjectBase/getBacklinks.html>` method.
 
-In this example, we have a ``Bike`` object model with an ``owner`` property of type ``Person``: 
+This method returns a :flutter-sdk:`results collection <realm/RealmResults-class.html>` 
+of all objects that link to the given object through a to-one, to-many, or inverse 
+relationship. The following examples use the models defined on the 
+:ref:`Relationships <flutter-client-relationships>` page.
 
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.many-to-one-models.dart
-   :language: dart
+- **To-one relationship:** In this example, we have a ``Bike`` object model 
+  with a to-one relationship with a ``Person`` object. 
 
-We can use the ``getBacklinks()`` method to find any linked objects. This
-method returns a :flutter-sdk:`results collection <realm/RealmResults-class.html>` of ``Bike``
-objects that link to the specified person:
+  We use the ``getBacklinks()`` method to find any ``Bike`` objects that link 
+  to the specified person through the ``owner`` property:
 
-.. literalinclude:: /examples/generated/flutter/backlinks_test.snippet.query-backlinks.dart
-   :language: dart
+   .. literalinclude:: /examples/generated/flutter/backlinks_test.snippet.query-backlink-to-one-relationship.dart
+      :language: dart
+
+- **To-many relationship:** In this example, we have a ``Scooter`` object model 
+  with a to-many relationship with a ``ScooterShop`` object. 
+
+  We use the ``getBacklinks()`` method to find any ``ScooterShops`` objects 
+  that link to the specified scooter through the ``scooters`` list property:
+
+   .. literalinclude:: /examples/generated/flutter/backlinks_test.snippet.query-backlinks-to-many-relationship.dart
+      :language: dart
+
+- **Inverse relationship:** In this example, we have a ``Task`` object model 
+  with an inverse relationship with a ``User`` object. 
+
+  We use the ``getBacklinks()`` method to find any ``User`` objects that link 
+  to the specified tasks through the ``tasks`` backlinks property:
+
+   .. literalinclude:: /examples/generated/flutter/backlinks_test.snippet.query-backlink-inverse-relationship.dart
+      :language: dart
 
 .. _flutter-query-list-realm-objects:
 
