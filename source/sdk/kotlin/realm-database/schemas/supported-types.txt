@@ -347,12 +347,12 @@ or another ``RealmAny``.
 - are :ref:`indexable <kotlin-indices>` but *cannot* be used as a 
   :ref:`primary key <kotlin-primary-keys>`
 - must be declared nullable (``RealmAny?``), but they *cannot* store null values
-- can be aggregated with 
+- can be :ref:`aggregated <kotlin-aggregate-results>` with 
   `RealmQuery.max <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/max.html>`__,
   `RealmQuery.min <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/min.html>`__,
   and
   `RealmQuery.sum <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/sum.html>`__.
-- can be sorted. Sort order from highest to lowest:
+- can be :ref:`sorted <kotlin-sort-queries>`. Sort order from highest to lowest:
   
   #. ``Boolean``
   #. ``Byte``, ``Double``, ``Decimal128``, ``Int``, ``Float``, ``Long``, ``Short``
