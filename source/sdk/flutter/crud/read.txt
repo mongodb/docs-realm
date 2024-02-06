@@ -124,7 +124,7 @@ corresponds to the target page.
 Read Objects
 ------------
 
-The examples on this page use two object types, ``Person`` and ``Team``.
+Unless noted otherwise, the examples on this page use two object types, ``Person`` and ``Team``.
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.models.dart
     :language: dart
@@ -148,6 +148,26 @@ Retrieve a collection of all objects of a data model in the database with the
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>` method.
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.query-all-objects.dart
+   :language: dart
+
+.. _flutter-get-backlinks::
+
+Query Linked Objects
+~~~~~~~~~~~~~~~~~~~~
+
+You can find all objects that link to a given object by calling the
+object's :flutter-sdk:`RealmObject.getBacklinks() <realm/RealmObjectBase/getBacklinks.html>` method.
+
+In this example, we have a ``Bike`` object model with an ``owner`` property of type ``Person``: 
+
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.many-to-one-models.dart
+   :language: dart
+
+We can use the ``getBacklinks()`` method to find any linked objects. This
+method returns a :flutter-sdk:`results collection <realm/RealmResults-class.html>` of ``Bike``
+objects that link to the specified person:
+
+.. literalinclude:: /examples/generated/flutter/backlinks_test.snippet.query-backlinks.dart
    :language: dart
 
 .. _flutter-query-list-realm-objects:
@@ -196,6 +216,14 @@ objects from the database.
 You can use iterable arguments in your filter. For example:
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter-iterable.dart
+   :language: dart
+
+You can also filter by linking objects using the
+``@links.<Type>.<Property>`` syntax. For example, a filter can match 
+a ``Task`` object based on properties of the ``User``
+object that references it: 
+
+.. literalinclude:: /examples/generated/flutter/backlinks_test.snippet.filter-backlinks-rql.dart
    :language: dart
 
 For more information on constructing queries, refer to the
