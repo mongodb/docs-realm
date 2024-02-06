@@ -101,7 +101,7 @@ void main() {
     // Persons have a to-one relationship with Bikes
     final person = realm.query<Person>("firstName == 'Anakin'").first;
 
-    // Find all Bikes that have an Owner named 'Anakin'
+    // Find all Bikes owned by a Person named 'Anakin'
     final allBikes = person.getBacklinks<Bike>('owner');
     // :snippet-end:
     expect(allBikes.length, 2);
@@ -136,7 +136,7 @@ void main() {
     // Scooters have a to-many relationship with ScooterShops
     final scooters = realm.query<Scooter>("name == 'Scooterbug'").first;
 
-    // Find all ScooterShops that sell the Scooterbug
+    // Find all ScooterShops with a Scooter named 'Scooterbug'
     final shops = scooters.getBacklinks<ScooterShop>('scooters');
 
     // :snippet-end:
