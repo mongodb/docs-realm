@@ -150,13 +150,15 @@ Retrieve a collection of all objects of a data model in the database with the
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.query-all-objects.dart
    :language: dart
 
-.. _flutter-get-backlinks::
+.. _flutter-get-backlinks:
 
 Query Linked Objects
 ~~~~~~~~~~~~~~~~~~~~
 
+.. versionadded:: 1.9.0
+
 You can find all objects that link to a given object by calling the
-object's :flutter-sdk:`RealmObject.getBacklinks() <realm/RealmObjectBase/getBacklinks.html>` method.
+object's :flutter-sdk:`getBacklinks() <realm/RealmObjectBase/getBacklinks.html>` method.
 
 In this example, we have a ``Bike`` object model with an ``owner`` property of type ``Person``: 
 
