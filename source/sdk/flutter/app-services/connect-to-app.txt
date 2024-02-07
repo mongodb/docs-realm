@@ -67,9 +67,11 @@ underlying connection.
    within the same process has no effect. The client continues to use the 
    cached configuration. 
 
-   In Flutter SDK version 1.9.0 and later, the :flutter-sdk:`baseUrl <realm/AppConfiguration/baseUrl.html>`
-   configuration property is *not* cached in the App configuration. This 
-   means that you can change the ``baseUrl`` at runtime, and the App client will use the updated configuration. In earlier SDK versions, changes to the ``baseUrl`` in a cached App configuration have no 
+   In Flutter SDK version 1.8.0 and later, the :flutter-sdk:`baseUrl <realm/AppConfiguration/baseUrl.html>` 
+   is *not* cached in the App configuration. This means that you can change the 
+   ``baseUrl`` - including at runtime - and the App client will use the updated 
+   configuration. In earlier SDK versions, changes to the ``baseUrl`` in a 
+   cached App configuration have no 
    effect.
 
 .. _flutter-app-client-configuration:
@@ -80,7 +82,7 @@ Advanced Configuration
 .. deprecated:: 1.6.0
    ``App.localAppName`` and ``App.localAppVersion`` are no longer used.
 
-.. versionchanged:: 1.9.0
+.. versionchanged:: 1.8.0
    ``baseUrl`` is no longer cached in the ``AppConfiguration``.
 
 You can add optional arguments to the ``AppConfiguration`` for more granular control
