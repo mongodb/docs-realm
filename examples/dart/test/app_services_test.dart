@@ -4,7 +4,6 @@ import "dart:io";
 import "dart:convert";
 import "dart:isolate";
 
-
 void main() {
   const APP_ID = "example-testers-kvjdy";
 
@@ -30,6 +29,24 @@ void main() {
       expect(appConfig.defaultRequestTimeout, Duration(seconds: 120));
     });
 
+    test('BaseUrl not cached on App config', () {
+      final newUrl = Uri.parse('https://dart.dev');
+      
+      // Instantiate App with default BaseUrl
+      final appConfig = AppConfiguration(APP_ID,
+          defaultRequestTimeout: const Duration(seconds: 120)
+          );
+      var app = App(appConfig);
+      expect(app.baseUrl.toString(), 'https://realm.mongodb.com');
+
+      // Update with new BaseUrl
+      final newConfig = AppConfiguration(APP_ID,
+          defaultRequestTimeout: const Duration(seconds: 120), 
+          baseUrl:newUrl);
+      app = App(newConfig);
+      expect(app.baseUrl.toString(), 'https://dart.dev');
+    });
+
     test('Access App on background isolate by id', () async {
       // :snippet-start: access-app-by-id
       // Create an App instance once on main isolate,
@@ -53,7 +70,7 @@ void main() {
         try {
           final backgroundApp = App.getById(appId); // :emphasize:
 
-          // ... Access App users 
+          // ... Access App users
           final user = backgroundApp?.currentUser!;
           expect(user, isNotNull); // :remove:
 
@@ -68,11 +85,11 @@ void main() {
 
       receivePort.listen((message) {
         expect(message, equals('Background task completed'));
-        receivePort.close(); 
+        receivePort.close();
       });
-        if (app.currentUser != null) {
-          app.deleteUser(anonUser);
-         }
+      if (app.currentUser != null) {
+        app.deleteUser(anonUser);
+      }
     });
 
     test("Custom SSL Certificate", () async {
