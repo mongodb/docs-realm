@@ -40,8 +40,10 @@ Overview
 This page contains all of the code for a working Realm and SwiftUI app.
 The app starts on the ``ItemsView``, where you can edit a list of items:
 
-- Press the :guilabel:`Add` button on the bottom right of the screen to add randomly-generated items.
-- Press the :guilabel:`Edit` button on the top right to modify the list order, which the app persists in the realm.
+- Press the ``Add`` button on the bottom right of the screen to add 
+  randomly-generated items.
+- Press the ``Edit`` button on the top right to modify the list order, 
+  which the app persists in the realm.
 - You can also swipe to delete items.
 
 When you have items in the list, you can press one of the items to
@@ -50,7 +52,8 @@ item name or mark it as a favorite:
 
 - Press the text field in the center of the screen and type a new name.
   When you press Return, the item name should update across the app.
-- You can also toggle its favorite status by pressing the heart toggle in the top right.
+- You can also toggle its favorite status by pressing the heart toggle in the 
+  top right.
 
 .. tip::
 
@@ -85,7 +88,8 @@ and itemGroup.
 An item has two user-facing properties:
 
 - A randomly generated-name, which the user can edit.
-- An ``isFavorite`` boolean property, which shows whether the user "favorited" the item.
+- An ``isFavorite`` boolean property, which shows whether the user "favorited" 
+  the item.
 
 An itemGroup contains items. You can extend the itemGroup to have a name and an
 association with a specific user, but that's out of scope of this guide.
