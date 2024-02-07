@@ -256,12 +256,12 @@ class ScooterShop extends _ScooterShop
   ScooterShop(
     ObjectId id,
     String name, {
-    Iterable<Scooter> owner = const [],
+    Iterable<Scooter> scooters = const [],
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set<RealmList<Scooter>>(
-        this, 'owner', RealmList<Scooter>(owner));
+        this, 'scooters', RealmList<Scooter>(scooters));
   }
 
   ScooterShop._();
@@ -277,10 +277,10 @@ class ScooterShop extends _ScooterShop
   set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
-  RealmList<Scooter> get owner =>
-      RealmObjectBase.get<Scooter>(this, 'owner') as RealmList<Scooter>;
+  RealmList<Scooter> get scooters =>
+      RealmObjectBase.get<Scooter>(this, 'scooters') as RealmList<Scooter>;
   @override
-  set owner(covariant RealmList<Scooter> value) =>
+  set scooters(covariant RealmList<Scooter> value) =>
       throw RealmUnsupportedSetError();
 
   @override
@@ -298,7 +298,7 @@ class ScooterShop extends _ScooterShop
         ObjectType.realmObject, ScooterShop, 'ScooterShop', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
-      SchemaProperty('owner', RealmPropertyType.object,
+      SchemaProperty('scooters', RealmPropertyType.object,
           linkTarget: 'Scooter', collectionType: RealmCollectionType.list),
     ]);
   }
