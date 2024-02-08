@@ -16,6 +16,7 @@ export type RootStackParamList = {
     encryptionKey: ArrayBuffer;
   };
   Quickstart: undefined;
+  AppWithAuthHook: undefined;
 };
 
 export type SubscriptionStackParamList = {
@@ -26,7 +27,6 @@ export type AuthenticationStackParamList = {
   AuthenticationHome: undefined;
   Login: undefined;
   LinkIdentities: undefined;
-  AppWithAuthConfig: undefined;
 };
 export type QuickstartStackParamList = {
   QuickstartHome: undefined;

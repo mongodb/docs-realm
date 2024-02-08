@@ -12,6 +12,7 @@ import {ObjectModels} from './src/components/object-models/ObjectModels';
 import {RelationshipExamples} from './src/components/relationships/RealmWrapper';
 import {CompensatingWriteErrorHandling} from './src/components/errors/CompensatingWriteWrapper';
 import {EncryptMetadata} from './src/components/encryption/EncryptMetadata';
+import { AppWithAuthHook } from './src/components/app-services/use-app';
 
 // Screens
 import {HomeScreen} from './src/screens/HomeScreen';
@@ -78,6 +79,10 @@ function App(): JSX.Element {
         <Drawer.Screen
           name="Authentication"
           component={AuthenticationScreen}
+        />
+        <Drawer.Screen
+          name="AppWithAuthHook"
+          component={AppWithAuthHook}
         />
         <Drawer.Screen name="Encryption">
           {props => (

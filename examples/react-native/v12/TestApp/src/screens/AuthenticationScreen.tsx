@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {LoginExample} from '../components/authentication/login/RealmWrapper';
 import {LinkIdentities} from '../components/authentication/link-identities/LinkIdentities';
-import {AppWithAuthHook} from '../components/app-services/use-app';
 
 import {AuthenticationStackParamList} from '../navigation/types';
 import {AuthenticationHomeProps} from '../navigation/types';
@@ -21,7 +20,6 @@ export const AuthenticationScreen = () => {
       />
       <Stack.Screen name="Login" component={LoginExample} />
       <Stack.Screen name="LinkIdentities" component={LinkIdentities} />
-      <Stack.Screen name="AppWithAuthHook" component={AppWithAuthHook} />
     </Stack.Navigator>
   );
 };
@@ -49,18 +47,6 @@ const AuthenticationHome = ({navigation}: AuthenticationHomeProps) => {
             title={'Check it out'}
             onPress={() => {
               navigation.navigate('LinkIdentities');
-            }}
-          />
-        </View>
-      </View>
-      <Text>This is Use App section</Text>
-      <View style={styles.exampleList}>
-        <View style={styles.example}>
-          <Text style={styles.exampleTitle}>Use App with Auth Hooks</Text>
-          <Button
-            title={'Check it out'}
-            onPress={() => {
-              navigation.navigate('AppWithAuthHook');
             }}
           />
         </View>
