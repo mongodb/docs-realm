@@ -4,7 +4,7 @@
   // Evaluates if there is a dictionary key with key 'foo' and value 'bar
   "dict['foo'] == $0", 'bar'
 
-  // Evaluates if there is a dictionary key with key 'foo' and value 'bar
+  // Evaluates if there is greater than one key-value pair in the dictionary
   "dict.@count > $0", 1
 
   // Evaluates if dictionary has property of type 'string'
