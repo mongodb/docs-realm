@@ -4,6 +4,14 @@
 Connect to an Atlas App Services Backend - Node.js SDK
 ======================================================
 
+.. meta::
+  :description: Connect your Atlas Device SDK for Node.js client app to the Atlas App Services backend.
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -36,7 +44,25 @@ You must include the ``id`` field and the :guilabel:`App ID` for your App Servic
 .. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.ts
   :language: javascript
 
-.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+You can create multiple App client instances to connect to multiple
+Apps. All App client instances that share the same App ID use the same 
+underlying connection.
+
+.. important:: Changing an App Config After Initializing the App
+
+   .. versionchanged:: 12.6.0
+
+   When you initialize the App client, the configuration is cached internally. 
+   Attempting to "close" and then re-open an App with a changed configuration
+   within the same process has no effect. The client continues to use the 
+   cached configuration. 
+
+   Starting with Node.js SDK version 12.6.0, the ``baseUrl`` in the ``AppConfiguration``
+   is *not* cached. This means that you can change the 
+   ``baseUrl`` - including at runtime - and the App client will use the updated 
+   configuration. In earlier SDK versions, changes to the ``baseUrl`` in a 
+   cached App configuration have no 
+   effect.
 
 .. _node-app-retrieve-client:
 
