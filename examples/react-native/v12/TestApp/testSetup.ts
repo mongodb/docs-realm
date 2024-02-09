@@ -10,6 +10,7 @@ jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 // Suppress noisy warnings. Should probably investigate
 // all warnings at some point.
 global.console.warn = jest.fn();
+global.console.error = jest.fn();
 
 beforeEach(async () => {
   // Close and remove all realms in the default directory.
