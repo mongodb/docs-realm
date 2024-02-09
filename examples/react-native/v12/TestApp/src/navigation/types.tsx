@@ -16,6 +16,7 @@ export type RootStackParamList = {
     encryptionKey: ArrayBuffer;
   };
   Quickstart: undefined;
+  AppWithAuthHook: undefined;
 };
 
 export type SubscriptionStackParamList = {
