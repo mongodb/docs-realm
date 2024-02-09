@@ -1,3 +1,25 @@
+# February 9, 2024
+
+## Flutter SDK
+
+- Realm Database/CRUD/Read: Add information and tested, Bluehawked code examples detailing how to find objects linked through a relationship using the new `getBacklinks()` method and how to find backlink objects using the RQL backlink query syntax.
+- Atlas App Services/Connect to App Services: Note that, starting in v1.8.0, you can update the `baseUrl` in the `AppConfiguration` because the App client no longer caches it.
+
+## Node SDK
+
+- Atlas App Services/Connect to an App Services App: Note that, starting in v12.6.0, you can update the `baseUrl` in the `AppConfiguration` because the App client no longer caches it.
+
+## React Native SDK 
+
+- Atlas App Services/Connect to an App Services App: 
+  - Note that, starting in v12.6.0, you can update the `baseUrl` in the  `AppConfiguration` because the App client no longer caches it.
+  - Update examples to use new auth hooks.
+- API Reference/App Provider: Update `useApp` example to remove old auth pattern.
+
+## Other
+
+- Realm Query Language: Fix example comment on 'Dictionary Operators' section based on user feedback.
+
 # February 2, 2024
 
 ## Flutter SDK
