@@ -5,6 +5,14 @@
 Filter Data - Swift SDK
 =======================
 
+.. meta:: 
+   :description: Atlas Device SDK for Swift uses a range of operators to query different data types through type-safe or NSPredicate query engines. 
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -269,6 +277,32 @@ Regex-like wildcards allow more flexibility in search.
       :language: swift
 
 .. include:: /includes/string-sort-and-query-limitations-note.rst
+
+Geospatial Operators
+````````````````````
+
+.. versionadded:: 10.47.0
+
+Use the ``geoWithin`` operator to query geospatial data with one of the 
+SDK's provided shapes:
+
+- ``GeoCircle``
+- ``GeoBox``
+- ``GeoPolygon``
+
+This operator evaluates to ``true`` if:
+
+- An object has a geospatial data "shape" containing a ``String`` property 
+  with the value of Point and a ``List`` containing a longitude/latitude 
+  pair.
+- The longitude/latitude of the persisted object falls within the geospatial
+  query shape.
+
+.. literalinclude:: /examples/generated/code/start/Geospatial.snippet.geowithin.swift
+   :language: swift
+
+For more information about querying geospatial data, refer to 
+:ref:`swift-query-geospatial`.
 
 Aggregate Operators
 ```````````````````
@@ -671,6 +705,32 @@ Regex-like wildcards allow more flexibility in search.
              :language: swift
 
 .. include:: /includes/string-sort-and-query-limitations-note.rst
+
+Geospatial Operators
+````````````````````
+
+.. versionadded:: 10.47.0
+
+You can perform a geospatial query using the ``location`` operator with one
+of the SDK's provided shapes:
+
+- ``GeoCircle``
+- ``GeoBox``
+- ``GeoPolygon``
+
+This operator evaluates to ``true`` if:
+
+- An object has a geospatial data "shape" containing a ``String`` property 
+  with the value of Point and a ``List`` containing a longitude/latitude 
+  pair.
+- The longitude/latitude of the persisted object falls within the geospatial
+  query shape.
+
+.. literalinclude:: /examples/generated/code/start/Geospatial.snippet.nspredicate-query.swift
+   :language: swift
+
+For more information about querying geospatial data, refer to 
+:ref:`swift-query-geospatial`.
 
 Aggregate Operators
 ```````````````````
