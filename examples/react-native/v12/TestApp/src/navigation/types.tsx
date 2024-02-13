@@ -26,6 +26,7 @@ export type AuthenticationStackParamList = {
   AuthenticationHome: undefined;
   Login: undefined;
   LinkIdentities: undefined;
+  ApiKeyAuth: undefined;
 };
 export type QuickstartStackParamList = {
   QuickstartHome: undefined;
