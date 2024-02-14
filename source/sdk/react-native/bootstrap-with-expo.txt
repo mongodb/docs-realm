@@ -10,18 +10,18 @@ Bootstrap with Expo - React Native SDK
    :depth: 2
    :class: singlecol
 
-The :npm:`Realm Expo template <package/@realm/expo-template>`
+The :npm:`Atlas Device SDK Expo template <package/@realm/expo-template>`
 provides a fully working React Native application that you can use to bootstrap
-your app development project with Realm. This documentation covers how to
-initialize and work with the Realm Expo template.
+your app development project with Atlas Device SDK. This documentation covers
+how to initialize and work with the template.
 
-The Realm Expo template uses:
+The Expo template uses:
 
--  `Expo <https://docs.expo.dev/>`_, a framework to develop, build and deploy
-   React Native applications quickly.
-- :npm:`@realm/react <package/@realm/react>`, an NPM package that provides an
-   easy-to-use API to perform common Realm operations, such as querying or
-   writing to a realm and listening to realm objects.
+- `Expo <https://docs.expo.dev/>`_: a framework for developing, building and
+  deploying React Native applications.
+- :npm:`@realm/react <package/@realm/react>`: an npm package that provides an
+  easy-to-use API to perform common Realm operations, such as querying or
+  writing to a realm and listening to realm objects.
 
 Prerequisites
 -------------
@@ -30,32 +30,27 @@ Prerequisites
 
 Check out the `compatibility chart 
 <https://github.com/realm/realm-js/blob/master/COMPATIBILITY.md>`__
-to determine which version of the Expo SDK is compatible with specific Realm
+to determine which version of the Expo SDK is compatible with specific
 React Native SDK versions.
-
-Setup
------
-
-Next, before you initialize the template, you must install the `expo cli
-<https://docs.expo.dev/more/expo-cli/>`_ by running the following command:
-
-.. code-block:: shell
-
-   npm install -g expo-cli
-
 
 Initialize the Template
 -----------------------
-To initialize a React Native application using the Realm Expo template use the Expo CLI.
 
-Use ``expo init``  with the flag ``--template @realm/expo-template`` to initialize a
-React Native application using the Realm Expo Template. 
+To initialize the template application use ``create-expo-app``. Pass the flag
+``--template @realm/expo-template`` to initialize a React Native application
+based on the Device SDK template.
 
 Run the following command in your terminal: 
 
 .. code-block:: shell
 
-   expo init MyAwesomeRealmApp --template @realm/expo-template
+   npx create-expo-app AtlasDeviceSdkApp --template @realm/expo-template
+
+Install app dependencies:
+
+.. code-block:: shell
+
+   npm install
 
 Explore The File Structure
 --------------------------
@@ -81,7 +76,8 @@ The relevant files are as follows:
        the realm.
 
    * - TaskList.tsx
-     - A React component that gets a list of Task objects from the realm and renders each object as a ``TaskItem``  component.
+     - A React component that gets a list of Task objects from the realm and
+       renders each object as a ``TaskItem``  component.
 
    * - TaskItem.tsx
      - A React component that displays the task's description, a checkbox to
@@ -95,7 +91,7 @@ run the following command from your application root:
 
 .. code-block:: shell
    
-   expo run:android
+   npx expo run:android
 
 To run your application on an :apple:`iOS simulator
 <documentation/xcode/running-your-app-in-simulator-or-on-a-device>`, run the
@@ -103,7 +99,7 @@ following command from your application root:
 
 .. code-block:: shell
    
-   expo run:ios
+   npx expo run:ios
 
 When you run the commands above, the Expo `dev-client
 <https://docs.expo.dev/develop/development-builds/introduction/>`__ will start 
@@ -112,7 +108,7 @@ without waiting for the native build process again, you can simply run:
 
 .. code-block:: shell
    
-   expo start --dev-client
+   npx expo start --dev-client
 
 However, if you made any `changes to the native code
 <https://docs.expo.dev/workflow/customizing/>`_, you will have to re-run ``expo
