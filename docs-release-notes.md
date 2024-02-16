@@ -1,3 +1,21 @@
+# February 16, 2024
+
+## Flutter SDK
+
+- Realm Database/React to Changes: Add new "Register a User Instance Change Listener" section documenting how to listen for user changes with a tested, Bluehawked code example.
+- Manage Users: Add "Listen for User Changes" section with link to React to Changes page.
+
+## React Native SDK
+
+- Bootstrap with Expo: Update shell commands and clarify how to get an Expo app working.
+
+## Swift SDK
+- Model Data/Supported Data Types: Add a section with information about persisting geospatial data types.
+- CRUD
+  - Read: New section with information and tested, Bluehawked code examples about querying geospatial data.
+  - Filter: New sections for both query engines with information and tested, Bluehawked code examples about querying geospatial data.
+- SwiftUI/Quick Start: Change bold code-related elements to monospace for the documentation translation project.
+
 # February 9, 2024
 
 ## Flutter SDK
