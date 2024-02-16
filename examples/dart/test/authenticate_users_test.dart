@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
@@ -455,5 +456,29 @@ void main() {
     print(emailAddress); // prints 'lisa@example.com'
     // :snippet-end:
     expect(emailAddress, 'lisa@example.com');
+  });
+
+  test('Listen for user state changes', () async {
+    final user = await app.logIn(
+        Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
+
+    expect(user.state, UserState.loggedIn);
+
+    final completer = Completer<UserChanges>();
+    // :snippet-start: user-change-listener
+    final userSubscription = user.changes.listen((changes) {
+      changes.user; // the User being listened to
+      completer.complete(changes); // :remove:
+    });
+    // :snippet-end:
+
+    await user.logOut();
+    expect(user.state, UserState.loggedOut);
+
+    final changeEvent = await completer.future.timeout(Duration(seconds: 15));
+    expect(changeEvent.user, user);
+    expect(changeEvent.user.state, UserState.loggedOut);
+
+    await userSubscription.cancel();
   });
 }

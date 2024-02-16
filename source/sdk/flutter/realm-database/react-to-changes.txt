@@ -36,6 +36,7 @@ You can subscribe to changes on the following events:
 - :ref:`Query on collection <flutter-query-change-listener>`
 - :ref:`Realm object <flutter-realm-object-change-listener>`
 - :ref:`Collections in a Realm object <flutter-realm-list-change-listener>`
+- :ref:`User instance <flutter-user-change-listener>`
 
 .. example:: About the Examples on This Page
 
@@ -270,6 +271,34 @@ changes since the last notification:
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
   :language: dart
+
+.. _flutter-user-change-listener:
+
+Register a User Instance Change Listener
+----------------------------------------
+
+.. versionadded:: 1.9.0
+
+In Flutter SDK version 1.9.0 and later, you can register a notification handler 
+on a specific ``User`` instance within a realm.
+Realm notifies your handler when any of the user's properties change (for 
+example, the user acces token is updated or the user state changes).
+The handler receives a :flutter-sdk:`UserChanges <realm/UserChanges-class.html>` 
+object, which includes description of changes since the last notification.
+``UserChanges`` contains the following property:
+
+.. list-table::
+
+   * - Property
+     - Type
+     - Description
+
+   * - ``user``
+     - *User*
+     - The user instance that has changed.
+
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.user-change-listener.dart
+   :language: dart
 
 .. _flutter-pause-resume-change-listener:
 
