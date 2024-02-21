@@ -5,6 +5,13 @@
 Realm Query Language
 ====================
 
+.. meta::
+  :description: Learn how to use Realm Query Language (RQL) to retrieve objects from the database.
+  
+.. facet:: 
+  :name: genre 
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -876,6 +883,45 @@ operators interact with lists and comparison operators:
    * - ``NONE {0, 1} < NONE {1, 2}``
      - true
      - 0 and 1 are both less than none of 1 and 2
+
+.. _rql-geospatial:
+
+Geospatial Queries
+------------------
+
+You can query against geospatial data using the ``geoWithin`` operator.
+The ``geoWithin`` operator takes the latitude/longitude pair in a custom 
+embedded object's ``coordinates`` property and a geospatial shape. The 
+operator checks whether the ``cordinates`` point is contained within the 
+geospatial shape. 
+
+The following geospatial shapes are supported for querying:
+
+- ``GeoCircle``
+- ``GeoBox``
+- ``GeoPolygon``
+
+To query geospatial data:
+
+1. Create an object with a property containing the embedded geospatial data.
+2. Define the geospatial shape to set the boundary for the query.
+3. Query using the GEOWITHIN RQL operator. 
+
+In the following query, we are checking that the coordinates of the embeddeded 
+``location`` property are contained within the ``GeoCircle`` shape, ``smallCircle``:
+
+.. literalinclude:: /examples/generated/node/v12/geospatial.test.snippet.rql-geospatial.js
+     :language: js
+
+For more information on defining geospatial shapes and objects with embedded geospatial data, 
+see the geospatial documentation for your SDK:
+
+- :ref:`Flutter SDK <flutter-data-types-geospatial>`
+- :ref:`Kotlin SDK <kotlin-geospatial>`
+- :ref:`.NET SDK <dotnet-geospatial>`
+- :ref:`Node.js SDK <node-data-types-geospatial>`
+- :ref:`React Native SDK <react-native-data-types-geospatial>`
+- :ref:`Swift SDK <swift-query-geospatial>`
 
 .. _rql-backlinks:
 
