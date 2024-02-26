@@ -1,3 +1,9 @@
+# February 23, 2024
+
+## Kotlin SDK
+
+- Realm/Configure & Open a Realm: Fix a broken hyperlink. 
+
 # February 16, 2024
 
 ## Flutter SDK
