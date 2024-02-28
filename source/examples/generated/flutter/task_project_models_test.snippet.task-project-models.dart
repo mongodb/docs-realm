@@ -6,7 +6,7 @@ class _Item {
   @MapTo("_id")
   @PrimaryKey()
   late ObjectId id;
-
+  @Indexed(RealmIndexType.fullText)
   late String name;
   bool isComplete = false;
   String? assignee;

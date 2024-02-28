@@ -11,6 +11,7 @@ class RQLTest: RealmTest() {
     class Item(): RealmObject {
         @PrimaryKey
         var _id: ObjectId = ObjectId()
+        @FullText
         var name: String = ""
         var isComplete: Boolean = false
         var assignee: String? = null
