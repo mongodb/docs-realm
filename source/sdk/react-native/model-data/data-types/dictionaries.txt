@@ -73,14 +73,14 @@ In the following ``CreateHomeOwner`` example, we :ref:`create a new object
 The ``CreateHomeOwner`` component does the following:
 
 - Create React `state <https://react.dev/reference/react/Component#state>`__
-   that represents the homeowner's name and address, respectively.
+  that represents the homeowner's name and address, respectively.
 - Get access to an open realm instance by calling the ``useRealm()`` hook within
-   the component.
+  the component.
 - Create a component method ``SubmitHomeOwner()`` that performs a write
-   transaction and creates a new ``HomeOwner`` object based on the ``TextInput``
-   values for the homeowner's name and address, respectively.
+  transaction and creates a new ``HomeOwner`` object based on the ``TextInput``
+  values for the homeowner's name and address, respectively.
 - Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on
-   the submit button that calls ``SubmitHomeOwner()``
+  the submit button that calls ``SubmitHomeOwner()``
 
 .. literalinclude:: /examples/generated/react-native/ts/dictionary-test.snippet.create-object-with-dictionary-value.tsx
    :language: typescript
