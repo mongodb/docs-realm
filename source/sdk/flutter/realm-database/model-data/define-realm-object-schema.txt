@@ -6,6 +6,7 @@ Define a Realm Object Schema - Flutter SDK
 
 .. meta:: 
   :keywords: code example, android, ios, data modeling
+  :description: Define the properties and relationships of database objects within your data model.
 
 .. facet::
   :name: genre
@@ -232,6 +233,27 @@ If you're using Atlas Device Sync, the name that you specify in the
       .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
          :language: dart
          :emphasize-lines: 15-16
+
+.. _flutter-model-unstructured-data:
+
+Model Unstructured Data 
+-----------------------
+
+.. versionadded:: 2.0.0
+
+Starting in Flutter SDK version 2.0.0, you can leverage nested collections within a :ref:`RealmValue (Mixed) <flutter-realm-value>` type to define data that doesn't otherwise conform to an expected schema. 
+This could include data with variable structures or data whose shape or type is not known at runtime. For example, user-created objects, event logs, or survey response data that are collected and stored in a variety of JSON formats. Collections of mixed data could also be a good temporary option when you're in the early development stages and still determining the structure of your app's data. 
+
+To model unstructured data in your schema, define the appropriate properties as ``RealmValue`` types that contain either a List or Map of ``RealmValue`` type: 
+``RealmValue<List<RealmValue>>`` or ``RealmValue<RealmMap<String, RealmValue>>``.  
+The SDK does *not* support a Mixed data type containing a Set collection.
+
+.. tip:: 
+
+   Use a Map of Mixed data types when the type is unknown, but each value will have a unique identifier.
+   Use a List of Mixed data types when the type is unknown, but the order of objects is meaningful.
+
+.. define a generic JSON structure to use across all SDK examples and add to doc plan/tickets 
 
 .. _flutter-generate-realm-object:
 
