@@ -195,11 +195,25 @@ relationship. The following examples use the models defined on the
 
 .. _flutter-query-list-realm-objects:
 
-Query Lists
-~~~~~~~~~~~
+Query Collections
+~~~~~~~~~~~~~~~~~
 
-You can query any list of :flutter-sdk:`RealmObjects <realm/RealmObjectBase-mixin.html>`
-or primitives.
+.. versionchanged:: v2.0.0
+   Query nested collections (``RealmList`` or ``RealmMap``) of mixed data 
+
+You can query collections of :flutter-sdk:`RealmObjects <realm/RealmObjectBase-mixin.html>`
+or primitives. This includes:
+
+- ``RealmList``
+- ``RealmMap``
+- ``RealmSet``
+
+In Flutter SDK v2.0.0 and later, you can also query nested collections of mixed ``RealmValue`` data 
+
+Query RealmLists
+````````````````
+
+You can query any list of 
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.query-realm-list.dart
    :language: dart
