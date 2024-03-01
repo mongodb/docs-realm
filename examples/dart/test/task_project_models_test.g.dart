@@ -82,7 +82,8 @@ class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
     return const SchemaObject(ObjectType.realmObject, Item, 'Item', [
       SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
-      SchemaProperty('name', RealmPropertyType.string),
+      SchemaProperty('name', RealmPropertyType.string,
+          indexType: RealmIndexType.fullText),
       SchemaProperty('isComplete', RealmPropertyType.bool),
       SchemaProperty('assignee', RealmPropertyType.string, optional: true),
       SchemaProperty('priority', RealmPropertyType.int),
