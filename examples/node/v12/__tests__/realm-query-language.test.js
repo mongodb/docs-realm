@@ -117,7 +117,7 @@ describe("Realm Query Language Reference", () => {
     const itemsWithWriteNotTest = items.filtered(
         // :remove-end:
         // Find items with 'write' but not 'test' using '-'
-        "name TEXT $0", "write -test"
+        "name TEXT $0", "write -tests"
 
         // :remove-start:
       );
@@ -129,8 +129,8 @@ describe("Realm Query Language Reference", () => {
         // :snippet-end:
       );
 
-    expect(itemsWithWrite.length).toBeGreaterThan(0);
-    expect(itemsWithWriteNotTest.length).toBeGreaterThan(0);
-    expect(itemsStartingWithWri.length).toBeGreaterThan(0);
+    expect(itemsWithWrite.length).toBe(1)
+    expect(itemsWithWriteNotTest.length).toBe(0);
+    expect(itemsStartingWithWri.length).toBe(1);
   });
 });
