@@ -116,7 +116,7 @@ describe("Realm Query Language Reference", () => {
 
     const itemsWithWriteNotTest = items.filtered(
         // :remove-end:
-        // Find items with 'write' but not 'test' using '-'
+        // Find items with 'write' but not 'tests' using '-'
         "name TEXT $0", "write -tests"
 
         // :remove-start:
