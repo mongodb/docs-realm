@@ -1,3 +1,13 @@
+# March 1, 2024
+
+## React Native SDK
+
+- Model Data/Data Types/Dictionaries: Fix bullet list formatting.
+
+## Other
+
+- Realm Query Language: Update RQL reference with information on querying with full-text search.
+
 # February 23, 2024
 
 ## Kotlin SDK
