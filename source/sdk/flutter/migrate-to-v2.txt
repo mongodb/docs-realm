@@ -1,0 +1,151 @@
+.. _flutter_upgrade-v2:
+
+=============================
+Upgrade to Flutter SDK v2.0.0
+=============================
+
+.. meta::
+  :description: Update your existing Flutter or Dart generated part files to successfully migrate to Atlas Device SDK for Flutter version 2.0.0.
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Atlas Device SDK for Flutter version 2.0.0 introduces a breaking change 
+to how the SDK generates files for your data model classes. If you have 
+an existing app built with an earlier version of the Flutter SDK, you 
+must migrate your app to use the new version. 
+
+Flutter SDK v2.0.0 also deprecates several classes and members. Refer to the 
+:ref:`flutter-v2-deprecated-classes` section on this page for information 
+on migration solutions.
+
+Builder Changes
+---------------
+
+Flutter SDK version 2.0.0 updates the SDK's ``realm_generator`` to use a ``PartBuilder`` instead of a ``SharedPartBuilder``. 
+
+As a result of this update, the generated ``RealmModel`` data model files use a new ``.realm.dart`` file extension:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 25 50
+
+   * - Version
+     - File Extension
+     - Example Part Directive
+   
+   * - SDK v2.0.0 and later 
+     - ``.realm.dart``
+     - .. literalinclude:: /examples/generated/flutter/migrate_parts.snippet.part-directive-new.dart
+        :language: dart
+
+   * - SDK v1.9.0 and earlier 
+     - ``.g.dart`` 
+     - .. literalinclude:: /examples/generated/flutter/migrate_parts.snippet.part-directive-old.dart
+        :language: dart
+
+Additionally, the SDK's use of a ``PartBuilder`` makes it easier to use 
+multiple builders in your app. For example, combining ``realm_dart`` 
+with a serialization package builder such as ``dart_mappable`` or 
+``json_serializable``.
+
+What Do I Need to Do?
+~~~~~~~~~~~~~~~~~~~~~
+
+When you upgrade an existing app from an earlier version of the Flutter SDK to 
+version 2.0.0 or later, you must update any part declarations, then regenerate the object models: 
+
+.. procedure::
+
+    .. step:: Update Your Existing Part Declarations
+
+       Update all of the ``RealmObject`` part declarations in your app to use the new naming convention:
+
+       .. literalinclude:: /examples/generated/flutter/migrate_parts.snippet.migrate-model-dart-new.dart
+           :language: dart
+           :emphasize-lines: 3-5
+   
+    .. step:: Regenerate Your Object Models
+
+       .. tabs::
+
+          .. tab:: Flutter
+              :tabid: flutter 
+
+              After you update all of your declarations, regenerate your 
+              object models to use the new ``.realm.dart`` file extension.
+
+              .. code-block::
+
+                dart run realm generate
+
+          .. tab:: Dart Standalone
+              :tabid: dart 
+
+              After you update all of your declarations, regenerate your 
+              object models to use the new ``.realm.dart`` file extension.
+
+              .. code-block::
+
+                dart run realm_dart generate
+
+.. _flutter-v2-deprecated-classes:
+
+Deprecated Classes
+------------------
+
+Flutter SDK version 2.0.0 also removed several deprecated classes and members from the SDK.
+
+The following table outlines which classes and members were removed and a recommended solution if any:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 33 33 33
+
+   * - Deprecated Class or Member
+     - Reason
+     - Solution
+   
+   * - ``AppConfiguration.localAppName`` and ``AppConfiguration.localAppVersion``
+     - Unused.
+     - Remove any instances.     
+
+   * - ``ClientResetError.isFatal`` 
+     - Always ``true``.
+     - Remove any instances.     
+
+   * - ``ClientResetError.sessionErrorCode`` 
+     - Consolidated into ``SyncErrorCode`` in SDK v1.6.0. 
+     - Use ``SyncErrorCode`` enum.
+
+   * - ``RealmProperty.indexed`` 
+     - Replaced by ``RealmProperty.indexType``.
+     - Replace any instances.    
+
+   * - ``SyncError`` constructor and ``SyncError.create`` factory
+     - Sync errors should only be created internally by the SDK.
+     - Remove any instances.     
+
+   * - ``SyncClientError``, ``SyncConnectionError``, ``SyncSessionError``, ``SyncResolveError``, ``SyncWebSocketError``, and ``GeneralSyncError``
+     - Consolidated into ``SyncError`` in SDK v1.6.0.
+     - Use ``SyncError`` or its subclasses.
+
+   * - ``SyncErrorCategory``, ``SyncClientErrorCode``, ``SyncConnectionErrorCode``, ``SyncSessionErrorCode``, ``SyncResolveErrorCode``, ``SyncWebsocketErrorCode``, and  ``GeneralSyncErrorCode``
+     - Consolidated into ``SyncErrorCode`` in SDK v1.6.0. 
+     - Use ``SyncErrorCode`` enum.
+
+   * - ``SyncError.codeValue``, ``SyncError.category``, and ``SyncError.detailedMessage``
+     - Consolidated into ``SyncError`` in SDK v1.6.0. Messages were unused. 
+     - Remove any category or message instances. Replace ``SyncError.codevalue`` with ``SyncError.code.code``.
+     
+   * - ``User.provider`` 
+     - Provider is associated with each identity, so value was incorrect for users with more than one identity. 
+     - Remove any instances. 

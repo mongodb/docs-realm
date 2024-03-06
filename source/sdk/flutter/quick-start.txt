@@ -57,7 +57,7 @@ Some considerations when defining your Realm model class:
   Generate RealmObject Class section. This command
   outputs a public class, such as ``Car``.
 
-- Make sure to include the generated file name, such as ``part car.g.dart``,
+- Make sure to include the generated file name, such as ``part car.realm.dart``,
   before the code defining your model.
   This is required to generate the RealmObject class.
 
@@ -100,7 +100,7 @@ Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 
          dart run realm_dart generate
 
-Running this creates a ``Car`` class in a ``car.g.dart`` file located in the directory
+Running this creates a ``Car`` class in a ``car.realm.dart`` file located in the directory
 where you defined the model class per the preceding Create Data Model section.
 This ``Car`` class is public and part of the same library
 as the ``_Car`` data model class.
