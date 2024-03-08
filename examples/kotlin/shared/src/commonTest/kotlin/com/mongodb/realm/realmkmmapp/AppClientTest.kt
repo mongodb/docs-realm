@@ -1,5 +1,6 @@
 package com.mongodb.realm.realmkmmapp
 
+import io.realm.kotlin.internal.interop.sync.WebSocketObserver
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.log.LogLevel
 import io.realm.kotlin.log.RealmLog
@@ -10,14 +11,16 @@ import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.exceptions.ConnectionException
 import io.realm.kotlin.mongodb.exceptions.InvalidCredentialsException
 import io.realm.kotlin.mongodb.exceptions.ServiceException
+import io.realm.kotlin.mongodb.internal.AppResources
+import io.realm.kotlin.mongodb.internal.platformWebsocketClient
 import kotlinx.coroutines.channels.Channel
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
-
 
 
 class AppClientTest: RealmTest() {
@@ -95,14 +98,33 @@ class AppClientTest: RealmTest() {
     @Test
     fun encryptAppMetadata() {
         val myEncryptionKey = getEncryptionKey()
-        val config =
         // :snippet-start: encrypted-app-client
+        val config =
             AppConfiguration.Builder(YOUR_APP_ID)
                 // Specify the encryption key
                 .encryptionKey(myEncryptionKey)
                 .build()
         // :snippet-end:
         assertTrue(config.encryptionKey.contentEquals(myEncryptionKey))
+    }
+
+    @Ignore
+    // Ignored unless there's a way to test this in a reasonable way...
+    fun enablePlatformNetworking() {
+        // :snippet-start: enable-platform-networking
+        val config =
+            AppConfiguration.Builder(YOUR_APP_ID)
+                .usePlatformNetworking(true)
+                .build()
+        val webSocketTransport = platformWebsocketClient(
+            observer =  WebSocketObserver,
+            path =  String,
+            address = String,
+            port =  Long,
+            isSsl = false,
+            supportedSyncProtocols = String,
+            transport = String)
+        // :snippet-end:
     }
 
     @Test
