@@ -4,8 +4,7 @@ tokens, refreshes them when they expire, and includes a valid access token for
 the current user with each request. Realm *does not* automatically refresh 
 the refresh token. When the refresh token expires, the user must log in again. 
 
-If you send requests outside of the SDK (for
-example, through the GraphQL API) then you need to include the user's access
+If you send requests outside of the SDK then you need to include the user's access
 token with each request, and manually refresh the token when it expires.
 
 You can access and refresh a logged in user's access token in the SDK from their

@@ -420,9 +420,8 @@ property:
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.access-token-get.kt
    :language: kotlin
 
-If you send requests outside of the SDK (e.g. through the :ref:`GraphQL 
-API <graphql-api>`), then you must include the user's access token with 
-each request and manually refresh the token when it expires. 
+If you send requests outside of the SDK, then you must include the user's access
+token with each request and manually refresh the token when it expires. 
 Access tokens expire 30 minutes after a user logs in.
 
 You can get the current refresh token for a logged-in user with the
