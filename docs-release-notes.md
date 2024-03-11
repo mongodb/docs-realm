@@ -1,3 +1,10 @@
+# March 8, 2024
+
+## Node.js SDK
+
+- Landing Page: Remove link to outdated Electron guide.
+- Integration Guides: Remove outdated Integration Guides section from TOC until we have time to update the guides.
+
 # March 1, 2024
 
 ## React Native SDK
