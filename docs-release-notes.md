@@ -1,3 +1,14 @@
+# March 8, 2024
+
+## Node.js SDK
+
+- Landing Page: Remove link to outdated Electron guide.
+- Integration Guides: Remove Integration Guides section from TOC, as these Electron guides are outdated.
+
+## Other
+
+- Realm Query Language: Update RQL reference with information on querying with full-text search.
+
 # March 1, 2024
 
 ## React Native SDK
