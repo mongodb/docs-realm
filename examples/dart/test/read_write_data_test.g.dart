@@ -63,11 +63,14 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
     ObjectId id,
     String name, {
     Iterable<Person> crew = const [],
+    Map<String, RealmValue> log = const {},
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set<RealmList<Person>>(
         this, 'crew', RealmList<Person>(crew));
+    RealmObjectBase.set<RealmMap<RealmValue>>(
+        this, 'log', RealmMap<RealmValue>(log));
   }
 
   Team._();
@@ -90,6 +93,13 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
       throw RealmUnsupportedSetError();
 
   @override
+  RealmMap<RealmValue> get log =>
+      RealmObjectBase.get<RealmValue>(this, 'log') as RealmMap<RealmValue>;
+  @override
+  set log(covariant RealmMap<RealmValue> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
   Stream<RealmObjectChanges<Team>> get changes =>
       RealmObjectBase.getChanges<Team>(this);
 
@@ -105,6 +115,8 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('crew', RealmPropertyType.object,
           linkTarget: 'Person', collectionType: RealmCollectionType.list),
+      SchemaProperty('log', RealmPropertyType.mixed,
+          optional: true, collectionType: RealmCollectionType.map),
     ]);
   }
 }

@@ -71,6 +71,7 @@ class _RealmValueExample {
   @Indexed()
   late RealmValue singleAnyValue;
   late List<RealmValue> listOfMixedAnyValues;
+  late Map<String, RealmValue> mapOfMixedAnyValues;
 }
 
 // :snippet-end:
@@ -151,6 +152,7 @@ main() {
     final object = UuidPrimaryKey(myId);
     // :snippet-end:
     expect(myId.toString(), isA<String>());
+    expect(myId, object.id);
   });
   test('ObjectId', () {
     // :snippet-start: objectid-use
@@ -159,54 +161,170 @@ main() {
     // :snippet-end:
     expect(object.id.toString(), isA<String>());
   });
-  test("RealmValue - RealmValue.from()", () {
-    // :snippet-start: realm-value-from
-    final realm = Realm(Configuration.local([RealmValueExample.schema]));
 
-    realm.write(() {
-      realm.addAll([
-        RealmValueExample(
-            singleAnyValue: RealmValue.from(1),
-            listOfMixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
-        RealmValueExample(
-            singleAnyValue: RealmValue.nullValue(),
-            listOfMixedAnyValues: ["abc", 123].map(RealmValue.from))
-      ]);
-    });
-    // :snippet-end:
+  group('RealmValue - ', () {
+    test("RealmValue.from()", () {
+      // :snippet-start: realm-value-from
+      final realm = Realm(Configuration.local([RealmValueExample.schema]));
 
-    expect(
-        realm.query<RealmValueExample>("singleAnyValue.@type == 'int'").first,
-        isNotNull);
-    expect(
-        realm.query<RealmValueExample>("singleAnyValue.@type == 'Null'").first,
-        isNotNull);
-    cleanUpRealm(realm);
-  });
-  test("RealmValue - RealmValue.type and RealmValue.value", () {
-    final realm = Realm(Configuration.local([RealmValueExample.schema]));
-    realm.write(() {
-      realm.addAll([
-        RealmValueExample(
+      realm.write(() {
+        var anyValue = realm.add(RealmValueExample(
             singleAnyValue: RealmValue.from(1),
-            listOfMixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
-        RealmValueExample(
+            listOfMixedAnyValues: [Uuid.v4(), 'abc', 123].map(RealmValue.from),
+            mapOfMixedAnyValues: {
+              '1': RealmValue.from(123),
+              '2': RealmValue.from('abc')
+            }));
+
+        // Use 'RealmValue.nullValue()' to set null values
+        var anyValueNull = realm.add(RealmValueExample(
             singleAnyValue: RealmValue.nullValue(),
-            listOfMixedAnyValues: ["abc", 123].map(RealmValue.from))
-      ]);
+            listOfMixedAnyValues: [null, null].map(RealmValue.from),
+            mapOfMixedAnyValues: {'null': RealmValue.nullValue()}));
+
+        // :remove-start:
+        expect(anyValue.singleAnyValue.type, RealmValueType.int);
+        expect(anyValue.listOfMixedAnyValues[1].value.toString(), 'abc');
+        expect(
+            anyValue.mapOfMixedAnyValues.containsValue(RealmValue.from('abc')),
+            true);
+        expect(anyValueNull.singleAnyValue.value, null);
+        expect(anyValueNull.listOfMixedAnyValues[0].value, null);
+        expect(anyValueNull.mapOfMixedAnyValues.containsValue(null), true);
+      });
+      // :remove-end:
+      // :snippet-end:
+      cleanUpRealm(realm);
     });
-    var calledCount = 0;
-    // :snippet-start: realm-value-type-value
-    final data = realm.all<RealmValueExample>();
-    for (var obj in data) {
-      if (obj.singleAnyValue.type == int) {
-        print(obj.singleAnyValue.value.toString());
-        calledCount++; // :remove:
+    test("RealmValueType and RealmValue.value", () {
+      final realm = Realm(Configuration.local([RealmValueExample.schema]));
+      realm.write(() {
+        realm.addAll([
+          RealmValueExample(
+              singleAnyValue: RealmValue.from(1),
+              listOfMixedAnyValues:
+                  [Uuid.v4(), 'abc', 123].map(RealmValue.from),
+              mapOfMixedAnyValues: {
+                '1': RealmValue.from(123),
+                '2': RealmValue.from('abc')
+              }),
+          RealmValueExample(
+              singleAnyValue: RealmValue.nullValue(),
+              listOfMixedAnyValues: [null, null].map(RealmValue.from),
+              mapOfMixedAnyValues: {'null': RealmValue.nullValue()})
+        ]);
+      });
+      var calledCount = 0;
+      // :snippet-start: realm-value-type-value
+      final data = realm.all<RealmValueExample>();
+      for (var obj in data) {
+        switch (obj.singleAnyValue.type) {
+          // Use RealmValueType data type enums
+          case RealmValueType.int:
+            print('Int value: ${obj.singleAnyValue.value}');
+            calledCount++; // :remove:
+            break;
+          case RealmValueType.string:
+            print('String value: ${obj.singleAnyValue.value}');
+            break;
+          // Handle additional cases ...
+          default:
+            print('Unhandled type: ${obj.singleAnyValue.type}');
+        }
       }
-    }
-    // :snippet-end:
-    expect(calledCount, 1);
-    cleanUpRealm(realm);
+      expect(calledCount, 1);
+      // :snippet-end:
+      // :snippet-start: realm-value-runtime-type
+      for (var obj in data) {
+        for (var mixedValue in obj.listOfMixedAnyValues) {
+          var actualValue = mixedValue.value;
+          // Use RealmValue.value.runtimeType to access stored value at runtime
+          if (actualValue == null) {
+            print('Null value');
+          } else {
+            switch (actualValue.runtimeType) {
+              case const (int):
+                print('Int value: $actualValue');
+                calledCount++; // :remove:
+                break;
+              case const (String):
+                print('String value: $actualValue');
+                break;
+              // Add cases for other expected types...
+              default:
+                print(
+                    'Unhandled type: ${actualValue.runtimeType} with value $actualValue');
+            }
+          }
+        }
+      }
+      // :snippet-end:
+      expect(calledCount, 2);
+      cleanUpRealm(realm);
+    });
+    test('Nested collections of mixed data', () {
+      final realm = Realm(Configuration.local([RealmValueExample.schema]));
+
+      // :snippet-start: realm-value-nested-collections
+      final singleAnyValue = RealmValue.from(1);
+      final listOfAnyValue = RealmValue.from([singleAnyValue]);
+      final mapOfAnyValue = RealmValue.from({
+        '1': singleAnyValue,
+        '2': singleAnyValue,
+        '3': RealmValue.nullValue()
+      });
+
+      realm.write(() {
+        var collectionsOfMixed = realm.add(RealmValueExample(
+            singleAnyValue: singleAnyValue,
+            listOfMixedAnyValues: [singleAnyValue, singleAnyValue],
+            mapOfMixedAnyValues: {'key': singleAnyValue}));
+        var nestedCollectionsOfMixed = realm.add(RealmValueExample(
+            singleAnyValue: singleAnyValue,
+            listOfMixedAnyValues: [
+              RealmValue.from([
+                listOfAnyValue,
+                RealmValue.from([
+                  listOfAnyValue,
+                  RealmValue.from([
+                    listOfAnyValue, mapOfAnyValue, singleAnyValue
+                    ])
+                ]),
+              ])
+            ],
+            mapOfMixedAnyValues: {
+              'key': RealmValue.from({
+                'nestedKey_1': RealmValue.from({mapOfAnyValue}),
+                'nestedKey_2': RealmValue.from({
+                  'nestedNestedKey_1': RealmValue.from({listOfAnyValue}),
+                  'nestedNestedKey_2': RealmValue.from({singleAnyValue})
+                })
+              })
+            }));
+        // :snippet-end:
+        expect(collectionsOfMixed.singleAnyValue.value, 1);
+        expect(nestedCollectionsOfMixed.singleAnyValue.value, 1);
+        expect(collectionsOfMixed.listOfMixedAnyValues[0].type,
+            RealmValueType.int);
+        expect(collectionsOfMixed.listOfMixedAnyValues[0].value,
+            1);
+        expect(nestedCollectionsOfMixed.listOfMixedAnyValues[0].type,
+            RealmValueType.list);
+        expect(
+            nestedCollectionsOfMixed.listOfMixedAnyValues[0]
+                .asList()
+                .first
+                .asList()
+                .first
+                .value,
+            1);
+        expect(collectionsOfMixed.mapOfMixedAnyValues.containsKey('key'), true);
+        expect(
+            nestedCollectionsOfMixed.mapOfMixedAnyValues['key']?.asMap().containsKey('nestedKey_1'),
+            true);
+      });
+      cleanUpRealm(realm);
+    });
   });
   test('DateTime', () {
     final config = Configuration.local([Vehicle.schema]);
@@ -266,7 +384,7 @@ main() {
     // Query RealmList with Realm Query Language
     final playersWithBodyArmor =
         realm.query<Player>("inventory.name == \$0", ['body armor']);
-    print("LEN " + playersWithBodyArmor.length.toString());
+    print("LEN ${playersWithBodyArmor.length}");
     // :snippet-end:
     expect(brave, 'brave');
     expect(elvishSword.name, 'elvish sword');

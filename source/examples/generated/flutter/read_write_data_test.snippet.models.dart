@@ -14,4 +14,5 @@ class _Team {
 
   late String name;
   late List<_Person> crew;
+  late Map<String, RealmValue> log;
 }

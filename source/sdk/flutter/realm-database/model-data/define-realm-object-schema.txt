@@ -241,19 +241,57 @@ Model Unstructured Data
 
 .. versionadded:: 2.0.0
 
-Starting in Flutter SDK version 2.0.0, you can leverage nested collections within a :ref:`RealmValue (Mixed) <flutter-realm-value>` type to define data that doesn't otherwise conform to an expected schema. 
-This could include data with variable structures or data whose shape or type is not known at runtime. For example, user-created objects, event logs, or survey response data that are collected and stored in a variety of JSON formats. Collections of mixed data could also be a good temporary option when you're in the early development stages and still determining the structure of your app's data. 
+Starting in Flutter SDK version 2.0.0, you can 
+:ref:`define nested collections 
+of mixed data <flutter-nested-collections-realm-value>` 
+within a  ``RealmValue`` property.
 
-To model unstructured data in your schema, define the appropriate properties as ``RealmValue`` types that contain either a List or Map of ``RealmValue`` type: 
-``RealmValue<List<RealmValue>>`` or ``RealmValue<RealmMap<String, RealmValue>>``.  
-The SDK does *not* support a Mixed data type containing a Set collection.
+The ability to nest collections of mixed data enables you to define data 
+that doesn't otherwise conform to an expected schema, including data with 
+variable structure or data whose shape or type is not known at runtime. 
+For example, you might have highly variable user-created objects, event logs, 
+or survey response data that are collected and stored in a variety of JSON 
+formats. It could also be a good temporary option while you are 
+in early development and still determining the structure of your app's data. 
+
+To model unstructured data in your schema using collections of mixed type, 
+define the appropriate properties in your schema as :ref:`RealmValue <flutter-realm-value>` types 
+that contain either a :ref:`RealmList <flutter-realm-list>` or a 
+:ref:`RealmMap <flutter-realm-map>` of ``RealmValue`` type: 
+
+- ``RealmValue<List<RealmValue>>``
+- ``RealmValue<RealmMap<String, RealmValue>>``
+
+The collection must be a list or map type, and the collection must be of 
+mixed type elements. ``RealmValue`` *cannot* represent a ``RealmSet`` collection.
+
+For example, you might use a ``RealmValue`` that contains a map of mixed 
+data when modeling a variable event log object: 
+
+.. input:: /examples/generated/flutter/define_realm_model_test.snippet.unstructured-data-model.dart
+   :language: dart
+
+.. io-code-block::
+
+   .. input:: /examples/generated/flutter/define_realm_model_test.snippet.create-unstructured-data-example.dart
+      :language: dart
+
+   .. output:: 
+      :language:  shell
+
+      Event Type: purchase
+      Timestamp: 2024-03-14 15:49:20.654478Z
+      User ID: user123
+      Details:
+         IP Address: RealmValue(192.168.1.1)
+         Item: RealmValue({id: RealmValue(1), name: RealmValue(Laptop), price: RealmValue(1200.0)})
+         Item: RealmValue({id: RealmValue(2), name: RealmValue(Mouse), price: RealmValue(49.99)})
+         Total: RealmValue(1249.99)
 
 .. tip:: 
 
-   Use a Map of Mixed data types when the type is unknown, but each value will have a unique identifier.
-   Use a List of Mixed data types when the type is unknown, but the order of objects is meaningful.
-
-.. define a generic JSON structure to use across all SDK examples and add to doc plan/tickets 
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier. 
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
 
 .. _flutter-generate-realm-object:
 

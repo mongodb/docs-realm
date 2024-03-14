@@ -167,3 +167,74 @@ class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
     ]);
   }
 }
+
+class EventLog extends _EventLog
+    with RealmEntity, RealmObjectBase, RealmObject {
+  EventLog(
+    ObjectId id,
+    String eventType,
+    DateTime timestamp,
+    String userId, {
+    Map<String, RealmValue> details = const {},
+  }) {
+    RealmObjectBase.set(this, 'id', id);
+    RealmObjectBase.set(this, 'eventType', eventType);
+    RealmObjectBase.set(this, 'timestamp', timestamp);
+    RealmObjectBase.set(this, 'userId', userId);
+    RealmObjectBase.set<RealmMap<RealmValue>>(
+        this, 'details', RealmMap<RealmValue>(details));
+  }
+
+  EventLog._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+
+  @override
+  String get eventType =>
+      RealmObjectBase.get<String>(this, 'eventType') as String;
+  @override
+  set eventType(String value) => RealmObjectBase.set(this, 'eventType', value);
+
+  @override
+  DateTime get timestamp =>
+      RealmObjectBase.get<DateTime>(this, 'timestamp') as DateTime;
+  @override
+  set timestamp(DateTime value) =>
+      RealmObjectBase.set(this, 'timestamp', value);
+
+  @override
+  String get userId => RealmObjectBase.get<String>(this, 'userId') as String;
+  @override
+  set userId(String value) => RealmObjectBase.set(this, 'userId', value);
+
+  @override
+  RealmMap<RealmValue> get details =>
+      RealmObjectBase.get<RealmValue>(this, 'details') as RealmMap<RealmValue>;
+  @override
+  set details(covariant RealmMap<RealmValue> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<EventLog>> get changes =>
+      RealmObjectBase.getChanges<EventLog>(this);
+
+  @override
+  EventLog freeze() => RealmObjectBase.freezeObject<EventLog>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(EventLog._);
+    return const SchemaObject(ObjectType.realmObject, EventLog, 'EventLog', [
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('eventType', RealmPropertyType.string),
+      SchemaProperty('timestamp', RealmPropertyType.timestamp),
+      SchemaProperty('userId', RealmPropertyType.string),
+      SchemaProperty('details', RealmPropertyType.mixed,
+          optional: true, collectionType: RealmCollectionType.map),
+    ]);
+  }
+}

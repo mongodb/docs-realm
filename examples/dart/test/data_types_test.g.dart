@@ -202,6 +202,95 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   }
 }
 
+class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
+  static var _defaultsSet = false;
+
+  Car(
+    ObjectId id, {
+    String? licensePlate,
+    bool isElectric = false,
+    double milesDriven = 0,
+    Person? owner,
+    Iterable<String> attributes = const [],
+  }) {
+    if (!_defaultsSet) {
+      _defaultsSet = RealmObjectBase.setDefaults<Car>({
+        'isElectric': false,
+        'milesDriven': 0,
+      });
+    }
+    RealmObjectBase.set(this, 'id', id);
+    RealmObjectBase.set(this, 'licensePlate', licensePlate);
+    RealmObjectBase.set(this, 'isElectric', isElectric);
+    RealmObjectBase.set(this, 'milesDriven', milesDriven);
+    RealmObjectBase.set(this, 'owner', owner);
+    RealmObjectBase.set<RealmList<String>>(
+        this, 'attributes', RealmList<String>(attributes));
+  }
+
+  Car._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+
+  @override
+  String? get licensePlate =>
+      RealmObjectBase.get<String>(this, 'licensePlate') as String?;
+  @override
+  set licensePlate(String? value) =>
+      RealmObjectBase.set(this, 'licensePlate', value);
+
+  @override
+  bool get isElectric => RealmObjectBase.get<bool>(this, 'isElectric') as bool;
+  @override
+  set isElectric(bool value) => RealmObjectBase.set(this, 'isElectric', value);
+
+  @override
+  double get milesDriven =>
+      RealmObjectBase.get<double>(this, 'milesDriven') as double;
+  @override
+  set milesDriven(double value) =>
+      RealmObjectBase.set(this, 'milesDriven', value);
+
+  @override
+  RealmList<String> get attributes =>
+      RealmObjectBase.get<String>(this, 'attributes') as RealmList<String>;
+  @override
+  set attributes(covariant RealmList<String> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Person? get owner => RealmObjectBase.get<Person>(this, 'owner') as Person?;
+  @override
+  set owner(covariant Person? value) =>
+      RealmObjectBase.set(this, 'owner', value);
+
+  @override
+  Stream<RealmObjectChanges<Car>> get changes =>
+      RealmObjectBase.getChanges<Car>(this);
+
+  @override
+  Car freeze() => RealmObjectBase.freezeObject<Car>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(Car._);
+    return const SchemaObject(ObjectType.realmObject, Car, 'Car', [
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('licensePlate', RealmPropertyType.string, optional: true),
+      SchemaProperty('isElectric', RealmPropertyType.bool),
+      SchemaProperty('milesDriven', RealmPropertyType.double),
+      SchemaProperty('attributes', RealmPropertyType.string,
+          collectionType: RealmCollectionType.list),
+      SchemaProperty('owner', RealmPropertyType.object,
+          optional: true, linkTarget: 'Person'),
+    ]);
+  }
+}
+
 class UuidPrimaryKey extends _UuidPrimaryKey
     with RealmEntity, RealmObjectBase, RealmObject {
   UuidPrimaryKey(
@@ -274,10 +363,13 @@ class RealmValueExample extends _RealmValueExample
   RealmValueExample({
     RealmValue singleAnyValue = const RealmValue.nullValue(),
     Iterable<RealmValue> listOfMixedAnyValues = const [],
+    Map<String, RealmValue> mapOfMixedAnyValues = const {},
   }) {
     RealmObjectBase.set(this, 'singleAnyValue', singleAnyValue);
     RealmObjectBase.set<RealmList<RealmValue>>(this, 'listOfMixedAnyValues',
         RealmList<RealmValue>(listOfMixedAnyValues));
+    RealmObjectBase.set<RealmMap<RealmValue>>(
+        this, 'mapOfMixedAnyValues', RealmMap<RealmValue>(mapOfMixedAnyValues));
   }
 
   RealmValueExample._();
@@ -298,6 +390,14 @@ class RealmValueExample extends _RealmValueExample
       throw RealmUnsupportedSetError();
 
   @override
+  RealmMap<RealmValue> get mapOfMixedAnyValues =>
+      RealmObjectBase.get<RealmValue>(this, 'mapOfMixedAnyValues')
+          as RealmMap<RealmValue>;
+  @override
+  set mapOfMixedAnyValues(covariant RealmMap<RealmValue> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
   Stream<RealmObjectChanges<RealmValueExample>> get changes =>
       RealmObjectBase.getChanges<RealmValueExample>(this);
 
@@ -315,6 +415,8 @@ class RealmValueExample extends _RealmValueExample
           optional: true, indexType: RealmIndexType.regular),
       SchemaProperty('listOfMixedAnyValues', RealmPropertyType.mixed,
           optional: true, collectionType: RealmCollectionType.list),
+      SchemaProperty('mapOfMixedAnyValues', RealmPropertyType.mixed,
+          optional: true, collectionType: RealmCollectionType.map),
     ]);
   }
 }

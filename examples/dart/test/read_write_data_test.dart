@@ -2,9 +2,7 @@
 // file, as the examples are the same.
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
-import '../bin/models/car.dart';
 import 'utils.dart';
-import 'dart:io';
 
 part 'read_write_data_test.g.dart';
 
@@ -25,6 +23,7 @@ class _Team {
 
   late String name;
   late List<_Person> crew;
+  late Map<String, RealmValue> log;
 }
 // :snippet-end:
 
@@ -57,7 +56,7 @@ void main() {
       expect(people.length, 1);
       cleanUpRealm(realm);
     });
-    test("Query List of Realm Objects", () {
+    test('Query List of Realm Objects', () {
       // :snippet-start: query-realm-list
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
@@ -79,7 +78,7 @@ void main() {
       });
       cleanUpRealm(realm);
     });
-    test("Lists asResults", () {
+    test('Lists asResults', () {
       // :snippet-start: list-as-results
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
@@ -116,7 +115,9 @@ void main() {
       });
       cleanUpRealm(realm);
     });
-    test("Filter Results", () {
+  });
+  group('Filter Data', () {
+    test('Filter Results', () {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
       final heroes = Team(ObjectId(), 'Millennium Falcon Crew', crew: [
@@ -140,14 +141,12 @@ void main() {
           realm.query<Person>('name IN \$0', [listOfNames]);
       // :snippet-end:
       expect(matchingRealmObjects.length, 2);
-
       for (var person in matchingRealmObjects) {
         print(person.name);
       }
-
       cleanUpRealm(realm);
     });
-    test("Sort Results", () {
+    test('Sort Results', () {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
       // :snippet-start: sort
@@ -171,32 +170,72 @@ void main() {
       expect(alphabetizedPeople.last.name, 'Luke');
       cleanUpRealm(realm);
     });
-
-    test("Limit Results", () {
+    test('Filter Nested Collections', () {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
-      // :snippet-start: limit
+
       realm.write(() {
         realm.addAll([
-          Person(ObjectId(), 'Luke'),
-          Person(ObjectId(), 'Luke'),
-          Person(ObjectId(), 'Luke'),
-          Person(ObjectId(), 'Luke')
+          (Team(ObjectId(), 'Death Star Janitorial Staff', log: {
+            '1': RealmValue.from({
+              'date': RealmValue.from(DateTime.utc(5622, 8, 18, 12, 30, 0)),
+              'type': RealmValue.from(['maintenance', 'work_order']),
+              'security_clearance_needed': RealmValue.from(true),
+              'summary': RealmValue.from('leaking pipes in control room'),
+              'priority': RealmValue.from('high'),
+              'recurring': RealmValue.from(true)
+            }),
+            '2': RealmValue.from({
+              'date': RealmValue.from(DateTime.utc(5622, 9, 18, 12, 30, 0)),
+              'type': RealmValue.from('maintenance'),
+              'summary': RealmValue.from('trash compactor jammed. again.'),
+              'priority': RealmValue.from('low'),
+              'recurring': RealmValue.from(true),
+              'comments': RealmValue.from('this is the 5th time!')
+            })
+          })),
+          (Team(ObjectId(), 'Death Star IT', log: {
+            '1': RealmValue.from({
+              'date': RealmValue.from(DateTime.utc(5622, 9, 20, 12, 30, 0)),
+              'type': RealmValue.from(['hardware', 'repair']),
+              'security_clearance_needed': RealmValue.from(true),
+              'summary':
+                  RealmValue.from('server racks damaged in last attack '),
+              'priority': RealmValue.from('critical'),
+              'recurring': RealmValue.from(false)
+            })
+          }))
         ]);
+
+        // TODO: Add query examples 
+
+        cleanUpRealm(realm);
       });
+      test('Limit Results', () {
+        final config = Configuration.local([Person.schema, Team.schema]);
+        final realm = Realm(config);
+        // :snippet-start: limit
+        realm.write(() {
+          realm.addAll([
+            Person(ObjectId(), 'Luke'),
+            Person(ObjectId(), 'Luke'),
+            Person(ObjectId(), 'Luke'),
+            Person(ObjectId(), 'Luke')
+          ]);
+        });
 
-      final limitedPeopleResults =
-          realm.query<Person>('name == \$0 LIMIT(2)', ['Luke']);
+        final limitedPeopleResults =
+            realm.query<Person>('name == \$0 LIMIT(2)', ['Luke']);
 
-      // prints `2`
-      print(limitedPeopleResults.length);
-      // :snippet-end:
-      expect(limitedPeopleResults.length, 2);
+        // prints `2`
+        print(limitedPeopleResults.length);
+        // :snippet-end:
+        expect(limitedPeopleResults.length, 2);
 
-      cleanUpRealm(realm);
+        cleanUpRealm(realm);
+      });
     });
   });
-
   test('Return from write block', () {
     final config = Configuration.local([Person.schema]);
     final realm = Realm(config);
@@ -221,7 +260,7 @@ void main() {
     expect(realm.all<Person>().first.name, 'Lando');
     cleanUpRealm(realm);
   });
-  test("Create Multiple Objects", () {
+  test('Create Multiple Objects', () {
     final config = Configuration.local([Person.schema]);
     final realm = Realm(config);
     // :snippet-start: create-multiple-objects
@@ -236,7 +275,7 @@ void main() {
     expect(realm.all<Person>().length, 3);
     cleanUpRealm(realm);
   });
-  test("Update Object Properties", () {
+  test('Update Object Properties', () {
     final config = Configuration.local([Person.schema, Team.schema]);
     final realm = Realm(config);
     final spaceshipTeam = Team(ObjectId(), 'Millennium Falcon Crew',
