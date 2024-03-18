@@ -23,7 +23,7 @@ class _Team {
 
   late String name;
   late List<_Person> crew;
-  late Map<String, RealmValue> log;
+  late RealmValue eventLog;
 }
 // :snippet-end:
 
@@ -174,66 +174,87 @@ void main() {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
 
+      // :snippet-start: filter-nested-collections
       realm.write(() {
         realm.addAll([
-          (Team(ObjectId(), 'Death Star Janitorial Staff', log: {
-            '1': RealmValue.from({
-              'date': RealmValue.from(DateTime.utc(5622, 8, 18, 12, 30, 0)),
-              'type': RealmValue.from(['maintenance', 'work_order']),
-              'security_clearance_needed': RealmValue.from(true),
-              'summary': RealmValue.from('leaking pipes in control room'),
-              'priority': RealmValue.from('high'),
-              'recurring': RealmValue.from(true)
-            }),
-            '2': RealmValue.from({
-              'date': RealmValue.from(DateTime.utc(5622, 9, 18, 12, 30, 0)),
-              'type': RealmValue.from('maintenance'),
-              'summary': RealmValue.from('trash compactor jammed. again.'),
-              'priority': RealmValue.from('low'),
-              'recurring': RealmValue.from(true),
-              'comments': RealmValue.from('this is the 5th time!')
-            })
-          })),
-          (Team(ObjectId(), 'Death Star IT', log: {
-            '1': RealmValue.from({
-              'date': RealmValue.from(DateTime.utc(5622, 9, 20, 12, 30, 0)),
-              'type': RealmValue.from(['hardware', 'repair']),
-              'security_clearance_needed': RealmValue.from(true),
-              'summary':
-                  RealmValue.from('server racks damaged in last attack '),
-              'priority': RealmValue.from('critical'),
-              'recurring': RealmValue.from(false)
-            })
-          }))
+          (Team(ObjectId(), 'Janitorial Staff',
+              eventLog: RealmValue.from({
+                '1': {
+                  'date': DateTime.utc(5622, 8, 18, 12, 30, 0),
+                  'type': ['work_order', 'maintenance'],
+                  'summary': 'leaking pipes in control room',
+                  'priority': 'high',
+                },
+                '2': {
+                  'date': DateTime.utc(5622, 9, 18, 12, 30, 0),
+                  'type': ['maintenance'],
+                  'summary': 'trash compactor jammed',
+                  'priority': 'low',
+                  'comment': 'this is the second time this week'
+                }
+              }))),
+          (Team(ObjectId(), 'IT',
+              eventLog: RealmValue.from({
+                '1': {
+                  'date': DateTime.utc(5622, 9, 20, 12, 30, 0),
+                  'type': ['hardware', 'repair'],
+                  'summary': 'lightsaber damage to server room',
+                  'priority': 'high',
+                }
+              })))
         ]);
 
-        // TODO: Add query examples 
+        final teams = realm.all<Team>();
+        // Use [bracket notation] to query values at the specified path
+        final teamsWithHighPriorityEvents =
+            teams.query("eventLog[*].priority == 'high'");
+        print(teamsWithHighPriorityEvents.length); // prints `2`
 
-        cleanUpRealm(realm);
+        final teamsWithMaintenanceEvents =
+            teams.query("eventLog[*].type[FIRST] == 'maintenance'");
+        print(teamsWithMaintenanceEvents.length); // prints `1`
+
+        // Use @keys to query map keys
+        final eventsWithComments =
+            teams.query("eventLog[*].@keys == 'comment'");
+        print(eventsWithComments.length); // prints `1`
+
+        // Use @type to query the collection type
+        final teamsWithEventsAsLists =
+            teams.query("eventLog[*].type.@type == 'list'");
+        print(teamsWithEventsAsLists.length); // prints `2`
+        // :remove-start:
+        expect(teamsWithHighPriorityEvents.length, 2);
+        expect(teamsWithMaintenanceEvents.length, 1);
+        expect(eventsWithComments.length, 1);
+        expect(teamsWithEventsAsLists.length, 2);
+        // :remove-end:
       });
-      test('Limit Results', () {
-        final config = Configuration.local([Person.schema, Team.schema]);
-        final realm = Realm(config);
-        // :snippet-start: limit
-        realm.write(() {
-          realm.addAll([
-            Person(ObjectId(), 'Luke'),
-            Person(ObjectId(), 'Luke'),
-            Person(ObjectId(), 'Luke'),
-            Person(ObjectId(), 'Luke')
-          ]);
-        });
-
-        final limitedPeopleResults =
-            realm.query<Person>('name == \$0 LIMIT(2)', ['Luke']);
-
-        // prints `2`
-        print(limitedPeopleResults.length);
-        // :snippet-end:
-        expect(limitedPeopleResults.length, 2);
-
-        cleanUpRealm(realm);
+      // :snippet-end:
+      cleanUpRealm(realm);
+    });
+    test('Limit Results', () {
+      final config = Configuration.local([Person.schema, Team.schema]);
+      final realm = Realm(config);
+      // :snippet-start: limit
+      realm.write(() {
+        realm.addAll([
+          Person(ObjectId(), 'Luke'),
+          Person(ObjectId(), 'Luke'),
+          Person(ObjectId(), 'Luke'),
+          Person(ObjectId(), 'Luke')
+        ]);
       });
+
+      final limitedPeopleResults =
+          realm.query<Person>('name == \$0 LIMIT(2)', ['Luke']);
+
+      // prints `2`
+      print(limitedPeopleResults.length);
+      // :snippet-end:
+      expect(limitedPeopleResults.length, 2);
+
+      cleanUpRealm(realm);
     });
   });
   test('Return from write block', () {

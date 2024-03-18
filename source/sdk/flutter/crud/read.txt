@@ -208,14 +208,19 @@ or primitives.
 
 Query Nested Collections of Mixed Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. versionadded:: 2.0.0
 
-In Flutter SDK v2.0.0 and later, :ref:`RealmValue <flutter-realm-value>` properties can contain collections (a list or 
-map) of mixed data. These collections can be nested within collections 
-and can contain other collections of mixed data. You can query these 
-the same way you would a normal collection.
+In Flutter SDK v2.0.0 and later, :ref:`RealmValue <flutter-realm-value>` 
+properties can contain collections (a list or map) of mixed data. These 
+collections can be nested within collections and can contain other 
+collections of mixed data. You can query these with dot notation, the 
+same way you would a normal collection. You can also use bracket notation to query a specific element in the collection (for example, ``[FIRST]``, ``[1]``, ``[LAST]``, or ``[*]``).
 
-.. TODO: Add query examples as part of RQL ticket
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter-nested-collections.dart
+   :language: dart
+
+.. TODO Link to RQL documentation when available
 
 .. _flutter-as-results:
 
