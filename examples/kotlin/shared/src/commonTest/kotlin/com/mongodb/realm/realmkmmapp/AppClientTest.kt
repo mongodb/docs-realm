@@ -1,6 +1,5 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.kotlin.internal.interop.sync.WebSocketObserver
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.log.LogLevel
 import io.realm.kotlin.log.RealmLog
@@ -11,8 +10,6 @@ import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.exceptions.ConnectionException
 import io.realm.kotlin.mongodb.exceptions.InvalidCredentialsException
 import io.realm.kotlin.mongodb.exceptions.ServiceException
-import io.realm.kotlin.mongodb.internal.AppResources
-import io.realm.kotlin.mongodb.internal.platformWebsocketClient
 import kotlinx.coroutines.channels.Channel
 import kotlin.test.Ignore
 import kotlin.test.Test
@@ -109,21 +106,13 @@ class AppClientTest: RealmTest() {
     }
 
     @Ignore
-    // Ignored unless there's a way to test this in a reasonable way...
+    // Ignored unless there's a way to test this easily...
     fun enablePlatformNetworking() {
         // :snippet-start: enable-platform-networking
         val config =
             AppConfiguration.Builder(YOUR_APP_ID)
                 .usePlatformNetworking(true)
                 .build()
-        val webSocketTransport = platformWebsocketClient(
-            observer =  WebSocketObserver,
-            path =  String,
-            address = String,
-            port =  Long,
-            isSsl = false,
-            supportedSyncProtocols = String,
-            transport = String)
         // :snippet-end:
     }
 

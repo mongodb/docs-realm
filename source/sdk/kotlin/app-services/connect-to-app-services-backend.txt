@@ -189,28 +189,32 @@ When you initialize the App, you can pass:
 .. _kotlin-enable-platform-networking:
 
 Enable Platform Networking
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 1.14.0
 
-Kotlin SDK v1.14.0 introduces **platform networking** support for Atlas Device
-Sync traffic. This feature allows applications running on Android and
-Java Virtual Machine (JVM) platforms to enable managed WebSockets via
-:github:`OkHttp </square/okhttp/blob/master/CHANGELOG.md>` instead of the
-database's default C++ WebSocket client. Managed WebSockets provide advanced
-proxy configuration support for firewalls and allow for
-certificate pinning and other advanced networking features.
+Kotlin SDK v1.14.0 introduces support for **platform networking**, which lets you use 
+the networking stack for your platform for Device Sync traffic, instead of 
+Atlas Device Sync's default library. 
 
-To enable managed WebSockets, pass the `AppConfiguration.usePlatformNetworking()
+When enabled, this feature allows applications running on Android and
+Java Virtual Machine (JVM) platforms to use managed WebSockets via
+:github:`OkHttp </square/okhttp/blob/master/CHANGELOG.md>`. Managed WebSockets provide advanced
+configuration support for proxies and firewalls that require authentication.
+
+Platform networking is disabled by default. You can enable it on the
+``AppConfiguration`` using the 
+`AppConfiguration.usePlatformNetworking()
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/use-platform-networking.html>`__
-method when you initialize the App:
+method, which accepts a Boolean value.
 
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.enable-platform-networking.kt
    :language: kotlin
 
-.. note:: 
+.. note:: Android and JVM platforms only
    
-   This feature is currently only available on Android and JVM platforms.
+   This feature is currently only available on Android and Java Virtual 
+   Machine (JVM) platforms.
 
 Close the App Client
 --------------------
