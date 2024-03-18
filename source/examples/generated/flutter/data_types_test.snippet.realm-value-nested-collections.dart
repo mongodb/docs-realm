@@ -18,9 +18,8 @@ realm.write(() {
           listOfAnyValue,
           RealmValue.from([
             listOfAnyValue,
-            RealmValue.from([
-              listOfAnyValue, mapOfAnyValue, singleAnyValue
-              ])
+            RealmValue.from(
+                [listOfAnyValue, mapOfAnyValue, singleAnyValue])
           ]),
         ])
       ],

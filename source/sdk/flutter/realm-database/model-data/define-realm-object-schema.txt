@@ -255,20 +255,16 @@ formats. It could also be a good temporary option while you are
 in early development and still determining the structure of your app's data. 
 
 To model unstructured data in your schema using collections of mixed type, 
-define the appropriate properties in your schema as :ref:`RealmValue <flutter-realm-value>` types 
-that contain either a :ref:`RealmList <flutter-realm-list>` or a 
-:ref:`RealmMap <flutter-realm-map>` of ``RealmValue`` type: 
-
-- ``RealmValue<List<RealmValue>>``
-- ``RealmValue<RealmMap<String, RealmValue>>``
-
-The collection must be a list or map type, and the collection must be of 
-mixed type elements. ``RealmValue`` *cannot* represent a ``RealmSet`` collection.
+define the appropriate properties in your schema as 
+:ref:`RealmValue <flutter-realm-value>` types. You can then set these   
+``RealmValue`` properties as a :ref:`RealmList <flutter-realm-list>` or a 
+:ref:`RealmMap <flutter-realm-map>` collection of ``RealmValue`` elements. 
+Note that ``RealmValue`` *cannot* represent a ``RealmSet`` or an embedded object.
 
 For example, you might use a ``RealmValue`` that contains a map of mixed 
 data when modeling a variable event log object: 
 
-.. input:: /examples/generated/flutter/define_realm_model_test.snippet.unstructured-data-model.dart
+.. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.unstructured-data-model.dart
    :language: dart
 
 .. io-code-block::

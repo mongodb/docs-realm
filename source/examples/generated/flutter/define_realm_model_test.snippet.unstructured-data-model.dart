@@ -6,5 +6,5 @@ class _EventLog {
   late String eventType;
   late DateTime timestamp;
   late String userId;
-  late Map<String, RealmValue> details;
+  late RealmValue details;
 }

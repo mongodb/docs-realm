@@ -2,6 +2,7 @@ import 'package:realm_dart/realm.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 import 'dart:typed_data';
+import 'dart:developer';
 
 import 'utils.dart';
 
@@ -214,52 +215,59 @@ main() {
               mapOfMixedAnyValues: {'null': RealmValue.nullValue()})
         ]);
       });
-      var calledCount = 0;
-      // :snippet-start: realm-value-type-value
+      var approximateAge = 0;
+      // :snippet-start: realm-value-type
       final data = realm.all<RealmValueExample>();
       for (var obj in data) {
-        switch (obj.singleAnyValue.type) {
-          // Use RealmValueType data type enums
+        final anyValue = obj.singleAnyValue;
+        switch (anyValue.type) {
           case RealmValueType.int:
-            print('Int value: ${obj.singleAnyValue.value}');
-            calledCount++; // :remove:
+            approximateAge = DateTime.now().year - anyValue.as<int>();
+            break;
+          case RealmValueType.dateTime:
+            approximateAge =
+                (DateTime.now().difference(anyValue.as<DateTime>()).inDays /
+                        365)
+                    .floor();
             break;
           case RealmValueType.string:
-            print('String value: ${obj.singleAnyValue.value}');
+            final birthday = DateTime.parse(anyValue.as<String>());
+            approximateAge =
+                (DateTime.now().difference(birthday).inDays / 365).floor();
             break;
-          // Handle additional cases ...
+          // Handle other possible types ...
           default:
-            print('Unhandled type: ${obj.singleAnyValue.type}');
+            log('Unhandled type: ${anyValue.type}');
         }
       }
-      expect(calledCount, 1);
       // :snippet-end:
-      // :snippet-start: realm-value-runtime-type
+      expect(approximateAge, 2023);
+      int sum = 0;
+      String combinedStrings = '';
+      // :snippet-start: realm-value-value
       for (var obj in data) {
         for (var mixedValue in obj.listOfMixedAnyValues) {
-          var actualValue = mixedValue.value;
-          // Use RealmValue.value.runtimeType to access stored value at runtime
-          if (actualValue == null) {
-            print('Null value');
-          } else {
-            switch (actualValue.runtimeType) {
-              case const (int):
-                print('Int value: $actualValue');
-                calledCount++; // :remove:
-                break;
-              case const (String):
-                print('String value: $actualValue');
-                break;
-              // Add cases for other expected types...
-              default:
-                print(
-                    'Unhandled type: ${actualValue.runtimeType} with value $actualValue');
-            }
+          // Use RealmValue.value to access the value
+          final value = mixedValue.value;
+          if (value is int) {
+            sum = sum + value;
+            expect(sum, 123); // :remove:
+          } else if (value is String) {
+            combinedStrings += value;
+            expect(combinedStrings, 'abc'); // :remove:
+          }
+
+          // Use RealmValue.as<T> to cast value to a specific type
+          try {
+            final intValue = mixedValue.as<int>();
+            sum = sum + intValue;
+            expect(sum, 246); // :remove:
+          } catch (e) {
+            log('Error casting value to int: $e');
           }
         }
       }
       // :snippet-end:
-      expect(calledCount, 2);
       cleanUpRealm(realm);
     });
     test('Nested collections of mixed data', () {
@@ -286,9 +294,8 @@ main() {
                 listOfAnyValue,
                 RealmValue.from([
                   listOfAnyValue,
-                  RealmValue.from([
-                    listOfAnyValue, mapOfAnyValue, singleAnyValue
-                    ])
+                  RealmValue.from(
+                      [listOfAnyValue, mapOfAnyValue, singleAnyValue])
                 ]),
               ])
             ],
@@ -306,8 +313,7 @@ main() {
         expect(nestedCollectionsOfMixed.singleAnyValue.value, 1);
         expect(collectionsOfMixed.listOfMixedAnyValues[0].type,
             RealmValueType.int);
-        expect(collectionsOfMixed.listOfMixedAnyValues[0].value,
-            1);
+        expect(collectionsOfMixed.listOfMixedAnyValues[0].value, 1);
         expect(nestedCollectionsOfMixed.listOfMixedAnyValues[0].type,
             RealmValueType.list);
         expect(
@@ -320,7 +326,9 @@ main() {
             1);
         expect(collectionsOfMixed.mapOfMixedAnyValues.containsKey('key'), true);
         expect(
-            nestedCollectionsOfMixed.mapOfMixedAnyValues['key']?.asMap().containsKey('nestedKey_1'),
+            nestedCollectionsOfMixed.mapOfMixedAnyValues['key']
+                ?.asMap()
+                .containsKey('nestedKey_1'),
             true);
       });
       cleanUpRealm(realm);
