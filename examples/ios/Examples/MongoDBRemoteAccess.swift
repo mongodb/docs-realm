@@ -160,7 +160,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation, expectation2, expectation3], timeout: 20)
+        wait(for: [expectation, expectation2, expectation3], timeout: 30)
     }
 
     // MARK: Find One
@@ -320,7 +320,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation, expectation2, expectation3], timeout: 20)
+        wait(for: [expectation, expectation2, expectation3], timeout: 30)
     }
     
     // MARK: Find and Sort Many
@@ -856,7 +856,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 20)
     }
 
     // MARK: ChangeEventDelegate
@@ -1289,7 +1289,7 @@ class MongoDBRemoteAccessTestCaseAsyncAPIs: XCTestCase {
                 print("Received event: \(event.documentValue!)")
             }
         }
-        await fulfillment(of: [openEx], timeout: 5.0) // :remove:
+        await fulfillment(of: [openEx], timeout: 30.0) // :remove:
         
         // Updating a document in the collection triggers a change event.
         let queryFilter: Document = ["_id": AnyBSON(objectId) ]
