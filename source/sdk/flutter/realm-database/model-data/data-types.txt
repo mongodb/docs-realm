@@ -362,7 +362,7 @@ RealmValue
 
 The `RealmValue <https://pub.dev/documentation/realm_common/latest/realm_common/RealmValue-class.html>`__
 data type is a mixed data type that can represent any other valid Realm 
-data type. In Flutter SDK v2.0.0 and later, ``RealmValue`` can represent a List or Map collection (but *not* a Set) of mixed type. 
+data type. In Flutter SDK v2.0.0 and later, ``RealmValue`` can represent a ``List<RealmValue>`` or ``Map<String, RealmValue>``. 
 
 ``RealmValue`` is indexable, but cannot be a primary key. You can also create collections of type ``RealmValue``. 
 
