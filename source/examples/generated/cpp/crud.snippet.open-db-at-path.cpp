@@ -1,5 +1,5 @@
 auto relative_realm_path_directory = "custom_path_directory/";
-std::filesystem::create_directories(
+std::filesystem::create_directories(relative_realm_path_directory);
 // Construct a path
 std::filesystem::path path =
     std::filesystem::current_path().append(relative_realm_path_directory);
