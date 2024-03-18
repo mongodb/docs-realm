@@ -1,3 +1,15 @@
+# March 15, 2024
+
+## Other
+
+Throughout Device SDK docs:
+- Add deprecation notices to pages with substantial GraphQL content.
+- Remove high-level references to our GraphQL API to make the feature less discoverable.
+
+## Internal
+
+- Update dependencies in Web SDK test suite.
+
 # March 8, 2024
 
 ## Node.js SDK
