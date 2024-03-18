@@ -343,7 +343,7 @@ following things are true when using ``compareTo()``:
 RealmValue
 ~~~~~~~~~~
 
-.. important:: Flutter SDK v2.0.0 Breaking Changes to ``RealmValue``
+.. important:: Flutter SDK v2.0.0 Changes to ``RealmValue``
 
    Flutter SDK version 2.0.0 updates ``RealmValue`` to allow a ``List`` 
    or ``Map`` type of ``RealmValue``, which enables more flexibility 
@@ -399,7 +399,7 @@ To access the data stored in a ``RealmValue``, you can use:
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-value.dart
    :language: dart
-   :emphasize-lines: 3
+   :emphasize-lines: 3, 11
 
 You can check the type of data currently stored in a ``RealmValue`` property by 
 accessing the type property. Starting with Flutter SDK v2.0.0, this returns a 
@@ -408,6 +408,7 @@ accessing the type property. Starting with Flutter SDK v2.0.0, this returns a
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type.dart
    :language: dart
+   :emphasize-lines: 4
 
 .. _flutter-nested-collections-realm-value:
 
@@ -423,13 +424,13 @@ These collections of mixed data can be nested and can contain other
 collections. They can also be :ref:`listened to for changes like a 
 normal collection <flutter-realm-list-change-listener>`.
 
-You can leverage these nested collections to more easily define unstructured 
+You can leverage these nested collections to define unstructured 
 or variable data in your data model (for more information, refer to 
 :ref:`<flutter-model-unstructured-data>`). 
 
 To create nested collections of mixed data in your app, define the mixed type 
 property in your data model the same way you would any other ``RealmValue`` type. 
-Then, you can add the list or map collections using ``RealmValue.from()``.
+Then, you can create the list or map collections using ``RealmValue.from()``.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-nested-collections.dart
    :language: dart

@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:realm_dart/realm.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
+import 'dart:convert';
 
 part 'define_realm_model_test.g.dart';
 

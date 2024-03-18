@@ -251,8 +251,10 @@ that doesn't otherwise conform to an expected schema, including data with
 variable structure or data whose shape or type is not known at runtime. 
 For example, you might have highly variable user-created objects, event logs, 
 or survey response data that are collected and stored in a variety of JSON 
-formats. It could also be a good temporary option while you are 
-in early development and still determining the structure of your app's data. 
+formats. This approach allows you to :ref:`react to changes <flutter-realm-list-change-listener>`
+in the nested data and to update specific elements, but it is less 
+performant than using a structured schema or serializing JSON blobs
+into a single string property.
 
 To model unstructured data in your schema using collections of mixed type, 
 define the appropriate properties in your schema as 
@@ -276,13 +278,13 @@ data when modeling a variable event log object:
       :language:  shell
 
       Event Type: purchase
-      Timestamp: 2024-03-14 15:49:20.654478Z
+      Timestamp: 2024-03-18 13:50:58.402979Z
       User ID: user123
       Details:
-         IP Address: RealmValue(192.168.1.1)
-         Item: RealmValue({id: RealmValue(1), name: RealmValue(Laptop), price: RealmValue(1200.0)})
-         Item: RealmValue({id: RealmValue(2), name: RealmValue(Mouse), price: RealmValue(49.99)})
-         Total: RealmValue(1249.99)
+      Item:
+         ipAddress: RealmValue(192.168.1.1)
+         items: RealmValue([RealmValue({id: RealmValue(1), name: RealmValue(Laptop), price: RealmValue(1200.0)}), RealmValue({id: RealmValue(2), name: RealmValue(Mouse), price: RealmValue(49.99)})])
+         total: RealmValue(1249.99)
 
 .. tip:: 
 

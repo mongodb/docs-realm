@@ -17,7 +17,7 @@ final mapExample = MapExample(
 // Add RealmObject to realm database
 realm.write(() => realm.add(mapExample));
 
-// Qeury for all MapExample objects
+// Query for all MapExample objects
 final realmMap = realm.all<MapExample>()[0];
 
 // Modify RealmMaps in write transactions

@@ -77,6 +77,12 @@ class _RealmValueExample {
 
 // :snippet-end:
 
+@RealmModel()
+class _RealmValueCollectionExample {
+  @Indexed()
+  late RealmValue singleAnyValue;
+}
+
 // :snippet-start: datetime-model
 @RealmModel()
 class _Vehicle {
@@ -271,65 +277,39 @@ main() {
       cleanUpRealm(realm);
     });
     test('Nested collections of mixed data', () {
-      final realm = Realm(Configuration.local([RealmValueExample.schema]));
+      final realm =
+          Realm(Configuration.local([RealmValueCollectionExample.schema]));
 
       // :snippet-start: realm-value-nested-collections
-      final singleAnyValue = RealmValue.from(1);
-      final listOfAnyValue = RealmValue.from([singleAnyValue]);
-      final mapOfAnyValue = RealmValue.from({
-        '1': singleAnyValue,
-        '2': singleAnyValue,
-        '3': RealmValue.nullValue()
-      });
-
       realm.write(() {
-        var collectionsOfMixed = realm.add(RealmValueExample(
-            singleAnyValue: singleAnyValue,
-            listOfMixedAnyValues: [singleAnyValue, singleAnyValue],
-            mapOfMixedAnyValues: {'key': singleAnyValue}));
-        var nestedCollectionsOfMixed = realm.add(RealmValueExample(
-            singleAnyValue: singleAnyValue,
-            listOfMixedAnyValues: [
-              RealmValue.from([
-                listOfAnyValue,
-                RealmValue.from([
-                  listOfAnyValue,
-                  RealmValue.from(
-                      [listOfAnyValue, mapOfAnyValue, singleAnyValue])
-                ]),
-              ])
-            ],
-            mapOfMixedAnyValues: {
-              'key': RealmValue.from({
-                'nestedKey_1': RealmValue.from({mapOfAnyValue}),
-                'nestedKey_2': RealmValue.from({
-                  'nestedNestedKey_1': RealmValue.from({listOfAnyValue}),
-                  'nestedNestedKey_2': RealmValue.from({singleAnyValue})
-                })
-              })
-            }));
+        realm.add(RealmValueCollectionExample(
+            // Set the RealmValue as a map of mixed data
+            singleAnyValue: RealmValue.from({
+          'int': 1,
+          // You can nest RealmValues in collections
+          'listOfInt': [2, 3, 4],
+          'mapOfStrings': {'1': 'first', '2': 'second'},
+          // You can also nest collections within collections
+          'mapOfMaps': [
+            {
+              'nestedMap_1': {'1': 1, '2': 2},
+              'nestedMap_2': {'3': 3, '4': 4}
+            }
+          ],
+          'listOfMaps': [
+            {
+              'nestedList_1': [1, 2, 3],
+              'nestedList_2': [4, 5, 6]
+            }
+          ]
+        })));
         // :snippet-end:
-        expect(collectionsOfMixed.singleAnyValue.value, 1);
-        expect(nestedCollectionsOfMixed.singleAnyValue.value, 1);
-        expect(collectionsOfMixed.listOfMixedAnyValues[0].type,
-            RealmValueType.int);
-        expect(collectionsOfMixed.listOfMixedAnyValues[0].value, 1);
-        expect(nestedCollectionsOfMixed.listOfMixedAnyValues[0].type,
-            RealmValueType.list);
-        expect(
-            nestedCollectionsOfMixed.listOfMixedAnyValues[0]
-                .asList()
-                .first
-                .asList()
-                .first
-                .value,
-            1);
-        expect(collectionsOfMixed.mapOfMixedAnyValues.containsKey('key'), true);
-        expect(
-            nestedCollectionsOfMixed.mapOfMixedAnyValues['key']
-                ?.asMap()
-                .containsKey('nestedKey_1'),
-            true);
+        final collectionsOfMixed =
+            realm.all<RealmValueCollectionExample>().first;
+        final mapValue = collectionsOfMixed.singleAnyValue.asMap();
+        expect(mapValue.length, 5);
+        expect(mapValue.containsKey('mapOfStrings'), true);
+        expect(mapValue['mapOfMaps']?.asList()[0].asMap().length, 2);
       });
       cleanUpRealm(realm);
     });
@@ -569,7 +549,7 @@ main() {
     // Add RealmObject to realm database
     realm.write(() => realm.add(mapExample));
 
-    // Qeury for all MapExample objects
+    // Query for all MapExample objects
     final realmMap = realm.all<MapExample>()[0];
 
     // :remove-start:

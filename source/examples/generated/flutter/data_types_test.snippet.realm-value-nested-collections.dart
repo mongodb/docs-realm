@@ -1,34 +1,22 @@
-final singleAnyValue = RealmValue.from(1);
-final listOfAnyValue = RealmValue.from([singleAnyValue]);
-final mapOfAnyValue = RealmValue.from({
-  '1': singleAnyValue,
-  '2': singleAnyValue,
-  '3': RealmValue.nullValue()
-});
-
 realm.write(() {
-  var collectionsOfMixed = realm.add(RealmValueExample(
-      singleAnyValue: singleAnyValue,
-      listOfMixedAnyValues: [singleAnyValue, singleAnyValue],
-      mapOfMixedAnyValues: {'key': singleAnyValue}));
-  var nestedCollectionsOfMixed = realm.add(RealmValueExample(
-      singleAnyValue: singleAnyValue,
-      listOfMixedAnyValues: [
-        RealmValue.from([
-          listOfAnyValue,
-          RealmValue.from([
-            listOfAnyValue,
-            RealmValue.from(
-                [listOfAnyValue, mapOfAnyValue, singleAnyValue])
-          ]),
-        ])
-      ],
-      mapOfMixedAnyValues: {
-        'key': RealmValue.from({
-          'nestedKey_1': RealmValue.from({mapOfAnyValue}),
-          'nestedKey_2': RealmValue.from({
-            'nestedNestedKey_1': RealmValue.from({listOfAnyValue}),
-            'nestedNestedKey_2': RealmValue.from({singleAnyValue})
-          })
-        })
-      }));
+  realm.add(RealmValueCollectionExample(
+      // Set the RealmValue as a map of mixed data
+      singleAnyValue: RealmValue.from({
+    'int': 1,
+    // You can nest RealmValues in collections
+    'listOfInt': [2, 3, 4],
+    'mapOfStrings': {'1': 'first', '2': 'second'},
+    // You can also nest collections within collections
+    'mapOfMaps': [
+      {
+        'nestedMap_1': {'1': 1, '2': 2},
+        'nestedMap_2': {'3': 3, '4': 4}
+      }
+    ],
+    'listOfMaps': [
+      {
+        'nestedList_1': [1, 2, 3],
+        'nestedList_2': [4, 5, 6]
+      }
+    ]
+  })));
