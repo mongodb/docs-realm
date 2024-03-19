@@ -184,7 +184,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation, expectation2, expectation3, expectation4], timeout: 25)
+        wait(for: [expectation, expectation2, expectation3, expectation4], timeout: 35)
     }
 
     // MARK: Aggregation Project
@@ -276,7 +276,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation, expectation2, expectation3], timeout: 20)
+        wait(for: [expectation, expectation2, expectation3], timeout: 30)
     }
 
     // MARK: Aggregation Add Fields
@@ -361,7 +361,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation, expectation2, expectation3], timeout: 25)
+        wait(for: [expectation, expectation2, expectation3], timeout: 35)
     }
 
     // MARK: Aggregation Unwind
@@ -456,6 +456,6 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation, expectation2, expectation3], timeout: 25)
+        wait(for: [expectation, expectation2, expectation3], timeout: 35)
     }
 }

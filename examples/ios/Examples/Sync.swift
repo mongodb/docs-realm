@@ -161,15 +161,27 @@ class Sync: AnonymouslyLoggedInTestCase {
 
     // Leaving this example using Partition-Based Sync
     // since progress notifications are currently only supported in PBS
+    // IMPORTANT: this example is also used on the PBS page for opening
+    // a synced realm, so leave it even after progress notifications
+    // are supported in Flexible Sync.
     func testCheckProgress() {
+        // :snippet-start: open-realm-partition-based-sync
         let app = App(id: YOUR_APP_SERVICES_APP_ID)
+        
+        // Store a configuration that consists of the current user,
+        // authenticated to this instance of your app. If there is no
+        // user, your code should log one in.
         let user = app.currentUser
         let partitionValue = "some partition value"
         var configuration = user!.configuration(partitionValue: partitionValue)
         // :remove-start:
         configuration.objectTypes = [SyncExamples_Task.self]
         // :remove-end:
+        
+        // Open the database with the user's configuration.
         let syncedRealm = try! Realm(configuration: configuration)
+        print("Successfully opened the synced realm: \(syncedRealm)")
+        // :snippet-end:
         let expectation = XCTestExpectation(description: "it completes")
         expectation.assertForOverFulfill = false
 
