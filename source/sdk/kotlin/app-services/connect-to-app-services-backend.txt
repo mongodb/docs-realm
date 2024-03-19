@@ -193,12 +193,12 @@ Enable Platform Networking
 
 .. versionadded:: 1.14.0
 
-Kotlin SDK v1.14.0 introduces support for **platform networking**, which lets you use 
-the networking stack for your platform for Device Sync traffic, instead of 
-Atlas Device Sync's default library. 
+Atlas Device SDK's **platform networking** lets you use your platform's networking 
+stack instead of the default WebSocket client for Device Sync 
+traffic. 
 
-When enabled, this feature allows applications running on Android and
-Java Virtual Machine (JVM) platforms to use managed WebSockets via
+When enabled, you can configure applications running on Android and
+Java Virtual Machine (JVM) platforms to use managed WebSockets over
 :github:`OkHttp </square/okhttp/blob/master/CHANGELOG.md>`. Managed WebSockets provide advanced
 configuration support for proxies and firewalls that require authentication.
 
