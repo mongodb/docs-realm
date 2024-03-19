@@ -6,12 +6,15 @@ part of 'car.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   Car(
+    ObjectId id,
     String make, {
     String? model,
     int? miles,
   }) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'make', make);
     RealmObjectBase.set(this, 'model', model);
     RealmObjectBase.set(this, 'miles', miles);
@@ -20,9 +23,14 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   Car._();
 
   @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+
+  @override
   String get make => RealmObjectBase.get<String>(this, 'make') as String;
   @override
-  set make(String value) => throw RealmUnsupportedSetError();
+  set make(String value) => RealmObjectBase.set(this, 'make', value);
 
   @override
   String? get model => RealmObjectBase.get<String>(this, 'model') as String?;
@@ -46,7 +54,8 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Car._);
     return const SchemaObject(ObjectType.realmObject, Car, 'Car', [
-      SchemaProperty('make', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('make', RealmPropertyType.string),
       SchemaProperty('model', RealmPropertyType.string, optional: true),
       SchemaProperty('miles', RealmPropertyType.int, optional: true),
     ]);
