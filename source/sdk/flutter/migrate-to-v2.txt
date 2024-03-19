@@ -1,12 +1,12 @@
-.. _flutter_upgrade-v2:
+.. _flutter-upgrade-v2:
 
 =============================
 Upgrade to Flutter SDK v2.0.0
 =============================
 
 .. meta::
-  :description: Update your existing Flutter or Dart generated part files to successfully migrate to Atlas Device SDK for Flutter version 2.0.0.
-  :keywords: code example
+  :description: Upgrade your existing Flutter or Dart app to Flutter SDK version 2.0.0 or later.
+  :keywords: code example, migration, migrate
 
 .. facet::
   :name: genre
@@ -18,21 +18,34 @@ Upgrade to Flutter SDK v2.0.0
    :depth: 2
    :class: singlecol
 
-Atlas Device SDK for Flutter version 2.0.0 introduces a breaking change 
-to how the SDK generates files for your data model classes. If you have 
-an existing app built with an earlier version of the Flutter SDK, you 
-must migrate your app to use the new version. 
+Atlas Device SDK for Flutter version 2.0.0 introduces several breaking changes
+that impact existing apps upgrading to v2.0.0 or later. 
 
-Flutter SDK v2.0.0 also deprecates several classes and members. Refer to the 
-:ref:`flutter-v2-deprecated-classes` section on this page for information 
-on migration solutions.
+Notably, this version of the SDK: 
+
+- Changes the part builder and how the SDK generates files for 
+  your data model classes. This change impacts all apps upgrading from an 
+  earlier version of the SDK. Refer to the :ref:`flutter-v2-builder-breaking-changes` 
+  section on this page for information and instructions.
+
+- Removes several classes and members. These changes may or may not impact your 
+  app. Refer to the :ref:`flutter-v2-removed-classes` section 
+  on this page for information and instructions for impacted apps.
+
+.. _flutter-v2-builder-breaking-changes:
 
 Builder Changes
 ---------------
 
-Flutter SDK version 2.0.0 updates the SDK's ``realm_generator`` to use a ``PartBuilder`` instead of a ``SharedPartBuilder``. 
+.. important::
 
-As a result of this update, the generated ``RealmModel`` data model files use a new ``.realm.dart`` file extension:
+   This change impacts all apps upgrading from an earlier version of the SDK.
+
+Flutter SDK version 2.0.0 updates the SDK's ``realm_generator`` to use a 
+``PartBuilder`` instead of a ``SharedPartBuilder``. 
+
+As a result of this update, the generated ``RealmModel`` data model files 
+use a new ``.realm.dart`` file extension:
 
 .. list-table::
    :header-rows: 1
@@ -52,22 +65,28 @@ As a result of this update, the generated ``RealmModel`` data model files use a 
      - .. literalinclude:: /examples/generated/flutter/migrate_parts.snippet.part-directive-old.dart
         :language: dart
 
-Additionally, the SDK's use of a ``PartBuilder`` makes it easier to use 
-multiple builders in your app. For example, combining ``realm_dart`` 
-with a serialization package builder such as ``dart_mappable`` or 
-``json_serializable``.
+.. tip:: 
+
+    The update from ``SharedPartBuilder`` to ``PartBuilder`` makes it easier 
+    to use multiple builders in your app. For example, combining ``realm_dart`` 
+    with a serialization package builder such as ``dart_mappable`` or 
+    ``json_serializable``.
+
+.. _flutter-v2-what-do-i-need-to-do:
 
 What Do I Need to Do?
 ~~~~~~~~~~~~~~~~~~~~~
 
 When you upgrade an existing app from an earlier version of the Flutter SDK to 
-version 2.0.0 or later, you must update any part declarations, then regenerate the object models: 
+version 2.0.0 or later, you *must* update any existing part declarations, then 
+regenerate the object models with the new ``.realm.dart`` file extension: 
 
 .. procedure::
 
     .. step:: Update Your Existing Part Declarations
 
-       Update all of the ``RealmObject`` part declarations in your app to use the new naming convention:
+       Update all of the ``RealmObject`` part declarations in your app to 
+       use the new naming convention:
 
        .. literalinclude:: /examples/generated/flutter/migrate_parts.snippet.migrate-model-dart-new.dart
            :language: dart
@@ -81,7 +100,8 @@ version 2.0.0 or later, you must update any part declarations, then regenerate t
               :tabid: flutter 
 
               After you update all of your declarations, regenerate your 
-              object models to use the new ``.realm.dart`` file extension.
+              object models with the new ``.realm.dart`` file extension.
+              You can safely delete any ``.g.dart`` files from your project.
 
               .. code-block::
 
@@ -91,35 +111,39 @@ version 2.0.0 or later, you must update any part declarations, then regenerate t
               :tabid: dart 
 
               After you update all of your declarations, regenerate your 
-              object models to use the new ``.realm.dart`` file extension.
+              object models with the new ``.realm.dart`` file extension.
+              You can safely delete any ``.g.dart`` files from your project.
 
               .. code-block::
 
                 dart run realm_dart generate
 
-.. _flutter-v2-deprecated-classes:
+.. _flutter-v2-removed-classes:
 
-Deprecated Classes
-------------------
+Removed Classes and Members
+---------------------------
 
-Flutter SDK version 2.0.0 also removed several deprecated classes and members from the SDK.
+Flutter SDK version 2.0.0 also removed several classes, members, and properties 
+from the SDK for various reasons, including consolidation, replacement, and 
+deprecation. These changes may or may not impact your app.
 
-The following table outlines which classes and members were removed and a recommended solution if any:
+The following table outlines what was removed and a recommended solution 
+when upgrading an app that used the removed class or member, if any:
 
 .. list-table::
    :header-rows: 1
    :widths: 33 33 33
 
-   * - Deprecated Class or Member
+   * - Removed Class or Member
      - Reason
      - Solution
    
    * - ``AppConfiguration.localAppName`` and ``AppConfiguration.localAppVersion``
-     - Unused.
+     - Unused in SDK.
      - Remove any instances.     
 
    * - ``ClientResetError.isFatal`` 
-     - Always ``true``.
+     - Not needed. Always ``true``.
      - Remove any instances.     
 
    * - ``ClientResetError.sessionErrorCode`` 
@@ -128,7 +152,19 @@ The following table outlines which classes and members were removed and a recomm
 
    * - ``RealmProperty.indexed`` 
      - Replaced by ``RealmProperty.indexType``.
-     - Replace any instances.    
+     - Replace any instances. 
+
+   * - ``RealmValue.type`` 
+     - Changed to an enum of ``RealmValueType``.
+     - Replace any instances. 
+
+   * - ``RealmValue.uint8List`` 
+     - Renamed to ``RealmValue.binary``. 
+     - Replace any instances. 
+
+   * - ``SchemaObject.properties`` and ``SyncProgress.transferableBytes`` 
+     - Replaced by the more accurate ``SyncProgress.progressEstimate``.
+     - Replace any instances.  
 
    * - ``SyncError`` constructor and ``SyncError.create`` factory
      - Sync errors should only be created internally by the SDK.
@@ -144,8 +180,12 @@ The following table outlines which classes and members were removed and a recomm
 
    * - ``SyncError.codeValue``, ``SyncError.category``, and ``SyncError.detailedMessage``
      - Consolidated into ``SyncError`` in SDK v1.6.0. Messages were unused. 
-     - Remove any category or message instances. Replace ``SyncError.codevalue`` with ``SyncError.code.code``.
-     
+     - Remove any category or message instances. Replace ``SyncError.codeValue`` with ``SyncError.code.code``.
+
+   * - ``SyncProgress.transferredBytes`` and ``SyncProgress.transferableBytes``
+     - Consolidated into ``SyncProgress.progressEstimate``.
+     - Use ``SyncProgress.progressEstimate``. 
+
    * - ``User.provider`` 
      - Provider is associated with each identity, so value was incorrect for users with more than one identity. 
      - Remove any instances. 
