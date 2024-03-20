@@ -223,14 +223,17 @@ information.
 For nested collections, you can also use: 
 
 - Bracket notation, which provides additional collection query support: 
-    - ``[FIRST]`` and [``LAST``] - match the first or last elements within the collection
-    - ``[<int>]`` - match the element at the specific index 
-    - ``[*]`` - match any elements within the collection
-    - ``[SIZE]`` - match the collection length 
+
+  - ``[FIRST]`` and [``LAST``] - match the first or last elements within the collection
+  - ``[<int>]`` - match the element at the specific index 
+  - ``[*]`` - match any elements within the collection
+  - ``[SIZE]`` - match the collection length 
+
 - The ``@type`` operator, which has the following possible values: 
-    - ``array`` and ``list`` - match a list collection
-    - ``dictionary`` and ``object`` - match a map collection
-    - ``collection`` - matches a list or a map collection  
+
+  - ``array`` and ``list`` - match a list collection
+  - ``dictionary`` and ``object`` - match a map collection
+  - ``collection`` - matches a list or a map collection  
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter-nested-collections.dart
    :language: dart
