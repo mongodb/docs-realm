@@ -1,7 +1,9 @@
 final data = realm.all<RealmValueExample>();
 for (var obj in data) {
   final anyValue = obj.singleAnyValue;
+  // Access the RealmValue.type property 
   switch (anyValue.type) {
+    // Work with the returned RealmValueType enums
     case RealmValueType.int:
       approximateAge = DateTime.now().year - anyValue.as<int>();
       break;

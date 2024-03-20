@@ -205,28 +205,24 @@ void main() {
         ]);
 
         final teams = realm.all<Team>();
-        // Use [bracket notation] to query values at the specified path
+        // Use bracket notation to query values at the specified path
         final teamsWithHighPriorityEvents =
+            // Check any element at that path with [*]
             teams.query("eventLog[*].priority == 'high'");
         print(teamsWithHighPriorityEvents.length); // prints `2`
 
         final teamsWithMaintenanceEvents =
+            // Check for the first element at that path with [FIRST]
             teams.query("eventLog[*].type[FIRST] == 'maintenance'");
         print(teamsWithMaintenanceEvents.length); // prints `1`
 
-        // Use @keys to query map keys
-        final eventsWithComments =
-            teams.query("eventLog[*].@keys == 'comment'");
-        print(eventsWithComments.length); // prints `1`
-
-        // Use @type to query the collection type
         final teamsWithEventsAsLists =
+            // Check the collection type with @type 
             teams.query("eventLog[*].type.@type == 'list'");
         print(teamsWithEventsAsLists.length); // prints `2`
         // :remove-start:
         expect(teamsWithHighPriorityEvents.length, 2);
         expect(teamsWithMaintenanceEvents.length, 1);
-        expect(eventsWithComments.length, 1);
         expect(teamsWithEventsAsLists.length, 2);
         // :remove-end:
       });
