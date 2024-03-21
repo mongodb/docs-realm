@@ -72,6 +72,7 @@ class _RealmValueExample {
   @Indexed()
   late RealmValue singleAnyValue;
   late List<RealmValue> listOfMixedAnyValues;
+  late Set<RealmValue> setOfMixedAnyValues;
   late Map<String, RealmValue> mapOfMixedAnyValues;
 }
 
@@ -175,9 +176,18 @@ main() {
       final realm = Realm(Configuration.local([RealmValueExample.schema]));
 
       realm.write(() {
+        // Use 'RealmValue.from()' to set values
         var anyValue = realm.add(RealmValueExample(
+            // Add a single `RealmValue` value
             singleAnyValue: RealmValue.from(1),
+            // Add a list of `RealmValue` values
             listOfMixedAnyValues: [Uuid.v4(), 'abc', 123].map(RealmValue.from),
+            // Add a set of `RealmValue` values
+            setOfMixedAnyValues: {
+              RealmValue.from('abc'),
+              RealmValue.from('def')
+            },
+            // Add a map of string keys and `RealmValue` values
             mapOfMixedAnyValues: {
               '1': RealmValue.from(123),
               '2': RealmValue.from('abc')
@@ -187,16 +197,19 @@ main() {
         var anyValueNull = realm.add(RealmValueExample(
             singleAnyValue: RealmValue.nullValue(),
             listOfMixedAnyValues: [null, null].map(RealmValue.from),
+            setOfMixedAnyValues: {RealmValue.nullValue()},
             mapOfMixedAnyValues: {'null': RealmValue.nullValue()}));
 
         // :remove-start:
         expect(anyValue.singleAnyValue.type, RealmValueType.int);
         expect(anyValue.listOfMixedAnyValues[1].value.toString(), 'abc');
+        expect(anyValue.setOfMixedAnyValues.first.value, 'abc');
         expect(
             anyValue.mapOfMixedAnyValues.containsValue(RealmValue.from('abc')),
             true);
         expect(anyValueNull.singleAnyValue.value, null);
         expect(anyValueNull.listOfMixedAnyValues[0].value, null);
+        expect(anyValueNull.setOfMixedAnyValues.first.value, null);
         expect(anyValueNull.mapOfMixedAnyValues.containsValue(null), true);
       });
       // :remove-end:
@@ -226,7 +239,7 @@ main() {
       final data = realm.all<RealmValueExample>();
       for (var obj in data) {
         final anyValue = obj.singleAnyValue;
-        // Access the RealmValue.type property 
+        // Access the RealmValue.type property
         switch (anyValue.type) {
           // Work with the returned RealmValueType enums
           case RealmValueType.int:

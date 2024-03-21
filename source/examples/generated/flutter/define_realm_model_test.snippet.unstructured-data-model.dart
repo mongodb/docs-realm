@@ -1,3 +1,4 @@
+// Define class with a `RealmValue` property
 @RealmModel()
 class _EventLog {
   @PrimaryKey()

@@ -216,24 +216,25 @@ properties can contain collections (a list or map) of mixed data. These
 collections can be nested within collections and can contain other 
 collections of mixed data. 
 
-You can query these using the same RQL operators and syntax as you would for a  
-normal list or dictionary. Refer to the :ref:`rql` documentation for more
-information.  
+You can query these using the same syntax as you would for a  
+normal list or dictionary collection. Refer to the :ref:`rql` documentation for more
+information on supported operators and list comparisons.  
 
 For nested collections, you can also use: 
 
-- Bracket notation, which provides additional collection query support: 
+- Bracket notation, which provides the following collection query operators: 
 
-  - ``[FIRST]`` and [``LAST``] - match the first or last elements within the collection
-  - ``[<int>]`` - match the element at the specific index 
-  - ``[*]`` - match any elements within the collection
-  - ``[SIZE]`` - match the collection length 
+  - ``[FIRST]`` and [``LAST``]: match the first or last elements within the collection.
+  - ``[<int>]``: match the element at the specific index. 
+  - ``[*]``: match any element within the collection (this operator assumes a
+    collection type at that path). 
+  - ``[SIZE]``: match the collection length. 
 
-- The ``@type`` operator, which has the following possible values: 
+- The ``@type`` operator, which supports the following values: 
 
-  - ``array`` and ``list`` - match a list collection
-  - ``dictionary`` and ``object`` - match a map collection
-  - ``collection`` - matches a list or a map collection  
+  - ``array`` and ``list``: match a list collection.
+  - ``dictionary`` and ``object``: match a map collection.
+  - ``collection``: match a list or a map collection.  
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter-nested-collections.dart
    :language: dart

@@ -63,14 +63,13 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
     ObjectId id,
     String name, {
     Iterable<Person> crew = const [],
-    Map<String, RealmValue> log = const {},
+    RealmValue eventLog = const RealmValue.nullValue(),
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set<RealmList<Person>>(
         this, 'crew', RealmList<Person>(crew));
-    RealmObjectBase.set<RealmMap<RealmValue>>(
-        this, 'log', RealmMap<RealmValue>(log));
+    RealmObjectBase.set(this, 'eventLog', eventLog);
   }
 
   Team._();
@@ -93,11 +92,11 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
       throw RealmUnsupportedSetError();
 
   @override
-  RealmMap<RealmValue> get log =>
-      RealmObjectBase.get<RealmValue>(this, 'log') as RealmMap<RealmValue>;
+  RealmValue get eventLog =>
+      RealmObjectBase.get<RealmValue>(this, 'eventLog') as RealmValue;
   @override
-  set log(covariant RealmMap<RealmValue> value) =>
-      throw RealmUnsupportedSetError();
+  set eventLog(RealmValue value) =>
+      RealmObjectBase.set(this, 'eventLog', value);
 
   @override
   Stream<RealmObjectChanges<Team>> get changes =>
@@ -106,17 +105,42 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Team freeze() => RealmObjectBase.freezeObject<Team>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'name': name.toEJson(),
+      'crew': crew.toEJson(),
+      'eventLog': eventLog.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Team value) => value.toEJson();
+  static Team _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'name': EJsonValue name,
+        'crew': EJsonValue crew,
+        'eventLog': EJsonValue eventLog,
+      } =>
+        Team(
+          fromEJson(id),
+          fromEJson(name),
+          crew: fromEJson(crew),
+          eventLog: fromEJson(eventLog),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Team._);
     return const SchemaObject(ObjectType.realmObject, Team, 'Team', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('crew', RealmPropertyType.object,
           linkTarget: 'Person', collectionType: RealmCollectionType.list),
-      SchemaProperty('log', RealmPropertyType.mixed,
-          optional: true, collectionType: RealmCollectionType.map),
+      SchemaProperty('eventLog', RealmPropertyType.mixed, optional: true),
     ]);
   }
 }

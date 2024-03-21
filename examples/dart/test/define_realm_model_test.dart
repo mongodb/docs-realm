@@ -1,7 +1,6 @@
 import 'package:realm_dart/realm.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import 'dart:convert';
 
 part 'define_realm_model_test.g.dart';
 
@@ -38,6 +37,7 @@ class _Boat {
 // :snippet-end:
 
 // :snippet-start: unstructured-data-model
+// Define class with a `RealmValue` property
 @RealmModel()
 class _EventLog {
   @PrimaryKey()
@@ -67,6 +67,8 @@ main() {
 
     // :snippet-start: create-unstructured-data-example
     realm.write(() {
+      // Add `eventLog` property data as a map of mixed data, which 
+      // also includes nested lists of mixed data 
       realm.add(EventLog(ObjectId(), 'purchase', DateTime.now(), 'user123',
           details: RealmValue.from({
             'ipAddress': '192.168.1.1',

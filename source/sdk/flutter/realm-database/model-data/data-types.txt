@@ -365,13 +365,12 @@ data type is a mixed data type that can represent any other valid
 data type except embedded objects. In Flutter SDK v2.0.0 and later, ``RealmValue`` 
 can represent a ``List<RealmValue>`` or ``Map<String, RealmValue>``. 
 
-``RealmValue`` is indexable, but cannot be a primary key. You can also create 
-collections of type ``RealmValue``. 
-
 Define a RealmValue Property
 ````````````````````````````
 
-To define a property as ``RealmValue``, set its type in your object model. 
+To define a ``RealmValue`` property, set its type in your object model. 
+``RealmValue`` is indexable, but cannot be a primary key. You can also define 
+properties as collections (lists, sets, or maps) of type ``RealmValue``. 
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-model.dart
    :language: dart
@@ -389,8 +388,6 @@ To add a ``RealmValue`` to a Realm object, call ``RealmValue.from()`` on the dat
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-from.dart
    :language: dart
-
-
 
 .. _flutter-access-realm-value-type:
 
@@ -414,7 +411,10 @@ To access the data stored in a ``RealmValue``, you can use:
 You can check the type of data currently stored in a ``RealmValue`` property by 
 accessing the ``type`` property. Starting with Flutter SDK v2.0.0, this returns a 
 ``RealmValueType`` enum. In earlier SDK versions, the SDK returned a 
-``RealmValue.value.runtimeType``.
+``RealmValue.value.runtimeType``. 
+
+The following example uses ``RealmValueType`` to run calculations based on the 
+data type.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type.dart
    :language: dart

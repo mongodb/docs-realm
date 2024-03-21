@@ -1,4 +1,6 @@
 realm.write(() {
+  // Add `eventLog` property data as a map of mixed data, which 
+  // also includes nested lists of mixed data 
   realm.add(EventLog(ObjectId(), 'purchase', DateTime.now(), 'user123',
       details: RealmValue.from({
         'ipAddress': '192.168.1.1',

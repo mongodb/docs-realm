@@ -28,7 +28,7 @@ realm.write(() {
   ]);
 
   final teams = realm.all<Team>();
-  // Use bracket notation to query values at the specified path
+  // Use bracket notation to query collection values at the specified path
   final teamsWithHighPriorityEvents =
       // Check any element at that path with [*]
       teams.query("eventLog[*].priority == 'high'");
@@ -39,8 +39,15 @@ realm.write(() {
       teams.query("eventLog[*].type[FIRST] == 'maintenance'");
   print(teamsWithMaintenanceEvents.length); // prints `1`
 
+  final teamsWithMultipleEvents =
+      // Check for collection at that path with matching elements
+      // Note that the order must match unless you use ANY or ALL
+      teams.query("eventLog[*].type[*] == {'maintenance', 'work_order'}");
+  print(
+      teamsWithMultipleEvents.length); // prints `0` because order matters
+
   final teamsWithEventsAsLists =
-      // Check the collection type with @type 
+      // Check the collection type with @type
       teams.query("eventLog[*].type.@type == 'list'");
   print(teamsWithEventsAsLists.length); // prints `2`
 });

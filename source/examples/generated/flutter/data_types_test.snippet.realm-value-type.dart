@@ -1,7 +1,7 @@
 final data = realm.all<RealmValueExample>();
 for (var obj in data) {
   final anyValue = obj.singleAnyValue;
-  // Access the RealmValue.type property 
+  // Access the RealmValue.type property
   switch (anyValue.type) {
     // Work with the returned RealmValueType enums
     case RealmValueType.int:
