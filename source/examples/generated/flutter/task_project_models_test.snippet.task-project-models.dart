@@ -1,12 +1,12 @@
 
-part 'models.g.dart';
+part 'models.realm.dart';
 
 @RealmModel()
 class _Item {
   @MapTo("_id")
   @PrimaryKey()
   late ObjectId id;
-
+  @Indexed(RealmIndexType.fullText)
   late String name;
   bool isComplete = false;
   String? assignee;

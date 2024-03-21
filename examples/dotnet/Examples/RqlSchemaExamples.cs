@@ -20,6 +20,7 @@ namespace Examples.RqlSchemaExamples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
+        [Indexed(IndexType.FullText)]
         public string Name { get; set; }
 
         [MapTo("isComplete")]

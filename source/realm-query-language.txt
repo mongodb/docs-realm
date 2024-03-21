@@ -143,6 +143,7 @@ See the schema for these two classes, ``Project`` and ``Item``, below:
 
                open class Item(): RealmObject() {
                  var id: ObjectId = new ObjectId()
+                 @FullText
                  lateinit var name: String
                  var isComplete: Boolean = false
                  var assignee: String? = null
@@ -163,7 +164,7 @@ See the schema for these two classes, ``Project`` and ``Item``, below:
       .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.snippet.rql-schema-examples.cs
          :language: csharp
 
-   .. tab:: Node.Js SDK
+   .. tab:: Node.js SDK
       :tabid: node
 
       .. literalinclude:: /examples/generated/node/rql-data-models.snippet.rql-data-models.js
@@ -884,6 +885,47 @@ operators interact with lists and comparison operators:
      - true
      - 0 and 1 are both less than none of 1 and 2
 
+.. _rql-fts:
+
+Full Text Search
+----------------
+
+You can use RQL to query on properties that have a full-text search (FTS)
+annotation. FTS supports boolean match word searches, rather than searches for relevance.
+For information on enabling FTS on a property, see the FTS documentation for 
+your SDK:
+
+- :ref:`Flutter SDK <flutter-fts-annotation>`
+- :ref:`Kotlin SDK <kotlin-fts-index>`
+- :ref:`.NET SDK <dotnet-fts-indexes>`
+- :ref:`Node.js SDK <node-set-fts-index>`
+- :ref:`React Native SDK <react-native-set-fts-index>`
+- Swift SDK does not yet support Full-Text Search.
+
+To query these properties, use the ``TEXT`` predicate in your query.
+
+You can search for entire words or phrases, or limit your results with the following characters:
+
+- Exclude results for a word by placing the ``-`` character in front of the word.
+- Specify prefixes by placing the ``*`` character at the end of a prefix. Suffix 
+  searching is not currently supported.
+
+In the following example, we query the ``Item.name`` property:
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.test.snippet.rql-fts.js
+     :language: js
+
+Full-Text Search Tokenizer Details
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Full-Text Search (FTS) indexes support:
+
+- Tokens are diacritics- and case-insensitive.
+- Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages).
+  All other characters are considered whitespace. 
+- Words split by a hyphen (-) are split into two tokens.  For example, ``full-text``
+  splits into ``full`` and ``text``.
+
 .. _rql-geospatial:
 
 Geospatial Queries
@@ -905,7 +947,7 @@ To query geospatial data:
 
 1. Create an object with a property containing the embedded geospatial data.
 2. Define the geospatial shape to set the boundary for the query.
-3. Query using the GEOWITHIN RQL operator. 
+3. Query using the ``geoWithin`` RQL operator. 
 
 In the following query, we are checking that the coordinates of the embeddeded 
 ``location`` property are contained within the ``GeoCircle`` shape, ``smallCircle``:
@@ -919,8 +961,8 @@ see the geospatial documentation for your SDK:
 - :ref:`Flutter SDK <flutter-data-types-geospatial>`
 - :ref:`Kotlin SDK <kotlin-geospatial>`
 - :ref:`.NET SDK <dotnet-geospatial>`
-- :ref:`Node.js SDK <node-data-types-geospatial>`
-- :ref:`React Native SDK <react-native-data-types-geospatial>`
+- :ref:`Node.js SDK <node-data-types-geospatial>` 
+- :ref:`React Native SDK <react-native-data-types-geospatial>` 
 - :ref:`Swift SDK <swift-query-geospatial>`
 
 .. _rql-backlinks:

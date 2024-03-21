@@ -2,7 +2,7 @@ import 'package:realm_dart/realm.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-part 'define_realm_model_test.g.dart';
+part 'define_realm_model_test.realm.dart';
 
 @RealmModel()
 class _Car {

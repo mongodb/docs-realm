@@ -3,7 +3,7 @@ import 'package:realm_dart/realm.dart';
 import 'schemas.dart';
 import 'utils.dart';
 
-part 'backlinks_test.g.dart';
+part 'backlinks_test.realm.dart';
 
 // :snippet-start: backlink-models
 @RealmModel()

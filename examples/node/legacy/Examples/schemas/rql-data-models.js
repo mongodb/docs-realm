@@ -3,7 +3,7 @@ const ItemModel = {
   name: "Item",
   properties: {
     id: "objectId",
-    name: "string",
+    name: {type: "string", indexed: "full-text"},
     isComplete: { type: "bool", default: false },
     assignee: "string?",
     priority: {

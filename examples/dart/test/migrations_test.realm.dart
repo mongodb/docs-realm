@@ -46,14 +46,41 @@ class PersonV2 extends _PersonV2
   @override
   PersonV2 freeze() => RealmObjectBase.freezeObject<PersonV2>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'fullName': fullName.toEJson(),
+      'yearsSinceBirth': yearsSinceBirth.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(PersonV2 value) => value.toEJson();
+  static PersonV2 _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'fullName': EJsonValue fullName,
+        'yearsSinceBirth': EJsonValue yearsSinceBirth,
+      } =>
+        PersonV2(
+          fromEJson(id),
+          fromEJson(fullName),
+          yearsSinceBirth: fromEJson(yearsSinceBirth),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(PersonV2._);
-    return const SchemaObject(ObjectType.realmObject, PersonV2, 'Person', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, PersonV2, 'Person', [
       SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('fullName', RealmPropertyType.string),
       SchemaProperty('yearsSinceBirth', RealmPropertyType.int, optional: true),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

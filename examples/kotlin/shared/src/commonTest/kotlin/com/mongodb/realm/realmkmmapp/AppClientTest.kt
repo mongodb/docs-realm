@@ -11,13 +11,13 @@ import io.realm.kotlin.mongodb.exceptions.ConnectionException
 import io.realm.kotlin.mongodb.exceptions.InvalidCredentialsException
 import io.realm.kotlin.mongodb.exceptions.ServiceException
 import kotlinx.coroutines.channels.Channel
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
-
 
 
 class AppClientTest: RealmTest() {
@@ -95,14 +95,25 @@ class AppClientTest: RealmTest() {
     @Test
     fun encryptAppMetadata() {
         val myEncryptionKey = getEncryptionKey()
-        val config =
         // :snippet-start: encrypted-app-client
+        val config =
             AppConfiguration.Builder(YOUR_APP_ID)
                 // Specify the encryption key
                 .encryptionKey(myEncryptionKey)
                 .build()
         // :snippet-end:
         assertTrue(config.encryptionKey.contentEquals(myEncryptionKey))
+    }
+
+    @Ignore
+    // Ignored unless there's a way to test this easily...
+    fun enablePlatformNetworking() {
+        // :snippet-start: enable-platform-networking
+        val config =
+            AppConfiguration.Builder(YOUR_APP_ID)
+                .usePlatformNetworking(true)
+                .build()
+        // :snippet-end:
     }
 
     @Test

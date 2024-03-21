@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'utils.dart';
 
-part 'read_write_data_test.g.dart';
+part 'read_write_data_test.realm.dart';
 
 // :snippet-start: models
 @RealmModel()

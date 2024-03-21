@@ -1,3 +1,32 @@
+# March 15, 2024
+
+## Other
+
+Throughout Device SDK docs:
+- Add deprecation notices to pages with substantial GraphQL content.
+- Remove high-level references to our GraphQL API to make the feature less discoverable.
+
+## Internal
+
+- Update dependencies in Web SDK test suite.
+
+# March 8, 2024
+
+## Node.js SDK
+
+- Landing Page: Remove link to outdated Electron guide.
+- Integration Guides: Remove outdated Integration Guides section from TOC until we have time to update the guides.
+
+# March 1, 2024
+
+## React Native SDK
+
+- Model Data/Data Types/Dictionaries: Fix bullet list formatting.
+
+## Other
+
+- Realm Query Language: Update RQL reference with information on querying with full-text search.
+
 # February 23, 2024
 
 ## Kotlin SDK

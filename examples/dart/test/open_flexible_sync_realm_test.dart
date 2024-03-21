@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
-part 'open_flexible_sync_realm_test.g.dart';
+part 'open_flexible_sync_realm_test.realm.dart';
 
 @RealmModel()
 class _Tricycle {

@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
 
-part 'manage_sync_session_test.g.dart';
+part 'manage_sync_session_test.realm.dart';
 
 const APP_ID = "flutter-flexible-luccm";
 late App app;

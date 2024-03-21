@@ -75,33 +75,70 @@ class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Item freeze() => RealmObjectBase.freezeObject<Item>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'name': name.toEJson(),
+      'isComplete': isComplete.toEJson(),
+      'assignee': assignee.toEJson(),
+      'priority': priority.toEJson(),
+      'progressMinutes': progressMinutes.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Item value) => value.toEJson();
+  static Item _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'name': EJsonValue name,
+        'isComplete': EJsonValue isComplete,
+        'assignee': EJsonValue assignee,
+        'priority': EJsonValue priority,
+        'progressMinutes': EJsonValue progressMinutes,
+      } =>
+        Item(
+          fromEJson(id),
+          fromEJson(name),
+          isComplete: fromEJson(isComplete),
+          assignee: fromEJson(assignee),
+          priority: fromEJson(priority),
+          progressMinutes: fromEJson(progressMinutes),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Item._);
-    return const SchemaObject(ObjectType.realmObject, Item, 'Item', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Item, 'Item', [
       SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
-      SchemaProperty('name', RealmPropertyType.string),
+      SchemaProperty('name', RealmPropertyType.string,
+          indexType: RealmIndexType.fullText),
       SchemaProperty('isComplete', RealmPropertyType.bool),
       SchemaProperty('assignee', RealmPropertyType.string, optional: true),
       SchemaProperty('priority', RealmPropertyType.int),
       SchemaProperty('progressMinutes', RealmPropertyType.int),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
 
 class Project extends _Project with RealmEntity, RealmObjectBase, RealmObject {
   Project(
     ObjectId id,
     String name, {
-    int? quota,
     Iterable<Item> items = const [],
+    int? quota,
   }) {
     RealmObjectBase.set(this, '_id', id);
     RealmObjectBase.set(this, 'name', name);
-    RealmObjectBase.set(this, 'quota', quota);
     RealmObjectBase.set<RealmList<Item>>(this, 'items', RealmList<Item>(items));
+    RealmObjectBase.set(this, 'quota', quota);
   }
 
   Project._();
@@ -135,11 +172,38 @@ class Project extends _Project with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Project freeze() => RealmObjectBase.freezeObject<Project>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'name': name.toEJson(),
+      'items': items.toEJson(),
+      'quota': quota.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Project value) => value.toEJson();
+  static Project _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'name': EJsonValue name,
+        'items': EJsonValue items,
+        'quota': EJsonValue quota,
+      } =>
+        Project(
+          fromEJson(id),
+          fromEJson(name),
+          items: fromEJson(items),
+          quota: fromEJson(quota),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Project._);
-    return const SchemaObject(ObjectType.realmObject, Project, 'Project', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Project, 'Project', [
       SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
@@ -147,5 +211,8 @@ class Project extends _Project with RealmEntity, RealmObjectBase, RealmObject {
           linkTarget: 'Item', collectionType: RealmCollectionType.list),
       SchemaProperty('quota', RealmPropertyType.int, optional: true),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
