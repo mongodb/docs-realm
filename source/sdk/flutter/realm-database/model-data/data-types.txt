@@ -5,8 +5,12 @@ Data Types - Flutter SDK
 ========================
 
 .. meta:: 
-  :keywords: code example, flutter
+  :keywords: code example
   :description: Learn about the data types Atlas Device SDK for Flutter supports and how to use them.
+
+.. facet::
+  :name: genre
+  :values: tutorial
 
 .. contents:: On this page
    :local:
@@ -151,9 +155,9 @@ When defining a RealmSet in a schema:
 - A set of primitive types can be defined as either nullable or non-nullable.
   For example, both ``Set<int>`` and ``Set<int?>`` are valid in a Realm schema.
 - A set of ``RealmObject`` and ``RealmValue`` types can only be non-nullable.
-  For example ``Set<RealmValue>`` **is valid** and ``Set<RealmValue?>`` **is not valid**.
-- You **cannot** define default values when defining a set in a schema.
-  For example, ``Set mySet = {0,1,2}`` **is not valid**.
+  For example ``Set<RealmValue>`` is valid, but ``Set<RealmValue?>`` *is not* valid.
+- You *cannot* define default values when defining a set in a schema.
+  For example, ``Set mySet = {0,1,2}`` *is not* valid.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-set-model.dart
    :language: dart
@@ -238,10 +242,10 @@ Collections are Live
 Like :ref:`live objects <flutter-live-object>`, Realm collections
 are *usually* live:
 
-- Live **results collections** always reflect the current results of the associated query.
-- Live **lists** of ``RealmObjects`` always reflect the current state of the relationship on the realm instance.
+- **Live results collections** always reflect the current results of the associated query.
+- **Live lists** of ``RealmObjects`` always reflect the current state of the relationship on the realm instance.
 
-There are two cases, however, when a collection is **not** live:
+There are two cases, however, when a collection is *not* live:
 
 - The collection is unmanaged: a ``RealmList`` property of a Realm object
   that has not been added to a realm yet or that has been copied from a
@@ -339,30 +343,106 @@ following things are true when using ``compareTo()``:
 RealmValue
 ~~~~~~~~~~
 
-The `RealmValue <https://pub.dev/documentation/realm_common/latest/realm_common/RealmValue-class.html>`__
-data type is a mixed data type that can represent any other valid Realm data type except a collection.
-You can create collections  of type ``RealmValue``, but a ``RealmValue`` itself
-cannot be a collection. ``RealmValue`` is indexable, but cannot be a primary key.
+.. important:: Flutter SDK v2.0.0 Changes to ``RealmValue``
 
-.. note::
+   Flutter SDK version 2.0.0 updates ``RealmValue`` to allow a ``List`` 
+   or ``Map`` type of ``RealmValue``, which enables more flexibility 
+   when modeling unstructured data. Refer to  :ref:`flutter-model-unstructured-data` 
+   for more information.
+   
+   This update also includes the following breaking changes, which may affect 
+   your app when updating to v2.0.0 or later: 
+   
+   - ``RealmValue.type`` is now an enum of ``RealmValueType`` instead of ``Type``.
+   - ``RealmValue.uint8List`` is renamed to ``RealmValue.binary``. 
+
+.. TODO: Add this back to above note once upgrade page is available
+.. For more information on how to update an existing app from an earlier 
+.. version to v2.0.0 or later, refer to :ref:`flutter-upgrade-v2`. 
+
+The `RealmValue <https://pub.dev/documentation/realm_common/latest/realm_common/RealmValue-class.html>`__
+data type is a mixed data type that can represent any other valid 
+data type except embedded objects. In Flutter SDK v2.0.0 and later, ``RealmValue`` 
+can represent a ``List<RealmValue>`` or ``Map<String, RealmValue>``. 
+
+Define a RealmValue Property
+````````````````````````````
+
+To define a ``RealmValue`` property, set its type in your object model. 
+``RealmValue`` is indexable, but cannot be a primary key. You can also define 
+properties as collections (lists, sets, or maps) of type ``RealmValue``. 
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-model.dart
+   :language: dart
+
+.. note:: ``RealmValue`` Not Nullable But Can Contain Null Values
 
    When defining your Realm object schema, you cannot create a nullable ``RealmValue``.
    However, if you want a ``RealmValue`` property to contain a null value,
    you can use the special ``RealmValue.nullValue()`` property.
 
-To define a property as ``RealmValue``, set its type in your Realm object model.
+Create a RealmValue 
+```````````````````
 
-.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-model.dart
-   :language: dart
-
-To add a ``RealmValue`` to a Realm object, call ``RealmValue.from()`` on the data.
+To add a ``RealmValue`` to a Realm object, call ``RealmValue.from()`` on the data or ``RealmValue.nullValue()`` to set a null value.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-from.dart
    :language: dart
 
-Access the type of data with ``RealmValue.type`` and the value with ``RealmValue.value``.
+.. _flutter-access-realm-value-type:
 
-.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type-value.dart
+Access RealmValue Data Type 
+```````````````````````````
+
+.. versionchanged:: 2.0.0
+
+   ``RealmValueType`` enum replaces ``RealmValue.type``.
+   ``RealmValue.binary`` replaces  ``RealmValue.uint8List``.
+
+To access the data stored in a ``RealmValue``, you can use: 
+
+- ``RealmValue.value``, which returns an ``Object?``. 
+- ``RealmValue.as<T>``, which fetches the data and casts it to a desired type.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-value.dart
+   :language: dart
+   :emphasize-lines: 4, 13
+
+You can check the type of data currently stored in a ``RealmValue`` property by 
+accessing the ``type`` property. Starting with Flutter SDK v2.0.0, this returns a 
+``RealmValueType`` enum. In earlier SDK versions, the SDK returned a 
+``RealmValue.value.runtimeType``. 
+
+The following example uses ``RealmValueType`` to run calculations based on the 
+data type.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type.dart
+   :language: dart
+   :emphasize-lines: 7, 10, 16
+
+.. _flutter-nested-collections-realm-value:
+
+Nested Collections of RealmValue
+````````````````````````````````
+
+.. versionadded:: v2.0.0
+
+Starting with Flutter SDK v2.0.0, a ``RealmValue`` data type can 
+contain collections (a list or map, but *not* a set) of ``RealmValue`` elements.
+
+These collections of mixed data can be nested and can contain other 
+collections. They can also be :ref:`listened to for changes like a 
+normal collection <flutter-realm-list-change-listener>`.
+
+You can leverage these nested collections to define unstructured 
+or variable data in your data model. For more information, refer to 
+:ref:`<flutter-model-unstructured-data>`. 
+
+To create nested collections of mixed data in your app, define the mixed type 
+property in your data model the same way you would any other ``RealmValue`` type. 
+Then, you can create the list or map collections using ``RealmValue.from()``.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-nested-collections.dart
    :language: dart
 
 Uint8List
@@ -371,7 +451,7 @@ Uint8List
 `Uint8List <https://api.dart.dev/stable/3.0.5/dart-typed_data/Uint8List-class.html>`__
 is a binary data type from `dart:typed_data 
 <https://api.dart.dev/stable/3.0.5/dart-typed_data/dart-typed_data-library.html>`__. 
-You can use this binary data type in object models and property values.
+You can use this data type in object models and property values.
 
 To define a property as ``Uint8List``, you must first import ``dart:typed_data``.
 Then, set the object's type as ``Uint8List`` in your :ref:`object model 

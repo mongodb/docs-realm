@@ -6,6 +6,7 @@ Define a Realm Object Schema - Flutter SDK
 
 .. meta:: 
   :keywords: code example, android, ios, data modeling
+  :description: Define the properties and relationships of database objects within your data model.
 
 .. facet::
   :name: genre
@@ -232,6 +233,67 @@ If you're using Atlas Device Sync, the name that you specify in the
       .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
          :language: dart
          :emphasize-lines: 15-16
+
+.. _flutter-model-unstructured-data:
+
+Model Unstructured Data 
+-----------------------
+
+.. versionadded:: 2.0.0
+
+Starting in Flutter SDK version 2.0.0, you can 
+:ref:`define nested collections 
+of mixed data <flutter-nested-collections-realm-value>` 
+within a  ``RealmValue`` property.
+
+The ability to nest collections of mixed data enables you to define data 
+that doesn't otherwise conform to an expected schema, including data with 
+variable structure or data whose shape or type is not known at runtime. 
+For example, you might have highly variable user-created objects, event logs, 
+or survey response data that are collected and stored in a variety of JSON 
+formats. This approach allows you to :ref:`react to changes <flutter-realm-list-change-listener>`
+in the nested data and to update specific elements, but it is less 
+performant than using a structured schema or serializing JSON blobs
+into a single string property.
+
+To model unstructured data in your schema using collections of mixed type, 
+define the appropriate properties in your schema as 
+:ref:`RealmValue <flutter-realm-value>` types. You can then set these   
+``RealmValue`` properties as a :ref:`RealmList <flutter-realm-list>` or a 
+:ref:`RealmMap <flutter-realm-map>` collection of ``RealmValue`` elements. 
+Note that ``RealmValue`` *cannot* represent a ``RealmSet`` or an embedded object.
+
+For example, you might use a ``RealmValue`` that contains a map of mixed 
+data when modeling a variable event log object: 
+
+.. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.unstructured-data-model.dart
+   :language: dart
+   :emphasize-lines: 9
+   :caption: Data model 
+
+.. io-code-block::
+   :copyable: true
+   :caption: Create unstructured data
+
+   .. input:: /examples/generated/flutter/define_realm_model_test.snippet.create-unstructured-data-example.dart
+      :language: dart
+
+   .. output:: 
+      :language:  shell
+
+      Event Type: purchase
+      Timestamp: 2024-03-18 13:50:58.402979Z
+      User ID: user123
+      Details:
+      Item:
+         ipAddress: RealmValue(192.168.1.1)
+         items: RealmValue([RealmValue({id: RealmValue(1), name: RealmValue(Laptop), price: RealmValue(1200.0)}), RealmValue({id: RealmValue(2), name: RealmValue(Mouse), price: RealmValue(49.99)})])
+         total: RealmValue(1249.99)
+
+.. tip:: 
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier. 
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
 
 .. _flutter-generate-realm-object:
 

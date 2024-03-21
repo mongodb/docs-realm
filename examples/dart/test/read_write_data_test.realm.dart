@@ -90,11 +90,13 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
     ObjectId id,
     String name, {
     Iterable<Person> crew = const [],
+    RealmValue eventLog = const RealmValue.nullValue(),
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
     RealmObjectBase.set<RealmList<Person>>(
         this, 'crew', RealmList<Person>(crew));
+    RealmObjectBase.set(this, 'eventLog', eventLog);
   }
 
   Team._();
@@ -117,6 +119,13 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
       throw RealmUnsupportedSetError();
 
   @override
+  RealmValue get eventLog =>
+      RealmObjectBase.get<RealmValue>(this, 'eventLog') as RealmValue;
+  @override
+  set eventLog(RealmValue value) =>
+      RealmObjectBase.set(this, 'eventLog', value);
+
+  @override
   Stream<RealmObjectChanges<Team>> get changes =>
       RealmObjectBase.getChanges<Team>(this);
 
@@ -128,6 +137,7 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
       'id': id.toEJson(),
       'name': name.toEJson(),
       'crew': crew.toEJson(),
+      'eventLog': eventLog.toEJson(),
     };
   }
 
@@ -138,11 +148,13 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
         'id': EJsonValue id,
         'name': EJsonValue name,
         'crew': EJsonValue crew,
+        'eventLog': EJsonValue eventLog,
       } =>
         Team(
           fromEJson(id),
           fromEJson(name),
           crew: fromEJson(crew),
+          eventLog: fromEJson(eventLog),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -156,6 +168,7 @@ class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('crew', RealmPropertyType.object,
           linkTarget: 'Person', collectionType: RealmCollectionType.list),
+      SchemaProperty('eventLog', RealmPropertyType.mixed, optional: true),
     ]);
   }();
 

@@ -254,3 +254,104 @@ class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
   @override
   SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
+
+class EventLog extends _EventLog
+    with RealmEntity, RealmObjectBase, RealmObject {
+  EventLog(
+    ObjectId id,
+    String eventType,
+    DateTime timestamp,
+    String userId, {
+    RealmValue details = const RealmValue.nullValue(),
+  }) {
+    RealmObjectBase.set(this, 'id', id);
+    RealmObjectBase.set(this, 'eventType', eventType);
+    RealmObjectBase.set(this, 'timestamp', timestamp);
+    RealmObjectBase.set(this, 'userId', userId);
+    RealmObjectBase.set(this, 'details', details);
+  }
+
+  EventLog._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+
+  @override
+  String get eventType =>
+      RealmObjectBase.get<String>(this, 'eventType') as String;
+  @override
+  set eventType(String value) => RealmObjectBase.set(this, 'eventType', value);
+
+  @override
+  DateTime get timestamp =>
+      RealmObjectBase.get<DateTime>(this, 'timestamp') as DateTime;
+  @override
+  set timestamp(DateTime value) =>
+      RealmObjectBase.set(this, 'timestamp', value);
+
+  @override
+  String get userId => RealmObjectBase.get<String>(this, 'userId') as String;
+  @override
+  set userId(String value) => RealmObjectBase.set(this, 'userId', value);
+
+  @override
+  RealmValue get details =>
+      RealmObjectBase.get<RealmValue>(this, 'details') as RealmValue;
+  @override
+  set details(RealmValue value) => RealmObjectBase.set(this, 'details', value);
+
+  @override
+  Stream<RealmObjectChanges<EventLog>> get changes =>
+      RealmObjectBase.getChanges<EventLog>(this);
+
+  @override
+  EventLog freeze() => RealmObjectBase.freezeObject<EventLog>(this);
+
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'eventType': eventType.toEJson(),
+      'timestamp': timestamp.toEJson(),
+      'userId': userId.toEJson(),
+      'details': details.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(EventLog value) => value.toEJson();
+  static EventLog _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'eventType': EJsonValue eventType,
+        'timestamp': EJsonValue timestamp,
+        'userId': EJsonValue userId,
+        'details': EJsonValue details,
+      } =>
+        EventLog(
+          fromEJson(id),
+          fromEJson(eventType),
+          fromEJson(timestamp),
+          fromEJson(userId),
+          details: fromEJson(details),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
+    RealmObjectBase.registerFactory(EventLog._);
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, EventLog, 'EventLog', [
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('eventType', RealmPropertyType.string),
+      SchemaProperty('timestamp', RealmPropertyType.timestamp),
+      SchemaProperty('userId', RealmPropertyType.string),
+      SchemaProperty('details', RealmPropertyType.mixed, optional: true),
+    ]);
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
+}
