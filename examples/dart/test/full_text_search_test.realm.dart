@@ -50,11 +50,38 @@ class Rug extends _Rug with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Rug freeze() => RealmObjectBase.freezeObject<Rug>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'pattern': pattern.toEJson(),
+      'material': material.toEJson(),
+      'softness': softness.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Rug value) => value.toEJson();
+  static Rug _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'pattern': EJsonValue pattern,
+        'material': EJsonValue material,
+        'softness': EJsonValue softness,
+      } =>
+        Rug(
+          fromEJson(id),
+          fromEJson(pattern),
+          fromEJson(material),
+          fromEJson(softness),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Rug._);
-    return const SchemaObject(ObjectType.realmObject, Rug, 'Rug', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Rug, 'Rug', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('pattern', RealmPropertyType.string,
           indexType: RealmIndexType.fullText),
@@ -62,5 +89,8 @@ class Rug extends _Rug with RealmEntity, RealmObjectBase, RealmObject {
           indexType: RealmIndexType.fullText),
       SchemaProperty('softness', RealmPropertyType.int),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

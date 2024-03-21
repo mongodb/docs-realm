@@ -2,7 +2,7 @@ import 'package:realm_dart/realm.dart';
 import 'package:test/test.dart';
 import './utils.dart';
 
-part 'full_text_search_test.g.dart';
+part 'full_text_search_test.realm.dart';
 
 // :snippet-start: flutter-fts-annotation
 @RealmModel()

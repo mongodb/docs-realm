@@ -1,11 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'schema.dart';
+part of 'car.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   Car(
     ObjectId id,
@@ -13,7 +14,7 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
     String? model,
     int? miles,
   }) {
-    RealmObjectBase.set(this, '_id', id);
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'make', make);
     RealmObjectBase.set(this, 'model', model);
     RealmObjectBase.set(this, 'miles', miles);
@@ -22,9 +23,9 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   Car._();
 
   @override
-  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get make => RealmObjectBase.get<String>(this, 'make') as String;
@@ -48,16 +49,45 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Car freeze() => RealmObjectBase.freezeObject<Car>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'make': make.toEJson(),
+      'model': model.toEJson(),
+      'miles': miles.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Car value) => value.toEJson();
+  static Car _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'make': EJsonValue make,
+        'model': EJsonValue model,
+        'miles': EJsonValue miles,
+      } =>
+        Car(
+          fromEJson(id),
+          fromEJson(make),
+          model: fromEJson(model),
+          miles: fromEJson(miles),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Car._);
-    return const SchemaObject(ObjectType.realmObject, Car, 'Car', [
-      SchemaProperty('id', RealmPropertyType.objectid,
-          mapTo: '_id', primaryKey: true),
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Car, 'Car', [
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('make', RealmPropertyType.string),
       SchemaProperty('model', RealmPropertyType.string, optional: true),
       SchemaProperty('miles', RealmPropertyType.int, optional: true),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

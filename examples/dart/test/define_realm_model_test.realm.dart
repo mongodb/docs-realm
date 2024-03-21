@@ -49,17 +49,47 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Car freeze() => RealmObjectBase.freezeObject<Car>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'make': make.toEJson(),
+      'model': model.toEJson(),
+      'miles': miles.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Car value) => value.toEJson();
+  static Car _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'make': EJsonValue make,
+        'model': EJsonValue model,
+        'miles': EJsonValue miles,
+      } =>
+        Car(
+          fromEJson(id),
+          fromEJson(make),
+          model: fromEJson(model),
+          miles: fromEJson(miles),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Car._);
-    return const SchemaObject(ObjectType.realmObject, Car, 'Car', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Car, 'Car', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('make', RealmPropertyType.string),
       SchemaProperty('model', RealmPropertyType.string, optional: true),
       SchemaProperty('miles', RealmPropertyType.int, optional: true),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
 
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
@@ -99,16 +129,43 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Person freeze() => RealmObjectBase.freezeObject<Person>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'firstName': firstName.toEJson(),
+      'lastName': lastName.toEJson(),
+      'age': age.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Person value) => value.toEJson();
+  static Person _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'firstName': EJsonValue firstName,
+        'lastName': EJsonValue lastName,
+        'age': EJsonValue age,
+      } =>
+        Person(
+          fromEJson(firstName),
+          fromEJson(lastName),
+          fromEJson(age),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Person._);
-    return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Person, 'Person', [
       SchemaProperty('firstName', RealmPropertyType.string),
       SchemaProperty('lastName', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
 
 class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
@@ -155,15 +212,45 @@ class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Boat freeze() => RealmObjectBase.freezeObject<Boat>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'name': name.toEJson(),
+      'maxKnots': maxKnots.toEJson(),
+      'nauticalMiles': nauticalMiles.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Boat value) => value.toEJson();
+  static Boat _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'name': EJsonValue name,
+        'maxKnots': EJsonValue maxKnots,
+        'nauticalMiles': EJsonValue nauticalMiles,
+      } =>
+        Boat(
+          fromEJson(id),
+          fromEJson(name),
+          maxKnots: fromEJson(maxKnots),
+          nauticalMiles: fromEJson(nauticalMiles),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Boat._);
-    return const SchemaObject(ObjectType.realmObject, Boat, 'naval_ship', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Boat, 'naval_ship', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('maxKnots', RealmPropertyType.int, optional: true),
       SchemaProperty('nauticalMiles', RealmPropertyType.int, optional: true),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

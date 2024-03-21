@@ -13,7 +13,7 @@ await Isolate.spawn((List<Object> args) async {
   try {
     final backgroundApp = App.getById(appId); 
 
-    // ... Access App users 
+    // ... Access App users
     final user = backgroundApp?.currentUser!;
 
     // Use the App and user as needed.

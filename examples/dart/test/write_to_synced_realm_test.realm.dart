@@ -1,61 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'open_flexible_sync_realm_test.dart';
+part of 'write_to_synced_realm_test.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class Tricycle extends _Tricycle
-    with RealmEntity, RealmObjectBase, RealmObject {
-  Tricycle(
-    int id,
-    String name,
-  ) {
-    RealmObjectBase.set(this, '_id', id);
-    RealmObjectBase.set(this, 'name', name);
-  }
-
-  Tricycle._();
-
-  @override
-  int get id => RealmObjectBase.get<int>(this, '_id') as int;
-  @override
-  set id(int value) => RealmObjectBase.set(this, '_id', value);
-
-  @override
-  String get name => RealmObjectBase.get<String>(this, 'name') as String;
-  @override
-  set name(String value) => RealmObjectBase.set(this, 'name', value);
-
-  @override
-  Stream<RealmObjectChanges<Tricycle>> get changes =>
-      RealmObjectBase.getChanges<Tricycle>(this);
-
-  @override
-  Tricycle freeze() => RealmObjectBase.freezeObject<Tricycle>(this);
-
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
-    RealmObjectBase.registerFactory(Tricycle._);
-    return const SchemaObject(ObjectType.realmObject, Tricycle, 'Tricycle', [
-      SchemaProperty('id', RealmPropertyType.int,
-          mapTo: '_id', primaryKey: true),
-      SchemaProperty('name', RealmPropertyType.string),
-    ]);
-  }
-}
-
 class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   Car(
     ObjectId id,
+    String ownerId,
     String make, {
     String? model,
     int? miles,
   }) {
     RealmObjectBase.set(this, '_id', id);
+    RealmObjectBase.set(this, 'ownerId', ownerId);
     RealmObjectBase.set(this, 'make', make);
     RealmObjectBase.set(this, 'model', model);
     RealmObjectBase.set(this, 'miles', miles);
@@ -67,6 +28,11 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
   @override
   set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
+
+  @override
+  String get ownerId => RealmObjectBase.get<String>(this, 'ownerId') as String;
+  @override
+  set ownerId(String value) => RealmObjectBase.set(this, 'ownerId', value);
 
   @override
   String get make => RealmObjectBase.get<String>(this, 'make') as String;
@@ -90,16 +56,50 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Car freeze() => RealmObjectBase.freezeObject<Car>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'ownerId': ownerId.toEJson(),
+      'make': make.toEJson(),
+      'model': model.toEJson(),
+      'miles': miles.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Car value) => value.toEJson();
+  static Car _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'ownerId': EJsonValue ownerId,
+        'make': EJsonValue make,
+        'model': EJsonValue model,
+        'miles': EJsonValue miles,
+      } =>
+        Car(
+          fromEJson(id),
+          fromEJson(ownerId),
+          fromEJson(make),
+          model: fromEJson(model),
+          miles: fromEJson(miles),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Car._);
-    return const SchemaObject(ObjectType.realmObject, Car, 'Car', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Car, 'Car', [
       SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
+      SchemaProperty('ownerId', RealmPropertyType.string),
       SchemaProperty('make', RealmPropertyType.string),
       SchemaProperty('model', RealmPropertyType.string, optional: true),
       SchemaProperty('miles', RealmPropertyType.int, optional: true),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

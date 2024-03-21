@@ -7,22 +7,10 @@ import 'utils.dart';
 
 // :snippet-start: data-types-example-model
 
-part 'data_types_test.g.dart'; // :remove:
+part 'data_types_test.realm.dart'; // :remove:
 // :uncomment-start:
-// part 'car.g.dart';
+// part 'car.realm.dart';
 // :uncomment-end:
-
-@RealmModel()
-class _Car {
-  @PrimaryKey()
-  late ObjectId id;
-
-  String? licensePlate;
-  bool isElectric = false;
-  double milesDriven = 0;
-  late List<String> attributes;
-  late _Person? owner;
-}
 
 // :snippet-start: embedded-object-model
 // The generated `Address` class is an embedded object.
@@ -46,6 +34,17 @@ class _Person {
 }
 
 // :snippet-end:
+@RealmModel()
+class _Car {
+  @PrimaryKey()
+  late ObjectId id;
+
+  String? licensePlate;
+  bool isElectric = false;
+  double milesDriven = 0;
+  late List<String> attributes;
+  late _Person? owner;
+}
 // :snippet-end:
 
 // :snippet-start: uuid-model
@@ -131,7 +130,6 @@ class _SomeRealmModel {
 class _BinaryExample {
   late String name;
   late Uint8List requiredBinaryProperty;
-  var defaultValueBinaryProperty = Uint8List(8);
   late Uint8List? nullableBinaryProperty;
 }
 // :snippet-end:

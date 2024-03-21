@@ -3,7 +3,7 @@
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
-part 'react_to_changes_test.g.dart';
+part 'react_to_changes_test.realm.dart';
 
 // :snippet-start: sample-data-models
 @RealmModel()

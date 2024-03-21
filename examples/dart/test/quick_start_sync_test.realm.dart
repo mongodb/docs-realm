@@ -56,16 +56,46 @@ class Todo extends _Todo with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Todo freeze() => RealmObjectBase.freezeObject<Todo>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'isComplete': isComplete.toEJson(),
+      'summary': summary.toEJson(),
+      'owner_id': ownerId.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Todo value) => value.toEJson();
+  static Todo _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'isComplete': EJsonValue isComplete,
+        'summary': EJsonValue summary,
+        'owner_id': EJsonValue ownerId,
+      } =>
+        Todo(
+          fromEJson(id),
+          fromEJson(summary),
+          fromEJson(ownerId),
+          isComplete: fromEJson(isComplete),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Todo._);
-    return const SchemaObject(ObjectType.realmObject, Todo, 'Todo', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Todo, 'Todo', [
       SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('isComplete', RealmPropertyType.bool),
       SchemaProperty('summary', RealmPropertyType.string),
       SchemaProperty('ownerId', RealmPropertyType.string, mapTo: 'owner_id'),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

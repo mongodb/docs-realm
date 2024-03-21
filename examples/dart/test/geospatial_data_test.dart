@@ -2,7 +2,7 @@ import 'package:realm_dart/realm.dart';
 import 'package:test/test.dart';
 import 'utils.dart';
 
-part 'geospatial_data_test.g.dart';
+part 'geospatial_data_test.realm.dart';
 
 // :snippet-start: define-geopoint-class
 // To store geospatial data, create an embedded object with this structure.

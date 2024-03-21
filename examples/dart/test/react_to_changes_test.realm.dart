@@ -50,17 +50,47 @@ class Character extends _Character
   @override
   Character freeze() => RealmObjectBase.freezeObject<Character>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'name': name.toEJson(),
+      'species': species.toEJson(),
+      'age': age.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Character value) => value.toEJson();
+  static Character _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'name': EJsonValue name,
+        'species': EJsonValue species,
+        'age': EJsonValue age,
+      } =>
+        Character(
+          fromEJson(id),
+          fromEJson(name),
+          fromEJson(species),
+          fromEJson(age),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Character._);
-    return const SchemaObject(ObjectType.realmObject, Character, 'Character', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Character, 'Character', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('species', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
 
 class Fellowship extends _Fellowship
@@ -102,16 +132,42 @@ class Fellowship extends _Fellowship
   @override
   Fellowship freeze() => RealmObjectBase.freezeObject<Fellowship>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'name': name.toEJson(),
+      'members': members.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Fellowship value) => value.toEJson();
+  static Fellowship _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'name': EJsonValue name,
+        'members': EJsonValue members,
+      } =>
+        Fellowship(
+          fromEJson(id),
+          fromEJson(name),
+          members: fromEJson(members),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Fellowship._);
-    return const SchemaObject(
-        ObjectType.realmObject, Fellowship, 'Fellowship', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Fellowship, 'Fellowship', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('members', RealmPropertyType.object,
           linkTarget: 'Character', collectionType: RealmCollectionType.list),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

@@ -2,9 +2,9 @@ import 'package:realm_dart/realm.dart';
 
 // :snippet-start: task-project-models
 
-part 'task_project_models_test.g.dart'; // :remove:
+part 'task_project_models_test.realm.dart'; // :remove:
 // :uncomment-start:
-// part 'models.g.dart';
+// part 'models.realm.dart';
 // :uncomment-end:
 
 @RealmModel()

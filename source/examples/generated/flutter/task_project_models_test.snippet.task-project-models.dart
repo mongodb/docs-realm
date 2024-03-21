@@ -1,5 +1,5 @@
 
-part 'models.g.dart';
+part 'models.realm.dart';
 
 @RealmModel()
 class _Item {

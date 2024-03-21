@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
-part 'data_ingest.test.g.dart';
+part 'data_ingest.test.realm.dart';
 
 // :snippet-start: asymmetric-sync-object
 @RealmModel(ObjectType.asymmetricObject)

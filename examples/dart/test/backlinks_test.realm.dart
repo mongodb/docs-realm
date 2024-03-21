@@ -45,17 +45,44 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
   @override
   User freeze() => RealmObjectBase.freezeObject<User>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'username': username.toEJson(),
+      'tasks': tasks.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(User value) => value.toEJson();
+  static User _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'username': EJsonValue username,
+        'tasks': EJsonValue tasks,
+      } =>
+        User(
+          fromEJson(id),
+          fromEJson(username),
+          tasks: fromEJson(tasks),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(User._);
-    return const SchemaObject(ObjectType.realmObject, User, 'User', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, User, 'User', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('username', RealmPropertyType.string),
       SchemaProperty('tasks', RealmPropertyType.object,
           linkTarget: 'Task', collectionType: RealmCollectionType.list),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
 
 class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
@@ -107,11 +134,37 @@ class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Task freeze() => RealmObjectBase.freezeObject<Task>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'description': description.toEJson(),
+      'isComplete': isComplete.toEJson(),
+      'linkedUser': linkedUser.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Task value) => value.toEJson();
+  static Task _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'description': EJsonValue description,
+        'isComplete': EJsonValue isComplete,
+        'linkedUser': EJsonValue linkedUser,
+      } =>
+        Task(
+          fromEJson(id),
+          fromEJson(description),
+          fromEJson(isComplete),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Task._);
-    return const SchemaObject(ObjectType.realmObject, Task, 'Task', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Task, 'Task', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('description', RealmPropertyType.string),
       SchemaProperty('isComplete', RealmPropertyType.bool),
@@ -120,5 +173,8 @@ class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
           collectionType: RealmCollectionType.list,
           linkTarget: 'User'),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
