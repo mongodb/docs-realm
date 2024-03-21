@@ -6,7 +6,7 @@ import '../bin/models/car.dart';
 import 'utils.dart';
 import 'dart:io';
 
-part 'read_write_data_test.g.dart';
+part 'read_write_data_test.realm.dart';
 
 // :snippet-start: models
 @RealmModel()

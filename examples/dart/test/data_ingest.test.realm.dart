@@ -66,11 +66,41 @@ class WeatherSensor extends _WeatherSensor
   @override
   WeatherSensor freeze() => RealmObjectBase.freezeObject<WeatherSensor>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'deviceId': deviceId.toEJson(),
+      'modtemperatureInFahrenheitel': modtemperatureInFahrenheitel.toEJson(),
+      'barometricPressureInHg': barometricPressureInHg.toEJson(),
+      'windSpeedInMph': windSpeedInMph.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(WeatherSensor value) => value.toEJson();
+  static WeatherSensor _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'deviceId': EJsonValue deviceId,
+        'modtemperatureInFahrenheitel': EJsonValue modtemperatureInFahrenheitel,
+        'barometricPressureInHg': EJsonValue barometricPressureInHg,
+        'windSpeedInMph': EJsonValue windSpeedInMph,
+      } =>
+        WeatherSensor(
+          fromEJson(id),
+          fromEJson(deviceId),
+          fromEJson(modtemperatureInFahrenheitel),
+          fromEJson(barometricPressureInHg),
+          fromEJson(windSpeedInMph),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(WeatherSensor._);
-    return const SchemaObject(
+    register(_toEJson, _fromEJson);
+    return SchemaObject(
         ObjectType.asymmetricObject, WeatherSensor, 'WeatherSensor', [
       SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
@@ -79,5 +109,8 @@ class WeatherSensor extends _WeatherSensor
       SchemaProperty('barometricPressureInHg', RealmPropertyType.double),
       SchemaProperty('windSpeedInMph', RealmPropertyType.double),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

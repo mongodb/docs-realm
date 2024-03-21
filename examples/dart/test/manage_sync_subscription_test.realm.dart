@@ -42,17 +42,44 @@ class Plane extends _Plane with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Plane freeze() => RealmObjectBase.freezeObject<Plane>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'name': name.toEJson(),
+      'numSeats': numSeats.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Plane value) => value.toEJson();
+  static Plane _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'name': EJsonValue name,
+        'numSeats': EJsonValue numSeats,
+      } =>
+        Plane(
+          fromEJson(id),
+          fromEJson(name),
+          fromEJson(numSeats),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Plane._);
-    return const SchemaObject(ObjectType.realmObject, Plane, 'Plane', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Plane, 'Plane', [
       SchemaProperty('id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('numSeats', RealmPropertyType.int),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
 
 class Train extends _Train with RealmEntity, RealmObjectBase, RealmObject {
@@ -90,17 +117,44 @@ class Train extends _Train with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Train freeze() => RealmObjectBase.freezeObject<Train>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'name': name.toEJson(),
+      'numCars': numCars.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Train value) => value.toEJson();
+  static Train _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'name': EJsonValue name,
+        'numCars': EJsonValue numCars,
+      } =>
+        Train(
+          fromEJson(id),
+          fromEJson(name),
+          fromEJson(numCars),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Train._);
-    return const SchemaObject(ObjectType.realmObject, Train, 'Train', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Train, 'Train', [
       SchemaProperty('id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('numCars', RealmPropertyType.int),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
 
 class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
@@ -138,15 +192,42 @@ class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Boat freeze() => RealmObjectBase.freezeObject<Boat>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'name': name.toEJson(),
+      'tonnage': tonnage.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Boat value) => value.toEJson();
+  static Boat _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'name': EJsonValue name,
+        'tonnage': EJsonValue tonnage,
+      } =>
+        Boat(
+          fromEJson(id),
+          fromEJson(name),
+          fromEJson(tonnage),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Boat._);
-    return const SchemaObject(ObjectType.realmObject, Boat, 'Boat', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Boat, 'Boat', [
       SchemaProperty('id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('tonnage', RealmPropertyType.int),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }

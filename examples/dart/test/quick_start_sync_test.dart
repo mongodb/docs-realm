@@ -1,6 +1,6 @@
 import 'package:realm_dart/realm.dart';
 
-part 'quick_start_sync_test.g.dart';
+part 'quick_start_sync_test.realm.dart';
 
 @RealmModel()
 class _Todo {

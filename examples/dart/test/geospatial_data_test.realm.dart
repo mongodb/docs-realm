@@ -44,17 +44,40 @@ class MyGeoPoint extends _MyGeoPoint
   @override
   MyGeoPoint freeze() => RealmObjectBase.freezeObject<MyGeoPoint>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'type': type.toEJson(),
+      'coordinates': coordinates.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(MyGeoPoint value) => value.toEJson();
+  static MyGeoPoint _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'type': EJsonValue type,
+        'coordinates': EJsonValue coordinates,
+      } =>
+        MyGeoPoint(
+          type: fromEJson(type),
+          coordinates: fromEJson(coordinates),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(MyGeoPoint._);
-    return const SchemaObject(
-        ObjectType.embeddedObject, MyGeoPoint, 'MyGeoPoint', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.embeddedObject, MyGeoPoint, 'MyGeoPoint', [
       SchemaProperty('type', RealmPropertyType.string),
       SchemaProperty('coordinates', RealmPropertyType.double,
           collectionType: RealmCollectionType.list),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
 
 class Company extends _Company with RealmEntity, RealmObjectBase, RealmObject {
@@ -87,14 +110,38 @@ class Company extends _Company with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Company freeze() => RealmObjectBase.freezeObject<Company>(this);
 
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'id': id.toEJson(),
+      'location': location.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Company value) => value.toEJson();
+  static Company _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'id': EJsonValue id,
+        'location': EJsonValue location,
+      } =>
+        Company(
+          fromEJson(id),
+          location: fromEJson(location),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
     RealmObjectBase.registerFactory(Company._);
-    return const SchemaObject(ObjectType.realmObject, Company, 'Company', [
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Company, 'Company', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('location', RealmPropertyType.object,
           optional: true, linkTarget: 'MyGeoPoint'),
     ]);
-  }
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
 }
