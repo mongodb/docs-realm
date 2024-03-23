@@ -6,10 +6,10 @@ final setExample = RealmSetExample(
     primitiveSet: {'apple', 'pear'},
     nullablePrimitiveSet: {null, 2, 3},
     realmObjectSet: {SomeRealmModel(ObjectId())});
-// Add RealmObject to realm database
+// Add RealmObject to database
 realm.write(() => realm.add(setExample));
 
-// Once you add Sets to the Realm, they are of type RealmSet
+// Once you add the sets, they are of type RealmSet
 RealmSet primitiveSet = setExample.primitiveSet;
 
 // Modify RealmSets of RealmObjects in write transactions
@@ -25,9 +25,13 @@ if (setExample.primitiveSet.contains('apple')) {
   print('Set contains an apple');
 }
 
+// Get RealmSet by property name with dynamic.getSet()
+final getSetResult = setExample.dynamic.getSet('primitiveSet');
+
+// Check number of elements in a RealmSet with RealmSet.length
+print(
+    'Set now has ${getSetResult.length} elements'); // Prints 'Set now has 1 elements'
+
 // Query RealmSets using Realm Query Language
 final results =
     realm.query<RealmSetExample>('\$0 IN nullablePrimitiveSet', [null]);
-
-// Check number of elements in a RealmSet with RealmSet.length
-print(setExample.primitiveSet.length);

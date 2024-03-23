@@ -7,6 +7,9 @@ final artemis =
           'kind'
         ])));
 
+// Get a RealmList by property name with dynamic.getList()
+final inventory = artemis.dynamic.getList('inventory');
+
 // Use RealmList methods to filter results
 RealmList<String> traits = artemis.traits;
 final brave = traits.firstWhere((element) => element == 'brave');

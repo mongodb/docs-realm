@@ -1,11 +1,21 @@
 import 'package:realm_dart/realm.dart';
 
+part 'task_project_models_test.realm.dart';
 // :snippet-start: task-project-models
 
-part 'task_project_models_test.realm.dart'; // :remove:
 // :uncomment-start:
 // part 'models.realm.dart';
 // :uncomment-end:
+@RealmModel()
+class _Project {
+  @MapTo("_id")
+  @PrimaryKey()
+  late ObjectId id;
+
+  late String name;
+  late List<_Item> items;
+  int? quota;
+}
 
 @RealmModel()
 class _Item {
@@ -20,16 +30,6 @@ class _Item {
   int progressMinutes = 0;
 }
 
-@RealmModel()
-class _Project {
-  @MapTo("_id")
-  @PrimaryKey()
-  late ObjectId id;
-
-  late String name;
-  late List<_Item> items;
-  int? quota;
-}
 // :snippet-end:
 
 main() {}

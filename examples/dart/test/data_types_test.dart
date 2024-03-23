@@ -1,14 +1,15 @@
+import 'dart:developer';
+
 import 'package:realm_dart/realm.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 import 'dart:typed_data';
-import 'dart:developer';
 
 import 'utils.dart';
 
+part 'data_types_test.realm.dart';
 // :snippet-start: data-types-example-model
 
-part 'data_types_test.realm.dart'; // :remove:
 // :uncomment-start:
 // part 'car.realm.dart';
 // :uncomment-end:
@@ -33,8 +34,8 @@ class _Person {
   // Embedded object in parent object schema
   late _Address? address; // Must be nullable
 }
-
 // :snippet-end:
+
 @RealmModel()
 class _Car {
   @PrimaryKey()
@@ -54,15 +55,14 @@ class _UuidPrimaryKey {
   @PrimaryKey()
   late Uuid id;
 }
+// :snippet-end:
 
-//:snippet-end:
 // :snippet-start: objectid-model
 @RealmModel()
 class _ObjectIdPrimaryKey {
   @PrimaryKey()
   late ObjectId id;
 }
-
 // :snippet-end:
 
 // :snippet-start: realm-value-model
@@ -74,7 +74,6 @@ class _RealmValueExample {
   late Set<RealmValue> setOfMixedAnyValues;
   late Map<String, RealmValue> mapOfMixedAnyValues;
 }
-
 // :snippet-end:
 
 @RealmModel()
@@ -92,7 +91,6 @@ class _Vehicle {
   late String nickname;
   late DateTime dateLastServiced;
 }
-
 // :snippet-end:
 
 // :snippet-start: realmlist-model
@@ -375,6 +373,9 @@ main() {
               'kind'
             ])));
 
+    // Get a RealmList by property name with dynamic.getList()
+    final inventory = artemis.dynamic.getList('inventory');
+
     // Use RealmList methods to filter results
     RealmList<String> traits = artemis.traits;
     final brave = traits.firstWhere((element) => element == 'brave');
@@ -387,6 +388,7 @@ main() {
         realm.query<Player>("inventory.name == \$0", ['body armor']);
     print("LEN ${playersWithBodyArmor.length}");
     // :snippet-end:
+    expect(inventory.length, 2);
     expect(brave, 'brave');
     expect(elvishSword.name, 'elvish sword');
     expect(playersWithBodyArmor.length, 1);
@@ -475,7 +477,6 @@ main() {
     expect(realm.dynamic.all("Address").length, 0);
     cleanUpRealm(realm);
   });
-
   test("RealmSet", () {
     // :snippet-start: realm-set-examples
     final realm = Realm(
@@ -486,10 +487,10 @@ main() {
         primitiveSet: {'apple', 'pear'},
         nullablePrimitiveSet: {null, 2, 3},
         realmObjectSet: {SomeRealmModel(ObjectId())});
-    // Add RealmObject to realm database
+    // Add RealmObject to database
     realm.write(() => realm.add(setExample));
 
-    // Once you add Sets to the Realm, they are of type RealmSet
+    // Once you add the sets, they are of type RealmSet
     RealmSet primitiveSet = setExample.primitiveSet;
 
     // Modify RealmSets of RealmObjects in write transactions
@@ -505,16 +506,20 @@ main() {
       print('Set contains an apple');
     }
 
+    // Get RealmSet by property name with dynamic.getSet()
+    final getSetResult = setExample.dynamic.getSet('primitiveSet');
+
+    // Check number of elements in a RealmSet with RealmSet.length
+    print(
+        'Set now has ${getSetResult.length} elements'); // Prints 'Set now has 1 elements'
+
     // Query RealmSets using Realm Query Language
     final results =
         realm.query<RealmSetExample>('\$0 IN nullablePrimitiveSet', [null]);
-
-    // Check number of elements in a RealmSet with RealmSet.length
-    print(setExample.primitiveSet.length);
     // :snippet-end:
     expect(primitiveSet, isA<RealmSet<String>>());
-    expect(setExample.primitiveSet.contains('pear'), isFalse);
-    expect(setExample.primitiveSet.contains('apple'), isTrue);
+    expect(getSetResult.contains('pear'), isFalse);
+    expect(getSetResult.contains('apple'), isTrue);
     expect(setExample.realmObjectSet.length, 2);
     expect(results.length, 1);
     cleanUpRealm(realm);
@@ -558,29 +563,49 @@ main() {
         'third': null,
       },
     );
-
-    // Add RealmObject to realm database
+    // Add RealmObject to the database
     realm.write(() => realm.add(mapExample));
 
-    // Query for all MapExample objects
-    final realmMap = realm.all<MapExample>()[0];
+    // Once you add maps, they are of type RealmMap
+    RealmMap map = mapExample.map;
 
     // :remove-start:
+    final realmMap = realm.all<MapExample>()[0];
     expect(realmMap, isA<MapExample>());
     expect(realmMap.map['third'], 3);
     expect(realmMap.nullableMap['third'], null);
     // :remove-end:
     // Modify RealmMaps in write transactions
     realm.write(() {
-      realmMap.map.update('first', (value) => 5);
-      realmMap.nullableMap.update('second', (value) => null);
+      mapExample.map.update('first', (value) => 5);
+      mapExample.nullableMap.update('second', (value) => null);
 
       // Add a new Map to a RealmMap
       const newMap = {'fourth': 4};
-      realmMap.map.addEntries(newMap.entries);
+      mapExample.map.addEntries(newMap.entries);
     });
+
+    // Check a RealmMap with RealmMap.containsKey() or RealmMap.containsValue()
+    if (mapExample.map.containsKey('first')) {
+      print('Map contains key "first"');
+    } else if (mapExample.map.containsValue(null)) {
+      print('Map contains null value');
+    } else {
+      print('These aren\'t the maps you\'re looking for');
+    }
+
+    // Get a RealmMap by property name with dynamic.getMap()
+    final getPrimitiveMap = mapExample.dynamic.getMap('map');
+
+    // Check the number of elements in a RealmMap with RealmMap.length
+    print(
+        'Map contains ${getPrimitiveMap.length} elements'); // Prints 'Map contains 4 elements'
+
+    // Query RealmMaps using Realm Query Language
+    final results = realm.query<MapExample>('map.first == \$0', [5]);
     // :snippet-end:
 
+    expect(results.length, 1);
     expect(realmMap.map['first'], 5);
     expect(realmMap.nullableMap['second'], null);
     expect(realmMap.map.length, 4);
