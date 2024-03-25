@@ -21,15 +21,17 @@ RealmMap map = mapExample.map;
 
 // Modify RealmMaps in write transactions
 realm.write(() {
+  // Update value by key with .update() or [value] = newValue
+  mapExample.nullableMap['second'] = null;
   mapExample.map.update('first', (value) => 5);
-  mapExample.nullableMap.update('second', (value) => null);
+  mapExample.nullableMap.update('fourth', (v) => 4, ifAbsent: () => null);
 
-  // Add a new Map to a RealmMap
+  // Add a new map entry with .addEntries()
   const newMap = {'fourth': 4};
   mapExample.map.addEntries(newMap.entries);
 });
 
-// Check a RealmMap with RealmMap.containsKey() or RealmMap.containsValue()
+// Check a RealmMap with .containsKey() or .containsValue()
 if (mapExample.map.containsKey('first')) {
   print('Map contains key "first"');
 } else if (mapExample.map.containsValue(null)) {
