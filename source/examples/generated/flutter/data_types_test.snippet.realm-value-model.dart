@@ -6,4 +6,3 @@ class _RealmValueExample {
   late Set<RealmValue> setOfMixedAnyValues;
   late Map<String, RealmValue> mapOfMixedAnyValues;
 }
-

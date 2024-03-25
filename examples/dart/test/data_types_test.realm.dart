@@ -409,10 +409,16 @@ class RealmValueExample extends _RealmValueExample
   RealmValueExample({
     RealmValue singleAnyValue = const RealmValue.nullValue(),
     Iterable<RealmValue> listOfMixedAnyValues = const [],
+    Set<RealmValue> setOfMixedAnyValues = const {},
+    Map<String, RealmValue> mapOfMixedAnyValues = const {},
   }) {
     RealmObjectBase.set(this, 'singleAnyValue', singleAnyValue);
     RealmObjectBase.set<RealmList<RealmValue>>(this, 'listOfMixedAnyValues',
         RealmList<RealmValue>(listOfMixedAnyValues));
+    RealmObjectBase.set<RealmSet<RealmValue>>(
+        this, 'setOfMixedAnyValues', RealmSet<RealmValue>(setOfMixedAnyValues));
+    RealmObjectBase.set<RealmMap<RealmValue>>(
+        this, 'mapOfMixedAnyValues', RealmMap<RealmValue>(mapOfMixedAnyValues));
   }
 
   RealmValueExample._();
@@ -433,6 +439,22 @@ class RealmValueExample extends _RealmValueExample
       throw RealmUnsupportedSetError();
 
   @override
+  RealmSet<RealmValue> get setOfMixedAnyValues =>
+      RealmObjectBase.get<RealmValue>(this, 'setOfMixedAnyValues')
+          as RealmSet<RealmValue>;
+  @override
+  set setOfMixedAnyValues(covariant RealmSet<RealmValue> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  RealmMap<RealmValue> get mapOfMixedAnyValues =>
+      RealmObjectBase.get<RealmValue>(this, 'mapOfMixedAnyValues')
+          as RealmMap<RealmValue>;
+  @override
+  set mapOfMixedAnyValues(covariant RealmMap<RealmValue> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
   Stream<RealmObjectChanges<RealmValueExample>> get changes =>
       RealmObjectBase.getChanges<RealmValueExample>(this);
 
@@ -444,6 +466,8 @@ class RealmValueExample extends _RealmValueExample
     return <String, dynamic>{
       'singleAnyValue': singleAnyValue.toEJson(),
       'listOfMixedAnyValues': listOfMixedAnyValues.toEJson(),
+      'setOfMixedAnyValues': setOfMixedAnyValues.toEJson(),
+      'mapOfMixedAnyValues': mapOfMixedAnyValues.toEJson(),
     };
   }
 
@@ -453,10 +477,14 @@ class RealmValueExample extends _RealmValueExample
       {
         'singleAnyValue': EJsonValue singleAnyValue,
         'listOfMixedAnyValues': EJsonValue listOfMixedAnyValues,
+        'setOfMixedAnyValues': EJsonValue setOfMixedAnyValues,
+        'mapOfMixedAnyValues': EJsonValue mapOfMixedAnyValues,
       } =>
         RealmValueExample(
           singleAnyValue: fromEJson(singleAnyValue),
           listOfMixedAnyValues: fromEJson(listOfMixedAnyValues),
+          setOfMixedAnyValues: fromEJson(setOfMixedAnyValues),
+          mapOfMixedAnyValues: fromEJson(mapOfMixedAnyValues),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -471,6 +499,69 @@ class RealmValueExample extends _RealmValueExample
           optional: true, indexType: RealmIndexType.regular),
       SchemaProperty('listOfMixedAnyValues', RealmPropertyType.mixed,
           optional: true, collectionType: RealmCollectionType.list),
+      SchemaProperty('setOfMixedAnyValues', RealmPropertyType.mixed,
+          optional: true, collectionType: RealmCollectionType.set),
+      SchemaProperty('mapOfMixedAnyValues', RealmPropertyType.mixed,
+          optional: true, collectionType: RealmCollectionType.map),
+    ]);
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
+}
+
+class RealmValueCollectionExample extends _RealmValueCollectionExample
+    with RealmEntity, RealmObjectBase, RealmObject {
+  RealmValueCollectionExample({
+    RealmValue singleAnyValue = const RealmValue.nullValue(),
+  }) {
+    RealmObjectBase.set(this, 'singleAnyValue', singleAnyValue);
+  }
+
+  RealmValueCollectionExample._();
+
+  @override
+  RealmValue get singleAnyValue =>
+      RealmObjectBase.get<RealmValue>(this, 'singleAnyValue') as RealmValue;
+  @override
+  set singleAnyValue(RealmValue value) =>
+      RealmObjectBase.set(this, 'singleAnyValue', value);
+
+  @override
+  Stream<RealmObjectChanges<RealmValueCollectionExample>> get changes =>
+      RealmObjectBase.getChanges<RealmValueCollectionExample>(this);
+
+  @override
+  RealmValueCollectionExample freeze() =>
+      RealmObjectBase.freezeObject<RealmValueCollectionExample>(this);
+
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'singleAnyValue': singleAnyValue.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(RealmValueCollectionExample value) =>
+      value.toEJson();
+  static RealmValueCollectionExample _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'singleAnyValue': EJsonValue singleAnyValue,
+      } =>
+        RealmValueCollectionExample(
+          singleAnyValue: fromEJson(singleAnyValue),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
+    RealmObjectBase.registerFactory(RealmValueCollectionExample._);
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, RealmValueCollectionExample,
+        'RealmValueCollectionExample', [
+      SchemaProperty('singleAnyValue', RealmPropertyType.mixed,
+          optional: true, indexType: RealmIndexType.regular),
     ]);
   }();
 

@@ -7,6 +7,95 @@ part of 'task_project_models_test.dart';
 // **************************************************************************
 
 // ignore_for_file: type=lint
+class Project extends _Project with RealmEntity, RealmObjectBase, RealmObject {
+  Project(
+    ObjectId id,
+    String name, {
+    Iterable<Item> items = const [],
+    int? quota,
+  }) {
+    RealmObjectBase.set(this, '_id', id);
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set<RealmList<Item>>(this, 'items', RealmList<Item>(items));
+    RealmObjectBase.set(this, 'quota', quota);
+  }
+
+  Project._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
+
+  @override
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
+  @override
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
+
+  @override
+  RealmList<Item> get items =>
+      RealmObjectBase.get<Item>(this, 'items') as RealmList<Item>;
+  @override
+  set items(covariant RealmList<Item> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  int? get quota => RealmObjectBase.get<int>(this, 'quota') as int?;
+  @override
+  set quota(int? value) => RealmObjectBase.set(this, 'quota', value);
+
+  @override
+  Stream<RealmObjectChanges<Project>> get changes =>
+      RealmObjectBase.getChanges<Project>(this);
+
+  @override
+  Project freeze() => RealmObjectBase.freezeObject<Project>(this);
+
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      '_id': id.toEJson(),
+      'name': name.toEJson(),
+      'items': items.toEJson(),
+      'quota': quota.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(Project value) => value.toEJson();
+  static Project _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        '_id': EJsonValue id,
+        'name': EJsonValue name,
+        'items': EJsonValue items,
+        'quota': EJsonValue quota,
+      } =>
+        Project(
+          fromEJson(id),
+          fromEJson(name),
+          items: fromEJson(items),
+          quota: fromEJson(quota),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
+    RealmObjectBase.registerFactory(Project._);
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.realmObject, Project, 'Project', [
+      SchemaProperty('id', RealmPropertyType.objectid,
+          mapTo: '_id', primaryKey: true),
+      SchemaProperty('name', RealmPropertyType.string),
+      SchemaProperty('items', RealmPropertyType.object,
+          linkTarget: 'Item', collectionType: RealmCollectionType.list),
+      SchemaProperty('quota', RealmPropertyType.int, optional: true),
+    ]);
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
+}
+
 class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
   static var _defaultsSet = false;
 
@@ -121,95 +210,6 @@ class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
       SchemaProperty('assignee', RealmPropertyType.string, optional: true),
       SchemaProperty('priority', RealmPropertyType.int),
       SchemaProperty('progressMinutes', RealmPropertyType.int),
-    ]);
-  }();
-
-  @override
-  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
-}
-
-class Project extends _Project with RealmEntity, RealmObjectBase, RealmObject {
-  Project(
-    ObjectId id,
-    String name, {
-    Iterable<Item> items = const [],
-    int? quota,
-  }) {
-    RealmObjectBase.set(this, '_id', id);
-    RealmObjectBase.set(this, 'name', name);
-    RealmObjectBase.set<RealmList<Item>>(this, 'items', RealmList<Item>(items));
-    RealmObjectBase.set(this, 'quota', quota);
-  }
-
-  Project._();
-
-  @override
-  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
-  @override
-  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
-
-  @override
-  String get name => RealmObjectBase.get<String>(this, 'name') as String;
-  @override
-  set name(String value) => RealmObjectBase.set(this, 'name', value);
-
-  @override
-  RealmList<Item> get items =>
-      RealmObjectBase.get<Item>(this, 'items') as RealmList<Item>;
-  @override
-  set items(covariant RealmList<Item> value) =>
-      throw RealmUnsupportedSetError();
-
-  @override
-  int? get quota => RealmObjectBase.get<int>(this, 'quota') as int?;
-  @override
-  set quota(int? value) => RealmObjectBase.set(this, 'quota', value);
-
-  @override
-  Stream<RealmObjectChanges<Project>> get changes =>
-      RealmObjectBase.getChanges<Project>(this);
-
-  @override
-  Project freeze() => RealmObjectBase.freezeObject<Project>(this);
-
-  EJsonValue toEJson() {
-    return <String, dynamic>{
-      '_id': id.toEJson(),
-      'name': name.toEJson(),
-      'items': items.toEJson(),
-      'quota': quota.toEJson(),
-    };
-  }
-
-  static EJsonValue _toEJson(Project value) => value.toEJson();
-  static Project _fromEJson(EJsonValue ejson) {
-    return switch (ejson) {
-      {
-        '_id': EJsonValue id,
-        'name': EJsonValue name,
-        'items': EJsonValue items,
-        'quota': EJsonValue quota,
-      } =>
-        Project(
-          fromEJson(id),
-          fromEJson(name),
-          items: fromEJson(items),
-          quota: fromEJson(quota),
-        ),
-      _ => raiseInvalidEJson(ejson),
-    };
-  }
-
-  static final schema = () {
-    RealmObjectBase.registerFactory(Project._);
-    register(_toEJson, _fromEJson);
-    return SchemaObject(ObjectType.realmObject, Project, 'Project', [
-      SchemaProperty('id', RealmPropertyType.objectid,
-          mapTo: '_id', primaryKey: true),
-      SchemaProperty('name', RealmPropertyType.string),
-      SchemaProperty('items', RealmPropertyType.object,
-          linkTarget: 'Item', collectionType: RealmCollectionType.list),
-      SchemaProperty('quota', RealmPropertyType.int, optional: true),
     ]);
   }();
 
