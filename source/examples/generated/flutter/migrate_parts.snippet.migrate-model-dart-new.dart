@@ -1,7 +1,7 @@
 import 'package:realm_dart/realm.dart';
 
 // Update existing declaration from .g.dart to .realm.dart
-// part `car.g.dart`;
+// part 'car.g.dart';
 part 'car.realm.dart'; 
 
 @RealmModel()

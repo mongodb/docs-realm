@@ -19,7 +19,7 @@ Upgrade to Flutter SDK v2.0.0
    :class: singlecol
 
 Atlas Device SDK for Flutter version 2.0.0 introduces several breaking changes
-that impact existing apps upgrading to v2.0.0 or later. 
+that impact existing apps upgrading from an earlier version. 
 
 Notably, this version of the SDK: 
 
@@ -28,7 +28,7 @@ Notably, this version of the SDK:
   earlier version of the SDK. Refer to the :ref:`flutter-v2-builder-breaking-changes` 
   section on this page for information and instructions.
 
-- Removes several classes and members. These changes may or may not impact your 
+- Removes or replaces several classes and members. These changes may or may not impact your 
   app. Refer to the :ref:`flutter-v2-removed-classes` section 
   on this page for information and instructions for impacted apps.
 
@@ -123,11 +123,10 @@ regenerate the object models with the new ``.realm.dart`` file extension:
 Removed Classes and Members
 ---------------------------
 
-Flutter SDK version 2.0.0 also removed several classes, members, and properties 
-from the SDK for various reasons, including consolidation, replacement, and 
-deprecation. These changes may or may not impact your app.
+Flutter SDK version 2.0.0 also removed or replaced several classes, members, and properties 
+from the SDK. These changes may or may not impact your app.
 
-The following table outlines what was removed and a recommended solution 
+The following table outlines what was removed and why, as well as a recommended solution 
 when upgrading an app that used the removed class or member, if any:
 
 .. list-table::
@@ -150,17 +149,21 @@ when upgrading an app that used the removed class or member, if any:
      - Consolidated into ``SyncErrorCode`` in SDK v1.6.0. 
      - Use ``SyncErrorCode`` enum.
 
+   * - ``Realm.logger.level`` 
+     - Replaced by ``Realm.logger.setLogLevel()``.
+     - Replace any instances. See also :ref:`flutter-logging`. 
+
    * - ``RealmProperty.indexed`` 
      - Replaced by ``RealmProperty.indexType``.
      - Replace any instances. 
 
    * - ``RealmValue.type`` 
      - Changed to an enum of ``RealmValueType``.
-     - Replace any instances. 
+     - Replace any instances. See also :ref:`flutter-realm-value`.
 
    * - ``RealmValue.uint8List`` 
      - Renamed to ``RealmValue.binary``. 
-     - Replace any instances. 
+     - Replace any instances. See also :ref:`flutter-realm-value`.
 
    * - ``SchemaObject.properties`` and ``SyncProgress.transferableBytes`` 
      - Replaced by the more accurate ``SyncProgress.progressEstimate``.
