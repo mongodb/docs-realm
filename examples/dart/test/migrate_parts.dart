@@ -1,5 +1,5 @@
 // :replace-start: {
-//   "items": {
+//   "terms": {
 //     "migrate_parts": "car"
 //   }
 // }

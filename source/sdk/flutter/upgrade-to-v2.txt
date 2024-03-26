@@ -43,9 +43,8 @@ Builder Changes
 
 Flutter SDK version 2.0.0 updates the SDK's ``realm_generator`` to use a 
 ``PartBuilder`` instead of a ``SharedPartBuilder``. 
-
-As a result of this update, the generated ``RealmModel`` data model files 
-use a new ``.realm.dart`` file extension:
+This updated builder generates ``RealmModel`` data model files with a new 
+``.realm.dart`` file extension:
 
 .. list-table::
    :header-rows: 1
@@ -150,7 +149,7 @@ when upgrading an app that used the removed class or member, if any:
      - Use ``SyncErrorCode`` enum.
 
    * - ``Realm.logger.level`` 
-     - Replaced by ``Realm.logger.setLogLevel()``.
+     - Replaced by ``Realm.logger.setLogLevel``.
      - Replace any instances. See also :ref:`flutter-logging`. 
 
    * - ``RealmProperty.indexed`` 
@@ -165,8 +164,8 @@ when upgrading an app that used the removed class or member, if any:
      - Renamed to ``RealmValue.binary``. 
      - Replace any instances. See also :ref:`flutter-realm-value`.
 
-   * - ``SchemaObject.properties`` and ``SyncProgress.transferableBytes`` 
-     - Replaced by the more accurate ``SyncProgress.progressEstimate``.
+   * - ``SchemaObject.properties`` 
+     - ``SchemaObject`` changed to an iterable collection of ``SchemaProperty``.
      - Replace any instances.  
 
    * - ``SyncError`` constructor and ``SyncError.create`` factory
@@ -186,7 +185,8 @@ when upgrading an app that used the removed class or member, if any:
      - Remove any category or message instances. Replace ``SyncError.codeValue`` with ``SyncError.code.code``.
 
    * - ``SyncProgress.transferredBytes`` and ``SyncProgress.transferableBytes``
-     - Consolidated into ``SyncProgress.progressEstimate``.
+     - Reported transferred and transferable values were incorrect. Consolidated
+       into a new ``SyncProgress.progressEstimate`` metric.
      - Use ``SyncProgress.progressEstimate``. 
 
    * - ``User.provider`` 
