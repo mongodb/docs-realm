@@ -70,8 +70,8 @@ data models, refer to :ref:`Define a Realm Object Model
       that exposes a realm to its child components. You configure your realm by
       passing props to ``RealmProvider``.
 
-      When ``RealmProvider`` is rendered, it opens the realm. This means that the
-      provider renders successfully or its child components can't access the realm.
+      When ``RealmProvider`` is rendered, it opens the realm. This means that
+      the child components can't access the realm if rendering fails.
 
       In addition to ``RealmProvider``, you also need to configure
       :ref:`AppProvider <react-native-app-provider>` and :ref:`UserProvider 
@@ -109,8 +109,8 @@ data models, refer to :ref:`Define a Realm Object Model
       that exposes a realm to its child components. You configure your realm by
       passing props to ``RealmProvider``.
 
-      When ``RealmProvider`` is rendered, it opens the realm. This means that the
-      provider renders successfully or its child components can't access the realm.
+      When ``RealmProvider`` is rendered, it opens the realm. This means that
+      the child components can't access the realm if rendering fails.
 
       To configure a non-synced realm:
 
@@ -125,16 +125,16 @@ data models, refer to :ref:`Define a Realm Object Model
 Configure More Than One Realm
 -----------------------------
 
-When you import ``RealmProvider`` from ``@realm/react``, that provider has a
+When you import ``RealmProvider`` from ``@realm/react``, that Provider has a
 specific context and is associated with a single realm. If you need to configure
-more than one realm, use ``createRealmContext()`` to instantiate a new provider
+more than one realm, use ``createRealmContext()`` to instantiate a new Provider
 for each realm.
 
 If you import ``useRealm()``, ``useQuery()``, or ``useObject()`` directly from
 ``@realm/react``, those hooks use the default realm context. To work with more
-than one realm, you need to destructure a new realm provider and its associated
+than one realm, you need to destructure a new realm Provider and its associated
 hooks from the result of ``createRealmContext()``. You should namespace providers
-to avoid confusion about which provider and hooks you're working with.
+to avoid confusion about which Provider and hooks you're working with.
 
 For a detailed guide, refer to :ref:`Expose More Than One Realm 
 <react-native-expose-multiple-realms>`.

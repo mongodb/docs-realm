@@ -34,8 +34,8 @@ Configure a Realm Without Sync
 that exposes a realm to its child components. You configure your realm by
 passing props to ``RealmProvider``.
 
-When ``RealmProvider`` is rendered, it opens the realm. This means that the
-provider renders successfully or its child components can't access the realm.
+When ``RealmProvider`` is rendered, it opens the realm. This means that
+the child components can't access the realm if rendering fails.
 
 To configure a non-synced realm:
 

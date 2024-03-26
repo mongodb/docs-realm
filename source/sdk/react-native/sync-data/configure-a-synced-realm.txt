@@ -126,8 +126,8 @@ RealmProvider
 that exposes a realm to its child components. You configure your realm by
 passing props to ``RealmProvider``.
 
-When ``RealmProvider`` is rendered, it opens the realm. This means that the
-provider renders successfully or its child components can't access the realm.
+When ``RealmProvider`` is rendered, it opens the realm. This means that
+the child components can't access the realm if rendering fails.
 
 To configure a synced realm:
 
@@ -294,8 +294,8 @@ Sync continues in the background.
 @realm/react Providers and Hooks
 --------------------------------
 
-``@realm/react`` has providers and hooks that simplify working with your synced
-realm and its data. Refer to each provider's page to learn about them and
+``@realm/react`` has Context Providers and hooks that simplify working with your
+synced realm and its data. Refer to each Provider's page to learn about them and
 their hooks.
 
 - :ref:`AppProvider reference <react-native-app-provider>`
