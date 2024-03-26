@@ -146,7 +146,8 @@ when upgrading an app that used the removed class or member, if any:
 
    * - ``ClientResetError.sessionErrorCode`` 
      - Consolidated into ``SyncErrorCode`` in SDK v1.6.0. 
-     - Use ``SyncErrorCode`` enum.
+     - Use ``SyncErrorCode`` enum. See also the 
+       :flutter-sdk:`SyncError <realm/SyncErrorCode.html>` API reference.
 
    * - ``Realm.logger.level`` 
      - Replaced by ``Realm.logger.setLogLevel``.
@@ -158,31 +159,39 @@ when upgrading an app that used the removed class or member, if any:
 
    * - ``RealmValue.type`` 
      - Changed to an enum of ``RealmValueType``.
-     - Replace any instances. See also :ref:`flutter-realm-value`.
+     - Replace any instances. See also :ref:`RealmValue Data Type <flutter-realm-value>`.
 
    * - ``RealmValue.uint8List`` 
      - Renamed to ``RealmValue.binary``. 
-     - Replace any instances. See also :ref:`flutter-realm-value`.
+     - Replace any instances. See also :ref:`RealmValue Data Type <flutter-realm-value>`.
 
    * - ``SchemaObject.properties`` 
      - ``SchemaObject`` changed to an iterable collection of ``SchemaProperty``.
-     - Replace any instances.  
+     - Replace any instances. See also the 
+       :flutter-sdk:`SchemaObject <realm/SchemaObject-class.html>` API reference.
 
    * - ``SyncError`` constructor and ``SyncError.create`` factory
      - Sync errors should only be created internally by the SDK.
      - Remove any instances.     
 
-   * - ``SyncClientError``, ``SyncConnectionError``, ``SyncSessionError``, ``SyncResolveError``, ``SyncWebSocketError``, and ``GeneralSyncError``
-     - Consolidated into ``SyncError`` in SDK v1.6.0.
-     - Use ``SyncError`` or its subclasses.
+   * - ``SyncClientError``, ``SyncConnectionError``, ``SyncSessionError``, 
+       ``SyncResolveError``, ``SyncWebSocketError``, and ``GeneralSyncError``
+     - Consolidated into ``SyncError`` in SDK v1.6.0. 
+     - Use ``SyncError`` or its subclasses. See also the 
+       :flutter-sdk:`SyncError <realm/SyncErrorCode.html>` API reference.
 
-   * - ``SyncErrorCategory``, ``SyncClientErrorCode``, ``SyncConnectionErrorCode``, ``SyncSessionErrorCode``, ``SyncResolveErrorCode``, ``SyncWebsocketErrorCode``, and  ``GeneralSyncErrorCode``
+   * - ``SyncErrorCategory``, ``SyncClientErrorCode``, ``SyncConnectionErrorCode``, 
+       ``SyncSessionErrorCode``, ``SyncResolveErrorCode``,``SyncWebsocketErrorCode``, 
+       and ``GeneralSyncErrorCode``
      - Consolidated into ``SyncErrorCode`` in SDK v1.6.0. 
-     - Use ``SyncErrorCode`` enum.
+     - Use ``SyncErrorCode`` enum. See also the 
+       :flutter-sdk:`SyncError <realm/SyncErrorCode.html>` API reference.
 
    * - ``SyncError.codeValue``, ``SyncError.category``, and ``SyncError.detailedMessage``
      - Consolidated into ``SyncError`` in SDK v1.6.0. Messages were unused. 
-     - Remove any category or message instances. Replace ``SyncError.codeValue`` with ``SyncError.code.code``.
+     - Remove any category or message instances. Replace ``SyncError.codeValue``
+       with ``SyncError.code.code``. See also the 
+       :flutter-sdk:`SyncError <realm/SyncErrorCode.html>` API reference.
 
    * - ``SyncProgress.transferredBytes`` and ``SyncProgress.transferableBytes``
      - Reported transferred and transferable values were incorrect. Consolidated
@@ -190,5 +199,6 @@ when upgrading an app that used the removed class or member, if any:
      - Use ``SyncProgress.progressEstimate``. 
 
    * - ``User.provider`` 
-     - Provider is associated with each identity, so value was incorrect for users with more than one identity. 
+     - Provider is associated with each identity, so value was incorrect 
+       for users with more than one identity. 
      - Remove any instances. 
