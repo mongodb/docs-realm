@@ -1,3 +1,28 @@
+# March 22, 2024
+
+## C++ SDK
+
+- Realm Files/Configure & Open a Realm: Fix truncated "Open a Realm at a File Path" code example.
+
+## Flutter SDK
+
+- Quick Start: Update the Flutter data models to be consistent with Dart version.
+- Realm Database
+  - Model Data
+    - Define an Object Schema: Add a new "Modeled Unstructured Data" section with a tested, Bluehawked code example to document nested collections of mixed data.
+    - Data Types: Update RealmValue section to document the new support for nested collections of mixed data and additional changes to the data type. Update or add tested, Bluehawked code examples.
+  - CRUD/Read: Add new "Query Nested Collections of Mixed Data" section with a tested, Bluehawked code example to document new RQL queries for nested collections.
+- Throughout Flutter docs: Update Bluehawked code snippets to use the new `.realm.dart` part file extension.
+
+## Kotlin SDK
+
+- Realm/Connect to Atlas/Connect to App Services: Add new "Enable Platform Networking" section with Bluehawked code example detailing the new feature.
+
+## Swift SDK
+
+- Install: Remove API info from the privacy manifest details and link out to the manifests themselves.
+- Sync/Partition-Based Sync: Correctly display a Partition-Based Sync example of opening a realm instead of a Flexible Sync example.
+
 # March 15, 2024
 
 ## Other

@@ -18,6 +18,8 @@ Define a Realm Object Schema - Flutter SDK
    :depth: 2
    :class: singlecol
 
+.. include:: /includes/flutter-v2-breaking-change.rst
+
 An **object schema** is a configuration object that defines the properties and
 relationships of a Realm object. Realm client
 applications define object schemas with the native class implementation in their
@@ -59,6 +61,9 @@ Create Model
 
    .. step:: Create Generated File Part Directive
 
+      .. versionchanged:: v2.0.0
+          Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
+      
       Add a part directive to include the ``RealmObject`` file that you generate in step 4
       in the same package as the file you're currently working on.
 
@@ -96,6 +101,9 @@ Create Model
 
    .. step:: Generate RealmObject
 
+      .. versionchanged:: v2.0.0
+          Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
+
       Generate the ``RealmObject``, which you'll use in your application:
 
       .. tabs::
@@ -127,7 +135,7 @@ Create Model
 
             .
             ├── schemas.dart
-            ├── schemas.g.dart // newly generated file
+            ├── schemas.realm.dart // newly generated file
             ├── myapp.dart
             └── ...rest of application
 
@@ -268,7 +276,7 @@ data when modeling a variable event log object:
 
 .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.unstructured-data-model.dart
    :language: dart
-   :emphasize-lines: 9
+   :emphasize-lines: 10
    :caption: Data model 
 
 .. io-code-block::
@@ -300,6 +308,9 @@ data when modeling a variable event log object:
 Generate the RealmObject
 ------------------------
 
+.. versionchanged:: v2.0.0
+    Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
+
 Once you've completed your Realm model, you must generate the
 :flutter-sdk:`RealmObject <realm/RealmObjectBase-mixin.html>` class to use 
 it in your application.
@@ -326,8 +337,8 @@ Running this creates a public class in a new file in the directory
 where you defined the ``RealmModel`` class per the :ref:`Create Model section <flutter-create-model>`.
 
 The generated file has the same base name as the file with your ``RealmModel``,
-ending with ``.g.dart``. For example if the file with your ``RealmModel``
-is named ``schemas.dart``, the generated file will be ``schemas.g.dart``.
+ending with ``.realm.dart``. For example if the file with your ``RealmModel``
+is named ``schemas.dart``, the generated file will be ``schemas.realm.dart``.
 
 .. note::
 
@@ -340,7 +351,7 @@ is named ``schemas.dart``, the generated file will be ``schemas.g.dart``.
 
       // ...import packages
 
-      part 'schemas.g.dart';
+      part 'schemas.realm.dart';
 
       @RealmModel()
       // ...model definition
