@@ -1,3 +1,18 @@
+# March 29, 2024
+
+## Flutter SDK
+
+- Install: Add note regarding the breaking change to how data model class files generate, and update "Prerequisites" section with updated version and platform requirements.
+- Realm Database/Model Data:
+  - Define a Realm Object Schema: Add note regarding the breaking change to how
+    data model class files generate.
+  - Data Types: Update code examples with `dynamic.getList()`, `dynamic.getSet()`, and `dynamic.getMap()` methods.
+- Throughout Flutter docs: Update any `.g.dart` file extensions to the new `.realm.dart` extension.
+
+## Internal
+
+- Add the `:orphan:` directive to several flagged pages to prevent build errors.
+
 # March 22, 2024
 
 ## C++ SDK
@@ -70,6 +85,7 @@ Throughout Device SDK docs:
 - Bootstrap with Expo: Update shell commands and clarify how to get an Expo app working.
 
 ## Swift SDK
+
 - Model Data/Supported Data Types: Add a section with information about persisting geospatial data types.
 - CRUD
   - Read: New section with information and tested, Bluehawked code examples about querying geospatial data.
