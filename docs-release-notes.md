@@ -2,13 +2,12 @@
 
 ## Flutter SDK
 
-- Throughout Flutter docs: Update any `.g.dart` file extensions to the new `.realm.dart` extension.
 - Install: Add note regarding the breaking change to how data model class files generate, and update "Prerequisites" section with updated version and platform requirements.
 - Realm Database/Model Data:
   - Define a Realm Object Schema: Add note regarding the breaking change to how
     data model class files generate.
   - Data Types: Update code examples with `dynamic.getList()`, `dynamic.getSet()`, and `dynamic.getMap()` methods.
-- Upgrade to Flutter SDK v2.0.0: New page detailing the breaking changes to SDK version 2.0.0 and how to upgrade an app from an earlier version.
+- Throughout Flutter docs: Update any `.g.dart` file extensions to the new `.realm.dart` extension.
 
 ## Internal
 
