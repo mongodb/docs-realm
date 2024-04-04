@@ -27,7 +27,7 @@ class AppClientTest: RealmTest() {
         // Creates an App with default configuration values
         val app = App.create(YOUR_APP_ID) // Replace with your App ID
         // :snippet-end:
-
+        assertEquals(app.configuration.appId, YOUR_APP_ID) // :remove:
         // :snippet-start: close-app-client
         app.close()
         // :snippet-end:
@@ -48,6 +48,18 @@ class AppClientTest: RealmTest() {
         assertEquals(config.appName, "my-app-name")
         assertEquals(config.baseUrl, "http://localhost:9090")
         assertEquals(config.appVersion, "1.0.0")
+    }
+
+    @Test
+    fun changeBaseUrl() {
+        val defaultBaseUrl = "https://realm.mongodb.com"
+        val newBaseUrl = "https://example.org/"
+        val config = AppConfiguration.create(YOUR_APP_ID)
+        assertEquals(config.baseUrl, defaultBaseUrl)
+        val configWithNewBaseUrl = AppConfiguration.Builder(YOUR_APP_ID)
+            .baseUrl(newBaseUrl)
+            .build()
+        assertEquals(configWithNewBaseUrl.baseUrl, newBaseUrl)
     }
 
     @Test
