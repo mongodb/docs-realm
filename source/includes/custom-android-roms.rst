@@ -16,10 +16,10 @@ To fix this, you need to adjust the SELinux security rules in the ROM. This can
 be done by using the tool ``audit2allow``. This tool ships as part of
 `AOSP https://source.android.com/`.
 
-#. Pull the current policy from the device: ``adb pull /sys/fs/selinux/policy``.
-#. Copy the SELinux error inside a text file called ``input.txt``.
-#. Run the ``audit2allow`` tool: ``audit2allow -p policy -i input.txt``.
-#. The tool should output a rule you can add to your existing policy. 
+1. Pull the current policy from the device: ``adb pull /sys/fs/selinux/policy``.
+2. Copy the SELinux error inside a text file called ``input.txt``.
+3. Run the ``audit2allow`` tool: ``audit2allow -p policy -i input.txt``.
+4. The tool should output a rule you can add to your existing policy.
    The rule allows you to access the Realm file from multiple processes.
 
 ``audit2allow`` is produced when compiling AOSP/ROM and only runs on
