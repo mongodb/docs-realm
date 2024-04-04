@@ -21,25 +21,27 @@ Connect to Atlas App Services - Kotlin SDK
 This page describes how to initialize your App client and connect to the Atlas
 App Services backend using the Kotlin SDK.
 
-The App client is the interface to the App Services backend. It provides
-access to App Services functionality, including:
+The **App client** is the client-side interface to the App Services backend. 
+It lets you interact with your App Services App and provides access to App 
+Services functionality, including:
 
 - :ref:`Authenticating <kotlin-authenticate>` app users
 - :ref:`Synchronizing data <kotlin-sync>` between the Atlas backend and the
   client app using Device Sync
 - :ref:`Calling Atlas functions <kotlin-call-function>`
 
-Each App client is associated with a single App ID.
+Each App client is associated with a single App ID. To learn how to find your 
+App ID in the App Services UI, refer to 
+:ref:`Find Your App ID <find-your-app-id>` in the App Services documentation.
 
 Prerequisites
 -------------
 
 Before you can connect to Atlas App Services, you need an App Services App
-with an App ID. To get started, refer to :ref:`Create an App <create-a-realm-app>`
-in the App Services documentation.
+with an App ID. 
 
-To learn how to find your App ID in the App Services UI, refer to
-:ref:`Find Your App ID <find-your-app-id>` in the App Services documentation.
+To get started, refer to :ref:`Create an App <create-a-realm-app>`
+in the App Services documentation.
 
 .. _kotlin-access-the-app-client:
 
@@ -48,29 +50,43 @@ Access the App Client
 
 The Kotlin SDK uses the
 `App <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/index.html>`__
-interface to access an ``App`` client.
+interface to access an ``App`` client. 
 
-You can initialize an App with default configuration values using
-`App.create()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-companion/create.html>`__.
-You only need to pass the App ID for your App.
+Each ``App`` client is associated with a single App ID. 
+You can have multiple App client instances that connect to multiple
+Apps, but all App client instances that share the same App ID use the same 
+underlying connection.
+
+You can initialize an App client in one of two ways:
+
+- Create an App with default configuration values
+- Build an App with custom configuration values
+
+Once you initialize the App, you can use the ``App`` instance to
+access App Services functionality.
+
+Create a Default App Client
+---------------------------
+
+To initialize an App with default configuration values, pass the App ID 
+for your App Services App to
+`App.create() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-companion/create.html>`__.
 
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.initialize-app-client.kt
    :language: kotlin
 
-Once you have initialized the App, you can use the ``App`` instance to
-access App Services functionality.
-
 .. _kotlin-app-client-configuration:
 
-Configure the App Client
-------------------------
+Build an App Client with Optional Configurations
+------------------------------------------------
 
-You can add optional arguments to the ``AppConfiguration`` for more
-granular control of your app connection details, such as custom
+The `AppConfiguration
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/index.html>`__
+interface lets you configure your App client with optional arguments
+for more granular control of your app connection details, such as custom
 request headers and keys for local encryption.
 
-To control the additional configuration options, use the
+To control the configuration options, use the
 `AppConfiguration.Builder
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html>`__
 and call the ``.build()`` method to pass a configuration object:
@@ -78,7 +94,30 @@ and call the ``.build()`` method to pass a configuration object:
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.configure-app-client.kt
    :language: kotlin
 
-.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+Configuration Caching
+~~~~~~~~~~~~~~~~~~~~~
+
+.. versionchanged:: 1.14.0 
+   ``baseUrl`` is not cached
+
+When you initialize the App client, the configuration is cached internally. 
+
+Attempting to "close" and then re-open an App with a changed configuration
+within the same process has no effect. The client continues to use the 
+cached configuration. 
+
+Starting with Kotlin SDK version 1.14.0, the 
+`baseUrl() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/index.html#-175646410%2FProperties%2F380376748>`__
+is *no longer* cached in the ``AppConfiguration``. This means that you can 
+change the ``baseUrl``, and the App client will use the updated configuration. 
+In earlier SDK versions, changes to the ``baseUrl`` in a cached App 
+configuration have no effect.
+
+Configure the App Client
+------------------------
+
+The following sections describe how to configure the App client with specific 
+properties. 
 
 .. _kotlin-share-sync-connections:
 
