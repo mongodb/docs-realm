@@ -50,7 +50,8 @@ underlying connection.
 
 .. important:: Changing an App Config After Initializing the App
 
-   .. versionchanged:: 12.6.0
+   .. versionchanged:: 12.6.0 
+      ``baseUrl`` is not cached
 
    When you initialize the App client, the configuration is cached internally. 
    Attempting to "close" and then re-open an App with a changed configuration
@@ -58,11 +59,9 @@ underlying connection.
    cached configuration. 
 
    Starting with Node.js SDK version 12.6.0, the ``baseUrl`` in the ``AppConfiguration``
-   is *not* cached. This means that you can change the 
-   ``baseUrl`` - including at runtime - and the App client will use the updated 
-   configuration. In earlier SDK versions, changes to the ``baseUrl`` in a 
-   cached App configuration have no 
-   effect.
+   is *not* cached. This means that you can change the ``baseUrl``, and the App 
+   client will use the updated configuration. In earlier SDK versions, changes 
+   to the ``baseUrl`` in a cached App configuration have no effect.
 
 .. _node-app-retrieve-client:
 

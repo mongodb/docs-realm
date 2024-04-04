@@ -45,8 +45,8 @@ in the App Services documentation.
 
 .. _kotlin-access-the-app-client:
 
-Access the App Client
----------------------
+Initialize the App Client
+-------------------------
 
 The Kotlin SDK uses the
 `App <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/index.html>`__
@@ -65,8 +65,8 @@ You can initialize an App client in one of two ways:
 Once you initialize the App, you can use the ``App`` instance to
 access App Services functionality.
 
-Create a Default App Client
----------------------------
+Default App Client
+~~~~~~~~~~~~~~~~~~
 
 To initialize an App with default configuration values, pass the App ID 
 for your App Services App to
@@ -77,8 +77,8 @@ for your App Services App to
 
 .. _kotlin-app-client-configuration:
 
-Build an App Client with Optional Configurations
-------------------------------------------------
+Configured App Client
+~~~~~~~~~~~~~~~~~~~~~
 
 The `AppConfiguration
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/index.html>`__
@@ -95,7 +95,7 @@ and call the ``.build()`` method to pass a configuration object:
    :language: kotlin
 
 Configuration Caching
-~~~~~~~~~~~~~~~~~~~~~
+`````````````````````
 
 .. versionchanged:: 1.14.0 
    ``baseUrl`` is not cached
@@ -116,8 +116,8 @@ configuration have no effect.
 Configure the App Client
 ------------------------
 
-The following sections describe how to configure the App client with specific 
-properties. 
+The following sections describe how to build the ``AppConfiguration`` client 
+with specific properties. 
 
 .. _kotlin-share-sync-connections:
 

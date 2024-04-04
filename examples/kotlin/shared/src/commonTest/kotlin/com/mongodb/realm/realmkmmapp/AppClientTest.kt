@@ -10,14 +10,11 @@ import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.exceptions.ConnectionException
 import io.realm.kotlin.mongodb.exceptions.InvalidCredentialsException
 import io.realm.kotlin.mongodb.exceptions.ServiceException
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -58,7 +55,6 @@ class AppClientTest: RealmTest() {
         val defaultBaseUrl = "https://realm.mongodb.com"
         val newBaseUrl = "https://kotlinlang.org/"
         val config = AppConfiguration.create(YOUR_APP_ID)
-        // :snippet-end:
         assertEquals(config.baseUrl, defaultBaseUrl)
         val configWithNewBaseUrl = AppConfiguration.Builder(YOUR_APP_ID)
             .baseUrl(newBaseUrl)
