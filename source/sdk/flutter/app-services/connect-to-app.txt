@@ -62,8 +62,11 @@ underlying connection.
 
 .. important:: Changing an App Config After Initializing the App
 
+   .. versionchanged:: 1.8.0
+      ``baseUrl`` is not cached in the ``AppConfiguration``
+   
    When you initialize the App client, the configuration is cached internally. 
-   Attempting to "close" and then re-open an App with a changed configuration
+   Attempting to close and then re-open an App with a changed configuration
    within the same process has no effect. The client continues to use the 
    cached configuration. 
 
@@ -80,9 +83,6 @@ Advanced Configuration
 
 .. deprecated:: 1.6.0
    ``App.localAppName`` and ``App.localAppVersion`` are no longer used.
-
-.. versionchanged:: 1.8.0
-   ``baseUrl`` is no longer cached in the ``AppConfiguration``.
 
 You can add optional arguments to the ``AppConfiguration`` for more granular control
 of your ``App`` client. You may want to add things like custom timeouts

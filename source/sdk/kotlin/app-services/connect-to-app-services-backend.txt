@@ -57,10 +57,11 @@ You can have multiple App client instances that connect to multiple
 Apps, but all App client instances that share the same App ID use the same 
 underlying connection.
 
-You can initialize an App client in one of two ways:
+You can initialize an App client by calling one of the following methods:
 
-- Create an App with default configuration values
-- Build an App with custom configuration values
+- ``.create()``: initializes an App with default configuration values
+- ``.build()``: initializes an App with custom configuration values passed
+  through an ``AppConfiguration`` object
 
 Once you initialize the App, you can use the ``App`` instance to
 access App Services functionality.
@@ -69,8 +70,10 @@ Default App Client
 ~~~~~~~~~~~~~~~~~~
 
 To initialize an App with default configuration values, pass the App ID 
-for your App Services App to
-`App.create() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-companion/create.html>`__.
+for your App Services App to the
+`App.create()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-companion/create.html>`__
+method:
 
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.initialize-app-client.kt
    :language: kotlin
@@ -98,11 +101,11 @@ Configuration Caching
 `````````````````````
 
 .. versionchanged:: 1.14.0 
-   ``baseUrl`` is not cached
+   ``baseUrl`` is not cached in the ``AppConfiguration``
 
 When you initialize the App client, the configuration is cached internally. 
 
-Attempting to "close" and then re-open an App with a changed configuration
+Attempting to close and then re-open an App with a changed configuration
 within the same process has no effect. The client continues to use the 
 cached configuration. 
 

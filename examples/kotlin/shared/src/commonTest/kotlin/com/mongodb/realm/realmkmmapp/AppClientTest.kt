@@ -53,7 +53,7 @@ class AppClientTest: RealmTest() {
     @Test
     fun changeBaseUrl() {
         val defaultBaseUrl = "https://realm.mongodb.com"
-        val newBaseUrl = "https://kotlinlang.org/"
+        val newBaseUrl = "https://example.org/"
         val config = AppConfiguration.create(YOUR_APP_ID)
         assertEquals(config.baseUrl, defaultBaseUrl)
         val configWithNewBaseUrl = AppConfiguration.Builder(YOUR_APP_ID)

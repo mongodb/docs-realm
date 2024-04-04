@@ -88,8 +88,11 @@ underlying connection.
 
 .. important:: Changing an App Config After Initializing the App
 
+   .. versionchanged:: v10.18.0
+      ``urlPrefix`` is not cached in the App configuration
+
    When you initialize the App client, the configuration is cached internally. 
-   Attempting to "close" and then re-open an App with a changed configuration
+   Attempting to close and then re-open an App with a changed configuration
    within the same process has no effect. The client continues to use the 
    cached configuration. 
 

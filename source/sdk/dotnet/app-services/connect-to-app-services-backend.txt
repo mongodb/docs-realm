@@ -50,8 +50,11 @@ underlying connection.
 
 .. important:: Changing an App Config After Initializing the App
 
+   .. versionchanged:: v11.7.0
+      ``BaseUri`` is not cached in the App configuration
+   
    When you initialize the App client, the configuration is cached internally. 
-   Attempting to "close" and then re-open an App with a changed configuration
+   Attempting to close and then re-open an App with a changed configuration
    within the same process has no effect. The client continues to use the 
    cached configuration. 
 
@@ -60,4 +63,3 @@ underlying connection.
    ``BaseUri``, and the App client will use the updated configuration. In 
    earlier SDK versions, changes to the ``BaseUri`` in a cached App 
    configuration have no effect.
-
