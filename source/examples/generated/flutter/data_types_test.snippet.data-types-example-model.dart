@@ -1,18 +1,6 @@
 
 part 'car.realm.dart';
 
-@RealmModel()
-class _Car {
-  @PrimaryKey()
-  late ObjectId id;
-
-  String? licensePlate;
-  bool isElectric = false;
-  double milesDriven = 0;
-  late List<String> attributes;
-  late _Person? owner;
-}
-
 // The generated `Address` class is an embedded object.
 @RealmModel(ObjectType.embeddedObject)
 class _Address {

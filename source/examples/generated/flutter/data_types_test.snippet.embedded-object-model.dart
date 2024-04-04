@@ -17,4 +17,3 @@ class _Person {
   // Embedded object in parent object schema
   late _Address? address; // Must be nullable
 }
-

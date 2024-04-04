@@ -4,40 +4,49 @@
 Install the Flutter SDK
 =======================
 
+.. meta:: 
+   :description: Install the Atlas Device SDK with Flutter for Flutter or Dart applications. 
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-
 Prerequisites
 -------------
 
 - `Install Flutter in your development environment <https://docs.flutter.dev/get-started/install>`__.
-  To use the latest version of the Atlas Device SDK for Flutter, you must use Flutter version 3.10.2 or later and Dart version 3.0.2 or later.
-
-.. warning:: Incompatible with Dart 2.17.3
-
-   The Flutter SDK and Dart standalone SDK are not compatible with
-   Dart 2.17.3 due to an issue with the Dart virtual machine in this version.
-   You may use Dart 2.17.5 version or later with the SDK.
+  
+  To use the latest version of the Atlas Device SDK for Flutter, you must use:  
+  
+  - Flutter version 3.10.0 or later.
+  - Dart version 3.0.0 or later.
 
 Supported Platforms
 ~~~~~~~~~~~~~~~~~~~
 
-You can use the Flutter SDK on the following platforms:
+The Flutter SDK supports the following platforms:
 
 - iOS
 - Android
 - macOS
-- Windows
+- Windows running on 64-bit architecture 
 - Linux running on 64-bit architecture
 
-You **cannot** use the Flutter SDK on the following platforms:
+.. important:: Unsupported Platforms
 
-- Web
-- Linux running on ARM64 or 32-bit architectures
+   The Flutter SDK does *not* support the following platforms:
+
+   - Web
+   - Windows running on ARM64 or 32-bit architectures
+   - Linux running on ARM64 or 32-bit architectures
+
 
 .. _flutter-install-steps:
 
@@ -84,7 +93,6 @@ Install the SDK in a Flutter Project
         dependencies:
           realm: <latest_version>
 
-
    .. step:: Import the Package
 
       To use the Flutter SDK within your app, import the package
@@ -125,7 +133,7 @@ except where otherwise noted.
         The official Dart docs have helpful getting started material
         for using Dart without Flutter for CLI and server use cases.
 
-        `See the official documentation. <https://dart.dev/server>`_
+        `See the official documentation. <https://dart.dev/server>`__
 
    .. step:: Add the SDK to the Project
 
@@ -167,6 +175,8 @@ except where otherwise noted.
 
 Update Package Version
 ----------------------
+
+.. include:: /includes/flutter-v2-breaking-change.rst
 
 To change the version of the Flutter SDK or Dart Standalone SDK in your project, 
 follow these steps.

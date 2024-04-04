@@ -1,5 +1,15 @@
 
 part 'models.realm.dart';
+@RealmModel()
+class _Project {
+  @MapTo("_id")
+  @PrimaryKey()
+  late ObjectId id;
+
+  late String name;
+  late List<_Item> items;
+  int? quota;
+}
 
 @RealmModel()
 class _Item {
@@ -14,13 +24,3 @@ class _Item {
   int progressMinutes = 0;
 }
 
-@RealmModel()
-class _Project {
-  @MapTo("_id")
-  @PrimaryKey()
-  late ObjectId id;
-
-  late String name;
-  late List<_Item> items;
-  int? quota;
-}
