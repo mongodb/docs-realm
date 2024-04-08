@@ -1,3 +1,23 @@
+# April 5, 2024
+
+## Java SDK
+
+- Atlas App Services/Connect to an App Services App: Update to indicate that the `urlPrefix` is no longer cached in the AppConfiguration object.
+- Troubleshooting: Document getting started with the Java SDK with custom Android ROMs.
+
+## Kotlin SDK
+
+- Connect to Atlas/Connect to App Services: Update to indicate that the `baseUrl` is no longer cached in the AppConfiguration object.
+- Troubleshooting: Document getting started with the Kotlin SDK with custom Android ROMs.
+
+## .NET SDK
+
+- Application Services/Connect to an App Services App: Update to indicate that the `baseUri` is no longer cached in the AppConfiguration object.
+
+## React Native SDK
+
+- Throughout: Standardize "provider" capitalization to support translation needs.
+
 # March 29, 2024
 
 ## Flutter SDK
