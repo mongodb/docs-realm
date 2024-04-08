@@ -2,7 +2,6 @@
 
 ## Java SDK
 
-- Landing Page: Add note that the Java SDK is in best-effort maintenance mode, along with a link to migrate to the Kotlin SDK.
 - Atlas App Services/Connect to an App Services App: Update to indicate that the `urlPrefix` is no longer cached in the AppConfiguration object.
 - Troubleshooting: Document getting started with the Java SDK with custom Android ROMs.
 
