@@ -169,12 +169,13 @@ Change an Object Model - Java SDK
 
       You can make changes to the schema of a synchronized realm by
       modifying the :ref:`JSON Schema <configure-your-data-model>`
-      defined in your application's backend. Synchronized realms do
-      not require migration functions, since breaking changes to
-      synchronized schemas cause synchronization errors. Sync
-      handles non-breaking changes to synchronized realm schemas
-      automatically. As a result, both old versions of your schema and
-      new versions can synchronize as users upgrade their applications.
+      defined in your application's backend, or by changing the schema 
+      in your Atlas App Services app. 
+      
+      Synchronized realms do not require migration functions. Breaking 
+      changes made on the client cause synchronization errors, but non-breaking 
+      changes are handled automatically. As a result, either version of your 
+      schema can synchronize as users upgrade their applications.
 
       To learn more about schema changes to synchronized realms,
       see :ref:`synced schema changes <synced-schema-overview>`.
