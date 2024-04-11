@@ -18,17 +18,18 @@ Change an Object Model - .NET SDK
 Overview
 --------
 
-Application data models map to Atlas App Services schemas. Data models often 
-change over time to accommodate new requirements and features of your app, and 
-these modifications also change the Atlas App Services schemas. 
+Data models may change over time to accommodate new requirements and features 
+of your app. The steps involved in changing your data model depend on whether 
+you are working with a synced realm or an unsynced (local-only) realm. This page 
+provides the information you need to migrate an unsycned realm.  
+
+.. include:: /includes/baas-server-migration-note.rst
 
 Migrations give you the flexibility to automatically update your existing 
 application data whenever a client application upgrades to a newer version. 
 A migration transforms an existing data model from its current :ref:`Realm Schema version <dotnet-schema-version>` 
 to a newer one. This process is only required if you are making changes to your 
 object models on the client. 
-
-.. include:: /includes/baas-server-migration-note.rst
 
 Data Model Changes
 ------------------
@@ -138,7 +139,7 @@ renaming it to ``Birthday`` and changing the type to ``DateTimeOffset``:
 .. _dotnet-migration-function:
 
 Create a Migration Function
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To migrate the realm to conform to the updated ``Person`` schema,
 set the realm's :ref:`schema version <dotnet-schema-version>` to
@@ -159,4 +160,4 @@ properties and the value of ``Birthday`` based on ``Age``:
    flag to delete the database automatically when a schema mismatch would
    require a migration. 
 
-   Never release an app to production with this flag set to ``true``.
+   **Never release an app to production with this flag set to ``true``.**

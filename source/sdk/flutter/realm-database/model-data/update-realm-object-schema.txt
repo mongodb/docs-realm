@@ -11,7 +11,13 @@ Update a Realm Object Schema - Flutter SDK
    :depth: 2
    :class: singlecol
 
-You can change the schema of a Realm object after you first create it.
+You can change the schema of a Realm object after you first create it. The 
+process of changing the schema depends on whether you are using a local 
+(unsynced) realm or a sycned realm. This page provides the information 
+you need for migrating a local realm.
+
+.. include:: /includes/baas-server-migration-note.rst
+
 Depending on the type of changes you make to the schema, the changes can be either
 automatically applied or require a manual update to the new schema.
 Manual schema updates are called **migrations** in Realm.
