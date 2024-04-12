@@ -6,4 +6,5 @@
    <types/Realm.BaseConfiguration.html>` property to delete the database automatically
    when a schema mismatch requires a migration. 
 
-   **Never release an app to production with this property set to ``true``.**
+   Ensure that this property is always set to ``false`` for production apps.
+   **Never release an app to production with this property set to true.**
