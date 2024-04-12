@@ -20,7 +20,7 @@ Update a Data Model in an Unsynced (Local-Only) Realm
 .. _kotlin-schema-version:
 
 Schema Version
---------------
+~~~~~~~~~~~~~~
 
 A **schema version** identifies the state of a 
 :ref:`realm schema<kotlin-realm-schema>` at some point in time. 
@@ -44,7 +44,7 @@ realm, then the realm defaults to version ``0``.
 .. _kotlin-migrations:
 
 Migration
----------
+~~~~~~~~~
 
 Schema updates are called **migrations** in Realm.
 A migration updates a realm and any objects it
@@ -72,16 +72,15 @@ automatically :ref:`Sync <sync>` with another realm.
    Device Sync documentation.
 
 Automatically Update Schema
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If your schema update adds or removes properties, 
-Realm can perform the migration automatically. 
-You only need to increment the ``schemaVersion``. 
+If your schema update adds or removes properties, Realm can perform the migration 
+automatically. You only need to increment the ``schemaVersion``. 
 
 .. _kotlin-add-a-property:
 
 Add a Property
-~~~~~~~~~~~~~~
+``````````````
 
 To add a property to a schema:  
 
@@ -117,7 +116,7 @@ set values for the new property through a :ref:`migration function <kotlin-other
 .. _kotlin-delete-a-property:
 
 Delete a Property
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 To delete a property from a schema: 
 
@@ -151,7 +150,7 @@ Deleting a property will not impact existing objects.
 .. _kotlin-perform-a-schema-migration:
 
 Manually Migrate Schema
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 For more complex schema updates, Realm requires you to manually 
 migrate old instances of a given object to the new schema.
@@ -167,7 +166,7 @@ in the
 .. _kotlin-rename-a-property:
 
 Modify a Property
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 To modify an object property (e.g. rename, merge, split, or change property
 type): 
@@ -201,7 +200,7 @@ the modified properties in the old object schema and the new object schema:
 .. _kotlin-other-migration-tasks:
 
 Other Migration Tasks
-~~~~~~~~~~~~~~~~~~~~~
+`````````````````````
 
 To perform other realm schema migrations, use the following properties of
 the ``AutomaticSchemaMigration.MigrationContext`` interface:
