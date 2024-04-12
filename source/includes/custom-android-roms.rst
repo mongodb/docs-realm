@@ -14,7 +14,7 @@ Logcat that looks something like this:
 
 To fix this, you need to adjust the SELinux security rules in the ROM. This can
 be done by using the tool ``audit2allow``. This tool ships as part of
-`AOSP https://source.android.com/`.
+`AOSP <https://source.android.com/>`__.
 
 1. Pull the current policy from the device: ``adb pull /sys/fs/selinux/policy``.
 2. Copy the SELinux error inside a text file called ``input.txt``.
