@@ -15,24 +15,14 @@ Change an Object Model - .NET SDK
 
 .. _dotnet-schema-version:
 
-Local and Synced Realm Changes
-------------------------------
-
-Data models may change over time to accommodate new requirements and features 
-of your app. The steps involved in changing your data model depend on whether 
-you are working with a synced realm or an unsynced (local-only) realm. This page 
-provides the information you need to migrate an unsycned realm.  
-
 .. include:: /includes/baas-server-migration-note.rst
 
-Migrations give you the flexibility to automatically update your existing 
-application data whenever a client application upgrades to a newer version. 
-A migration transforms an existing data model from its current :ref:`Realm Schema version <dotnet-schema-version>` 
-to a newer one. This process is only required if you are making changes to your 
-object models on the client. 
+Update a Data Model in an Unsynced (Local-Only) Realm
+-----------------------------------------------------
 
 Data Model Changes
-------------------
+~~~~~~~~~~~~~~~~~~
+
 Consider the following example, in which we have a ``RealmObject`` 
 called "Person":
 
@@ -49,7 +39,7 @@ At this point, there is a mismatch between the model and any saved data, and
 an exception will be thrown when you try to open the realm.
 
 Schema Version
---------------
+~~~~~~~~~~~~~~
 
 The **schema version** identifies the state of a :ref:`Realm Schema
 <dotnet-realm-schema>` at some point in time. Realm tracks the schema
@@ -71,7 +61,7 @@ the realm defaults to version ``0``.
    :ref:`object schemas <dotnet-object-schema>`.
 
 Migrate a Schema
-----------------
+~~~~~~~~~~~~~~~~
 
 .. _dotnet-og-schema:
 
@@ -100,7 +90,7 @@ A realm using schema version ``1`` has a ``Person`` object type:
 .. _dotnet-add-a-property:
 
 Add a Property
-~~~~~~~~~~~~~~
+``````````````
 
 The following example adds a ``LastName`` property to the
 :ref:`original Person schema <dotnet-og-schema>`:
@@ -112,7 +102,7 @@ The following example adds a ``LastName`` property to the
 .. _dotnet-delete-a-property:
 
 Delete a Property
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 The following example uses a combined
 ``FullName`` property instead of the separate ``FirstName`` and
@@ -126,7 +116,7 @@ The following example uses a combined
 .. _dotnet-rename-a-property:
 
 Modify a Property Type or Rename a Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```````````````````````````````````````````
 
 The following example modifies the ``Age`` property in the
 :ref:`original Person schema <dotnet-og-schema>` by
@@ -139,7 +129,7 @@ renaming it to ``Birthday`` and changing the type to ``DateTimeOffset``:
 .. _dotnet-migration-function:
 
 Create a Migration Function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```````````````````````````
 
 To migrate the realm to conform to the updated ``Person`` schema,
 set the realm's :ref:`schema version <dotnet-schema-version>` to
@@ -152,12 +142,4 @@ properties and the value of ``Birthday`` based on ``Age``:
    :emphasize-lines: 3, 21, 25, 31
    :linenos:
 
-.. tip:: Bypass Migration During Development
-
-   When **developing or debugging** your application, you may prefer to delete 
-   the realm instead of migrating it. Use the 
-   :dotnet-sdk:`ShouldDeleteIfMigrationNeeded <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration_ShouldDeleteIfMigrationNeeded>` 
-   flag to delete the database automatically when a schema mismatch would
-   require a migration. 
-
-   **Never release an app to production with this flag set to ``true``.**
+.. include:: /includes/tip-bypass-migration.rst

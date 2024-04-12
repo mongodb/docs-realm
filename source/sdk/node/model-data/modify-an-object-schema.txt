@@ -13,23 +13,13 @@ Change an Object Model - Node.js SDK
 
 .. _node-schema-version:
 
-Local and Synced Schema Changes
--------------------------------
-
-You can make changes to your object schema after you 
-:ref:`define your Realm object model <node-define-a-realm-object-schema>`.  
-Depending on the type of changes you make to the schema, the changes can be 
-automatically applied or require a manual update to the new schema. 
-
-The steps involved in changing your data model depend on whether 
-you are working with a synced realm or an unsynced (local-only) realm. This page 
-provides the information you need to migrate an unsycned realm.  
-
 .. include:: /includes/baas-server-migration-note.rst
 
+Update a Data Model in an Unsynced (Local-Only) Realm
+-----------------------------------------------------
 
 Schema Version
---------------
+~~~~~~~~~~~~~~
 
 A **schema version** identifies the state of a :ref:`realm schema
 <node-realm-schema>` at some point in time. Realm tracks the
@@ -53,7 +43,7 @@ the realm defaults to version ``0``.
 .. _node-migrations:
 
 Migrations
-----------
+~~~~~~~~~~
 
 A **migration** is a function that updates a realm and any objects it
 contains from one schema version to a newer
@@ -84,7 +74,7 @@ in the migration function to further customize property values.
 .. _node-add-a-property:
 
 Add a Property
---------------
+``````````````
 
 To add a property to a schema, add the new property to the object's class and
 set a ``schemaVersion`` of the :js-sdk:`realm's configuration object 
@@ -122,7 +112,7 @@ set a ``schemaVersion`` of the :js-sdk:`realm's configuration object
 .. _node-delete-a-property:
 
 Delete a Property
------------------
+`````````````````
 
 To delete a property from a schema, remove the property from the object's class
 and set a ``schemaVersion`` of the :js-sdk:`realm's configuration object
@@ -151,7 +141,7 @@ objects.
 .. _node-rename-a-property:
 
 Rename a Property
------------------
+`````````````````
 
 To rename an object property, change the property name in the object schema and
 then open the realm with an incremented :ref:`schema version
@@ -194,7 +184,8 @@ property, and then delete the old property.
    the existing internal name, but let your code use a different name.  
 
 Modify a Property Type
-----------------------
+``````````````````````
+
 To modify a property's type, set the property type of the field that you wish to
 modify to the new data type. Then, set a ``schemaVersion``, and a ``migration``
 callback function of the :js-sdk:`realm's configuration Object
@@ -228,3 +219,5 @@ callback function of the :js-sdk:`realm's configuration Object
          .. literalinclude:: /examples/Migrations/LocalMigration/LocalMigration-modify-property-type.js
            :language: javascript
            :emphasize-lines: 3, 12 
+
+.. include:: /includes/tip-bypass-migration.rst

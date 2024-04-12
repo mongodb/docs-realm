@@ -10,22 +10,10 @@ Change an Object Model - React Native SDK
    :depth: 2
    :class: singlecol
 
-Local and Synced Schema Changes
--------------------------------
-
-You can make changes to your object schema after you 
-:ref:`define your Realm object model <react-native-define-a-realm-object-model>`.  
-Depending on the type of changes you make to the schema, the changes can be 
-automatically applied or require a manual update to the new schema. 
-
-The steps involved in changing your data model depend on whether 
-you are working with a synced realm or an unsynced (local-only) realm. This page 
-provides the information you need to migrate an unsycned realm.  
-
 .. include:: /includes/baas-server-migration-note.rst
 
-Overview
---------
+Update a Data Model in an Unsynced (Local-Only) Realm
+-----------------------------------------------------
 
 When updating your object schema, you must increment the schema version 
 and perform a migration. 
@@ -43,20 +31,10 @@ in a ``migration`` function. This might include changes such as:
 - Changing a field's type
 - Converting from an object to an embedded object
 
-.. tip:: Bypass Migration During Development
-
-   When developing or debugging your application, you may prefer to delete the
-   realm instead of migrating it. Use the
-   :realm-react-sdk:`BaseConfiguration.deleteRealmIfMigrationNeeded
-   <types/Realm.BaseConfiguration.html>` property to delete the database automatically
-   when a schema mismatch requires a migration. 
-
-   Never release an app to production with this property set to ``true``.
-
 .. _react-native-schema-version:
 
 Schema Version
---------------
+~~~~~~~~~~~~~~
 
 A **schema version** identifies the state of a :ref:`realm schema
 <react-native-realm-schema>` at some point in time. Realm tracks the
@@ -78,7 +56,7 @@ realm defaults to version ``0``.
 .. _react-native-migrations:
 
 Migrations
-----------
+~~~~~~~~~~
 
 A **migration** is a function that updates a realm and any objects it contains
 from one :ref:`schema version <react-native-schema-version>` to a newer version.
@@ -99,7 +77,7 @@ in the migration function to further customize property values.
 .. _react-native-add-a-property:
 
 Add a Property
---------------
+``````````````
 
 To add a property to a schema, add the new property to the object's class and
 set a ``schemaVersion`` of the ``Configuration`` object.
@@ -133,7 +111,7 @@ set a ``schemaVersion`` of the ``Configuration`` object.
 .. _react-native-delete-a-property:
 
 Delete a Property
------------------
+`````````````````
 
 To delete a property from a schema, remove the property from the object's class
 and set a ``schemaVersion`` of the :realm-react-sdk:`Configuration 
@@ -171,7 +149,7 @@ impact existing objects.
 .. _react-native-rename-a-property:
 
 Rename a Property
------------------
+`````````````````
 
 To rename an object property, change the property name in the object schema and
 then create a realm configuration with an incremented :ref:`schema version
@@ -225,7 +203,7 @@ property, and then delete the old property.
    internal name, but let your code use a different name.  
 
 Modify a Property Type
-----------------------
+``````````````````````
 
 To modify a property's type, set the property type of the field that you wish to
 modify to the new data type. Then, set a ``schemaVersion``, and a ``migration``
@@ -268,3 +246,5 @@ callback function of the :realm-react-sdk:`Configuration
          .. literalinclude:: /examples/generated/react-native/js/change-an-object-model-test.snippet.modify-a-property-type.jsx
            :language: javascript
            :emphasize-lines: 6, 18, 29
+
+.. include:: /includes/tip-bypass-migration.rst

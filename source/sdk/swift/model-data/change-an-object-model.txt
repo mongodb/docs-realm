@@ -10,23 +10,12 @@ Change an Object Model - Swift SDK
    :depth: 2
    :class: singlecol
 
-Local and Synced Schema Changes
--------------------------------
 
-You can make changes to your object schema after you 
-:ref:`define your Realm object model <swift-object-models>`.  
-Depending on the type of changes you make to the schema, the changes can be 
-automatically applied or require a manual update to the new schema. 
-
-The steps involved in changing your data model depend on whether 
-you are working with a synced realm or an unsynced (local-only) realm. This page 
-provides the information you need to migrate an unsycned realm.  
 
 .. include:: /includes/baas-server-migration-note.rst
 
-
-Overview
---------
+Update a Data Model in an Unsynced (Local-Only) Realm
+-----------------------------------------------------
 
 When you update your object schema, you must increment the schema version 
 and perform a migration. 
@@ -50,21 +39,13 @@ in a ``migrationBlock``. This might include changes such as:
 - Changing a field's type
 - Converting from an object to an embedded object
 
-.. tip:: Bypass Migration During Development
-
-   When developing or debugging your application, you may prefer to delete 
-   the realm instead of migrating it. Use the 
-   :swift-sdk:`deleteRealmIfMigrationNeeded <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>` 
-   flag to delete the database automatically when a schema mismatch would
-   require a migration. 
-
-   Never release an app to production with this flag set to ``true``.
+.. include:: /includes/tip-bypass-migration.rst
 
 .. _ios-schema-versions-and-migrations:
 .. _ios-schema-version:
 
 Schema Version
---------------
+~~~~~~~~~~~~~~
 
 A **schema version** identifies the state of a :ref:`Realm Schema
 <ios-realm-schema>` at some point in time. Realm tracks the schema
@@ -105,12 +86,12 @@ manual migration, you can define new and deleted properties when they
 are added or removed from your schema.
 
 Automatically Update Schema
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. _ios-add-a-property:
 
 Add a Property
-~~~~~~~~~~~~~~
+``````````````
 
 Realm can automatically migrate added
 properties, but you must specify an updated schema version when you make 
@@ -178,7 +159,7 @@ these changes.
 .. _ios-delete-a-property:
 
 Delete a Property
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 To delete a property from a schema, remove the property from the object's class 
 and set a ``schemaVersion`` of the realm's configuration object. Deleting a property 
@@ -248,7 +229,7 @@ will not impact existing objects.
 .. _ios-perform-a-schema-migration:
 
 Manually Migrate Schema
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 For more complex schema updates, Realm requires a manual
 migration for old instances of a given object to the new schema.
@@ -256,7 +237,7 @@ migration for old instances of a given object to the new schema.
 .. _ios-rename-a-property:
 
 Rename a Property
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 To rename a property during a migration, use the
 :swift-sdk:`Migration.renameProperty(onType:from:to:)
@@ -288,7 +269,8 @@ during the rename operation.
 .. _ios-modify-properties:
 
 Modify Properties 
-~~~~~~~~~~~~~~~~~~
+`````````````````
+
 .. tip::
 
    You can use the :swift-sdk:`deleteRealmIfMigrationNeeded <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>` 
@@ -398,7 +380,7 @@ Realm type in the realm.
 .. _ios-convert-to-an-embedded-object:
 
 Convert from Object to EmbeddedObject
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+`````````````````````````````````````
 
 :ref:`Embedded objects <ios-embedded-objects>` cannot exist
 independently of a parent object. When changing an Object to an
@@ -423,7 +405,7 @@ or multiple backlinks raises the following exceptions:
 .. _ios-additional-migration-examples:
 
 Additional Migration Examples
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Please check out the additional migration examples on the
 :github:`realm-swift repo
