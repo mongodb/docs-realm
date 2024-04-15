@@ -1,6 +1,7 @@
 define: prefix docs/realm
 define: base https://www.mongodb.com/${prefix}
 define: appServicesBase https://www.mongodb.com/docs/atlas/app-services
+define: deviceSDKsBase https://www.mongodb.com/docs/atlas/device-sdks
 
 raw: ${prefix}/tutorials -> ${base}/tutorial/
 raw: ${prefix}/deploy/application-schema -> ${base}/deploy/application-configuration-files/
@@ -1291,3 +1292,11 @@ raw: ${prefix}/sdk/react-native/use-realm-react -> ${base}/sdk/react-native/api-
 raw: ${prefix}/sdk/node/integrations/electron-cra -> ${base}/sdk/node/
 raw: ${prefix}/sdk/node/integrations/electron -> ${base}/sdk/node/
 raw: ${prefix}/sdk/node/integrations -> ${base}/sdk/node/
+
+# DOP-4255 Rehoming /docs/realm docs at /docs/atlas/device-sdks
+raw: ${prefix} -> ${deviceSDKsBase}/
+raw: ${prefix}/introduction -> ${deviceSDKsBase}/introduction/
+raw: ${prefix}/realm-query-language -> ${deviceSDKsBase}/realm-query-language/
+raw: ${prefix}/example-projects -> ${deviceSDKsBase}/example-projects/
+raw: ${prefix}/help -> ${deviceSDKsBase}/help/
+raw: ${prefix}/migrate -> ${deviceSDKsBase}/migrate/
