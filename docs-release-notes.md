@@ -1,3 +1,11 @@
+# April 12, 2024
+
+## Other
+
+- Add redirects from `/docs/realm/` to /`docs/atlas/device-sdks/` for remaining top-level directories.
+- Internal:
+  - Update dependencies in Web SDK test suite.
+
 # April 5, 2024
 
 ## Java SDK
