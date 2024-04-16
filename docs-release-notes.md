@@ -1,3 +1,9 @@
+# April 12, 2024
+
+## Internal
+
+- Update dependencies in Web SDK test suite.
+
 # April 5, 2024
 
 ## Java SDK
