@@ -1,3 +1,12 @@
+# April 19, 2024
+
+## Internal
+
+- Flutter SDK: Remove the GraphQL Dart/Flutter test and package dependency.
+- Web SDK: Update package dependencies.
+- Domain updates: Add redirects for top-level docs pages from `/docs/realm/` to `/docs/atlas/device-sdks/`.
+- Name update: Update name in sidebar from `Atlas Device SDK` to `Atlas Device SDKs`.
+
 # April 12, 2024
 
 ## Internal
