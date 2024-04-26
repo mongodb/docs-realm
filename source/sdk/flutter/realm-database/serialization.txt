@@ -1,0 +1,98 @@
+.. _flutter-serialization:
+
+===========================
+Serialization - Flutter SDK
+===========================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The Atlas Device SDK for Flutter supports serialization and deserialization of
+:manual:`EJSON </reference/mongodb-extended-json>` to and from static Realm objects.
+Serialization allows for easier integration with MongoDB APIs.
+
+Supported Data Types for Serialization
+--------------------------------------
+
+The following data types can be serialized and deserialized:
+
+- Array
+- Binary
+- Boolean
+- Date
+- Decimal128
+- Double
+- Int32
+- Int64
+- MaxKey
+- MinKey
+- ObjectID
+- String
+- Symbol
+- Null
+- Undefined
+
+Serialization
+-------------
+
+You can use ``toEJson()`` to serialize objects of the supported data types 
+in the following ways:
+
+Deserialization
+---------------
+
+
+
+Full-Document Serialization
+---------------------------
+
+The full-document encoder enables you to serialize and deserialize user-defined 
+classes. 
+
+Object Model for Serialization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create your object model as you normally would. The RealmObject class
+model created by your ``part`` declaration will provide the neccessary encoder 
+and decoder methods for serialization and deserialization. The following ``Pet``
+object model will be used in the following examples:
+
+.. literalinclude:: /examples/generated/flutter/pet.snippet.serialize-object-model.dart
+    :language: dart
+
+Serialization
+~~~~~~~~~~~~~
+
+For objects in a Realm, you can serialize to EJSON using the ``toEjson()`` method. 
+
+.. literalinclude:: source/examples/generated/flutter/serialization_test.snippet.serialize.dart
+    :language: dart
+
+The outputted EJSON looks like the following:
+
+.. code-block:: EJSON
+
+    {
+    type: Jumping Spider, 
+    numberOfLegs: {$numberInt: 8}, 
+    birthDate: {$date: {$numberLong: 1712707200000}}, 
+    price: null
+    }
+
+Deserialization
+~~~~~~~~~~~~~~~
+
+Deserialize from EJSON using the ``fromEJSON()`` method. The method takes EJSON
+for a specified object type as input and outputs a deserialized instance of the 
+specified object type. 
+
+.. literalinclude:: /examples/generated/flutter/serialization_test.snippet.deserialize.dart
+    :language: dart
+
+Common Errors
+-------------
+
+
