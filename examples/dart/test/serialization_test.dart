@@ -64,7 +64,5 @@ main() {
     // make sure deserialized returns proper instance of Pet object
     expect(deserializeFromEjson.type, spider.type);
 
-    // note that when you deserizliae a datetime from ejson, it will append a Z to the end to note that it is of type DateTime rather than just Date
-
   });
 }
