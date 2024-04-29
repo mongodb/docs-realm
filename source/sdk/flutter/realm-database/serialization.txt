@@ -38,16 +38,11 @@ The following data types can be serialized and deserialized:
 For more information and examples on the serialization for each of these types,
 see :manual:`BSON Data Types and Associated Representations </reference/mongodb-extended-json/#bson-data-types-and-associated-representations>`.
 
-Full-Document Serialization
----------------------------
-
-The full-document encoder enables you to serialize and deserialize user-defined 
-classes. 
-
 Object Model for Serialization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
-You can create your object model as you normally would. The RealmObject class
+Full-document encoding enables you to serialize and deserialize user-defined 
+classes. You can create your object model as you normally would. The RealmObject class
 model created by your ``part`` declaration will provide the neccessary encoder 
 and decoder methods for serialization and deserialization. The following ``Pet``
 object model will be used in the following examples:
@@ -56,7 +51,7 @@ object model will be used in the following examples:
     :language: dart
 
 Serialization
-~~~~~~~~~~~~~
+-------------
 
 For objects in a Realm, you can serialize to EJSON using the ``toEjson()`` method. 
 
@@ -75,7 +70,7 @@ The outputted EJSON looks like the following:
     }
 
 Deserialization
-~~~~~~~~~~~~~~~
+---------------
 
 Deserialize from EJSON using the ``fromEJSON()`` method. The method takes EJSON
 for a specified object type as input and outputs a deserialized instance of the 
