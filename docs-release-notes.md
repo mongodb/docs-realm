@@ -2,7 +2,7 @@
 
 ## Flutter SDK
 
-- Remove set up information for using the Atlas GraphQL API.
+- Atlas App Services/Query Atlas GraphQL API: Remove set up information for using the Atlas GraphQL API.
 
 ## React Native SDK
 
