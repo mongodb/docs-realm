@@ -1,3 +1,13 @@
+# April 26, 2024
+
+## Flutter SDK
+
+- Remove set up information for using the Atlas GraphQL API.
+
+## React Native SDK
+
+- Debugging with Flipper: Remove page, its TOC entry, and associated redirects.
+
 # April 19, 2024
 
 ## Internal
