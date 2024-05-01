@@ -78,7 +78,8 @@ class RealmAppTest: XCTestCase {
         // fail in CI. So I'm going to expect this test to fail.
         
         // :snippet-start: custom-base-url
-        // Specify a baseURL to connect to an Edge Server instance running on the device
+        // Specify a baseURL to connect to a server other than the default.
+        // In this case, an Edge Server instance running on the device.
         let configuration = AppConfiguration(baseURL: "http://localhost:80")
 
         let app = App(id: EDGE_SERVER_APP_ID, configuration: configuration)
@@ -103,6 +104,9 @@ class RealmAppTest: XCTestCase {
         
         do {
             // :snippet-start: change-base-url
+            // Specify a baseURL to connect to a server other than the default.
+            // In this case, an Edge Server instance running on the device.
+            let configuration = AppConfiguration(baseURL: "http://localhost:80")
             let app = App(id: YOUR_APP_SERVICES_APP_ID, configuration: configuration)
             
             // ... log in a user and use the app...
