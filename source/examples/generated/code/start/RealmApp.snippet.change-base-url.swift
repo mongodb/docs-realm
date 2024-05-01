@@ -1,0 +1,6 @@
+let app = App(id: YOUR_APP_SERVICES_APP_ID, configuration: configuration)
+
+// ... log in a user and use the app...
+// ... some time later...
+
+try await app.updateBaseUrl(to: "https://services.cloud.mongodb.com")

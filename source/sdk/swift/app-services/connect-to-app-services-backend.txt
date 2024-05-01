@@ -101,6 +101,58 @@ refer to :objc-sdk:`RLMSyncTimeoutOptions <Classes/RLMSyncTimeoutOptions.html>`.
 .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.app-config-sync-timeout.swift
    :language: swift
 
+.. _swift-connect-to-specific-server:
+
+Connect to a Specific Server
+----------------------------
+
+By default, Atlas Device SDK connects to Atlas using the global ``baseURL``
+of ``https://services.cloud.mongodb.com``. In some cases, you may want to
+connect to a different server:
+
+- Your App Services App uses :ref:`local deployment <local-deployment>`, and 
+  you want to connect directly to a local ``baseURL`` in your region
+- You want to connect to an :ref:`Edge Server instance <edge-server-connect-from-client>`
+
+You can specify a ``baseURL`` in the 
+:swift-sdk:`AppConfiguration <Extensions/AppConfiguration.html>`:
+
+.. literalinclude:: /examples/generated/code/start/RealmApp.snippet.custom-base-url.swift
+   :language: swift
+
+Connect to a Different Server During Runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.50.0
+
+In some cases, you might want to change the ``baseURL`` while the app is
+running. For example, you might want to roam between Edge Servers, or
+move from an App Services connection to an Edge Server connection. To change
+the ``baseURL`` during runtime, call the ``app.updateBaseUrl(to: )`` method:
+
+.. literalinclude:: /examples/generated/code/start/RealmApp.snippet.change-base-url.swift
+   :language: swift
+
+This API is experimental, so you must use the experimental import in the file
+where you want to use this API:
+
+.. literalinclude:: /examples/generated/code/start/RealmApp.snippet.import-experimental.swift
+   :language: swift
+
+If you want to change the ``baseURL`` after you have logged in a user and
+have opened a synced database, the app must perform a 
+:ref:`client reset <ios-client-reset>`. Perform these steps in your code:
+
+1. :ref:`Pause the Sync session <swift-suspend-sync-session>`
+2. Update the ``baseURL`` by calling the ``app.updateBaseUrl(to: )`` method
+3. Go through the authentication flow again to log in the user through the
+   new ``baseURL``
+4. Open a synced database pulling data from the new server
+
+Both the server and the client must be online for the user to authenticate and
+connect to the new server. If the server is not online or the client does not
+have a network connection, the user cannot authenticate and open the database.
+
 Supported Operating Systems
 ---------------------------
 
