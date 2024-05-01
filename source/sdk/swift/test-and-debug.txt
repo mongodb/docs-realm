@@ -4,6 +4,14 @@
 Test and Debug - Swift SDK
 ==========================
 
+.. meta:: 
+   :description: Learn how to test, debug, and troubleshoot Atlas Device SDK for Swift.
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -272,3 +280,35 @@ Bad Alloc/Not Enough Memory Available
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/ios-ipados-bad-alloc.rst
+
+.. _swift-package-link-only-one-target-change:
+
+Swift Package Target Cannot be Built Dynamically
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionchanged:: 10.49.3
+
+Swift SDK v10.49.3 changed the details for installing the package with 
+Swift Package Manager (SPM). When you update from an older version of the
+package to v10.49.3 or newer, you may get a build error similar to:
+
+.. code-block:: console
+   :copyable: false
+
+   Swift package target `Realm` is linked as a static library by `TargetName`
+   and `Realm`, but cannot be built dynamically because there is a package
+   product with the same name.
+
+To resolve this error, unlink either the ``Realm`` or the ``RealmSwift`` 
+package from your build target. You can do this in Xcode by following these
+steps:
+
+1. In your project :guilabel:`Targets`, select your build target.
+2. Go to the :guilabel:`Build Phases` tab.
+3. Expand the :guilabel:`Link Binary With Libraries` element.
+4. Select either ``Realm`` or ``RealmSwift``, and click the Remove items 
+   (:guilabel:`-`) button to remove the unneeded binary. For details about
+   which binary to link, refer to the Swift Package Manager 
+   :ref:`installation instructions <ios-install>`.
+
+Now your target should build without this error.
