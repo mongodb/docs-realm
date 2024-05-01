@@ -72,12 +72,9 @@ Swift SDK to your project.
 
          .. step:: Add Package Dependency
 
-
             In Xcode, select ``File`` > ``Add Packages...``.
 
-
          .. step:: Specify the Repository
-
 
             Copy and paste the following into the search/input box.
 
@@ -85,20 +82,38 @@ Swift SDK to your project.
 
                https://github.com/realm/realm-swift.git
 
-
          .. step:: Specify Options
-
 
             In the options for the ``realm-swift`` package, we recommend setting
             the ``Dependency Rule`` to ``Up to Next Major Version``,
             and enter the `current Realm Swift SDK version
             <https://github.com/realm/realm-swift/releases>`__ . Then, click ``Add Package``.
 
-
          .. step:: Select the Package Products
 
+            .. versionchanged:: 10.49.3
+               Instead of adding both, only add one package.
 
-            Select both ``Realm`` and ``RealmSwift``, then click ``Add Package``.
+            Select either ``Realm`` and ``RealmSwift``, then click ``Add Package``.
+
+            - If you use Swift or Swift and Objective-C APIs, add ``RealmSwift``.
+            - If you use *only* Objective-C APIs, add ``Realm``.
+
+         .. step:: (Optional) Build RealmSwift as a Dynamic Framework
+
+            To use the Privacy Manifest supplied by the SDK, build ``RealmSwift``
+            as a dynamic framework. If you build ``RealmSwift`` as a static
+            framework, you must supply your own Privacy Manifest. To build
+            ``RealmSwift`` as a dynamic framework:
+
+            1. In your project :guilabel:`Targets`, select your build target.
+            2. Go to the :guilabel:`General` tab.
+            3. Expand the :guilabel:`Frameworks and Libraries` element.
+            4. For the ``RealmSwift`` framework, change the 
+               :guilabel:`Embed` option from "Do Not Embed" to "Embed & Sign."
+
+            Now, Xcode builds ``RealmSwift`` dynamically, and can provide the
+            SDK-supplied Privacy Manifest.
 
    .. tab:: CocoaPods
       :tabid: cocoapods
@@ -431,10 +446,12 @@ refer to :ref:`swift-actor-isolated-realm`.
 Apple Privacy Manifest
 ----------------------
 
-Starting in Spring 2024, Apple requires apps that use ``RealmSwift`` to
-provide details about the SDK's data collection and use practices when 
-submitting new apps or app updates to the App Store. For more details about 
-Apple's requirements, refer to 
+.. versionchanged:: 10.49.3
+   Build RealmSwift as a dynamic framework to include the Privacy Manifest.
+
+Apple requires apps that use ``RealmSwift`` to provide details about the SDK's
+data collection and use practices when submitting new apps or app updates to 
+the App Store. For more details about Apple's requirements, refer to 
 :apple:`Upcoming third-party SDK requirements <support/third-party-SDK-requirements/>`
 on the Apple Developer website.
 
@@ -447,6 +464,11 @@ GitHub repository:
 
 - ``Realm``: `https://github.com/realm/realm-swift/blob/master/Realm/PrivacyInfo.xcprivacy <https://github.com/realm/realm-swift/blob/master/Realm/PrivacyInfo.xcprivacy>`_
 - ``RealmSwift``: `https://github.com/realm/realm-swift/blob/master/RealmSwift/PrivacyInfo.xcprivacy <https://github.com/realm/realm-swift/blob/master/RealmSwift/PrivacyInfo.xcprivacy>`_
+
+To include these manifests in a build target that uses ``RealmSwift``, you must
+build ``RealmSwift`` as a dynamic framework. For details, refer to the Swift
+Package Manager Installation instructions step 
+**(Optional) Build RealmSwift as a Dynamic Framework**.
 
 The Swift SDK does not include analytics code in builds for the App Store. 
 The SDK does not log into Atlas on its own behalf. 

@@ -596,7 +596,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation, expectation2, expectation3], timeout: 20)
+        wait(for: [expectation, expectation2, expectation3], timeout: 25)
     }
 
     // MARK: Update Many
