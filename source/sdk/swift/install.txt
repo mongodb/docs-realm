@@ -31,21 +31,20 @@ Prerequisites
 Before getting started, ensure your development environment
 meets the following prerequisites:
 
-- Xcode 14.1-14.3.1 with a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
+- Xcode 15.1 with a target of iOS 12.0 or higher, macOS 10.14 or higher, tvOS 12.0 or higher, or watchOS 4.0 or higher.
 - Reflection is enabled in your project. The Swift SDK uses reflection to 
   determine your model's properties. Your project must not set 
   ``SWIFT_REFLECTION_METADATA_LEVEL = none``, or the SDK cannot see properties 
   in your model. Reflection is enabled by default if your project does 
   not specifically set a level for this setting. 
 
-.. versionchanged:: 10.40.0
+.. versionchanged:: 10.50.0
 
-Swift SDK version 10.40.0 drops support for Xcode 13. For v10.39.01 and earlier,
-these Xcode 13 requirements apply:
+Swift SDK version 10.50.0 drops support for Xcode 14. For v10.49.3 and earlier,
+these Xcode 14 requirements apply:
 
-- `Xcode <https://developer.apple.com/xcode/>`__ version 13.1 or higher.
-- When using Xcode 13, a target of iOS 9.0 or higher, macOS 10.9 or higher, tvOS 9.0 or higher, or watchOS 2.0 or higher.
-- If using Swift Package Manager with Xcode 13, target of iOS 11+ or macOS 10.10+ is required.
+- `Xcode <https://developer.apple.com/xcode/>`__ version 14.1 or higher.
+- When using Xcode 14, a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
 
 .. note::
 
@@ -354,38 +353,13 @@ for information about resolving those issues.
 OS Support
 ----------
 
+.. versionchanged:: 10.50.0
+   Removed support for Xcode 14.
+
 .. important::
 
    There are special considerations when using the SDK with
    tvOS. See :ref:`ios-tvos` for more information.
-
-Xcode 14
-~~~~~~~~
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-   :class: index-table
-
-   * - Supported OS
-     - Realm
-     - Atlas App Services
-
-   * - iOS 11.0+
-     - X
-     - X
-
-   * - macOS 10.13+
-     - X
-     - X
-
-   * - tvOS 11.0+
-     - X
-     - X
-
-   * - watchOS 4.0+
-     - X
-     - 
 
 Xcode 15
 ~~~~~~~~
