@@ -1,3 +1,5 @@
+import "dart:html_common";
+
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import "dart:io";
@@ -6,6 +8,7 @@ import "dart:isolate";
 
 void main() {
   const APP_ID = "example-testers-kvjdy";
+  const EDGE_SERVER_APP_ID = "edge-server-npqxd";
 
   group('App Services client - ', () {
     test('Access App client', () {
@@ -29,22 +32,36 @@ void main() {
       expect(appConfig.defaultRequestTimeout, Duration(seconds: 120));
     });
 
-    test('BaseUrl not cached on App config', () {
-      final newUrl = Uri.parse('https://dart.dev');
-      
-      // Instantiate App with default BaseUrl
-      final appConfig = AppConfiguration(APP_ID,
-          defaultRequestTimeout: const Duration(seconds: 120)
-          );
-      var app = App(appConfig);
-      expect(app.baseUrl.toString(), 'https://realm.mongodb.com');
+    test('Custom BaseUrl', () {
+      // :snippet-start: import-experimental
+      @Experimental()
+      // :snippet-end:
+          // :snippet-start: custom-base-url
+          // Specify a baseUrl to connect to a server other than the default.
+          // In this case, an Edge Server instance running on the device.
+          final appConfig = AppConfiguration(EDGE_SERVER_APP_ID,
+              baseUrl: Uri.parse('http://localhost:80'));
 
-      // Update with new BaseUrl
-      final newConfig = AppConfiguration(APP_ID,
-          defaultRequestTimeout: const Duration(seconds: 120), 
-          baseUrl:newUrl);
-      app = App(newConfig);
-      expect(app.baseUrl.toString(), 'https://dart.dev');
+      var app = App(appConfig);
+      // :snippet-end:
+      expect(app.baseUrl.toString(), 'http://localhost:80');
+    });
+
+    test('Change BaseUrl', () {
+      @Experimental()
+      // :snippet-start: change-base-url
+      // Specify a custom baseUrl to connect to.
+      final appConfig = AppConfiguration(EDGE_SERVER_APP_ID,
+          baseUrl: Uri.parse('http://localhost:80'));
+
+      var app = App(appConfig);
+      expect(app.baseUrl.toString(), 'http://localhost:80'); // :remove:
+
+      // ... log in a user and use the app ...
+
+      // Later, change the baseUrl to a different server
+      app.updateBaseUrl(Uri.parse('https://services.cloud.mongodb.com'));
+      // :snippet-end:
     });
 
     test('Access App on background isolate by id', () async {
