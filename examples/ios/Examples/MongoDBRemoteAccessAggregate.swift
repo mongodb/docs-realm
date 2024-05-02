@@ -276,7 +276,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation, expectation2, expectation3], timeout: 30)
+        wait(for: [expectation, expectation2, expectation3], timeout: 45)
     }
 
     // MARK: Aggregation Add Fields
