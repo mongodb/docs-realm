@@ -1,17 +1,29 @@
-import React from 'react';
+import React, {useState, Dispatch, SetStateAction} from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
-import {useApp} from '@realm/react';
 import {useAuth} from '@realm/react';
 import {Text, View, Pressable, StyleSheet} from 'react-native';
-import {APP_ID} from '../../../appServicesConfig';
+import {useApp} from '@realm/react';
+import {EDGE_APP_ID} from '../../../appServicesConfig';
+import 'realm/experimental/base-url';
+
+const APP_ID = EDGE_APP_ID;
+
+// TODO: When @realm/react gets this feature, add this component to
+// navigation.
 
 export const AppWithAuthHook = () => {
-  // use setstate to change base url variable here?
+  const [baseUrl, setBaseUrl] = useState('');
+
   return (
     <View>
-      <AppProvider id={APP_ID}>
+      <AppProvider
+        id={APP_ID}
+        baseUrl={baseUrl}>
         <UserProvider fallback={LogIn}>
-          <MyApp />
+          <MyApp
+            baseUrl={baseUrl}
+            setBaseURL={setBaseUrl}
+          />
         </UserProvider>
       </AppProvider>
     </View>
@@ -34,13 +46,35 @@ const LogIn = () => {
   );
 };
 
-function MyApp() {
+interface MyAppProps {
+  baseUrl: string;
+  setBaseURL: Dispatch<SetStateAction<string>>;
+}
+
+function MyApp({baseUrl, setBaseURL}: MyAppProps) {
   const app = useApp();
 
+  const handleBaseUrlUpdate = (newBaseUrl: string) => {
+    // TODO: Uncomment when @realm/react supports it
+    // app.updateBaseUrl(newBaseUrl);
+  };
+
   return (
-    <Text testID="logged-in-user-id">
-      "Logged in as user with ID: {app.currentUser?.id}"
-    </Text>
+    <View>
+      <Text testID="logged-in-user-id">baseURL: {baseUrl}</Text>
+      <Pressable
+        onPress={() => {
+          handleBaseUrlUpdate(baseUrl);
+        }}>
+        <Text>Connect to Edge Server</Text>
+      </Pressable>
+      <Pressable
+        onPress={() => {
+          handleBaseUrlUpdate('');
+        }}>
+        <Text>Connect to Atlas directly</Text>
+      </Pressable>
+    </View>
   );
 }
 
