@@ -1,19 +1,12 @@
-// :snippet-start: app-config-imports
 import React from 'react';
 import {AppProvider, UserProvider} from '@realm/react';
-// :snippet-end:
-// :snippet-start: import-use-app
-// :uncomment-start:
-//import React from 'react';
-// :uncomment-end:
 import {useApp} from '@realm/react';
-// :snippet-end:
 import {useAuth} from '@realm/react';
 import {Text, View, Pressable, StyleSheet} from 'react-native';
 import {APP_ID} from '../../../appServicesConfig';
 
-// :snippet-start: app-config
 export const AppWithAuthHook = () => {
+  // use setstate to change base url variable here?
   return (
     <View>
       <AppProvider id={APP_ID}>
@@ -24,7 +17,6 @@ export const AppWithAuthHook = () => {
     </View>
   );
 };
-// :snippet-end:
 
 const LogIn = () => {
   const {logInWithAnonymous} = useAuth();
@@ -42,21 +34,39 @@ const LogIn = () => {
   );
 };
 
-// :snippet-start: use-app
 function MyApp() {
   const app = useApp();
-  // Proceed to app logic...
-  // :remove-start:
+
   return (
     <Text testID="logged-in-user-id">
       "Logged in as user with ID: {app.currentUser?.id}"
     </Text>
   );
-  // :remove-end:
 }
-// :snippet-end:
 
 const styles = StyleSheet.create({
+  section: {
+    flex: 1,
+    marginTop: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  textInput: {
+    backgroundColor: '#C5CAE9',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 5,
+  },
+  inputGroup: {
+    width: '100%',
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: 12,
+    paddingVertical: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   button: {
     backgroundColor: '#3F51B5',
     borderWidth: StyleSheet.hairlineWidth,
