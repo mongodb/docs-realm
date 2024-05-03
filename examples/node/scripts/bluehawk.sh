@@ -25,7 +25,7 @@ OUTPUT_DIRECTORY=$PROJECT/source/examples/generated/node/v12/formatted
 
 # standard bluehawking
 echo "${GREEN_BG_BOLD}Bluehawk: ${CLEAR} ${GREEN} Generate Node.js v12 examples ${CLEAR}"
-bluehawk snip $INPUT_DIRECTORY -o $OUTPUT_DIRECTORY --format=rst
+npx bluehawk snip $INPUT_DIRECTORY -o $OUTPUT_DIRECTORY --format=rst
 
 FILES_TO_REMOVE=$(find $OUTPUT_DIRECTORY -type f -not -name "*.rst")
 
