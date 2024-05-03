@@ -104,6 +104,7 @@
                 XCTAssertNotNil(newObjectId);
                 // :remove-end:
         }];
+        sleep(5);
         // :remove-end:
 
         // Update the user's custom data document

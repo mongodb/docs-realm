@@ -6,11 +6,12 @@ Manage Sync Sessions - Swift SDK
 ================================
 
 .. meta:: 
-  :keywords: code example
+   :description: Access the SyncSession to check network connection, wait for uploads and downloads, and check Sync progress.
+   :keywords: code example
 
 .. facet::
-  :name: genre
-  :values: reference
+   :name: genre
+   :values: reference
 
 .. contents:: On this page
    :local:
@@ -163,7 +164,18 @@ waiting is complete.
 Check Upload & Download Progress for a Sync Session
 ---------------------------------------------------
 
-.. include:: /includes/flex-sync-unsupported-progress-notifications.rst
+.. versionchanged:: 10.50.0
+   ``transferredBytes`` and ``transferrableBytes`` deprecated in favor of ``progressEstimate``
+
+You can check upload and download progress by registering a token that provides
+a ``progressEstimate`` for a given upload or download direction and work scope.
+You can set a ``ProgressMode`` to determine the work scope; either observe
+indefinitely, or unregister the block after the current work item has completed.
+
+The ``progressEstimate`` value provided by the token is a double whose value
+ranges from ``0.0`` to ``1.0``. At ``1.0``, the upload or download is complete.
+You can use this ``progressEstimate`` to display a progress indicator or
+estimated data transfer percentage.
 
 .. tabs-realm-languages::
 
@@ -181,16 +193,19 @@ Check Upload & Download Progress for a Sync Session
       keep the token in a local variable, observation will stop when the
       local variable goes out of scope.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-progress.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-progress-estimate.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
+      .. versionchanged:: 10.50.0
+         Deprecated ``addProgressNotificationForDirection`` in favor of ``addSyncProgressNotificationForDirection``
+
       You can add a progress notification using the synced realm's
       RLMSyncSession instance's
-      :objc-sdk:`[--addProgressNotificationForDirection:mode:block:]
-      <Classes/RLMSyncSession.html#/c:objc(cs)RLMSyncSession(im)addProgressNotificationForDirection:mode:block:>`
+      :objc-sdk:`[--addSyncProgressNotificationForDirection:mode:block:]
+      <Classes/RLMSyncSession.html#/c:objc(cs)RLMSyncSession(im)addSyncProgressNotificationForDirection:mode:block:>`
       method.
 
       This method returns a token that you should retain until you wish

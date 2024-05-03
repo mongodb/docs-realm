@@ -185,29 +185,77 @@ class Sync: AnonymouslyLoggedInTestCase {
         let expectation = XCTestExpectation(description: "it completes")
         expectation.assertForOverFulfill = false
 
-        // :snippet-start: check-progress
         let syncSession = syncedRealm.syncSession!
         let token = syncSession.addProgressNotification(
             for: .upload, mode: .forCurrentlyOutstandingWork) { (progress) in
 
-            let transferredBytes = progress.transferredBytes
-            let transferrableBytes = progress.transferrableBytes
-            let transferPercent = progress.fractionTransferred * 100
+            let transferPercent = progress.progressEstimate * 100
 
-            print("Uploaded \(transferredBytes)B / \(transferrableBytes)B (\(transferPercent)%)")
-            // :remove-start:
+            print("Uploaded (\(transferPercent)%)")
             expectation.fulfill()
-            // :remove-end:
         }
 
         // Upload something
         try! syncedRealm.write {
             syncedRealm.add(SyncExamples_Task())
         }
-        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
+    @MainActor
+    func testCheckProgressFlexibleSync() async {
+        let app = App(id: APPID)
+        let expectation = XCTestExpectation(description: "Progress notification is sent")
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                let subscriptions = realm.subscriptions
+                try await subscriptions.update {
+                    subscriptions.append(QuerySubscription<FlexibleSync_Task>())
+                }
+                checkSyncProgress(realm: realm)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+        
+        func checkSyncProgress(realm: Realm) {
+            let todo = FlexibleSync_Task()
+            todo.dueDate = (Date.now + TimeInterval(86400))
+            todo.taskName = "This task should appear in the Flex Sync realm"
+            todo.progressMinutes = 20
+            todo.completed = false
+            
+            // :snippet-start: check-progress-estimate
+            let syncSession = realm.syncSession!
+            let token = syncSession.addProgressNotification(
+                for: .upload, mode: .forCurrentlyOutstandingWork) { (progress) in
+                    
+                    let progressEstimate = progress.progressEstimate
+                    let transferPercent = progressEstimate * 100
+                    
+                    print("Uploaded (\(transferPercent)%)")
+                    // :remove-start:
+                    // Verify that progress increases.
+                    XCTAssertGreaterThanOrEqual(progress.progressEstimate, progressEstimate)
+                    expectation.fulfill()
+                    // :remove-end:
+                }
+            // :snippet-end:
+            try! realm.write {
+                realm.add(todo)
+            }
+        }
+        await fulfillment(of: [expectation], timeout: 10)
+    }
+    
     func testSetClientLogLevelDeprecated() {
         // :snippet-start: set-log-level-deprecated
         // This code example shows how to set the log level

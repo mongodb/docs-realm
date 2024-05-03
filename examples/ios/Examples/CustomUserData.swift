@@ -107,6 +107,7 @@ class CustomUserData: XCTestCase {
                         XCTAssertNotNil(newObjectId)
                     }
                 }
+                sleep(5)
                 // :remove-end:
                 collection.updateOneDocument(
                     filter: ["userId": AnyBSON(user.id)],
