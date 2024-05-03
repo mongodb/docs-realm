@@ -6,10 +6,38 @@ import {useApp} from '@realm/react';
 import {EDGE_APP_ID as APP_ID} from '../../../appServicesConfig';
 import 'realm/experimental/base-url';
 
-// TODO: When @realm/react gets this feature, add this component to
-// navigation.
+// TODO: Base URL updates aren't well supported in React Native yet. When they
+// are, use this file to test. Will need to add it to the App's nav.
+// Two component here: one for static and one for dynamic base URL.
 
-export const AppWithAuthHook = () => {
+const SetCustomBaseUrl = () => {
+  const customBaseURL = 'https://example.com';
+
+  return (
+    <View>
+      <AppProvider
+        id={APP_ID}
+        baseUrl={customBaseURL}>
+        <UserProvider fallback={LogIn}>
+          <App />
+        </UserProvider>
+      </AppProvider>
+    </View>
+  );
+};
+
+const App = () => {
+  const app = useApp();
+
+  return (
+    <View>
+      {/* TODO: Uncomment when @realm/react supports it */}
+      {/* <Text>{app.baseUrl}</Text> */}
+    </View>
+  );
+};
+
+const ChangeBaseUrl = () => {
   const [baseUrl, setBaseUrl] = useState('');
 
   return (
@@ -113,3 +141,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export {ChangeBaseUrl, SetCustomBaseUrl};
