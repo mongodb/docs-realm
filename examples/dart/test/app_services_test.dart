@@ -1,14 +1,15 @@
-import "dart:html_common";
-
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import "dart:io";
 import "dart:convert";
 import "dart:isolate";
+import 'utils.dart';
 
 void main() {
   const APP_ID = "example-testers-kvjdy";
-  const EDGE_SERVER_APP_ID = "edge-server-npqxd";
+  const EDGE_SERVER_APP_ID = "sync-edge-server-cskhoow";
+  const baseUrl = 'http://localhost';
+  const newBaseUrl = 'https://services.cloud.mongodb.com';
 
   group('App Services client - ', () {
     test('Access App client', () {
@@ -33,36 +34,42 @@ void main() {
     });
 
     test('Custom BaseUrl', () {
-      // :snippet-start: import-experimental
-      @Experimental()
-      // :snippet-end:
-          // :snippet-start: custom-base-url
-          // Specify a baseUrl to connect to a server other than the default.
-          // In this case, an Edge Server instance running on the device.
-          final appConfig = AppConfiguration(EDGE_SERVER_APP_ID,
-              baseUrl: Uri.parse('http://localhost:80'));
+      // :snippet-start: custom-base-url
+      // Specify a baseUrl to connect to a server other than the default
+      final appConfig =
+          AppConfiguration(APP_ID, baseUrl: Uri.parse('https://example.com'));
 
       var app = App(appConfig);
       // :snippet-end:
-      expect(app.baseUrl.toString(), 'http://localhost:80');
+      expect(app.baseUrl.toString(), 'https://example.com');
     });
 
-    test('Change BaseUrl', () {
-      @Experimental()
+    test('Change BaseUrl', () async {
       // :snippet-start: change-base-url
       // Specify a custom baseUrl to connect to.
-      final appConfig = AppConfiguration(EDGE_SERVER_APP_ID,
-          baseUrl: Uri.parse('http://localhost:80'));
+      // In this case, an Edge Server instance running on the device.
+      final appConfig = AppConfiguration(
+        EDGE_SERVER_APP_ID,
+        baseUrl: Uri.parse('http://localhost:80')
+        );
 
       var app = App(appConfig);
-      expect(app.baseUrl.toString(), 'http://localhost:80'); // :remove:
 
       // ... log in a user and use the app ...
+      // :remove-start:
+      expect(app.baseUrl.toString(), baseUrl);
+      await app.logIn(Credentials.anonymous());
+      expect(app.currentUser != null, true);
+      // :remove-end:
 
-      // Later, change the baseUrl to a different server
-      app.updateBaseUrl(Uri.parse('https://services.cloud.mongodb.com'));
+      // Later, change the baseUrl to the default:
+      // https://services.cloud.mongodb.com
+      await app.updateBaseUrl(null);
       // :snippet-end:
-    });
+      expect(app.baseUrl.toString(), newBaseUrl);
+    },
+        skip:
+            """Skipping until we get Edge Server running in a CI and we can write automated tests for full flow (this was tested locally and succeeded)""");
 
     test('Access App on background isolate by id', () async {
       // :snippet-start: access-app-by-id
