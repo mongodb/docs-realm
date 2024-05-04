@@ -7,6 +7,7 @@ import io.realm.kotlin.log.RealmLogger
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.AppConfiguration
 import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.annotations.ExperimentalEdgeServerApi
 import io.realm.kotlin.mongodb.exceptions.ConnectionException
 import io.realm.kotlin.mongodb.exceptions.InvalidCredentialsException
 import io.realm.kotlin.mongodb.exceptions.ServiceException
@@ -15,12 +16,12 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-
-class AppClientTest: RealmTest() {
+class AppClientTest : RealmTest() {
     @Test
     fun initializeAndCloseAppClientTest() {
         // :snippet-start: initialize-app-client
@@ -51,15 +52,52 @@ class AppClientTest: RealmTest() {
     }
 
     @Test
-    fun changeBaseUrl() {
-        val defaultBaseUrl = "https://realm.mongodb.com"
-        val newBaseUrl = "https://example.org/"
-        val config = AppConfiguration.create(YOUR_APP_ID)
-        assertEquals(config.baseUrl, defaultBaseUrl)
-        val configWithNewBaseUrl = AppConfiguration.Builder(YOUR_APP_ID)
-            .baseUrl(newBaseUrl)
+    fun customBaseUrl() {
+        val defaultBaseUrl = "https://services.cloud.mongodb.com"
+        val newBaseUrl = "https://example.com"
+        val defaultConfig = AppConfiguration.create(YOUR_APP_ID)
+        assertEquals(defaultConfig.baseUrl, defaultBaseUrl)
+        // :snippet-start: custom-base-url
+        // Specify a baseUrl to connect to instead of the default
+        val config = AppConfiguration.Builder(YOUR_APP_ID)
+            .baseUrl("https://example.com")
             .build()
-        assertEquals(configWithNewBaseUrl.baseUrl, newBaseUrl)
+        // :snippet-end:
+        assertEquals(config.baseUrl, newBaseUrl)
+    }
+
+    // :snippet-start: experimental-opt-in
+    // Opt in to the experimental Edge Server API
+    @OptIn(ExperimentalEdgeServerApi::class)
+    // :snippet-end:
+    @Ignore
+    // TODO: Update when we get Edge Server running in a CI and can write automated tests for full flow
+    // Ignored until we can test in CI (was tested locally and succeeded)
+    fun changeBaseUrl() {
+        runBlocking {
+            val defaultBaseUrl = "https://services.cloud.mongodb.com"
+            val customBaseUrl = "http://localhost:80"
+            // :snippet-start: change-base-url
+            // Specify a custom baseUrl to connect to.
+            // In this case, an Edge Server instance running on the device.
+            val config = AppConfiguration.Builder(EDGE_SERVER_APP_ID)
+                .baseUrl("http://localhost:80")
+                .build()
+            val app = App.create(config)
+
+            // ... log in a user and use the app ...
+            // :remove-start:
+            assertEquals(app.baseUrl, customBaseUrl)
+            app.login(Credentials.anonymous())
+            assertNotNull(app.currentUser)
+            // :remove-end:
+
+            // Later, change the baseUrl to the default:
+            // https://services.cloud.mongodb.com
+            app.updateBaseUrl(null)
+            // :snippet-end:
+            assertEquals(app.baseUrl, defaultBaseUrl)
+        }
     }
 
     @Test
@@ -131,8 +169,8 @@ class AppClientTest: RealmTest() {
     @Test
     fun setCustomHttpHeadersTest() {
         val config1 = AppConfiguration.Builder(YOUR_APP_ID)
-                .appName("my-app-name")
-                .build()
+            .appName("my-app-name")
+            .build()
         val config2 =
             // :snippet-start: set-custom-http-headers
             AppConfiguration.Builder(YOUR_APP_ID)
@@ -160,8 +198,7 @@ class AppClientTest: RealmTest() {
                     message: String?,
                     vararg args: Any?,
                 ) {
-                    if (level == LogLevel.DEBUG && message!!.contains("-> X-MyApp-Version: 1.0.0") && message.contains("MyApp-Authorization"))
-                    {
+                    if (level == LogLevel.DEBUG && message!!.contains("-> X-MyApp-Version: 1.0.0") && message.contains("MyApp-Authorization")) {
                         channel.trySend(true)
                     }
                 }
@@ -204,6 +241,7 @@ class AppClientTest: RealmTest() {
                         //     "Invalid username or password. Please try again.", Toast.LENGTH_LONG).show()
                         // :uncomment-end:
                     }
+
                     is ConnectionException -> {
                         Log.e("Failed to login due to a connection error: ${ex.message}")
                         // :uncomment-start:
@@ -211,6 +249,7 @@ class AppClientTest: RealmTest() {
                         //     "Login failed due to a connection error. Check your network connection and try again.", Toast.LENGTH_LONG).show()
                         // :uncomment-end:
                     }
+
                     else -> {
                         Log.e("Failed to login: ${ex.message}")
                         // generic error message for niche and unknown fail cases

@@ -43,6 +43,7 @@ open class RealmTest {
 
     val SYNCED_REALM_SCHEMA = setOf(Frog::class, Sample::class)
     val YOUR_APP_ID: String = "kmm-example-testers-viybt"
+    val EDGE_SERVER_APP_ID = "sync-edge-server-cskhoow"
     val yourAppId = AppConfiguration.Builder(YOUR_APP_ID).syncRootDirectory("tmp/sync/".plus(getRandom())).build()
 
     val TESTER_APP_ID: String = "example-testers-kvjdy"
