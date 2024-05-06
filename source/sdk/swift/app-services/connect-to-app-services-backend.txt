@@ -111,8 +111,8 @@ of ``https://services.cloud.mongodb.com``. In some cases, you may want to
 connect to a different server:
 
 - Your App Services App uses :ref:`local deployment <local-deployment>`, and 
-  you want to connect directly to a local ``baseURL`` in your region
-- You want to connect to an :ref:`Edge Server instance <edge-server-connect-from-client>`
+  you want to connect directly to a local ``baseURL`` in your region.
+- You want to connect to an :ref:`Edge Server instance <edge-server-connect-from-client>`.
 
 You can specify a ``baseURL`` in the 
 :swift-sdk:`AppConfiguration <Extensions/AppConfiguration.html>`:
@@ -143,11 +143,10 @@ If you want to change the ``baseURL`` after you have logged in a user and
 have opened a synced database, the app must perform a 
 :ref:`client reset <ios-client-reset>`. Perform these steps in your code:
 
-1. :ref:`Pause the Sync session <swift-suspend-sync-session>`
-2. Update the ``baseURL`` by calling the ``app.updateBaseUrl(to: )`` method
-3. Go through the authentication flow again to log in the user through the
-   new ``baseURL``
-4. Open a synced database pulling data from the new server
+1. :ref:`Pause the Sync session <swift-suspend-sync-session>`.
+2. Update the ``baseURL`` by calling the ``app.updateBaseUrl(to: )`` method.
+3. Authenticate and log the user in again with the new ``baseURL``.
+4. Open a synced database pulling data from the new server.
 
 Both the server and the client must be online for the user to authenticate and
 connect to the new server. If the server is not online or the client does not
