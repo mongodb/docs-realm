@@ -169,8 +169,8 @@ Check Upload & Download Progress for a Sync Session
 
 You can check upload and download progress by registering a token that provides
 a ``progressEstimate`` for a given upload or download direction and work scope.
-You can set a ``ProgressMode`` to determine the work scope; either observe
-indefinitely, or unregister the block after the current work item has completed.
+You can set a ``ProgressMode`` to determine the work scope: either observe
+indefinitely or unregister the block after the current work item has completed.
 
 The ``progressEstimate`` value provided by the token is a double whose value
 ranges from ``0.0`` to ``1.0``. At ``1.0``, the upload or download is complete.
@@ -200,7 +200,7 @@ estimated data transfer percentage.
       :tabid: objective-c
 
       .. versionchanged:: 10.50.0
-         Deprecated ``addProgressNotificationForDirection`` in favor of ``addSyncProgressNotificationForDirection``
+        ``addProgressNotificationForDirection`` deprecated in favor of ``addSyncProgressNotificationForDirection``
 
       You can add a progress notification using the synced realm's
       RLMSyncSession instance's
