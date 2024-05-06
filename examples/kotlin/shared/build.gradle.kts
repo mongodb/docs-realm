@@ -12,7 +12,7 @@ kotlin {
     iosX64()
     iosArm64()
     jvm()
-    
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -24,18 +24,18 @@ kotlin {
                 api("co.touchlab:kermit:0.1.8")
             }
         }
-        sourceSets["commonMain"].kotlin.setSrcDirs(listOf("src/commonMain/kotlin"))
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.test) // required to use coroutines in test suite
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(kotlin("test-junit"))
+                implementation("org.jetbrains.kotlin:kotlin-stdlib")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
                 implementation("com.google.android.gms:play-services-auth:20.7.0")
                 implementation("com.google.android.gms:play-services-base:18.2.0")
             }
         }
-        sourceSets["commonTest"].kotlin.setSrcDirs(listOf("src/commonTest/kotlin"))
         val androidMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.android)
@@ -43,14 +43,12 @@ kotlin {
                 implementation("com.google.android.gms:play-services-base:18.2.0")
             }
         }
-        sourceSets["androidMain"].kotlin.setSrcDirs(listOf("src/androidMain/kotlin"))
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
             }
         }
-        sourceSets["androidTest"].kotlin.setSrcDirs(listOf("src/androidTest/kotlin"))
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosMain by creating {
@@ -67,7 +65,7 @@ kotlin {
         }
         jvm().compilations["main"].defaultSourceSet {
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
+                implementation("org.jetbrains.kotlin:kotlin-stdlib")
                 implementation(libs.kotlinx.coroutines)
                 implementation(libs.kotlinx.coroutines.test)
             }

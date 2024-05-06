@@ -9,7 +9,7 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            version("realm", "1.14.0")
+            version("realm", "1.16.0")
             version("kotlinx-coroutines", "1.7.0")
             version("kotlinx-serialization", "1.5.0")
             library("realm-plugin", "io.realm.kotlin", "gradle-plugin").versionRef("realm")
