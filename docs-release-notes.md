@@ -1,3 +1,10 @@
+# May 3, 2024
+
+## Swift SDK
+
+- Install: Update the Swift Package Manager and Privacy Manifest sections with information about building as a dynamic framework and linking only to one package.
+- Test and Debug: Add information about how to resolve an error related to linking to both `Realm` and `RealmSwift`.
+
 # April 26, 2024
 
 ## Flutter SDK
