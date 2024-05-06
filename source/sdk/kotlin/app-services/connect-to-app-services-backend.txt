@@ -300,16 +300,13 @@ annotation:
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.experimental-opt-in.kt
    :language: kotlin
 
-Change Server with Logged-In User
-`````````````````````````````````
-
-If you want to change the ``baseUrl`` after you have logged in a user and
+If you change the ``baseUrl`` *after* you have logged in a user and
 have opened a synced database, the app must perform a client reset. For more
-information, refer to :ref:`flutter-client-reset`.
+information, refer to :ref:`kotlin-client-reset`.
 
 Perform the following in your code:
 
-1. :ref:`Pause the Sync session <flutter-pause-resume-sync>`
+1. :ref:`Pause the Sync session <kotlin-pause-resume-sync>`
 2. Update the ``baseUrl`` using the ``app.updateBaseUrl`` method
 3. Re-authenticate the user to log in using the new ``baseUrl``
 4. Open a synced database pulling data from the new server

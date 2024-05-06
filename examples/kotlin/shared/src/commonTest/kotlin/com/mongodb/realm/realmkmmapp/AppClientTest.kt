@@ -79,7 +79,7 @@ class AppClientTest : RealmTest() {
             val customBaseUrl = "http://localhost:80"
             // :snippet-start: change-base-url
             // Specify a custom baseUrl to connect to.
-            // In this case, an Edge Server instance running on the device.
+            // In this case, an Edge Server instance running on the device:
             val config = AppConfiguration.Builder(EDGE_SERVER_APP_ID)
                 .baseUrl("http://localhost:80")
                 .build()
@@ -92,7 +92,8 @@ class AppClientTest : RealmTest() {
             assertNotNull(app.currentUser)
             // :remove-end:
 
-            // Later, change the baseUrl to the default:
+            // Later, change the baseUrl.
+            // In this case, pass `null` to reset to default:
             // https://services.cloud.mongodb.com
             app.updateBaseUrl(null)
             // :snippet-end:
