@@ -20,8 +20,10 @@ struct Local_Todo {
   std::string status;
 };
 REALM_SCHEMA(Local_Todo, _id, name, status);
+}  // namespace realm
 
 // :snippet-start: model
+namespace realm {
 struct Sync_Todo {
   realm::primary_key<realm::object_id> _id{realm::object_id::generate()};
   std::string name;
@@ -31,8 +33,8 @@ struct Sync_Todo {
   std::string ownerId;
 };
 REALM_SCHEMA(Sync_Todo, _id, name, status, ownerId);
-// :snippet-end:
 }  // namespace realm
+// :snippet-end:
 
 TEST_CASE("non-sync quick start", "[realm][write]") {
   auto relative_realm_path_directory = "quick-start/";
