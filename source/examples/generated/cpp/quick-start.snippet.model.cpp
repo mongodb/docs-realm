@@ -1,3 +1,4 @@
+namespace realm {
 struct Todo {
   realm::primary_key<realm::object_id> _id{realm::object_id::generate()};
   std::string name;
@@ -7,3 +8,4 @@ struct Todo {
   std::string ownerId;
 };
 REALM_SCHEMA(Todo, _id, name, status, ownerId);
+}  // namespace realm
