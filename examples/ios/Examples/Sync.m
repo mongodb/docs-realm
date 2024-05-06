@@ -143,10 +143,10 @@
     // :snippet-start: check-progress
     RLMSyncSession *syncSession = [syncedRealm syncSession];
     RLMProgressNotificationToken *token = [syncSession
-           addProgressNotificationForDirection:RLMSyncProgressDirectionUpload
+                                           addSyncProgressNotificationForDirection:RLMSyncProgressDirectionUpload
                                           mode:RLMSyncProgressModeForCurrentlyOutstandingWork
-                                         block:^(NSUInteger transferredBytes, NSUInteger transferrableBytes) {
-        NSLog(@"Uploaded %luB / %luB", (unsigned long)transferredBytes, transferrableBytes);
+                                         block:^(RLMSyncProgress syncProgress) {
+        NSLog(@"Uploaded %fB", (double)syncProgress.progressEstimate);
         // :remove-start:
         [expectation fulfill];
         // :remove-end:

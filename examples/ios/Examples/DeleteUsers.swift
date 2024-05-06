@@ -67,4 +67,11 @@ class DeleteUsers: XCTestCase {
         XCTAssertEqual(app.allUsers.count, 0)
     }
     // :snippet-end:
+    
+    override func setUp() async throws {
+        for user in app.allUsers {
+            try await user.value.delete()
+        }
+        XCTAssertEqual(app.allUsers.count, 0)
+    }
 }
