@@ -55,8 +55,8 @@ main() {
       dynamic streamListener;
       streamListener = syncProgress.listen((syncProgressEvent) {
         if (called == false) {
-          expect(syncProgressEvent.transferableBytes > 0, isTrue);
-          expect(syncProgressEvent.transferredBytes > 0, isTrue);
+          expect(syncProgressEvent.progressEstimate > 0.0, isTrue);
+          expect(syncProgressEvent.progressEstimate > 0.0, isTrue);
           called = true;
           streamListener.cancel();
         }
@@ -98,6 +98,7 @@ main() {
       // :snippet-end:
       expect(realm.syncSession.state, SessionState.active);
     });
+
     test("Monitor sync progress", () async {
       var isCalled = false;
       realm.write(() {
@@ -113,19 +114,23 @@ main() {
 
       late StreamSubscription streamListener;
       streamListener = stream.listen((syncProgressEvent) {
-        if (syncProgressEvent.transferableBytes ==
-            syncProgressEvent.transferredBytes) {
-          isCalled = true; // :remove:
-          // Upload complete
-          print('Upload complete');
-          // Stop listening to the Stream
-          streamListener.cancel();
+        final progressEstimate = syncProgressEvent.progressEstimate;
+
+        if (progressEstimate < 1.0) {
+          print('Upload progress: ${progressEstimate * 100}%');
         }
+      }, onDone: () {
+        print("Upload complete");
+        isCalled = true; // :remove:
+      }, onError: (error) {
+        print("An error occurred: $error");
+        streamListener.cancel();
       });
       // :snippet-end:
       await Future.delayed(Duration(seconds: 1));
       expect(isCalled, isTrue);
     });
+
     test("Monitor network connection", () async {
       var isConnected = false;
       // :snippet-start: get-network-connection
