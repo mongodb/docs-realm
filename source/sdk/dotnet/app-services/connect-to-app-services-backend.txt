@@ -48,6 +48,22 @@ You can create multiple App client instances to connect to multiple
 Apps. All App client instances that share the same App ID use the same 
 underlying connection.
 
+.. _dotnet-connect-to-specific-server:
+
+Connect to a Specific Server
+----------------------------
+
+By default, Atlas Device SDK connects to Atlas using the global ``baseURL``
+of ``https://services.cloud.mongodb.com``. In some cases, you may want to
+connect to a different server:
+
+- Your App Services App uses :ref:`local deployment <local-deployment>`, and 
+  you want to connect directly to a local ``baseURL`` in your region.
+- You want to connect to an :ref:`Edge Server instance <edge-server-connect-from-client>`.
+
+You can specify a ``baseURL`` in the :dotnet-sdk:
+
+
 .. important:: Changing an App Config After Initializing the App
 
    .. versionchanged:: v11.7.0
