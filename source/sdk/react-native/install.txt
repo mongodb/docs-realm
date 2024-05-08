@@ -10,14 +10,27 @@ Install the React Native SDK
    :depth: 2
    :class: singlecol
 
-The Atlas Device SDK for React Native enables development of `React Native 
+The Atlas Device SDK for React Native enables development of `React Native
 <https://facebook.github.io/react-native/>`__ applications using the JavaScript
-and TypeScript languages. React Native enables you to build cross-platform 
-iOS and Android apps with a single codebase using the 
+and TypeScript languages. React Native enables you to build cross-platform
+iOS and Android apps with a single codebase using the
 `React <https://react.dev/>`__ framework.
 
+Use the SDK with Expo
+---------------------
+
+You can use the React Native SDK with a bare React Native app or Expo. This page
+and the React Native SDK documentation generally assume that you're using a bare
+React Native app and not Expo.
+
+If you want to use the React Native SDK with Expo, check out the :ref:`Bootstrap
+with Expo <react-native-client-bootstrap-with-expo>` page.
+
+Install the SDK in a Bare React Native App
+------------------------------------------
+
 Prerequisites
--------------
+~~~~~~~~~~~~~
 
 Before getting started, ensure your development environment
 meets the following prerequisites. These are required for the latest version
@@ -36,18 +49,8 @@ of the React Native SDK:
    :doc:`build your application when using Mac Catalyst
    </sdk/react-native/integrations/mac-catalyst>`.
 
-Use the SDK with Expo
-~~~~~~~~~~~~~~~~~~~~~
-
-You can use the React Native SDK with a bare React Native app or Expo. This page
-and the React Native SDK documentation generally assume that you're using a bare
-React Native app and not Expo.
-
-If you want to use the React Native SDK with Expo, check out the :ref:`Bootstrap 
-with Expo <react-native-client-bootstrap-with-expo>` page.
-
-Install the SDK in a Bare React Native App
-------------------------------------------
+Install the SDK
+~~~~~~~~~~~~~~~
 
 Select the tab below that corresponds to your React Native
 version. Follow the steps to create a React Native project
@@ -142,7 +145,7 @@ and add the React Native SDK to it.
 
             :npm:`@realm/react <package/@realm/react>` is an npm package that
             streamlines common SDK operations like querying, writing to a
-            database, and listening for object change notifications. This reduces 
+            database, and listening for object change notifications. This reduces
             boilerplate code, like creating your own listeners and state management.
 
             ``@realm/react`` provides access to the SDK through a set of providers
@@ -167,12 +170,12 @@ and add the React Native SDK to it.
       :tabid: rn-pre-v-60
 
       .. note:: @realm/react Version Requirement
-         
-         The :npm:`@realm/react <package/@realm/react>` library requires 
-         react-native version ``>= 0.59``. If you are developing using older 
-         versions of React Native, you can use the SDK without ``@realm/react``. 
-         Since the React Native SDK documentation makes heavy use of the 
-         ``@realm/react`` package, you may want to refer to the 
+
+         The :npm:`@realm/react <package/@realm/react>` library requires
+         react-native version ``>= 0.59``. If you are developing using older
+         versions of React Native, you can use the SDK without ``@realm/react``.
+         Since the React Native SDK documentation makes heavy use of the
+         ``@realm/react`` package, you may want to refer to the
          :ref:`Node.js SDK documentation <node-intro>`.
 
       .. procedure::
@@ -274,7 +277,7 @@ and add the React Native SDK to it.
             .. include:: /includes/react-native-run-the-app.rst
 
 Import the SDK
---------------
+~~~~~~~~~~~~~~
 
 Add the following line to the top of your source files where
 you want to use the SDK:
@@ -282,3 +285,57 @@ you want to use the SDK:
 .. code-block:: typescript
 
    import Realm from "realm";
+
+.. _react-native-apple-privacy-manifest:
+
+Apple Privacy Manifest
+----------------------
+
+.. versionadded:: 2.2.0
+
+Apple requires any apps or third-party SDKs that use *required reasons APIs*
+to provide a privacy manifest containing details about their data collection
+and use practices. The bundled manifest file must be included when submitting
+new apps or app updates to the Apple App Store. For more details about these
+requirements, refer to
+:apple:`Upcoming third-party SDK requirements <support/third-party-SDK-requirements/>`
+on the Apple Developer website.
+
+Starting in Flutter SDK version 2.2.0, the SDK ships with a privacy manifest for
+``iOS`` and ``macOS`` environments, contained in the ``realm`` package. Both
+privacy manifests contain Apple's required API disclosures and the reasons for
+using those APIs.
+
+You can view these privacy manifests in the SDK package or directly in the
+``realm-dart`` GitHub repository:
+
+- ``iOS``:
+  `https://github.com/realm/realm-dart/blob/main/packages/realm/ios/Resources/PrivacyInfo.xcprivacy
+  <https://github.com/realm/realm-dart/blob/main/packages/realm/ios/Resources/PrivacyInfo.xcprivacy>`__
+- ``macOS``:
+  `https://github.com/realm/realm-dart/blob/main/packages/realm/macos/Resources/PrivacyInfo.xcprivacy
+  <https://github.com/realm/realm-dart/blob/main/packages/realm/macos/Resources/PrivacyInfo.xcprivacy>`__
+
+The Flutter SDK does *not*:
+
+- Include analytics code in builds for the App Store.
+- Log into Atlas on its own behalf.
+
+.. important:: Additional Disclosures May Be Required for App Services
+
+   The Flutter SDK privacy manifest does *not* include disclosures for App
+   Services APIs.
+
+If your app uses any Atlas App Services functionality, such as user
+authentication or Device Sync, you may need to provide additional disclosures
+that detail your data collection and use practices when using these APIs.
+For example, if your app
+:ref:`initializes an App client <flutter-access-the-app-client>` to:
+
+- :ref:`Call an Atlas Function <flutter-call-function>`
+- :ref:`Authenticate and manage users <flutter-work-with-users>`
+- :ref:`Open a synced database <flutter-open-synced-realm>`
+
+For more information, refer to Apple's
+:apple:`Privacy Manifest Files <documentation/bundleresources/privacy_manifest_files>`
+documentation.
