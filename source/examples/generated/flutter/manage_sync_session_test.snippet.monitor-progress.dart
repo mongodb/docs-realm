@@ -3,11 +3,14 @@ final stream = realm.syncSession.getProgressStream(
 
 late StreamSubscription streamListener;
 streamListener = stream.listen((syncProgressEvent) {
-  if (syncProgressEvent.transferableBytes ==
-      syncProgressEvent.transferredBytes) {
-    // Upload complete
-    print('Upload complete');
-    // Stop listening to the Stream
-    streamListener.cancel();
+  final progressEstimate = syncProgressEvent.progressEstimate;
+
+  if (progressEstimate < 1.0) {
+    print('Upload progress: ${progressEstimate * 100}%');
   }
+}, onDone: () {
+  print("Upload complete");
+}, onError: (error) {
+  print("An error occurred: $error");
+  streamListener.cancel();
 });
