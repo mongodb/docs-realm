@@ -145,6 +145,10 @@ Register Collection Change Listeners
 .. versionchanged:: 1.7.0
    Added support for ``RealmMap`` change listeners.
 
+.. versionchanged:: 2.0.0
+   Added ``isCollectionDeleted`` property to collection listeners.
+   Added ``isCleared`` property to ``RealmMapChanges``.
+
 You can register a notification handler on a collection of any of the
 supported data types within another ``RealmObject``.
 Realm notifies your handler when any of the items in the collection change.
