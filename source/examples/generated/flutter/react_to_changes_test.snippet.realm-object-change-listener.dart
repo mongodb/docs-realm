@@ -1,5 +1,5 @@
 final frodoSubscription = frodo.changes.listen((changes) {
-  changes.isDeleted; // if the object has been deleted
-  changes.object; // the RealmObject being listened to, `frodo`
-  changes.properties; // the changed properties
+  changes.isDeleted; // If the object has been deleted.
+  changes.object; // The RealmObject being listened to, `frodo`.
+  changes.properties; // The changed properties.
 });

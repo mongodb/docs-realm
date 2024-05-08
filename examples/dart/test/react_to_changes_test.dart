@@ -2,7 +2,6 @@
 
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
-import './utils.dart';
 part 'react_to_changes_test.realm.dart';
 
 // :snippet-start: sample-data-models
@@ -71,16 +70,16 @@ void main() {
       // Listen for changes on whole collection
       final characters = realm.all<Character>();
       final subscription = characters.changes.listen((changes) {
-        changes.inserted; // indexes of inserted objects
-        changes.modified; // indexes of modified objects
-        changes.deleted; // indexes of deleted objects
-        changes.newModified; // indexes of modified objects
-        // after deletions and insertions are accounted for
-        changes.moved; // indexes of moved objects
-        changes.results; // the full List of objects
+        changes.inserted; // Indexes of inserted objects.
+        changes.modified; // Indexes of modified objects.
+        changes.deleted; // Indexes of deleted objects.
+        changes.newModified; // Indexes of modified objects after accounting for deletions & insertions.
+        changes.moved; // Indexes of moved objects.
+        changes.results; // The full List of objects.
+        changes.isCleared; // `true` after call to characters.clear(); otherwise, `false`.
       });
 
-      // Listen for changes on RealmResults
+      // Listen for changes on RealmResults.
       final hobbits = fellowshipOfTheRing.members.query('species == "Hobbit"');
       final hobbitsSubscription = hobbits.changes.listen((changes) {
         // ... all the same data as above
@@ -89,7 +88,7 @@ void main() {
       await Future<void>.delayed(Duration(milliseconds: 10));
       // :snippet-start: pause-resume-subscription
       subscription.pause();
-      // the changes.listen() method won't fire until the subscription is resumed
+      // The changes.listen() method won't fire until subscription is resumed.
       subscription.resume();
       // :snippet-end:
       await Future<void>.delayed(Duration(milliseconds: 10));
@@ -103,9 +102,9 @@ void main() {
       final frodo = globalFrodo;
       // :snippet-start: realm-object-change-listener
       final frodoSubscription = frodo.changes.listen((changes) {
-        changes.isDeleted; // if the object has been deleted
-        changes.object; // the RealmObject being listened to, `frodo`
-        changes.properties; // the changed properties
+        changes.isDeleted; // If the object has been deleted.
+        changes.object; // The RealmObject being listened to, `frodo`.
+        changes.properties; // The changed properties.
       });
       // :snippet-end:
       await Future<void>.delayed(Duration(milliseconds: 10));
@@ -117,16 +116,14 @@ void main() {
       // :snippet-start: realm-list-change-listener
       final fellowshipSubscription =
           fellowshipOfTheRing.members.changes.listen((changes) {
-        changes.inserted; // indexes of inserted Realm objects
-        changes.modified; // indexes of modified Realm objects
-        changes.deleted; // indexes of deleted Realm objects
-        changes.newModified; // indexes of modified Realm objects
-        // after deletions and insertions are accounted for
-        changes.moved; // indexes of moved Realm objects
-        changes.list; // the full RealmList of Realm objects
-        // `true` after call to fellowshipOfTheRing.members.clear().
-        // Otherwise false.
-        changes.isCleared;
+        changes.inserted; // Indexes of inserted objects.
+        changes.modified; // Indexes of modified objects.
+        changes.deleted; // Indexes of deleted objects.
+        changes.newModified; // Indexes of modified objects after accounting for deletions & insertions.
+        changes.moved; // Indexes of moved objects.
+        changes.list; // The full RealmList of objects.
+        changes.isCleared; // `true` after call to fellowshipOfTheRing.members.clear(); otherwise, `false`.
+        changes.isCollectionDeleted; // `true` if the collection is deleted; otherwise, `false`.
       });
       // :snippet-end:
       await Future<void>.delayed(Duration(milliseconds: 10));
