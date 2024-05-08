@@ -4,8 +4,8 @@
 Install the Flutter SDK
 =======================
 
-.. meta:: 
-   :description: Install the Atlas Device SDK with Flutter for Flutter or Dart applications. 
+.. meta::
+   :description: Install the Atlas Device SDK with Flutter for Flutter or Dart applications.
    :keywords: code example
 
 .. facet::
@@ -18,15 +18,29 @@ Install the Flutter SDK
    :depth: 2
    :class: singlecol
 
+You can use the Atlas Device SDK for Flutter in a Flutter project or in a
+standalone Dart project. This guide provides instructions for installing the
+SDK in both types of projects.
+
 Prerequisites
 -------------
 
-- `Install Flutter in your development environment <https://docs.flutter.dev/get-started/install>`__.
-  
-  To use the latest version of the Atlas Device SDK for Flutter, you must use:  
-  
-  - Flutter version 3.10.0 or later.
-  - Dart version 3.0.0 or later.
+To get started with the Atlas Device SDK for Flutter, you need to install
+Flutter or Dart:
+
+- For Flutter or Dart apps, install Flutter in your development environment.
+  Note that the Flutter installation includes the full Dart SDK. To learn
+  how, refer to the official `Flutter Installation Guide
+  <https://docs.flutter.dev/get-started/install>`__.
+
+- For standalone Dart apps, you can choose install Dart in your development
+  environment without Flutter. To learn how, refer to the official `Dart
+  Installation Guide <https://dart.dev/get-dart>`__.
+
+The latest version of the Device SDK for Flutter requires the following:
+
+- Flutter version 3.19.0 or later.
+- Dart version 3.3.0 or later.
 
 Supported Platforms
 ~~~~~~~~~~~~~~~~~~~
@@ -36,7 +50,7 @@ The Flutter SDK supports the following platforms:
 - iOS
 - Android
 - macOS
-- Windows running on 64-bit architecture 
+- Windows running on 64-bit architecture
 - Linux running on 64-bit architecture
 
 .. important:: Unsupported Platforms
@@ -47,129 +61,146 @@ The Flutter SDK supports the following platforms:
    - Windows running on ARM64 or 32-bit architectures
    - Linux running on ARM64 or 32-bit architectures
 
-
 .. _flutter-install-steps:
+.. _dart-install-steps:
 
 Installation
 ------------
 
-You can use the SDK in a Flutter project, or in a standalone Dart project.
+The Atlas Device SDK for Flutter has two packages available to install,
+depending on whether you are developing a Flutter or Dart standalone app:
+
+- ``realm``: The Flutter SDK package for use in Flutter applications.
+- ``realm_dart``: The standalone Dart SDK package for use in Dart applications,
+  such as CLI apps or running Dart in a server environment.
+
+The standalone Dart package has the same usage as the Flutter package except
+where otherwise noted.
 
 .. tip:: Atlas Device SDK and Realm
 
    The SDK uses Realm Core database for device data persistence. When you
-   install the Flutter or Dart standalone SDK, the package names reflect 
-   Realm naming.
-
-Install the SDK in a Flutter Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   install the Kotlin SDK, the package names reflect Realm naming.
 
 .. procedure::
 
-   .. step:: Create a Flutter Project
+   .. step:: Create a Project
 
-      Create a Flutter project. Follow the instructions in the `Flutter documentation
-      <https://docs.flutter.dev/get-started/test-drive?tab=terminal>`__.
+      .. tabs::
 
-      .. code-block::
+         .. tab:: Flutter
+            :tabid: flutter
 
-        flutter create <app_name>
-        cd <app_name>
+            To create a Flutter project, run the following commands:
+
+            .. code-block::
+
+               flutter create <app_name>
+               cd <app_name>
+
+            For more information, refer to Flutter's `Get Started Guide
+            <https://docs.flutter.dev/get-started/test-drive?tab=terminal>`__.
+
+         .. tab:: Standalone Dart
+            :tabid: dart
+
+            To create a Dart project, run the following commands:
+
+            .. code-block::
+
+               dart create <app_name>
+               cd <app_name>
+
+            For more information, refer to Dart's `Get Started Guide
+            <https://dart.dev/tutorials/server/get-started>`__ for standalone
+            Dart command-line and server applications.
 
    .. step:: Add the SDK to the Project
 
-      To add the `Flutter SDK <https://pub.dev/packages/realm>`__ to your project, run the command:
+      .. tabs::
 
-      .. code-block::
+         .. tab:: Flutter
+            :tabid: flutter
 
-        flutter pub add realm
+            To add the SDK to your project, run the following command:
 
-      This downloads the ``realm`` package and adds it to your project.
-      In your ``pubspec.yaml`` file, you should see:
+            .. code-block::
 
-      .. code-block:: yaml
-        :caption: pubspec.yaml
+               flutter pub add realm
 
-        dependencies:
-          realm: <latest_version>
+            This downloads the `realm <https://pub.dev/packages/realm>`__
+            package, and adds it to your project.
 
-   .. step:: Import the Package
+            In your ``pubspec.yaml`` file, you should see:
 
-      To use the Flutter SDK within your app, import the package
-      into files where you will use it:
+            .. code-block:: yaml
+               :caption: pubspec.yaml
 
-      .. code-block:: dart
+               dependencies:
+                  realm: <latest_version>
 
-        import 'package:realm/realm.dart';
+            .. tab:: Standalone Dart
+               :tabid: dart
+
+            To add the SDK to your project, run the  following command:
+
+            .. code-block::
+
+               dart pub add realm_dart
+
+            This downloads the `realm_dart
+            <https://pub.dev/packages/realm_dart>`__ package, and adds it to
+            your project.
+
+            In your ``pubspec.yaml`` file, you should see:
+
+            .. code-block:: yaml
+               :caption: pubspec.yaml
+
+               dependencies:
+                  realm_dart: <latest_version>
+
+            After the package is added, run the following command to install it:
+
+            .. code-block::
+
+               dart run realm_dart install
+
+            This downloads and copies the required native binaries to the app
+            directory.
+
+   .. step:: Import the Package into Files
+
+      .. tabs::
+
+         .. tab:: Flutter
+            :tabid: flutter
+
+            To use the Flutter SDK within your app, import the package into files where you will use it:
+
+            .. code-block:: dart
+               :caption: ExampleFile.dart
+
+               import 'package:realm/realm.dart';
+
+         .. tab:: Standalone Dart
+            :tabid: dart
+
+            To use the SDK within your Dart app, import the package into files where you will use it:
+
+            .. code-block:: dart
+               :caption: ExampleFile.dart
+
+               import 'package:realm_dart/realm.dart';
 
 .. note:: Using Networking in your macOS App
 
    If you are developing with the Flutter SDK in the macOS App Sandbox,
-   network requests do not work by default due to built-in macOS security settings.
-   To fix this, you must change the Flutter app's macOS network entitlements.
+   network requests do *not* work by default. This is due to the built-in macOS
+   security settings.
 
-   To learn how to do this, refer to :ref:`Use the SDK with the macOS App Sandbox
-   <flutter-macos-development>`.
-
-.. _dart-install-steps:
-
-Dart Standalone Installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To use the SDK with Dart but not Flutter, there is a separate
-Dart SDK package with its own installation process.
-The Dart SDK can be used for CLI applications or when running Dart in a server environment.
-The Dart standalone package ``realm_dart`` has the same usage as the Flutter package
-except where otherwise noted.
-
-.. procedure::
-
-   .. step:: Create a Dart Project
-
-      Create a Dart project.
-
-      .. note:: Using Dart without Flutter
-
-        The official Dart docs have helpful getting started material
-        for using Dart without Flutter for CLI and server use cases.
-
-        `See the official documentation. <https://dart.dev/server>`__
-
-   .. step:: Add the SDK to the Project
-
-
-      To add the `Dart SDK <https://pub.dev/packages/realm_dart>`__ to your project, run the command:
-
-      .. code-block::
-
-        dart pub add realm_dart
-
-      This downloads the ``realm_dart`` package and adds it to your project.
-      In your ``pubspec.yaml`` file, you should see:
-
-      .. code-block:: yaml
-        :caption: pubspec.yaml
-
-        dependencies:
-          realm_dart: <latest_version>
-
-   .. step:: Install the SDK into the Application
-
-      Install the ``realm_dart`` package into the application.
-      This downloads and copies the required native binaries to the app directory.
-
-      .. code-block::
-
-        dart run realm_dart install
-
-   .. step:: Import the Package
-
-      To use the SDK within your Dart app, import the package
-      into files where you will use it:
-
-      .. code-block:: dart
-
-        import 'package:realm_dart/realm.dart';
+   To use networking in your macOS app, you must change your app's macOS network
+   entitlements. To learn how, refer to :ref:`flutter-macos-development`.
 
 .. _flutter-update-package:
 
@@ -178,8 +209,8 @@ Update Package Version
 
 .. include:: /includes/flutter-v2-breaking-change.rst
 
-To change the version of the Flutter SDK or Dart Standalone SDK in your project, 
-follow these steps.
+To change the version of the SDK in your project, perform the following steps,
+depending on whether you have a Flutter or Dart standalone app:
 
 .. tabs::
 
@@ -243,5 +274,5 @@ follow these steps.
       These steps should make the updated SDK version work in your application.
       If issues persist, delete the ``.realm`` database file created by the SDK,
       and restart the application.
-      Note that deleting the ``.realm`` file also deletes all data stored in 
+      Note that deleting the ``.realm`` file also deletes all data stored in
       the database on that client.
