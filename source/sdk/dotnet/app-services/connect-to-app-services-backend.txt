@@ -93,9 +93,9 @@ also import the following namespace at the top of your file, which contains the
 
 If you want to change the ``baseURL`` after you have logged in a user and
 have opened a synced database, the app must perform a 
-:ref:`client reset <ios-client-reset>`. Perform these steps in your code:
+:ref:`client reset <dotnet-client-resets>`. Perform these steps in your code:
 
-1. :ref:`Pause the Sync session <swift-suspend-sync-session>`.
+1. :ref:`Pause the Sync session <dotnet-suspend-resume-sync>`.
 2. Update the ``baseURL`` by calling the ``app.updateBaseUrl(to: )`` method.
 3. Authenticate and log the user in again with the new ``baseURL``.
 4. Open a synced database pulling data from the new server.
