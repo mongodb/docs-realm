@@ -38,6 +38,7 @@ namespace Examples
             }
             catch (Exception e) {
                 Console.WriteLine(e.Message);
+                Assert.AreEqual(e.Message, "Could not connect to the server.");
             }
 
         }
@@ -74,7 +75,7 @@ namespace Examples
             }
             catch (Exception e) {
                 Console.WriteLine(e.Message);
-                
+                Assert.AreEqual(e.Message, "With a base URL pointing to the cloud, logging in should not fail.");
             }
 
         }
