@@ -276,3 +276,48 @@ depending on whether you have a Flutter or Dart standalone app:
       and restart the application.
       Note that deleting the ``.realm`` file also deletes all data stored in
       the database on that client.
+
+.. _flutter-apple-privacy-manifest:
+
+Apple Privacy Manifest
+----------------------
+
+.. versionadded:: 2.2.0
+
+Apple requires apps that use required reason APIs to provide details about the
+SDK's data collection and use practices when submitting new apps or app updates
+to the App Store. For more details about Apple's requirements, refer to
+:apple:`support/third-party-SDK-requirements/` on the Apple Developer website.
+
+Starting in Flutter SDK version 2.2.0, the SDK ships with a privacy manifest for
+``iOS`` and ``macOS`` environments, contained in the ``realm`` package. Both
+privacy manifests contain Apple's required API disclosures and the reasons for
+using those APIs.
+
+You can view the privacy manifests in the package or the ``realm-dart``
+GitHub repository:
+
+- ``iOS``:
+  `https://github.com/realm/realm-dart/blob/main/packages/realm/ios/Resources/PrivacyInfo.xcprivacy
+  <https://github.com/realm/realm-dart/blob/main/packages/realm/ios/Resources/PrivacyInfo.xcprivacy>`__
+- ``macOS``:
+  `https://github.com/realm/realm-dart/blob/main/packages/realm/macos/Resources/PrivacyInfo.xcprivacy
+  <https://github.com/realm/realm-dart/blob/main/packages/realm/macos/Resources/PrivacyInfo.xcprivacy>`__
+
+The Flutter SDK does *not*:
+
+- Include analytics code in builds for the App Store.
+- Log into Atlas on its own behalf.
+
+If you write an app that uses any App Services functionality, you may need to
+add additional disclosures to your app's privacy manifest detailing your data
+collection and use practices when using these APIs.
+For example, if your app :ref:`initializes an App client
+<flutter-access-the-app-client>` to:
+
+- :ref:`Call an Atlas Function <flutter-call-function>`
+- :ref:`Authenticate and manage users <flutter-work-with-users>`
+- :ref:`Open a synced database <flutter-open-synced-realm>`
+
+For more information, refer to Apple's
+:apple:`documentation/bundleresources/privacy_manifest_files` documentation.
