@@ -22,35 +22,35 @@
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.java
+         .. literalinclude:: /examples/MissingPlaceholders/example.java
             :language: java
 
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.js
+         .. literalinclude:: /examples/MissingPlaceholders/example.js
             :language: javascript
 
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.kt
+         .. literalinclude:: /examples/MissingPlaceholders/example.kt
             :language: kotlin
 
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.m
+         .. literalinclude:: /examples/MissingPlaceholders/example.m
             :language: objectivec
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.swift
+         .. literalinclude:: /examples/MissingPlaceholders/example.swift
             :language: swift
 
      - id: typescript
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.ts
+         .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript

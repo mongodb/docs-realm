@@ -16,7 +16,7 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.dart
+         .. literalinclude:: /examples/MissingPlaceholders/example.dart
             :language: dart
 
      - id: java
@@ -54,5 +54,5 @@
      - id: typescript
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.ts
+         .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript

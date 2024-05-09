@@ -10,7 +10,7 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.cs
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
             :language: csharp
 
      - id: dart
@@ -22,13 +22,13 @@
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingAPIPlaceholders/missing.java
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
             :language: java
 
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.js
+         .. literalinclude:: /examples/MissingPlaceholders/example.js
             :language: javascript
 
      - id: kotlin
@@ -41,7 +41,7 @@
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.m
+         .. literalinclude:: /examples/MissingPlaceholders/example.m
             :language: objectivec
 
      - id: swift

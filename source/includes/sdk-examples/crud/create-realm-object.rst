@@ -55,5 +55,5 @@
      - id: typescript
        content: |
 
-         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.ts
+         .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript
