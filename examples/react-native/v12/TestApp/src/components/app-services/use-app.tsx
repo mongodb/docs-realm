@@ -48,35 +48,15 @@ function MyApp() {
   // Proceed to app logic...
   // :remove-start:
   return (
-    <Text testID="logged-in-user-id">"Logged in as user with ID: {app.currentUser?.id}"</Text>
+    <Text testID="logged-in-user-id">
+      "Logged in as user with ID: {app.currentUser?.id}"
+    </Text>
   );
   // :remove-end:
 }
 // :snippet-end:
 
 const styles = StyleSheet.create({
-  section: {
-    flex: 1,
-    marginTop: 8,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  textInput: {
-    backgroundColor: '#C5CAE9',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    marginVertical: 5,
-  },
-  inputGroup: {
-    width: '100%',
-  },
-  buttonGroup: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginVertical: 12,
-    paddingVertical: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   button: {
     backgroundColor: '#3F51B5',
     borderWidth: StyleSheet.hairlineWidth,
