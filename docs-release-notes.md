@@ -1,3 +1,43 @@
+# May 10, 2024
+
+## C++ SDK
+
+- Quick Start: Fix omitted `namespace` line in the object model.
+
+## Flutter SDK
+
+- Install: Add new "Apple Privacy Manifest" section with information on the manifest included with SDK v2.2.0.
+- Realm Database/React to Changes: Update "Register Collection Change Listeners" section:
+  - Document the `isCollectionDeleted` property for list, set, and map collections.
+  - Document the `isCleared` property for map collections.
+- Atlas App Services/Connect to App Services
+  - New "Connect to a Specific Server" section with baseURL info.
+  - New "Connect to a Different Server During Runtime" subsection with info about the experimental API.
+- Sync Device Data/Manage Sync Session: Updates to "Monitor Sync Upload and Download Progress" section for compatibility with Flexible Sync.
+- SDK Telemetry: Add new "Apple Privacy Manifest" section to clarify the SDK does not collect telemetry on builds for the App Store.
+
+## Kotlin SDK
+
+- Install: Update listed SDK version.
+- Connect to Atlas/Connect to App Services
+  - New "Connect to a Specific Server" section with baseUrl info.
+  - New "Connect to a Different Server During Runtime" subsection with info about the experimental API.
+
+## Node.js SDK
+
+- App Services/Connect to an Atlas App Services Backend: Add new sections and examples for updating the baseUrl, including during runtime.
+
+## React Native SDK
+
+- App Services/Connect to an Atlas App Services App: Add new sections that address updating the baseUrl.
+
+## Swift SDK
+
+- Application Services/Connect to an App Services App
+  - New "Connect to a Specific Server" section with baseURL info.
+  - New "Connect to a Different Server During Runtime" subsection with info about the new experimental API.
+- Sync Data/Manage Sync Sessions: Updates to "Upload and Download Progress Notifications" section for compatibility with Flexible Sync.
+
 # May 3, 2024
 
 ## Swift SDK
