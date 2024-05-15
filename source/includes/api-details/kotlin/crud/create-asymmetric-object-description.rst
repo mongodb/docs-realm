@@ -4,7 +4,7 @@ it into the database.
 
 To create a new ``AsymmetricRealmObject`` instance, instantiate a 
 new object of an
-:ref:`asymmetric object type <kotlin-asymmetric-objects>` using 
+:ref:`asymmetric object type <sdks-asymmetric-objects>` using 
 `insert() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.ext/insert.html>`__.
 
 In the following example, we instantiate a new ``WeatherSensor``

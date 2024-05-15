@@ -32,4 +32,4 @@
    
    In Kotlin, objects returned from a write closure become frozen objects when
    the write transaction completes. For more information, refer to 
-   :ref:`kotlin-frozen-architecture`.
+   :ref:`sdks-live-and-frozen-objects`.

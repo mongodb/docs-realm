@@ -35,54 +35,14 @@ Some SDKs also support idiomatic APIs for querying realms in their language.
 Query with Realm SDKs
 ---------------------
 
-For further reading on SDK-specific methods for querying realms, see the documentation
-for your SDK: 
+For language and SDK-specific methods for querying data, refer to the related
+documentation:
 
-.. tabs::
-
-  .. tab:: Flutter SDK
-    :tabid: flutter
-
-    - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
-
-  .. tab:: Java SDK
-    :tabid: java
-
-    - :ref:`Query Engine - Java SDK <java-client-query-engine>`
-    - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
-
-  .. tab:: Kotlin SDK
-    :tabid: kotlin
-
-    - :ref:`Filter Data - Kotlin SDK <kotlin-filter-data>`
-
-  .. tab:: .NET SDK
-    :tabid: dotnet
-
-    - :ref:`Query Engine - .NET SDK <dotnet-client-query-engine>`
-
-  .. tab:: Node.JS SDK
-    :tabid: node
-
-    - :ref:`Query Engine - Node.Js SDK <node-client-query-engine>`
-    - :ref:`Filter Queries - Node.Js SDK <node-filter-queries>`
-
-  .. tab:: React Native SDK
-    :tabid: react-native
-
-    - :ref:`Query Engine - React Native SDK <react-native-client-query-engine>`
-    - :ref:`Filter Queries - React Native SDK <react-native-filter-queries>`
-
-  .. tab:: C++ SDK
-    :tabid: cpp
-
-    The C++ SDK currently implements only a subset of RQL. For examples 
-    querying Realm in the C++ SDK, refer to:
-
-    - :ref:`Filter Data - C++ SDK <cpp-filter-data>`
-
+- :ref:`sdks-crud-read`
+- :ref:`Fluent Interface (Java SDK) <java-filter-data>`
+- :ref:`LINQ (.NET SDK) <dotnet-linq>`
+- :ref:`Type-Safe and NSPredicate Queries (Swift SDK) <sdks-filter-data-swift>`
     
-
 .. note:: Swift SDK does not support Realm Query Language
 
    The Swift SDK does not support querying with Realm Query Language.
@@ -892,15 +852,7 @@ Full Text Search
 
 You can use RQL to query on properties that have a full-text search (FTS)
 annotation. FTS supports boolean match word searches, rather than searches for relevance.
-For information on enabling FTS on a property, see the FTS documentation for 
-your SDK:
-
-- :ref:`Flutter SDK <flutter-fts-annotation>`
-- :ref:`Kotlin SDK <kotlin-fts-index>`
-- :ref:`.NET SDK <dotnet-fts-indexes>`
-- :ref:`Node.js SDK <node-set-fts-index>`
-- :ref:`React Native SDK <react-native-set-fts-index>`
-- Swift SDK does not yet support Full-Text Search.
+For information on enabling FTS on a property, refer to :ref:`sdks-fts-property`.
 
 To query these properties, use the ``TEXT`` predicate in your query.
 
