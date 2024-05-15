@@ -16,6 +16,7 @@ Add links to every SDK's pages where you got the SDK-specific information:
 
 Before requesting a review for your PR, please check these items:
 
+- [ ] Did you open the PR against the `feature-consolidated-sdk-docs` branch instead of master? 
 - [ ] Did you tag pages appropriately?
   - genre
   - meta.keywords
