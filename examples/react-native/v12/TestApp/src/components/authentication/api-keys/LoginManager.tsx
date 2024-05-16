@@ -1,76 +1,131 @@
-import React, {useEffect} from 'react';
-import {View, Text, Pressable, StyleSheet} from 'react-native';
-import {useEmailPasswordAuth, useAuth, useApp} from '@realm/react';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
+import {AuthOperationName, useAuth, useEmailPasswordAuth} from '@realm/react';
+
+import {ApiKey} from '../../types';
 
 interface LoginManagerProps {
-  email: string;
-  password: string;
-  apiKey: string;
+  apiKey: ApiKey | undefined;
 }
 
-// You can only create API keys for a user who has already
-// logged in. Perform initial login with another auth type.
-export const LoginManager = ({email, password, apiKey}: LoginManagerProps) => {
-  const {logOut, result, logIn} = useEmailPasswordAuth();
-  const {logInWithApiKey} = useAuth();
-  const app = useApp();
+export const LoginManager = ({apiKey}: LoginManagerProps) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
+  const {logIn, logOut} = useEmailPasswordAuth();
+  const {logInWithApiKey} = useAuth();
+
+  // Log out current user
   useEffect(() => {
-    if (app.currentUser) {
-      app.currentUser.logOut();
-    }
+    logOut();
   }, []);
 
-  // For test purposes only. Indicates when login results change.
-  useEffect(() => {
-    console.log('InitialLogin operation: ', result.operation);
-    console.log('InitialLogin state: ', result.state);
-    console.log('InitialLogin result: ', result.success);
-  }, [result]);
-
-  const loginEmailPasswordUser = () => {
-    if (!app.currentUser) {
-      logIn({email: email, password: password});
-    }
+  const performLogin = () => {
+    logIn({email, password});
   };
+
   const loginApiKeyUser = () => {
-    let apiKeyCredential = logInWithApiKey(apiKey);
+    logInWithApiKey(apiKey!.key);
   };
 
   return (
-    <View style={styles.section}>
-      <Text>
-        First, log out existing user and log in with email and password
-      </Text>
-      <View style={styles.buttonGroup}>
-        <Pressable
-          style={styles.button}
-          onPress={logOut}>
-          <Text style={styles.buttonText}>Log out</Text>
-        </Pressable>
-        <Pressable
-          style={!app.currentUser ? styles.button : styles.disabledButton}
-          onPress={loginEmailPasswordUser}>
-          <Text style={styles.buttonText}>Log in email/password user</Text>
-        </Pressable>
-
-        <Pressable
-          style={apiKey ? styles.button : styles.disabledButton}
-          onPress={loginApiKeyUser}
-          disabled={!apiKey}>
-          <Text style={styles.buttonText}>Log in with API Key</Text>
-        </Pressable>
-      </View>
+    <View>
+      {apiKey ? (
+        <View>
+          <Text>API key found!</Text>
+          <Text>
+            • {apiKey.name} | {apiKey._id}
+          </Text>
+          <View style={styles.buttonGroup}>
+            <Pressable
+              style={styles.button}
+              onPress={loginApiKeyUser}>
+              <Text style={styles.buttonText}>Log with API key</Text>
+            </Pressable>
+          </View>
+        </View>
+      ) : (
+        <View>
+          <TextInput
+            testID="email-input"
+            style={styles.textInput}
+            onChangeText={setEmail}
+            value={email}
+            placeholder="email..."
+          />
+          <TextInput
+            testID="password-input"
+            style={styles.textInput}
+            onChangeText={setPassword}
+            value={password}
+            placeholder="password..."
+          />
+          <View style={styles.buttonGroup}>
+            <Pressable
+              style={styles.button}
+              onPress={performLogin}>
+              <Text style={styles.buttonText}>Log in</Text>
+            </Pressable>
+            <RegisterButton
+              email={email}
+              password={password}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };
 
+type RegisterButtonProps = {
+  email: string;
+  password: string;
+};
+
+const RegisterButton = ({email, password}: RegisterButtonProps) => {
+  const {register, result, logIn} = useEmailPasswordAuth();
+
+  useEffect(() => {
+    if (result.success && result.operation === AuthOperationName.Register) {
+      logIn({email, password});
+    }
+  }, [result, logIn, email, password]);
+
+  const performRegistration = () => {
+    console.log('In registration');
+    register({email, password});
+  };
+
+  return (
+    <Pressable
+      testID="register-button"
+      style={styles.button}
+      onPress={performRegistration}>
+      <Text style={styles.buttonText}>Register</Text>
+    </Pressable>
+  );
+};
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    alignItems: 'center',
+  },
   section: {
     flex: 1,
     marginTop: 8,
     paddingVertical: 12,
     alignItems: 'center',
+  },
+  textInput: {
+    backgroundColor: '#C5CAE9',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 5,
+  },
+  inputGroup: {
+    width: '100%',
   },
   buttonGroup: {
     flexDirection: 'row',
