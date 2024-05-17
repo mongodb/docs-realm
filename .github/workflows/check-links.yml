@@ -1,9 +1,9 @@
 name: Check All Links for Errors
 
 on:
-  push:
-    paths:
-      - "source/**"
+  pull_request:
+      paths:
+        - "source/**"
 
 jobs:
   check:
