@@ -204,6 +204,43 @@ or primitives.
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.query-realm-list.dart
    :language: dart
 
+.. _flutter-filter-nested-collections-mixed:
+
+Query Nested Collections of Mixed Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 2.0.0
+
+In Flutter SDK v2.0.0 and later, :ref:`RealmValue <flutter-realm-value>` 
+properties can contain collections (a list or map) of mixed data. These 
+collections can be nested within collections and can contain other 
+collections of mixed data. 
+
+You can query these using the same syntax as you would for a  
+normal list or dictionary collection. Refer to the :ref:`rql` documentation for more
+information on supported operators and list comparisons.  
+
+For nested collections, you can also use: 
+
+- Bracket notation, which provides the following collection query operators: 
+
+  - ``[FIRST]`` and [``LAST``]: match the first or last elements within the collection.
+  - ``[<int>]``: match the element at the specific index. 
+  - ``[*]``: match any element within the collection (this operator assumes a
+    collection type at that path). 
+  - ``[SIZE]``: match the collection length. 
+
+- The ``@type`` operator, which supports the following values: 
+
+  - ``array`` and ``list``: match a list collection.
+  - ``dictionary`` and ``object``: match a map collection.
+  - ``collection``: match a list or a map collection.  
+
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter-nested-collections.dart
+   :language: dart
+
+.. TODO Link to RQL documentation when available
+
 .. _flutter-as-results:
 
 Convert Lists or Sets to Results
@@ -240,6 +277,11 @@ You can use iterable arguments in your filter. For example:
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.filter-iterable.dart
    :language: dart
+
+.. _flutter-filter-inverse-relationships:
+
+Filter Inverse Relationships
+````````````````````````````
 
 You can also filter by inverse relationships using the
 ``@links.<Type>.<Property>`` syntax. For example, a filter can match 
@@ -279,7 +321,7 @@ fields:
 .. _flutter-fts-details:
 
 Full-Text Search Tokenizer Details
-''''''''''''''''''''''''''''''''''
+``````````````````````````````````
 
 Full-Text Search (FTS) indexes support:
 

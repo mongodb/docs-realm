@@ -164,7 +164,11 @@ describe("Geospatial", () => {
     // :snippet-start: geocircle-query
     const companiesInSmallCircle = realm
       .objects(Company)
-      .filtered("location geoWithin $0", smallCircle);
+      .filtered(
+        // :snippet-start: rql-geospatial
+        "location geoWithin $0", smallCircle
+        // :snippet-end: 
+        );
     console.debug(`Companies in smallCircle: ${companiesInSmallCircle.length}`);
 
     const companiesInLargeCircle = realm

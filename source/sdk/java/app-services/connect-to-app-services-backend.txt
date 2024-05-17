@@ -5,6 +5,14 @@
 Connect to an Atlas App Services backend - Java SDK
 ===================================================
 
+.. meta::
+  :description: Connect your Atlas Device SDK for Java client app to the Atlas App Services backend.
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -74,4 +82,22 @@ Builder to control details of your ``App``:
          :language: kotlin
          :copyable: false
 
-.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+You can create multiple App client instances to connect to multiple
+Apps. All App client instances that share the same App ID use the same 
+underlying connection.
+
+.. important:: Changing an App Config After Initializing the App
+
+   .. versionchanged:: v10.18.0
+      ``urlPrefix`` is not cached in the App configuration
+
+   When you initialize the App client, the configuration is cached internally. 
+   Attempting to close and then re-open an App with a changed configuration
+   within the same process has no effect. The client continues to use the 
+   cached configuration. 
+
+   In Java SDK version 10.18.0 and later, the :ref:`urlPrefix <urlPrefix>`
+   is *no longer* cached in the App configuration. This means that you can
+   change the ``urlPrefix``, and the App client will use the updated
+   configuration. In earlier SDK versions, changes to the ``urlPrefix`` in a 
+   cached App configuration have no effect.

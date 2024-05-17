@@ -1,3 +1,213 @@
+# May 10, 2024
+
+## C++ SDK
+
+- Quick Start: Fix omitted `namespace` line in the object model.
+
+## Flutter SDK
+
+- Install: Add new "Apple Privacy Manifest" section with information on the manifest included with SDK v2.2.0.
+- Realm Database/React to Changes: Update "Register Collection Change Listeners" section:
+  - Document the `isCollectionDeleted` property for list, set, and map collections.
+  - Document the `isCleared` property for map collections.
+- Atlas App Services/Connect to App Services
+  - New "Connect to a Specific Server" section with baseURL info.
+  - New "Connect to a Different Server During Runtime" subsection with info about the experimental API.
+- Sync Device Data/Manage Sync Session: Updates to "Monitor Sync Upload and Download Progress" section for compatibility with Flexible Sync.
+- SDK Telemetry: Add new "Apple Privacy Manifest" section to clarify the SDK does not collect telemetry on builds for the App Store.
+
+## Kotlin SDK
+
+- Install: Update listed SDK version.
+- Connect to Atlas/Connect to App Services
+  - New "Connect to a Specific Server" section with baseUrl info.
+  - New "Connect to a Different Server During Runtime" subsection with info about the experimental API.
+
+## Node.js SDK
+
+- App Services/Connect to an Atlas App Services Backend: Add new sections and examples for updating the baseUrl, including during runtime.
+
+## React Native SDK
+
+- App Services/Connect to an Atlas App Services App: Add new sections that address updating the baseUrl.
+
+## Swift SDK
+
+- Application Services/Connect to an App Services App
+  - New "Connect to a Specific Server" section with baseURL info.
+  - New "Connect to a Different Server During Runtime" subsection with info about the new experimental API.
+- Sync Data/Manage Sync Sessions: Updates to "Upload and Download Progress Notifications" section for compatibility with Flexible Sync.
+
+# May 3, 2024
+
+## Swift SDK
+
+- Install:
+  - Update the Swift Package Manager and Privacy Manifest sections with information about building as a dynamic framework and linking only to one package.
+  - Drop Xcode 14 support. Refactor minimum OS and Xcode requirements to remove duplicate information.
+- Test and Debug: Add information about how to resolve an error related to linking to both `Realm` and `RealmSwift`.
+
+# April 26, 2024
+
+## Flutter SDK
+
+- Atlas App Services/Query Atlas GraphQL API: Remove set up information for using the Atlas GraphQL API.
+
+## React Native SDK
+
+- Debugging with Flipper: Remove page, its TOC entry, and associated redirects.
+
+# April 19, 2024
+
+## Internal
+
+- Flutter SDK: Remove the GraphQL Dart/Flutter test and package dependency.
+- Web SDK: Update package dependencies.
+- Domain updates: Add redirects for top-level docs pages from `/docs/realm/` to `/docs/atlas/device-sdks/`.
+- Name update: Update name in sidebar from `Atlas Device SDK` to `Atlas Device SDKs`.
+
+# April 12, 2024
+
+## Internal
+
+- Update dependencies in Web SDK test suite.
+
+# April 5, 2024
+
+## Java SDK
+
+- Atlas App Services/Connect to an App Services App: Update to indicate that the `urlPrefix` is no longer cached in the AppConfiguration object.
+- Troubleshooting: Document getting started with the Java SDK with custom Android ROMs.
+
+## Kotlin SDK
+
+- Connect to Atlas/Connect to App Services: Update to indicate that the `baseUrl` is no longer cached in the AppConfiguration object.
+- Troubleshooting: Document getting started with the Kotlin SDK with custom Android ROMs.
+
+## .NET SDK
+
+- Application Services/Connect to an App Services App: Update to indicate that the `baseUri` is no longer cached in the AppConfiguration object.
+
+## React Native SDK
+
+- Throughout: Standardize "provider" capitalization to support translation needs.
+
+# March 29, 2024
+
+## Flutter SDK
+
+- Install: Add note regarding the breaking change to how data model class files generate, and update "Prerequisites" section with updated version and platform requirements.
+- Realm Database/Model Data:
+  - Define a Realm Object Schema: Add note regarding the breaking change to how
+    data model class files generate.
+  - Data Types: Update code examples with `dynamic.getList()`, `dynamic.getSet()`, and `dynamic.getMap()` methods.
+- Throughout Flutter docs: Update any `.g.dart` file extensions to the new `.realm.dart` extension.
+
+## Internal
+
+- Add the `:orphan:` directive to several flagged pages to prevent build errors.
+
+# March 22, 2024
+
+## C++ SDK
+
+- Realm Files/Configure & Open a Realm: Fix truncated "Open a Realm at a File Path" code example.
+
+## Flutter SDK
+
+- Quick Start: Update the Flutter data models to be consistent with Dart version.
+- Realm Database
+  - Model Data
+    - Define an Object Schema: Add a new "Modeled Unstructured Data" section with a tested, Bluehawked code example to document nested collections of mixed data.
+    - Data Types: Update RealmValue section to document the new support for nested collections of mixed data and additional changes to the data type. Update or add tested, Bluehawked code examples.
+  - CRUD/Read: Add new "Query Nested Collections of Mixed Data" section with a tested, Bluehawked code example to document new RQL queries for nested collections.
+- Throughout Flutter docs: Update Bluehawked code snippets to use the new `.realm.dart` part file extension.
+
+## Kotlin SDK
+
+- Realm/Connect to Atlas/Connect to App Services: Add new "Enable Platform Networking" section with Bluehawked code example detailing the new feature.
+
+## Swift SDK
+
+- Install: Remove API info from the privacy manifest details and link out to the manifests themselves.
+- Sync/Partition-Based Sync: Correctly display a Partition-Based Sync example of opening a realm instead of a Flexible Sync example.
+
+# March 15, 2024
+
+## Other
+
+Throughout Device SDK docs:
+- Add deprecation notices to pages with substantial GraphQL content.
+- Remove high-level references to our GraphQL API to make the feature less discoverable.
+
+## Internal
+
+- Update dependencies in Web SDK test suite.
+
+# March 8, 2024
+
+## Node.js SDK
+
+- Landing Page: Remove link to outdated Electron guide.
+- Integration Guides: Remove outdated Integration Guides section from TOC until we have time to update the guides.
+
+# March 1, 2024
+
+## React Native SDK
+
+- Model Data/Data Types/Dictionaries: Fix bullet list formatting.
+
+## Other
+
+- Realm Query Language: Update RQL reference with information on querying with full-text search.
+
+# February 23, 2024
+
+## Kotlin SDK
+
+- Realm/Configure & Open a Realm: Fix a broken hyperlink. 
+
+# February 16, 2024
+
+## Flutter SDK
+
+- Realm Database/React to Changes: Add new "Register a User Instance Change Listener" section documenting how to listen for user changes with a tested, Bluehawked code example.
+- Manage Users: Add "Listen for User Changes" section with link to React to Changes page.
+
+## React Native SDK
+
+- Bootstrap with Expo: Update shell commands and clarify how to get an Expo app working.
+
+## Swift SDK
+
+- Model Data/Supported Data Types: Add a section with information about persisting geospatial data types.
+- CRUD
+  - Read: New section with information and tested, Bluehawked code examples about querying geospatial data.
+  - Filter: New sections for both query engines with information and tested, Bluehawked code examples about querying geospatial data.
+- SwiftUI/Quick Start: Change bold code-related elements to monospace for the documentation translation project.
+
+# February 9, 2024
+
+## Flutter SDK
+
+- Realm Database/CRUD/Read: Add information and tested, Bluehawked code examples detailing how to find linked objects using the new `getBacklinks()` method and how to find backlink objects using the RQL backlink query syntax.
+- Atlas App Services/Connect to App Services: Note that, starting in v1.8.0, you can update the `baseUrl` in the `AppConfiguration` because the App client no longer caches it.
+
+## Node.js SDK
+
+- Atlas App Services/Connect to an App Services App: Note that, starting in v12.6.0, you can update the `baseUrl` in the `AppConfiguration` because the App client no longer caches it.
+
+## React Native SDK 
+
+- Atlas App Services/Connect to an App Services App: 
+  - Note that, starting in v12.6.0, you can update the `baseUrl` in the  `AppConfiguration` because the App client no longer caches it.
+  - Update examples to use new auth hooks.
+- API Reference/App Provider: Update `useApp` example to remove old auth pattern.
+
+## Other
+
+- Realm Query Language: Fix example comment on 'Dictionary Operators' section based on user feedback.
+
 # February 2, 2024
 
 ## Flutter SDK

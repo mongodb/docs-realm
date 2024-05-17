@@ -4,6 +4,7 @@ import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
+import io.realm.kotlin.types.annotations.FullText
 import org.mongodb.kbson.ObjectId
 
 class RQLTest: RealmTest() {
@@ -11,6 +12,7 @@ class RQLTest: RealmTest() {
     class Item(): RealmObject {
         @PrimaryKey
         var _id: ObjectId = ObjectId()
+        @FullText
         var name: String = ""
         var isComplete: Boolean = false
         var assignee: String? = null

@@ -4,6 +4,14 @@
 Connect to an Atlas App Services App - React Native SDK
 =======================================================
 
+.. meta:: 
+   :description: Connect to Atlas App Services from the Atlas Device SDK. Specify configuration details to customize App access.
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -30,11 +38,13 @@ Configure the App Client
 To set up your App client, pass the App ID string
 to the ``id`` prop of the ``AppProvider``.
 Wrap any components that need to access the App with the ``AppProvider``.
+In this example, we wrap the :ref:`UserProvider <react-native-user-provider>` 
+in the ``AppProvider`` to authenticate a user.
 
-.. literalinclude:: /examples/generated/react-native/ts/app-provider.test.snippet.app-provider.tsx
-   :language: typescript
+.. include:: /examples/generated/react-native/v12/use-app.snippet.app-config-imports.tsx.rst
+.. include:: /examples/generated/react-native/v12/use-app.snippet.app-config.tsx.rst
 
-.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+.. include:: /includes/note-rn-multiple-app-clients-and-app-config-cache.rst
 
 .. _react-native-app-retrieve-client:
 
@@ -42,11 +52,10 @@ Retrieve an Instance of the App Client
 --------------------------------------
 
 All components wrapped within an ``AppProvider`` can access the :js-sdk:`App <Realm.App.html>`
-client with the ``useApp()`` hook. Using the App, you can authenticate users
-and access App Services.
+client with the ``useApp()`` hook.
 
-.. literalinclude:: /examples/generated/react-native/ts/use-app.test.snippet.use-app.tsx
-   :language: typescript
+.. include:: /examples/generated/react-native/v12/use-app.snippet.import-use-app.tsx.rst
+.. include:: /examples/generated/react-native/v12/use-app.snippet.use-app.tsx.rst
 
 .. _react-native-retrieve-client-outside-provider:
 
@@ -84,3 +93,32 @@ To encrypt App metadata:
 #. Pass the App configuration object to ``new Realm.App()``.
 
 .. include:: /examples/generated/react-native/v12/EncryptMetadata.snippet.encrypt-metadata.tsx.rst
+
+Connect to a Specific Server
+----------------------------
+
+By default, Atlas Device SDK connects to Atlas using the global ``baseURL``
+of ``https://services.cloud.mongodb.com``. In some cases, you may want to
+connect to a different server:
+
+- Your App Services App uses :ref:`local deployment <local-deployment>`, and 
+  you want to connect directly to a local ``baseURL`` in your region.
+- You want to connect to an :ref:`Edge Server instance <edge-server-connect-from-client>`.
+
+You can specify a ``baseURL`` as a prop for :ref:`AppProvider <react-native-app-provider>`.
+All :js-sdk:`AppConfiguration <types/Realm.AppConfiguration.html>` keys can be
+passed as props to ``AppProvider``.
+
+Connect to a Different Server During Runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionchanged:: ``realm@12.8.0``
+
+In some cases, you might want to change the ``baseURL`` while the app is
+running. For example, you might want to roam between Edge Servers, or
+move from an App Services connection to an Edge Server connection.
+
+Currently, this feature is implemented as an experimental module that requires
+specific TypeScript configuration. The required configuration can be difficult
+to make work with a React Native app. For more information on implementation, refer to :ref:`documentation for the
+Node.js SDK <node-change-server-typescript>`.

@@ -6,6 +6,14 @@
 CRUD - Read - Swift SDK
 =======================
 
+.. meta:: 
+   :description: Read objects from the database by object type. Query by property to filter results.
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -423,6 +431,161 @@ When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
   in a mixed type field, 1 matches all of 1.0, 1, and true.
 - String properties do not match numeric queries. For example, in a mixed
   type field, 1 does not match "1". "1" does not match 1, 1.0, or true.
+
+.. _swift-query-geospatial:
+
+Query Geospatial Data
+~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.47.0
+
+The Swift SDK provides several shapes to simplify querying 
+:ref:`geospatial data <swift-geospatial-data-type>`. You can use the 
+``GeoCircle``, ``GeoBox``, and ``GeoPolygon`` shapes to set the boundaries for 
+your geospatial data queries.
+
+The SDK provides two specialized non-persistable data types to define shapes:
+
+- ``GeoPoint``: A struct that represents the coordinates of a point formed by 
+  a pair of doubles consisting of these values:
+  
+  - Latitude: ranges between -90 and 90 degrees, inclusive.
+  - Longitude: ranges between -180 and 180 degrees, inclusive.
+- ``RLMDistance``: A helper struct to represent and convert a distance.
+
+Define Geospatial Shapes
+````````````````````````
+
+.. tabs::
+
+   .. tab:: GeoCircle
+      :tabid: geocircle
+
+      A ``GeoCircle`` is a circular shape whose bounds originate from a central 
+      ``GeoPoint``, and has a size corresponding to a radius measured in 
+      radians. You can use the SDK's convenience ``RLMDistance`` data type to 
+      easily work with radii in different units.
+
+      ``RLMDistance`` enables you to specify the radius distance for your geo shapes 
+      in one of four units:
+
+      - ``.degrees``
+      - ``.kilometers``
+      - ``.miles``
+      - ``.radians``
+
+      You can optionally use the supplied convenience methods to convert a 
+      measurement to a different distance units.
+
+      .. literalinclude:: /examples/generated/code/start/Geospatial.snippet.geocircle.swift
+         :language: swift
+
+      .. figure:: /images/geocircles.png
+         :alt: Two GeoCircles
+         :width: 150
+         :lightbox:
+
+   .. tab:: GeoBox
+      :tabid: geobox
+
+      A ``GeoBox`` is a rectangular shape whose bounds are determined by 
+      coordinates for a bottom-left and a top-right corner.
+
+      .. literalinclude:: /examples/generated/code/start/Geospatial.snippet.geobox.swift
+         :language: swift
+
+      .. figure:: /images/geoboxes.png
+         :alt: 2 GeoBoxes
+         :width: 150
+         :lightbox:
+
+   .. tab:: GeoPolygon
+      :tabid: geopolygon
+
+      A ``GeoPolygon`` is a polygon shape whose bounds consist of an outer 
+      ring, and 0 or more inner holes to exclude from the geospatial query. 
+      
+      A polygon's outer ring must contain at least three segments. The last 
+      and the first ``GeoPoint`` must be the same, which indicates a closed 
+      polygon. This means that it takes at least four ``GeoPoint`` values to
+      construct a polygon.
+
+      Inner holes in a ``GeoPolygon`` must be entirely contained within the
+      outer ring.
+
+      Holes have the following restrictions:
+
+      - Holes may not cross. The boundary of a hole may not intersect both the 
+        interior and the exterior of any other hole.
+      - Holes may not share edges. If a hole contains an edge AB, then no other 
+        hole may contain it.
+      - Holes may share vertices. However, no vertex may appear twice in a 
+        single hole.
+      - No hole may be empty.
+      - Only one nesting is allowed.
+
+      .. literalinclude:: /examples/generated/code/start/Geospatial.snippet.geopolygon.swift
+         :language: swift
+
+      .. figure:: /images/geopolygons.png
+         :alt: 3 GeoPolygons
+         :width: 250
+         :lightbox:
+
+Query with Geospatial Shapes
+````````````````````````````
+
+You can then use these shapes in a geospatial query. You can query geospatial 
+data in three ways:
+
+- Using the ``.geoWithin()`` operator with the type-safe Realm Swift Query API
+- Using a ``.filter()`` with RQL
+- Using a ``.filter()`` with an NSPredicate query
+
+The examples below show the results of queries using these two ``Company``
+objects:
+
+.. literalinclude:: /examples/generated/code/start/Geospatial.snippet.companies.swift
+   :language: swift
+
+.. figure:: /images/geopoints.png
+   :alt: 2 GeoPoints
+   :width: 150
+   :lightbox:
+
+.. tabs::
+
+   .. tab:: GeoCircle
+      :tabid: geocircle
+
+      .. literalinclude:: /examples/generated/code/start/Geospatial.snippet.geocircle-query.swift
+         :language: swift
+
+      .. figure:: /images/geocircles-query.png
+         :alt: Querying a GeoCircle example.
+         :width: 150
+         :lightbox:
+
+   .. tab:: GeoBox
+      :tabid: geobox
+
+      .. literalinclude:: /examples/generated/code/start/Geospatial.snippet.geobox-query.swift
+         :language: swift
+
+      .. figure:: /images/geoboxes-query.png
+         :alt: Querying a GeoBox example.
+         :width: 150
+
+   .. tab:: GeoPolygon
+      :tabid: geopolygon
+
+      .. literalinclude:: /examples/generated/code/start/Geospatial.snippet.geopolygon-query.swift
+         :language: swift
+
+      .. figure:: /images/geopolygons-query.png
+         :alt: Querying a GeoPolygon example.
+         :width: 150
+         :lightbox:
 
 .. _swift-query-type-projection:
 

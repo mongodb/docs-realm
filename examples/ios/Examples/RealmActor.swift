@@ -518,7 +518,7 @@ class RealmActorTests: XCTestCase {
         
         try await mainThreadFunction()
         
-        await fulfillment(of: [expectation], timeout: 5)
+        await fulfillment(of: [expectation], timeout: 15)
     }
     
     func testQueryForDataOnAnotherActor() async throws {

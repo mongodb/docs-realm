@@ -92,6 +92,20 @@
         RLMMongoClient *client = [user mongoClientWithServiceName:@"mongodb-atlas"];
         RLMMongoDatabase *database = [client databaseWithName:@"my_database"];
         RLMMongoCollection *collection = [database collectionWithName:@"users"];
+        // :remove-start:
+        [collection insertOneDocument:
+            @{@"userId": [user identifier], @"favoriteColor": @"pink"}
+            completion:^(id<RLMBSON> newObjectId, NSError *error) {
+                if (error != nil) {
+                    NSLog(@"Failed to insert: %@", error);
+                }
+                NSLog(@"Inserted custom user data document with object ID: %@", newObjectId);
+                // :remove-start:
+                XCTAssertNotNil(newObjectId);
+                // :remove-end:
+        }];
+        sleep(5);
+        // :remove-end:
 
         // Update the user's custom data document
         [collection updateOneDocumentWhere:@{@"userId": [user identifier]}

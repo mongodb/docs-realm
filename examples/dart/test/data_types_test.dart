@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:realm_dart/realm.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
@@ -5,24 +7,12 @@ import 'dart:typed_data';
 
 import 'utils.dart';
 
+part 'data_types_test.realm.dart';
 // :snippet-start: data-types-example-model
 
-part 'data_types_test.g.dart'; // :remove:
 // :uncomment-start:
-// part 'car.g.dart';
+// part 'car.realm.dart';
 // :uncomment-end:
-
-@RealmModel()
-class _Car {
-  @PrimaryKey()
-  late ObjectId id;
-
-  String? licensePlate;
-  bool isElectric = false;
-  double milesDriven = 0;
-  late List<String> attributes;
-  late _Person? owner;
-}
 
 // :snippet-start: embedded-object-model
 // The generated `Address` class is an embedded object.
@@ -44,8 +34,19 @@ class _Person {
   // Embedded object in parent object schema
   late _Address? address; // Must be nullable
 }
-
 // :snippet-end:
+
+@RealmModel()
+class _Car {
+  @PrimaryKey()
+  late ObjectId id;
+
+  String? licensePlate;
+  bool isElectric = false;
+  double milesDriven = 0;
+  late List<String> attributes;
+  late _Person? owner;
+}
 // :snippet-end:
 
 // :snippet-start: uuid-model
@@ -54,15 +55,14 @@ class _UuidPrimaryKey {
   @PrimaryKey()
   late Uuid id;
 }
+// :snippet-end:
 
-//:snippet-end:
 // :snippet-start: objectid-model
 @RealmModel()
 class _ObjectIdPrimaryKey {
   @PrimaryKey()
   late ObjectId id;
 }
-
 // :snippet-end:
 
 // :snippet-start: realm-value-model
@@ -71,9 +71,16 @@ class _RealmValueExample {
   @Indexed()
   late RealmValue singleAnyValue;
   late List<RealmValue> listOfMixedAnyValues;
+  late Set<RealmValue> setOfMixedAnyValues;
+  late Map<String, RealmValue> mapOfMixedAnyValues;
 }
-
 // :snippet-end:
+
+@RealmModel()
+class _RealmValueCollectionExample {
+  @Indexed()
+  late RealmValue singleAnyValue;
+}
 
 // :snippet-start: datetime-model
 @RealmModel()
@@ -84,7 +91,6 @@ class _Vehicle {
   late String nickname;
   late DateTime dateLastServiced;
 }
-
 // :snippet-end:
 
 // :snippet-start: realmlist-model
@@ -131,7 +137,6 @@ class _SomeRealmModel {
 class _BinaryExample {
   late String name;
   late Uint8List requiredBinaryProperty;
-  var defaultValueBinaryProperty = Uint8List(8);
   late Uint8List? nullableBinaryProperty;
 }
 // :snippet-end:
@@ -151,6 +156,7 @@ main() {
     final object = UuidPrimaryKey(myId);
     // :snippet-end:
     expect(myId.toString(), isA<String>());
+    expect(myId, object.id);
   });
   test('ObjectId', () {
     // :snippet-start: objectid-use
@@ -159,54 +165,165 @@ main() {
     // :snippet-end:
     expect(object.id.toString(), isA<String>());
   });
-  test("RealmValue - RealmValue.from()", () {
-    // :snippet-start: realm-value-from
-    final realm = Realm(Configuration.local([RealmValueExample.schema]));
 
-    realm.write(() {
-      realm.addAll([
-        RealmValueExample(
-            singleAnyValue: RealmValue.from(1),
-            listOfMixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
-        RealmValueExample(
-            singleAnyValue: RealmValue.nullValue(),
-            listOfMixedAnyValues: ["abc", 123].map(RealmValue.from))
-      ]);
-    });
-    // :snippet-end:
+  group('RealmValue - ', () {
+    test("RealmValue.from()", () {
+      // :snippet-start: realm-value-from
+      final realm = Realm(Configuration.local([RealmValueExample.schema]));
 
-    expect(
-        realm.query<RealmValueExample>("singleAnyValue.@type == 'int'").first,
-        isNotNull);
-    expect(
-        realm.query<RealmValueExample>("singleAnyValue.@type == 'Null'").first,
-        isNotNull);
-    cleanUpRealm(realm);
-  });
-  test("RealmValue - RealmValue.type and RealmValue.value", () {
-    final realm = Realm(Configuration.local([RealmValueExample.schema]));
-    realm.write(() {
-      realm.addAll([
-        RealmValueExample(
+      realm.write(() {
+        // Use 'RealmValue.from()' to set values
+        var anyValue = realm.add(RealmValueExample(
+            // Add a single `RealmValue` value
             singleAnyValue: RealmValue.from(1),
-            listOfMixedAnyValues: [Uuid.v4(), "abc", 123].map(RealmValue.from)),
-        RealmValueExample(
+            // Add a list of `RealmValue` values
+            listOfMixedAnyValues: [Uuid.v4(), 'abc', 123].map(RealmValue.from),
+            // Add a set of `RealmValue` values
+            setOfMixedAnyValues: {
+              RealmValue.from('abc'),
+              RealmValue.from('def')
+            },
+            // Add a map of string keys and `RealmValue` values
+            mapOfMixedAnyValues: {
+              '1': RealmValue.from(123),
+              '2': RealmValue.from('abc')
+            }));
+
+        // Use 'RealmValue.nullValue()' to set null values
+        var anyValueNull = realm.add(RealmValueExample(
             singleAnyValue: RealmValue.nullValue(),
-            listOfMixedAnyValues: ["abc", 123].map(RealmValue.from))
-      ]);
+            listOfMixedAnyValues: [null, null].map(RealmValue.from),
+            setOfMixedAnyValues: {RealmValue.nullValue()},
+            mapOfMixedAnyValues: {'null': RealmValue.nullValue()}));
+
+        // :remove-start:
+        expect(anyValue.singleAnyValue.type, RealmValueType.int);
+        expect(anyValue.listOfMixedAnyValues[1].value.toString(), 'abc');
+        expect(anyValue.setOfMixedAnyValues.first.value, 'abc');
+        expect(
+            anyValue.mapOfMixedAnyValues.containsValue(RealmValue.from('abc')),
+            true);
+        expect(anyValueNull.singleAnyValue.value, null);
+        expect(anyValueNull.listOfMixedAnyValues[0].value, null);
+        expect(anyValueNull.setOfMixedAnyValues.first.value, null);
+        expect(anyValueNull.mapOfMixedAnyValues.containsValue(null), true);
+      });
+      // :remove-end:
+      // :snippet-end:
+      cleanUpRealm(realm);
     });
-    var calledCount = 0;
-    // :snippet-start: realm-value-type-value
-    final data = realm.all<RealmValueExample>();
-    for (var obj in data) {
-      if (obj.singleAnyValue.type == int) {
-        print(obj.singleAnyValue.value.toString());
-        calledCount++; // :remove:
+    test("RealmValueType and RealmValue.value", () {
+      final realm = Realm(Configuration.local([RealmValueExample.schema]));
+      realm.write(() {
+        realm.addAll([
+          RealmValueExample(
+              singleAnyValue: RealmValue.from(1),
+              listOfMixedAnyValues:
+                  [Uuid.v4(), 'abc', 123].map(RealmValue.from),
+              mapOfMixedAnyValues: {
+                '1': RealmValue.from(123),
+                '2': RealmValue.from('abc')
+              }),
+          RealmValueExample(
+              singleAnyValue: RealmValue.nullValue(),
+              listOfMixedAnyValues: [null, null].map(RealmValue.from),
+              mapOfMixedAnyValues: {'null': RealmValue.nullValue()})
+        ]);
+      });
+      var approximateAge = 0;
+      // :snippet-start: realm-value-type
+      final data = realm.all<RealmValueExample>();
+      for (var obj in data) {
+        final anyValue = obj.singleAnyValue;
+        // Access the RealmValue.type property
+        switch (anyValue.type) {
+          // Work with the returned RealmValueType enums
+          case RealmValueType.int:
+            approximateAge = DateTime.now().year - anyValue.as<int>();
+            break;
+          case RealmValueType.dateTime:
+            approximateAge =
+                (DateTime.now().difference(anyValue.as<DateTime>()).inDays /
+                        365)
+                    .floor();
+            break;
+          case RealmValueType.string:
+            final birthday = DateTime.parse(anyValue.as<String>());
+            approximateAge =
+                (DateTime.now().difference(birthday).inDays / 365).floor();
+            break;
+          // Handle other possible types ...
+          default:
+            log('Unhandled type: ${anyValue.type}');
+        }
       }
-    }
-    // :snippet-end:
-    expect(calledCount, 1);
-    cleanUpRealm(realm);
+      // :snippet-end:
+      expect(approximateAge, 2023);
+      int sum = 0;
+      String combinedStrings = '';
+      // :snippet-start: realm-value-value
+      for (var obj in data) {
+        for (var mixedValue in obj.listOfMixedAnyValues) {
+          // Use RealmValue.value to access the value
+          final value = mixedValue.value;
+          if (value is int) {
+            sum = sum + value;
+            expect(sum, 123); // :remove:
+          } else if (value is String) {
+            combinedStrings += value;
+            expect(combinedStrings, 'abc'); // :remove:
+          }
+
+          // Use RealmValue.as<T> to cast value to a specific type
+          try {
+            final intValue = mixedValue.as<int>();
+            sum = sum + intValue;
+            expect(sum, 246); // :remove:
+          } catch (e) {
+            log('Error casting value to int: $e');
+          }
+        }
+      }
+      // :snippet-end:
+      cleanUpRealm(realm);
+    });
+    test('Nested collections of mixed data', () {
+      final realm =
+          Realm(Configuration.local([RealmValueCollectionExample.schema]));
+
+      // :snippet-start: realm-value-nested-collections
+      realm.write(() {
+        realm.add(RealmValueCollectionExample(
+            // Set the RealmValue as a map of mixed data
+            singleAnyValue: RealmValue.from({
+          'int': 1,
+          // You can nest RealmValues in collections
+          'listOfInt': [2, 3, 4],
+          'mapOfStrings': {'1': 'first', '2': 'second'},
+          // You can also nest collections within collections
+          'mapOfMaps': [
+            {
+              'nestedMap_1': {'1': 1, '2': 2},
+              'nestedMap_2': {'3': 3, '4': 4}
+            }
+          ],
+          'listOfMaps': [
+            {
+              'nestedList_1': [1, 2, 3],
+              'nestedList_2': [4, 5, 6]
+            }
+          ]
+        })));
+        // :snippet-end:
+        final collectionsOfMixed =
+            realm.all<RealmValueCollectionExample>().first;
+        final mapValue = collectionsOfMixed.singleAnyValue.asMap();
+        expect(mapValue.length, 5);
+        expect(mapValue.containsKey('mapOfStrings'), true);
+        expect(mapValue['mapOfMaps']?.asList()[0].asMap().length, 2);
+      });
+      cleanUpRealm(realm);
+    });
   });
   test('DateTime', () {
     final config = Configuration.local([Vehicle.schema]);
@@ -256,6 +373,9 @@ main() {
               'kind'
             ])));
 
+    // Get a RealmList by property name with dynamic.getList()
+    final inventory = artemis.dynamic.getList('inventory');
+
     // Use RealmList methods to filter results
     RealmList<String> traits = artemis.traits;
     final brave = traits.firstWhere((element) => element == 'brave');
@@ -266,8 +386,9 @@ main() {
     // Query RealmList with Realm Query Language
     final playersWithBodyArmor =
         realm.query<Player>("inventory.name == \$0", ['body armor']);
-    print("LEN " + playersWithBodyArmor.length.toString());
+    print("LEN ${playersWithBodyArmor.length}");
     // :snippet-end:
+    expect(inventory.length, 2);
     expect(brave, 'brave');
     expect(elvishSword.name, 'elvish sword');
     expect(playersWithBodyArmor.length, 1);
@@ -356,7 +477,6 @@ main() {
     expect(realm.dynamic.all("Address").length, 0);
     cleanUpRealm(realm);
   });
-
   test("RealmSet", () {
     // :snippet-start: realm-set-examples
     final realm = Realm(
@@ -367,10 +487,10 @@ main() {
         primitiveSet: {'apple', 'pear'},
         nullablePrimitiveSet: {null, 2, 3},
         realmObjectSet: {SomeRealmModel(ObjectId())});
-    // Add RealmObject to realm database
+    // Add RealmObject to database
     realm.write(() => realm.add(setExample));
 
-    // Once you add Sets to the Realm, they are of type RealmSet
+    // Once you add the sets, they are of type RealmSet
     RealmSet primitiveSet = setExample.primitiveSet;
 
     // Modify RealmSets of RealmObjects in write transactions
@@ -386,16 +506,20 @@ main() {
       print('Set contains an apple');
     }
 
+    // Get RealmSet by property name with dynamic.getSet()
+    final getSetResult = setExample.dynamic.getSet('primitiveSet');
+
+    // Check number of elements in a RealmSet with RealmSet.length
+    print(
+        'Set now has ${getSetResult.length} elements'); // Prints 'Set now has 1 elements'
+
     // Query RealmSets using Realm Query Language
     final results =
         realm.query<RealmSetExample>('\$0 IN nullablePrimitiveSet', [null]);
-
-    // Check number of elements in a RealmSet with RealmSet.length
-    print(setExample.primitiveSet.length);
     // :snippet-end:
     expect(primitiveSet, isA<RealmSet<String>>());
-    expect(setExample.primitiveSet.contains('pear'), isFalse);
-    expect(setExample.primitiveSet.contains('apple'), isTrue);
+    expect(getSetResult.contains('pear'), isFalse);
+    expect(getSetResult.contains('apple'), isTrue);
     expect(setExample.realmObjectSet.length, 2);
     expect(results.length, 1);
     cleanUpRealm(realm);
@@ -439,32 +563,58 @@ main() {
         'third': null,
       },
     );
-
-    // Add RealmObject to realm database
+    // Add RealmObject to the database
     realm.write(() => realm.add(mapExample));
 
-    // Qeury for all MapExample objects
-    final realmMap = realm.all<MapExample>()[0];
+    // Once you add maps, they are of type RealmMap
+    RealmMap map = mapExample.map;
 
     // :remove-start:
+    final realmMap = realm.all<MapExample>()[0];
     expect(realmMap, isA<MapExample>());
     expect(realmMap.map['third'], 3);
     expect(realmMap.nullableMap['third'], null);
     // :remove-end:
     // Modify RealmMaps in write transactions
     realm.write(() {
-      realmMap.map.update('first', (value) => 5);
-      realmMap.nullableMap.update('second', (value) => null);
+      // Update value by key with .update() or [value] = newValue
+      mapExample.nullableMap['second'] = null;
+      mapExample.map.update('first', (value) => 5);
+      mapExample.nullableMap.update('fourth', (v) => 4, ifAbsent: () => null);
 
-      // Add a new Map to a RealmMap
+      // Add a new map entry with .addEntries()
       const newMap = {'fourth': 4};
-      realmMap.map.addEntries(newMap.entries);
+      mapExample.map.addEntries(newMap.entries);
     });
+    // :remove-start:
+    expect(realmMap.nullableMap['second'], null);
+    expect(realmMap.map['first'], 5);
+    expect(realmMap.nullableMap['fourth'], null);
+    // :remove-end:
+
+    // Check a RealmMap with .containsKey() or .containsValue()
+    if (mapExample.map.containsKey('first')) {
+      print('Map contains key "first"');
+    } else if (mapExample.map.containsValue(null)) {
+      print('Map contains null value');
+    } else {
+      print('These aren\'t the maps you\'re looking for');
+    }
+
+    // Get a RealmMap by property name with dynamic.getMap()
+    final getPrimitiveMap = mapExample.dynamic.getMap('map');
+
+    // Check the number of elements in a RealmMap with RealmMap.length
+    print(
+        'Map contains ${getPrimitiveMap.length} elements'); // Prints 'Map contains 4 elements'
+
+    // Query RealmMaps using Realm Query Language
+    final results = realm.query<MapExample>('map.first == \$0', [5]);
     // :snippet-end:
 
-    expect(realmMap.map['first'], 5);
-    expect(realmMap.nullableMap['second'], null);
-    expect(realmMap.map.length, 4);
+    expect(results.length, 1);
+    expect(getPrimitiveMap.length, 4);
+    expect(realmMap.nullableMap.length, 4);
     cleanUpRealm(realm);
   });
 }

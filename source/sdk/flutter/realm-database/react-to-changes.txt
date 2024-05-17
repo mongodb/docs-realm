@@ -6,7 +6,7 @@ React to Changes - Flutter SDK
 ==============================
 
 .. meta::
-  :description: SDK notifications allow you to watch for and react to changes in your data.
+  :description: Atlas Device SDK for Flutter notifications allow you to watch for and react to changes in your data.
   :keywords: code example
 
 .. facet::
@@ -19,42 +19,45 @@ React to Changes - Flutter SDK
    :depth: 2
    :class: singlecol
 
-All Realm objects are **live objects**, which means they
-automatically update whenever they're modified. Realm emits a
-notification event whenever any property changes. 
+All Flutter SDK objects are **live objects**, which means they
+automatically update whenever they're modified. The SDK emits a
+notification event whenever any property changes.
 
-When a user adds a new item to a list,
-you may want to update the UI, show a notification, or log a message.
-When someone updates that item, you may want to change its visual state
-or fire off a network request.
-Finally, when someone deletes the item, you probably want to remove it from the UI.
-Realm's notification system allows you to watch for and react to changes in your data,
-independent of the writes that caused the changes.
+When a user adds a new item to a list, you may want to update the UI, show a
+notification, or log a message. When someone updates that item, you may want to
+change its visual state or fire off a network request. Finally, when someone
+deletes the item, you probably want to remove it from the
+UI. The SDK's notification system allows you to watch for and react to changes
+in your data, independent of the writes that caused the changes.
 
 You can subscribe to changes on the following events:
 
 - :ref:`Query on collection <flutter-query-change-listener>`
 - :ref:`Realm object <flutter-realm-object-change-listener>`
 - :ref:`Collections in a Realm object <flutter-realm-list-change-listener>`
+- :ref:`User instance <flutter-user-change-listener>`
 
-.. example:: About the Examples on This Page
+About the Examples on This Page
+-------------------------------
 
-   The examples in this page use two Realm object types, ``Character`` and
-   ``Fellowship``:
+The examples in this page use two object types, ``Character`` and
+``Fellowship``:
 
-   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-models.dart
-      :language: dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-models.dart
+  :language: dart
 
-   The examples have this sample data:
+Additionally, the examples have this sample data:
 
-   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-seed.dart
-      :language: dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-seed.dart
+  :language: dart
 
+Register a Listener
+-------------------
 
 .. _flutter-query-change-listener:
 
 Register a Query Change Listener
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can register a notification handler on any query within a Realm.
 The handler receives a :flutter-sdk:`RealmResultsChanges <realm/RealmResultsChanges-class.html>` object,
@@ -62,6 +65,7 @@ which includes description of changes since the last notification.
 ``RealmResultsChanges`` contains the following properties:
 
 .. list-table::
+   :widths: 20 30 50
 
    * - Property
      - Type
@@ -93,8 +97,8 @@ which includes description of changes since the last notification.
 
    * - ``isCleared``
      - *bool*
-     - Deprecated in Realm Flutter SDK v1.1.0. Use ``RealmResultsChanges.results.isEmpty`` instead.
-       Returns ``true`` if the results collection is empty in the notification callback.
+     - Returns ``true`` if the results collection is empty in the notification
+       callback.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
    :language: dart
@@ -102,7 +106,7 @@ which includes description of changes since the last notification.
 .. _flutter-realm-object-change-listener:
 
 Register a RealmObject Change Listener
---------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can register a notification handler on a specific object within a realm.
 Realm notifies your handler when any of the object's properties change.
@@ -111,6 +115,7 @@ which includes description of changes since the last notification.
 ``RealmObjectChanges`` contains the following properties:
 
 .. list-table::
+   :widths: 20 30 50
 
    * - Property
      - Type
@@ -135,22 +140,26 @@ which includes description of changes since the last notification.
 .. _flutter-realm-set-change-listener:
 
 Register Collection Change Listeners
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionchanged:: 1.7.0
    Added support for ``RealmMap`` change listeners.
 
+.. versionchanged:: 2.0.0
+   Added ``isCollectionDeleted`` property to collection listeners.
+   Added ``isCleared`` property to ``RealmMapChanges``.
+
 You can register a notification handler on a collection of any of the
 supported data types within another ``RealmObject``.
 Realm notifies your handler when any of the items in the collection change.
-The handler receives one of the following objects that include a description of 
-changes since the last notification: 
+The handler receives one of the following objects that include a description of
+changes since the last notification:
 
 - :flutter-sdk:`RealmListChanges <realm/RealmListChanges-class.html>` object
-  for ``RealmList`` 
+  for ``RealmList``
 - :flutter-sdk:`RealmSetChanges <realm/RealmSetChanges-class.html>` object
   for ``RealmSet``
-- :flutter-sdk:`RealmMapChanges <realm/RealmMapChanges-class.html>` object for 
+- :flutter-sdk:`RealmMapChanges <realm/RealmMapChanges-class.html>` object for
   ``RealmMap``
 
 .. tabs::
@@ -174,28 +183,37 @@ changes since the last notification:
 
         * - ``modified``
           - *List<int>*
-          -  Indexes of items in the previous version of the list that were modified in this version.
+          -  Indexes of items in the previous version of the list that were
+             modified in this version.
 
         * - ``deleted``
           - *List<int>*
-          -  Indexes of items in the previous version of the list that were removed from this version.
+          -  Indexes of items in the previous version of the list that were
+             removed from this version.
 
         * - ``newModified``
           - *List<int>*
-          - Indexes of modified items after deletions and insertions are accounted for.
+          - Indexes of modified items after deletions and insertions are
+            accounted for.
 
         * - ``moved``
           - *List<int>*
           - Indexes of the items in the list that moved in this version.
 
-        * - ``list`` 
-          - *RealmList<T>* 
+        * - ``list``
+          - *RealmList<T>*
           - ``RealmList`` being monitored for changes.
 
         * - ``isCleared``
           - *boolean*
           - ``true`` when the list has been cleared by calling its
-            :flutter-sdk:`RealmList.clear() <realm/RealmList-class.html>` method.
+            :flutter-sdk:`RealmList.clear() <realm/RealmList-class.html>`
+            method.
+
+        * - ``isCollectionDeleted``
+          - *boolean*
+          - ``true`` when the parent object containing the list has been
+            deleted.
 
    .. tab:: RealmSetChanges
       :tabid: set
@@ -216,15 +234,18 @@ changes since the last notification:
 
         * - ``modified``
           - *List<int>*
-          -  Indexes of the items in the previous version of the set that were modified in this version.
+          -  Indexes of the items in the previous version of the set that were
+             modified in this version.
 
         * - ``deleted``
           - *List<int>*
-          -  Indexes of items in the previous version of the set that were removed from this version.
+          -  Indexes of items in the previous version of the set that were
+             removed from this version.
 
         * - ``newModified``
           - *List<int>*
-          - Indexes of modified items after deletions and insertions are accounted for.
+          - Indexes of modified items after deletions and insertions are
+            accounted for.
 
         * - ``moved``
           - *List<int>*
@@ -236,8 +257,12 @@ changes since the last notification:
 
         * - ``isCleared``
           - *boolean*
-          - ``true`` when a set has been cleared by calling its
+          - ``true`` when the set has been cleared by calling its
             :flutter-sdk:`RealmSet.clear() <realm/RealmSet-class.html>` method.
+
+        * - ``isCollectionDeleted``
+          - *boolean*
+          - ``true`` when the parent object containing the set has been deleted.
 
    .. tab:: RealmMapChanges
       :tabid: map
@@ -258,18 +283,58 @@ changes since the last notification:
 
         * - ``modified``
           - *List<String>*
-          -  Keys of the previous version of the map whose corresponding values were modified in this version.
+          -  Keys of the previous version of the map whose corresponding values
+             were modified in this version.
 
         * - ``deleted``
           - *List<String>*
-          -  Keys of the previous version of the map that were removed from this  version.
+          -  Keys of the previous version of the map that were removed from this
+             version.
 
         * - ``map``
-          - *RealmMap<T>* 
+          - *RealmMap<T>*
           - ``RealmMap`` being monitored for changes.
+
+        * - ``isCleared``
+          - *boolean*
+          - ``true`` when the map has been cleared by calling its
+            :flutter-sdk:`RealmMap.clear() <realm/RealmMap-class.html>` method.
+
+        * - ``isCollectionDeleted``
+          - *boolean*
+          - ``true`` when the parent object containing the map has been deleted.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
   :language: dart
+
+.. _flutter-user-change-listener:
+
+Register a User Instance Change Listener
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 1.9.0
+
+In Flutter SDK version 1.9.0 and later, you can register a notification handler
+on a specific ``User`` instance within a realm.
+Realm notifies your handler when any of the user's properties change (for
+example, the user acces token is updated or the user state changes).
+The handler receives a :flutter-sdk:`UserChanges <realm/UserChanges-class.html>`
+object, which includes description of changes since the last notification.
+``UserChanges`` contains the following property:
+
+.. list-table::
+   :widths: 20 30 50
+
+   * - Property
+     - Type
+     - Description
+
+   * - ``user``
+     - *User*
+     - The user instance that has changed.
+
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.user-change-listener.dart
+   :language: dart
 
 .. _flutter-pause-resume-change-listener:
 

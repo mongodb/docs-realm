@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './schemas.dart' as Schemas;
 import './utils.dart';
-part 'migrations_test.g.dart';
+part 'migrations_test.realm.dart';
 
 typedef PersonV1 = Schemas.Person; // old schema version
 typedef Car = Schemas.Car;

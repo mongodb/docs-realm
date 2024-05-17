@@ -4,8 +4,8 @@
 Install the SDK for iOS, macOS, tvOS, and watchOS
 =================================================
 
-.. meta:: 
-   :description: Install Atlas Device SDK for Swift using popular package managers, or as a static framework. 
+.. meta::
+   :description: Install Atlas Device SDK for Swift using popular package managers, or as a static framework.
 
 .. facet::
   :name: genre
@@ -21,7 +21,7 @@ Overview
 --------
 
 Atlas Device SDK for Swift enables you to build iOS, macOS, tvOS,
-and watchOS applications using either the Swift or Objective-C programming 
+and watchOS applications using either the Swift or Objective-C programming
 languages. This page details how to install the SDK in your project and get
 started.
 
@@ -31,26 +31,13 @@ Prerequisites
 Before getting started, ensure your development environment
 meets the following prerequisites:
 
-- Xcode 14.1-14.3.1 with a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
-- Reflection is enabled in your project. The Swift SDK uses reflection to 
-  determine your model's properties. Your project must not set 
-  ``SWIFT_REFLECTION_METADATA_LEVEL = none``, or the SDK cannot see properties 
-  in your model. Reflection is enabled by default if your project does 
-  not specifically set a level for this setting. 
-
-.. versionchanged:: 10.40.0
-
-Swift SDK version 10.40.0 drops support for Xcode 13. For v10.39.01 and earlier,
-these Xcode 13 requirements apply:
-
-- `Xcode <https://developer.apple.com/xcode/>`__ version 13.1 or higher.
-- When using Xcode 13, a target of iOS 9.0 or higher, macOS 10.9 or higher, tvOS 9.0 or higher, or watchOS 2.0 or higher.
-- If using Swift Package Manager with Xcode 13, target of iOS 11+ or macOS 10.10+ is required.
-
-.. note::
-
-   There are special considerations when using the SDK with
-   tvOS. See :ref:`ios-tvos` for more information.
+- Your project uses an Xcode version and minimum OS version listed in the
+  :ref:`swift-os-support` section of this page.
+- Reflection is enabled in your project. The Swift SDK uses reflection to
+  determine your model's properties. Your project must not set
+  ``SWIFT_REFLECTION_METADATA_LEVEL = none``, or the SDK cannot see properties
+  in your model. Reflection is enabled by default if your project does
+  not specifically set a level for this setting.
 
 Installation
 ------------
@@ -72,12 +59,9 @@ Swift SDK to your project.
 
          .. step:: Add Package Dependency
 
-
             In Xcode, select ``File`` > ``Add Packages...``.
 
-
          .. step:: Specify the Repository
-
 
             Copy and paste the following into the search/input box.
 
@@ -85,20 +69,39 @@ Swift SDK to your project.
 
                https://github.com/realm/realm-swift.git
 
-
          .. step:: Specify Options
-
 
             In the options for the ``realm-swift`` package, we recommend setting
             the ``Dependency Rule`` to ``Up to Next Major Version``,
             and enter the `current Realm Swift SDK version
             <https://github.com/realm/realm-swift/releases>`__ . Then, click ``Add Package``.
 
-
          .. step:: Select the Package Products
 
+            .. versionchanged:: 10.49.3
+               Instead of adding both, only add one package.
 
-            Select both ``Realm`` and ``RealmSwift``, then click ``Add Package``.
+            Select either ``RealmSwift`` or ``Realm``, then click ``Add Package``.
+
+            - If you use Swift or Swift and Objective-C APIs, add ``RealmSwift``.
+            - If you use *only* Objective-C APIs, add ``Realm``.
+
+         .. step:: (Optional) Build RealmSwift as a Dynamic Framework
+
+            To use the Privacy Manifest supplied by the SDK, build ``RealmSwift``
+            as a dynamic framework. If you build ``RealmSwift`` as a static
+            framework, you must supply your own Privacy Manifest.
+
+            To build ``RealmSwift`` as a dynamic framework:
+
+            1. In your project :guilabel:`Targets`, select your build target.
+            2. Go to the :guilabel:`General` tab.
+            3. Expand the :guilabel:`Frameworks and Libraries` element.
+            4. For the ``RealmSwift`` framework, change the
+               :guilabel:`Embed` option from "Do Not Embed" to "Embed & Sign."
+
+            Now, Xcode builds ``RealmSwift`` dynamically, and can provide the
+            SDK-supplied Privacy Manifest.
 
    .. tab:: CocoaPods
       :tabid: cocoapods
@@ -280,15 +283,15 @@ Swift SDK to your project.
             target and go to the :guilabel:`Build Phases` tab. Under
             :guilabel:`Link Binary with Libraries`, click :guilabel:`+` and add
             ``libc++.tbd``, ``libz.tbd``, and ``libcompression.tbd``.
-       
+
       .. tip::
-      
-         If using the Objective-C API within a Swift project, we 
-         recommend you include both Realm Swift and Realm Objective-C in your 
-         project. Within your Swift files, you can access the Swift API and 
-         all required wrappers. Using the RealmSwift API in mixed 
-         Swift/Objective-C projects is possible because the vast majority of 
-         RealmSwift types are directly aliased from their Objective-C 
+
+         If using the Objective-C API within a Swift project, we
+         recommend you include both Realm Swift and Realm Objective-C in your
+         project. Within your Swift files, you can access the Swift API and
+         all required wrappers. Using the RealmSwift API in mixed
+         Swift/Objective-C projects is possible because the vast majority of
+         RealmSwift types are directly aliased from their Objective-C
          counterparts.
 
 Import the SDK
@@ -320,17 +323,17 @@ Add the following line at the top of your source files to use the SDK:
 App Download File Size
 ----------------------
 
-The SDK should only add around 5 to 8 MB to your app's download 
-size. The releases we distribute are significantly larger because they 
-include support for the iOS, watchOS and tvOS simulators, some debug symbols, 
-and bitcode, all of which are stripped by the App Store automatically when 
+The SDK should only add around 5 to 8 MB to your app's download
+size. The releases we distribute are significantly larger because they
+include support for the iOS, watchOS and tvOS simulators, some debug symbols,
+and bitcode, all of which are stripped by the App Store automatically when
 apps are downloaded.
 
 Troubleshooting
 ---------------
 
-If you have build issues after using one of these methods to install 
-the SDK, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
+If you have build issues after using one of these methods to install
+the SDK, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>`
 for information about resolving those issues.
 
 .. _swift-os-support:
@@ -343,38 +346,11 @@ OS Support
    There are special considerations when using the SDK with
    tvOS. See :ref:`ios-tvos` for more information.
 
-Xcode 14
-~~~~~~~~
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-   :class: index-table
-
-   * - Supported OS
-     - Realm
-     - Atlas App Services
-
-   * - iOS 11.0+
-     - X
-     - X
-
-   * - macOS 10.13+
-     - X
-     - X
-
-   * - tvOS 11.0+
-     - X
-     - X
-
-   * - watchOS 4.0+
-     - X
-     - 
-
 Xcode 15
 ~~~~~~~~
 
-.. versionadded:: 10.40.1
+.. versionchanged:: 10.50.0
+   Minimum required Xcode version is 15.1
 
 .. list-table::
    :header-rows: 1
@@ -389,27 +365,39 @@ Xcode 15
      - X
      - X
 
-   * - macOS 10.13+
+   * - macOS 10.14+
      - X
      - X
 
-   * - tvOS 11.0+
+   * - tvOS 12.0+
      - X
      - X
 
    * - watchOS 4.0+
      - X
-     - 
+     -
 
    * - visionOS 1.0+
      - X
      - X
 
+Xcode 14
+~~~~~~~~
+
+.. versionchanged:: 10.50.0
+   Removed support for Xcode 14.
+
+Swift SDK version 10.50.0 drops support for Xcode 14. For v10.49.3 and earlier,
+these Xcode 14 requirements apply:
+
+- `Xcode <https://developer.apple.com/xcode/>`__ version 14.1 or higher.
+- When using Xcode 14, a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
+
 Swift Concurrency Support
 -------------------------
 
 The Swift SDK supports Swift's concurrency-related language features.
-For best practices on using the Swift SDK's concurrency features, refer 
+For best practices on using the Swift SDK's concurrency features, refer
 to the documentation below.
 
 Async/Await Support
@@ -431,22 +419,35 @@ refer to :ref:`swift-actor-isolated-realm`.
 Apple Privacy Manifest
 ----------------------
 
-Starting in Spring 2024, Apple requires apps that use ``RealmSwift`` to
-provide details about the SDK's data collection and use practices when 
-submitting new apps or app updates to the App Store. For more details about 
-Apple's requirements, refer to 
+.. versionchanged:: 10.49.3
+   Build RealmSwift as a dynamic framework to include the Privacy Manifest.
+
+Apple requires apps that use ``RealmSwift`` to provide a privacy manifest
+containing details about the SDK's data collection and use practices. The
+bundled manifest file must be included when submitting new apps or app updates
+to the App Store. For more details about Apple's requirements, refer to
 :apple:`Upcoming third-party SDK requirements <support/third-party-SDK-requirements/>`
 on the Apple Developer website.
 
 Starting in Swift SDK version 10.46.0, the SDK ships with privacy manifests
-for ``Realm`` and ``RealmSwift``.
+for ``Realm`` and ``RealmSwift``. Each package contains its own privacy manifest
+with Apple's required API disclosures and the reasons for using those APIs.
 
-The only privacy-related implementation detail inherent in the SDK is the usage 
-of file timestamp APIs, which is declared in the privacy manifest. The Swift SDK does 
-not include analytics code in builds for the App Store. The SDK does not log into 
-Atlas on its own behalf. 
+You can view the privacy manifests in each package, or in the ``realm-swift``
+GitHub repository:
 
-If you write an app that uses any App Services functionality, such as 
+- ``Realm``: `https://github.com/realm/realm-swift/blob/master/Realm/PrivacyInfo.xcprivacy <https://github.com/realm/realm-swift/blob/master/Realm/PrivacyInfo.xcprivacy>`_
+- ``RealmSwift``: `https://github.com/realm/realm-swift/blob/master/RealmSwift/PrivacyInfo.xcprivacy <https://github.com/realm/realm-swift/blob/master/RealmSwift/PrivacyInfo.xcprivacy>`_
+
+To include these manifests in a build target that uses ``RealmSwift``, you must
+build ``RealmSwift`` as a dynamic framework. For details, refer to the Swift
+Package Manager Installation instructions step
+**(Optional) Build RealmSwift as a Dynamic Framework**.
+
+The Swift SDK does not include analytics code in builds for the App Store.
+The SDK does not log into Atlas on its own behalf.
+
+If you write an app that uses any App Services functionality, such as
 :ref:`initializing an App client <ios-init-appclient>` to:
 
 - :ref:`Call an Atlas Function <ios-call-a-function>`
@@ -454,8 +455,8 @@ If you write an app that uses any App Services functionality, such as
 - :ref:`Query MongoDB Atlas <ios-mongodb-remote-access>`
 - :ref:`Open a synced database <ios-configure-and-open-a-synced-realm>`
 
-You may need to add additional disclosures to your app's privacy manifest 
-detailing your data collection and use practices when using these APIs. 
+You may need to add additional disclosures to your app's privacy manifest
+detailing your data collection and use practices when using these APIs.
 
-For more information, refer to Apple's 
+For more information, refer to Apple's
 :apple:`Privacy manifest files documentation <documentation/bundleresources/privacy_manifest_files>`.

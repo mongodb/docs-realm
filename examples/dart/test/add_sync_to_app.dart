@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'utils.dart';
 
-part 'add_sync_to_app.g.dart';
+part 'add_sync_to_app.realm.dart';
 
 @RealmModel()
 class _Car {

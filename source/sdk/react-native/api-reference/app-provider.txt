@@ -4,6 +4,10 @@
 AppProvider (@realm/react)
 ==========================
 
+.. meta:: 
+   :description: Learn how to use the AppProvider ReactElement hooks to work with an App Services App. 
+   :keywords: code example
+
 .. facet::
   :name: genre
   :values: reference
@@ -39,7 +43,7 @@ Wrap any components that need to access the App with ``AppProvider``.
 .. literalinclude:: /examples/generated/react-native/ts/app-provider.test.snippet.app-provider.tsx
    :language: typescript
 
-.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+.. include:: /includes/note-rn-multiple-app-clients-and-app-config-cache.rst
 
 Hooks Used with AppProvider
 ---------------------------
@@ -646,8 +650,8 @@ useApp()
 The ``useApp()`` hook provides access to a :js-sdk:`Realm.App <classes/App.html>`
 instance.
 
-.. literalinclude:: /examples/generated/react-native/ts/use-app.test.snippet.use-app.tsx
-   :language: typescript
+.. include:: /examples/generated/react-native/v12/use-app.snippet.import-use-app.tsx.rst
+.. include:: /examples/generated/react-native/v12/use-app.snippet.use-app.tsx.rst
 
 *Returns*
 

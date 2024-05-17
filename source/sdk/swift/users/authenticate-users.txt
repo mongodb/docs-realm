@@ -183,9 +183,8 @@ The Realm SDK automatically manages access tokens, refreshes them when they
 expire, and includes a valid access token for the current user with each 
 request. 
 
-If you send requests outside of the SDK - for example, through the :ref:`GraphQL 
-API <graphql-api>` - then you must include the user's access token with 
-each request. In this scenario, you must manually refresh the token when 
+If you send requests outside of the SDK, you must include the user's access
+token with each request. In this scenario, you must manually refresh the token when 
 it expires. Access tokens expire after 30 minutes.
 
 You can call :swift-sdk:`.refreshCustomData() 

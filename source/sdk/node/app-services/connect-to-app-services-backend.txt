@@ -4,6 +4,14 @@
 Connect to an Atlas App Services Backend - Node.js SDK
 ======================================================
 
+.. meta::
+  :description: Connect your Atlas Device SDK for Node.js client app to the Atlas App Services backend.
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -36,7 +44,24 @@ You must include the ``id`` field and the :guilabel:`App ID` for your App Servic
 .. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.ts
   :language: javascript
 
-.. include:: /includes/multiple-app-client-details-and-app-config-cache.rst
+You can create multiple App client instances to connect to multiple
+Apps. All App client instances that share the same App ID use the same 
+underlying connection.
+
+.. important:: Changing an App Config After Initializing the App
+
+   .. versionchanged:: 12.6.0 
+      ``baseUrl`` is not cached in the App configuration.
+
+   When you initialize the App client, the configuration is cached internally. 
+   Attempting to close and then re-open an App with a changed configuration
+   within the same process has no effect. The client continues to use the 
+   cached configuration. 
+
+   Starting with Node.js SDK version 12.6.0, the ``baseUrl`` in the ``AppConfiguration``
+   is *not* cached. This means that you can change the ``baseUrl``, and the App 
+   client will use the updated configuration. In earlier SDK versions, changes 
+   to the ``baseUrl`` in a cached App configuration have no effect.
 
 .. _node-app-retrieve-client:
 
@@ -111,3 +136,100 @@ To encrypt App metadata:
       :tabid: javascript
 
       .. include:: /examples/generated/node/v12/formatted/metadata.test.snippet.encrypt-metadata.js.rst
+
+Connect to a Specific Server
+----------------------------
+
+By default, Atlas Device SDK connects to Atlas using the global ``baseURL``
+of ``https://services.cloud.mongodb.com``. In some cases, you may want to
+connect to a different server:
+
+- Your App Services App uses :ref:`local deployment <local-deployment>`, and 
+  you want to connect directly to a local ``baseURL`` in your region.
+- You want to connect to an :ref:`Edge Server instance <edge-server-connect-from-client>`.
+
+You can specify a ``baseURL`` in the 
+:js-sdk:`AppConfiguration <types/Realm.AppConfiguration.html>`:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/v12/formatted/app-services.test.snippet.custom-base-url.ts.rst
+        :language: typescript
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/v12/formatted/app-services.test.snippet.custom-base-url.js.rst
+        :language: javascript
+
+.. _node-change-server-during-runtime:
+
+Connect to a Different Server During Runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 12.8.0
+
+In some cases, you might want to change the ``baseURL`` while the app is
+running. For example, you might want to roam between Edge Servers, or
+move from an App Services connection to an Edge Server connection. 
+
+To change the ``baseURL`` during runtime, call the ``app.updateBaseUrl()``
+method. Note that the string value can't end in a trailing slash.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /examples/generated/node/v12/formatted/app-services.test.snippet.change-base-url.ts.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /examples/generated/node/v12/formatted/app-services.test.snippet.change-base-url.js.rst
+
+This API is experimental, so you must use the experimental import in the file
+where you want to use this API:
+
+.. include:: /examples/generated/node/v12/formatted/app-services.test.snippet.import-experimental-baseurl.ts.rst
+
+.. _node-change-server-typescript:
+
+TypeScript Config for Experimental API
+``````````````````````````````````````
+
+The ``app.updateBaseUrl()`` method is in an experimental module that you must
+import separately. To get the proper types from this module, you need to set the
+following fields in your ``tsconfig.json`` file:
+
+.. code-block:: json
+   :copyable: true
+
+   {
+      "target": "es2022",
+      "module": "node16",
+      "moduleResolution": "node16",
+      // ...
+   }
+
+
+Change Server with Logged-in User
+`````````````````````````````````
+
+If you want to change the ``baseURL`` after you have logged in a user and
+have opened a synced database, the app must perform a 
+:ref:`client reset <node-perform-a-client-reset>`. Perform these steps in your
+code:
+
+1. :ref:`Pause the Sync session <node-pause-or-resume-a-sync-session>`.
+2. Update the ``baseURL`` by calling the ``app.updateBaseUrl()`` method.
+3. Go through the authentication flow again to log in the user through the
+   new ``baseURL``.
+4. Open a synced database pulling data from the new server.
+
+Both the server and the client must be online for the user to authenticate and
+connect to the new server. If the server is not online or the client does not
+have a network connection, the user cannot authenticate and open the database.

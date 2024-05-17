@@ -7,7 +7,7 @@ import 'package:path/path.dart' as path;
 import './utils.dart';
 import './open_flexible_sync_realm_test.dart';
 
-part 'sync_multiple_processes_test.g.dart';
+part 'sync_multiple_processes_test.realm.dart';
 
 late App app;
 late User currentUser;

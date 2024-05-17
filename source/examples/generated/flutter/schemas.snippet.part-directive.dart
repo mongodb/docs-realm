@@ -1,1 +1,1 @@
-part 'schemas.g.dart';
+part 'schemas.realm.dart';

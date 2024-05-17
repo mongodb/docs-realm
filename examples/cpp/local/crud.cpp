@@ -160,8 +160,7 @@ TEST_CASE("Define model example", "[write]") {
 TEST_CASE("Ignored property example", "[write]") {
   // :snippet-start: open-db-at-path
   auto relative_realm_path_directory = "custom_path_directory/";
-  std::filesystem::create_directories(
-      relative_realm_path_directory);  // :remove:
+  std::filesystem::create_directories(relative_realm_path_directory);
   // Construct a path
   std::filesystem::path path =
       std::filesystem::current_path().append(relative_realm_path_directory);

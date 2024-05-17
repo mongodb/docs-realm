@@ -1,6 +1,7 @@
 define: prefix docs/realm
 define: base https://www.mongodb.com/${prefix}
 define: appServicesBase https://www.mongodb.com/docs/atlas/app-services
+define: deviceSDKsBase https://www.mongodb.com/docs/atlas/device-sdks
 
 raw: ${prefix}/tutorials -> ${base}/tutorial/
 raw: ${prefix}/deploy/application-schema -> ${base}/deploy/application-configuration-files/
@@ -79,8 +80,8 @@ raw: ${prefix}/node/collections -> ${base}/sdk/node/model-data/data-types/collec
 raw: ${prefix}/node/create-manage-api-keys -> ${base}/sdk/node/users/manage-user-api-keys/
 raw: ${prefix}/node/data-model -> ${base}/sdk/node/realm-files/
 raw: ${prefix}/node/database -> ${base}/sdk/node/realm-files/
-raw: ${prefix}/node/electron-cra -> ${base}/sdk/node/integrations/electron-cra/
-raw: ${prefix}/node/electron -> ${base}/sdk/node/integrations/electron/
+raw: ${prefix}/node/electron-cra -> ${base}/sdk/node/
+raw: ${prefix}/node/electron -> ${base}/sdk/node/
 raw: ${prefix}/node/embedded-objects -> ${base}/sdk/node/model-data/relationships-and-embedded-objects/
 raw: ${prefix}/node/encrypt -> ${base}/sdk/node/realm-files/encrypt/
 raw: ${prefix}/node/init-realmclient -> ${base}/sdk/node/app-services/connect-to-app-services-backend/
@@ -927,7 +928,6 @@ raw: ${prefix}/sdk/react-native/data-types/sets -> ${base}/sdk/react-native/mode
 raw: ${prefix}/sdk/react-native/data-types/mixed -> ${base}/sdk/react-native/model-data/data-types/mixed/
 raw: ${prefix}/sdk/react-native/data-types/uuid -> ${base}/sdk/react-native/model-data/data-types/uuid/
 raw: ${prefix}/sdk/react-native/data-types/embedded-objects -> ${base}/sdk/react-native/model-data/data-types/embedded-objects/
-raw: ${prefix}/sdk/react-native/examples/debugging-with-flipper -> ${base}/sdk/react-native/test-and-debug/debugging-with-flipper/
 raw: ${prefix}/sdk/react-native/examples/define-a-realm-object-model -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/
 raw: ${prefix}/sdk/react-native/examples/open-and-close-a-realm -> ${base}/sdk/react-native/realm-files/configure-a-realm/
 raw: ${prefix}/sdk/react-native/examples/read-and-write-data -> ${base}/sdk/react-native/crud/
@@ -1285,3 +1285,17 @@ raw: ${prefix}/sdk/flutter/realm-database/read-and-write-data -> ${base}/sdk/flu
 # Smartling missing redirect
 
 raw: ${prefix}/sdk/react-native/use-realm-react -> ${base}/sdk/react-native/api-reference/realm-provider/
+
+# DOCSP-37163 Remove Electron Guides from TOC
+
+raw: ${prefix}/sdk/node/integrations/electron-cra -> ${base}/sdk/node/
+raw: ${prefix}/sdk/node/integrations/electron -> ${base}/sdk/node/
+raw: ${prefix}/sdk/node/integrations -> ${base}/sdk/node/
+
+# DOP-4255 Rehoming /docs/realm docs at /docs/atlas/device-sdks
+raw: ${prefix} -> ${deviceSDKsBase}/
+raw: ${prefix}/introduction -> ${deviceSDKsBase}/introduction/
+raw: ${prefix}/realm-query-language -> ${deviceSDKsBase}/realm-query-language/
+raw: ${prefix}/example-projects -> ${deviceSDKsBase}/example-projects/
+raw: ${prefix}/help -> ${deviceSDKsBase}/help/
+raw: ${prefix}/migrate -> ${deviceSDKsBase}/migrate/

@@ -1,6 +1,10 @@
 import Realm, { BSON } from "realm";
 import { ItemModel, ProjectModel } from "./schemas/rql-data-models";
 
+// Tests for new RQL operators or updates should be placed in the new 
+// file compatible with JSv12 and later, located at 
+// examples/node/v12/__tests__/realm-query-language.test.js
+
 describe("Realm Query Language Reference", () => {
   let realm;
   beforeEach(async () => {
@@ -838,7 +842,7 @@ describe("Realm Query Language Reference", () => {
       );
       const numItemsInDict = dictionaries.filtered(
         // :remove-end:
-        // Evaluates if there is a dictionary key with key 'foo' and value 'bar
+        // Evaluates if there is greater than one key-value pair in the dictionary
         "dict.@count > $0", 1
 
         // :remove-start:

@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
 
-part 'manage_sync_subscription_test.g.dart';
+part 'manage_sync_subscription_test.realm.dart';
 
 @RealmModel()
 class _Plane {

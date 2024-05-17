@@ -1,7 +1,7 @@
 // :snippet-start: define-model-dart
 import 'package:realm_dart/realm.dart';
 
-part 'car.g.dart';
+part 'car.realm.dart';
 
 @RealmModel()
 class _Car {

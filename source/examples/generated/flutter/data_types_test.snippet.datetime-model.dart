@@ -6,4 +6,3 @@ class _Vehicle {
   late String nickname;
   late DateTime dateLastServiced;
 }
-

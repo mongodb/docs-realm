@@ -3,7 +3,7 @@ import 'package:realm_dart/realm.dart';
 
 import 'utils.dart';
 
-part 'write_to_synced_realm_test.g.dart';
+part 'write_to_synced_realm_test.realm.dart';
 
 // NOTE: this is a unique App ID from the other Flutter tests
 // because these examples require unique sync permissions.
