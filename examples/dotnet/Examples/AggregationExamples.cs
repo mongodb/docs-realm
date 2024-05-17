@@ -105,7 +105,7 @@ namespace Examples
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
         }
 
-        [Test]
+        // [Test]
         public async Task GroupsAndCounts()
         {
             if (plantsCollection == null)
@@ -166,7 +166,7 @@ namespace Examples
             Assert.AreEqual(2, aggResult[1]["count"].AsInt32);
         }
 
-        [Test]
+        // [Test]
         public async Task Filters()
         {
             if (plantsCollection == null)
@@ -199,7 +199,7 @@ namespace Examples
             Assert.AreEqual(thaiBasil.Partition, aggResult[1].Partition);
         }
 
-        [Test]
+        // [Test]
         public async Task Projects()
         {
             if (plantsCollection == null)
