@@ -1,31 +1,32 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
-import {AuthOperationName, useAuth, useEmailPasswordAuth} from '@realm/react';
+import {useAuth, useEmailPasswordAuth} from '@realm/react';
 
-import {ApiKey} from '../../types';
+import {LoginManagerProps, RegisterButtonProps} from '../../types';
 
-interface LoginManagerProps {
-  apiKey: ApiKey | undefined;
-}
+const delay = async (duration: number) => {
+  await new Promise(r => setTimeout(r, duration));
+};
 
 export const LoginManager = ({apiKey}: LoginManagerProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const {logIn, logOut} = useEmailPasswordAuth();
+  const {logIn} = useEmailPasswordAuth();
   const {logInWithApiKey} = useAuth();
-
-  // Log out current user
-  useEffect(() => {
-    logOut();
-  }, []);
 
   const performLogin = () => {
     logIn({email, password});
   };
 
   const loginApiKeyUser = () => {
-    logInWithApiKey(apiKey!.key);
+    console.log('>>>> Log in with API key: ', performance.now());
+    try {
+      logInWithApiKey(apiKey!.key);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log('>>>> Logged in: ', performance.now());
   };
 
   return (
@@ -33,14 +34,15 @@ export const LoginManager = ({apiKey}: LoginManagerProps) => {
       {apiKey ? (
         <View>
           <Text>API key found!</Text>
-          <Text>
+          <Text testID="key-name-result">
             • {apiKey.name} | {apiKey._id}
           </Text>
           <View style={styles.buttonGroup}>
             <Pressable
+              testID="login-api-key-button"
               style={styles.button}
               onPress={loginApiKeyUser}>
-              <Text style={styles.buttonText}>Log with API key</Text>
+              <Text style={styles.buttonText}>Log in with API key</Text>
             </Pressable>
           </View>
         </View>
@@ -62,6 +64,7 @@ export const LoginManager = ({apiKey}: LoginManagerProps) => {
           />
           <View style={styles.buttonGroup}>
             <Pressable
+              testID="login-button"
               style={styles.button}
               onPress={performLogin}>
               <Text style={styles.buttonText}>Log in</Text>
@@ -77,22 +80,10 @@ export const LoginManager = ({apiKey}: LoginManagerProps) => {
   );
 };
 
-type RegisterButtonProps = {
-  email: string;
-  password: string;
-};
-
 const RegisterButton = ({email, password}: RegisterButtonProps) => {
-  const {register, result, logIn} = useEmailPasswordAuth();
+  const {register} = useEmailPasswordAuth();
 
-  useEffect(() => {
-    if (result.success && result.operation === AuthOperationName.Register) {
-      logIn({email, password});
-    }
-  }, [result, logIn, email, password]);
-
-  const performRegistration = () => {
-    console.log('In registration');
+  const performRegistration = async () => {
     register({email, password});
   };
 

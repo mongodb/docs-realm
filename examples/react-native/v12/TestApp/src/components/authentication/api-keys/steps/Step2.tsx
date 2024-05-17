@@ -32,17 +32,13 @@ export const Step2 = ({currentStep, apiKey, setApiKey}: StepProps) => {
   };
 
   const getUserApiKey = async () => {
-    try {
-      const key = await user!.apiKeys.fetch(apiKey!._id);
+    const key = await user!.apiKeys.fetch(apiKey!._id);
 
-      setCloudApiKey(key);
-    } catch (error) {
-      console.log(error);
-    }
+    setCloudApiKey(key);
   };
 
   if (cloudKeyDeleted) {
-    return <Text>API key successfully deleted!</Text>;
+    return <Text testID="delete-result">API key successfully deleted!</Text>;
   } else {
     return (
       <View>
@@ -51,25 +47,28 @@ export const Step2 = ({currentStep, apiKey, setApiKey}: StepProps) => {
         {cloudApiKey ? (
           <View>
             <Text>Current API key</Text>
-            <Text>
+            <Text testID="get-result">
               • Identifying info: {cloudApiKey.name} | {cloudApiKey._id}
             </Text>
-            <Text>
+            <Text testID="disable-result">
               • Status: {cloudApiKey.disabled ? 'disabled' : 'enabled'}
             </Text>
 
             <View style={styles.buttonGroup}>
               <Pressable
+                testID="disable-button"
                 style={styles.button}
                 onPress={disableUserApiKey}>
                 <Text style={styles.buttonText}>Disable key</Text>
               </Pressable>
               <Pressable
+                testID="enable-button"
                 style={styles.button}
                 onPress={enableUserApiKey}>
                 <Text style={styles.buttonText}>Enable key</Text>
               </Pressable>
               <Pressable
+                testID="delete-button"
                 style={styles.button}
                 onPress={deleteUserApiKey}>
                 <Text style={styles.buttonText}>Delete key</Text>
@@ -80,6 +79,7 @@ export const Step2 = ({currentStep, apiKey, setApiKey}: StepProps) => {
           <View>
             <Text>Get API key</Text>
             <Pressable
+              testID="get-button"
               style={styles.button}
               onPress={getUserApiKey}>
               <Text style={styles.buttonText}>Get key</Text>

@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Pressable, Text, View, StyleSheet} from 'react-native';
-import {UserProvider, useAuth} from '@realm/react';
+import {UserProvider, useApp, useAuth} from '@realm/react';
 
 import {LoginManager} from './LoginManager';
 
@@ -10,25 +10,28 @@ import {Step2} from './steps/Step2';
 import {Step3} from './steps/Step3';
 import {Step4} from './steps/Step4';
 
-import {ApiKey} from '../../types';
-
-interface GuideManagerProps {
-  totalSteps: number;
-  title: string;
-}
+import {
+  ApiKey,
+  GuideManagerProps,
+  EventType,
+  StepControllerProps,
+} from '../../types';
 
 export const GuideManager = ({totalSteps, title}: GuideManagerProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [apiKey, setApiKey] = useState<ApiKey>();
-  console.log('>>> API key: ', apiKey);
 
-  const {logOut, result} = useAuth();
+  const app = useApp();
+  const {result} = useAuth();
   const stepComponents = [Step1, Step2, Step3, Step4];
 
-  // Log out current user
-  useEffect(() => {
-    logOut();
-  }, []);
+  const logout = async () => {
+    if (app.currentUser) {
+      await app.currentUser.logOut();
+    }
+
+    return;
+  };
 
   // Render a component based on its index
   const renderComponentByIndex = (index: number) => {
@@ -59,22 +62,17 @@ export const GuideManager = ({totalSteps, title}: GuideManagerProps) => {
         setCurrentStep={setCurrentStep}
       />
 
-      <Text>Auth operation: {result.operation}</Text>
-      <Text>Auth status: {result.state}</Text>
+      <Text testID="auth-operation">Auth operation: {result.operation}</Text>
+      <Text testID="auth-status">Auth status: {result.state}</Text>
+      <Pressable
+        testID="logout-button"
+        style={styles.button}
+        onPress={logout}>
+        <Text style={styles.buttonText}>Log out</Text>
+      </Pressable>
     </View>
   );
 };
-
-interface StepControllerProps {
-  totalSteps: number;
-  currentStep: number;
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
-}
-
-enum EventType {
-  Continue,
-  GoBack,
-}
 
 function StepController({
   totalSteps,
@@ -119,6 +117,7 @@ function StepController({
         <Text style={styles.buttonText}>Back</Text>
       </Pressable>
       <Pressable
+        testID="step-next-button"
         style={styles.button}
         onPress={() => {
           handleClick(EventType.Continue);

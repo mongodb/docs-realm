@@ -42,14 +42,14 @@ export const Step1 = ({currentStep, apiKey, setApiKey}: StepProps) => {
         {apiKey ? (
           <View>
             <Text>New API key created</Text>
-            <Text>
+            <Text testID="key-name-result">
               • {apiKey.name} | {apiKey._id}
             </Text>
           </View>
         ) : (
           <View>
             <TextInput
-              testID={'api-key-name'}
+              testID={'key-name-input'}
               onChangeText={setApiKeyName}
               value={apiKeyName}
               placeholder="API key name"
@@ -58,6 +58,7 @@ export const Step1 = ({currentStep, apiKey, setApiKey}: StepProps) => {
 
             <View style={styles.buttonGroup}>
               <Pressable
+                testID="create-key-button"
                 style={
                   apiKey == undefined ? styles.button : styles.disabledButton
                 }
