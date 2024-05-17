@@ -19,13 +19,13 @@ namespace Examples
         App app;
         User user;
         PartitionSyncConfiguration config;
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.AppId;
 
         [OneTimeSetUp]
         public async Task Setup()
         {
             app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            user = app.LogInAsync(Config.EPCreds).Result;
             config = new PartitionSyncConfiguration("foo", user);
             //:remove-start:
             config.Schema = new[]
@@ -37,8 +37,8 @@ namespace Examples
             var realm = await Realm.GetInstanceAsync(config);
             var synchronousRealm = await Realm.GetInstanceAsync(config);
 
-            var t = new UserTask() { Priority = 100, ProgressMinutes = 5, Assignee = "Jamie" };
-            var t2 = new UserTask() { Priority = 1, ProgressMinutes = 500, Assignee = "Elvis" };
+            var t = new UserTask() { Priority = 100, ProgressMinutes = 5, Assignee = "Jamie", Name = "Jamie_Task" };
+            var t2 = new UserTask() { Priority = 1, ProgressMinutes = 500, Assignee = "Elvis", Name = "Elvis_Task" };
             var up = new UserProject() { Name = "A Big Project" };
             up.Items.Add(t);
             up.Items.Add(t2);
@@ -108,25 +108,42 @@ namespace Examples
             Assert.AreEqual(1, ItemssStartWithE.Count());
             Assert.AreEqual(1, itemsContains.Count());
             Assert.AreEqual(0, null_or_empty.Count());
-
+            // :snippet-start: read_all
+            // :replace-start: {
+            // "terms": {
+            //   "UserTask": "Items",
+            //   "useritems": "items",
+            //   "UserProject": "Project"}
+            // }
             var projects = realm.All<UserProject>();
-
+            var useritems = realm.All<UserTask>();
+            // :replace-end:
+            // :snippet-end:
+            var projectId = projects.First().ID;
+            // :snippet-start: get_by_id
+            // :replace-start: {
+            // "terms": {
+            //   "UserProject": "Project"}
+            // }
+            var myProject = realm.Find<UserProject>(projectId);
+            // :replace-end:
+            // :snippet-end:
             // :snippet-start: aggregate
             // Get all projects with an average Item priorty > 5:
             var avgPriority = projects.Filter(
-                "Items.@avg.Priority > 5");
+                "Items.@avg.Priority > $0", 5);
 
             // Get all projects where all Items are high-priority:
             var highPriProjects = projects.Filter(
-                "Items.@min.Priority > 5");
+                "Items.@min.Priority > $0", 5);
 
             // Get all projects with long-running Items:
             var longRunningProjects = projects.Filter(
-                "Items.@sum.ProgressMinutes > 100");
+                "Items.@sum.ProgressMinutes > $0", 100);
             // :snippet-end:
 
             // :snippet-start: rql
-            var elvisProjects = projects.Filter("Items.Assignee == 'Elvis'");
+            var elvisProjects = projects.Filter("Items.Assignee == $0", "Elvis");
             // :snippet-end:
 
             Assert.AreEqual(1, avgPriority.Count());

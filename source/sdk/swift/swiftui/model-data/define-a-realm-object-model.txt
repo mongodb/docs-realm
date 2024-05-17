@@ -18,8 +18,8 @@ Modeling data for SwiftUI builds on the same object model and relationship
 concepts in the Swift SDK. If you are unfamiliar with Realm Swift SDK
 data modeling concepts, see: :ref:`swift-object-models`.
 
-Key Concept: Binding the Object Model to the UI
------------------------------------------------
+Binding the Object Model to the UI
+----------------------------------
 
 The Model-View-ViewModel (MVVM) design pattern advocates creating a view 
 model that abstracts the model from the View code. While you can certainly
@@ -31,8 +31,8 @@ like:
 - A class to project and transform underlying model objects for use in 
   specific views
 
-Key Concept: Transforming Data for SwiftUI Views
-------------------------------------------------
+Transforming Data for SwiftUI Views
+-----------------------------------
 
 The Realm Swift SDK provides a special type of object, called a 
 :swift-sdk:`Projection <Classes/Projection.html>`, to transform 
@@ -52,7 +52,7 @@ object's properties in different ways:
   the projection model. Any changes to those properties do not trigger a 
   change notification when observing the projection.
 
-When you use a Projection, you get all the benefits of Realm Database's 
+When you use a Projection, you get all the benefits of Realm's 
 live objects:
 
 - The class-projected object live updates

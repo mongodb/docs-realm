@@ -10,7 +10,8 @@ namespace Examples.RqlSchemaExamples
     //  "terms": {
     //   "RqlTask": "Item",
     //   "RqlProject": "Project",
-    //   "RqlTasks": "Items"}
+    //   "RqlTasks": "Items",
+    //   "RqlItems": "Items"}
     // }
     public class RqlTask : RealmObject
     {
@@ -19,7 +20,7 @@ namespace Examples.RqlSchemaExamples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
-        [Required]
+        [Indexed(IndexType.FullText)]
         public string Name { get; set; }
 
         [MapTo("isComplete")]
@@ -46,7 +47,6 @@ namespace Examples.RqlSchemaExamples
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [MapTo("name")]
-        [Required]
         public string Name { get; set; }
 
         [MapTo("items")]

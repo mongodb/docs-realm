@@ -15,8 +15,7 @@ Delete Realm Objects
 --------------------
 
 Deleting Realm Objects must occur within write transactions. For
-more information about write trasactions, see: :ref:`Key Concept: 
-Transactions <ios-write-transactions>`.
+more information about write trasactions, see: :ref:`Transactions <ios-write-transactions>`.
 
 If you want to delete the Realm file itself, see: :ref:`Delete a Realm 
 <swift-delete-a-realm>`.
@@ -24,7 +23,7 @@ If you want to delete the Realm file itself, see: :ref:`Delete a Realm
 .. important:: Do not use objects after delete
 
    You cannot access or modify an object after you have deleted it from
-   a realm. If you try to use a deleted object, Realm Database throws an
+   a realm. If you try to use a deleted object, Realm throws an
    error.
 
 About The Examples On This Page
@@ -121,7 +120,7 @@ Delete an Object and Its Related Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes, you want to delete related objects when you delete the parent 
-object. We call this a **chaining delete**. Realm Database does not delete 
+object. We call this a **chaining delete**. Realm does not delete 
 the related objects for you. If you do not delete the objects yourself, 
 they remain orphaned in your realm. Whether or not this is a problem 
 depends on your application's needs.
@@ -245,3 +244,27 @@ To delete the value of an AnyRealmValue, set it to ``.none``.
 
 .. literalinclude:: /examples/generated/code/start/DeleteRealmObjects.snippet.mixed-data-type.swift
    :language: swift
+
+.. _swift-delete-object-async:
+
+Delete an Object Asynchronously
+-------------------------------
+
+You can use Swift concurrency features to asynchronously delete objects 
+using an actor-isolated realm. 
+
+This function from the example ``RealmActor`` :ref:`defined on the 
+Use Realm with Actors page <swift-define-realm-actor>` shows how you might
+delete an object in an actor-isolated realm:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.delete-async.swift
+   :language: swift
+
+And you might perform this deletion using Swift's async syntax:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.delete-object.swift
+   :language: swift
+
+This operation does not block or perform I/O on the calling thread. For
+more information about writing to realm using Swift concurrency features, 
+refer to :ref:`swift-actor-isolated-realm`.

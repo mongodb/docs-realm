@@ -32,27 +32,36 @@ In this example, we create a two-way binding with one of the state object's
 properties. ``$dog.favoriteToy`` creates a binding to the model Dog 
 object's ``favoriteToy`` property
 
-When the app user updates that field in this example, Realm Database
+When the app user updates that field in this example, Realm
 opens an implicit write transaction and saves the new value to the database.
 
 .. literalinclude:: /examples/generated/swiftui/QuickWrite.snippet.quick-write-property.swift
    :language: swift
 
-Update an ObservedResults Collection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add or Remove Objects in an ObservedResults Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this example, we create a two-way binding with an 
-:swift-sdk:`ObservedResults <Structs/ObservedResults.html>` collection.
-The ``$dogs.remove`` in the ``onDelete`` and the ``$dogs.append`` in the 
-``addDogButton`` write directly to the ``@ObservedResults`` collection.
 While a regular :ref:`Realm Results collection <ios-results-collections>`
-is immutable, ObservedResults is a mutable collection that allows you to 
-perform writes using the two-way binding. When you update the 
-bound collection, Realm Database opens an implicit write transaction and 
-saves the changes to the collection.
+is immutable, :swift-sdk:`ObservedResults <Structs/ObservedResults.html>` 
+is a mutable collection that allows you to perform writes using a two-way 
+binding. When you update the bound collection, Realm opens an implicit write 
+transaction and saves the changes to the collection.
+
+In this example, we remove an element from the results set using 
+``$dogs.remove`` in the ``onDelete``. Using the ``$dogs`` here creates a 
+two-way binding to a ``BoundCollection`` that lets us mutate the 
+``@ObservedResults`` ``dogs`` collection.
+
+We add an item to the results using ``$dogs.append`` in the 
+``addDogButton``. 
+
+These actions write directly to the ``@ObservedResults`` collection.
 
 .. literalinclude:: /examples/generated/swiftui/QuickWrite.snippet.update-observed-results.swift
    :language: swift
+   :emphasize-lines: 15, 27
+
+.. include:: /includes/note-observedresults-swiftui-view.rst
 
 Append an Object to a List
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -18,25 +18,35 @@ namespace Examples
     {
         App app;
         Realms.Sync.User user;
-        string myRealmAppId = Config.appid;
+        string myRealmAppId = Config.AppId;
 
         [OneTimeSetUp]
         public async System.Threading.Tasks.Task Setup()
         {
             var appConfig = new AppConfiguration(myRealmAppId)
             {
-                // LogLevel = LogLevel.Debug,
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
             };
 
             app = App.Create(appConfig);
-            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+
+            // :snippet-start: observe-auth-change
+            app.CurrentUser.Changed += (change, _) =>
+            {
+                Debug.WriteLine($"Auth change: {change}, {_}");
+                // :remove-start:
+                Assert.IsInstanceOf<System.EventArgs>(_);
+                // :remove-end:
+            };
+            // :snippet-end:
+
+            user = await app.LogInAsync(Config.EPCreds);
             return;
         }
 
         public async System.Threading.Tasks.Task LotsaStuff()
         {
-            string userEmail = "bob@bob.com";
+            string userEmail = "bob@example.com";
 
             // :snippet-start: initialize-realm
             var myRealmAppId = "<your_app_id>";
@@ -45,7 +55,6 @@ namespace Examples
             // :snippet-start: appConfig
             var appConfig = new AppConfiguration(myRealmAppId)
             {
-                //LogLevel = LogLevel.Debug,
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
             };
 
@@ -71,8 +80,18 @@ namespace Examples
                 "<security-question-1-answer>",
                 "<security-question-2-answer>");
             //:snippet-end:
+            // :snippet-start: reset-password-function-pending
+            await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
+                userEmail, myNewPassword);
+            //:snippet-end:
+            // :snippet-start: resend-confirmation
+            await app.EmailPasswordAuth.ResendConfirmationEmailAsync("<userEmail>");
+            // :snippet-end:
+            // :snippet-start: retry-custom-confirmation
+            await app.EmailPasswordAuth.RetryCustomConfirmationAsync("<userEmail>");
+            // :snippet-end:
 
-            user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+            user = await app.LogInAsync(Config.EPCreds);
 
             // :snippet-start: delete-user
             await app.DeleteUserFromServerAsync(user);
@@ -133,7 +152,7 @@ namespace Examples
         [Test]
         public void Notifications()
         {
-            myRealmAppId = Config.appid;
+            myRealmAppId = Config.AppId;
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
 
@@ -150,14 +169,8 @@ namespace Examples
             //:snippet-start:collection-notifications
             // Watch for collection notifications.
             var subscriptionToken = realm.All<Dog>()
-                .SubscribeForNotifications((sender, changes, error) =>
+                .SubscribeForNotifications((sender, changes) =>
             {
-                if (error != null)
-                {
-                    // Show error message
-                    return;
-                }
-
                 if (changes == null)
                 {
                     // This is the case when the notification is called
@@ -185,7 +198,7 @@ namespace Examples
 
                 if (changes.IsCleared)
                 {
-                    // A special case if the collection has been cleared: 
+                    // A special case if the collection has been cleared:
                     // i.e., all items have been deleted by calling
                     // the Clear() method.
                 }
@@ -197,7 +210,7 @@ namespace Examples
             // Call Dispose() when you are done observing the
             // collection.
             var token = realm.All<Dog>()
-                .SubscribeForNotifications((sender, changes, error) =>
+                .SubscribeForNotifications((sender, changes) =>
                 {
                     // etc.
                 });
@@ -222,7 +235,7 @@ namespace Examples
 
             artist.PropertyChanged += (sender, eventArgs) =>
             {
-                var changedProperty = eventArgs.PropertyName;
+                var changedProperty = eventArgs.PropertyName!;
 
                 Debug.WriteLine(
                     $@"New value set for 'artist':
@@ -243,7 +256,9 @@ namespace Examples
         [Test]
         public void ChangeSetCleared()
         {
-            myRealmAppId = Config.appid;
+            var config = new RealmConfiguration("");
+
+            myRealmAppId = Config.AppId;
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
 
@@ -272,20 +287,11 @@ namespace Examples
                 fido.Owners.Add(helenWick);
             });
 
-
-            // :snippet-start: subscribe
-            // :replace-start: {
-            //  "terms": {
-            //   "token2": "token" }
-            // }
-            var token2 = fido.Owners.SubscribeForNotifications((sender, changes, error) =>
+            var token2 = fido.Owners.SubscribeForNotifications((sender, changes) =>
             {
-                if (error != null) return;
                 if (changes == null) return;
             });
             token2.Dispose();
-            //:replace-end:
-            //:snippet-end:
         }
         private void CollectionChanged()
         // :snippet-start: call-handle-collection-changed
@@ -307,9 +313,9 @@ namespace Examples
         // :uncomment-start:
         //    ...
         //}
-        // 
+        //
         // :uncomment-end:
-        private void HandleCollectionChanged(object sender,
+        private void HandleCollectionChanged(object? sender,
             NotifyCollectionChangedEventArgs e)
         {
             // Use e.Action to get the
@@ -330,7 +336,7 @@ namespace Examples
             {
                 realm = Realm.GetInstance("");
             }
-            private IQueryable<Item> items;
+            private IQueryable<Item> items = null!;
             private void foo()
             {
                 //:snippet-start:unsubscribe
@@ -354,7 +360,7 @@ namespace Examples
                 throw new NotImplementedException();
             }
 
-            private void OnItemsChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
+            private void OnItemsChangedHandler(object? sender, NotifyCollectionChangedEventArgs e)
             {
                 throw new NotImplementedException();
             }
@@ -366,7 +372,6 @@ namespace Examples
             [MapTo("_id")]
             public ObjectId Id { get; set; }
 
-            [Required]
             public string Name { get; set; }
         }
 
@@ -375,9 +380,8 @@ namespace Examples
         {
             [PrimaryKey]
             [MapTo("_id")]
-            public ObjectId Id { get; set; }
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-            [Required]
             public string Name { get; set; }
 
             public int Age { get; set; }

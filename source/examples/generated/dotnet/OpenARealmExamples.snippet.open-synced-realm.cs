@@ -1,11 +1,11 @@
 user = await app.LogInAsync(
-    Credentials.EmailPassword("foo@foo.com", "foobar"));
+    Credentials.EmailPassword("caleb@mongodb.com", "MySekritPwd"));
 config = new PartitionSyncConfiguration("myPart", user);
 try
 {
     realm = await Realm.GetInstanceAsync(config);
 }
-catch (RealmFileAccessErrorException ex)
+catch (Exception ex)
 {
     Console.WriteLine($@"Error creating or opening the
         realm file. {ex.Message}");

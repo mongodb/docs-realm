@@ -7,9 +7,12 @@ const ProfileSchema = {
     name: "string",
   },
 };
+
 const realm = await Realm.open({
+  path: "realm-files/data-type-realm",
   schema: [ProfileSchema],
 });
+
 realm.write(() => {
   realm.create("Profile", {
     name: "John Doe.",

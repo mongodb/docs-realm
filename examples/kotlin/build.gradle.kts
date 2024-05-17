@@ -10,8 +10,8 @@ buildscript {
         // https://github.com/gradle/gradle/issues/16958 and https://github.com/gradle/gradle/issues/19813
         val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
         classpath(libs.findLibrary("realm-plugin").get())
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.22")
-        classpath("com.android.tools.build:gradle:7.2.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21")
+        classpath("com.android.tools.build:gradle:8.0.2")
     }
 }
 
@@ -24,5 +24,5 @@ allprojects {
 }
 
 tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    delete(rootProject)
 }

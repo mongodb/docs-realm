@@ -13,7 +13,7 @@ Encrypt a Realm - Swift SDK
 Overview
 --------
 
-You can encrypt the realm database file on disk with AES-256 +
+You can encrypt the realm file on disk with AES-256 +
 SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
 realm <ios-open-a-local-realm>`.
 
@@ -25,6 +25,14 @@ integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
 
 .. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
+
+.. note:: Cannot Encrypt an Existing Unencrypted Realm
+
+    You must encrypt a realm the first time you open it. 
+    If you try to open an existing unencrypted realm using a configuration
+    that contains an encryption key, Realm throws an error.
+
+    .. update with writeCopy API when available
 
 Considerations
 --------------
@@ -61,11 +69,21 @@ to create a 64-bit key and store that key in a :ref:`user object <user-objects>`
 Accessing an Encrypted Realm from Multiple Processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/encrypt-mult-processes.rst
+.. versionchanged:: 10.38.0
 
-As an alternative, you can store data that you want to encrypt as 
-``NSData`` properties on realm objects. Then, you can encrypt and 
-decrypt individual fields. 
+Starting with Realm Swift SDK version 10.38.0, Realm supports opening
+the same encrypted realm in multiple processes. 
+
+If your app uses Realm Swift SDK version 10.37.2 or earlier, attempting to 
+open an encrypted realm from multiple processes throws this error:
+``Encrypted interprocess sharing is currently unsupported.``
+
+Apps using earlier SDK versions have two options to work with realms in
+multiple processes:
+
+- Use an unencrypted realm.
+- Store data that you want to encrypt as ``NSData`` properties on realm 
+  objects. Then, you can encrypt and decrypt individual fields. 
 
 One possible tool to encrypt and decrypt fields is :apple:`Apple's 
 CryptoKit framework <documentation/cryptokit>`. You can use :github:`Swift 

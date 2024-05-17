@@ -3,39 +3,49 @@
 :noprevnext:
 
 .. _ios-intro:
+.. _ios-realm-database:
 
-===============
-Realm Swift SDK
-===============
+==========================
+Atlas Device SDK for Swift
+==========================
+
+.. facet::
+   :name: programming_language
+   :values: swift, objective-c
+   
+.. meta::
+   :description: Use Atlas Device SDK for Swift to develop iOS, macOS, watchOS and tvOS apps in Swift and Objective-C. 
+   :keywords: iOS, SwiftUI
 
 .. toctree::
    :titlesonly:
    
-   Why Realm Database? </sdk/swift/realm-database>
-   Install Realm </sdk/swift/install>
+   Install </sdk/swift/install>
    Quick Start </sdk/swift/quick-start>
    Realm Files </sdk/swift/realm-files>
    Model Data </sdk/swift/model-data>
    CRUD </sdk/swift/crud>
    React to Changes </sdk/swift/react-to-changes>
    SwiftUI </sdk/swift/swiftui>
+   Use Realm with Actors </sdk/swift/use-realm-with-actors>
    Swift Concurrency </sdk/swift/swift-concurrency>
    Test and Debug </sdk/swift/test-and-debug>
-   SDK Telemetry </sdk/swift/telemetry>
-   API Reference </sdk/swift/api-reference>
-   Release Notes <https://github.com/realm/realm-swift/releases>
+   Logging </sdk/swift/logging>
    Application Services </sdk/swift/application-services>
    Manage Users </sdk/swift/work-with-users>
    Sync Data </sdk/swift/sync>
    Realm in Xcode Playgrounds </sdk/swift/xcode-playgrounds>
+   SDK Telemetry </sdk/swift/telemetry>
+   API Reference </sdk/swift/api-reference>
+   Release Notes <https://github.com/realm/realm-swift/releases>
 
-Use the Realm Swift SDK to develop iOS, macOS, watchOS and tvOS apps in
-Swift and Objective-C.
+Use the Atlas Device SDK for Swift to develop iOS, macOS, watchOS and tvOS 
+apps in Swift and Objective-C.
 
 .. kicker:: Learning Paths
 
-Get Started with Realm Swift
-----------------------------
+Get Started with the Swift SDK
+------------------------------
 
 .. card-group::
    :columns: 3
@@ -48,7 +58,8 @@ Get Started with Realm Swift
       :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
       :icon-alt: Functions Icon
 
-      Minimal-explanation code examples of how to work with Realm Database.
+      Minimal-explanation code examples of how to work with the Swift SDK. 
+      Write to the device database, and sync with other devices.
 
    .. card::
       :headline: Working Example App
@@ -58,7 +69,7 @@ Get Started with Realm Swift
       :icon-alt: Realm Mobile Icon
 
       Learn from example by dissecting a working SwiftUI client app that
-      uses Realm Database with Device Sync.
+      uses the Swift SDK.
 
    .. card::
       :headline: Guided Tutorial
@@ -68,62 +79,63 @@ Get Started with Realm Swift
       :icon-alt: Tutorial Icon
 
       Follow a guided tutorial to learn how to adapt the example app to
-      create your own working Realm app.
+      create your own working app.
 
 .. kicker:: What You Can Do
 
-Develop Apps with Realm Database
---------------------------------
+Develop Apps with the SDK
+--------------------------
 
-Use free open-source Realm Database as a local object store on a device.
-Use Device Sync to keep data in sync with your MongoDB Atlas cluster and
+Use the SDK's open-source database - Realm - as an object store on the device. 
+Use Device Sync to keep data in sync with your MongoDB Atlas cluster and 
 other clients.
 
 .. tabs::
 
-   .. tab:: Use Realm Database Locally
-      :tabid: local-realm
+   .. tab:: Store Data with the SDK
+      :tabid: device-persistence
 
       .. procedure::
 
-         .. step:: Install the Realm Swift SDK
+         .. step:: Install the Swift SDK
 
             Use Swift Package Manager, CocoaPods, or Carthage to
             :ref:`ios-install` in your project.
 
-            Import Realm in your project files to get started.
+            Import ``RealmSwift`` in your project files to get started.
 
          .. step:: Define an Object Schema
 
             Use Swift to idiomatically :ref:`define an object schema
             <ios-define-a-realm-object-schema>`.
 
-         .. step:: Open a Realm
+         .. step:: Open a Database
 
-            Realm Database stores objects in realm files on your device,
-            or you can open an in-memory realm which does not create a file.
-            :ref:`Configure and open a realm <ios-configure-and-open-a-realm>`
-            to get started reading and writing data.
+            The SDK's database - Realm - stores objects in files on your 
+            device. Or you can open an in-memory database which does not 
+            create a file. 
+            :ref:`Configure and open a database <ios-configure-and-open-a-realm>`
+            to specify the options for your database file.
 
          .. step:: Read and Write Data
 
             :ref:`Create <swift-crud-create>`, :ref:`read <swift-crud-read>`,
             :ref:`update <swift-crud-update>`, and :ref:`delete <swift-crud-delete>`
-            objects from the realm. Filter data using Realm Swift's
+            objects from the device database. Filter data using the SDK's
             :ref:`type-safe .where syntax <ios-realm-swift-query-api>`,
             or construct an :ref:`NSPredicate <ios-nspredicate-query>`.
 
          .. step:: React to Changes
 
-            Realm's live objects mean that your data is always up-to-date.
+            Live objects mean that your data is always up-to-date.
             You can :ref:`register a notification handler <ios-react-to-changes>`
             to watch for changes and perform some logic, such as updating
-            your UI. Or in SwiftUI, use the Realm Swift property wrappers
+            your UI. Or in SwiftUI, use the Swift property wrappers
             to :ref:`update Views when data changes
             <swiftui-update-ui-when-objects-change>`.
 
       .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
-         :alt: Realm Mobile Illustration
+         :alt: Atlas Device SDK Mobile Illustration
 
    .. tab:: Sync Data Across Devices
       :tabid: device-sync
@@ -150,34 +162,34 @@ other clients.
             integrate with other authentication providers. Anonymous authentication
             provides access without requiring a login or persisting user data.
 
-         .. step:: Open a Synced Realm
+         .. step:: Open a Synced Database
 
-            Instead of opening a local realm, :ref:`configure and open a
-            synced Realm <ios-configure-and-open-a-synced-realm>`.
+            :ref:`Configure and open a synced database <ios-configure-and-open-a-synced-realm>`.
             :ref:`Subscribe to a query <swift-manage-flexible-sync-subscriptions>`
-            to determine what data the synced realm can read and write.
+            to determine what data the synced database can read and write.
 
          .. step:: Read and Write Synced Data
 
-            The APIs to read and write data from a realm are the same
-            whether you're using a synced or local realm. Data that you
-            read and write is automatically kept in sync with your Atlas
-            cluster and other clients. Apps keep working offline and
-            deterministically sync changes whenever a network connection is
-            available.
+            The APIs to read and write data are the same whether you're 
+            using a synced or non-synced database. Data that you read and write 
+            to the device is automatically kept in sync with your Atlas 
+            cluster and other clients. Apps keep working offline and 
+            deterministically sync changes whenever a network connection 
+            is available.
 
       .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
-         :alt: Realm Sync Illustration
+         :alt: Device Sync Illustration
 
-   .. tab:: Use Realm with SwiftUI
+   .. tab:: Develop with SwiftUI
       :tabid: realm-swiftui
 
       .. container::
 
-         The Realm Swift SDK offers property wrappers and convenience features
-         designed to make it easier to work with Realm in SwiftUI.
-         For example View code that demonstrates common Realm SwiftUI patterns,
-         check out the :ref:`SwiftUI documentation <ios-swiftui-examples>`.
+         The Swift SDK offers property wrappers and convenience 
+         features designed to make it easier to work with SwiftUI.
+         For example View code that demonstrates common SwiftUI 
+         patterns, check out the 
+         :ref:`SwiftUI documentation <ios-swiftui-examples>`.
 
          .. literalinclude:: /examples/generated/swiftui/FilterData.snippet.searchable.swift
             :language: swift
@@ -185,7 +197,7 @@ other clients.
             :copyable: false
 
       .. image:: /images/illustrations/Spot_MauvePurple_Logic_Tech_RealmApp2x.png
-         :alt: Realm Mobile Illustration
+         :alt: Atlas Device SDK Mobile Illustration
 
    .. tab:: Build with Atlas App Services
       :tabid: app-services
@@ -225,21 +237,21 @@ Recommended Reading
 
    .. card::
       :headline: Swift API Reference
-      :cta: RealmSwift Reference
+      :cta: Swift API Reference
       :url: https://www.mongodb.com/docs/realm-sdks/swift/latest
       :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
       :icon-alt: Realm Icon
 
-      Explore generated reference docs for the RealmSwift APIs.
+      Explore generated reference docs for the SDK's Swift APIs.
 
    .. card::
       :headline: Objective-C API Reference
-      :cta: Realm Reference
+      :cta: Objective-C API Reference
       :url: https://www.mongodb.com/docs/realm-sdks/objc/latest
       :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
       :icon-alt: Realm Icon
 
-      Explore generated reference docs for the Realm Objective-C APIs.
+      Explore generated reference docs for the SDK's Objective-C APIs.
        
    .. card::
       :headline: SwiftUI Quick Start
@@ -248,4 +260,55 @@ Recommended Reading
       :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
       :icon-alt: Tutorial Icon
 
-      Get started with Realm Database for SwiftUI.
+      Get started developing with SwiftUI.
+
+.. _ios-additional-examples:
+
+Example Projects
+----------------
+
+Explore engineering and expert-provided example projects to learn best 
+practices and common development patterns using the Swift SDK. Check out 
+the :ref:`<realm-example-projects-table>` page for more sample apps.
+
+.. card-group::
+   :columns: 3
+   :style: extra-compact
+
+   .. card::
+      :headline: Analytics/Telemetrics Data
+      :cta: Example app
+      :url: https://github.com/realm/realm-swift-samples/blob/main/AnalyticsTelemetricsData/README.md
+      :icon: /images/icons/branding_2023/Technical_ATLAS_AsymmetricSync10x.png
+      :icon-alt: Asymmetric Sync icon
+
+      Take sensor readings, push data to Atlas, and display the results in 
+      Atlas Charts or a time series collection.
+
+   .. card::
+      :headline: Connection State Change & Error Handling
+      :cta: Example app
+      :url: https://github.com/realm/realm-swift-samples/blob/main/SyncConnectionStateErrorReset/README.md
+      :icon: /images/icons/branding_2023/General_CLOUD_Mobility10x.png
+      :icon-alt: Cloud Mobile Transfer Icon
+
+      Learn best practices around handling Sync errors and client resets.
+
+   .. card::
+      :headline: Offline Login and Database Access
+      :cta: Example app
+      :url: https://github.com/realm/realm-swift-samples/blob/main/OfflineLoginRealmAccess/README.md
+      :icon: /images/icons/branding_2023/Technical_REALM_Offline10x.png
+      :icon-alt: Realm Offline Icon
+
+      Log in a Device Sync user and open a synced database offline.
+
+   .. card::
+      :headline: Integrating In-App Purchases
+      :cta: Example app
+      :url: https://github.com/realm/realm-swift-samples/tree/main/InAppPurchasesAtlasAppServices
+      :icon: /images/icons/branding_2023/General_FEATURES_Transactions10x.png
+      :icon-alt: Transaction Icon
+
+      Use StoreKit to add in-app purchases to a Device Sync-enabled recipe 
+      library app.

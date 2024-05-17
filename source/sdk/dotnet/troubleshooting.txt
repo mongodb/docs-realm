@@ -90,3 +90,60 @@ worker threads. If you have set ``SynchronizationContext.Current`` in a
 worker thread, call the ``Write()`` method instead of ``WriteAsync()``.
 
 For more information, see :ref:`Asynchronous Writes <dotnet-async-writes>`.
+
+Resolving a 'AddDefaultTypes should be called before creating a Realm instance' Exception
+-----------------------------------------------------------------------------------------
+
+You may see a ``System.NotSupportedException`` with the message "AddDefaultTypes 
+should be called before creating a Realm instance". This can happen when you have 
+multiple projects containing Realm models and you open a Realm instance before 
+all of them have been loaded in memory.
+
+Explanation of the Cause
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.NET uses lazy loading to improve performance. An assembly is not loaded until 
+one or more of the types it contains is needed. However, Realm relies on the 
+`module initializer <https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/module-initializers>`__ 
+to register all of the types in its default schema. When you first open a realm, 
+the default schema gets locked, and any attempt to register more types will result 
+in the exception above.
+
+Resolution
+~~~~~~~~~~
+
+There are 3 ways to resolve this issue:
+
+1. You can place your realm models in the same assembly where you call ``Realm.GetInstance``.
+
+2. You can pre-load the assembly that contains your realm objects by creating a 
+   static method on the assembly, and then call that method from your app code:
+   
+   .. code-block:: csharp
+      
+      // In your models assembly
+      public static class MyAssemblyLoader
+      {
+          public static void LoadMe() {}
+      }
+      // In your app
+      public void Initialize()
+      {
+          MyAssemblyLoader.LoadMe();
+      }
+
+3. You can explicitly specify the Realm schema when initializing the realm:
+
+   .. code-block:: csharp
+
+      var config = new RealmConfiguration
+      {
+          Schema = new[] { typeof(Person), typeof(Company), ... }
+      }
+
+.. _dotnet-bad-alloc-not-enough-memory-available:
+
+iOS/iPad OS Bad Alloc/Not Enough Memory Available
+-------------------------------------------------
+
+.. include:: /includes/ios-ipados-bad-alloc.rst

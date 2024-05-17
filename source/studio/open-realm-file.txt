@@ -35,7 +35,7 @@ objects and schemas.
 Find a Realm File
 ~~~~~~~~~~~~~~~~~
 
-Realm Database stores a binary-encoded version of every object and 
+Realm stores a binary-encoded version of every object and 
 type in a single realm file. The file is located at a specific path 
 that you define when you open the realm.
 
@@ -50,9 +50,12 @@ To find your default realm file path:
 
    .. tab:: JavaScript
       :tabid: javascript
+      
+      .. 
+         [editor's note]: This example is JavaScript, but lives in a TypeScript file.
 
-      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.find-realm-file.js
-         :language: javascript
+      .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.find-realm-file.ts
+         :language: typescript
 
    .. tab:: Java
       :tabid: java
@@ -155,7 +158,7 @@ Becomes a class model named ``data`` that has three properties:
 Download an Example
 -------------------
 
-If you're new to Realm Database and don't have a realm file or 
+If you're new to Realm and don't have a realm file or 
 CSV to import, you can still try out Realm Studio.
 
 When you open Realm Studio, you'll see an option to :guilabel:`Download 

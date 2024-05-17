@@ -10,8 +10,8 @@ Configure & Open a Synced Realm - .NET SDK
    :depth: 3
    :class: singlecol
 
-Key Concept: Synced Realms
---------------------------
+Synced Realms
+-------------
 
 You can configure a realm to automatically synchronize data between many devices
 that each have their own local copy of the data. Synced realms use a different
@@ -34,7 +34,7 @@ received out of order.
 Synced Realms vs. Non-Synced Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Synced realms differ from non-synced local Realm Database in a 
+Synced realms differ from non-synced local Realm in a 
 couple of ways:
 
 - Synced realms attempt to sync changes with your backend App Services App,
@@ -42,8 +42,8 @@ couple of ways:
 - Synced realms can be accessed by authenticated users, while non-synced 
   realms have no concept of users or authentication.
 
-You can copy data from a non-synced Realm Database to a synced realm, 
-and vice versa, but you cannot sync a non-synced Realm Database.
+You can copy data from a non-synced realm to a synced realm, 
+and vice versa, but you cannot sync a non-synced realm.
 
 .. _convert-realm-sync:
 
@@ -101,47 +101,32 @@ With cached credentials, you can:
 - Open a synced realm after downloading changes from your App. 
   This requires the user to have an active internet connection.
 
-
-
+.. _dotnet-open-a-synced-realm:
 .. _dotnet-flexible-sync-open-realm:
 
-Open a Synced Realm with a Flexible Sync Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When you use Flexible Sync, pass the current user to a 
-:dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>`
-object to open a synced realm. 
-
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.open-a-flexible-synced-realm.cs
-   :language: csharp
-
-.. important:: Flexible Sync Requires a Subscription
-
-   You can't use a Flexible Sync realm until you add at least one subscription.
-   To learn how to add subscriptions, see: :ref:`<dotnet-sync-add-subscription>`.
-
-.. _dotnet-open-a-synced-realm:
-.. _dotnet-partition-sync-open-realm:
-
-Open a Partition-Based Sync Realm While Online
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open a Synced Realm While Online
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The steps for opening a synced realm while online are:
 
 1. Your app code walks the user through :ref:`authenticating <dotnet-authenticate>`. 
 
 #. Create a 
-   :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
-   object that includes the :ref:`partition name <partition-value>` and 
-   the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.
+   :dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>`
+   object that includes :dotnet-sdk:`User <reference/Realms.Sync.User.html>` 
+   object.
 
 #. Open a synced realm by calling the 
    :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
-   method, passing in the ``PartitionSyncConfiguration`` object.
+   method.
+
+#. If your FlexibleSyncConfiguration did not contain 
+   :ref:`initial subscriptions <dotnet-initial-subscriptions>`, 
+   :ref:`add a subscription <dotnet-add-subscription-to-set>`.
    
 The following code demonstrates these steps:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.open-fs-realm.cs
    :language: csharp
 
 In the above example, the code shows how to open the realm *asynchronously* 
@@ -153,15 +138,8 @@ method:
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm-synchronously.cs
    :language: csharp
 
-.. seealso::
-
-   :ref:`Partitions <sync-partitions>`
-
-   :ref:`Partition Strategies <partition-strategies>`
-
-
-Open a Partition-Based Sync Realm While Offline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open a Synced Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once a user authenticates, the ``User`` object persists on the device until the 
 user logs off. This allows your app to 
@@ -173,7 +151,29 @@ The following code shows how to check if there is an existing ``User`` object.
 If none is found, it uses the process outlined about to obtain a user. If the 
 device already has a ``user``, it opens the synced realm with that user:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.check-if-offline.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.open-fs-realm-offline.cs
+   :language: csharp
+
+Configuring Timeouts with AppConfiguration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For granular control of your app connection, you can set the 
+:dotnet-sdk:`SyncTimeoutOptions <reference/Realms.Sync.SyncTimeoutOptions.html>` 
+on the 
+:dotnet-sdk:`AppConfiguration <reference/Realms.Sync.AppConfiguration.html>` 
+object. You can set the following Sync timeout properties:
+
+- ``ConnectTimeout``: the amount of time to allow for a connection to become 
+  fully established.
+- ``ConnectionLingerTime``: the amount of time to keep a connection open after all 
+  sessions have been abandoned.
+- ``PingKeepAlivePeriod``: the amount of time between each heartbeat ping message
+- ``PongKeepAliveTimeout``: the amount of time to wait for a response to a 
+  heartbeat ping before concluding that the connection has dropped.
+- ``FastReconnectLimit``: the amount of time since the loss of a previous 
+  connection for a new connection to be considered a "fast reconnect".
+
+.. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.appconfigsettings.cs
    :language: csharp
 
 

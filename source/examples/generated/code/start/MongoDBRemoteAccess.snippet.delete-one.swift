@@ -1,4 +1,4 @@
-let queryFilter: Document = ["name": "Mocha", "_partition": "Store 17"]
+let queryFilter: Document = ["name": "Mocha", "storeNumber": 17]
 collection.deleteOneDocument(filter: queryFilter) { deletedResult in
     switch deletedResult {
     case .failure(let error):

@@ -5,12 +5,13 @@ const localConfig = {
 const localRealm = await Realm.open(localConfig);
 
 const syncedConfig = {
-  schema: [Car], // predefined schema
-  path: "copyLocalToSynced.realm", // must include in output configuration
+  schema: [Car],
+  path: "copyLocalToSynced.realm",
   sync: {
-    user: app.currentUser, // already logged in user
+    user: app.currentUser,
     partitionValue: "myPartition",
   },
 };
+
 localRealm.writeCopyTo(syncedConfig);
 const syncedRealm = await Realm.open(syncedConfig);

@@ -5,16 +5,18 @@ const app = new Realm.App({ id: APP_ID });
 
 describe("Manage User Sessions", () => {
   beforeAll(async () => {
+    const credentials = {
+      email: "tony@example.com",
+      password: "badabing!",
+    };
     try {
-      const credentials = {
-        email: "tony@example.com",
-        password: "badabing!",
-      };
       await app.emailPasswordAuth.registerUser(credentials);
-      await app.logIn(Realm.Credentials.emailPassword(credentials));
     } catch (err) {
       console.error(err);
     }
+    await app.logIn(
+      Realm.Credentials.emailPassword(credentials.email, credentials.password)
+    );
   });
   afterAll(async () => {
     await app.deleteUser(app.currentUser);

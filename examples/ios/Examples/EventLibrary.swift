@@ -145,6 +145,35 @@ class EventLibrary: XCTestCase {
             // :snippet-end:
         }
     }
+    
+    func testUpdateEventInitilizationParams() {
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success(let user):
+                // Continue
+                print("Successfully logged in to app")
+                // :snippet-start: update-event-metadata
+                var config = user.configuration(partitionValue: "Some partition value")
+                config.eventConfiguration = EventConfiguration(metadata: ["username": "Jason Bourne"], syncUser: user, partitionPrefix: "event-")
+                config.objectTypes = [EventLibrary_Person.self, EventLibrary_Office.self] // :remove:
+                let realm = try! Realm(configuration: config)
+                let events = realm.events!
+                let updateUsernameScope = events.beginScope(activity: "Update username")
+                // Call some function that updates the user's username
+                updateUsername()
+                updateUsernameScope.commit()
+                // Update the metadata you supplied with the initial EventConfiguration
+                events.updateMetadata(["username": "John Michael Kane"])
+                // :snippet-end:
+            }
+        }
+        
+        func updateUsername() {
+            print("This is an empty func just for the example")
+        }
+    }
 
     func testInvokeEventRealm() {
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -178,7 +207,6 @@ class EventLibrary: XCTestCase {
                 fatalError("Login failed: \(error.localizedDescription)")
             case .success(let user):
                 print("Successfully logged in to app")
-                let user = app.currentUser!
                 let partitionValue = UUID().uuidString
                 var config = user.configuration(partitionValue: partitionValue)
                 config.eventConfiguration = EventConfiguration()
@@ -196,34 +224,34 @@ class EventLibrary: XCTestCase {
 
         func recordReadAndWriteEvents(_ realm: Realm) {
             let events = realm.events!
-            events.beginScope(activity: "write object")
+            let writeEventScope = events.beginScope(activity: "write object")
             // Record write event
             try! realm.write {
                 realm.create(EventLibrary_Person.self, value: ["name": "Anthony", "employeeId": 1])
             }
-            events.endScope()
+            writeEventScope.commit()
             // :snippet-start: record-read-and-write-events
             // Read event
-            events.beginScope(activity: "read object")
+            let readEventScope = events.beginScope(activity: "read object")
             let person = realm.objects(EventLibrary_Person.self).first!
             print("Found this person: \(person.name)")
-            events.endScope()
-            events.beginScope(activity: "mutate object")
+            readEventScope.commit()
+            let mutateEventScope = events.beginScope(activity: "mutate object")
             // Write event
             try! realm.write {
                 // Change name from "Anthony" to "Tony"
                 person.name = "Tony"
             }
-            events.endScope()
+            mutateEventScope.commit()
             // :snippet-end:
             // :snippet-start: scoped-event-with-completion
-            events.beginScope(activity: "mutate object with completion")
+            let mutateScope = events.beginScope(activity: "mutate object with completion")
             // Write event
             try! realm.write {
                 // Add a userId
                 person.userId = "tony.stark@starkindustries.com"
             }
-            events.endScope(completion: { error in
+            mutateScope.commit(completion: { error in
                 if let error = error {
                     print("Error recording write event: \(error.localizedDescription)")
                     return
@@ -231,12 +259,29 @@ class EventLibrary: XCTestCase {
                 print("Successfully recorded a write event")
             })
             // :snippet-end:
-            events.beginScope(activity: "delete objects")
+            // :snippet-start: cancel-event-scope
+            let eventScope = events.beginScope(activity: "read object")
+            let person1 = realm.objects(EventLibrary_Person.self).first!
+            print("Found this person: \(person1.name)")
+            eventScope.cancel()
+            // :snippet-end:
+            // :snippet-start: check-event-scope
+            let readPersonScope = events.beginScope(activity: "read object")
+            let person2 = realm.objects(EventLibrary_Person.self).first!
+            print("Found this person: \(person2.name)")
+            if readPersonScope.isActive {
+                print("The readPersonScope is active")
+            } else {
+                print("The readPersonScope is no longer active")
+            }
+            readPersonScope.cancel()
+            // :snippet-end:
+            let deleteEventScope = events.beginScope(activity: "delete objects")
             // Record delete events
             try! realm.write {
                 realm.deleteAll()
             }
-            events.endScope()
+            deleteEventScope.commit()
             // Add a sleep to delay closing the realm so the audit events can upload
             sleep(10)
             expectation.fulfill()
@@ -307,15 +352,15 @@ class EventLibrary: XCTestCase {
 
         func recordEmbeddedObjectEvents(_ realm: Realm) {
             let events = realm.events!
-            events.beginScope(activity: "read embedded object with followed link")
+            let embeddedScope = events.beginScope(activity: "read embedded object")
             let person = realm.objects(EventLibrary_Person.self).where {
                 $0.name == "Michael Scott"
             }.first!
             print("Found this person: \(person.name)")
-            events.endScope()
-            events.beginScope(activity: "read embedded object with followed link")
+            embeddedScope.commit()
+            let embeddedScopeParentObject = events.beginScope(activity: "read embedded object with followed link")
             print("\(person.name)'s employee id is: \(person.employeeId) and they work in: \(person.office?.name) which is location number: \(person.office?.locationNumber)")
-            events.endScope()
+            embeddedScopeParentObject.commit()
             try! realm.write {
                 realm.deleteAll()
             }

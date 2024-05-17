@@ -5,4 +5,4 @@ public string ThumbnailPath { get; set; }
 // ...and the Image itself can be
 // in-memory when the app is running:
 [Ignored]
-public Image Thumbnail { get; set; }
+public Image? Thumbnail { get; set; }

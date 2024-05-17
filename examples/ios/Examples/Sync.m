@@ -96,56 +96,6 @@
     // :snippet-end:
 }
 
-- (void)testOpenSyncedRealm {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
-
-    // :snippet-start: asyncopen-synced-realm
-    RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
-    
-    // Log in...
-
-    RLMUser *user = [app currentUser];
-    NSString *partitionValue = @"some partition value";
-
-    RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:partitionValue];
-    // :remove-start:
-    configuration.objectClasses = @[SyncObjcExamples_Task.class];
-    // :remove-end:
-    
-    [RLMRealm asyncOpenWithConfiguration:configuration
-                           callbackQueue:dispatch_get_main_queue()
-                                callback:^(RLMRealm *realm, NSError *error) {
-        
-        if (error != nil) {
-            NSLog(@"Failed to open realm: %@", [error localizedDescription]);
-            return;
-        }
-        NSLog(@"Successfully opened realm");
-        // Use realm
-        // :remove-start:
-        [expectation fulfill];
-        // :remove-end:
-    }];
-    // :snippet-end:
-
-    // :snippet-start: open-synced-realm-synchronously
-    NSError *error = nil;
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration
-                                                 error:&error];
-    
-    if (error != nil) {
-        NSLog(@"Failed to open realm: %@", [error localizedDescription]);
-        // handle error
-    } else {
-        NSLog(@"Opened realm: %@", realm);
-        // Use realm
-    }
-    // :snippet-end:
-    [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
-        NSLog(@"Expectation failed: %@", error);
-    }];
-}
-
 - (void)testPauseResumeSyncSession {
     RLMApp *app = [RLMApp appWithId:YOUR_APP_ID];
     RLMUser *user = [app currentUser];
@@ -193,10 +143,10 @@
     // :snippet-start: check-progress
     RLMSyncSession *syncSession = [syncedRealm syncSession];
     RLMProgressNotificationToken *token = [syncSession
-           addProgressNotificationForDirection:RLMSyncProgressDirectionUpload
+                                           addSyncProgressNotificationForDirection:RLMSyncProgressDirectionUpload
                                           mode:RLMSyncProgressModeForCurrentlyOutstandingWork
-                                         block:^(NSUInteger transferredBytes, NSUInteger transferrableBytes) {
-        NSLog(@"Uploaded %luB / %luB", (unsigned long)transferredBytes, transferrableBytes);
+                                         block:^(RLMSyncProgress syncProgress) {
+        NSLog(@"Uploaded %fB", (double)syncProgress.progressEstimate);
         // :remove-start:
         [expectation fulfill];
         // :remove-end:

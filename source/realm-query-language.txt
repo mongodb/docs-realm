@@ -5,6 +5,13 @@
 Realm Query Language
 ====================
 
+.. meta::
+  :description: Learn how to use Realm Query Language (RQL) to retrieve objects from the database.
+  
+.. facet:: 
+  :name: genre 
+  :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -28,72 +35,77 @@ Some SDKs also support idiomatic APIs for querying realms in their language.
 Query with Realm SDKs
 ---------------------
 
-For further reading on SDK-specific methods for querying realms, select the tab
-below for your SDK.
+For further reading on SDK-specific methods for querying realms, see the documentation
+for your SDK: 
 
 .. tabs::
 
-   .. tab:: Java SDK
-      :tabid: java
+  .. tab:: Flutter SDK
+    :tabid: flutter
 
-      - :ref:`Query Engine - Java SDK <java-client-query-engine>`
-      - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
+    - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
 
-   .. tab:: Swift SDK
-      :tabid: swift
+  .. tab:: Java SDK
+    :tabid: java
 
-      - :ref:`Filter Data - Swift SDK <ios-client-query-engine>`
+    - :ref:`Query Engine - Java SDK <java-client-query-engine>`
+    - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
 
-      .. note:: Swift SDK does not support Realm Query Language
+  .. tab:: Kotlin SDK
+    :tabid: kotlin
 
-         The Swift SDK does not support querying with Realm Query Language.
-         You can instead use NSPredicate to query Realm.
+    - :ref:`Filter Data - Kotlin SDK <kotlin-filter-data>`
 
-   .. tab:: .NET SDK
-      :tabid: dotnet
+  .. tab:: .NET SDK
+    :tabid: dotnet
 
-      - :ref:`Query Engine - .NET SDK <dotnet-client-query-engine>`
+    - :ref:`Query Engine - .NET SDK <dotnet-client-query-engine>`
 
-   .. tab:: Node.JS SDK
-      :tabid: node
+  .. tab:: Node.JS SDK
+    :tabid: node
 
-      - :ref:`Query Engine - Node.Js SDK <node-client-query-engine>`
-      - :ref:`Filter Queries - Node.Js SDK <node-filter-queries>`
+    - :ref:`Query Engine - Node.Js SDK <node-client-query-engine>`
+    - :ref:`Filter Queries - Node.Js SDK <node-filter-queries>`
 
-   .. tab:: React Native SDK
-      :tabid: react-native
+  .. tab:: React Native SDK
+    :tabid: react-native
 
-      - :ref:`Query Engine - React Native SDK <react-native-client-query-engine>`
-      - :ref:`Filter Queries - React Native SDK <react-native-filter-queries>`
+    - :ref:`Query Engine - React Native SDK <react-native-client-query-engine>`
+    - :ref:`Filter Queries - React Native SDK <react-native-filter-queries>`
 
-   .. tab:: Kotlin SDK
-      :tabid: kotlin
+  .. tab:: C++ SDK
+    :tabid: cpp
 
-      - :ref:`Filter Data - Kotlin SDK <kotlin-filter-data>`
+    The C++ SDK currently implements only a subset of RQL. For examples 
+    querying Realm in the C++ SDK, refer to:
 
-   .. tab:: Flutter SDK
-      :tabid: flutter
+    - :ref:`Filter Data - C++ SDK <cpp-filter-data>`
 
-      - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
+    
 
+.. note:: Swift SDK does not support Realm Query Language
+
+   The Swift SDK does not support querying with Realm Query Language.
+   You can instead use NSPredicate to query Realm. For examples of querying
+   Realm in the Swift SDK, refer to :ref:`Filter Data - Swift SDK <ios-client-query-engine>`.
 
 You can also use Realm Query Language to browse for data in
 :ref:`Realm Studio <realm-studio>`. Realm Studio is a visual tool
-to view, edit, and design Realm Database files.
+to view, edit, and design Realm files.
 
 Examples on This Page
 ---------------------
 
-Many of the examples in this page use a simple data set for a task list app.
-The two Realm object types are ``Project`` and ``Task``.
+Many of the examples in this page use a simple data set for a to-do list app.
+The two Realm object types are ``Project`` and ``Item``.
 
-- A ``Task`` has a name, assignee's name, and completed flag.
+- An ``Item`` has a name, assignee's name, and completed flag.
   There is also an arbitrary number for priority (higher is more important)
   and a count of minutes spent working on it.
-- A ``Project`` has zero or more ``Tasks`` and an optional quota
-  for minimum number of tasks expected to be completed.
+- A ``Project`` has zero or more ``Items`` and an optional quota
+  for minimum number of to-do items expected to be completed.
 
-See the schema for these two classes, ``Project`` and ``Task``, below:
+See the schema for these two classes, ``Project`` and ``Item``, below:
 
 .. tabs::
 
@@ -107,20 +119,20 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
 
              .. code-block:: java
 
-               public class Task extends RealmObject {
+               public class Item extends RealmObject {
                  ObjectId id = new ObjectId();
                  String name;
                  Boolean isComplete = false;
                  String assignee;
                  Integer priority = 0;
                  Integer progressMinutes = 0;
-                 @LinkingObjects("tasks")
+                 @LinkingObjects("items")
                  final RealmResults<Project> projects = null;
                } 
                public class Project extends RealmObject {
                  ObjectId id = new ObjectId();
                  String name;
-                 RealmList<Task> tasks;
+                 RealmList<Item> items;
                  Integer quota = null;
                }
 
@@ -129,8 +141,9 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
 
             .. code-block:: kotlin
 
-               open class Task(): RealmObject() {
+               open class Item(): RealmObject() {
                  var id: ObjectId = new ObjectId()
+                 @FullText
                  lateinit var name: String
                  var isComplete: Boolean = false
                  var assignee: String? = null
@@ -141,31 +154,9 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
                open class Project(): RealmObject() {
                  var id: ObjectId = new ObjectId()
                  lateinit var name: String
-                 lateinit var tasks: RealmList<Task>
+                 lateinit var items: RealmList<Item>
                  var quota: Int? = null
                }
-
-   .. tab:: Swift SDK
-      :tabid: swift
-
-      .. code-block:: swift
-
-         class Task {
-             @Persisted(primaryKey: true) var id: ObjectId
-             @Persisted var name: string
-             @Persisted var isComplete: bool
-             @Persisted var assignee: string?
-             @Persisted var priority: int
-             @Persisted var progressMinutes: int
-             @Persisted(originProperty: "tasks") var projects: LinkingObjects<Project>
-         }
-
-         class Project {
-             @Persisted(primaryKey: true) var id: ObjectId
-             @Persisted var name: string
-             @Persisted var tasks: List<Task>
-             @Persisted var quota: int?
-         }
 
    .. tab:: .NET SDK
       :tabid: dotnet
@@ -173,7 +164,7 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
       .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.snippet.rql-schema-examples.cs
          :language: csharp
 
-   .. tab:: Node.Js SDK
+   .. tab:: Node.js SDK
       :tabid: node
 
       .. literalinclude:: /examples/generated/node/rql-data-models.snippet.rql-data-models.js
@@ -232,6 +223,78 @@ Include multiple parameters with ascending integers starting at ``$0``.
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.multiple-predicate.js
    :language: js
 
+Query Formats
+~~~~~~~~~~~~~
+
+The following table shows how a query should be formatted when serialized and
+parameterized for the following data types:
+
+.. list-table::
+  :header-rows: 1
+  :widths: 15 25 25 35
+  
+  * - Type
+    - Parameterized Example
+    - Serialized Example
+    - Note
+
+  * - Boolean
+    - "setting == $0", false
+    - "setting == false"
+    - ``true`` or ``false`` values.
+
+  * - :ref:`String <rql-string-operators>`
+    - "name == $0", "George"
+    - "name == 'George'"
+    - Applies to ``string`` and ``char`` data type.
+
+  * - :ref:`Number <rql-arithmetic-operators>`
+    - "age > $0", 5.50
+    - "age > 5.50"
+    - Applies to ``int``, ``short``, ``long``, ``double``, ``Decimal128``, and ``float`` data types.
+
+  * - :ref:`Date <rql-date-operators>`
+    - "date < $0", dateObject
+    - "date < 2021-02-20\@17:30:15:0"
+    - For parameterized date queries, you must pass in a date object. 
+      For serialized date queries, you can represented the date in the following formats:
+  
+      - As an explicit date and time- YYYY-MM-DD\@HH:mm:ss:nn 
+        (year-month-day@hours:minutes:seconds:nanoseconds)
+      - As a ``datetime`` relative to the :wikipedia:`Unix epoch <Unix_time>`- Ts:n 
+        (T, designates the start of the time; ``s``, seconds; ``n``, nanoseconds)
+      - Parameterized ``Date`` object
+
+  * - :ref:`ObjectID <rql-objectid-uuid-operators>`
+    - "_id == $0", oidValue
+    - "_id == oid(507f1f77bcf86cd799439011)"
+    - For parameterized ObjectId queries, you must pass in an ObjectId.
+      For serialized ObjectId queries, the string representation is ``oid(<ObjectId String>)``.
+
+  * - :ref:`UUID <rql-objectid-uuid-operators>`
+    - "id == $0", uuidValue
+    - "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
+    - For parameterized UUID queries, you must pass in a UUID.
+      For serialized UUID queries, the string representation is ``uuid(<UUID String>)``.
+    
+  * - Binary
+    - "value == $0", "binary"
+    - "value == 'binary'"
+    - For ASCII characters, RQL serializes the binary value like a string,
+      with quotes. For non-printable characters, 
+      RQL serializes the binary to a base 64 value.
+
+  * - :ref:`List <rql-list-queries>`
+    - "ANY items.name == {$0, $1}", "milk", "bread"
+    - "ANY items.name == {'milk', 'bread'}"
+    - Applies for list, collections, and sets. A parameterized value should be used
+      for each member of the list.
+  
+  * - RealmObject
+    - "ANY items == $0", obj("Item", oid(6489f036f7bd0546377303ab))
+    - "ANY items == obj('Item', oid(6489f036f7bd0546377303ab))"
+    - To pass in a RealmObject, you need the class and primary key of the object.
+    
 .. _rql-dot-notation:
 
 Dot Notation
@@ -342,14 +405,16 @@ values.
 
    The following example uses Realm Query Language's comparison operators to:
 
-   - Find high priority tasks by comparing the value of the ``priority``
+   - Find high priority to-do items by comparing the value of the ``priority``
      property value with a threshold number, above which priority can be considered high.
-   - Find long-running tasks by seeing if the ``progressMinutes`` property
+   - Find long-running to-do items by seeing if the ``progressMinutes`` property
      is at or above a certain value.
-   - Find unassigned tasks by finding tasks where the ``assignee`` property
+   - Find unassigned to-do items by finding items where the ``assignee`` property
      is equal to ``null``.
-   - Find tasks within a certain time range by finding tasks where the
+   - Find to-do items within a certain time range by finding items where the
      ``progressMinutes`` property is between two numbers.
+   - Find to-do items with a certain amount of ``progressMinutes`` from the 
+     given list. 
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.comparison-operators.js
       :language: javascript
@@ -383,7 +448,7 @@ Make compound predicates using logical operators.
 .. example::
 
    We can use the query language's logical operators to find
-   all of Ali's completed tasks. That is, we find all tasks
+   all of Ali's completed to-do items. That is, we find all items
    where the ``assignee`` property value is equal to 'Ali' AND
    the ``isComplete`` property value is ``true``:
 
@@ -406,7 +471,7 @@ Regex-like wildcards allow more flexibility in search.
 
      .. code-block:: javascript
 
-        "name CONTAINS[c] 'a'"
+        "name CONTAINS[c] $0", 'a'
 
 .. list-table::
    :header-rows: 1
@@ -619,19 +684,19 @@ from the SDK language you are using to a query.
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-parameterized-query.js
    :language: js
 
-You can also represent dates the following ways:
+You can also specify dates in the following two ways:
 
-- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
+- As a specific date (in UTC)- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
   You can also use ``T`` instead of ``@`` to separate the date from the time.
-- ``Ts:n``, where ``s`` is the number of seconds and n the number of nanoseconds
-  since :wikipedia:`unix epoch <Unix_time>`.
+- As a time in seconds since the :wikipedia:`Unix epoch <Unix_time>`- ``Ts:n``, where ``T`` designates the start of the time, 
+  ``s`` is the number of seconds, and ``n`` is the number of nanoseconds.
 
 Date supports :ref:`comparison operators <rql-comparison-operators>`.
 
 .. example::
 
-   The following example shows how to compare dates with their different
-   representations.
+   The following example shows how to use a parameterized query with
+   a date object: 
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-alt-representation.js
       :language: js
@@ -674,14 +739,14 @@ single value.
 
 .. example::
 
-   These examples all query for projects containing tasks that meet
+   These examples all query for projects containing to-do items that meet
    this criteria:
 
-   - Projects with average task priority above 5.
-   - Projects with a task whose priority is less than 5.
-   - Projects with a task whose priority is greater than 5.
-   - Projects with more than 5 tasks.
-   - Projects with long-running tasks.
+   - Projects with average item priority above 5.
+   - Projects with an item whose priority is less than 5.
+   - Projects with an item whose priority is greater than 5.
+   - Projects with more than 5 items.
+   - Projects with long-running items.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.aggregate-operators.js
       :language: javascript
@@ -717,7 +782,7 @@ If the predicate returns true, the object is included in the output collection.
 
 .. example::
 
-   This example uses collection operators to find projects that contain tasks
+   This example uses collection operators to find projects that contain to-do items
    matching certain criteria:
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.set-operators.js
@@ -820,6 +885,86 @@ operators interact with lists and comparison operators:
      - true
      - 0 and 1 are both less than none of 1 and 2
 
+.. _rql-fts:
+
+Full Text Search
+----------------
+
+You can use RQL to query on properties that have a full-text search (FTS)
+annotation. FTS supports boolean match word searches, rather than searches for relevance.
+For information on enabling FTS on a property, see the FTS documentation for 
+your SDK:
+
+- :ref:`Flutter SDK <flutter-fts-annotation>`
+- :ref:`Kotlin SDK <kotlin-fts-index>`
+- :ref:`.NET SDK <dotnet-fts-indexes>`
+- :ref:`Node.js SDK <node-set-fts-index>`
+- :ref:`React Native SDK <react-native-set-fts-index>`
+- Swift SDK does not yet support Full-Text Search.
+
+To query these properties, use the ``TEXT`` predicate in your query.
+
+You can search for entire words or phrases, or limit your results with the following characters:
+
+- Exclude results for a word by placing the ``-`` character in front of the word.
+- Specify prefixes by placing the ``*`` character at the end of a prefix. Suffix 
+  searching is not currently supported.
+
+In the following example, we query the ``Item.name`` property:
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.test.snippet.rql-fts.js
+     :language: js
+
+Full-Text Search Tokenizer Details
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Full-Text Search (FTS) indexes support:
+
+- Tokens are diacritics- and case-insensitive.
+- Tokens can only consist of characters from ASCII and the Latin-1 supplement (western languages).
+  All other characters are considered whitespace. 
+- Words split by a hyphen (-) are split into two tokens.  For example, ``full-text``
+  splits into ``full`` and ``text``.
+
+.. _rql-geospatial:
+
+Geospatial Queries
+------------------
+
+You can query against geospatial data using the ``geoWithin`` operator.
+The ``geoWithin`` operator takes the latitude/longitude pair in a custom 
+embedded object's ``coordinates`` property and a geospatial shape. The 
+operator checks whether the ``cordinates`` point is contained within the 
+geospatial shape. 
+
+The following geospatial shapes are supported for querying:
+
+- ``GeoCircle``
+- ``GeoBox``
+- ``GeoPolygon``
+
+To query geospatial data:
+
+1. Create an object with a property containing the embedded geospatial data.
+2. Define the geospatial shape to set the boundary for the query.
+3. Query using the ``geoWithin`` RQL operator. 
+
+In the following query, we are checking that the coordinates of the embeddeded 
+``location`` property are contained within the ``GeoCircle`` shape, ``smallCircle``:
+
+.. literalinclude:: /examples/generated/node/v12/geospatial.test.snippet.rql-geospatial.js
+     :language: js
+
+For more information on defining geospatial shapes and objects with embedded geospatial data, 
+see the geospatial documentation for your SDK:
+
+- :ref:`Flutter SDK <flutter-data-types-geospatial>`
+- :ref:`Kotlin SDK <kotlin-geospatial>`
+- :ref:`.NET SDK <dotnet-geospatial>`
+- :ref:`Node.js SDK <node-data-types-geospatial>` 
+- :ref:`React Native SDK <react-native-data-types-geospatial>` 
+- :ref:`Swift SDK <swift-query-geospatial>`
+
 .. _rql-backlinks:
 
 Backlink Queries
@@ -895,7 +1040,7 @@ against each object in the collection. The predicate can refer to the current
 iterated object with the variable name passed to ``SUBQUERY()``.
 
 A subquery expression resolves to a list of objects.
-Realm Database only supports the ``@count`` aggregate operator on the result
+Realm only supports the ``@count`` aggregate operator on the result
 of a subquery. This allows you to count how many objects in the subquery
 input collection matched the predicate.
 
@@ -926,11 +1071,14 @@ Sort and limit the results collection of your query using additional operators.
      - Description
 
    * - ``SORT``
-     - Specify the name of the property to compare. You can optionally
-       specify ascending (``ASC``) or descending (``DESC``) order.
-       If you specify multiple SORT fields, the query sorts by the first
-       field, and then the second. For example, if you ``SORT (priority, name)``,
-       the query returns sorted by priority, and then by name when priority
+     - Specify the name of the property to compare, and whether to sort by
+       ascending (``ASC``) or descending (``DESC``) order. If you specify 
+       multiple SORT fields, you must specify sort order for each field.
+       With multiple sort fields, the query sorts by the first field, and 
+       then the second. 
+       
+       For example, if you ``SORT (priority DESC, name DESC)``, the query 
+       returns sorted by priority, and then by name when priority
        value is the same.
 
    * - ``DISTINCT``
@@ -946,12 +1094,12 @@ Sort and limit the results collection of your query using additional operators.
 
 .. example::
 
-   Use the query engine's sort, distinct, and limit operators to find tasks
+   Use the query engine's sort, distinct, and limit operators to find to-do items
    where the assignee is Ali:
 
    - Sorted by priority in descending order
    - Enforcing uniqueness by name
-   - Limiting the results to 5 tasks
+   - Limiting the results to 5 items
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.sort-distinct-limit.js
       :language: javascript

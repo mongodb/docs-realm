@@ -1,8 +1,8 @@
 .. _web-install:
 
-=======================
-Install Realm - Web SDK
-=======================
+===================
+Install the Web SDK
+===================
 
 .. contents:: On this page
    :local:
@@ -13,17 +13,17 @@ Install Realm - Web SDK
 Overview
 --------
 
-This page shows you how to install the Realm Web SDK to use with your application.
+This page shows you how to install the Web SDK to use with your application.
 
 Before You Begin
 ----------------
 
-Before you begin installation, you need to :ref:`create an App Services App<create-a-realm-app>`
+Before you begin installation, you need to :ref:`create an App Services App <create-a-realm-app>`
 for your web app to use.
 
 .. note:: React Native & Node.js SDKs
 
-   There are Realm SDKs built for React Native and Node.js.
+   We also provide SDKs built for React Native and Node.js.
    Generally, you should use these when creating apps in these environments.
    Alternatively, you can use the Web SDK for React Native or Node.js apps.
 
@@ -35,6 +35,11 @@ for your web app to use.
 
 Install the Web SDK
 -------------------
+
+.. tip:: Atlas Device SDK and Realm
+
+   The JS SDKs use the Realm Core database for device data persistence. When 
+   you install the Web SDK, the package names reflect Realm naming.
 
 .. tabs::
 
@@ -56,7 +61,7 @@ Install the Web SDK
       :tabid: CDN
 
       Add a ``<script>`` tag to the ``<head>`` of your HTML file to load
-      the Realm Web SDK as a global variable from a content delivery
+      the Web SDK as a global variable from a content delivery
       network.
 
       Use the most recent version:
@@ -76,7 +81,7 @@ Install the Web SDK
 Install for Node.js
 -------------------
 
-In order to use Realm Web for Node.js environments, you must
+In order to use the Web SDK for Node.js environments, you must
 install two additional peer dependencies:
 
 .. code-block:: shell

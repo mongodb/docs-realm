@@ -1,13 +1,7 @@
 // Watch for collection notifications.
 var subscriptionToken = realm.All<Dog>()
-    .SubscribeForNotifications((sender, changes, error) =>
+    .SubscribeForNotifications((sender, changes) =>
 {
-    if (error != null)
-    {
-        // Show error message
-        return;
-    }
-
     if (changes == null)
     {
         // This is the case when the notification is called
@@ -35,7 +29,7 @@ var subscriptionToken = realm.All<Dog>()
 
     if (changes.IsCleared)
     {
-        // A special case if the collection has been cleared: 
+        // A special case if the collection has been cleared:
         // i.e., all items have been deleted by calling
         // the Clear() method.
     }

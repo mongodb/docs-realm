@@ -14,27 +14,27 @@ class SwiftUICatalogUITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testPartitionBasedSyncLogin() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launchEnvironment["MyUITestsCustomView"] = "true"
-        app.launchEnvironment["MyCustomViewName"] = "PBSContentView"
-        app.launch()
-
-        let loginButton = app.buttons["Log in anonymously"]
-        if loginButton.exists {
-            loginButton.tap()
-        }
-        
-        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 10))
-    }
     
     func testFlexibleSyncLogin() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launchEnvironment["MyUITestsCustomView"] = "true"
         app.launchEnvironment["MyCustomViewName"] = "FSContentView"
+        app.launch()
+
+        let loginButton = app.buttons["Log in anonymously"]
+        if loginButton.exists {
+            loginButton.tap()
+        }
+
+        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 10))
+    }
+    
+    func testPBSAsyncOpenLogin() throws {
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "OpenPBSRealmAsyncOpen"
         app.launch()
 
         let loginButton = app.buttons["Log in anonymously"]
@@ -154,6 +154,16 @@ class SwiftUICatalogUITests: XCTestCase {
         XCTAssert(app.staticTexts["M"].waitForExistence(timeout: 2))
         XCTAssert(app.staticTexts["Maui"].exists)
         XCTAssert(!app.staticTexts["Lita"].exists)
+    }
+    
+    func testSortedDogList() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "SortedDogsView"
+        app.launch()
+        
+        // Test that the dog name in the first row - sorted by name - is Ben
+        XCTAssert(app.cells.firstMatch.staticTexts["Ben"].exists)
     }
     
     func testAppendToList() throws {

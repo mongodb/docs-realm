@@ -2,28 +2,118 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import "dart:io";
 import "dart:convert";
+import "dart:isolate";
+import 'utils.dart';
 
 void main() {
   const APP_ID = "example-testers-kvjdy";
+  const EDGE_SERVER_APP_ID = "sync-edge-server-cskhoow";
+  const baseUrl = 'http://localhost';
+  const newBaseUrl = 'https://services.cloud.mongodb.com';
+
   group('App Services client - ', () {
     test('Access App client', () {
       // :snippet-start: access-app-client
       final appConfig = AppConfiguration(APP_ID);
       final app = App(appConfig);
       //:snippet-end:
-      expect(app.currentUser, null);
+      expect(app, isNotNull);
+      expect(app.id, APP_ID);
     });
     test('App client advanced configuration', () {
       // :snippet-start: app-client-advanced-configuration
       final appConfig = AppConfiguration(APP_ID,
-          defaultRequestTimeout: const Duration(seconds: 120),
-          localAppVersion: '2.0'
+          defaultRequestTimeout: const Duration(seconds: 120)
           // ... see reference docs for all available configuration options
           );
       //:snippet-end:
       final app = App(appConfig);
-      expect(app.currentUser, null);
-      expect(appConfig.localAppVersion, '2.0');
+      expect(app, isNotNull);
+      expect(app.id, APP_ID);
+      expect(appConfig.defaultRequestTimeout, Duration(seconds: 120));
+    });
+
+    test('Custom BaseUrl', () {
+      // :snippet-start: custom-base-url
+      // Specify a baseUrl to connect to a server other than the default
+      final appConfig =
+          AppConfiguration(APP_ID, baseUrl: Uri.parse('https://example.com'));
+
+      var app = App(appConfig);
+      // :snippet-end:
+      expect(app.baseUrl.toString(), 'https://example.com');
+    });
+
+    test('Change BaseUrl', () async {
+      // :snippet-start: change-base-url
+      // Specify a custom baseUrl to connect to.
+      // In this case, an Edge Server instance running on the device.
+      final appConfig = AppConfiguration(
+        EDGE_SERVER_APP_ID,
+        baseUrl: Uri.parse('http://localhost:80')
+        );
+
+      var app = App(appConfig);
+
+      // ... log in a user and use the app ...
+      // :remove-start:
+      expect(app.baseUrl.toString(), baseUrl);
+      await app.logIn(Credentials.anonymous());
+      expect(app.currentUser != null, true);
+      // :remove-end:
+
+      // Later, change the baseUrl to the default:
+      // https://services.cloud.mongodb.com
+      await app.updateBaseUrl(null);
+      // :snippet-end:
+      expect(app.baseUrl.toString(), newBaseUrl);
+    },
+        skip:
+            """Skipping until we get Edge Server running in a CI and we can write automated tests for full flow (this was tested locally and succeeded)""");
+
+    test('Access App on background isolate by id', () async {
+      // :snippet-start: access-app-by-id
+      // Create an App instance once on main isolate,
+      // ideally as soon as the app starts
+      final appConfig = AppConfiguration(APP_ID);
+      final app = App(appConfig);
+      final appId = app.id;
+      final receivePort = ReceivePort();
+      // :remove-start:
+      expect(app, isNotNull);
+      final anonUser =
+          await app.logIn(Credentials.anonymous(reuseCredentials: false));
+      expect(anonUser.id, app.currentUser?.id);
+      // :remove-end:
+
+      // Later, access the App instance on background isolate
+      await Isolate.spawn((List<Object> args) async {
+        final sendPort = args[0] as SendPort;
+        final appId = args[1] as String;
+
+        try {
+          final backgroundApp = App.getById(appId); // :emphasize:
+
+          // ... Access App users
+          final user = backgroundApp?.currentUser!;
+          expect(user, isNotNull); // :remove:
+
+          // Use the App and user as needed.
+
+          sendPort.send('Background task completed');
+        } catch (e) {
+          sendPort.send('Error: $e');
+        }
+      }, [receivePort.sendPort, appId]);
+      // :snippet-end:
+
+      receivePort.listen((message) {
+        expect(message, equals('Background task completed'));
+        receivePort.close();
+      });
+      if (app.currentUser != null) {
+        app.deleteUser(anonUser);
+      }
     });
 
     test("Custom SSL Certificate", () async {

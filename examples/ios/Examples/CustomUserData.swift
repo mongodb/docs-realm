@@ -3,6 +3,8 @@ import RealmSwift
 
 class CustomUserData: XCTestCase {
 
+    // This test is currently failing with Thread Foo: signal SIGABRT
+    // and a message to report as a Core error. Temporarily disabling until we can investigate.
     func testCreateCustomUserData() {
         let expectation = XCTestExpectation(description: "it completes")
 
@@ -26,12 +28,12 @@ class CustomUserData: XCTestCase {
                     switch result {
                     case .failure(let error):
                         print("Failed to insert document: \(error.localizedDescription)")
-                        // :remove-start:
-                        XCTAssertEqual(error.localizedDescription, "no rule exists for namespace 'my_database.users'")
-                        expectation.fulfill()
-                        // :remove-end:
                     case .success(let newObjectId):
                         print("Inserted custom user data document with object ID: \(newObjectId)")
+                        // :remove-start:
+                        XCTAssertNotNil(newObjectId)
+                        expectation.fulfill()
+                        // :remove-end:
                     }
                 }
             }
@@ -75,6 +77,8 @@ class CustomUserData: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    // This test is currently failing with Thread Foo: signal SIGABRT
+    // and a message to report as a Core error. Temporarily disabling until we can investigate.
     func testUpdateCustomUserData() {
         let expectation = XCTestExpectation(description: "it completes")
 
@@ -90,6 +94,21 @@ class CustomUserData: XCTestCase {
                 let client = user.mongoClient("mongodb-atlas")
                 let database = client.database(named: "my_database")
                 let collection = database.collection(withName: "users")
+                // :remove-start:
+                collection.insertOne([
+                    "userId": AnyBSON(user.id),
+                    "favoriteColor": "pink"
+                    ]) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to insert document: \(error.localizedDescription)")
+                    case .success(let newObjectId):
+                        print("Inserted custom user data document with object ID: \(newObjectId)")
+                        XCTAssertNotNil(newObjectId)
+                    }
+                }
+                sleep(5)
+                // :remove-end:
                 collection.updateOneDocument(
                     filter: ["userId": AnyBSON(user.id)],
                     update: ["favoriteColor": "cerulean"]
@@ -97,14 +116,14 @@ class CustomUserData: XCTestCase {
                     switch result {
                     case .failure(let error):
                         print("Failed to update: \(error.localizedDescription)")
-                        // :remove-start:
-                        XCTAssertEqual(error.localizedDescription, "no rule exists for namespace 'my_database.users'")
-                        expectation.fulfill()
-                        // :remove-end:
                         return
                     case .success(let updateResult):
                         // User document updated.
                         print("Matched: \(updateResult.matchedCount), updated: \(updateResult.modifiedCount)")
+                        // :remove-start:
+                        XCTAssertEqual(updateResult.matchedCount, 1)
+                        expectation.fulfill()
+                        // :remove-end:
                     }
                 }
             }

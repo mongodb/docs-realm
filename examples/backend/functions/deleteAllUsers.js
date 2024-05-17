@@ -1,11 +1,11 @@
 let token;
-const apiUrl = "https://realm.mongodb.com/api/admin/v3.0/groups/5f60207f14dfb25d23101102/apps/6388f860cb722c5a5e002425";
+const apiUrl = "https://services.cloud.mongodb.com/api/admin/v3.0/groups/5f60207f14dfb25d23101102/apps/6388f860cb722c5a5e002425";
 
 async function adminLogIn() {
   const username = context.values.get("adminApiPublicKey");
   const apiKey = context.values.get("adminApiPrivateKey");
   const response = await context.http.post({
-    url: "https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login",
+    url: "https://services.cloud.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login",
     body: {username, apiKey},
     encodeBodyAsJSON: true,
   });

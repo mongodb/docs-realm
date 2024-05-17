@@ -8,6 +8,8 @@
 
 @implementation CustomUserDataObjc
 
+// This test is currently failing with Thread Foo: signal SIGABRT
+// and a message to report as a Core error. Temporarily disabling until we can investigate.
 - (void)testCreateCustomUserData {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
@@ -26,12 +28,12 @@
             completion:^(id<RLMBSON> newObjectId, NSError *error) {
                 if (error != nil) {
                     NSLog(@"Failed to insert: %@", error);
-                    // :remove-start:
-                    XCTAssertEqualObjects([error localizedDescription], @"no rule exists for namespace 'my_database.users'");
-                    [expectation fulfill];
-                    // :remove-end:
                 }
                 NSLog(@"Inserted custom user data document with object ID: %@", newObjectId);
+                // :remove-start:
+                XCTAssertNotNil(newObjectId);
+                [expectation fulfill];
+                // :remove-end:
         }];
     }];
     // :snippet-end:
@@ -75,6 +77,8 @@
     }];
 }
 
+// This test is currently failing with Thread Foo: signal SIGABRT
+// and a message to report as a Core error. Temporarily disabling until we can investigate.
 - (void)testUpdateCustomUserData {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
@@ -88,6 +92,20 @@
         RLMMongoClient *client = [user mongoClientWithServiceName:@"mongodb-atlas"];
         RLMMongoDatabase *database = [client databaseWithName:@"my_database"];
         RLMMongoCollection *collection = [database collectionWithName:@"users"];
+        // :remove-start:
+        [collection insertOneDocument:
+            @{@"userId": [user identifier], @"favoriteColor": @"pink"}
+            completion:^(id<RLMBSON> newObjectId, NSError *error) {
+                if (error != nil) {
+                    NSLog(@"Failed to insert: %@", error);
+                }
+                NSLog(@"Inserted custom user data document with object ID: %@", newObjectId);
+                // :remove-start:
+                XCTAssertNotNil(newObjectId);
+                // :remove-end:
+        }];
+        sleep(5);
+        // :remove-end:
 
         // Update the user's custom data document
         [collection updateOneDocumentWhere:@{@"userId": [user identifier]}
@@ -95,12 +113,12 @@
             completion:^(RLMUpdateResult *updateResult, NSError *error) { 
                 if (error != nil) {
                     NSLog(@"Failed to insert: %@", error);
-                    // :remove-start:
-                    XCTAssertEqualObjects([error localizedDescription], @"no rule exists for namespace 'my_database.users'");
-                    [expectation fulfill];
-                    // :remove-end:
                 }
-                NSLog(@"Matched: %lu, modified: %lu", [updateResult matchedCount], [updateResult modifiedCount]); 
+                NSLog(@"Matched: %lu, modified: %lu", [updateResult matchedCount], [updateResult modifiedCount]);
+                // :remove-start:
+                XCTAssertEqual([updateResult matchedCount], 1);
+                [expectation fulfill];
+                // :remove-end:
         }];
     }];
     // :snippet-end:

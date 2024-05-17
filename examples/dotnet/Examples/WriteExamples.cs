@@ -56,30 +56,31 @@ namespace Examples
             //   "WriteDog" : "Dog" }
             // }
             // Open a thread-safe transaction.
-            var transaction = realm.BeginWrite();
-            // At this point, the TransactionState is "Running":
-            // transaction.State == TransactionState.Running
-            try
+            using (var transaction = realm.BeginWrite())
             {
-                // Perform a write op...
-                realm.Add(myDog);
-                // Do other work that needs to be included in
-                // this transaction
-                if (transaction.State == TransactionState.Running)
+                // At this point, the TransactionState is "Running":
+                // transaction.State == TransactionState.Running
+                try
                 {
-                    transaction.Commit();
+                    // Perform a write op...
+                    realm.Add(myDog);
+                    // Do other work that needs to be included in
+                    // this transaction
+                    if (transaction.State == TransactionState.Running)
+                    {
+                        transaction.Commit();
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                // Something went wrong; roll back the transaction
-                if (transaction.State != TransactionState.RolledBack &&
-                    transaction.State != TransactionState.Committed)
+                catch (Exception ex)
                 {
-                    transaction.Rollback();
+                    Console.WriteLine(ex.Message);
+                    // Something went wrong; roll back the transaction
+                    if (transaction.State != TransactionState.RolledBack &&
+                        transaction.State != TransactionState.Committed)
+                    {
+                        transaction.Rollback();
+                    }
                 }
-                transaction.Dispose();
             }
             // :replace-end:
             // :snippet-end:
@@ -115,17 +116,21 @@ namespace Examples
             });
 
 
-
-            realm.Write(() =>
+            // :snippet-start: modify
+            // :replace-start: {
+            //  "terms": {
+            //   "dog2": "dog",
+            //   "WriteDog" : "Dog" }
+            // }
+            var dog2 = realm.All<WriteDog>().First();
+            realm.WriteAsync(() =>
             {
-                // Get a dog to update.
-                var dog = realm.All<WriteDog>().First();
-
-                // Update some properties on the instance.
-                // These changes are saved to the realm.
-                dog.Name = "Wolfie";
-                dog.Age += 1;
+                dog2.Name = "Wolfie";
+                dog2.Age += 1;
             });
+            // :replace-end:
+            // :snippet-end:
+
 
             realm.Write(() =>
             {
@@ -203,12 +208,11 @@ namespace Examples
         [MapTo("_id")]
         public int Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         public int Age { get; set; }
         public string Breed { get; set; }
-        public WritePerson Owner { get; set; }
+        public WritePerson? Owner { get; set; } = null!;
     }
 
     public class WritePerson : RealmObject

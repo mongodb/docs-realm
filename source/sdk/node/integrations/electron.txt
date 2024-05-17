@@ -1,3 +1,5 @@
+:orphan:
+
 .. _node-electron-client-quick-start:
 
 =========================
@@ -191,8 +193,8 @@ Open a Realm
 ------------
 
 Authenticate a user, define a schema, and :ref:`sync enabled Device Sync
-<enable-sync>`, then call :js-sdk:`Realm.open() <Realm.html#.open>` in your
-renderer.js file.
+<enable-sync>`, then call :js-sdk:`Realm.open() <classes/Realm-1.html#open>` 
+in your renderer.js file.
 
 Once you have opened the realm, you can :ref:`write to the realm
 <node-realm-database-writes>`.
@@ -235,8 +237,10 @@ Once you have opened the realm, you can :ref:`write to the realm
 
 .. include:: /includes/note-electron-writes-from-both-processes.rst
 
+.. include:: /includes/note-electron-packaging.rst
+
 .. seealso::
 
    - :ref:`Sync Changes Between Devices <node-sync-changes-between-devices>`
    - :ref:`Define Your Schema <node-object-schemas>`
-   - :doc:`Authenticate a User </sdk/node/examples/authenticate-users/>`
+   - :ref:`Authenticate a User <node-authenticate-users>`

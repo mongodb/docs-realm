@@ -23,15 +23,14 @@ of the following:
 - **The sync subscription query.**
     - If your write operation doesn't match the query in the subscription,
       the write reverts with a non-fatal compensating write error (ErrorCompensatingWrite).
-- **The Device Sync permissions** in your App Services App.
-    - If your try to write data that doesn't match the Device Sync permissions expression,
-      the write reverts with a non-fatal permission denied error.
-      In the client, this shows as an (ErrorCompensatingWrite). On the server,
-      you can see more details about how the write was denied was by a 
-      write filter in the role.
-    - To learn more about configuring Device Sync permissions for your app,
-      refer to :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide`
-      in the App Services documentation.
+- **The permissions** in your App Services App.
+    - If your try to write data that doesn't match the permissions expression,
+      the write reverts with a non-fatal permission denied error. In the client,
+      this shows as an error (ErrorCompensatingWrite). On the server, you can see more
+      details about how the write was denied was by a write filter in the role.
+    - To learn more about configuring permissions for your app, see
+      :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide` in the
+      App Services documentation.
 
 .. warning:: Multiprocess Sync is Not Supported
 
@@ -42,40 +41,35 @@ of the following:
 Determining What Data Syncs
 ---------------------------
 
-The data that you can write to a synced realm is the intersection of your 
-Device Sync configuration - your queryable fields and permissions - and the
-Flexible Sync subscription query that you use when you open the realm.
+The data that you can write to a synced realm is the intersection of your Device
+Sync configuration, your permissions, and the Flexible Sync subscription query
+that you use when you open the realm.
 
 The examples on this page use the following configurations and models:
 
-Device Sync Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~
+App Services Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Device Sync is configured with the following queryable fields:
 
-- ``_id`` (this is a queryable field in every Device Sync configuration)
-- ``ownerId``
+- ``_id`` (always included)
 - ``complexity``
+- ``ownerId``
 
-Device Sync has permissions configured to let users read and write only their own
+The App Services App has permissions configured to let users read and write only their own
 data:
 
 .. code-block:: json
 
    {
-     "rules": {},
-     "defaultRoles": [
-       {
-         "name": "owner-read-write",
-         "applyWhen": {},
-         "read": {
-           "ownerId": "%%user.id"
-         },
-         "write": {
-           "ownerId": "%%user.id"
-         }
-       }
-     ]
+     "name": "owner-read-write", 
+     "apply_when": {},
+     "document_filters": {
+       "read": { "ownerId": "%%user.id" },
+       "write": { "ownerId": "%%user.id" }
+     },
+     "read": true,
+     "write": true
    }
 
 Client Data Model and Configuration
@@ -96,8 +90,8 @@ is less than or equal to ``4``:
 What Data Syncs?
 ~~~~~~~~~~~~~~~~
 
-The subscription query combined with the Device Sync permissions mean
-that the synced realm only syncs objects where:
+The subscription query combined with the permissions mean that the synced realm
+only syncs objects where:
 
 - The ``ownerId`` matches the ``user.id`` of the logged-in user (from the permissions)
 - The ``complexity`` property's value is less than or equal to ``4`` (from the subscription query)
@@ -124,11 +118,11 @@ Writes to Flexible Sync realms may broadly fall into one of two categories:
 Successful Writes
 ~~~~~~~~~~~~~~~~~
 
-When the write matches both the :ref:`Device Sync permissions <sync-rules>` 
-and the :ref:`Flexible Sync subscription query 
-<swift-manage-flexible-sync-subscriptions>` in the client, the Realm Swift SDK 
-can successfully write the object to the synced realm. This object syncs 
-with the App Services backend when the device has a network connection.
+When the write matches both the :ref:`permissions <permissions>` and the
+:ref:`Flexible Sync subscription query
+<swift-manage-flexible-sync-subscriptions>` in the client, the Realm Swift SDK
+can successfully write the object to the synced realm. This object syncs with
+the App Services backend when the device has a network connection.
 
 .. literalinclude:: /examples/generated/code/start/SyncedRealmCRUD.snippet.successful-write.swift
    :language: swift
@@ -144,9 +138,9 @@ the database syncs to the backend, Realm reverts the write in a non-fatal
 error operation called a compensating write. Compensating writes can occur
 when:
 
-- **Writes that don't match the query subscription**: The written object matches 
+- **Writes don't match the query subscription**: The written object matches 
   the user's permissions, but does not match the query subscription. 
-- **Writes that don't match permissions**: The written object matches the query
+- **Writes don't match permissions**: The written object matches the query
   subscription, but does not match the user's permissions.
 
 In more detail, when you write data that is outside the bounds of a query
@@ -158,7 +152,7 @@ subscription or does not match the user's permissions, the following occurs:
 #. Upon sync, the server applies the rules and permissions.
    The server determines that the user does not have authorization to perform the write.
 #. The server sends a revert operation, called a "compensating write", back to the client.
-#. The client's realm reverts the illegal write operation by deleting the illegal object from the realm.
+#. The client's realm reverts the illegal write operation.
 
 Any client-side writes to a given object between an illegal write to that object
 and the corresponding compensating write will be lost.
@@ -169,6 +163,60 @@ the client.
 
 To learn more about permission denied errors, compensating write errors
 and other Device Sync error types, refer to :ref:`sync-errors` in the App Services documentation.
+
+The :ref:`App Services logs <logs-sync>` contain more information about 
+why a compensating write error occurs.
+
+Compensating Write Error Information
+````````````````````````````````````
+
+.. versionadded:: 10.37.0
+
+You can get additional information in the client about why a compensating 
+write occurs. The Swift SDK exposes a :swift-sdk:`compensatingWriteInfo 
+<Typealiases.html#/s:10RealmSwift21CompensatingWriteInfoa>` field on a 
+SyncError whose code is ``.writeRejected``. You can access this information
+through the :ref:`Sync error handler <swift-sync-error-handler>`. 
+
+This field contains an array of :objc-sdk:`RLMCompensatingWriteInfo 
+<Classes/RLMCompensatingWriteInfo.html>` objects, which provide:
+
+- The ``objectType`` of the object the client attempted to write
+- The ``primaryKey`` of the specific object
+- The ``reason`` for the compensating write error
+
+This information is the same information you can find in the App Services logs.
+It is exposed on the client for convenience and debugging purposes.
+
+.. example::
+
+   This error handler shows an example of how you might log information 
+   about compensating write errors:
+
+   .. literalinclude:: /examples/generated/code/start/Errors.snippet.access-compensating-write.swift
+      :language: swift
+
+   The example error handler above produces this output when a compensating
+   write error occurs:
+
+   .. code-block:: console
+
+      A write was rejected with a compensating write error
+      The write to object type: Optional("Item") 
+      With primary key of: objectId(641382026852d9220b2e2bbf) 
+      Was rejected because: Optional("write to \"641382026852d9220b2e2bbf\" in table \"Item\" not 
+      allowed; object is outside of the current query view")
+
+   - The ``Optional("Item")`` in this message is an ``Item`` object used in the 
+     :github:`Swift Template App <mongodb/template-app-swiftui-todo>`.
+   - The primary key is the ``objectId`` of the specific object the client 
+     attempted to write. 
+   - The ``table \"Item"\`` refers to the Atlas collection where this object
+     would sync.
+   - The reason ``object is outside of the current query view`` in this example
+     is because the query subscription was set to require the object's ``isComplete``
+     property to be ``true``, and the client attempted to write an object where
+     this property was ``false``.
 
 .. _swift-writes-outside-subscription:
 
@@ -189,8 +237,7 @@ If you want to write an object that does not match the query subscription,
 you must open a different realm where the object matches the query 
 subscription. Alternately, you could write the object to a :ref:`non-synced 
 realm <swift-synced-realms-vs-non-synced-realms>` that does not enforce 
-permissions or subscription queries. There is no way to write an object 
-to a Flexible Sync realm that does not match the query subscription.
+permissions or subscription queries.
 
 Code Example
 ++++++++++++
@@ -276,6 +323,11 @@ that the the object does not match the user's role:
        \"owner-read-write\""
    }
 
+Group Writes for Improved Performance
+-------------------------------------
+
+.. include:: /includes/sync-memory-performance.rst
+
 .. _multiprocess-sync-not-supported:
 
 Don't Write to a Synced Realm in an App Extension
@@ -329,7 +381,7 @@ Atlas:
 
 - Query Atlas with the :ref:`Realm Swift SDK MongoClient <ios-mongodb-data-access>`
 - Pass data to an :ref:`App Services Function <ios-call-a-function>` 
-- Make HTTPS calls with the :ref:`Data API <data-api>` or :ref:`GraphQL API <graphql-api>`
+- Make HTTPS calls with the :ref:`Data API <data-api>`
 
 Then, any device that has a network connection is always getting the most 
 up-to-date information, without waiting for the user to open your main app 

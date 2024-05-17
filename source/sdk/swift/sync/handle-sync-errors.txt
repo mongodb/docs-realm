@@ -11,6 +11,8 @@ Handle Sync Errors - Swift SDK
    :depth: 2
    :class: singlecol
 
+.. _swift-sync-error-handler:
+
 Handle Sync Errors
 ------------------
 
@@ -34,7 +36,7 @@ API calls.
       
       .. note::
    
-         Realm's :swift-sdk:`SyncError <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>` conforms to :apple:`Swift's Error protocol <documentation/swift/error>`
+         Realm's :swift-sdk:`SyncError <Typealiases.html#/s:10RealmSwift9SyncErrora>` conforms to :apple:`Swift's Error protocol <documentation/swift/error>`
 
       .. literalinclude:: /examples/generated/code/start/Errors.snippet.create-error-handler.swift
          :language: swift
@@ -56,6 +58,11 @@ API calls.
 
       .. literalinclude:: /examples/generated/code/start/Errors.snippet.create-error-handler.m
          :language: objectivec
+
+.. seealso::
+
+   For information about setting a client log level, or customizing the logger,
+   see :ref:`swift-set-client-log-level`.
 
 .. _ios-client-resets:
 .. _ios-client-reset:
@@ -151,7 +158,7 @@ Handle Schema Changes
 
 :ref:`Client Recovery <enable-or-disable-recovery-mode>` is a feature that is
 enabled by default when you :ref:`configure Device Sync <enable-sync>`. When 
-Client Recovery is enabled, Realm Database can automatically manage the 
+Client Recovery is enabled, Realm can automatically manage the 
 client reset process in most cases. When you make schema changes:
 
 - The client can :ref:`recover unsynced changes <ios-recover-unsynced-changes>` 
@@ -237,7 +244,7 @@ in the :swift-sdk:`SyncConfiguration <Structs/SyncConfiguration.html>` to
 
 .. note:: Discard with Recovery
 
-   If you'd like to attempt to recover unsynced changes, but but discard 
+   If you'd like to attempt to recover unsynced changes, but discard 
    any changes that cannot be recovered, refer to the 
    ``.recoverOrDiscardUnsyncedChanges`` documentation in :ref:`Recover 
    Unsynced Changes <ios-recover-unsynced-changes>`.
@@ -309,3 +316,10 @@ manual error handler. This may occur in any of these automatic client reset mode
 
       .. literalinclude:: /examples/generated/code/start/Errors.snippet.client-reset.m
          :language: objectivec
+
+.. _swift-test-client-reset-handling:
+
+Test Client Reset Handling
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/test-client-reset.rst

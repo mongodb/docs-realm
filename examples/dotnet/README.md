@@ -96,7 +96,7 @@ Total tests: 18
 # The Testing Backend
 
 You can find the backend MongoDB Realm App used for these tests in the
-CHT organization of Atlas in a project called Realmtest [here](https://realm.mongodb.com/groups/5ed68f962ffddd4c32690cfd/apps/5f5fe0a7991e260dd9941711).
+CHT organization of Atlas in a project called Realmtest [here](https://services.cloud.mongodb.com/groups/5ed68f962ffddd4c32690cfd/apps/5f5fe0a7991e260dd9941711).
 If you need permissions for tasks like editing schemas or enabling/disabling
 Sync, you can request permissions from the current project owners,
 Caleb Thompson and Nathan Contino.

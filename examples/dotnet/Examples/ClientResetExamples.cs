@@ -17,10 +17,15 @@ namespace Examples
         App app;
         RealmUser user;
 
-        const string myRealmAppId = Config.fsAppId;
-        App fsApp;
-        Realm fsRealm;
-        RealmUser fsUser;
+        const string myRealmAppId = Config.FSAppId;
+        App fsApp = null!;
+        Realm fsRealm = null!;
+        RealmUser fsUser = null!;
+
+        public ClientResetExamples()
+        {
+            fsRealm = Realm.GetInstance();
+        }
 
         [Test]
         public async Task TestDiscardUnsyncedChangesHandler()
@@ -28,7 +33,7 @@ namespace Examples
         {
             // :remove-start:
             app = App.Create(myRealmAppId);
-            user = await app.LogInAsync(Credentials.Anonymous());
+            user = await app.LogInAsync(Credentials.Anonymous(false));
             // :remove-end:
             var config = new FlexibleSyncConfiguration(user);
             config.ClientResetHandler = new DiscardUnsyncedChangesHandler()
@@ -50,12 +55,17 @@ namespace Examples
                     // Automatic reset failed; handle the reset manually here
                 }
             };
-
-            //:remove-start:
-            config.Schema = new[] { typeof(User) };
-            //:remove-end:
-            var realm = await Realm.GetInstanceAsync(config);
+            try
+            {
+                var realm = await Realm.GetInstanceAsync(config);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"Error creating or opening the
+                    realm file. {ex.Message}");
+            }
             // :snippet-end:
+            await user.LogOutAsync();
         }
 
         public async Task TestManualClientReset()
@@ -75,14 +85,11 @@ namespace Examples
             //:remove-start:
             fsApp = App.Create(myRealmAppId);
             fsUser = fsApp.LogInAsync(
-                Credentials.EmailPassword("caleb@example.com", "foobar")).Result;
+                Credentials.EmailPassword(Config.Username, Config.Password)).Result;
             //:remove-end:
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
             fsConfig.ClientResetHandler =
                 new ManualRecoveryHandler(HandleClientResetError);
-            //:remove-start:
-            fsConfig.Schema = new[] { typeof(User) };
-            //:remove-end:
             var fsrealm = await Realm.GetInstanceAsync(fsConfig);
         }
 

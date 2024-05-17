@@ -20,7 +20,7 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId Id { get; set; }
         public string Name { get; set; }
-        public Address10 Address { get; set; } // embed a single address 
+        public Address10? Address { get; set; } // embed a single address
     }
 
 
@@ -43,35 +43,27 @@ namespace Examples.Models
         //[NotPrimaryKey]
         public string Name { get; set; }
         public int Age { get; set; }
-        public Person_Required Owner { get; set; }
+        public Person_Required? Owner { get; set; }
     }
     //:replace-end:
     // :snippet-end:
 
-    // :snippet-start: required
-    // :replace-start: {
-    //  "terms": {
-    //      "Person_Required": "Person",
-    //      "Dog_OMAS": "Dog"}
-    // }
     public partial class Person_Required : IRealmObject
     {
-        //:remove-start:
+
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:remove-end:
-        [Required]
+
         public string Name { get; set; }
         public IList<Dog_OMAS> Dogs { get; }
     }
-    //:replace-end:
-    // :snippet-end:
 
     // :snippet-start: default
     // :replace-start: {
     //  "terms": {
-    //      "PersonB": "Person" }
+    //      "PersonB": "Person",
+    //      "Person_Required": "PhoneNumber"}
     // }
     public partial class PersonB : IRealmObject
     {
@@ -81,6 +73,8 @@ namespace Examples.Models
         public ObjectId ID { get; set; }
         //:remove-end:
         public string Name { get; set; } = "foo";
+
+        public IList<Person_Required> PhoneNumbers { get; } = null!;
     }
     // :replace-end:
     // :snippet-end:
@@ -98,13 +92,14 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId ID { get; set; }
         //:remove-end:
-        [Indexed]
+        [Indexed(IndexType.General)]
         public string Name { get; set; }
-        public IList<Dog_OMAS> Dogs { get; }
+
+        [Indexed(IndexType.FullText)]
+        public string Biography { get; set; }
     }
     // :replace-end:
     // :snippet-end:
-
 
     public partial class Dog_Rel_One_to_One : IRealmObject
     {
@@ -114,7 +109,7 @@ namespace Examples.Models
         public ObjectId ID { get; set; }
         //:remove-end:
         // ... other property declarations
-        public Person_Rel_One_to_One Owner { get; set; }
+        public Person_Rel_One_to_One? Owner { get; set; }
     }
 
     public partial class Person_Rel_One_to_One : IRealmObject
@@ -146,7 +141,7 @@ namespace Examples.Models
         // ... other property declarations
         public IList<Dog_Rel_One_to_Many> Dogs { get; }
     }
-    
+
     partial class Dog_Inverse : IRealmObject
     {
         //:remove-start:
@@ -155,7 +150,7 @@ namespace Examples.Models
         public ObjectId ID { get; set; }
         //:remove-end:
         // To-one relationship from the Dog to its owner
-        public Person_Inverse Owner { get; set; }
+        public Person_Inverse? Owner { get; set; }
     }
 
     partial class Person_Inverse : IRealmObject
@@ -200,7 +195,7 @@ namespace Examples.Models
         // ...and the Image itself can be
         // in-memory when the app is running:
         [Ignored]
-        public Image Thumbnail { get; set; }
+        public Image? Thumbnail { get; set; }
         // :snippet-end:
     }
     // :snippet-start: rename

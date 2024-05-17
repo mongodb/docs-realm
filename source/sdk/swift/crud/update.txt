@@ -15,8 +15,7 @@ Update Realm Objects
 --------------------
 
 Updates to Realm Objects must occur within write transactions. For
-more information about write trasactions, see: :ref:`Key Concept: 
-Transactions <ios-write-transactions>`.
+more information about write transactions, see: :ref:`Transactions <ios-write-transactions>`.
 
 About The Examples On This Page
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -225,6 +224,30 @@ of a party to a new instance in a write transaction.
 
       .. literalinclude:: /examples/EmbeddedObjects/ReplaceEmbeddedObject.m
          :language: objectivec
+
+.. _swift-update-object-async:
+
+Update an Object Asynchronously
+-------------------------------
+
+You can use Swift concurrency features to asynchronously update objects 
+using an actor-isolated realm. 
+
+This function from the example ``RealmActor`` :ref:`defined on the 
+Use Realm with Actors page <swift-define-realm-actor>` shows how you might
+update an object in an actor-isolated realm:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.update-async.swift
+   :language: swift
+
+And you might perform this update using Swift's async syntax:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.update-object.swift
+   :language: swift
+
+This operation does not block or perform I/O on the calling thread. For
+more information about writing to realm using Swift concurrency features, 
+refer to :ref:`swift-actor-isolated-realm`.
 
 Update Properties through Class Projections
 -------------------------------------------

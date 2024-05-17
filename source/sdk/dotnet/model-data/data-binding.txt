@@ -10,8 +10,9 @@ Data Binding - .NET SDK
    :depth: 2
    :class: singlecol
 
-In Xamarin and MAUI applications, data binding enables UI updates when an 
-underlying object or collection changes, and vice versa.
+In .NET applications built with Xamarin, MAUI, Avalonia UI and other MVVM-based 
+frameworks, data binding enables UI updates when an underlying object or 
+collection changes and vice versa.
 
 Realm objects and collections are :ref:`live <dotnet-live-object>` and update 
 automatically to reflect data changes. This is because 
@@ -94,3 +95,41 @@ The XAML implementation is similar to the example above:
 
 .. literalinclude:: /examples/generated/dotnet/MainPage.snippet.bind-embedded-xaml.xaml
    :language: xml
+
+.. _mvvm_data_binding:
+
+Data Binding and MVVM
+---------------------
+When building a .NET app using the 
+`MVVM <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm>`_ 
+pattern, you often want proper data binding *in both directions* between the 
+View and ViewModel: if a property value changes in the UI, the ViewModel should 
+be notified, and vice-versa. ViewModels typically implement 
+the `INotifyPropertyChange <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0>`_ 
+interface to ensure this. 
+
+However, when you bind UI elements to a :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
+this notification happens automatically, thus greatly simplifying your ViewModel code. 
+
+You can also bind a UI element to a realm :ref:`Live Query <dotnet-live-queries>`. 
+For example, if you bind a 
+`ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
+to a live query, then the list will update automatically when the results of the 
+query change; you do not need to implement the ``INotifyPropertyChange`` 
+interface.
+
+For example, if you bind a ListView to a query that returns all Product 
+objects, the list of available products updates automatically 
+when a product is added, changed, or removed from the realm:
+
+.. code-block:: csharp
+   :copyable: false
+
+   // Somewhere in your ViewModel
+   AllProducts = realm.All<Products>();
+
+.. code-block:: xaml
+   :copyable: false
+   
+   <!-- Somewhere in your View -->
+   <ListView ItemsSource="{Binding AllProducts}">

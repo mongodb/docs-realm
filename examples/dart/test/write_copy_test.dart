@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'utils.dart';
 import 'dart:math';
-part 'write_copy_test.g.dart';
+part 'write_copy_test.realm.dart';
 
 @RealmModel()
 class _Person {

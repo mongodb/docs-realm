@@ -36,6 +36,8 @@ objects or results.
 .. literalinclude:: /examples/generated/swiftui/PassObjectsToView.snippet.implicitly-open-realm.swift
    :language: swift
 
+.. include:: /includes/note-observedresults-swiftui-view.rst
+
 When you do not specify a configuration, these property wrappers use the 
 :swift-sdk:`defaultConfiguration <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>`. 
 You can :ref:`set the defaultConfiguration <ios-default-and-file-url-realm>`
@@ -71,6 +73,8 @@ must be online:
   connection, use the :ref:`@AutoOpen <swiftui-auto-open-synced-realm>` 
   property wrapper. This property wrapper enables developers to design 
   offline-first capabilities into their apps.
+
+.. include:: /includes/tip-swift-migrate-to-flexible-sync.rst
 
 .. _swiftui-async-open-synced-realm:
 
@@ -124,7 +128,7 @@ ensures the user is never using the app with stale data.
       To open a realm with :ref:`Partition-Based Sync <partition-based-sync>`, 
       add a ``partitionValue`` to the property wrapper:
 
-      .. literalinclude:: /examples/generated/swiftui/OpenRealm.snippet.pbs-property-wrapper.swift
+      .. literalinclude:: /examples/generated/swiftui/OpenRealm.snippet.pbs-async-open-property-wrapper.swift
          :language: swift
 
 This SwiftUI property wrapper initiates ``Realm.asyncOpen()`` for the current 
@@ -151,7 +155,7 @@ which you can use to update the view.
       .. tab:: Partition-Based Sync
          :tabid: pbs
 
-         .. literalinclude:: /examples/generated/swiftui/OpenRealm.snippet.auto-open-synced-realm.swift
+         .. literalinclude:: /examples/generated/swiftui/OpenRealm.snippet.async-open-synced-realm.swift
             :language: swift
 
 .. _swiftui-auto-open-synced-realm:

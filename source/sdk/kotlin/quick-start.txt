@@ -11,19 +11,19 @@ Quick Start - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-This page contains information to quickly use Realm Database with the Kotlin
+This page contains information to quickly use Realm with the Kotlin
 SDK. The optional :ref:`Add Device Sync <kotlin-client-quick-start-add-device-sync>` section
 illustrates how to get Atlas Device Sync integrated into your application.
 
 Before you begin, ensure you have installed
 the Kotlin SDK for your platform. 
 
-- :ref:`Install for Kotlin Multiplatform <kotlin-install-kotlin-multiplatform>`
+- :ref:`Install for Kotlin Multiplatform (KMP) <kotlin-install-kotlin-multiplatform>`
 - :ref:`Install for Android <kotlin-install-android>`
 
-.. note:: Using this Quick Start with KMM 
+.. note:: Using this Quick Start with KMP  
 
-   If you're running this project in a fresh KMM template project, you can
+   If you're running this project in a fresh Kotlin Multiplatform (KMP) template project, you can
    copy and paste the following snippets into the :file:`Greeting.greeting()` method in the
    :file:`commonMain` module.
 
@@ -31,7 +31,7 @@ Define Your Object Model
 ------------------------
 
 Your application's **data model** defines the structure of data
-stored within Realm Database.
+stored within Realm.
 You can define your application's data model via Kotlin
 classes in your application code with
 :ref:`Realm Object Models <kotlin-define-object-model>`.
@@ -40,7 +40,7 @@ To define your application's data model, add a class definition to your
 application code. The example below illustrates the creation of an 'Item' model
 that represents Todo items in a Todo list app.
 
-.. literalinclude:: /examples/generated/kotlin/RealmModels.snippet.quick-start-model.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-model.kt
    :language: kotlin
    :copyable: false
 
@@ -92,7 +92,7 @@ of objects:
    :language: kotlin
    :copyable: false
 
-Find more information about string Realm Database queries in :ref:`Filter Data <kotlin-filter-data>`.
+Find more information about string Realm queries in :ref:`Filter Data <kotlin-filter-data>`.
 
 To modify a Todo item, update its properties in a write transaction block:
 
@@ -215,7 +215,7 @@ Next: Check out the Template Apps and Tutorial
 
 Check out the :ref:`template app <template-apps>` to experiment with another quick way to start coding with the Realm Kotlin SDK. The
 Kotlin SDK template, labeled ``android.kotlin.todo.flex``, is a premade
-application that integrates Realm Database and Atlas Device Sync into a
+application that integrates Realm and Atlas Device Sync into a
 customizable android app.
 
 Alternatively, if you are interested in a guided experience, you can read our

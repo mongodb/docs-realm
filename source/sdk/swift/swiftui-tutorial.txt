@@ -1,9 +1,17 @@
 .. _ios-swiftui-combine-quick-start:
 .. _ios-swiftui-quick-start:
 
-======================================
-Realm Database with SwiftUI QuickStart
-======================================
+=============================
+Realm with SwiftUI QuickStart
+=============================
+
+.. meta:: 
+   :description: Learn how to use Atlas Device SDK with SwiftUI property wrappers. 
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
 
 .. contents:: On this page
    :local:
@@ -22,7 +30,7 @@ Prerequisites
 Overview
 --------
 
-.. seealso:: Use Realm Database with SwiftUI
+.. seealso:: Use Realm with SwiftUI
 
    This page provides a small working app to get you up and running with
    Realm and SwiftUI quickly. If you'd like to see additional examples,
@@ -30,19 +38,22 @@ Overview
    :ref:`<ios-swiftui-examples>`.
 
 This page contains all of the code for a working Realm and SwiftUI app.
-The app starts on the **ItemsView**, where you can edit a list of items:
+The app starts on the ``ItemsView``, where you can edit a list of items:
 
-- Press the :guilabel:`Add` button on the bottom right of the screen to add randomly-generated items.
-- Press the :guilabel:`Edit` button on the top right to modify the list order, which the app persists in the realm.
+- Press the ``Add`` button on the bottom right of the screen to add 
+  randomly-generated items.
+- Press the ``Edit`` button on the top right to modify the list order, 
+  which the app persists in the realm.
 - You can also swipe to delete items.
 
 When you have items in the list, you can press one of the items to
-navigate to the **ItemDetailsView**. This is where you can modify the
+navigate to the ``ItemDetailsView``. This is where you can modify the
 item name or mark it as a favorite:
 
 - Press the text field in the center of the screen and type a new name.
   When you press Return, the item name should update across the app.
-- You can also toggle its favorite status by pressing the heart toggle in the top right.
+- You can also toggle its favorite status by pressing the heart toggle in the 
+  top right.
 
 .. tip::
 
@@ -77,7 +88,8 @@ and itemGroup.
 An item has two user-facing properties:
 
 - A randomly generated-name, which the user can edit.
-- An ``isFavorite`` boolean property, which shows whether the user "favorited" the item.
+- An ``isFavorite`` boolean property, which shows whether the user "favorited" 
+  the item.
 
 An itemGroup contains items. You can extend the itemGroup to have a name and an
 association with a specific user, but that's out of scope of this guide.
@@ -94,9 +106,9 @@ only want to use a local realm.
 Views and Observed Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The entrypoint of the app is the **ContentView** class that derives from
+The entrypoint of the app is the ``ContentView`` class that derives from
 ``SwiftUI.App``. For now, this always displays the
-**LocalOnlyContentView**. Later, this will show the **SyncContentView**
+``LocalOnlyContentView``. Later, this will show the ``SyncContentView``
 when Device Sync is enabled.
 
 .. literalinclude:: /examples/generated/swiftui/local/SwiftUIFlexSyncExampleApp.snippet.content-view.swift
@@ -117,7 +129,7 @@ The LocalOnlyContentView has an :swift-sdk:`@ObservedResults
 realm to load all itemGroups when the view appears.
 
 This app only expects there to ever be one itemGroup. If there is an itemGroup 
-in the realm, the LocalOnlyContentView renders an **ItemsView** for
+in the realm, the LocalOnlyContentView renders an ``ItemsView`` for
 that itemGroup.
 
 If there is no itemGroup already in the realm, then the
@@ -145,7 +157,7 @@ property. This allows the ItemsView to "know" when the object has
 changed regardless of where that change happened.
 
 The ItemsView iterates over the itemGroup's items and passes each item to an
-**ItemRow** for rendering as a list. 
+``ItemRow`` for rendering as a list. 
 
 To define what happens when a user deletes or moves a row, we pass the
 ``remove`` and ``move`` methods of the Realm
@@ -158,7 +170,7 @@ automatically opens a write transaction as needed.
 .. literalinclude:: /examples/generated/swiftui/local/SwiftUIFlexSyncExampleApp.snippet.items-view.swift
    :language: swift
 
-Finally, the **ItemRow** and **ItemDetailsView** classes use the
+Finally, the ``ItemRow`` and ``ItemDetailsView`` classes use the
 ``@ObservedRealmObject`` property wrapper with the item passed in from
 above. These classes demonstrate a few more examples of how to use the
 property wrapper to display and update properties.
@@ -173,7 +185,7 @@ property wrapper to display and update properties.
    directly in a write transaction, you must ``.thaw()`` it first.
 
 At this point, you have everything you need to work with
-Realm Database and SwiftUI. Test it out and see if everything is
+Realm and SwiftUI. Test it out and see if everything is
 working as expected. Read on to learn how to integrate this app with
 Device Sync.
 
@@ -182,7 +194,7 @@ Device Sync.
 Integrate Atlas Device Sync
 ---------------------------
 
-Now that we have a working Realm Database app, we can optionally
+Now that we have a working Realm app, we can optionally
 integrate with Device Sync. Sync allows you to you see the changes you make
 across devices. Before you can add sync to this app, make sure to:
 
@@ -194,32 +206,24 @@ across devices. Before you can add sync to this app, make sure to:
   #. Specify a cluster and database.
   #. Turn on Development Mode.
   #. Use ``ownerId`` as the queryable field.
-  #. Use these permissions:
+  #. Enable Sync.
 
-     .. code-block:: json
+- :ref:`Define the rules <define-roles-and-permissions>` that determine which 
+  permissions users have when using Device Sync. For this example, we assign 
+  a default role, which applies to any collection that does not have a 
+  collection-specific role. In this example, a user can read and write data 
+  where the ``user.id`` of the logged-in user matches the ``ownerId`` of the 
+  object:
 
-        {
-          "rules": {},
-          "defaultRoles": [
-            {
-              "name": "owner-read-write",
-              "applyWhen": {},
-              "read": {
-                "ownerId": "%%user.id"
-              },
-              "write": {
-                "ownerId": "%%user.id"
-              }
-            }
-          ]
-        }
+  .. literalinclude:: /includes/swiftui-tutorial-default-role.json
+     :language: json
 
-  #. Enable Sync, and deploy your application updates.
+Now, deploy your application updates.
 
 .. tip::
 
    The Sync version of this app changes the app flow a bit. The first
-   screen becomes the **LoginView**. When you press the :guilabel:`Log
+   screen becomes the ``LoginView``. When you press the :guilabel:`Log
    in` button, the app navigates to the ItemsView, where you see the
    synced list of items in a single itemGroup.
 
@@ -235,7 +239,7 @@ app <Extensions/App.html>` with :ref:`your App ID
    You can change the app reference to ``nil`` to switch back to
    local-only (non-Device Sync) mode.
 
-Let's update the main ContentView to show the **SyncContentView** if the
+Let's update the main ContentView to show the ``SyncContentView`` if the
 app reference is not ``nil``:
 
 .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.content-view.swift
@@ -250,8 +254,8 @@ SyncContentView can react when a user logs in or out.
 
 This view has two possible states:
 
-- If the Realm app does not have a currently logged-in user, show the **LoginView**.
-- If the app does have a logged-in user, show the **OpenSyncedRealmView**.
+- If the Realm app does not have a currently logged-in user, show the ``LoginView``.
+- If the app does have a logged-in user, show the ``OpenSyncedRealmView``.
 
 In this view, after confirming we have a user, we create a 
 :swift-sdk:`flexibleSyncConfiguration() 
@@ -328,7 +332,7 @@ This view has a few different states:
   progress indicator.
 - When the realm opens, check for an itemGroup object. If one does not exist 
   yet, create one. Then, show the ItemsView for the itemGroup in the realm. 
-  Provide a **LogoutButton** that the ItemsView can display on the top left 
+  Provide a ``LogoutButton`` that the ItemsView can display on the top left 
   of the navigation bar.
 - If there is an error loading the realm, show an error view containing
   the error.

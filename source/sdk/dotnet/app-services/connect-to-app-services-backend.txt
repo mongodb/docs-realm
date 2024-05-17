@@ -33,8 +33,9 @@ Pass the App ID for your App, which you can
 Configuration
 -------------
 
-For granular control of your app connection, such as custom timeouts for connections
-and the log level, you can pass an 
+For most use cases, you only need your application's App ID to connect
+to App Services. For granular control of your app connection, such as 
+custom timeouts for connections and the log level, you can optionally pass an 
 :dotnet-sdk:`AppConfiguration <reference/Realms.Sync.AppConfiguration.html>` 
 object to the 
 :dotnet-sdk:`App.Create() <reference/Realms.Sync.App.html#Realms_Sync_App_Create_Realms_Sync_AppConfiguration_>` 
@@ -43,7 +44,22 @@ method. The following example sets the LogLevel and the request timeout:
 .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.appConfig.cs
    :language: csharp
 
-.. note::
+You can create multiple App client instances to connect to multiple
+Apps. All App client instances that share the same App ID use the same 
+underlying connection.
 
-   For most use cases, you only need your application's App ID to connect
-   to Realm. The other settings demonstrated here are optional.
+.. important:: Changing an App Config After Initializing the App
+
+   .. versionchanged:: v11.7.0
+      ``BaseUri`` is not cached in the App configuration
+   
+   When you initialize the App client, the configuration is cached internally. 
+   Attempting to close and then re-open an App with a changed configuration
+   within the same process has no effect. The client continues to use the 
+   cached configuration. 
+
+   In .NET SDK version 11.7.0 and later, the :dotnet-sdk:`BaseUri <reference/Realms.Sync.AppConfiguration.html#Realms_Sync_AppConfiguration_BaseUri>` 
+   is *no longer* cached in the App configuration. This means that you can change the 
+   ``BaseUri``, and the App client will use the updated configuration. In 
+   earlier SDK versions, changes to the ``BaseUri`` in a cached App 
+   configuration have no effect.

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
@@ -181,8 +182,8 @@ void main() {
     });
 
     group('Password reset', () {
-      test("Call a password reset function", () async {
-        // :snippet-start: password-reset-function
+      test("Call a password reset function - expect success", () async {
+        // :snippet-start: password-reset-function-success
         // The password reset function takes any number of
         // arguments. You might ask the user to provide answers to
         // security questions, for example, to verify the user
@@ -197,6 +198,29 @@ void main() {
         await authProvider.callResetPasswordFunction(
             "lisa@example.com", "n3wSt0ngP4ssw0rd!",
             functionArgs: args);
+        // :snippet-end:
+      });
+      test("Call a password reset function - expect pending", () async {
+        // :snippet-start: password-reset-function-pending
+        // The password reset function takes any number of
+        // arguments.
+        final args = [];
+
+        EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+        await authProvider.callResetPasswordFunction(
+            "lisa@example.com", "n3wSt0ngP4ssw0rd!",
+            functionArgs: args);
+
+        // ... Later...
+
+        // Token and tokenId are parameters you can access
+        // in the App Services function context. You could send
+        // this to the user via email, SMS, or some other method.
+        final token = "someToken";
+        final tokenId = "someTokenId";
+
+        await authProvider.completeResetPassword(
+            "n3wSt0ngP4ssw0rd!", token, tokenId);
         // :snippet-end:
       });
       test("Send a password reset email", () async {
@@ -301,7 +325,7 @@ void main() {
       // :snippet-start: list-all-users
       final users = app.users;
       // :snippet-end:
-      expect(users.length, 4);
+      expect(users.length, 3);
     });
     test('Change the active user', () async {
       final otherUser = lisa;
@@ -432,5 +456,29 @@ void main() {
     print(emailAddress); // prints 'lisa@example.com'
     // :snippet-end:
     expect(emailAddress, 'lisa@example.com');
+  });
+
+  test('Listen for user state changes', () async {
+    final user = await app.logIn(
+        Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
+
+    expect(user.state, UserState.loggedIn);
+
+    final completer = Completer<UserChanges>();
+    // :snippet-start: user-change-listener
+    final userSubscription = user.changes.listen((changes) {
+      changes.user; // the User being listened to
+      completer.complete(changes); // :remove:
+    });
+    // :snippet-end:
+
+    await user.logOut();
+    expect(user.state, UserState.loggedOut);
+
+    final changeEvent = await completer.future.timeout(Duration(seconds: 15));
+    expect(changeEvent.user, user);
+    expect(changeEvent.user.state, UserState.loggedOut);
+
+    await userSubscription.cancel();
   });
 }

@@ -1,12 +1,14 @@
 package com.mongodb.realm.realmkmmapp
-
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.notifications.DeletedList
 import io.realm.kotlin.notifications.DeletedObject
+import io.realm.kotlin.notifications.InitialList
+import io.realm.kotlin.notifications.InitialObject
 import io.realm.kotlin.notifications.ListChange
+import io.realm.kotlin.notifications.PendingObject
 import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.notifications.SingleQueryChange
 import io.realm.kotlin.notifications.UpdatedList
@@ -18,7 +20,11 @@ import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class NotificationsTest: RealmTest() {
     // :snippet-start: sample-data-models
@@ -156,11 +162,16 @@ class NotificationsTest: RealmTest() {
                             // if the object has been deleted
                             changes.obj // returns null for deleted objects -- always reflects newest state
                         }
-                        else -> {
-                            throw Exception("Some Error Occurred")
+                        is InitialObject -> {
+                            // Initial event observed on a RealmObject or EmbeddedRealmObject flow.
+                            // It contains a reference to the starting object state.
+                            changes.obj
+                        }
+                        is PendingObject -> {
+                            // Describes the initial state where a query result does not contain any elements.
+                            changes.obj
                         }
                     }
-
                 }
             }
             // :snippet-end:
@@ -201,10 +212,11 @@ class NotificationsTest: RealmTest() {
                         is DeletedList -> {
                             // if the list was deleted
                         }
-                        else -> {
-                            throw Exception("Some Error Occurred")
+                        is InitialList -> {
+                            // Initial event observed on a RealmList flow. It contains a reference
+                            // to the starting list state.
+                            changes.list
                         }
-
                     }
                 }
             }
@@ -241,5 +253,187 @@ class NotificationsTest: RealmTest() {
 
             realm.close()
         }
+    }
+
+    @Test
+    fun keyPathChangeListenerTest() {
+        val REALM_NAME = getRandom()
+        val channel = Channel<SingleQueryChange<Character>>(1)
+        val config = RealmConfiguration.Builder(setOf(Fellowship::class, Character::class))
+                .directory("/tmp/")
+                .name(REALM_NAME)
+                .build()
+        val realm = Realm.open(config)
+        Log.v("Successfully opened realm: ${realm.configuration.name}")
+        // :snippet-start: realm-object-keypath-listener
+        runBlocking {
+            // Query for the specific object you intend to listen to.
+            val frodoQuery = realm.query(Character::class, "name == 'Frodo'").first()
+            val observer = async {
+                val frodoFlow = frodoQuery.asFlow(listOf("age"))
+                frodoFlow.collect { changes: SingleQueryChange<Character> ->
+                    // Change listener stuff in here.
+                    channel.send(changes) // :remove:
+                }
+            }
+            // :remove-start:
+            channel.receiveOrFail().let { objChange ->
+                assertIs<PendingObject<*>>(objChange)
+            }
+            val frodoObject = realm.writeBlocking {
+                copyToRealm(Character("Frodo", "Hobbit", 51))
+            }
+            channel.receiveOrFail().let { objChange ->
+                assertIs<InitialObject<*>>(objChange)
+            }
+            // :remove-end:
+            // Changing a property whose key path you're not observing does not trigger a notification.
+            realm.writeBlocking {
+                findLatest(frodoObject)!!.species = "Ring Bearer"
+            }
+
+            // Changing a property whose key path you are observing triggers a notification.
+            realm.writeBlocking {
+                findLatest(frodoObject)!!.age = 52
+            }
+            // :remove-start:
+            val updatedFrodoObject = realm.query(Character::class, "name == 'Frodo'").first().find()
+            assertEquals(52, updatedFrodoObject!!.age)
+            // :remove-end:
+            // For this example, we send the object change to a Channel where we can verify the
+            // changes we expect. In your application code, you might use the notification to
+            // update the UI or take some other action based on your business logic.
+            channel.receiveOrFail().let { objChange ->
+                assertIs<UpdatedObject<*>>(objChange)
+                assertEquals(1, objChange.changedFields.size)
+                // Because we are observing only the `age` property, the change to
+                // the `species` property does not trigger a notification.
+                // The first notification we receive is a change to the `age` property.
+                assertEquals("age", objChange.changedFields.first())
+            }
+            observer.cancel()
+            channel.close()
+        }
+        // :snippet-end:
+        realm.close()
+    }
+
+    @Test
+    fun nestedKeyPathChangeListenerTest() {
+        val REALM_NAME = getRandom()
+        seedSampleData(REALM_NAME)
+        val channel = Channel<SingleQueryChange<Fellowship>>(1)
+        val config = RealmConfiguration.Builder(setOf(Fellowship::class, Character::class))
+            .directory("/tmp/")
+            .name(REALM_NAME)
+            .build()
+        val realm = Realm.open(config)
+        Log.v("Successfully opened realm: ${realm.configuration.name}")
+        // :snippet-start: nested-keypath-listener
+        runBlocking {
+            // Query for the specific object you intend to listen to.
+            val fellowshipQuery = realm.query(Fellowship::class).first()
+            val observer = async {
+                val fellowshipFlow = fellowshipQuery.asFlow(listOf("members.age"))
+                fellowshipFlow.collect { changes: SingleQueryChange<Fellowship> ->
+                    // Change listener stuff in here.
+                    channel.send(changes) // :remove:
+                }
+            }
+            // :remove-start:
+            realm.writeBlocking {
+                findLatest(fellowshipQuery.find()!!.members.first())!!.species = "Ring Bearer"
+            }
+            channel.receiveOrFail().let { objChange ->
+                assertIs<InitialObject<*>>(objChange)
+            }
+            // :remove-end:
+
+            // Changing a property whose nested key path you are observing triggers a notification.
+            val fellowship = fellowshipQuery.find()!!
+            realm.writeBlocking {
+                findLatest(fellowship)!!.members[0].age = 52
+            }
+            // :remove-start:
+            val updatedFrodoObject = realm.query(Character::class, "name == 'Frodo'").first().find()
+            assertEquals(52, updatedFrodoObject!!.age)
+            // :remove-end:
+            // For this example, we send the object change to a Channel where we can verify the
+            // changes we expect. In your application code, you might use the notification to
+            // update the UI or take some other action based on your business logic.
+            channel.receiveOrFail().let { objChange ->
+                assertIs<UpdatedObject<*>>(objChange)
+                assertEquals(1, objChange.changedFields.size)
+                // While you can watch for updates to a nested property, the notification
+                // only reports the change on the top-level property. In this case, there
+                // was a change to one of the elements in the `members` property, so `members`
+                // is what the notification reports - not `age`.
+                assertEquals("members", objChange.changedFields.first())
+            }
+            observer.cancel()
+            channel.close()
+        }
+        // :snippet-end:
+        realm.close()
+    }
+
+    @Test
+    fun wildcardKeyPathChangeListenerTest() {
+        val REALM_NAME = getRandom()
+        seedSampleData(REALM_NAME)
+        val channel = Channel<SingleQueryChange<Fellowship>>(1)
+        val config = RealmConfiguration.Builder(setOf(Fellowship::class, Character::class))
+            .directory("/tmp/")
+            .name(REALM_NAME)
+            .build()
+        val realm = Realm.open(config)
+        Log.v("Successfully opened realm: ${realm.configuration.name}")
+        // :snippet-start: wildcard-keypath-listener
+        runBlocking {
+            // Query for the specific object you intend to listen to.
+            val fellowshipQuery = realm.query(Fellowship::class).first()
+            val observer = async {
+                // Use a wildcard to observe changes to any key path at the level of the wildcard.
+                val fellowshipFlow = fellowshipQuery.asFlow(listOf("members.*"))
+                fellowshipFlow.collect { changes: SingleQueryChange<Fellowship> ->
+                    // Change listener stuff in here.
+                    channel.send(changes) // :remove:
+                }
+            }
+            // :remove-start:
+            realm.writeBlocking {
+                findLatest(fellowshipQuery.find()!!.members.first())!!.species = "Ring Bearer"
+            }
+            channel.receiveOrFail().let { objChange ->
+                assertIs<InitialObject<*>>(objChange)
+            }
+            // :remove-end:
+
+            // Changing any property at the level of the key path wild card triggers a notification.
+            val fellowship = fellowshipQuery.find()!!
+            realm.writeBlocking {
+                findLatest(fellowship)!!.members[0].age = 52
+            }
+            // :remove-start:
+            val updatedFrodoObject = realm.query(Character::class, "name == 'Frodo'").first().find()
+            assertEquals(52, updatedFrodoObject!!.age)
+            // :remove-end:
+            // For this example, we send the object change to a Channel where we can verify the
+            // changes we expect. In your application code, you might use the notification to
+            // update the UI or take some other action based on your business logic.
+            channel.receiveOrFail().let { objChange ->
+                assertIs<UpdatedObject<*>>(objChange)
+                assertEquals(1, objChange.changedFields.size)
+                // While you can watch for updates to a nested property, the notification
+                // only reports the change on the top-level property. In this case, there
+                // was a change to one of the elements in the `members` property, so `members`
+                // is what the notification reports - not `age`.
+                assertEquals("members", objChange.changedFields.first())
+            }
+            observer.cancel()
+            channel.close()
+        }
+        // :snippet-end:
+        realm.close()
     }
 }

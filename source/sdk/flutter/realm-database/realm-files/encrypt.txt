@@ -14,7 +14,7 @@ Overview
 --------
 
 You can encrypt your realms to ensure that the data stored to disk can't be
-read outside of your application. You encrypt the realm database file on
+read outside of your application. You encrypt the realm on
 disk with AES-256 + SHA-2 by supplying a 64-byte encryption key when
 :ref:`opening a realm <flutter-open-realm>`.
 
@@ -26,6 +26,17 @@ integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
 
 .. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
+
+.. note:: Encrypt a Realm on Open or Copy Unencrypted Realm
+
+    You must encrypt a realm the first time you open it. 
+    If you try to open an existing unencrypted realm using a configuration
+    that contains an encryption key, Realm throws an error.
+
+    Alternatively, you can copy the unencrypted realm data to a new 
+    encrypted realm using the 
+    :flutter-sdk:`Realm.writeCopy() <realm/Realm/writeCopy.html>` method.
+    Refer to :ref:`<flutter-copy-data-into-new-realm>` for more information.
 
 Considerations
 --------------
@@ -67,7 +78,14 @@ to create a 64-bit key and store that key in a :ref:`user object <user-objects>`
 Accessing an Encrypted Realm from Multiple Processes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/encrypt-mult-processes.rst
+.. versionchanged:: 1.1.0
+
+Starting with Realm Flutter SDK version 1.1.0, Realm supports opening
+the same encrypted realm in multiple processes. 
+
+If your app uses Realm Flutter SDK version 1.1.0 or earlier, attempting to 
+open an encrypted realm from multiple processes throws this error:
+``Encrypted interprocess sharing is currently unsupported.``
 
 Example
 -------

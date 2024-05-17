@@ -31,44 +31,41 @@ simplify this for you.
 
    Throughout this page, we refer to the "main thread" (or "UI thread") and 
    "background threads". To be more accurate, any mention of the main or UI thread 
-   refers to **any thread with a ``SynchronizationContext``**, while those threads 
-   without a SynchronizationContext are considered background threads.
+   refers to any thread with a 
+   `SynchronizationContext <https://learn.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext>`__, 
+   while those threads without a ``SynchronizationContext`` are considered 
+   background threads.
 
 .. _dotnet-threading-three-rules:
 
-Three Rules to Keep in Mind
----------------------------
-
-Realm enables simple and safe multithreaded code when you
-follow these three rules:
+Three Rules to Follow
+---------------------
+Before exploring Realm's tools for multithreaded apps, you need to
+understand and follow these three rules:
 
 Don't lock to read:
-  Realm Database's :ref:`Multiversion Concurrency Control (MVCC)
-  <dotnet-mvcc>` architecture eliminates the need to lock for read operations. The
-  values you read will never be corrupted or in a
-  partially-modified state. You can freely read from realms
-  on any thread without the need for locks or mutexes.
-  Unnecessarily locking would be a performance bottleneck
-  since each thread might need to wait its turn before
-  reading.
+  Realm's :ref:`Multiversion Concurrency Control (MVCC) <dotnet-mvcc>`
+  architecture eliminates the need to lock for read operations. The values you
+  read will never be corrupted or in a partially-modified state. You can freely
+  read from the same Realm file on any thread without the need for locks or
+  mutexes. Unnecessarily locking would be a performance bottleneck since each
+  thread might need to wait its turn before reading.
 
-Avoid synchronous writes on the UI thread if you write on a background thread:
-  You can :ref:`write <dotnet-realm-database-writes>` to a
-  realm from any thread, but there can be only one
-  writer at a time. Consequently, synchronous write transactions block
-  each other. A synchronous write on the UI thread may result in your
-  app appearing unresponsive while it waits for a write on a
-  background thread to complete. If you are using
-  :ref:`Device Sync <sync>`, avoid synchronous writes on
-  the UI thread as Sync writes on a background
-  thread. Instead, use ``realm.WriteAsync``.
+Avoid synchronous writes on the UI thread:
+  You can :ref:`write <dotnet-realm-database-writes>` to a Realm file from any
+  thread, but there can be only one writer at a time. Synchronous
+  write transactions block each other. So, a synchronous write on the main thread 
+  may result in your app appearing unresponsive while it waits for a write on a 
+  background thread to complete. To prevent this, the SDK provides the 
+  :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
+  method. For more information, see :ref:`dotnet-async-writes`.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realm instances are
   **thread-confined**: that is, they are only valid on the
   thread on which they were created. Practically speaking,
   this means you cannot pass live instances to other
-  threads. However, Realm Database offers several mechanisms for
+  threads. However, Realm offers several mechanisms for
   :ref:`sharing objects across threads
   <dotnet-communication-across-threads>`.
 
@@ -77,32 +74,29 @@ Don't pass live objects, collections, or realms to other threads:
 Communication Across Threads
 ----------------------------
 
-To access the same realm file from different threads, you must initialize a 
-new realm to get a different realm instance for every thread of 
-your app. As long as you specify the same configuration, all realm instances 
-will map to the same file on disk.
+To access the same Realm file from different threads, you must instantiate a
+realm instance on every thread that needs access. As long as you specify the same
+configuration, all realm instances will map to the same file on disk.
 
-One of the key rules when working with Realm Database in a
-multithreaded environment is that objects are
-thread-confined: **you cannot access the instances of a
-realm, collection, or object that originated on other
-threads.** Realm Database's :ref:`Multiversion Concurrency Control
-(MVCC) <dotnet-mvcc>` architecture means that there could be many
-active versions of an object at any time. Thread-confinement
-ensures that all instances in that thread are of the same
-internal version.
+One of the key rules when working with Realm in a multithreaded
+environment is that objects are thread-confined: **you cannot access the
+instances of a realm, collection, or object that originated on other threads.**
+Realm's :ref:`Multiversion Concurrency Control (MVCC) <dotnet-mvcc>`
+architecture means that there could be many active versions of an object at any
+time. Thread-confinement ensures that all instances in that thread are of the
+same internal version.
  
 When you need to communicate across threads, you have
 several options depending on your use case:
 
-- To modify the data on two threads, :ref:`query <dotnet-client-query-engine>`
+- To modify an object on two threads, :ref:`query <dotnet-client-query-engine>`
   for the object on both threads.
 
-- To react to changes made on any thread, use Realm Database's
+- To react to changes made on any thread, use Realm's
   :ref:`notifications <dotnet-client-notifications>`.
 
-- To see changes from other threads in the realm on the current
-  thread, :ref:`refresh <dotnet-refreshing-realms>` your realm instance.
+- To see changes that happened on another thread in the current thread's realm
+  instance, :ref:`refresh <dotnet-refreshing-realms>` your realm instance.
 
 - To send a fast, read-only view of the object to other threads,
   :ref:`"freeze" <dotnet-frozen-objects>` the object.
@@ -115,7 +109,7 @@ several options depending on your use case:
 Refreshing Realms
 -----------------
 
-On the main UI thread (or any thread with a run loop), realm 
+On the main UI thread (or any thread with a run loop), Realm 
 automatically refreshes objects at the start of every run loop iteration. 
 Between run loop iterations, you will be working on the snapshot, so 
 individual methods always see a consistent view and never have to worry 
@@ -143,25 +137,25 @@ Realms are also refreshed when write transactions are committed with
 Asynchronous Writes
 -------------------
 
-The :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_Realms_Realm__>`
-method provides a simple way to offload the UI thread by performing writes in a 
-background thread. When run on the UI thread, Realm creates a 
-temporary realm instance that is passed to the Lambda function, performs the 
-write, disposes of the temporary instance, and then calls ``Realm.Refresh()`` on 
-the UI thread to update the realm. When ``WriteAsync()`` is 
-run in a background thread, Realm forwards the call to ``Write()`` on 
-the current background thread. 
+The :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
+method provides a simple way to offload the UI thread. Realm will asynchronously 
+begin and commit the transaction, but the actual write block will execute 
+on the original thread. So, waiting for changes is asynchronous, but the callback 
+is executed on the main thread. This means that objects and queries created  
+before the write block can be used inside the block without relying on 
+threadsafe references. 
+
+The following code shows two examples of creating an object with ``AsyncWrite()``. 
+
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
+   :language: csharp
 
 .. note::
 
-   In general, since realm writes are very fast, we recommend using the 
-   ``Write()`` method when only a few values change at a time (like responding 
-   to user interactions.) Conversely, the ``WriteAsync()`` method is useful in 
-   scenarios where there are hundreds or thousands of changes. For example, 
-   fetching objects from the network, or batch-updating multiple objects, can be 
-   time-consuming, and performing the changes synchronously might lead to 
-   interface jitters and a poor user experience. Using ``WriteAsync()`` 
-   prevents this.
+   If you call ``WriteAsync()`` in a background thread, Realm runs synchronously on 
+   the thread, so it is the equivalent of calling 
+   :dotnet-sdk:`Write() <reference/Realms.Realm.html#Realms_Realm_Write__1_System_Func___0__>`.
+
 
 .. _dotnet-frozen-objects:
 
@@ -173,7 +167,7 @@ However, some apps -- those based on reactive, event
 stream-based architectures, for example -- need to send
 immutable copies around to many threads for processing
 before ultimately ending up on the UI thread. Making a deep
-copy every time would be expensive, and Realm Database does not allow
+copy every time would be expensive, and Realm does not allow
 live instances to be shared across threads. In this case,
 you can **freeze** objects, collections, and realms.
 
@@ -222,7 +216,7 @@ You can close frozen realm before the live realm is closed.
 Realm's Threading Model in Depth
 --------------------------------
 
-Realm Database provides safe, fast, lock-free, and concurrent access
+Realm provides safe, fast, lock-free, and concurrent access
 across threads with its :wikipedia:`Multiversion Concurrency
 Control (MVCC) <Multiversion_concurrency_control>`
 architecture.
@@ -238,15 +232,15 @@ elements of Git are:
 - Commits, which are atomic writes.
 - Branches, which are different versions of the commit history.
 
-Similarly, Realm Database has atomically-committed writes in the form
-of :ref:`transactions <dotnet-realm-database-writes>`. Realm Database also has many
+Similarly, Realm has atomically-committed writes in the form
+of :ref:`transactions <dotnet-realm-database-writes>`. Realm also has many
 different versions of the history at any given time, like
 branches.
 
 Unlike Git, which actively supports distribution and
 divergence through forking, a realm only has one true latest
 version at any given time and always writes to the head of
-that latest version. Realm Database cannot write to a previous
+that latest version. Realm cannot write to a previous
 version. This makes sense: your data should converge on one
 latest version of the truth.
 
@@ -259,15 +253,15 @@ version of the realm; child nodes are objects in that
 version of the realm. The realm has a pointer to its latest
 version, much like how Git has a pointer to its HEAD commit.
 
-Realm Database uses a copy-on-write technique to ensure
+Realm uses a copy-on-write technique to ensure
 :wikipedia:`isolation <Isolation_(database_systems)>` and
 :wikipedia:`durability <Durability_(database_systems)>`.
-When you make changes, Realm Database copies the relevant part of the
-tree for writing. Realm Database then commits the changes in two
+When you make changes, Realm copies the relevant part of the
+tree for writing. Realm then commits the changes in two
 phases:
 
-- Realm Database writes changes to disk and verifies success.
-- Realm Database then sets its latest version pointer to point to the newly-written version.
+- Realm writes changes to disk and verifies success.
+- Realm then sets its latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
 write failed partway, the original version is not corrupted
@@ -278,7 +272,7 @@ version is guaranteed to be valid.
 
 .. include:: /includes/commit-process-diagram.rst
 
-Realm Database uses zero-copy techniques
+Realm uses zero-copy techniques
 like memory mapping to handle data. When you read a value
 from the realm, you are virtually looking at the value on
 the actual disk, not a copy of it. This is the basis for
@@ -309,8 +303,8 @@ Summary
   **freeze** objects, collections, and realms in order to pass
   shallow copies around efficiently to different threads for processing.
 
-- Realm Database's multiversion concurrency control (MVCC)
-  architecture is similar to Git's. Unlike Git, Realm Database has
+- Realm's multiversion concurrency control (MVCC)
+  architecture is similar to Git's. Unlike Git, Realm has
   only one true latest version for each realm.
 
-- Realm Database commits in two stages to guarantee isolation and durability.
+- Realm commits in two stages to guarantee isolation and durability.

@@ -1,6 +1,7 @@
 define: prefix docs/realm
 define: base https://www.mongodb.com/${prefix}
 define: appServicesBase https://www.mongodb.com/docs/atlas/app-services
+define: deviceSDKsBase https://www.mongodb.com/docs/atlas/device-sdks
 
 raw: ${prefix}/tutorials -> ${base}/tutorial/
 raw: ${prefix}/deploy/application-schema -> ${base}/deploy/application-configuration-files/
@@ -20,10 +21,10 @@ raw: ${prefix}/mongodb/service-limitations -> ${base}/reference/service-limitati
 raw: ${prefix}/sdk/android/fundamentals/mongodb-realm-cloud -> ${base}/sdk/android/fundamentals/application-services/
 raw: ${prefix}/sdk/ios/fundamentals/mongodb-realm-cloud -> ${base}/sdk/swift/application-services/
 raw: ${prefix}/sdk/dotnet/fundamentals/mongodb-realm-cloud -> ${base}/sdk/dotnet/fundamentals/application-services/
-raw: ${prefix}/sdk/node/fundamentals/mongodb-realm-cloud -> ${base}/sdk/node/fundamentals/application-services/
-raw: ${prefix}/sdk/react-native/fundamentals/mongodb-realm-cloud -> ${base}/sdk/react-native/fundamentals/application-services/
+raw: ${prefix}/sdk/node/fundamentals/mongodb-realm-cloud -> ${base}/sdk/node/app-services/
+raw: ${prefix}/sdk/react-native/fundamentals/mongodb-realm-cloud -> ${base}/sdk/react-native/app-services/
 raw: ${prefix}/get-started/find-your-app-id -> ${base}/get-started/find-your-project-or-app-id/
-raw: ${prefix}/sdk/node/examples/open-and-close-a-local-realm -> ${base}/sdk/node/examples/open-and-close-a-realm/
+raw: ${prefix}/sdk/node/examples/open-and-close-a-local-realm -> ${base}/sdk/node/realm-files/open-and-close-a-realm/
 raw: ${prefix}/sdk/android/advanced-guides/migrations -> ${base}/sdk/android/examples/modify-an-object-schema/
 raw: ${prefix}/functions/upload-external-dependencies -> ${base}/functions/add-external-dependencies/
 raw: ${prefix}/manage-apps/configure/import-realm-app -> ${base}/manage-apps/configure/update-realm-app/
@@ -71,70 +72,70 @@ raw: ${prefix}/android/work-with-multiple-users -> ${base}/sdk/android/advanced-
 raw: ${prefix}/android/writes -> ${base}/sdk/android/examples/read-and-write-data/
 
 raw: ${prefix}/node -> ${base}/sdk/node/
-raw: ${prefix}/node/access-custom-user-data -> ${base}/sdk/node/advanced/custom-user-data/
-raw: ${prefix}/node/authenticate -> ${base}/sdk/node/examples/authenticate-users/
-raw: ${prefix}/node/auxiliary-files -> ${base}/sdk/node/fundamentals/realms/
-raw: ${prefix}/node/call-a-function -> ${base}/sdk/node/examples/call-a-function/
-raw: ${prefix}/node/collections -> ${base}/sdk/node/data-types/collections/
-raw: ${prefix}/node/create-manage-api-keys -> ${base}/sdk/node/examples/manage-user-api-keys/
-raw: ${prefix}/node/data-model -> ${base}/sdk/node/fundamentals/realms/
-raw: ${prefix}/node/database -> ${base}/sdk/node/fundamentals/realms/
-raw: ${prefix}/node/electron-cra -> ${base}/sdk/node/integrations/electron-cra/
-raw: ${prefix}/node/electron -> ${base}/sdk/node/integrations/electron/
-raw: ${prefix}/node/embedded-objects -> ${base}/sdk/node/fundamentals/relationships-and-embedded-objects/
-raw: ${prefix}/node/encrypt -> ${base}/sdk/node/advanced/encrypt/
-raw: ${prefix}/node/init-realmclient -> ${base}/sdk/node/examples/connect-to-mongodb-realm-backend-app/
+raw: ${prefix}/node/access-custom-user-data -> ${base}/sdk/node/users/access-custom-user-data/
+raw: ${prefix}/node/authenticate -> ${base}/sdk/node/users/authenticate-users/
+raw: ${prefix}/node/auxiliary-files -> ${base}/sdk/node/realm-files/
+raw: ${prefix}/node/call-a-function -> ${base}/sdk/node/app-services/call-a-function/
+raw: ${prefix}/node/collections -> ${base}/sdk/node/model-data/data-types/collections/
+raw: ${prefix}/node/create-manage-api-keys -> ${base}/sdk/node/users/manage-user-api-keys/
+raw: ${prefix}/node/data-model -> ${base}/sdk/node/realm-files/
+raw: ${prefix}/node/database -> ${base}/sdk/node/realm-files/
+raw: ${prefix}/node/electron-cra -> ${base}/sdk/node/
+raw: ${prefix}/node/electron -> ${base}/sdk/node/
+raw: ${prefix}/node/embedded-objects -> ${base}/sdk/node/model-data/relationships-and-embedded-objects/
+raw: ${prefix}/node/encrypt -> ${base}/sdk/node/realm-files/encrypt/
+raw: ${prefix}/node/init-realmclient -> ${base}/sdk/node/app-services/connect-to-app-services-backend/
 raw: ${prefix}/node/install -> ${base}/sdk/node/install/
-raw: ${prefix}/node/link-identities -> ${base}/sdk/node/advanced/link-identities/
-raw: ${prefix}/node/manage-email-password-users -> ${base}/sdk/node/examples/manage-email-password-users/
-raw: ${prefix}/node/migrate -> ${base}/sdk/node/fundamentals/schema-versions-and-migrations/
-raw: ${prefix}/node/migrations -> ${base}/sdk/node/examples/modify-an-object-schema/
+raw: ${prefix}/node/link-identities -> ${base}/sdk/node/users/link-identities/
+raw: ${prefix}/node/manage-email-password-users -> ${base}/sdk/node/users/manage-email-password-users/
+raw: ${prefix}/node/migrate -> ${base}/sdk/node/migrate/index/
+raw: ${prefix}/node/migrations -> ${base}/sdk/node/model-data/modify-an-object-schema/
 raw: ${prefix}/node/mongodb-realm -> ${base}/sdk/node/
-raw: ${prefix}/node/mongodb -> ${base}/sdk/node/examples/query-mongodb/
-raw: ${prefix}/node/notifications -> ${base}/sdk/node/examples/react-to-changes/
-raw: ${prefix}/node/objects -> ${base}/sdk/node/fundamentals/realms/
-raw: ${prefix}/node/open-a-realm -> ${base}/sdk/node/examples/open-and-close-a-realm/
-raw: ${prefix}/node/query-engine -> ${base}/sdk/node/advanced/query-engine/
+raw: ${prefix}/node/mongodb -> ${base}/sdk/node/app-services/query-mongodb/
+raw: ${prefix}/node/notifications -> ${base}/sdk/node/react-to-changes/
+raw: ${prefix}/node/objects -> ${base}/sdk/node/realm-files/
+raw: ${prefix}/node/open-a-realm -> ${base}/sdk/node/realm-files/open-and-close-a-realm/
+raw: ${prefix}/node/query-engine -> ${base}/sdk/node/crud/query-data/
 raw: ${prefix}/node/quick-start -> ${base}/sdk/node/quick-start/
-raw: ${prefix}/node/reads -> ${base}/sdk/node/examples/read-and-write-data/
-raw: ${prefix}/node/realms -> ${base}/sdk/node/fundamentals/realms/
+raw: ${prefix}/node/reads -> ${base}/sdk/node/crud/read/
+raw: ${prefix}/node/realms -> ${base}/sdk/node/realm-files/
 raw: ${prefix}/node/reference -> ${base}/sdk/node/
-raw: ${prefix}/node/relationships -> ${base}/sdk/node/fundamentals/relationships-and-embedded-objects/
-raw: ${prefix}/node/sync-data -> ${base}/sdk/node/examples/sync-changes-between-devices/
-raw: ${prefix}/node/work-with-multiple-users -> ${base}/sdk/node/advanced/multi-user-applications/
-raw: ${prefix}/node/writes -> ${base}/sdk/node/examples/read-and-write-data/
+raw: ${prefix}/node/relationships -> ${base}/sdk/node/model-data/relationships-and-embedded-objects/
+raw: ${prefix}/node/sync-data -> ${base}/sdk/node/sync/
+raw: ${prefix}/node/work-with-multiple-users -> ${base}/sdk/node/users/multi-user-applications/
+raw: ${prefix}/node/writes -> ${base}/sdk/node/crud/
 
 raw: ${prefix}/react-native -> ${base}/sdk/react-native/
-raw: ${prefix}/react-native/access-custom-user-data -> ${base}/sdk/react-native/advanced/access-custom-user-data/
-raw: ${prefix}/react-native/authenticate -> ${base}/sdk/react-native/examples/authenticate-users/
-raw: ${prefix}/react-native/auxiliary-files -> ${base}/sdk/react-native/fundamentals/realms/
-raw: ${prefix}/react-native/call-a-function -> ${base}/sdk/react-native/examples/authenticate-users/
-raw: ${prefix}/react-native/collections -> ${base}/sdk/react-native/fundamentals/live-queries/
-raw: ${prefix}/react-native/create-manage-api-keys -> ${base}/sdk/react-native/examples/manage-user-api-keys/
-raw: ${prefix}/react-native/data-model -> ${base}/sdk/react-native/fundamentals/realms/
-raw: ${prefix}/react-native/database -> ${base}/sdk/react-native/fundamentals/realms/
-raw: ${prefix}/react-native/embedded-objects -> ${base}/sdk/react-native/fundamentals/relationships-and-embedded-objects/
-raw: ${prefix}/react-native/encrypt -> ${base}/sdk/react-native/advanced/encrypt/
-raw: ${prefix}/react-native/init-realmclient -> ${base}/sdk/react-native/examples/connect-to-mongodb-realm-backend-app/
+raw: ${prefix}/react-native/access-custom-user-data -> ${base}/sdk/react-native/manage-users/custom-user-data/
+raw: ${prefix}/react-native/authenticate -> ${base}/sdk/react-native/manage-users/authenticate-users/
+raw: ${prefix}/react-native/auxiliary-files -> ${base}/sdk/react-native/realm-database/
+raw: ${prefix}/react-native/call-a-function -> ${base}/sdk/react-native/app-services/call-a-function/
+raw: ${prefix}/react-native/collections -> ${base}/sdk/react-native/model-data/data-types/collections/
+raw: ${prefix}/react-native/create-manage-api-keys -> ${base}/sdk/react-native/manage-users/manage-user-api-keys/
+raw: ${prefix}/react-native/data-model -> ${base}/sdk/react-native/model-data/
+raw: ${prefix}/react-native/database -> ${base}/sdk/react-native/realm-database/
+raw: ${prefix}/react-native/embedded-objects -> ${base}/sdk/react-native/model-data/relationships-and-embedded-objects/
+raw: ${prefix}/react-native/encrypt -> ${base}/sdk/react-native/realm-files/encrypt/
+raw: ${prefix}/react-native/init-realmclient -> ${base}/sdk/react-native/app-services/connect-to-app-services-app/
 raw: ${prefix}/react-native/install -> ${base}/sdk/react-native/install/
-raw: ${prefix}/react-native/link-identities -> ${base}/sdk/react-native/advanced/link-identities/
-raw: ${prefix}/react-native/manage-email-password-users -> ${base}/sdk/react-native/examples/manage-email-password-users/
-raw: ${prefix}/react-native/migrate -> ${base}/sdk/react-native/fundamentals/schema-versions-and-migrations/
-raw: ${prefix}/react-native/migrations -> ${base}/sdk/react-native/examples/modify-an-object-schema/
-raw: ${prefix}/react-native/mongodb-realm -> ${base}/sdk/react-native/
-raw: ${prefix}/react-native/mongodb -> ${base}/sdk/react-native/examples/query-mongodb/
-raw: ${prefix}/react-native/notifications -> ${base}/sdk/react-native/examples/react-to-changes/
-raw: ${prefix}/react-native/objects -> ${base}/sdk/react-native/fundamentals/realms/
-raw: ${prefix}/react-native/open-a-realm -> ${base}/sdk/react-native/examples/open-and-close-a-realm/
-raw: ${prefix}/react-native/query-engine -> ${base}/sdk/react-native/advanced/query-engine/
+raw: ${prefix}/react-native/link-identities -> ${base}/sdk/react-native/manage-users/link-user-identities/
+raw: ${prefix}/react-native/manage-email-password-users -> ${base}/sdk/react-native/manage-users/manage-email-password-users/
+raw: ${prefix}/react-native/migrate -> ${base}/sdk/react-native/migrate/index/
+raw: ${prefix}/react-native/migrations -> ${base}/sdk/react-native/model-data/change-an-object-model/
+raw: ${prefix}/react-native/mongodb-realm -> ${base}/sdk/react-native/realm-database/
+raw: ${prefix}/react-native/mongodb -> ${base}/sdk/react-native/app-services/query-mongodb/
+raw: ${prefix}/react-native/notifications -> ${base}/sdk/react-native/react-to-changes/
+raw: ${prefix}/react-native/objects -> ${base}/sdk/react-native/realm-database/
+raw: ${prefix}/react-native/open-a-realm -> ${base}/sdk/react-native/realm-files/configure-a-realm/
+raw: ${prefix}/react-native/query-engine -> ${base}/sdk/react-native/app-services/query-mongodb/
 raw: ${prefix}/react-native/quick-start -> ${base}/sdk/react-native/quick-start/
-raw: ${prefix}/react-native/reads -> ${base}/sdk/react-native/examples/read-and-write-data/
-raw: ${prefix}/react-native/realms -> ${base}/sdk/react-native/fundamentals/realms/
+raw: ${prefix}/react-native/reads -> ${base}/sdk/react-native/crud/
+raw: ${prefix}/react-native/realms -> ${base}/sdk/react-native/realm-database/
 raw: ${prefix}/react-native/reference -> ${base}/sdk/react-native/
-raw: ${prefix}/react-native/relationships -> ${base}/sdk/react-native/fundamentals/relationships-and-embedded-objects/
-raw: ${prefix}/react-native/sync-data -> ${base}/sdk/react-native/examples/sync-changes-between-devices/
-raw: ${prefix}/react-native/work-with-multiple-users -> ${base}/sdk/react-native/advanced/multi-user-applications/
-raw: ${prefix}/react-native/writes -> ${base}/sdk/react-native/examples/read-and-write-data/
+raw: ${prefix}/react-native/relationships -> ${base}/sdk/react-native/model-data/relationships-and-embedded-objects/
+raw: ${prefix}/react-native/sync-data -> ${base}/sdk/react-native/sync-data/
+raw: ${prefix}/react-native/work-with-multiple-users -> ${base}/sdk/react-native/manage-users/multi-user-applications/
+raw: ${prefix}/react-native/writes -> ${base}/sdk/react-native/crud/
 
 raw: ${prefix}/dotnet -> ${base}/sdk/dotnet/
 raw: ${prefix}/dotnet/access-custom-user-data -> ${base}/sdk/dotnet/advanced-guides/custom-user-data/
@@ -175,11 +176,11 @@ raw: ${prefix}/ios/access-custom-user-data -> ${base}/sdk/swift/advanced-guides/
 raw: ${prefix}/ios/authenticate -> ${base}/sdk/swift/examples/authenticate-users/
 raw: ${prefix}/ios/auxiliary-files -> ${base}/sdk/swift/
 raw: ${prefix}/ios/call-a-function -> ${base}/sdk/swift/app-services/call-a-function/
-raw: ${prefix}/ios/collections -> ${base}/sdk/swift/model-data/define-model/supported-types/
+raw: ${prefix}/ios/collections -> ${base}/sdk/swift/model-data/supported-types/
 raw: ${prefix}/ios/create-manage-api-keys -> ${base}/sdk/swift/users/manage-user-api-keys/
-raw: ${prefix}/ios/data-model -> ${base}/sdk/swift/model-data/define-model/object-models/
+raw: ${prefix}/ios/data-model -> ${base}/sdk/swift/model-data/object-models/
 raw: ${prefix}/ios/database -> ${base}/sdk/swift/realm-database/
-raw: ${prefix}/ios/embedded-objects -> ${base}/sdk/swift/model-data/define-model/relationships/
+raw: ${prefix}/ios/embedded-objects -> ${base}/sdk/swift/model-data/relationships/
 raw: ${prefix}/ios/encrypt -> ${base}/sdk/swift/realm-files/encrypt-a-realm/
 raw: ${prefix}/ios/init-realmclient -> ${base}/sdk/swift/examples/connect-to-a-mongodb-realm-backend-app/
 raw: ${prefix}/ios/install -> ${base}/sdk/swift/install/
@@ -190,13 +191,13 @@ raw: ${prefix}/ios/migrations -> ${base}/sdk/swift/model-data/change-an-object-m
 raw: ${prefix}/ios/mongodb-realm -> ${base}/sdk/swift/
 raw: ${prefix}/ios/mongodb -> ${base}/sdk/swift/app-services/mongodb-remote-access/
 raw: ${prefix}/ios/notifications -> ${base}/sdk/swift/react-to-changes/
-raw: ${prefix}/ios/objects -> ${base}/sdk/swift/model-data/define-model/object-models/
+raw: ${prefix}/ios/objects -> ${base}/sdk/swift/model-data/
 raw: ${prefix}/ios/query-engine -> ${base}/sdk/swift/crud/filter-data/
 raw: ${prefix}/ios/quick-start -> ${base}/sdk/swift/quick-start/
 raw: ${prefix}/ios/reads -> ${base}/sdk/swift/crud/read/
 raw: ${prefix}/ios/realms -> ${base}/sdk/swift/realm-files/configure-and-open-a-realm/
 raw: ${prefix}/ios/reference -> ${base}/sdk/swift/
-raw: ${prefix}/ios/relationships -> ${base}/sdk/swift/model-data/define-model/relationships/
+raw: ${prefix}/ios/relationships -> ${base}/sdk/swift/model-data/relationships/
 raw: ${prefix}/ios/remotely-access-mongodb -> ${base}/sdk/swift/app-services/mongodb-remote-access/
 raw: ${prefix}/ios/sync-data -> ${base}/sdk/swift/synd/add-sync-to-app/
 raw: ${prefix}/ios/threading -> ${base}/sdk/swift/crud/threading/
@@ -309,20 +310,20 @@ raw: ${prefix}/sdk/ios -> ${base}/sdk/swift/
 raw: ${prefix}/sdk/ios/quick-start -> ${base}/sdk/swift/quick-start/
 raw: ${prefix}/sdk/ios/fundamentals -> ${base}/sdk/swift/realm-database/
 raw: ${prefix}/sdk/ios/fundamentals/application-services -> ${base}/sdk/swift/application-services/
-raw: ${prefix}/sdk/ios/fundamentals/object-models-and-schemas -> ${base}/sdk/swift/model-data/define-model/object-models/
+raw: ${prefix}/sdk/ios/fundamentals/object-models-and-schemas -> ${base}/sdk/swift/model-data/
 raw: ${prefix}/sdk/ios/fundamentals/schema-versions-and-migrations -> ${base}/sdk/swift/model-data/change-object-model/
-raw: ${prefix}/sdk/ios/fundamentals/relationships -> ${base}/sdk/swift/model-data/define-model/relationships/
+raw: ${prefix}/sdk/ios/fundamentals/relationships -> ${base}/sdk/swift/model-data/
 raw: ${prefix}/sdk/ios/fundamentals/write-transactions -> ${base}/sdk/swift/crud/create/
 raw: ${prefix}/sdk/ios/fundamentals/realms -> ${base}/sdk/swift/realm-database/
 raw: ${prefix}/sdk/ios/fundamentals/live-queries -> ${base}/sdk/swift/crud/read/
 raw: ${prefix}/sdk/ios/fundamentals/realm-database -> ${base}/sdk/swift/realm-database/
-raw: ${prefix}/sdk/ios/data-types -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/ios/data-types/map -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/ios/data-types/anyrealmvalue -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/ios/data-types/collections -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/ios/data-types/mutablesets -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/ios/data-types/supported-property-types -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/ios/data-types/embedded-objects -> ${base}/sdk/swift/model-data/define-model/relationships/
+raw: ${prefix}/sdk/ios/data-types -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/ios/data-types/map -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/ios/data-types/anyrealmvalue -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/ios/data-types/collections -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/ios/data-types/mutablesets -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/ios/data-types/supported-property-types -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/ios/data-types/embedded-objects -> ${base}/sdk/swift/model-data/relationships/
 raw: ${prefix}/sdk/ios/advanced-guides/bundle -> ${base}/sdk/swift/realm-files/bundle-a-realm/
 raw: ${prefix}/sdk/ios/advanced-guides/encrypt-a-realm -> ${base}/sdk/swift/realm-files/encrypt-a-realm/
 raw: ${prefix}/sdk/ios/advanced-guides/threading -> ${base}/sdk/swift/crud/threading/
@@ -354,7 +355,7 @@ raw: ${prefix}/sdk/ios/examples/users/multi-user-applications -> ${base}/sdk/swi
 raw: ${prefix}/sdk/ios/examples/users/user-metadata -> ${base}/sdk/swift/examples/users/user-metadata/
 raw: ${prefix}/sdk/ios/examples/users/custom-user-data -> ${base}/sdk/swift/examples/users/custom-user-data/
 raw: ${prefix}/sdk/ios/examples/users/link-user-identities -> ${base}/sdk/swift/examples/users/link-user-identities/
-raw: ${prefix}/sdk/ios/examples/define-a-realm-object-model -> ${base}/sdk/swift/model-data/define-model/object-models/
+raw: ${prefix}/sdk/ios/examples/define-a-realm-object-model -> ${base}/sdk/swift/model-data/object-models/
 raw: ${prefix}/sdk/ios/examples/mongodb-remote-access -> ${base}/sdk/swift/app-services/mongodb-remote-access/
 raw: ${prefix}/sdk/ios/examples/modify-an-object-schema -> ${base}/sdk/swift/model-data/change-an-object-model/
 raw: ${prefix}/sdk/ios/examples/filter-data -> ${base}/sdk/swift/crud/filter-data/
@@ -376,61 +377,61 @@ raw: ${prefix}/endpoints/requests-and-responses -> ${base}/endpoints/
 # android -> java rename
 
 raw: ${prefix}/sdk/android -> ${base}/sdk/java/
-raw: ${prefix}/sdk/android/advanced-guides/custom-user-data -> ${base}/sdk/java/advanced-guides/custom-user-data/
-raw: ${prefix}/sdk/android/advanced-guides/debugging -> ${base}/sdk/java/advanced-guides/debugging/
-raw: ${prefix}/sdk/android/advanced-guides/encryption -> ${base}/sdk/java/advanced-guides/encryption/
-raw: ${prefix}/sdk/android/advanced-guides/link-user-identities -> ${base}/sdk/java/advanced-guides/link-user-identities/
-raw: ${prefix}/sdk/android/advanced-guides/manual-client-reset-data-recovery -> ${base}/sdk/java/advanced-guides/manual-client-reset-data-recovery/
-raw: ${prefix}/sdk/android/advanced-guides/multi-user-applications -> ${base}/sdk/java/advanced-guides/multi-user-applications/
-raw: ${prefix}/sdk/android/advanced-guides/testing -> ${base}/sdk/java/advanced-guides/testing/
-raw: ${prefix}/sdk/android/advanced-guides/threading -> ${base}/sdk/java/advanced-guides/threading/
-raw: ${prefix}/sdk/android/advanced-guides -> ${base}/sdk/java/advanced-guides/
-raw: ${prefix}/sdk/android/data-types/collections -> ${base}/sdk/java/data-types/collections/
-raw: ${prefix}/sdk/android/data-types/counters -> ${base}/sdk/java/data-types/counters/
-raw: ${prefix}/sdk/android/data-types/embedded-objects -> ${base}/sdk/java/data-types/embedded-objects/
-raw: ${prefix}/sdk/android/data-types/enums -> ${base}/sdk/java/data-types/enums/
-raw: ${prefix}/sdk/android/data-types/field-types -> ${base}/sdk/java/data-types/field-types/
-raw: ${prefix}/sdk/android/data-types/realmany -> ${base}/sdk/java/data-types/realmany/
-raw: ${prefix}/sdk/android/data-types/realmdictionary -> ${base}/sdk/java/data-types/realmdictionary/
-raw: ${prefix}/sdk/android/data-types/realmset -> ${base}/sdk/java/data-types/realmset/
-raw: ${prefix}/sdk/android/data-types -> ${base}/sdk/java/data-types/
-raw: ${prefix}/sdk/android/examples/adapters -> ${base}/sdk/java/examples/adapters/
-raw: ${prefix}/sdk/android/examples/authenticate-users -> ${base}/sdk/java/examples/authenticate-users/
-raw: ${prefix}/sdk/android/examples/bundle-a-realm -> ${base}/sdk/java/examples/bundle-a-realm/
-raw: ${prefix}/sdk/android/examples/call-a-function -> ${base}/sdk/java/examples/call-a-function/
-raw: ${prefix}/sdk/android/examples/connect-to-mongodb-realm-backend-app -> ${base}/sdk/java/examples/connect-to-mongodb-realm-backend-app/
-raw: ${prefix}/sdk/android/examples/define-a-realm-object-model -> ${base}/sdk/java/examples/define-a-realm-object-model/
-raw: ${prefix}/sdk/android/examples/email-password-users -> ${base}/sdk/java/examples/email-password-users/
-raw: ${prefix}/sdk/android/examples/filter-data -> ${base}/sdk/java/examples/filter-data/
-raw: ${prefix}/sdk/android/examples/flexible-sync -> ${base}/sdk/java/examples/flexible-sync/
-raw: ${prefix}/sdk/android/examples/log-realm-events -> ${base}/sdk/java/examples/log-realm-events/
-raw: ${prefix}/sdk/android/examples/manage-user-api-keys -> ${base}/sdk/java/examples/manage-user-api-keys/
-raw: ${prefix}/sdk/android/examples/modify-an-object-schema -> ${base}/sdk/java/examples/modify-an-object-schema/
-raw: ${prefix}/sdk/android/examples/mongodb-remote-access -> ${base}/sdk/java/examples/mongodb-remote-access/
-raw: ${prefix}/sdk/android/examples/open-and-close-a-realm -> ${base}/sdk/java/examples/open-and-close-a-realm/
-raw: ${prefix}/sdk/android/examples/react-to-changes -> ${base}/sdk/java/examples/react-to-changes/
-raw: ${prefix}/sdk/android/examples/read-and-write-data -> ${base}/sdk/java/examples/read-and-write-data/
-raw: ${prefix}/sdk/android/examples/reset-a-client-realm -> ${base}/sdk/java/examples/reset-a-client-realm/
-raw: ${prefix}/sdk/android/examples/sync-changes-between-devices -> ${base}/sdk/java/examples/sync-changes-between-devices/
-raw: ${prefix}/sdk/android/examples -> ${base}/sdk/java/examples/
-raw: ${prefix}/sdk/android/fundamentals/application-services -> ${base}/sdk/java/fundamentals/application-services/
-raw: ${prefix}/sdk/android/fundamentals/async-api -> ${base}/sdk/java/fundamentals/async-api/
-raw: ${prefix}/sdk/android/fundamentals/live-queries -> ${base}/sdk/java/fundamentals/live-queries/
-raw: ${prefix}/sdk/android/fundamentals/object-models-and-schemas -> ${base}/sdk/java/fundamentals/object-models-and-schemas/
-raw: ${prefix}/sdk/android/fundamentals/query-engine -> ${base}/sdk/java/fundamentals/query-engine/
-raw: ${prefix}/sdk/android/fundamentals/realm-database -> ${base}/sdk/java/fundamentals/realm-database/
-raw: ${prefix}/sdk/android/fundamentals/realm-sync -> ${base}/sdk/java/fundamentals/realm-sync/
-raw: ${prefix}/sdk/android/fundamentals/realms -> ${base}/sdk/java/fundamentals/realms/
-raw: ${prefix}/sdk/android/fundamentals/relationships -> ${base}/sdk/java/fundamentals/relationships/
-raw: ${prefix}/sdk/android/fundamentals/schema-versions-and-migrations -> ${base}/sdk/java/fundamentals/schema-versions-and-migrations/
-raw: ${prefix}/sdk/android/fundamentals/write-transactions -> ${base}/sdk/java/fundamentals/write-transactions/
-raw: ${prefix}/sdk/android/fundamentals -> ${base}/sdk/java/fundamentals/
+raw: ${prefix}/sdk/android/advanced-guides/custom-user-data -> ${base}/sdk/java/users/custom-user-data/
+raw: ${prefix}/sdk/android/advanced-guides/debugging -> ${base}/sdk/java/test-and-debug/debugging/
+raw: ${prefix}/sdk/android/advanced-guides/encryption -> ${base}/sdk/java/realm-files/encryption/
+raw: ${prefix}/sdk/android/advanced-guides/link-user-identities -> ${base}/sdk/java/users/link-user-identities/
+raw: ${prefix}/sdk/android/advanced-guides/manual-client-reset-data-recovery -> ${base}/sdk/java/sync/manual-client-reset-data-recovery/
+raw: ${prefix}/sdk/android/advanced-guides/multi-user-applications -> ${base}/sdk/java/users/multi-user-applications/
+raw: ${prefix}/sdk/android/advanced-guides/testing -> ${base}/sdk/java/test-and-debug/test-and-debug/
+raw: ${prefix}/sdk/android/advanced-guides/threading -> ${base}/sdk/java/crud/threading/
+raw: ${prefix}/sdk/android/advanced-guides -> ${base}/sdk/java/
+raw: ${prefix}/sdk/android/data-types/collections -> ${base}/sdk/java/model-data/data-types/collections/
+raw: ${prefix}/sdk/android/data-types/counters -> ${base}/sdk/java/model-data/data-types/counters/
+raw: ${prefix}/sdk/android/data-types/embedded-objects -> ${base}/sdk/java/model-data/data-types/embedded-objects/
+raw: ${prefix}/sdk/android/data-types/enums -> ${base}/sdk/java/model-data/data-types/enums/
+raw: ${prefix}/sdk/android/data-types/field-types -> ${base}/sdk/java/model-data/data-types/field-types/
+raw: ${prefix}/sdk/android/data-types/realmany -> ${base}/sdk/java/model-data/data-types/realmany/
+raw: ${prefix}/sdk/android/data-types/realmdictionary -> ${base}/sdk/java/model-data/data-types/realmdictionary/
+raw: ${prefix}/sdk/android/data-types/realmset -> ${base}/sdk/java/model-data/data-types/realmset/
+raw: ${prefix}/sdk/android/data-types -> ${base}/sdk/java/model-data/data-types/
+raw: ${prefix}/sdk/android/examples/adapters -> ${base}/sdk/java/adapters/
+raw: ${prefix}/sdk/android/examples/authenticate-users -> ${base}/sdk/java/users/authenticate-users/
+raw: ${prefix}/sdk/android/examples/bundle-a-realm -> ${base}/sdk/java/realm-files/bundle-a-realm/
+raw: ${prefix}/sdk/android/examples/call-a-function -> ${base}/sdk/java/app-services/call-a-function/
+raw: ${prefix}/sdk/android/examples/connect-to-mongodb-realm-backend-app -> ${base}/sdk/java/app-services/connect-to-app-services-backend/
+raw: ${prefix}/sdk/android/examples/define-a-realm-object-model -> ${base}/sdk/java/model-data/define-a-realm-object-model/
+raw: ${prefix}/sdk/android/examples/email-password-users -> ${base}/sdk/java/users/email-password-users/
+raw: ${prefix}/sdk/android/examples/filter-data -> ${base}/sdk/java/crud/filter-data/
+raw: ${prefix}/sdk/android/examples/flexible-sync -> ${base}/sdk/java/sync/flexible-sync/
+raw: ${prefix}/sdk/android/examples/log-realm-events -> ${base}/sdk/java/test-and-debug/log-realm-events/
+raw: ${prefix}/sdk/android/examples/manage-user-api-keys -> ${base}/sdk/java/users/manage-user-api-keys/
+raw: ${prefix}/sdk/android/examples/modify-an-object-schema -> ${base}/sdk/java/model-data/modify-an-object-schema/
+raw: ${prefix}/sdk/android/examples/mongodb-remote-access -> ${base}/sdk/java/app-services/mongodb-remote-access/
+raw: ${prefix}/sdk/android/examples/open-and-close-a-realm -> ${base}/sdk/java/realm-files/open-and-close-a-realm/
+raw: ${prefix}/sdk/android/examples/react-to-changes -> ${base}/sdk/java/react-to-changes/
+raw: ${prefix}/sdk/android/examples/read-and-write-data -> ${base}/sdk/java/crud/
+raw: ${prefix}/sdk/android/examples/reset-a-client-realm -> ${base}/sdk/java/sync/reset-a-client-realm/
+raw: ${prefix}/sdk/android/examples/sync-changes-between-devices -> ${base}/sdk/java/sync/
+raw: ${prefix}/sdk/android/examples -> ${base}/sdk/java/
+raw: ${prefix}/sdk/android/fundamentals/application-services -> ${base}/sdk/java/app-services/
+raw: ${prefix}/sdk/android/fundamentals/async-api -> ${base}/sdk/java/async-api/
+raw: ${prefix}/sdk/android/fundamentals/live-queries -> ${base}/sdk/java/realm-database/
+raw: ${prefix}/sdk/android/fundamentals/object-models-and-schemas -> ${base}/sdk/java/model-data/
+raw: ${prefix}/sdk/android/fundamentals/query-engine -> ${base}/sdk/java/crud/filter-data/
+raw: ${prefix}/sdk/android/fundamentals/realm-database -> ${base}/sdk/java/realm-database/
+raw: ${prefix}/sdk/android/fundamentals/realm-sync -> ${base}/sdk/java/sync/
+raw: ${prefix}/sdk/android/fundamentals/realms -> ${base}/sdk/java/realm-files/
+raw: ${prefix}/sdk/android/fundamentals/relationships -> ${base}/sdk/java/model-data/relationships/
+raw: ${prefix}/sdk/android/fundamentals/schema-versions-and-migrations -> ${base}/sdk/java/model-data/
+raw: ${prefix}/sdk/android/fundamentals/write-transactions -> ${base}/sdk/java/crud/
+raw: ${prefix}/sdk/android/fundamentals -> ${base}/sdk/java/
 raw: ${prefix}/sdk/android/install -> ${base}/sdk/java/install/
-raw: ${prefix}/sdk/android/livedata -> ${base}/sdk/java/livedata/
-raw: ${prefix}/sdk/android/migrate -> ${base}/sdk/java/migrate/
-raw: ${prefix}/sdk/android/quick-start-local -> ${base}/sdk/java/quick-start-local/
-raw: ${prefix}/sdk/android/quick-start-sync -> ${base}/sdk/java/quick-start-sync/
-raw: ${prefix}/sdk/android/troubleshooting -> ${base}/sdk/java/troubleshooting/
+raw: ${prefix}/sdk/android/livedata -> ${base}/sdk/java/quick-starts/livedata/
+raw: ${prefix}/sdk/android/migrate -> ${base}/sdk/java/migrate/index/
+raw: ${prefix}/sdk/android/quick-start-local -> ${base}/sdk/java/quick-starts/quick-start-local/
+raw: ${prefix}/sdk/android/quick-start-sync -> ${base}/sdk/java/quick-starts/quick-start-sync/
+raw: ${prefix}/sdk/android/troubleshooting -> ${base}/sdk/java/test-and-debug/troubleshooting/
 raw: ${prefix}/tutorial/android-kotlin -> ${base}/tutorial/java-sdk/
 
 # kotlin-multiplatform -> kotlin rename
@@ -502,8 +503,8 @@ raw: ${prefix}/sdk/flutter/data-types -> ${base}/sdk/flutter/realm-database/data
 
 # JS Client Reset with Seamless loss (https://jira.mongodb.org/browse/DOCSP-19552)
 
-raw: ${prefix}/sdk/node/advanced/client-reset -> ${base}/sdk/node/examples/reset-a-client-realm/
-raw: ${prefix}/sdk/react-native/advanced/client-reset -> ${base}/sdk/react-native/examples/reset-a-client-realm/
+raw: ${prefix}/sdk/node/advanced/client-reset -> ${base}/sdk/node/sync/handle-sync-errors/
+raw: ${prefix}/sdk/react-native/advanced/client-reset -> ${base}/sdk/react-native/sync-data/handle-sync-errors/
 
 # "MongoDB Realm" -> "Atlas App Services" migration
 
@@ -752,19 +753,23 @@ raw: ${prefix}/get-started/react-native-enable-typescript -> ${base}/includes/re
 raw: ${prefix}/get-started/react-native-run-the-app -> ${base}/includes/react-native-run-the-app/
 raw: ${prefix}/tutorial/backend -> ${appServicesBase}/tutorial/backend/
 raw: ${prefix}/tutorial/jwt -> ${appServicesBase}/tutorial/jwt/
-raw: ${prefix}/tutorial/unity -> ${base}/sdk/dotnet/unity-tutorial/
+raw: ${prefix}/reference/partition-based-sync -> ${appServicesBase}/reference/partition-based-sync/
+raw: ${prefix}/services/define-a-service-rule -> ${appServicesBase}/services/configure/service-rules/
 
 # Move files for rename
-
+raw: ${prefix}/sdk/dotnet/data-types/asymmetric-objects -> ${base}/sdk/dotnet/sync/asymmetric-sync/
+raw: ${prefix}/tutorial/unity -> ${base}/sdk/dotnet/unity/
+raw: ${prefix}/dotnet/unity-tutorial -> ${base}/sdk/dotnet/unity/
+raw: ${prefix}/sdk/dotnet/unity-tutorial -> ${base}/sdk/dotnet/unity/
 raw: ${prefix}/sdk/dotnet/examples/connect-to-a-mongodb-realm-backend-app/ -> ${base}/sdk/dotnet/examples/connect-to-app-services-backend/
 raw: ${prefix}/sdk/dotnet/fundamentals/realm-sync/ -> ${base}/sdk/dotnet/fundamentals/device-sync/
-raw: ${prefix}/sdk/java/examples/connect-to-mongodb-realm-backend-app/ -> ${base}/sdk/java/examples/connect-to-app-services-backend/
-raw: ${prefix}/sdk/java/fundamentals/realm-sync/ -> ${base}/sdk/java/fundamentals/device-sync/
+raw: ${prefix}/sdk/java/examples/connect-to-mongodb-realm-backend-app/ -> ${base}/sdk/java/app-services/connect-to-app-services-backend/
+raw: ${prefix}/sdk/java/fundamentals/realm-sync/ -> ${base}/sdk/java/sync/
 raw: ${prefix}/sdk/kotlin/app-services/connect-to-a-realm-app/ -> ${base}/sdk/kotlin/app-services/connect-to-app-services-backend/
-raw: ${prefix}/sdk/node/examples/connect-to-mongodb-realm-backend-app/ -> ${base}/sdk/node/examples/connect-to-app-services-backend/
-raw: ${prefix}/sdk/node/fundamentals/realm-sync/ -> ${base}/sdk/node/fundamentals/device-sync/
-raw: ${prefix}/sdk/react-native/examples/connect-to-mongodb-realm-backend-app/ -> ${base}/sdk/react-native/examples/connect-to-app-services-backend/
-raw: ${prefix}/sdk/react-native/fundamentals/realm-sync/ -> ${base}/sdk/react-native/fundamentals/device-sync/
+raw: ${prefix}/sdk/node/examples/connect-to-mongodb-realm-backend-app/ -> ${base}/sdk/node/app-services/connect-to-app-services-backend/
+raw: ${prefix}/sdk/node/fundamentals/realm-sync/ -> ${base}/sdk/node/sync/
+raw: ${prefix}/sdk/react-native/examples/connect-to-mongodb-realm-backend-app/ -> ${base}/sdk/react-native/app-services/connect-to-app-services-app/
+raw: ${prefix}/sdk/react-native/fundamentals/realm-sync/ -> ${base}/sdk/react-native/sync-data/
 raw: ${prefix}/sdk/swift/examples/connect-to-a-mongodb-realm-backend-app/ -> ${base}/sdk/swift/app-services/connect-to-app-services-backend/
 raw: ${prefix}/sdk/swift/fundamentals/realm-sync/ -> ${base}/sdk/swift/sync/
 raw: ${prefix}/tutorial/realm-app/ -> ${base}/tutorial/backend-app/
@@ -798,23 +803,23 @@ raw: ${prefix}/sdk/swift/fundamentals/realm-database -> ${base}/sdk/swift/realm-
 raw: ${prefix}/sdk/swift/fundamentals/realms -> ${base}/sdk/swift/realm-database/
 raw: ${prefix}/sdk/swift/fundamentals/live-queries -> ${base}/sdk/swift/crud/read/
 raw: ${prefix}/sdk/swift/fundamentals/write-transactions -> ${base}/sdk/swift/crud/create/
-raw: ${prefix}/sdk/swift/fundamentals/relationships -> ${base}/sdk/swift/model-data/define-model/relationships/
+raw: ${prefix}/sdk/swift/fundamentals/relationships -> ${base}/sdk/swift/model-data/
 raw: ${prefix}/sdk/swift/fundamentals/schema-versions-and-migrations -> ${base}/sdk/swift/model-data/change-an-object-model/
-raw: ${prefix}/sdk/swift/fundamentals/object-models-and-schemas -> ${base}/sdk/swift/model-data/define-model/object-models/
+raw: ${prefix}/sdk/swift/fundamentals/object-models-and-schemas -> ${base}/sdk/swift/model-data/
 raw: ${prefix}/sdk/swift/fundamentals/application-services -> ${base}/sdk/swift/application-services/
 raw: ${prefix}/sdk/swift/fundamentals/device-sync -> ${base}/sdk/swift/sync/
-raw: ${prefix}/sdk/swift/data-types -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/swift/data-types/anyrealmvalue -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/swift/data-types/collections -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/swift/data-types/embedded-objects -> ${base}/sdk/swift/model-data/define-model/object-models/
-raw: ${prefix}/sdk/swift/data-types/map -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/swift/data-types/mutablesets -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/swift/data-types/supported-property-types -> ${base}/sdk/swift/model-data/define-model/supported-types/
-raw: ${prefix}/sdk/swift/data-types/type-projection -> ${base}/sdk/swift/model-data/define-model/supported-types/
+raw: ${prefix}/sdk/swift/data-types -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/swift/data-types/anyrealmvalue -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/swift/data-types/collections -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/swift/data-types/embedded-objects -> ${base}/sdk/swift/model-data/object-models/
+raw: ${prefix}/sdk/swift/data-types/map -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/swift/data-types/mutablesets -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/swift/data-types/supported-property-types -> ${base}/sdk/swift/model-data/supported-types/
+raw: ${prefix}/sdk/swift/data-types/type-projection -> ${base}/sdk/swift/model-data/supported-types/
 raw: ${prefix}/sdk/swift/examples -> ${base}/sdk/swift/
 raw: ${prefix}/sdk/swift/examples/read-and-write-data -> ${base}/sdk/swift/crud/create/
 raw: ${prefix}/sdk/swift/examples/configure-and-open-a-realm -> ${base}/sdk/swift/realm-files/configure-and-open-a-realm/
-raw: ${prefix}/sdk/swift/examples/define-a-realm-object-model -> ${base}/sdk/swift/model-data/define-model/object-models/
+raw: ${prefix}/sdk/swift/examples/define-a-realm-object-model -> ${base}/sdk/swift/model-data/object-models/
 raw: ${prefix}/sdk/swift/examples/define-and-use-class-projections -> ${base}/sdk/swift/model-data/define-model/object-models/
 raw: ${prefix}/sdk/swift/examples/modify-an-object-schema -> ${base}/sdk/swift/model-data/change-an-object-model/
 raw: ${prefix}/sdk/swift/examples/bundle-a-realm -> ${base}/sdk/swift/realm-files/bundle-a-realm/
@@ -852,8 +857,8 @@ raw: ${prefix}/sdk/swift/additional-examples -> ${base}/sdk/swift/realm-database
 raw: ${prefix}/reference/realm-query-language -> ${base}/realm-query-language/
 raw: ${prefix}/sdk/flutter/realm-database/query-language -> ${base}/realm-query-language/
 raw: ${prefix}/sdk/kotlin/realm-database/query-language -> ${base}/realm-query-language/
-raw: ${prefix}/sdk/node/advanced/query-engine -> ${base}/sdk/node/examples/query-data/
-raw: ${prefix}/sdk/react-native/advanced/query-engine -> ${base}/sdk/react-native/examples/query-data/
+raw: ${prefix}/sdk/node/advanced/query-engine -> ${base}/sdk/node/crud/query-data/
+raw: ${prefix}/sdk/react-native/advanced/query-engine -> ${base}/sdk/react-native/app-services/query-mongodb/
 
 # Tutorial refresh
 
@@ -897,7 +902,7 @@ raw: ${prefix}/sdk/flutter/model-data/property-annotations -> ${base}/sdk/flutte
 raw: ${prefix}/sdk/flutter/model-data/relationships -> ${base}/sdk/flutter/realm-database/model-data/relationships/
 raw: ${prefix}/sdk/flutter/model-data/update-realm-object-schema -> ${base}/sdk/flutter/realm-database/model-data/update-realm-object-schema/
 raw: ${prefix}/sdk/flutter/react-to-changes -> ${base}/sdk/flutter/realm-database/react-to-changes/
-raw: ${prefix}/sdk/flutter/read-and-write-data -> ${base}/sdk/flutter/realm-database/read-and-write-data/
+raw: ${prefix}/sdk/flutter/read-and-write-data -> ${base}/sdk/flutter/crud/create/
 raw: ${prefix}/sdk/flutter/realm-files -> ${base}/sdk/flutter/realm-database/realm-files/
 raw: ${prefix}/sdk/flutter/realm-files/bundle -> ${base}/sdk/flutter/realm-database/realm-files/bundle/
 raw: ${prefix}/sdk/flutter/realm-files/compact -> ${base}/sdk/flutter/realm-database/realm-files/compact/
@@ -908,52 +913,49 @@ raw: ${prefix}/sdk/flutter/realm-database/model-data/collections -> ${base}/sdk/
 # React Native IA Refactor (https://jira.mongodb.org/browse/DOCSP-26635)
 
 raw: ${prefix}/sdk/react-native/quick-start-expo/ -> ${base}/sdk/react-native/bootstrap-with-expo/
-raw: ${prefix}/sdk/react-native/fundamentals/realm-database -> ${base}/sdk/react-native/realm-database/overview
-raw: ${prefix}/sdk/react-native/fundamentals/realms -> ${base}/sdk/react-native/realm-database/overview
-raw: ${prefix}/sdk/react-native/fundamentals/live-queries -> ${base}/sdk/react-native/realm-database/overview
-raw: ${prefix}/sdk/react-native/fundamentals/write-transactions -> ${base}/sdk/react-native/realm-database/write-transactions
-raw: ${prefix}/sdk/react-native/fundamentals/relationships-and-embedded-objects -> ${base}/sdk/react-native/realm-database/schemas/relationships
-raw: ${prefix}/sdk/react-native/fundamentals/schema-versions-and-migrations -> ${base}/sdk/react-native/realm-database/change-an-object-model
-raw: ${prefix}/sdk/react-native/fundamentals/application-services -> ${base}/sdk/react-native/app-services/overview
-raw: ${prefix}/sdk/react-native/fundamentals/device-sync -> ${base}/sdk/react-native/sync/overview
-raw: ${prefix}/sdk/react-native/data-types/field-types -> ${base}/sdk/react-native/realm-database/schemas/field-types
-raw: ${prefix}/sdk/react-native/data-types/collections -> ${base}/sdk/react-native/realm-database/schemas/collections
-raw: ${prefix}/sdk/react-native/data-types/dictionaries -> ${base}/sdk/react-native/realm-database/schemas/dictionaries
-raw: ${prefix}/sdk/react-native/data-types/sets -> ${base}/sdk/react-native/realm-database/schemas/sets
-raw: ${prefix}/sdk/react-native/data-types/mixed -> ${base}/sdk/react-native/realm-database/schemas/mixed
-raw: ${prefix}/sdk/react-native/data-types/uuid -> ${base}/sdk/react-native/realm-database/schemas/uuid
-raw: ${prefix}/sdk/react-native/data-types/embedded-objects -> ${base}/sdk/react-native/realm-database/schemas/embedded-objects
-raw: ${prefix}/sdk/react-native/examples/debugging-with-flipper -> ${base}/sdk/react-native/test-and-debug/debugging-with-flipper
-raw: ${prefix}/sdk/react-native/examples/define-a-realm-object-model -> ${base}/sdk/react-native/realm-database/define-a-realm-object-model
-raw: ${prefix}/sdk/react-native/examples/open-and-close-a-realm -> ${base}/sdk/react-native/realm-database/open-and-close-a-realm
-raw: ${prefix}/sdk/react-native/examples/read-and-write-data -> ${base}/sdk/react-native/realm-database/crud/create
-raw: ${prefix}/sdk/react-native/examples/react-to-changes -> ${base}/sdk/react-native/realm-database/react-to-changes
-raw: ${prefix}/sdk/react-native/examples/use-change-listeners-in-components -> ${base}/sdk/react-native/realm-database/react-to-changes
-raw: ${prefix}/sdk/react-native/examples/query-data -> ${base}/sdk/react-native/realm-database/crud/query-data
-raw: ${prefix}/sdk/react-native/examples/modify-an-object-schema -> ${base}/sdk/react-native/realm-database/change-an-object-model
-raw: ${prefix}/sdk/react-native/examples/connect-to-app-services-backend -> ${base}/sdk/react-native/app-services/connect-to-app-services-app
-raw: ${prefix}/sdk/react-native/examples/create-delete-users -> ${base}/sdk/react-native/manage-users/create-and-delete-users
+raw: ${prefix}/sdk/react-native/fundamentals/realm-database -> ${base}/sdk/react-native/realm-database/
+raw: ${prefix}/sdk/react-native/fundamentals/realms -> ${base}/sdk/react-native/realm-database/
+raw: ${prefix}/sdk/react-native/fundamentals/live-queries -> ${base}/sdk/react-native/realm-database/
+raw: ${prefix}/sdk/react-native/fundamentals/write-transactions -> ${base}/sdk/react-native/crud/
+raw: ${prefix}/sdk/react-native/fundamentals/relationships-and-embedded-objects -> ${base}/sdk/react-native/model-data/relationships-and-embedded-objects/
+raw: ${prefix}/sdk/react-native/fundamentals/schema-versions-and-migrations -> ${base}/sdk/react-native/model-data/change-an-object-model/
+raw: ${prefix}/sdk/react-native/fundamentals/application-services -> ${base}/sdk/react-native/app-services/
+raw: ${prefix}/sdk/react-native/fundamentals/device-sync -> ${base}/sdk/react-native/sync-data/
+raw: ${prefix}/sdk/react-native/data-types/field-types -> ${base}/sdk/react-native/model-data/data-types/property-types/
+raw: ${prefix}/sdk/react-native/data-types/collections -> ${base}/sdk/react-native/model-data/data-types/collections/
+raw: ${prefix}/sdk/react-native/data-types/dictionaries -> ${base}/sdk/react-native/model-data/data-types/dictionaries/
+raw: ${prefix}/sdk/react-native/data-types/sets -> ${base}/sdk/react-native/model-data/data-types/sets/
+raw: ${prefix}/sdk/react-native/data-types/mixed -> ${base}/sdk/react-native/model-data/data-types/mixed/
+raw: ${prefix}/sdk/react-native/data-types/uuid -> ${base}/sdk/react-native/model-data/data-types/uuid/
+raw: ${prefix}/sdk/react-native/data-types/embedded-objects -> ${base}/sdk/react-native/model-data/data-types/embedded-objects/
+raw: ${prefix}/sdk/react-native/examples/define-a-realm-object-model -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/
+raw: ${prefix}/sdk/react-native/examples/open-and-close-a-realm -> ${base}/sdk/react-native/realm-files/configure-a-realm/
+raw: ${prefix}/sdk/react-native/examples/read-and-write-data -> ${base}/sdk/react-native/crud/
+raw: ${prefix}/sdk/react-native/examples/react-to-changes -> ${base}/sdk/react-native/react-to-changes/
+raw: ${prefix}/sdk/react-native/examples/use-change-listeners-in-components -> ${base}/sdk/react-native/react-to-changes/
+raw: ${prefix}/sdk/react-native/examples/query-data -> ${base}/sdk/react-native/crud/query-data/
+raw: ${prefix}/sdk/react-native/examples/modify-an-object-schema -> ${base}/sdk/react-native/model-data/change-an-object-model/
+raw: ${prefix}/sdk/react-native/examples/connect-to-app-services-backend -> ${base}/sdk/react-native/app-services/connect-to-app-services-app/
+raw: ${prefix}/sdk/react-native/examples/create-delete-users -> ${base}/sdk/react-native/manage-users/create-and-delete-users/
 raw: ${prefix}/sdk/react-native/examples/authenticate-users -> ${base}/sdk/react-native/manage-users/authenticate-users/
-raw: ${prefix}/sdk/react-native/examples/sync-changes-between-devices -> ${base}/sdk/react-native/sync/overview
-raw: ${prefix}/sdk/react-native/examples/flexible-sync -> ${base}/sdk/react-native/sync/flexible-sync
-raw: ${prefix}/sdk/react-native/examples/reset-a-client-realm -> ${base}/sdk/react-native/sync/reset-a-client-realm
-raw: ${prefix}/sdk/react-native/examples/call-a-function -> ${base}/sdk/react-native/app-services/call-a-function
-raw: ${prefix}/sdk/react-native/examples/manage-email-password-users -> ${base}/sdk/react-native/manage-users/manage-email-password-users
-raw: ${prefix}/sdk/react-native/examples/manage-user-api-keys -> ${base}/sdk/react-native/app-services/manage-user-api-keys
-raw: ${prefix}/sdk/react-native/examples/query-mongodb -> ${base}/sdk/react-native/app-services/query-mongodb
-raw: ${prefix}/sdk/react-native/advanced/access-custom-user-data -> ${base}/sdk/react-native/manage-users/custom-user-data
-raw: ${prefix}/sdk/react-native/advanced/multi-user-applications -> ${base}/sdk/react-native/manage-users/multi-user-applications
-raw: ${prefix}/sdk/react-native/advanced/link-identities -> ${base}/sdk/react-native/manage-users/link-user-identities
-raw: ${prefix}/sdk/react-native/advanced/encrypt -> ${base}/sdk/react-native/realm-database/encrypt
-raw: ${prefix}/sdk/react-native/advanced/client-reset-data-recovery -> ${base}/sdk/react-native/sync/client-reset-data-recovery
-raw: ${prefix}/sdk/react-native/advanced/bundle -> ${base}/sdk/react-native/realm-database/bundle
-raw: ${prefix}/sdk/react-native/test-and-debug -> ${base}/sdk/react-native/test-and-debug/testing
-=======
+raw: ${prefix}/sdk/react-native/examples/sync-changes-between-devices -> ${base}/sdk/react-native/sync-data/
+raw: ${prefix}/sdk/react-native/examples/flexible-sync -> ${base}/sdk/react-native/sync-data/configure-a-synced-realm/
+raw: ${prefix}/sdk/react-native/examples/reset-a-client-realm -> ${base}/sdk/react-native/sync-data/handle-sync-errors/
+raw: ${prefix}/sdk/react-native/examples/call-a-function -> ${base}/sdk/react-native/app-services/call-a-function/
+raw: ${prefix}/sdk/react-native/examples/manage-email-password-users -> ${base}/sdk/react-native/manage-users/manage-email-password-users/
+raw: ${prefix}/sdk/react-native/examples/manage-user-api-keys -> ${base}/sdk/react-native/app-services/manage-user-api-keys/
+raw: ${prefix}/sdk/react-native/examples/query-mongodb -> ${base}/sdk/react-native/app-services/query-mongodb/
+raw: ${prefix}/sdk/react-native/advanced/access-custom-user-data -> ${base}/sdk/react-native/manage-users/custom-user-data/
+raw: ${prefix}/sdk/react-native/advanced/multi-user-applications -> ${base}/sdk/react-native/manage-users/multi-user-applications/
+raw: ${prefix}/sdk/react-native/advanced/link-identities -> ${base}/sdk/react-native/manage-users/link-user-identities/
+raw: ${prefix}/sdk/react-native/advanced/encrypt -> ${base}/sdk/react-native/realm-files/encrypt/
+raw: ${prefix}/sdk/react-native/advanced/client-reset-data-recovery -> ${base}/sdk/react-native/sync-data/client-reset-data-recovery/
+raw: ${prefix}/sdk/react-native/advanced/bundle -> ${base}/sdk/react-native/realm-files/bundle/
+raw: ${prefix}/sdk/react-native/test-and-debug -> ${base}/sdk/react-native/test-and-debug/testing/
+
 raw: ${prefix}/sdk/flutter/realm-database/data-types -> ${base}/sdk/flutter/model-data/data-types/
 raw: ${prefix}/sdk/flutter/realm-database/define-realm-object-schema -> ${base}/sdk/flutter/model-data/define-realm-object-schema/
 raw: ${prefix}/sdk/flutter/realm-database/update-realm-object-schema -> ${base}/sdk/flutter/model-data/update-realm-object-schema/
-raw: ${prefix}/sdk/flutter/realm-database/freeze -> ${base}/sdk/flutter/freeze/
-raw: ${prefix}/sdk/flutter/realm-database/react-to-changes -> ${base}/sdk/flutter/react-to-changes/
 raw: ${prefix}/sdk/flutter/realm-database/bundle -> ${base}/sdk/flutter/realm-files/bundle/
 raw: ${prefix}/sdk/flutter/realm-database/compact -> ${base}/sdk/flutter/realm-files/compact/
 raw: ${prefix}/sdk/flutter/realm-database/open-and-close-a-realm -> ${base}/sdk/flutter/realm-files/configure-and-open/
@@ -1025,6 +1027,275 @@ raw: ${prefix}/sdk/dotnet/advanced-guides -> ${base}/sdk/dotnet/
 raw: ${prefix}/sdk/dotnet/advanced-guides/debugging -> ${base}/sdk/dotnet/
 raw: ${prefix}/sdk/dotnet/advanced-guides/testing -> ${base}/sdk/dotnet/
 
-# Kotlin Realm Files IA Improvements
+# Realm React Guidance (https://jira.mongodb.org/browse/DOCSP-23395)
 
-raw: ${prefix}/sdk/kotlin/realm-database/open-and-close-a-realm -> ${base}/sdk/kotlin/realm-database/realm-files/open-and-close-a-realm
+raw: ${prefix}/sdk/react-native/realm-database/open-and-close-a-realm -> ${base}/sdk/react-native/realm-files/configure-a-realm/
+raw: ${prefix}/sdk/react-native/realm-database/open-a-synced-realm -> ${base}/sdk/react-native/realm-files/configure-a-synced-realm/
+raw: ${prefix}/sdk/react-native/sync-data/reset-a-client-realm -> ${base}/sdk/react-native/sync-data/handle-sync-errors/
+raw: ${prefix}/sdk/react-native/sync-data/check-upload-download-progress ->  ${base}/sdk/react-native/sync-data/manage-sync-session/
+raw: ${prefix}/sdk/react-native/sync-data/multiplex-sync-session ->  ${base}/sdk/react-native/sync-data/manage-sync-session/
+raw: ${prefix}/sdk/react-native/sync-data/network-connection ->  ${base}/sdk/react-native/sync-data/manage-sync-session/
+raw: ${prefix}/sdk/react-native/sync-data/pause-or-resume-sync-session ->  ${base}/sdk/react-native/sync-data/manage-sync-session/
+
+# Kotlin IA Revamp (https://jira.mongodb.org/browse/DOCSP-28779)
+
+raw: ${prefix}/sdk/kotlin/app-services/register-users -> ${base}/sdk/kotlin/users/manage-email-password-users/
+raw: ${prefix}/sdk/kotlin/app-services/authenticate-users -> ${base}/sdk/kotlin/users/authenticate-users/
+raw: ${prefix}/sdk/kotlin/app-services/link-credentials -> ${base}/sdk/kotlin/users/link-credentials/
+raw: ${prefix}/sdk/kotlin/app-services/manage-user-api-keys -> ${base}/sdk/kotlin/users/manage-user-api-keys/
+raw: ${prefix}/sdk/kotlin/app-services/custom-user-data -> ${base}/sdk/kotlin/users/custom-user-data/
+raw: ${prefix}/sdk/kotlin/app-services/delete-users -> ${base}/sdk/kotlin/users/delete-users/
+raw: ${prefix}/sdk/kotlin/app-services/overview -> ${base}/sdk/kotlin/app-services/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/ignore -> ${base}/sdk/kotlin/realm-database/schemas/property-annotations/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/index -> ${base}/sdk/kotlin/realm-database/schemas/property-annotations/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/primary-key -> ${base}/sdk/kotlin/realm-database/schemas/property-annotations/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/optional -> ${base}/sdk/kotlin/realm-database/schemas/property-annotations/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/remap -> ${base}/sdk/kotlin/realm-database/schemas/property-annotations/
+raw: ${prefix}/sdk/kotlin/realm-database/define-realm-object-model -> ${base}/sdk/kotlin/realm-database/schemas/define-realm-object-model/
+raw: ${prefix}/sdk/kotlin/realm-database/change-an-object-model -> ${base}/sdk/kotlin/realm-database/schemas/change-an-object-model/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/embedded-objects -> ${base}/sdk/kotlin/realm-database/schemas/relationships/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/uuid -> ${base}/sdk/kotlin/realm-database/schemas/relationships/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/timestamps -> ${base}/sdk/kotlin/realm-database/schemas/relationships/
+raw: ${prefix}/sdk/kotlin/realm-database/schemas/realm-set -> ${base}/sdk/kotlin/realm-database/schemas/relationships/
+raw: ${prefix}/sdk/kotlin/app-services/overview -> ${base}source/sdk/kotlin/app-services/
+raw: ${prefix}/sdk/kotlin/install/android -> ${base}/sdk/kotlin/install/
+raw: ${prefix}/sdk/kotlin/install/kotlin-multiplatform -> ${base}/sdk/kotlin/install/
+raw: ${prefix}/sdk/kotlin/sync/overview -> ${base}/sdk/kotlin/sync/
+raw: ${prefix}/sdk/kotlin/realm-database/overview -> ${base}/sdk/kotlin/realm-database/
+raw: ${prefix}/sdk/kotlin/realm-database/create/create-a-new-object -> ${base}/sdk/kotlin/realm-database/crud/create/
+raw: ${prefix}/sdk/kotlin/realm-database/read/find-object-by-primary-key -> ${base}/sdk/kotlin/realm-database/crud/read/
+raw: ${prefix}/sdk/kotlin/realm-database/read/find-objects-of-a-type -> ${base}/sdk/kotlin/realm-database/crud/read/
+raw: ${prefix}/sdk/kotlin/realm-database/read/filter-data -> ${base}/sdk/kotlin/realm-database/crud/read/
+raw: ${prefix}/sdk/kotlin/realm-database/read/sort-queries -> ${base}/sdk/kotlin/realm-database/crud/read/
+raw: ${prefix}/sdk/kotlin/realm-database/read/iteration -> ${base}/sdk/kotlin/realm-database/crud/read/
+raw: ${prefix}/sdk/kotlin/realm-database/update/modify-an-object -> ${base}/sdk/kotlin/realm-database/crud/update/
+raw: ${prefix}/sdk/kotlin/realm-database/update/upsert-an-object -> ${base}/sdk/kotlin/realm-database/crud/update/
+raw: ${prefix}/sdk/kotlin/realm-database/update/update-collection -> ${base}/sdk/kotlin/realm-database/crud/update/
+raw: ${prefix}/sdk/kotlin/realm-database/delete/delete-an-object -> ${base}/sdk/kotlin/realm-database/crud/delete/
+raw: ${prefix}/sdk/kotlin/realm-database/delete/delete-multiple-objects -> ${base}/sdk/kotlin/realm-database/crud/delete/
+raw: ${prefix}/sdk/kotlin/realm-database/delete/delete-all-objects-of-a-type -> ${base}/sdk/kotlin/realm-database/crud/delete/
+raw: ${prefix}/sdk/kotlin/errors/app -> ${base}/sdk/kotlin/app-services/handle-app-errors/
+raw: ${prefix}/sdk/kotlin/errors/realm -> ${base}/sdk/kotlin/realm-database/errors/
+raw: ${prefix}/sdk/kotlin/errors/ -> ${base}/sdk/kotlin/realm-database/errors/
+
+# Node.js topic-based IA update (https://jira.mongodb.org/browse/DOCSP-29286)
+
+raw: ${prefix}/sdk/node/migrate -> ${base}/sdk/node/migrate/index/
+
+raw: ${prefix}/sdk/node/examples -> ${base}/sdk/node/
+raw: ${prefix}/sdk/node/examples/open-and-close-a-realm -> ${base}/sdk/node/realm-files/open-and-close-a-realm/
+raw: ${prefix}/sdk/node/examples/react-to-changes -> ${base}/sdk/node/react-to-changes/
+raw: ${prefix}/sdk/node/examples/call-a-function -> ${base}/sdk/node/app-services/call-a-function/
+raw: ${prefix}/sdk/node/examples/connect-to-app-services-backend -> ${base}/sdk/node/app-services/connect-to-app-services-backend/
+raw: ${prefix}/sdk/node/examples/query-mongodb -> ${base}/sdk/node/app-services/query-mongodb/
+raw: ${prefix}/sdk/node/examples/authenticate-users -> ${base}/sdk/node/users/authenticate-users/
+raw: ${prefix}/sdk/node/examples/create-delete-users -> ${base}/sdk/node/users/create-delete-users/
+raw: ${prefix}/sdk/node/examples/manage-email-password-users -> ${base}/sdk/node/users/manage-email-password-users/
+raw: ${prefix}/sdk/node/examples/manage-user-api-keys -> ${base}/sdk/node/users/manage-user-api-keys/
+raw: ${prefix}/sdk/node/examples/user-metadata -> ${base}/sdk/node/users/user-metadata/
+raw: ${prefix}/sdk/node/examples/flexible-sync -> ${base}/sdk/node/sync/flexible-sync/
+raw: ${prefix}/sdk/node/examples/reset-a-client-realm -> ${base}/sdk/node/sync/handle-sync-errors/
+raw: ${prefix}/sdk/node/examples/sync-changes-between-devices -> ${base}/sdk/node/sync/
+raw: ${prefix}/sdk/node/examples/define-a-realm-object-model -> ${base}/sdk/node/model-data/define-a-realm-object-model/
+raw: ${prefix}/sdk/node/examples/modify-an-object-schema -> ${base}/sdk/node/model-data/modify-an-object-schema/
+raw: ${prefix}/sdk/node/examples/read-and-write-data -> ${base}/sdk/node/crud/
+raw: ${prefix}/sdk/node/examples/query-data -> ${base}/sdk/node/crud/query-data/
+
+raw: ${prefix}/sdk/node/advanced/ -> ${base}/sdk/node/
+raw: ${prefix}/sdk/node/advanced/bundle -> ${base}/sdk/node/realm-files/bundle/
+raw: ${prefix}/sdk/node/advanced/encrypt -> ${base}/sdk/node/realm-files/encrypt/
+raw: ${prefix}/sdk/node/advanced/access-custom-user-data -> ${base}/sdk/node/users/access-custom-user-data/
+raw: ${prefix}/sdk/node/advanced/link-identities -> ${base}/sdk/node/users/link-identities/
+raw: ${prefix}/sdk/node/advanced/multi-user-applications -> ${base}/sdk/node/users/multi-user-applications/
+raw: ${prefix}/sdk/node/advanced/client-reset-data-recovery -> ${base}/sdk/node/sync/client-reset-data-recovery/
+
+raw: ${prefix}/sdk/node/data-types -> ${base}/sdk/node/model-data/data-types/
+raw: ${prefix}/sdk/node/data-types/collections -> ${base}/sdk/node/model-data/data-types/collections/
+raw: ${prefix}/sdk/node/data-types/dictionaries -> ${base}/sdk/node/model-data/data-types/dictionaries/
+raw: ${prefix}/sdk/node/data-types/embedded-objects -> ${base}/sdk/node/model-data/data-types/embedded-objects/
+raw: ${prefix}/sdk/node/data-types/field-types -> ${base}/sdk/node/model-data/data-types/field-types/
+raw: ${prefix}/sdk/node/data-types/mixed -> ${base}/sdk/node/model-data/data-types/mixed/
+raw: ${prefix}/sdk/node/data-types/sets -> ${base}/sdk/node/model-data/data-types/sets/
+raw: ${prefix}/sdk/node/data-types/uuid -> ${base}/sdk/node/model-data/data-types/uuid/
+
+raw: ${prefix}/sdk/node/fundamentals/application-services -> ${base}/sdk/node/app-services/
+raw: ${prefix}/sdk/node/fundamentals/device-sync -> ${base}/sdk/node/sync/
+raw: ${prefix}/sdk/node/fundamentals/live-queries -> ${base}/sdk/node/realm-database/
+raw: ${prefix}/sdk/node/fundamentals/realms -> ${base}/sdk/node/realm-files/
+raw: ${prefix}/sdk/node/fundamentals/realm-database -> ${base}/sdk/node/realm-database/
+raw: ${prefix}/sdk/node/fundamentals/relationships-and-embedded-objects -> ${base}/sdk/node/model-data/relationships-and-embedded-objects/
+raw: ${prefix}/sdk/node/fundamentals/schema-versions-and-migrations -> ${base}/sdk/node/model-data/modify-an-object-schema/
+raw: ${prefix}/sdk/node/fundamentals/write-transactions -> ${base}/sdk/node/crud/
+
+# Java SDK topic-based IA update (https://jira.mongodb.org/browse/DOCSP-29301)
+
+raw: ${prefix}/sdk/java/migrate -> ${base}/sdk/java/migrate/index/
+
+raw: ${prefix}/sdk/java/examples -> ${base}/sdk/java/
+raw: ${prefix}/sdk/java/examples/connect-to-app-services-backend -> ${base}/sdk/java/app-services/connect-to-app-services-backend/
+raw: ${prefix}/sdk/java/examples/call-a-function -> ${base}/sdk/java/app-services/call-a-function/
+raw: ${prefix}/sdk/java/examples/mongodb-remote-access -> ${base}/sdk/java/app-services/mongodb-remote-access/
+raw: ${prefix}/sdk/java/examples/authenticate-users -> ${base}/sdk/java/users/authenticate-users/
+raw: ${prefix}/sdk/java/examples/email-password-users -> ${base}/sdk/java/users/email-password-users/
+raw: ${prefix}/sdk/java/examples/manage-user-api-keys -> ${base}/sdk/java/users/manage-user-api-keys/
+raw: ${prefix}/sdk/java/examples/read-and-write-data -> ${base}/sdk/java/crud/
+raw: ${prefix}/sdk/java/examples/filter-data -> ${base}/sdk/java/crud/filter-data/
+raw: ${prefix}/sdk/java/examples/define-a-realm-object-model -> ${base}/sdk/java/model-data/define-a-realm-object-model/
+raw: ${prefix}/sdk/java/examples/modify-an-object-schema -> ${base}/sdk/java/model-data/modify-an-object-schema/
+raw: ${prefix}/sdk/java/examples/open-and-close-a-realm -> ${base}/sdk/java/realm-files/open-and-close-a-realm/
+raw: ${prefix}/sdk/java/examples/bundle-a-realm -> ${base}/sdk/java/realm-files/bundle-a-realm/
+raw: ${prefix}/sdk/java/examples/flexible-sync -> ${base}/sdk/java/sync/flexible-sync/
+raw: ${prefix}/sdk/java/examples/reset-a-client-realm -> ${base}/sdk/java/sync/reset-a-client-realm/
+raw: ${prefix}/sdk/java/examples/sync-changes-between-devices -> ${base}/sdk/java/sync/
+raw: ${prefix}/sdk/java/examples/react-to-changes -> ${base}/sdk/java/react-to-changes/
+raw: ${prefix}/sdk/java/examples/adapters -> ${base}/sdk/java/adapters/
+raw: ${prefix}/sdk/java/examples/log-realm-events -> ${base}/sdk/java/test-and-debug/log-realm-events/
+
+raw: ${prefix}/sdk/java/advanced -> ${base}/sdk/java/
+raw: ${prefix}/sdk/java/advanced/link-user-identities -> ${base}/sdk/java/users/link-user-identities/
+raw: ${prefix}/sdk/java/advanced/multi-user-applications -> ${base}/sdk/java/users/multi-user-applications/
+raw: ${prefix}/sdk/java/advanced/custom-user-data -> ${base}/sdk/java/users/custom-user-data/
+raw: ${prefix}/sdk/java/advanced/threading -> ${base}/sdk/java/crud/threading/
+raw: ${prefix}/sdk/java/advanced/encryption -> ${base}/sdk/java/realm-files/encryption/
+raw: ${prefix}/sdk/java/advanced/manual-client-reset-data-recovery -> ${base}/sdk/java/sync/manual-client-reset-data-recovery/
+raw: ${prefix}/sdk/java/advanced/background-sync -> ${base}/sdk/java/sync/background-sync/
+raw: ${prefix}/sdk/java/advanced/debugging -> ${base}/sdk/java/test-and-debug/debugging/
+raw: ${prefix}/sdk/java/advanced/testing -> ${base}/sdk/java/test-and-debug/test-and-debug/
+
+raw: ${prefix}/sdk/java/data-types -> ${base}/sdk/java/model-data/data-types/
+raw: ${prefix}/sdk/java/data-types/collections -> ${base}/sdk/java/model-data/data-types/collections/
+raw: ${prefix}/sdk/java/data-types/counters -> ${base}/sdk/java/model-data/data-types/counters/
+raw: ${prefix}/sdk/java/data-types/embedded-objects -> ${base}/sdk/java/model-data/data-types/embedded-objects/
+raw: ${prefix}/sdk/java/data-types/enums -> ${base}/sdk/java/model-data/data-types/enums/
+raw: ${prefix}/sdk/java/data-types/field-types -> ${base}/sdk/java/model-data/data-types/field-types/
+raw: ${prefix}/sdk/java/data-types/realmany -> ${base}/sdk/java/model-data/data-types/realmany/
+raw: ${prefix}/sdk/java/data-types/realmdictionary -> ${base}/sdk/java/model-data/data-types/realmdictionary/
+raw: ${prefix}/sdk/java/data-types/realmset -> ${base}/sdk/java/model-data/data-types/realmset/
+
+raw: ${prefix}/sdk/java/fundamentals -> ${base}/sdk/java/
+raw: ${prefix}/sdk/java/fundamentals/application-services -> ${base}/sdk/java/app-services/
+raw: ${prefix}/sdk/java/fundamentals/async-api -> ${base}/sdk/java/async-api/
+raw: ${prefix}/sdk/java/fundamentals/device-sync -> ${base}/sdk/java/sync/
+raw: ${prefix}/sdk/java/fundamentals/live-queries -> ${base}/sdk/java/realm-database/
+raw: ${prefix}/sdk/java/fundamentals/object-models-and-schemas -> ${base}/sdk/java/model-data/
+raw: ${prefix}/sdk/java/fundamentals/query-engine -> ${base}/sdk/java/crud/filter-data/
+raw: ${prefix}/sdk/java/fundamentals/realm-database -> ${base}/sdk/java/realm-database/
+raw: ${prefix}/sdk/java/fundamentals/realms -> ${base}/sdk/java/realm-files/
+raw: ${prefix}/sdk/java/fundamentals/relationships -> ${base}/sdk/java/model-data/relationships/
+raw: ${prefix}/sdk/java/fundamentals/schema-versions-and-migrations -> ${base}/sdk/java/model-data/
+raw: ${prefix}/sdk/java/fundamentals/write-transactions -> ${base}/sdk/java/crud/
+
+raw: ${prefix}/sdk/java/troubleshooting -> ${base}/sdk/java/test-and-debug/troubleshooting/
+raw: ${prefix}/sdk/java/livedata -> ${base}/sdk/java/quick-starts/livedata/
+raw: ${prefix}/sdk/java/quick-start-local -> ${base}/sdk/java/quick-starts/quick-start-local/
+raw: ${prefix}/sdk/java/quick-start-sync -> ${base}/sdk/java/quick-starts/quick-start-sync/
+
+# React Native IA update (https://jira.mongodb.org/browse/DOCSP-28989)
+
+raw: ${prefix}/sdk/react-native/realm-database/overview -> ${base}/sdk/react-native/realm-database/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/asymmetric-object -> ${base}/sdk/react-native/sync-data/stream-data-to-atlas/
+raw: ${prefix}/sdk/react-native/realm-database/write-transactions/ -> ${base}/sdk/react-native/crud/
+raw: ${prefix}/sdk/react-native/realm-database/crud -> ${base}/sdk/react-native/crud/
+raw: ${prefix}/sdk/react-native/realm-database/crud/create -> ${base}/sdk/react-native/crud/create/
+raw: ${prefix}/sdk/react-native/realm-database/crud/update -> ${base}/sdk/react-native/crud/update/
+raw: ${prefix}/sdk/react-native/realm-database/crud/delete -> ${base}/sdk/react-native/crud/delete/
+raw: ${prefix}/sdk/react-native/realm-database/crud/read -> ${base}/sdk/react-native/crud/read/
+raw: ${prefix}/sdk/react-native/realm-database/crud/query-data -> ${base}/sdk/react-native/crud/query-data/
+raw: ${prefix}/sdk/react-native/realm-database/change-an-object-model -> ${base}/sdk/react-native/model-data/change-an-object-model/
+
+raw: ${prefix}/sdk/react-native/realm-database/schemas/overview -> ${base}/sdk/react-native/model-data/data-types/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/collections -> ${base}/sdk/react-native/model-data/data-types/collections/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/dictionaries -> ${base}/sdk/react-native/model-data/data-types/dictionaries/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/embedded-objects -> ${base}/sdk/react-native/model-data/data-types/embedded-objects/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/mixed -> ${base}/sdk/react-native/model-data/data-types/mixed/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/field-types -> ${base}/sdk/react-native/model-data/data-types/property-types/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/sets -> ${base}/sdk/react-native/model-data/data-types/sets/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/uuid -> ${base}/sdk/react-native/model-data/data-types/uuid/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/relationships -> ${base}/sdk/react-native/model-data/relationships-and-embedded-objects/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/default-value -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/index -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/optional -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/primary-key -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/
+raw: ${prefix}/sdk/react-native/realm-database/schemas/remap -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/
+
+raw: ${prefix}/sdk/react-native/realm-database/react-to-changes -> ${base}/sdk/react-native/react-to-changes/
+raw: ${prefix}/sdk/react-native/realm-database/bundle -> ${base}/sdk/react-native/realm-files/bundle/
+raw: ${prefix}/sdk/react-native/realm-database/bundle -> ${base}/sdk/react-native/realm-files/bundle/
+raw: ${base}/sdk/react-native/realm-database/configure-a-realm -> ${base}/sdk/react-native/realm-files/configure-a-realm/
+raw: ${prefix}/sdk/react-native/realm-database/encrypt -> ${base}/sdk/react-native/realm-files/encrypt/
+
+raw: ${prefix}/sdk/react-native/app-services/overview -> ${base}/sdk/react-native/app-services/
+raw: ${prefix}/sdk/react-native/realm-database/define-a-realm-object-model -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/
+
+raw: ${prefix}/sdk/react-native/sync-data/overview -> ${base}/sdk/react-native/sync-data/
+
+raw: ${prefix}/sdk/react-native/migrate -> ${base}/sdk/react-native/migrate/index/
+
+# Match the Swift IA to other topic-based IAs (https://jira.mongodb.org/browse/DOCSP-29354)
+
+raw: ${prefix}/sdk/swift/model-data/define-model -> ${base}/sdk/swift/model-data/
+raw: ${prefix}/sdk/swift/model-data/define-model/object-models -> ${base}/sdk/swift/model-data/object-models/
+raw: ${prefix}/sdk/swift/model-data/define-model/relationships -> ${base}/sdk/swift/model-data/relationships/
+raw: ${prefix}/sdk/swift/model-data/define-model/supported-types -> ${base}/sdk/swift/model-data/supported-types/
+
+# Add Kotlin Manage Email/Password User Page (https://jira.mongodb.org/browse/DOCSP-28262)
+
+raw: ${prefix}/sdk/kotlin/users/register-users -> ${base}/sdk/kotlin/users/manage-email-password-users/
+
+# Minor Node IA update
+
+raw: ${prefix}/sdk/node/sync/reset-a-client-realm -> ${base}/sdk/node/sync/handle-sync-errors/
+raw: ${prefix}/sdk/node/sync/pause-resume-sync -> ${base}/sdk/node/sync/manage-sync-session/
+raw: ${prefix}/sdk/node/sync/sync-progress -> ${base}/sdk/node/sync/manage-sync-session/
+raw: ${prefix}/sdk/node/sync/network-connection -> ${base}/sdk/node/sync/manage-sync-session/
+raw: ${prefix}/sdk/node/sync/multiplex-sync-sessions -> ${base}/sdk/node/sync/manage-sync-session/
+
+# Remove this very old legacy content that gets very few views and only shows Partition-Based Sync
+
+raw: ${prefix}/sdk/swift/sync/sync-realm-open-legacy -> ${base}/sdk/swift/sync/configure-and-open-a-synced-realm/
+
+# Consolidate Sync Session documentation for Swift
+
+raw: ${prefix}/sdk/swift/sync/sync-progress -> ${base}/sdk/swift/sync/sync-session/
+raw: ${prefix}/sdk/swift/sync/network-connection -> ${base}/sdk/swift/sync/sync-session/
+
+# DOCSP-30339: Move Configure & Open a Realm page up a level 
+
+raw: ${prefix}/sdk/kotlin/realm-database/realm-files/open-and-close-a-realm -> ${base}/sdk/kotlin/realm-database/open-and-close-a-realm/
+
+# Update Swift Actor support documentation
+
+raw: ${prefix}/sdk/swift/actor-isolated-realm -> ${base}/sdk/swift/use-realm-with-actors/
+
+# DOCSP-34624 - Device SDK landing page and intro updates
+
+raw: ${prefix}/sdk/cpp/realm-database -> ${base}/introduction/
+raw: ${prefix}/sdk/dotnet/realm-database -> ${base}/introduction/
+raw: ${prefix}/sdk/flutter/realm-database/database-internals -> ${base}/introduction/
+raw: ${prefix}/sdk/java/realm-database -> ${base}/introduction/
+raw: ${prefix}/sdk/kotlin/realm-database/database-internals -> ${base}/introduction/
+raw: ${prefix}/sdk/node/realm-database -> ${base}/introduction/
+raw: ${prefix}/sdk/react-native/realm-database -> ${base}/introduction/
+raw: ${prefix}/sdk/swift/realm-database -> ${base}/introduction/
+
+# Flutter swarm/parity
+
+raw: ${prefix}/sdk/flutter/realm-database/read-and-write-data -> ${base}/sdk/flutter/crud/create/
+
+# Smartling missing redirect
+
+raw: ${prefix}/sdk/react-native/use-realm-react -> ${base}/sdk/react-native/api-reference/realm-provider/
+
+# DOCSP-37163 Remove Electron Guides from TOC
+
+raw: ${prefix}/sdk/node/integrations/electron-cra -> ${base}/sdk/node/
+raw: ${prefix}/sdk/node/integrations/electron -> ${base}/sdk/node/
+raw: ${prefix}/sdk/node/integrations -> ${base}/sdk/node/
+
+# DOP-4255 Rehoming /docs/realm docs at /docs/atlas/device-sdks
+raw: ${prefix} -> ${deviceSDKsBase}/
+raw: ${prefix}/introduction -> ${deviceSDKsBase}/introduction/
+raw: ${prefix}/realm-query-language -> ${deviceSDKsBase}/realm-query-language/
+raw: ${prefix}/example-projects -> ${deviceSDKsBase}/example-projects/
+raw: ${prefix}/help -> ${deviceSDKsBase}/help/
+raw: ${prefix}/migrate -> ${deviceSDKsBase}/migrate/

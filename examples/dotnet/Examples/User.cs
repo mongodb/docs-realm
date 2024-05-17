@@ -2,22 +2,13 @@
 
 namespace Examples.Models
 {
-    public class User : RealmObject
+    public partial class User : IRealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
-        [Required]
-        public string _id { get; set; }
-
-        [MapTo("_partition")]
-        [Required]
-        public string Partition { get; set; }
+        public string Id { get; set; }
 
         [MapTo("image")]
-        public string Image { get; set; }
-
-        [MapTo("name")]
-        [Required]
-        public string Name { get; set; }
+        public string? Image { get; set; }
     }
 }

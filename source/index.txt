@@ -2,16 +2,19 @@
 :hidefeedback: header
 :noprevnext:
 
-=========================
-Welcome to the Realm Docs
-=========================
+====================================
+Welcome to the Atlas Device SDK Docs
+====================================
+
+.. meta:: 
+   :description: Atlas Device SDK is an offline-first, cloud-syncable database for mobile, web, desktop, and IoT apps.
 
 .. toctree::
    :titlesonly:
    :hidden:
 
    Introduction </introduction>
-   C++ SDK (Alpha) </sdk/cpp>
+   C++ SDK </sdk/cpp>
    Flutter SDK </sdk/flutter>
    Java SDK </sdk/java>
    Kotlin SDK </sdk/kotlin>
@@ -23,29 +26,32 @@ Welcome to the Realm Docs
    Atlas App Services <https://mongodb.com/docs/atlas/app-services>
    Realm Studio </studio>
    Realm Query Language </realm-query-language>
+   Example Projects </example-projects>
    Get Help </help>
 
 .. introduction::
 
-   Realm is a mobile-first database designed for modern, data-driven
-   applications. You can use Realm to build mobile, web, desktop, and IoT apps.
+   Atlas Device SDK is a suite of app development tools optimized for 
+   data access and persistence on mobile and edge devices. Use the SDKs to 
+   build data-driven mobile, edge, web, desktop, and IoT apps.
 
    .. button:: Get started with a tutorial
       :uri: https://mongodb.com/docs/atlas/app-services/get-started/
 
-   :doc:`Read the 5 Minute Introduction <introduction>`
+   :doc:`Read the 5-Minute Introduction <introduction>`
 
 .. image:: /images/hero.png
-   :alt: Realm landing page hero image
+   :alt: Atlas Device SDK landing page hero image
    :class: hero-img
 
-Realm is an embedded, object-oriented database that lets you build real-time,
-always-on applications. Its SDKs also provide access to Atlas App Services, a
-secure backend that can sync data between devices, authenticate and manage
-users, and run serverless JavaScript functions.
+The SDKs provide tools to read and write Atlas data from devices. Your app 
+can sync automatically with MongoDB Atlas and other devices using Device Sync. 
+You can call Atlas Functions from a device. The device persistence layer is
+Realm, an embedded, object-oriented database that lets you build real-time,
+offline-first applications. 
 
-Realm has open-source SDKs available for most popular languages, frameworks,
-and platforms. Each SDK is language-idiomatic and includes:
+We provide SDKs for most popular languages, frameworks, and platforms. Each 
+SDK is language-idiomatic and includes:
 
 - The core database APIs for creating and working with on-device databases.
 
@@ -57,6 +63,14 @@ and platforms. Each SDK is language-idiomatic and includes:
 .. card-group::
    :style: extra-compact
    :columns: 2
+
+   .. card::
+      :cta: Learn more about Atlas App Services
+      :headline: Atlas App Services
+      :icon: /images/icons/realm.svg
+      :url: https://www.mongodb.com/docs/atlas/app-services/
+
+      Discover how to sync data, define permissions, and connect to other services, including MongoDB Atlas.
 
    .. card::
       :headline: Swift SDK
@@ -72,7 +86,7 @@ and platforms. Each SDK is language-idiomatic and includes:
       :icon: /images/icons/kotlin_sdk.svg
       :icon-alt: Kotlin SDK icon
 
-      Build cross-platform applications for Android, iOS, and macOS with Kotlin Multiplatform Mobile. Realm data maps directly to the classes in your app.
+      Build cross-platform applications for Android, iOS, and macOS with Kotlin Multiplatform (KMP).
 
    .. card::
       :headline: .NET SDK
@@ -105,7 +119,7 @@ and platforms. Each SDK is language-idiomatic and includes:
       :icon: /images/icons/android_sdk.svg
       :icon-alt: Java SDK icon
 
-      Build Android applications in Java or Kotlin. Realm data maps directly to the classes in your app.
+      Build Android applications in Java or Kotlin.
 
    .. card::
       :headline: Web SDK
@@ -113,7 +127,7 @@ and platforms. Each SDK is language-idiomatic and includes:
       :icon: /images/icons/web_sdk.svg
       :icon-alt: Web SDK icon
 
-      Build web applications in JavaScript or TypeScript. Access data with GraphQL and MongoDB queries.
+      Build web applications in JavaScript or TypeScript. Access data with MongoDB queries.
 
    .. card::
       :headline: Flutter SDK
@@ -130,13 +144,5 @@ and platforms. Each SDK is language-idiomatic and includes:
       :icon-alt: C++ SDK icon
 
       Build applications in C++. Access data stored in realms and sync data with Atlas.
-      
-   .. card::
-      :cta: Learn more about Atlas App Services
-      :headline: Atlas App Services
-      :icon: /images/icons/realm.svg
-      :url: https://www.mongodb.com/docs/atlas/app-services/
 
-      Discover how to sync data, define permissions, and connect to other services, including MongoDB Atlas.
-
-For legacy (pre-v10) Realm Database Documentation, see https://www.mongodb.com/docs/realm-legacy/docs/.
+For legacy (pre-v10) Realm Documentation, see https://www.mongodb.com/docs/realm-legacy/docs/.

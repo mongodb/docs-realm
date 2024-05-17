@@ -7,7 +7,7 @@ namespace LocalOnly
 {
     class Program
     {
-        static ObjectId someGuitarId;
+        static ObjectId someGuitarId = ObjectId.Empty;
 
         static void Main(string[] args)
         {
@@ -15,11 +15,8 @@ namespace LocalOnly
             var realm = Realm.GetInstance();
             //:snippet-end:
 
-            //:snippet-start:read-all
             var allGuitars = realm.All<Guitar>();
-            //:snippet-end:
 
-            //:snippet-start:write
             realm.Write(() =>
             {
                 realm.Add(new Guitar()
@@ -30,16 +27,12 @@ namespace LocalOnly
                     Owner = "N. Young"
                 });
             });
-            //:snippet-end:
-            //:snippet-start:read-filter
             var lessExpensiveGuitars = realm.All<Guitar>().Where(g => g.Price < 400);
 
             var guitarsSortedByMake = realm.All<Guitar>().OrderBy(g => g.Make);
 
             var specifiGuitarById = realm.Find<Guitar>(someGuitarId);
-            //:snippet-end:
 
-            //:snippet-start:update
             var davidsStrat = realm.All<Guitar>().FirstOrDefault(
                 g => g.Owner == "D. Gilmour"
                 && g.Make == "Fender"
@@ -47,11 +40,9 @@ namespace LocalOnly
 
             realm.Write(() =>
             {
-                davidsStrat.Price = 1700345.56;
+                davidsStrat!.Price = 1700345.56;
             });
-            //:snippet-end:
 
-            //:snippet-start:delete
             var mostExpensiveGuitar = realm.All<Guitar>()
                 .OrderByDescending(g => g.Price).First();
 
@@ -59,24 +50,22 @@ namespace LocalOnly
             {
                 realm.Remove(mostExpensiveGuitar);
             });
-            //:snippet-end:
-
 
             // Watch for Guitar collection changes.
             var token = realm.All<Guitar>()
-                .SubscribeForNotifications((sender, changes, error) =>
+                .SubscribeForNotifications((sender, changes) =>
                 {
-                    foreach (var i in changes.DeletedIndices)
+                    foreach (var i in changes!.DeletedIndices)
                     {
                         // ... handle deletions ...
                     }
 
-                    foreach (var i in changes.InsertedIndices)
+                    foreach (var i in changes!.InsertedIndices)
                     {
                         // ... handle insertions ...
                     }
 
-                    foreach (var i in changes.NewModifiedIndices)
+                    foreach (var i in changes!.NewModifiedIndices)
                     {
                         // ... handle modifications ...
                     }
@@ -84,8 +73,6 @@ namespace LocalOnly
 
             // Later, when you no longer wish to receive notifications
             token.Dispose();
-
-
         }
 
         public void DeleteAndStartAgain()

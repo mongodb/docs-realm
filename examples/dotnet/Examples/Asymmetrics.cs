@@ -9,12 +9,12 @@ using Realms.Sync.ErrorHandling;
 
 namespace Examples
 {
-    public class Asymmetrics
+    public partial class Asymmetrics
     {
         App app;
         Realms.Sync.User user;
         Realm realm;
-        const string myRealmAppId = Config.fsAppId;
+        const string myRealmAppId = Config.FSAppId;
 
         [OneTimeSetUp]
         public void Setup()
@@ -45,7 +45,7 @@ namespace Examples
         // :remove-start:
         [Realms.Explicit]
         // :remove-end:
-        private class Measurement : AsymmetricObject
+        private partial class Measurement : IAsymmetricObject
         {
             [PrimaryKey, MapTo("_id")]
             public Guid Id { get; private set; } = Guid.NewGuid();

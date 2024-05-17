@@ -1,8 +1,6 @@
 let configuration = AppConfiguration(
-   baseURL: "https://realm.mongodb.com", // Custom base URL
+   baseURL: "https://services.cloud.mongodb.com", // You can customize base URL
    transport: nil, // Custom RLMNetworkTransportProtocol
-   localAppName: "My App",
-   localAppVersion: "3.14.159",
    defaultRequestTimeoutMS: 30000
 )
 

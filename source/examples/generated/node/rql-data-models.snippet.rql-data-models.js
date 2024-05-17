@@ -1,8 +1,8 @@
-const TaskModel = {
-  name: "Task",
+const ItemModel = {
+  name: "Item",
   properties: {
     id: "objectId",
-    name: "string",
+    name: {type: "string", indexed: "full-text"},
     isComplete: { type: "bool", default: false },
     assignee: "string?",
     priority: {
@@ -16,7 +16,7 @@ const TaskModel = {
     projects: {
       type: "linkingObjects",
       objectType: "Project",
-      property: "tasks",
+      property: "items",
     },
   },
   primaryKey: "id",
@@ -27,7 +27,7 @@ const ProjectModel = {
   properties: {
     id: "objectId",
     name: "string",
-    tasks: "Task[]",
+    items: "Item[]",
     quota: "int?",
   },
   primaryKey: "id",

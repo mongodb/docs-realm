@@ -1,1 +1,5 @@
-await app.emailPasswordAuth.resetPassword({ password: "newPassw0rd", token, tokenId });
+await app.emailPasswordAuth.resetPassword({
+  password: "newPassw0rd",
+  token,
+  tokenId,
+});

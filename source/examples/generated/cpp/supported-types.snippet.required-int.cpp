@@ -1,1 +1,1 @@
-realm::persisted<int> intName;
+int64_t intName;

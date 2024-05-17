@@ -15,7 +15,7 @@ namespace Examples
         App app;
         User user;
         PartitionSyncConfiguration config;
-        string myRealmAppId = Config.appid;
+        string myRealmAppId = Config.AppId;
 
         [Test]
         public async Task HandleErrors()
@@ -44,7 +44,7 @@ namespace Examples
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new PartitionSyncConfiguration("myPartition", user);
             //:remove-start:
-            config.Schema = new[] { typeof(Examples.Models.User) };
+            config.Schema = new[] { typeof(Models.User) };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :snippet-start:handle-errors
@@ -52,18 +52,14 @@ namespace Examples
             {
                 switch (sessionException.ErrorCode)
                 {
-                    case ErrorCode.InvalidCredentials:
-                        // Tell the user they don't have permissions to work with that Realm
-                        break;
-                    case ErrorCode.Unknown:
-                        // See https://www.mongodb.com/docs/realm-sdks/dotnet
-                        // /latest/reference/Realms.Sync.Exceptions.ErrorCode.html
-                        // for all of the error codes
+                    // See https://www.mongodb.com/docs/realm-sdks/dotnet/latest/reference/Realms.Sync.Exceptions.ErrorCode.html
+                    // for a list of all error codes
+                    case ErrorCode.BadQuery:
                         break;
                 }
             };
             // :snippet-end:
-            TestingExtensions.SimulateError(realm.SyncSession, ErrorCode.InvalidCredentials, "" +
+            TestingExtensions.SimulateError(realm.SyncSession, ErrorCode.BadQuery, "" +
                 "No permission to work with the Realm");
 
             // Close the Realm before doing the reset as it'll need
@@ -75,11 +71,10 @@ namespace Examples
             //Assert.IsTrue(didTriggerErrorHandler);
         }
 
-        [Test]
         public async Task UseCancellationToken()
         {
 
-            var appConfig = new AppConfiguration(Config.fsAppId);
+            var appConfig = new AppConfiguration(Config.FSAppId);
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
 

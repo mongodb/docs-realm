@@ -29,7 +29,7 @@ struct DogDetailsView: View {
     }
 }
 
-// :snippet-start: edit-property
+// :snippet-start: quick-write-property
 struct EditDogDetails: View {
     @ObservedRealmObject var dog: SwiftUI_Dog
     

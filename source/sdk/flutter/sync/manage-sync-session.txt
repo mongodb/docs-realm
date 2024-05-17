@@ -4,19 +4,26 @@
 Manage a Sync Session - Flutter SDK
 ===================================
 
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. meta::
+   :description: Access the syncSession to check network connection, pause and resume sync sessions, and monitor Sync progress with the Atlas Device SDK for Flutter.
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-When you use Atlas Device Sync, the Realm Flutter SDK syncs data with Atlas
+When you use Atlas Device Sync, the Flutter SDK syncs data with Atlas
 in the background using a sync session. The sync session starts whenever
 you open a synced realm.
 
 The sync session manages the following:
 
-- Uploading and downloading changes to the realm
+- Uploading and downloading changes to the synced database
 - Pausing and resuming sync
 - Monitoring sync progress
 - Monitoring network connectivity
@@ -46,6 +53,13 @@ to download to your synced realm, call :flutter-sdk:`Session.waitForDownload()
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.wait-upload-download.dart
    :language: dart
 
+You can add an optional :flutter-sdk:`CancellationToken
+<realm/CancellationToken-class.html>` to ``waitForUpload()`` and
+``waitForDownload()``.
+
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.cancel-waitfor.dart
+   :language: dart
+
 .. _flutter-pause-resume-sync:
 
 Pause and Resume a Sync Session
@@ -65,38 +79,48 @@ The following code block demonstrates calling these methods:
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.pause-resume-sync.dart
    :language: dart
 
+When to Pause a Sync Session
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/when-to-pause-sync.rst
+
 .. _flutter-monitor-sync-progress:
 
-Monitor Sync Upload Progress
-----------------------------
+Monitor Sync Upload and Download Progress
+-----------------------------------------
 
-To monitor Sync upload progress progress, call :flutter-sdk:`SyncSession.getProgressStream()
+.. versionchanged:: 2.0.0
+   ``transferredBytes`` and ``transferrableBytes`` deprecated in favor of ``progressEstimate``
+
+To monitor Sync progress, call :flutter-sdk:`SyncSession.getProgressStream()
 <realm/Session/getProgressStream.html>`. This method returns a Stream of
-:flutter-sdk:`SyncProgress <realm/SyncProgress-class.html>` objects.
-``SyncProgress`` provides the total number of transferrable bytes and the remaining
-bytes to be transferred.
+:flutter-sdk:`SyncProgress <realm/SyncProgress-class.html>` objects that provide
+a ``progressEstimate`` for the current upload or download.
+
+The provided ``progressEstimate`` is a double whose value
+ranges from ``0.0`` to ``1.0``. At ``1.0``, the progress stream is complete.
 
 ``SyncSession.getProgressStream()`` takes two arguments:
 
 - A :flutter-sdk:`ProgressDirection <realm/ProgressDirection.html>`
-  enum that must be set to ``upload``.
-  This specifies that the progress stream tracks uploads.
+  enum that can be set to ``upload`` or ``download``. Specifies whether the
+  progress stream monitors upload or download progress.
 
-- A :flutter-sdk:`ProgressMode <realm/latest/realm/ProgressMode.html>` enum
-  that can be set to ``reportIndefinitely`` or ``forCurrentlyOutstandingWork``.
-  ``reportIndefinitely`` sets notifications to continue until the callback is unregistered.
-  ``forCurrentlyOutstandingWork`` sets notifications to continue until only
-  the currently-transferable bytes are synced.
+- A :flutter-sdk:`ProgressMode <realm/ProgressMode.html>` enum
+  that can be set to one of the following:
+
+  - ``reportIndefinitely``: Sets notifications to continue until the callback is
+    unregistered.
+  - ``forCurrentlyOutstandingWork``: Sets notifications to continue until the
+    ``progressEstimate`` reaches ``1.0``.
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-progress.dart
    :language: dart
 
-.. warning:: Do Not Track Downloads
+.. tip::
 
-   The ``ProgressDirection`` enum also has a ``download`` option to track down downloads.
-   The ``download`` case provides planned future support for download progress notifications. 
-   However, these notifications do not currently provide an accurate indicator of download progress.
-   Do not rely on ``ProgressDirection.download`` for download progress notifications.
+   Use the ``progressEstimate`` to display a progress indicator or estimated
+   data transfer percentage.
 
 .. _flutter-monitor-network-connection:
 
@@ -119,3 +143,28 @@ You can access the current and previous ``ConnectionState`` from ``ConnectionSta
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-network-connection.dart
    :language: dart
+
+Manually Reconnect All Sync Sessions
+------------------------------------
+
+The Flutter SDK automatically detects when a device regains connectivity after
+being offline and attempts to reconnect using an incremental backoff strategy.
+
+You can choose to manually trigger a reconnect attempt with the
+:flutter-sdk:`App.reconnect() <realm/App/reconnect.html>` instead of waiting for
+the duration of the incremental backoff. This is useful if you have a more
+accurate understanding of the network conditions and don't want to rely on
+automatic reconnect detection.
+
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.session-reconnect.dart
+   :language: dart
+
+When you call this method, the SDK forces all sync sessions to attempt to
+reconnect immediately and resets any timers used for incremental backoff.
+
+.. important:: Cannot Reconnect Within Socket Read Timeout Duration
+
+   The Flutter SDK has an internal default socket read timeout of 2 minutes,
+   where the SDK will time out if a read operation does not receive any data
+   within a 2-minute window. If you call ``App.Sync.reconnect()``
+   within that window, the Flutter SDK does *not* attempt to reconnect.

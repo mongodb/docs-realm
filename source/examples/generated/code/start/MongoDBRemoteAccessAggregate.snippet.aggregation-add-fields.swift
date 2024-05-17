@@ -1,4 +1,4 @@
-let pipeline: [Document] = [["$addFields": ["storeNumber": ["$arrayElemAt": [["$split": ["$partition", " "]], 1]]]]]
+let pipeline: [Document] = [["$addFields": ["storeNumber": ["$arrayElemAt": [["$split": ["$store", " "]], 1]]]]]
 
 collection.aggregate(pipeline: pipeline) { result in
     switch result {

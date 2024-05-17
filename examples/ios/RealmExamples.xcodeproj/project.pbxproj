@@ -54,6 +54,7 @@
 		48F38B5C2527A3FE00DDEB65 /* ManageApiKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F38B5B2527A3FE00DDEB65 /* ManageApiKeys.m */; };
 		9107C21328D35EA600E9EAF7 /* AsymmetricSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9107C21228D35EA600E9EAF7 /* AsymmetricSync.swift */; };
 		911366EB27BC0C6100DF865D /* ConvertSyncLocalRealms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911366EA27BC0C6100DF865D /* ConvertSyncLocalRealms.swift */; };
+		9119CCC32B61C63700220A98 /* Geospatial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9119CCC22B61C63700220A98 /* Geospatial.swift */; };
 		912ACA7B28415292006CDDD8 /* SwiftUIFlexSyncExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912ACA7A28415292006CDDD8 /* SwiftUIFlexSyncExampleApp.swift */; };
 		912ACA7F28415294006CDDD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 912ACA7E28415294006CDDD8 /* Assets.xcassets */; };
 		912ACA8228415294006CDDD8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 912ACA8128415294006CDDD8 /* Preview Assets.xcassets */; };
@@ -62,6 +63,8 @@
 		914601F726A86B9100BC91EA /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914601F526A86B9000BC91EA /* Sync.swift */; };
 		914AC1BD28A3EAE00005E3C3 /* QuickStartFlexSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914AC1BC28A3EAE00005E3C3 /* QuickStartFlexSync.swift */; };
 		914E8AD827F4C08100B8591D /* ClientReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914E8AD727F4C08100B8591D /* ClientReset.swift */; };
+		91508B792BE57F3F00817DBC /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 91508B782BE57F3F00817DBC /* RealmSwift */; };
+		9157C1BC2AD059FF0059281A /* SyncTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9157C1BB2AD059FF0059281A /* SyncTestUtils.swift */; };
 		915B8EE529258B4300150F01 /* CreateObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B8EE429258B4300150F01 /* CreateObjects.swift */; };
 		915B8EE629258B4300150F01 /* CreateObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B8EE429258B4300150F01 /* CreateObjects.swift */; };
 		915B8EF929267CC100150F01 /* SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B8EF829267CC100150F01 /* SwiftUI.swift */; };
@@ -82,22 +85,15 @@
 		91713B1728AC3D8400519F9D /* SwiftUICatalogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B1628AC3D8400519F9D /* SwiftUICatalogUITests.swift */; };
 		91713B2528AC3DF300519F9D /* OpenRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B2428AC3DF300519F9D /* OpenRealm.swift */; };
 		91713B2728AC3DF300519F9D /* OpenRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B2428AC3DF300519F9D /* OpenRealm.swift */; };
-		91713B2928AC3E7A00519F9D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 91713B2828AC3E7A00519F9D /* Realm */; };
-		91713B2B28AC3E7A00519F9D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 91713B2A28AC3E7A00519F9D /* RealmSwift */; };
-		91713B2D28AC400400519F9D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 91713B2C28AC400400519F9D /* Realm */; };
-		91713B2F28AC400400519F9D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 91713B2E28AC400400519F9D /* RealmSwift */; };
 		91713B3128AC41B700519F9D /* Authenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B3028AC41B700519F9D /* Authenticate.swift */; };
 		91713B3328AC41B700519F9D /* Authenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B3028AC41B700519F9D /* Authenticate.swift */; };
 		91713B3528AD2B0E00519F9D /* PassObjectsToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B3428AD2B0E00519F9D /* PassObjectsToView.swift */; };
 		91713B3728AD2B0E00519F9D /* PassObjectsToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B3428AD2B0E00519F9D /* PassObjectsToView.swift */; };
 		91713B3928AD2B3500519F9D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B3828AD2B3500519F9D /* Model.swift */; };
 		91713B3B28AD2B3500519F9D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91713B3828AD2B3500519F9D /* Model.swift */; };
-		9175294628467FA000F8CB03 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9175294528467FA000F8CB03 /* Realm */; };
-		9175294828467FA000F8CB03 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9175294728467FA000F8CB03 /* RealmSwift */; };
-		9175294A28467FB700F8CB03 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9175294928467FB700F8CB03 /* Realm */; };
-		9175294C28467FB700F8CB03 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9175294B28467FB700F8CB03 /* RealmSwift */; };
-		917529522846803200F8CB03 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 917529512846803200F8CB03 /* Realm */; };
-		917529542846803200F8CB03 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 917529532846803200F8CB03 /* RealmSwift */; };
+		91787E5429E594C100296021 /* RealmActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91787E5329E594C100296021 /* RealmActor.swift */; };
+		917C6E662A8E638F00EC3079 /* SupportedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917C6E652A8E638F00EC3079 /* SupportedTypes.swift */; };
+		917C6E682A8E63E900EC3079 /* SupportedTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 917C6E672A8E63E900EC3079 /* SupportedTypes.m */; };
 		917CA79627ECADC200F9BDDC /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79527ECADC200F9BDDC /* FacebookCore */; };
 		917CA79827ECADC200F9BDDC /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79727ECADC200F9BDDC /* FacebookLogin */; };
 		917CA79B27ECB36700F9BDDC /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79A27ECB36700F9BDDC /* FacebookCore */; };
@@ -122,6 +118,7 @@
 		91D5420D28E72C33005F8220 /* SectionedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D5420B28E72C33005F8220 /* SectionedResults.swift */; };
 		91E5C80128256C6D00AAA239 /* EventLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E5C80028256C6D00AAA239 /* EventLibrary.swift */; };
 		91E608AD296E114500F84EA5 /* SyncedRealmCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E608AC296E114500F84EA5 /* SyncedRealmCRUD.swift */; };
+		91F046992A29299A000B43B2 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F046982A29299A000B43B2 /* Logging.swift */; };
 		91FBD320279865080005C10C /* DeleteUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FBD31F279865080005C10C /* DeleteUsers.swift */; };
 /* End PBXBuildFile section */
 
@@ -141,6 +138,19 @@
 			remoteInfo = SwiftUICatalog;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		91F04E9B2BE290A80082EB2B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		228B6F9026166ED10075A6E0 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -194,6 +204,7 @@
 		48F38B5B2527A3FE00DDEB65 /* ManageApiKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManageApiKeys.m; sourceTree = "<group>"; };
 		9107C21228D35EA600E9EAF7 /* AsymmetricSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsymmetricSync.swift; sourceTree = "<group>"; };
 		911366EA27BC0C6100DF865D /* ConvertSyncLocalRealms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertSyncLocalRealms.swift; sourceTree = "<group>"; };
+		9119CCC22B61C63700220A98 /* Geospatial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geospatial.swift; sourceTree = "<group>"; };
 		9126A02E27ED00A1002006D2 /* RealmPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = RealmPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		912ACA7828415292006CDDD8 /* SwiftUIFlexSyncExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIFlexSyncExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		912ACA7A28415292006CDDD8 /* SwiftUIFlexSyncExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIFlexSyncExampleApp.swift; sourceTree = "<group>"; };
@@ -203,6 +214,7 @@
 		914601F526A86B9000BC91EA /* Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
 		914AC1BC28A3EAE00005E3C3 /* QuickStartFlexSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStartFlexSync.swift; sourceTree = "<group>"; };
 		914E8AD727F4C08100B8591D /* ClientReset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientReset.swift; sourceTree = "<group>"; };
+		9157C1BB2AD059FF0059281A /* SyncTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTestUtils.swift; sourceTree = "<group>"; };
 		915B8EE429258B4300150F01 /* CreateObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateObjects.swift; sourceTree = "<group>"; };
 		915B8EF829267CC100150F01 /* SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.swift; sourceTree = "<group>"; };
 		915C666927B41B0900E7BDB4 /* BundleRealms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleRealms.swift; sourceTree = "<group>"; };
@@ -222,6 +234,9 @@
 		91713B3028AC41B700519F9D /* Authenticate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticate.swift; sourceTree = "<group>"; };
 		91713B3428AD2B0E00519F9D /* PassObjectsToView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassObjectsToView.swift; sourceTree = "<group>"; };
 		91713B3828AD2B3500519F9D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		91787E5329E594C100296021 /* RealmActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmActor.swift; sourceTree = "<group>"; };
+		917C6E652A8E638F00EC3079 /* SupportedTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedTypes.swift; sourceTree = "<group>"; };
+		917C6E672A8E63E900EC3079 /* SupportedTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SupportedTypes.m; sourceTree = "<group>"; };
 		917D8C9E26167B69001B7A61 /* TestingAndDebugging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestingAndDebugging.swift; sourceTree = "<group>"; };
 		917E73E526B8A9F80068242A /* MongoDBRemoteAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDBRemoteAccess.swift; sourceTree = "<group>"; };
 		917E73E626B8A9F80068242A /* MongoDBRemoteAccessAggregate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDBRemoteAccessAggregate.swift; sourceTree = "<group>"; };
@@ -242,6 +257,7 @@
 		91D5420B28E72C33005F8220 /* SectionedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionedResults.swift; sourceTree = "<group>"; };
 		91E5C80028256C6D00AAA239 /* EventLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLibrary.swift; sourceTree = "<group>"; };
 		91E608AC296E114500F84EA5 /* SyncedRealmCRUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncedRealmCRUD.swift; sourceTree = "<group>"; };
+		91F046982A29299A000B43B2 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		91FBD31F279865080005C10C /* DeleteUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUsers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -261,8 +277,7 @@
 			files = (
 				917CA79827ECADC200F9BDDC /* FacebookLogin in Frameworks */,
 				9143E95327EB79BD0082A5D6 /* GoogleSignIn in Frameworks */,
-				9175294628467FA000F8CB03 /* Realm in Frameworks */,
-				9175294828467FA000F8CB03 /* RealmSwift in Frameworks */,
+				91508B792BE57F3F00817DBC /* RealmSwift in Frameworks */,
 				917CA79627ECADC200F9BDDC /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,8 +286,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9175294C28467FB700F8CB03 /* RealmSwift in Frameworks */,
-				9175294A28467FB700F8CB03 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,8 +293,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91713B2B28AC3E7A00519F9D /* RealmSwift in Frameworks */,
-				91713B2928AC3E7A00519F9D /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,8 +300,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91713B2F28AC400400519F9D /* RealmSwift in Frameworks */,
-				91713B2D28AC400400519F9D /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,8 +307,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				917529542846803200F8CB03 /* RealmSwift in Frameworks */,
-				917529522846803200F8CB03 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,8 +367,10 @@
 				917097D9279F182600F1D65B /* FlexibleSync.swift */,
 				4834235B25D6E0CB002CE6B0 /* Functions.m */,
 				48F38B552527926500DDEB65 /* Functions.swift */,
+				9119CCC22B61C63700220A98 /* Geospatial.swift */,
 				48924B972515008100CC9567 /* Info.plist */,
 				9185DB1825E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift */,
+				91F046982A29299A000B43B2 /* Logging.swift */,
 				48F38B5B2527A3FE00DDEB65 /* ManageApiKeys.m */,
 				48F38B57252793F600DDEB65 /* ManageApiKeys.swift */,
 				48C072052511B6DB004B02BB /* ManageEmailPasswordUsers.m */,
@@ -385,11 +394,14 @@
 				914AC1BC28A3EAE00005E3C3 /* QuickStartFlexSync.swift */,
 				91AB03172899660A00A272E8 /* ReadRealmObjects.swift */,
 				4847120125891A3B004BD6EF /* ReadWriteData.m */,
+				91787E5329E594C100296021 /* RealmActor.swift */,
 				48BF34172511095C004139AF /* RealmApp.swift */,
 				9126A02E27ED00A1002006D2 /* RealmPlayground.playground */,
 				48944D9725C0BD520092B8AC /* Relationships.m */,
 				4870F8A42593EE91004FF76D /* Relationships.swift */,
 				915C667327BAADA100E7BDB4 /* seed.realm */,
+				917C6E672A8E63E900EC3079 /* SupportedTypes.m */,
+				917C6E652A8E638F00EC3079 /* SupportedTypes.swift */,
 				915B8EF829267CC100150F01 /* SwiftUI.swift */,
 				914601F426A86B9000BC91EA /* Sync.m */,
 				914601F526A86B9000BC91EA /* Sync.swift */,
@@ -406,6 +418,7 @@
 		48DBFACD25101C3100391E2B = {
 			isa = PBXGroup;
 			children = (
+				9157C1BA2AD059DA0059281A /* TestUtils */,
 				91A09A33290AF9410009FD7E /* RealmExamplesHostApp.entitlements */,
 				4896EE4D2510514B00D1FABF /* Examples */,
 				4803B325251068F800CCAF97 /* HostApp */,
@@ -446,6 +459,14 @@
 				912ACA8128415294006CDDD8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9157C1BA2AD059DA0059281A /* TestUtils */ = {
+			isa = PBXGroup;
+			children = (
+				9157C1BB2AD059FF0059281A /* SyncTestUtils.swift */,
+			);
+			path = TestUtils;
 			sourceTree = "<group>";
 		};
 		91713AFA28AC3D8200519F9D /* SwiftUICatalog */ = {
@@ -532,6 +553,7 @@
 				4896EE482510514B00D1FABF /* Sources */,
 				4896EE492510514B00D1FABF /* Frameworks */,
 				4896EE4A2510514B00D1FABF /* Resources */,
+				91F04E9B2BE290A80082EB2B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -543,8 +565,7 @@
 				9143E95227EB79BD0082A5D6 /* GoogleSignIn */,
 				917CA79527ECADC200F9BDDC /* FacebookCore */,
 				917CA79727ECADC200F9BDDC /* FacebookLogin */,
-				9175294528467FA000F8CB03 /* Realm */,
-				9175294728467FA000F8CB03 /* RealmSwift */,
+				91508B782BE57F3F00817DBC /* RealmSwift */,
 			);
 			productName = RealmExampleTests;
 			productReference = 4896EE4C2510514B00D1FABF /* RealmExamples.xctest */;
@@ -564,8 +585,6 @@
 			);
 			name = SwiftUIFlexSyncExample;
 			packageProductDependencies = (
-				9175294928467FB700F8CB03 /* Realm */,
-				9175294B28467FB700F8CB03 /* RealmSwift */,
 			);
 			productName = SwiftUIFlexSyncExample;
 			productReference = 912ACA7828415292006CDDD8 /* SwiftUIFlexSyncExample.app */;
@@ -585,8 +604,6 @@
 			);
 			name = SwiftUICatalog;
 			packageProductDependencies = (
-				91713B2828AC3E7A00519F9D /* Realm */,
-				91713B2A28AC3E7A00519F9D /* RealmSwift */,
 			);
 			productName = SwiftUICatalog;
 			productReference = 91713AF928AC3D8200519F9D /* SwiftUICatalog.app */;
@@ -607,8 +624,6 @@
 			);
 			name = SwiftUICatalogUITests;
 			packageProductDependencies = (
-				91713B2C28AC400400519F9D /* Realm */,
-				91713B2E28AC400400519F9D /* RealmSwift */,
 			);
 			productName = SwiftUICatalogUITests;
 			productReference = 91713B1228AC3D8300519F9D /* SwiftUICatalogUITests.xctest */;
@@ -628,8 +643,6 @@
 			);
 			name = SwiftUIExamples;
 			packageProductDependencies = (
-				917529512846803200F8CB03 /* Realm */,
-				917529532846803200F8CB03 /* RealmSwift */,
 			);
 			productName = QuickStartSwiftUI;
 			productReference = 91C68804274D8AFE001A5DBE /* SwiftUIExamples.app */;
@@ -677,7 +690,7 @@
 			packageReferences = (
 				9143E95127EB79BD0082A5D6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
-				9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				91508B752BE57EFA00817DBC /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 48DBFAD725101C3100391E2B /* Products */;
 			projectDirPath = "";
@@ -787,21 +800,25 @@
 			files = (
 				4870F8AA2593F56B004FF76D /* Notifications.swift in Sources */,
 				4813483025C21948006209FC /* Notifications.m in Sources */,
+				9119CCC32B61C63700220A98 /* Geospatial.swift in Sources */,
 				48BD8FEC25800AA3009DE2E6 /* AnonymouslyLoggedInTestCase.m in Sources */,
 				91AB031A2899662100A272E8 /* UpdateRealmObjects.swift in Sources */,
 				48F38B5A252794B300DDEB65 /* AnonymouslyLoggedInTestCase.swift in Sources */,
+				91F046992A29299A000B43B2 /* Logging.swift in Sources */,
 				91CEF5FE260E308100A029E0 /* Compacting.swift in Sources */,
 				4896EE58251051C800D1FABF /* ExampleObjcTestCase.m in Sources */,
 				4896EE55251051A600D1FABF /* ExampleSwiftTestCase.swift in Sources */,
 				4834235C25D6E0CB002CE6B0 /* Functions.m in Sources */,
 				48BD8FE72580017D009DE2E6 /* OpenCloseRealm.m in Sources */,
 				914601F626A86B9100BC91EA /* Sync.m in Sources */,
+				9157C1BC2AD059FF0059281A /* SyncTestUtils.swift in Sources */,
 				48944DA025C0E79C0092B8AC /* EmbeddedObjects.m in Sources */,
 				914E8AD827F4C08100B8591D /* ClientReset.swift in Sources */,
 				48F38B562527926500DDEB65 /* Functions.swift in Sources */,
 				48924BBB2515309F00CC9567 /* MultipleUsers.m in Sources */,
 				916AC598273036C100270C64 /* ClassProjection.swift in Sources */,
 				917E73E726B8A9F80068242A /* MongoDBRemoteAccess.swift in Sources */,
+				917C6E662A8E638F00EC3079 /* SupportedTypes.swift in Sources */,
 				911366EB27BC0C6100DF865D /* ConvertSyncLocalRealms.swift in Sources */,
 				915B8EF929267CC100150F01 /* SwiftUI.swift in Sources */,
 				228B6F9326166ED10075A6E0 /* Errors.m in Sources */,
@@ -810,6 +827,7 @@
 				48944D9025C08D500092B8AC /* ObjectModels.m in Sources */,
 				48F38B5425278ECB00DDEB65 /* CustomUserData.m in Sources */,
 				48924B8C2514FEFC00CC9567 /* TestSetup.swift in Sources */,
+				91787E5429E594C100296021 /* RealmActor.swift in Sources */,
 				915C666A27B41B0900E7BDB4 /* BundleRealms.swift in Sources */,
 				4847120225891A3B004BD6EF /* ReadWriteData.m in Sources */,
 				48C072062511B6DB004B02BB /* ManageEmailPasswordUsers.m in Sources */,
@@ -846,6 +864,7 @@
 				91B8A4D6278E24950018F72F /* TypeProjection.swift in Sources */,
 				487F77C3253F94C000BDC8CE /* OpenCloseRealm.swift in Sources */,
 				228B6F9226166ED10075A6E0 /* Errors.swift in Sources */,
+				917C6E682A8E63E900EC3079 /* SupportedTypes.m in Sources */,
 				48F38B5C2527A3FE00DDEB65 /* ManageApiKeys.m in Sources */,
 				917097DA279F182600F1D65B /* FlexibleSync.swift in Sources */,
 				48C072042511B5D5004B02BB /* ManageEmailPasswordUsers.swift in Sources */,
@@ -947,7 +966,7 @@
 				INFOPLIST_FILE = HostApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -975,7 +994,7 @@
 				INFOPLIST_FILE = HostApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -996,7 +1015,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = Examples/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1006,6 +1025,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RealmExamplesHostApp.app/RealmExamplesHostApp";
@@ -1020,7 +1040,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = Examples/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1029,6 +1049,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.docs.RealmExamples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RealmExamplesHostApp.app/RealmExamplesHostApp";
@@ -1088,13 +1109,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Examples/Info.plist;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = "";
 			};
 			name = Debug;
 		};
@@ -1145,12 +1168,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Examples/Info.plist;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1438,12 +1463,12 @@
 				version = 6.1.0;
 			};
 		};
-		9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+		91508B752BE57EFA00817DBC /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.34.0;
+				kind = exactVersion;
+				version = 10.50.0;
 			};
 		};
 		917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
@@ -1462,54 +1487,9 @@
 			package = 9143E95127EB79BD0082A5D6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
 		};
-		91713B2828AC3E7A00519F9D /* Realm */ = {
+		91508B782BE57F3F00817DBC /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		91713B2A28AC3E7A00519F9D /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
-		91713B2C28AC400400519F9D /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		91713B2E28AC400400519F9D /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
-		9175294528467FA000F8CB03 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		9175294728467FA000F8CB03 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
-		9175294928467FB700F8CB03 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		9175294B28467FB700F8CB03 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
-		917529512846803200F8CB03 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		917529532846803200F8CB03 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9175294428467FA000F8CB03 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			package = 91508B752BE57EFA00817DBC /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
 		917CA79527ECADC200F9BDDC /* FacebookCore */ = {

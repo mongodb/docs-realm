@@ -1,8 +1,8 @@
 .. _cpp-install:
 
-=======================
-Install Realm - C++ SDK
-=======================
+===================
+Install the C++ SDK
+===================
 
 .. contents:: On this page
    :local:
@@ -10,19 +10,25 @@ Install Realm - C++ SDK
    :depth: 1
    :class: singlecol
 
-The Realm C++ SDK enables client applications written in C++ to access data
-stored in realms and sync data with Atlas. This page details how to 
-install Realm in your project and get started.
+Atlas Device SDK for C++ enables client applications written in C++ to access 
+data stored on devices and sync data with Atlas. This page details how to 
+install the C++ SDK in your project and get started.
 
 Requirements
 ------------
 
 - Minimum C++ standard: C++17.
 - For development on macOS: Xcode 11.x or later.
+- For development on Windows: Microsoft Visual C++ (MSVC).
 - Otherwise, we recommend git and `CMake <https://cmake.org>`_.
 
 Install
 -------
+
+.. tip:: Atlas Device SDK and Realm
+
+   The SDK uses Realm Core database for device data persistence. When you
+   install the C++ SDK, the package names reflect Realm naming.
 
 .. tabs::
 
@@ -50,13 +56,13 @@ Install
 
             Under :guilabel:`Package Product`, select ``realm-cpp-sdk``. Under
             :guilabel:`Add to Target`, select the target you would like to add
-            Realm to. For example, the target might be the main executable of
+            the SDK to. For example, the target might be the main executable of
             your app. Click :guilabel:`Add Package`.
 
    .. tab:: CMake
       :tabid: cmake
 
-      You can use CMake with the FetchContent module to manage Realm and its
+      You can use CMake with the FetchContent module to manage the SDK and its
       dependencies in your C++ project.
 
       Create or modify your ``CMakeLists.txt`` in the root directory of your 
@@ -64,41 +70,43 @@ Install
 
       1. Add ``Include(FetchContent)`` to include the FetchContent module 
          in your project build.
-      #. Use ``FetchContent_Declare`` to locate the Realm dependency 
-         and specify the commit hash you want to use. 
+      #. Use ``FetchContent_Declare`` to locate the SDK dependency 
+         and specify the version tag you want to use. 
       #. Use the ``FetchContent_MakeAvailable()`` command to check whether 
          the named dependencies have been populated, and if not, populate them. 
-      #. Finally, ``target_link_libraries()`` links the Realm dependency to 
+      #. Finally, ``target_link_libraries()`` links the SDK dependency to 
          your target executable. 
       
-      To get the most recent commit hash, go to GitHub 
-      `realm/realm-cpp@main <https://github.com/realm/realm-cpp/commit/main>`__.
-      
-      You can also view the commit hash that built the :cpp-sdk:`C++ API reference 
-      documentation <>` at the top of the page next to the SDK name. For example:
-      ``Pre-alpha version main@ee900c16b9e02b85da599cc5a3eced50b7a89e0f``.
+      To get the most recent version tag, refer to the releases on GitHub: 
+      `realm/realm-cpp <https://github.com/realm/realm-cpp/releases>`__.
 
       Set the minimum C++ standard to 17 with ``set(CMAKE_CXX_STANDARD 17)``.
 
+      In a Windows install, add the required compiler flags listed below.
+
       .. code-block:: cmake
-         :emphasize-lines: 9, 13-17, 20, 25
+         :emphasize-lines: 14, 17-21, 24, 29
 
          cmake_minimum_required(VERSION 3.15)
 
-         project(MyRealmCppProject)
+         project(MyDeviceSDKCppProject)
 
          # Minimum C++ standard
          set(CMAKE_CXX_STANDARD 17)
 
-         # Include the FetchContent module so you can download the Realm C++ SDK
+         # In a Windows install, set these compiler flags:
+         if(MSVC)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:preprocessor /bigobj")
+         endif()
+
+         # Include the FetchContent module so you can download the C++ SDK
          Include(FetchContent)
 
-         # Declare the version of the Realm C++ SDk you want to download
-         # While it's in alpha, use a git commit hash instead of a tagged release
+         # Declare the version of the C++ SDK you want to download
          FetchContent_Declare(
            cpprealm
            GIT_REPOSITORY https://github.com/realm/realm-cpp.git
-           GIT_TAG        f4f89d1c75d4c762a679f57d2e9f26e87ec1215b
+           GIT_TAG        v1.0.0
          )
 
          # The MakeAvailable command ensures the named dependencies have been populated
@@ -130,10 +138,10 @@ Usage
 Include the Header
 ~~~~~~~~~~~~~~~~~~
 
-Make the Realm C++ SDK available in your code by including the
+Make the C++ SDK available in your code by including the
 ``cpprealm/sdk.hpp`` header in the translation unit where you want to use it:
 
-.. literalinclude:: /examples/generated/cpp/examples.snippet.includes.cpp
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.include-header.cpp
    :language: cpp
 
 .. _cpp-build-android-app:
@@ -141,11 +149,11 @@ Make the Realm C++ SDK available in your code by including the
 Build an Android App
 --------------------
 
-The Realm C++ SDK Alpha supports building Android apps. To build an Android
+The C++ SDK supports building Android apps. To build an Android
 app:
 
 - Add ``<uses-permission android:name="android.permission.INTERNET" />`` to your ``AndroidManifest.xml``
-- Add the subdirectory of the Realm C++ SDK to your native library's ``CMakeLists.txt``
+- Add the subdirectory of the C++ SDK to your native library's ``CMakeLists.txt``
   and link it as a target library:
 
   .. code-block:: text
@@ -156,14 +164,15 @@ app:
      target_link_libraries( 
         # Specifies the target library.
         myapplication
-        # make sure to link the Realm C++ SDK.
+        # make sure to link the C++ SDK.
         cpprealm
      )
 
 - Ensure that the git submodules are initialized inside of the ``realm-cpp`` folder before building. 
-- When instantiating the Realm or the Realm App, you must pass the ``filesDir.path`` to the ``path`` parameter in the respective constructors. 
+- When instantiating the database or the SDK App, you must pass the ``filesDir.path`` as the ``path`` 
+  parameter in the respective constructor or database open template. 
 
-For an example of how to use the Realm C++ SDK Alpha in an Android app, refer to
+For an example of how to use the C++ SDK in an Android app, refer to
 the :github:`Android RealmExample App <realm/realm-cpp/tree/main/examples/Android>`
 in the ``realm-cpp`` GitHub repository.
 

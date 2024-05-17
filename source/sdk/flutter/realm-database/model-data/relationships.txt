@@ -22,6 +22,11 @@ Embedded objects are similar to relationships, but provide additional constraint
 For more information about these constraints and how to create embedded objects,
 refer to the :ref:`Embedded Objects data type documentation <flutter-embedded-objects>`.
 
+.. tip:: Querying Related Objects
+   
+   In Flutter v1.9.0 and later, you can use the :flutter-sdk:`getBacklinks() <realm/RealmObjectBase/getBacklinks.html>` method to find objects that link to another object through a relationship.
+   For more information, refer to :ref:`flutter-get-backlinks`.
+
 .. _flutter-many-to-one-relationship:
 
 To-One Relationship
@@ -57,8 +62,8 @@ using a property of type ``List<T>`` in your application, where T is a Realm mod
 Inverse Relationship
 --------------------
 
-An **inverse relationship** links an object back to any other objects that refer
-to it in to-one or to-many relationships.
+An **inverse relationship** links a Realm object back to any other realm objects
+that refer to it in to-one or to-many relationships.
 
 Inverse relationships have the following properties:
 
@@ -68,8 +73,10 @@ Inverse relationships have the following properties:
   You can find the same set of Realm objects with a manual query,
   but the inverse relationship field reduces boilerplate query code and capacity for error.
 - You cannot manually set the value of an inverse relationship property.
-  Instead, Realm Database updates implicit relationships when you add or remove
+  Instead, Realm updates implicit relationships when you add or remove
   an object in the relationship.
+- Backlinks only work with Realm objects. Objects that haven't been added to a
+  realm yet do not have backlinks.
 
 For example, the to-many relationship "a User has many Tasks" does not
 automatically create the inverse relationship "a Task belongs to one User".
@@ -77,7 +84,7 @@ If you don't specify the inverse relationship in the Task object model, you need
 run a separate query to look up the user that is assigned to a given task.
 
 Use the `Backlink <https://pub.dev/documentation/realm_common/latest/realm_common/Backlink-class.html>`__
-property annotation to define a inverse relationship.
+property annotation to define an inverse relationship.
 Pass a `Symbol <https://api.dart.dev/stable/2.18.4/dart-core/Symbol/Symbol.html>`__
 of the field name of the to-one or to-many field for which you are creating the backlink
 as an argument to ``Backlink()``. Include an ``Iterable`` of the object model

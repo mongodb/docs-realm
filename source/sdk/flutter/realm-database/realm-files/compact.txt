@@ -10,19 +10,32 @@ Reduce Realm File Size - Flutter SDK
    :depth: 2
    :class: singlecol
 
-If you want to reduce the size of a realm file to improve performance, you 
-can compact the realm. Compacting a realm reduces the amount of unused 
-empty space within the realm. Every production application should implement 
-compaction to periodically reduce the realm file size.
-
-The size of a Realm Database file is always larger than the total size of 
+The size of a realm is always larger than the total size of 
 the objects stored within it. This architecture enables some of realm's 
 performance, concurrency, and safety benefits.
 
-Realm writes new data within unused space tracked inside the file. In some 
-situations, a realm file may contain a significant amount of unused space. 
-If file size grows large enough to negatively impact performance, you can 
-compact the realm to reduce its file size.
+Realm writes new data within unused space tracked inside a
+file. In some situations, unused space may comprise a significant 
+portion of a realm file. Realm's default behavior is to automatically 
+compact a realm to prevent it from growing too large. 
+You can use manual compaction strategies when 
+automatic compaction is not sufficient for your use case.
+
+Automatic Compaction
+--------------------
+
+.. versionadded:: 0.9.0
+
+.. include:: /includes/automatic-compaction.rst 
+
+Manual Compaction Strategies
+----------------------------
+
+If automatic compaction is deemed insufficient, manual compaction 
+can be used for applications that require stricter management 
+of file size to improve performance. A production application should 
+implement manual compaction to periodically reduce the realm file size
+if it does not use automatic compaction.
 
 Compacting a realm can be an expensive operation that can block the UI thread. 
 Optimize compacting to balance frequency with performance gains. If your 
@@ -30,10 +43,7 @@ application runs in a resource-constrained environment, you may want to
 compact when you reach a certain file size or when the file size negatively 
 impacts performance.
 
-Compaction Strategies
----------------------
-
-You can compact a realm file using either of two strategies:
+Use either of the following two strategies to compact a realm file manually:
 
 - :ref:`Realm.compact() <flutter-realm-compact>` static method: Use this 
   method to compact a realm. You can use this to compact a Flexible Sync realm.
@@ -42,13 +52,12 @@ You can compact a realm file using either of two strategies:
   conditions to determine whether to compact the realm. You might check 
   for a certain realm file size, a percentage of unused space, or other 
   conditions that are relevant to your performance needs or runtime 
-  environment. This is a property on realm's :flutter-sdk:`LocalConfiguration 
-  <realm/LocalConfiguration-class.html>`, and only works with non-Synced realms.
+  environment.
 
 .. _flutter-realm-compact:
 
 Realm.compact() Static Method
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can compact a realm file by calling :flutter-sdk:`Realm.compact() 
 <realm/Realm/compact.html>`. This method takes a :flutter-sdk:`Configuration 
@@ -71,17 +80,15 @@ open realm.
 .. _flutter-should-compact-callback:
 
 Conditionally Compact on Open
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. note::
+You can define a :flutter-sdk:`shouldCompactCallback()
+<realm/LocalConfiguration/shouldCompactCallback.html>` as a property of a
+realm's configuration. You can use this with both local-only and synced realms
+with the :flutter-sdk:`Configuration.local() <realm/Configuration/local.html>`
+and :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`
+methods, respectively.
 
-   You cannot compact a :ref:`Synced realm <flutter-open-synced-realm>`
-   with the ``shouldCompactCallback()``. To compact a Synced realm, 
-   use :ref:`Realm.compact() <flutter-realm-compact>`.
-
-You can define a :flutter-sdk:`shouldCompactCallback() 
-<realm/LocalConfiguration/shouldCompactCallback.html>` as a property of a 
-realm's :flutter-sdk:`LocalConfiguration <realm/LocalConfiguration-class.html>`. 
 This callback takes two ``int`` values representing the total number of 
 bytes and the used bytes of the realm file on disk. The callback returns 
 a ``bool``. Compaction only occurs if the ``bool`` returns ``true`` and 

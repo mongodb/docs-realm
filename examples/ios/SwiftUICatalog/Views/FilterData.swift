@@ -65,6 +65,23 @@ struct FilterDogsViewTypeSafeQuery: View {
 }
 // :snippet-end:
 
+// :snippet-start: sort-descriptor
+struct SortedDogsView: View {
+    @ObservedResults(SwiftUI_Dog.self,
+                     sortDescriptor: SortDescriptor(keyPath: "name",
+                        ascending: true)) var dogs
+    
+    var body: some View {
+        NavigationView {
+            // The list shows the dogs in the realm, sorted by name
+            List(dogs) { dog in
+                DogRow(dog: dog)
+            }
+        }
+    }
+}
+// :snippet-end:
+
 struct SectionedDogsViewFiltered: View {
     // :snippet-start: observed-filtered-sectioned-results
     @ObservedSectionedResults(SwiftUI_Dog.self,

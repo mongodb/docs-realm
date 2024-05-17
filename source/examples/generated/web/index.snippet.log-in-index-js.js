@@ -12,7 +12,7 @@ export default function Home() {
       const anonymousUser = Realm.Credentials.anonymous();
       app.logIn(anonymousUser);
     }
-  }, [app, app?.currentUser, app?.currentUser?.id]);
+  }, [app, app?.currentUser]);
 
   return (
     //Your app

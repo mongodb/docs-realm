@@ -3,7 +3,7 @@ import 'package:realm_dart/realm.dart';
 
 import 'utils.dart';
 
-part 'write_to_synced_realm_test.g.dart';
+part 'write_to_synced_realm_test.realm.dart';
 
 // NOTE: this is a unique App ID from the other Flutter tests
 // because these examples require unique sync permissions.
@@ -63,21 +63,6 @@ main() async {
       // and it's `ownerId` field matches the user ID.
       final newCar = Car(ObjectId(), userId, 'Toyota', miles: 2);
       realm.add(newCar);
-
-      // WRITE REVERTED BY COMPENSATING WRITE ERROR
-      // `oldCar` is initially written to the realm, then removed upon synchronization
-      // in a compensating write when the server processes the write.
-      // This is because the `miles` property of `oldCar` doesn't match
-      // the subscription query, which is only for cars with less than 100 miles.
-      final oldCar = Car(ObjectId(), userId, 'Honda', miles: 90000);
-      realm.add(oldCar);
-
-      // WRITE REVERTED BY PERMISSION ERROR
-      // `otherUsersCar` is initially written to the realm, then removed upon synchronization
-      // because it's `ownerId` property doesn't match the user ID of the user
-      // making the request.
-      final otherUsersCar = Car(ObjectId(), 'someOtherId', 'Ford');
-      realm.add(otherUsersCar);
     });
     // :snippet-end:
     // sync changes
@@ -87,12 +72,13 @@ main() async {
     expect(realm.all<Car>().length, 1);
   });
 
-  test("Compensating writes", () async {
-    // :snippet-start: compensating-write
+  test("Compensating writes - don't match query subscription", () async {
+    // :snippet-start: not-match-query-subscription
     final carId = ObjectId();
     final ownerId = app.currentUser!.id;
 
     realm.write(() {
+      // WRITE REVERTED BY QUERY SUBSCRIPTION COMPENSATING WRITE
       // `oldCar` is initially written to the realm, then later removed
       // in a compensating write when the server processes the write.
       // This is because the `miles` property of `oldCar` doesn't match
@@ -102,6 +88,29 @@ main() async {
     });
 
     // Let changes sync to and from server
+    await realm.syncSession.waitForUpload();
+    await realm.syncSession.waitForDownload();
+
+    final noCar = realm.find<Car>(carId);
+    // The Car is no longer in the realm because of
+    // the compensating write from the server.
+    expect(noCar, isNull);
+    // :snippet-end:
+  });
+  test("Compensating writes - don't match permissions", () async {
+    // :snippet-start: not-match-permissions
+    final carId = 'someOtherId';
+
+    realm.write(() {
+      // WRITE REVERTED BY PERMISSION ERROR
+      // `otherUsersCar` is initially written to the realm, then removed upon synchronization
+      // because it's `ownerId` property doesn't match the user ID of the user
+      // making the request.
+      final otherUsersCar = Car(ObjectId(), carId, 'Ford');
+      realm.add(otherUsersCar);
+    });
+
+    // sync changes
     await realm.syncSession.waitForUpload();
     await realm.syncSession.waitForDownload();
 

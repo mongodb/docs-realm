@@ -1,7 +1,8 @@
-class Task(): RealmObject {
+class Item(): RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
-    lateinit var name: String
+    @FullText
+    var name: String = ""
     var isComplete: Boolean = false
     var assignee: String? = null
     var priority: Int = 0
@@ -11,7 +12,7 @@ class Task(): RealmObject {
 class Project(): RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
-    lateinit var name: String
-    lateinit var tasks: RealmList<Task>
+    var name: String = ""
+    var items: RealmList<Item> = realmListOf<Item>()
     var quota: Int? = null
 }

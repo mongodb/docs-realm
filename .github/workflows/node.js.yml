@@ -1,25 +1,31 @@
-name: Node.js CI Realm Example App
+name: Node.js SDK v12 CI Tests
 
 on:
   pull_request:
     paths:
-      - 'examples/node/**'
+      - "examples/node/v12/**"
 
 jobs:
   build:
-    name: Run Node Example App Tests
+    name: Run Node.js SDK v12 Tests
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: cd examples/node && npm install
-    - run: cd examples/node && npm run test:js
-    - run: cd examples/node && npm run test:ts
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        working-directory: examples/node/v12
+        run: npm install
+      - name: Test JavaScript
+        working-directory: examples/node/v12
+        run: npm run test:js
+      - name: Test TypeScript
+        working-directory: examples/node/v12
+        run: npm run test:ts

@@ -41,9 +41,13 @@ configuration provides a `deleteRealmIfMigrationNeeded
 <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html#-910115110%2FProperties%2F-1651551339>`__
 parameter to help with this case. 
 
-When you use ``deleteRealmIfMigrationNeeded``, Realm Database deletes the realm
+When you use ``deleteRealmIfMigrationNeeded``, Realm deletes the realm
 file if a migration is required. Then, you can create objects that match the new
 schema instead of writing migration blocks for development or test data.
 
 .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.snippet.delete-realm-if-migration-needed.kt
    :language: kotlin
+
+.. important:: Do Not Use ``deleteRealmIfMigrationNeeded`` in Production
+
+   Never release an app to production with this flag set to ``true``.

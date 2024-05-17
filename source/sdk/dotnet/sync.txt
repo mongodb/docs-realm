@@ -10,50 +10,20 @@ Sync Data Between Devices - .NET SDK
 
    Add Sync to an App </sdk/dotnet/sync/add-sync-to-app>
    Configure & Open a Synced Realm </sdk/dotnet/sync/configure-and-open-a-synced-realm>
+   Write to a Synced Realm </sdk/dotnet/sync/write-to-synced-realm/>
    Manage Flexible Sync Subscriptions </sdk/dotnet/sync/flexible-sync>
-   Handle Sync Errors </sdk/dotnet/sync/handle-sync-errors>
+   Handle Sync Errors and Timeouts </sdk/dotnet/sync/handle-sync-errors>
    Client Resets </sdk/dotnet/sync/client-reset>
    Suspend or Resume a Sync Session </sdk/dotnet/sync/sync-session>
    Check Upload & Download Progress </sdk/dotnet/sync/sync-progress>
    Convert Between Non-Synced Realms and Synced Realms </sdk/dotnet/sync/convert-realm>
    Stream Data to Atlas </sdk/dotnet/sync/asymmetric-sync>
-
-
-Overview
---------
+   Partition-Based Sync </sdk/dotnet/sync/partition-based-sync>
 
 Atlas Device Sync automatically synchronizes data between client applications and 
 an :ref:`Atlas App Services backend <realm-cloud>`. When a client 
 device is online, Sync asynchronously synchronizes data in a 
 background thread between the device and your backend App. 
-
-When you use Sync in your client application, your implementation must match 
-the Sync Mode you select in your backend App configuration. The Sync Mode
-options are:
-
-- Partition-Based Sync
-- Flexible Sync
-
-You can only use one Sync Mode for your application. You cannot mix 
-Partition-Based Sync and Flexible Sync within the same App.
-
-.. seealso::
-
-   :ref:`enable-realm-sync`
-
-.. _dotnet-partition-based-sync-fundamentals:
-
-Partition-Based Sync
---------------------
-
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend App configuration, your client implementation must include a 
-partition value. This is the value of the :ref:`partition key 
-<partition-key>` field you select when you configure Partition-Based Sync. 
-
-The partition value determines which data the client application can access.
-
-You pass in the partition value when you open a synced realm.
 
 .. _dotnet-flexible-sync-fundamentals:
 
@@ -81,8 +51,16 @@ Subscription sets are based on a specific type of :ref:`Realm object <dotnet-obj
 You can have multiple subscriptions if you have many types of Realm objects.
 
 To use Flexible Sync in your client application, open a synced realm 
-with a flexible sync configuration. Then, manage subscriptions
+with a Flexible Sync configuration. Then, manage subscriptions
 to determine which documents to sync.
+
+.. tip::
+
+   Device Sync supports two Sync Modes: Flexible Sync, and the older 
+   Partition-Based Sync. If your App Services backend uses Partition-Based 
+   Sync, refer to :ref:`dotnet-partition-based-sync`.
+
+   We recommend using Flexible Sync.
 
 Group Updates for Improved Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,6 +73,8 @@ A special case of Flexible Sync is when you need your app to **send** data to At
 but not receive any updates.
 
 In this scenario, you can maximize sync performance by using 
-:ref:`Asymmetric Sync <dotnet-asymmetric-sync>` to stream 
+:ref:`Data Ingest <dotnet-data-ingest>` to stream 
 data from the client application to a Flexible Sync-enabled Atlas App Services
 App.
+
+

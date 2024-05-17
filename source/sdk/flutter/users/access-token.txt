@@ -4,11 +4,24 @@
 Get the User Access Token - Flutter SDK
 =======================================
 
+.. facet::
+  :name: genre
+  :values: reference
+
+.. meta::
+   :description: Get or refresh a user access token to make API calls to Atlas App Services.
+   :keywords: code example
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. banner::
+   :variant:  warning
+
+   GraphQL is deprecated. :ref:`Learn More <migrate-hosting-graphql>`.
 
 Every User object contains a JWT token that you can use to access Atlas App Services.
 
@@ -36,10 +49,14 @@ Refresh it with :flutter-sdk:`User.refreshCustomData() <realm/User/refreshCustom
    :language: dart
 
 You can also periodically refresh the access token 
-with `Timer.periodic() <https://api.dart.dev/be/180360/dart-async/Timer-class.html>`__
+with `Timer.periodic() <https://api.flutter.dev/flutter/dart-async/Timer-class.html>`__
 from the ``dart:async`` library. Wrap the call to ``User.refreshCustomData()``
 with the timer's callback function.
 
 .. literalinclude:: /examples/generated/flutter/access_token_test.snippet.periodic-refresh-access-token.dart
    :language: dart
 
+Refresh Token Expiration
+------------------------
+
+.. include:: /includes/refresh-token-expiry.rst

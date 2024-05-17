@@ -1,3 +1,5 @@
 realm.subscriptions.update {
-    this.add(realm.query<Toad>("name == $0", "another name value"), "another subscription name")
+    add(
+        realm.query<Task>("progressMinutes >= $0",60)
+    )
 }

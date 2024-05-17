@@ -8,7 +8,7 @@ const PetOwnerSchema = {
       type: "list",
       objectType: "string", // this could also be a Realm object:
       // objectType: "Pet",
-      optional: false //null values are not allowed
+      optional: false, //null values are not allowed
     },
   },
 };

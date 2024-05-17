@@ -5,225 +5,245 @@
 Quick Start - React Native SDK
 ==============================
 
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. meta::
+   :description: Get started using the Atlas Device SDK for React Native.
+   :keywords: code example
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Overview
---------
+This page demonstrates how to use Realm using the React Native SDK.
 
-This page contains information to quickly get Realm Database
-integrated into your app.
+Before you begin, :ref:`install the Realm React Native SDK <react-native-install>`.
 
-If you haven't already, :ref:`install the Realm React Native SDK <react-native-install>`.
+About the @realm/react Package
+------------------------------
 
-.. _react-native-quickstart-local-import-realm:
+:github:`@realm/react </realm/realm-js/tree/master/packages/realm-react>` is a
+package used in the React Native SDK. It provides state-aware React hooks for
+Realm data. The hooks watch the Realm data and re-render components as needed.
 
-Import Realm
-------------
-At the top of your source files where you want to use Realm, add
-the following line to import the SDK.
+The React Native SDK documentation uses the ``@realm/react``
+npm package for examples and describing concepts.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.import-realm.js
-  :language: javascript
+Refer to these pages for more details:
+
+- :ref:`AppProvider (@realm/react) <react-native-app-provider>`
+- :ref:`UserProvider (@realm/react) <react-native-user-provider>`
+- :ref:`RealmProvider (@realm/react) <react-native-realm-provider>`
+
+Set Up Your Realm App
+---------------------
+
+After installing the ``realm`` and ``@realm/react`` packages, there are a
+few more things to set up before you can access your realm and work with local
+data:
+
+- Define your object models
+- Configure a realm by creating a realm context object, extracting hooks, and 
+  setting up providers
 
 .. _react-native-quickstart-local-define-an-object-model:
 
-Define Your Object Model
-------------------------
-Your application's :ref:`object model <react-native-object-schemas>` defines the data
-that you can store within Realm Database. 
+Define Object Models
+~~~~~~~~~~~~~~~~~~~~
 
-To define a Realm object type, create a schema object that specifies the type's
-``name`` and ``properties``. The type name must be unique among object types in
-a realm.
+Your application's :ref:`object models <react-native-object-schemas>` define the data
+types that you can store within a realm. Each object model becomes a Realm
+object type.
 
-The following code shows how to define an object model for a ``Task`` object. In this example:
-  
-- The ``primaryKey`` is the ``_id`` of type ``int``. Another common type used for 
-  primary keys is :js-sdk:`ObjectId <Realm.Object.html#objectId>`.
-- The ``name`` field is required.
-- The ``status`` and ``owner_id`` fields are optional, denoted by the question 
-  mark immediately after the data type.
+**To define a Realm object model:**
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
-  :language: javascript
+#. Create a class that extends :js-sdk:`Realm.Object <Realm.Object.html>`.
+#. Add a ``schema`` field.
+#. For the ``schema`` value, create an object that contains ``properties`` and 
+   ``name`` properties. The name value must be unique among object types in your 
+   realm.
 
+.. include:: /examples/generated/react-native/v12/models.snippet.qs-define-model.ts.rst
+
+To learn more, refer to
+:ref:`Define a Realm Object Model <react-native-define-a-realm-object-model>`.
+
+.. _react-native-quickstart-local-import-realm:
 .. _react-native-quickstart-local-open-a-realm:
 
-Open a Realm
-------------
-To open a realm, pass a :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object to :js-sdk:`Realm.open()
-<Realm.html#.open>`.
+Configure a Realm
+~~~~~~~~~~~~~~~~~
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.open-a-realm.js
-  :language: javascript
+Before you can work with data, you need to configure a realm. This means you need
+to set up context and providers from ``@realm/react``. To learn more, refer to 
+:ref:`Configure a Realm <react-native-configure-realm>`.
 
-.. _react-native-quickstart-local-create-realm-objects:
+**To configure and access a local realm:** 
 
-Create Realm Objects
---------------------
+#. Import ``RealmProvider`` from ``@realm/react``.
+#. Pass your object models to the ``schema`` prop.
+#. Add other :realm-react-sdk:`Configuration object <types/Realm.BaseConfiguration.html>` 
+   properties as props to ``RealmProvider``.
 
-Once you have opened a realm, you can create :ref:`objects
-<react-native-object-types>` in it. All writes must occur within a :ref:`write
-transaction <react-native-write-transactions>`.
-    
-.. literalinclude:: /examples/generated/node/quickstart.snippet.create-realm-objects.js
-  :language: javascript
+.. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.qs-realm-provider.tsx.rst
+
+Work With Realm Objects
+-----------------------
+
+After you have a data model and a configured realm, you can create, read, update, or 
+delete Realm objects.
+
+You must nest components that perform these operations inside of
+``RealmProvider``. The ``useRealm()``, ``useQuery()``, and ``useObject()`` hooks 
+enable you to perform read and write operations in your realm.
+
+For detailed descriptions of ``RealmProvider`` and its hooks, refer to
+:ref:`RealmProvider (@realm/react) <react-native-realm-provider>`
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
-
-Find, Sort, and Filter Objects
-------------------------------
-
-The following code demonstrates how to:
-
-- Query for all instances of the "Task" object type.
-- Filter the query to retrieve only the tasks that are "Open".
-- Sort the tasks by the name in an ascending order.
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.find-sort-and-filter-objects.js
-  :language: javascript
-
-.. _react-native-quickstart-local-modify-an-object:
-
-Modify an Object
-----------------
-As with writes, any changes to a Realm object must occur within a 
-:ref:`Write transaction <react-native-write-transactions>` block. 
-To modify an object, you update the object properties:
-
-In the following example, an application developer updates ``task1`` from the
-:ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
-example above. The developer begins progress on the "go grocery shopping
-task" and sets ``task1`` to "InProgress".
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.modify-an-object.js
-  :language: javascript
-
-.. _react-native-quickstart-local-delete-an-object:
-
-Delete an Object
-----------------
-You can delete an object by calling the :js-sdk:`realm.delete()
-<Realm.html#delete>` method within a write transaction block:
-
-In the following example, an application developer deletes ``task1`` from the
-:ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
-example above. 
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.delete-an-object.js
-  :language: javascript
-
 .. _react-native-quickstart-local-watch-a-collection:
 
-Watch a Collection
-------------------
-You can :ref:`watch a realm, collection, or object for changes
-<react-native-change-notifications>` by registering event handlers with the
-:js-sdk:`Realm.addListener() <Realm.html#addListener>`
-:js-sdk:`Object.addListener() <Realm.Object.html#addListener>`
-:js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
-methods.
+Read, Sort, and Filter Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the following example, an application developer watches for changes to the
-``Task`` collection.
+``@realm/react`` provides hooks to help you find a collection of Realm objects
+or a single Realm object.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.watch-a-collection.js
-  :language: javascript
+- :ref:`useQuery() <react-native-use-query-hook>`
+- :ref:`useObject() <react-native-use-object-hook>`
+
+As part of ``useQuery()``, you can filter or sort the results using 
+:ref:`Realm Query Language (RQL) <rql>`.
+   
+.. include:: /examples/generated/react-native/v12/Read.snippet.qs-find-sort-filter.tsx.rst
+
+To learn more, refer to :ref:`CRUD - Read <react-native-query-data>` and
+:ref:`Query Data <react-native-query-data>`.
+
+Read Operations Outside of hooks
+````````````````````````````````
+
+Sometimes, you may need to use Realm read operations, but not at the top level
+of your React Native component. Because hooks only work at the top level of
+components, you can't use the ``@realm/react`` hooks in these situations.
+
+Instead, you can use :js-sdk:`Realm.objects <classes/Realm-1.html#objects>` for
+collections or :js-sdk:`Realm.objectForPrimaryKey 
+<classes/Realm-1.html#objectForPrimaryKey>` a single object.
+
+.. _react-native-quickstart-local-create-realm-objects:
+.. _react-native-quickstart-local-modify-an-object:
+.. _react-native-quickstart-local-delete-an-object:
+
+Create, Update, and Delete Realm Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After accessing the realm with ``useRealm()``, you can create, update,
+and delete objects inside of the realm. All operations must be in a 
+:realm-react-sdk:`Realm.write() <classes/Realm-1.html#write>` transaction block.
+
+To learn more, refer to :ref:`Write Transactions <react-native-write-transactions>`.
+
+Create Objects
+``````````````
+
+To create a new Realm object, specify the object type, pass in the object's
+initial values, and add it to the realm in a write transaction block.
+
+.. include:: /examples/generated/react-native/v12/Create.snippet.qs-create.tsx.rst
+
+To learn more, refer to :ref:`CRUD - Create <react-native-create-objects>`.
+
+Update Objects
+``````````````
+
+To update a Realm object, update its properties in a write transaction block.
+
+.. include:: /examples/generated/react-native/v12/Update.snippet.qs-update.tsx.rst
+
+To learn more, refer to :ref:`CRUD - Update <react-native-update-objects>`.
+
+Delete Objects
+``````````````
+
+To delete a Realm object, pass the object to :realm-react-sdk:`Realm.delete() 
+<classes/Realm-1.html#delete>` within a write transaction block.
+
+.. include:: /examples/generated/react-native/v12/Delete.snippet.qs-delete.tsx.rst
+
+To learn more, refer to :ref:`CRUD - Delete <react-native-delete-objects>`.
 
 .. _react-native-quickstart-local-close-a-realm:
 
-Close a Realm
--------------
-Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a realm instance to avoid memory leaks.
+Add Atlas Device Sync (Optional)
+--------------------------------
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.close-a-realm.js
-  :language: javascript
+After getting your non-sync realm running, you can add Atlas Device Sync.
+This enables your realm data to sync with a MongoDB Atlas cluster and other
+client devices.
 
-Add Device Sync (Optional)
---------------------------
+To use Device Sync, you need to set up a couple more things:
 
-This section illustrates how to authenticate with an Anonymous User and open a
-Flexible Sync realm to sync data between devices.
+- Create a backend in Atlas App Services (see the prerequisites below)
+- Configure a Flexible Sync realm instead of a non-sync realm
 
 Prerequisites
 ~~~~~~~~~~~~~
 
 - :ref:`An App Services App <create-a-realm-app>`
-- :ref:`Anonymous authentication <anonymous-authentication>` enabled in the App Services UI
-- :ref:`Flexible Sync <enable-flexible-sync>` enabled with :ref:`Development Mode <development-mode>`
-  on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
+- :ref:`Anonymous authentication <anonymous-authentication>` enabled in the App 
+  Services UI
+- :ref:`Flexible Sync <enable-flexible-sync>` enabled with 
+  :ref:`Development Mode <development-mode>` on
 
-Initialize the App
-~~~~~~~~~~~~~~~~~~
+Configure and Access a Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To use App Services features, such as authentication and sync, you must first access
-your App Services App using your App ID. You can :ref:`find your App ID <find-your-app-id>`
-in the App Services UI.
+To use a Device Sync, you need to configure three ``@realm/react`` providers:
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.initialize.js
-  :language: javascript
+- :ref:`AppProvider (@realm/react) <react-native-app-provider>`
+- :ref:`UserProvider (@realm/react) <react-native-user-provider>`
+- :ref:`RealmProvider (@realm/react) <react-native-realm-provider>`
 
-Authenticate a User
-~~~~~~~~~~~~~~~~~~~
+After you initialize your App, authenticate a user, and define your
+object model, you can configure a synced realm. This is similar to configuring
+a local realm. However, you need to add some additional props to the
+``RealmProvider``.
 
-To authenticate and log in a user, call :js-sdk:`App.logIn()
-<Realm.App.html#logIn>`. When :ref:`anonymous authentication
-<anonymous-authentication>` is enabled, users can immediately log into your app
-without providing any identifying information:
+Add the ``sync`` prop to ``RealmProvider`` and pass it a
+:realm-react-sdk:`FlexibleSyncConfiguration <types/Realm.FlexibleSyncConfiguration.html>`
+object. This sync object must contain ``flexible: true`` You should also add
+:ref:`initial subscriptions <react-native-sync-bootstrap-initial-subscriptions>`.
+You must have at least one sync subscription before you can read or write synced
+data.
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.anonymous-login.js
-  :language: javascript
+**To configure and access a synced realm:** 
 
-Define an Object Model
-~~~~~~~~~~~~~~~~~~~~~~
+#. Initialize the App using ``AppProvider``. You can 
+   :ref:`find your App ID <find-your-app-id>` in the App Services UI.
+#. Authenticate a User with ``UserProvider``
+#. Configure a synced realm with ``RealmProvider``
 
-Object models for synced realms work the same way as :ref:`local-only Realms 
-<react-native-quickstart-local-define-an-object-model>`. Define your object model 
-just as you would for a local-only Realm.
+.. include:: /examples/generated/react-native/v12/RealmWrapperSync.snippet.qs-realm-sync.tsx.rst
 
-.. literalinclude:: /examples/generated/node/quickstart.snippet.define-an-object-model.js
-  :language: javascript
+The syntax to create, read, update, and delete objects in a synced realm is
+identical to the syntax for non-synced realms. While you work with local data, a
+background thread efficiently integrates, uploads, and downloads changesets.
 
-Open a Synced Realm
-~~~~~~~~~~~~~~~~~~~
-
-After you have initialized your App, authenticated a user, and
-defined your object model, you can create a :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>`.
-
-To open a Flexible Sync realm, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
-Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
-object, which must include the ``sync`` property defining a 
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
-To use Flexible Sync, in the SyncConfiguration, you must include include a 
-``user`` and ``flexible: true``.
-
-Additionally, you need at least one subscription before you can read from or write to the
-realm. Use ``Configuration.sync.initialSubscriptions`` to define the initial 
-subscription set when the Realm file is first opened.
-
-.. literalinclude:: /examples/generated/node/quickstart.snippet.open-realm-with-subscriptions.js
-  :language: javascript
-
-The syntax to :ref:`read <react-native-read-objects>`, :ref:`update <react-native-update-objects>`, 
-and :ref:`watch for changes <react-native-react-to-changes>` on a
-synced realm is identical to the syntax for non-synced realms above. While 
-you work with local data, a background thread efficiently integrates, 
-uploads, and downloads changesets.
+To learn more, refer to :ref:`Configure a Synced Realm <react-native-synced-realm>`.
 
 Next: Check out the Template Apps and Tutorial
 ----------------------------------------------
 
-Check out the :ref:`template app <template-apps>` to experiment with another
-quick way to start coding with the Realm React Native SDK. The React Native SDK template,
-labeled ``react-native.todo.flex``, is a premade application that integrates
-Realm Database and Atlas Device Sync into a customizable android app.
+If you are interested in a guided experience, you can read our
+:ref:`Realm React Native SDK tutorial <react-native-tutorial>`. This tutorial
+implements and expands on a base React Native app
+built with Realm and Device Sync.
 
-Alternatively, if you are interested in a guided experience, you can read our
-:ref:`Realm React Native SDK tutorial <react-native-tutorial>` that expands on
-the template app.
+You could also use the template app to experiment with the React Native SDK on 
+your own. To set up the template app, refer to :ref:`template-apps`
+in the Atlas App Services documentation.

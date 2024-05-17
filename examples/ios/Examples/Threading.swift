@@ -26,18 +26,16 @@ fileprivate extension Realm {
     func writeAsync<T: ThreadConfined>(_ passedObject: T, errorHandler: @escaping ((_ error: Swift.Error) -> Void) = { _ in return }, block: @escaping ((Realm, T?) -> Void)) {
         let objectReference = ThreadSafeReference(to: passedObject)
         let configuration = self.configuration
-        DispatchQueue(label: "background").async {
-            autoreleasepool {
-                do {
-                    let realm = try Realm(configuration: configuration)
-                    try realm.write {
-                        // Resolve within the transaction to ensure you get the latest changes from other threads
-                        let object = realm.resolve(objectReference)
-                        block(realm, object)
-                    }
-                } catch {
-                    errorHandler(error)
+        DispatchQueue(label: "background", autoreleaseFrequency: .workItem).async {
+            do {
+                let realm = try Realm(configuration: configuration)
+                try realm.write {
+                    // Resolve within the transaction to ensure you get the latest changes from other threads
+                    let object = realm.resolve(objectReference)
+                    block(realm, object)
                 }
+            } catch {
+                errorHandler(error)
             }
         }
     }
@@ -181,18 +179,16 @@ class Threading: XCTestCase {
         let personRef = ThreadSafeReference(to: person)
 
         // Pass the reference to a background thread
-        DispatchQueue(label: "background").async {
-            autoreleasepool {
-                let realm = try! Realm()
-                try! realm.write {
-                    // Resolve within the transaction to ensure you get the latest changes from other threads
-                    guard let person = realm.resolve(personRef) else {
-                        return // person was deleted
-                    }
-                    person.name = "Jane Doe"
+        DispatchQueue(label: "background", autoreleaseFrequency: .workItem).async {
+            let realm = try! Realm()
+            try! realm.write {
+                // Resolve within the transaction to ensure you get the latest changes from other threads
+                guard let person = realm.resolve(personRef) else {
+                    return // person was deleted
                 }
-                expectation.fulfill() // :remove:
+                person.name = "Jane Doe"
             }
+            expectation.fulfill() // :remove:
         }
         // :snippet-end:
         wait(for: [expectation], timeout: 10)
@@ -216,20 +212,18 @@ class Threading: XCTestCase {
         print("Person's name: \(personRef?.name ?? "unknown")")
 
         // Pass the reference to a background thread
-        DispatchQueue(label: "background").async {
-            autoreleasepool {
-                let realm = try! Realm()
-                try! realm.write {
-                    // Resolve within the transaction to ensure you get the
-                    // latest changes from other threads. If the person
-                    // object was deleted, personRef will be nil.
-                    guard let person = personRef else {
-                        return // person was deleted
-                    }
-                    person.name = "Jane Doe"
+        DispatchQueue(label: "background", autoreleaseFrequency: .workItem).async {
+            let realm = try! Realm()
+            try! realm.write {
+                // Resolve within the transaction to ensure you get the
+                // latest changes from other threads. If the person
+                // object was deleted, personRef will be nil.
+                guard let person = personRef else {
+                    return // person was deleted
                 }
-                expectation.fulfill() // :remove:
+                person.name = "Jane Doe"
             }
+            expectation.fulfill() // :remove:
         }
         // :snippet-end:
 

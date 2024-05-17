@@ -19,5 +19,12 @@
             // Automatic reset failed; handle the reset manually here
         }
     };
-
-    var realm = await Realm.GetInstanceAsync(config);
+    try
+    {
+        var realm = await Realm.GetInstanceAsync(config);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($@"Error creating or opening the
+            realm file. {ex.Message}");
+    }

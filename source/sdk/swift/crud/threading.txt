@@ -4,14 +4,18 @@
 Threading - Swift SDK
 =====================
 
+.. meta:: 
+  :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
-
-Overview
---------
 
 To make your iOS and tvOS apps fast and responsive, you must
 balance the computing time needed to lay out the visuals and
@@ -37,40 +41,41 @@ simplify this for you.
    <ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
    across threads.
 
+This page describes how to manually manage realm files and objects across threads.
+Realm also supports using a :apple:`Swift actor <documentation/swift/actor>`
+to manage realm access using Swift concurrency features. For an overview 
+of Realm's actor support, refer to :ref:`swift-actor-isolated-realm`.
+
 .. _ios-threading-three-rules:
 
-Three Rules to Keep in Mind
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Three Rules to Follow
+---------------------
 
-Realm enables simple and safe multithreaded code when you
-follow these three rules:
+Before exploring Realm's tools for multithreaded apps, you need to
+understand and follow these three rules:
 
 Don't lock to read:
-  Realm Database's :ref:`Multiversion Concurrency Control (MVCC)
-  <ios-mvcc>` architecture eliminates the need to lock for read
-  operations. The values you read will never be corrupted or in a
-  partially-modified state. You can freely read from realms on any
-  thread without the need for locks or mutexes. Unnecessary locking
-  would be a performance bottleneck since each thread might need to wait
-  its turn before reading.
+  Realm's :ref:`Multiversion Concurrency Control (MVCC) <ios-mvcc>`
+  architecture eliminates the need to lock for read operations. The values you
+  read will never be corrupted or in a partially-modified state. You can freely
+  read from the same Realm file on any thread without the need for locks or
+  mutexes. Unnecessarily locking would be a performance bottleneck since each
+  thread might need to wait its turn before reading.
 
-Avoid writes on the UI thread if you write on a background thread:
-  You can :ref:`write <ios-write-operations>` to a
-  realm from any thread, but there can be only one
-  writer at a time. Consequently, write transactions block
-  each other. A write on the UI thread may result in your
-  app appearing unresponsive while it waits for a write on a
-  background thread to complete. If you are using
-  :ref:`Device Sync <sync>`, avoid writing on
-  the UI thread as Sync writes on a background
-  thread.
+Avoid synchronous writes on the UI thread if you write on a background thread:
+  You can write to a Realm file from any thread, but there can be only one
+  writer at a time. Consequently, synchronous write transactions block each
+  other. A synchronous write on the UI thread may result in your app appearing
+  unresponsive while it waits for a write on a background thread to complete.
+  :ref:`Device Sync <sync>` writes on a background thread, so you should avoid
+  synchronous writes on the UI thread with synced realms.
 
 Don't pass live objects, collections, or realms to other threads:
   Live objects, collections, and realm instances are
   **thread-confined**: that is, they are only valid on the
   thread on which they were created. Practically speaking,
   this means you cannot pass live instances to other
-  threads. However, Realm Database offers several mechanisms for
+  threads. However, Realm offers several mechanisms for
   :ref:`sharing objects across threads
   <ios-communication-across-threads>`.
 
@@ -88,7 +93,7 @@ Perform a Background Write
 You can add, modify, or delete objects in the background using 
 :swift-sdk:`writeAsync <Structs/Realm.html#/s:10RealmSwift0A0V10writeAsync_10onCompletes6UInt32Vyyc_ys5Error_pSgcSgtF>`. 
 
-With async write, you don't need to pass a :ref:`thread-safe reference 
+With ``writeAsync``, you don't need to pass a :ref:`thread-safe reference 
 <ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
 across threads. Instead, call ``realm.writeAsync``. You can provide 
 a completion block for the method to execute on the source thread after 
@@ -130,7 +135,7 @@ To complete an async write, you or the SDK must call either:
 When you use the ``writeAsync`` method, the SDK handles committing or 
 canceling the transaction. This provides the convenience of the async write 
 without the need to manually keep state tied to the scope of the object. 
-However, while in the writeAsync block, you *can* explicitly call 
+However, while in the ``writeAsync`` block, you *can* explicitly call 
 ``commitAsyncWrite`` or ``cancelAsyncWrite``. If you return without 
 calling one of these methods, ``writeAsync`` either:
 
@@ -173,44 +178,29 @@ of the ``beginAsyncWrite`` or the ``commitAsyncWrite`` you want to cancel.
 Communication Across Threads
 ----------------------------
 
-You can have the same realm open on multiple threads as
-separate realm instances. You are free to read and write
-with realm instances on the thread where you first opened
-them. One of the key rules when working with Realm Database in a
-multithreaded environment is that objects are
-**thread-confined**: you may not access the instances of a
-realm, collection, or object that originated on other
-threads. Realm Database's :ref:`Multiversion Concurrency Control
-(MVCC) <ios-mvcc>` architecture means that there could be many
-active versions of an object at any time. Thread-confinement
-ensures that all instances in that thread are of the same
-internal version.
+To access the same Realm file from different threads, you must instantiate a
+realm instance on every thread that needs access. As long as you specify the same
+configuration, all realm instances will map to the same file on disk.
 
-.. note:: One Version at a Time
+One of the key rules when working with Realm in a multithreaded
+environment is that objects are thread-confined: **you cannot access the
+instances of a realm, collection, or object that originated on other threads.**
+Realm's :ref:`Multiversion Concurrency Control (MVCC) <ios-mvcc>`
+architecture means that there could be many active versions of an object at any
+time. Thread-confinement ensures that all instances in that thread are of the
+same internal version.
 
-   A realm instance is designed to work with one version at a
-   time, not several different versions. Consider what Realm Database
-   would have to do to support working with several different versions at
-   once: it would need to store a potentially enormous graph to allow the
-   realm instance to reconcile the different object versions
-   internally. Faced with this, it seems more reasonable to impose the
-   limitation that you cannot pass live instances across threads. This
-   design choice keeps the implementation relatively simple, more
-   space-efficient, and more performant as a result.
+When you need to communicate across threads, you have several options depending
+on your use case:
 
-When you need to communicate across threads, you have
-several options depending on your use case:
+- To modify an object on two threads, :ref:`query <ios-client-query-engine>`
+  for the object on both threads.
 
-- To work with the data on two threads, :ref:`query <ios-client-query-engine>`
-  for the object on both threads or pass a
-  :swift-sdk:`ThreadSafeReference <Structs/ThreadSafeReference.html>` to
-  the other thread.
-
-- To react to changes made on any thread, use Realm Database's
+- To react to changes made on any thread, use Realm's
   :ref:`notifications <ios-react-to-changes>`.
 
-- To see changes from other threads in the realm on the current
-  thread, :ref:`refresh <ios-refreshing-realms>` your realm instance.
+- To see changes that happened on another thread in the current thread's realm
+  instance, :ref:`refresh <ios-refreshing-realms>` your realm instance.
 
 - To send a fast, read-only view of the object to other threads,
   :ref:`"freeze" <ios-frozen-objects>` the object.
@@ -218,13 +208,18 @@ several options depending on your use case:
 - To keep and share many read-only views of the object in your app, copy
   the object from the realm.
 
+- To share an instance of a realm or specific object with another thread or
+  across actor boundaries, share a :ref:`thread-safe reference 
+  <ios-thread-safe-reference>` to the realm instance or object. For more 
+  information, refer to :ref:`swift-pass-thread-safe-reference-across-actors`.
+
 .. _ios-use-serial-queues-for-non-main-threads:
 
 Create a Serial Queue to use Realm on a Background Thread
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using Realm on a background thread, create a serial queue. Realm Database 
-does not support using realms in concurrent queues, such as the ``global()`` 
+When using Realm on a background thread, create a serial queue. Realm
+does not support using realms in concurrent queues, such as the ``global()``
 queue.
 
 .. literalinclude:: /examples/generated/code/start/Threading.snippet.use-realm-with-serial-queue.swift
@@ -237,7 +232,10 @@ Pass Instances Across Threads
 
 Instances of ``Realm``, ``Results``, ``List``, and managed ``Objects``
 are *thread-confined*. That means you may only use them on the thread
-where you created them.
+where you created them. However, Realm provides a mechanism called
+**thread-safe references** that allows you to copy an instance
+created on one thread to another thread.
+
 
 Sendable Conformance
 ````````````````````
@@ -272,8 +270,7 @@ Another way to work with an object on another thread is to query for it
 again on that thread. But if the object does not have a :ref:`primary
 key <ios-find-a-specific-object-by-primary-key>`, it is not trivial to
 query for it. You can use the ``@ThreadSafe`` wrapper on any object,
-regardless of whether it has a primary key. You can also use it on lists
-and results, on a struct or class property, or on a function parameter.
+regardless of whether it has a primary key.
 
 .. example::
 
@@ -286,6 +283,7 @@ and results, on a struct or class property, or on a function parameter.
    .. literalinclude:: /examples/generated/code/start/Threading.snippet.threadsafe-wrapper-function-parameter.swift
       :language: swift
 
+.. _ios-legacy-thread-safe-reference:
 
 Use ThreadSafeReference (Legacy Swift / Objective-C)
 ````````````````````````````````````````````````````
@@ -300,7 +298,7 @@ thread-confined instances to another thread as follows:
 .. important::
 
    You must resolve a ``ThreadSafeReference`` exactly once. Otherwise,
-   the source realm will remain pinned until the reference gets
+   the source realm remains pinned until the reference gets
    deallocated. For this reason, ``ThreadSafeReference`` should be
    short-lived.
 
@@ -315,9 +313,10 @@ regardless of whether it has a primary key. You can also use it with
 lists and results.
 
 The downside is that ``ThreadSafeReference`` requires some boilerplate.
-You must remember to wrap everything in an ``autoreleasepool`` so the
-objects do not linger on the background thread. So, it can be helpful to
-make a convenience extension to handle the boilerplate as follows:
+You must remember to wrap everything in a ``DispatchQueue`` with a 
+properly-scoped ``autoreleaseFrequency`` so the objects do not linger on 
+the background thread. So, it can be helpful to make a convenience extension 
+to handle the boilerplate as follows:
 
 .. literalinclude:: /examples/generated/code/start/Threading.snippet.write-async-extension.swift
    :language: swift
@@ -392,7 +391,7 @@ However, some apps -- those based on reactive, event
 stream-based architectures, for example -- need to send
 immutable copies around to many threads for processing
 before ultimately ending up on the UI thread. Making a deep
-copy every time would be expensive, and Realm Database does not allow
+copy every time would be expensive, and Realm does not allow
 live instances to be shared across threads. In this case,
 you can **freeze** and **thaw** objects, collections, and realms.
 
@@ -402,6 +401,13 @@ exists on disk, and does not need to be deeply copied when passed around
 to other threads. You can freely share the frozen object across threads
 without concern for thread issues. When you freeze a realm, its child 
 objects also become frozen.
+
+.. tip:: Use ThreadSafeReference with Swift Actors
+
+   Realm does not currently support using ``thaw()`` with Swift Actors.
+   To work with Realm data across actor boundaries, use 
+   ``ThreadSafeReference`` instead of frozen objects. For more information,
+   refer to :ref:`swift-pass-thread-safe-reference-across-actors`.
 
 Frozen objects are not live and do not automatically update.
 They are effectively snapshots of the object state at the
@@ -455,7 +461,7 @@ thread-safe.
 Frozen objects remain valid as long as the live realm that
 spawned them stays open. Therefore, avoid closing the live
 realm until all threads are done with the frozen objects.
-You can close frozen realm before the live realm is closed.
+You can close a frozen realm before the live realm is closed.
 
 .. important:: On caching frozen objects
 
@@ -508,7 +514,7 @@ instead of blocking the UI.
 Realm's Threading Model in Depth
 --------------------------------
 
-Realm Database provides safe, fast, lock-free, and concurrent access
+Realm provides safe, fast, lock-free, and concurrent access
 across threads with its :wikipedia:`Multiversion Concurrency
 Control (MVCC) <Multiversion_concurrency_control>`
 architecture.
@@ -524,16 +530,16 @@ elements of Git are:
 - Commits, which are atomic writes.
 - Branches, which are different versions of the commit history.
 
-Similarly, Realm Database has atomically-committed writes in the form
-of :ref:`transactions <ios-write-transactions>`. Realm Database also has many
+Similarly, Realm has atomically-committed writes in the form
+of :ref:`transactions <ios-write-transactions>`. Realm also has many
 different versions of the history at any given time, like
 branches.
 
 Unlike Git, which actively supports distribution and
 divergence through forking, a realm only has one true latest
 version at any given time and always writes to the head of
-that latest version. Realm Database cannot write to a previous
-version. This makes sense: your data should converge on one
+that latest version. Realm cannot write to a previous
+version. This means your data converges on one
 latest version of the truth.
 
 Internal Structure
@@ -545,15 +551,15 @@ version of the realm; child nodes are objects in that
 version of the realm. The realm has a pointer to its latest
 version, much like how Git has a pointer to its HEAD commit.
 
-Realm Database uses a copy-on-write technique to ensure
+Realm uses a copy-on-write technique to ensure
 :wikipedia:`isolation <Isolation_(database_systems)>` and
 :wikipedia:`durability <Durability_(database_systems)>`.
-When you make changes, Realm Database copies the relevant part of the
-tree for writing. Realm Database then commits the changes in two
+When you make changes, Realm copies the relevant part of the
+tree for writing. Realm then commits the changes in two
 phases:
 
-- Realm Database writes changes to disk and verifies success.
-- Realm Database then sets its latest version pointer to point to the newly-written version.
+- Realm writes changes to disk and verifies success.
+- Realm then sets its latest version pointer to point to the newly-written version.
 
 This two-step commit process guarantees that even if the
 write failed partway, the original version is not corrupted
@@ -564,7 +570,7 @@ version is guaranteed to be valid.
 
 .. include:: /includes/commit-process-diagram.rst
 
-Realm Database uses zero-copy techniques
+Realm uses zero-copy techniques
 like memory mapping to handle data. When you read a value
 from the realm, you are virtually looking at the value on
 the actual disk, not a copy of it. This is the basis for
@@ -595,8 +601,15 @@ Summary
   **freeze** objects, collections, and realms in order to pass
   shallow copies around efficiently to different threads for processing.
 
-- Realm Database's multiversion concurrency control (MVCC)
-  architecture is similar to Git's. Unlike Git, Realm Database has
+- Realm's multiversion concurrency control (MVCC)
+  architecture is similar to Git's. Unlike Git, Realm has
   only one true latest version for each realm.
 
-- Realm Database commits in two stages to guarantee isolation and durability.
+- Realm commits in two stages to guarantee isolation and durability.
+
+.. _threading-page-sendable-thread-confined-reference:
+
+Sendable, Non-Sendable and Thread-Confined Types
+------------------------------------------------
+
+.. include:: /includes/swift-api-sendable-thread-confined-reference.rst

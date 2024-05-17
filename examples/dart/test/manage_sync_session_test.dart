@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
 
-part 'manage_sync_session_test.g.dart';
+part 'manage_sync_session_test.realm.dart';
 
 const APP_ID = "flutter-flexible-luccm";
 late App app;
@@ -34,10 +34,16 @@ main() {
     await realm.subscriptions.waitForSynchronization();
   });
   tearDown(() async {
-    cleanUpRealm(realm, app);
+    await cleanUpRealm(realm, app);
   });
   group("Manage sync session - ", () {
     test("Wait for changes to upload and download", () async {
+      // Ensure there aren't any car objects in the on-device database.
+      realm.write(() {
+        realm.deleteAll<Car>();
+      });
+      await realm.syncSession.waitForUpload();
+
       // :snippet-start: wait-upload-download
       // Wait to download all pending changes from Atlas
       await realm.syncSession.waitForDownload();
@@ -45,12 +51,12 @@ main() {
       // :remove-start:
       final syncProgress = realm.syncSession.getProgressStream(
           ProgressDirection.upload, ProgressMode.forCurrentlyOutstandingWork);
-      var called = false;
-      var streamListener;
+      bool called = false;
+      dynamic streamListener;
       streamListener = syncProgress.listen((syncProgressEvent) {
         if (called == false) {
-          expect(syncProgressEvent.transferableBytes > 0, isTrue);
-          expect(syncProgressEvent.transferredBytes > 0, isTrue);
+          expect(syncProgressEvent.progressEstimate > 0.0, isTrue);
+          expect(syncProgressEvent.progressEstimate > 0.0, isTrue);
           called = true;
           streamListener.cancel();
         }
@@ -69,6 +75,7 @@ main() {
       // :snippet-end:
       expect(called, isTrue);
     });
+
     test("Pause and resume sync session", () async {
       // :snippet-start: pause-resume-sync
       // Pause the sync session
@@ -91,6 +98,7 @@ main() {
       // :snippet-end:
       expect(realm.syncSession.state, SessionState.active);
     });
+
     test("Monitor sync progress", () async {
       var isCalled = false;
       realm.write(() {
@@ -106,19 +114,23 @@ main() {
 
       late StreamSubscription streamListener;
       streamListener = stream.listen((syncProgressEvent) {
-        if (syncProgressEvent.transferableBytes ==
-            syncProgressEvent.transferredBytes) {
-          isCalled = true; // :remove:
-          // Upload complete
-          print('Upload complete');
-          // Stop listening to the Stream
-          streamListener.cancel();
+        final progressEstimate = syncProgressEvent.progressEstimate;
+
+        if (progressEstimate < 1.0) {
+          print('Upload progress: ${progressEstimate * 100}%');
         }
+      }, onDone: () {
+        print("Upload complete");
+        isCalled = true; // :remove:
+      }, onError: (error) {
+        print("An error occurred: $error");
+        streamListener.cancel();
       });
       // :snippet-end:
       await Future.delayed(Duration(seconds: 1));
       expect(isCalled, isTrue);
     });
+
     test("Monitor network connection", () async {
       var isConnected = false;
       // :snippet-start: get-network-connection
@@ -140,5 +152,48 @@ main() {
       streamListener.cancel();
       expect(isConnected, isTrue);
     });
+
+    test("Manually reconnect all sync sessions", () async {
+      final session = realm.syncSession;
+
+      session.pause();
+      expect(session.connectionState, ConnectionState.disconnected);
+
+      expectLater(
+        session.connectionStateChanges.map((c) => c.current).distinct(),
+        emitsInOrder(<ConnectionState>[
+          ConnectionState.connecting,
+          ConnectionState.connected,
+        ]),
+      );
+
+      session.resume();
+
+      // :snippet-start: session-reconnect
+      app.reconnect();
+      // :snippet-end:
+      expect(session.connectionState, ConnectionState.connected);
+    });
+  });
+
+  // This test should be at the end of the file. It cancels the sync
+  // session, which tests above rely on.
+  test("Cancel waiting for upload or download", () async {
+    // :snippet-start: cancel-waitfor
+    final cancellationToken = CancellationToken();
+
+    final waitForDownloadFuture =
+        realm.syncSession.waitForDownload(cancellationToken);
+    cancellationToken.cancel();
+
+    final waitForUploadFuture =
+        realm.syncSession.waitForUpload(cancellationToken);
+    cancellationToken.cancel();
+    // :snippet-end:
+
+    expect(() async => await waitForDownloadFuture,
+        throwsA(isA<CancelledException>()));
+    expect(() async => await waitForUploadFuture,
+        throwsA(isA<CancelledException>()));
   });
 }

@@ -1,4 +1,4 @@
-let YOUR_APP_SERVICES_APP_ID_HERE = "swiftui_quickstart_fs-vaxps"
+let YOUR_APP_SERVICES_APP_ID_HERE = "swiftuiflexsyncexample-dtgeq"
 
 // :snippet-start: complete-swiftui-flex-sync-quickstart
 // :snippet-start: imports

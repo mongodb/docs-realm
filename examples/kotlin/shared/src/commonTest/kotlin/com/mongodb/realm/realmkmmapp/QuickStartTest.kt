@@ -10,79 +10,34 @@ import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.notifications.UpdatedResults
 import io.realm.kotlin.query.RealmResults
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.mongodb.kbson.ObjectId
+import kotlin.test.assertEquals
+
+// :snippet-start: quick-start-model
+class Item() : RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId()
+    var isComplete: Boolean = false
+    var summary: String = ""
+    var owner_id: String = ""
+    constructor(ownerId: String = "") : this() {
+        owner_id = ownerId
+    }
+}
+// :snippet-end:
 
 class QuickStartTest: RealmTest() {
 
     @Test
-    fun queryTest() {
-        // :snippet-start: landing-page-query
-        val config = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :remove-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :remove-end:
-            .build()
-        val realm = Realm.open(config)
-        val tadpoles: RealmQuery<Frog> = realm.query<Frog>("age > $0", 2)
-        Log.v("Tadpoles: ${tadpoles.count()}")
-        val numTadpolesNamedJasonFunderburker = tadpoles.query("name == $0", "Jason Funderburker").count()
-        Log.v("Tadpoles named Jason Funderburker: $numTadpolesNamedJasonFunderburker")
-        // :snippet-end:
-    }
-
-    @Test
-    fun updateTest() {
-        val configSetup = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :remove-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :remove-end:
-            .build()
-        val realmSetup = Realm.open(configSetup)
-        realmSetup.writeBlocking {
-            copyToRealm(Frog().apply {
-                name = "Benjamin Franklin"
-                age = 12
-                species = "bullfrog"
-                owner = null
-            })
-        }
-        // :snippet-start: landing-page-update
-        val config = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :remove-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :remove-end:
-            .build()
-        val realm = Realm.open(config)
-        // start a write transaction
-        realm.writeBlocking {
-            // get a frog from the database to update
-            val frog: Frog? = query<Frog>()
-                .query("name == $0 LIMIT(1)",
-                    "Benjamin Franklin")
-                .first()
-                .find()
-            // update the frog's properties
-            frog?.apply {
-                name = "George Washington"
-                species = "American bullfrog"
-            }
-        } // when the transaction completes, the frog's name and species
-        // are updated in the database
-        // :snippet-end:
-    }
-
-    @Test
     fun quickStartTest() {
-        // :snippet-start: quick-start
-
         // :snippet-start: quick-start-initialize-app
         val app = App.create(YOUR_APP_ID)
         // :snippet-end:
@@ -120,7 +75,6 @@ class QuickStartTest: RealmTest() {
         // :snippet-start: quick-start-open-a-local-realm
         // :uncomment-start:
         // val config = RealmConfiguration.create(schema = setOf(Item::class))
-        // val realm: Realm = Realm.open(config)
         // :uncomment-end:
         // :remove-start:
         val config = RealmConfiguration.Builder(schema = setOf(Item::class))
@@ -194,12 +148,18 @@ class QuickStartTest: RealmTest() {
             realm.query<Item>("isComplete == false")
                 .find()
         // :snippet-end:
+        assertEquals(itemsThatBeginWIthD.count(), 3)
+        assertEquals(incompleteItems.count(), 3)
         // :snippet-start: quick-start-update
         // change the first item with open status to complete to show that the todo item has been done
         realm.writeBlocking {
             findLatest(incompleteItems[0])?.isComplete = true
         }
         // :snippet-end:
+        val completeItems: RealmResults<Item> =
+            realm.query<Item>("isComplete == true")
+                .find()
+        assertEquals(completeItems.count(), 1)
         // :snippet-start: quick-start-delete
         // delete the first item in the realm
         realm.writeBlocking {
@@ -207,8 +167,12 @@ class QuickStartTest: RealmTest() {
             delete(writeTransactionItems.first())
         }
         // :snippet-end:
-        // :snippet-end:
 
+        realm.writeBlocking {
+            deleteAll()
+        }
+        val allItems: RealmResults<Item> = realm.query<Item>().find()
+        assertEquals(allItems.count(), 0)
         // :snippet-start: quick-start-unsubscribe-to-changes
         job.cancel() // cancel the coroutine containing the listener
         // :snippet-end:

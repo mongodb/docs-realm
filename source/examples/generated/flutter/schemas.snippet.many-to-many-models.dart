@@ -13,5 +13,5 @@ class _ScooterShop {
   late ObjectId id;
 
   late String name;
-  late List<_Scooter> owner;
+  late List<_Scooter> scooters;
 }

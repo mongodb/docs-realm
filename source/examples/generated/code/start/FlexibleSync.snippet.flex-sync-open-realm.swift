@@ -5,7 +5,8 @@ let realm = try await openFlexibleSyncRealm()
 @MainActor
 func openFlexibleSyncRealm() async throws -> Realm {
     let app = App(id: APPID)
-    let user = try await app.login(credentials: Credentials.anonymous)
+    let credentials = emailPasswordCredentials(app: app)
+    let user = try await app.login(credentials: credentials)
     var config = user.flexibleSyncConfiguration()
     // Pass object types to the Flexible Sync configuration
     // as a temporary workaround for not being able to add complete schema

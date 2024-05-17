@@ -1,5 +1,5 @@
 // This document represents a CoffeeDrink object
-let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 43"]
+let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": false, "storeNumber": 43]
 
 do {
     // Use the async collection method to insert the document

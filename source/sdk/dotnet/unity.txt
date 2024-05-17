@@ -1,14 +1,8 @@
 .. _dotnet-unity:
 
-=====================================
-Integrate Realm with Unity - .NET SDK
-=====================================
-
-.. toctree::
-   :titlesonly:
-
-   Unity Tutorial </sdk/dotnet/unity-tutorial>
-
+================================
+Quick Start for Unity - .NET SDK
+================================
 
 .. contents:: On this page
    :local:
@@ -16,22 +10,8 @@ Integrate Realm with Unity - .NET SDK
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 This page contains information on how to install and integrate Realm into
 your Unity project. 
-
-If you're looking for a tutorial to learn how you might persist data to
-Realm Database in a Unity game, see: :ref:`Create a Unity Game with Realm 
-<unity-tutorial>`.
-
-.. note:: Known Issue When Developing With Unity on Windows
-
-   On Windows, if you are using Device Sync, your project may crash when running
-   multiple instances of your project since multiple processes are attempting to
-   access the same synced realm. If you are using a local realm, you are
-   able to run multiple instances of your project without crashes. 
 
 Prerequisites
 -------------
@@ -93,7 +73,7 @@ updates through Unity's package manager
              URL = https://registry.npmjs.org
              Scope(s) = io.realm.unity
 
-            .. figure:: /images/add-scoped-registry-form.png
+            .. figure:: /images/unity-add-scoped-registry-form.png
                :alt: Download the latest release of the .NET SDK
 
 
@@ -114,14 +94,16 @@ updates through Unity's package manager
              "io.realm.unity": "<version-number>"
 
             Remember to replace the ``<version-number>`` above with the actual version
-            number. Your full manifest file should look something like the following:
+            number. You can find the latest release version at the 
+            `realm-dotnet GitHub repo <https://github.com/realm/realm-dotnet>`__. 
+            Your full manifest file should look something like the following:
 
             .. code-block:: none
 
              {
               "dependencies": {
                 ...
-                "io.realm.unity": "10.2.1"
+                "io.realm.unity": "10.21.0"
               },
               "scopedRegistries": [
                 {
@@ -137,13 +119,7 @@ updates through Unity's package manager
             When you save this file, Unity downloads the specified version of the
             Realm .NET SDK package from the NPM registry.
 
-            .. figure:: /images/unity-resolve-packages.png
-               :width: 400px
-               :alt: Unity downloading Realm .NET SDK package
-
-
          .. step:: Verify the Realm Dependency and Check for Updates
-
 
             To verify that the Realm package has been downloaded from NPM,
             open your Unity package manager by clicking the :guilabel:`Window` tab on the
@@ -176,13 +152,13 @@ updates through Unity's package manager
             to use in your project. If you are unsure of which release to use, you can use
             the one labeled **"latest release"** on the left row.
 
-            .. figure:: /images/find-latest-dotnet-release.png
+            .. figure:: /images/unity-find-latest-dotnet-release.png
                :alt: Find the latest release of the .NET SDK
 
             Scroll down to the **"Assets"** dropdown of the release and click the link
             labeled **"io.realm.unity-<version-number>.tgz"** to download the SDK.
 
-            .. figure:: /images/download-unity-tgz.png
+            .. figure:: /images/unity-download-tgz.png
                :alt: Download the latest release of the .NET SDK
 
 
@@ -234,21 +210,6 @@ However, since Unity has some `scripting restrictions
 <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_, you should keep
 the following additional considerations in mind when developing your project:
 
-``dynamic`` Keyword Support
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Unity does not support the `dynamic keyword <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_ when using `IL2CPP  <https://docs.unity3d.com/Manual/IL2CPP.html>`_. This means all types used in C# scripts must be known at compile time. When you use the Realm .NET SDK with Unity, you must convert dynamic types to concrete types. To view the full list of limitations, see the Unity `scripting limitations <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ documentation. Although the Realm .NET SDK exposes the :dotnet-sdk:`Dynamic API<reference/Realms.Realm.Dynamic.html?q=dynamic>`, we recommend it only when performing migrations.
-
-.. example::
-
-   The following example shows a portion of a code block for performing a
-   :ref:`migration <dotnet-migration-function>` to illustrate the usage of the
-   :dotnet-sdk:`DynamicAPI <reference/Realms.Realm.Dynamic.html>`.
-
-   .. code-block:: csharp
-
-    var dynamicPeople = (IQueryable<RealmObject>)migration.OldRealm.All("Person");
-    var personName = dynamicPeople.First().DynamicApi.Get<string>("Name");
-
 Managed Code Stripping
 ~~~~~~~~~~~~~~~~~~~~~~
 Unity performs `managed code stripping <https://docs.unity3d.com/Manual/ManagedCodeStripping.html>`_, 
@@ -275,6 +236,13 @@ This means you cannot write data to a Realm while the player application is quit
 If you need to store some data just before the app exits, consider using the 
 `Application.wantsToQuit <https://docs.unity3d.com/ScriptReference/Application-wantsToQuit.html>`_ 
 event instead.
+
+.. note:: Known Issue When Developing With Unity on Windows
+
+   On Windows, if you are using Device Sync, your project may crash when running
+   multiple instances of your project since multiple processes are attempting to
+   access the same synced realm. If you are using a local realm, you are
+   able to run multiple instances of your project without crashes. 
 
 Additional Examples
 -------------------

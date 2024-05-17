@@ -1,5 +1,6 @@
 .. _dotnet-react-to-changes:
 .. _dotnet-client-notifications:
+.. _dotnet-live-object:
 
 ===========================
 React to Changes - .NET SDK
@@ -11,12 +12,22 @@ React to Changes - .NET SDK
    :depth: 2
    :class: singlecol
 
+All Realm objects are **live objects**, which means they
+automatically update whenever they're modified. Realm emits a
+:ref:`notification event <dotnet-react-to-changes>` whenever any property
+changes.
+
 Realm's notification system allows you to watch for and react to changes in your
 data, independent of the writes that caused the changes. To observe changes, you 
 create a notification handler for a Realm, a 
 :ref:`managed collection <dotnet-client-collections>`, or a Realm object 
 that you want to watch. You can then add your specific app logic related to the 
 change.
+
+.. note::
+
+   For information on binding data changes to the UI in your project, 
+   see :ref:`Data Binding <dotnet-data-binding>`.
 
 Realm emits three kinds of notifications:
 
@@ -197,3 +208,10 @@ change listener on both:
 
 .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.unsubscribe.cs
    :language: csharp
+
+.. _dotnet-change-notification-limits:
+
+Change Notification Limits
+--------------------------
+
+.. include:: /includes/change-notification-limit.rst

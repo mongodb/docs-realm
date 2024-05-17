@@ -4,11 +4,21 @@
 Define a Realm Object Schema - Flutter SDK
 ==========================================
 
+.. meta:: 
+  :keywords: code example, android, ios, data modeling
+  :description: Define the properties and relationships of database objects within your data model.
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. include:: /includes/flutter-v2-breaking-change.rst
 
 An **object schema** is a configuration object that defines the properties and
 relationships of a Realm object. Realm client
@@ -51,6 +61,9 @@ Create Model
 
    .. step:: Create Generated File Part Directive
 
+      .. versionchanged:: v2.0.0
+          Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
+      
       Add a part directive to include the ``RealmObject`` file that you generate in step 4
       in the same package as the file you're currently working on.
 
@@ -83,8 +96,13 @@ Create Model
       .. literalinclude:: /examples/generated/flutter/schemas.snippet.create-realm-model.dart
          :language: dart
          :caption: schemas.dart
+      
+      .. include:: /includes/note-class-char-limit.rst
 
    .. step:: Generate RealmObject
+
+      .. versionchanged:: v2.0.0
+          Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
 
       Generate the ``RealmObject``, which you'll use in your application:
 
@@ -95,7 +113,7 @@ Create Model
 
             .. code-block::
 
-               flutter pub run realm generate
+               dart run realm generate
 
          .. tab:: Dart
             :tabid: dart
@@ -117,7 +135,7 @@ Create Model
 
             .
             ├── schemas.dart
-            ├── schemas.g.dart // newly generated file
+            ├── schemas.realm.dart // newly generated file
             ├── myapp.dart
             └── ...rest of application
 
@@ -144,7 +162,7 @@ All synced objects in a realm must conform to the App Services Schema.
 
 Client applications provide a Object Schema when they open a realm. If a
 realm already contains data, then it already has a schema, and when it is opened,
-Realm Database validates the schema on the client against the existing schema.
+Realm validates the schema on the client against the existing schema.
 
 You can define App Services Schemas in the following ways:
 
@@ -189,31 +207,113 @@ refer to :ref:`Relationships <flutter-client-relationships>`.
 
 .. _flutter-map-model-name:
 
-Map Realm Model to Different Name
----------------------------------
+Map a Model or Class to a Different Name
+----------------------------------------
 
 You can use the `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__
-annotation to map a Realm object model to a different model name in Realm Database.
-This can be useful in the following scenarios:
+annotation to map a Realm object model or property to a different stored 
+name in Realm. This can be useful in the following scenarios. For example:
 
-- Working with one realm from different Realm SDKs
-- Migrating Realm object models
-- Adhering to certain code style conventions
+- To make it easier to work across platforms where naming conventions 
+  differ. For example, if your Device Sync schema property names use snake 
+  case, while your project uses camel case.
+- To change a class or field name without forcing a migration.
+- To support multiple model classes with the same name in different packages.
+- To use a class name that is longer than the 57-character limit enforced 
+  by Realm.
 
-If you're using Atlas Device Sync, the name that you map to corresponds
-with the :ref:`App Services Schema <schemas>` name.
+If you're using Atlas Device Sync, the name that you specify in the  
+``MapTo`` annotation is used as the persisted :ref:`App Services Schema 
+<schemas>` name.
 
-.. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.map-to.dart
+.. tabs::
+
+   .. tab:: Map a Class Name
+      :tabid: remap-class
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.map-to.dart
+         :language: dart
+         :emphasize-lines: 2
+
+   .. tab:: Map a Property Name
+      :tabid: remap-property
+
+      .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
+         :language: dart
+         :emphasize-lines: 15-16
+
+.. _flutter-model-unstructured-data:
+
+Model Unstructured Data 
+-----------------------
+
+.. versionadded:: 2.0.0
+
+Starting in Flutter SDK version 2.0.0, you can 
+:ref:`define nested collections 
+of mixed data <flutter-nested-collections-realm-value>` 
+within a  ``RealmValue`` property.
+
+The ability to nest collections of mixed data enables you to define data 
+that doesn't otherwise conform to an expected schema, including data with 
+variable structure or data whose shape or type is not known at runtime. 
+For example, you might have highly variable user-created objects, event logs, 
+or survey response data that are collected and stored in a variety of JSON 
+formats. This approach allows you to :ref:`react to changes <flutter-realm-list-change-listener>`
+in the nested data and to update specific elements, but it is less 
+performant than using a structured schema or serializing JSON blobs
+into a single string property.
+
+To model unstructured data in your schema using collections of mixed type, 
+define the appropriate properties in your schema as 
+:ref:`RealmValue <flutter-realm-value>` types. You can then set these   
+``RealmValue`` properties as a :ref:`RealmList <flutter-realm-list>` or a 
+:ref:`RealmMap <flutter-realm-map>` collection of ``RealmValue`` elements. 
+Note that ``RealmValue`` *cannot* represent a ``RealmSet`` or an embedded object.
+
+For example, you might use a ``RealmValue`` that contains a map of mixed 
+data when modeling a variable event log object: 
+
+.. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.unstructured-data-model.dart
    :language: dart
-   :emphasize-lines: 2
+   :emphasize-lines: 10
+   :caption: Data model 
+
+.. io-code-block::
+   :copyable: true
+   :caption: Create unstructured data
+
+   .. input:: /examples/generated/flutter/define_realm_model_test.snippet.create-unstructured-data-example.dart
+      :language: dart
+
+   .. output:: 
+      :language:  shell
+
+      Event Type: purchase
+      Timestamp: 2024-03-18 13:50:58.402979Z
+      User ID: user123
+      Details:
+      Item:
+         ipAddress: RealmValue(192.168.1.1)
+         items: RealmValue([RealmValue({id: RealmValue(1), name: RealmValue(Laptop), price: RealmValue(1200.0)}), RealmValue({id: RealmValue(2), name: RealmValue(Mouse), price: RealmValue(49.99)})])
+         total: RealmValue(1249.99)
+
+.. tip:: 
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier. 
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
 
 .. _flutter-generate-realm-object:
 
 Generate the RealmObject
 ------------------------
 
+.. versionchanged:: v2.0.0
+    Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
+
 Once you've completed your Realm model, you must generate the
-:flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>` class to use it in your application.
+:flutter-sdk:`RealmObject <realm/RealmObjectBase-mixin.html>` class to use 
+it in your application.
 
 Run the following command to generate ``RealmObjects``:
 
@@ -224,7 +324,7 @@ Run the following command to generate ``RealmObjects``:
 
       .. code-block::
 
-         flutter pub run realm generate
+         dart run realm generate
 
    .. tab:: Dart
       :tabid: dart
@@ -237,8 +337,8 @@ Running this creates a public class in a new file in the directory
 where you defined the ``RealmModel`` class per the :ref:`Create Model section <flutter-create-model>`.
 
 The generated file has the same base name as the file with your ``RealmModel``,
-ending with ``.g.dart``. For example if the file with your ``RealmModel``
-is named ``schemas.dart``, the generated file will be ``schemas.g.dart``.
+ending with ``.realm.dart``. For example if the file with your ``RealmModel``
+is named ``schemas.dart``, the generated file will be ``schemas.realm.dart``.
 
 .. note::
 
@@ -251,7 +351,7 @@ is named ``schemas.dart``, the generated file will be ``schemas.g.dart``.
 
       // ...import packages
 
-      part 'schemas.g.dart';
+      part 'schemas.realm.dart';
 
       @RealmModel()
       // ...model definition
@@ -266,7 +366,7 @@ include the ``--watch`` flag in your command.
 
       .. code-block::
 
-         flutter pub run realm generate --watch
+         dart run realm generate --watch
 
    .. tab:: Dart
       :tabid: dart
@@ -285,7 +385,7 @@ Cleaning the generator cache can be useful when debugging.
 
       .. code-block::
 
-         flutter pub run realm generate --clean
+         dart run realm generate --clean
 
    .. tab:: Dart
       :tabid: dart
@@ -293,3 +393,31 @@ Cleaning the generator cache can be useful when debugging.
       .. code-block::
 
          dart run realm_dart generate --clean
+
+.. _flutter-define-an-asymmetric-object:
+
+Define an Asymmetric Object
+---------------------------
+
+.. versionadded:: 1.5.0
+
+Asymmetric objects require Flexible Sync. To define an asymmetric object, pass
+``ObjectType.asymmetricObject`` to ``@RealmModel()``.
+
+.. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.asymmetric-sync-object.dart
+   :language: dart
+   :emphasize-lines: 1
+
+In Flutter SDK versions 1.5.0 and earlier, you cannot link from
+``asymmetricObject`` types to ``RealmObjects``. In SDK versions 1.6.0 and
+later, ``asymmetricObject`` types can link to ``RealmObjects`` in 
+addition to :ref:`embedded object types <flutter-embedded-objects>`.
+
+.. note:: Attempting to Read Asymmetric Objects
+
+   Asymmetric objects can't be read. If you attempt to query an asymmetric
+   object, you will get the following error: "Error: You can't query an
+   asymmetric class.".
+
+To learn more about Data Ingest, refer to :ref:`Stream Data to Atlas 
+<flutter-stream-data-to-atlas>`.

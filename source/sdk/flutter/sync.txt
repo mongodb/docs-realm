@@ -14,6 +14,8 @@ Device Sync - Flutter SDK
    Manage Sync Session </sdk/flutter/sync/manage-sync-session>
    Sync Multiple Processes </sdk/flutter/sync/sync-multiple-processes>
    Handle Sync Errors </sdk/flutter/sync/handle-sync-errors>
+   Set Sync Log Level </sdk/flutter/sync/log-level>
+   Stream Data to Atlas </sdk/flutter/sync/stream-data-to-atlas>
 
 .. contents:: On this page
    :local:
@@ -54,15 +56,15 @@ received out of order.
 Synced Realms vs. Non-Synced Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Synced realms differ from non-synced local Realm Database in a couple of ways:
+Synced realms differ from non-synced local Realm in a couple of ways:
 
 - Synced realms attempt to sync changes with your backend App Services App,
   whereas non-synced realms do not.
 - Synced realms can be accessed by authenticated users, while non-synced
   realms have no concept of users or authentication.
 
-You can copy data from a non-synced Realm Database to a synced realm,
-and vice versa, but you cannot sync a non-synced Realm Database.
+You can copy data from a non-synced realm to a synced realm,
+and vice versa, but you cannot sync a non-synced realm.
 
 .. _flutter-flexible-sync-fundamentals:
 
@@ -90,8 +92,8 @@ Subscription sets are based on a specific type of :ref:`Realm object
 <flutter-define-realm-object-schema>`.
 To sync data for many types of Realm objects, you must have multiple subscriptions.
 
-To use Flexible Sync in your client application, open a synced realm
-with a flexible sync configuration. Then, manage subscriptions
+To use Device Sync in your client application, open a synced realm
+with a Flexible Sync configuration. Then, manage subscriptions
 to determine which documents to sync.
 
 Enable Flexible Sync on the Backend

@@ -2,15 +2,15 @@
 
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
-import './utils.dart';
-part 'react_to_changes_test.g.dart';
+part 'react_to_changes_test.realm.dart';
 
 // :snippet-start: sample-data-models
 @RealmModel()
 class _Character {
   @PrimaryKey()
-  late String name;
+  late ObjectId id;
 
+  late String name;
   late String species;
   late int age;
 }
@@ -18,8 +18,9 @@ class _Character {
 @RealmModel()
 class _Fellowship {
   @PrimaryKey()
-  late String name;
+  late ObjectId id;
 
+  late String name;
   late List<_Character> members;
 }
 // :snippet-end:
@@ -32,14 +33,15 @@ void main() {
     late String globalRealmPath;
     setUpAll(() {
       // :snippet-start: sample-data-seed
-      final frodo = Character('Frodo', 'Hobbit', 51);
-      final samwise = Character('Samwise', 'Hobbit', 39);
-      final gollum = Character('Gollum', 'Hobbit', 589);
-      final aragorn = Character('Aragorn', 'Human', 87);
-      final legolas = Character('Legolas', 'Elf', 2931);
-      final gimli = Character('Gimli', 'Dwarf', 140);
+      final frodo = Character(ObjectId(), 'Frodo', 'Hobbit', 51);
+      final samwise = Character(ObjectId(), 'Samwise', 'Hobbit', 39);
+      final gollum = Character(ObjectId(), 'Gollum', 'Hobbit', 589);
+      final aragorn = Character(ObjectId(), 'Aragorn', 'Human', 87);
+      final legolas = Character(ObjectId(), 'Legolas', 'Elf', 2931);
+      final gimli = Character(ObjectId(), 'Gimli', 'Dwarf', 140);
 
-      final fellowshipOfTheRing = Fellowship('Fellowship of the Ring',
+      final fellowshipOfTheRing = Fellowship(
+          ObjectId(), 'Fellowship of the Ring',
           members: [frodo, samwise, aragorn, legolas, gimli]);
 
       final config = Configuration.local([Fellowship.schema, Character.schema]);
@@ -68,16 +70,16 @@ void main() {
       // Listen for changes on whole collection
       final characters = realm.all<Character>();
       final subscription = characters.changes.listen((changes) {
-        changes.inserted; // indexes of inserted objects
-        changes.modified; // indexes of modified objects
-        changes.deleted; // indexes of deleted objects
-        changes.newModified; // indexes of modified objects
-        // after deletions and insertions are accounted for
-        changes.moved; // indexes of moved objects
-        changes.results; // the full List of objects
+        changes.inserted; // Indexes of inserted objects.
+        changes.modified; // Indexes of modified objects.
+        changes.deleted; // Indexes of deleted objects.
+        changes.newModified; // Indexes of modified objects after accounting for deletions & insertions.
+        changes.moved; // Indexes of moved objects.
+        changes.results; // The full List of objects.
+        changes.isCleared; // `true` after call to characters.clear(); otherwise, `false`.
       });
 
-      // Listen for changes on RealmResults
+      // Listen for changes on RealmResults.
       final hobbits = fellowshipOfTheRing.members.query('species == "Hobbit"');
       final hobbitsSubscription = hobbits.changes.listen((changes) {
         // ... all the same data as above
@@ -86,7 +88,7 @@ void main() {
       await Future<void>.delayed(Duration(milliseconds: 10));
       // :snippet-start: pause-resume-subscription
       subscription.pause();
-      // the changes.listen() method won't fire until the subscription is resumed
+      // The changes.listen() method won't fire until subscription is resumed.
       subscription.resume();
       // :snippet-end:
       await Future<void>.delayed(Duration(milliseconds: 10));
@@ -100,9 +102,9 @@ void main() {
       final frodo = globalFrodo;
       // :snippet-start: realm-object-change-listener
       final frodoSubscription = frodo.changes.listen((changes) {
-        changes.isDeleted; // if the object has been deleted
-        changes.object; // the RealmObject being listened to, `frodo`
-        changes.properties; // the changed properties
+        changes.isDeleted; // If the object has been deleted.
+        changes.object; // The RealmObject being listened to, `frodo`.
+        changes.properties; // The changed properties.
       });
       // :snippet-end:
       await Future<void>.delayed(Duration(milliseconds: 10));
@@ -114,13 +116,14 @@ void main() {
       // :snippet-start: realm-list-change-listener
       final fellowshipSubscription =
           fellowshipOfTheRing.members.changes.listen((changes) {
-        changes.inserted; // indexes of inserted Realm objects
-        changes.modified; // indexes of modified Realm objects
-        changes.deleted; // indexes of deleted Realm objects
-        changes.newModified; // indexes of modified Realm objects
-        // after deletions and insertions are accounted for
-        changes.moved; // indexes of moved Realm objects
-        changes.list; // the full RealmList of Realm objects
+        changes.inserted; // Indexes of inserted objects.
+        changes.modified; // Indexes of modified objects.
+        changes.deleted; // Indexes of deleted objects.
+        changes.newModified; // Indexes of modified objects after accounting for deletions & insertions.
+        changes.moved; // Indexes of moved objects.
+        changes.list; // The full RealmList of objects.
+        changes.isCleared; // `true` after call to fellowshipOfTheRing.members.clear(); otherwise, `false`.
+        changes.isCollectionDeleted; // `true` if the collection is deleted; otherwise, `false`.
       });
       // :snippet-end:
       await Future<void>.delayed(Duration(milliseconds: 10));

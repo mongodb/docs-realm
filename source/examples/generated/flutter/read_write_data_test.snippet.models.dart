@@ -4,6 +4,7 @@ class _Person {
   late ObjectId id;
 
   late String name;
+  late List<String> hobbies;
 }
 
 @RealmModel()
@@ -13,4 +14,5 @@ class _Team {
 
   late String name;
   late List<_Person> crew;
+  late RealmValue eventLog;
 }

@@ -2,7 +2,7 @@ import 'package:realm_dart/realm.dart';
 import 'package:test/test.dart';
 import './utils.dart';
 
-part 'freeze_test.g.dart';
+part 'freeze_test.realm.dart';
 
 @RealmModel()
 class _Person {

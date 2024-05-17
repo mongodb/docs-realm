@@ -3,27 +3,37 @@
 :noprevnext:
 
 .. _java-intro:
+.. _java-advanced-guides:
+.. _java-usage-examples:
+.. _java-fundamentals:
+.. _java-realm-database:
 
-==============
-Realm Java SDK
-==============
+=========================
+Atlas Device SDK for Java
+=========================
+
+.. meta::
+   :description: Use the Atlas Device SDK for Java to store and sync data in Android apps using Java or Kotlin.
 
 .. toctree::
    :titlesonly:
-   
+
    Install </sdk/java/install>
-   Quick Start </sdk/java/quick-start-local>
-   Quick Start with Sync </sdk/java/quick-start-sync>
-   Quick Start with LiveData </sdk/java/livedata>
-   Fundamentals </sdk/java/fundamentals>
-   Data Types </sdk/java/data-types>
-   Usage Examples </sdk/java/examples>
-   Advanced Guides </sdk/java/advanced-guides>
+   Quick Starts </sdk/java/quick-starts>
+   Realm Files </sdk/java/realm-files>
+   Model Data </sdk/java/model-data>
+   CRUD </sdk/java/crud>
+   React to Changes </sdk/java/react-to-changes>
+   Adapters </sdk/java/adapters>
+   Asynchronous APIs </sdk/java/async-api>
+   Atlas App Services </sdk/java/app-services>
+   Manage Users </sdk/java/manage-users>
+   Sync Data </sdk/java/sync>
+   Test and Debug </sdk/java/test-and-debug>
    Troubleshooting </sdk/java/troubleshooting>
    SDK Telemetry </sdk/java/telemetry>
    API Reference </sdk/java/api>
    Kotlin Extensions API Reference <https://www.mongodb.com/docs/realm-sdks/java/latest/kotlin-extensions/>
-   Upgrade from Stitch to Realm </sdk/java/migrate>
    Release Notes <https://github.com/realm/realm-java/blob/releases/CHANGELOG.md>
 
 .. contents:: On this page
@@ -32,60 +42,71 @@ Realm Java SDK
    :depth: 2
    :class: singlecol
 
-Use the Realm Java SDK to develop Android apps in Java or Kotlin. To develop
-multiplatform apps using Kotlin Multiplatform Mobile, refer to the
-:ref:`Realm Kotlin SDK <kotlin-intro>`.
+
+Use the Atlas Device SDK for Java to develop Android apps in Java or Kotlin.
+To develop multiplatform apps using Kotlin Multiplatform (KMP), refer to the
+:ref:`Kotlin SDK <kotlin-intro>`.
+
+SDK in Maintenance Mode
+-----------------------
+
+This SDK is in best-effort maintenance mode and **no longer receives
+new development or non-critical bug fixes**. To develop your app with new
+features, use the :ref:`Kotlin SDK <kotlin-intro>`. You can use the Java SDK
+with the Kotlin SDK.
+
+Learn more about how to :ref:`<kotlin-migrate-from-java-sdk-to-kotlin-sdk>`.
 
 .. kicker:: What You Can Do
 
-Develop Apps with Realm Database
---------------------------------
+Develop Apps with the SDK
+-------------------------
 
-Use free open-source Realm Database as a local object store on a device.
+Use the SDK's open-source database - Realm - as an object store on the device.
 Use Device Sync to keep data in sync with your MongoDB Atlas cluster and
 other clients.
 
 .. tabs::
 
-   .. tab:: Use Realm Database Locally
-      :tabid: local-realm
+   .. tab:: Store Data with the SDK
+      :tabid: device-persistence
 
       .. procedure::
 
-         .. step:: Install the Realm Java SDK
+         .. step:: Install the Java SDK
 
             Use the Gradle build system to
-            :ref:`install the Realm Java SDK in your project <java-install>`.
+            :ref:`install the Java SDK in your project <java-install>`.
 
          .. step:: Define an Object Schema
 
             Use Java or Kotlin to idiomatically :ref:`define an object schema
             <java-define-a-realm-object-schema>`.
 
-         .. step:: Open a Realm
+         .. step:: Open a Database
 
-            Realm Database stores objects in realm files on your device,
-            or you can open an in-memory realm which does not create a file.
+            The SDK's database - Realm - stores objects in files on your device.
+            Or you can open an in-memory database which does not create a file.
             To get started reading and writing data,
-            :ref:`configure and open a realm <java-open-close-realm>`.
+            :ref:`configure and open a database <java-open-close-realm>`.
 
          .. step:: Read and Write Data
 
             :ref:`Create <java-create-a-new-object>`, :ref:`read
             <java-read-from-realm>`, :ref:`update <java-update>`, and
-            :ref:`delete <java-delete-an-object>` objects from the realm.
+            :ref:`delete <java-delete-an-object>` objects from the database.
             Use Android-native queries to :ref:`filter data
             <java-client-query-engine>`.
 
          .. step:: React to Changes
 
-            Realm's live objects mean that your data is always up-to-date.
+            Live objects mean that your data is always up-to-date.
             You can :ref:`register a notification handler
             <java-react-to-changes>` to watch for changes and perform some
             logic, such as updating your UI.
 
       .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
-         :alt: Realm Mobile Illustration
+         :alt: Atlas Device SDK Mobile Illustration
 
    .. tab:: Sync Data Across Devices
       :tabid: device-sync
@@ -112,24 +133,23 @@ other clients.
             integrate with other authentication providers. Anonymous authentication
             provides access without requiring a login or persisting user data.
 
-         .. step:: Open a Synced Realm
+         .. step:: Open a Synced Database
 
-            Instead of opening a local realm, :ref:`configure and open a
-            synced Realm <java-synced-realms>`.
+            :ref:`Configure and open a synced database <java-synced-realms>`.
             :ref:`Subscribe to a query <java-sync-subscribe-to-queryable-fields>`
-            to determine what data the synced realm can read and write.
+            to determine what data the synced database can read and write.
 
          .. step:: Read and Write Synced Data
 
-            The APIs to read and write data from a realm are the same
-            whether you're using a synced or local realm. Data that you
+            The APIs to read and write data are the same whether you're
+            using a synced or non-synced database. Data that you
             read and write is automatically kept in sync with your Atlas
             cluster and other clients. Apps keep working offline and
             deterministically sync changes whenever a network connection is
             available.
 
       .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
-         :alt: Realm Sync Illustration
+         :alt: Device Sync Illustration
 
    .. tab:: Build with Atlas App Services
       :tabid: app-services
@@ -174,22 +194,22 @@ Recommended Reading
       :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
       :icon-alt: Tutorial Icon
 
-      Get started with Realm Database for Java.
+      Get started with the Java SDK.
 
    .. card::
       :headline: Java API Reference
       :cta: Java API Reference
       :url: https://www.mongodb.com/docs/realm-sdks/java/latest/
       :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
-      :icon-alt: Realm Icon
+      :icon-alt: Atlas Device SDK Icon
 
-      Explore generated reference docs for the Realm Java APIs.
+      Explore generated reference docs for the SDK's Java APIs.
 
    .. card::
       :headline: Kotlin Extensions API Reference
       :cta: Kotlin Extensions Reference
       :url: https://www.mongodb.com/docs/realm-sdks/java/latest/kotlin-extensions/
       :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
-      :icon-alt: Realm Icon
+      :icon-alt: Atlas Device SDK Icon
 
       Explore generated reference docs for the Kotlin Extensions APIs.

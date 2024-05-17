@@ -11,6 +11,7 @@ namespace Examples
 
         public async Task LinksAUser()
         {
+            app = App.Create("");
             {
                 // :snippet-start: link
                 // 1) A user logs on anonymously:
@@ -21,8 +22,8 @@ namespace Examples
                 //    register the new EmailPassword user, and then generate an
                 //    EmailPassword credential to link the existing anonymous
                 //    account:
-                var email = "caleb@example.com";
-                var password = "shhhItsASektrit!";
+                var email = "caleb@mongodb.com";
+                var password = "MySekritPwd";
                 await app.EmailPasswordAuth.RegisterUserAsync(
                     email, password);
                 var officialUser = await anonUser.LinkCredentialsAsync(

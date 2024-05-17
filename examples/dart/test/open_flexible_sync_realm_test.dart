@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
-part 'open_flexible_sync_realm_test.g.dart';
+part 'open_flexible_sync_realm_test.realm.dart';
 
 @RealmModel()
 class _Tricycle {
@@ -13,9 +13,20 @@ class _Tricycle {
   late String name;
 }
 
+@RealmModel()
+class _Car {
+  @PrimaryKey()
+  @MapTo("_id")
+  late ObjectId id;
+
+  late String make;
+  late String? model;
+  late int? miles;
+}
+
 void main() {
   group('Open Flexible Sync Realm', () {
-    const APP_ID = "flex-config-tester-vwevn";
+    const APP_ID = "flutter-flexible-luccm";
     final appConfig = AppConfiguration(APP_ID);
     final app = App(appConfig);
     test("Open Flexible Sync Realm", () async {
@@ -113,25 +124,107 @@ void main() {
 
     test("Handle Sync Error", () async {
       var handlerCalled = false;
+      final carMakePrefix = generateRandomString(4);
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
+
       // :snippet-start: sync-error-handler
-      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema],
+      final config = Configuration.flexibleSync(currentUser, [Car.schema],
           syncErrorHandler: (SyncError error) {
         handlerCalled = true; // :remove:
         print("Error message" + error.message.toString());
       });
+
       final realm = Realm(config);
       // :snippet-end:
-      // TODO: generate SyncError to trigger `syncErrorHandler`
-      await Future.delayed(Duration(milliseconds: 500));
+
+      // Create randomized query.
+      final query = realm.query<Car>(r'make BEGINSWITH $0', [carMakePrefix]);
+
+      // Set up subscription for randomized query.
+      realm.subscriptions
+          .update((mutableSubscriptions) => mutableSubscriptions.add(query));
+
+      // Wait for subscriptions to sync with server.
+      await realm.subscriptions.waitForSynchronization();
+
+      final carId = ObjectId();
+
+      // Add new object that doesn't match the randomized subscription.
+      // Should cause an error.
+      realm.write(() => realm.add(Car(carId, "doesn't match subscription")));
+
+      // Wait for write to upload and generate error.
+      await realm.syncSession.waitForUpload();
+
       expect(handlerCalled, true);
 
       await cleanUpRealm(realm, app);
       expect(realm.isClosed, true);
       expect(app.currentUser, null);
-    },
-        skip:
-            "Skipping because there's not a straightforward way to simulate a sync error");
+    });
+
+    test("Handle Compensating Write Error", () async {
+      late SyncError testCompensatingWriteError;
+      final carMakePrefix = generateRandomString(4);
+      final credentials = Credentials.anonymous();
+      final currentUser = await app.logIn(credentials);
+
+      // :snippet-start: handle-compensating-write-error
+      void handleCompensatingWrite(
+          CompensatingWriteError compensatingWriteError) {
+        testCompensatingWriteError = compensatingWriteError; // :remove:
+        final writeReason = compensatingWriteError.compensatingWrites!.first;
+
+        print("Error message: " + writeReason.reason);
+        // ... handle compensating write error as needed.
+      }
+
+      final config = Configuration.flexibleSync(currentUser, [Car.schema],
+          syncErrorHandler: (syncError) {
+        if (syncError is CompensatingWriteError) {
+          handleCompensatingWrite(syncError);
+        }
+      });
+
+      final realm = Realm(config);
+      // :snippet-end:
+
+      // Create randomized query.
+      final query = realm.query<Car>(r'make BEGINSWITH $0', [carMakePrefix]);
+
+      // Set up subscription for randomized query.
+      realm.subscriptions
+          .update((mutableSubscriptions) => mutableSubscriptions.add(query));
+
+      // Wait for subscriptions to sync with server.
+      await realm.subscriptions.waitForSynchronization();
+
+      final carId = ObjectId();
+
+      // Add new object that doesn't match the randomized subscription.
+      // Should cause an error.
+      realm.write(() => realm.add(Car(carId, "doesn't match subscription")));
+
+      // Wait for write to upload and generate error.
+      await realm.syncSession.waitForUpload();
+
+      expect(testCompensatingWriteError, isA<CompensatingWriteError>());
+
+      final sessionError = testCompensatingWriteError as CompensatingWriteError;
+
+      expect(sessionError.message,
+          startsWith('Client attempted a write that is not allowed'));
+      final writeReason = sessionError.compensatingWrites!.first;
+      expect(writeReason, isNotNull);
+      expect(writeReason.objectType, "Car");
+      expect(writeReason.reason,
+          'write to ObjectID("$carId") in table "${writeReason.objectType}" not allowed; object is outside of the current query view');
+      expect(writeReason.primaryKey.value, carId);
+
+      await cleanUpRealm(realm, app);
+      expect(realm.isClosed, true);
+      expect(app.currentUser, null);
+    });
   });
 }

@@ -84,15 +84,10 @@ realm or call a function upon subsequent app opens.
 User Sessions
 ~~~~~~~~~~~~~
 
-App Services manages sessions with access tokens and refresh tokens.
-Client SDKs supply the logic to manage tokens, and provide them with requests.
+.. include:: /includes/manage-user-sessions.rst
 
 The Swift SDK stores these tokens in the 
 `Keychain <https://developer.apple.com/documentation/security/keychain_services>`_.
-
-.. seealso:: 
-
-   :ref:`<user-sessions>`
 
 .. _ios-app-work-with-custom-user-data:
 
@@ -116,6 +111,6 @@ Read User Metadata from Login Providers
 
 Some authentication providers enable developers to access user metadata, such
 as full name or email address. When you configure these metadata fields on 
-the App Services application, you can read this medata from your client app. A
+the App Services application, you can read this metadata from your client app. A
 user object has a ``profile`` property that you can use to :ref:`access 
 user metadata <ios-read-user-metadata>`.

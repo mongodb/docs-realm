@@ -1,8 +1,8 @@
-const std::string APP_ID = "cpp-tester-uliix";
+auto appConfig = realm::App::configuration();
+appConfig.app_id = APP_ID;
+auto app = realm::App(appConfig);
 
-auto app = realm::App(APP_ID);
+auto userEmail = "testUser" + random_string() + "@example.com";
+auto userPassword = "password1234";
 
-std::string user_email = "testUser@mongodb.com";
-std::string user_password = "password1234";
-
-app.register_user(user_email, user_password).get_future().get();
+app.register_user(userEmail, userPassword).get();

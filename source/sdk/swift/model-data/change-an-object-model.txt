@@ -25,7 +25,7 @@ and perform a migration.
    migration examples <swiftui-realm-migrations>`.
 
 If your schema update adds optional properties or removes properties, 
-Realm Database can perform the migration automatically. You only need to 
+Realm can perform the migration automatically. You only need to 
 increment the ``schemaVersion``. 
 
 For more complex schema updates, you must also manually specify the migration logic 
@@ -50,11 +50,11 @@ in a ``migrationBlock``. This might include changes such as:
 .. _ios-schema-versions-and-migrations:
 .. _ios-schema-version:
 
-Key Concept: Schema Version
----------------------------
+Schema Version
+--------------
 
 A **schema version** identifies the state of a :ref:`Realm Schema
-<ios-realm-schema>` at some point in time. Realm Database tracks the schema
+<ios-realm-schema>` at some point in time. Realm tracks the schema
 version of each realm and uses it to map the objects in each realm
 to the correct schema.
 
@@ -66,7 +66,7 @@ the realm defaults to version ``0``.
 .. important:: Increment Versions Monotonically
 
    Migrations must update a realm to a higher schema version.
-   Realm Database will throw an error if a client application opens
+   Realm will throw an error if a client application opens
    a realm with a schema version that is lower than the realm's
    current version or if the specified schema version is the same as the
    realm's current version but includes different :ref:`object
@@ -99,13 +99,13 @@ Automatically Update Schema
 Add a Property
 ~~~~~~~~~~~~~~
 
-Realm Database can automatically migrate added
+Realm can automatically migrate added
 properties, but you must specify an updated schema version when you make 
 these changes.
 
 .. note::
 
-   Realm Database does not automatically set values for new required 
+   Realm does not automatically set values for new required 
    properties. You must use a migration block to set default values for
    new required properties. For new optional properties, existing records 
    can have null values. This means you don't need a migration block when 
@@ -145,7 +145,7 @@ these changes.
          .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1-update1.m
                   :language: objectivec
 
-   Realm Database automatically migrates the realm to conform to 
+   Realm automatically migrates the realm to conform to 
    the updated ``Person`` schema. But the developer must set the realm's 
    schema version to ``2``.
 
@@ -204,7 +204,7 @@ will not impact existing objects.
          .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1-update2.m
                   :language: objectivec
 
-   Realm Database automatically migrates the realm to conform to 
+   Realm automatically migrates the realm to conform to 
    the updated ``Person`` schema. But the developer must set the realm's 
    schema version to ``2``.
 
@@ -237,7 +237,7 @@ will not impact existing objects.
 Manually Migrate Schema
 -----------------------
 
-For more complex schema updates, Realm Database requires a manual
+For more complex schema updates, Realm requires a manual
 migration for old instances of a given object to the new schema.
 
 .. _ios-rename-a-property:
@@ -250,7 +250,7 @@ To rename a property during a migration, use the
 <Structs/Migration.html#/s:10RealmSwift9MigrationV14renameProperty6onType4from2toySS_S2StF>`
 method. 
 
-Realm Database applies any new nullability or indexing settings
+Realm applies any new nullability or indexing settings
 during the rename operation.
 
 .. example::

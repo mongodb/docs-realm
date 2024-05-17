@@ -61,16 +61,34 @@ Important aspects of primary keys:
 
 .. _flutter-map-property:
 
-Map a Property to a Different Name
-----------------------------------
+Map a Property or Class to a Different Name
+-------------------------------------------
 
 The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation
-indicates that a property should be persisted under a different name.
-It's useful when opening a Realm across different bindings where code style conventions can differ.
+indicates that a model or property should be persisted under a different name.
+It's useful when opening a Realm across different bindings where code style 
+conventions can differ. For example:
 
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 15-16
+- To make it easier to work across platforms where naming conventions 
+  differ. For example, if your Device Sync schema property names use snake 
+  case, while your project uses camel case.
+- To change a class or field name without forcing a migration.
+
+.. tabs::
+
+   .. tab:: Map a Class Name
+      :tabid: remap-class
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.map-to.dart
+         :language: dart
+         :emphasize-lines: 2
+
+   .. tab:: Map a Property Name
+      :tabid: remap-property
+
+      .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
+         :language: dart
+         :emphasize-lines: 15-16
 
 .. _flutter-ignore-property:
 
@@ -80,7 +98,7 @@ Ignore Properties from Realm Schema
 If you add the `Ignored <https://pub.dev/documentation/realm_common/latest/realm_common/Ignored-class.html>`__
 annotation to a property in your ``RealmModel``, the :ref:`realm object generator
 <flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema
-or persist it to Realm Database.
+or persist it to Realm.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
@@ -95,7 +113,7 @@ Add the `Indexed
 <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
 annotation to create an index on the field. Indexes can greatly speed up some
 queries at the cost of slightly slower write times and additional storage and
-memory overhead. Realm Database stores indexes on disk, which makes your realm
+memory overhead. Realm stores indexes on disk, which makes your realm
 files larger. Each index entry is a minimum of 12 bytes. Indexes can be nullable.
 
 The following data types can be indexed:
@@ -111,3 +129,26 @@ The following data types can be indexed:
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 12-13
+
+.. _flutter-fts-annotation:
+
+Full-Text Search Indexes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to standard indexes, Realm also supports Full-Text Search (FTS)
+indexes on string properties. While you can query a string field with or without 
+a standard index, an FTS index enables searching for multiple words and phrases 
+and excluding others.
+
+For more information on querying FTS indexes, see :ref:`Filter with Full-Text Search <flutter-fts>`.
+
+To create an FTS index on a property, use the `@Indexed 
+<https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
+annotation and specify the `RealmIndexType <https://pub.dev/documentation/realm_common/latest/realm_common/RealmIndexType.html>`__ 
+as ``fullText``. This enables full-text queries on the property. In the 
+following example, we mark the pattern and material properties with the FTS annotation:
+
+.. literalinclude:: /examples/generated/flutter/full_text_search_test.snippet.flutter-fts-annotation.dart
+   :language: dart
+   :emphasize-lines: 6-10
+

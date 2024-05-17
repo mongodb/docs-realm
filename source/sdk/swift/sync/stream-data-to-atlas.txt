@@ -15,18 +15,7 @@ Overview
 
 .. versionadded:: 10.29.0
 
-You can use :ref:`Asymmetric Sync <optimize-asymmetric-sync>` to stream 
-data from the client application to a Flexible Sync-enabled Atlas App Services
-App.
-
-You might want to sync data unidirectionally in IoT applications, such as
-a weather sensor sending data to the cloud. Asymmetric sync is also useful 
-for writing other types of immutable data where you do not require conflict 
-resolution, such as creating invoices from a retail app or logging application 
-events.
-
-Asymmetric Sync is optimized to provide performance improvements for heavy
-client-side *insert-only* workloads.
+.. include:: /includes/data-ingest-overview.rst
 
 Sync Data Unidirectionally from a Client Application
 ----------------------------------------------------
@@ -35,16 +24,14 @@ Sync Data Unidirectionally from a Client Application
 
    .. step:: Define an AsymmetricObject
 
-      You can data unidirectionally when that object is an 
-      ``AsymmetricObject``.
+      You can sync data unidirectionally when that object is an ``AsymmetricObject``.
       Define an AsymmetricObject by deriving from :swift-sdk:`AsymmetricObject 
       <Extensions/AsymmetricObject.html>`:
 
       .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.asymmetric-model.swift
          :language: swift
 
-      For more information on how to define an AsymmetricObject, including
-      limitations when linking to other object types, see: 
+      For more information on how to define an ``AsymmetricObject``, see: 
       :ref:`Define an AsymmetricObject <swift-define-asymmetric-object>`.
 
    .. step:: Connect and Authenticate with an App Services App
@@ -56,7 +43,7 @@ Sync Data Unidirectionally from a Client Application
       .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.connect-and-authenticate.swift
          :language: swift
 
-      Asymmetric Sync is a feature of Flexible Sync, so the App you connect 
+      Data Ingest is a feature of Flexible Sync, so the App you connect 
       to must use :ref:`Flexible Sync <flexible-sync>`.
 
    .. step:: Open a Realm
@@ -69,24 +56,21 @@ Sync Data Unidirectionally from a Client Application
       .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.open-asymmetric-sync-realm.swift
          :language: swift
 
-      Unlike bidirectional Sync, Asymmetric Sync does not use a 
+      Unlike bidirectional Sync, Data Ingest does not use a 
       :ref:`Flexible Sync subscription <swift-manage-flexible-sync-subscriptions>`.
 
-      .. tip:: Mixed Object and AsymmetricObject Types in Projects
+      .. note:: Mixed Synced and Non-Synced Realms in Projects
 
-         Generally, Realm expects that you do not mix ``Object`` and 
-         ``AsymmetricObject`` types within a project. If your project does
-         contain both types, you must explicitly :ref:`pass a subset of 
-         classes in your Realm configuration 
-         <ios-provide-a-subset-of-classes-to-a-realm>` each time you open 
-         a Realm. 
+         The ``AsymmetricObject`` type is incompatible with non-synced realms.
+         If your project uses both a synced and non-synced realm, you must 
+         explicitly :ref:`pass a subset of classes in your Realm configuration 
+         <ios-provide-a-subset-of-classes-to-a-realm>` to exclude the 
+         ``AsymmetricObject`` from your non-synced realm.
          
-         You cannot query an AsymmetricObject or write it to a local
-         realm, so AsymmetricObjects are incompatible with bi-directional
-         Flexible Sync, Partition-Based Sync, or local Realm use. Automatic 
-         schema discovery means that unless you explicitly pass a subset 
-         of classes to a realm in a mixed project, opening a realm can 
-         throw an error related to trying to use an incompatible object type.
+         Automatic schema discovery means that opening a non-synced realm
+         without specifically excluding the ``AsymmetricObject`` from the 
+         configuration can throw an error related to trying to use an 
+         incompatible object type.
 
    .. step:: Create Asymmetric Objects
 
@@ -99,3 +83,7 @@ Sync Data Unidirectionally from a Client Application
       
       You cannot read these objects. Once created, they sync to the App 
       Services backend and the linked Atlas database.
+
+      Atlas Device Sync completely manages the lifecycle of this data. 
+      It is maintained on the device until Data Ingest synchronization is 
+      complete, and then removed from the device.

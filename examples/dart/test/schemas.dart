@@ -1,7 +1,7 @@
 // used in Define Realm Object Schema page
 import 'package:realm_dart/realm.dart';
 // :snippet-start: part-directive
-part 'schemas.g.dart';
+part 'schemas.realm.dart';
 // :snippet-end:
 
 // :snippet-start: create-realm-model
@@ -64,7 +64,7 @@ class _ScooterShop {
   late ObjectId id;
 
   late String name;
-  late List<_Scooter> owner;
+  late List<_Scooter> scooters;
 }
 // :snippet-end:
 

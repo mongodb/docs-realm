@@ -8,7 +8,7 @@ public class CustomUserData
 
     public string LocalTimeZone { get; set; }
 
-    public bool IsCool { get; set; }
+    public bool HasPets { get; set; }
 
     public CustomUserData(string id, string partition = "myPart")
     {

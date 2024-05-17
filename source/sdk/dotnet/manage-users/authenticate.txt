@@ -4,6 +4,13 @@
 Authenticate Users - .NET SDK
 =============================
 
+.. meta:: 
+  :description: Authenticate users in many ways with the Atlas Device SDK for .NET.
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -171,4 +178,25 @@ Get a User Access Token
 .. include:: /includes/user-access-token.rst
 
 .. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.get_user_token.cs
+   :language: csharp
+
+Refresh Token Expiration
+------------------------
+
+.. include:: /includes/refresh-token-expiry.rst
+   
+
+Observe Authentication Changes
+------------------------------
+
+.. versionadded:: v11.6.0
+
+You can observe a flow of authentication change events by calling
+:dotnet-sdk:`User.Changed() <reference/Realms.Sync.User.html#Realms_Sync_User_Changed>`
+on a valid user object.
+
+Currently, ``User.Changed()`` triggers on all user events and you should add a
+handler to ensure your responses to events are idempotent.
+
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.observe-auth-change.cs
    :language: csharp

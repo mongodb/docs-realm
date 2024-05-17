@@ -4,94 +4,121 @@
 Connect to an Atlas App Services App - React Native SDK
 =======================================================
 
-Overview
---------
+.. meta:: 
+   :description: Connect to Atlas App Services from the Atlas Device SDK. Specify configuration details to customize App access.
+   :keywords: code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
 
 The App client is the interface to the App Services
 backend. It provides access to the :ref:`authentication functionality
-<react-native-authenticate-users>`, :ref:`functions <react-native-call-a-function>`, and
-:ref:`sync management <react-native-realm-sync>`.
+<react-native-authenticate-users>`, :ref:`Atlas Functions <react-native-call-a-function>`,
+and :ref:`Atlas Device Sync <react-native-realm-sync>`.
 
+Before You Begin
+----------------
 
-.. _react-native-access-the-app-client:
-
-Access the App Client
----------------------
-
-Pass the Realm App ID for your App, which you can :ref:`find in the Realm UI <find-your-app-id>`.
-
-.. tabs-realm-languages::
-
-      .. tab::
-         :tabid: typescript
-
-         .. code-block:: typescript
-
-            const id = "<Your App ID>"; // replace this with your App ID
-
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const id = "<Your App ID>"; // replace this with your App ID
+#. :ref:`Create an App Services App <create-a-realm-app>`
+#. :ref:`Get Your App ID <find-your-app-id>`
 
 .. _react-native-app-client-configuration:
+.. _react-native-access-the-app-client:
 
-Configuration
--------------
+Configure the App Client
+------------------------
 
-To set up your App client, pass a configuration object to an instance
-of ``Realm.App``.
+To set up your App client, pass the App ID string
+to the ``id`` prop of the ``AppProvider``.
+Wrap any components that need to access the App with the ``AppProvider``.
+In this example, we wrap the :ref:`UserProvider <react-native-user-provider>` 
+in the ``AppProvider`` to authenticate a user.
 
-.. tabs-realm-languages::
+.. include:: /examples/generated/react-native/v12/use-app.snippet.app-config-imports.tsx.rst
+.. include:: /examples/generated/react-native/v12/use-app.snippet.app-config.tsx.rst
 
-      .. tab::
-         :tabid: typescript
-
-         .. code-block:: typescript
-
-            const config = {
-              id,
-            };
-            const app = new Realm.App(config);
-
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-
-            const config = {
-              id,
-            };
-            const app = new Realm.App(config);
-
-.. note:: 
-    
-   ``id`` is a required field of the application configuration object. To see the full list of fields for the configuration object that ``Realm.App`` accepts as a parameter, view the :js-sdk:`App Configuration Type Definitions <Realm.App.html#~AppConfiguration>`.
+.. include:: /includes/note-rn-multiple-app-clients-and-app-config-cache.rst
 
 .. _react-native-app-retrieve-client:
 
 Retrieve an Instance of the App Client
 --------------------------------------
 
-To retrieve an instance of the App Client from anywhere in your application, call :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>` and pass in your ``App ID``. 
+All components wrapped within an ``AppProvider`` can access the :js-sdk:`App <Realm.App.html>`
+client with the ``useApp()`` hook.
 
-.. tabs-realm-languages::
+.. include:: /examples/generated/react-native/v12/use-app.snippet.import-use-app.tsx.rst
+.. include:: /examples/generated/react-native/v12/use-app.snippet.use-app.tsx.rst
 
-      .. tab::
-         :tabid: typescript
+.. _react-native-retrieve-client-outside-provider:
 
-         .. code-block:: typescript
+Retrieve App Outside the App Provider
+-------------------------------------
 
-            const app = Realm.App.getApp("<Your App ID>"); // replace this with your App ID
+To retrieve an instance of the App Client from anywhere in your application,
+instantiate a new instance of :js-sdk:`Realm.App() <Realm.App.html>`
+from the ``realm`` package, then pass in your ``App ID``.
 
-      .. tab::
-         :tabid: javascript
+.. code-block:: typescript
 
-         .. code-block:: javascript
+   import Realm from 'realm';
 
-            const app = Realm.App.getApp("<Your App ID>"); // replace this with your App ID
+   const app = Realm.App.getApp("<Your App ID>");
 
+.. _react-native-encrypt-app-metadata:
 
-  
+Encrypt App Metadata
+--------------------
+
+You can encrypt the metadata that App Services stores on client devices. Use the
+values of the :js-sdk:`MetadataMode enum <enums/_internal_.MetadataMode.html>`
+to determine encryption behavior.
+
+To encrypt App metadata:
+
+#. Import ``MetadataMode`` from ``Realm`` and import other dependencies:
+
+   .. include:: /examples/generated/react-native/v12/EncryptMetadata.snippet.imports.tsx.rst
+
+#. Create an App configuration object that contains the ``metadata`` property.
+#. Set ``metadata.mode`` to ``MetadataMode.Encryption``.
+#. Set ``metadata.encryptionKey`` to the key you want to use for encryption.
+#. Pass the App configuration object to ``new Realm.App()``.
+
+.. include:: /examples/generated/react-native/v12/EncryptMetadata.snippet.encrypt-metadata.tsx.rst
+
+Connect to a Specific Server
+----------------------------
+
+By default, Atlas Device SDK connects to Atlas using the global ``baseURL``
+of ``https://services.cloud.mongodb.com``. In some cases, you may want to
+connect to a different server:
+
+- Your App Services App uses :ref:`local deployment <local-deployment>`, and 
+  you want to connect directly to a local ``baseURL`` in your region.
+- You want to connect to an :ref:`Edge Server instance <edge-server-connect-from-client>`.
+
+You can specify a ``baseURL`` as a prop for :ref:`AppProvider <react-native-app-provider>`.
+All :js-sdk:`AppConfiguration <types/Realm.AppConfiguration.html>` keys can be
+passed as props to ``AppProvider``.
+
+Connect to a Different Server During Runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionchanged:: ``realm@12.8.0``
+
+In some cases, you might want to change the ``baseURL`` while the app is
+running. For example, you might want to roam between Edge Servers, or
+move from an App Services connection to an Edge Server connection.
+
+Currently, this feature is implemented as an experimental module that requires
+specific TypeScript configuration. The required configuration can be difficult
+to make work with a React Native app. For more information on implementation, refer to :ref:`documentation for the
+Node.js SDK <node-change-server-typescript>`.
