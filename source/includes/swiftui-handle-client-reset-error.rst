@@ -1,3 +1,6 @@
+Handle Client Reset Errors
+--------------------------
+
 A client reset error is a specific type of Sync error that occurs when the 
 realm on the user's device can no longer sync with the App Services App. 
 For more information about the underlying error and recovery options, 
@@ -11,7 +14,7 @@ you to handle a client reset error by adding a few things to your app:
 - Force an ``@AsyncOpen`` or ``@AutoOpen`` view to reload after a client reset is complete
 
 Add Client Reset Handling Information to the Flexible Sync Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Swift SDK can handle a client reset with different behaviors depending
 on the needs of your app. For a full list of client reset modes and behaviors,
