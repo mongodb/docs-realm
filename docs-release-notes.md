@@ -1,3 +1,18 @@
+# May 17, 2024
+
+## C++ SDK
+
+- Landing Page: Add "Learning Paths" section with links to the C++ quick start, template app, and tutorial.
+
+## Swift SDK
+
+- SwiftUI/Handle Sync Errors: New page demonstrating how to set and use a sync error handler in SwiftUI.
+
+## Other
+
+- Example Projects: Add the C++ template app to the SDK template app list.
+- Internal: Update test suite dependencies to resolve security vulnerability alerts.
+
 # May 10, 2024
 
 ## C++ SDK
