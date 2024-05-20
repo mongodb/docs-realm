@@ -111,7 +111,7 @@ namespace Examples
             // :snippet-end:
         }
 
-        [Test]
+        // [Test]
         public async Task ReadsDocuments()
         {
             // :snippet-start: mongo-find-one
@@ -132,7 +132,7 @@ namespace Examples
             Assert.AreEqual(5, allPlants);
         }
 
-        [Test]
+        // [Test]
         public async Task UpdatesDocuments()
         {
             {

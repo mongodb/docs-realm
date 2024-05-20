@@ -92,6 +92,14 @@ Total tests: 18
      1>Done Building Project "/Users/nathan.contino/Documents/docs-realm/examples/dotnet/dotnet.sln" (VSTest target(s)).
 ```
 
+## Run a Singular Test
+
+```
+dotnet test --filter "FullyQualifiedName=Examples.[NAME_OF_THE_FILE]" 
+```
+
+- NAME_OF_THE_FILE: Name of the test file without the file extension. 
+   - Ex. If the file is BaseURLChange.cs, NAME_OF_THE_FILE = BaseURLChange
 
 # The Testing Backend
 

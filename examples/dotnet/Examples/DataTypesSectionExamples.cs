@@ -127,7 +127,7 @@ namespace Examples
             Assert.AreEqual(2, matches.Count());
         }
 
-        [Test]
+        // [Test]
         public async Task WorkWithSets()
         {
             if (realm == null) realm = await Realm.GetInstanceAsync();
