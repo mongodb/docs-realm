@@ -16,8 +16,9 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.asymmetric-sync-object.dart
             :language: dart
+            :emphasize-lines: 1
 
      - id: javascript
        content: |
