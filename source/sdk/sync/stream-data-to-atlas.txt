@@ -22,12 +22,6 @@ Stream Data to Atlas
    :depth: 2
    :class: singlecol
 
-.. contents:: On this page
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
-
 .. tabs-selector:: drivers
 
 If you have a mobile or client application that produces a large volume of data 
@@ -86,7 +80,7 @@ Sync Data Unidirectionally from a Client Application
          .. tab::
             :tabid: swift
 
-            .. include:: /includes/api-details/generic/sync/stream-data-define-asymmetric-object-description.rst
+            .. include:: /includes/api-details/swift/sync/stream-data-define-asymmetric-object-description.rst
 
          .. tab::
             :tabid: typescript
@@ -109,7 +103,7 @@ Sync Data Unidirectionally from a Client Application
       <sdks-configure-and-open-synced-database>`.
 
       Unlike bi-directional Sync, Data Ingest does not use a 
-      :ref:`Sync subscription <flutter-flexible-sync-manage-subscriptions>`.
+      :ref:`Sync subscription <sdks-manage-sync-subscriptions>`.
 
       You cannot read, query, or delete an asymmetric object from a
       database, so asymmetric objects are incompatible with bi-directional
@@ -123,6 +117,15 @@ Sync Data Unidirectionally from a Client Application
             .. include:: /includes/api-details/cpp/sync/stream-data-open-database-description.rst
 
          .. tab::
+            :tabid: csharp
+            
+         .. tab::
+            :tabid: dart
+
+         .. tab::
+            :tabid: javascript
+
+         .. tab::
             :tabid: kotlin
 
             .. include:: /includes/api-details/kotlin/sync/stream-data-open-synced-database-description.rst
@@ -131,6 +134,9 @@ Sync Data Unidirectionally from a Client Application
             :tabid: swift
 
             .. include:: /includes/api-details/swift/sync/stream-data-open-synced-database-description.rst
+
+         .. tab::
+            :tabid: typescript
 
       .. include:: /includes/sdk-examples/sync/stream-data-open-synced-database.rst
 
@@ -146,7 +152,7 @@ Sync Data Unidirectionally from a Client Application
          .. tab::
             :tabid: csharp
 
-            .. include:: /includes/api-details/dotnet/sync/stream-data-create-asymmetric-objects-description.rst
+            .. include:: /includes/api-details/csharp/sync/stream-data-create-asymmetric-objects-description.rst
             
          .. tab::
             :tabid: dart
