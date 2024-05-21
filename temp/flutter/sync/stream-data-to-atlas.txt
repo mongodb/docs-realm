@@ -23,12 +23,12 @@ Sync Data Unidirectionally from a Client Application
       asymmetric object, pass ``ObjectType.asymmetricObject`` to
       ``@RealmModel()``.
 
+      For more information on how to define an asymmetric object, refer to 
+      :ref:`Define an Asymmetric Object <flutter-define-an-asymmetric-object>`.
+
       .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.asymmetric-sync-object.dart
          :language: dart
          :emphasize-lines: 1
-
-      For more information on how to define an asymmetric object, refer to 
-      :ref:`Define an Asymmetric Object <flutter-define-an-asymmetric-object>`.
 
    .. step:: Connect and Authenticate with an App Services App
 
@@ -63,7 +63,7 @@ Sync Data Unidirectionally from a Client Application
       a write transaction. Pass your object data to ``realm.ingest``.
             
       .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
-         :language: dart 
+         :language: dart
          
       You can't read asymmetric objects. Once created, they sync to the App 
       Services backend and the linked Atlas database.

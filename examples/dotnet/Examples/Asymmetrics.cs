@@ -11,25 +11,26 @@ namespace Examples
 {
     public partial class Asymmetrics
     {
-        App app;
-        Realms.Sync.User user;
         Realm realm;
         const string myRealmAppId = Config.FSAppId;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            app = App.Create(myRealmAppId);
-            user = app.LogInAsync(
+            // :snippet-start: connect-and-authenticate
+            App app = App.Create(myRealmAppId);
+            Realms.Sync.User user = app.LogInAsync(
                 Credentials.Anonymous()).Result;
-
+            // :snippet-end:
+            
+            // :snippet-start: configure-and-open-db
             var config = new FlexibleSyncConfiguration(user)
             {
                 Schema = new[] { typeof(Measurement) }
             };
 
-
             realm = Realm.GetInstance(config);
+            // :snippet-end:
 
             // You cannot add a subscription for an AsymmetricObject
             // This causes a compile-time error:
@@ -40,11 +41,8 @@ namespace Examples
             //});
             // :uncomment-end:
         }
-
-        // :snippet-start: asymmetry
-        // :remove-start:
         [Realms.Explicit]
-        // :remove-end:
+        // :snippet-start: define-asymmetric-object
         private partial class Measurement : IAsymmetricObject
         {
             [PrimaryKey, MapTo("_id")]
@@ -52,10 +50,9 @@ namespace Examples
             public double Value { get; set; }
             public DateTimeOffset Timestamp { get; private set; } = DateTimeOffset.UtcNow;
         }
-
-        // :remove-start:
+        // :snippet-end:
         [Test]
-        // :remove-end:
+        // :snippet-start: asymmetry
         public void SendMeasurementToRealm()
         {
             var measurement = new Measurement
