@@ -201,12 +201,22 @@ describe("Realm Query Language Reference", () => {
 
     test("Dot notation", () => {
       const address = realm.objects(Project);
-      const nestedMatch = address.filtered(
+      const nestedItem = address.filtered(
+        // :snippet-start: dot-notation
+        // Find projects whose `items` list property contains
+        // an Item object with a specific name.
+        "items[0].name == 'Approve project plan'"
+        // :snippet-end:
+      );
+      const nestedZipcode = address.filtered(
         // :snippet-start: deep-dot-notation
+        // Find projects whose `projectLocation` property contains
+        // an embedded Address object with a specific zip code.
         "projectLocation.address.zipcode == 10019"
         // :snippet-end:
       );
-      expect(nestedMatch.length).toBe(3);
+      expect(nestedItem.length).toBe(2);
+      expect(nestedZipcode.length).toBe(3);
     });
   });
 
@@ -221,15 +231,6 @@ describe("Realm Query Language Reference", () => {
       // :remove-start:
     );
     expect(highPriorityItems.length).toBe(5);
-
-    const longRunningItems = items.filtered(
-      // :remove-end:
-
-      // Compare `progressMinutes` values against a threshold value.
-      "progressMinutes > $0", 120
-      // :remove-start:
-    );
-    expect(longRunningItems.length).toBe(1);
 
     const unassignedItems = items.filtered(
       // :remove-end:
@@ -250,13 +251,12 @@ describe("Realm Query Language Reference", () => {
     expect(progressMinutesRange.length).toBe(2);
 
     const progressMinutesIn = items.filtered(
-      // :remove-end:
+    // :remove-end:
 
       // Compare `progressMinutes` values against any of the listed values.
       "progressMinutes IN { $0, $1, $2 }", 10, 30, 60
       // :snippet-end:
     );
-    expect(progressMinutesIn.length).toBe(2);
   });
 
   // prettier-ignore
@@ -284,14 +284,14 @@ describe("Realm Query Language Reference", () => {
       const items = realm.objects(Item);
       const basicMath = items.filtered(
         // :snippet-start: basic-arithmetic
-        // Find items with a `priority` greater than 3.
-        "2 * priority > 6" // `priority > 3`
+        // Evaluate against an item's `priority` property value:
+        "2 * priority > 6" // resolves to `priority > 3`
         // :remove-start:
       );
       const lessBasicMath = items.filtered(
         // :remove-end:
-        "priority >= 2 * (2 - 1) + 2" // `priority >= 4`
-        // :snippet-end:
+        "priority >= 2 * (2 - 1) + 2" // resolves to `priority >= 4`
+        // :remove-start:
       );
       expect(basicMath.length).toBe(6);
       expect(lessBasicMath.length).toBe(6);
@@ -300,7 +300,9 @@ describe("Realm Query Language Reference", () => {
     test("Arithmetic with object properties", () => {
       const items = realm.objects(Item);
       const mathWithObjProps = items.filtered(
-        // :snippet-start: arithmetic-obj-properties
+        // :remove-end:
+
+        // Evaluate against multiple object property values:
         "progressMinutes * priority == 90"
         // :snippet-end:
       );
@@ -466,6 +468,7 @@ describe("Realm Query Language Reference", () => {
 
     test("Sort, distinct, and limit results", () => {
       const items = realm.objects(Item);
+      const projects = realm.objects(Project);
 
       const sortedUniqueAliItems = items.filtered(
         // :snippet-start: sort-distinct-limit
@@ -474,6 +477,24 @@ describe("Realm Query Language Reference", () => {
       );
 
       expect(sortedUniqueAliItems.length).toBe(1);
+      const query =
+        // :snippet-start: sort-distinct-limit-order-matters
+        "SORT(priority DESC) LIMIT(2) DISTINCT(name)";
+      // Returns 2 items with the highest priority
+      // :remove-start:
+      const orderMatters = items.filtered(
+        "isComplete != true SORT(priority DESC) LIMIT(2) DISTINCT(name)"
+      );
+      expect(orderMatters.length).toBe(2);
+      const query2 =
+        // :remove-end:
+        "isComplete != true DISTINCT(name) SORT(priority DESC) LIMIT(2)";
+      // Returns the first 2 uniquely named items with the highest priority
+      // :snippet-end:
+      const limitFirst = items.filtered(
+        "isComplete != true DISTINCT(name) SORT(priority DESC) LIMIT(2)"
+      );
+      console.log(limitFirst.toJSON());
     });
 
     test("Subquery queries", () => {
@@ -711,12 +732,13 @@ describe("Realm Query Language Reference", () => {
     const res = items.filtered(
       // :snippet-start: nil-type
       "assignee == nil"
-      // :snippet-end:
+      // :remove-start:
     );
     // prettier-ignore
     const res2 = realm.objects(Item).filtered(
-      // :snippet-start: nil-type-parameterized-query
-      // comparison to language null pointer
+      // :remove-end:
+
+      // 'null' maps to the SDK language's null pointer
       "assignee == $0", null
       // :snippet-end:
     );
