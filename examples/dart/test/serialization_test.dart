@@ -56,7 +56,7 @@ main() {
   test('deserialize', () {
     // :snippet-start: deserialize
     // Deserialize from ejson
-    Pet deserializeFromEjson = fromEJson<Pet>(serializeByParam);
+    Pet deserializeFromEjson = fromEJson(serializeByParam);
     // :snippet-end: 
 
     print(deserializeFromEjson);
