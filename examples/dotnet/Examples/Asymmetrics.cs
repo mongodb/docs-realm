@@ -12,13 +12,13 @@ namespace Examples
     public partial class Asymmetrics
     {
         Realm realm;
-        const string myRealmAppId = Config.FSAppId;
+        const string myAppId = Config.FSAppId;
 
         [OneTimeSetUp]
         public void Setup()
         {
             // :snippet-start: connect-and-authenticate
-            App app = App.Create(myRealmAppId);
+            App app = App.Create(myAppId);
             Realms.Sync.User user = app.LogInAsync(
                 Credentials.Anonymous()).Result;
             // :snippet-end:
