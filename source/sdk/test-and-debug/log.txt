@@ -4,10 +4,234 @@
 Logging
 =======
 
+.. meta::
+   :description: Use logging to debug your Atlas Device SDK app.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for information about logging.
+.. tabs-selector:: drivers
+
+You can set or change your app's log level when developing or debugging 
+your app. You might want to change the log level to log different 
+amounts of data depending on your development needs. You can specify 
+different log levels or custom loggers.
+
+.. sdks-set-the-client-log-level:
+
+Set or Change the Log Level
+---------------------------
+
+You can set the level of detail reported by Atlas Device SDK.
+
+.. tabs-drivers::
+
+   tabs:
+     - id: cpp
+       content: |
+
+         .. literalinclude:: /examples/generated/cpp/logger.snippet.set-default-log-level.cpp
+            :language: cpp
+
+     - id: csharp
+       content: |
+
+         .. literalinclude:: /examples/generated/ErrorHandler.snippet.set-log-level.cs
+            :language: csharp
+
+     - id: dart
+       content: |
+
+         .. literalinclude:: /examples/generated/flutter/logger.snippet.set-the-log-level.dart
+            :language: dart
+
+     - id: java
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
+            :language: java
+
+     - id: javascript
+       content: |
+
+         .. literalinclude::  /examples/generated/node/logger.test.snippet.set-log-level.ts
+            :language: javascript
+
+     - id: kotlin
+       content: |
+
+         .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.set-log-level-realmlog.kt 
+            :language: kotlin
+
+     - id: objectivec
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/api.m
+            :language: objectivec
+
+     - id: swift
+       content: |
+
+         .. literalinclude:: /examples/generated/code/start/Logging.snippet.set-log-level.swift
+            :language: swift
+
+     - id: typescript
+       content: |
+
+         .. literalinclude::  /examples/generated/node/logger.test.snippet.set-log-level.ts
+            :language: typescript
+
+You can change the log level to increase or decrease verbosity at different
+points in your code.
+
+.. tabs-drivers::
+
+   tabs:
+     - id: cpp
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example.cpp
+            :language: cpp
+
+     - id: csharp
+       content: |
+
+         .. literalinclude:: /examples/generated/ErrorHandler.snippet.set-log-level.cs
+            :language: csharp
+
+     - id: dart
+       content: |
+
+         .. literalinclude:: /examples/generated/flutter/logger.snippet.change-log-level.dart
+            :language: dart
+
+     - id: java
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
+            :language: java
+
+     - id: javascript
+       content: |
+
+         .. literalinclude::  /examples/generated/node/logger.test.snippet.change-log-level.ts
+            :language: javascript
+
+     - id: kotlin
+       content: |
+
+         .. literalinclude:: /examples/generated/kotlin/MissingPlaceholders/example.kt 
+            :language: kotlin
+
+     - id: objectivec
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/api.m
+            :language: objectivec
+
+     - id: swift
+       content: |
+
+         .. literalinclude:: /examples/generated/code/start/Logging.snippet.change-log-level.swift
+            :language: swift
+
+     - id: typescript
+       content: |
+
+         .. literalinclude::  /examples/generated/node/logger.test.snippet.change-log-level.ts
+            :language: typescript
+
+.. _sdks-customize-logger:
+
+Customize the Logger
+--------------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/logger/customize-logger-set.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/logger/customize-logger-set.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/logger/customize-logger-set.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/logger/customize-logger-set.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/logger/customize-logger-set.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/logger/customize-logger-set.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/logger/customize-logger-set.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/swift/crud/logger/customize-logger-set.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/logger/customize-logger-set.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/logger/customize-logger-set.rst
+
+.. include:: /includes/sdk-examples/logger/customize-logger-set.rst
+
+.. _sdks-turn-off-logging:
+
+Turn Off Logging
+----------------
+
+You can turn off logging by setting the log level to ``RealmLogLevel.off``:
+
+.. literalinclude:: /examples/generated/flutter/logger.snippet.set-log-level-to-off.dart
+   :language: dart
+
+Or you can clear all ``Realm.logger`` listeners:
+
+.. literalinclude:: /examples/generated/flutter/logger.snippet.clear-listeners.dart
+   :language: dart
+
+If you turn off logging from the first isolate, this stops the default 
+printing logger.
+
+
+.. Dart: You can specify different log levels or custom loggers on a per-isolate basis.
+.. C++ and Java: they haven't deprecated the sync logger. Need two main page sections
+   one for the new logger and one for the sync logger.
+.. Swift: Has a Set the Logger Before Initializing an App Client section not found in the other sdks
