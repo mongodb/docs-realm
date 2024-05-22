@@ -1,7 +1,7 @@
 .. tabs-drivers::
 
    tabs:
-     - id: cpp
+     - id: cpp-sdk
        content: |
 
          .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
