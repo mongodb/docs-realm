@@ -75,8 +75,8 @@ which creates a managed instance.
   updated with changes within write transactions as long as that database 
   remains open. Managed objects are tied to the database instance from which
   they originated and cannot be directly written to another database. However,
-  the SDK supplies a method to copy managed objects from one database file to
-  another.
+  some of the SDKs supply a method to copy managed objects from one database
+  file to another.
 
   You can use the SDK's APIs with managed objects. For example, managed
   objects can have relationships with other objects and you can observe them
@@ -84,7 +84,7 @@ which creates a managed instance.
   Refer to the :ref:`Create an Unmanaged Copy of an Object or Collection 
   <sdks-create-unmanaged-copy>` section on this page. 
 
-- **Unmanaged objects** are SDK objects that behave like normal Kotlin objects, 
+- **Unmanaged objects** are SDK objects that behave like normal objects, 
   but they are not persisted in the database. All SDK objects are unmanaged
   until you add them to a database within a write transaction.
   You cannot use the SDK's APIs with unmanaged objects or observe them for
@@ -95,10 +95,10 @@ which creates a managed instance.
    You can check if an object is managed with the 
    ``isManaged`` API.
 
-Create a Realm Object
----------------------
+Create a Database Object
+------------------------
 
-Before you can create a new object and persist it to the realm, you must 
+Before you can create a new object and persist it to the database, you must 
 :ref:`sdks-object-models`. Then, you include that object type in your database
 schema when you open the database.
 
@@ -167,6 +167,9 @@ information, refer to :ref:`sdks-upsert-an-object`.
 
 Create a Realm Object
 ~~~~~~~~~~~~~~~~~~~~~
+
+The SDKs refer to the base object type as a Realm object. This is a legacy
+of the former product name, Realm Database.
 
 .. tabs-drivers::
 

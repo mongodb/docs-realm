@@ -6,7 +6,7 @@
 #. Move the unmanaged object instance into the database using the 
    :cpp-sdk:`Realm.add() function <structrealm_1_1db.html>`.
    
-   When you move an object into a realm, this consumes the object as an rvalue.
+   When you move an object into a database, this consumes the object as an rvalue.
    You must use the managed object for any data access or observation. If
    you would like to immediately work with the object, return a managed
    version of the object.
