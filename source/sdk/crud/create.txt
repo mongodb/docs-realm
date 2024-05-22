@@ -397,10 +397,68 @@ For more information about modeling an asymmetric object, refer to:
 Create a Geospatial Data Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+After you :ref:`define a geospatial object type <sdks-define-geospatial-object>`,
+you can use that type to create objects that persist geospatial data.
 
+Initialize objects that use the geospatial data class, and add them to the
+database like you would any other object type.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/create-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-geospatial-object-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-geospatial-object-js-ts-description.rst
+
+
+.. include:: /includes/sdk-examples/crud/create-geospatial-data-object.rst
+
+The following image shows the results of creating these two company objects:
+
+.. figure:: /images/geopoints.png
+   :alt: 2 GeoPoints
+   :width: 150
+   :lightbox:
 
 Model
 `````
+
+.. include:: /includes/sdk-examples/crud/create-geospatial-data-model.rst
 
 .. _sdks-create-unmanaged-copy:
 
