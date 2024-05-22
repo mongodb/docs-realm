@@ -1,7 +1,7 @@
 .. tabs-drivers::
 
    .. tab::
-      :tabid: cpp
+      :tabid: cpp-sdk
 
       .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
 
@@ -17,6 +17,11 @@
 
    .. tab::
       :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-asymmetric-object-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
 
       .. include:: /includes/api-details/java/crud/create-asymmetric-object-not-supported.rst
 
