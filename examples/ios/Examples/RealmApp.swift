@@ -109,11 +109,17 @@ class RealmAppTest: XCTestCase {
             let configuration = AppConfiguration(baseURL: "http://localhost:80")
             let edgeApp = App(id: EDGE_SERVER_APP_ID, configuration: configuration)
             
+            // You can check the `baseURL` of an app to define app logic.
+            if edgeApp.baseURL == "http://localhost:80" {
+                print("Client app is currently connected to a local Edge Server instance")
+            }
+            XCTAssertEqual(edgeApp.baseURL, "http://localhost:80") // :remove:
             // ... log in a user and use the app...
             // ... some time later...
             
             try await edgeApp.updateBaseUrl(to: "https://services.cloud.mongodb.com")
             // :snippet-end:
+            XCTAssertEqual(edgeApp.baseURL, "https://services.cloud.mongodb.com")
             let user = try await edgeApp.login(credentials: Credentials.anonymous)
             XCTAssertNotNil(user)
             XCTAssert(user.isLoggedIn)
