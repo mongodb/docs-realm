@@ -395,7 +395,9 @@ For more information about modeling an asymmetric object, refer to:
 Create an Unmanaged Copy of an Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can create an unmanaged, in-memory copy of a managed object or collection. 
+Some of the SDKs provide APIs to create an unmanaged, in-memory copy of a
+managed object or collection. In other SDKs, this API is not needed or not
+currently implemented.
 
 .. tabs-drivers::
 
@@ -455,3 +457,64 @@ You can create an unmanaged, in-memory copy of a managed object or collection.
 
 Create or Update an Object (Upsert)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **upsert** is a write operation that either inserts a new object
+with a given primary key or updates an existing object that already has
+that primary key. We call this an upsert because it is an "**update** or
+**insert**" operation. This is useful when an object may or may not
+already exist, such as when bulk importing a dataset into an existing
+realm. Upserting lets you update existing entries while adding any new entries.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/api-not-supported-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-or-update-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-or-update-object-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-or-update-object-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-or-update-object-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-or-update-object.rst
