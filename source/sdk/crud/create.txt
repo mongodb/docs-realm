@@ -165,6 +165,8 @@ To create a new object and persist it to the database:
 You can also upsert into a database using specific criteria. For more 
 information, refer to :ref:`sdks-upsert-an-object`.
 
+.. _sdks-create-realm-object:
+
 Create a Realm Object
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -510,7 +512,7 @@ realm. Upserting lets you update existing entries while adding any new entries.
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/generic/crud/create-or-update-object-description.rst
+      .. include:: /includes/api-details/swift/crud/create-or-update-object-description.rst
 
    .. tab::
       :tabid: typescript
@@ -518,3 +520,77 @@ realm. Upserting lets you update existing entries while adding any new entries.
       .. include:: /includes/api-details/typescript/crud/create-or-update-object-description.rst
 
 .. include:: /includes/sdk-examples/crud/create-or-update-object.rst
+
+.. _sdks-create-special-property-types:
+
+Create Special Property Types
+-----------------------------
+
+Depending on how you define your object type, you might have properties 
+that are special SDK-specific types. These may be custom data types, or
+familiar language types that have specific requirements or limitations when
+used with Atlas Device SDK.
+
+Create a Generic (Mixed) Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK provides a generic mixed property type that could contain a
+number of property types. It's the closest analog to a polymorphic data type
+that the SDK provides.
+
+For a list of the value types that a mixed property can hold, refer to
+:ref:`sdks-mixed-data-type`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-mixed-property-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-mixed-property-type-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-mixed-property-type.rst
