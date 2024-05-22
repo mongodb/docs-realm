@@ -392,6 +392,16 @@ For more information about modeling an asymmetric object, refer to:
 
 .. include:: /includes/sdk-examples/crud/create-asymmetric-object-model.rst
 
+.. _sdks-create-geospatial-data:
+
+Create a Geospatial Data Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+Model
+`````
+
 .. _sdks-create-unmanaged-copy:
 
 Create an Unmanaged Copy of an Object
@@ -521,6 +531,23 @@ realm. Upserting lets you update existing entries while adding any new entries.
 
 .. include:: /includes/sdk-examples/crud/create-or-update-object.rst
 
+.. _sdks-create-objects-from-json:
+
+Create Objects from JSON
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+.. _sdks-create-objects-with-value:
+
+Initialize Objects with a Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+.. _sdks-create-copy-object-to-another-database:
+
+Copy an Object to Another Database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. _sdks-create-special-property-types:
 
 Create Special Property Types
@@ -530,6 +557,8 @@ Depending on how you define your object type, you might have properties
 that are special SDK-specific types. These may be custom data types, or
 familiar language types that have specific requirements or limitations when
 used with Atlas Device SDK.
+
+.. _sdks-create-mixed-property-type:
 
 Create a Generic (Mixed) Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -546,7 +575,7 @@ For a list of the value types that a mixed property can hold, refer to
    .. tab::
       :tabid: cpp-sdk
 
-      .. include:: /includes/api-details/cpp/create-mixed-property-type-description.rst
+      .. include:: /includes/api-details/cpp/crud/create-mixed-property-type-description.rst
 
    .. tab::
       :tabid: csharp
@@ -594,3 +623,127 @@ For a list of the value types that a mixed property can hold, refer to
       .. include:: /includes/api-details/typescript/crud/create-mixed-property-type-description.rst
 
 .. include:: /includes/sdk-examples/crud/create-mixed-property-type.rst
+
+.. _sdks-create-counter-property-type:
+
+Create a Counter Property Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-timestamp-property-type:
+
+Create a Timestamp Property Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-collection-property-types:
+
+Create Collection Property Types
+--------------------------------
+
+The SDK provides a few collection type properties:
+
+- List
+- Set
+- Map
+
+Collections are mutable: you can add and remove elements in a collection
+within a write transaction. 
+
+Collections can contain both managed and unmanaged objects. When
+you copy a collection to the database, you create a managed instance of the 
+collection *and* all elements in the collection, including any 
+unmanaged elements. Unmanaged collections behave like their corresponding 
+language classes and are not persisted to the database.
+
+.. tip:: Listen for Changes to a Created Collection
+   
+   After you create a collection, you can register a notification handler to 
+   listen for changes. For more information, refer to  
+   :ref:`<sdks-collection-change-listener>`.
+
+.. _sdks-create-list-properties:
+
+Create List Properties
+~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK uses the List container type to define to-many relationships. A
+**to-many** relationship means that an object is related in a specific
+way to multiple objects.
+
+For a list of the value types that a list property can hold, refer to 
+:ref:`<sdks-list-property-types>`. 
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-list-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-mixed-property-type-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-list-property.rst
+
+.. _sdks-create-set-properties:
+
+Create Set Properties
+~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-dictionary-properties:
+
+Create Dictionary Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-relationship-property-types:
+
+Create Relationship Property Types
+----------------------------------
+
+Create a To-One Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Create a To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-object-with-inverse-relationship:
+
+Create an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
