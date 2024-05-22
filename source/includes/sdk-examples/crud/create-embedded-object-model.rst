@@ -1,7 +1,7 @@
 .. tabs-drivers::
 
    tabs:
-     - id: cpp
+     - id: cpp-sdk
        content: |
 
          .. literalinclude:: /examples/generated/cpp/crud.snippet.model-with-embedded-object.cpp
@@ -24,6 +24,13 @@
 
          .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.java
             :language: java
+            :copyable: false
+
+     - id: java-kotlin
+       content: |
+
+         .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.kt
+            :language: kotlin
             :copyable: false
 
      - id: javascript

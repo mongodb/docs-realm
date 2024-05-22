@@ -1,7 +1,7 @@
 .. tabs-drivers::
 
    tabs:
-     - id: cpp
+     - id: cpp-sdk
        content: |
 
          .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
@@ -24,6 +24,12 @@
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/api.java
+            :language: java
+
+     - id: java-kotlin
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.kt
             :language: java
 
      - id: javascript

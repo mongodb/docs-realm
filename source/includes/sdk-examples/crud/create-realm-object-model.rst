@@ -1,7 +1,7 @@
 .. tabs-drivers::
 
    tabs:
-     - id: cpp
+     - id: cpp-sdk
        content: |
 
          .. literalinclude:: /examples/generated/cpp/crud.snippet.dog-model-shows-namespace.cpp
@@ -24,6 +24,12 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.java
             :language: java
+
+     - id: java-kotlin
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+            :language: kotlin
 
      - id: javascript
        content: |
