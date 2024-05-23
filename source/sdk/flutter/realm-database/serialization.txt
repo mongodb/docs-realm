@@ -42,7 +42,7 @@ The following data types can be serialized and deserialized:
 - Null
 - Undefined
 
-The SDK does not yet support the following types: Code, CodeWScope, DBPointer,
+The SDK does not currently support the following types: Code, CodeWScope, DBPointer,
 DBRef, Regular Expression, and Timestamp. 
 
 For more information and examples on the serialization for each of these types,
@@ -63,7 +63,8 @@ object model will be used in the following examples:
 Serialization
 -------------
 
-For objects in a Realm, you can serialize to EJSON using the ``toEjson()`` method. 
+For objects in a Realm, you can serialize to EJSON using the 
+:flutter-sdk:`toEjson() <realm/toEJson.html>` method in the following two ways: 
 
 .. literalinclude:: /examples/generated/flutter/serialization_test.snippet.serialize.dart
     :language: dart
@@ -79,12 +80,29 @@ The outputted EJSON looks like the following:
         price: null
     }
 
+   .. io-code-block::
+      :copyable: true
+
+      .. input:: /examples/generated/node/mongodb.snippet.filter-documents.js
+         :language: js
+
+      .. output:: 
+        :language: json
+         :visible: true
+
+        {
+            type: Jumping Spider, 
+            numberOfLegs: {$numberInt: 8}, 
+            birthDate: {$date: {$numberLong: 1712707200000}}, 
+            price: null
+        }
+
 Deserialization
 ---------------
 
-Deserialize from EJSON using the ``fromEJSON()`` method. The method takes EJSON
-for a specified object type as input and outputs a deserialized instance of the 
-specified object type. 
+Deserialize from EJSON using the :flutter-sdk:`fromEjson() <realm/fromEJson.html>`
+method. The method takes EJSON for a specified object type as input and outputs 
+a deserialized instance of the specified object type. 
 
 .. literalinclude:: /examples/generated/flutter/serialization_test.snippet.deserialize.dart
     :language: dart

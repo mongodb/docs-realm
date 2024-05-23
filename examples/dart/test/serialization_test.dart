@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
+import 'utils.dart';
 
 part 'serialization_test.realm.dart';
 
@@ -24,10 +25,10 @@ main() {
   });
 
   // :snippet-start: serialize
-  // Serialize to ejson by passing the object as a paramter to the method or ...
+  // Pass the object as a parameter to the method
   EJsonValue serializeByParam = toEJson(spider);
 
-  // ... by calling the method directly on the object
+  // Call the method directly on the object
   EJsonValue serializeWithCall = spider.toEJson();
   // :snippet-end:
 
@@ -37,7 +38,6 @@ main() {
     print(serializeByParam);
 
     EJsonValue different = spider.toEJson();
-    print('new');
     print(different);
 
     final birthDate = DateTime.utc(2024, 4, 10);
@@ -55,7 +55,7 @@ main() {
 
   test('deserialize', () {
     // :snippet-start: deserialize
-    // Deserialize from ejson
+    // Pass the serialized object to the method
     Pet deserializeFromEjson = fromEJson(serializeByParam);
     // :snippet-end: 
 
