@@ -1155,18 +1155,6 @@ Create a UUID Property Type
 
 .. include:: /includes/sdk-examples/crud/create-uuid-property-type.rst
 
-.. _flutter-create-Uint8List-property-type:
-
-Create a Uint8List Property Type (Dart)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. _sdks-create-enum-property-type:
-
-Create an Enum Property Type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
 .. _sdks-create-collection-property-types:
 
 Create Collection Property Types
@@ -1178,14 +1166,7 @@ The SDK provides a few collection type properties:
 - Set
 - Map
 
-Collections are mutable: you can add and remove elements in a collection
-within a write transaction. 
-
-Collections can contain both managed and unmanaged objects. When
-you copy a collection to the database, you create a managed instance of the 
-collection *and* all elements in the collection, including any 
-unmanaged elements. Unmanaged collections behave like their corresponding 
-language classes and are not persisted to the database.
+Collections are mutable within a write transaction.
 
 .. tip:: Listen for Changes to a Created Collection
    
@@ -1197,6 +1178,10 @@ language classes and are not persisted to the database.
 
 Create List Properties
 ~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK's list data type is a container that holds a collection of primitive
+values or objects. These values may be of any supported type except another
+collection.
 
 The SDK uses the List container type to define to-many relationships. A
 **to-many** relationship means that an object is related in a specific
@@ -1255,10 +1240,84 @@ For a list of the value types that a list property can hold, refer to
 
 .. include:: /includes/sdk-examples/crud/create-list-property.rst
 
+.. _flutter-create-Uint8List-property-type:
+
+Create a Uint8List Property Type (Dart)
+```````````````````````````````````````
+
+The Flutter SDK provides a ``Uint8List`` from Dart. For more details about
+defining a ``Uint8List`` type, refer to 
+:ref:`dart-define-uint8list-property-type`.
+
+To add ``Uint8List`` to a Realm object, call ``Uint8List.fromList()`` on the data.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.binary-from-list.dart
+   :language: dart
+
 .. _sdks-create-set-properties:
 
 Create Set Properties
 ~~~~~~~~~~~~~~~~~~~~~
+
+Like their native counterparts, the SDK's set data type stores unique values.
+These values may be of any supported type except another collection.
+
+The SDK uses the Set container type to define to-many relationships. A
+**to-many** relationship means that an object is related in a specific
+way to multiple objects.
+
+For a list of the value types that a set property can hold, refer to 
+:ref:`<sdks-set-property-types>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-set-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/create-set-properties-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-set-property.rst
 
 .. _sdks-create-dictionary-properties:
 
