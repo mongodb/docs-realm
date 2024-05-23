@@ -64,6 +64,7 @@ export class Project extends Realm.Object<Project> {
   quota?: number;
   comments?: Realm.Dictionary<string>;
   projectLocation?: Office;
+  additionalInfo!: Realm.Mixed;
 
   static schema: ObjectSchema = {
     name: "Project",
@@ -74,6 +75,7 @@ export class Project extends Realm.Object<Project> {
       quota: "int?",
       comments: "string?{}",
       projectLocation: "Office?",
+      additionalInfo: "mixed",
     },
     primaryKey: "_id",
   };

@@ -80,16 +80,41 @@ See the schema for these two classes, ``Project`` and ``Item``, below:
 Query Syntax
 ------------
 
+Expressions and Predicates
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Realm Query Language uses expressions and predicates to evaluate queries.
 
-Dot Notation
-~~~~~~~~~~~~
+- **Expressions** are the building blocks of queries. They can be simple or complex.
+  For example, ``name == 'Ali'`` is a simple expression, while
+  ``name == 'Ali' AND priority > 5`` is a complex expression.
+- **Predicates** are expressions that evaluate to ``true`` or ``false``.
+  For example, ``name == 'Ali'`` is a predicate that evaluates to ``true``
+  if the name property is 'Ali'.
 
-You can use **dot notation** to refer to child properties of an object, including the properties of embedded objects and relationships:
+TRUEPREDICATE and FALSEPREDICATE
+
+Case Sensitivity
+~~~~~~~~~~~~~~~~
+
+Unless otherwise noted, RQL operators and keywords are case insensitive.
+
+``[c]`` denotes case sensitivity in the following examples.
+
+Dot & Bracket Notation
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. TODO: confirm how we want to communicate which SDK versions support bracket notation
+
+You can use **dot notation** or **bracket notation** to refer to child
+properties of an object, including the properties of embedded objects and
+relationships:
+
+.. TODO: add bracket notation to example
 
 .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.dot-notation.ts.rst
 
-You can also chain dot notations for nested properties.
+You can also chain these notations for nested properties.
 For example, each Project has a ``projectLocation`` property that
 refers to an Office object, which itself contains an embedded object
 property ``address``. You can chain dot notations to query the deeply nested
@@ -98,9 +123,7 @@ property ``address``. You can chain dot notations to query the deeply nested
 .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.deep-dot-notation.ts.rst
 
 
-.. TODO: add as part of collections-in-mixed epic
-Bracket Notation
-~~~~~~~~~~~~~~~~
+
 .. _rql-parameterized-queries:
 
 Parameterized vs. Serialized Queries
@@ -218,6 +241,78 @@ property values match certain criteria:
    including decimal, float, and Decimal128.
 
 
+.. _rql-string-operators:
+
+String Operators
+~~~~~~~~~~~~~~~~
+
+Compare string values using these string operators.
+Regex-like wildcards allow more flexibility in search.
+
+.. note::
+
+   You can use the following modifiers with the string operators:
+
+   - ``[c]`` for case insensitivity.
+
+     .. code-block:: javascript
+
+        "name CONTAINS[c] $0", 'a'
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - | ``BEGINSWITH``
+     - Evaluates to ``true`` if the left-hand string expression begins with
+       the right-hand string expression. This is similar to ``contains``,
+       but only matches if the right-hand string expression is found
+       at the beginning of the left-hand string expression.
+
+   * - | ``CONTAINS``
+     - Evaluates to ``true`` if the right-hand string expression
+       is found anywhere in the left-hand string expression.
+
+   * - | ``ENDSWITH``
+     - Evaluates to ``true`` if the left-hand string expression ends
+       with the right-hand string expression. This is similar to ``contains``,
+       but only matches if the left-hand string expression is found
+       at the very end of the right-hand string expression.
+
+   * - | ``LIKE``
+     - Evaluates to ``true`` if the left-hand string expression
+       matches the right-hand string wildcard string
+       expression. A wildcard string expression is a string
+       that uses normal characters with two special wildcard
+       characters:
+
+       - The ``*`` wildcard matches zero or more of any character
+       - The ``?`` wildcard matches any character.
+
+       For example, the wildcard string "d?g" matches "dog",
+       "dig", and "dug", but not "ding", "dg", or "a dog".
+
+   * - | ``==``, ``=``
+     - Evaluates to ``true`` if the left-hand string is lexicographically equal
+       to the right-hand string.
+
+   * - | ``!=``, ``<>``
+     - Evaluates to ``true`` if the left-hand string is not lexicographically
+       equal to the right-hand string.
+
+.. example::
+
+   We use the query engine's string operators to find:
+
+   - Projects with a name starting with the letter 'e'
+   - Projects with names that contain 'ie'
+
+   .. literalinclude:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.string-operators.js
+      :language: javascript
+
 .. _rql-logical-operators:
 
 Logical Operators
@@ -282,6 +377,7 @@ The following example uses arithmetic operators on Item object properties contai
 
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
+.. TODO: link to collection query section
 
 Aggregate operators traverse a collection and reduce it to a single value.
 You can use aggregate operators on collection properties, such as a list, or on
@@ -314,27 +410,19 @@ You can use aggregate operators on collection properties, such as a list, or on
        excluding ``null`` values.
 
 
-The following example uses aggregate operators to find project whose ``items``
+The following example uses aggregate operators to find projects whose ``items``
 collection property meets certain criteria:
 
 .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.aggregate-operators.ts.rst
 
 .. _rql-sort-distinct-limit:
 
-Sort and Limit Operators
-~~~~~~~~~~~~~~~~~~~~~~~~
+Sort, Distinct, and Limit Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use sort and limit operators to shape your query results collection. You can
-combine these operators across multiple properties.
-
-       For example, if you ``SORT (priority DESC, name DESC)``, the query
-       returns sorted by priority, and then by name when priority
-       value is the same.
-
-
-
-
-Sort and limit the results collection of your query using additional operators.
+Use sort, distinct, and limit operators to shape your query results collection. You can
+combine these operators in a single query across multiple properties. Operators
+are applied in the order they appear in the query.
 
 .. list-table::
    :header-rows: 1
@@ -344,51 +432,69 @@ Sort and limit the results collection of your query using additional operators.
      - Description
 
    * - ``SORT`` (``ASC`` or ``DESC``)
-     - Specify the name of the property to compare, and whether to sort by
-       ascending (``ASC``) or descending (``DESC``) order. If you specify
-       multiple SORT fields, you must specify sort order for each field.
-       With multiple sort fields, the query sorts by the first field, and
-       then the second.
+     - Sort the results collection by the specified property or properties, either in ascending (``ASC``) or descending
+       (``DESC``) order. Separate multiple properties by comma and define the
+       sort order for each property. The SDK applies each sort operation one at a time, in order.
 
    * - ``DISTINCT``
-     - Specify a name of the property to compare. Remove duplicates
-       for that property in the results collection. If you specify multiple
-       DISTINCT fields, the query removes duplicates by the first field, and
-       then the second. For example, if you ``DISTINCT (name, assignee)``,
-       the query only removes duplicates where the values of both properties
-       are the same.
+     - Remove duplicates of the specified property or properties from the
+       results collection. Separate multiple properties by comma. The SDK
+       applies all distinct operations as a single AND condition,
+       where duplicates must match all specified properties.
 
    * - ``LIMIT``
      - Limit the results collection to the specified number.
 
-.. example::
+The following example finds all incomplete items, then
+shapes the returned results using sort, distinct, and limit operators:
 
-   Use the query engine's sort, distinct, and limit operators to find to-do items
-   where the assignee is Ali:
-
-   - Sorted by priority in descending order
-   - Enforcing uniqueness by name
-   - Limiting the results to 5 items
-
-   .. literalinclude:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.sort-distinct-limit.js
-      :language: javascript
+.. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.sort-distinct-limit.ts.rst
 
 .. important:: Order Matters
 
-    Queries are executed in order. This includes the order of the operators in
-    the query *and* the order of properties within an operator, if applicable.
-    This can greatly impact the results returned. For example, sorting a query before
-    limiting it can return very different results than sorting *after* limiting
-    it.
+    The SDK executes queries in order. This includes the order of any ``SORT``, ``DISTINCT``, and ``LIMIT``  operators in
+    the query *and* the order of any properties within those operators.
+    This can greatly impact the results returned. For example, sorting a query
+    before limiting it can return very different results than sorting *after*
+    limiting it.
 
-    .. .. include:: /includes/file.rst
-       :start-after: text to start after (Optional}
-       :end-before: text to end before (Optional}
+    .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.sort-distinct-limit-order-matters.ts.rst
 
-    For example,
 
-    - ``LIMIT(5) SORT(priority DESC)`` returns
-    the top 5 items in the entire collection, which are then sorted by priority. However, ``SORT(priority DESC) LIMIT(5)``
+Data Type Operators
+-------------------
+
+.. _rql-type-operator:
+
+Type Operator
+~~~~~~~~~~~~~
+
+Check the data type of a mixed type or dictionary property using the
+``@type`` operator. Evaluate the property against a string representation of the
+data type name using string comparison operators.
+
+For information on how each SDK language's data types map to database-specific data types, refer to :ref:`sdks-data-types`.
+
+You can currently only use the type operator with mixed types and
+dictionaries.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - ``@type``
+     - Check if type of a property is the specified data type represented as a string.
+       Use ``==`` and ``!=`` to compare equality.
+
+The following example uses the ``@type`` operator to find projects
+whose mixed data type ``additionalInfo`` property type matches specific
+criteria:
+
+.. literalinclude:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.type-operator.js
+   :language: js
 
 
 Data Type Queries

@@ -64,7 +64,12 @@ describe("Realm Query Language Reference", () => {
           },
         ],
         quota: 1, // doesn't meet quota
-        comments: { status: "Behind schedule", projectNumber: "70150" },
+        comments: {
+          status: "Behind schedule",
+          projectNumber: 70150,
+          budget: 5000.0,
+          customerContact: ["Mina", "Devon"],
+        },
         projectLocation: mainBranch,
       });
       const project = realm.create(Project, {
@@ -100,7 +105,11 @@ describe("Realm Query Language Reference", () => {
           },
         ],
         quota: 1, // meets quota
-        comments: { status: "Ahead of schedule", projectNumber: "70187" },
+        comments: {
+          status: "Ahead of schedule",
+          projectNumber: 70187,
+          startDate: new Date("2021-01-01"),
+        },
         projectLocation: mainBranch,
       });
 
@@ -120,7 +129,12 @@ describe("Realm Query Language Reference", () => {
           },
         ],
         quota: 11, // doesn't meet quota
-        comments: { status: "On track", projectNumber: "N/A" },
+        comments: {
+          status: "On track",
+          projectNumber: 4444,
+          startDate: new Date("2021-02-01"),
+          budget: 10000.0,
+        },
         projectLocation: austinBranch,
       });
     });

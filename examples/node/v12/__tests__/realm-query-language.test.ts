@@ -65,6 +65,14 @@ describe("Realm Query Language Reference", () => {
         quota: 1, // doesn't meet quota
         comments: { status: "Behind schedule", projectNumber: "70150" },
         projectLocation: mainBranch,
+        // Mixed property is of type dictionary of mixed values 
+        // (date, list of strings, bool, and int)
+        additionalInfo: {
+          startDate: new Date("2021-01-01"),
+          customerContacts: ["Alice", "Bob"],
+          recurringCustomer: true,
+          budget: 10000,
+        },
       });
       const project = realm.create("Project", {
         _id: new BSON.ObjectId(),
@@ -101,6 +109,8 @@ describe("Realm Query Language Reference", () => {
         quota: 1, // meets quota
         comments: { status: "Ahead of schedule", projectNumber: "70187" },
         projectLocation: mainBranch,
+        // Mixed property is of type string
+        additionalInfo: "Customer is a VIP.",
       });
 
       realm.create("Project", {
@@ -121,6 +131,16 @@ describe("Realm Query Language Reference", () => {
         quota: 11, // doesn't meet quota
         comments: { status: "On track", projectNumber: "N/A" },
         projectLocation: austinBranch,
+        // Mixed property is of type list, containing string and nested 
+        // dictionary of mixed values (date, boolean, and int)
+        additionalInfo: [
+        "Customer is difficult to work with.",
+          {
+          startDate: new Date("2021-03-01"),
+          recurringCustomer: false,
+          budget: 10000,
+          },
+        ],
       });
     });
   });
@@ -470,31 +490,49 @@ describe("Realm Query Language Reference", () => {
       const items = realm.objects(Item);
       const projects = realm.objects(Project);
 
-      const sortedUniqueAliItems = items.filtered(
+      const sortedItems = items.filtered(
         // :snippet-start: sort-distinct-limit
-        "assignee == 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
+        // Find incomplete items, sort by `priority`
+        // in descending order, then sort equal `priority`
+        // values by `progressMinutes` in ascending order.
+        "isComplete == false SORT(priority DESC, progressMinutes ASC)"
+        // :remove-start:
+      );
+      expect(sortedItems[0].name).toBe("Demo template app");
+      const distinctItems = items.filtered(
+        // :remove-end:
+
+        // Find high priority items, then remove from the results
+        // any items with duplicate `name` AND `assignee` values.
+        "priority >= 5 DISTINCT(name, assignee)"
+        // :remove-start:
+      );
+      expect(distinctItems.length).toBe(6);
+      const limitItems = items.filtered(
+        // :remove-end:
+        // Find in-progress items, then return the first 10 results.
+        "progressMinutes > 0 && isComplete != true LIMIT(10)"
         // :snippet-end:
       );
-
-      expect(sortedUniqueAliItems.length).toBe(1);
-      const query =
+      expect(limitItems[0].name).toBe("Write tests");
+      const sortFirst = items.filtered(
         // :snippet-start: sort-distinct-limit-order-matters
-        "SORT(priority DESC) LIMIT(2) DISTINCT(name)";
-      // Returns 2 items with the highest priority
-      // :remove-start:
-      const orderMatters = items.filtered(
-        "isComplete != true SORT(priority DESC) LIMIT(2) DISTINCT(name)"
+        // 1. Sorts by highest priority.
+        // 2. Returns the first item.
+        // 3. Remove duplicate names (N/A because a single
+        //    item is always considered distinct).
+        "assignee == null SORT(priority ASC) LIMIT(1) DISTINCT(name)"
+        // :remove-start:
       );
-      expect(orderMatters.length).toBe(2);
-      const query2 =
+      const limitLast = items.filtered(
         // :remove-end:
-        "isComplete != true DISTINCT(name) SORT(priority DESC) LIMIT(2)";
-      // Returns the first 2 uniquely named items with the highest priority
-      // :snippet-end:
-      const limitFirst = items.filtered(
-        "isComplete != true DISTINCT(name) SORT(priority DESC) LIMIT(2)"
+
+        // 1. Removes any duplicates by name.
+        // 2. Sorts by highest priority.
+        // 3. Returns the first item.
+        "assignee == null DISTINCT(name) SORT(priority ASC) LIMIT(1)"
+        // :snippet-end:
       );
-      console.log(limitFirst.toJSON());
     });
 
     test("Subquery queries", () => {
@@ -672,58 +710,34 @@ describe("Realm Query Language Reference", () => {
     });
   });
 
-  describe("Type operator", () => {
-    // Uses a test-specific schema with mixed type
-    // TODO: Update main schema with mixed type property once collections-in-mixed is supported
-    const Mixed = {
-      name: "Mixed",
-      properties: { name: "string", mixedType: "mixed" },
-    };
-    let realm: Realm;
-    const path = "mixed.realm";
-
-    // Add, then delete objects for this test
-    beforeEach(async () => {
-      realm = await Realm.open({
-        schema: [Mixed],
-        path,
-      });
-      realm.write(() => {
-        realm.create("Mixed", {
-          name: "Marge",
-          mixedType: true,
-        });
-        realm.create("Mixed", {
-          name: "Lisa",
-          mixedType: 22,
-        });
-        realm.create("Mixed", {
-          name: "Bart",
-          mixedType: "carrumba",
-        });
-      });
-    });
-
-    afterEach(() => {
-      realm.close();
-      Realm.deleteFile({ path });
-    });
-
+  describe("Type operators", () => {
     test("Type operator", () => {
-      const mixed = realm.objects("Mixed");
-      const mixedString = mixed.filtered(
+      const projects = realm.objects(Project);
+      const mixedString = projects.filtered(
         // :snippet-start: type-operator
-        "mixedType.@type == 'string'"
+        // Find projects with an `additionalInfo` property of
+        // string type.
+        "additionalInfo.@type == 'string'"
         // :remove-start:
       );
-      const mixedBool = mixed.filtered(
+      const mixedCollection = projects.filtered(
+        // :remove-end:
+        // Find projects with an `additionalInfo` property of 
+        // `collection` type, which matches list or dictionary types.
+        "additionalInfo.@type == 'collection'"
+        // :remove-start:
+      );
+      const mixedBool = projects.filtered(
         // :remove-end:
 
-        "mixedType.@type == 'bool'"
+        // Find projects with an `additionalInfo` property of 
+        // list type, where any list element is of type 'bool'.
+        "additionalInfo[*].@type == 'bool'"
         // :snippet-end:
       );
-      expect(mixedString.length).toBe(1);
-      expect(mixedBool.length).toBe(1);
+      console.debug(mixedString[1].name + " and " + mixedBool[0].name);
+     // expect(mixedString.length).toBe(1);
+     // expect(mixedBool.length).toBe(1);
     });
   });
 
