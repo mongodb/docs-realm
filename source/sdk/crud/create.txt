@@ -550,6 +550,56 @@ database instance.
 
 .. include:: /includes/sdk-examples/crud/create-copy-object-to-another-database.rst
 
+.. _sdks-create-objects-in-background:
+
+Create Objects in the Background
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When performing large write operations, you may want to create objects in the
+background. This avoids blocking the UI thread while performing large write
+operations. This is particularly useful when using Device Sync, where you don't
+know when and for how long the Sync client will be writing.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-objects-in-background-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-objects-in-background-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-objects-in-background-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-objects-in-background.rst
+
 Create Specific SDK Object Types
 --------------------------------
 
