@@ -4,7 +4,7 @@ You can add, modify, or delete objects in the background using
 :swift-sdk:`writeAsync <Structs/Realm.html#/s:10RealmSwift0A0V10writeAsync_10onCompletes6UInt32Vyyc_ys5Error_pSgcSgtF>`. 
 
 With ``writeAsync``, you don't need to pass a :ref:`thread-safe reference 
-<ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
+<sdks-thread-safe-reference>` or :ref:`frozen objects <sdks-frozen-objects>` 
 across threads. Instead, call ``realm.writeAsync``. You can provide 
 a completion block for the method to execute on the source thread after 
 the write completes or fails.
@@ -82,6 +82,8 @@ of the ``beginAsyncWrite`` or the ``commitAsyncWrite`` you want to cancel.
 
 **Use Swift Concurrency Features**
 
+*Write to an Actor-Isolated Realm*
+
 You can use Swift concurrency features to write asynchronously to an 
 actor-isolated database. 
 
@@ -100,3 +102,14 @@ And you might perform this write using Swift's async syntax:
 This operation does not block or perform I/O on the calling thread. For
 more information about writing to realm using Swift concurrency features, 
 refer to :ref:`swift-actor-isolated-realm`.
+
+*Perform Writes using Async/Await Syntax*
+
+The :swift-sdk:`asyncWrite() <Structs/Realm.html#/s:10RealmSwift0A0V10asyncWriteyxxyKXEYaKlF>`
+API allows for performing async writes using Swift async/await syntax.
+
+The ``asyncWrite()`` API suspends the calling task while waiting for its 
+turn to write rather than blocking the thread. In addition, the actual 
+I/O to write data to disk is done by a background worker thread. For small 
+writes, using this function on the main thread may block the main thread 
+for less time than manually dispatching the write to a background thread.
