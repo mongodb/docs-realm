@@ -501,17 +501,17 @@ database instance.
    .. tab::
       :tabid: cpp-sdk
 
-      .. include:: /includes/api-details/generic/crud/create-copy-to-another-database-no-example.rst
+      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-no-example.rst
 
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/generic/crud/create-copy-to-another-database-no-example.rst
+      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-no-example.rst
       
    .. tab::
       :tabid: dart
 
-      .. include:: /includes/api-details/generic/crud/create-copy-to-another-database-no-example.rst
+      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-no-example.rst
 
    .. tab::
       :tabid: java
@@ -536,12 +536,12 @@ database instance.
    .. tab::
       :tabid: objectivec
 
-      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-description.rst
+      .. include:: /includes/api-details/objectivec/crud/create-copy-object-to-another-database-description.rst
 
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-description.rst
+      .. include:: /includes/api-details/swift/crud/create-copy-object-to-another-database-description.rst
 
    .. tab::
       :tabid: typescript
@@ -554,7 +554,7 @@ Create Specific SDK Object Types
 --------------------------------
 
 Before you can create a new object and persist it to the database, you must 
-:ref:`sdks-object-models`. Then, you include that object type in your database
+:ref:`sdks-object-models`. Then, include that object type in your database
 schema when you open the database.
 
 .. important:: Object Types Must Be in Your Schema
@@ -939,6 +939,63 @@ For a list of the value types that a mixed property can hold, refer to
 Create a Counter Property Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Some of the SDKs provide a special property type you can use as a logical
+counter.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-counter-property-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-counter-property-type-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-counter-property-type-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-counter-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-counter-property-type-not-supported.rst
+
+.. include:: /includes/sdk-examples/crud/create-counter-property-type.rst
+
 .. _sdks-create-timestamp-property-type:
 
 Create a Timestamp Property Type
@@ -958,6 +1015,13 @@ Create a UUID Property Type
 
 Create a Uint8List Property Type (Dart)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-enum-property-type:
+
+Create an Enum Property Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 .. _sdks-create-collection-property-types:
 

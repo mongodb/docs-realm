@@ -29,7 +29,7 @@
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
-            :language: java
+            :language: kotlin
 
      - id: javascript
        content: |
@@ -42,7 +42,6 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.kt
             :language: kotlin
-            :emphasize-lines: 10, 11
 
      - id: objectivec
        content: |

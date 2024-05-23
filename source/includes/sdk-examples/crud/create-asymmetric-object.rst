@@ -29,7 +29,7 @@
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.kt
-            :language: java
+            :language: kotlin
 
      - id: javascript
        content: |
