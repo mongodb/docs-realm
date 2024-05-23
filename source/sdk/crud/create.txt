@@ -1382,13 +1382,168 @@ value types that a dictionary property can hold, refer to
 Create Relationship Property Types
 ----------------------------------
 
+When you have properties whose type references another SDK object, this creates
+a relationship between the objects. This can be a to-one, to-many, or
+inverse relationship. For more information about relationships, refer to
+:ref:`sdks-relationships`.
+
+.. _sdks-create-to-one-relationship:
+
 Create a To-One Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+To create a new object instance with a 
+:ref:`to-one relationship <sdks-to-one-relationship>`
+property, instantiate both objects and pass the referenced object to the
+relationship property. 
+
+You can optionally create an inverse relationship to refer to the main object
+from the related object. For more information, refer to the  
+:ref:`sdks-create-object-with-inverse-relationship` section on this page.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-to-one-relationship-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-to-one-relationship-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-to-one-relationship.rst
+
+.. _sdks-create-to-many-relationship:
+
 Create a To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a new object instance with a 
+:ref:`to-many relationship <sdks-to-many-relationship>`
+property, instantiate all objects and pass any referenced objects to the
+relationship collection property.
+
+You may use a List or a Set to represent a to-many relationship, depending
+on whether you require the values to be unique, or whether you want to use any
+of the special collection type methods.
+
+You can optionally create an inverse relationship to refer to the main object
+from the related object. For more information, refer to the 
+:ref:`sdks-create-object-with-inverse-relationship` section on this page.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-to-many-relationship-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-to-many-relationship-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-to-many-relationship.rst
 
 .. _sdks-create-object-with-inverse-relationship:
 
 Create an Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a new object instance with an 
+:ref:`inverse relationship <sdks-inverse-relationships>`
+property, instantiate the parent object and pass any referenced child
+objects to the inverse relationship property. 
+
+After you create an object that has an inverse relationship, you can access
+the inverse relationship property to get the child objects. However, you
+*cannot* directly modify the backlink itself. For more information, refer to 
+:ref:`<sdks-update-inverse-relationships>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-to-many-relationship-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-to-many-relationship-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-inverse-relationship.rst
