@@ -95,18 +95,17 @@ which creates a managed instance.
    You can check if an object is managed with the 
    ``isManaged`` API.
 
-Create a Database Object
-------------------------
+.. _sdks-create-object-methods:
 
-Before you can create a new object and persist it to the database, you must 
-:ref:`sdks-object-models`. Then, you include that object type in your database
-schema when you open the database.
+Create Object Methods
+---------------------
 
-.. important:: Object Types Must Be in Your Schema
+The SDK provides many methods to create objects.
 
-   You can only write objects whose object type is included in the database
-   schema. If you try to reference or write an object of an object type 
-   that isn't in your schema, the SDK returns a schema validation error.
+.. _sdks-create-one-object:
+
+Create One Object
+~~~~~~~~~~~~~~~~~
 
 To create a new object and persist it to the database:
 
@@ -162,8 +161,231 @@ To create a new object and persist it to the database:
 
       .. include:: /includes/api-details/typescript/crud/create-procedure.rst
 
+.. include:: /includes/sdk-examples/crud/create-realm-object.rst
+
 You can also upsert into a database using specific criteria. For more 
 information, refer to :ref:`sdks-upsert-an-object`.
+
+.. _sdks-create-multiple-objects:
+
+Create Multiple Objects
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Some of the SDKs provide a dedicated API to create multiple objects from
+a sequence or collection.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-multiple-objects-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-multiple-objects-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-multiple-objects-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-multiple-objects-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
+
+.. include:: /includes/sdk-examples/crud/create-multiple-objects.rst
+
+.. _sdks-upsert-an-object:
+
+Create or Update an Object (Upsert)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **upsert** is a write operation that either inserts a new object
+with a given primary key or updates an existing object that already has
+that primary key. We call this an upsert because it is an "**update** or
+**insert**" operation. This is useful when an object may or may not
+already exist, such as when bulk importing a dataset into an existing
+realm. Upserting lets you update existing entries while adding any new entries.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/api-not-supported-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-or-update-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-or-update-object-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-or-update-object-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-or-update-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-or-update-object-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-or-update-object.rst
+
+.. _sdks-create-objects-with-value:
+
+Initialize Objects with a Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-objects-from-json:
+
+Create Objects from JSON
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+.. _sdks-create-unmanaged-copy:
+
+Create an Unmanaged Copy of an Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Some of the SDKs provide APIs to create an unmanaged, in-memory copy of a
+managed object or collection. In other SDKs, this API is not needed or not
+currently implemented.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-unmanaged-copy-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-unmanaged-copy-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-unmanaged-copy-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-unmanaged-copy-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+.. include:: /includes/sdk-examples/crud/create-unmanaged-object.rst
+
+.. _sdks-create-copy-object-to-another-database:
+
+Copy an Object to Another Database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Create Specific SDK Object Types
+--------------------------------
+
+Before you can create a new object and persist it to the database, you must 
+:ref:`sdks-object-models`. Then, you include that object type in your database
+schema when you open the database.
+
+.. important:: Object Types Must Be in Your Schema
+
+   You can only write objects whose object type is included in the database
+   schema. If you try to reference or write an object of an object type 
+   that isn't in your schema, the SDK returns a schema validation error.
 
 .. _sdks-create-realm-object:
 
@@ -460,152 +682,6 @@ Model
 
 .. include:: /includes/sdk-examples/crud/create-geospatial-data-model.rst
 
-.. _sdks-create-unmanaged-copy:
-
-Create an Unmanaged Copy of an Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Some of the SDKs provide APIs to create an unmanaged, in-memory copy of a
-managed object or collection. In other SDKs, this API is not needed or not
-currently implemented.
-
-.. tabs-drivers::
-
-   .. tab::
-      :tabid: cpp-sdk
-
-      .. include:: /includes/api-details/cpp/crud/create-unmanaged-copy-description.rst
-
-   .. tab::
-      :tabid: csharp
-
-      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
-      
-   .. tab::
-      :tabid: dart
-
-      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
-
-   .. tab::
-      :tabid: java
-
-      .. include:: /includes/api-details/java/crud/create-unmanaged-copy-description.rst
-
-   .. tab::
-      :tabid: java-kotlin
-
-      .. include:: /includes/api-details/java/crud/create-unmanaged-copy-description.rst
-
-   .. tab::
-      :tabid: javascript
-
-      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
-
-   .. tab::
-      :tabid: kotlin
-
-      .. include:: /includes/api-details/kotlin/crud/create-unmanaged-copy-description.rst
-
-   .. tab::
-      :tabid: objectivec
-
-      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
-
-   .. tab::
-      :tabid: swift
-
-      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
-
-   .. tab::
-      :tabid: typescript
-
-      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
-
-.. include:: /includes/sdk-examples/crud/create-unmanaged-object.rst
-
-.. _sdks-upsert-an-object:
-
-Create or Update an Object (Upsert)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-An **upsert** is a write operation that either inserts a new object
-with a given primary key or updates an existing object that already has
-that primary key. We call this an upsert because it is an "**update** or
-**insert**" operation. This is useful when an object may or may not
-already exist, such as when bulk importing a dataset into an existing
-realm. Upserting lets you update existing entries while adding any new entries.
-
-.. tabs-drivers::
-
-   .. tab::
-      :tabid: cpp-sdk
-
-      .. include:: /includes/api-details/cpp/api-not-supported-description.rst
-
-   .. tab::
-      :tabid: csharp
-
-      .. include:: /includes/api-details/csharp/crud/create-or-update-object-description.rst
-      
-   .. tab::
-      :tabid: dart
-
-      .. include:: /includes/api-details/dart/crud/create-or-update-object-description.rst
-
-   .. tab::
-      :tabid: java
-
-      .. include:: /includes/api-details/java/crud/create-or-update-object-java-description.rst
-
-   .. tab::
-      :tabid: java-kotlin
-
-      .. include:: /includes/api-details/java/crud/create-or-update-object-kotlin-description.rst
-
-   .. tab::
-      :tabid: javascript
-
-      .. include:: /includes/api-details/javascript/crud/create-or-update-object-description.rst
-
-   .. tab::
-      :tabid: kotlin
-
-      .. include:: /includes/api-details/kotlin/crud/create-or-update-object-description.rst
-
-   .. tab::
-      :tabid: objectivec
-
-      .. include:: /includes/api-details/objectivec/crud/create-or-update-object-description.rst
-
-   .. tab::
-      :tabid: swift
-
-      .. include:: /includes/api-details/swift/crud/create-or-update-object-description.rst
-
-   .. tab::
-      :tabid: typescript
-
-      .. include:: /includes/api-details/typescript/crud/create-or-update-object-description.rst
-
-.. include:: /includes/sdk-examples/crud/create-or-update-object.rst
-
-.. _sdks-create-objects-from-json:
-
-Create Objects from JSON
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-.. _sdks-create-objects-with-value:
-
-Initialize Objects with a Value
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-.. _sdks-create-copy-object-to-another-database:
-
-Copy an Object to Another Database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 .. _sdks-create-special-property-types:
 
 Create Special Property Types
@@ -691,6 +767,21 @@ Create a Counter Property Type
 
 Create a Timestamp Property Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-object-id-property-type:
+
+Create an Object ID Property Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-create-uuid-property-type:
+
+Create a UUID Property Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _flutter-create-Uint8List-property-type:
+
+Create a Uint8List Property Type (Dart)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. _sdks-create-collection-property-types:
 
