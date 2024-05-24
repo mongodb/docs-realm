@@ -41,7 +41,7 @@
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.m
+         .. literalinclude:: /examples/MissingPlaceholders/api.m
             :language: objectivec
 
      - id: swift

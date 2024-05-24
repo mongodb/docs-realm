@@ -1,0 +1,1 @@
+The Swift SDK does not support customizing loggers with Objective-c.

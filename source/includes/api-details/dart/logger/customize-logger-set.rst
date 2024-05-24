@@ -5,6 +5,9 @@ To set a custom logger, create a ``Logger`` and set it using the
 :flutter-sdk:`Realm.logger <realm/Realm/logger.html>` static
 property from the first isolate.
 
+.. literalinclude:: /examples/generated/flutter/logger.snippet.set-custom-logger.dart
+   :language: dart
+
 This sets the logger for Realm logging in this isolate.
 If you do not provide a logger, the isolate gets a logger instance by 
 default. You can attach to listen to the default logger using 
