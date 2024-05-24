@@ -1,3 +1,17 @@
+# May 24, 2024
+
+## Java SDk
+
+- Throughout the SDK: Add a note that Realm Java cannot use ``RealmAny``.
+
+## .NET SDK
+
+- Application Services/Connect to an App Services App: Add a section on updating the ``baseURL`` during runtime.
+
+## Swift SDK
+
+- Internal: Fix broken ``baseURL`` and SwiftUI property wrapper behavior.
+
 # May 17, 2024
 
 ## C++ SDK
