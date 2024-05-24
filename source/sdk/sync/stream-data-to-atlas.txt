@@ -46,6 +46,17 @@ client-side *insert-only* workloads.
 Sync Data Unidirectionally from a Client Application
 ----------------------------------------------------
 
+To use Data Ingest, stream data to Atlas using insert-only
+**asymmetric objects** in a synced database. 
+
+Atlas Device Sync completely manages the lifecycle of this data. The SDK
+maintains it on the device until Data Ingest synchronization is complete. Then,
+the SDK removes the data from the device.
+
+You cannot read, query, or delete an asymmetric object from a database. 
+Asymmetric objects are incompatible with standard, bi-directional Device Sync
+or a non-synced database.
+
 .. procedure::
 
    .. step:: Define an Asymmetric Object
@@ -60,7 +71,7 @@ Sync Data Unidirectionally from a Client Application
          .. tab::
             :tabid: csharp
 
-            .. include:: /includes/dotnet-asymmetric-object.rst
+            .. include:: /includes/api-details/csharp/sync/stream-data-define-asymmetric-object-description.rst
             
          .. tab::
             :tabid: dart
@@ -104,10 +115,6 @@ Sync Data Unidirectionally from a Client Application
 
       Unlike bi-directional Device Sync, Data Ingest does not use a 
       :ref:`Sync subscription <sdks-manage-sync-subscriptions>`.
-
-      You cannot read, query, or delete an asymmetric object from a
-      database, so asymmetric objects are incompatible with bi-directional
-      Device Sync or non-synced database use. 
 
       .. tabs-drivers::
 
@@ -180,10 +187,3 @@ Sync Data Unidirectionally from a Client Application
             .. include:: /includes/api-details/generic/sync/stream-data-create-asymmetric-objects-js-ts-description.rst
 
       .. include:: /includes/sdk-examples/sync/stream-data-create-asymmetric-objects.rst
-
-      You cannot read these objects. Once created, they sync to the App 
-      Services backend and the linked Atlas database.
-      
-      Atlas Device Sync completely manages the lifecycle of this data. 
-      It is maintained on the device until Data Ingest synchronization is 
-      complete, and then removed from the device.
