@@ -4,19 +4,19 @@
      - id: cpp
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/logger.snippet.create-custom-logger.cpp
+         .. literalinclude:: /examples/generated/cpp/logger.snippet.initialize-logger.cpp
             :language: cpp
 
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.customize-logging-function.cs
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
             :language: csharp
 
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/logger.snippet.set-custom-logger.dart
+         .. literalinclude:: /examples/generated/flutter/logger.snippet.attach-to-logger.dart
             :language: dart
 
      - id: java
@@ -29,13 +29,13 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-custom-logger.js
+         .. literalinclude:: /examples/MissingPlaceholders/example.js
             :language: javascript
 
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.define-custom-logger.kt
+         .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.set-custom-realmlog-logger.kt
             :language: kotlin
 
      - id: objectivec
@@ -47,11 +47,11 @@
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/Logging.snippet.define-custom-logger.swift
+         .. literalinclude:: /examples/generated/code/start/Logging.snippet.set-default-logger.swift
             :language: swift
 
      - id: typescript
        content: |
 
-         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-custom-logger.ts
+         .. literalinclude:: /examples/generated/MissingPlaceholders/api.ts
             :language: typescript
