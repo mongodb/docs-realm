@@ -11,3 +11,6 @@ Then, you can initialize your custom logger and call the
 function to set it as a logger for your app.
 
 You can also remove a specific logger or remove all loggers, including the system logger.
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.set-custom-realmlog-logger.kt
+   :language: kotlin

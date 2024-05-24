@@ -6,4 +6,7 @@ and override the virtual ``do_log()`` member function.
    :language: cpp
 
 Then, initialize an instance of the logger and set it as the default logger
-for your realm.
+for your realm:
+
+.. literalinclude:: /examples/generated/cpp/logger.snippet.initialize-logger.cpp
+   :language: cpp
