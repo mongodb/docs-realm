@@ -102,8 +102,6 @@ which creates a managed instance.
   You cannot use the SDK's APIs with unmanaged objects or observe them for
   changes.
 
-.. _sdks-create-object-methods:
-
 Create Object Methods
 ---------------------
 
