@@ -24,7 +24,8 @@ Serialization allows for easier integration with MongoDB APIs.
 Supported Data Types for Serialization
 --------------------------------------
 
-The following data types can be serialized and deserialized:
+The following :flutter-sdk:`defined enum values <realm/EJsonType.html>` 
+can be serialized and deserialized:
 
 - Array
 - Binary
@@ -66,36 +67,15 @@ Serialization
 For objects in a Realm, you can serialize to EJSON using the 
 :flutter-sdk:`toEjson() <realm/toEJson.html>` method in the following two ways: 
 
-.. literalinclude:: /examples/generated/flutter/serialization_test.snippet.serialize.dart
-    :language: dart
+.. io-code-block::
+    :copyable: true
+    
+    .. input:: /examples/generated/flutter/serialization_test.snippet.serialize.dart
+        :language: dart
 
-The outputted EJSON looks like the following:
-
-.. code-block:: EJSON
-
-    {
-        type: Jumping Spider, 
-        numberOfLegs: {$numberInt: 8}, 
-        birthDate: {$date: {$numberLong: 1712707200000}}, 
-        price: null
-    }
-
-   .. io-code-block::
-      :copyable: true
-
-      .. input:: /examples/generated/node/mongodb.snippet.filter-documents.js
-         :language: js
-
-      .. output:: 
+    .. output:: /examples/generated/flutter/serialization_results.snippet.serialization-results.dart
         :language: json
-         :visible: true
-
-        {
-            type: Jumping Spider, 
-            numberOfLegs: {$numberInt: 8}, 
-            birthDate: {$date: {$numberLong: 1712707200000}}, 
-            price: null
-        }
+        :visible: true
 
 Deserialization
 ---------------

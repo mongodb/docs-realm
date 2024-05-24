@@ -32,10 +32,7 @@ main() {
   EJsonValue serializeWithCall = spider.toEJson();
   // :snippet-end:
 
-  print(serializeWithCall);
-
   test('serialize', () {
-    print(serializeByParam);
 
     EJsonValue different = spider.toEJson();
     print(different);
@@ -51,6 +48,9 @@ main() {
       },
       'price': null,
     });
+
+    // make sure two methods of serialization match
+    expect(serializeByParam, serializeWithCall);
   });
 
   test('deserialize', () {
