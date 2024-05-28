@@ -42,6 +42,7 @@ can be serialized and deserialized:
 - Symbol
 - Null
 - Undefined
+- :ref:`RealmValue <flutter-realm-value>`
 
 The SDK does not currently support the following types: Code, CodeWScope, DBPointer,
 DBRef, Regular Expression, and Timestamp. 
@@ -73,9 +74,14 @@ For objects in a Realm, you can serialize to EJSON using the
     .. input:: /examples/generated/flutter/serialization_test.snippet.serialize.dart
         :language: dart
 
-    .. output:: /examples/generated/flutter/serialization_results.snippet.serialization-results.dart
-        :language: json
-        :visible: true
+    .. output:: 
+
+        {
+            type: Jumping Spider, 
+            numberOfLegs: {$numberInt: 8}, 
+            birthDate: {$date: {$numberLong: 1712707200000}}, 
+            price: null
+        }
 
 Deserialization
 ---------------
@@ -86,3 +92,15 @@ a deserialized instance of the specified object type.
 
 .. literalinclude:: /examples/generated/flutter/serialization_test.snippet.deserialize.dart
     :language: dart
+
+Custom Encoders
+---------------
+
+For non-realm classes, you can use the ``@ejson`` annotation to generate an 
+encoder and decoder. 
+
+.. literalinclude:: /examples/generated/flutter/person.snippet.ejson-annotation.dart
+    :language: dart
+
+ You can also :flutter-sdk:`register <realm/register.html>` custom encoders and decoders
+ is neccessary. 
