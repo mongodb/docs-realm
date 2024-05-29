@@ -1,3 +1,2 @@
-The Kotlin SDK implements the
-`RealmLogger <{+kotlin-local-prefix+}io.realm.kotlin.log/-realm-logger/index.html>`__
-interface for custom loggers.
+The Kotlin SDK implements the :kotlin-sdk:`RealmLogger 
+<-realm-logger/index.html>` interface for custom loggers.

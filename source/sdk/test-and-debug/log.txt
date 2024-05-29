@@ -270,6 +270,8 @@ it as the default logger for your database.
 
 .. include:: /includes/sdk-examples/logger/logging-set-custom-logger-2.rst
 
+.. include:: /includes/tip-sync-log-levels.rst
+
 .. _sdks-turn-off-logging:
 
 Turn Off Logging
@@ -344,8 +346,53 @@ You can turn off logging by setting the log level:
          .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.disable-logger.ts
             :language: typescript
 
-.. Dart: You can specify different log levels or custom loggers on a per-isolate basis.
-.. C++ and Java: they haven't deprecated the sync logger. Need two main page sections
-   one for the new logger and one for the sync logger.
-.. Swift: Has a Set the Logger Before Initializing an App Client section not found in the other sdks. Should make an admonition
-.. Node.js has "Performance and console.log()" section. Should make an admonition
+Java SDK: Deprecated Sync Logger
+--------------------------------
+
+The Java SDK's only logger is a deprecated sync logger that behaves differently
+than the rest of the examples on this page. You can
+view these events using :android:`Logcat </studio/debug/am-logcat>`.
+
+The Java SDK uses the log levels defined by `Log4J
+<https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html>`_.
+To configure the log level for database logs in your application, pass a
+:java-sdk:`LogLevel <io/realm/log/LogLevel.html>` to 
+:java-sdk:`RealmLog.setLevel() <io/realm/log/RealmLog.html#setLevel-int->`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.snippet.set-client-log-level.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.snippet.set-client-log-level.java
+         :language: java
+         :copyable: false
+
+C++ SDK: Deprecated Sync Logger
+--------------------------------
+
+The C++ SDK uses a sync logger that behaves differently than the rest of the
+examples on this page. You can set or change your sync client's log level to
+develop or debug your application. You might want to change the log level to log different 
+amounts of data depending on the app's environment.
+
+.. _cpp-set-the-client-log-level:
+
+Set the Sync Client Log Level
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can set the level of detail reported by the sync client logger to 
+specify the level of output you want from the sync client. Get 
+:cpp-sdk:`an instance of an App's sync manager <structrealm_1_1internal_1_1bridge_1_1sync__manager.html>`, 
+and pass a :cpp-sdk:`realm::logger::level <structrealm_1_1logger.html>`
+to the ``set_log_level()`` member function:
+
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.set-sync-log-level.cpp
+   :language: cpp
