@@ -1,6 +1,7 @@
-To set a custom logger, call :js-sdk:`setLogger() <classes/Realm-1.html#setLogger>`.
-This method recieves ``level`` and ``message`` arguments from the Realm logger.
-You can use these arguments to define your own logging behavior.
+To set a custom logger with the Node.js SDK, call :js-sdk:`setLogger() 
+<classes/Realm-1.html#setLogger>`. This method recieves ``level`` and
+``message`` arguments from the Realm logger. You can use these arguments to
+define your own logging behavior.
 
 This sets the logging behavior for all Realm logging in your application. If you
 do not provide a log level, the default value is "info".
