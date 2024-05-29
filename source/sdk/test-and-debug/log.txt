@@ -216,6 +216,9 @@ debugging.
 
 .. include:: /includes/sdk-examples/logger/set-custom-logger.rst
 
+After setting a custom logger, you should also initialize the logger and and set
+it as the default logger for your database.
+
 .. tabs-drivers::
 
    .. tab::
@@ -275,21 +278,77 @@ debugging.
 Turn Off Logging
 ----------------
 
-You can turn off logging by setting the log level to ``RealmLogLevel.off``:
+You can turn off logging by setting the log level:
 
-.. literalinclude:: /examples/generated/flutter/logger.snippet.set-log-level-to-off.dart
-   :language: dart
+.. note:: Flutter SDK Isolates and Logging Behavior
 
-Or you can clear all ``Realm.logger`` listeners:
+   For the Flutter SDK, if you turn off logging from the first isolate, this
+   stops the default printing logger.
 
-.. literalinclude:: /examples/generated/flutter/logger.snippet.clear-listeners.dart
-   :language: dart
+.. tabs-drivers::
 
-If you turn off logging from the first isolate, this stops the default 
-printing logger.
+   tabs:
+     - id: cpp
+       content: |
 
+         .. literalinclude:: /examples/MissingPlaceholders/example.cpp
+            :language: cpp
+            :copyable: false
+
+     - id: csharp
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+            :language: csharp
+            :copyable: false
+
+     - id: dart
+       content: |
+
+         .. literalinclude:: /examples/generated/flutter/logger.snippet.set-custom-logger.dart
+            :language: dart
+
+     - id: java
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
+            :language: java
+            :copyable: false
+
+     - id: javascript
+       content: |
+
+         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.disable-logger.ts
+            :language: javascript
+
+     - id: kotlin
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+            :language: kotlin
+            :copyable: false
+
+     - id: objectivec
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/api.m
+            :language: objectivec
+            :copyable: false
+
+     - id: swift
+       content: |
+
+         .. literalinclude:: /examples/generated/code/start/Logging.snippet.turn-logging-off.swift
+            :language: swift
+
+     - id: typescript
+       content: |
+
+         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.disable-logger.ts
+            :language: typescript
 
 .. Dart: You can specify different log levels or custom loggers on a per-isolate basis.
 .. C++ and Java: they haven't deprecated the sync logger. Need two main page sections
    one for the new logger and one for the sync logger.
-.. Swift: Has a Set the Logger Before Initializing an App Client section not found in the other sdks
+.. Swift: Has a Set the Logger Before Initializing an App Client section not found in the other sdks. Should make an admonition
+.. Node.js has "Performance and console.log()" section. Should make an admonition

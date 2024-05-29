@@ -1,10 +1,9 @@
-This sets the logger for databse logging in this isolate.
+In the Flutter SDK, you set a logger for database logging in an isolate.
 If you do not provide a logger, the isolate gets a logger instance by 
-default. You can attach to listen to the default logger using 
-``Realm.logger.onRecord.listen``:
+default. You can to the default logger using ``Realm.logger.onRecord.listen``:
 
-Only the first isolate that is using the database prints the log messages. Any
-new spawned isolates that work with the database get a new ``Realm.logger``
+Only the first isolate that uses the database prints log messages. Any
+newly-spawned isolates that work with the database get a new ``Realm.logger``
 instance, but do not ``print`` by default.
 
 The default log level is :flutter-sdk:`RealmLogLevel.info 
