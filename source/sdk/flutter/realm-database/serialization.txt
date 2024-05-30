@@ -96,11 +96,11 @@ a deserialized instance of the specified object type.
 Custom Encoders
 ---------------
 
-For non-Realm classes, you can use the ``@ejson`` annotation to generate an 
-encoder and decoder:
+For non-Realm classes, you can use the ``@ejson`` annotation to the class constructor
+to generate a decoder and encoder:
 
 .. literalinclude:: /examples/generated/flutter/person.snippet.ejson-annotation.dart
     :language: dart
 
 You can also :flutter-sdk:`register <realm/register.html>` custom encoders and decoders
-if neccessary. 
+if necessary. 
