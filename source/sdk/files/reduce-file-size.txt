@@ -22,6 +22,95 @@ Reduce Database File Size
 
 .. facet::
   :name: programming_language
-  :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+  :values: cpp, csharp, dart, java, kotlin, objective-c, swift
 
-Placeholder page for compacting a realm.
+The size of a realm file is always larger than the total 
+size of the objects stored within it. This architecture enables some of 
+realm's great performance, concurrency, and safety benefits. 
+
+Realm writes new data within unused space tracked inside a
+file. In some situations, unused space may comprise a significant 
+portion of a realm file. Realm's default behavior is to automatically 
+compact a realm file to prevent it from growing too large. 
+You can use manual compaction strategies when 
+automatic compaction is not sufficient for your use case 
+or you're using a version of the SDK that doesn't have automatic 
+compaction.
+
+Automatic Compaction
+--------------------
+
+The SDK automatically compacts Realm files in the background by continuously reallocating data 
+within the file and removing unused file space. Automatic compaction is sufficient for minimizing the Realm file size 
+for most applications. 
+
+Automatic compaction begins when the size of unused space in the file is more than twice the size of user 
+data in the file. Automatic compaction only takes place when
+the file is not being accessed.
+
+.. tabs-drivers::
+
+   tabs:
+     - id: cpp-sdk
+       content: |
+
+         .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
+           :language: cpp
+
+     - id: csharp
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+            :language: csharp
+
+     - id: dart
+       content: |
+
+         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+            :language: dart
+
+     - id: java
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
+            :language: java
+
+     - id: java-kotlin
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+            :language: kotlin
+
+     - id: javascript
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example.js
+            :language: javascript
+
+     - id: kotlin
+       content: |
+
+         .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
+            :language: kotlin
+            :emphasize-lines: 10, 11
+
+     - id: objectivec
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example.m
+            :language: objectivec
+
+     - id: swift
+       content: |
+
+         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
+            :language: swift
+
+     - id: typescript
+       content: |
+
+         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+            :language: typescript
+
+Manual Compaction Strategies
+----------------------------
