@@ -4,10 +4,480 @@
 Quick Start
 ===========
 
+.. meta::
+   :description: Learn how to quickly get started with Atlas Device SDK.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for quick start content.
+.. tabs-selector:: drivers
+
+This Quick Start demonstrates how to use Atlas Device SDK. 
+Before you begin, ensure you have :ref:`Installed the SDK <sdks-install>`.
+
+Import the SDK
+---------------
+
+.. tip::
+
+   Atlas Device SDK was previously named Realm. The SDK library names still
+   reflect Realm naming. To import the SDK, you import Realm.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/quick-start/quick-start-import-realm-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/quick-start/quick-start-import-realm-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/quick-start/quick-start-import-realm-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-import-realm-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-import-realm-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-import-realm-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/quick-start/quick-start-import-realm-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/quick-start/quick-start-import-realm-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-import-realm-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-import-realm.rst
+
+Define Your Object Model
+------------------------
+
+For a non-synced database, you can define your :ref:`object model
+<sdks-object-models>` directly in code. For a synced database, your client
+object models require a matching schema in Atlas. For more details, refer to
+:ref:`sdks-model-data-device-sync`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/quick-start/quick-start-define-your-object-model-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/quick-start/quick-start-define-your-object-model-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/quick-start/quick-start-define-your-object-model-procedure.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-define-your-object-model-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-define-your-object-model-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-define-your-object-model-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/quick-start/quick-start-define-your-object-model-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/quick-start/quick-start-define-your-object-model-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-define-your-object-model-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-define-your-object-model.rst
+
+Open a Database
+---------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/quick-start/quick-start-open-database-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/quick-start/quick-start-open-database-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/quick-start/quick-start-open-database-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-open-database-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-open-database-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-open-database-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/quick-start/quick-start-open-database-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/quick-start/quick-start-open-database-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-open-database-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-open-database.rst
+
+For more information, refer to :ref:`sdks-configure-and-open-database`.
+
+Create, Read, Update, and Delete Objects
+----------------------------------------
+
+Once you have opened a database, you can modify it and its objects in a
+:ref:`write transaction <sdks-write-transactions>` block.
+
+Create
+~~~~~~
+
+To instantiate a new object and add it to the database in a write block:
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-create-objects.rst
+
+For more information about creating objects, refer to :ref:`sdks-crud-create`.
+
+Read and Filter
+~~~~~~~~~~~~~~~
+
+You can retrieve a :ref:`results collection <sdks-read-results>` of 
+all objects of a given type in the database:
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-read-objects.rst
+
+For more information about reading objects, refer to :ref:`sdks-crud-read`.
+
+You can also filter that collection:
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-filter-objects.rst
+
+For more information about the SDK query engines, refer to 
+:ref:`sdks-query-engines`.
+
+Update
+~~~~~~
+
+To modify an object, update its properties in a write transaction block:
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-update-object-properties.rst
+
+For more information about updating objects, refer to :ref:`sdks-crud-update`.
+
+Delete
+~~~~~~
+
+Finally, you can delete an object:
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-delete-objects.rst
+
+For more information about deleting objects, refer to :ref:`sdks-crud-delete`.
+
+Watch for Changes
+-----------------
+
+You can watch a database, a collection, or an object for changes:
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-react-to-changes.rst
+
+For more information about reacting to changes, including details about
+unregistering the listener to stop watching and free up resources, refer to
+:ref:`sdks-react-to-changes`.
+
+Close a Database
+----------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/quick-start/quick-start-close-database-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/quick-start/quick-start-close-database-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/quick-start/quick-start-close-database-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-close-database-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-close-database-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-close-database-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/quick-start/quick-start-close-database-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/quick-start/quick-start-close-database-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-close-database-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-close-database.rst
+
+Add Device Sync
+---------------
+
+If you want to sync data across devices, you can enable Device Sync in Atlas.
+For more information on Device Sync, refer to :ref:`sync`.
+
+Prerequisites
+~~~~~~~~~~~~~
+
+Before you can sync device data, you must:
+
+- :ref:`Create an App Services App <create-a-realm-app>`
+- :ref:`Enable anonymous authentication <anonymous-authentication>`
+- :ref:`Enable Device Sync <enable-flexible-sync>` with  :ref:`Development Mode 
+  <development-mode>` toggled to ``On``.
+- :ref:`Define the rules <define-roles-and-permissions>` that determine which 
+   permissions users have when using Device Sync.
+
+.. _cpp-quick-start-init-app:
+
+Initialize the App
+~~~~~~~~~~~~~~~~~~
+
+The SDK uses an ``App`` to connect to Atlas, manage users, and report certain
+types of errors. Initialize the ``App`` connection.
+
+.. include:: /includes/access-app-id.rst
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-initialize-app.rst
+
+For more details about configuring and initializing the App connection, refer
+to :ref:`sdks-connect-to-atlas`.
+
+.. _cpp-quick-start-authenticate:
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+In this quick start, you use :ref:`anonymous authentication <anonymous-authentication>`
+to log in users without requiring them to provide any identifying information.
+After authenticating the user, you can open a database for that user.
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-authenticate-user.rst
+
+The SDK provides many additional ways to authenticate, register, and link
+users. For other authentication providers, refer to 
+:ref:`sdks-authenticate-users`.
+
+Open a Synced Database
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/quick-start/quick-start-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/quick-start/quick-start-open-synced-database-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/quick-start/quick-start-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/quick-start/quick-start-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-open-synced-database-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/quick-start/quick-start-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/quick-start/quick-start-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/quick-start/quick-start-open-synced-database-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/quick-start/quick-start-open-synced-database.rst
+
+For more details about opening a synced database, refer to
+:ref:`sdks-configure-and-open-synced-database`.
+
+For more details about Sync subscriptions, refer to 
+:ref:`sdks-manage-sync-subscriptions`.
+
+Read, Write, and React to Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The syntax to :ref:`read <sdks-crud-read>`, :ref:`write
+<sdks-write-transactions>`, and :ref:`watch for changes <sdks-react-to-changes>`
+on a synced database is identical to the syntax for non-synced databases above. 
+
+The only difference here is the addition of a property that we can use to
+find the user's todos and set Sync permissions. We query for only the user's
+todos in the subscription, and set Sync permissions to 
+:guilabel:`Users can only read and write their own data`. 
+
+For more information about Sync permissions, refer to :ref:`sync-permissions`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/quick-start/quick-start-write-to-synced-db.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      
+.. include:: /includes/sdk-examples/quick-start/quick-start-write-to-synced-db.rst
+
+While you work with local data, a background thread efficiently integrates, 
+uploads, and downloads changesets. 
+
+.. include:: /includes/sync-memory-performance.rst
+
+Next: Check out the Template Apps and Tutorial
+----------------------------------------------
+
+Check out the :ref:`template apps <template-apps>` to experiment with another
+quick way to start coding with Atlas Device SDK. Each SDK has an application
+that integrates Atlas Device SDK and Atlas Device Sync in a platform-idiomatic
+todo app.
+
+If you're more interested in a guided experience, you can read our
+:ref:`Device Sync tutorials <app-services-get-started>` to learn how to expand
+on the template app.
+
+Finally, if you'd like to browse example applications for specific use cases,
+check out our list of curated :ref:`realm-examples`.
