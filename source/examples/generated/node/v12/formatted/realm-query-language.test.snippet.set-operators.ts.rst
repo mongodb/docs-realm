@@ -3,8 +3,8 @@
      // Find projects with no complete items.
      "NONE items.isComplete == $0", true
 
-     // Find projects that contain an item with priority 10.
-     "ANY items.priority == $0", 10
+     // Find projects that contain any item with priority 10.
+     "items.priority == $0", 10 // (ANY operator is implied.)
 
      // Find projects that only contain completed items.
      "ALL items.isComplete == $0", true
@@ -13,5 +13,6 @@
      // either Alex or Ali.
      "ANY items.assignee IN { $0 , $1 }", "Alex", "Ali"
 
-     // Projects with no items assigned to either Alex or Ali.
+     // Find projects with no items assigned to either
+     // Alex or Ali.
      "NONE items.assignee IN { $0 , $1 }", "Alex", "Ali"

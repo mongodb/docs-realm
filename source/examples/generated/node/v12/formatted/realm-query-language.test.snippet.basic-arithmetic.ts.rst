@@ -1,5 +1,8 @@
 .. code-block:: typescript
 
-     // Find items with a `priority` greater than 3.
-     "2 * priority > 6" // `priority > 3`
-     "priority >= 2 * (2 - 1) + 2" // `priority >= 4`
+       // Evaluate against an item's `priority` property value:
+       "2 * priority > 6" // resolves to `priority > 3`
+       "priority >= 2 * (2 - 1) + 2" // resolves to `priority >= 4`
+
+       // Evaluate against multiple object property values:
+       "progressMinutes * priority == 90"

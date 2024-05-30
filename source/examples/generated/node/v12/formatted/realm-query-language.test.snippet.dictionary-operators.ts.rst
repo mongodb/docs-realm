@@ -1,25 +1,21 @@
 .. code-block:: typescript
 
-     // Find `comments` dictionary properties with key 'status'.
+     // Find projects whose `comments` dictionary property
+     // have a key of 'status'.
      "comments.@keys == $0", "status"
 
-     // Find `comments` dictionary properties with key 'status'
-     // and value 'On track'.
-     "comments['status'] == $0", "On track"
-     // Find `comments` dictionary properties with
-     // more than one key-value pair.
+     // Find projects whose `comments` dictionary property
+     // have a 'status' key with a value that ends in 'track'.
+     "comments['status'] LIKE $0", "*track"
+
+     // Find projects whose `comments` dictionary property
+     // have more than one key-value pair.
      "comments.@count > $0", 1
 
-     // Find `comments` dictionary properties where ANY
-     // values are of type 'string`.
-     "ANY comments.@type == 'string'"
-     "comments.@type == 'string'" // (Equivalent - ANY is implied.)
+     // Find projects whose `comments` dictionary property
+     // contains only values of type 'string'.
+     "ALL comments.@type == 'string'"
 
-     // Find `comments` dictionary properties where ALL
-     // values are of type 'int'.
-     "ALL comments.@type == 'int'"
-
-     // Find `comments` dictionary properties where NO
-     // values are of type 'int'.
+     // Find projects whose `comments` dictionary property
+     // contains no values of type 'int'.
      "NONE comments.@type == 'int'"
-

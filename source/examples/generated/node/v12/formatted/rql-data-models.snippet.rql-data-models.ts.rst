@@ -33,6 +33,7 @@
      quota?: number;
      comments?: Realm.Dictionary<string>;
      projectLocation?: Office;
+     additionalInfo!: Realm.Mixed;
 
      static schema: ObjectSchema = {
        name: "Project",
@@ -43,6 +44,7 @@
          quota: "int?",
          comments: "string?{}",
          projectLocation: "Office?",
+         additionalInfo: "mixed",
        },
        primaryKey: "_id",
      };

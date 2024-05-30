@@ -3,9 +3,6 @@
      // Compare `priority` values against a threshold value.
      "priority > $0", 5
 
-     // Compare `progressMinutes` values against a threshold value.
-     "progressMinutes > $0", 120
-
      // Compare `assignee` values to `null` value.
      "assignee == $0", null
 
