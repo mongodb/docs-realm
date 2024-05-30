@@ -48,20 +48,71 @@ Automatic compaction begins when the size of unused space in the file is more th
 data in the file. Automatic compaction only takes place when
 the file is not being accessed.
 
+Manual Compaction Strategies
+----------------------------
+
+
+
 .. tabs-drivers::
 
    tabs:
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
-           :language: cpp
+         Manual compaction can be used for applications that require stricter 
+         management of file size.
+
+         Realm manual compaction works by:
+
+         1. Reading the entire contents of the realm file
+         2. Writing the contents to a new file at a different location
+         3. Replacing the original file
+
+         If the file contains a lot of data, this can be an expensive operation.
+
+         Use the 
+         :cpp-sdk:`should_compact_on_launch() <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
+         method on the database configuration to attempt to compact the database. 
+         Specify conditions to execute this method, such as:
+
+         - The size of the file on disk
+         - How much free space the file contains
+
+         The following example shows setting the conditions to compact a realm if the 
+         file is above 100 MB and 50% or less of the space in the realm file is used.
+
+         .. literalinclude:: /examples/generated/cpp/compact.snippet.compact-database.cpp
+            :language: cpp
 
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+         Realm Configuration File
+         ~~~~~~~~~~~~~~~~~~~~~~~~
+
+         You can configure Realm to check the realm file each time 
+         it is opened by specifying a 
+         :dotnet-sdk:`ShouldCompactDelegate <reference/Realms.RealmConfiguration.ShouldCompactDelegate.html>` 
+         in the configuration. The following code example shows how to do this:
+
+         .. literalinclude:: /examples/generated/dotnet/Compact.snippet.config-compact.cs
             :language: csharp
+
+         If the delegate returns ``true`` -- and the file is not in use -- the realm file 
+         is compacted prior to making the instance available.
+
+
+         Realm.Compact() Method
+         ~~~~~~~~~~~~~~~~~~~~~~
+         Alternatively, you can compact a realm file without first obtaining an instance 
+         to the realm by calling the 
+         :dotnet-sdk:`Compact() <reference/Realms.Realm.html#Realms_Realm_Compact_Realms_RealmConfigurationBase_>`
+         method. The following example shows how to do this:
+
+         .. literalinclude:: /examples/generated/dotnet/Compact.snippet.manual-compact.cs
+            :language: csharp
+
+         The ``Compact`` method will return true if the operation is successful.
 
      - id: dart
        content: |
@@ -111,6 +162,3 @@ the file is not being accessed.
 
          .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
             :language: typescript
-
-Manual Compaction Strategies
-----------------------------
