@@ -2,16 +2,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'utils.dart';
 
-part 'serialization_test.realm.dart';
-
-@RealmModel()
-class _Pet {
-  late String type;
-  late int numberOfLegs;
-  late DateTime birthDate;
-
-  late double? price;
-}
+import './pet.dart';
 
 main() {
   final config = Configuration.local([Pet.schema]);
@@ -65,4 +56,6 @@ main() {
     expect(deserializeFromEjson.type, spider.type);
 
   });
+
+  cleanUpRealm(realm);
 }
