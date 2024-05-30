@@ -104,7 +104,7 @@ Manual Compaction Strategies
 
          Realm.Compact() Method
          ++++++++++++++++++++++
-         
+
          Alternatively, you can compact a realm file without first obtaining an instance 
          to the realm by calling the 
          :dotnet-sdk:`Compact() <reference/Realms.Realm.html#Realms_Realm_Compact_Realms_RealmConfigurationBase_>`
@@ -118,20 +118,76 @@ Manual Compaction Strategies
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+         Realm.compact() Static Method
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+         You can compact a realm file by calling :flutter-sdk:`Realm.compact() 
+         <realm/Realm/compact.html>`. This method takes a :flutter-sdk:`Configuration 
+         <topics/Configuration-topic.html>` as an argument. When you use this method, 
+         the device must have enough free space to make a copy of the realm.
+
+         ``Realm.compact()`` obtains an instance of the realm, and opens it to 
+         trigger any schema version upgrades, file format upgrades, migration and 
+         initial data callbacks. Upon successfully opening the realm and performing 
+         these operations, this method then compacts the realm.
+
+         If successful, a call to ``Realm.compact()`` returns ``true``.
+
+         Do not call this method from inside a transaction. You also cannot compact an 
+         open realm.
+
+         .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-static-method.dart
+            :language: dart
+
+         .. _flutter-should-compact-callback:
+
+         Conditionally Compact on Open
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+         You can define a :flutter-sdk:`shouldCompactCallback()
+         <realm/LocalConfiguration/shouldCompactCallback.html>` as a property of a
+         realm's configuration. You can use this with both local-only and synced realms
+         with the :flutter-sdk:`Configuration.local() <realm/Configuration/local.html>`
+         and :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`
+         methods, respectively.
+
+         This callback takes two ``int`` values representing the total number of 
+         bytes and the used bytes of the realm file on disk. The callback returns 
+         a ``bool``. Compaction only occurs if the ``bool`` returns ``true`` and 
+         another process is not currently accessing the realm file.
+
+         The most basic usage is to define a file size at which compaction should occur.
+
+         .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-with-callback.dart
+            :language: dart
+
+         You can define more complex logic if you need to optimize performance for 
+         different use cases. For example, you could set a threshold for compaction
+         when a certain percentage of the file size is used.
+
+         .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-with-callback-and-logic.dart
             :language: dart
 
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
-            :language: java
+         You can remove unused space by **compacting** the realm file:
 
-     - id: java-kotlin
-       content: |
+         - Manually: call :java-sdk:`compactRealm()
+         <io/realm/Realm.html#compactRealm-io.realm.RealmConfiguration->`
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
-            :language: kotlin
+         - Automatically: specify the :java-sdk:`compactOnLaunch()
+         <io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback->`
+         builder option when opening the first connection to a realm in your
+         Android application
+
+         .. important:: Compact All Production Applications
+
+            Every production application should implement compacting to 
+            periodically reduce realm file size.
+
+                  .. literalinclude:: /examples/MissingPlaceholders/api.java
+                     :language: java
 
      - id: javascript
        content: |
@@ -142,9 +198,59 @@ Manual Compaction Strategies
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
+         Realm Configuration File
+         ~~~~~~~~~~~~~~~~~~~~~~~~
+
+         You can configure Realm to compact the realm file each time it is opened
+         by setting a callback for the `compactOnLaunch 
+         <{+kotlin-local-prefix+}io.realm.kotlin/-configuration/-shared-builder/compact-on-launch.html>`__ function
+         for the configuration. When you call ``compactOnLaunch`` for the 
+         configuration, the `DEFAULT_COMPACT_ON_LAUNCH_CALLBACK 
+         <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/
+         -d-e-f-a-u-l-t_-c-o-m-p-a-c-t_-o-n_-l-a-u-n-c-h_-c-a-l-l-b-a-c-k.html>`__ 
+         will trigger if the file is above 50 MB and 50% or more of the space in 
+         the realm file is unused. You can specify custom compaction settings 
+         when calling ``compactOnLaunch`` depending on your applications needs.
+         The following code example shows how to do this:
+
+         .. literalinclude:: /examples/generated/kotlin/Compacting.snippet.compactOnLaunch.kt
             :language: kotlin
-            :emphasize-lines: 10, 11
+
+         Realm.compactRealm Method
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         Alternatively, you can compact a realm file without having to open it by calling 
+         the `compactRealm <{+kotlin-local-prefix+}
+         io.realm.kotlin/-realm/-companion/compact-realm.html>`__ method:
+
+         .. literalinclude:: /examples/generated/kotlin/Compacting.snippet.compactRealm.kt
+            :language: kotlin
+
+         The ``compactRealm`` method will return true if the operation is successful 
+         and false if not.
+
+         .. important::
+
+            `compactRealm <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/compact-realm.html>`__ 
+            is not available on Windows (JVM), and will throw a 
+            `NotImplementedError <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-not-implemented-error/>`_ there.
+
+         Make a Compacted Copy
+         ~~~~~~~~~~~~~~~~~~~~~
+
+         You can save a compacted (and optionally :ref:`encrypted
+         <kotlin-encrypt-a-realm>`) copy of a realm to another file location
+         with the `Realm.writeCopyTo
+         <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__
+         method. The destination file cannot already exist.
+
+         .. important::
+
+            Avoid calling ``writeCopyTo`` within a :ref:`write transaction
+            <kotlin-write-transactions>`. If called within a write transaction, this
+            method copies the absolute latest data. This includes any
+            **uncommitted** changes you made in the transaction before this
+            method call.
+
 
      - id: objectivec
        content: |
