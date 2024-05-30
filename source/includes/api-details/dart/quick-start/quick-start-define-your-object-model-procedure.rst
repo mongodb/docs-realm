@@ -7,33 +7,31 @@ class that's used within your application.
 For more information, refer to :ref:`Define an Object Schema 
 <sdks-define-object-schema>`.
 
-.. procedure::
+**Create a Model Class**
 
-   .. step:: Create a Model Class
+Add an SDK model class. Give your class a private name
+(starting with ``_``), such as a file ``car.dart`` with a class
+``_Car``.
 
-      Add an SDK model class. Give your class a private name
-      (starting with ``_``), such as a file ``car.dart`` with a class
-      ``_Car``.
+**Generate an SDK Object Class**
 
-   .. step:: Generate an SDK Object Class
+Generate a RealmObject class ``Car`` from the data model class ``_Car``:
 
-      Generate a RealmObject class ``Car`` from the data model class ``_Car``:
+.. code-block::
 
-      .. code-block::
+   dart run realm_dart generate
 
-         dart run realm_dart generate
+Running this creates a ``Car`` class in a ``car.realm.dart`` file
+located in the directory where you defined the model class. This ``Car``
+class is public and part of the same library as the ``_Car`` data model
+class. The generated ``Car`` class is what's used throughout your
+application.
 
-      Running this creates a ``Car`` class in a ``car.realm.dart`` file
-      located in the directory where you defined the model class. This ``Car``
-      class is public and part of the same library as the ``_Car`` data model
-      class. The generated ``Car`` class is what's used throughout your
-      application.
+*Watch for Changes to the Model (Optional)*
 
-   .. step:: Watch for Changes to the Model (Optional)
+You can watch your data model class to generate a new ``Car`` class
+whenever there's a change to ``_Car``:
 
-      You can watch your data model class to generate a new ``Car`` class
-      whenever there's a change to ``_Car``:
+.. code-block::
 
-      .. code-block::
-
-         dart run realm_dart generate --watch
+   dart run realm_dart generate --watch
