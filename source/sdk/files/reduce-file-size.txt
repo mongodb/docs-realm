@@ -51,6 +51,130 @@ the file is not being accessed.
 Manual Compaction Strategies
 ----------------------------
 
+Edit the Realm Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   tabs:
+     - id: cpp-sdk
+       content: |
+
+         Use the :cpp-sdk:`should_compact_on_launch() <structrealm_1_1internal_1_1bridge_1_1realm_1_1config.html>` 
+         method on the database configuration to attempt to compact the database. 
+         Specify conditions to execute this method, such as:
+
+         - The size of the file on disk
+         - How much free space the file contains
+
+         The following example shows setting the conditions to compact a realm if the 
+         file is above 100 MB and 50% or less of the space in the realm file is used.
+
+         .. literalinclude:: /examples/generated/cpp/compact.snippet.compact-database.cpp
+            :language: cpp
+
+     - id: csharp
+       content: |
+
+         You can configure Realm to check the realm file each time 
+         it is opened by specifying a 
+         :dotnet-sdk:`ShouldCompactDelegate <reference/Realms.RealmConfiguration.ShouldCompactDelegate.html>` 
+         in the configuration. The following code example shows how to do this:
+
+         .. literalinclude:: /examples/generated/dotnet/Compact.snippet.config-compact.cs
+            :language: csharp
+
+         If the delegate returns ``true`` -- and the file is not in use -- the realm file 
+         is compacted prior to making the instance available.
+
+     - id: dart
+       content: |
+
+         You can define a :flutter-sdk:`shouldCompactCallback()
+         <realm/LocalConfiguration/shouldCompactCallback.html>` as a property of a
+         realm's configuration. You can use this with both local-only and synced realms
+         with the :flutter-sdk:`Configuration.local() <realm/Configuration/local.html>`
+         and :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`
+         methods, respectively.
+
+         This callback takes two ``int`` values representing the total number of 
+         bytes and the used bytes of the realm file on disk. The callback returns 
+         a ``bool``. Compaction only occurs if the ``bool`` returns ``true`` and 
+         another process is not currently accessing the realm file.
+
+         The most basic usage is to define a file size at which compaction should occur.
+
+         .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-with-callback.dart
+            :language: dart
+
+         You can define more complex logic if you need to optimize performance for 
+         different use cases. For example, you could set a threshold for compaction
+         when a certain percentage of the file size is used.
+
+         .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-with-callback-and-logic.dart
+            :language: dart
+
+     - id: java
+       content: |
+
+         Specify the :java-sdk:`compactOnLaunch()
+         <io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback->`
+         builder option when opening the first connection to a realm in your
+         Android application.
+
+         .. important:: Compact All Production Applications
+
+            Every production application should implement compacting to 
+            periodically reduce realm file size.
+
+     - id: java-kotlin
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+            :language: kotlin
+
+     - id: javascript
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example.js
+            :language: javascript
+
+     - id: kotlin
+       content: |
+
+         .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
+            :language: kotlin
+            :emphasize-lines: 10, 11
+
+     - id: objectivec
+       content: |
+
+         .. literalinclude:: /examples/MissingPlaceholders/example.m
+            :language: objectivec
+
+     - id: swift
+       content: |
+
+         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
+            :language: swift
+
+     - id: typescript
+       content: |
+
+         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+            :language: typescript
+
+
+
+Compact() Method
+~~~~~~~~~~~~~~~~
+
+Make a Compacted Copy
+~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
 .. tabs-drivers::
 
    tabs:
