@@ -48,19 +48,15 @@
      - id: swift
        content: |
 
-         .. tabs::
+         **ID Token**
 
-           .. tab:: ID Token
-              :tabid: idToken
+         .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.google-with-googleId.swift
+            :language: swift
 
-               .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.google-with-googleId.swift
-                  :language: swift
+         **Server Auth Code**
 
-           .. tab:: Server Auth Code
-              :tabid: serverAuthCode
-
-              .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.google-with-serverAuthCode.swift
-                 :language: swift
+         .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.google-with-serverAuthCode.swift
+            :language: swift
 
      - id: typescript
        content: |
