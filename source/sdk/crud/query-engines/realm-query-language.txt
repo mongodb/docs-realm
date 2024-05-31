@@ -53,18 +53,85 @@ Examples on This Page
 ---------------------
 
 Most of the examples on this page use a simple data set for a to-do list app
-that include the following database objects:
-The two Realm object types are ``Project`` and ``Item``.
+that include the following database object types:
 
 - ``Item``: Each item object has a name, assignee's name, and completed flag.
-  There is also an arbitrary number for priority (higher is more important)
-  and a count of minutes spent working on it.
-- A ``Project`` has zero or more ``Items`` and an optional quota
+  There is also an arbitrary number for priority (where higher is more
+  important) and a count of minutes spent working on it.
+- ``Project``: Each project object has zero or more ``Items`` and an optional quota
   for minimum number of to-do items expected to be completed.
 
-See the schema for these two classes, ``Project`` and ``Item``, below:
+.. tabs-drivers::
 
-.. includes:: source/examples/generated/node/v12/formatted/rql-data-models.snippet.rql-data-models.ts.rst
+   tabs:
+     - id: cpp
+       content: |
+
+         .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
+           :language: cpp
+
+     - id: csharp
+       content: |
+
+         .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.snippet.rql-schema-examples.cs
+            :language: csharp
+
+     - id: dart
+       content: |
+
+         .. literalinclude:: /examples/generated/flutter/task_project_models_test.snippet.task-project-models.dart
+            :language: dart
+
+     - id: java
+       content: |
+
+        .. code-block:: java
+
+          public class Item extends RealmObject {
+            ObjectId id = new ObjectId();
+            String name;
+            Boolean isComplete = false;
+            String assignee;
+            Integer priority = 0;
+            Integer progressMinutes = 0;
+            @LinkingObjects("items")
+            final RealmResults<Project> projects = null;
+          }
+          public class Project extends RealmObject {
+            ObjectId id = new ObjectId();
+            String name;
+            RealmList<Item> items;
+            Integer quota = null;
+          }
+
+     - id: javascript
+       content: |
+
+         source/examples/generated/node/v12/formatted/rql-data-models.snippet.rql-data-models.js.rst
+
+     - id: kotlin
+       content: |
+
+         .. literalinclude:: /examples/generated/kotlin/RQLTest.snippet.rql-schema-example.kt
+            :language: kotlin
+
+     - id: objectivec
+       content: |
+
+         .. literalinclude:: /examples/MissingExamplePlaceholders/missing.m
+            :language: objectivec
+
+     - id: swift
+       content: |
+
+         .. literalinclude:: /examples/MissingAPIPlaceholders/missing.swift
+            :language: swift
+
+     - id: typescript
+       content: |
+
+         .. include:: source/examples/generated/node/v12/formatted/rql-data-models.snippet.rql-data-models.ts.rst
+
 
 Query Syntax
 ------------
@@ -75,18 +142,26 @@ Realm Query Language syntax is based on `NSPredicate
 Queries evaluate a predicate for every object in the collection being queried.
 If the predicate resolves to ``true``, the results collection includes the object.
 
-Realm Query Language uses expressions and predicates to evaluate queries.
+Realm Query Language uses expressions and predicates to filter objects. Filters
+consist of expressions within a predicate that evaluate to ``true`` or
+``false``.
 
-- **Expressions** are the building blocks of queries. They can be simple or complex.
-  For example, ``name == 'Ali'`` is a simple expression, while
-  ``name == 'Ali' AND priority > 5`` is a complex expression.
-- **Predicates** are expressions that evaluate to ``true`` or ``false``.
-  For example, ``name == 'Ali'`` is a predicate that evaluates to ``true``
-  if the name property is 'Ali'.
-  Realm Query Language also supports the following predicates:
+Each expression contains the following elements:
 
-  - ``TRUEPREDICATE`` - Matches all objects. This is the default predicate.
-  - ``FALSEPREDICATE`` - Matches no objects.
+- The name of the object property to evaluate.
+- An operator and *up to two* argument expressions. For example, in the
+  expression ``A + B``, the entirety of ``A + B`` is an expression, but ``A``
+  and ``B`` are also argument expressions to the operator ``+``.
+- A value, such as a string (``'hello'``) or a number (``5``).
+
+.. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.predicate.ts.rst
+
+Expressions can be combined with :ref:`logical operators <rql-logical-operators>` to create compound predicates.
+
+Realm Query Language also supports the following special predicates:
+
+- ``TRUEPREDICATE`` - Always evaluates to ``true`` (returns all objects).
+- ``FALSEPREDICATE`` - Always evaluates to ``false`` (returns no objects).
 
 
 .. _rql-parameterized-queries:
@@ -94,19 +169,18 @@ Realm Query Language uses expressions and predicates to evaluate queries.
 Parameterized vs. Serialized Queries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can format queries in the following two ways:
+You can format queries in serialized or parameterized format. Unless otherwise
+noted, both formats are supported for a given query type.
 
-- **Serialized queries** pass values directly in the expression.
+- Serialized queries pass values directly in the expression.
 
   .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.serialized-query.ts.rst
 
-- **Parameterized queries** pass interpolated variables as additional
+- Parameterized queries pass interpolated variables as additional
   arguments. The syntax for interpolated variables is
   ``$<int>``, starting at ``0`` and incrementing for each additional variable.
 
-  .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.predicate.ts.rst
-
-Unless otherwise noted, both formats are supported.
+  .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.parameterized-query.ts.rst
 
 Dot Notation
 ~~~~~~~~~~~~
@@ -141,8 +215,8 @@ to ``nil``.
 
 .. _rql-operators:
 
-Operators
----------
+General Operators
+-----------------
 
 
 .. _rql-comparison-operators:
@@ -150,7 +224,8 @@ Operators
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
 
-Use comparison operators to compare values of matching data types.
+Use comparison operators to compare values of matching data types. String values
+are compared :wikipedia:`lexicographically <Alphabetical_order>`.
 
 .. list-table::
    :header-rows: 1
@@ -163,54 +238,27 @@ Use comparison operators to compare values of matching data types.
      - Evaluates to ``true`` if the left-hand expression (``X``)
        is between or equal to the right-hand expression (``Y``) range.
 
-       - For dates, this evaluates to ``true`` if the left-hand date is within the right-hand date range.
-       - For strings, this evaluates to ``true`` if the left-hand string is
-         lexicographically within the right-hand range.
-
    * - | ``==``, ``=``
-     - Evaluates to ``true`` if the left-hand expression is equal
-       to the right-hand expression.
-
-       - For strings, this evaluates to ``true`` if the left-hand string is
-        lexicographically equal to the right-hand string.
+     - Evaluates to ``true`` if the left-hand expression is equal to the right-hand expression.
 
    * - | ``>``
-     - Evaluates to ``true`` if the left-hand numerical or date expression
-       is greater than the right-hand numerical or date expression.
-
-       - For dates, this evaluates to ``true`` if the left-hand date is later
-         than the right-hand date.
-       - For strings, this evaluates to ``true`` if the left-hand string is
-         lexicographically greater than the right-hand string.
+     - Evaluates to ``true`` if the left-hand expression is greater than the right-hand expression. For dates, this evaluates to ``true`` if the left-hand date is later than the right-hand date.
 
    * - | ``>=``
-     - Evaluates to ``true`` if the left-hand expression
-       is greater than or equal to the right-hand expression.
-
-       - For dates, this evaluates to ``true`` if the left-hand date is later than
-       or the same as the right-hand date.
-       - For strings, this evaluates to ``true`` if the left-hand string is lexicographically greater than or equal to the right-hand string.
+     - Evaluates to ``true`` if the left-hand expression is greater than or equal to the right-hand expression. For dates, this evaluates to ``true`` if the left-hand date is later than or the same as the right-hand date.
 
    * - | ``IN``
      - Evaluates to ``true`` if the left-hand expression is in the
        right-hand list. This is equivalent to and used as a shorthand
-       for ``== ANY``.
+       for ``== ANY`` :ref:`collection operator <rql-collection-operator>`.
 
    * - | ``<``
      - Evaluates to ``true`` if the left-hand numerical or date expression
-       is less than the right-hand numerical or date expression.
-
-       - For dates, this evaluates to ``true`` if the left-hand date is earlier
-         than the right-hand date.
-       - For strings, this evaluates to ``true`` if the left-hand string is lexicographically less than the right-hand string.
+       is less than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than the right-hand date.
 
    * - | ``<=``
      - Evaluates to ``true`` if the left-hand numeric expression is less than
-       or equal to the right-hand numeric expression.
-
-       - For dates, this evaluates to ``true`` if the left-hand date is earlier
-         than or the same as the right-hand date.
-        - For strings, this evaluates to ``true`` if the left-hand string is lexicographically less than or equal to the right-hand string.
+       or equal to the right-hand numeric expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than or the same as the right-hand date.
 
    * - | ``!=``, ``<>``
      - Evaluates to ``true`` if the left-hand expression is not equal
@@ -251,13 +299,13 @@ Use logical operators to create compound predicates.
    * - Operator
      - Description
 
-   * - | ``AND`` | ``&&``
+   * - | ``AND``   |   ``&&``
      - Evaluates to ``true`` if both left-hand and right-hand expressions are ``true``.
 
-   * - | ``NOT`` | ``!``
+   * - | ``NOT``   |   ``!``
      - Negates the result of the given expression.
 
-   * - | ``OR`` | ``||``
+   * - | ``OR``   |   ``||``
      - Evaluates to ``true`` if either expression returns ``true``.
 
 The following example uses logical operators to combine multiple predicates:
@@ -312,8 +360,7 @@ Use aggregate operators to traverse a collection and reduce it to a single value
 
    * - | ``@avg``
      - Evaluates to the average value of a given numerical property across
-       a collection. If any values are ``null``, they are not counted
-       in the result.
+       a collection. ``null`` values are ignored.
 
    * - | ``@count``
      - Evaluates to the number of objects in the given collection.
@@ -327,49 +374,13 @@ Use aggregate operators to traverse a collection and reduce it to a single value
        across a collection. ``null`` values are ignored.
 
    * - | ``@sum``
-     - Evaluates to the sum of a given numerical property across a collection,
-       excluding ``null`` values.
+     - Evaluates to the sum of a given numerical property across a collection.
+     ``null`` values are ignored.
 
 The following example uses aggregate operators to find projects whose ``items``
 collection property meets certain criteria:
 
 .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.aggregate-operators.ts.rst
-
-
-.. _rql-collection-operators:
-
-Collection Operators
-~~~~~~~~~~~~~~~~~~~~
-
-A **collection operator** lets you query list properties within a collection of objects.
-Collection operators filter a collection by applying a predicate
-to every element of a given list property of the object.
-If the predicate returns true, the object is included in the output collection.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
-
-   * - Operator
-     - Description
-
-   * - ``ALL``
-     - Returns objects where the predicate evaluates to ``true`` for all objects
-       in the collection.
-
-   * - ``ANY``, ``SOME``
-     - Returns objects where the predicate evaluates to ``true`` for any objects
-       in the collection.
-
-   * - ``NONE``
-     - Returns objects where the predicate evaluates to false for all objects
-       in the collection.
-
-The following example uses collection operators to find projects whose ``items``
-collection property meets certain criteria
-
-.. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.set-operators.ts.rst
-
 
 .. _rql-sort-distinct-limit:
 
@@ -401,8 +412,7 @@ are applied in the order they appear in the query.
    * - ``LIMIT``
      - Limit the results collection to the specified number.
 
-The following example finds all incomplete items, then
-shapes the returned results using sort, distinct, and limit operators:
+The following example finds all incomplete items, then shapes the returned results:
 
 .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.sort-distinct-limit.ts.rst
 
@@ -419,6 +429,40 @@ shapes the returned results using sort, distinct, and limit operators:
 Type-Specific Operators
 -----------------------
 
+.. _rql-collection-operators:
+
+Collection Operators
+~~~~~~~~~~~~~~~~~~~~
+
+A collection operator lets you query list properties within a collection of objects.
+Collection operators filter a collection by applying a predicate
+to every element of a given list property of the object.
+If the predicate returns true, the object is included in the output collection.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Operator
+     - Description
+
+   * - ``ALL``
+     - Returns objects where the predicate evaluates to ``true`` for all objects
+       in the collection.
+
+   * - ``ANY``, ``SOME``
+     - Returns objects where the predicate evaluates to ``true`` for any objects
+       in the collection. ``ANY`` is the default operator for list comparisons.
+
+   * - ``NONE``
+     - Returns objects where the predicate evaluates to false for all objects
+       in the collection.
+
+The following example uses collection operators to find projects whose ``items``
+collection property meets certain criteria
+
+.. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.set-operators.ts.rst
+
 
 .. _rql-type-operator:
 
@@ -427,22 +471,17 @@ Type Operator
 
 Check the data type of a mixed type or dictionary property using the
 ``@type`` operator. Evaluate the property against a string representation of the
-data type name using string comparison operators.
-
-For information on how each SDK language's data types map to database-specific data types, refer to :ref:`sdks-data-types`.
-
-You can currently only use the type operator with mixed types and
-dictionaries.
+data type name using string comparison operators. For information on how each SDK language's data types map to database-specific data types, refer to :ref:`sdks-data-types`.
 
 .. list-table::
    :header-rows: 1
-   :widths: 40 60
+   :widths: 20 80
 
    * - Operator
      - Description
 
    * - ``@type``
-     - Check if type of a property is the specified data type represented as a string.
+     - Check if type of a mixed type or dictionary property is the specified data type represented as a string.
        Use ``==`` and ``!=`` to compare equality.
 
 The following example uses the ``@type`` operator to find projects
@@ -451,6 +490,10 @@ criteria:
 
 .. include:: examples/generated/node/v12/formatted/realm-query-language.test.snippet.type-operator.ts.rst
 
+.. note:: Only Supported for Mixed Data Types and Dictionaries
+
+  You can currently only use the ``@type`` operator with mixed data types and
+  dictionary properties.
 
 .. _rql-dictionary-operators:
 
@@ -499,7 +542,7 @@ to filter objects based on string values. SDKs evaluate string values
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 70
+   :widths: 20 80
 
    * - Operator or Modifier
      - Description
@@ -555,9 +598,7 @@ List Comparisons
 
 Use :ref:`comparison operators <rql-comparison-operators>` and
 :ref:`collection operators <rql-collection-operators>` to filter based
-on lists of data.
-
-You can compare any type of valid list, including:
+on lists of data. You can compare any type of valid list, including:
 
 - Collections of objects, which let you filter against other data
   in the database.
@@ -636,8 +677,8 @@ lists and comparison operators:
 
 .. _rql-objectid-uuid-operators:
 
-ObjectId and UUID Comparisons
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ObjectId and UUID Queries
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use :ref:`comparison operators <rql-comparison-operators>` to compare :manual:`BSON ObjectIds </reference/method/ObjectId>` and
 :manual:`UUIDs </reference/method/UUID/>` for equality. These data types are
@@ -648,7 +689,7 @@ arguments or to the ``oid()`` or ``uuid()`` predicate functions, respectively.
 
 .. list-table::
    :header-rows: 1
-   :widths: 40 60
+   :widths: 30 70
 
    * - Operator
      - Description
@@ -665,8 +706,8 @@ The following examples use equality comparison operators to find items based on 
 
 .. _rql-date-operators:
 
-Date Comparisons
-~~~~~~~~~~~~~~~~
+Date Queries
+~~~~~~~~~~~~
 
 Use :ref:`comparison operators <rql-comparison-operators>` to query date types.
 
@@ -702,7 +743,7 @@ corresponding backlink.
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 70
+   :widths: 20 80
 
    * - Operator
      - Description
@@ -744,7 +785,7 @@ search (FTS) annotation. For information on enabling FTS on a property, refer to
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 70
+   :widths: 20 80
 
    * - Operator
      - Description
@@ -783,11 +824,11 @@ Geospatial Queries
 ~~~~~~~~~~~~~~~~~~
 
 Use the ``geoWithin`` operator to query geospatial data. For more information on
-defining and working with geospatial data, refer to :ref:`sdks-define-geospatial-object`.
+defining geospatial data, refer to :ref:`sdks-define-geospatial-object`.
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 70
+   :widths: 20 80
 
    * - Operator
      - Description
@@ -801,6 +842,17 @@ defining and working with geospatial data, refer to :ref:`sdks-define-geospatial
       - ``GeoBox``
       - ``GeoPolygon``
 
+A geospatial query consists of:
+
+- An object with a property containing the embedded geospatial data.
+- A defined geospatial shape to set the boundary for the query:
+  - ``GeoCircle``
+  - ``GeoBox``
+  - ``GeoPolygon``
+
+The query evaluates ``true`` if the coordinates of the embedded property are
+within the boundaries of the geospatial shape.
+
 The following example compares the coordinates of
 the embedded ``location`` property against the boundaries of the ``GeoCircle``
 shape named
@@ -808,9 +860,9 @@ shape named
 
 .. include:: /examples/generated/node/v12/geospatial.test.snippet.rql-geospatial.ts.rst
 
-.. important:: Geospatial Data Does Not Support Parameterized Queries
+.. important:: Geospatial Queries Do Not Support Parameterized Queries
 
-   You cannot use parameterized queries with geospatial data.
+   You cannot use :ref:`parameterized queries <rql-parameterized-queries>` with geospatial data.
 
 .. _rql-subqueries:
 
@@ -827,7 +879,7 @@ Subqueries use the following syntax:
 
 .. list-table::
    :header-rows: 1
-   :widths: 40 60
+   :widths: 20 80
 
    * - Operator
      - Description
@@ -836,7 +888,8 @@ Subqueries use the following syntax:
      - Returns list objects for the specified collection where the predicate
        evaluates to ``true``. Contains the following parameters:
 
-       - ``collection``: The name of the list property to iterate through.
+       - ``collection``: The name of the list property to iterate through. This
+         must be a list of objects, not a list of primitive types.
        - ``variableName``: A variable name of the element to use in the
          subquery, prefixed with ``$``.
        - ``predicate``: The subquery predicate. Use the variable specified by ``variableName`` to refer to the currently-iterated element.
@@ -854,8 +907,6 @@ The following example uses subquery filters to find projects based on the
 
    The ``@count`` aggregate operator returns the number of objects in the
    subquery results collection. You can compare the count with the number ``0`` to return all matching objects.
-
-
 
 .. _flexible-sync-rql-limitations:
 
