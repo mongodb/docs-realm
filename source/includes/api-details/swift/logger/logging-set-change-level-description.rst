@@ -1,10 +1,8 @@
 For the Swift SDK, set the log level for the default logger with
-``Logger.shared.level``.
+``Logger.shared.level``. The :objc-sdk:`RLMLogLevel <Enums/RLMLogLevel.html>`
+enum represents the different levels of logging you can configure.
 
-The :objc-sdk:`RLMLogLevel <Enums/RLMLogLevel.html>` enum represents the 
-different levels of logging you can configure.
-
-.. note:: Set the Logger Before Initializing an App Client
+.. tip:: Set the Logger Before Initializing an App Client
 
   When you initialize an :ref:`App client <ios-init-appclient>`, the Swift SDK
   caches the configuration for the App. Changing to the App configuration

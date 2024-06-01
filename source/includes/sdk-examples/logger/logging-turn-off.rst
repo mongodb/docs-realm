@@ -4,8 +4,9 @@
      - id: cpp
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/logger.snippet.initialize-logger.cpp
+         .. literalinclude:: /examples/MissingPlaceholders/example.cpp
             :language: cpp
+            :copyable: false
 
      - id: csharp
        content: |
@@ -17,31 +18,30 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/logger.snippet.attach-to-logger.dart
+         .. literalinclude:: /examples/generated/flutter/logger.snippet.set-log-level-to-off.dart
             :language: dart
 
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.disable-logger.ts
             :language: javascript
-            :copyable: false
 
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.set-custom-realmlog-logger.kt
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
             :language: kotlin
+            :copyable: false
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/Logging.snippet.set-default-logger.swift
+         .. literalinclude:: /examples/generated/code/start/Logging.snippet.turn-logging-off.swift
             :language: swift
 
      - id: typescript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.ts
+         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.disable-logger.ts
             :language: typescript
-            :copyable: false

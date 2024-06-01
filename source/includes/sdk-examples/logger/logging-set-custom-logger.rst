@@ -19,13 +19,6 @@
          .. literalinclude:: /examples/generated/flutter/logger.snippet.set-custom-logger.dart
             :language: dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
-            :language: java
-            :copyable: false
-
      - id: javascript
        content: |
 
@@ -37,13 +30,6 @@
 
          .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.define-custom-logger.kt
             :language: kotlin
-
-     - id: objectivec
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.m
-            :language: objectivec
-            :copyable: false
 
      - id: swift
        content: |

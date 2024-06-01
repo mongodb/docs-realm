@@ -29,6 +29,11 @@ your app. You might want to change the log level to log different
 amounts of data depending on your development needs. You can specify 
 different log levels or custom loggers.
 
+.. warning:: Java SDK Logging Support
+   The Java SDK does not support the same logging API as the other SDKs.
+   Instead, it uses a deprecated sync logger. Refer to the Java SDK: Deprecated
+   Sync Logger section on this page for more details.
+
 .. sdks-set-the-client-log-level:
 
 Set or Change the Log Level
@@ -54,11 +59,6 @@ You can set the level of detail reported by Atlas Device SDK.
       .. include:: /includes/api-details/dart/logger/logging-set-change-level-description.rst
 
    .. tab::
-      :tabid: java
-
-      .. include:: /includes/api-details/java/logger/logging-set-change-level-description.rst
-
-   .. tab::
       :tabid: kotlin
 
       .. include:: /includes/api-details/kotlin/logger/logging-set-change-level-description.rst
@@ -72,11 +72,6 @@ You can set the level of detail reported by Atlas Device SDK.
       :tabid: kotlin
 
       .. include:: /includes/api-details/kotlin/logger/logging-set-change-level-description.rst
-
-   .. tab::
-      :tabid: objectivec
-
-      .. include:: /includes/api-details/objectivec/logger/logging-set-change-level-description.rst
 
    .. tab::
       :tabid: swift
@@ -93,62 +88,7 @@ You can set the level of detail reported by Atlas Device SDK.
 You can change the log level to increase or decrease verbosity at different
 points in your code.
 
-.. tabs-drivers::
-
-   tabs:
-     - id: cpp
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example.cpp
-            :language: cpp
-
-     - id: csharp
-       content: |
-
-         .. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.set-log-level.cs
-            :language: csharp
-
-     - id: dart
-       content: |
-
-         .. literalinclude:: /examples/generated/flutter/logger.snippet.change-log-level.dart
-            :language: dart
-
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
-            :language: java
-
-     - id: javascript
-       content: |
-
-         .. literalinclude::  /examples/generated/node/v12/logger.test.snippet.change-log-level.ts
-            :language: javascript
-
-     - id: kotlin
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example.kt 
-            :language: kotlin
-
-     - id: objectivec
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.m
-            :language: objectivec
-
-     - id: swift
-       content: |
-
-         .. literalinclude:: /examples/generated/code/start/Logging.snippet.change-log-level.swift
-            :language: swift
-
-     - id: typescript
-       content: |
-
-         .. literalinclude::  /examples/generated/node/v12/logger.test.snippet.change-log-level.ts
-            :language: typescript
+.. include:: /includes/sdk-examples/logger/logging-set-change-level-2.rst
 
 .. _sdks-customize-logger:
 
@@ -177,11 +117,6 @@ debugging.
       .. include:: /includes/api-details/dart/logger/logging-customize-logger-description.rst
 
    .. tab::
-      :tabid: java
-
-      .. include:: /includes/api-details/java/logger/logging-customize-logger-description.rst
-
-   .. tab::
       :tabid: kotlin
 
       .. include:: /includes/api-details/kotlin/logger/logging-customize-logger-description.rst
@@ -195,11 +130,6 @@ debugging.
       :tabid: kotlin
 
       .. include:: /includes/api-details/kotlin/logger/logging-customize-logger-description.rst
-
-   .. tab::
-      :tabid: objectivec
-
-      .. include:: /includes/api-details/objectivec/logger/logging-customize-logger-description.rst
 
    .. tab::
       :tabid: swift
@@ -234,11 +164,6 @@ it as the default logger for your database.
       .. include:: /includes/api-details/dart/logger/logging-customize-logger-description-2.rst
 
    .. tab::
-      :tabid: java
-
-      .. include:: /includes/api-details/java/logger/logging-customize-logger-description-2.rst
-
-   .. tab::
       :tabid: kotlin
 
       .. include:: /includes/api-details/kotlin/logger/logging-customize-logger-description-2.rst
@@ -252,11 +177,6 @@ it as the default logger for your database.
       :tabid: kotlin
 
       .. include:: /includes/api-details/kotlin/logger/logging-customize-logger-description-2.rst
-
-   .. tab::
-      :tabid: objectivec
-
-      .. include:: /includes/api-details/objectivec/logger/logging-customize-logger-description-2.rst
 
    .. tab::
       :tabid: swift
@@ -279,72 +199,12 @@ Turn Off Logging
 
 You can turn off logging by setting the log level:
 
+.. include:: /includes/sdk-examples/logger/logging-turn-off.rst
+
 .. note:: Flutter SDK Isolates and Logging Behavior
 
    For the Flutter SDK, if you turn off logging from the first isolate, this
    stops the default printing logger.
-
-.. tabs-drivers::
-
-   tabs:
-     - id: cpp
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example.cpp
-            :language: cpp
-            :copyable: false
-
-     - id: csharp
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
-            :language: csharp
-            :copyable: false
-
-     - id: dart
-       content: |
-
-         .. literalinclude:: /examples/generated/flutter/logger.snippet.set-custom-logger.dart
-            :language: dart
-
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
-            :language: java
-            :copyable: false
-
-     - id: javascript
-       content: |
-
-         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.disable-logger.ts
-            :language: javascript
-
-     - id: kotlin
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
-            :language: kotlin
-            :copyable: false
-
-     - id: objectivec
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.m
-            :language: objectivec
-            :copyable: false
-
-     - id: swift
-       content: |
-
-         .. literalinclude:: /examples/generated/code/start/Logging.snippet.turn-logging-off.swift
-            :language: swift
-
-     - id: typescript
-       content: |
-
-         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.disable-logger.ts
-            :language: typescript
 
 Java SDK: Deprecated Sync Logger
 --------------------------------
@@ -353,14 +213,14 @@ The Java SDK's only logger is a deprecated sync logger that behaves differently
 than the rest of the examples on this page. You can
 view these events using :android:`Logcat </studio/debug/am-logcat>`.
 
+To access newer logging features, like creating custom loggers, use the Kotlin
+SDK.
+
 The Java SDK uses the log levels defined by `Log4J
 <https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html>`_.
 To configure the log level for database logs in your application, pass a
 :java-sdk:`LogLevel <io/realm/log/LogLevel.html>` to 
 :java-sdk:`RealmLog.setLevel() <io/realm/log/RealmLog.html#setLevel-int->`:
-
-.. literalinclude:: /examples/generated/java/sync/SyncDataTest.snippet.set-client-log-level.kt
-   :language: kotlin
 
 .. literalinclude:: /examples/generated/java/sync/SyncDataTest.snippet.set-client-log-level.java
    :language: java

@@ -19,12 +19,6 @@
          .. literalinclude:: /examples/generated/flutter/logger.snippet.set-the-log-level.dart
             :language: dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
-            :language: java
-
      - id: javascript
        content: |
 
@@ -36,12 +30,6 @@
 
          .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.set-log-level-realmlog.kt 
             :language: kotlin
-
-     - id: objectivec
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.m
-            :language: objectivec
 
      - id: swift
        content: |
