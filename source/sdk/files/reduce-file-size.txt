@@ -37,8 +37,8 @@ automatic compaction is not sufficient for your use case
 or you're using a version of the SDK that doesn't have automatic 
 compaction.
 
-Automatic Compaction
---------------------
+Automatically Reduce File Size
+------------------------------
 
 The SDK automatically compacts Realm files in the background by continuously reallocating data 
 within the file and removing unused file space. Automatic compaction is sufficient for minimizing the Realm file size 
@@ -61,8 +61,57 @@ You can configure realm to automatically compact the database each time a
 realm is opened, or you can compact the file without first obtaining a
 realm instance.
 
-Edit the Realm Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Reduce File Size on Launch of Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/reduce-file-size-on-launch-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/manage-files/reduce-file-size-on-launch-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/manage-files/reduce-file-size-on-launch-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/manage-files/reduce-file-size-on-launch-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/manage-files/reduce-file-size-on-launch-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/manage-files/reduce-file-size-on-launch-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/manage-files/reduce-file-size-on-launch-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/manage-files/reduce-file-size-on-launch-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/manage-files/reduce-file-size-on-launch-description.rst
+
+.. include:: /includes/sdk-examples/manage-files/reduce-file-size-on-launch.rst
 
 .. tabs-drivers::
 
@@ -136,11 +185,6 @@ Edit the Realm Configuration
 
             Every production application should implement compacting to 
             periodically reduce realm file size.
-
-     - id: java-kotlin
-       content: |
-
-         ??????
 
      - id: javascript
        content: |
@@ -224,13 +268,7 @@ Edit the Realm Configuration
      - id: typescript
        content: |
 
-         You can configure Realm to check the realm file each time it is opened
-         by specifying a :realm-react-sdk:`shouldCompact 
-         <types/Realm.BaseConfiguration.html#__type.shouldCompact>` function
-         for the configuration. The following code example shows how to do this:
-
-         .. literalinclude:: /examples/generated/react-native/js/compact-realm.test.snippet.shouldCompactRN.js
-            :language: javascript
+         Missing example
 
 Compact() Method
 ~~~~~~~~~~~~~~~~
@@ -472,3 +510,6 @@ These calculations might look like this:
 
 Experiment with conditions to find the right balance of how often to 
 compact realm files in your application.
+
+
+Some SDKs provide platform-idiomatic APIs to observe authentication changes. In other SDKs, you can use platform or language-specific architecture to achieve a similar result without a dedicated API.
