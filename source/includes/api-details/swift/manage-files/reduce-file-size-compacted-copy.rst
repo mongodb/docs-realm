@@ -1,5 +1,5 @@
 You can save a compacted (and optionally :ref:`encrypted
-<ios-encrypt-a-realm>`) copy of a realm to another file location
+<sdks-encrypt-database>`) copy of a realm to another file location
 with the :swift-sdk:`Realm.writeCopy(toFile:encryptionKey:)
 <Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy6toFile13encryptionKeyy10Foundation3URLV_AG4DataVSgtKF>`
 method. The destination file cannot already exist.

@@ -18,4 +18,36 @@ Threading
    :class: singlecol
 
 
-https://www.mongodb.com/docs/atlas/device-sdks/sdk/swift/realm-files/compacting/#threading
+.. incorporate this information from the Swift SDK Compaction page 
+
+Threading
+~~~~~~~~~
+
+Realm updates the version of your data that it accesses at 
+the start of a run loop iteration. While this gives you a consistent 
+view of your data, it has file size implications. 
+
+Imagine this scenario:
+
+- **Thread A**: Read some data from a realm, and then block the thread on a 
+  long-running operation.
+- **Thread B**: Write data on another thread.
+- **Thread A**: The version on the read thread isn't updated. Realm has 
+  to hold intermediate versions of the data, growing in file size with 
+  every write. 
+
+To avoid this issue, call :swift-sdk:`invalidate() <Structs/Realm.html#/s:10RealmSwift0A0V10invalidateyyF>` 
+on the realm. This tells the realm that you no longer need the 
+objects you've read so far. This frees realm from tracking 
+intermediate versions of those objects. The next time you access it, 
+realm will have the latest version of the objects.
+
+You can also use these two methods to compact your Realm:
+
+- Set :swift-sdk:`shouldCompactOnLaunch<Structs/Realm/Configuration.html>`
+  in the configuration
+- Use :swift-sdk:`writeCopy(toFile:encryptionKey:)<Structs/Realm.html>`
+
+.. seealso::
+
+   :ref:`Advanced Guides: Threading <ios-client-threading>`

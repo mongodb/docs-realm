@@ -6,7 +6,7 @@ Specify conditions to execute this method, such as:
 - How much free space the file contains
 
 For more information about the conditions to execute in the method, see:
-:ref:`ios-when-to-compact-a-realm`.
+:ref:`sdks-compaction-tips`.
 
 .. important:: Compacting may not occur
 
