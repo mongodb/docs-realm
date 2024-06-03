@@ -7,7 +7,7 @@ method. The destination file cannot already exist.
 .. important::
 
     Avoid calling this method within a :ref:`write transaction
-    <ios-write-transactions>`. If called within a write transaction, this
+    <sdks-crud-create>`. If called within a write transaction, this
     method copies the absolute latest data. This includes any
     **uncommitted** changes you made in the transaction before this
     method call.
