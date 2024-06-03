@@ -10,25 +10,25 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/generated/dotnet/Compact.snippet.manual-compact.cs
+         .. literalinclude:: /examples/MissingPlaceholders/api.cs
             :language: csharp
 
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-static-method.dart
+         .. literalinclude:: /examples/MissingPlaceholders/api.dart
             :language: dart
 
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.java
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
             :language: java
 
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/compacting.snippet.compactNode.js
+         .. literalinclude:: /examples/MissingPlaceholders/example.js
             :language: javascript
 
      - id: kotlin

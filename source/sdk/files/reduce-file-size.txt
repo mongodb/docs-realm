@@ -303,17 +303,17 @@ Compact() Method
    .. tab::
       :tabid: kotlin
 
-      .. include:: /includes/api-details/kotlin/manage-files/reduce-file-size-.rst
+      .. include:: /includes/api-details/kotlin/manage-files/reduce-file-size-compact-method.rst
 
    .. tab::
       :tabid: objectivec
 
-      .. include:: /includes/api-details/objectivec/manage-files/reduce-file-size-on-launch-description.rst
+      The Swift SDK for Objective C does not currently support this API.
 
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/swift/manage-files/reduce-file-size-on-launch-description.rst
+      The Swift SDK does not currently support this API.
 
    .. tab::
       :tabid: typescript
@@ -430,10 +430,60 @@ Compact() Method
 
          The ``compact()`` method will return true if the operation is successful.
 
-         .. Ok this is technically in javascript so leave out right, even though it's for RN?
-
 Make a Compacted Copy
 ~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      The C++ SDK does not currently support this API.
+
+   .. tab::
+      :tabid: csharp
+
+      The .NET SDK for C# does not currently support this API.
+      
+   .. tab::
+      :tabid: dart
+
+      The Flutter SDK for Dart does not currenlty support this API.
+
+   .. tab::
+      :tabid: java
+
+      The Java SDK does not currently support this API.
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/manage-files/reduce-file-size-compacted-copy.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/manage-files/reduce-file-size-compacted-copy.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/manage-files/reduce-file-size-compacted-copy.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/manage-files/reduce-file-size-compacted-copy.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/manage-files/reduce-file-size-compacted-copy.rst
+
+.. for this one, might want to delete code block all together, since we didn't have examples for any of them. Or do
+   we want to take the time to add the examples?
+
+.. include:: /includes/sdk-examples/manage-files/reduce-file-size-compacted-copy.rst
 
 .. tabs-drivers::
 
@@ -553,6 +603,3 @@ These calculations might look like this:
 
 Experiment with conditions to find the right balance of how often to 
 compact realm files in your application.
-
-
-Some SDKs provide platform-idiomatic APIs to observe authentication changes. In other SDKs, you can use platform or language-specific architecture to achieve a similar result without a dedicated API.
