@@ -13,7 +13,7 @@ another process is not currently accessing the realm file.
 The most basic usage is to define a file size at which compaction should occur.
 
 .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-with-callback.dart
-:language: dart
+    :language: dart
 
 You can define more complex logic if you need to optimize performance for 
 different use cases. For example, you could set a threshold for compaction

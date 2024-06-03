@@ -1,6 +1,6 @@
 .. tabs-drivers::
-
-   tabs:
+    
+    tabs:
      - id: cpp-sdk
        content: |
 
@@ -34,23 +34,23 @@
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/kotlin/Compacting.snippet.compactRealm.kt
+         .. literalinclude:: /examples/MissingPlaceholders/example.kt
             :language: kotlin
 
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.m
+         .. literalinclude:: /examples/MissingPlaceholders/example.m
             :language: objectivec
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.swift
+         .. literalinclude:: /examples/MissingPlaceholders/example.swift
             :language: swift
 
-    - id: typescript
-      content: |
+     - id: typescript
+       content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript

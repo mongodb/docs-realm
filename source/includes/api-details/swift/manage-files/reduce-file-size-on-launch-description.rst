@@ -14,7 +14,7 @@ For more information about the conditions to execute in the method, see:
     regardless of any configuration settings.
 
 .. literalinclude:: /examples/generated/code/start/Compacting.snippet.compacting.swift
-:language: swift
+    :language: swift
 
 When you use the Swift async/await syntax to open a realm asynchronously, you can also 
 compact a realm in the background.

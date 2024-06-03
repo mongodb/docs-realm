@@ -49,8 +49,8 @@
          .. literalinclude:: /examples/MissingPlaceholders/api.swift
             :language: swift
 
-    - id: typescript
-      content: |
+     - id: typescript
+       content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript
