@@ -1,3 +1,9 @@
+# May 31, 2024
+
+## Other
+
+- Internal: Update test suite dependencies to resolve security vulnerability alerts.
+
 # May 24, 2024
 
 ## Java SDK
@@ -190,7 +196,7 @@ Throughout Device SDK docs:
 
 ## Kotlin SDK
 
-- Realm/Configure & Open a Realm: Fix a broken hyperlink. 
+- Realm/Configure & Open a Realm: Fix a broken hyperlink.
 
 # February 16, 2024
 
@@ -222,9 +228,9 @@ Throughout Device SDK docs:
 
 - Atlas App Services/Connect to an App Services App: Note that, starting in v12.6.0, you can update the `baseUrl` in the `AppConfiguration` because the App client no longer caches it.
 
-## React Native SDK 
+## React Native SDK
 
-- Atlas App Services/Connect to an App Services App: 
+- Atlas App Services/Connect to an App Services App:
   - Note that, starting in v12.6.0, you can update the `baseUrl` in the  `AppConfiguration` because the App client no longer caches it.
   - Update examples to use new auth hooks.
 - API Reference/App Provider: Update `useApp` example to remove old auth pattern.
