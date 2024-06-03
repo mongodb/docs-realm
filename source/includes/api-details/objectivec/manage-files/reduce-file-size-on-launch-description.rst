@@ -5,7 +5,7 @@ Specify conditions to execute this method, such as:
 - The size of the file on disk
 - How much free space the file contains
 
-For more information about the conditions to execute in the method, see:
+For more information about the conditions to execute in the method, see
 :ref:`ios-when-to-compact-a-realm`.
 
 .. important:: Compacting may not occur
