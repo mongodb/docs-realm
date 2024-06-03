@@ -1,7 +1,7 @@
 You can save a compacted (and optionally :ref:`encrypted
 <sdks-encrypt-database>`) copy of a realm to another file location
-with the `Realm.writeCopyTo
-<{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__
+with the :kotlin-sdk:`Realm.writeCopyTo
+<io.realm.kotlin/-realm/write-copy-to.html>`
 method. The destination file cannot already exist.
 
 .. important::
