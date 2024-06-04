@@ -49,7 +49,7 @@ Upon successful login, App Services begins a **user session** for the user.
 App Services manages sessions with access tokens and refresh tokens. The SDK
 supplies the logic to manage tokens and provide them with requests. For more
 information on managing user sessions and tokens, refer to 
-:ref:`<user-sessions>` in the App Services documentation.
+:ref:`sdks-manage-user-tokens`.
 
 Once you have a logged-in user, you can:
 
@@ -744,6 +744,54 @@ all synced database updates have uploaded to the server.
 
 .. include:: /includes/sdk-examples/users/authenticate-log-user-out.rst
 
+.. _sdks-authentication-change-listener:
+
+Observe Authentication Changes
+------------------------------
+
+Some SDKs provide platform-idiomatic APIs to observe authentication changes.
+In other SDKs, you can use platform or language-specific architecture to
+achieve a similar result without a dedicated API.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/authenticate-observe-authentication-changes-no-api.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/authenticate-observe-authentication-changes-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-observe-authentication-changes-no-api.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-observe-authentication-changes-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/users/authenticate-observe-authentication-changes.rst
+
 .. _sdks-get-the-current-user:
 
 Get the Current User
@@ -803,187 +851,3 @@ on the language, if there are no logged-in users. Refer to
       :tabid: typescript
 
 .. include:: /includes/sdk-examples/users/authenticate-get-current-user.rst
-
-.. _sdks-access-token:
-
-Manage User Tokens
-------------------
-
-The SDK manages two types of user tokens:
-
-- **User access token**: a token sent with each request to Atlas. Without a
-  valid access token, the app can't perform server-related functionality on the
-  user's behalf.
-- **Refresh token**: a token used to refresh the access token. The SDK uses
-  this to automatically rotate the access token, up to the period when the
-  refresh token expires.
-
-Once the refresh token expires, the app can't perform operations that involve
-the server until the user logs in again.
-
-Tokens are removed after the user logs out.
-
-.. important:: The SDK Automatically Handles User Access Tokens for Most Functionality
-
-   The SDK automatically handles user access tokens for operations that it
-   performs, such as calling a Function or syncing the device database. It
-   sends the access token with each request, and automatically handles
-   refreshing it. When a refresh token expires, your app code must redirect
-   users to login again.
-
-   If you send requests outside of the SDK, you must include the user's access
-   token with each request and manually refresh the token when it expires.
-   You must manually manage this token when calling :ref:`data-api` endpoints
-   from your client code, for example.
-
-For more information on user session access and refresh tokens, 
-refer to :ref:`user-sessions` in the App Services documentation.
-
-Get a User Access Token
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Access tokens expire 30 minutes after a user logs in. 
-
-You don't need to send user access tokens when performing operations with the
-SDK. The SDK automatically handles this for you. But you must manually manage
-this token when performing server operations outside of the SDK - for example,
-when calling :ref:`data-api` endpoints from your client code.
-
-.. tabs-drivers::
-
-   .. tab::
-      :tabid: cpp-sdk
-
-      .. include:: /includes/api-details/cpp/users/authenticate-get-user-access-token-description.rst
-
-   .. tab::
-      :tabid: csharp
-      
-   .. tab::
-      :tabid: dart
-
-      .. include:: /includes/api-details/dart/users/authenticate-get-user-access-token-description.rst
-
-   .. tab::
-      :tabid: java
-
-   .. tab::
-      :tabid: java-kotlin
-
-   .. tab::
-      :tabid: javascript
-
-   .. tab::
-      :tabid: kotlin
-
-      .. include:: /includes/api-details/kotlin/users/authenticate-get-user-access-token-description.rst
-
-   .. tab::
-      :tabid: swift
-
-      .. include:: /includes/api-details/swift/users/authenticate-get-user-access-token-description.rst
-
-   .. tab::
-      :tabid: typescript
-
-.. include:: /includes/sdk-examples/users/authenticate-get-user-access-token.rst
-
-Manually Refresh an Access Token
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can manually refresh an expired access token. The SDK automatically handles
-this for you. This is only required if you are performing server-related
-operations outside of the SDK, such as calling :ref:`data-api` endpoints from
-your client code.
-
-.. tabs-drivers::
-
-   .. tab::
-      :tabid: cpp-sdk
-
-      .. include:: /includes/api-details/cpp/users/authenticate-manually-refresh-access-token-description.rst
-
-   .. tab::
-      :tabid: csharp
-
-   .. tab::
-      :tabid: dart
-
-      .. include:: /includes/api-details/dart/users/authenticate-manually-refresh-access-token-description.rst
-
-   .. tab::
-      :tabid: java
-
-   .. tab::
-      :tabid: java-kotlin
-
-   .. tab::
-      :tabid: javascript
-
-   .. tab::
-      :tabid: kotlin
-
-      .. include:: /includes/api-details/kotlin/users/authenticate-manually-refresh-access-token-description.rst
-
-   .. tab::
-      :tabid: swift
-
-      .. include:: /includes/api-details/swift/users/authenticate-manually-refresh-access-token-description.rst
-
-   .. tab::
-      :tabid: typescript
-
-.. include:: /includes/sdk-examples/users/authenticate-manually-refresh-access-token.rst
-
-Configure Refresh Token Expiration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: /includes/refresh-token-expiry.rst
-
-.. _sdks-authentication-change-listener:
-
-Observe Authentication Changes
-------------------------------
-
-Some SDKs provide platform-idiomatic APIs to observe authentication changes.
-In other SDKs, you can use platform or language-specific architecture to
-achieve a similar result without a dedicated API.
-
-.. tabs-drivers::
-
-   .. tab::
-      :tabid: cpp-sdk
-
-      .. include:: /includes/api-details/cpp/users/authenticate-observe-authentication-changes-no-api.rst
-
-   .. tab::
-      :tabid: csharp
-
-      .. include:: /includes/api-details/csharp/users/authenticate-observe-authentication-changes-description.rst
-      
-   .. tab::
-      :tabid: dart
-
-      .. include:: /includes/api-details/dart/users/authenticate-observe-authentication-changes-no-api.rst
-
-   .. tab::
-      :tabid: java
-
-   .. tab::
-      :tabid: java-kotlin
-
-   .. tab::
-      :tabid: javascript
-
-   .. tab::
-      :tabid: kotlin
-
-      .. include:: /includes/api-details/kotlin/users/authenticate-observe-authentication-changes-description.rst
-
-   .. tab::
-      :tabid: swift
-
-   .. tab::
-      :tabid: typescript
-
-.. include:: /includes/sdk-examples/users/authenticate-observe-authentication-changes.rst
