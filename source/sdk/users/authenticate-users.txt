@@ -741,11 +741,6 @@ offline.
    offline, but only if the user has previously logged in on the device while
    online.
 
-TODO
-(Android - figure out a way to surface this)
-The SDK stores these tokens in 
-`Shared Preferences <https://developer.android.com/guide/topics/data/data-storage.html#pref>`_.
-
 .. include:: /includes/sdk-examples/users/authenticate-log-in-offline.rst
 
 .. _sdks-access-token:
@@ -763,16 +758,35 @@ The SDK manages two types of user tokens:
   refresh token expires.
 
 Once the refresh token expires, the app can't perform operations that involve
-the server, such as calling a Function or syncing the device database, until
-the user logs in again.
+the server until the user logs in again.
 
-Tokens are removed after the user logs out. 
+Tokens are removed after the user logs out.
+
+.. important:: The SDK Automatically Handles User Access Tokens for Most Functionality
+
+   The SDK automatically handles user access tokens for operations that it
+   performs, such as calling a Function or syncing the device database. It
+   sends the access token with each request, and automatically handles
+   refreshing it. When a refresh token expires, your app code must redirect
+   users to login again.
+
+   If you send requests outside of the SDK, you must include the user's access
+   token with each request and manually refresh the token when it expires.
+   You must manually manage this token when calling :ref:`data-api` endpoints
+   from your client code, for example.
 
 For more information on user session access and refresh tokens, 
 refer to :ref:`user-sessions` in the App Services documentation.
 
 Get a User Access Token
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+Access tokens expire 30 minutes after a user logs in. 
+
+You don't need to send user access tokens when performing operations with the
+SDK. The SDK automatically handles this for you. But you must manually manage
+this token when performing server operations outside of the SDK - for example,
+when calling :ref:`data-api` endpoints from your client code.
 
 .. tabs-drivers::
 
@@ -816,9 +830,10 @@ Get a User Access Token
 Manually Refresh an Access Token
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you send requests outside of the SDK, you must include the user's access
-token with each request and manually refresh the token when it expires. 
-Access tokens expire 30 minutes after a user logs in.
+You can manually refresh an expired access token. The SDK automatically handles
+this for you. This is only required if you are performing server-related
+operations outside of the SDK, such as calling :ref:`data-api` endpoints from
+your client code.
 
 .. tabs-drivers::
 
