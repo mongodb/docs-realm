@@ -28,7 +28,7 @@
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.kt
+         .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.kt
             :language: kotlin
 
      - id: javascript
