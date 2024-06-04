@@ -6,7 +6,7 @@ Partition-Based Sync
 
 .. meta::
    :description: Learn how to migrate a Partition-Based Sync app to Flexible Sync, or open a database for Partition-Based Sync.
-   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+   :keywords: Realm, .NET SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
 
 .. facet::
   :name: genre
@@ -31,36 +31,36 @@ uses the default Sync mode, Flexible Sync.
 
 This page covers how to migrate a Partition-Based Sync app to a Flexible Sync
 app. For apps that still use Partition-Based Sync, this page also has details
-for opening a Flexible Sync database.
+for opening a database with Partition-Based Sync.
 
-.. tip:: Newer SDKs Do Not Support Partition-Based Sync
+.. tip:: C++ and Flutter SDKs Do Not Support Partition-Based Sync
 
    The examples on this page do not include details for C++ or Dart because
-   C++ and Flutter SDKs have never supported Partition-Based Sync.
+   the C++ and Flutter SDKs have never supported Partition-Based Sync.
 
 .. _sdks-migrate-pbs-to-fs:
 
 Migrate from Partition-Based Sync to Flexible Sync
 --------------------------------------------------
 
-You can migrate your App Services Device Sync Mode from Partition-Based Sync 
+You can migrate your app from Partition-Based Sync mode
 to Flexible Sync. Migrating is an automatic process that does not require 
-any changes to your application code. Automatic migration requires one of
-the following SDK versions:
+any changes to your application code. Automatic migration requires 
+the following minimum SDK versions:
 
-- Java SDK version 10.16.0 or newer
-- Kotlin SDK v1.9.0 and newer
-- .NET SDK v11.1.0 and newer
-- Node.js SDK version 11.10.0 or newer
-- Swift SDK version 10.40.0 or newer
+- .NET SDK v11.1.0 and later
+- Java SDK v10.16.0 and later
+- Kotlin SDK v1.9.0 and later
+- Node.js SDK v11.10.0 and later
+- Swift SDK v10.40.0 and later
 
 Migrating enables you to keep your existing App Services users and 
 authentication configuration. Flexible Sync provides more versatile permissions
 configuration options and more granular data synchronization.
 
 For more information about how to migrate your App Services App from 
-Partition-Based Sync to Flexible Sync, refer to :ref:`Migrate Device Sync Modes 
-<realm-sync-migrate-modes>`.
+Partition-Based Sync to Flexible Sync mode, refer to :ref:`Migrate Device Sync Modes 
+<realm-sync-migrate-modes>` in the App Services documentation.
 
 .. _sdks-update-client-code-after-pbs-to-fs-migration:
 
@@ -78,13 +78,13 @@ Sync Modes by:
   exist. This is required for the automatic Sync subscription.
 
 If you need to make updates to your client code after migration, consider 
-updating your client codebase to remove hidden migration functionality.
+updating your client codebase to remove this hidden migration functionality.
 
 You might want update your client codebase when:
 
-- You add a new model or change a model in your client codebase
-- You add or change functionality that involves reading or writing SDK objects
-- You want to implement more fine-grained control over what data you sync
+- You add a new model or change a model in your client codebase.
+- You add or change functionality that involves reading or writing SDK objects.
+- You want to implement more fine-grained control over what data you sync.
 
 Make these changes to convert your Partition-Based Sync client code to use 
 Flexible Sync:
@@ -132,7 +132,8 @@ Flexible Sync:
       .. include:: /includes/api-details/javascript/sync/pbs-update-client-code-after-migration.rst
 
 For examples of Flexible Sync permissions strategies, including examples of 
-how to model data for these strategies, refer to :ref:`flexible-sync-permissions-guide`.
+how to model data for these strategies, refer to the :ref:`flexible-sync-permissions-guide`
+in the App Services documentation.
 
 Remove and Manually Create Subscriptions
 ````````````````````````````````````````
@@ -155,7 +156,7 @@ subscriptions, refer to :ref:`realm-sync-migrate-client`.
 Partition Value
 ---------------
 
-For Apps that use Partition-Based Sync, your client implementation must include
+For App Services Apps that use Partition-Based Sync, your client implementation must include
 a partition value. This is the value of the :ref:`partition key 
 <partition-key>` field in the Partition-Based Sync configuration. 
 
@@ -165,7 +166,7 @@ You pass in the partition value when you open a synced database.
 
 .. _sdks-pbs-open-synced-database:
 
-Open a Synced Database for Partition-Based Sync
+Open a Synced Database with Partition-Based Sync
 -----------------------------------------------
 
 You can open a synced database for Partition-Based Sync by passing the
