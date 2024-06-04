@@ -4,37 +4,37 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
-           :language: cpp
+         .. literalinclude:: /examples/generated/cpp/authentication.snippet.anonymous-login.cpp
+            :language: cpp
 
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+         .. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_anon.cs
             :language: csharp
 
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+         .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.multiple-anonymous-credentials.dart
             :language: dart
 
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
+         .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.anonymous.java
             :language: java
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+         .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.anonymous.kt
             :language: kotlin
 
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.js
             :language: javascript
 
      - id: kotlin
@@ -46,11 +46,11 @@
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
+         .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.anonymous.swift
             :language: swift
 
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         .. literalinclude:: /examples/generated/node/authenticate.snippet.anonymous-login.ts
             :language: typescript
