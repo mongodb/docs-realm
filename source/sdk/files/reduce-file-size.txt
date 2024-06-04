@@ -13,7 +13,7 @@ Reduce Database File Size
 .. tabs-selector:: drivers
 
 .. meta::
-  :description: Short description of the consolidated page used for SEO.
+  :description: Learn different methods for reducing file size with Atlas Device SDK.
   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
 
 .. facet::
@@ -24,13 +24,13 @@ Reduce Database File Size
   :name: programming_language
   :values: cpp, csharp, dart, java, kotlin, objective-c, swift
 
-The size of a realm file is always larger than the total 
+The size of a realm database file is always larger than the total 
 size of the objects stored within it. This architecture enables some of 
-realm's great performance, concurrency, and safety benefits. 
+Atleas device SDK's great performance, concurrency, and safety benefits. 
 
-Realm writes new data within unused space tracked inside a
+Atlas Device SDK writes new data within unused space tracked inside a
 file. In some situations, unused space may comprise a significant 
-portion of a realm file. Realm's default behavior is to automatically 
+portion of a realm file. The SDK's default behavior is to automatically 
 compact a realm file to prevent it from growing too large. 
 You can use manual compaction strategies when 
 automatic compaction is not sufficient for your use case 
@@ -40,9 +40,9 @@ compaction.
 Automatically Reduce File Size
 ------------------------------
 
-The SDK automatically compacts Realm files in the background by continuously reallocating data 
+The SDK automatically compacts a realm's files in the background by continuously reallocating data 
 within the file and removing unused file space. Automatic compaction is sufficient for 
-minimizing the Realm file size for most applications. 
+minimizing the realm file size for most applications. 
 
 Automatic compaction begins when the size of unused space in the file is more than twice the size of user 
 data in the file. Automatic compaction only takes place when
@@ -53,16 +53,15 @@ Manual Compaction Strategies
 
 .. include:: /includes/manual-compaction.rst
 
-Realm reduces the file size by writing a new (compact) version of the file, and 
+The SDK reduces the file size by writing a new (compact) version of the file, and 
 then replacing the original with the newly-written file. Therefore, to compact, 
 you must have free storage space equivalent to the original realm file size. 
 
-You can configure realm to automatically compact the database each time a
-realm is opened, or you can compact the file without first obtaining a
-realm instance.
+You can configure the realm to automatically compact upon opening, or you can 
+compact a file without first obtaining a realm instance.
 
-Reduce File Size on Launch of Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Reduce File Size on Launch of a Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs-drivers::
 
@@ -126,27 +125,27 @@ Compact() Method
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/csharp/manage-files/reduce-file-size-compact-method.rst
+      .. include:: /includes/api-details/csharp/manage-files/reduce-file-size-compact-method-description.rst
       
    .. tab::
       :tabid: dart
 
-      .. include:: /includes/api-details/dart/manage-files/reduce-file-size-compact-method.rst
+      .. include:: /includes/api-details/dart/manage-files/reduce-file-size-compact-method-description.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /includes/api-details/java/manage-files/reduce-file-size-compact-method.rst
+      .. include:: /includes/api-details/java/manage-files/reduce-file-size-compact-method-description.rst
 
    .. tab::
       :tabid: javascript
 
-      .. include:: /includes/api-details/javascript/manage-files/reduce-file-size-compact-method.rst
+      .. include:: /includes/api-details/javascript/manage-files/reduce-file-size-compact-method-description.rst
 
    .. tab::
       :tabid: kotlin
 
-      .. include:: /includes/api-details/kotlin/manage-files/reduce-file-size-compact-method.rst
+      .. include:: /includes/api-details/kotlin/manage-files/reduce-file-size-compact-method-description.rst
 
    .. tab::
       :tabid: objectivec
@@ -193,27 +192,27 @@ Make a Compacted Copy
    .. tab::
       :tabid: javascript
 
-      .. include:: /includes/api-details/javascript/manage-files/reduce-file-size-compacted-copy.rst
+      .. include:: /includes/api-details/javascript/manage-files/reduce-file-size-compacted-copy-description.rst
 
    .. tab::
       :tabid: kotlin
 
-      .. include:: /includes/api-details/kotlin/manage-files/reduce-file-size-compacted-copy.rst
+      .. include:: /includes/api-details/kotlin/manage-files/reduce-file-size-compacted-copy-description.rst
 
    .. tab::
       :tabid: objectivec
 
-      .. include:: /includes/api-details/objectivec/manage-files/reduce-file-size-compacted-copy.rst
+      .. include:: /includes/api-details/objectivec/manage-files/reduce-file-size-compacted-copy-description.rst
 
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/swift/manage-files/reduce-file-size-compacted-copy.rst
+      .. include:: /includes/api-details/swift/manage-files/reduce-file-size-compacted-copy-description.rst
 
    .. tab::
       :tabid: typescript
 
-      .. include:: /includes/api-details/typescript/manage-files/reduce-file-size-compacted-copy.rst
+      .. include:: /includes/api-details/typescript/manage-files/reduce-file-size-compacted-copy-description.rst
 
 .. for this one, might want to delete code block all together, since we didn't have examples for any of them. Or do
    we want to take the time to add the examples?
