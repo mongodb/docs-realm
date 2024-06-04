@@ -1,5 +1,5 @@
 Use :swift-sdk:`shouldCompactOnLaunch()<Structs/Realm/Configuration.html>` 
-(Swift) on a realm's configuration object to compact a realm. 
+on a realm's configuration object to compact a realm. 
 Specify conditions to execute this method, such as:
 
 - The size of the file on disk

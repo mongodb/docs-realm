@@ -1,4 +1,4 @@
-You can configure Realm to compact the realm file each time it is opened
+You can use the Kotlin SDK to compact the realm file each time it is opened
 by setting a callback for the :kotlin-sdk:`compactOnLaunch 
 <io.realm.kotlin/-configuration/-shared-builder/compact-on-launch.html>` function
 for the configuration. When you call ``compactOnLaunch`` for the 

@@ -1,4 +1,4 @@
-You can configure Realm to check the realm file each time 
+You can use the .NET SDK to check the realm file size each time 
 it is opened by specifying a 
 :dotnet-sdk:`ShouldCompactDelegate <reference/Realms.RealmConfiguration.ShouldCompactDelegate.html>` 
 in the configuration. 
