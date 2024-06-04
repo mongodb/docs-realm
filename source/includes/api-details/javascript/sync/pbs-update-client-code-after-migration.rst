@@ -1,8 +1,0 @@
-- Add ``flexible:true`` to your 
-  :js-sdk:`SyncConfiguration <types/FlexibleSyncConfiguration.html>` object 
-  where you :ref:`open a synced database <sdks-configure-and-open-synced-database>`.
-- Add relevant properties to your object models to use in your Flexible Sync 
-  subscriptions. For example, you might add an ``ownerId`` property to enable
-  a user to sync only their own data.
-- Remove automatic Flexible Sync subscriptions and manually create the 
-  relevant subscriptions.

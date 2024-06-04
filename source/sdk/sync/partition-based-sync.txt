@@ -94,83 +94,65 @@ Flexible Sync:
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/csharp/sync/pbs-update-client-code-after-migration.rst
+      .. include:: /includes/api-details/csharp/sync/pbs-update-client-code-after-migration-procedure.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /includes/api-details/java/sync/pbs-update-client-code-after-migration.rst
+      .. include:: /includes/api-details/java/sync/pbs-update-client-code-after-migration-procedure.rst
 
    .. tab::
       :tabid: java-kotlin
 
-      .. include:: /includes/api-details/java/sync/pbs-update-client-code-after-migration.rst
+      .. include:: /includes/api-details/java/sync/pbs-update-client-code-after-migration-procedure.rst
 
    .. tab::
       :tabid: javascript
 
-      .. include:: /includes/api-details/javascript/sync/pbs-update-client-code-after-migration.rst
+      .. include:: /includes/api-details/javascript/sync/pbs-update-client-code-after-migration-procedure.rst
 
    .. tab::
       :tabid: kotlin
 
-      .. include:: /includes/api-details/kotlin/sync/pbs-update-client-code-after-migration.rst
+      .. include:: /includes/api-details/kotlin/sync/pbs-update-client-code-after-migration-procedure.rst
 
    .. tab::
       :tabid: objectivec
 
-      .. include:: /includes/api-details/objectivec/sync/pbs-update-client-code-after-migration.rst
+      .. include:: /includes/api-details/objectivec/sync/pbs-update-client-code-after-migration-procedure.rst
 
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/swift/sync/pbs-update-client-code-after-migration.rst
+      .. include:: /includes/api-details/swift/sync/pbs-update-client-code-after-migration-procedure.rst
 
    .. tab::
       :tabid: typescript
 
-      .. include:: /includes/api-details/javascript/sync/pbs-update-client-code-after-migration.rst
+      .. include:: /includes/api-details/javascript/sync/pbs-update-client-code-after-migration-procedure.rst
 
 For examples of Flexible Sync permissions strategies, including examples of 
 how to model data for these strategies, refer to the :ref:`flexible-sync-permissions-guide`
 in the App Services documentation.
 
-Remove and Manually Create Subscriptions
-````````````````````````````````````````
-
-When you migrate from Partition-Based Sync to Flexible Sync, the SDK
-automatically creates hidden Sync subscriptions for your app. The 
-next time you add or change subscriptions, we recommend that you:
-
-1. :ref:`Remove the automatically-generated subscriptions <sdks-remove-sync-subscriptions>`. 
-2. :ref:`Manually add the relevant subscriptions in your client codebase <sdks-add-sync-subscriptions>`.
-
-This enables you to see all of your subscription logic together in your 
-codebase for future iteration and debugging.
-
-For more information about the automatically-generated Sync 
-subscriptions, refer to :ref:`realm-sync-migrate-client`.
-
-.. _sdks-partition-based-sync-fundamentals:
-
-Partition Value
----------------
-
-For App Services Apps that use Partition-Based Sync, your client implementation must include
-a partition value. This is the value of the :ref:`partition key 
-<partition-key>` field in the Partition-Based Sync configuration. 
-
-The partition value determines which data the client application can access.
-
-You pass in the partition value when you open a synced database.
-
 .. _sdks-pbs-open-synced-database:
 
 Open a Synced Database with Partition-Based Sync
------------------------------------------------
+------------------------------------------------
 
 You can open a synced database for Partition-Based Sync by passing the
 appropriate partition value in the Sync configuration.
+
+.. tip:: Partition Value
+
+   For App Services Apps that use Partition-Based Sync, your client
+   implementation must include a partition value. This is the value of the
+   :ref:`partition key <partition-key>` field in the Partition-Based Sync
+   configuration. 
+
+   The partition value determines which data the client application can access.
+
+   You pass in the partition value when you open a synced database.
 
 .. tabs-drivers::
 
