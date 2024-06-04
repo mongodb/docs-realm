@@ -663,6 +663,87 @@ documentation for more information.
    an invalid number of segments``, verify that you're passing a UTF-8-encoded 
    string version of the JWT.
 
+.. _sdks-offline-login:
+
+Log In Offline 
+~~~~~~~~~~~~~~
+
+When your application authenticates a user, it caches the user's 
+credentials. You can check for existing user credentials to bypass the 
+login flow and access the cached user. Use this to open a synced database
+offline. 
+
+.. note:: Initial login requires a network connection
+
+   When a user signs up for your app, or logs in for the first time with an 
+   existing account on a client, the device must have a network connection.
+   Checking for cached user credentials lets you open a synced database
+   offline, but only if the user has previously logged in on the device while
+   online.
+
+.. include:: /includes/sdk-examples/users/authenticate-log-in-offline.rst
+
+.. _sdks-logout:
+
+Log a User Out
+--------------
+
+.. include:: /includes/log-out-queries-in-progress.rst
+
+The log out method:
+
+- Deletes locally stored user credentials from the device.
+- Immediately halts any synchronization to and from the user's synced databases.
+- For anonymous users, :ref:`removes the user <sdks-remove-users>`.
+
+Because logging out halts synchronization, you should only log out after
+all synced database updates have uploaded to the server.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/authenticate-log-user-out-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-log-user-out-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-log-user-out-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-log-user-out-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-log-user-out-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-log-user-out-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-log-user-out-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-log-user-out.rst
+
 .. _sdks-get-the-current-user:
 
 Get the Current User
@@ -722,26 +803,6 @@ on the language, if there are no logged-in users. Refer to
       :tabid: typescript
 
 .. include:: /includes/sdk-examples/users/authenticate-get-current-user.rst
-
-.. _sdks-offline-login:
-
-Log In Offline 
---------------
-
-When your application authenticates a user, it caches the user's 
-credentials. You can check for existing user credentials to bypass the 
-login flow and access the cached user. Use this to open a synced database
-offline. 
-
-.. note:: Initial login requires a network connection
-
-   When a user signs up for your app, or logs in for the first time with an 
-   existing account on a client, the device must have a network connection.
-   Checking for cached user credentials lets you open a synced database
-   offline, but only if the user has previously logged in on the device while
-   online.
-
-.. include:: /includes/sdk-examples/users/authenticate-log-in-offline.rst
 
 .. _sdks-access-token:
 
@@ -878,67 +939,6 @@ Configure Refresh Token Expiration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/refresh-token-expiry.rst
-
-.. _sdks-logout:
-
-Log a User Out
---------------
-
-.. include:: /includes/log-out-queries-in-progress.rst
-
-The log out method:
-
-- Deletes locally stored user credentials from the device.
-- Immediately halts any synchronization to and from the user's synced databases.
-- For anonymous users, :ref:`removes the user <sdks-remove-users>`.
-
-Because logging out halts synchronization, you should only log out after
-all synced database updates have uploaded to the server.
-
-.. tabs-drivers::
-
-   .. tab::
-      :tabid: cpp-sdk
-
-   .. tab::
-      :tabid: csharp
-
-      .. include:: /includes/api-details/csharp/users/authenticate-log-user-out-description.rst
-      
-   .. tab::
-      :tabid: dart
-
-      .. include:: /includes/api-details/dart/users/authenticate-log-user-out-description.rst
-
-   .. tab::
-      :tabid: java
-
-      .. include:: /includes/api-details/java/users/authenticate-log-user-out-description.rst
-
-   .. tab::
-      :tabid: java-kotlin
-
-      .. include:: /includes/api-details/java/users/authenticate-log-user-out-description.rst
-
-   .. tab::
-      :tabid: javascript
-
-      .. include:: /includes/api-details/javascript/users/authenticate-log-user-out-js-ts-description.rst
-
-   .. tab::
-      :tabid: kotlin
-
-      .. include:: /includes/api-details/kotlin/users/authenticate-log-user-out-description.rst
-
-   .. tab::
-      :tabid: swift
-
-   .. tab::
-      :tabid: typescript
-
-      .. include:: /includes/api-details/javascript/users/authenticate-log-user-out-js-ts-description.rst
-
-.. include:: /includes/sdk-examples/users/authenticate-log-user-out.rst
 
 .. _sdks-authentication-change-listener:
 
