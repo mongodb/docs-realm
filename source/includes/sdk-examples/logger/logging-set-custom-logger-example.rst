@@ -16,7 +16,7 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/logger.snippet.set-custom-logger.dart
+         .. literalinclude:: /examples/generated/flutter/logger.snippet.set-the-log-level.dart
             :language: dart
 
      - id: javascript
