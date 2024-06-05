@@ -18,19 +18,19 @@ Serialization - Flutter SDK
    :class: singlecol
 
 The Atlas Device SDK for Flutter supports serialization and deserialization of
-:manual:`EJSON </reference/mongodb-extended-json>` to and from static Realm objects.
+:manual:`Extended JSON (ESJON) </reference/mongodb-extended-json>` to and from static Realm objects.
 Serialization allows for easier integration with MongoDB APIs.
 
 Supported Data Types for Serialization
 --------------------------------------
 
-The following :flutter-sdk:`defined enum values <realm/EJsonType.html>` 
-can be serialized and deserialized:
+The Flutter SDK supports serializing the following data types:
 
 - Array
 - Binary
 - Boolean
 - Date
+- Document
 - Decimal128
 - Double
 - Int32
@@ -42,20 +42,20 @@ can be serialized and deserialized:
 - Symbol
 - Null
 - Undefined
-- :ref:`RealmValue <flutter-realm-value>`
-
-The SDK does not currently support the following types: Code, CodeWScope, DBPointer,
-DBRef, Regular Expression, and Timestamp. 
 
 For more information and examples on the serialization for each of these types,
 see :manual:`BSON Data Types and Associated Representations </reference/mongodb-extended-json/#bson-data-types-and-associated-representations>`.
+
+The realm-specific type, :ref:`RealmValue <flutter-realm-value>`, is also 
+supported. The SDK does not currently support the following types: Code, 
+CodeWScope, DBPointer, DBRef, Regular Expression, and Timestamp. 
 
 Object Model for Serialization
 ------------------------------
 
 Full-document encoding enables you to serialize and deserialize user-defined 
 classes. You can create your object model as you normally would. The RealmObject class
-model created by your ``part`` declaration will provide the neccessary encoder 
+model created by your ``part`` declaration provides the necessary encoder 
 and decoder methods for serialization and deserialization. The following ``Pet``
 object model will be used in the following examples:
 
@@ -65,7 +65,7 @@ object model will be used in the following examples:
 Serialization
 -------------
 
-For objects in a Realm, you can serialize to EJSON using the 
+For objects based on ``RealmObject`` classes, you can serialize to EJSON using the 
 :flutter-sdk:`toEjson() <realm/toEJson.html>` method in the following two ways: 
 
 .. io-code-block::
@@ -96,11 +96,10 @@ a deserialized instance of the specified object type.
 Custom Encoders
 ---------------
 
-For non-Realm classes, you can use the ``@ejson`` annotation to the class constructor
+For non-Realm classes, you can use the ``@ejson`` annotation on the class constructor
 to generate a decoder and encoder:
 
 .. literalinclude:: /examples/generated/flutter/person.snippet.ejson-annotation.dart
     :language: dart
 
-You can also :flutter-sdk:`register <realm/register.html>` custom encoders and decoders
-if necessary. 
+Alternatively, you can :flutter-sdk:`register <realm/register.html>` custom EJSON encoders and decoders.

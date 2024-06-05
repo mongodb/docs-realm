@@ -5,28 +5,27 @@ import 'utils.dart';
 import './pet.dart';
 
 main() {
-  final config = Configuration.local([Pet.schema]);
-  final realm = Realm(config);
-
-  // create pet spider object
-  final spider = Pet('Jumping Spider', 8, DateTime.utc(2024, 4, 10));
-
-  realm.write(() {
-    realm.add(spider);
-  });
-
-  // :snippet-start: serialize
-  // Pass the object as a parameter to the method
-  EJsonValue serializeByParam = toEJson(spider);
-
-  // Call the method directly on the object
-  EJsonValue serializeWithCall = spider.toEJson();
-  // :snippet-end:
-
   test('serialize', () {
 
-    EJsonValue different = spider.toEJson();
-    print(different);
+    final config = Configuration.local([Pet.schema]);
+    final realm = Realm(config);
+
+    // create pet spider object
+    final spider = Pet('Jumping Spider', 8, DateTime.utc(2024, 4, 10));
+
+    realm.write(() {
+      realm.add(spider);
+    });
+
+    // :snippet-start: serialize
+    // Pass the object as a parameter to the method
+    EJsonValue serializeByParam = toEJson(spider);
+
+    // Call the method directly on the object
+    EJsonValue serializeWithCall = spider.toEJson();
+    // :snippet-end:
+
+    print(serializeByParam);
 
     final birthDate = DateTime.utc(2024, 4, 10);
 
@@ -42,9 +41,25 @@ main() {
 
     // make sure two methods of serialization match
     expect(serializeByParam, serializeWithCall);
+
+    cleanUpRealm(realm);
   });
 
   test('deserialize', () {
+
+    final config = Configuration.local([Pet.schema]);
+    final realm = Realm(config);
+
+    // create pet spider object
+    final spider = Pet('Jumping Spider', 8, DateTime.utc(2024, 4, 10));
+
+    realm.write(() {
+      realm.add(spider);
+    });
+
+    // Pass the object as a parameter to the method
+    EJsonValue serializeByParam = toEJson(spider);
+
     // :snippet-start: deserialize
     // Pass the serialized object to the method
     Pet deserializeFromEjson = fromEJson(serializeByParam);
@@ -55,7 +70,6 @@ main() {
     // make sure deserialized returns proper instance of Pet object
     expect(deserializeFromEjson.type, spider.type);
 
+    cleanUpRealm(realm);
   });
-
-  cleanUpRealm(realm);
 }
