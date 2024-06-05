@@ -6,11 +6,15 @@ Manage Sync Sessions
 
 .. meta:: 
    :description: Access the Sync session to check network connection, wait for uploads and downloads, and check Sync progress.
-   :keywords: code example
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
 
 .. facet::
    :name: genre
    :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
 
 .. contents:: On this page
    :local:
@@ -18,9 +22,511 @@ Manage Sync Sessions
    :depth: 2
    :class: singlecol
 
-Placeholder page for information about managing sync sessions.
+.. tabs-selector:: drivers
+
+Opening a synced database starts a Sync session for that database.
+Atlas Device SDK provides methods to:
+
+- Check the network connection state.
+- Manually pause and resume a Sync session.
+- Wait for changes to upload or download.
+- Check upload or download progress.
+- Manually reconnect Sync sessions after a device has been offline.
+
+You can also define the Sync connection behavior. App Services defaults to 
+sharing a single connection to the server for all opened synced databases. 
+The connection to the server is independent of the Sync session, and is based
+on the App Services user.
+
+You can change the Sync connection behavior from the :ref:`App client
+configuration <sdks-connect-to-atlas>`.
+
+.. _sdks-access-sync-session:
+
+Get the Sync Session
+--------------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-sessions-get-sync-session-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-sessions-get-session-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-sessions-get-sync-session-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-get-sync-session-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-get-sync-session-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-get-sync-session-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-sessions-get-sync-session-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/manage-sync-sessions-get-sync-session-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-sessions-get-sync-session-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-get-sync-session-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-sessions-get-sync-session.rst
+
+.. _sdks-check-network-connection:
+
+Check the Network Connection
+----------------------------
+
+The SDK's *offline-first* design means that you generally don't need to check
+the current network connection state. However, the SDK provides a connection
+state property if your app calls for some indication of connection state.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-sessions-check-network-connection-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-sessions-check-network-connection-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-sessions-check-network-connection-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-check-network-connection-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-check-network-connection-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-check-network-connection-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-sessions-check-network-connection-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/manage-sync-sessions-check-network-connection-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-sessions-check-network-connection-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-check-network-connection-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-sessions-check-network-connection.rst
+
+.. _sdks-check-sync-state:
+
+Check the Sync State
+--------------------
+
+You can check the state of the Sync session itself to determine whether the
+sync session is active. The Sync connection state is distinct from the network
+connection state.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-sessions-check-sync-state-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-sessions-check-sync-state-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-sessions-check-sync-state-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-check-sync-state-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-check-sync-state-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-check-sync-state-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-sessions-check-sync-state-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/manage-sync-sessions-check-sync-state-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-sessions-check-sync-state-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-check-sync-state-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-sessions-check-sync-state.rst
 
 .. _sdks-pause-resume-sync:
 
 Pause or Resume a Sync Session
 ------------------------------
+
+You can pause and resume the sync session on the database. Pausing a sync
+session only suspends that database's sync session. If you have more than one
+open database, and you have enabled multiple sync sessions, pausing one sync
+session does not affect the sync sessions for other databases.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-sessions-pause-resume-sync-session-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-sessions-pause-resume-sync-session-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-sessions-pause-resume-sync-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-pause-resume-sync-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-pause-resume-sync-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-pause-resume-sync-session-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-sessions-pause-resume-sync-session-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/manage-sync-sessions-pause-resume-sync-session-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-sessions-pause-resume-sync-session-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-pause-resume-sync-session-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-sessions-pause-resume.rst
+
+When to Pause a Sync Session
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For most applications, there is no need to manually pause and resume a sync 
+session. However, there are a few circumstances under which you may want to 
+pause or suspend a sync session:
+
+- You only want to sync after the user takes a specific action
+- You only want to sync during a certain time of the day
+- You don't want to attempt to sync when there is poor network connectivity
+- You want to force the SDK to re-evaluate the user's permissions after making
+  a permissions-related change
+
+In the case of poor network connectivity, continually trying to establish 
+a network connection can drain the user's device battery.
+
+The case of explicitly forcing a sync session to connect is most commonly 
+related to being offline for some time. The sync client attempts to 
+connect, and upon failure, goes into exponential backoff. After being offline 
+for a long time, the client may not immediately reconnect. Pausing and 
+resuming the sync session explicitly forces the connection.
+
+When you do pause a sync session, keep these things in mind:
+
+- If the client may be offline longer than the :ref:`client maximum offline 
+  time <client-maximum-offline-time>`, the client will be unable to resume
+  syncing and must perform a :ref:`client reset <client-resets>`.
+- Pausing a sync session pauses it in both directions. Changes that your app 
+  makes on the device do not sync with the backend, *and* changes to the
+  data in the backend or on other devices do not sync to the device. There
+  is no way to pause only uploads or pause only downloads.
+- Do not pause a sync session if you want a client to permanently stop 
+  syncing with the backend. To permanently stop syncing, 
+  copy the contents of the synced database into a non-synced 
+  database, and use the non-synced database in the client.
+
+*Do not* pause sync to stop syncing for indefinite time periods or time 
+ranges in months and years. The functionality is not designed or tested 
+for these use cases. You could encounter a range of issues when using it 
+this way.
+
+.. _sdks-sync-session-wait-for-changes:
+
+Wait for Changes to Upload or Download
+--------------------------------------
+
+You can wait for changes to upload or download. You might want to wait for
+changes to upload or download before you close a synced database, pause a
+Sync session, or change Sync subscriptions.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-sessions-wait-for-changes-to-upload-or-downoad-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download.rst
+
+.. _sdks-check-upload-and-download-progress:
+
+Check Upload & Download Progress
+--------------------------------
+
+You can check the upload and download progress for a Sync session. You might
+want to check upload or download progress when you want to provide a progress
+estimate indicator in your app's user interface.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-sessions-check-upload-and-download-progress-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-sessions-check-upload-download-progress-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-check-upload-download-progress-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-sessions-check-upload-download-progress-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-sessions-wait-for-changes-to-upload-or-download-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-check-upload-download-progress-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-sessions-check-upload-and-download-progress.rst
+
+.. _sdks-reconnect-sync-sessions:
+
+Manually Reconnect All Sync Sessions
+------------------------------------
+
+The SDK automatically detects when a device regains connectivity after being 
+offline and attempts to reconnect using an incremental backoff strategy.
+For example, on Apple platforms, the SDK listens for network change
+notifications and automatically triggers a reconnect immediately after
+receiving one.
+
+You can choose to manually trigger a reconnect attempt with with the reconnect
+method instead of waiting for the duration of the incremental backoff. This is 
+useful if you have a more accurate understanding of the network conditions
+and don't want to rely on the SDK's automatic reconnect detection.
+
+When you call this method, the SDK forces all sync sessions to *attempt* to 
+reconnect immediately. This resets any timers used for incremental 
+backoff. 
+
+Calling this method does not guarantee the device can reconnect. If the SDK
+gets a fatal error, or if the device is already connected or is trying to
+connect, calling this method has no effect.
+
+.. important:: Cannot Reconnect Within Socket Read Timeout Duration
+   
+   The SDK has an internal default socket read timeout of 2 minutes. The 
+   SDK times out if a read operation does not receive any data within a
+   2-minute window. If you call the reconnect method within that window, the 
+   SDK does *not* attempt to reconnect.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-sessions-manually-reconnect-sync-sessions-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-sessions-manually-reconnect-sync-sessions-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-manually-reconnect-sync-sessions-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-sessions-manually-reconnect-sync-sessions-js-ts-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/manage-sync-sessions-manually-reconnect-sync-sessions-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-sessions-manually-reconnect-sync-sessions-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-sessions-manually-reconnect-sync-sessions-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-sessions-manually-reconnect-sync-sessions.rst
+
