@@ -30,6 +30,7 @@ amounts of data depending on your development needs. You can specify
 different log levels or custom loggers.
 
 .. warning:: Java SDK Logging Support
+
    The Java SDK does not support the same logging API as the other SDKs.
    Instead, it uses a deprecated sync logger. Refer to the Java SDK: Deprecated
    Sync Logger section on this page for more details.
@@ -143,8 +144,7 @@ debugging.
 
 .. include:: /includes/sdk-examples/logger/logging-set-custom-logger-example.rst
 
-After setting a custom logger, you should also initialize the logger and and set
-it as the default logger for your database.
+After setting a custom logger, you may need to initialize the logger.
 
 .. tabs-drivers::
 
@@ -200,11 +200,6 @@ Turn Off Logging
 You can turn off logging by setting the log level:
 
 .. include:: /includes/sdk-examples/logger/logging-turn-off-example.rst
-
-.. note:: Flutter SDK Isolates and Logging Behavior
-
-   For the Flutter SDK, if you turn off logging from the first isolate, this
-   stops the default printing logger.
 
 Java SDK: Deprecated Sync Logger
 --------------------------------

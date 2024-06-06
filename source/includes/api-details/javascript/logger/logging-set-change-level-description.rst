@@ -1,16 +1,6 @@
 To set the level of detail reported by the Node.js SDK pass a valid level to
-:js-sdk:`Realm.setLogLevel() <classes/Realm-1.html#setLogLevel>`. Valid values
-are:
-
-- "all" 
-- "trace" 
-- "debug" 
-- "detail" 
-- "info" 
-- "warn" 
-- "error" 
-- "fatal"
-- "off"
+:js-sdk:`Realm.setLogLevel() <classes/Realm-1.html#setLogLevel>`. Refer to
+:js-sdk:`LogLevel <types/Realm.App.Sync.LogLevel.html>` for all valid values.
 
 .. note:: Performance and console.log()
   

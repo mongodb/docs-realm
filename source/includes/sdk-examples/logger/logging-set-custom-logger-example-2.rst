@@ -23,7 +23,7 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-custom-logger.js
             :language: javascript
             :copyable: false
 
@@ -42,6 +42,6 @@
      - id: typescript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.ts
+         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-custom-logger.ts
             :language: typescript
             :copyable: false

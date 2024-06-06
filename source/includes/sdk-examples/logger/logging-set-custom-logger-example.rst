@@ -22,7 +22,7 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-custom-logger.js
+         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-log-level.ts
             :language: javascript
 
      - id: kotlin
@@ -40,5 +40,5 @@
      - id: typescript
        content: |
 
-         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-custom-logger.ts
+         .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-log-level.ts
             :language: typescript
