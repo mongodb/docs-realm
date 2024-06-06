@@ -12,7 +12,9 @@
             .. output:: 
                 :language: console
 
-                Connection[2]: Session[11]: Received: ERROR "Client attempted a write that is not allowed; it has been reverted" (error_code=231, is_fatal=false, error_action=Warning)
+                Connection[2]: Session[11]: Received: ERROR "Client attempted a
+                write that is not allowed; it has been reverted" (error_code=231,
+                is_fatal=false, error_action=Warning)
 
 
      - id: csharp
