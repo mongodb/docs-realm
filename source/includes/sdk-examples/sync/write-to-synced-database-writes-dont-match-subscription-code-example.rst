@@ -56,12 +56,12 @@
             .. input:: /examples/generated/kotlin/SyncedRealmCRUD.snippet.write-outside-flexible-sync-query.kt
                :language: kotlin
 
-             .. output:: 
-                :language: console
+            .. output:: 
+               :language: console
 
-                [Session][CompensatingWrite(231)] Client attempted a write that
-                is disallowed by permissions, or modifies an object outside the
-                current query, and the server undid the change.
+               [Session][CompensatingWrite(231)] Client attempted a write that
+               is disallowed by permissions, or modifies an object outside the
+               current query, and the server undid the change.
 
      - id: swift
        content: |
