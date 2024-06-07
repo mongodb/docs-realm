@@ -4,7 +4,27 @@ import 'utils.dart';
 
 import './pet.dart';
 
+@RealmModel()
+class _ {
+  @PrimaryKey()
+  late ObjectId id;
+
+  String? licensePlate;
+  bool isElectric = false;
+  double milesDriven = 0;
+  late List<String> attributes;
+  late _Person? owner;
+}
+
 main() {
+  test('data types', () {
+
+    List dartList = ['dog', 'cat'];
+
+    // include ex of a one to one relation (mapping to an object)
+
+  });
+
   test('serialize', () {
 
     final config = Configuration.local([Pet.schema]);
