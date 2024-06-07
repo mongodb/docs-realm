@@ -1,3 +1,13 @@
+# June 2, 2024
+
+## Kotlin SDK
+
+- Realm/Read & Write Data/Read: Fix typo.
+
+## Other
+
+- Internal: Update Node version to 18.x for compatibility with Bluehawk. 
+
 # May 31, 2024
 
 ## Other
