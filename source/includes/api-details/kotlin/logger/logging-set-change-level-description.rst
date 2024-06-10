@@ -12,5 +12,3 @@ By default, all logs go to a default system logger that varies by system:
 - JVM logs to stdout.
 - MacOS logs to NSLog.
 - iOS logs to NSLog.
-
-.. include:: /includes/tip-sync-log-levels.rst
