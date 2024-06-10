@@ -1,1 +1,4 @@
-Realm.logger = Logger.detached("custom logger");
+Realm.logger.onRecord.listen((record) {
+  // Do something with the log record
+  print(record.message);
+});
