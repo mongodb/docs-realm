@@ -4,3 +4,5 @@ and override the virtual ``do_log()`` member function.
 
 .. literalinclude:: /examples/generated/cpp/logger.snippet.create-custom-logger.cpp
   :language: cpp
+
+After setting a custom logger, you need to initialize it:
