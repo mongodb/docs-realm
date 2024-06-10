@@ -48,6 +48,10 @@ class Character extends _Character
       RealmObjectBase.getChanges<Character>(this);
 
   @override
+  Stream<RealmObjectChanges<Character>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Character>(this, keyPaths);
+
+  @override
   Character freeze() => RealmObjectBase.freezeObject<Character>(this);
 
   EJsonValue toEJson() {
@@ -128,6 +132,10 @@ class Fellowship extends _Fellowship
   @override
   Stream<RealmObjectChanges<Fellowship>> get changes =>
       RealmObjectBase.getChanges<Fellowship>(this);
+
+  @override
+  Stream<RealmObjectChanges<Fellowship>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Fellowship>(this, keyPaths);
 
   @override
   Fellowship freeze() => RealmObjectBase.freezeObject<Fellowship>(this);

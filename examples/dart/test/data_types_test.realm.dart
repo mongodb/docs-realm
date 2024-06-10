@@ -48,6 +48,10 @@ class Address extends _Address
       RealmObjectBase.getChanges<Address>(this);
 
   @override
+  Stream<RealmObjectChanges<Address>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Address>(this, keyPaths);
+
+  @override
   Address freeze() => RealmObjectBase.freezeObject<Address>(this);
 
   EJsonValue toEJson() {
@@ -126,6 +130,10 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Person>> get changes =>
       RealmObjectBase.getChanges<Person>(this);
+
+  @override
+  Stream<RealmObjectChanges<Person>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Person>(this, keyPaths);
 
   @override
   Person freeze() => RealmObjectBase.freezeObject<Person>(this);
@@ -240,6 +248,10 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Car>(this);
 
   @override
+  Stream<RealmObjectChanges<Car>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Car>(this, keyPaths);
+
+  @override
   Car freeze() => RealmObjectBase.freezeObject<Car>(this);
 
   EJsonValue toEJson() {
@@ -315,6 +327,11 @@ class UuidPrimaryKey extends _UuidPrimaryKey
       RealmObjectBase.getChanges<UuidPrimaryKey>(this);
 
   @override
+  Stream<RealmObjectChanges<UuidPrimaryKey>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<UuidPrimaryKey>(this, keyPaths);
+
+  @override
   UuidPrimaryKey freeze() => RealmObjectBase.freezeObject<UuidPrimaryKey>(this);
 
   EJsonValue toEJson() {
@@ -367,6 +384,11 @@ class ObjectIdPrimaryKey extends _ObjectIdPrimaryKey
   @override
   Stream<RealmObjectChanges<ObjectIdPrimaryKey>> get changes =>
       RealmObjectBase.getChanges<ObjectIdPrimaryKey>(this);
+
+  @override
+  Stream<RealmObjectChanges<ObjectIdPrimaryKey>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<ObjectIdPrimaryKey>(this, keyPaths);
 
   @override
   ObjectIdPrimaryKey freeze() =>
@@ -459,6 +481,11 @@ class RealmValueExample extends _RealmValueExample
       RealmObjectBase.getChanges<RealmValueExample>(this);
 
   @override
+  Stream<RealmObjectChanges<RealmValueExample>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<RealmValueExample>(this, keyPaths);
+
+  @override
   RealmValueExample freeze() =>
       RealmObjectBase.freezeObject<RealmValueExample>(this);
 
@@ -532,6 +559,12 @@ class RealmValueCollectionExample extends _RealmValueCollectionExample
       RealmObjectBase.getChanges<RealmValueCollectionExample>(this);
 
   @override
+  Stream<RealmObjectChanges<RealmValueCollectionExample>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<RealmValueCollectionExample>(
+          this, keyPaths);
+
+  @override
   RealmValueCollectionExample freeze() =>
       RealmObjectBase.freezeObject<RealmValueCollectionExample>(this);
 
@@ -603,6 +636,10 @@ class Vehicle extends _Vehicle with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Vehicle>> get changes =>
       RealmObjectBase.getChanges<Vehicle>(this);
+
+  @override
+  Stream<RealmObjectChanges<Vehicle>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Vehicle>(this, keyPaths);
 
   @override
   Vehicle freeze() => RealmObjectBase.freezeObject<Vehicle>(this);
@@ -693,6 +730,10 @@ class Player extends _Player with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Player>(this);
 
   @override
+  Stream<RealmObjectChanges<Player>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Player>(this, keyPaths);
+
+  @override
   Player freeze() => RealmObjectBase.freezeObject<Player>(this);
 
   EJsonValue toEJson() {
@@ -773,6 +814,10 @@ class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Item>> get changes =>
       RealmObjectBase.getChanges<Item>(this);
+
+  @override
+  Stream<RealmObjectChanges<Item>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Item>(this, keyPaths);
 
   @override
   Item freeze() => RealmObjectBase.freezeObject<Item>(this);
@@ -860,6 +905,11 @@ class RealmSetExample extends _RealmSetExample
       RealmObjectBase.getChanges<RealmSetExample>(this);
 
   @override
+  Stream<RealmObjectChanges<RealmSetExample>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<RealmSetExample>(this, keyPaths);
+
+  @override
   RealmSetExample freeze() =>
       RealmObjectBase.freezeObject<RealmSetExample>(this);
 
@@ -925,6 +975,11 @@ class SomeRealmModel extends _SomeRealmModel
   @override
   Stream<RealmObjectChanges<SomeRealmModel>> get changes =>
       RealmObjectBase.getChanges<SomeRealmModel>(this);
+
+  @override
+  Stream<RealmObjectChanges<SomeRealmModel>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<SomeRealmModel>(this, keyPaths);
 
   @override
   SomeRealmModel freeze() => RealmObjectBase.freezeObject<SomeRealmModel>(this);
@@ -1001,6 +1056,11 @@ class BinaryExample extends _BinaryExample
       RealmObjectBase.getChanges<BinaryExample>(this);
 
   @override
+  Stream<RealmObjectChanges<BinaryExample>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<BinaryExample>(this, keyPaths);
+
+  @override
   BinaryExample freeze() => RealmObjectBase.freezeObject<BinaryExample>(this);
 
   EJsonValue toEJson() {
@@ -1073,6 +1133,10 @@ class MapExample extends _MapExample
   @override
   Stream<RealmObjectChanges<MapExample>> get changes =>
       RealmObjectBase.getChanges<MapExample>(this);
+
+  @override
+  Stream<RealmObjectChanges<MapExample>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<MapExample>(this, keyPaths);
 
   @override
   MapExample freeze() => RealmObjectBase.freezeObject<MapExample>(this);

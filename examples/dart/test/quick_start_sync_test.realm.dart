@@ -54,6 +54,10 @@ class Todo extends _Todo with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Todo>(this);
 
   @override
+  Stream<RealmObjectChanges<Todo>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Todo>(this, keyPaths);
+
+  @override
   Todo freeze() => RealmObjectBase.freezeObject<Todo>(this);
 
   EJsonValue toEJson() {
