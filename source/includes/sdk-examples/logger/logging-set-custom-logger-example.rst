@@ -10,9 +10,8 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+         .. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.customize-logging-function.cs
             :language: csharp
-            :copyable: false
 
      - id: dart
        content: |
@@ -45,3 +44,4 @@
          .. literalinclude:: /examples/generated/node/v12/logger.test.snippet.set-custom-logger.ts
             :language: typescript
             :copyable: false
+
