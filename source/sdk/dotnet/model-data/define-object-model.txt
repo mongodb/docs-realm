@@ -287,6 +287,10 @@ define the appropriate properties in your schema as
 :ref:`dictionary <dotnet-client-dictionaries>` collection of ``RealmValue`` elements.
 Note that ``RealmValue`` *cannot* represent a set or an embedded object.
 
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
 
 .. _dotnet-omit-classes-from-schema:
 .. _dotnet-provide-subset-classes-schema:

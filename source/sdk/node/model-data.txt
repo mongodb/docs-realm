@@ -36,7 +36,7 @@ to native JavaScript objects, which means there's no need to use a special data
 access library, such as an :wikipedia:`ORM <Object-relational_mapping>`.
 Instead, you can work with Realm objects as you would any other object.
 
-The following class contains a schema that defines a ``Car`` object type with 
+The following class contains a schema that defines a ``Car`` object type with
 ``id``, ``make``, ``model``, and ``miles`` properties. It also defines a primary key.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-object-properties.js
@@ -61,6 +61,40 @@ schema like the following:
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-one-to-many.js
    :language: javascript
 
+.. _node-model-unstructured-data:
+
+Model Unstructured Data
+-----------------------
+
+.. versionadded:: 12.9.0
+
+Starting in Node.js SDK version 12.9.0, you can
+:ref:`define nested collections
+of mixed data <node-nested-collections-mixed>`
+within a  ``mixed`` property.
+
+The ability to nest collections of mixed data enables you to define data
+that doesn't otherwise conform to an expected schema, including data with
+variable structure or data whose shape or type is not known at runtime.
+For example, you might have highly variable user-created objects, event logs,
+or survey response data that are collected and stored in a variety of JSON
+formats. This approach allows you to :ref:`react to changes <node-collection-listener>`
+in the nested data and to update specific elements, but it is less
+performant than using a structured schema or serializing JSON blobs
+into a single string property.
+
+To model unstructured data in your schema using collections of mixed type,
+define the appropriate properties in your schema as
+:ref:`mixed <node-data-types-mixed>` types. You can then set these
+``mixed`` properties as a :ref:`list <node-realm-list>` or a
+:ref:`dictionary <node-data-types-dictionaries>` collection of mixed elements.
+Note that ``mixed`` *cannot* represent a set or an embedded object.
+
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
+
 .. _node-relationships:
 .. _node-client-relationships:
 
@@ -75,7 +109,7 @@ in the :ref:`property schema <node-realm-schema>`.
 
 Relationships are direct references to other objects in a realm.
 You don't need bridge tables or create joins to define a relationship like you
-would in a relational database. 
+would in a relational database.
 Instead you can access related objects by reading and writing to the property
 that defines the relationship.
 
@@ -89,22 +123,22 @@ There are three primary types of relationships between objects:
 - :ref:`Inverse Relationship <node-inverse-relationship>`
 
 .. note:: Realm vs Other Databases
-   
+
    Objects often contain direct references to other objects.
    When working with objects and references,
    you often copy from database storage into application memory.
    This situation leaves the developer with a choice of what to copy into memory:
-   
+
    - You can copy the entire referenced object ahead of time.
      This means that all referenced data is always available quickly,
      but can use up a lot of resources. Depending on the amount of available memory
      this may not be viable.
-   
+
    - You can copy only a foreign key value for each object ahead of time that you
      can use to query the full object if it's needed.
      These referenced lookups are memory-efficient.
      However, they require more query code and too many lookups can slow your application down.
-   
+
    Realm's query architecture avoids the tradeoff between memory usage and computational overhead.
    Instead, Realm queries can directly reference :ref:`related objects
    <node-relationships>` and their properties on disk.

@@ -296,35 +296,6 @@ types in addition to embedded objects.
 
 To learn more about Data Ingest, read :ref:`Stream Data to Atlas <react-native-stream-data-to-atlas>`.
 
-.. _react-native-model-unstructured-data:
-
-Model Unstructured Data
------------------------
-
-.. versionadded:: ``realm@12.9.0``
-
-Starting in SDK version 12.9.0, you can
-:ref:`define nested collections
-of mixed data <react-native-nested-collections-mixed>`
-within a  ``mixed`` property.
-
-The ability to nest collections of mixed data enables you to define data
-that doesn't otherwise conform to an expected schema, including data with
-variable structure or data whose shape or type is not known at runtime.
-For example, you might have highly variable user-created objects, event logs,
-or survey response data that are collected and stored in a variety of JSON
-formats. This approach allows you to :ref:`react to changes <react-native-collection-listener>`
-in the nested data and to update specific elements, but it is less
-performant than using a structured schema or serializing JSON blobs
-into a single string property.
-
-To model unstructured data in your schema using collections of mixed type,
-define the appropriate properties in your schema as
-:ref:`mixed <react-native-realm-value>` types. You can then set these
-``mixed`` properties as a :ref:`list <react-native-realm-list>` or a
-:ref:`dictionary <react-native-data-types-dictionaries>` collection of mixed elements.
-Note that ``mixed`` *cannot* represent a set or an embedded object.
-
 TypeScript and Required Properties
 ----------------------------------
 
