@@ -150,6 +150,20 @@ class _MapExample {
 // :snippet-end:
 
 main() {
+  setUp(() async {
+    final config = Configuration.local([RealmValueExample.schema]);
+    final realm = Realm(config);
+
+    realm.write(() => realm.deleteAll<RealmValueExample>());
+    await delay(300);
+
+    realm.close();
+    await delay(300);
+
+    Realm.deleteRealm(realm.config.path);
+    await delay(300);
+  });
+
   test('Uuid', () {
     // :snippet-start: uuid-use
     final myId = Uuid.v4();
@@ -167,7 +181,7 @@ main() {
   });
 
   group('RealmValue - ', () {
-    test("RealmValue.from()", () {
+    test("RealmValue.from()", () async {
       // :snippet-start: realm-value-from
       final realm = Realm(Configuration.local([RealmValueExample.schema]));
 
@@ -210,9 +224,9 @@ main() {
       });
       // :remove-end:
       // :snippet-end:
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test("RealmValueType and RealmValue.value", () {
+    test("RealmValueType and RealmValue.value", () async {
       final realm = Realm(Configuration.local([RealmValueExample.schema]));
       realm.write(() {
         realm.addAll([
@@ -285,9 +299,9 @@ main() {
         }
       }
       // :snippet-end:
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Nested collections of mixed data', () {
+    test('Nested collections of mixed data', () async {
       final realm =
           Realm(Configuration.local([RealmValueCollectionExample.schema]));
 
@@ -322,10 +336,10 @@ main() {
         expect(mapValue.containsKey('mapOfStrings'), true);
         expect(mapValue['mapOfMaps']?.asList()[0].asMap().length, 2);
       });
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
   });
-  test('DateTime', () {
+  test('DateTime', () async {
     final config = Configuration.local([Vehicle.schema]);
     final realm = Realm(config);
 
@@ -357,10 +371,10 @@ main() {
     final queriedSubieDate = queriedSubaruOutback.dateLastServiced.toString();
     expect(queriedSubieDate, '2022-09-18 12:30:00.000Z');
 
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 
-  test("RealmList", () {
+  test("RealmList", () async {
     final config = Configuration.local([Player.schema, Item.schema]);
     final realm = Realm(config);
     // :snippet-start: realmlist-use
@@ -392,10 +406,10 @@ main() {
     expect(brave, 'brave');
     expect(elvishSword.name, 'elvish sword');
     expect(playersWithBodyArmor.length, 1);
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 
-  test("RealmResults", () {
+  test("RealmResults", () async {
     final config = Configuration.local([Player.schema, Item.schema]);
     final realm = Realm(config);
     final artemis = realm.write(() => realm.addAll([
@@ -415,10 +429,10 @@ main() {
     // :snippet-end:
     expect(players.length, 2);
     expect(bravePlayers.length, 1);
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 
-  test("Embedded objects", () {
+  test("Embedded objects", () async {
     // :snippet-start: embedded-object-examples
     // Both parent and embedded objects in schema
     final realm = Realm(Configuration.local([Person.schema, Address.schema]));
@@ -475,9 +489,9 @@ main() {
     // :snippet-end:
     expect(realm.find<Person>(joePrimaryKey), isNull); // :remove:
     expect(realm.dynamic.all("Address").length, 0);
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
-  test("RealmSet", () {
+  test("RealmSet", () async {
     // :snippet-start: realm-set-examples
     final realm = Realm(
         Configuration.local([RealmSetExample.schema, SomeRealmModel.schema]));
@@ -522,10 +536,10 @@ main() {
     expect(getSetResult.contains('apple'), isTrue);
     expect(setExample.realmObjectSet.length, 2);
     expect(results.length, 1);
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 
-  test("Binary - Uint8List.fromList()", () {
+  test("Binary - Uint8List.fromList()", () async {
     // :snippet-start: binary-from-list
     final realm = Realm(Configuration.local([BinaryExample.schema]));
 
@@ -543,10 +557,10 @@ main() {
     expect(testObject.first.requiredBinaryProperty, Uint8List.fromList([1, 2]));
 
     print(testObject.length);
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 
-  test("Map model", () {
+  test("Map model", () async {
     // :snippet-start: map-work-with
     final realm = Realm(Configuration.local([MapExample.schema]));
 
@@ -615,6 +629,6 @@ main() {
     expect(results.length, 1);
     expect(getPrimitiveMap.length, 4);
     expect(realmMap.nullableMap.length, 4);
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 }

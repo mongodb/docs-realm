@@ -39,7 +39,7 @@ void main() async {
     expect(realm.isClosed, false);
 
     // :snippet-start: add-sync-subscription
-// Check if the subscription already exists before adding
+    // Check if the subscription already exists before adding
     final userTodoSub = realm.subscriptions.findByName('getUserTodos');
     if (userTodoSub == null) {
       realm.subscriptions.update((mutableSubscriptions) {
@@ -49,6 +49,8 @@ void main() async {
     }
     // :snippet-end:
 
-    cleanUpRealm(realm);
+    await realm.subscriptions.waitForSynchronization();
+
+    await cleanUpRealm(realm);
   });
 }

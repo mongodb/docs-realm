@@ -36,7 +36,7 @@ class _Company {
 // :snippet-end:
 
 main() {
-  test("Create and query geospatial data", () {
+  test("Create and query geospatial data", () async {
     final firstCompanyID = ObjectId();
     final secondCompanyID = ObjectId();
 
@@ -119,6 +119,6 @@ main() {
     expect(companiesInLargeCircle.length, equals(1));
     expect(companiesInLargeBox.length, equals(1));
     expect(companiesInSmallBox.length, equals(2));
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 }
