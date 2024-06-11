@@ -4,9 +4,13 @@ import 'package:realm_dart/realm.dart';
 import 'dart:math';
 
 Future<void> cleanUpRealm(Realm realm, [App? app]) async {
-  await app?.currentUser?.logOut();
+  if (app != null) {
+    await app.currentUser?.logOut();
+  }
   if (!realm.isClosed) {
     realm.close();
+
+    await delay(200);
   }
   sleep(Duration(milliseconds: 500));
   Realm.deleteRealm(realm.config.path);

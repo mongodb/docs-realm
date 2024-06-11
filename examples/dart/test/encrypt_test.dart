@@ -24,7 +24,7 @@ void main() {
               Realm(Configuration.local([Car.schema], path: 'encrypted.realm')),
           throwsA(predicate((e) =>
               e is RealmException &&
-              e.message.startsWith("Error opening realm at path"))));
+              e.message.startsWith("Failed to open Realm file at path"))));
       cleanUpRealm(encryptedRealm);
     });
   });
