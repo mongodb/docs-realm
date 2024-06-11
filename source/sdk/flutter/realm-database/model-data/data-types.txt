@@ -4,7 +4,7 @@
 Data Types - Flutter SDK
 ========================
 
-.. meta:: 
+.. meta::
   :keywords: code example
   :description: Learn about the data types Atlas Device SDK for Flutter supports and how to use them.
 
@@ -39,16 +39,16 @@ Realm supports the following Dart types:
 DateTime
 ~~~~~~~~
 
-When you use ``DateTime`` with the Realm Flutter SDK, you can declare 
+When you use ``DateTime`` with the Realm Flutter SDK, you can declare
 it in the model as you would any other Dart type:
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.datetime-model.dart
    :language: dart
 
 However, it is important to note that Realm stores ``DateTime`` in UTC.
-When you use ``DateTime``, you must create it in UTC or convert it 
-with ``.toUtc()`` before you store it. If your application requires it, 
-you can convert it back to local or the desired time zone when reading 
+When you use ``DateTime``, you must create it in UTC or convert it
+with ``.toUtc()`` before you store it. If your application requires it,
+you can convert it back to local or the desired time zone when reading
 from Realm.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.datetime-use.dart
@@ -124,7 +124,7 @@ Work with a RealmList
 `````````````````````
 
 .. versionchanged:: 2.0.0
-   Get ``RealmList`` by property name with :flutter-sdk:`dynamic.getList() <realm//DynamicRealmObject/getList.html>` 
+   Get ``RealmList`` by property name with :flutter-sdk:`dynamic.getList() <realm//DynamicRealmObject/getList.html>`
 
 The following example demonstrates some basic usage of ``RealmList``.
 For more information about all available methods, refer to the
@@ -173,7 +173,7 @@ Work with a RealmSet
 ````````````````````
 
 .. versionchanged:: 2.0.0
-   Get ``RealmSet`` by property name with :flutter-sdk:`dynamic.getSet() <realm//DynamicRealmObject/getSet.html>` 
+   Get ``RealmSet`` by property name with :flutter-sdk:`dynamic.getSet() <realm//DynamicRealmObject/getSet.html>`
 
 The following example demonstrates some basic usage of ``RealmSet``.
 For more information about all available methods, refer to the
@@ -202,7 +202,7 @@ Add a RealmMap to a Schema
 ``````````````````````````
 
 You can add a ``RealmMap`` to your Realm Object schema by defining a property as
-type ``RealmMap<String, T>`` where ``T`` can be any :ref:`supported Realm data type 
+type ``RealmMap<String, T>`` where ``T`` can be any :ref:`supported Realm data type
 <flutter-data-types>` (except other collections), in your Realm Object model.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.map-model.dart
@@ -212,7 +212,7 @@ Work with a RealmMap
 ````````````````````
 
 .. versionchanged:: 2.0.0
-   Get ``RealmMap`` by property name with :flutter-sdk:`dynamic.getMap() <realm//DynamicRealmObject/getMap.html>` 
+   Get ``RealmMap`` by property name with :flutter-sdk:`dynamic.getMap() <realm//DynamicRealmObject/getMap.html>`
 
 The following example demonstrates some basic usage of ``RealmMap``.
 For more information about all available methods, refer to the
@@ -339,8 +339,8 @@ such as ``Uuid.v4()``.
 Decimal128
 ~~~~~~~~~~
 
-Dart doesn't have a native decimal type. You can use 
-`Decimal128 <https://pub.dev/documentation/realm/latest/realm/Decimal128-class.html>`__, 
+Dart doesn't have a native decimal type. You can use
+`Decimal128 <https://pub.dev/documentation/realm/latest/realm/Decimal128-class.html>`__,
 which is a 128-bit implementation of :wikipedia:`IEEE-754 <IEEE_754>`.
 When defining a decimal type, use the ``Decimal128`` BSON type.
 
@@ -362,31 +362,31 @@ RealmValue
 
 .. important:: Flutter SDK v2.0.0 Changes to ``RealmValue``
 
-   Flutter SDK version 2.0.0 updates ``RealmValue`` to allow a ``List`` 
-   or ``Map`` type of ``RealmValue``, which enables more flexibility 
-   when modeling unstructured data. Refer to  :ref:`flutter-model-unstructured-data` 
+   Flutter SDK version 2.0.0 updates ``RealmValue`` to allow a ``List``
+   or ``Map`` type of ``RealmValue``, which enables more flexibility
+   when modeling unstructured data. Refer to  :ref:`flutter-model-unstructured-data`
    for more information.
-   
-   This update also includes the following breaking changes, which may affect 
-   your app when upgrading to v2.0.0 or later: 
-   
-   - ``RealmValue.type`` is now an enum of ``RealmValueType`` instead of ``Type``.
-   - ``RealmValue.uint8List`` is renamed to ``RealmValue.binary``. 
 
-   For more information on how to upgrade an existing app from an earlier 
-   version to v2.0.0 or later, refer to :ref:`flutter-upgrade-v2`. 
+   This update also includes the following breaking changes, which may affect
+   your app when upgrading to v2.0.0 or later:
+
+   - ``RealmValue.type`` is now an enum of ``RealmValueType`` instead of ``Type``.
+   - ``RealmValue.uint8List`` is renamed to ``RealmValue.binary``.
+
+   For more information on how to upgrade an existing app from an earlier
+   version to v2.0.0 or later, refer to :ref:`flutter-upgrade-v2`.
 
 The `RealmValue <https://pub.dev/documentation/realm_common/latest/realm_common/RealmValue-class.html>`__
-data type is a mixed data type that can represent any other valid 
-data type except embedded objects. In Flutter SDK v2.0.0 and later, ``RealmValue`` 
-can represent a ``List<RealmValue>`` or ``Map<String, RealmValue>``. 
+data type is a mixed data type that can represent any other valid
+data type except embedded objects. In Flutter SDK v2.0.0 and later, ``RealmValue``
+can represent a ``List<RealmValue>`` or ``Map<String, RealmValue>``.
 
 Define a RealmValue Property
 ````````````````````````````
 
-To define a ``RealmValue`` property, set its type in your object model. 
-``RealmValue`` is indexable, but cannot be a primary key. You can also define 
-properties as collections (lists, sets, or maps) of type ``RealmValue``. 
+To define a ``RealmValue`` property, set its type in your object model.
+``RealmValue`` is indexable, but cannot be a primary key. You can also define
+properties as collections (lists, sets, or maps) of type ``RealmValue``.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-model.dart
    :language: dart
@@ -397,7 +397,7 @@ properties as collections (lists, sets, or maps) of type ``RealmValue``.
    However, if you want a ``RealmValue`` property to contain a null value,
    you can use the special ``RealmValue.nullValue()`` property.
 
-Create a RealmValue 
+Create a RealmValue
 ```````````````````
 
 To add a ``RealmValue`` to a Realm object, call ``RealmValue.from()`` on the data or ``RealmValue.nullValue()`` to set a null value.
@@ -407,7 +407,7 @@ To add a ``RealmValue`` to a Realm object, call ``RealmValue.from()`` on the dat
 
 .. _flutter-access-realm-value-type:
 
-Access RealmValue Data Type 
+Access RealmValue Data Type
 ```````````````````````````
 
 .. versionchanged:: 2.0.0
@@ -415,21 +415,21 @@ Access RealmValue Data Type
    ``RealmValueType`` enum replaces ``RealmValue.type``.
    ``RealmValue.binary`` replaces  ``RealmValue.uint8List``.
 
-To access the data stored in a ``RealmValue``, you can use: 
+To access the data stored in a ``RealmValue``, you can use:
 
-- ``RealmValue.value``, which returns an ``Object?``. 
+- ``RealmValue.value``, which returns an ``Object?``.
 - ``RealmValue.as<T>``, which fetches the data and casts it to a desired type.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-value.dart
    :language: dart
    :emphasize-lines: 4, 13
 
-You can check the type of data currently stored in a ``RealmValue`` property by 
-accessing the ``type`` property. Starting with Flutter SDK v2.0.0, this returns a 
-``RealmValueType`` enum. In earlier SDK versions, the SDK returned a 
-``RealmValue.value.runtimeType``. 
+You can check the type of data currently stored in a ``RealmValue`` property by
+accessing the ``type`` property. Starting with Flutter SDK v2.0.0, this returns a
+``RealmValueType`` enum. In earlier SDK versions, the SDK returned a
+``RealmValue.value.runtimeType``.
 
-The following example uses ``RealmValueType`` to run calculations based on the 
+The following example uses ``RealmValueType`` to run calculations based on the
 data type.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-type.dart
@@ -441,21 +441,21 @@ data type.
 Nested Collections of RealmValue
 ````````````````````````````````
 
-.. versionadded:: v2.0.0
+.. versionadded:: 2.0.0
 
-Starting with Flutter SDK v2.0.0, a ``RealmValue`` data type can 
+Starting with Flutter SDK v2.0.0, a ``RealmValue`` data type can
 contain collections (a list or map, but *not* a set) of ``RealmValue`` elements.
 
-These collections of mixed data can be nested and can contain other 
-collections. They can also be :ref:`listened to for changes like a 
+These collections of mixed data can be nested and can contain other
+collections. They can also be :ref:`listened to for changes like a
 normal collection <flutter-realm-list-change-listener>`.
 
-You can leverage these nested collections to define unstructured 
-or variable data in your data model. For more information, refer to 
-:ref:`<flutter-model-unstructured-data>`. 
+You can leverage these nested collections to define unstructured
+or variable data in your data model. For more information, refer to
+:ref:`<flutter-model-unstructured-data>`.
 
-To create nested collections of mixed data in your app, define the mixed type 
-property in your data model the same way you would any other ``RealmValue`` type. 
+To create nested collections of mixed data in your app, define the mixed type
+property in your data model the same way you would any other ``RealmValue`` type.
 Then, you can create the list or map collections using ``RealmValue.from()``.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-nested-collections.dart
@@ -465,12 +465,12 @@ Uint8List
 ~~~~~~~~~
 
 `Uint8List <https://api.dart.dev/stable/3.0.5/dart-typed_data/Uint8List-class.html>`__
-is a binary data type from `dart:typed_data 
-<https://api.dart.dev/stable/3.0.5/dart-typed_data/dart-typed_data-library.html>`__. 
+is a binary data type from `dart:typed_data
+<https://api.dart.dev/stable/3.0.5/dart-typed_data/dart-typed_data-library.html>`__.
 You can use this data type in object models and property values.
 
 To define a property as ``Uint8List``, you must first import ``dart:typed_data``.
-Then, set the object's type as ``Uint8List`` in your :ref:`object model 
+Then, set the object's type as ``Uint8List`` in your :ref:`object model
 <flutter-create-model>`.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.binary-model.dart
@@ -511,7 +511,7 @@ The ``_Address`` model is embedded within the ``_Person`` model.
    :language: dart
 
 You can use the :flutter-sdk:`parent <realm/EmbeddedObjectExtension/parent.html>`
-property to access the parent of the embedded object. 
+property to access the parent of the embedded object.
 
 The following example shows the unique considerations when working with embedded objects.
 The example uses the ``Address`` embedded object generated from the ``_Address``

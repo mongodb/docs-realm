@@ -5,8 +5,9 @@
 Define a Realm Object Model - Kotlin SDK
 ========================================
 
-.. meta:: 
+.. meta::
   :keywords: code example, android, kmm, kmp, ios, data modeling
+  :description: Define your object data model using Atlas Device SDK for Kotlin.
 
 .. facet::
   :name: genre
@@ -18,18 +19,18 @@ Define a Realm Object Model - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-This page describes Realm object types and how to define Realm objects as part of 
+This page describes Realm object types and how to define Realm objects as part of
 your application's data model. After you define your object model, you can
-:ref:`open a realm <kotlin-open-a-realm>` with a schema that includes your 
-defined objects and work with them in the realm. 
+:ref:`open a realm <kotlin-open-a-realm>` with a schema that includes your
+defined objects and work with them in the realm.
 
-The Kotlin SDK memory maps Realm objects directly to native Kotlin 
-objects, so there's no need to use a special data access library. 
+The Kotlin SDK memory maps Realm objects directly to native Kotlin
+objects, so there's no need to use a special data access library.
 You define your application's data model via regular Kotlin classes declared
-in your application code object. 
+in your application code object.
 
 To learn about how to make changes to your Realm objects after
-defining your Realm object model, refer to 
+defining your Realm object model, refer to
 :ref:`Change an Object Model <kotlin-change-object-model>`.
 
 .. note:: Define Data Model with Device Sync
@@ -38,34 +39,67 @@ defining your Realm object model, refer to
    when defining your data model. For more information, refer to
    :ref:`kotlin-model-data-device-sync`.
 
+.. _kotlin-model-unstructured-data:
+
+Model Unstructured Data
+-----------------------
+
+.. versionadded:: 2.0.0
+
+Starting in Kotlin SDK version 2.0.0, you can
+:ref:`create nested collections of mixed data <kotlin-realmany>`
+within a  ``RealmAny`` property.
+
+The ability to nest collections of mixed data enables you to define data
+that doesn't otherwise conform to an expected schema, including data with
+variable structure or data whose shape or type is not known at runtime.
+For example, you might have highly variable user-created objects, event logs,
+or survey response data that are collected and stored in a variety of JSON
+formats. This approach allows you to :ref:`react to changes  <kotlin-realm-list-change-listener>`
+in the nested data and to update specific elements, but it is less
+performant than using a structured schema or serializing JSON blobs
+into a single string property.
+
+To model unstructured data in your data model using collections of mixed type,
+define the appropriate properties in your data model as
+:ref:`RealmAny <kotlin-realmany>` types. You can then set these
+``RealmAny`` properties as a :ref:`kotlin-realm-list` or a
+:ref:`RealmDictionary <kotlin-realm-dictionary>` collection of ``RealmAny`` elements.
+Note that ``RealmAny`` *cannot* represent a ``RealmSet`` or an embedded object.
+
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
+
 .. _kotlin-object-type:
 .. _kotlin-object-schema:
 
 Realm Objects
 -------------
 
-**Realm objects** are uniquely named instances of Kotlin classes that you can work with 
-as you would any other class instance. 
+**Realm objects** are uniquely named instances of Kotlin classes that you can work with
+as you would any other class instance.
 
-Each object class represents an **object type**. Objects of the same type share 
-an **object schema**, which defines the properties and relationships for objects 
-of that type. The SDK guarantees that all objects in a realm conform to the 
-schema for their object type and validates objects whenever they are created, 
+Each object class represents an **object type**. Objects of the same type share
+an **object schema**, which defines the properties and relationships for objects
+of that type. The SDK guarantees that all objects in a realm conform to the
+schema for their object type and validates objects whenever they are created,
 modified, or deleted.
 
 However, note that Realm objects have the following constraints:
 
-- Realm objects *must* inherit from the ``RealmObject`` class or its 
-  subclasses: ``EmbeddedRealmObject`` or ``AsymmetricRealmObject``. 
-  The Kotlin SDK does *not* support inheritance from custom base classes. 
-- The Kotlin SDK requires that Realm objects have an empty constructor. 
+- Realm objects *must* inherit from the ``RealmObject`` class or its
+  subclasses: ``EmbeddedRealmObject`` or ``AsymmetricRealmObject``.
+  The Kotlin SDK does *not* support inheritance from custom base classes.
+- The Kotlin SDK requires that Realm objects have an empty constructor.
   Refer to the :ref:`workaround example <kotlin-single-primary-constructor>`
   noted in the next section.
-- Class names are limited to a maximum of 57 UTF-8 characters. 
+- Class names are limited to a maximum of 57 UTF-8 characters.
 
 Additionally, the Kotlin SDK does *not* support using Kotlin
-`data classes <https://kotlinlang.org/docs/data-classes.html>`__ to model 
-data. This is because data classes are typically used for immutable data, 
+`data classes <https://kotlinlang.org/docs/data-classes.html>`__ to model
+data. This is because data classes are typically used for immutable data,
 which goes against how the Realm Kotlin SDK models data.
 
 .. _kotlin-define-a-new-object-type:
@@ -73,41 +107,41 @@ which goes against how the Realm Kotlin SDK models data.
 Define a New Object Type
 ------------------------
 
-To define a new object type, you must create a uniquely named Kotlin 
-class that implements either the ``RealmObject``, 
-``EmbeddedRealmObject``, or ``AsymmetricRealmObject`` interface. 
+To define a new object type, you must create a uniquely named Kotlin
+class that implements either the ``RealmObject``,
+``EmbeddedRealmObject``, or ``AsymmetricRealmObject`` interface.
 
 .. include:: /includes/note-class-char-limit.rst
 
 Then, you specify your object's properties, including:
 
-- The :ref:`data type <kotlin-supported-types>` for each property. 
-  The Kotlin SDK supports the following data types: 
+- The :ref:`data type <kotlin-supported-types>` for each property.
+  The Kotlin SDK supports the following data types:
 
   - `Kotlin primitive types <https://kotlinlang.org/docs/basic-types.html>`__
   - a limited subset of `BSON <https://bsonspec.org/>`__ types
-  - :ref:`Realm-specific types <kotlin-realm-specific-types-table>`, 
-    which you can use for unique identifiers, timestamps, counters, and 
+  - :ref:`Realm-specific types <kotlin-realm-specific-types-table>`,
+    which you can use for unique identifiers, timestamps, counters, and
     collections
 
-- Any :ref:`property annotations <kotlin-property-annotations>`, which add 
-  functionality to properties in your Realm objects. You can use annotations to: 
+- Any :ref:`property annotations <kotlin-property-annotations>`, which add
+  functionality to properties in your Realm objects. You can use annotations to:
 
   - Designate a property as a primary key
   - Mark a property as indexable
-  - Ignore a property 
-  - Map a property or class name to another name 
+  - Ignore a property
+  - Map a property or class name to another name
 
-- Any :ref:`relationships <kotlin-relationships>` with other Realm objects. 
+- Any :ref:`relationships <kotlin-relationships>` with other Realm objects.
 
-After you've defined your Realm object model, you can pass the set of object 
-classes to the realm's configuration when you :ref:`open a realm 
+After you've defined your Realm object model, you can pass the set of object
+classes to the realm's configuration when you :ref:`open a realm
 <kotlin-open-a-realm>`, and then work with those objects in the realm.
 
 .. _kotlin-single-primary-constructor:
 
 .. important:: Realm Requires an Empty Constructor
-   
+
    The Realm Kotlin SDK does *not* support having a single primary constructor.
    The SDK requires an empty constructor to create objects. As a workaround,
    you can do something similar to the following:
@@ -124,16 +158,16 @@ classes to the realm's configuration when you :ref:`open a realm
 Define a Realm Object Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To define a Realm object type, create a Kotlin class that implements the 
-`RealmObject 
-<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__ 
+To define a Realm object type, create a Kotlin class that implements the
+`RealmObject
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-object/index.html>`__
 interface:
 
 .. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-realm-object.kt
   :language: kotlin
 
-You can then use the :ref:`object as a property <kotlin-realm-objects-as-properties>` 
-to :ref:`define relationships <kotlin-relationships>` with other Realm objects. 
+You can then use the :ref:`object as a property <kotlin-realm-objects-as-properties>`
+to :ref:`define relationships <kotlin-relationships>` with other Realm objects.
 
 .. _kotlin-define-embedded-object:
 .. _kotlin-embedded-objects:
@@ -141,45 +175,45 @@ to :ref:`define relationships <kotlin-relationships>` with other Realm objects.
 Define an Embedded Object Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An ``EmbeddedRealmObject`` is a special type of Realm object that models 
-complex data about a specific object. Realm treats each embedded object as 
-nested data inside of a single specific parent object. 
+An ``EmbeddedRealmObject`` is a special type of Realm object that models
+complex data about a specific object. Realm treats each embedded object as
+nested data inside of a single specific parent object.
 
-Because of this, embedded objects have the following constraints: 
+Because of this, embedded objects have the following constraints:
 
-- An embedded object requires a parent object and *cannot* exist as an 
-  independent Realm object. If the parent object no longer references the 
+- An embedded object requires a parent object and *cannot* exist as an
+  independent Realm object. If the parent object no longer references the
   embedded object, the embedded object is automatically deleted.
-- An embedded object inherits the lifecycle of its parent object. For 
+- An embedded object inherits the lifecycle of its parent object. For
   example, if you delete the parent object, the embedded object is also
-  deleted. 
+  deleted.
 - Embedded objects have strict ownership with their parent object.
-  You *cannot* reassign an embedded object to a different parent object, or 
+  You *cannot* reassign an embedded object to a different parent object, or
   share an embedded object between multiple parent objects.
-- Embedded objects *cannot* have a :ref:`primary key <kotlin-primary-keys>`. 
+- Embedded objects *cannot* have a :ref:`primary key <kotlin-primary-keys>`.
 
-.. tip:: 
-   
-   If you need to manually manage the lifecycle of a referenced object or 
-   want the referenced objects to persist after the deletion of the parent 
-   object, use a regular Realm object with a :ref:`to-one relationship 
-   <kotlin-to-one-relationship>` instead. 
+.. tip::
+
+   If you need to manually manage the lifecycle of a referenced object or
+   want the referenced objects to persist after the deletion of the parent
+   object, use a regular Realm object with a :ref:`to-one relationship
+   <kotlin-to-one-relationship>` instead.
    For more information, refer to :ref:`<kotlin-relationships>`.
 
-To define an embedded object type, create a Kotlin class that implements the 
-`EmbeddedRealmObject 
+To define an embedded object type, create a Kotlin class that implements the
+`EmbeddedRealmObject
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-embedded-realm-object/index.html>`__
 interface:
 
-.. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-embedded-object.kt 
+.. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-embedded-object.kt
     :language: kotlin
 
-Embedded object types are reusable and composable. You can use the 
-same embedded object type in multiple parent object types inside 
-other embedded object types. 
+Embedded object types are reusable and composable. You can use the
+same embedded object type in multiple parent object types inside
+other embedded object types.
 
-After you define your embedded object type, you must define a relationship 
-with a parent object in your data model. To learn how, refer to 
+After you define your embedded object type, you must define a relationship
+with a parent object in your data model. To learn how, refer to
 :ref:`<kotlin-embedded-relationship>`.
 
 .. _kotlin-asymmetric-objects:
@@ -189,21 +223,21 @@ Define an Asymmetric Object Type
 
 .. versionadded:: 1.10.0
 
-An ``AsymmetricRealmObject`` is an insert-only object intended to be used with 
+An ``AsymmetricRealmObject`` is an insert-only object intended to be used with
 the Atlas Device Sync feature Data Ingest. For information on how to set up
 Data Ingest with your application, refer to :ref:`kotlin-stream-data-to-atlas`.
 
 .. include:: /includes/kotlin-asymmetric-object.rst
 
-To define an asymmetric object type, create a Kotlin class that implements the `AsymmetricRealmObject 
+To define an asymmetric object type, create a Kotlin class that implements the `AsymmetricRealmObject
 <{+kotlin-sync-prefix+}io.realm.kotlin.types/-asymmetric-realm-object/index.html>`__
 interface:
 
-.. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-asymmetric-model.kt 
+.. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-asymmetric-model.kt
     :language: kotlin
 
 In Kotlin SDK versions 1.11.1 and earlier, you cannot link from
-``AsymmetricRealmObject`` types to ``RealmObject`` types. In SDK versions 
+``AsymmetricRealmObject`` types to ``RealmObject`` types. In SDK versions
 1.12.0 and later, ``AsymmetricRealmObject`` types can link to ``RealmObject``
 types in addition to ``EmbeddedRealmObject`` types.
 
@@ -212,23 +246,23 @@ types in addition to ``EmbeddedRealmObject`` types.
 Define Collection Properties
 ----------------------------
 
-A collection is an object that contains zero or more instances of a supported 
-data type. Realm collections are homogenous (all objects in a collection are 
+A collection is an object that contains zero or more instances of a supported
+data type. Realm collections are homogenous (all objects in a collection are
 of the same type) and are backed by their corresponding built-in Kotlin classes.
 For more information on the collection types used in the Kotlin SDK and their
 supported data types, refer to :ref:`<kotlin-collection-types>`.
 
-The Kotlin SDK offers several collection types that you can use as 
-properties in your data model: ``RealmList``, ``RealmSet``, and 
+The Kotlin SDK offers several collection types that you can use as
+properties in your data model: ``RealmList``, ``RealmSet``, and
 ``RealmDictionary``.
 
 Collections also let you define to-many relationships between Realm objects.
 Refer to :ref:`<kotlin-relationships>` for more information.
 
 .. important:: Initialize Collection Properties
-   
-   Collection types are non-null. When you define a collection property, 
-   you *must* initialize it. 
+
+   Collection types are non-null. When you define a collection property,
+   you *must* initialize it.
 
 Define a RealmList
 ~~~~~~~~~~~~~~~~~~
@@ -248,7 +282,7 @@ Define a RealmSet
 
 To define a property as a :ref:`RealmSet <kotlin-realm-set>`, specify its
 type within the object schema as ``RealmSet<E>`` and initialize the
-default value using `realmSetOf() 
+default value using `realmSetOf()
 <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-set-of.html>`__:
 
 .. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-a-realm-set.kt
@@ -259,7 +293,7 @@ default value using `realmSetOf()
 Define a RealmDictionary/RealmMap
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To define a property as a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its 
+To define a property as a :ref:`RealmDictionary <kotlin-realm-dictionary>`, specify its
 type within the object schema as a ``RealmDictionary<K, V>`` and initialize the
 the default value using `realmDictionaryOf()
 <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-dictionary-of.html>`__:
