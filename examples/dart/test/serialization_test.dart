@@ -3,6 +3,8 @@ import 'package:realm_dart/realm.dart';
 import 'utils.dart';
 import 'dart:typed_data';
 
+import 'package:realm_dart/realm.dart';
+
 import './pet.dart';
 part 'serialization_test.realm.dart';
 
@@ -57,7 +59,7 @@ class _SerializeModel {
 
   // RealmValue supported??? Engineer said so but doesn't seem to be so
   
-  //late RealmValue anyValue;
+  // late RealmValue anyValue;
 
   // Decimal128: seems like it's not supported
 
@@ -79,7 +81,7 @@ main() {
       '90ZXWYZL', listOfStrings: ['food', 'water'], setOfInts: {0, 1, 2, 3},
        mapOfMixedAnyValues: {'first': 123 , 'second': 567}, 
        address: Address("500 Dean Street", "Brooklyn", "NY", "USA"));
-      //anyValue: RealmValue.from("abc"),
+      // anyValue: RealmValue.from('abc')
       // Decimal128.fromInt(9));
 
     realm.write(() {
