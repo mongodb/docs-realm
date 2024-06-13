@@ -24,24 +24,81 @@ Serialization allows for easier integration with MongoDB APIs.
 Supported Data Types for Serialization
 --------------------------------------
 
-The Flutter SDK supports serializing the following data types:
+Flutter SDK supports the following data types:
 
-- Array
-- Binary
-- Boolean
-- Date
-- Document
-- Decimal128
-- Double
-- Int32
-- Int64
-- MaxKey
-- MinKey
-- ObjectID
-- String
-- Symbol
-- Null
-- Undefined
+.. list-table::
+   :header-rows: 1
+   :widths: 20 20 60
+
+   * - Realm Data Type
+     - BSON Data Type
+     - Example
+
+   * - Integer (min: -2147483648, max: +2147483647)
+     - Int32
+     - ``int number32 = 900`` serializes to ``number32: {"$numberInt": 900}``
+
+   * - Integer (min: -9223372036854775808, max: +9223372036854775807)
+     - Int64
+     - ``int number64 = 922393736854775807`` serializes to ``number64: {$numberLong: 922393736854775807}``
+
+   * - Boolean
+     - Boolean
+     - ``bool isElectric = false`` serializes to ``isElectric: false``
+
+   * - Double
+     - Double
+     - ``double milesDriven = 126.0`` serializes to ``milesDriven: {$numberDouble: 126.0}``
+
+   * - String
+     - String
+     - ``String licensePlate = "690ZXWYZ"`` serializes to ``licensePlate: 690ZXWYZ``
+
+   * - DateTime
+     - Date
+     - birthDate: {$date: {$numberLong: 1712707200000}}
+
+   * - RealmList
+     - Array
+     - ``List<String> listOfStrings = [food, water]`` serializes to ``listOfStrings: [food, water]``
+
+   * - RealmMap
+     - Array
+     - ``Map<String, int> mapOfMixedAnyValues = {'first': 123 , 'second': 567}`` serializes to ``mapOfValues: {first: {$numberInt: 123}, second: {$numberInt: 567}}``
+
+   * - RealmSet
+     - Array
+     - ``Set<int> setOfInts = {0, 1, 2, 3}`` serializes to ``setOfInts: [{$numberInt: 0}, {$numberInt: 1}, {$numberInt: 2}, {$numberInt: 3}]``
+
+   * - ObjectId
+     - ObjectId
+     - ``ObjectId id = ObjectId()`` serializes to ``{id: {$oid: 666a6fd54978af08e54a8d52}``
+
+   * - UUID
+     - Binary
+     - ``Uuid myId = Uuid.v4()`` serializes to ``myId: {$binary: {base64: 6TvsMWxDRWa1jSC6gxiM3A==, subType: 04}}``
+
+   * - Decimal128
+     - 
+     - `` `` serializes to ````
+
+   * - RealmValue
+     - 
+     - `` `` serializes to ````
+
+   * - Uint8List
+     - Binary
+     - ``Uint8List aBinaryProperty = Uint8List.fromList([1, 2])`` serializes to ``aBinaryProperty: {$binary: {base64: AQI=, subType: 00}}``
+
+   * - Embedded Object
+     - Document
+     - ``Address address = Address("500 Dean Street", "Brooklyn", "NY", "USA")`` serializes to ``address: {street: 500 Dean Street, city: Brooklyn, state: NY, country: USA}``
+
+   * - Null
+     - Null
+     - ``int? apples`` serializes to ``apples: null``
+
+
 
 For more information and examples on the serialization for each of these types,
 see :manual:`BSON Data Types and Associated Representations </reference/mongodb-extended-json/#bson-data-types-and-associated-representations>`.
