@@ -1,27 +1,98 @@
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'utils.dart';
+import 'dart:typed_data';
 
 import './pet.dart';
+part 'serialization_test.realm.dart';
+
+@RealmModel(ObjectType.embeddedObject)
+class _Address {
+  late String street;
+  late String city;
+  late String state;
+  late String country;
+}
 
 @RealmModel()
-class _ {
+class _SerializeModel {
   @PrimaryKey()
+  // ObjectID
   late ObjectId id;
 
-  String? licensePlate;
+  // UUID
+  late Uuid myId;
+
+  // Array
+  // RealmList of Value doesn't seem to encode
+  late List<String> listOfStrings;
+  late Set<int> setOfInts;
+  late Map<String, int> mapOfMixedAnyValues;
+
+  // Binary
+  late Uint8List requiredBinaryProperty;
+
+  // Boolean
   bool isElectric = false;
-  double milesDriven = 0;
-  late List<String> attributes;
-  late _Person? owner;
+
+  // Date
+  late DateTime dateLastServiced;
+
+  // Document: one to one with Pet
+
+  late _Address? address; 
+
+  // Double
+  double milesDriven = 126.0;
+
+  // Int32 and Int64
+  int number32 = 900;
+  int number64 = 922393736854775807;
+
+  // String
+  late String licensePlate;
+
+  // Null
+  int? a;
+
+  // RealmValue supported??? Engineer said so but doesn't seem to be so
+  
+  //late RealmValue anyValue;
+
+  // Decimal128: seems like it's not supported
+
+  //late Decimal128 decimal;
+
+  // Symbol
+  // Symbol sym = #hhh;
+ 
 }
 
 main() {
   test('data types', () {
 
-    List dartList = ['dog', 'cat'];
+    final config = Configuration.local([SerializeModel.schema, Address.schema]);
+    final realm = Realm(config);
 
-    // include ex of a one to one relation (mapping to an object)
+    final example = SerializeModel(
+      ObjectId(), Uuid.v4(), Uint8List.fromList([1, 2]), DateTime.utc(2024, 4, 10), 
+      '90ZXWYZL', listOfStrings: ['food', 'water'], setOfInts: {0, 1, 2, 3},
+       mapOfMixedAnyValues: {'first': 123 , 'second': 567}, 
+       address: Address("500 Dean Street", "Brooklyn", "NY", "USA"));
+      //anyValue: RealmValue.from("abc"),
+      // Decimal128.fromInt(9));
+
+    realm.write(() {
+      realm.add(example);
+    });
+
+    print(example);
+
+    EJsonValue exSerialize = toEJson(example);
+
+    print(exSerialize);
+
+    cleanUpRealm(realm);
 
   });
 
