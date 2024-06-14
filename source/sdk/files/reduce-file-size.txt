@@ -32,9 +32,9 @@ The SDK writes new data within unused space tracked inside a
 file. In some situations, unused space may comprise a significant 
 portion of a ``.realm`` file. The SDK's default behavior is to automatically 
 compact a file to prevent it from growing too large. 
-You can use manual compaction strategies when 
+You can use additional strategies for compaction when 
 automatic compaction is not sufficient for your use case 
-or you're using a version of the SDK that doesn't have automatic 
+or if you're using a version of the SDK that doesn't have automatic 
 compaction.
 
 Automatically Reduce File Size
@@ -48,18 +48,27 @@ Automatic compaction begins when the size of unused space in the file is more th
 data in the file. Automatic compaction only takes place when
 the file is not being accessed.
 
-Manual Compaction Strategies
-----------------------------
+Additional Strategies to Reduce File Size
+-----------------------------------------
 
-Manual compaction can be used for applications that 
+The SDK provides three additional strategies to configure compaction for applications that 
 require stricter management of file size or that use an older version 
-of the SDK that does not support automatic compaction.
+of the SDK that does not support automatic compaction:
 
-You can configure the database file to automatically compact upon opening, or you can 
-compact a file without first obtaining a database instance.
+- Automatically reduce file size on database open when a condition is met.
+- Manually reduce file size on demand.
+- Make a smaller copy of the file, and delete the original.
 
-Reduce File Size on Launch of a Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Depending on the file size and hardware, compaction can be computationally expensive.
+These strategies give you tools to define the best compaction strategy for your app.
+
+Conditionally Reduce File Size on Database Open
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Define a condition to determine whether to compact files on database open.
+When the condition is true, the SDK compacts the file. You might want to 
+define custom conditions, such as maximum file size,
+when running in a resource-constrained operating system or hardware.
 
 .. tabs-drivers::
 
@@ -103,14 +112,9 @@ Reduce File Size on Launch of a Realm
 
       .. include:: /includes/api-details/swift/manage-files/reduce-file-size-on-launch-description.rst
 
-   .. tab::
-      :tabid: typescript
-
-      .. include:: /includes/api-details/typescript/manage-files/reduce-file-size-on-launch-description.rst
-
 .. include:: /includes/sdk-examples/manage-files/reduce-file-size-on-launch.rst
 
-Compact upon a Method Call
+Reduce File Size on Demand
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs-drivers::
@@ -155,15 +159,22 @@ Compact upon a Method Call
 
       The Swift SDK does not currently support this API.
 
-   .. tab::
-      :tabid: typescript
-
-      .. include:: /includes/api-details/typescript/manage-files/reduce-file-size-compact-method-description.rst
-
 .. include:: /includes/sdk-examples/manage-files/reduce-file-size-compact-method.rst
 
-Make a Compacted Copy
-~~~~~~~~~~~~~~~~~~~~~
+Because compacting can be computationally expensive, you may want to avoid
+a potentially slow operation when opening the database. Instead, you can configure
+your own custom logic in your application for when to compact a database, and then
+compact the file on demand. For example, you might want to compact the file 
+after the database is closed or when the application is
+running in the background.
+
+Make a Compacted Copy and Delete the Original File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can make a smaller copy of the database file and delete the original, larger copy.
+You might do this when you want to make a configuration change, such as making an encrypted 
+copy of the file. Or, you might use this strategy to handle compacting in the background, 
+without delaying or disrupting a user from using the database.
 
 .. tabs-drivers::
 
@@ -175,17 +186,17 @@ Make a Compacted Copy
    .. tab::
       :tabid: csharp
 
-      The .NET SDK for C# does not currently support this API.
+      .. include:: /includes/api-details/csharp/manage-files/reduce-file-size-compacted-copy.rst
       
    .. tab::
       :tabid: dart
 
-      The Flutter SDK for Dart does not currenlty support this API.
+      .. include:: /includes/api-details/dart/manage-files/reduce-file-size-compacted-copy-description.rst
 
    .. tab::
       :tabid: java
 
-      The Java SDK does not currently support this API.
+      .. include:: /includes/api-details/java/manage-files/reduce-file-size-compacted-copy-description.rst
 
    .. tab::
       :tabid: javascript
@@ -207,13 +218,6 @@ Make a Compacted Copy
 
       .. include:: /includes/api-details/swift/manage-files/reduce-file-size-compacted-copy-description.rst
 
-   .. tab::
-      :tabid: typescript
-
-      .. include:: /includes/api-details/typescript/manage-files/reduce-file-size-compacted-copy-description.rst
-
-.. for this one, might want to delete code block all together, since we didn't have examples for any of them. Or do
-   we want to take the time to add the examples?
 
 .. include:: /includes/sdk-examples/manage-files/reduce-file-size-compacted-copy.rst
 
@@ -222,20 +226,41 @@ Make a Compacted Copy
 Tips for Manually Compacting Database Files
 -------------------------------------------
 
-.. include:: /includes/compaction-tips.rst
+Compacting files can be a resource-intensive operation. 
+Your application should not compact every time you open 
+a database. Instead, try to optimize compacting so your application does 
+it just often enough to prevent the file size from growing too large. 
+If your application runs in a resource-constrained environment,
+you may want to compact when you reach a certain file size or when the 
+file size negatively impacts performance.
 
-These calculations might look like this:
+These recommendations can help you start optimizing compaction for your 
+application:
+
+- Set the max file size to a multiple of your average database state
+  size. If your average database state size is 10MB, you might set the max 
+  file size to 20MB or 40MB, depending on expected usage and device
+  constraints.
+- As a starting point, compact files when more than 50% of the file 
+  size is no longer in use. Divide the currently used bytes by the total 
+  file size to determine the percentage of space that is currently used. 
+  Then, check for that to be less than 50%. This means that greater than 
+  50% of your file size is unused space, and it is a good time to 
+  compact. After experimentation, you may find a different percentage 
+  works best for your application.
+
+  These calculations might look like this:
 
 .. code-block:: javascript
 
    // Set a maxFileSize equal to 20MB in bytes
    const maxFileSize = 20 * 1024 * 1024;
 
-   /* Check for the file size to be greater than the max file size, 
+   /* Check for the realm file size to be greater than the max file size, 
     * and the amount of bytes currently used to be less than 50% of the
-    * total file size */
+    * total realm file size */
    return (totalBytes > (double)maxFileSize) &&
       ((double)usedBytes / totalBytes < 0.5);
 
 Experiment with conditions to find the right balance of how often to 
-compact files in your application.
+compact realm files in your application.

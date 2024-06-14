@@ -48,9 +48,3 @@
 
          .. literalinclude:: /examples/generated/code/start/Compacting.snippet.async-compact.swift
             :language: swift
-
-     - id: typescript
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example.ts
-            :language: typescript
