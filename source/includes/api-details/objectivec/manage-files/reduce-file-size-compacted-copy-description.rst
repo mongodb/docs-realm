@@ -1,5 +1,5 @@
 You can save a compacted (and optionally :ref:`encrypted
-<sdks-encrypt-database>`) copy of a realm to another file location
+<sdks-encrypt-database>`) copy of a database to another file location
 with the :objc-sdk:`Realm.writeCopyToURL
 <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)writeCopyToURL:encryptionKey:error:>`
 method. The destination file cannot already exist.
@@ -11,3 +11,4 @@ method. The destination file cannot already exist.
     method copies the absolute latest data. This includes any
     **uncommitted** changes you made in the transaction before this
     method call.
+    
