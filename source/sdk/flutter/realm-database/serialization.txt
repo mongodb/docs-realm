@@ -56,7 +56,7 @@ Flutter SDK supports the following data types:
 
    * - DateTime
      - Date
-     - birthDate: {$date: {$numberLong: 1712707200000}}
+     - ``DateTime birthDate = DateTime.utc(2024, 4, 10)`` serializes to ``birthDate: {$date: {$numberLong: 1712707200000}}``
 
    * - RealmList
      - Array
@@ -89,10 +89,6 @@ Flutter SDK supports the following data types:
    * - Null
      - Null
      - ``int? apples`` serializes to ``apples: null``
-
-   * -
-     -
-     -
     
 For more information and examples on the serialization for each of these types,
 see :manual:`BSON Data Types and Associated Representations </reference/mongodb-extended-json/#bson-data-types-and-associated-representations>`.
