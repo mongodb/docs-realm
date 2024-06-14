@@ -7,8 +7,8 @@ let config = Realm.Configuration(shouldCompactOnLaunch: { totalBytes, usedBytes 
     return (totalBytes > oneHundredMB) && (Double(usedBytes) / Double(totalBytes)) < 0.5
 })
 do {
-    // Realm is compacted on the first open if the configuration block conditions were met.
+    // The database is compacted on the first open if the configuration block conditions were met.
     let realm = try Realm(configuration: config)
 } catch {
-    // handle error compacting or opening Realm
+    // handle error compacting or opening the database
 }

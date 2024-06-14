@@ -9,10 +9,10 @@ func testAsyncCompact() async {
     })
 
     do {
-        // Realm is compacted asynchronously on the first open if the
+        // The database is compacted asynchronously on the first open if the
         // configuration block conditions were met.
         let realm = try await Realm(configuration: config)
     } catch {
-        // handle error compacting or opening Realm
+        // handle error compacting or opening the database
     }
 }
