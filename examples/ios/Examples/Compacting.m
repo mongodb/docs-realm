@@ -21,10 +21,10 @@
     };
 
     NSError *error = nil;
-    // Realm is compacted on the first open if the configuration block conditions were met.
+    // The database is compacted on the first open if the configuration block conditions were met.
     RLMRealm *realm = [RLMRealm realmWithConfiguration:config error:&error];
     if (error) {
-        // handle error compacting or opening Realm
+        // handle error compacting or opening database
     }
     // :snippet-end:
 }

@@ -1,5 +1,5 @@
 Use :swift-sdk:`shouldCompactOnLaunch()<Structs/Realm/Configuration.html>` 
-on a realm's configuration object to compact a realm. 
+on a database's configuration object to compact a database. 
 Specify conditions to execute this method, such as:
 
 - The size of the file on disk
@@ -10,11 +10,11 @@ For more information about the conditions to execute in the method, see:
 
 .. important:: Compacting may not occur
 
-    Compacting cannot occur while a realm is being accessed, 
+    Compacting cannot occur while a database is being accessed, 
     regardless of any configuration settings.
 
 .. literalinclude:: /examples/generated/code/start/Compacting.snippet.compacting.swift
     :language: swift
 
-When you use the Swift async/await syntax to open a realm asynchronously, you can also 
-compact a realm in the background.
+When you use the Swift async/await syntax to open a database asynchronously, you can also 
+compact a database file in the background.

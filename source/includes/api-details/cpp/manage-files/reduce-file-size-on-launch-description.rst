@@ -5,5 +5,5 @@ Specify conditions to execute this method, such as:
 - The size of the file on disk
 - How much free space the file contains
 
-The following example shows setting the conditions to compact a realm if the 
-file is above 100 MB and 50% or less of the space in the realm file is used.
+The following example shows setting the conditions to compact a database file if the 
+file is above 100 MB and 50% or less of the space in the file is used.
