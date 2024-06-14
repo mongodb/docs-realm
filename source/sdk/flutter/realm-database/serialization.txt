@@ -78,14 +78,6 @@ Flutter SDK supports the following data types:
      - Binary
      - ``Uuid myId = Uuid.v4()`` serializes to ``myId: {$binary: {base64: 6TvsMWxDRWa1jSC6gxiM3A==, subType: 04}}``
 
-   * - Decimal128
-     - bbbb
-     - serializes to 
-
-   * - RealmValue
-     - nnnn
-     - serializes to 
-
    * - Uint8List
      - Binary
      - ``Uint8List aBinaryProperty = Uint8List.fromList([1, 2])`` serializes to ``aBinaryProperty: {$binary: {base64: AQI=, subType: 00}}``
@@ -101,8 +93,7 @@ Flutter SDK supports the following data types:
 For more information and examples on the serialization for each of these types,
 see :manual:`BSON Data Types and Associated Representations </reference/mongodb-extended-json/#bson-data-types-and-associated-representations>`.
 
-The realm-specific type, :ref:`RealmValue <flutter-realm-value>`, is also 
-supported. The SDK does not currently support the following types: Code, 
+The SDK does not currently support the following types: Code, 
 CodeWScope, DBPointer, DBRef, Regular Expression, and Timestamp. 
 
 Object Model for Serialization
