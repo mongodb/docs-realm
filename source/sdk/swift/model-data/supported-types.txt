@@ -731,9 +731,9 @@ You can declare a Map as a property of an object:
 AnyRealmValue
 ~~~~~~~~~~~~~
 
-.. versionadded:: 10.8.0
+*Changed in version 10.15.0:*  ``AnyRealmValue`` properties can hold lists or maps of mixed data.
 
-*Changed in version 10.15.0:* ``AnyRealmValue`` properties can hold lists or maps of mixed data.
+.. versionadded:: 10.8.0
 
 ``AnyRealmValue`` is a Realm property type that can hold different
 data types. Supported ``AnyRealmValue`` data types include:
@@ -771,8 +771,8 @@ permitted value, you can't declare an ``AnyRealmValue`` as optional.
 
 .. _ios-nested-collections-realmanyvalue:
 
-Mixed Collections
-`````````````````
+Collections as Mixed
+````````````````````
 
 In version 10.15.0 and later, a ``AnyRealmValue`` data type can
 contain collections (a list or map, but *not* a set) of ``AnyRealmValue``
