@@ -1,4 +1,18 @@
-# June 2, 2024
+# June 14, 2024
+
+## .NET SDK
+
+- Compatibility: Add note with minimum framework requirements when using the new source model generator.
+
+## React Native SDK
+
+- Atlas App Services: Fix a monospace formatting typo for an instance of the word "App".
+
+## Swift SDK
+
+- Install: Remove outdated information. Rename "Static Framework" install instructions to "Dynamic Framework."
+
+# June 7, 2024
 
 ## Kotlin SDK
 
