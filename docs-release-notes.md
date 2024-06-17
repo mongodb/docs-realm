@@ -9,6 +9,7 @@
 - Atlas App Services: Fix a monospace formatting typo for an instance of the word "App".
 
 ## Swift SDK
+
 - Install: Remove outdated information. Rename "Static Framework" install instructions to "Dynamic Framework."
 
 # June 7, 2024
