@@ -39,39 +39,6 @@ defining your Realm object model, refer to
    when defining your data model. For more information, refer to
    :ref:`kotlin-model-data-device-sync`.
 
-.. _kotlin-model-unstructured-data:
-
-Model Unstructured Data
------------------------
-
-.. versionadded:: 2.0.0
-
-Starting in Kotlin SDK version 2.0.0, you can
-:ref:`create nested collections of mixed data <kotlin-nested-collections-realmany>`
-within a  ``RealmAny`` property.
-
-The ability to nest collections of mixed data enables you to define data
-that doesn't otherwise conform to an expected schema, including data with
-variable structure or data whose shape or type is not known at runtime.
-For example, you might have highly variable user-created objects, event logs,
-or survey response data that are collected and stored in a variety of JSON
-formats. This approach allows you to :ref:`react to changes  <kotlin-realm-list-change-listener>`
-in the nested data and to update specific elements, but it is less
-performant than using a structured schema or serializing JSON blobs
-into a single string property.
-
-To model unstructured data in your data model using collections of mixed type,
-define the appropriate properties in your data model as
-:ref:`RealmAny <kotlin-realmany>` types. You can then set these
-``RealmAny`` properties as a :ref:`kotlin-realm-list` or a
-:ref:`RealmDictionary <kotlin-realm-dictionary>` collection of ``RealmAny`` elements.
-Note that ``RealmAny`` *cannot* represent a ``RealmSet`` or an embedded object.
-
-.. tip::
-
-   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
-   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
-
 .. _kotlin-object-type:
 .. _kotlin-object-schema:
 
@@ -305,3 +272,46 @@ the default value using `realmDictionaryOf()
 
 .. literalinclude:: /examples/generated/kotlin/CreateTest.snippet.percent-encode-disallowed-characters.kt
    :language: kotlin
+
+.. _kotlin-model-unstructured-data:
+
+Define Unstructured Data
+------------------------
+
+.. versionadded:: 2.0.0
+
+Starting in Kotlin SDK version 2.0.0, you can store
+:ref:`collections of mixed data <kotlin-nested-collections-realmany>`
+within a  ``RealmAny`` property. You can use this feature to model complex data
+structures, such as JSON or MongoDB documents, without having to define a
+strict data model.
+
+**Unstructured data** is data that doesn't easily conform to an expected
+schema, making it difficult or impractical to model to individual
+data classes. For example, your app might have highly variable data or dynamic
+data whose structure is unknown at runtime.
+
+Storing collections in a mixed property offers flexibility without sacrificing
+functionality, including performant synchronization when using Device Sync. And
+you can work with them the same way you would a non-mixed
+collection:
+
+- You can nest mixed collections up to 100 levels.
+- You can query on and :ref:`react to changes
+  <kotlin-realm-list-change-listener>` on mixed collections.
+- You can find and update individual mixed collection elements.
+
+However, storing data in mixed collections is less performant than using a structured
+schema or serializing JSON blobs into a single string property.
+
+To model unstructured data in your app, define the appropriate properties in
+your schema as :ref:`RealmAny <kotlin-realmany>` types. You can then set these
+``RealmAny`` properties as a :ref:`kotlin-realm-list` or a
+:ref:`RealmDictionary <kotlin-realm-dictionary>` collection of ``RealmAny`` elements.
+Note that ``RealmAny`` *cannot* represent a ``RealmSet`` or an embedded object.
+
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of
+     objects is meaningful.

@@ -10,9 +10,7 @@ RealmValue - .NET SDK
    :depth: 2
    :class: singlecol
 
-.. versionchanged:: 12.2.0
-
-   ``RealmValue`` can hold lists and dictionaries of mixed data.
+*Changed in version 12.2.0:* ``RealmValue`` can hold lists and dictionaries of mixed data.
 
 The ``RealmValue`` data type is a mixed data type, and can represent any
 other valid Realm data type except an embedded object or a set. You can create collections
@@ -39,23 +37,20 @@ that property:
 
 .. _dotnet-nested-collections-realm-value:
 
-Nested Collections of RealmValue
---------------------------------
+Mixed Collections
+-----------------
 
-.. versionadded:: 12.22.0
+In version 12.22.0 and later, a ``RealmValue`` data type can hold collections
+(a list or dictionary, but *not* a set) of ``RealmValue`` elements. You can use
+mixed collections to model unstructured or variable data. For more information,
+refer to :ref:`<dotnet-model-unstructured-data>`.
 
-Starting with .NET SDK v12.22.0, a ``RealmValue`` data type can
-hold collections (a list or dictionary, but *not* a set) of ``RealmValue`` elements.
+- You can nest mixed collections up to 100 levels.
+- You can query mixed collection properties and
+  :ref:`register a listener for changes <dotnet-collection-notifications>`,
+  as you would a normal collection.
+- You can find and update individual mixed collection elements
+- You *cannot* store sets or embedded objects in mixed collections.
 
-These collections of mixed data can be nested and can contain other
-collections. They can also be
-:ref:`listened to for changes <dotnet-collection-notifications>` like a
-normal collection.
-
-You can leverage these nested collections to define unstructured
-or variable data in your data model. For more information, refer to
-:ref:`<dotnet-model-unstructured-data>`.
-
-To create nested collections of mixed data in your app, define the mixed type
-property in your data model the same way you would any other ``RealmValue`` type.
-Then, you can set the property as a list or dictionary.
+To use mixed collections, define the ``RealmValue`` type property in your data model.
+Then, set the property as a list or dictionary.

@@ -542,3 +542,47 @@ to the Atlas database linked to your App with Device Sync.
 
 For more information, see: :ref:`Create an Asymmetric Object
 <swift-create-asymmetric-object>`.
+
+
+.. _ios-model-unstructured-data:
+
+Model Unstructured Data
+-----------------------
+
+.. versionadded:: 10.15.0
+
+Starting in SDK version 10.15.0, you can store :ref:`collections of mixed data <ios-nested-collections-realmanyvalue>`
+within a ``AnyRealmValue`` property. You can use this feature to model complex data
+structures, such as JSON or MongoDB documents, without having to define a
+strict data model.
+
+**Unstructured data** is data that doesn't easily conform to an expected
+schema, making it difficult or impractical to model to individual
+data classes. For example, your app might have highly variable data or dynamic
+data whose structure is unknown at runtime.
+
+Storing collections in a mixed property offers flexibility without sacrificing
+functionality, including performant synchronization when using Device Sync. And
+you can work with them the same way you would a non-mixed
+collection:
+
+- You can nest mixed collections up to 100 levels.
+- You can query on and :ref:`react to changes
+  <ios-react-to-changes>` on mixed collections.
+- You can find and update individual mixed collection elements.
+
+However, storing data in mixed collections is less performant than using a structured
+schema or serializing JSON blobs into a single string property.
+
+To model unstructured data in your app, define the appropriate properties in
+your schema as :ref:`AnyRealmValue <ios-mixed-data-type>` types. You can then
+set these ``AnyRealmValue`` properties as a list or a
+dictionary collection of ``AnyRealmValue`` elements.
+Note that ``AnyRealmValue`` *cannot* represent a ``MutableSet`` or an embedded
+object.
+
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of
+     objects is meaningful.

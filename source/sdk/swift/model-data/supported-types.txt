@@ -733,9 +733,7 @@ AnyRealmValue
 
 .. versionadded:: 10.8.0
 
-.. versionchanged:: 10.15.0
-
-   ``AnyRealmValue`` can hold a list or map of mixed data.
+*Changed in version 10.15.0:* ``AnyRealmValue`` properties can hold lists or maps of mixed data.
 
 ``AnyRealmValue`` is a Realm property type that can hold different
 data types. Supported ``AnyRealmValue`` data types include:
@@ -773,24 +771,24 @@ permitted value, you can't declare an ``AnyRealmValue`` as optional.
 
 .. _ios-nested-collections-realmanyvalue:
 
-Nested Collections of AnyRealmValue
-```````````````````````````````````
+Mixed Collections
+`````````````````
 
-.. versionadded:: 10.15.0
-
-Starting with Swift SDK v10.15.0, a ``AnyRealmValue`` data type can
-contain collections (a list or map, but *not* a set) of ``AnyRealmValue`` elements.
-
-These collections of mixed data can be nested and can contain other
-collections. They can also be :ref:`listened to for changes <ios-react-to-changes>` like a
-normal collection.
-
-You can leverage these nested collections to define unstructured
-or variable data in your data model. For more information, refer to
+In version 10.15.0 and later, a ``AnyRealmValue`` data type can
+contain collections (a list or map, but *not* a set) of ``AnyRealmValue``
+elements. You can use mixed collections to
+model unstructured or variable data. For more information, refer to
 :ref:`<ios-model-unstructured-data>`.
 
-To create nested collections of mixed data in your app, define the mixed type
-property in your data model the same way you would any other ``AnyRealmValue`` type.
+- You can nest mixed collections up to 100 levels.
+- You can query mixed collection properties and
+  :ref:`register a listener for changes <ios-react-to-changes>`,
+  as you would a normal collection.
+- You can find and update individual mixed collection elements
+- You *cannot* store sets or embedded objects in mixed collections.
+
+To use mixed collections in your app, define the ``AnyRealmValue`` type
+property in your data model.
 Then, you can create the list or map collections like any other mixed data value.
 
 .. _swift-geospatial-data-type:

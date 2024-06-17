@@ -296,38 +296,3 @@ relationships can result in zero, one, or many objects.
 
    To learn how to define an inverse relationship, see
    :ref:`ios-define-an-inverse-relationship-property`.
-
-.. _ios-model-unstructured-data:
-
-Model Unstructured Data
------------------------
-
-.. versionadded:: 10.15.0
-
-Starting in Swift SDK version 10.15.0, you can
-:ref:`define nested collections
-of mixed data <ios-nested-collections-realmanyvalue>`
-within a  ``AnyRealmValue`` property.
-
-The ability to nest collections of mixed data enables you to define data
-that doesn't otherwise conform to an expected schema, including data with
-variable structure or data whose shape or type is not known at runtime.
-For example, you might have highly variable user-created objects, event logs,
-or survey response data that are collected and stored in a variety of JSON
-formats. This approach allows you to :ref:`react to changes <ios-react-to-changes>`
-in the nested data and to update specific elements, but it is less
-performant than using a structured schema or serializing JSON blobs
-into a single string property.
-
-To model unstructured data in your schema using collections of mixed type,
-define the appropriate properties in your schema as
-:ref:`AnyRealmValue <ios-mixed-data-type>` types. You can then set these
-``AnyRealmValue`` properties as a list or dictionary collection of ``AnyRealmValue`` elements.
-Note that ``AnyRealmValue`` *cannot* represent a ``MutableSet`` or an embedded
-object.
-
-.. tip::
-
-   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
-   - Use a list of mixed data types when the type is unknown but the order of
-     objects is meaningful.

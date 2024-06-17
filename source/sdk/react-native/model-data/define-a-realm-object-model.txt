@@ -296,6 +296,48 @@ types in addition to embedded objects.
 
 To learn more about Data Ingest, read :ref:`Stream Data to Atlas <react-native-stream-data-to-atlas>`.
 
+.. _react-native-model-unstructured-data:
+
+Model Unstructured Data
+-----------------------
+
+.. versionadded:: ``realm@12.9.0``
+
+Starting in SDK version 12.9.0, you can store :ref:`collections of mixed data <react-native-nested-collections-mixed>`
+within a ``mixed`` property. You can use this feature to model complex data
+structures, such as JSON or MongoDB documents, without having to define a
+strict data model.
+
+**Unstructured data** is data that doesn't easily conform to an expected
+schema, making it difficult or impractical to model to individual
+data classes. For example, your app might have highly variable data or dynamic
+data whose structure is unknown at runtime.
+
+Storing collections in a mixed property offers flexibility without sacrificing
+functionality, including performant synchronization when using Device Sync. And
+you can work with them the same way you would a non-mixed
+collection:
+
+- You can nest mixed collections up to 100 levels.
+- You can query on and :ref:`react to changes
+  <react-native-collection-listener>` on mixed collections.
+- You can find and update individual mixed collection elements.
+
+However, storing data in mixed collections is less performant than using a structured
+schema or serializing JSON blobs into a single string property.
+
+To model unstructured data in your app, define the appropriate properties in
+your schema as :ref:`mixed <react-nativedata-types-mixed>` types. You can then
+set these ``mixed`` properties as a :ref:`list <react-native-realm-list>` or a
+:ref:`dictionary <react-native-data-types-dictionaries>` collection of mixed
+elements. Note that a ``mixed`` property *cannot* hold a set or an embedded
+object.
+
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
+
 TypeScript and Required Properties
 ----------------------------------
 

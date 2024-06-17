@@ -10,9 +10,7 @@ Mixed - Node.js SDK
    :depth: 2
    :class: singlecol
 
-.. versionchanged:: 12.9.0
-
-   Mixed properties can contain lists or dictionaries of mixed data.
+*Changed in version 12.9.0:* Mixed properties can contain lists or dictionaries of mixed data.
 
 .. versionadded:: 10.5.0
 
@@ -45,26 +43,24 @@ Create an object with a mixed value by running the :js-sdk:`realm.create()
 
 .. _node-nested-collections-mixed:
 
-Nested Collections of Mixed
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mixed Collections
+~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 12.9.0
-
-Starting with Node.js SDK v12.9.0, a mixed data type can
-hold collections (a list or dictionary, but *not* a set) of mixed elements.
-
-These collections of mixed data can be nested and can contain other
-collections. They can also be
-:ref:`listened to for changes <node-collection-listener>` like a
-normal collection.
-
-You can leverage these nested collections to define unstructured
-or variable data in your data model. For more information, refer to
+In SDK v12.9.0 and later, a mixed data type can hold collections (a list or
+dictionary, but *not* a set) of mixed elements. You can use mixed collections to
+model unstructured or variable data. For more information, refer to
 :ref:`<node-model-unstructured-data>`.
 
-To create nested collections of mixed data in your app, define the mixed type
-property in your data model the same way you would any other mixed type.
-Then, you can create the list or dictionary collection.
+- You can nest mixed collections up to 100 levels.
+- You can query mixed collection properties and
+  :ref:`register a listener for changes <node-collection-listener>`, as you
+  would a normal collection.
+
+- You can find and update individual mixed collection elements
+- You *cannot* store sets or embedded objects in mixed collections.
+
+To use mixed collections, define the mixed type property in your data model.
+Then, create the list or dictionary collection.
 
 Query for Objects with a Mixed Value
 ------------------------------------

@@ -438,25 +438,26 @@ data type.
 
 .. _flutter-nested-collections-realm-value:
 
-Nested Collections of RealmValue
-````````````````````````````````
+Mixed Collections
+`````````````````
 
-.. versionadded:: 2.0.0
+*Changed in version 2.0.0:* ``RealmValue`` properties can
+contain lists or maps of mixed data.
 
-Starting with Flutter SDK v2.0.0, a ``RealmValue`` data type can
-contain collections (a list or map, but *not* a set) of ``RealmValue`` elements.
-
-These collections of mixed data can be nested and can contain other
-collections. They can also be :ref:`listened to for changes like a
-normal collection <flutter-realm-list-change-listener>`.
-
-You can leverage these nested collections to define unstructured
-or variable data in your data model. For more information, refer to
+In version 2.0.0 and later, a mixed data type can hold collections (a list or
+map, but *not* a set) of mixed elements. You can use mixed collections to
+model unstructured or variable data. For more information, refer to
 :ref:`<flutter-model-unstructured-data>`.
 
-To create nested collections of mixed data in your app, define the mixed type
-property in your data model the same way you would any other ``RealmValue`` type.
-Then, you can create the list or map collections using ``RealmValue.from()``.
+- You can nest mixed collections up to 100 levels.
+- You can query mixed collection properties and
+  :ref:`register a listener for changes <flutter-realm-list-change-listener>`,
+  as you would a normal collection.
+- You can find and update individual mixed collection elements
+- You *cannot* store sets or embedded objects in mixed collections.
+
+To use mixed collections, define the mixed type property in your data model.
+Then, create the list or map collections using ``RealmValue.from()``.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.realm-value-nested-collections.dart
    :language: dart
