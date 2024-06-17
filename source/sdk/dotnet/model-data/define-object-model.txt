@@ -24,19 +24,19 @@ Realm classes are regular C# classes that define the Realm schema.
 Object Schema
 ~~~~~~~~~~~~~
 
-An **object schema** is a configuration object that defines the properties and 
-relationships of a Realm object. Realm client 
-applications define object schemas with the native class implementation in their 
+An **object schema** is a configuration object that defines the properties and
+relationships of a Realm object. Realm client
+applications define object schemas with the native class implementation in their
 respective language using the Object Schema.
 
 Object schemas specify constraints on object properties such as the data
-type of each property and whether or not a property is required. Schemas can 
-also define :ref:`relationships <dotnet-client-relationships>` between object 
+type of each property and whether or not a property is required. Schemas can
+also define :ref:`relationships <dotnet-client-relationships>` between object
 types in a realm.
 
 Every App has a :ref:`App Services Schema <dotnet-realm-schema>`
 composed of a list of object schemas for each type of object that the
-realms in that application may contain. Realm guarantees that all 
+realms in that application may contain. Realm guarantees that all
 objects in a realm conform to the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
@@ -46,8 +46,8 @@ created, modified, or deleted.
 
 Property Annotations
 --------------------
-Schema properties are standard C# properties on a ``RealmObject``. There are 
-several property annotations that you can use to more finely define how a Realm 
+Schema properties are standard C# properties on a ``RealmObject``. There are
+several property annotations that you can use to more finely define how a Realm
 handles a specific property.
 
 .. _dotnet-primary-key-example:
@@ -68,20 +68,20 @@ create a primary key with any of the following types (or their nullable counterp
 - ``int``
 - ``long``
 
-You may define a primary key on a **single property** for an 
+You may define a primary key on a **single property** for an
 object type as part of the :ref:`object schema <dotnet-object-schema>`.
 Realm automatically indexes primary key properties, which
 allows you to efficiently read and modify objects based on their primary
-key. 
+key.
 
 If an object type has a primary key, then all objects of that type must
 include the primary key property with a value that is unique among
 objects of the same type in a realm.
 
 .. note::
-   
+
    Once you assign a property as a primary key, you cannot change it.
-   
+
 The following example demonstrates how to designate a primary key in an object schema:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.primary-key.cs
@@ -98,9 +98,9 @@ The following example demonstrates how to designate a primary key in an object s
 Indexes
 ~~~~~~~
 
-**Indexes** significantly improve query times in a Realm. Without 
-indexes, Realm scans every document in a collection to select the documents 
-that match the given query. However, if an applicable index exists for a query, 
+**Indexes** significantly improve query times in a Realm. Without
+indexes, Realm scans every document in a collection to select the documents
+that match the given query. However, if an applicable index exists for a query,
 Realm uses the index to limit the number of documents that it must inspect.
 
 You can index properties with the following types:
@@ -124,38 +124,38 @@ You can index properties with the following types:
    by your realm file. Each index entry is a minimum of 12 bytes.
 
 To index a property, use the :dotnet-sdk:`Indexed <reference/Realms.IndexedAttribute.html>`
-attribute. With the ``Indexed`` attribute, you can specify the type of index 
-on the property by using the :dotnet-sdk:`IndexType <reference/Realms.IndexType.html>` 
-enum. In the following example, we have a default ("General") index on the ``Name`` 
+attribute. With the ``Indexed`` attribute, you can specify the type of index
+on the property by using the :dotnet-sdk:`IndexType <reference/Realms.IndexType.html>`
+enum. In the following example, we have a default ("General") index on the ``Name``
 property:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
    :language: csharp
    :emphasize-lines: 3-4
 
-.. note:: 
+.. note::
 
-   When you create an index, you are creating it on the local realm and not 
-   on an Atlas collection. If you need to query an Atlas collection directly 
-   and want to improve performance, refer to 
+   When you create an index, you are creating it on the local realm and not
+   on an Atlas collection. If you need to query an Atlas collection directly
+   and want to improve performance, refer to
    `Create, View, Drop, and Hide Indexes <https://www.mongodb.com/docs/atlas/atlas-ui/indexes/>`__.
-   
+
 .. _dotnet-fts-indexes:
 
 Full-Text Search Indexes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to standard indexes, Realm also supports Full-Text Search (FTS) indexes 
-on ``string`` properties. While you can query a string field with or without a 
-standard index, an FTS index enables searching for multiple words and phrases and 
-excluding others. 
+In addition to standard indexes, Realm also supports Full-Text Search (FTS) indexes
+on ``string`` properties. While you can query a string field with or without a
+standard index, an FTS index enables searching for multiple words and phrases and
+excluding others.
 
-For more information on querying full-text indexes, see :ref:`Full Text Search 
+For more information on querying full-text indexes, see :ref:`Full Text Search
 (LINQ) <dotnet-linq-fts>` and :ref:`Full Text Search (RQL) <dotnet-rql-fts>`.
 
 To index an FTS property, use the :dotnet-sdk:`Indexed <reference/Realms.IndexedAttribute.html>`
-attribute with the :dotnet-sdk:`IndexType.FullText <reference/Realms.IndexType.html>` 
-enum. In the following example, we have a ``FullText`` index on the 
+attribute with the :dotnet-sdk:`IndexType.FullText <reference/Realms.IndexType.html>`
+enum. In the following example, we have a ``FullText`` index on the
 ``Biography`` property:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
@@ -167,11 +167,11 @@ enum. In the following example, we have a ``FullText`` index on the
 Default Field Values
 ~~~~~~~~~~~~~~~~~~~~
 
-You can use the built-in language features to assign a default value to a property. 
-In C#, you can assign a default value on primitives in the property declaration. 
-You cannot set a default value on a collection, except to set it to ``null!``. 
-Even if you set a collection to ``null!``, collections are always initialized on 
-first access, so will never be null. 
+You can use the built-in language features to assign a default value to a property.
+In C#, you can assign a default value on primitives in the property declaration.
+You cannot set a default value on a collection, except to set it to ``null!``.
+Even if you set a collection to ``null!``, collections are always initialized on
+first access, so will never be null.
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.default.cs
    :language: csharp
@@ -190,7 +190,7 @@ Ignore a Property
 ~~~~~~~~~~~~~~~~~
 
 If you don't want to save a property in your model to a realm, you can
-ignore that property. A property is ignored by default if it is not autoimplemented or 
+ignore that property. A property is ignored by default if it is not autoimplemented or
 does not have a setter.
 
 Ignore a property from a Realm object model with the
@@ -249,15 +249,57 @@ attribute to rename a class:
 Custom Setters
 ~~~~~~~~~~~~~~
 
-Realm will not store a property with a custom setter. To use a custom setter, 
-store the property value in a private property and then 
-map that value to a public property with the custom setter. Realm will store the 
+Realm will not store a property with a custom setter. To use a custom setter,
+store the property value in a private property and then
+map that value to a public property with the custom setter. Realm will store the
 private property, while you modify its value via the public property.
-In the following code, the private ``email`` property is stored in the realm, 
+In the following code, the private ``email`` property is stored in the realm,
 but the public ``Email`` property, which provides validation, is not persisted:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.custom-setter.cs
    :language: csharp
+
+.. _dotnet-model-unstructured-data:
+
+Define Unstructured Data
+-----------------------
+
+.. versionadded:: 12.22.0
+
+Starting in SDK version 12.22.0, you can store :ref:`collections of mixed data <dotnet-nested-collections-realm-value>`
+within a ``RealmValue`` property. You can use this feature to model complex data
+structures, such as JSON or MongoDB documents, without having to define a
+strict data model.
+
+**Unstructured data** is data that doesn't easily conform to an expected
+schema, making it difficult or impractical to model to individual
+data classes. For example, your app might have highly variable data or dynamic
+data whose structure is unknown at runtime.
+
+Storing collections in a mixed property offers flexibility without sacrificing
+functionality, including performant synchronization when using Device Sync. And
+you can work with them the same way you would a non-mixed
+collection:
+
+- You can nest mixed collections up to 100 levels.
+- You can query on and :ref:`react to changes
+  <dotnet-collection-notifications>` on mixed collections.
+- You can find and update individual mixed collection elements.
+
+However, storing data in mixed collections is less performant than using a structured
+schema or serializing JSON blobs into a single string property.
+
+To model unstructured data in your app, define the appropriate properties in
+your schema as :ref:`RealmValue <realmvalue>` types. You can then
+set these ``RealmValue`` properties as a :ref:`list <dotnet-property-lists>` or a
+:ref:`dictionary <dotnet-client-dictionaries>` of ``RealmValue`` elements.
+Note that ``RealmValue`` *cannot* represent a set or an embedded
+object.
+
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
 
 .. _dotnet-omit-classes-from-schema:
 .. _dotnet-provide-subset-classes-schema:
@@ -266,7 +308,7 @@ Omit Classes from your Realm Schema
 -----------------------------------
 
 By default, your application's Realm Schema includes all
-classes that implement ``IRealmObject`` or ``IEmbeddedObject``. 
+classes that implement ``IRealmObject`` or ``IEmbeddedObject``.
 If you only want to include a subset of these classes in your Realm
 Schema, you can update your configuration to include the specific classes you want:
 
@@ -281,41 +323,41 @@ Schema, you can update your configuration to include the specific classes you wa
 Required and Optional Properties
 --------------------------------
 
-In C#, value types, such as ``int`` and ``bool``, are implicitly non-nullable.  
-However, they can be made optional by using the question mark (``?``) `notation 
+In C#, value types, such as ``int`` and ``bool``, are implicitly non-nullable.
+However, they can be made optional by using the question mark (``?``) `notation
 <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
 
-Beginning with C# 8.0, nullable reference types were introduced. If your project 
-is using C# 8.0 or later, you can also declare reference types, such as ``string`` 
-and ``byte[]``, as nullable with ``?``. 
+Beginning with C# 8.0, nullable reference types were introduced. If your project
+is using C# 8.0 or later, you can also declare reference types, such as ``string``
+and ``byte[]``, as nullable with ``?``.
 
-.. note:: 
+.. note::
 
-   Beginning with .NET 6.0, the nullable context is enabled by default for new 
-   projects. For older projects, you can manually enable it. For more information, 
+   Beginning with .NET 6.0, the nullable context is enabled by default for new
+   projects. For older projects, you can manually enable it. For more information,
    refer to `<https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types#setting-the-nullable-context>`__.
 
-The Realm .NET SDK fully supports the nullable-aware context and uses nullability 
-to determine whether a property is required or optional. The SDK has the 
+The Realm .NET SDK fully supports the nullable-aware context and uses nullability
+to determine whether a property is required or optional. The SDK has the
 following rules:
 
 - Realm assumes that both value- and reference-type properties are required if
-  you do not designate them as nullable. If you designate them as nullable 
+  you do not designate them as nullable. If you designate them as nullable
   by using ``?``, Realm considers them optional.
 
 - You must declare properties that are Realm object types as nullable.
 
-- You cannot declare collections (list, sets, backlinks, and dictionaries) as 
+- You cannot declare collections (list, sets, backlinks, and dictionaries) as
   nullable, but their parameters may be nullable according to the following rules:
 
-  - For all types of collections, if the parameters are primitives 
+  - For all types of collections, if the parameters are primitives
     (value- or reference-types), they can be required or nullable.
-  
-  - For lists, sets, and backlinks, if the parameters are Realm objects, they 
+
+  - For lists, sets, and backlinks, if the parameters are Realm objects, they
     **cannot** be nullable.
 
-  - For dictionaries with a value type of Realm object, you **must** declare 
-    the value type parameter as nullable. 
+  - For dictionaries with a value type of Realm object, you **must** declare
+    the value type parameter as nullable.
 
 The following code snippet demonstrates these rules:
 
@@ -324,17 +366,18 @@ The following code snippet demonstrates these rules:
 
 .. note::
 
-   If you are using the older schema type definition (your classes derive from 
-   the ``RealmObject`` base class), or you do not have nullability enabled, you 
-   will need to use the 
-   :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute 
+   If you are using the older schema type definition (your classes derive from
+   the ``RealmObject`` base class), or you do not have nullability enabled, you
+   will need to use the
+   :dotnet-sdk:`[Required] <reference/Realms.RequiredAttribute.html>` attribute
    for any required ``string`` and ``byte[]`` property.
 
 Ignoring Nullability
 ~~~~~~~~~~~~~~~~~~~~
-You may prefer to have more flexibility in defining the nullability of properties 
-in your Realm objects. You can do so by setting ``realm.ignore_objects_nullability = true`` 
+You may prefer to have more flexibility in defining the nullability of properties
+in your Realm objects. You can do so by setting ``realm.ignore_objects_nullability = true``
 in a `global configuration file <https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files>`__.
 
 If you enable ``realm.ignore_objects_nullability``, nullability annotations
-will be ignored on Realm object properties, including collections of Realm objects.
+will be ignored on Realm object properties, including collections of Realm
+objects.
