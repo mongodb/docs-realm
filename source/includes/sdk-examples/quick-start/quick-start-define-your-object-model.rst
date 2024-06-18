@@ -20,27 +20,6 @@
             :language: dart
             :caption: car.dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/DefinitelyNotJavaTask.snippet.define-object-model-local.java
-            :language: java
-            :caption: Task.java
-            :copyable: false
-
-         .. literalinclude:: /examples/generated/java/local/TaskStatus.snippet.define-object-model-local.java
-            :language: java
-            :caption: TaskStatus.java
-            :copyable: false
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/MainActivity.snippet.define-object-model-local.kt
-            :language: kotlin
-            :caption: Task.kt
-            :copyable: false
-
      - id: javascript
        content: |
 

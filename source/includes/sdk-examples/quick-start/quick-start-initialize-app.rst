@@ -19,20 +19,6 @@
          .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.init-app.dart
             :language: dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/generated/java/sync/MainActivity.snippet.initialize-the-app.java
-            :language: java
-            :copyable: false
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/generated/java/sync/MainActivity.snippet.initialize-the-app.kt
-            :language: kotlin
-            :copyable: false
-
      - id: javascript
        content: |
 

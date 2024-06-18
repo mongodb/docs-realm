@@ -19,18 +19,6 @@
          .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.open-realm.dart
             :language: dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/MainActivity.snippet.open-a-realm-local.java
-            :language: java
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/MainActivity.snippet.open-a-realm-local.kt
-            :language: kotlin
-
      - id: javascript
        content: |
 

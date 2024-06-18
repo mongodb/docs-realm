@@ -19,20 +19,6 @@
          .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
             :language: dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/OpenARealmTest.snippet.close-a-realm-local.java
-            :language: java
-            :copyable: false
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/OpenARealmTest.snippet.close-a-realm-local.kt
-            :language: kotlin
-            :copyable: false
-
      - id: javascript
        content: |
 

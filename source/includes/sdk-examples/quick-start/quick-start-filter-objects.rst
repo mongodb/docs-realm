@@ -19,20 +19,6 @@
          .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
             :language: dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/MainActivity.snippet.filter-collection-local.java
-            :language: java
-            :copyable: false
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/MainActivity.snippet.filter-collection-local.kt
-            :language: kotlin
-            :copyable: false
-
      - id: javascript
        content: |
 

@@ -19,20 +19,6 @@
          .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
             :language: dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/MainActivity.snippet.create-object-local.java
-           :language: java
-           :copyable: false
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/generated/java/local/MainActivity.snippet.create-object-local.kt
-            :language: kotlin
-            :copyable: false
-
      - id: javascript
        content: |
 

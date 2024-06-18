@@ -19,18 +19,6 @@
          .. literalinclude:: /examples/MissingPlaceholders/example.dart
             :language: dart
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example.java
-            :language: java
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
-            :language: kotlin
-
      - id: javascript
        content: |
 

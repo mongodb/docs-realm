@@ -21,20 +21,6 @@
 
             import 'package:realm_dart/realm.dart';
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/generated/java/sync/MainActivity.snippet.initialize-realm.java
-            :language: java
-            :copyable: false
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/generated/java/sync/MainActivity.snippet.initialize-realm.kt
-            :language: kotlin
-            :copyable: false
-
      - id: javascript
        content: |
 
