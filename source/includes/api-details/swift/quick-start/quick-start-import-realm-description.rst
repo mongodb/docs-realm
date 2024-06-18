@@ -1,4 +1,4 @@
-.. seealso::
+.. tip::
 
    If your app uses SwiftUI, check out the :ref:`SwiftUI Quick Start 
    <ios-swiftui-quick-start>`.
