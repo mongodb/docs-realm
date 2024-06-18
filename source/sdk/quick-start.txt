@@ -5,7 +5,7 @@ Quick Start
 ===========
 
 .. meta::
-   :description: Learn how to quickly get started with Atlas Device SDK.
+   :description: Get started quickly using Atlas Device SDK.
    :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
 
 .. facet::
@@ -24,8 +24,14 @@ Quick Start
 
 .. tabs-selector:: drivers
 
-This Quick Start demonstrates how to use Atlas Device SDK. 
-Before you begin, ensure you have :ref:`Installed the SDK <sdks-install>`.
+This quick start demonstrates how to use Atlas Device SDK. 
+If you'd prefer a guided quick start experience using a :ref:`template app <template-apps>`, 
+check out our :ref:`Device Sync tutorials <app-services-get-started>`.
+
+Before You Begin
+----------------
+
+Before you can get started, you must :ref:`Install the SDK <sdks-install>`.
 
 Import the SDK
 ---------------
@@ -84,9 +90,9 @@ Import the SDK
 Define Your Object Model
 ------------------------
 
-For a non-synced database, you can define your :ref:`object model
-<sdks-object-models>` directly in code. For a synced database, your client
-object models require a matching schema in Atlas. For more details, refer to
+You can define your :ref:`object model <sdks-object-models>` directly in code. 
+If you want to use Device Sync, your client
+object models also require a matching schema in Atlas. For more details, refer to
 :ref:`sdks-model-data-device-sync`.
 
 .. tabs-drivers::
@@ -207,19 +213,19 @@ To instantiate a new object and add it to the database in a write block:
 
 .. include:: /includes/sdk-examples/quick-start/quick-start-create-objects.rst
 
-For more information about creating objects, refer to :ref:`sdks-crud-create`.
+For more information, refer to :ref:`sdks-crud-create`.
 
 Read and Filter
 ~~~~~~~~~~~~~~~
 
-You can retrieve a :ref:`results collection <sdks-read-results>` of 
+To retrieve a :ref:`results collection <sdks-read-results>` of 
 all objects of a given type in the database:
 
 .. include:: /includes/sdk-examples/quick-start/quick-start-read-objects.rst
 
-For more information about reading objects, refer to :ref:`sdks-crud-read`.
+For more information, refer to :ref:`sdks-crud-read`.
 
-You can also filter that collection:
+To filter that same results collection:
 
 .. include:: /includes/sdk-examples/quick-start/quick-start-filter-objects.rst
 
@@ -233,16 +239,16 @@ To modify an object, update its properties in a write transaction block:
 
 .. include:: /includes/sdk-examples/quick-start/quick-start-update-object-properties.rst
 
-For more information about updating objects, refer to :ref:`sdks-crud-update`.
+For more information, refer to :ref:`sdks-crud-update`.
 
 Delete
 ~~~~~~
 
-Finally, you can delete an object:
+To delete an object from the database:
 
 .. include:: /includes/sdk-examples/quick-start/quick-start-delete-objects.rst
 
-For more information about deleting objects, refer to :ref:`sdks-crud-delete`.
+For more information, refer to :ref:`sdks-crud-delete`.
 
 Watch for Changes
 -----------------
@@ -310,8 +316,8 @@ Close a Database
 Add Device Sync
 ---------------
 
-If you want to sync data across devices, you can enable Device Sync in Atlas.
-For more information on Device Sync, refer to :ref:`sync`.
+If you want to sync data across devices with the SDK, you can enable Device Sync in Atlas.
+For more information on Device Sync, refer to :ref:`sync` in the App Services documentation.
 
 Prerequisites
 ~~~~~~~~~~~~~
@@ -331,9 +337,11 @@ Initialize the App
 ~~~~~~~~~~~~~~~~~~
 
 The SDK uses an ``App`` to connect to Atlas, manage users, and report certain
-types of errors. Initialize the ``App`` connection.
+types of errors. 
 
 .. include:: /includes/access-app-id.rst
+
+To initialize the ``App`` connection:
 
 .. include:: /includes/sdk-examples/quick-start/quick-start-initialize-app.rst
 
@@ -345,13 +353,13 @@ to :ref:`sdks-connect-to-atlas`.
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
 
-In this quick start, you use :ref:`anonymous authentication <anonymous-authentication>`
+This quick start uses :ref:`anonymous authentication <anonymous-authentication>`
 to log in users without requiring them to provide any identifying information.
 After authenticating the user, you can open a database for that user.
 
 .. include:: /includes/sdk-examples/quick-start/quick-start-authenticate-user.rst
 
-The SDK provides many additional ways to authenticate, register, and link
+The SDK provides additional ways to authenticate, register, and link
 users. For other authentication providers, refer to 
 :ref:`sdks-authenticate-users`.
 
@@ -420,12 +428,19 @@ The syntax to :ref:`read <sdks-crud-read>`, :ref:`write
 <sdks-write-transactions>`, and :ref:`watch for changes <sdks-react-to-changes>`
 on a synced database is identical to the syntax for non-synced databases above. 
 
-The only difference here is the addition of a property that we can use to
-find the user's todos and set Sync permissions. We query for only the user's
-todos in the subscription, and set Sync permissions to 
-:guilabel:`Users can only read and write their own data`. 
+However, reads and writes to a synced databases have the following additional 
+constraints: 
 
-For more information about Sync permissions, refer to :ref:`sync-permissions`.
+- Sync permissions that determine whether users can read or write. 
+- Sync subscriptions that determine what data the synced database 
+  can read or write. 
+  
+In the following example, we set Sync permissions to ``Users can only 
+read and write their own data``, and add a property that lets us 
+subscribe to only the current user's todos.
+``Users can only read and write their own data``. 
+
+For more information about Device Sync permissions, refer to :ref:`sync-permissions` in the App Services documentation.
 
 .. tabs-drivers::
 
@@ -469,14 +484,10 @@ uploads, and downloads changesets.
 Next: Check out the Template Apps and Tutorial
 ----------------------------------------------
 
-Check out the :ref:`template apps <template-apps>` to experiment with another
-quick way to start coding with Atlas Device SDK. Each SDK has an application
+Check out the :ref:`template apps <template-apps>` to start coding 
+quickly with Atlas Device SDK. Each SDK has an application
 that integrates Atlas Device SDK and Atlas Device Sync in a platform-idiomatic
 todo app.
 
-If you're more interested in a guided experience, you can read our
-:ref:`Device Sync tutorials <app-services-get-started>` to learn how to expand
-on the template app.
-
-Finally, if you'd like to browse example applications for specific use cases,
-check out our list of curated :ref:`realm-examples`.
+Check out our list of curated :ref:`realm-examples` to browse example applications 
+for specific use cases and implementations.
