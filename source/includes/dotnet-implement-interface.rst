@@ -12,7 +12,7 @@
    :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`
    base classes. This approach to SDK model definition is still supported, but 
    does not include new features such as the :ref:`nullability annotations 
-   <sdks-required-optional-property>`. In a future SDK release, the 
-   base classes will become deprecated. You should use the interfaces for any 
+   <sdks-required-optional-property>`. These base classes will be 
+   deprecated in a future SDK release. You should use the interfaces for any 
    new classes that you write and should consider migrating your existing 
    classes.

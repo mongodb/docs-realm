@@ -12,6 +12,6 @@ Now create a subscription to synchronize data with Atlas using Device Sync.
 Add the subscription within the :flutter-sdk:`SubscriptionSet.update() <realm/SubscriptionSet/update.html>`
 callback function.
 
-The update block callback function, includes a :flutter-sdk:`MutableSubscriptionSet()
+The update block callback function includes a :flutter-sdk:`MutableSubscriptionSet()
 <realm/MutableSubscriptionSet-class.html>` object as an argument.
 Use ``MutableSubscriptionSet.add()`` to add a new subscription.

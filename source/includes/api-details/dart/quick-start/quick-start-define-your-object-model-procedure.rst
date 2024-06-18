@@ -27,7 +27,7 @@ class is public and part of the same library as the ``_Car`` data model
 class. The generated ``Car`` class is what's used throughout your
 application.
 
-*Watch for Changes to the Model (Optional)*
+**Watch for Changes to the Model (Optional)**
 
 You can watch your data model class to generate a new ``Car`` class
 whenever there's a change to ``_Car``:

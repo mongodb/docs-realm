@@ -1,5 +1,6 @@
-In this quick start, you can remove ``ownerId`` unless you want to add the
-optional Device Sync.
+This quick start includes ``ownerId``, which is used when we add 
+Device Sync in a later step. 
+You can remove this property if you are not using Device Sync.
 
 .. important:: Define SDK Models within the realm namespace
 
