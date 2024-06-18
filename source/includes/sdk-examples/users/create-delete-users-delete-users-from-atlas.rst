@@ -56,14 +56,16 @@
 
          .. literalinclude:: /examples/generated/code/start/DeleteUsers.snippet.async-await-delete-user.swift
             :language: swift
+            :copyable: false
 
          **Closure-Style**
 
          .. literalinclude:: /examples/generated/code/start/DeleteUsers.snippet.closure-delete-user.swift
             :language: swift
+            :copyable: false
 
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/MissingPlaceholders/example.ts
+         .. literalinclude::  /examples/generated/node/authenticate.snippet.delete-user.js
             :language: typescript

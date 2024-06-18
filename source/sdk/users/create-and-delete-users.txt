@@ -31,36 +31,40 @@ given user. When combined with Sync subscription queries, these features
 determine what data a user can :ref:`read and write from a synced database 
 <sdks-write-synced-database>`.
 
-You can also associate :ref:`metadata <sdks-user-metadata>` or 
-:ref:`custom data <sdks-custom-user-data>` with user accounts.
+The SDK also provides functionality to extend a user object, and manage 
+multiple users or identities:
 
-Users can have multiple identities. For more information, refer to
-:ref:`sdks-link-user-identities`.
-
-Your app can manage multiple users on a device. For more information, refer
-to :ref:`sdks-multi-user-applications`.
+- You can associate :ref:`metadata <sdks-user-metadata>` or 
+  :ref:`custom data <sdks-custom-user-data>` with user accounts.
+- Users can have multiple identities. For more information, refer to
+  :ref:`sdks-link-user-identities`.
+- Your app can manage multiple users on a device. For more information, refer
+  to :ref:`sdks-multi-user-applications`.
 
 For more information about authentication providers, identities, and user
 sessions, refer to :ref:`Authenticate & Manage Users <users-and-authentication>`
 in the App Services documentation.
 
-.. tip:: Atlas Device SDK Users Differ from Other Types of Atlas Users
+.. _sdks-device-sdk-users-vs-other-users:
 
-   Atlas Device SDK users are distinct from :ref:`database users <mongodb-users>`
-   or :ref:`Atlas account users <atlas_users>`. SDK users are bounded by the
-   App Services App where they are registered, and only have access to
-   resources you provide through the App. Your application can let SDK users:
+Atlas Device SDK Users vs. Other User Types
+-------------------------------------------
 
-   - :ref:`Read and write from a synced database <sdks-write-synced-database>`
-   - :ref:`Call an Atlas Function <sdks-call-function>`
-   - Call :ref:`Data API <data-api>` or :ref:`custom HTTPS endpoints <custom-endpoints>`
-   - Read and write from specified collections and databases in MongoDB Atlas
-     through :ref:`the MongoClient API <sdks-access-mongodb>`
+Atlas Device SDK users are distinct from :ref:`database users <mongodb-users>`
+or :ref:`Atlas account users <atlas_users>`. SDK users are bounded by the
+App Services App where they are registered, and only have access to
+resources you provide through the App. Your application can let SDK users:
 
-   SDK users do not have direct Atlas database access, or direct Atlas account
-   access. It is your responsibility to manage these application users,
-   including complying with data retention or deletion policies and regulatory
-   requirements where you publish your applications.
+- :ref:`Read and write from a synced database <sdks-write-synced-database>`
+- :ref:`Call an Atlas Function <sdks-call-function>`
+- Call :ref:`Data API <data-api>` or :ref:`custom HTTPS endpoints <custom-endpoints>`
+- Read and write from specified collections and databases in MongoDB Atlas
+  through :ref:`the MongoClient API <sdks-access-mongodb>`
+
+SDK users do not have direct Atlas database access, or direct Atlas account
+access. It is your responsibility to manage these application users,
+including complying with data retention or deletion policies and regulatory
+requirements where you publish your applications.
 
 .. _sdks-create-users:
 
@@ -98,8 +102,9 @@ more details about how to link these identities, refer to
 Manually Create Users
 ~~~~~~~~~~~~~~~~~~~~~
 
-If your app uses email/password authentication, you must manually register a
-user to create a user object. For more information about registering
+If your app uses email/password authentication, your app must explicitly
+register a user to create the user object in App Services. This method is 
+independent of authenticating a user. For more information about registering
 email/password users, refer to :ref:`sdks-email-password-user-register`.
 
 You can also manually create email/password users through App Services. For
@@ -173,7 +178,7 @@ server.
 Calling the user delete method performs the following:
 
 - Deletes synced databases associated with the user from the device.
-- deletes the ``User`` object from the Atlas App Services server
+- Deletes the ``User`` object from the Atlas App Services server.
 - Sets the user state on the device to removed.
 
 Because this method deletes any synced databases owned by the user, you 
