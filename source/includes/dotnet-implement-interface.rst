@@ -6,7 +6,7 @@
    :dotnet-sdk:`IAsymmetricObject <reference/Realms.IAsymmetricObject.html>`
    interface and must be declared ``partial`` classes.
 
-   In versions of the .NET SDK older than 10.18.0, objects derive from 
+   In versions of the .NET SDK v10.18.0 and earlier, objects derive from 
    :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
    :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
    :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`

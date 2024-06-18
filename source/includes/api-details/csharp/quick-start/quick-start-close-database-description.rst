@@ -7,6 +7,7 @@ interacts with a database in a ``using (...)`` statement:
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.scope.cs
    :language: csharp
 
-If you require a database object to be shared outside of a single method, 
-to manage its state by calling the
-:dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
+If you require a database object to be shared outside of a single method, you
+can manage its state manually. Call the
+:dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>`
+method to release the reference:
