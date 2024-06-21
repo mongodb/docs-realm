@@ -1,3 +1,35 @@
+# June 21, 2024
+
+## Kotlin SDK
+
+- Realm/Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types: Update RealmAny section to indicate support for holding lists and dictionaries, and add new "Mixed Collections" section.
+
+## .NET SDK
+
+- Model Data
+  - Define an Object Model: Add new "Model Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types > RealmValue: Update page to indicate support for holding lists and dictionaries, and add new "Mixed Collections" section.
+
+## Node.js SDK
+
+- Model Data
+  - Define an Object Model: Add new "Model Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types/Mixed: Update page to indicate support for holding lists and dictionaries, and add new "Mixed Collections" section.
+
+## React Native SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types/Mixed: Update page to indicate support for holding lists and dictionaries, and add new "Mixed Collections" section.
+
+## Swift SDK
+
+- Model Data
+  - Define an Object Model: Add new "Model Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Types: Update AnyRealmValue section to indicate support for holding lists and dictionaries, and add new "Mixed Collections" section.
+
 # June 14, 2024
 
 ## .NET SDK
