@@ -47,6 +47,10 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Car>(this);
 
   @override
+  Stream<RealmObjectChanges<Car>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Car>(this, keyPaths);
+
+  @override
   Car freeze() => RealmObjectBase.freezeObject<Car>(this);
 
   EJsonValue toEJson() {
@@ -125,6 +129,10 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Person>> get changes =>
       RealmObjectBase.getChanges<Person>(this);
+
+  @override
+  Stream<RealmObjectChanges<Person>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Person>(this, keyPaths);
 
   @override
   Person freeze() => RealmObjectBase.freezeObject<Person>(this);
@@ -208,6 +216,10 @@ class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Boat>> get changes =>
       RealmObjectBase.getChanges<Boat>(this);
+
+  @override
+  Stream<RealmObjectChanges<Boat>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Boat>(this, keyPaths);
 
   @override
   Boat freeze() => RealmObjectBase.freezeObject<Boat>(this);
@@ -305,6 +317,10 @@ class EventLog extends _EventLog
   @override
   Stream<RealmObjectChanges<EventLog>> get changes =>
       RealmObjectBase.getChanges<EventLog>(this);
+
+  @override
+  Stream<RealmObjectChanges<EventLog>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<EventLog>(this, keyPaths);
 
   @override
   EventLog freeze() => RealmObjectBase.freezeObject<EventLog>(this);

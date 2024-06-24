@@ -11,7 +11,7 @@ class _Person {
 }
 
 main() {
-  test("Convert in-memory realm to local realm", () {
+  test("Convert in-memory realm to local realm", () async {
     // :snippet-start: in-memory-to-local
     // Create in-memory realm and add data to it.
     // Note that even though the realm is in-memory, it still has a file path.
@@ -40,9 +40,9 @@ main() {
     // :snippet-end:
     expect(tanya, isA<Person>());
     expect(localRealm.all<Person>().length, 3);
-    cleanUpRealm(localRealm);
+    await cleanUpRealm(localRealm);
   });
-  test("Convert unencrypted local realm to encrypted local realm", () {
+  test("Convert unencrypted local realm to encrypted local realm", () async {
     // :snippet-start: unencrypted-to-encrypted
     // Create unencrypted realm and add data to it.
     final unencryptedRealm = Realm(Configuration.local([Person.schema]));
@@ -72,7 +72,7 @@ main() {
     // :snippet-end:
     expect(harper, isA<Person>());
     expect(encryptedRealm.all<Person>().length, 4);
-    cleanUpRealm(encryptedRealm);
-    cleanUpRealm(unencryptedRealm);
+    await cleanUpRealm(encryptedRealm);
+    await cleanUpRealm(unencryptedRealm);
   });
 }

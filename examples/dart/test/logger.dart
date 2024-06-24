@@ -1,167 +1,85 @@
 import 'package:test/test.dart';
-import '../bin/models/car.dart';
 import 'dart:async';
-import 'dart:isolate';
-import 'package:realm_dart/src/realm_class.dart' show RealmInternal;
-import 'package:logging/logging.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
-
-class LoggedMessage {
-  final Level level;
-  final String message;
-
-  const LoggedMessage(this.level, this.message);
-
-  factory LoggedMessage.empty() => LoggedMessage(RealmLogLevel.off, "");
-
-  @override
-  // ignore: hash_and_equals
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! LoggedMessage) return false;
-    return level == other.level && message == other.message;
-  }
-
-  @override
-  String toString() => "level:$level message:$message";
-}
+import 'schemas.dart';
 
 void main() {
-  group('Set log level and customize logger', () {
-    test('Set the log level', () async {
-      LoggedMessage actual = await Isolate.run(() async {
-        final completer = Completer<LoggedMessage>();
+  test('Set log level and customize logger', () async {
+    final stringBuffer = StringBuffer();
 
-        // :snippet-start: set-the-log-level
-        Realm.logger.level = RealmLogLevel.trace;
-        // :snippet-end:
-        // :snippet-start: attach-to-logger
-        Realm.logger.onRecord.listen((event) {
-          // Do something with the log event - for example, print to console
-          print("Realm log message: '$event'");
-          // :remove-start:
-          completer.complete(LoggedMessage(event.level, event.message));
-          // :remove-end:
-        });
-        // :snippet-end:
+    // :snippet-start: set-the-log-level
+    // If no category is set, default is LogCategory.realm
+    Realm.logger.setLogLevel(LogLevel.all, category: LogCategory.realm);
+    // :snippet-end:
 
-        RealmInternal.logMessageForTesting(
-            RealmLogLevel.trace, "Realm log message for log level testing");
-
-        return await completer.future;
-      });
-
-      expect(
-          actual,
-          LoggedMessage(
-              RealmLogLevel.trace, "Realm log message for log level testing"));
+    // Customize logging behavior
+    // :snippet-start: set-custom-logger
+    Realm.logger.onRecord.listen((record) {
+      // Do something with the log record
+      // :uncomment-start:
+      // print(record.message);
+      // :uncomment-end:
+      // :remove-start:
+      // For testing
+      stringBuffer
+          .writeln('${record.category} ${record.level}: ${record.message}');
+      // :remove-end:
     });
-    test('Set a custom logger', () async {
-      LoggedMessage actual = await Isolate.run(() async {
-        final completer = Completer<LoggedMessage>();
+    // :snippet-end:
 
-        Realm.logger.onRecord.listen((event) {
-          throw RealmError(
-              "Default logger should not log messages if custom logger is set");
-        });
+    final config = Configuration.local([Person.schema]);
+    final realm = Realm(config);
 
-        // :snippet-start: set-custom-logger
-        Realm.logger = Logger.detached("custom logger");
-        // :snippet-end:
-        Realm.logger.onRecord.listen((event) {
-          completer.complete(LoggedMessage(event.level, event.message));
-        });
+    realm.write(() => realm.add(Person(ObjectId(), 'Anakin', 'Skywalker')));
 
-        RealmInternal.logMessageForTesting(
-            RealmLogLevel.info, "Custom Realm log entry for testing");
+    // Hack to wait for stream to process
+    await delay(200);
 
-        return await completer.future;
-      });
+    final logs = stringBuffer.toString();
 
-      expect(
-          actual,
-          LoggedMessage(
-              RealmLogLevel.info, "Custom Realm log entry for testing"));
-    });
-    test('Change the log level as needed', () async {
-      bool logMessageReceived = false;
+    // Expect logs to contain a substring that includes the field and value
+    // we set earlier
+    expect(logs.contains('Set \'firstName\' to "Anakin"'), isTrue);
 
-      Realm.logger.onRecord.listen((event) {
-        logMessageReceived = true;
-      });
+    Future executeAppCode() async {
+      // Capture log length before new write transaction
+      final oldStringBufferLength = stringBuffer.length;
 
-      void executeAppCode() {
-        // Placeholder
-      }
+      realm.write(() => realm.add(Person(ObjectId(), 'Leia', 'Organa')));
 
-      void executeComplexCodeToDebug() {
-        // Placeholder
-      }
+      // Hack to wait for stream to process
+      await delay(200);
 
-      // :snippet-start: change-log-level
-      // Set a default log level that's not too verbose
-      Realm.logger.level = RealmLogLevel.info;
-      executeAppCode();
-      // Later, change the log level to debug an issue when running specific code
-      Realm.logger.level = RealmLogLevel.trace;
-      executeComplexCodeToDebug();
-      // :snippet-end:
+      // Ensure that no new logs have been written after setting log level to off
+      // Length should not change.
+      expect(stringBuffer.length, oldStringBufferLength);
+    }
 
-      // Because we changed logging from .info to .trace, this should log a message.
-      RealmInternal.logMessageForTesting(RealmLogLevel.trace,
-          "This message should be logged because the log level was changed");
+    Future executeComplexCodeToDebug() async {
+      // Capture log length before new write transaction
+      final previousStringBufferLength = stringBuffer.length;
 
-      await Future.delayed(Duration(seconds: 2));
+      realm.write(() => realm.add(Person(ObjectId(), 'Mon', 'Mothma')));
 
-      expect(logMessageReceived, isTrue);
-    });
-    test('Set the log level to off', () async {
-      bool logMessageReceived = false;
+      // Hack to wait for stream to process
+      await delay(200);
 
-      Realm.logger.onRecord.listen((event) {
-        logMessageReceived = true;
-      });
+      // There should be more log records than before the latest write
+      // transaction
+      expect(stringBuffer.length, greaterThan(previousStringBufferLength));
+    }
 
-      // Set the log level to the level in our test message to ensure
-      // the listener would log the event if logging did not turn off.
-      Realm.logger.level = RealmLogLevel.trace;
-      // :snippet-start: set-log-level-to-off
-      Realm.logger.level = RealmLogLevel.off;
-      // :snippet-end:
+    // :snippet-start: change-log-level
+    // :snippet-start: set-log-level-to-off
+    Realm.logger.setLogLevel(LogLevel.off);
+    // :snippet-end:
+    await executeAppCode();
 
-      // If logging was enabled at this log level, this should log a message.
-      // But because the log level is off, it should not log a message.
-      RealmInternal.logMessageForTesting(RealmLogLevel.trace,
-          "This message should not appear because the logger is off");
+    Realm.logger.setLogLevel(LogLevel.debug, category: LogCategory.realm);
+    await executeComplexCodeToDebug();
+    // :snippet-end:
 
-      await Future.delayed(Duration(seconds: 2));
-
-      expect(logMessageReceived, isFalse);
-    });
-
-    test('Disable logging by clearing listeners', () async {
-      bool logMessageReceived = false;
-
-      Realm.logger.onRecord.listen((event) {
-        logMessageReceived = true;
-      });
-
-      // Set the log level to the level in our test message to ensure
-      // the listener would log the event if it was active.
-      Realm.logger.level = RealmLogLevel.trace;
-      // :snippet-start: clear-listeners
-      Realm.logger.clearListeners();
-      // :snippet-end:
-
-      // If logging was enabled at this log level, this should log a message.
-      // But because we have cleared log listeners, it should not log a message.
-      RealmInternal.logMessageForTesting(RealmLogLevel.trace,
-          "This message should not appear because listeners have been cleared");
-
-      await Future.delayed(Duration(seconds: 2));
-
-      expect(logMessageReceived, isFalse);
-    });
+    await cleanUpRealm(realm);
   });
 }

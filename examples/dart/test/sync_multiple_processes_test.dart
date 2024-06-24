@@ -84,7 +84,7 @@ void main() {
     realm.refresh();
     final john = realm.find<Person>('John');
     // :snippet-end:
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
   test("Realm.refreshAsync()", () async {
     final realm = Realm(Configuration.local([Person.schema]));
@@ -96,6 +96,6 @@ void main() {
     await realm.refreshAsync();
     final john = realm.find<Person>('John');
     // :snippet-end:
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 }

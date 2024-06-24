@@ -31,7 +31,7 @@ class _Task {
 // :snippet-end:
 
 void main() {
-  test('Query Inverse Backlinks', () {
+  test('Query Inverse Backlinks', () async {
     final config = Configuration.local([User.schema, Task.schema]);
     final realm = Realm(config);
 
@@ -77,10 +77,10 @@ void main() {
             .any((element) => element.description == 'Get a haircut'),
         true);
 
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 
-  test('Query To-One Backlinks', () {
+  test('Query To-One Backlinks', () async {
     // Use to-one models from Schemas.dart
     final config = Configuration.local([Person.schema, Bike.schema]);
     final realm = Realm(config);
@@ -107,10 +107,10 @@ void main() {
     expect(allBikes.length, 2);
     expect(allBikes.any((element) => element.id == bikeId), true);
     expect(allBikes.any((element) => element.owner!.id == ownerId), true);
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 
-  test('Query To-Many Backlinks', () {
+  test('Query To-Many Backlinks', () async {
     // Use to-many models from Schemas.dart
     final config = Configuration.local(
         [Scooter.schema, ScooterShop.schema, Person.schema]);
@@ -143,6 +143,6 @@ void main() {
     expect(shops.length, 2);
     expect(scooters.id, scooterId);
     expect(shops.any((element) => element.id == shopId), false);
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 }

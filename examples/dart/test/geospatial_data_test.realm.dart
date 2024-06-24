@@ -42,6 +42,10 @@ class MyGeoPoint extends _MyGeoPoint
       RealmObjectBase.getChanges<MyGeoPoint>(this);
 
   @override
+  Stream<RealmObjectChanges<MyGeoPoint>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<MyGeoPoint>(this, keyPaths);
+
+  @override
   MyGeoPoint freeze() => RealmObjectBase.freezeObject<MyGeoPoint>(this);
 
   EJsonValue toEJson() {
@@ -106,6 +110,10 @@ class Company extends _Company with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Company>> get changes =>
       RealmObjectBase.getChanges<Company>(this);
+
+  @override
+  Stream<RealmObjectChanges<Company>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Company>(this, keyPaths);
 
   @override
   Company freeze() => RealmObjectBase.freezeObject<Company>(this);
