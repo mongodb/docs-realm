@@ -1,0 +1,320 @@
+.. _sdks-create-and-delete-users:
+
+================================
+Create, Delete, and Remove Users
+================================
+
+.. meta::
+   :description: Use Atlas Device SDK methods to create, delete, and remove application users.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+Atlas Device SDK provides built-in functionality to manage application users,
+both on the device and in Atlas. Your application can take advantage of
+role-based data access rules to determine the read and write permissions of a
+given user. When combined with Sync subscription queries, these features
+determine what data a user can :ref:`read and write from a synced database 
+<sdks-write-synced-database>`.
+
+The SDK also provides functionality to extend a user object, and manage 
+multiple users or identities:
+
+- You can associate :ref:`metadata <sdks-user-metadata>` or 
+  :ref:`custom data <sdks-custom-user-data>` with user accounts.
+- Users can have multiple identities. For more information, refer to
+  :ref:`sdks-link-user-identities`.
+- Your app can manage multiple users on a device. For more information, refer
+  to :ref:`sdks-multi-user-applications`.
+
+For more information about authentication providers, identities, and user
+sessions, refer to :ref:`Authenticate & Manage Users <users-and-authentication>`
+in the App Services documentation.
+
+.. _sdks-device-sdk-users-vs-other-users:
+
+Atlas Device SDK Users vs. Other User Types
+-------------------------------------------
+
+Atlas Device SDK users are distinct from :ref:`database users <mongodb-users>`
+or :ref:`Atlas account users <atlas_users>`. SDK users are bounded by the
+App Services App where they are registered, and only have access to
+resources you provide through the App. Your application can let SDK users:
+
+- :ref:`Read and write from a synced database <sdks-write-synced-database>`
+- :ref:`Call an Atlas Function <sdks-call-function>`
+- Call :ref:`Data API <data-api>` or :ref:`custom HTTPS endpoints <custom-endpoints>`
+- Read and write from specified collections and databases in MongoDB Atlas
+  through :ref:`the MongoClient API <sdks-access-mongodb>`
+
+SDK users do not have direct Atlas database access, or direct Atlas account
+access. It is your responsibility to manage these application users,
+including complying with data retention or deletion policies and regulatory
+requirements where you publish your applications.
+
+.. _sdks-create-users:
+
+Create Users
+------------
+
+For most :ref:`authentication methods <authentication-providers>`, Atlas App Services 
+automatically creates a :ref:`user object <user-objects>` the first time 
+a user authenticates. The only exception is email/password authentication. 
+When you use email/password authentication, you must :ref:`register 
+<sdks-email-password-user-register>` and :ref:`confirm 
+<sdks-email-password-user-confirm>` a user before the user can 
+authenticate to an App Services App.
+
+Automatically Create Users
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you authenticate a user with one of the following authentication
+providers, this automatically creates a user object for the user:
+
+- Anonymous authentication
+- OAuth 2.0 through Facebook, Google, and Apple ID
+- Custom JWT
+- Custom Function
+
+If your app uses email/password authentication, you must manually create
+users either in the client code or in Atlas.
+
+If you are adding a secondary authentication method, such as adding a
+OAuth credential for a user created through anonymous authentication,
+you may want to link user identities instead of creating a new user. For
+more details about how to link these identities, refer to
+:ref:`sdks-link-user-identities`.
+
+Manually Create Users
+~~~~~~~~~~~~~~~~~~~~~
+
+If your app uses email/password authentication, your app must explicitly
+register a user to create the user object in App Services. This method is 
+independent of authenticating a user. For more information about registering
+email/password users, refer to :ref:`sdks-email-password-user-register`.
+
+You can also manually create email/password users through App Services. For
+more information about manually creating users through the UI, App Services
+Admin API, or App Services CLI, refer to :ref:`create-email-password-user` in
+the App Services documentation.
+
+Account Deletion Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you distribute your application through some app stores or in some
+regions, an app that requires users to create an account also requires
+you to give users the option to delete their account and any associated user
+data or metadata. The SDK provides a method you can call from the client code
+to comply with these deletion requirements. However, this method only deletes
+the user account; it does not delete any associated user data or metadata.
+
+Following is a resource that provides some details about these account deletion
+requirements for distribution through the Apple and Google app stores. This
+is not intended to be a comprehensive list of resources related to account
+deletion requirements. Consult your distribution agreements and any relevant
+regulations in the regions where you plan to distribute your application to
+ensure you comply with all applicable account and data deletion policies.
+
+.. tabs::
+
+   .. tab:: Apple App Store Requirements
+      :tabid: apple
+
+      Apple :apple:`requires that applications listed through its App Store 
+      <app-store/review/guidelines/#5.1.1>` must give any user who creates 
+      an account the option to delete the account. Whether you use an 
+      authentication method where you must manually register a user, such as 
+      email/password authentication, or one that that automatically creates a 
+      user, such as Sign-In with Apple, you must implement user account deletion.
+
+   .. tab:: Google Play Store Requirements
+      :tabid: google
+
+      Google requires that applications listed through its Google Play store 
+      must give any user who creates an account `an in-app path to delete the
+      account and its associated data 
+      <https://support.google.com/googleplay/android-developer/answer/13327111>`__. 
+      Whether you use an authentication method where you must manually register a
+      user, such as email/password authentication, or one that that automatically
+      creates a user, such as Sign-In with Google, you must implement user account 
+      deletion.
+
+.. _sdks-delete-users:
+
+Delete Users from Atlas
+-----------------------
+
+The SDK provides a method you can call from an application to delete the
+user object. This sends a request to Atlas to delete the user from the
+server.
+
+.. important::
+
+   Deleting a user only deletes the user object, which may contain associated 
+   :ref:`metadata <sdks-user-metadata>`. This does not delete :ref:`custom 
+   user data <sdks-custom-user-data>` or user-entered data from your 
+   application. If you collect additional user data, you must implement your
+   own methods or processes to delete that data.
+
+   You can use the :ref:`Authentication Trigger DELETE event
+   <authentication-event-operation-types>` to programmatically clean up other
+   data when you delete a user. For example, you can delete the user's data
+   from your custom user data collection or another service.
+
+Calling the user delete method performs the following:
+
+- Deletes synced databases associated with the user from the device.
+- Deletes the ``User`` object from the Atlas App Services server.
+- Sets the user state on the device to removed.
+
+Because this method deletes any synced databases owned by the user, you 
+should only call this method after closing the user's databases.
+
+If the deleted user wants to use your app in the future, the user must 
+sign up for a new account. They can use the same credentials 
+(depending on the authentication provider), 
+but the new account does not have the same user ID or links to custom user data
+as their deleted account.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/create-delete-users-delete-users-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/create-delete-users-delete-users-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/create-delete-users-delete-users-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/create-delete-users-delete-users-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/create-delete-users-delete-users-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/create-delete-users-delete-users-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/create-delete-users-delete-users-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/users/create-delete-users-delete-users-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/create-delete-users-delete-users-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/create-delete-users-delete-users-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/create-delete-users-delete-users-from-atlas.rst
+
+.. _sdks-remove-users:
+
+Remove Users from Device
+------------------------
+
+In some cases, you may not want to delete a user entirely, but may want to
+remove them from the device. In this scenario, users continue to exist in
+Atlas. You may want to force users to re-authenticate under some circumstances,
+such as when a paid subscription expires. Or you may want to temporarily
+persist a user on the server to allow for account recovery.
+
+Removing a user:
+
+- *Does not* delete the ``User`` object from the Atlas App Services App.
+- :ref:`Logs the user <sdks-logout>` out if they are logged in.
+- Deletes synced databases associated with the user from the device.
+- Sets the user's state to removed.
+
+Because removing a user deletes any synced databases owned by the user, you 
+should only call this method after closing the user's databases.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/create-delete-users-remove-users-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/create-delete-users-remove-users-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/create-delete-users-remove-users-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/create-delete-users-remove-users-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/create-delete-users-remove-users-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/create-delete-users-remove-users-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/create-delete-users-remove-users-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/users/create-delete-users-remove-users-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/create-delete-users-remove-users-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/create-delete-users-remove-users-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/create-delete-users-remove-users-from-device.rst

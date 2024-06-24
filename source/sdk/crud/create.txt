@@ -1,0 +1,378 @@
+.. _sdks-crud-create:
+
+==============
+Create Objects
+==============
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+This page describes the concepts of write transactions and managed objects in 
+a database, then explains how to create and persist a new object to a local or 
+synced database using Atlas Device SDK. To learn more about object models and 
+how to define them, refer to :ref:`sdks-object-models`.
+
+You can create objects whose object type is managed by the database instance. 
+For more information, refer to 
+:ref:`sdks-configure-and-open-database` or 
+:ref:`sdks-configure-and-open-synced-database`.
+
+.. note:: Write to a Synced Database
+
+   The syntax to write a new object to the database is the same for a local or
+   a synced database. However, there are additional considerations that determine
+   whether the write operation in a synced database is successful. For more 
+   information, refer to :ref:`sdks-write-synced-database`.
+
+.. _sdks-write-transactions:
+
+Write Transactions
+------------------
+
+The Atlas Device SDK persistence layer handles writes in terms of transactions.
+All writes must happen within a transaction. A **transaction** is a list of
+read and write operations that the database treats as a single indivisible
+operation: either *all* of the operations succeed or *none* of the operations
+in the transaction take effect.
+
+The SDK represents each transaction as a callback function
+that contains zero or more read and write operations. To run
+a transaction, you define a transaction callback and pass it to
+one of the database's write methods. Within this callback, you can access a 
+database instance and then create, read, update, and delete objects within the
+database.
+
+A database file allows only one open write transaction at a time. The SDK
+blocks other writes on other threads until the open transaction on the database
+file is complete. This means there is never a race condition when reading
+values from the database within a transaction.
+
+When you are done with your transaction, the SDK either commits it or cancels
+it:
+
+- When the SDK commits a transaction, it writes all changes to disk. For
+  synced databases, the SDK then queues the change for synchronization with the
+  backend.
+- When the SDK cancels a write transaction or an operation in
+  the transaction causes an error, all changes are discarded.
+
+.. _sdks-managed-vs-unmanaged-objects:
+
+Managed and Unmanaged Objects
+-----------------------------
+
+The SDK's APIs may refer to objects as managed or unmanaged. When you create 
+an object with the SDK, it is unmanaged until it is added to the database,
+which creates a managed instance.
+
+- **Managed objects** are SDK objects that persist in a database instance. 
+  Managed objects can only be accessed from an open database file. They can be
+  updated with changes within write transactions as long as that database 
+  remains open. Managed objects are tied to the database instance from which
+  they originated and cannot be directly written to another database. However,
+  the SDK supplies a method to copy managed objects from one database file to
+  another.
+
+  You can use the SDK's APIs with managed objects. For example, managed
+  objects can have relationships with other objects and you can observe them
+  for changes. You can also create an unmanaged copy of a managed object. 
+  Refer to the :ref:`Create an Unmanaged Copy of an Object or Collection 
+  <sdks-create-unmanaged-copy>` section on this page. 
+
+- **Unmanaged objects** are SDK objects that behave like normal Kotlin objects, 
+  but they are not persisted in the database. All SDK objects are unmanaged
+  until you add them to a database within a write transaction.
+  You cannot use the SDK's APIs with unmanaged objects or observe them for
+  changes.
+
+.. tip:: 
+
+   You can check if an object is managed with the 
+   ``isManaged`` API.
+
+Create a Realm Object
+---------------------
+
+Before you can create a new object and persist it to the realm, you must 
+:ref:`sdks-object-models`. Then, you include that object type in your database
+schema when you open the database.
+
+.. important:: Object Types Must Be in Your Schema
+
+   You can only write objects whose object type is included in the database
+   schema. If you try to reference or write an object of an object type 
+   that isn't in your schema, the SDK returns a schema validation error.
+
+To create a new object and persist it to the database:
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp
+
+      .. include:: /includes/api-details/cpp/crud/create-procedure.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-procedure.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-procedure.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-procedure.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-procedure.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-procedure.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-procedure.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-procedure.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-procedure.rst
+
+You can also upsert into a database using specific criteria. For more 
+information, refer to :ref:`sdks-upsert-an-object`.
+
+Create a Realm Object
+~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp
+
+      .. include:: /includes/api-details/cpp/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-realm-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-realm-object-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-realm-object.rst
+
+Model
+`````
+
+For more information about modeling an object, refer to: 
+:ref:`sdks-object-models`.
+
+.. include:: /includes/sdk-examples/crud/create-realm-object-model.rst
+
+.. _sdks-create-an-embedded-object:
+
+Create an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a new embedded object instance, assign an instance of an 
+:ref:`embedded object type <sdks-embedded-objects>` to a 
+parent object's property. This can be in a one-to-one, one-to-many, or 
+inverse :ref:`relationship <sdks-relationships>` 
+depending on how you defined the embedded object within the parent 
+object type.
+
+.. note:: Embedded Objects Must Be Created Within a Parent Object
+
+   An embedded object requires a parent object and *cannot* exist as an 
+   independent SDK object. 
+
+Embedded objects have strict ownership with their parent object.
+After you create the embedded object, you *cannot* reassign it to a 
+different parent object or share it between multiple parent objects.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp
+
+      .. include:: /includes/api-details/cpp/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-embedded-object.rst
+
+Model
+`````
+
+For more information about modeling an embedded object, refer to: 
+:ref:`sdks-embedded-objects`.
+
+.. include:: /includes/sdk-examples/crud/create-embedded-object-model.rst
+
+.. _sdks-create-asymmetric-object:
+
+Create an Asymmetric Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Asymmetric objects are write-only. Once inserted, the asymmetric object syncs
+to Atlas. You *cannot* access the managed data locally, remove it from the 
+database, or query for it. 
+
+For information on how to use asymmetric objects in your application, 
+refer to :ref:`sdks-stream-data-to-atlas`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-asymmetric-object-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-asymmetric-object.rst
+
+Model
+`````
+
+For more information about modeling an asymmetric object, refer to: 
+:ref:`sdks-asymmetric-objects`.
+
+.. include:: /includes/sdk-examples/crud/create-asymmetric-object-model.rst
+
+.. _sdks-create-unmanaged-copy:
+
+Create an Unmanaged Copy of an Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-upsert-an-object:
+
+Create or Update an Object (Upsert)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
