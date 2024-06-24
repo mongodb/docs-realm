@@ -253,11 +253,8 @@ Swift SDK to your project.
                :alt: Drag the xcframework files into the Xcode project.
                :lightbox:
 
-   .. tab:: Static Framework
-      :tabid: static-framework
-
-      Installing the the Swift SDK as a static framework is only available
-      for iOS targets.
+   .. tab:: Dynamic Framework
+      :tabid: dynamic-framework
 
       .. procedure::
 
@@ -267,22 +264,11 @@ Swift SDK to your project.
             Download the `latest release of the Swift SDK
             <https://github.com/realm/realm-swift/releases>`__ and extract the zip.
 
-
          .. step:: Copy Framework(s) Into Your Project
-
 
             Drag ``Realm.xcframework`` and ``RealmSwift.xcframework`` (if using)
             to the File Navigator of your Xcode project. Select the
             :guilabel:`Copy items if needed` checkbox and press :guilabel:`Finish`.
-
-
-         .. step:: Link Binaries
-
-
-            Select your project in the Xcode File Navigator. Select your app's
-            target and go to the :guilabel:`Build Phases` tab. Under
-            :guilabel:`Link Binary with Libraries`, click :guilabel:`+` and add
-            ``libc++.tbd``, ``libz.tbd``, and ``libcompression.tbd``.
 
       .. tip::
 
