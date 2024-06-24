@@ -1,0 +1,94 @@
+.. _node-data-types-counters:
+
+=========================
+Counters - Node.js SDK
+=========================
+
+.. meta:: 
+  :description: Learn how to implement and update counters in the Atlas Device SDK for Node.js.
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. versionadded:: 12.10.0
+
+Atlas Device SDK for Node.js offers a ''Counter'' class that you can use as a synchronized logical
+counter across different clients. Traditionally, you would create a variable that you would
+manually add or subtract from to act as a counter. However, if multiple clients are attempting
+to update said variable, changes to the underlying value may arrive out of order. This can
+result in varying or inaccurate values across clients. The ''Counter'' class makes it possible to
+sync these updates so the counter converges to the same value across all clients.
+
+The counter data type is an ''int'' presented as a counter. This allows the counter to behave like
+an ''int'' while supporting the class’s methods. Because implicit coercion into a ''number'' is not
+supported, the JavaScript ''number'' methods cannot be leveraged against the counter value.
+Migration will also be necessary for existing counters that are not ''int'' types.
+
+Counters cannot be used as:
+
+- Mixed values
+- Primary keys
+- Elements in a collection
+- Query arguments for placeholders while filtering
+  - See Querying with Counters below
+
+Declaring a Counter
+-------
+To use the ''Counter'', you first declare a field for it in a property schema. You can optionally 
+declare the ''counter'' field as a nullable counter if needed in your use case. This allows the 
+''counter'' field within the class to be set to ''null'', though the counter value itself can never 
+be ''null''. The ''Counter'' field is declared by using either:
+
+- ''"counter”''
+- ''{ type: "int", presentation: "counter" }''
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.declare-counter-schema.ts 
+  :language: typescript
+
+Initializing and Updating a Counter
+-----
+You can initialize the counter by using the ''realm.create()'' method and passing the desired 
+schema and initial values for the properties. 
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.initialize-counter.ts 
+  :language: typescript
+
+You then use the ''increment()'' and ''decrement()'' methods to update the value. 
+There is also a ''set()'' method that resets the counter to a specified value:
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.update-counter.ts 
+  :language: typescript
+
+.. warning:: Counter Resets
+   Using ''set()'' will ignore any prior calls to ''increment()'' and ''decrement()''. Subsequent calls 
+   will be applied as expected to the reset counter value. As such, you should be cautious 
+   in mixing ''set()'' with ''increment()'' and ''decrement()'' as it can lead to inaccurate counter 
+   values across clients.
+
+Once a counter is created, the value can only be changed by using the class’s methods. 
+Attempting to change the counter value manually or by updating the object and overwriting 
+the counter value will result in an error. The only exception is when using a nullable counter; 
+you can create a counter from a previously ''null'' value or reset the nullable counter to ''null''. 
+This is because you are updating the value of the field from either ''null'' to ''counter'' or ''counter'' 
+to ''null'', not the value of the counter itself. This is done using ''realm.create()'' with the 
+''UpdateMode.Modified'' or ''UpdateMode.All'' parameters. These parameters update objects that already 
+exist, as indicated by a matching primary key. ''UpdateMode.All'' updates all properties provided, 
+while ''UpdateMode.Modified'' updates only modified properties.
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.null-updating.ts 
+  :language: typescript
+
+Querying with Counters
+----------------------------
+In scenarios where you may want to use a counter value as a placeholder argument while
+querying, you must use ''counter.value'' as seen below.
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.filtering-with-counter.ts 
+  :language: typescript
