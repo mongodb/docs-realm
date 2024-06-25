@@ -18,20 +18,19 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.dart
             :language: dart
+            :copyable: false
 
      - id: java
        content: |
 
          .. literalinclude:: /examples/EmbeddedObjects/CreateEmbeddedObject.java
             :language: java
-            :copyable: false
 
      - id: java-kotlin
        content: |
 
          .. literalinclude:: /examples/EmbeddedObjects/CreateEmbeddedObject.kt
             :language: kotlin
-            :copyable: false
 
      - id: javascript
        content: |
@@ -63,3 +62,4 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false

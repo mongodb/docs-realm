@@ -18,20 +18,19 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.dart
             :language: dart
+            :copyable: false
 
      - id: java
        content: |
 
          .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.java
             :language: java
-            :copyable: false
 
      - id: java-kotlin
        content: |
 
          .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.kt
             :language: kotlin
-            :copyable: false
 
      - id: javascript
        content: |
@@ -45,21 +44,25 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.kt
             :language: kotlin
+            :copyable: false
 
      - id: objectivec
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/example.m
             :language: objectivec
+            :copyable: false
 
      - id: swift
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/example.swift
             :language: swift
+            :copyable: false
 
      - id: typescript
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false

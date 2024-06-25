@@ -12,6 +12,7 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.cs
             :language: csharp
+            :copyable: false
 
      - id: dart
        content: |
@@ -24,18 +25,21 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/api.java
             :language: java
+            :copyable: false
 
      - id: java-kotlin
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.kt
             :language: kotlin
+            :copyable: false
 
      - id: javascript
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/example.js
             :language: javascript
+            :copyable: false
 
      - id: kotlin
        content: |
@@ -49,6 +53,7 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.m
             :language: objectivec
+            :copyable: false
 
      - id: swift
        content: |

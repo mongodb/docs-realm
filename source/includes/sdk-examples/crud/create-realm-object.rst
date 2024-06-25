@@ -63,3 +63,4 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false
