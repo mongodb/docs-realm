@@ -474,7 +474,8 @@ Create Set Properties
 ~~~~~~~~~~~~~~~~~~~~~
 
 Like their native counterparts, the SDK's set data type stores unique values.
-These values may be of any supported type except another collection.
+These values may be a Realm object or one of the supported data types.
+It cannot be another collection, an embedded object, or an asymmetric object.
 
 The SDK uses the Set container type to define to-many relationships. A
 **to-many** relationship means that an object is related in a specific

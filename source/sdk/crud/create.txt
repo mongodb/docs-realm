@@ -36,9 +36,10 @@ synced database using Atlas Device SDK. To learn more about object models and
 how to define them, refer to :ref:`sdks-object-models`.
 
 You can create objects whose object type is managed by the database instance. 
-For more information, refer to 
-:ref:`sdks-configure-and-open-database` or 
-:ref:`sdks-configure-and-open-synced-database`.
+For more information, refer to:
+
+- With Sync: :ref:`sdks-configure-and-open-synced-database`
+- Without Sync: :ref:`sdks-configure-and-open-database`
 
 .. note:: Write to a Synced Database
 
@@ -383,6 +384,14 @@ you do so inside a write transaction.
 
 Create Objects from JSON
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+Working with JSON returned from an API is a common development use case. Most
+of the supported SDK languages do not directly support creating objects from
+JSON. However, you may use language or platform-idiomatic APIs to transform
+JSON to a structure that matches your object schema, and create a matching
+object. Or you may :ref:`model unstructured data <sdks-model-unstructured-data>`
+to work with **unstructured data** that is highly variable or whose structure
+is unknown at runtime.
 
 .. tabs-drivers::
 
