@@ -2,7 +2,7 @@
    ``addProgressNotificationForDirection`` deprecated in favor of ``addSyncProgressNotificationForDirection``
 
 You can add a progress notification using the RLMSyncSession instance's
-:objc-sdk:`[--addSyncProgressNotificationForDirection:mode:block:]
+:objc-sdk:`addSyncProgressNotificationForDirection:mode:block:
 <Classes/RLMSyncSession.html#/c:objc(cs)RLMSyncSession(im)addSyncProgressNotificationForDirection:mode:block:>`
 method.
 
