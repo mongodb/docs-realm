@@ -6,7 +6,7 @@ Create Object Methods
 
 .. meta::
    :description: Learn about performing write transactions and the different ways to create objects with Atlas Device SDK.
-   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+   :keywords: Realm, C++ SDK, Flutter SDK, .NET SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
 
 .. facet::
   :name: genre
@@ -67,11 +67,11 @@ values from the database within a transaction.
 When you are done with your transaction, the SDK either commits it or cancels
 it:
 
-- When the SDK commits a transaction, it writes all changes to disk. For
+- When the SDK commits a write transaction, it writes all changes to disk. For
   synced databases, the SDK then queues the change for synchronization with the
   backend.
 - When the SDK cancels a write transaction or an operation in
-  the transaction causes an error, all changes are discarded.
+  the transaction causes an error, it discards all changes.
 
 .. _sdks-managed-vs-unmanaged-objects:
 
@@ -88,7 +88,8 @@ which creates a managed instance.
   remains open. Managed objects are tied to the database instance from which
   they originated and cannot be directly written to another database. However,
   some of the SDKs supply a method to copy managed objects from one database
-  file to another.
+  file to another. Refer to the :ref:`sdks-create-copy-object-to-another-database` 
+  section on this page.
 
   You can use the SDK's APIs with managed objects. For example, managed
   objects can have relationships with other objects and you can observe them
@@ -169,8 +170,8 @@ To create a new object and persist it to the database:
 
 .. include:: /includes/sdk-examples/crud/create-realm-object.rst
 
-You can also upsert into a database using specific criteria. For more 
-information, refer to :ref:`sdks-upsert-an-object`.
+You can also upsert into a database using specific criteria. Refer to the 
+:ref:`sdks-upsert-an-object` section on this page.
 
 .. _sdks-create-multiple-objects:
 
@@ -244,7 +245,7 @@ with a given primary key or updates an existing object that already has
 that primary key. We call this an upsert because it is an "**update** or
 **insert**" operation. This is useful when an object may or may not
 already exist, such as when bulk importing a dataset into an existing
-realm. Upserting lets you update existing entries while adding any new entries.
+database. Upserting lets you update existing entries while adding any new entries.
 
 .. tabs-drivers::
 
@@ -313,7 +314,7 @@ Some Property Types are Only Mutable in a Write Transaction
 ```````````````````````````````````````````````````````````
 
 Some property types are only mutable in a write transaction. For example, 
-you can instantiate an object with a :ref:`Set <sdks-create-set-properties>` 
+you can instantiate an object with a Set
 property, but you can only set that property's value in a write transaction. 
 You cannot initialize the object with a value for that property unless 
 you do so inside a write transaction.

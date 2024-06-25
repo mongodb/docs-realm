@@ -11,7 +11,7 @@ the write completes or fails.
 
 Things to consider when performing background writes:
 
-- Async writes block closing or invalidating the realm
+- Async writes block closing or invalidating the database
 - You can explicitly commit or cancel transactions
 
 Wait for Async Writes to Complete
@@ -87,8 +87,8 @@ of the ``beginAsyncWrite`` or the ``commitAsyncWrite`` you want to cancel.
 You can use Swift concurrency features to write asynchronously to an 
 actor-isolated database. 
 
-This function from the example ``RealmActor`` :ref:`defined on the 
-Use Realm with Actors page <swift-define-realm-actor>` shows how you might
+The following function is taken from the example ``RealmActor`` defined on the
+:ref:`swift-define-realm-actor` page. It shows how you might
 write to an actor-isolated database:
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.write-async.swift
@@ -100,7 +100,7 @@ And you might perform this write using Swift's async syntax:
    :language: swift
 
 This operation does not block or perform I/O on the calling thread. For
-more information about writing to realm using Swift concurrency features, 
+more information about writing to a database using Swift concurrency features, 
 refer to :ref:`swift-actor-isolated-realm`.
 
 *Perform Writes using Async/Await Syntax*

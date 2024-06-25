@@ -25,7 +25,6 @@
          .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.create-an-object.java
             :language: java
             :emphasize-lines: 3
-            :copyable: false
 
      - id: java-kotlin
        content: |
@@ -33,7 +32,6 @@
          .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.create-an-object.kt
             :language: kotlin
             :emphasize-lines: 3
-            :copyable: false
 
      - id: javascript
        content: |

@@ -38,7 +38,6 @@ within a write transaction.
 
 .. literalinclude:: /examples/generated/java/local/WritesTest.snippet.counter-set.java
    :language: java
-   :copyable: false
 
 Since ``MutableRealmInteger`` instances retain a reference to their
 parent object, neither object can be garbage collected while you still

@@ -25,7 +25,6 @@
          .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.copy-or-update-same-values-flag.java
             :language: java
             :emphasize-lines: 16
-            :copyable: false
 
      - id: java-kotlin
        content: |
@@ -33,14 +32,13 @@
          .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.copy-or-update-same-values-flag.kt
             :language: kotlin
             :emphasize-lines: 15-16
-            :copyable: false
 
      - id: javascript
        content: |
 
          .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-upsert-an-object.js
             :language: javascript
-            :emphasize-lines: 4, 13
+            :emphasize-lines: 4, 7, 13, 16
 
      - id: kotlin
        content: |

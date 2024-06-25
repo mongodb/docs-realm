@@ -5,8 +5,7 @@ update their name to "Andy" using :java-sdk:`insertOrUpdate()
 
 .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.upsert-an-object.kt
    :language: kotlin
-   :emphasize-lines: 14-16
-   :copyable: false
+   :emphasize-lines: 16
 
 You can also use :java-sdk:`copyToRealmOrUpdate()
 <io/realm/Realm.html#copyToRealmOrUpdate-E-io.realm.ImportFlag...->` to
@@ -14,7 +13,7 @@ either create a new object based on a supplied object or update an
 existing object with the same primary key value. Use the
 ``CHECK_SAME_VALUES_BEFORE_SET``
 :java-sdk:`ImportFlag <io/realm/ImportFlag.html>` to only update fields
-that are different in the supplied object:
+that are different in the supplied object.
 
 The following example demonstrates how to insert an object or, if an object already
 exists with the same primary key, update only those fields that differ:

@@ -12,10 +12,6 @@ Swift Concurrency - Swift SDK
   :name: genre
   :values: reference
 
-.. facet::
-   :name: programming_language
-   :values: objective-c, swift
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -25,7 +21,7 @@ Swift Concurrency - Swift SDK
 Swift's concurrency system provides built-in support for writing asynchronous 
 and parallel code in a structured way. For a detailed overview of the 
 Swift concurrency system, refer to the `Swift Programming Language Concurrency
-topic <https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html>`__.
+topic <https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/>`__.
 
 While the considerations on this page broadly apply to using the Swift SDK with 
 Swift concurrency features, Swift SDK version 10.39.0 adds support
@@ -136,14 +132,14 @@ I/O to write data to disk is done by a background worker thread. For small
 writes, using this function on the main thread may block the main thread 
 for less time than manually dispatching the write to a background thread.
 
-For more information, including code examples, refer to: :ref:`sdks-create-objects-in-background`.
+For more information, including code examples, refer to :ref:`sdks-create-objects-in-background`.
 
 Tasks and TaskGroups
 --------------------
 
 Swift concurrency provides APIs to manage :apple:`Tasks <documentation/swift/task>` 
 and :apple:`TaskGroups <documentation/swift/taskgroup>`. The `Swift concurrency
-documentation <https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html>`__ 
+documentation <https://docs.swift.org/the-swift-programming-language/concurrency/>`__ 
 defines a task as a unit of work that can be run asynchronously as part of 
 your program. Task allows you to specifically define a unit of asynchronous 
 work. TaskGroup lets you define a collection of Tasks to execute as a unit 
@@ -233,7 +229,7 @@ To avoid threading-related issues in code that uses Swift concurrency features:
 
 .. _concurrency-page-sendable-thread-confined-reference:
 
-Sendable, Non-Sendable and Thread-Confined Types
+Sendable, Non-Sendable, and Thread-Confined Types
 ------------------------------------------------
 
 .. include:: /includes/swift-api-sendable-thread-confined-reference.rst
