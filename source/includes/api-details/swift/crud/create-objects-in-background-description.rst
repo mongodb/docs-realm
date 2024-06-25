@@ -1,4 +1,5 @@
-**Use the Background Write API**
+Use the Background Write API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can add, modify, or delete objects in the background using 
 :swift-sdk:`writeAsync <Structs/Realm.html#/s:10RealmSwift0A0V10writeAsync_10onCompletes6UInt32Vyyc_ys5Error_pSgcSgtF>`. 
@@ -15,7 +16,7 @@ Things to consider when performing background writes:
 - You can explicitly commit or cancel transactions
 
 Wait for Async Writes to Complete
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+`````````````````````````````````
 
 The SDK provides a ``Bool`` to signal whether the database is currently 
 performing an async write. The
@@ -32,7 +33,7 @@ While this is true, this blocks closing or :swift-sdk:`invalidating
 <Structs/Realm.html#/s:10RealmSwift0A0V10invalidateyyF>` the database.
 
 Commit or Cancel an Async Write
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```````````````````````````````
 
 To complete an async write, you or the SDK must call either:
 
@@ -80,9 +81,11 @@ cancels only an ``onComplete`` block you may have passed to
 ``commitAsyncWrite``. It does not cancel the commit itself. You need the ID
 of the ``beginAsyncWrite`` or the ``commitAsyncWrite`` you want to cancel.
 
-**Use Swift Concurrency Features**
+Use Swift Concurrency Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Write to an Actor-Isolated Realm*
+Write to an Actor-Isolated Realm
+````````````````````````````````
 
 You can use Swift concurrency features to write asynchronously to an 
 actor-isolated database. 
@@ -103,7 +106,8 @@ This operation does not block or perform I/O on the calling thread. For
 more information about writing to a database using Swift concurrency features, 
 refer to :ref:`swift-actor-isolated-realm`.
 
-*Perform Writes using Async/Await Syntax*
+Perform Writes using Async/Await Syntax
+```````````````````````````````````````
 
 The :swift-sdk:`asyncWrite() <Structs/Realm.html#/s:10RealmSwift0A0V10asyncWriteyxxyKXEYaKlF>`
 API allows for performing async writes using Swift async/await syntax.
