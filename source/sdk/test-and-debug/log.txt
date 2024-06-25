@@ -29,12 +29,6 @@ your app. You might want to change the log level to log different
 amounts of data depending on your development needs. You can specify 
 different log levels or custom loggers.
 
-.. warning:: Java SDK Logging Support
-
-   The Java SDK does not support the same logging API as the other SDKs.
-   Instead, it uses a deprecated sync logger. Refer to the Java SDK: Deprecated
-   Sync Logger section on this page for more details.
-
 .. _sdks-set-the-client-log-level:
 
 Set or Change the Log Level
@@ -158,7 +152,8 @@ You can turn off logging by setting the log level:
 Other Loggers
 -------------
 
-The C++ and Java SDKs have additional loggers that behave differently.
+The C++ and Java SDKs have additional loggers that behave differently than the
+other examples on this page.
 
 C++ SDK
 ~~~~~~~
@@ -182,11 +177,11 @@ to the ``set_log_level()`` member function:
 Java SDK
 ~~~~~~~~
 
-The Java SDK uses an older Logger that may not behave like the other SDKs.
 The SDK logs events to the Android system log automatically. You can
 view these events using :android:`Logcat </studio/debug/am-logcat>`.
 
-To access newer logging features, use the Kotlin SDK.
+We recommend using the Kotlin SDK to get the latest logging updates, like
+changing the log level at different points in your code.
 
 The Java SDK uses the log levels defined by `Log4J
 <https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html>`_.
