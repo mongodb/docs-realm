@@ -4,10 +4,190 @@
 Logging
 =======
 
+.. meta::
+   :description: Use logging to debug your Atlas Device SDK app.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for information about logging.
+.. tabs-selector:: drivers
+
+You can set or change your app's log level when developing or debugging 
+your app. You might want to change the log level to log different 
+amounts of data depending on your development needs. You can specify 
+different log levels or custom loggers.
+
+.. _sdks-set-the-client-log-level:
+
+Set or Change the Log Level
+---------------------------
+
+You can set the level of detail reported by Atlas Device SDK.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/logger/logging-set-change-level-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/logger/logging-set-change-level-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/logger/logging-set-change-level-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/logger/logging-set-change-level-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/logger/logging-set-change-level-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/logger/logging-set-change-level-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/logger/logging-set-change-level-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/logger/logging-set-change-level-description.rst
+
+.. include:: /includes/sdk-examples/logger/logging-set-change-level-example.rst
+
+You can change the log level to increase or decrease verbosity at different
+points in your code.
+
+.. include:: /includes/sdk-examples/logger/logging-set-change-level-example-2.rst
+
+.. _sdks-customize-logger:
+
+Customize the Logger
+--------------------
+
+You can create a custom logger. You might want to customize logging to add
+specific tags or set specific log levels during development, testing, or
+debugging.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/logger/logging-customize-logger-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/logger/logging-customize-logger-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/logger/logging-customize-logger-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/logger/logging-customize-logger-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/logger/logging-customize-logger-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/logger/logging-customize-logger-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/logger/logging-customize-logger-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/logger/logging-customize-logger-description.rst
+
+.. include:: /includes/sdk-examples/logger/logging-set-custom-logger-example.rst
+
+.. include:: /includes/tip-sync-log-levels.rst
+
+.. _sdks-turn-off-logging:
+
+Turn Off Logging
+----------------
+
+You can turn off logging by setting the log level:
+
+.. include:: /includes/sdk-examples/logger/logging-turn-off-example.rst
+
+Other Loggers
+-------------
+
+The C++ and Java SDKs have additional loggers that behave differently than the
+other examples on this page.
+
+C++ SDK
+~~~~~~~
+
+The C++ SDK uses a sync logger that behaves differently than the rest of
+the examples on this page. You can set or change your sync client's log
+level to develop or debug your application. You might want to change the
+log level to log different amounts of data depending on the app's
+environment.
+
+You can set the level of detail reported by the sync client logger to 
+specify the level of output you want from the sync client. Get 
+:cpp-sdk:`an instance of an App's sync manager 
+<structrealm_1_1internal_1_1bridge_1_1sync__manager.html>`, 
+and pass a :cpp-sdk:`realm::logger::level <structrealm_1_1logger.html>`
+to the ``set_log_level()`` member function:
+
+.. literalinclude:: /examples/generated/cpp/quick-start.snippet.set-sync-log-level.cpp
+   :language: cpp
+
+Java SDK
+~~~~~~~~
+
+The SDK logs events to the Android system log automatically. You can
+view these events using :android:`Logcat </studio/debug/am-logcat>`.
+
+We recommend using the Kotlin SDK to get the latest logging updates, like
+changing the log level at different points in your code.
+
+The Java SDK uses the log levels defined by `Log4J
+<https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html>`_.
+To configure the log level for database logs in your application, pass a
+:java-sdk:`LogLevel <io/realm/log/LogLevel.html>` to 
+:java-sdk:`RealmLog.setLevel() <io/realm/log/RealmLog.html#setLevel-int->`:
+
+.. literalinclude:: /examples/generated/java/sync/SyncDataTest.snippet.set-client-log-level.java
+   :language: java

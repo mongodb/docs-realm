@@ -18,3 +18,7 @@ String generateRandomString(int len) {
   return List.generate(len, (index) => _chars[random.nextInt(_chars.length)])
       .join();
 }
+
+Future delay(duration) async {
+  await Future.delayed(Duration(milliseconds: duration));
+}

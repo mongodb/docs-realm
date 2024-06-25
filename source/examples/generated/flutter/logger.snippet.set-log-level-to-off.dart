@@ -1,1 +1,1 @@
-Realm.logger.level = RealmLogLevel.off;
+Realm.logger.setLogLevel(LogLevel.off);
