@@ -4,6 +4,24 @@
 Create Objects
 ==============
 
+.. toctree::
+   :titlesonly:
+
+   Create Objects </sdk/crud/create/create-object-types>
+   Create Properties </sdk/crud/create/create-property-types>
+
+.. meta::
+   :description: Learn about performing write transactions and the different ways to create objects with Atlas Device SDK.
+   :keywords: Realm, C++ SDK, Flutter SDK, .NET SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -18,9 +36,10 @@ synced database using Atlas Device SDK. To learn more about object models and
 how to define them, refer to :ref:`sdks-object-models`.
 
 You can create objects whose object type is managed by the database instance. 
-For more information, refer to 
-:ref:`sdks-configure-and-open-database` or 
-:ref:`sdks-configure-and-open-synced-database`.
+For more information, refer to:
+
+- With Sync: :ref:`sdks-configure-and-open-synced-database`
+- Without Sync: :ref:`sdks-configure-and-open-database`
 
 .. note:: Write to a Synced Database
 
@@ -55,11 +74,11 @@ values from the database within a transaction.
 When you are done with your transaction, the SDK either commits it or cancels
 it:
 
-- When the SDK commits a transaction, it writes all changes to disk. For
+- When the SDK commits a write transaction, it writes all changes to disk. For
   synced databases, the SDK then queues the change for synchronization with the
   backend.
 - When the SDK cancels a write transaction or an operation in
-  the transaction causes an error, all changes are discarded.
+  the transaction causes an error, it discards all changes.
 
 .. _sdks-managed-vs-unmanaged-objects:
 
@@ -75,8 +94,9 @@ which creates a managed instance.
   updated with changes within write transactions as long as that database 
   remains open. Managed objects are tied to the database instance from which
   they originated and cannot be directly written to another database. However,
-  the SDK supplies a method to copy managed objects from one database file to
-  another.
+  some of the SDKs supply a method to copy managed objects from one database
+  file to another. Refer to the :ref:`sdks-create-copy-object-to-another-database` 
+  section on this page.
 
   You can use the SDK's APIs with managed objects. For example, managed
   objects can have relationships with other objects and you can observe them
@@ -84,36 +104,29 @@ which creates a managed instance.
   Refer to the :ref:`Create an Unmanaged Copy of an Object or Collection 
   <sdks-create-unmanaged-copy>` section on this page. 
 
-- **Unmanaged objects** are SDK objects that behave like normal Kotlin objects, 
+- **Unmanaged objects** are SDK objects that behave like normal objects, 
   but they are not persisted in the database. All SDK objects are unmanaged
   until you add them to a database within a write transaction.
   You cannot use the SDK's APIs with unmanaged objects or observe them for
   changes.
 
-.. tip:: 
-
-   You can check if an object is managed with the 
-   ``isManaged`` API.
-
-Create a Realm Object
+Create Object Methods
 ---------------------
 
-Before you can create a new object and persist it to the realm, you must 
-:ref:`sdks-object-models`. Then, you include that object type in your database
-schema when you open the database.
+The SDK provides a variety of methods to create objects and perform write
+operations.
 
-.. important:: Object Types Must Be in Your Schema
+.. _sdks-create-one-object:
 
-   You can only write objects whose object type is included in the database
-   schema. If you try to reference or write an object of an object type 
-   that isn't in your schema, the SDK returns a schema validation error.
+Create One Object
+~~~~~~~~~~~~~~~~~
 
 To create a new object and persist it to the database:
 
 .. tabs-drivers::
 
    .. tab::
-      :tabid: cpp
+      :tabid: cpp-sdk
 
       .. include:: /includes/api-details/cpp/crud/create-procedure.rst
 
@@ -129,6 +142,11 @@ To create a new object and persist it to the database:
 
    .. tab::
       :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-procedure.rst
+
+   .. tab::
+      :tabid: java-kotlin
 
       .. include:: /includes/api-details/java/crud/create-procedure.rst
 
@@ -157,222 +175,450 @@ To create a new object and persist it to the database:
 
       .. include:: /includes/api-details/typescript/crud/create-procedure.rst
 
-You can also upsert into a database using specific criteria. For more 
-information, refer to :ref:`sdks-upsert-an-object`.
-
-Create a Realm Object
-~~~~~~~~~~~~~~~~~~~~~
-
-.. tabs-drivers::
-
-   .. tab::
-      :tabid: cpp
-
-      .. include:: /includes/api-details/cpp/crud/create-realm-object-description.rst
-
-   .. tab::
-      :tabid: csharp
-
-      .. include:: /includes/api-details/csharp/crud/create-realm-object-description.rst
-      
-   .. tab::
-      :tabid: dart
-
-      .. include:: /includes/api-details/dart/crud/create-realm-object-description.rst
-
-   .. tab::
-      :tabid: java
-
-      .. include:: /includes/api-details/java/crud/create-realm-object-description.rst
-
-   .. tab::
-      :tabid: javascript
-
-      .. include:: /includes/api-details/javascript/crud/create-realm-object-description.rst
-
-   .. tab::
-      :tabid: kotlin
-
-      .. include:: /includes/api-details/kotlin/crud/create-realm-object-description.rst
-
-   .. tab::
-      :tabid: objectivec
-
-      .. include:: /includes/api-details/objectivec/crud/create-realm-object-description.rst
-
-   .. tab::
-      :tabid: swift
-
-      .. include:: /includes/api-details/swift/crud/create-realm-object-description.rst
-
-   .. tab::
-      :tabid: typescript
-
-      .. include:: /includes/api-details/typescript/crud/create-realm-object-description.rst
-
 .. include:: /includes/sdk-examples/crud/create-realm-object.rst
 
-Model
-`````
+You can also upsert into a database using specific criteria. Refer to the 
+:ref:`sdks-upsert-an-object` section on this page.
 
-For more information about modeling an object, refer to: 
-:ref:`sdks-object-models`.
+.. _sdks-create-multiple-objects:
 
-.. include:: /includes/sdk-examples/crud/create-realm-object-model.rst
+Create Multiple Objects
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _sdks-create-an-embedded-object:
-
-Create an Embedded Object
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To create a new embedded object instance, assign an instance of an 
-:ref:`embedded object type <sdks-embedded-objects>` to a 
-parent object's property. This can be in a one-to-one, one-to-many, or 
-inverse :ref:`relationship <sdks-relationships>` 
-depending on how you defined the embedded object within the parent 
-object type.
-
-.. note:: Embedded Objects Must Be Created Within a Parent Object
-
-   An embedded object requires a parent object and *cannot* exist as an 
-   independent SDK object. 
-
-Embedded objects have strict ownership with their parent object.
-After you create the embedded object, you *cannot* reassign it to a 
-different parent object or share it between multiple parent objects.
+Some of the SDKs provide a dedicated API to create multiple objects from
+a sequence or collection.
 
 .. tabs-drivers::
 
    .. tab::
-      :tabid: cpp
+      :tabid: cpp-sdk
 
-      .. include:: /includes/api-details/cpp/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
 
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/csharp/crud/create-multiple-objects-description.rst
       
    .. tab::
       :tabid: dart
 
-      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/dart/crud/create-multiple-objects-description.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
 
    .. tab::
       :tabid: javascript
 
-      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
 
    .. tab::
       :tabid: kotlin
 
-      .. include:: /includes/api-details/kotlin/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
 
    .. tab::
       :tabid: objectivec
 
-      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/objectivec/crud/create-multiple-objects-description.rst
 
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/swift/crud/create-multiple-objects-description.rst
 
    .. tab::
       :tabid: typescript
 
-      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      .. include:: /includes/api-details/generic/crud/create-multiple-objects-no-dedicated-api.rst
 
-.. include:: /includes/sdk-examples/crud/create-embedded-object.rst
+.. include:: /includes/sdk-examples/crud/create-multiple-objects.rst
 
-Model
-`````
+.. _sdks-upsert-an-object:
 
-For more information about modeling an embedded object, refer to: 
-:ref:`sdks-embedded-objects`.
+Create or Update an Object (Upsert)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/sdk-examples/crud/create-embedded-object-model.rst
-
-.. _sdks-create-asymmetric-object:
-
-Create an Asymmetric Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Asymmetric objects are write-only. Once inserted, the asymmetric object syncs
-to Atlas. You *cannot* access the managed data locally, remove it from the 
-database, or query for it. 
-
-For information on how to use asymmetric objects in your application, 
-refer to :ref:`sdks-stream-data-to-atlas`.
+An **upsert** is a write operation that either inserts a new object
+with a given primary key or updates an existing object that already has
+that primary key. We call this an upsert because it is an "**update** or
+**insert**" operation. This is useful when an object may or may not
+already exist, such as when bulk importing a dataset into an existing
+database. Upserting lets you update existing entries while adding any new entries.
 
 .. tabs-drivers::
 
    .. tab::
-      :tabid: cpp
+      :tabid: cpp-sdk
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/cpp/api-not-supported-description.rst
 
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/csharp/crud/create-or-update-object-description.rst
       
    .. tab::
       :tabid: dart
 
-      .. include:: /includes/api-details/dart/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/dart/crud/create-or-update-object-description.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /includes/api-details/java/crud/create-asymmetric-object-not-supported.rst
+      .. include:: /includes/api-details/java/crud/create-or-update-object-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-or-update-object-kotlin-description.rst
 
    .. tab::
       :tabid: javascript
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/javascript/crud/create-or-update-object-description.rst
 
    .. tab::
       :tabid: kotlin
 
-      .. include:: /includes/api-details/kotlin/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/kotlin/crud/create-or-update-object-description.rst
 
    .. tab::
       :tabid: objectivec
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/objectivec/crud/create-or-update-object-description.rst
 
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/swift/crud/create-or-update-object-description.rst
 
    .. tab::
       :tabid: typescript
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/typescript/crud/create-or-update-object-description.rst
 
-.. include:: /includes/sdk-examples/crud/create-asymmetric-object.rst
+.. include:: /includes/sdk-examples/crud/create-or-update-object.rst
 
-Model
-`````
+.. _sdks-create-objects-with-value:
 
-For more information about modeling an asymmetric object, refer to: 
-:ref:`sdks-asymmetric-objects`.
+Initialize Objects with a Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/sdk-examples/crud/create-asymmetric-object-model.rst
+Some of the SDKs provide specific methods to initialize objects with a value.
+Others use language-idiomatic methods to set the values of objects during
+initialization.
+
+Some Property Types are Only Mutable in a Write Transaction
+```````````````````````````````````````````````````````````
+
+Some property types are only mutable in a write transaction. For example, 
+you can instantiate an object with a Set
+property, but you can only set that property's value in a write transaction. 
+You cannot initialize the object with a value for that property unless 
+you do so inside a write transaction.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/create-initialize-objects-with-value-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-initialize-objects-with-value-no-dedicated-api.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/create-initialize-objects-with-value-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/create-initialize-objects-with-value-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/create-initialize-objects-with-value-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-initialize-objects-with-value-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/crud/create-initialize-objects-with-value-no-dedicated-api.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-initialize-objects-with-value-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-initialize-objects-with-value-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-initialize-objects-with-value-no-dedicated-api.rst
+
+.. include:: /includes/sdk-examples/crud/create-initialize-objects-with-value.rst
+
+.. _sdks-create-objects-from-json:
+
+Create Objects from JSON
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Working with JSON returned from an API is a common development use case. Most
+of the supported SDK languages do not directly support creating objects from
+JSON. However, you may use language or platform-idiomatic APIs to transform
+JSON to a structure that matches your object schema, and create a matching
+object. Or you may :ref:`model unstructured data <sdks-model-unstructured-data>`
+to work with **unstructured data** that is highly variable or whose structure
+is unknown at runtime.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/create-objects-from-json-missing-example.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-objects-from-json-missing-example.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/create-objects-from-json-missing-example.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-objects-from-json-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-objects-from-json-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-objects-from-json-missing-example.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/crud/create-objects-from-json-missing-example.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-objects-from-json-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-objects-from-json-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-objects-from-json-missing-example.rst
+
+.. include:: /includes/sdk-examples/crud/create-objects-from-json.rst
 
 .. _sdks-create-unmanaged-copy:
 
 Create an Unmanaged Copy of an Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _sdks-upsert-an-object:
+Some of the SDKs provide APIs to create an unmanaged, in-memory copy of a
+managed object or collection. In other SDKs, this API is not needed or not
+currently implemented.
 
-Create or Update an Object (Upsert)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-unmanaged-copy-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-unmanaged-copy-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-unmanaged-copy-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-unmanaged-copy-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-unmanaged-copy-not-supported.rst
+
+.. include:: /includes/sdk-examples/crud/create-unmanaged-object.rst
+
+.. _sdks-create-copy-object-to-another-database:
+
+Copy an Object to Another Database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can copy objects that are managed by one database instance to another
+database instance.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-no-example.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-no-example.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-no-example.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-copy-object-to-another-database-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-copy-object-to-another-database-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-copy-object-to-another-database-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-copy-object-to-another-database-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-copy-object-to-another-database-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-copy-object-to-another-database-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-copy-object-to-another-database.rst
+
+.. _sdks-create-objects-in-background:
+
+Create Objects in the Background
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When performing large write operations, you may want to create objects in the
+background. This avoids blocking the UI thread while performing large write
+operations. This is particularly useful when using Device Sync, where you don't
+know when and for how long the Sync client will be writing.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-objects-in-background-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-objects-in-background-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-objects-in-background-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-objects-in-background.rst
+

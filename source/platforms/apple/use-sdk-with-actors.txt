@@ -1,0 +1,358 @@
+.. _swift-actor-isolated-realm:
+.. _swift-use-sdk-with-actors:
+
+==========================================
+Use Atlas Device SDK for Swift with Actors
+==========================================
+
+.. meta::
+   :description: Learn how to use Atlas Device SDK with Swift's Actor system to manage asynchronous database work.
+   :keywords: Realm, Swift SDK, code examples
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Starting with Swift SDK version 10.39.0, Atlas Device SDK supports built-in 
+functionality for Swift Actors. The SDK's actor support provides an alternative
+to managing threads or dispatch queues to perform asynchronous work. You can
+use the SDK with actors in a few different ways:
+
+- Work with the SDK *only* on a specific actor with an actor-isolated database
+- Use the SDK across actors based on the needs of your application
+
+You might want to use an actor-isolated database if you want to restrict all
+database access to a single actor. This negates the need to pass data across
+the actor boundary, and can simplify data race debugging.
+
+You might want to use databases across actors in cases where you want to 
+perform different types of work on different actors. For example, you might
+want to read objects on the MainActor but use a background actor for large 
+writes.
+
+For general information about Swift actors, refer to :apple:`Apple's Actor 
+documentation <documentation/swift/actor>`.
+
+Prerequisites
+-------------
+
+To use the Swift SDK with a Swift actor, your project must:
+
+- Use Swift SDK version 10.39.0 or later
+- Use Swift 5.8/Xcode 14.3 or later
+
+In addition, we strongly recommend enabling these settings in your project:
+
+- ``SWIFT_STRICT_CONCURRENCY=complete``: enables strict concurrency checking
+- ``OTHER_SWIFT_FLAGS=-Xfrontend-enable-actor-data-race-checks``: enables 
+  runtime actor data-race detection
+
+About the Examples on This Page
+-------------------------------
+
+The examples on this page use the following model:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.model.swift
+   :language: swift
+
+.. _swift-open-actor-confined-realm:
+
+Open an Actor-Isolated Database
+-------------------------------
+
+You can use the Swift async/await syntax to await opening a database.
+
+Initializing a database with ``try await Realm()`` opens a MainActor-isolated
+database. Alternately, you can explicitly specify an actor when opening a 
+database with the ``await`` syntax.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.await-main-actor-realm.swift
+   :language: swift
+
+You can specify a default configuration or customize your configuration when 
+opening an actor-isolated database:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-confined-realm-with-config.swift
+   :language: swift
+
+For more general information about configuring a database, refer to 
+:ref:`sdks-configure-and-open-database`.
+
+You can open a synced database as an actor-isolated database:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-confined-synced-realm.swift
+   :language: swift
+
+For more general information about opening a synced database, refer to 
+:ref:`sdks-configure-and-open-synced-database`.
+
+.. _swift-define-realm-actor:
+
+Define a Custom Database Actor
+------------------------------
+
+You can define a specific actor to manage the database in asynchronous contexts.
+You can use this actor to manage database access and perform write operations.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.define-realm-actor.swift
+   :language: swift
+
+An actor-isolated database may be used with either local or global actors.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.global-actor-example.swift
+   :language: swift
+
+.. _swift-actor-synchronous-isolated-function:
+
+Use a Database Actor Synchronously in an Isolated Function
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When a function is confined to a specific actor, you can use the actor-isolated
+database synchronously.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-isolated-realm-synchronous.swift
+   :language: swift
+
+.. _swift-actor-async-nonisolated-function:
+
+Use a Database Actor in Async Functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When a function isn't confined to a specific actor, you can use your database
+actor with Swift's async/await syntax.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-isolated-realm-async.swift
+   :language: swift
+
+.. _swift-write-to-actor-confined-realm:
+
+Write to an Actor-Isolated Database
+-----------------------------------
+
+Actor-isolated databases can use Swift async/await syntax for asynchronous
+writes. Using ``try await realm.asyncWrite { ... }`` suspends the current task,
+acquires the write lock without blocking the current thread, and then invokes
+the block. The SDK writes the data to disk on a background thread and resumes 
+the task when that completes. 
+
+This function from the example ``RealmActor`` defined above shows how you might
+write to an actor-isolated database:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.write-async.swift
+   :language: swift
+
+And you might perform this write using Swift's async syntax:
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.actor-isolated-realm-async.swift
+   :language: swift
+
+This does not block the calling thread while waiting to write. It does 
+not perform I/O on the calling thread. For small writes, this is safe to 
+use from ``@MainActor`` functions without blocking the UI. Writes that 
+negatively impact your app's performance due to complexity and/or platform 
+resource constraints may still benefit from being done on a background thread. 
+
+Asynchronous writes are only supported for actor-isolated databases or in
+``@MainActor`` functions.
+
+.. _swift-realm-cannot-cross-actor-boundary:
+
+Pass SDK Data Across the Actor Boundary
+---------------------------------------
+
+SDK objects are not :apple:`Sendable <documentation/swift/sendable>`, 
+and cannot cross the actor boundary directly. To pass SDK data across 
+the actor boundary, you have two options:
+
+- Pass a ``ThreadSafeReference`` to or from the actor
+- Pass other types that *are* Sendable, such as passing values directly
+  or by creating structs to pass across actor boundaries
+
+.. _swift-pass-thread-safe-reference-across-actors:
+
+Pass a ThreadSafeReference
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create a 
+:swift-sdk:`ThreadSafeReference <Structs/ThreadSafeReference.html>` on an 
+actor where you have access to the object. In this case, we create a 
+``ThreadSafeReference`` on the ``MainActor``. Then, pass the
+``ThreadSafeReference`` to the destination actor. 
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.pass-tsr-across-actor-boundaries.swift
+   :language: swift
+
+On the destination actor, you must ``resolve()`` the reference within a 
+write transaction before you can use it. This retrieves a version of the 
+object local to that actor.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.resolve-tsr-on-actor.swift
+   :language: swift
+
+.. important::
+
+   You must resolve a ``ThreadSafeReference`` exactly once. Otherwise,
+   the source database remains pinned until the reference gets
+   deallocated. For this reason, ``ThreadSafeReference`` should be
+   short-lived.
+   
+   If you may need to share the same database object across actors more than 
+   once, you may prefer to share the :ref:`primary key <sdks-primary-key>` 
+   and :ref:`query for it <sdks-find-object-by-primary-key>` on 
+   the actor where you want to use it. Refer to the "Pass a Primary Key 
+   and Query for the Object on Another Actor" section on this page for an
+   example.
+
+Pass a Sendable Type
+~~~~~~~~~~~~~~~~~~~~
+
+While SDK objects are not Sendable, you can work around this by passing 
+Sendable types across actor boundaries. You can use a few strategies to
+pass Sendable types and work with data across actor boundaries:
+
+- Pass Sendable SDK types or primitive values instead of complete SDK objects
+- Pass an object's primary key and query for the object on another actor
+- Create a Sendable representation of your SDK object, such as a struct
+
+Pass Sendable SDK Types and Primitive Values
+````````````````````````````````````````````
+
+If you only need a piece of information from the SDK object, such as a
+``String`` or ``Int``, you can pass the value directly across actors instead
+of passing the SDK object. For a full list of which SDK types are Sendable,
+refer to :ref:`concurrency-page-sendable-thread-confined-reference`.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.pass-primitive-data-across-actors.swift
+   :language: swift
+
+Pass a Primary Key and Query for the Object on Another Actor
+````````````````````````````````````````````````````````````
+
+If you want to use a database object on another actor, you can share the 
+:ref:`primary key <sdks-primary-key>` and 
+:ref:`query for it <sdks-find-object-by-primary-key>` on the actor 
+where you want to use it.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.query-for-data-on-another-actor.swift
+   :language: swift
+
+Create a Sendable Representation of Your Object
+```````````````````````````````````````````````
+
+If you need to work with more than a simple value, but don't want the 
+overhead of passing around ``ThreadSafeReferences`` or querying objects on 
+different actors, you can create a struct or other Sendable representation
+of your data to pass across the actor boundary.
+
+For example, your actor might have a function that creates a struct 
+representation of the database object.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.pass-data-as-struct.swift
+   :language: swift
+
+Then, you can call a function to get the data as a struct on another actor.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.get-actor-confined-data-as-struct.swift
+   :language: swift
+
+.. _swift-observe-notifications-on-another-actor:
+
+Observe Notifications on a Different Actor
+------------------------------------------
+
+You can observe notifications on an actor-isolated realm using Swift's 
+async/await syntax.
+
+Calling ``await object.observe(on: Actor)`` or 
+``await collection.observe(on: Actor)`` registers a block to be called 
+each time the object or collection changes.
+
+The SDK asynchronously calls the block on the given actor's executor.
+
+For write transactions performed on different threads or in different
+processes, the SDK calls the block when the database is (auto)refreshed 
+to a version including the changes. For local writes, the SDK calls the block
+at some point in the future after the write transaction is committed.
+
+Like :ref:`other notifications <sdks-react-to-changes>`, you can 
+only observe objects or collections managed by a database. You must retain the 
+returned token for as long as you want to watch for updates. 
+
+If you need to manually advance the state of an observed database on the main 
+thread or on another actor, call ``await realm.asyncRefresh()``. 
+This updates the database and outstanding objects managed by the database to
+point to the most recent data and deliver any applicable notifications.
+
+Observation Limitations
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You *cannot* call the ``.observe()`` method:
+
+- During a write transaction
+- When the containing database is read-only
+- On an actor-confined database from outside the actor
+
+.. _swift-actor-collection-change-listener:
+
+Register a Collection Change Listener
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK calls a collection notification block after each write transaction which:
+
+- Deletes an object from the collection.
+- Inserts an object into the collection.
+- Modifies any of the managed properties of an object in the collection. This 
+  includes self-assignments that set a property to its existing value. 
+
+.. important:: Order Matters
+   
+   In collection notification handlers, always apply changes
+   in the following order: deletions, insertions, then
+   modifications. Handling insertions before deletions may
+   result in unexpected behavior.
+
+These notifications provide information about the actor on which the change 
+occurred. Like non-actor-isolated :ref:`collection notifications 
+<sdks-collection-change-listener>`, they also provide a ``change`` parameter
+that reports which objects are deleted, added, or modified during the write
+transaction. This
+:swift-sdk:`RealmCollectionChange <Enums/RealmCollectionChange.html>` 
+resolves to an array of index paths that you can pass to a ``UITableView``'s 
+batch update methods.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.observe-collection-on-actor.swift
+   :language: swift
+
+.. _swift-actor-object-change-listener:
+
+Register an Object Change Listener
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK calls an object notification block after each write transaction which:
+
+- Deletes the object.
+- Modifies any of the managed properties of the object. This includes 
+  self-assignments that set a property to its existing value. 
+
+The block is passed a copy of the object isolated to the requested actor,
+along with information about what changed. This object can be safely used
+on that actor.
+
+By default, only direct changes to the object's properties produce notifications.
+Changes to linked objects do not produce notifications. If a non-nil, non-empty 
+keypath array is passed in, only changes to the properties identified by those 
+keypaths produce change notifications. The keypaths may traverse link 
+properties to receive information about changes to linked objects.
+
+.. literalinclude:: /examples/generated/code/start/RealmActor.snippet.observe-object-on-actor.swift
+   :language: swift
