@@ -3,18 +3,22 @@
 ========================
 Mixed - React Native SDK
 ========================
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 1
    :class: singlecol
 
+.. versionchanged:: ``realm@12.9.0``
+
+  Mixed properties can contain lists or dictionaries of mixed data.
+
 .. versionadded:: ``realm@10.5.0``
 
 The Mixed data type is a realm property type that can hold any valid Realm data
-type except a collection. You can create collections (lists, sets, and
-dictionaries) of type ``mixed``, but a ``mixed`` type itself cannot be a
-collection. 
+type except an embedded object or a set.
+You can create collections (lists, sets, and dictionaries) of type ``mixed``. Properties using the mixed data type can also hold null values.
 
 The Mixed type is indexable, but you can't use it as a primary key.
 
@@ -43,6 +47,25 @@ To :ref:`set a property of your object model
       .. literalinclude:: /examples/generated/react-native/js/Cat.snippet.js-cat-schema.js
          :language: javascript
 
+.. _react-native-nested-collections-mixed:
+
+Collections as Mixed
+~~~~~~~~~~~~~~~~~~~~
+
+In JS SDK v12.9.0 and later, a mixed data type can hold collections (a list or
+dictionary, but *not* a set) of mixed elements. You can use mixed collections to
+model unstructured or variable data. For more information, refer to
+:ref:`<react-native-model-unstructured-data>`.
+
+- You can nest mixed collections up to 100 levels.
+- You can query mixed collection properties and
+  :ref:`register a listener for changes <react-native-collection-listener>`,
+  as you would a normal collection.
+- You can find and update individual mixed collection elements
+- You *cannot* store sets or embedded objects in mixed collections.
+
+To use mixed collections, define the mixed type property in your data model.
+Then, create the list or dictionary collection.
 
 Create an Object With a Mixed Value
 -----------------------------------
@@ -55,21 +78,21 @@ Example
 ~~~~~~~
 
 In the following ``CreateCatsInput`` example, we create several ``Cat`` realm
-objects with a Mixed type for the ``birthDate`` field. 
+objects with a Mixed type for the ``birthDate`` field.
 
 The ``CreateCatsInput`` component does the following:
 
-- Get access to the opened realm instance by calling the ``useRealm()`` hook. 
+- Get access to the opened realm instance by calling the ``useRealm()`` hook.
 - Use React's `useEffect <https://react.dev/reference/react/useEffect>`__ hook
-   to call an anonymous function only once with ``useEffect`` and an
-   empty dependency array.
+  to call an anonymous function only once with ``useEffect`` and an
+  empty dependency array.
 - Within the anonymous function, we create four different ``Cat`` objects by
-   using the ``new`` operator to create a new realm object within a write
-   transaction. Each of the ``Cat`` objects uses a different data type for the
-   ``birthDate`` property. 
+  using the ``new`` operator to create a new realm object within a write
+  transaction. Each of the ``Cat`` objects uses a different data type for the
+  ``birthDate`` property.
 - Use the ``useQuery()`` hook to retrieve all ``Cat`` objects.
 - `Map <https://react.dev/learn/rendering-lists>`__ through the cats to render
-   a list of ``Text`` components displaying each cat's ``name`` and ``birthDate``.
+  a list of ``Text`` components displaying each cat's ``name`` and ``birthDate``.
 
 
 .. tabs-realm-languages::
@@ -91,7 +114,7 @@ The ``CreateCatsInput`` component does the following:
 Query for Objects with a Mixed Value
 ------------------------------------
 
-To query for objects with a Mixed value, run the 
+To query for objects with a Mixed value, run the
 :js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method and
 pass in a :ref:`filter <react-native-filter-queries>` for a non-Mixed field. You can
 then print the value of the Mixed property or the entire object itself.
@@ -104,8 +127,8 @@ cat's name.
 
 The ``CatInfoCard`` component does the following:
 
-- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use ``filtered()`` to filter the results to receive only the cats whose names match the name passed as a prop. We then get the first matching cat and store it as a const variable. 
-- Use dot notation to retrieve the Mixed property, ``birthDate``. 
+- Get all ``Cat`` objects by passing the ``Cat`` class to the ``useQuery()`` hook, and then use ``filtered()`` to filter the results to receive only the cats whose names match the name passed as a prop. We then get the first matching cat and store it as a const variable.
+- Use dot notation to retrieve the Mixed property, ``birthDate``.
 - Display the cat's name and birthdate in the render method if Realm finds the cat. If there is no cat that matches the name passed into the component as a prop, we render text that says "Cat not found".
 
 .. tabs-realm-languages::
