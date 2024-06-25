@@ -1,6 +1,13 @@
 import Realm from "realm";
 import { ItemModel, ProjectModel } from "./schemas/rql-data-models";
 
+/*
+  DON'T UPDATE THIS FILE. DEPRECATED IN FAVOR OF V12 TESTS.
+  Updates should be placed in the new files compatible with
+  JSv12 and later, located at:
+  examples/node/v12/__tests__/rql-data-models.test.js/ts
+*/
+
 describe("test models", () => {
   let realm;
   const config = {

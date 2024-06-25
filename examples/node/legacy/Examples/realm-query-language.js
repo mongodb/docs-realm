@@ -1,9 +1,12 @@
 import Realm, { BSON } from "realm";
 import { ItemModel, ProjectModel } from "./schemas/rql-data-models";
 
-// Tests for new RQL operators or updates should be placed in the new 
-// file compatible with JSv12 and later, located at 
-// examples/node/v12/__tests__/realm-query-language.test.js
+/*
+  DON'T UPDATE THIS FILE. DEPRECATED IN FAVOR OF V12 TESTS.
+  Tests for new RQL operators or updates should be placed in the new
+  files compatible with JSv12 and later, located at:
+  examples/node/v12/__tests__/realm-query-language.test.js/ts
+*/
 
 describe("Realm Query Language Reference", () => {
   let realm;
@@ -148,7 +151,7 @@ describe("Realm Query Language Reference", () => {
     const progressMinutesRange = items.filtered(
       // :remove-end:
 
-      // Find to-do items within a certain time range by finding items 
+      // Find to-do items within a certain time range by finding items
       // where the progressMinutes property is between two numbers.
       "progressMinutes BETWEEN { $0 , $1 }", 30, 60
       // :remove-start:
@@ -406,7 +409,7 @@ describe("Realm Query Language Reference", () => {
       );
       expect(shallowResultLinkingObjects.length).toBe(1);
       expect(shallowResultLinkingObjects[0].name).toBe("Get coffee");
-      
+
       const shallowResultAtLinks = realm.objects("Item").filtered(
         // :remove-end:
         // Find items that are not referenced by any project
