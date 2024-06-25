@@ -1627,7 +1627,7 @@ Prepare docs for C++ GA release, including:
 - Model Data
   - Define an Object Model: Update info for C# nullable reference types and nullable-aware context, add a Bluehawked code example
   - Data Binding: Move a section about data binding and MVVM from Define an Object Model to Data Binding page
-- React to Changes: Add a callout with info about binding data to the UI and a link to the the Data Binding page
+- React to Changes: Add a callout with info about binding data to the UI and a link to the Data Binding page
 
 ## Node.js SDK
 
