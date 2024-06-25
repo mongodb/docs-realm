@@ -80,6 +80,6 @@ void main() {
     await executeComplexCodeToDebug();
     // :snippet-end:
 
-    cleanUpRealm(realm);
+    await cleanUpRealm(realm);
   });
 }

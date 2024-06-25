@@ -52,6 +52,10 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Person>(this);
 
   @override
+  Stream<RealmObjectChanges<Person>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Person>(this, keyPaths);
+
+  @override
   Person freeze() => RealmObjectBase.freezeObject<Person>(this);
 
   EJsonValue toEJson() {
@@ -130,6 +134,10 @@ class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Scooter>> get changes =>
       RealmObjectBase.getChanges<Scooter>(this);
+
+  @override
+  Stream<RealmObjectChanges<Scooter>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Scooter>(this, keyPaths);
 
   @override
   Scooter freeze() => RealmObjectBase.freezeObject<Scooter>(this);

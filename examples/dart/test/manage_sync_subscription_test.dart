@@ -119,7 +119,8 @@ void main() {
       });
       // :snippet-end:
       expect(realm.subscriptions.length, 2); // +0
-      expect(realm.subscriptions.findByName('long-trains')?.queryString.trim(), "numCars > 10");
+      expect(realm.subscriptions.findByName('long-trains')?.queryString.trim(),
+          "numCars > 10");
     });
 
     test('Remove subscription by query', () async {
@@ -174,11 +175,14 @@ void main() {
       final bigPlaneQuery = realm.query<Plane>("numSeats > 100");
 
       final boatSubscription = await boatQuery.subscribe(name: "boats");
-      final planeSubscription = await bigPlaneQuery.subscribe(name: "big-planes");
+      final planeSubscription =
+          await bigPlaneQuery.subscribe(name: "big-planes");
       // :snippet-end:
       expect(realm.subscriptions.length, 4); // +2
-      expect(realm.subscriptions.findByName("boats")?.queryString.trim(), "TRUEPREDICATE");
-      expect(realm.subscriptions.findByName("big-planes")?.queryString.trim(), "numSeats > 100");
+      expect(realm.subscriptions.findByName("boats")?.queryString.trim(),
+          "TRUEPREDICATE");
+      expect(realm.subscriptions.findByName("big-planes")?.queryString.trim(),
+          "numSeats > 100");
     });
 
     test('Update query with subscribe api', () async {
@@ -187,10 +191,8 @@ void main() {
       // :snippet-start: update-subscription-subscribe-api
       final updatedPlaneQuery = realm.query<Plane>("numSeats > 200");
 
-      final planeSubscription = await updatedPlaneQuery.subscribe(
-          name: "big-planes",
-          update: true
-      );
+      final planeSubscription =
+          await updatedPlaneQuery.subscribe(name: "big-planes", update: true);
       // :snippet-end:
       expect(realm.subscriptions.length, 3); // +1
       final updatedSubscription = realm.subscriptions.findByName("big-planes");
@@ -200,18 +202,16 @@ void main() {
     test('Wait for query to sync with subscribe api', () async {
       realm.write(() {
         realm.deleteAll<Plane>();
-        realm.addAll([
-          Plane(1, "Plane1", 201),
-          Plane(2, "Plane2", 50)
-        ]);
+        realm.addAll([Plane(1, "Plane1", 201), Plane(2, "Plane2", 50)]);
       });
-      realm.syncSession.waitForUpload(TimeoutCancellationToken(Duration(seconds: 5)));
+      realm.syncSession
+          .waitForUpload(TimeoutCancellationToken(Duration(seconds: 5)));
       // :snippet-start: wait-first-time-subscribe-api
       final bigPlaneQuery = realm.query<Plane>("numSeats > 100");
 
       final planeSubscription = await bigPlaneQuery.subscribe(
-          name: "firstTimeSync",
-          waitForSyncMode: WaitForSyncMode.firstTime,
+        name: "firstTimeSync",
+        waitForSyncMode: WaitForSyncMode.firstTime,
       );
       // :snippet-end:
       expect(realm.subscriptions.length, 3); // +1
@@ -221,33 +221,34 @@ void main() {
     test('Wait with timeout with subscribe api', () async {
       realm.write(() {
         realm.deleteAll<Plane>();
-        realm.addAll([
-          Plane(1, "Plane1", 201),
-          Plane(2, "Plane2", 500)
-        ]);
+        realm.addAll([Plane(1, "Plane1", 201), Plane(2, "Plane2", 500)]);
       });
       // :snippet-start: wait-with-timeout-subscribe-api
       final bigPlaneQuery = realm.query<Plane>("numSeats > 200");
 
       final planeSubscription = await bigPlaneQuery.subscribe(
-          name: "alwaysWaitSync",
-          waitForSyncMode: WaitForSyncMode.always,
-          cancellationToken: TimeoutCancellationToken(Duration(seconds: 5)),
+        name: "alwaysWaitSync",
+        waitForSyncMode: WaitForSyncMode.always,
+        cancellationToken: TimeoutCancellationToken(Duration(seconds: 5)),
       );
       // :snippet-end:
       expect(realm.subscriptions.length, 3); // +1
       expect(bigPlaneQuery.length, 2);
-
     });
 
     test('Remove subscription with unsubscribe api', () async {
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.clear();
+      });
+
       final planeQuery = realm.all<Plane>();
-      final trainSubscription = realm.subscriptions.findByName("long-trains")?.queryString;
-      final trainQuery = realm.query(trainSubscription!);
+      final trainQuery = realm.all<Train>();
       // :snippet-start: remove-subscription-unsubscribe-api
       planeQuery.unsubscribe();
       trainQuery.unsubscribe();
       // :snippet-end:
+
+      await realm.subscriptions.waitForSynchronization();
       expect(realm.subscriptions, isEmpty);
     });
   });

@@ -44,6 +44,10 @@ class PersonV2 extends _PersonV2
       RealmObjectBase.getChanges<PersonV2>(this);
 
   @override
+  Stream<RealmObjectChanges<PersonV2>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<PersonV2>(this, keyPaths);
+
+  @override
   PersonV2 freeze() => RealmObjectBase.freezeObject<PersonV2>(this);
 
   EJsonValue toEJson() {
