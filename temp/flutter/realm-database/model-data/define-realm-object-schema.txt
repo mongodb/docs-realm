@@ -4,7 +4,7 @@
 Define a Realm Object Schema - Flutter SDK
 ==========================================
 
-.. meta:: 
+.. meta::
   :keywords: code example, android, ios, data modeling
   :description: Define the properties and relationships of database objects within your data model.
 
@@ -62,8 +62,8 @@ Create Model
    .. step:: Create Generated File Part Directive
 
       .. versionchanged:: v2.0.0
-          Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
-      
+          Generated files are named ``.realm.dart`` instead of ``.g.dart``
+
       Add a part directive to include the ``RealmObject`` file that you generate in step 4
       in the same package as the file you're currently working on.
 
@@ -96,13 +96,13 @@ Create Model
       .. literalinclude:: /examples/generated/flutter/schemas.snippet.create-realm-model.dart
          :language: dart
          :caption: schemas.dart
-      
+
       .. include:: /includes/note-class-char-limit.rst
 
    .. step:: Generate RealmObject
 
       .. versionchanged:: v2.0.0
-          Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
+          Generated files are named ``.realm.dart`` instead of ``.g.dart``
 
       Generate the ``RealmObject``, which you'll use in your application:
 
@@ -211,19 +211,19 @@ Map a Model or Class to a Different Name
 ----------------------------------------
 
 You can use the `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__
-annotation to map a Realm object model or property to a different stored 
+annotation to map a Realm object model or property to a different stored
 name in Realm. This can be useful in the following scenarios. For example:
 
-- To make it easier to work across platforms where naming conventions 
-  differ. For example, if your Device Sync schema property names use snake 
+- To make it easier to work across platforms where naming conventions
+  differ. For example, if your Device Sync schema property names use snake
   case, while your project uses camel case.
 - To change a class or field name without forcing a migration.
 - To support multiple model classes with the same name in different packages.
-- To use a class name that is longer than the 57-character limit enforced 
+- To use a class name that is longer than the 57-character limit enforced
   by Realm.
 
-If you're using Atlas Device Sync, the name that you specify in the  
-``MapTo`` annotation is used as the persisted :ref:`App Services Schema 
+If you're using Atlas Device Sync, the name that you specify in the
+``MapTo`` annotation is used as the persisted :ref:`App Services Schema
 <schemas>` name.
 
 .. tabs::
@@ -244,40 +244,48 @@ If you're using Atlas Device Sync, the name that you specify in the
 
 .. _flutter-model-unstructured-data:
 
-Model Unstructured Data 
+Model Unstructured Data
 -----------------------
 
 .. versionadded:: 2.0.0
 
-Starting in Flutter SDK version 2.0.0, you can 
-:ref:`define nested collections 
-of mixed data <flutter-nested-collections-realm-value>` 
-within a  ``RealmValue`` property.
+Starting in Flutter SDK version 2.0.0, you can store
+:ref:`collections of mixed data <flutter-nested-collections-realm-value>`
+within a  ``RealmValue`` property. You can use this feature to model complex
+data structures, such as JSON or MongoDB documents, without having to define a
+strict data model.
 
-The ability to nest collections of mixed data enables you to define data 
-that doesn't otherwise conform to an expected schema, including data with 
-variable structure or data whose shape or type is not known at runtime. 
-For example, you might have highly variable user-created objects, event logs, 
-or survey response data that are collected and stored in a variety of JSON 
-formats. This approach allows you to :ref:`react to changes <flutter-realm-list-change-listener>`
-in the nested data and to update specific elements, but it is less 
-performant than using a structured schema or serializing JSON blobs
-into a single string property.
+**Unstructured data** is data that doesn't easily conform to an expected
+schema, making it difficult or impractical to model to individual
+data classes. For example, your app might have highly variable data or dynamic
+data whose structure is unknown at runtime.
 
-To model unstructured data in your schema using collections of mixed type, 
-define the appropriate properties in your schema as 
-:ref:`RealmValue <flutter-realm-value>` types. You can then set these   
-``RealmValue`` properties as a :ref:`RealmList <flutter-realm-list>` or a 
-:ref:`RealmMap <flutter-realm-map>` collection of ``RealmValue`` elements. 
+Storing collections in a mixed property offers flexibility without sacrificing
+functionality, including performant synchronization when using Device Sync. And
+you can work with them the same way you would a non-mixed
+collection:
+
+- You can nest mixed collections up to 100 levels.
+- You can query on and :ref:`react to changes <flutter-realm-list-change-listener>`
+  on mixed collections.
+- You can find and update individual mixed collection elements.
+
+However, storing data in mixed collections is less performant than using a structured
+schema or serializing JSON blobs into a single string property.
+
+To model unstructured data in your app, define the appropriate properties in
+your schema as :ref:`RealmValue <flutter-realm-value>` types. You can then set
+these ``RealmValue`` properties as a :ref:`RealmList <flutter-realm-list>` or a
+:ref:`RealmMap <flutter-realm-map>` collection of ``RealmValue`` elements.
 Note that ``RealmValue`` *cannot* represent a ``RealmSet`` or an embedded object.
 
-For example, you might use a ``RealmValue`` that contains a map of mixed 
-data when modeling a variable event log object: 
+For example, you might use a ``RealmValue`` that contains a map of mixed
+data when modeling a variable event log object:
 
 .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.unstructured-data-model.dart
    :language: dart
    :emphasize-lines: 10
-   :caption: Data model 
+   :caption: Data model
 
 .. io-code-block::
    :copyable: true
@@ -286,7 +294,7 @@ data when modeling a variable event log object:
    .. input:: /examples/generated/flutter/define_realm_model_test.snippet.create-unstructured-data-example.dart
       :language: dart
 
-   .. output:: 
+   .. output::
       :language:  shell
 
       Event Type: purchase
@@ -298,9 +306,9 @@ data when modeling a variable event log object:
          items: RealmValue([RealmValue({id: RealmValue(1), name: RealmValue(Laptop), price: RealmValue(1200.0)}), RealmValue({id: RealmValue(2), name: RealmValue(Mouse), price: RealmValue(49.99)})])
          total: RealmValue(1249.99)
 
-.. tip:: 
+.. tip::
 
-   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier. 
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
    - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
 
 .. _flutter-generate-realm-object:
@@ -309,10 +317,10 @@ Generate the RealmObject
 ------------------------
 
 .. versionchanged:: v2.0.0
-    Generated files are named ``.realm.dart`` instead of ``.g.dart`` 
+    Generated files are named ``.realm.dart`` instead of ``.g.dart``
 
 Once you've completed your Realm model, you must generate the
-:flutter-sdk:`RealmObject <realm/RealmObjectBase-mixin.html>` class to use 
+:flutter-sdk:`RealmObject <realm/RealmObjectBase-mixin.html>` class to use
 it in your application.
 
 Run the following command to generate ``RealmObjects``:
@@ -410,7 +418,7 @@ Asymmetric objects require Flexible Sync. To define an asymmetric object, pass
 
 In Flutter SDK versions 1.5.0 and earlier, you cannot link from
 ``asymmetricObject`` types to ``RealmObjects``. In SDK versions 1.6.0 and
-later, ``asymmetricObject`` types can link to ``RealmObjects`` in 
+later, ``asymmetricObject`` types can link to ``RealmObjects`` in
 addition to :ref:`embedded object types <flutter-embedded-objects>`.
 
 .. note:: Attempting to Read Asymmetric Objects
@@ -419,5 +427,5 @@ addition to :ref:`embedded object types <flutter-embedded-objects>`.
    object, you will get the following error: "Error: You can't query an
    asymmetric class.".
 
-To learn more about Data Ingest, refer to :ref:`Stream Data to Atlas 
+To learn more about Data Ingest, refer to :ref:`Stream Data to Atlas
 <flutter-stream-data-to-atlas>`.

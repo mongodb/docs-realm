@@ -83,18 +83,18 @@ There are three primary types of relationships between objects:
 - :ref:`Inverse Relationship <react-native-inverse-relationship>`
 
 .. note:: Realm vs Other Databases
-   
+
    Objects often contain direct references to other objects.
    When working with objects and references,
    you typically copy data from database storage into application memory.
    This situation leaves the developer with a choice of what to copy
    into memory:
-   
+
    - You can copy all referenced objects into memory ahead of time.
      This means that all referenced data is always available quickly
      but can use up a lot of resources. If a system has limited memory,
      this may not be viable.
-   
+
    - You can copy just a foreign key value for each object. Later, you
      can use the key to look up the full object when you need it.
      These "lazy" lookups are more memory-efficient than copying all

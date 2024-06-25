@@ -1,3 +1,90 @@
+# June 21, 2024
+
+## Kotlin SDK
+
+- Realm/Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types: Update "RealmAny" section to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+## .NET SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types > RealmValue: Update page to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+## Node.js SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types/Mixed: Update page to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+## React Native SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types/Mixed: Update page to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+## Swift SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Types: Update "AnyRealmValue" section to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+# June 14, 2024
+
+## .NET SDK
+
+- Compatibility: Add note with minimum framework requirements when using the new source model generator.
+
+## React Native SDK
+
+- Atlas App Services: Fix a monospace formatting typo for an instance of the word "App".
+
+## Swift SDK
+
+- Install: Remove outdated information. Rename "Static Framework" install instructions to "Dynamic Framework."
+
+# June 7, 2024
+
+## Kotlin SDK
+
+- Realm/Read & Write Data/Read: Fix typo.
+
+## Other
+
+- Internal: Update Node version to 18.x for compatibility with Bluehawk. 
+
+# May 31, 2024
+
+## Other
+
+- Internal: Update test suite dependencies to resolve security vulnerability alerts.
+
+# May 24, 2024
+
+## Java SDK
+
+- Throughout the SDK: Note that new App Services Apps cannot use `RealmAny` with the Java SDK due to an incompatible protocol version.
+
+## .NET SDK
+
+- Application Services/Connect to an App Services App: Add a section on updating the `baseURL` during runtime.
+
+# May 17, 2024
+
+## C++ SDK
+
+- Landing Page: Add "Learning Paths" section with links to the C++ quick start, template app, and tutorial.
+
+## Swift SDK
+
+- SwiftUI/Handle Sync Errors: New page demonstrating how to set and use a sync error handler in SwiftUI.
+
+## Other
+
+- Example Projects: Add the C++ template app to the SDK template app list.
+- Internal: Update test suite dependencies to resolve security vulnerability alerts.
+
 # May 10, 2024
 
 ## C++ SDK
@@ -165,7 +252,7 @@ Throughout Device SDK docs:
 
 ## Kotlin SDK
 
-- Realm/Configure & Open a Realm: Fix a broken hyperlink. 
+- Realm/Configure & Open a Realm: Fix a broken hyperlink.
 
 # February 16, 2024
 
@@ -197,9 +284,9 @@ Throughout Device SDK docs:
 
 - Atlas App Services/Connect to an App Services App: Note that, starting in v12.6.0, you can update the `baseUrl` in the `AppConfiguration` because the App client no longer caches it.
 
-## React Native SDK 
+## React Native SDK
 
-- Atlas App Services/Connect to an App Services App: 
+- Atlas App Services/Connect to an App Services App:
   - Note that, starting in v12.6.0, you can update the `baseUrl` in the  `AppConfiguration` because the App client no longer caches it.
   - Update examples to use new auth hooks.
 - API Reference/App Provider: Update `useApp` example to remove old auth pattern.
