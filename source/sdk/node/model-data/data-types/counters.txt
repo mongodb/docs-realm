@@ -92,8 +92,8 @@ while ''UpdateMode.Modified'' updates only modified properties.
 Query Counter Values
 --------------------
 
-In scenarios where you may want to use a counter value as a placeholder argument while
-querying, you must use ''counter.value'' as seen below.
+You can query counter properties like other property types. However, to query by the 
+underlying counter value, you must use ``counter.value`` as a placeholder value:
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.filtering-with-counter.ts 
   :language: typescript
