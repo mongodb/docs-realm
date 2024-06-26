@@ -1,4 +1,4 @@
-import Realm, { BSON, Counter, ObjectSchema, UpdateMode, List } from "realm";
+import Realm, { BSON, Counter, ObjectSchema, UpdateMode } from "realm";
 
 
 describe("Counter Updates", () => {

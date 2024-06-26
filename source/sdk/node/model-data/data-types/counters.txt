@@ -39,10 +39,10 @@ Counters cannot be used as:
 - Query arguments for placeholders while filtering
   - See Querying with Counters below
 
-Declaring a Counter
--------
+Define a Counter Property
+-------------------------
 
-To use the ''Counter'', you first declare a field for it in a property schema. You can optionally 
+To use a counter, you must declare a property of ``Counter`` type in your schema. You can optionally 
 declare the ''counter'' field as a nullable counter if needed in your use case. This allows the 
 ''counter'' field within the class to be set to ''null'', though the counter value itself can never 
 be ''null''. The ''Counter'' field is declared by using either:
@@ -53,10 +53,12 @@ be ''null''. The ''Counter'' field is declared by using either:
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.declare-counter-schema.ts 
   :language: typescript
 
-Initializing and Updating a Counter
------
-You can initialize the counter by using the ''realm.create()'' method and passing the desired 
-schema and initial values for the properties. 
+Create and Update a Counter
+---------------------------
+
+To initialize a counter, use the ``realm.create()`` method and pass the desired 
+schema and initial values for the properties. In the following example, we define two 
+counter properties and demonstrate both declaration types: 
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.ts 
   :language: typescript
@@ -68,6 +70,7 @@ There is also a ''set()'' method that resets the counter to a specified value:
   :language: typescript
 
 .. warning:: Counter Resets
+
    Using ''set()'' will ignore any prior calls to ''increment()'' and ''decrement()''. Subsequent calls 
    will be applied as expected to the reset counter value. As such, you should be cautious 
    in mixing ''set()'' with ''increment()'' and ''decrement()'' as it can lead to inaccurate counter 
@@ -86,10 +89,13 @@ while ''UpdateMode.Modified'' updates only modified properties.
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.null-updating.ts 
   :language: typescript
 
-Querying with Counters
-----------------------------
+Query Counter Values
+--------------------
+
 In scenarios where you may want to use a counter value as a placeholder argument while
 querying, you must use ''counter.value'' as seen below.
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.filtering-with-counter.ts 
   :language: typescript
+
+For more information on querying with the SDK, refer to :ref:`realm-query-language`. 
