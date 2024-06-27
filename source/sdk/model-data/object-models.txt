@@ -4,23 +4,384 @@
 Define an SDK Object Model
 ==========================
 
+.. meta:: 
+   :description: Learn about object models and schemas, including how to define an object.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 3
    :class: singlecol
 
-.. _sdks-define-object-schema:
+.. tabs-selector:: drivers
 
-Define an SDK Object Schema
----------------------------
+Atlas Device SDK applications model data as objects composed of
+field-value pairs that each contain one or more :ref:`supported
+<sdks-supported-data-types>` data types. You can annotate a property to
+provide additional meta-information that gives the property special behaviors,
+such as:
+
+- Designate a property as the object's primary key
+- Ignore a property when reading and writing data
+- Index a property to improve performance for queries on that property
+- Index a property for use with Full-Text Search
+- Map a property or class to a different stored name
+
+.. _sdks-object-types-schemas:
+
+Object Types and Schemas
+------------------------
+
+Every database object has an *object type* that refers to the object's
+class. Objects of the same type share an :ref:`object schema
+<sdks-object-schema>` that defines the properties and relationships of those
+objects.
+
+.. _sdks-database-schema:
+
+Database Schema
+~~~~~~~~~~~~~~~
+
+A **database schema** is a list of valid object schemas that the database may 
+contain. Every database object must conform to an object type that's included 
+in its database's schema.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+If the database already contains data when you open it, the SDK 
+validates each object to ensure that an object schema was provided for 
+its type and that it meets all of the constraints specified in the schema.
+
+For more information about how to open the database, refer to 
+:ref:`sdks-configure-and-open-database`.
+
+.. _sdks-object-model:
+
+Object Model
+~~~~~~~~~~~~
+
+Your object model is the core structure that gives the database
+information about how to interpret and store the objects in your app.
+The properties that you want to persist must use the :ref:`supported data types
+<sdks-supported-data-types>`. Properties are also the mechanism for
+establishing :ref:`relationships <sdks-relationships>` between object types,
+or establishing other special behaviors for specific fields in your object.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+.. _sdks-object-schema:
+
+Object Schema
+~~~~~~~~~~~~~
+
+An **object schema** maps properties for a specific object type. The SDK
+schemas give the SDK the information it needs to validate, store, and retrieve
+the objects. A schema must accompany every object model you want to persist.
+When possible, Device SDK uses language-specific features to simplify or
+abstract away the process of creating a schema.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-object-schema-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
 
 .. _sdks-define-objects:
 
 Define an SDK Object Model
 --------------------------
 
-Placeholder page for defining an object model.
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-sdk-object-model-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-object-model.rst
+
+.. include:: /includes/note-class-char-limit.rst
+
+.. _sdks-define-models-object-types:
+
+Define Models for Specific Object Types
+---------------------------------------
+
+The SDK provides three specific object types, plus support for using an object
+with geospatial data:
+
+- Realm object: the base object type used by the SDK.  
+- Embedded object: a special object type that cannot exist outside the
+  lifecycle of its parent Realm object.
+- Asymmetric object: a special object type used in heavy insert-only workloads
+  using the Data Ingest feature.
+- Geospatial object: an object that uses duck-typing to provide a consistent
+  interface and special methods for working with geospatial data.
+
+Throughout the documentation, when we refer to "SDK objects" or "SDK object
+types," we refer to one of these object types.
+
+.. _sdks-embedded-objects:
+
+Define a Realm Object
+~~~~~~~~~~~~~~~~~~~~~
+
+A Realm object is the base object type stored by the SDK's device persistence
+layer, Realm.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-sdk-object-model-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-object-model.rst
 
 .. _sdks-embedded-objects:
 
