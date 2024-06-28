@@ -42,9 +42,8 @@
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/kotlin/AsymmetricSyncTest.snippet.create-asymmetric-object.kt
+         .. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-asymmetric-model.kt
             :language: kotlin
-            :emphasize-lines: 10, 11
 
      - id: objectivec
        content: |
