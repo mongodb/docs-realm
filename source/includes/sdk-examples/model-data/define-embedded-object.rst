@@ -33,8 +33,9 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/node/data-types.snippet.define-embedded-objects.js
             :language: javascript
+            :emphasize-lines: 3, 18, 28
 
      - id: kotlin
        content: |
@@ -58,5 +59,4 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
-            :language: typescript
+         .. include:: /examples/generated/react-native/v12/models.snippet.define-embedded-property.ts.rst

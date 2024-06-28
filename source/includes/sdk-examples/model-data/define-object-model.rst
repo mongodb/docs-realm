@@ -35,7 +35,7 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/react-native/js/Book.snippet.js-book-schema.js
             :language: javascript
 
      - id: kotlin
@@ -60,5 +60,5 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
-            :language: typescript
+         .. literalinclude:: /examples/generated/react-native/ts/Book.snippet.ts-book-schema.ts
+            :language: javascript

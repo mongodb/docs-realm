@@ -35,8 +35,9 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/react-native/js/data-ingest.test.snippet.data-ingest-object.jsx
             :language: javascript
+            :emphasize-lines: 6
 
      - id: kotlin
        content: |
@@ -60,5 +61,6 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         .. literalinclude::  /examples/generated/react-native/ts/data-ingest.test.snippet.data-ingest-object.tsx
             :language: typescript
+            :emphasize-lines: 12

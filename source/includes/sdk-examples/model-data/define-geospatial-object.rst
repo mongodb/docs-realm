@@ -36,7 +36,7 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.write-geospatial-object.js
             :language: javascript
 
      - id: kotlin
@@ -61,5 +61,5 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.write-geospatial-object.ts
             :language: typescript
