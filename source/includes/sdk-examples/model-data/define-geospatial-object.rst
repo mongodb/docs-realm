@@ -30,7 +30,7 @@
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+         .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.kt
             :language: kotlin
 
      - id: javascript

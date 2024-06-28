@@ -25,14 +25,16 @@
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
-            :language: java
+         .. include:: /examples/generated/java/local/FrogObjectExample.snippet.complete.java.rst
+
+         .. include:: /examples/generated/java/local/FrogRealmModelExample.snippet.complete.java.rst
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
-            :language: kotlin
+         .. include:: /examples/generated/java/local/FrogObjectExampleKt.snippet.complete.kt.rst
+
+         .. include:: /examples/generated/java/local/FrogRealmModelExampleKt.snippet.complete.kt.rst
 
      - id: javascript
        content: |

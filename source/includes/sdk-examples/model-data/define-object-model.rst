@@ -23,13 +23,13 @@
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
+         .. literalinclude:: /examples/generated/java/local/RealmObjectVsRealmModelTest.snippet.realm-object-vs-realm-model.java
             :language: java
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+         .. literalinclude:: /examples/generated/java/local/RealmObjectVsRealmModelTest.snippet.realm-object-vs-realm-model.kt
             :language: kotlin
 
      - id: javascript

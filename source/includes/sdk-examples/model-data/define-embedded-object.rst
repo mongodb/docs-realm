@@ -23,14 +23,12 @@
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
-            :language: java
+         .. include:: /examples/generated/java/local/FrogEmbeddedExample.snippet.complete.java.rst
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
-            :language: kotlin
+         .. include:: /examples/generated/java/local/FrogEmbeddedExampleKt.snippet.complete.kt.rst
 
      - id: javascript
        content: |
