@@ -18,7 +18,7 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+         .. literalinclude:: /examples/generated/flutter/geospatial_data_test.snippet.use-geopoint-class.dart
             :language: dart
 
      - id: java

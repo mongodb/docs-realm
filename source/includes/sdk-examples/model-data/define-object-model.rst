@@ -16,8 +16,9 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+         .. literalinclude:: /examples/generated/flutter/define_realm_object_schema_usage_test.snippet.use-realm-object.dart
             :language: dart
+            :caption: myapp.dart
 
      - id: java
        content: |

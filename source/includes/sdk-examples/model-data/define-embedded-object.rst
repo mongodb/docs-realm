@@ -6,7 +6,7 @@
 
          .. literalinclude:: /examples/generated/cpp/crud.snippet.model-with-embedded-object.cpp
             :language: cpp
-            :emphasize-lines: 7, 12
+            :emphasize-lines: 8, 13
 
      - id: csharp
        content: |
@@ -17,7 +17,7 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+         .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-model.dart
             :language: dart
 
      - id: java
