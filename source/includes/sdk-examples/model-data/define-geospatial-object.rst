@@ -4,14 +4,16 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/crud.snippet.define-model.cpp
+         .. literalinclude:: /examples/MissingPlaceholders/api.cpp
             :language: cpp
+            :copyable: false
 
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/generated/dotnet/Schemas.snippet.schema_property.cs
+         .. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.usingcustomgeopoint.cs
             :language: csharp
+            :emphasize-lines: 7
 
      - id: dart
        content: |

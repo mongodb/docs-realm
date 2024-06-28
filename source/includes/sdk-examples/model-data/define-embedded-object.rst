@@ -4,13 +4,14 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/crud.snippet.define-model.cpp
+         .. literalinclude:: /examples/generated/cpp/crud.snippet.model-with-embedded-object.cpp
             :language: cpp
+            :emphasize-lines: 7, 12
 
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/generated/dotnet/Schemas.snippet.schema_property.cs
+         .. literalinclude:: /examples/generated/dotnet/EmbeddedExamples.snippet.embedded-classes.cs
             :language: csharp
 
      - id: dart

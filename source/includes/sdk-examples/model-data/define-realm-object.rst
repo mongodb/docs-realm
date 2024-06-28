@@ -10,7 +10,7 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+         .. literalinclude:: /examples/generated/dotnet/ObjectModelsAndSchemas.snippet.dog_class.cs
             :language: csharp
 
      - id: dart

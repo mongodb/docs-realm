@@ -4,13 +4,13 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/crud.snippet.define-model.cpp
+         .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.asymmetric-object.cpp
             :language: cpp
 
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/generated/dotnet/Schemas.snippet.schema_property.cs
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
             :language: csharp
 
      - id: dart

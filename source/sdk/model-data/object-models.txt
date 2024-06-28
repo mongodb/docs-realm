@@ -42,7 +42,7 @@ Object Types and Schemas
 ------------------------
 
 Every database object has an *object type* that refers to the object's
-class. Objects of the same type share an :ref:`object schema
+class or struct. Objects of the same type share an :ref:`object schema
 <sdks-object-schema>` that defines the properties and relationships of those
 objects.
 
@@ -136,7 +136,7 @@ or establishing other special behaviors for specific fields in your object.
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      .. include:: /includes/api-details/csharp/model-data/object-models-object-model-description.rst
       
    .. tab::
       :tabid: dart
@@ -199,7 +199,7 @@ abstract away the process of creating a schema.
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      .. include:: /includes/api-details/csharp/model-data/object-models-object-schema-description.rst
       
    .. tab::
       :tabid: dart
@@ -256,7 +256,7 @@ Define an SDK Object Model
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-sdk-object-model-description.rst
       
    .. tab::
       :tabid: dart
@@ -321,7 +321,7 @@ with geospatial data:
 Throughout the documentation, when we refer to "SDK objects" or "SDK object
 types," we refer to one of these object types.
 
-.. _sdks-embedded-objects:
+.. _sdks-realm-objects:
 
 Define a Realm Object
 ~~~~~~~~~~~~~~~~~~~~~
@@ -339,7 +339,7 @@ layer, Realm.
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-realm-object-description.rst
       
    .. tab::
       :tabid: dart
@@ -381,26 +381,236 @@ layer, Realm.
 
       .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
 
-.. include:: /includes/sdk-examples/model-data/define-object-model.rst
+.. include:: /includes/sdk-examples/model-data/define-realm-object.rst
 
 .. _sdks-embedded-objects:
 
 Define an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Placeholder for defining an embedded object, so we have a ref target to link to.
+An **embedded object** is a special type of object that models complex 
+data about a specific object. Embedded objects are similar to 
+relationships, but they provide additional constraints and
+map more naturally to the denormalized :manual:`MongoDB document model
+</core/data-modeling-introduction/>`.
+
+The SDK enforces unique ownership constraints that treat each embedded
+object as nested data inside of a single, specific parent object. An
+embedded object inherits the lifecycle of its parent object and cannot
+exist as an independent database object. The SDK automatically deletes
+embedded objects if their parent object is deleted or when overwritten
+by a new embedded object instance. This differs from a :ref:`to-one
+<sdks-to-one-relationship>` or :ref:`to-many <sdks-to-many-relationship>`
+relationship, in which the related objects have independent lifecycles.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-embedded-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-embedded-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-embedded-object.rst
+
+.. important:: Lifecycle considerations
+   
+   Because embedded objects cannot exist as objects independent of their parent
+   object, when you delete a Realm object, the SDK automatically deletes any
+   embedded objects referenced by that object. Any objects that your
+   application must persist after the deletion of their parent object
+   should use :ref:`relationships <sdks-relationships>` instead.
+   
+   Additionally, embedded objects cannot have a primary key.
 
 .. _sdks-asymmetric-objects:
 
 Define an Asymmetric Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Placeholder for defining an asymmetric object, so we have a ref target to link to.
+You can use :ref:`Data Ingest <optimize-data-ingest>` to sync an 
+object unidirectionally from your device to the database linked to your 
+Atlas App Services App.
+
+Asymmetric objects do not function in the same way as other database objects. 
+You cannot:
+
+- Remove an asymmetric object from the device database
+- Query an asymmetric object from the device database
+
+You can only create an asymmetric object, which then syncs unidirectionally 
+to the Atlas database linked to your App with Device Sync.
+
+For more information, see: :ref:`Create an Asymmetric Object 
+<sdks-create-asymmetric-object>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-asymmetric-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-asymmetric-object.rst
 
 .. _sdks-define-geospatial-object:
 
 Define a Geospatial Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To persist ``GeoPoint`` data, it must conform to the 
+`GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-geospatial-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-geospatial-object.rst
+
+.. important:: Cannot Persist Geospatial Data Types
+
+   Currently, you can only persist geospatial data. Geospatial data types
+   *cannot* be persisted directly. For example, you can't declare a property
+   that is of type ``GeoBox``. 
+   
+   These types can only be used as arguments for geospatial queries.
 
 .. _sdks-define-special-property-types:
 
