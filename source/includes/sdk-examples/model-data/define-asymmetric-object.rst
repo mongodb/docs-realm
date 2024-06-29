@@ -54,7 +54,7 @@
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
+         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.asymmetric-model.swift
             :language: swift
 
      - id: typescript

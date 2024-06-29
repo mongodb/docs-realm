@@ -55,8 +55,9 @@
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
+         .. literalinclude:: /examples/generated/code/start/Geospatial.snippet.custom-geopoint.swift
             :language: swift
+            :emphasize-lines: 2-3
 
      - id: typescript
        content: |

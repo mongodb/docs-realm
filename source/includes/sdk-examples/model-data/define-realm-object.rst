@@ -51,13 +51,13 @@
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.m
+         .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.define-a-model.m
             :language: objectivec
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
+         .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.define-a-model.swift
             :language: swift
 
      - id: typescript

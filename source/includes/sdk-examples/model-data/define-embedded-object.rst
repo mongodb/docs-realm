@@ -46,13 +46,13 @@
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.m
+         .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.m
             :language: objectivec
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
+         .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.embedded-object-models.swift
             :language: swift
 
      - id: typescript
