@@ -18,8 +18,7 @@ classes.
 .. literalinclude:: /examples/generated/dotnet/ObjectModelsAndSchemas.snippet.dog_class.cs
    :language: csharp
 
-Customize the Object Schema (Optional)
-``````````````````````````````````````
+**Customize the Object Schema (Optional)**
 
 You can use the
 :dotnet-sdk:`Schema <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_Schema>` 
