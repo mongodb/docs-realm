@@ -1,1 +1,1 @@
-part 'schemas.realm.dart';
+part 'modelFile.realm.dart';
