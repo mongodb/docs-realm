@@ -3,6 +3,9 @@
 ## Flutter SDK
 
 - Logging: Update content and code examples to use the newer Logger.
+- Internal
+  - Update Flutter SDK test suite to match latest `realm_dart` version.
+  - Fix Flutter SDK tests and regenerate code snippets.
 
 ## Swift SDK
 
@@ -13,9 +16,6 @@
 
 - Example Projects: Add Airbnb project to table as "Searchable Offline Collection".
 - Throughout the SDK docs: Fixed "the the" typo and added meta data.
-- Internal
-  - Update Flutter SDK test suite to match latest `realm_dart` version.
-  - Fix tests and regenerate code snippets.
 
 # June 21, 2024
 
