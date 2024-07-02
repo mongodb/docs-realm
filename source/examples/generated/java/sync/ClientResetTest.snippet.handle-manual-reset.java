@@ -40,7 +40,7 @@ public void handleManualReset(App app, SyncSession session, ClientResetRequiredE
 
         Log.w("EXAMPLE", "Opened a fresh instance of the realm.");
 
-        // Open the the realm backup -- as a dynamic realm
+        // Open the realm backup -- as a dynamic realm
         // (no formal schema; access all data through field lookups)
         DynamicRealm backupRealm = DynamicRealm.getInstance(error.getBackupRealmConfiguration());
         Log.w("EXAMPLE", "Opened the backup realm.");

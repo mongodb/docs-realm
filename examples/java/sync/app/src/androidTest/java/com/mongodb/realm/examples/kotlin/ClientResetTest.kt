@@ -265,7 +265,7 @@ class ClientResetTest : RealmTest() {
             }
             Log.w("EXAMPLE", "Opened a fresh instance of the realm.")
 
-            // Open the the realm backup -- as a dynamic realm
+            // Open the realm backup -- as a dynamic realm
             // (no formal schema; access all data through field lookups)
             val backupRealm =
                 DynamicRealm.getInstance(error.backupRealmConfiguration)

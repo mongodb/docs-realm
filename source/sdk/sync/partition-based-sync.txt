@@ -1,0 +1,202 @@
+.. _sdks-partition-based-sync:
+
+====================
+Partition-Based Sync
+====================
+
+.. meta::
+   :description: Learn how to migrate a Partition-Based Sync app to Flexible Sync, or open a database for Partition-Based Sync.
+   :keywords: Realm, .NET SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: csharp, java, javascript/typescript, kotlin, objective-c, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+Partition-Based Sync is a legacy mode for using Atlas Device Sync with Atlas
+Device SDK. You can no longer create new Partition-Based Sync apps. All of the
+Device Sync-related content on other pages in the SDK docs assume your app
+uses the default Sync mode, Flexible Sync.
+
+This page covers how to migrate a Partition-Based Sync app to a Flexible Sync
+app. For apps that still use Partition-Based Sync, this page also has details
+for opening a database with Partition-Based Sync.
+
+.. tip:: C++ and Flutter SDKs Do Not Support Partition-Based Sync
+
+   The examples on this page do not include details for C++ or Dart because
+   the C++ and Flutter SDKs have never supported Partition-Based Sync.
+
+.. _sdks-migrate-pbs-to-fs:
+
+Migrate from Partition-Based Sync to Flexible Sync
+--------------------------------------------------
+
+You can migrate your app from Partition-Based Sync mode
+to Flexible Sync. Migrating is an automatic process that does not require 
+any changes to your application code. Automatic migration requires 
+the following minimum SDK versions:
+
+- .NET SDK v11.1.0 and later
+- Java SDK v10.16.0 and later
+- Kotlin SDK v1.9.0 and later
+- Node.js SDK v11.10.0 and later
+- Swift SDK v10.40.0 and later
+
+Migrating enables you to keep your existing App Services users and 
+authentication configuration. Flexible Sync provides more versatile permissions
+configuration options and more granular data synchronization.
+
+For more information about how to migrate your App Services App from 
+Partition-Based Sync to Flexible Sync mode, refer to :ref:`Migrate Device Sync Modes 
+<realm-sync-migrate-modes>` in the App Services documentation.
+
+.. _sdks-update-client-code-after-pbs-to-fs-migration:
+
+Update Client Code After Migration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The automatic migration from Partition-Based Sync to Flexible Sync does not
+require any changes to your client code. However, to support this 
+functionality, the SDK automatically handles the differences between the two 
+Sync Modes by:
+
+- Automatically creating Sync subscriptions for each object type 
+  where ``partitionKey == partitionValue``.
+- Injecting a ``partitionKey`` field into every object if one does not already 
+  exist. This is required for the automatic Sync subscription.
+
+If you need to make updates to your client code after migration, consider 
+updating your client codebase to remove this hidden migration functionality.
+
+You might want update your client codebase when:
+
+- You add a new model or change a model in your client codebase.
+- You add or change functionality that involves reading or writing SDK objects.
+- You want to implement more fine-grained control over what data you sync.
+
+Convert Partition-Based Sync Client Code to Use Flexible Sync
+`````````````````````````````````````````````````````````````
+
+Make these changes to convert your Partition-Based Sync client code to use 
+Flexible Sync:
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/pbs-update-client-code-after-migration-procedure.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/pbs-update-client-code-after-migration-procedure.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/pbs-update-client-code-after-migration-procedure.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/pbs-update-client-code-after-migration-procedure.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/pbs-update-client-code-after-migration-procedure.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/pbs-update-client-code-after-migration-procedure.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/pbs-update-client-code-after-migration-procedure.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/pbs-update-client-code-after-migration-procedure.rst
+
+For examples of Flexible Sync permissions strategies, including examples of 
+how to model data for these strategies, refer to the :ref:`flexible-sync-permissions-guide`
+in the App Services documentation.
+
+.. _sdks-pbs-open-synced-database:
+
+Open a Synced Database with Partition-Based Sync
+------------------------------------------------
+
+You can open a synced database for Partition-Based Sync by passing the
+appropriate partition value in the Sync configuration.
+
+.. tip:: Partition Value
+
+   For App Services Apps that use Partition-Based Sync, your client
+   implementation must include a partition value. This is the value of the
+   :ref:`partition key <partition-key>` field in the Partition-Based Sync
+   configuration. 
+
+   The partition value determines which data the client application can access.
+
+   You pass in the partition value when you open a synced database.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/pbs-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/pbs-open-synced-database-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/pbs-open-synced-database-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/pbs-open-synced-database-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/pbs-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/sync/pbs-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/pbs-open-synced-database-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/pbs-open-synced-database-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/pbs-open-synced-database.rst

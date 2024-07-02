@@ -208,7 +208,7 @@ but replaces the array value with the array element in each copy.
 
    #. Use ``$group`` stage with ``$addToSet`` to create new documents
       for each ``type`` with a new field ``colors`` that contains an array 
-      of all the the colors for that flower type that occur in the collection.
+      of all the colors for that flower type that occur in the collection.
    #. Use ``$unwind`` stage to create separate documents for each combination of 
       type and color.
    #. Use ``$sort`` stage to sort the results in alphabetical order.

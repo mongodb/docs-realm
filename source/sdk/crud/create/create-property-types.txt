@@ -1,0 +1,764 @@
+.. _sdks-create-specific-property-types:
+
+==============================
+Create Specific Property Types
+==============================
+
+.. meta::
+   :description: Learn how to create specific property types with Atlas Device SDK.
+   :keywords: Realm, C++ SDK, Flutter SDK, .NET SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+This page describes how to create specific property types, including:
+
+- Special SDK-specific types, such as counters or mixed data types
+- Collection property types, such as lists, sets, and maps
+- Relationship property types, including to-one, to-many, and inverse
+  relationships
+
+To learn more about how to define these property types in the object model,
+refer to :ref:`sdks-object-models`.
+
+For information about how to create specific types of objects, refer to 
+:ref:`sdks-create-specific-object-types`.
+
+For information about write transactions and the methods you can use to create
+objects, refer to :ref:`sdks-crud-create`.
+
+.. _sdks-create-special-property-types:
+
+Create Special Properties
+-------------------------
+
+Depending on how you define your object type, you might have properties 
+that are special SDK-specific types. These may be custom data types, or
+familiar language types that have specific requirements or limitations when
+used with Atlas Device SDK.
+
+.. _sdks-create-mixed-property-type:
+
+Create a Generic (Mixed) Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK provides a generic mixed property type that could contain a
+number of property types. It's the closest analog to a polymorphic data type
+that the SDK provides.
+
+For a list of the value types that a mixed property can hold, refer to
+:ref:`sdks-mixed-data-type`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-mixed-property-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-mixed-property-type-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-mixed-property-type.rst
+
+.. _sdks-create-counter-property-type:
+
+Create a Counter Property
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Some of the SDKs provide a special property type that you can use as a logical
+counter.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-counter-property-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-counter-property-type-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-counter-property-type-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-counter-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-counter-property-type-not-supported.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-counter-property-type-not-supported.rst
+
+.. include:: /includes/sdk-examples/crud/create-counter-property-type.rst
+
+.. _sdks-create-timestamp-property-type:
+
+Create a Timestamp Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-timestamp-property-type-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-timestamp-property-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-timestamp-property-type-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-timestamp-property-type-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-timestamp-property-type-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-timestamp-property-type-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-timestamp-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-timestamp-property-type-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-timestamp-property-type-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-timestamp-property-type-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-timestamp-property-type.rst
+
+.. _sdks-create-object-id-property-type:
+
+Create an Object ID Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-object-id-property-type-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-object-id-property-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-object-id-property-type-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-object-id-property-type-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-object-id-property-type-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-object-id-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-object-id-property-type-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-object-id-property-type.rst
+
+.. _sdks-create-uuid-property-type:
+
+Create a UUID Property
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-uuid-property-type-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-uuid-property-type-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-uuid-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-uuid-property-type-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-uuid-property-type.rst
+
+.. _sdks-create-collection-property-types:
+
+Create Collection Properties
+----------------------------
+
+The SDK provides the following collection type properties:
+
+- List
+- Set
+- Map
+
+Collections are mutable within a write transaction.
+
+.. tip:: Listen for Changes to a Created Collection
+   
+   After you create a collection, you can register a notification handler to 
+   listen for changes. For more information, refer to  
+   :ref:`<sdks-collection-change-listener>`.
+
+.. _sdks-create-list-properties:
+
+Create List Properties
+~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK's list data type is a container that holds a collection of primitive
+values or objects. These values may be of any supported type except another
+collection.
+
+The SDK uses the List container type to define to-many relationships. A
+**to-many** relationship means that an object is related in a specific
+way to multiple objects.
+
+For a list of the value types that a list property can hold, refer to 
+:ref:`<sdks-list-property-types>`. 
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-list-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-list-property-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-mixed-property-type-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-list-property.rst
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+   .. tab::
+      :tabid: dart
+
+      .. _flutter-create-Uint8List-property-type:
+
+      Create a Uint8List Property Type (Dart)
+      ```````````````````````````````````````
+
+      The Flutter SDK provides a ``Uint8List`` from Dart. For more details about
+      defining a ``Uint8List`` type, refer to 
+      :ref:`dart-define-uint8list-property-type`.
+
+      To add ``Uint8List`` to a Realm object, call ``Uint8List.fromList()`` on the data.
+
+      .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.binary-from-list.dart
+         :language: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. _sdks-create-set-properties:
+
+Create Set Properties
+~~~~~~~~~~~~~~~~~~~~~
+
+Like their native counterparts, the SDK's set data type stores unique values.
+These values may be a Realm object or one of the supported data types.
+It cannot be another collection, an embedded object, or an asymmetric object.
+
+The SDK uses the Set container type to define to-many relationships. A
+**to-many** relationship means that an object is related in a specific
+way to multiple objects.
+
+For a list of the value types that a set property can hold, refer to 
+:ref:`<sdks-set-property-types>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-set-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-mixed-property-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-set-properties-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/create-set-properties-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-set-property.rst
+
+.. _sdks-create-dictionary-properties:
+
+Create Dictionary Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK supports a dictionary (map) property type. Dictionary keys must be
+strings, but values can be any of the supported value types. For a list of the
+value types that a dictionary property can hold, refer to 
+:ref:`<sdks-dictionary-property-types>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-dictionary-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-dictionary-property-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-dictionary-property-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-dictionary-property-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-dictionary-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-dictionary-property-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/create-dictionary-property-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-dictionary-property.rst
+
+.. _sdks-create-relationship-property-types:
+
+Create Relationship Properties
+------------------------------
+
+When you have a property whose type references another SDK object, this creates
+a relationship between the objects. This can be a to-one, to-many, or
+inverse relationship. For more information about relationships, refer to
+:ref:`sdks-relationships`.
+
+.. _sdks-create-to-one-relationship:
+
+Create a To-One Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a new object instance with a 
+:ref:`to-one relationship <sdks-to-one-relationship>`
+property, instantiate both objects and pass the referenced object to the
+relationship property. 
+
+You can optionally create an inverse relationship to refer to the main object
+from the related object. For more information, refer to the  
+:ref:`sdks-create-object-with-inverse-relationship` section on this page.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-to-one-relationship-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-to-one-relationship-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-to-one-relationship.rst
+
+.. _sdks-create-to-many-relationship:
+
+Create a To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a new object instance with a 
+:ref:`to-many relationship <sdks-to-many-relationship>`
+property, instantiate all objects and pass any referenced objects to the
+relationship collection property.
+
+You may use a List or a Set to represent a to-many relationship, depending
+on whether you require the values to be unique, or whether you want to use any
+of the special collection type methods.
+
+You can optionally create an inverse relationship to refer to the main object
+from the related object. For more information, refer to the 
+:ref:`sdks-create-object-with-inverse-relationship` section on this page.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-to-many-relationship-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-to-many-relationship-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-to-many-relationship.rst
+
+.. _sdks-create-object-with-inverse-relationship:
+
+Create an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a new object instance with an 
+:ref:`inverse relationship <sdks-inverse-relationship>`
+property, instantiate the parent object and pass any referenced child
+objects to the inverse relationship property. 
+
+After you create an object that has an inverse relationship, you can access
+the inverse relationship property to get the child objects. However, you
+*cannot* directly modify the backlink itself. For more information, refer to 
+:ref:`<sdks-update-inverse-relationships>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-to-many-relationship-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-to-many-relationship-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/crud/create-inverse-relationship.rst

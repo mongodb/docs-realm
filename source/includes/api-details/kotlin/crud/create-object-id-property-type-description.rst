@@ -1,0 +1,1 @@
+You can initialize an ``ObjectId`` using ``ObjectId()``.

@@ -1,0 +1,148 @@
+.. _sdks-manage-user-tokens:
+
+==================
+Manage User Tokens
+==================
+
+.. meta::
+   :description: Learn how to manage user access tokens and refresh tokens when performing operations outside of Atlas Device SDK.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+The SDK manages two types of user tokens:
+
+- **User access token**: a token sent with each request to Atlas. Without a
+  valid access token, the app can't perform server-related functionality on the
+  user's behalf.
+- **Refresh token**: a token used to refresh the access token. The SDK uses
+  this to automatically rotate the access token, up to the period when the
+  refresh token expires.
+
+Once the refresh token expires, the app can't perform operations that involve
+the server until the user logs in again.
+
+Tokens are removed after the user logs out.
+
+.. important:: The SDK Automatically Handles User Access Tokens for Most Functionality
+
+   The SDK automatically handles user access tokens for operations that it
+   performs, such as calling a Function or syncing the device database. It
+   sends the access token with each request, and automatically handles
+   refreshing it. When a refresh token expires, your app code must redirect
+   users to login again.
+
+   If you send requests outside of the SDK, you must include the user's access
+   token with each request and manually refresh the token when it expires.
+   You must manually manage this token when calling :ref:`data-api` endpoints
+   from your client code, for example.
+
+For more information on user session access and refresh tokens, 
+refer to :ref:`user-sessions` in the App Services documentation.
+
+Get a User Access Token
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Access tokens expire 30 minutes after a user logs in. 
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/manage-user-tokens-get-user-access-token-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/manage-user-tokens-get-user-access-token-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/manage-user-tokens-get-user-access-token-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/manage-user-tokens-get-user-access-token-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/users/manage-user-tokens-get-user-access-token.rst
+
+Manually Refresh an Access Token
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can manually refresh an expired access token.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/manage-user-tokens-manually-refresh-access-token-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/manage-user-tokens-manually-refresh-access-token-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/manage-user-tokens-manually-refresh-access-token-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/manage-user-tokens-manually-refresh-access-token-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/users/manage-user-tokens-manually-refresh-access-token.rst
+
+Configure Refresh Token Expiration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/refresh-token-expiry.rst
