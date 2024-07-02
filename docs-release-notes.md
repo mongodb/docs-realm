@@ -1,3 +1,22 @@
+# June 28, 2024
+
+## Flutter SDK
+
+- Logging: Update content and code examples to use the newer Logger.
+- Internal
+  - Update Flutter SDK test suite to match latest `realm_dart` version.
+  - Fix Flutter SDK tests and regenerate code snippets.
+
+## Swift SDK
+
+- Model Data/Define an Object Model: Correct the SDK version number specified for "Model Unstructured Data" section.
+- Model Data/Supported Types: Correct the SDK version number specified for "RealmAny" section.
+
+## Other
+
+- Example Projects: Add Airbnb project to table as "Searchable Offline Collection".
+- Throughout the SDK docs: Fixed "the the" typo and added meta data.
+
 # June 21, 2024
 
 ## Kotlin SDK
