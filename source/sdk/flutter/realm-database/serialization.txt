@@ -24,11 +24,11 @@ Serialization allows for easier integration with MongoDB APIs.
 Supported Data Types for Serialization
 --------------------------------------
 
-Flutter SDK supports the following data types:
+The Flutter SDK supports serialization of the following data types:
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 30 40
+   :widths: 25 25 50
 
    * - Realm Data Type
      - BSON Data Type
@@ -96,8 +96,8 @@ see :manual:`BSON Data Types and Associated Representations </reference/mongodb-
 The SDK does not currently support the following types: Code, 
 CodeWScope, DBPointer, DBRef, Regular Expression, and Timestamp. 
 
-Object Model for Serialization
-------------------------------
+Serialize Realm Objects
+-----------------------
 
 Full-document encoding enables you to serialize and deserialize user-defined 
 classes. You can create your object model as you normally would. The RealmObject class
@@ -108,8 +108,8 @@ object model will be used in the following examples:
 .. literalinclude:: /examples/generated/flutter/pet.snippet.serialize-object-model.dart
     :language: dart
 
-Serialization
--------------
+Serialize to EJSON
+------------------
 
 For objects based on ``RealmObject`` classes, you can serialize to EJSON using the 
 :flutter-sdk:`toEjson() <realm/toEJson.html>` method in the following two ways: 
@@ -129,8 +129,8 @@ For objects based on ``RealmObject`` classes, you can serialize to EJSON using t
             price: null
         }
 
-Deserialization
----------------
+Deserialize from EJSON
+----------------------
 
 Deserialize from EJSON using the :flutter-sdk:`fromEjson() <realm/fromEJson.html>`
 method. The method takes EJSON for a specified object type as input and outputs 
@@ -141,8 +141,8 @@ The following example deserializes ``serializeByParam`` from the previous exampl
 .. literalinclude:: /examples/generated/flutter/serialization_test.snippet.deserialize.dart
     :language: dart
 
-Custom Encoders
----------------
+Serialize Non-Realm Objects
+---------------------------
 
 For non-Realm classes, you can use the ``@ejson`` annotation on the class constructor
 to generate a decoder and encoder:
@@ -150,4 +150,8 @@ to generate a decoder and encoder:
 .. literalinclude:: /examples/generated/flutter/person.snippet.ejson-annotation.dart
     :language: dart
 
-Alternatively, you can :flutter-sdk:`register <realm/register.html>` custom EJSON encoders and decoders.
+Register Custom Codecs
+----------------------
+
+The SDK also supports custom EJSON codecs. To use them in your app, :flutter-sdk:`register <realm/register.html>` 
+the custom EJSON encoder and decoder for the specified type.
