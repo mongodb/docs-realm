@@ -51,8 +51,6 @@ export const GuideManager = ({totalSteps, title}: GuideManagerProps) => {
       <Text>{title} Guide</Text>
 
       <UserProvider fallback={<LoginManager apiKey={apiKey} />}>
-        {/* TODO: add a step tracker */}
-
         {renderComponentByIndex(currentStep)}
       </UserProvider>
 

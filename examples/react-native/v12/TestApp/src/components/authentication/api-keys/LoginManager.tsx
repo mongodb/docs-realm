@@ -4,10 +4,6 @@ import {useAuth, useEmailPasswordAuth} from '@realm/react';
 
 import {LoginManagerProps, RegisterButtonProps} from '../../types';
 
-const delay = async (duration: number) => {
-  await new Promise(r => setTimeout(r, duration));
-};
-
 export const LoginManager = ({apiKey}: LoginManagerProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,14 +15,12 @@ export const LoginManager = ({apiKey}: LoginManagerProps) => {
     logIn({email, password});
   };
 
-  const loginApiKeyUser = () => {
-    console.log('>>>> Log in with API key: ', performance.now());
+  const loginApiKeyUser = async () => {
     try {
       logInWithApiKey(apiKey!.key);
     } catch (error) {
       console.log(error);
     }
-    console.log('>>>> Logged in: ', performance.now());
   };
 
   return (

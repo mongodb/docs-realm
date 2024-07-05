@@ -162,20 +162,25 @@ describe('Test user API key guide', () => {
       Log out email/password. Log in API key user.
     */
 
-    user.press(logoutButton);
+    await user.press(logoutButton);
     await delay(500);
 
     const apiLoginButton = await screen.findByTestId('login-api-key-button');
 
-    console.log('||| Before login press: ', performance.now());
-    user.press(apiLoginButton);
-    await delay(1500);
+    try {
+      await user.press(apiLoginButton);
+    } catch (error) {
+      console.error(error);
+    }
+    await delay(500);
 
     // Use `result` info from `useAuth()` to determine login success
     authOperationNode = await screen.findByTestId('auth-operation');
     expect(authOperationNode.children[1]).toBe('logInWithApiKey');
     authStatusNode = await screen.findByTestId('auth-status');
     expect(authStatusNode.children[1]).toBe('success');
-    console.log('||| After login press: ', performance.now());
+
+    await user.press(logoutButton);
+    await delay(500);
   });
 });

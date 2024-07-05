@@ -8,6 +8,7 @@ export const Step1 = ({currentStep, apiKey, setApiKey}: StepProps) => {
   const user = useUser();
 
   const [apiKeyName, setApiKeyName] = useState('');
+  const [createKeyError, setCreateKeyError] = useState(false);
 
   // This useEffect runs once every time the component is rendered. Deletes all
   // existing api keys for the current user.
@@ -30,14 +31,24 @@ export const Step1 = ({currentStep, apiKey, setApiKey}: StepProps) => {
   }, []);
 
   const createUserApiKey = async () => {
-    const {_id, key, name, disabled} = await user?.apiKeys.create(apiKeyName);
+    try {
+      const {_id, key, name, disabled} = await user?.apiKeys.create(apiKeyName);
+      setApiKey({_id, key, name, disabled});
 
-    setApiKey({_id, key, name, disabled});
+      if (createKeyError) {
+        setCreateKeyError(false);
+      }
+    } catch (error) {
+      setCreateKeyError(true);
+    }
   };
 
   return (
     <View>
       <Text>Step {currentStep + 1}: Create a user API Key</Text>
+
+      {createKeyError && <Text>Couldn't create the API key.</Text>}
+
       <View>
         {apiKey ? (
           <View>
