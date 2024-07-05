@@ -14,6 +14,7 @@ test('linking an anonymous user with an email/password account', async () => {
   // Log in anonymous user in the fallback "Login" component.
   const loginButton = await screen.findByTestId('log-in');
   await user.press(loginButton);
+  await new Promise(r => setTimeout(r, 500));
 
   // LinkIdentities component should render.
   const emailInput = await screen.findByTestId('email-input');
@@ -22,9 +23,8 @@ test('linking an anonymous user with an email/password account', async () => {
   const deleteUser = await screen.findByTestId('delete-user');
 
   const userIdentityList = await screen.findByTestId('list-container');
-  const userIdentityNodes = await within(userIdentityList).findAllByTestId(
-    'user-identity',
-  );
+  const userIdentityNodes =
+    await within(userIdentityList).findAllByTestId('user-identity');
 
   // There should only be one identity: the anonymous login.
   expect(userIdentityNodes.length).toEqual(1);
