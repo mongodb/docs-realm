@@ -46,8 +46,7 @@ You **cannot** create a user API key for a :ref:`server API key
 <api-key-authentication-server-api-key>`  or an :ref:`anonymous user
 <anonymous-authentication>`.
 
-.. literalinclude:: /examples/generated/react-native/v12/Step1.snippet.create-user-api-key.tsx.rst
-   :language: typescript
+.. include:: /examples/generated/react-native/v12/Step1.snippet.create-user-api-key.tsx.rst
 
 .. _react-native-look-up-a-user-api-key:
 
@@ -60,8 +59,7 @@ To get an array that lists all of a user's API keys, call
 To find a specific API key, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.fetch() <classes/Realm.Auth.ApiKeyAuth.html#fetch>`.
 
-.. literalinclude:: /examples/generated/react-native/v12/Step2.snippet.look-up-user-api-key.tsx.rst
-   :language: javascript
+.. include:: /examples/generated/react-native/v12/Step2.snippet.look-up-user-api-key.tsx.rst
 
 .. _react-native-enable-or-disable-a-user-api-key:
 
@@ -73,11 +71,9 @@ To enable or disable a user API key, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.disable() <classes/Realm.Auth.ApiKeyAuth.html#disable>`. When a key
 is disabled, it cannot be used to log in on behalf of the user.
 
-.. literalinclude:: /examples/generated/react-native/v12/Step2.snippet.api-key-enable.tsx.rst
-   :language: typescript
+.. include:: /examples/generated/react-native/v12/Step2.snippet.api-key-enable.tsx.rst
 
-.. literalinclude:: /examples/generated/react-native/v12/Step2.snippet.api-key-disable.tsx.rst
-   :language: typescript
+.. include:: /examples/generated/react-native/v12/Step2.snippet.api-key-disable.tsx.rst
 
 .. _react-native-delete-a-user-api-key:
 
@@ -88,5 +84,4 @@ To permanently delete a user API, pass the key's ``_id`` to
 :js-sdk:`ApiKeyAuth.delete() <classes/Realm.Auth.ApiKeyAuth.html#delete>`. Deleted keys
 cannot be recovered.
 
-.. literalinclude:: /examples/generated/react-native/v12/Step2.snippet.api-key-delete.tsx.rst
-   :language: typescript
+.. include:: /examples/generated/react-native/v12/Step2.snippet.api-key-delete.tsx.rst
