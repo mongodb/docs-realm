@@ -1,14 +1,29 @@
+// :snippet-start: user-api-key-imports
+import {useUser} from '@realm/react';
+// :snippet-end:
+
 import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
-import {useUser} from '@realm/react';
 
 import {StepProps} from '../../../types';
 
 export const Step1 = ({currentStep, apiKey, setApiKey}: StepProps) => {
+  const [apiKeyName, setApiKeyName] = useState('');
+
+  // :snippet-start: user-api-key
   const user = useUser();
 
-  const [apiKeyName, setApiKeyName] = useState('');
-  const [createKeyError, setCreateKeyError] = useState(false);
+  const createUserApiKey = async () => {
+    // :snippet-start: create-user-api-key
+    const {_id, key, name, disabled} = await user?.apiKeys.create(apiKeyName);
+    // :snippet-end:
+
+    // ...Do something with API key like save it
+    // or share it with external service that authenticates
+    // on user's behalf.
+    setApiKey({_id, key, name, disabled}); // :remove:
+  };
+  // :snippet-end:
 
   // This useEffect runs once every time the component is rendered. Deletes all
   // existing api keys for the current user.
@@ -30,24 +45,9 @@ export const Step1 = ({currentStep, apiKey, setApiKey}: StepProps) => {
     setApiKey(undefined);
   }, []);
 
-  const createUserApiKey = async () => {
-    try {
-      const {_id, key, name, disabled} = await user?.apiKeys.create(apiKeyName);
-      setApiKey({_id, key, name, disabled});
-
-      if (createKeyError) {
-        setCreateKeyError(false);
-      }
-    } catch (error) {
-      setCreateKeyError(true);
-    }
-  };
-
   return (
     <View>
       <Text>Step {currentStep + 1}: Create a user API Key</Text>
-
-      {createKeyError && <Text>Couldn't create the API key.</Text>}
 
       <View>
         {apiKey ? (

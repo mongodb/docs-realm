@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
 import {useAuth, useEmailPasswordAuth} from '@realm/react';
 
-import {LoginManagerProps, RegisterButtonProps} from '../../types';
+import {ApiKey, LoginManagerProps, RegisterButtonProps} from '../../types';
 
 export const LoginManager = ({apiKey}: LoginManagerProps) => {
   const [email, setEmail] = useState('');
@@ -15,13 +15,15 @@ export const LoginManager = ({apiKey}: LoginManagerProps) => {
     logIn({email, password});
   };
 
-  const loginApiKeyUser = async () => {
+  // :snippet-start: api-key-login
+  const loginApiKeyUser = async (apiKey: ApiKey) => {
     try {
       logInWithApiKey(apiKey!.key);
     } catch (error) {
       console.log(error);
     }
   };
+  // :snippet-end:
 
   return (
     <View>
@@ -35,7 +37,9 @@ export const LoginManager = ({apiKey}: LoginManagerProps) => {
             <Pressable
               testID="login-api-key-button"
               style={styles.button}
-              onPress={loginApiKeyUser}>
+              onPress={() => {
+                loginApiKeyUser(apiKey);
+              }}>
               <Text style={styles.buttonText}>Log in with API key</Text>
             </Pressable>
           </View>

@@ -12,7 +12,9 @@ export const Step2 = ({currentStep, apiKey, setApiKey}: StepProps) => {
   const [cloudKeyDeleted, setCloudKeyDeleted] = useState(false);
 
   const deleteUserApiKey = async () => {
+    // :snippet-start: api-key-delete
     await user!.apiKeys.delete(cloudApiKey!._id);
+    // :snippet-end:
 
     setApiKey(undefined);
     setCloudApiKey(undefined);
@@ -20,22 +22,31 @@ export const Step2 = ({currentStep, apiKey, setApiKey}: StepProps) => {
   };
 
   const disableUserApiKey = async () => {
+    // :snippet-start: api-key-disable
     await user!.apiKeys.disable(cloudApiKey!._id);
+    // :snippet-end:
 
     await getUserApiKey();
   };
 
   const enableUserApiKey = async () => {
+    // :snippet-start: api-key-enable
     await user!.apiKeys.enable(cloudApiKey!._id);
+    // :snippet-end:
 
     await getUserApiKey();
   };
 
+  // :snippet-start: look-up-user-api-key
   const getUserApiKey = async () => {
+    // List all of a user's keys
+    const keys = await user.apiKeys.fetchAll();
+    // Get a specific key by its ID
     const key = await user!.apiKeys.fetch(apiKey!._id);
 
     setCloudApiKey(key);
   };
+  // :snippet-end:
 
   if (cloudKeyDeleted) {
     return <Text testID="delete-result">API key successfully deleted!</Text>;
