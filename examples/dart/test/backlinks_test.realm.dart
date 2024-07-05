@@ -43,6 +43,10 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<User>(this);
 
   @override
+  Stream<RealmObjectChanges<User>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<User>(this, keyPaths);
+
+  @override
   User freeze() => RealmObjectBase.freezeObject<User>(this);
 
   EJsonValue toEJson() {
@@ -132,6 +136,10 @@ class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Task>(this);
 
   @override
+  Stream<RealmObjectChanges<Task>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Task>(this, keyPaths);
+
+  @override
   Task freeze() => RealmObjectBase.freezeObject<Task>(this);
 
   EJsonValue toEJson() {
@@ -139,7 +147,6 @@ class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
       'id': id.toEJson(),
       'description': description.toEJson(),
       'isComplete': isComplete.toEJson(),
-      'linkedUser': linkedUser.toEJson(),
     };
   }
 
@@ -150,7 +157,6 @@ class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
         'id': EJsonValue id,
         'description': EJsonValue description,
         'isComplete': EJsonValue isComplete,
-        'linkedUser': EJsonValue linkedUser,
       } =>
         Task(
           fromEJson(id),

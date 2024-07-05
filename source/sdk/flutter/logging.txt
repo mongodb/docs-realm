@@ -4,11 +4,21 @@
 Logging - Flutter SDK
 =====================
 
+.. meta::
+   :description: Use Atlas Device SDK for Flutter logging to debug your app.
+   :keywords: Realm, Flutter SDK, code example
+
+.. facet::
+   :name: genre
+   :values: reference
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. versionchanged:: v2.0.0
 
 You can set or change your app's log level when developing or debugging 
 your application. You might want to change the log level to log different 
@@ -17,10 +27,8 @@ different log levels or custom loggers on a per-isolate basis.
 
 .. seealso::
 
-   This page shows how to set a Realm logger, which was added
-   in Realm Flutter SDK v1.1.0. This supersedes setting the Sync client 
-   log level in earlier versions of the Realm Flutter SDK. For information 
-   on how to set the Sync client log level in an earlier version, refer to
+   This page shows how to set a Realm logger. For information on how to set the
+   Sync client log level in an earlier version, refer to
    :ref:`flutter-client-log-level`.
 
 .. _flutter-set-the-client-log-level:
@@ -28,18 +36,16 @@ different log levels or custom loggers on a per-isolate basis.
 Set or Change the Realm Log Level
 ---------------------------------
 
-You can set the level of detail reported by the Realm Flutter SDK on a 
-per-isolate basis. To configure the log level, set the static property 
-:flutter-sdk:`Realm.logger.level <realm/Realm/logger.html>`
-to one of the constants provided by 
-:flutter-sdk:`RealmLogLevel <realm/RealmLogLevel-class.html#constants>`.
+In the Flutter SDK, you can set the level of detail in different parts of
+your app. To configure the log level, pass a valid
+:flutter-sdk:`LogLevel <realm/LogLevel.html>` value to
+:flutter-sdk:`setLogLevel <realm/RealmLogger/setLogLevel.html>`.
 
 .. literalinclude:: /examples/generated/flutter/logger.snippet.set-the-log-level.dart
    :language: dart
 
-You can set different log levels for different isolates, or change the log 
-level to increase or decrease verbosity at different points in your code.
-This behavior differs from the deprecated 
+You can change the log level to increase or decrease verbosity at different
+points in your code. This behavior differs from the deprecated 
 :ref:`sync client log level <flutter-client-log-level>`, which had to be set
 before opening a synced realm and could not be changed.
 
@@ -51,46 +57,26 @@ before opening a synced realm and could not be changed.
 Customize the Logger
 --------------------
 
-The Realm Flutter SDK can use a custom logger that conforms to the `Dart
-Logger class <https://pub.dev/documentation/logging/latest/logging/Logger-class.html>`__.
+The Flutter SDK logger conforms to the `Dart Logger class 
+<https://pub.dev/documentation/logging/latest/logging/Logger-class.html>`__.
 
-To set a custom logger, create a ``Logger`` and set it using the
-:flutter-sdk:`Realm.logger <realm/Realm/logger.html>` static
-property from the first isolate:
+To get started, set a log level:
 
 .. literalinclude:: /examples/generated/flutter/logger.snippet.set-custom-logger.dart
    :language: dart
 
-This sets the logger for Realm logging in this isolate.
-If you do not provide a logger, the isolate gets a logger instance by 
-default. You can attach to listen to the default logger using 
-``Realm.logger.onRecord.listen``:
+Define custom logging behavior by listening to :flutter-sdk:`Realm.logger.onRecord 
+<realm/RealmLogger/onRecord.html>`:
 
 .. literalinclude:: /examples/generated/flutter/logger.snippet.attach-to-logger.dart
    :language: dart
-
-Only the first isolate that is using Realm prints the log messages. Any new 
-spawned isolates that work with Realm get a new ``Realm.logger`` instance, 
-but do not ``print`` by default.
-
-The default log level is :flutter-sdk:`RealmLogLevel.info 
-<realm/RealmLogLevel/info-constant.html>`. You can change the log level 
-per-isolate.
 
 .. _flutter-turn-off-logging:
 
 Turn Off Logging
 ----------------
 
-You can turn off logging by setting the log level to ``RealmLogLevel.off``:
+You can turn off logging by passing ``LogLevel.off`` to ``setLogLevel()``:
 
 .. literalinclude:: /examples/generated/flutter/logger.snippet.set-log-level-to-off.dart
    :language: dart
-
-Or you can clear all ``Realm.logger`` listeners:
-
-.. literalinclude:: /examples/generated/flutter/logger.snippet.clear-listeners.dart
-   :language: dart
-
-If you turn off logging from the first isolate, this stops the default 
-printing logger.

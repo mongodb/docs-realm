@@ -35,8 +35,8 @@ void main() {
     realmV1.close();
   });
   late Realm realmToTearDown;
-  tearDown(() {
-    cleanUpRealm(realmToTearDown);
+  tearDown(() async {
+    await cleanUpRealm(realmToTearDown);
   });
   group("Migrations - ", () {
     test("Delete type", () {

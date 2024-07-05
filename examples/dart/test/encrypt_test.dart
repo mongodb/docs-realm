@@ -6,7 +6,7 @@ import './utils.dart';
 
 void main() {
   group("Encryption - ", () {
-    test("Open Realm with encryption key", () {
+    test("Open Realm with encryption key", () async {
       // :snippet-start: encrypt-realm
       // Generate encryption key
       final key = List<int>.generate(64, (i) => Random().nextInt(256));
@@ -19,13 +19,13 @@ void main() {
       // :snippet-end:
       expect(encryptedRealm.isClosed, isFalse);
       encryptedRealm.close();
+
       expect(
           () =>
               Realm(Configuration.local([Car.schema], path: 'encrypted.realm')),
           throwsA(predicate((e) =>
-              e is RealmException &&
-              e.message.startsWith("Error opening realm at path"))));
-      cleanUpRealm(encryptedRealm);
+              e is RealmException && e.message.startsWith("Failed to open"))));
+      await cleanUpRealm(encryptedRealm);
     });
   });
 }

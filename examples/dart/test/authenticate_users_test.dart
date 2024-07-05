@@ -86,7 +86,8 @@ void main() {
       final jwtCredentials = Credentials.jwt(token);
       final currentUser = await app.logIn(jwtCredentials);
       // :snippet-end:
-      expect(currentUser.provider, AuthProviderType.jwt);
+
+      expect(currentUser.identities[0].provider, AuthProviderType.jwt);
       // clean up
       app.deleteUser(currentUser);
     });
@@ -101,7 +102,7 @@ void main() {
       final customCredentials = Credentials.function(payload);
       final currentUser = await app.logIn(customCredentials);
       // :snippet-end:
-      expect(currentUser.provider, AuthProviderType.function);
+      expect(currentUser.identities[0].provider, AuthProviderType.function);
       // clean up
       app.deleteUser(currentUser);
     });
