@@ -43,8 +43,7 @@ export const Step2 = ({currentStep, apiKey, setApiKey}: StepProps) => {
     const keys = await user.apiKeys.fetchAll();
     // Get a specific key by its ID
     const key = await user!.apiKeys.fetch(apiKey!._id);
-
-    setCloudApiKey(key);
+    setCloudApiKey(key); // :remove:
   };
   // :snippet-end:
 
