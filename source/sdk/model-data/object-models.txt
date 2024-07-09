@@ -869,13 +869,88 @@ have a primary key named ``_id``.
 
 .. _sdks-optional-property-types:
 
-Define Optional Property Types
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Define an Optional Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Placeholder for .NET nullability info, and any other SDKs with similar
-APIs/requirements
+The SDK supports defining optional properties. The SDK uses language-specific
+idioms for handling optional model properties. The SDK considers all model
+properties required unless you designate them as optional, or ignore them.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-optional-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-optional-property-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-optional-property-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-define-optional-property-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-optional-property.rst
+
+Special Rules
+`````````````
+
+The SDK has some special rules about when things *must* be nullable, and when
+they *cannot* be nullable:
+
+- You must declare properties that are SDK object types as nullable.
+
+- You cannot declare collections (list, sets, backlinks, and dictionaries) as
+  nullable, but their parameters may be nullable according to the following rules:
+
+  - For all types of collections, if the parameters are primitives
+    (value- or reference-types), they can be required or nullable.
+
+  - For lists, sets, and backlinks, if the parameters are SDK objects, they
+    **cannot** be nullable.
+
+  - For dictionaries with a value type of an SDK object, you **must** declare
+    the value type parameter as nullable.
 
 .. _sdks-model-unstructured-data:
 
 Model Unstructured Data
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
