@@ -950,6 +950,75 @@ they *cannot* be nullable:
   - For dictionaries with a value type of an SDK object, you **must** declare
     the value type parameter as nullable.
 
+.. _sdks-ignore-property:
+
+Ignore a Property
+~~~~~~~~~~~~~~~~~
+
+You can ignore a property to avoid persisting that property's value.
+
+An ignored property behaves exactly like a managed property, except:
+
+- They aren't stored to the database
+- They can't be used in queries
+- They don't trigger notifications
+
+You can mix managed and ignored properties within a model. 
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-ignore-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-ignore-property-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-ignore-property-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-ignored-property.rst
+
 .. _sdks-model-unstructured-data:
 
 Model Unstructured Data
