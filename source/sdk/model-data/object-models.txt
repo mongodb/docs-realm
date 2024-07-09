@@ -797,18 +797,75 @@ Designate a Primary Key
 
 A **primary key** is a property that uniquely identifies an object.
 
-You may define a primary key on a **single property** for an object type.
-The SDK automatically indexes primary key properties, which allows you to
-efficiently read and modify objects based on their primary key.
+Primary keys allow you to efficiently find, update, and upsert objects.
 
-If an object type has a primary key, then all objects of that type must
-include the primary key property with a value that is unique among
-objects of the same type in the database.
+Primary keys are subject to the following limitations:
 
-.. note::
+- You can define only one primary key per object model.
+- Primary key values must be unique across all instances of an object
+  in the database. The SDK throws an error if you try to
+  insert a duplicate primary key value.
+- Primary key values are immutable. To change the primary key value of
+  an object, you must delete the original object and insert a new object
+  with a different primary key value.
+- Embedded objects cannot define a primary key.
 
-   Once you assign a property as a primary key, you cannot change it.
+If you are using :ref:`Device Sync <sdks-sync-data>`, your models must 
+have a primary key named ``_id``.
 
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-designate-primary-key-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-designate-primary-key-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-designate-primary-key-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-primary-key-property.rst
 
 .. _sdks-optional-property-types:
 
