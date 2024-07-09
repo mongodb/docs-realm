@@ -29,7 +29,7 @@
    ``RealmObject`` from the ``RealmModel``, as described in step 4.
 
    Add fields to the ``RealmModel``.
-   You can add fields of any :ref:`supported data types <sdks-supported-data-types>`.
+   You can add fields of any :ref:`supported data types <sdks-define-property-types>`.
    Include additional behavior using :ref:`special object types
    <sdks-define-models-object-types>`.
 

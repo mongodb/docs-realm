@@ -4,7 +4,7 @@ struct or class name as the first argument. Add the names of any properties
 that you want the database to persist.
 
 An ``asymmetric_object`` broadly has the same :ref:`supported types 
-<sdks-supported-data-types>` as ``realm::object``, with a few exceptions:
+<sdks-define-property-types>` as ``realm::object``, with a few exceptions:
 
 - Asymmetric objects can link to the following types:
   - ``object``
