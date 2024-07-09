@@ -610,11 +610,113 @@ To persist ``GeoPoint`` data, it must conform to the
 Define Special Property Types
 -----------------------------
 
+You can define property types that have special behavior. These property types
+provide additional functionality or constraints to these fields in your data
+model.
+
+.. _sdks-index-property:
+
+Index a Property
+~~~~~~~~~~~~~~~~
+
+When you add an index to a property, the SDK can perform equality matches and
+range-based query operations on the property much more efficiently. Without
+indexes, the SDK scans every object of its type to select the objects that
+match the given query. However, if an applicable index exists for a query, the
+SDK uses the index to limit the number of objects it must inspect.
+
+Indexes are special data structures that store a small portion of a
+database's data in an easy-to-traverse form. The index stores the value
+of a specific field ordered by the value of the field.
+
+When indexing a property, keep in mind:
+
+- Indexes can be nullable.
+- :ref:`Primary keys <sdks-primary-key>` are indexed by default.
+- You *cannot* combine standard indexes with full-text search (FTS) 
+  indexes on the same property. To create an FTS index on a property, refer to 
+  the :ref:`<sdks-fts-property>` section on this page.
+- Indexes support more efficient match and range-based query operations.
+- Indexes make insert and update operation speed slightly slower.
+
+.. note::
+
+   Adding an index speeds up queries at the cost of slightly slower write
+   times and additional storage and memory overhead. Indexes require space in
+   your database file. Adding an index to a property increases disk space
+   consumed by your database file. Each index entry is a minimum of 12 bytes.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-index-property-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-index-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-index-property-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-index-property-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-index-property.rst
+
+.. note::
+
+   When you create an index with the SDK, you are creating it in the device
+   persistence layer and not on an Atlas collection. If you need to query an
+   Atlas collection directly and want to improve performance, refer to
+   `Create, View, Drop, and Hide Indexes <https://www.mongodb.com/docs/atlas/atlas-ui/indexes/>`__.
+
 .. _sdks-fts-property:
 
 Define a Full-Text Search Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+The SDK supports Full-Text Search (FTS) on string properties. You do this by 
+
+When you query
+a FTS property, an FTS index enables searching for multiple words and phrases and
+excluding others.
 
 .. _sdks-optional-property-types:
 

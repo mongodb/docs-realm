@@ -64,4 +64,4 @@
        content: |
 
          .. literalinclude:: /examples/generated/react-native/ts/Book.snippet.ts-book-schema.ts
-            :language: javascript
+            :language: typescript

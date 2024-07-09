@@ -1,0 +1,1 @@
+The C++ SDK does not currently support indexing a property.
