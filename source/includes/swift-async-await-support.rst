@@ -1,5 +1,5 @@
-Starting with Realm Swift SDK Versions 10.15.0 and 10.16.0, many of the 
-Realm APIs support the Swift async/await syntax. Projects must 
+Starting with Swift SDK Versions 10.15.0 and 10.16.0, many of the 
+SDK's APIs support the Swift async/await syntax. Projects must 
 meet these requirements:
 
 .. list-table::
@@ -19,5 +19,5 @@ meet these requirements:
      - Swift 5.5
      - iOS 15.x
 
-If your app accesses Realm in an ``async/await`` context, mark the code 
+If your app accesses the SDK in an ``async/await`` context, mark the code 
 with ``@MainActor`` to avoid threading-related crashes.
