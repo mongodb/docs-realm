@@ -17,7 +17,7 @@
      - id: dart
        content: |
 
-         .. include:: /examples/api-details/dart/model-data/object-models-model-unstructured-data-example.rst
+         .. include:: /includes/api-details/dart/model-data/object-models-model-unstructured-data-example.rst
 
      - id: java
        content: |
