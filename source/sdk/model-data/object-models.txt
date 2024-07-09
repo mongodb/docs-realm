@@ -1019,6 +1019,63 @@ You can mix managed and ignored properties within a model.
 
 .. include:: /includes/sdk-examples/model-data/define-ignored-property.rst
 
+.. _sdks-set-default-property-value:
+
+Set a Default Value for a Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can specify a default value for a property in your data model.
+
+You cannot set a default value on a collection, except to set it to null or nil.
+Even if you set a collection to nil, collections are always initialized on
+first access, so will never be nil.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-set-default-value-for-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-set-default-value-for-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-set-default-value-for-property-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-set-default-value-for-property-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-set-default-value-for-property-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-set-default-value-for-property-description.rst
+
+.. include:: /includes/sdk-examples/model-data/define-default-value-for-property.rst
+
 .. _sdks-model-unstructured-data:
 
 Model Unstructured Data
