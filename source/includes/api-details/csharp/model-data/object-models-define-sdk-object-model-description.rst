@@ -10,7 +10,7 @@ In versions of the .NET SDK v10.18.0 and earlier, objects derive from
 :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`
 base classes. This approach to SDK model definition is still supported, but 
 does not include new features such as the :ref:`nullability annotations 
-<sdks-required-optional-property>`. These base classes will be 
+<sdks-optional-property-types>`. These base classes will be 
 deprecated in a future SDK release. You should use the interfaces for any 
 new classes that you write and should consider migrating your existing 
 classes.
