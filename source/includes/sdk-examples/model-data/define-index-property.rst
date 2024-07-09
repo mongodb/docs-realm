@@ -6,6 +6,7 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/api.cpp
             :language: cpp
+            :copyable: false
 
      - id: csharp
        content: |
@@ -61,3 +62,4 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false

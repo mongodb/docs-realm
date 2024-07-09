@@ -26,12 +26,14 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/api.java
             :language: java
+            :copyable: false
 
      - id: java-kotlin
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.kt
             :language: kotlin
+            :copyable: false
 
      - id: javascript
        content: |
@@ -51,6 +53,7 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.m
             :language: objectivec
+            :copyable: false
 
      - id: swift
        content: |
