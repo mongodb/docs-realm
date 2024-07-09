@@ -24,12 +24,16 @@
      - id: java
        content: |
 
-         .. include:: /examples/MissingPlaceholders/api.java
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
+            :language: java
+            :copyable: false
 
      - id: java-kotlin
        content: |
 
-         .. include:: /examples/MissingPlaceholders/api-java-kotlin.kt
+         .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.java
+            :language: java
+            :copyable: false
 
      - id: javascript
        content: |
