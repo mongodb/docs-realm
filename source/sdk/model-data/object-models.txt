@@ -607,8 +607,8 @@ To persist ``GeoPoint`` data, it must conform to the
 
 .. _sdks-define-special-property-types:
 
-Define Special Property Types
------------------------------
+Define Special Property Behaviors
+---------------------------------
 
 You can define property types that have special behavior. These property types
 provide additional functionality or constraints to these fields in your data
@@ -1080,3 +1080,83 @@ first access, so will never be nil.
 
 Model Unstructured Data
 -----------------------
+
+**Unstructured data** is data that doesn't easily conform to an expected
+schema, making it difficult or impractical to model to individual
+data classes. For example, your app might have highly variable data or dynamic
+data whose structure is unknown at runtime.
+
+The SDK provides the ability to store :ref:`collections of mixed data
+<sdks-nested-collections-in-mixed>` within a mixed property. You can use this
+feature to model complex data structures, such as JSON or MongoDB documents,
+without having to define a strict data model.
+
+You can work with these collections the same way you would a non-mixed
+collection:
+
+- You can nest mixed collections up to 100 levels.
+- You can query on and :ref:`react to changes
+  <sdks-react-to-changes>` on mixed collections.
+- You can find and update individual mixed collection elements.
+
+However, storing data in mixed collections is less performant than using a
+structured schema or serializing JSON blobs into a single string property.
+
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-unstructured-data-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-model-unstructured-data-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-model-unstructured-data-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-unstructured-data-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-unstructured-data-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-model-unstructured-data-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-model-unstructured-data-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-model-unstructured-data-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-model-unstructured-data-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-model-unstructured-data-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/model-unstructured-data.rst
