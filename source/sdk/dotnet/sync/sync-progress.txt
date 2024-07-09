@@ -81,15 +81,14 @@ bytes to be transferred.
 .. example::
 
    In the following example, we subscribe to a progress 
-   observable on the ``session`` to listen for upload events indefinitely. When 
-   this callback is triggered, it prints the number of transferred 
-   bytes and the number of transferable bytes to the console.
+   observable on the ``session`` to listen for upload events. When 
+   this callback is triggered, it prints the upload progress as a percentage.
 
    .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.upload-download-progress-notification.cs
       :language: csharp
 
    Once you no longer wish to receive notifications, unregister the token by using 
-   ``token.Dispose()``
+   ``token.Dispose()``.
 
 .. note:: 
    

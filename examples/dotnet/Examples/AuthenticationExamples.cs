@@ -81,7 +81,7 @@ namespace Examples
             }
             catch (Exception e)
             {
-                Assert.AreEqual("InvalidSession: authentication via 'oauth2-facebook' is unsupported", e.Message);
+                Assert.AreEqual("InvalidSession: unauthorized", e.Message);
             }
             try
             {
@@ -93,7 +93,7 @@ namespace Examples
             }
             catch (Exception e)
             {
-                Assert.AreEqual("InvalidSession: authentication via 'oauth2-google' is unsupported", e.Message);
+                Assert.AreEqual("InvalidSession: unauthorized", e.Message);
             }
             try
             {
@@ -106,7 +106,7 @@ namespace Examples
 
             catch (Exception e)
             {
-                Assert.AreEqual("InvalidSession: authentication via 'oauth2-apple' is unsupported", e.Message);
+                Assert.AreEqual("InvalidSession: unauthorized", e.Message);
             }
         }
 
