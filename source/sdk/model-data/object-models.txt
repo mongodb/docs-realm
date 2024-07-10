@@ -1240,3 +1240,95 @@ model or property to a new name is the name used in the persisted
       .. include:: /includes/api-details/typescript/model-data/object-models-map-model-or-property-to-different-name-description.rst
 
 .. include:: /includes/sdk-examples/model-data/map-model-or-property-to-different-name.rst
+
+.. _sdks-define-model-projection:
+
+Transform Model Data for View Models
+------------------------------------
+
+You can define a **projection** of your model objects and properties to
+transform the data into different shapes and structures. You might want to use
+a projection to make data available in a specific form, but persist it in a
+different form.
+
+For example, you might want to work with persisted data in a different way in
+a view model or based on certain business logic.
+
+Projection is currently only available in the Swift SDK.
+
+Transform Persisted Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you define a projection, you can transform the original persisted
+property in several ways:
+
+- Passthrough: the property is the same name and type as the original object
+- Rename: the property has the same type as the original object, but a
+  different name
+- Keypath resolution: use keypath resolution to access properties of the
+  original object, including embedded object properties
+- Collection mapping: Project :ref:`lists <sdks-list-property-types>` or
+  :ref:`sets <sdks-set-property-types>` of ``Object`` s or
+  ``EmbeddedObject`` s as a collection of primitive values
+- Exclusion: when you use a model projection, the underlying object's
+  properties that are not projected through the model projection are
+  excluded. This enables you to watch for changes to a model projection
+  and not see changes for properties that are not part of the model
+  projection.
+
+Define a Projection
+~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-projection-missing-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-projection-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+.. include:: /includes/sdk-examples/model-data/define-projection.rst
