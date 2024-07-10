@@ -3,7 +3,7 @@
 To use a different class name in your code than is stored in the database:
 
 1. Set the ``name`` property of your SDK object's **schema** to the name
-    that you want to use to store the object.
+   that you want to use to store the object.
 
 #. Use the **class** name in the database configuration's ``schema`` property
    when you :ref:`open the database <sdks-provide-a-subset-of-models-to-a-database>`.

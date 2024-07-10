@@ -1,12 +1,18 @@
+**Map a Model Name**
+
 Use the :java-sdk:`@RealmClass <io/realm/annotations/RealmClass.html>`
 annotation to rename a class.
 
 .. include:: /examples/generated/java/local/FrogClassRenamePolicyExample.snippet.complete.java.rst
 
+**Map a Property Name**
+
 Use the :java-sdk:`@RealmField <io/realm/annotations/RealmField.html>`
 annotation to rename a field:
 
 .. include:: /examples/generated/java/local/FrogRenameAFieldExample.snippet.complete.java.rst
+
+**Assign a Naming Policy at the Module or Class Level**
 
 Alternatively, you can also assign a naming policy at the module or
 class levels to change the way that the SDK interprets field names.

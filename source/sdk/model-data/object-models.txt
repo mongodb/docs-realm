@@ -1182,6 +1182,11 @@ If you're using Atlas Device Sync, the name that you specify when you map the
 model or property to a new name is the name used in the persisted
 :ref:`App Services Schema <schemas>`.
 
+.. note::
+
+   Migrations must use the persisted class or property name. Any schema errors
+   reported also use the persisted name.
+
 .. tabs-drivers::
 
    .. tab::
@@ -1232,11 +1237,6 @@ model or property to a new name is the name used in the persisted
    .. tab::
       :tabid: typescript
 
-      .. include:: /includes/api-details/javascript/model-data/object-models-map-model-or-property-to-different-name-description.rst
+      .. include:: /includes/api-details/typescript/model-data/object-models-map-model-or-property-to-different-name-description.rst
 
 .. include:: /includes/sdk-examples/model-data/map-model-or-property-to-different-name.rst
-
-.. note::
-
-   Migrations must use the persisted class or property name. Any schema errors
-   reported also use the persisted name.
