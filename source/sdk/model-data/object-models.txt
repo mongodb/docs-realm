@@ -644,6 +644,13 @@ down writes and increase the size of the database file:
 - Indexes make insert and update operation speed slightly slower.
 - Adding an index to a property increases disk space consumed by your database
   file. Each index entry is a minimum of 12 bytes.
+- Indexes on the client and on the server are entirely separate. The only
+  effect that adding indexes has on initial Sync performance is to make it
+  slightly slower as the index has to be populated.
+
+Generally, you should only add an index when you need to improve the performance
+of a specific equality-based query, and the minor slowdown in writes is
+acceptable with your app's write patterns.
 
 .. tabs-drivers::
 
