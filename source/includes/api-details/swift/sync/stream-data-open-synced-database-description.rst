@@ -5,7 +5,7 @@ Specify the ``AsymmetricObject`` types you want to sync.
     The ``AsymmetricObject`` type is incompatible with non-synced databases.
     If your project uses both a synced and non-synced database, you must 
     explicitly :ref:`pass a subset of classes in your database configuration 
-    <sdks-provide-a-subset-of-classes-to-a-database>` to exclude the 
+    <sdks-provide-a-subset-of-models-to-a-database>` to exclude the 
     ``AsymmetricObject`` from your non-synced database.
     
     Automatic schema discovery means that opening a non-synced database

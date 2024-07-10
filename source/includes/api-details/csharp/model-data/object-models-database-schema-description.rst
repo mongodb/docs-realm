@@ -5,7 +5,7 @@ want to restrict a database to manage only a subset of the SDK models in the
 loaded assemblies, you *can* explicitly pass the models when configuring a
 database.
 
-For more information, refer to :ref:`sdks-provide-a-subset-of-classes-to-a-database`.
+For more information, refer to :ref:`sdks-provide-a-subset-of-models-to-a-database`.
 
 .. note:: 
 

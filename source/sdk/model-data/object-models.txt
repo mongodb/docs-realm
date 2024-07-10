@@ -1160,3 +1160,83 @@ structured schema or serializing JSON blobs into a single string property.
       .. include:: /includes/api-details/javascript/model-data/object-models-model-unstructured-data-js-ts-description.rst
 
 .. include:: /includes/sdk-examples/model-data/model-unstructured-data.rst
+
+.. _sdks-map-db-name:
+
+Map a Model or Property to a Different Name
+-------------------------------------------
+
+Some of the SDK implementations provide the ability to map an SDK object model
+or property to a different stored name in the database. This can be useful when:
+
+- You work across platforms where naming conventions differ. For example, if
+  your Device Sync schema property names use snake case, while your project
+  uses camel case.
+- You want to change a class or field name without forcing a migration.
+- You need to support multiple model classes with the same name in different
+  packages.
+- You want to use a class name that is longer than the 57-character limit
+  enforced by the SDK.
+
+If you're using Atlas Device Sync, the name that you specify when you map the
+model or property to a new name is the name used in the persisted
+:ref:`App Services Schema <schemas>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-map-model-or-property-to-different-name-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-map-model-or-property-to-different-name-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-map-model-or-property-to-different-name-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-map-model-or-property-to-different-name-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+.. include:: /includes/sdk-examples/model-data/map-model-or-property-to-different-name.rst
+
+.. note::
+
+   Migrations must use the persisted class or property name. Any schema errors
+   reported also use the persisted name.
