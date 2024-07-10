@@ -1,13 +1,16 @@
-You can define SDK models as JavaScript classes that extend ``Realm.Object``
-(like most of the examples on this page). Or you can define models as
-JavaScript objects.
+You can define SDK models as JavaScript classes that extend ``Realm.Object``.
 
-When you define models as JavaScript classes that extend ``Realm.Object``,
-you can pass those model objects directly to the database. Prefer this approach
-when possible.
+When you create objects, use an object literal. This lets you create an
+**unmanaged** object, and pass it to the database when it makes sense to do so.
 
-If you do define a model that does not extend ``Realm.Object``, you cannot pass
-the model directly to the database. Instead, you pass only the schema to the
-database that manages the object.
+Do not use ``new`` to construct a new object instance. If you use ``new`` with
+class-based models, this creates a new **managed** object, which has the
+following side effects:
 
-.. TODO: Provide more info about why you would choose one of these approaches over the other
+- Constructing a ``new`` object calls the ``realm.create()`` method, which can
+  only be used in a write transcation.
+- Constructing a ``new`` object has complications when the object contains or
+  is itself an embedded object.
+
+For more information about object creation and managed objects, refer to
+:ref:`sdks-crud-create` and :ref:`sdks-create-specific-object-types`.
