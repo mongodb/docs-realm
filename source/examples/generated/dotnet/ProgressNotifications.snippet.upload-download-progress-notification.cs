@@ -6,3 +6,4 @@ var token = session.GetProgressObservable(ProgressDirection.Upload,
             Console.WriteLine($@"Current upload progress:
                 {progress.ProgressEstimate * 100}%");
         });
+token.Dispose();

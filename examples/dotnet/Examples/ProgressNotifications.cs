@@ -71,6 +71,7 @@ namespace Examples
                         Console.WriteLine($@"Current upload progress:
                             {progress.ProgressEstimate * 100}%");
                     });
+            token.Dispose();
             // :snippet-end: upload-download-progress-notification
             var id = 2;
             var myObj = new ProgressObj
@@ -85,7 +86,7 @@ namespace Examples
             {
                 realm.RemoveAll<ProgressObj>();
             });
-            token.Dispose();
+            
         }
 
         [Test]
