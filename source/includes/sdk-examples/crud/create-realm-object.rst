@@ -1,7 +1,7 @@
 .. tabs-drivers::
 
    tabs:
-     - id: cpp
+     - id: cpp-sdk
        content: |
 
          .. literalinclude:: /examples/generated/cpp/crud.snippet.create-an-object.cpp
@@ -25,7 +25,13 @@
          .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.create-an-object.java
             :language: java
             :emphasize-lines: 3
-            :copyable: false
+
+     - id: java-kotlin
+       content: |
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.create-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 3
 
      - id: javascript
        content: |
@@ -57,3 +63,4 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false

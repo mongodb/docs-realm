@@ -4,20 +4,854 @@
 Authenticate Users
 ==================
 
+.. meta::
+   :description: Learn how to use Atlas Device SDK authentication providers in client code, including anonymous auth, custom JWT, Sign-in with Apple, and Google authentication.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for authenticate users content.
+.. tabs-selector:: drivers
+
+After you :ref:`initialize an Atlas app connection <sdks-connect-to-atlas>`,
+you must authenticate a user with an authentication provider. This page
+describes how to authenticate App Services App users with Atlas Device SDK.
+Refer to :ref:`<users-and-authentication>` in the App Services documentation
+for more information.
+
+Atlas App Services provides the following built-in authentication providers 
+to log users in and out of a client app:
+
+- Anonymous users
+- Email/password authentication
+- API key authentication
+- OAuth 2.0 through Facebook, Google, and Apple ID
+- Custom JWT
+- Custom Function
+
+Upon successful login, App Services begins a **user session** for the user.
+App Services manages sessions with access tokens and refresh tokens. The SDK
+automatically supplies the logic to manage tokens and provide them with requests.
+For more information on managing user sessions and tokens, refer to 
+:ref:`sdks-manage-user-tokens`.
+
+Once you have a logged-in user, you can:
+
+- :ref:`Open a synced database <sdks-configure-and-open-synced-database>`
+  with the user's configuration object
+- :ref:`Call an Atlas Function <sdks-call-function>` as the logged-in user
+- Log the user out (refer to the :ref:`<sdks-logout>` section)
+- :ref:`Remove or delete the user's account <sdks-delete-users>`
+
+You can also log multiple users in to an app simultaneously on a 
+single device. Refer to :ref:`sdks-multi-user-applications` for 
+more information.
+
+Prerequisites
+-------------
+
+To authenticate users through Atlas App Services, you must have an 
+App Services App with one or more authentication providers enabled.
+
+To set up an App Services App with authentication providers, 
+complete the following:
+
+#. :ref:`Connect your app to Atlas App Services <sdks-connect-to-atlas>`
+#. Enable and configure one or more authentication providers. For more
+   information, refer to :ref:`authentication-providers` in the App Services
+   documentation.
+
+.. tip:: 
+
+   You can enable multiple authentication providers. 
+   If a user authenticates using more than one method,
+   you can :ref:`link the user identities <sdks-link-user-identities>`
+   for each method to a single user account.
+
+.. _sdks-register-new-user:
+
+Register and Create a New User Account
+--------------------------------------
+
+Atlas App Services registers a user differently depending on the 
+authentication provider: 
+
+- If you are using email/password authentication, users must 
+  first :ref:`register and confirm their email and password 
+  <sdks-manage-email-password-users>` before they can authenticate.
+- If you are using Google, Facebook, Apple, or Custom JWT, 
+  registration is handled by these third-party services.
+- If you are using anonymous authentication, those users do *not* require
+  registration.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/authenticate-register-create-new-user-account-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/authenticate-register-create-new-user-account-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-register-create-new-user-account-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-register-create-new-user-account-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-register-create-new-user-account-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-register-create-new-user-account-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-register-create-new-user-account-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/authenticate-register-create-new-user-account-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-register-create-new-user-account-js-ts-description.rst
+
+.. include:: /includes/tip-acct-deletion-reqs.rst
+
+.. _kotlin-login:
+
+Log In a User
+-------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/authenticate-log-in-user-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/authenticate-log-in-user-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-log-in-user-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-log-in-user-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-log-in-user-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-log-in-user-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-log-in-user-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      **Async/Await**
+
+      .. include:: /includes/api-details/swift/users/authenticate-log-in-user-async-description.rst
+
+      **Callback**
+
+      .. include:: /includes/api-details/swift/users/authenticate-log-in-user-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-log-in-user-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-log-in-user.rst
+
+.. _sdks-anonymous-login:
+
+Anonymous
+~~~~~~~~~
+
+Anonymous authentication enables users to log in to your 
+application with short-term accounts that store no persistent 
+personal information. You might use this to allow users to try your 
+app before they sign up for an account or while developing 
+and testing your app. Anonymous users do *not* require 
+registration. Refer to :ref:`anonymous-authentication` in 
+the App Services documentation for more information.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-anonymous-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-anonymous-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-anonymous-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-anonymous-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-anonymous-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-log-in-user-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-anonymous.rst
+
+.. _sdks-email-password-login:
+
+Email/Password
+~~~~~~~~~~~~~~
+
+The email/password authentication provider enables users to log in to 
+your application with an email username and a password. Refer to 
+:ref:`email-password-authentication` in the App Services 
+documentation for more information.
+
+.. important:: Email/Password Users Require Registration
+
+   Email/password authentication requires that you register
+   and then confirm the user-provided email and password *before* 
+   the user can authenticate to an App Services App. Learn how to 
+   :ref:`register email/password users 
+   <sdks-manage-email-password-users>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-email-password-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-email-password-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-email-password-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-email-password-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-email-password-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-email-password-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-email-password.rst
+
+.. _sdks-login-jwt:
+
+Custom JWT
+~~~~~~~~~~
+
+The Custom JWT authentication provider enables users to log in to 
+your application with a custom JSON Web Token (JWT). Registration 
+for JWT authentication is handled by the JWT provider. Refer to 
+:ref:`custom-jwt-authentication` in the 
+App Services documentation for more information.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-custom-jwt-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-custom-jwt-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-custom-jwt-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-custom-jwt-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-custom-jwt-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-custom-jwt-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-custom-jwt.rst
+
+.. _sdks-login-api-key:
+
+API Key
+~~~~~~~
+
+The API Key authentication provider enables authenticated 
+non-anonymous users to log in to your application with an API key. 
+Refer to :ref:`api-key-authentication` in the App Services
+documentation for more information.
+
+User API keys are generated automatically and managed by the SDK. 
+Learn how to :ref:`sdks-manage-user-api-keys`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-api-key-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-api-key-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-api-key-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-api-key-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-api-key-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-api-key-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-api-key.rst
+
+.. _sdks-login-custom-function:
+
+Custom Function
+~~~~~~~~~~~~~~~
+
+The Custom Function authentication provider enables users to log in 
+to your application using custom authentication logic handled by an 
+Atlas Function. Refer to :ref:`custom-function-authentication` in the 
+App Services documentation for more information.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-custom-function-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-custom-function-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-custom-function-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-custom-function-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-custom-function-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-custom-function-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-custom-function.rst
+
+.. _sdks-login-google:
+
+Google
+~~~~~~
+
+The Google authentication provider allows you to authenticate
+users through their existing Google account using an OAuth 2.0 
+token. Refer to :ref:`google-authentication` in the App Services 
+documentation for more information.
+
+Before you can authenticate users with Google, you must set up your
+application for Google User authentication:
+
+#. In the `Google Cloud Platform console
+   <https://console.cloud.google.com/apis/credentials>`__, create an
+   OAuth 2.0 client ID of type "Web application".
+#. Configure your backend App to use that client ID and the associated
+   client secret.
+#. Enable OpenID Connect on the backend.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/authenticate-google-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-google-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-google-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-google-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-google-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-google-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/authenticate-google-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/users/authenticate-google-missing-example.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-google.rst
+
+.. _sdks-login-facebook:
+
+Facebook
+~~~~~~~~
+
+The Facebook authentication provider allows
+you to authenticate users through a Facebook app using their 
+existing Facebook account. Refer to :ref:`facebook-authentication` in the 
+App Services documentation for more information.
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+   
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-facebook-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-facebook-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-facebook-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-facebook-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-facebook-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/authenticate-facebook-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-facebook-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-facebook.rst
+
+.. _sdks-login-apple:
+
+Apple
+~~~~~
+
+The Sign-in with Apple authentication provider enables users to 
+log in to your application with a custom token provided
+by Apple. Refer to :ref:`apple-id-authentication` in the App Services 
+documentation for more information.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-apple-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-apple-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-apple-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-apple-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-apple-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-apple-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-apple.rst
+
+.. tip::
+   
+   If you get a ``Login failed`` error saying that the ``token contains 
+   an invalid number of segments``, verify that you're passing a UTF-8-encoded 
+   string version of the JWT.
 
 .. _sdks-offline-login:
 
-Offline Login
--------------
+Log In Offline 
+~~~~~~~~~~~~~~
 
-.. _sdks-refresh-token-expiry:
+When your application authenticates a user, it caches the user's 
+credentials. You can check for existing user credentials to bypass the 
+login flow and access the cached user. Use this to open a synced database
+offline. 
 
-Refresh Token Expiration
-------------------------
+.. note:: Initial login requires a network connection
+
+   When a user signs up for your app, or logs in for the first time with an 
+   existing account on a client, the device must have a network connection.
+   Checking for cached user credentials lets you open a synced database
+   offline, but only if the user has previously logged in on the device while
+   online.
+
+.. include:: /includes/sdk-examples/users/authenticate-log-in-offline.rst
+
+.. _sdks-logout:
+
+Log a User Out
+--------------
+
+.. include:: /includes/log-out-queries-in-progress.rst
+
+The log out method:
+
+- Deletes locally stored user credentials from the device.
+- Immediately halts any synchronization to and from the user's synced databases.
+- For anonymous users, :ref:`removes the user <sdks-remove-users>`.
+
+Because logging out halts synchronization, you should only log out after
+all synced database updates have uploaded to the server.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/authenticate-log-user-out-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-log-user-out-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/authenticate-log-user-out-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/authenticate-log-user-out-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-log-user-out-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-log-user-out-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/authenticate-log-user-out-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/authenticate-log-user-out.rst
+
+.. _sdks-authentication-change-listener:
+
+Observe Authentication Changes
+------------------------------
+
+Some SDKs provide platform-idiomatic APIs to observe authentication changes.
+In other SDKs, you can use platform or language-specific architecture to
+achieve a similar result without a dedicated API.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/authenticate-observe-authentication-changes-no-api.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/authenticate-observe-authentication-changes-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-observe-authentication-changes-no-api.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-observe-authentication-changes-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/users/authenticate-observe-authentication-changes.rst
+
+.. _sdks-get-the-current-user:
+
+Get the Current User
+--------------------
+
+When a user logs in through an ``App`` on a device, we cache that App and user
+information on the device. You can retrieve the currently logged-in user to
+perform app operations without having to log the user in again.
+
+You can continue to work with the current user until the user session expires.
+When the session expires, the SDK automatically uses a refresh token to start
+a new session. When the refresh token expires, the SDK cannot start a new
+session and the user must log in again. You can configure refresh token
+expiration time in Atlas. For more information, refer to
+:ref:`refresh-token-expiration` in the App Services documentation.
+
+If you have multiple users logged in to your app, retrieving a current user
+returns the last valid user that logged in. It returns null or nil, depending
+on the language, if there are no logged-in users. Refer to
+:ref:`sdks-multi-user-applications` for more information.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/authenticate-get-current-user-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/authenticate-get-current-user-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/authenticate-get-current-user-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/authenticate-get-current-user-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/users/authenticate-get-current-user.rst

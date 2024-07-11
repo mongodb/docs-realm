@@ -22,7 +22,6 @@ final config = Configuration.flexibleSync(currentUser, schema,
         clientResetError.resetRealm();
         // Navigate the user back to the main page or reopen the
         // the Realm and reinitialize the current page.
-
       } catch (err) {
         // Reset failed.
         // Notify user that they'll need to update the app

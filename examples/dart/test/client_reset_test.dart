@@ -128,7 +128,6 @@ main() {
               clientResetError.resetRealm();
               // Navigate the user back to the main page or reopen the
               // the Realm and reinitialize the current page.
-
             } catch (err) {
               // Reset failed.
               // Notify user that they'll need to update the app
@@ -138,7 +137,7 @@ main() {
       ));
       // :snippet-end:
       realm = await Realm.open(config);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
     test("Manual recovery mode", () async {
       // :snippet-start: manual
@@ -157,7 +156,7 @@ main() {
       }));
       // :snippet-end:
       realm = await Realm.open(config);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
   });
 }

@@ -48,6 +48,10 @@ class Rug extends _Rug with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Rug>(this);
 
   @override
+  Stream<RealmObjectChanges<Rug>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Rug>(this, keyPaths);
+
+  @override
   Rug freeze() => RealmObjectBase.freezeObject<Rug>(this);
 
   EJsonValue toEJson() {

@@ -1,4 +1,4 @@
-The Realm Swift SDK public API contains types that fall into three broad
+The Swift SDK public API contains types that fall into three broad
 categories:
 
 - Sendable
