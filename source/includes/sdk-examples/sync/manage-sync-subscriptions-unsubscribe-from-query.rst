@@ -18,9 +18,8 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.dart
+         .. literalinclude:: /examples/generated/flutter/manage_sync_subscription_test.snippet.remove-subscription-unsubscribe-api.dart
             :language: dart
-            :copyable: false
 
      - id: java
        content: |
@@ -39,24 +38,25 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.js
+         .. literalinclude:: /examples/MissingPlaceholders/example.js
             :language: javascript
+            :copyable: false
 
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.update-query-by-name.kt
+         .. literalinclude:: /examples/MissingPlaceholders/api.kt
             :language: kotlin
-            :emphasize-lines: 9
+            :copyable: false
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-unnamed.swift
+         .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-api-unsubscribe.swift
             :language: swift
 
      - id: typescript
        content: |
 
-         .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-basic.ts
+         .. literalinclude:: /examples/generated/node/v12/manage-subscriptions.test.snippet.sub-unsubscribe.ts
             :language: typescript

@@ -130,6 +130,8 @@ You can:
 - Update subscriptions with new queries.
 - Remove individual subscriptions or all subscriptions for an object type.
 
+Subscriptions persist across user sessions unless you unsubscribe from them.
+
 .. _sdks-sync-results-subscribe-api:
 
 Subscribe to Queries
@@ -160,6 +162,8 @@ the query.
 This creates an unnamed subscription and adds it to the subscription set,
 similar to :ref:`manually creating a subscription
 <sdks-sync-subscriptions-add-subscription>`.
+
+Subscriptions persist across user sessions unless you unsubscribe from them.
 
 .. tip::
 
@@ -280,6 +284,8 @@ You can later use this name to:
 
 .. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-subscribe-to-query-with-name.rst
 
+.. _sdks-wait-for-query-subscription-to-sync:
+
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -306,7 +312,7 @@ the subscription query data to sync before proceeding.
    .. tab::
       :tabid: dart
 
-      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync-description.rst
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-wait-for-query-subscription-to-sync-description.rst
 
    .. tab::
       :tabid: java
@@ -321,7 +327,7 @@ the subscription query data to sync before proceeding.
    .. tab::
       :tabid: javascript
 
-      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync-description.rst
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-wait-for-query-subscription-to-sync-description.rst
 
    .. tab::
       :tabid: kotlin
@@ -336,28 +342,75 @@ the subscription query data to sync before proceeding.
    .. tab::
       :tabid: typescript
 
-      .. include:: /includes/api-details/typescript/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync-description.rst
+      .. include:: /includes/api-details/typescript/sync/manage-sync-subscriptions-wait-for-query-subscription-to-sync-description.rst
 
 .. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync.rst
+
+.. _sdks-unsubscribe-from-query:
 
 Unsubscribe from a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can unsubscribe from a query's ``Results`` set using the 
-:swift-sdk:`.unsubscribe() 
-<Structs/Results.html#/s:10RealmSwift7ResultsV11unsubscribeyyF>` API:
+You can unsubscribe from a query that you have previously subscribed to.
+Unsubscribing removes the suscription from the subscription set, similar to
+:ref:`manually removing a subscription <sdks-remove-query-by-name>`.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-api-unsubscribe.swift
-   :language: swift
+A query results set may still contain objects after calling the unsubscribe
+method if the subscription set contains another overlapping subscription.
 
-This removes the subscription from the ``MutableSubscriptionSet``,
-similar to :ref:`manually removing a subscription <ios-remove-query-by-name>`.
+.. tabs-drivers::
 
-A ``Results`` set may still contain objects after calling ``.unsubscribe()`` 
-if another subscription exists that contains overlapping objects. 
+   .. tab::
+      :tabid: cpp-sdk
 
-Calling ``.unsubscribe()`` does not wait for objects to be removed from the
-realm. There is no API to wait for ``.unsubscribe()`` to sync with the server.
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-unsubscribe-from-query-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-unsubscribe-from-query-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-unsubscribe-from-query-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-unsubscribe-from-query-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-unsubscribe-from-query-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-unsubscribe-from-query.rst
+
+The unsubscribe method returns before objects matching the removed subscription
+are deleted from the database. Sync continues in the background based on the
+new set of subscriptions. There is no API to wait for the unsubscribe method
+to sync with the server.
 
 Subscribe to an Actor-Confined Query
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -588,6 +641,7 @@ update it with a new query.
    :language: swift
 
 .. _ios-remove-subscriptions:
+.. _sdks-remove-subscriptions:
 
 Remove Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
