@@ -246,7 +246,7 @@ You can later use this name to:
    .. tab::
       :tabid: dart
 
-      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-subscribe-to-query--with-name-description.rst
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-subscribe-to-query-with-name-description.rst
 
    .. tab::
       :tabid: java
@@ -283,29 +283,62 @@ You can later use this name to:
 Wait for a Query Subscription to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you subscribe to a query's ``Results`` set, that set does not contain 
-objects until it syncs. If your app creates objects, you may not need to 
-download synced data before the user works with it. However, if your app
-requires data from the server before the user can work with it, you can
-specify that a subscription should ``waitForSync``:
+When you subscribe to a query, that query's results do not contain objects
+until the subscription syncs with Atlas.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-wait-for-sync.swift
-   :language: swift
+If your app creates objects, you may not need to download synced data before
+the user works with it. However, if your app requires data from Atlas before
+the user can work with your app, you can specify that the SDK should wait for
+the subscription query data to sync before proceeding.
 
-This option uses the ``RLMWaitForSyncMode`` enum, whose cases are:
+.. tabs-drivers::
 
-- .onCreation: Wait to download matching objects when your app creates the
-  subscription. Otherwise, return without waiting for new downloads. The 
-  app must have an internet connection the first time you add the subscription.
-- .always: Wait to download matching objects when ``.subscribe()`` is executed.
-  The app must have an internet connection when ``.subscribe()`` is executed.
-- .never: Never wait to download matching objects. The app needs an internet
-  connection for the user to authenticate the first time the app launches, but
-  can :ref:`open offline <sdks-open-synced-database-offline>` on subsequent 
-  launches using cached credentials.
+   .. tab::
+      :tabid: cpp-sdk
 
-You can optionally specify a ``timeout`` value of type :apple:`TimeInterval 
-<documentation/foundation/timeinterval>`.
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-subscribe-to-query-with-name-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-wait-for-query-subscription-to-sync-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync.rst
 
 Unsubscribe from a Query
 ~~~~~~~~~~~~~~~~~~~~~~~~
