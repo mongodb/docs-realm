@@ -417,38 +417,24 @@ to sync with the server.
 Manually Manage Subscriptions
 -----------------------------
 
-You can use the ``subscriptions`` API to manually manage a set of 
-subscriptions to specific queries on queryable fields.
+As an alternative to the subscribe to a query API, you can manually manage the
+subscriptions in a subscription set.
 
 You can:
 
 - Add subscriptions
-- React to subscription state
+- React to subscription state change
 - Update subscriptions with new queries
 - Remove individual subscriptions or all subscriptions for an object type
 
 Data matching the subscription, where the user has the appropriate 
-permissions, syncs between devices and the backend application.
+permissions, syncs between devices and Atlas.
 
 You can specify an optional string name for your subscription.
 
-When you create a subscription, Realm looks for data matching a query on a
+When you create a subscription, the SDK looks for data matching a query on a
 specific object type. You can have multiple subscription sets on different 
 object types. You can also have multiple queries on the same object type.
-
-.. example::
-
-   You can create a subscription with an explicit name. Then, you can
-   search for that subscription by name to update or remove it.
-
-   .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.query-subscription-by-name.swift
-      :language: swift
-
-   If you do not specify a ``name`` for a subscription, you can search 
-   for the subscription by the query string.
-
-   .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.query-subscription-without-name.swift
-      :language: swift
 
 .. note:: Duplicate subscriptions
 
@@ -456,11 +442,11 @@ object types. You can also have multiple queries on the same object type.
    with the same name as an existing subscription throws an error.
    
    If you do not explicitly name a subscription, and instead subscribe 
-   to the same unnamed query more than once, Realm does not persist 
+   to the same unnamed query more than once, the SDK does not persist 
    duplicate queries to the subscription set. 
    
    If you subscribe to the same query more than once under different names, 
-   Realm persists both subscriptions to the subscription set.
+   the SDK persists both subscriptions to the subscription set.
 
 .. _sdks-sync-subscriptions-add-subscription:
 
@@ -468,23 +454,123 @@ Add a Subscription
 ~~~~~~~~~~~~~~~~~~
 
 Add a subscription in a subscriptions update block. You append each
-new subscription to the client's Realm subscriptions.
+new subscription to the client's SDK subscriptions.
 
-.. include:: /includes/swift-concurrency-mainactor.rst
+Subscriptions persist across user sessions unless you remove them from the
+subscription set.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-single-subscription.swift
-   :language: swift
+If your app is adding subscriptions for the first time, some SDK languages
+provide a special parameter to :ref:`set initial subscriptions
+<sdks-set-initial-subscriptions>` or recalculate initial subscriptions on app
+launch.
+
+.. tip::
+
+   If your app works with multiple subscriptions, or if you want to update
+   a subscription, you should add a name when you subscribe to a query. For
+   details, refer to the :ref:`sdks-add-named-subscription` section on
+   this page.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-add-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-add-subscription-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-add-subscription-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-subscription.rst
+
+.. _sdks-add-unnamed-subscription:
+
+Add Unnamed Subscription
+````````````````````````
+
+If your app doesn't need to update or remove subscriptions, you can add a
+subscription without a name.
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-unnamed-subscription.rst
+
+.. _sdks-add-named-subscription:
+
+Add a Named Subscription
+````````````````````````
+
+If your app might need to update or remove subscriptions, you should add a
+name when you create a subscription. You can use the name to find and update
+or remove the appropriate subscription later.
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-named-subscription.rst
+
+.. _sdks-add-multiple-subscriptions:
+
+Add Multiple Subscriptions
+``````````````````````````
 
 You can add multiple subscriptions within a subscription update block, 
 including subscriptions of different object types.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-multiple-subscriptions.swift
-   :language: swift
+Performing query updates requires Atlas to recalculate which documents match the
+query. We strongly advise designing your application to minimize updates. You
+can do this by batching additions and changes to the subscription set.
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-multiple-subscriptions.rst
+
+.. _sdks-subscribe-to-all-objects-of-type:
+
+Subscribe to All Objects of a Specific Type
+```````````````````````````````````````````
+
+In addition to syncing all objects that match a given query, you can subscribe 
+to all objects of a specific type. You do this by appending a subscription
+without providing a query.
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-subscribe-to-all-objects-of-type.rst
 
 .. _ios-sync-add-initial-subscriptions:
+.. _sdks-set-initial-subscriptions:
 
-Bootstrap the Realm with Initial Subscriptions
-``````````````````````````````````````````````
+Set Initial Subscriptions
+`````````````````````````
 
 .. versionadded:: 10.28.0
 
@@ -513,19 +599,6 @@ that are due further out than the next week are also not relevant. With
 objects to sync based on the desired date range every time the app starts.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions-rerun-on-open.swift
-   :language: swift
-
-Subscribe to All Objects of a Specific Type
-```````````````````````````````````````````
-
-In addition to syncing all objects that match a given query, you can subscribe 
-to all objects of a specific type. You do this by appending a subscription
-without providing a query.
-
-For example, if you don't want to see a specific team, but instead want to 
-subscribe to all the ``Team`` objects, you could do this:
-
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-all-objects-of-a-type.swift
    :language: swift
 
 .. _sdks-check-existing-subscriptions-before-adding:
