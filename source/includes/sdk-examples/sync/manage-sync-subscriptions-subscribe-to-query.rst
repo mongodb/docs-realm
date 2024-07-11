@@ -52,7 +52,7 @@
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-unnamed.swift
+         .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-on-custom-actor.swift
             :language: swift
 
      - id: typescript

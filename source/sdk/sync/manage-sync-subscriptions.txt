@@ -412,22 +412,6 @@ are deleted from the database. Sync continues in the background based on the
 new set of subscriptions. There is no API to wait for the unsubscribe method
 to sync with the server.
 
-Subscribe to an Actor-Confined Query
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can subscribe to an actor-confined query on the MainActor:
-
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-on-main-actor.swift
-   :language: swift
-
-Or subscribe to a query on a custom actor:
-
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-results-on-custom-actor.swift
-   :language: swift
-
-For more information about actor-confined realms, refer to 
-:ref:`swift-actor-isolated-realm`.
-
 .. _sdks-manually-manage-subscriptions:
 
 Manually Manage Subscriptions
