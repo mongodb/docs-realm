@@ -64,6 +64,11 @@ class WeatherSensor extends _WeatherSensor
       RealmObjectBase.getChanges<WeatherSensor>(this);
 
   @override
+  Stream<RealmObjectChanges<WeatherSensor>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<WeatherSensor>(this, keyPaths);
+
+  @override
   WeatherSensor freeze() => RealmObjectBase.freezeObject<WeatherSensor>(this);
 
   EJsonValue toEJson() {

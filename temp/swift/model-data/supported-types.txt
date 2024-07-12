@@ -4,7 +4,7 @@
 Supported Types - Swift SDK
 ===========================
 
-.. meta:: 
+.. meta::
    :description: Atlas Device SDK for Swift supports a range of primitive data types, as well as collections and geospatial data.
    :keywords: code example
 
@@ -53,8 +53,8 @@ operate on any Realm collection:
 Results and Sectioned Results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Swift SDK :swift-sdk:`Results <Structs/Results.html>` collection is 
-a class representing objects retrieved from queries. A 
+The Swift SDK :swift-sdk:`Results <Structs/Results.html>` collection is
+a class representing objects retrieved from queries. A
 :swift-sdk:`Results <Structs/Results.html>` collection represents the
 lazily-evaluated results of a query operation. Results are immutable:
 you cannot add or remove elements to or from the results collection.
@@ -62,14 +62,14 @@ Results have an associated query that determines their contents.
 
 The Swift SDK also provides :swift-sdk:`SectionedResults <Structs/SectionedResults.html>`,
 a type-safe collection which holds ``ResultsSection`` as its elements.
-Each :swift-sdk:`ResultSection <Structs/ResultsSection.html>` is a results 
+Each :swift-sdk:`ResultSection <Structs/ResultsSection.html>` is a results
 collection that contains only objects that belong to a given section key.
 
 For example, an app that includes a contact list might use SectionedResults
-to display a list of contacts divided into sections, where each section 
+to display a list of contacts divided into sections, where each section
 contains all the contacts whose first name starts with the given letter.
 The ``ResultsSection`` whose key is "L" would contain "Larry", "Liam",
-and "Lisa". 
+and "Lisa".
 
 .. seealso::
 
@@ -78,16 +78,16 @@ and "Lisa".
 Collections as Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Swift SDK also offers several collection types you can use as properties 
+The Swift SDK also offers several collection types you can use as properties
 in your data model:
 
-#. :swift-sdk:`List <Classes/List.html>`, a class representing 
+#. :swift-sdk:`List <Classes/List.html>`, a class representing
    :ref:`to-many relationships <ios-to-many-relationship>` in models.
-#. :swift-sdk:`LinkingObjects <Structs/LinkingObjects.html>`, a class 
+#. :swift-sdk:`LinkingObjects <Structs/LinkingObjects.html>`, a class
    representing :ref:`inverse relationships <ios-inverse-relationship>` in models.
-#. :ref:`MutableSet <ios-mutableset-data-type>`, a class representing 
+#. :ref:`MutableSet <ios-mutableset-data-type>`, a class representing
    a :ref:`to-many relationship <ios-to-many-relationship>`.
-#. :ref:`Map <ios-map>`, a class representing an associative array of key-value 
+#. :ref:`Map <ios-map>`, a class representing an associative array of key-value
    pairs with unique keys.
 #. :swift-sdk:`AnyRealmCollection <Structs/AnyRealmCollection.html>`, a :wikipedia:`type-erased <Type_erasure>` class that can forward calls to a concrete Realm collection like Results, List or LinkingObjects.
 
@@ -133,7 +133,7 @@ Supported Property Types
 You can use the following types to define your object model
 properties.
 
-.. include:: /includes/map-to-bson-type.rst 
+.. include:: /includes/map-to-bson-type.rst
 
 See also :ref:`<swift-model-data-device-sync>`.
 
@@ -152,7 +152,7 @@ Property Cheat Sheet
          :header-rows: 1
          :stub-columns: 1
          :widths: 20 40 40
-      
+
          * - Type
            - Required
            - Optional
@@ -231,12 +231,12 @@ Property Cheat Sheet
                 :language: swift
                 :copyable: false
            - N/A
-         * - :ref:`MutableSet <ios-mutableset-data-type>` 
+         * - :ref:`MutableSet <ios-mutableset-data-type>`
            - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.mutableSet-required.swift
                 :language: swift
                 :copyable: false
            - N/A
-         * - :ref:`Map <ios-map>` 
+         * - :ref:`Map <ios-map>`
            - .. literalinclude:: /examples/generated/code/start/SupportedTypes.snippet.map-required.swift
                 :language: swift
                 :copyable: false
@@ -267,31 +267,31 @@ Property Cheat Sheet
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
 
-      To use Key-Value Coding with a user-defined object in the ``@Persisted`` 
+      To use Key-Value Coding with a user-defined object in the ``@Persisted``
       syntax, add the ``@objc`` attribute: ``@Persisted @objc var myObject: MyClass?``
 
       Setting Default Values
       ``````````````````````
 
-      With the ``@Persisted`` property declaration syntax, you may see a 
-      performance impact when setting default values for: 
-         
+      With the ``@Persisted`` property declaration syntax, you may see a
+      performance impact when setting default values for:
+
       - ``List``
-      - ``MutableSet`` 
+      - ``MutableSet``
       - ``Dictionary``
       - ``Decimal128``
       - ``UUID``
-      - ``ObjectId`` 
-         
-      ``@Persisted var listProperty: List<Int>`` and ``@Persisted var 
-      listProperty = List<Int>()`` are both valid, and are functionally 
-      equivalent. However, the second declaration will result in poorer 
-      performance. 
-         
-      This is because the List is created when the parent object is 
-      created, rather than lazily as needed. For most types, this is 
-      a difference so small you can't measure it. For the types listed 
-      here, you may see a performance impact when using the second 
+      - ``ObjectId``
+
+      ``@Persisted var listProperty: List<Int>`` and ``@Persisted var
+      listProperty = List<Int>()`` are both valid, and are functionally
+      equivalent. However, the second declaration will result in poorer
+      performance.
+
+      This is because the List is created when the parent object is
+      created, rather than lazily as needed. For most types, this is
+      a difference so small you can't measure it. For the types listed
+      here, you may see a performance impact when using the second
       declaration style.
 
    .. tab:: Objective-C
@@ -301,7 +301,7 @@ Property Cheat Sheet
          :header-rows: 1
          :stub-columns: 1
          :widths: 20 40 40
-      
+
          * - Type
            - Required
            - Optional
@@ -418,7 +418,7 @@ Property Cheat Sheet
          :header-rows: 1
          :stub-columns: 1
          :widths: 20 40 40
-      
+
          * - Type
            - Required
            - Optional
@@ -429,7 +429,7 @@ Property Cheat Sheet
                 @objc dynamic var value = false
            - .. code-block:: swift
                 :copyable: false
-           
+
                 let value = RealmProperty<Bool?>()
          * - Int, Int8, Int16, Int32, Int64
            - .. code-block:: swift
@@ -438,111 +438,111 @@ Property Cheat Sheet
                 @objc dynamic var value = 0
            - .. code-block:: swift
                 :copyable: false
-           
+
                 let value = RealmProperty<Int?>()
          * - Float
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value: Float = 0.0
            - .. code-block:: swift
                 :copyable: false
-           
+
                 let value = RealmProperty<Float?>()
          * - Double
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value: Double = 0.0
            - .. code-block:: swift
                 :copyable: false
-           
+
                 let value = RealmProperty<Double?>()
          * - String
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value = ""
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value: String? = nil
          * - Data
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value = Data()
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value: Data? = nil
          * - Date
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value = Date()
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value: Date? = nil
          * - Decimal128
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var decimal: Decimal128 = 0
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var decimal: Decimal128?
          * - :swift-sdk:`UUID <Extensions.html#/s:10Foundation4UUIDV>`
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var uuid = UUID()
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var uuidOpt: UUID?
          * - :swift-sdk:`ObjectId <Classes/ObjectId.html>`
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var objectId = ObjectId.generate()
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var objectId: ObjectId?
          * - :swift-sdk:`List <Classes/List.html>`
            - .. code-block:: swift
                 :copyable: false
-           
+
                 let value = List<Type>()
-           - 
-         * - :ref:`MutableSet <ios-mutableset-data-type>` 
+           -
+         * - :ref:`MutableSet <ios-mutableset-data-type>`
            - .. code-block:: swift
                 :copyable: false
-           
+
                 let value = MutableSet<Type>()
-           - 
-         * - :ref:`Map <ios-map>` 
+           -
+         * - :ref:`Map <ios-map>`
            - .. code-block:: swift
                 :copyable: false
-           
+
                 let value = Map<String, String>()
-           - 
+           -
          * - :ref:`AnyRealmValue <ios-anyrealmvalue-data-type>`
            - .. code-block:: swift
                 :copyable: false
-           
+
                 let value = RealmProperty<AnyRealmValue>()
            - N/A
          * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
            - N/A
            - .. code-block:: swift
                 :copyable: false
-           
+
                 @objc dynamic var value: MyClass?
-      
+
       Additionally:
 
       - :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`-derived types
@@ -560,13 +560,13 @@ Unique Identifiers
 .. versionadded:: 10.8.0
    ``UUID`` type
 
-``ObjectId`` is a MongoDB-specific 12-byte unique value. ``UUID`` is a 
-16-byte globally-unique value. You can :ref:`index <ios-index-a-property>` 
+``ObjectId`` is a MongoDB-specific 12-byte unique value. ``UUID`` is a
+16-byte globally-unique value. You can :ref:`index <ios-index-a-property>`
 both types, and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
 
 .. note::
 
-   When declaring default values for ``@Persisted`` UUID or ObjectId property 
+   When declaring default values for ``@Persisted`` UUID or ObjectId property
    attributes, both of these syntax types are valid:
 
    - ``@Persisted var value: UUID``
@@ -576,10 +576,10 @@ both types, and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
    latter creates a new identifier that is never used any time an object is
    read from the realm, while the former only creates them when needed.
 
-   ``@Persisted var id: ObjectId`` has equivalent behavior to ``@objc dynamic 
-   var _id = ObjectId.generate()``. They both make random ObjectIds. 
-   
-   ``@Persisted var _id = ObjectId()`` has equivalent behavior to ``@objc 
+   ``@Persisted var id: ObjectId`` has equivalent behavior to ``@objc dynamic
+   var _id = ObjectId.generate()``. They both make random ObjectIds.
+
+   ``@Persisted var _id = ObjectId()`` has equivalent behavior to ``@objc
    dynamic var _id = ObjectId()``. They both make zero-initialized ObjectIds.
 
 .. _ios-size-limitations:
@@ -619,10 +619,10 @@ Mutable Set
 
 .. versionadded:: 10.8.0
 
-A :swift-sdk:`MutableSet <Classes/MutableSet.html>` 
-collection represents a :ref:`to-many relationship <ios-to-many-relationship>` 
-containing distinct values. A ``MutableSet`` supports the following types 
-(and their optional versions): 
+A :swift-sdk:`MutableSet <Classes/MutableSet.html>`
+collection represents a :ref:`to-many relationship <ios-to-many-relationship>`
+containing distinct values. A ``MutableSet`` supports the following types
+(and their optional versions):
 
 - Bool
 - Data
@@ -640,22 +640,22 @@ containing distinct values. A ``MutableSet`` supports the following types
 - String
 - UUID
 
-Like Swift's :apple:`Set <documentation/swift/set>`, ``MutableSet`` is a 
-generic type that is parameterized on the type it stores. Unlike 
-:apple:`native Swift collections <documentation/swift/swift_standard_library/collections>`, 
-Realm mutable sets are reference types, as opposed to value 
-types (structs). 
+Like Swift's :apple:`Set <documentation/swift/set>`, ``MutableSet`` is a
+generic type that is parameterized on the type it stores. Unlike
+:apple:`native Swift collections <documentation/swift/swift_standard_library/collections>`,
+Realm mutable sets are reference types, as opposed to value
+types (structs).
 
-You can only call the ``MutableSets`` mutation methods during a write 
-transaction. As a result, ``MutableSets`` are immutable if you open the 
-managing realm as a read-only realm. 
+You can only call the ``MutableSets`` mutation methods during a write
+transaction. As a result, ``MutableSets`` are immutable if you open the
+managing realm as a read-only realm.
 
-You can filter and sort a ``MutableSet`` with the :ref:`same predicates 
+You can filter and sort a ``MutableSet`` with the :ref:`same predicates
 <ios-filter-data>` as :ref:`Results <ios-results-collections>`. Like other
-Realm collections, you can :ref:`register a change listener 
+Realm collections, you can :ref:`register a change listener
 <ios-register-a-collection-change-listener>` on a ``MutableSet``.
 
-For example, a ``Dog`` class model might contain a ``MutableSet`` for 
+For example, a ``Dog`` class model might contain a ``MutableSet`` for
 ``citiesVisited``:
 
 .. code-block:: swift
@@ -669,14 +669,14 @@ For example, a ``Dog`` class model might contain a ``MutableSet`` for
 
 .. note::
 
-   When declaring default values for ``@Persisted`` MutableSet property attributes, 
+   When declaring default values for ``@Persisted`` MutableSet property attributes,
    both of these syntax types is valid:
 
    - ``@Persisted var value: MutableSet<String>``
    - ``@Persisted var value = MutableSet<String>()``
 
    However, the second will result in significantly worse performance. This is
-   because the MutableSet is created when the parent object is created, rather than 
+   because the MutableSet is created when the parent object is created, rather than
    lazily as needed.
 
 .. _ios-map:
@@ -704,7 +704,7 @@ You can declare a Map as a property of an object:
    class Dog: Object {
        @Persisted var name = ""
        @Persisted var currentCity = ""
-       
+
        // Map of city name -> favorite park in that city
        @Persisted var favoriteParksByCity: Map<String, String>
    }
@@ -722,7 +722,7 @@ You can declare a Map as a property of an object:
    - ``@Persisted var value = Map<String, String>()``
 
    However, the second will result in significantly worse performance. This is
-   because the Map is created when the parent object is created, rather than 
+   because the Map is created when the parent object is created, rather than
    lazily as needed.
 
 .. _ios-mixed-data-type:
@@ -731,9 +731,13 @@ You can declare a Map as a property of an object:
 AnyRealmValue
 ~~~~~~~~~~~~~
 
+.. versionchanged:: 10.51.0
+
+   ``AnyRealmValue`` properties can hold lists or maps of mixed data.
+
 .. versionadded:: 10.8.0
 
-``AnyRealmValue`` is a Realm property type that can hold different 
+``AnyRealmValue`` is a Realm property type that can hold different
 data types. Supported ``AnyRealmValue`` data types include:
 
 - Int
@@ -746,11 +750,15 @@ data types. Supported ``AnyRealmValue`` data types include:
 - Date
 - Data
 - String
+- List
+- Map
 - Object
 
-This :swift-sdk:`mixed data type <Enums/AnyRealmValue.html>` 
-is :ref:`indexable <ios-index-a-property>`, but you can't use it as a 
-:ref:`primary key <ios-specify-a-primary-key>`. Because ``null`` is a 
+``AnyRealmValue`` *cannot* hold a ``MutableSet`` or embedded object.
+
+This :swift-sdk:`mixed data type <Enums/AnyRealmValue.html>`
+is :ref:`indexable <ios-index-a-property>`, but you can't use it as a
+:ref:`primary key <ios-specify-a-primary-key>`. Because ``null`` is a
 permitted value, you can't declare an ``AnyRealmValue`` as optional.
 
 .. code-block:: swift
@@ -759,9 +767,31 @@ permitted value, you can't declare an ``AnyRealmValue`` as optional.
    class Dog: Object {
        @Persisted var name = ""
        @Persisted var currentCity = ""
-       
+
        @Persisted var companion: AnyRealmValue
    }
+
+.. _ios-nested-collections-realmanyvalue:
+
+Collections as Mixed
+````````````````````
+
+In version 10.51.0 and later, a ``AnyRealmValue`` data type can
+contain collections (a list or map, but *not* a set) of ``AnyRealmValue``
+elements. You can use mixed collections to
+model unstructured or variable data. For more information, refer to
+:ref:`<ios-model-unstructured-data>`.
+
+- You can nest mixed collections up to 100 levels.
+- You can query mixed collection properties and
+  :ref:`register a listener for changes <ios-react-to-changes>`,
+  as you would a normal collection.
+- You can find and update individual mixed collection elements
+- You *cannot* store sets or embedded objects in mixed collections.
+
+To use mixed collections in your app, define the ``AnyRealmValue`` type
+property in your data model.
+Then, you can create the list or map collections like any other mixed data value.
 
 .. _swift-geospatial-data-type:
 
@@ -770,23 +800,23 @@ Geospatial Data
 
 .. versionadded:: 10.47.0
 
-Geospatial data, or "geodata", specifies points and geometric objects on 
-the Earth's surface. 
+Geospatial data, or "geodata", specifies points and geometric objects on
+the Earth's surface.
 
-If you want to persist geospatial data, it must conform to the 
-`GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`__. 
+If you want to persist geospatial data, it must conform to the
+`GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`__.
 
-To persist geospatial data with the Swift SDK, create a GeoJSON-compatible 
+To persist geospatial data with the Swift SDK, create a GeoJSON-compatible
 embedded class that you can use in your data model.
 
-Your custom embedded object must contain the two fields required by the 
+Your custom embedded object must contain the two fields required by the
 GeoJSON spec:
 
-- A field of type ``String`` property that maps to a ``type`` property with 
+- A field of type ``String`` property that maps to a ``type`` property with
   the value of ``"Point"``: ``@Persisted var type: String = "Point"``
 
-- A field of type ``List<Double>`` that maps to a ``coordinates`` 
-  property containing a latitude/longitude pair: 
+- A field of type ``List<Double>`` that maps to a ``coordinates``
+  property containing a latitude/longitude pair:
   ``@Persisted private var coordinates: List<Double>``
 
 .. literalinclude:: /examples/generated/code/start/Geospatial.snippet.custom-geopoint.swift
@@ -800,10 +830,10 @@ Map Unsupported Types to Supported Types
 
 .. versionadded:: 10.20.0
 
-You can use Type Projection to persist unsupported types as supported types 
-in Realm. This enables you to work with Swift types that Realm 
-does not support, but store them as types that Realm does support. You could 
-store a URL as a ``String``, for example, but read it from 
+You can use Type Projection to persist unsupported types as supported types
+in Realm. This enables you to work with Swift types that Realm
+does not support, but store them as types that Realm does support. You could
+store a URL as a ``String``, for example, but read it from
 Realm and use it in your application as though it were a URL.
 
 Declare Type Projections
@@ -811,9 +841,9 @@ Declare Type Projections
 
 To use type projection with Realm:
 
-1. Use one of Realm's custom type protocols to map an unsupported data type 
+1. Use one of Realm's custom type protocols to map an unsupported data type
    to a type that Realm supports
-#. Use the projected types as @Persisted properties in the Realm object 
+#. Use the projected types as @Persisted properties in the Realm object
    model
 
 .. _ios-conform-to-type-projection-protocol:
@@ -821,7 +851,7 @@ To use type projection with Realm:
 Conform to the Type Projection Protocol
 ```````````````````````````````````````
 
-You can map an unsupported data type to a :ref:`type that Realm supports 
+You can map an unsupported data type to a :ref:`type that Realm supports
 <ios-supported-property-types>` using one of the Realm type projection protocols.
 
 The Swift SDK provides two type projection protocols:
@@ -829,18 +859,18 @@ The Swift SDK provides two type projection protocols:
 - CustomPersistable
 - FailableCustomPersistable
 
-Use :swift-sdk:`CustomPersistable <Protocols/CustomPersistable.html>` 
+Use :swift-sdk:`CustomPersistable <Protocols/CustomPersistable.html>`
 when there is no chance the conversion can fail.
 
-Use :swift-sdk:`FailableCustomPersistable <Protocols/FailableCustomPersistable.html>` 
-when it is possible for the conversion to fail. 
+Use :swift-sdk:`FailableCustomPersistable <Protocols/FailableCustomPersistable.html>`
+when it is possible for the conversion to fail.
 
 .. literalinclude:: /examples/generated/code/start/TypeProjection.snippet.custom-persistable-protocols.swift
    :language: swift
 
 .. seealso::
 
-   These are protocols modeled after Swift's built-in :apple:`RawRepresentable 
+   These are protocols modeled after Swift's built-in :apple:`RawRepresentable
    <documentation/swift/rawrepresentable>`.
 
 .. _ios-persisted-types:
@@ -848,12 +878,12 @@ when it is possible for the conversion to fail.
 Supported PersistedTypes
 ++++++++++++++++++++++++
 
-The ``PersistedType`` can use any of the primitive types that the 
-:ref:`Swift SDK supports <ios-supported-property-types>`. It can also be 
+The ``PersistedType`` can use any of the primitive types that the
+:ref:`Swift SDK supports <ios-supported-property-types>`. It can also be
 an :ref:`Embedded Object <ios-embedded-objects>`.
 
-``PersistedType`` cannot be an optional or a :ref:`collection 
-<ios-client-collections>`. However you can use the mapped type as an 
+``PersistedType`` cannot be an optional or a :ref:`collection
+<ios-client-collections>`. However you can use the mapped type as an
 optional or collection property in your object model.
 
 .. code-block:: swift
@@ -879,8 +909,8 @@ optional or collection property in your object model.
 Use Type Projection in the Model
 ````````````````````````````````
 
-A type that conforms to one of the type projection protocols can be used with 
-the ``@Persisted`` property declaration syntax introduced in Swift SDK 
+A type that conforms to one of the type projection protocols can be used with
+the ``@Persisted`` property declaration syntax introduced in Swift SDK
 version 10.10.0. It does not work with the ``@objc dynamic`` syntax.
 
 You can use projected types for:
@@ -891,16 +921,16 @@ You can use projected types for:
 
 When using a ``FailableCustomPersistable`` as a property, define it as an
 optional property. When it is optional, the ``FailableCustomPersistable``
-protocol maps invalid values to ``nil``. When it is a required property, it is 
-force-unwrapped. If you have a value that can't be converted to the projected 
+protocol maps invalid values to ``nil``. When it is a required property, it is
+force-unwrapped. If you have a value that can't be converted to the projected
 type, reading that property throws an unwrapped fail exception.
 
 .. literalinclude:: /examples/generated/code/start/TypeProjection.snippet.use-type-projection-in-objects.swift
    :language: swift
 
-When your model contains projected types, you can :ref:`create the object 
-<ios-create-a-new-object>` with values using the persisted type, or 
-by assigning to the field properties of an initialized object using the 
+When your model contains projected types, you can :ref:`create the object
+<ios-create-a-new-object>` with values using the persisted type, or
+by assigning to the field properties of an initialized object using the
 projected types.
 
 .. literalinclude:: /examples/generated/code/start/TypeProjection.snippet.create-objects-with-type-projection.swift
@@ -910,9 +940,9 @@ Type Projection in the Schema
 +++++++++++++++++++++++++++++
 
 When you declare your type as conforming to a type projection protocol, you
-specify the type that should be persisted in realm. For example, if 
+specify the type that should be persisted in realm. For example, if
 you map a custom type ``URL`` to a persisted type of ``String``, a ``URL``
-property appears as a ``String`` in the schema, and dynamic access to the 
+property appears as a ``String`` in the schema, and dynamic access to the
 property acts on strings.
 
 The schema does not directly represent mapped types. Changing a property

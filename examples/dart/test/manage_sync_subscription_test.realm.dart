@@ -40,6 +40,10 @@ class Plane extends _Plane with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Plane>(this);
 
   @override
+  Stream<RealmObjectChanges<Plane>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Plane>(this, keyPaths);
+
+  @override
   Plane freeze() => RealmObjectBase.freezeObject<Plane>(this);
 
   EJsonValue toEJson() {
@@ -115,6 +119,10 @@ class Train extends _Train with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Train>(this);
 
   @override
+  Stream<RealmObjectChanges<Train>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Train>(this, keyPaths);
+
+  @override
   Train freeze() => RealmObjectBase.freezeObject<Train>(this);
 
   EJsonValue toEJson() {
@@ -188,6 +196,10 @@ class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Boat>> get changes =>
       RealmObjectBase.getChanges<Boat>(this);
+
+  @override
+  Stream<RealmObjectChanges<Boat>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Boat>(this, keyPaths);
 
   @override
   Boat freeze() => RealmObjectBase.freezeObject<Boat>(this);

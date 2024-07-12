@@ -5,10 +5,13 @@ import 'dart:math';
 
 Future<void> cleanUpRealm(Realm realm, [App? app]) async {
   await app?.currentUser?.logOut();
+
   if (!realm.isClosed) {
     realm.close();
   }
-  sleep(Duration(milliseconds: 500));
+
+  await delay(500);
+
   Realm.deleteRealm(realm.config.path);
 }
 
@@ -17,4 +20,8 @@ String generateRandomString(int len) {
   const _chars = 'abcdefghjklmnopqrstuvwxuz';
   return List.generate(len, (index) => _chars[random.nextInt(_chars.length)])
       .join();
+}
+
+Future delay(duration) async {
+  await Future.delayed(Duration(milliseconds: duration));
 }

@@ -6,7 +6,7 @@ Page Title
 
 .. meta::
    :description: Provide a short description of the consolidated page. This is critical for SEO.
-   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
 
 .. facet::
   :name: genre

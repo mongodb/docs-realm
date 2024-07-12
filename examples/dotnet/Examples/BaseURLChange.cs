@@ -8,10 +8,6 @@ using Realms.Sync.Testing;
 using Realms.Logging;
 using System.Threading;
 
-//:snippet-start: experimental-import
-using System.Diagnostics.CodeAnalysis;
-//:snippet-end:
-
 namespace Examples
 {
     public class BaseURLChange

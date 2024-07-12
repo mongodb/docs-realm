@@ -1,15 +1,15 @@
-#. Open a write transaction with `realm.write()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
-   `realm.writeBlocking()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
+#. Open a write transaction with :kotlin-sdk:`realm.write()
+   <io.realm.kotlin/-realm/write.html>` or
+   :kotlin-sdk:`realm.writeBlocking()
+   <io.realm.kotlin/-realm/write-blocking.html>`.
 
 #. Instantiate an unmanaged object instance with the class 
    constructor. You can use an `apply block
    <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html>`__
    to configure multiple properties at once.
 
-#. Pass the unmanaged object instance to `copyToRealm()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__
+#. Pass the unmanaged object instance to :kotlin-sdk:`copyToRealm()
+   <io.realm.kotlin/-mutable-realm/copy-to-realm.html>`
    to persist the object data to the database. This method returns a
    live managed instance of the object. 
 
