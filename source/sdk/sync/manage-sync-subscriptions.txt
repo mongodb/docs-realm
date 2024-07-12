@@ -436,18 +436,6 @@ When you create a subscription, the SDK looks for data matching a query on a
 specific object type. You can have multiple subscription sets on different 
 object types. You can also have multiple queries on the same object type.
 
-.. note:: Duplicate subscriptions
-
-   Subscription names must be unique. Trying to append a subscription 
-   with the same name as an existing subscription throws an error.
-   
-   If you do not explicitly name a subscription, and instead subscribe 
-   to the same unnamed query more than once, the SDK does not persist 
-   duplicate queries to the subscription set. 
-   
-   If you subscribe to the same query more than once under different names, 
-   the SDK persists both subscriptions to the subscription set.
-
 .. _sdks-sync-subscriptions-add-subscription:
 
 Add a Subscription
@@ -519,6 +507,46 @@ initial subscriptions on app launch. For details, skip to the
       .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-add-subscription-js-ts-description.rst
 
 .. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-subscription.rst
+
+.. Some of the SDKs have special behavior around duplicate subs, but others don't.
+.. Adding this tab set to show/hide relevant details.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-duplicate-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-duplicate-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-duplicate-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-duplicate-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
 
 .. _sdks-add-unnamed-subscription:
 
@@ -630,18 +658,6 @@ At any point after setting initial subscriptions, you can:
 - :ref:`Add more subscriptions to the subscription set. <sdks-sync-subscriptions-add-subscription>`
 - :ref:`Update existing subscriptions in the subscription set. <sdks-update-subscriptions-with-new-query>`
 - :ref:`Remove subscriptions from the subscription set. <sdks-remove-subscriptions>`
-
-.. _sdks-check-existing-subscriptions-before-adding:
-
-Check for Existing Subscriptions Before Adding a Subscription
-`````````````````````````````````````````````````````````````
-
-If your application flow appends the same named subscription to the subscription 
-set every time you run the application, this is disallowed. In this case, 
-add a check for an existing subscription before appending it:
-
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.check-before-adding-subscription.swift
-   :language: swift
 
 .. _ios-sync-check-subscription-state:
 .. _ios-sync-react-to-subscription-changes:
