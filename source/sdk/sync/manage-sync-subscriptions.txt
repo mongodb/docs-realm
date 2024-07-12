@@ -231,7 +231,6 @@ a subscription, you should add a name when you subscribe to a query.
 
 You can later use this name to:
 
-- :ref:`Check for an existing subscription by name <sdks-check-existing-subscriptions-before-adding>`
 - :ref:`Update a subscription's query <sdks-update-subscriptions-with-new-query>`
 - :ref:`Remove the query by name <sdks-remove-query-by-name>`
 
@@ -522,7 +521,7 @@ initial subscriptions on app launch. For details, skip to the
    .. tab::
       :tabid: dart
 
-      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-duplicate-subscription-description.rst
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-duplicate-subscriptions-description.rst
 
    .. tab::
       :tabid: java
@@ -543,7 +542,7 @@ initial subscriptions on app launch. For details, skip to the
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-duplicate-subscription-description.rst
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-duplicate-subscriptions-description.rst
 
    .. tab::
       :tabid: typescript
@@ -659,54 +658,82 @@ At any point after setting initial subscriptions, you can:
 - :ref:`Update existing subscriptions in the subscription set. <sdks-update-subscriptions-with-new-query>`
 - :ref:`Remove subscriptions from the subscription set. <sdks-remove-subscriptions>`
 
-.. _ios-sync-check-subscription-state:
-.. _ios-sync-react-to-subscription-changes:
+.. _sdks-wait-for-subscription-changes-to-sync:
 
 Wait for Subscription Changes to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Updating the subscription set locally is only one component 
-of changing a subscription. After the local subscription change, the realm 
+Updating the subscription set on the device is only one component 
+of changing a subscription. After the client app subscription change, the SDK 
 synchronizes with the server to resolve any updates to the data due to 
 the subscription change. This could mean adding or removing data from the 
-synced realm. 
+synced database.
 
-Pre Async/Await
-```````````````
+**Adding New Subscriptions**
 
-If your application does not use Swift's async/await feature, you can react 
-to subscription changes syncing with the server using the ``onComplete`` 
-block. This block is called after subscriptions are synchronized with the 
-server. If you want to react to subscription state changes by redrawing a 
-UI, for example, or taking another action based on changes to the data set, 
-take those actions in ``onComplete``. This is also where you can handle 
-optional errors that occur during synchronization.
+If your app creates objects, you may not need to download synced data before
+the user works with it. However, if your app requires data from Atlas before
+the user can work with your app, you can specify that the SDK should wait for
+the subscription changes to sync before proceeding.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-subscription-with-oncomplete.swift
-   :language: swift
+**Updating Existing Subscriptions**
 
-Async/Await
-```````````
+When you update an existing subscription, this could mean adding new data or
+removing data from the synced database. If this involves things like changing
+user permissions to add or remove data, or if your app otherwise makes these
+changes visible to users in the UI, you may want to wait for subscription
+changes to update before proceeding with app execution. Otherwise, the changes
+may appear to the user as unexpected changes to the data set later during
+"normal" app execution.
 
-If your application uses async/await, you don't need the ``onComplete`` 
-block. The update executes asynchronously and throws an 
-error if the update cannot complete successfully.
+.. tabs-drivers::
 
-.. code-block:: swift
+   .. tab::
+      :tabid: cpp-sdk
 
-   @MainActor
-   func changeSubscription() async throws {
-      let subscriptions = realm.subscriptions
-      try await subcriptions.update {
-         subscriptions.remove {
-            QuerySubscription<Task> {
-               $0.assignee == "Joe Doe"
-            }
-         }
-      }
-   }
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-not-supported.rst
 
-.. include:: /includes/swift-concurrency-mainactor.rst
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync.rst
 
 Subscription Set State
 ~~~~~~~~~~~~~~~~~~~~~~
