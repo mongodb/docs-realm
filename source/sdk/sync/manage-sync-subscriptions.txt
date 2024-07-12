@@ -460,9 +460,9 @@ Subscriptions persist across user sessions unless you remove them from the
 subscription set.
 
 If your app is adding subscriptions for the first time, some SDK languages
-provide a special parameter to :ref:`set initial subscriptions
-<sdks-set-initial-subscriptions>` or recalculate initial subscriptions on app
-launch.
+provide a special parameter to set initial subscriptions or recalculate
+initial subscriptions on app launch. For details, skip to the
+:ref:`set initial subscriptions <sdks-set-initial-subscriptions>` on this page.
 
 .. tip::
 
@@ -566,40 +566,70 @@ without providing a query.
 
 .. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-subscribe-to-all-objects-of-type.rst
 
-.. _ios-sync-add-initial-subscriptions:
 .. _sdks-set-initial-subscriptions:
 
 Set Initial Subscriptions
 `````````````````````````
 
-.. versionadded:: 10.28.0
-
 You must have at least one subscription before you can read from or write
-to the realm. You can bootstrap a realm with an initial subscription set
-when you open it with the :swift-sdk:`flexibleSyncConfiguration() 
-<Extensions/User.html#/s:So7RLMUserC10RealmSwiftE25flexibleSyncConfigurationAC0B0V0F0VyF>`.
-Pass the ``initialSubscriptions`` parameter with the subscription queries 
-you want to use to bootstrap the realm:
+to the database. You can bootstrap the database with an initial subscription
+set when you open it. This ensures your app can start working with the database
+successfully right away.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions.swift
-   :language: swift
+.. tabs-drivers::
 
-If your app needs to rerun this initial subscription every time the app starts,
-you can pass an additional parameter - ``rerunOnOpen``. This is a bool that 
-denotes whether the initial subscription should re-run every time the 
-app starts. You might need to do this to re-run dynamic time ranges 
-or other queries that require a re-computation of static variables for the 
-subscription.
+   .. tab::
+      :tabid: cpp-sdk
 
-In this example, we don't want users to be overwhelmed by irrelevant tasks,
-so we'll load only tasks due within the previous 7 days and the next 7 days.
-Tasks that were due more than a week ago are no longer relevant, and tasks
-that are due further out than the next week are also not relevant. With
-``rerunOnOpen`` here, the query dynamically recalculates the relevant 
-objects to sync based on the desired date range every time the app starts.
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-set-initial-subscriptions-not-supported.rst
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions-rerun-on-open.swift
-   :language: swift
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-set-initial-subscriptions-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-set-initial-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-set-initial-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-set-initial-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-set-initial-subscriptions-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-set-initial-subscriptions-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-set-initial-subscriptions-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-set-initial-subscriptions-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-set-initial-subscriptions.rst
+
+At any point after setting initial subscriptions, you can:
+
+- :ref:`Add more subscriptions to the subscription set. <sdks-sync-subscriptions-add-subscription>`
+- :ref:`Update existing subscriptions in the subscription set. <sdks-update-subscriptions-with-new-query>`
+- :ref:`Remove subscriptions from the subscription set. <sdks-remove-subscriptions>`
 
 .. _sdks-check-existing-subscriptions-before-adding:
 
