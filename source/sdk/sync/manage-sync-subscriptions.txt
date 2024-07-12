@@ -735,20 +735,78 @@ may appear to the user as unexpected changes to the data set later during
 
 .. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync.rst
 
+.. _sdks-subscription-set-state:
+
 Subscription Set State
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Use the :swift-sdk:`SubscriptionSet.state
-<Structs/SyncSubscriptionSet.html#/s:10RealmSwift19SyncSubscriptionSetV5stateAA0cD5StateOvp>`
-property to read the current state of the subscription set.
+You can check the state of the subscription set through to find out the current
+status of the subscription set. This provides information about whether
+Atlas has registered the subscription that is on the device. It does not
+make any guarantees about the state of the documents matching the subscription.
 
-The ``superseded`` state is a :swift-sdk:`SyncSubscriptionState
-<Enums/SyncSubscriptionState.html#/s:10RealmSwift21SyncSubscriptionStateO8completeyA2CmF>`
-that can occur when another thread updates a subscription on a different
-instance of the subscription set. If the state becomes ``superseded``, you must
-obtain a new instance of the subscription set before you can update it.
+.. tabs-drivers::
 
-.. include:: /includes/note-sync-state-complete.rst
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-subscription-set-state-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-subscription-set-state-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-subscription-set-state-js-ts-description.rst
+
+.. note:: Subscription State "Complete"
+
+   The subscription set state "complete" does not mean "sync is done" or "all
+   documents have been synced". "Complete" means the following two things have
+   happened:
+   
+   - The subscription has become the active subscription set that is currently
+     being synchronized with the server.
+   - The documents that matched the subscription *at the time the subscription
+     was sent to the server* are now on the device. Note that this does
+     not necessarily include all documents that currently match the
+     subscription.
+  
+   The SDK does not provide a way to check whether all documents that
+   match a subscription have synced to the device.
 
 .. _sdks-update-subscriptions-with-new-query:
 
