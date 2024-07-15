@@ -937,7 +937,6 @@ Change an Unnamed Subscription
 
 .. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-change-unnamed-subscription.rst
 
-.. _ios-remove-subscriptions:
 .. _sdks-remove-subscriptions:
 
 Remove Subscriptions
@@ -945,64 +944,350 @@ Remove Subscriptions
 
 To remove subscriptions, you can:
 
-- Remove a single subscription query
-- Remove all subscriptions to a specific object type
+- Remove a specific subscription
+  - Remove a named subscription
+  - Remove an unnamed subscription
+  - Remove a subscription by reference
+
+- Remove all subscriptions for a specific object type
 - Remove all unnamed subscriptions
 - Remove all subscriptions
 
-When you remove a subscription query, Realm asynchronously removes the
+When you remove a subscription query, the SDK asynchronously removes the
 synced data that matched the query from the client device.
 
 .. _sdks-remove-query-by-name:
-.. _sdks-remove-single-subscription:
 
-Remove a Single Subscription
+Remove a Named Subscription
 ````````````````````````````
 
-You can remove a specific subscription query in a subscription update block 
-using ``remove``. Specify the query by name or use the query as a string 
-to find the appropriate subscription query to remove.
+.. tabs-drivers::
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-single-subscription.swift
-   :language: swift
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-named-subscription.rst
+
+.. _sdks-remove-unnamed-subscription:
+
+Remove an Unnamed Subscription
+``````````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-unnamed-subscription.rst
+
+.. _sdks-remove-subscription-by-reference:
+
+Remove a Subscription by Reference
+``````````````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-subscription-by-reference-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-subscription-by-reference-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-subscription-by-reference.rst
+
+.. _sdks-remove-all-subscriptions-for-object-type:
 
 Remove All Subscriptions to an Object Type
 ``````````````````````````````````````````
 
-If you want to remove all subscriptions to a specific object type, use the 
-``removeAll`` method with ``ofType`` in a subscription update block.
+.. tabs-drivers::
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-subscriptions-to-object-type.swift
-   :language: swift
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-all-subscription-to-object-type-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type.rst
+
+.. _sdks-remove-all-unnamed-subscriptions:
 
 Remove All Unnamed Subscriptions
 `````````````````````````````````
 
-.. versionadded:: 10.43.0
-
 You may want to remove unnamed subscriptions that are transient or dynamically 
 generated, but leave named subscriptions in place.
 
-You can remove all unnamed subscriptions from the subscription set by 
-setting ``unnamedOnly`` to ``true`` when you call the ``removeAll`` method:
+.. tabs-drivers::
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-unnamed-subscriptions.swift
-   :language: swift
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions.rst
+
+.. _sdks-remove-all-subscriptions:
 
 Remove All Subscriptions
 ````````````````````````
 
-To remove all subscriptions from the subscription set, use the ``removeAll``
-method in a subscription update block.
-
 .. important::
 
    If you remove all subscriptions and do not add a new one, you'll 
-   get an error. A realm opened with a flexible sync configuration needs
+   get an error. A database opened with a flexible sync configuration needs
    at least one subscription to sync with the server.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-subscriptions.swift
-   :language: swift
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-all-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-subscriptions-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-subscriptions-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-all-subscriptions.rst
 
 .. _sdks-sync-subscription-performance-considerations:
 
@@ -1031,15 +1316,3 @@ Flexible Sync RQL Requirements and Limitations
 -----------------------------------------------
 
 .. include:: /includes/flex-sync-limitations.rst
-
-Placeholder page for information about managing Flexible Sync subscriptions.
-
-.. _sdks-add-sync-subscriptions:
-
-Add Sync Subscriptions
-----------------------
-
-.. _sdks-remove-sync-subscriptions:
-
-Remove Sync Subscriptions
--------------------------
