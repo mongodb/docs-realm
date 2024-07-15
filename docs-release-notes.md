@@ -1,3 +1,19 @@
+# July 12, 2024
+
+## .NET SDK
+
+- Sync Data/Check Upload & Download Progress: Updates to "Monitor Sync Progress" section for compatibility with Flexible Sync.
+
+## React Native SDK
+
+- Manage Users
+  - Authenticate Users: Update information and code example for logging in with an API key.
+  - Create & Manage User API Keys: Update information and code examples for creating, deleting, enabling, and disabling API keys from the client.
+
+## Other
+
+- SDK Landing Pages: Update illustrations for 2024 branding and compatibility with dark mode.
+
 # June 28, 2024
 
 ## Flutter SDK
