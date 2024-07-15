@@ -231,7 +231,7 @@ a subscription, you should add a name when you subscribe to a query.
 
 You can later use this name to:
 
-- :ref:`Update a subscription's query <sdks-update-subscriptions-with-new-query>`
+- :ref:`Change a subscription's query <sdks-change-subscription-queries>`
 - :ref:`Remove the query by name <sdks-remove-query-by-name>`
 
 .. tabs-drivers::
@@ -655,7 +655,7 @@ successfully right away.
 At any point after setting initial subscriptions, you can:
 
 - :ref:`Add more subscriptions to the subscription set. <sdks-sync-subscriptions-add-subscription>`
-- :ref:`Update existing subscriptions in the subscription set. <sdks-update-subscriptions-with-new-query>`
+- :ref:`Change existing subscriptions in the subscription set. <sdks-change-subscription-queries>`
 - :ref:`Remove subscriptions from the subscription set. <sdks-remove-subscriptions>`
 
 .. _sdks-wait-for-subscription-changes-to-sync:
@@ -808,25 +808,134 @@ make any guarantees about the state of the documents matching the subscription.
    The SDK does not provide a way to check whether all documents that
    match a subscription have synced to the device.
 
-.. _sdks-update-subscriptions-with-new-query:
+.. _sdks-change-subscription-queries:
 
-Update Subscriptions with a New Query
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Change Subscription Queries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can update a subscription's query using ``updateQuery``. In this example, 
-we search for a subscription matching our query and then update it with a 
-new query. 
+You can change the queries in a subscription set. You might want to do this
+when business logic dictates syncing a different subset of objects, such as
+when a user unlocks new features in an app.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.update-subscription.swift
-   :language: swift
+- Change a named query
+- Change an unnamed query
 
-You can also :swift-sdk:`search for a subscription by name 
-<Structs/SyncSubscriptionSet.html#/s:10RealmSwift19SyncSubscriptionSetV5first5namedAA0cD0VSgSS_tF>`
-. In this example, we search for a subscription query by name and then 
-update it with a new query.
+When you change a query, consider how it interacts with any other queries that
+may be in the subscription set. You may need to
+:ref:`add <sdks-sync-subscriptions-add-subscription>` or
+:ref:`remove <sdks-remove-subscriptions>` other subscriptions, such as:
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.update-subscription-by-name.swift
-   :language: swift
+- Adding a new subscription when a change to a query introduces new linked objects
+- Removing a subscription when an overlapping query inadvertently exposes
+  objects you don't want to sync
+
+.. _sdks-change-named-subscription:
+
+Change a Named Subscription
+```````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-change-named-subscription-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-change-named-subscription-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-change-named-subscription.rst
+
+.. _sdks-change-unnamed-subscription:
+
+Change an Unnamed Subscription
+``````````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-change-unnamed-subscription-js-ts-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-change-unnamed-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-change-unnamed-subscription-js-ts-not-supported.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-change-unnamed-subscription.rst
 
 .. _ios-remove-subscriptions:
 .. _sdks-remove-subscriptions:
@@ -845,6 +954,7 @@ When you remove a subscription query, Realm asynchronously removes the
 synced data that matched the query from the client device.
 
 .. _sdks-remove-query-by-name:
+.. _sdks-remove-single-subscription:
 
 Remove a Single Subscription
 ````````````````````````````

@@ -11,5 +11,5 @@ You can update a named query subscription with a new query
 by setting ``updateExisting`` to ``true``.
 
 This updates the subscription automatically, instead of requiring you to  
-:ref:`manually update the subscription <sdks-update-subscriptions-with-new-query>`
+:ref:`manually update the subscription <sdks-change-subscription-queries>`
 in the subscription set.
