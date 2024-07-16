@@ -41,55 +41,16 @@ Before You Begin
 #. Then, :ref:`authenticate a user <sdks-authenticate-users>`. You access
    Functions through the user object.
 
-.. tabs-drivers::
+The example on this page demonstrates calling an :ref:`Atlas Function <functions>` 
+named ``sum`` or ``concatenate`` that takes two arguments, sums or concatenates
+them, and returns the result:
 
-   .. tab::
-      :tabid: cpp-sdk
+.. code-block:: javascript
 
-      .. include:: /includes/api-details/cpp/atlas/call-atlas-function-before-you-begin-description.rst
-
-   .. tab::
-      :tabid: csharp
-
-      .. include:: /includes/api-details/csharp/atlas/call-atlas-function-before-you-begin-description.rst
-      
-   .. tab::
-      :tabid: dart
-
-      .. include:: /includes/api-details/dart/atlas/call-atlas-function-before-you-begin-description.rst
-
-   .. tab::
-      :tabid: java
-
-      .. include:: /includes/api-details/java/atlas/call-atlas-function-before-you-begin-description.rst
-
-   .. tab::
-      :tabid: java-kotlin
-
-      .. include:: /includes/api-details/java/atlas/call-atlas-function-before-you-begin-description.rst
-
-   .. tab::
-      :tabid: javascript
-
-      .. include:: /includes/api-details/javascript/atlas/call-atlas-function-before-you-begin-description.rst
-
-   .. tab::
-      :tabid: kotlin
-
-      .. include:: /includes/api-details/kotlin/atlas/call-atlas-function-before-you-begin-description.rst
-
-   .. tab::
-      :tabid: objectivec
-
-      .. include:: /includes/api-details/objc/atlas/call-atlas-function-before-you-begin-description.rst
-
-   .. tab::
-      :tabid: swift
-
-      .. include:: /includes/api-details/swift/atlas/call-atlas-function-before-you-begin-description.rst
-
-   .. tab::
-      :tabid: typescript
+   // concatenate: concatenate two strings
+   exports = function(a, b) {
+     return a + b;
+   };
 
 Call a Function
 ---------------

@@ -19,7 +19,6 @@
          .. literalinclude:: /examples/generated/flutter/functions_test.snippet.call-function.dart
             :language: dart
 
-
      - id: java
        content: |
 
