@@ -31,12 +31,12 @@ counter could result in an inaccurate underlying value across clients. Consider 
 scenario:
 
 - A Realm object has a ``count`` property that stores an ``int``. The value is currently set
-to ``0``.
+  to ``0``.
 - Devices A and B both read the ``count`` value as ``0``.
 - To increment the count, both devices add ``1`` to the read value and set the ``count`` to
-this new value.
+  this new value.
 - The underlying value of the ``count`` is now ``1``, though it should be ``2`` to reflect
-both devices' increments.
+  both devices' increments.
 
 The ``Counter`` class makes it possible to sync these updates so the ``counter`` converges to
 the same underlying value across all clients.
@@ -60,11 +60,13 @@ optionally declare this property as nullable by making it optional and passing b
 schema to ``null``. However, if the property is already set to a ``Counter``, the class's
 ``counter`` value can never be ``null``. The ``Counter`` field is initialized by using either:
 
-- Object notation (as used above)
+- Object notation
+
   - ``{ type: "int", presentation: "counter" }``
   - ``{ type: "int", presentation: "counter", optional: true }``
 
 - Shorthand
+
   - ``"counter"``
   - ``"counter?"``
 
@@ -82,6 +84,7 @@ counter properties and demonstrate both declaration types:
   :language: typescript
 
 You can then use the following methods to modify the counter value:
+
 - ``increment()`` and ``decrement()`` update the underlying value by a specified number.
 - ``set()`` reassigns the counter to a specified value.
 
