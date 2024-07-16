@@ -1,5 +1,5 @@
 To subscribe to a ``RealmQuery`` or ``RealmResults`` set, call the
-:kotlin-sdk:`.subscribe() <io.realm.kotlin.mongodb.ext/subscribe.html>` method.
+:kotlin-sync-sdk:`.subscribe() <io.realm.kotlin.mongodb.ext/subscribe.html>` method.
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.subscribe-unnamed-query.kt
    :language: kotlin
