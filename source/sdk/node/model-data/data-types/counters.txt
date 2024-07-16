@@ -98,10 +98,10 @@ You can then use the following methods to modify the counter value:
    converging on a different value. To avoid inaccurate counter values across clients, we
    recommend not mixing ``set()`` with ``increment()`` and ``decrement()``.
 
-To update a nullable counter (either _to_ or _from_ a ``null`` value), you must use
+To update a nullable counter (either *to* or *from* a ``null`` value), you must use
 ``realm.create()`` with an :js-sdk:`UpdateMode <enums/Realm.UpdateMode.html#Modified>`
-specified. Rather than updating the underlying counter value, you are setting the counter
-property either to null or new counter.
+specified. Rather than updating the underlying counter value, this sets the counter
+property either to null or to a new counter.
 
 ``UpdateMode`` updates any existing Counter object with a matching primary key:
 
