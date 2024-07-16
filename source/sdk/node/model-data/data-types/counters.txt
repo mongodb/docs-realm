@@ -81,28 +81,29 @@ counter properties and demonstrate both declaration types:
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.ts 
   :language: typescript
 
-You then use the ``increment()`` and ``decrement()`` methods to update the value. 
-There is also a ``set()`` method that resets the counter to a specified value:
+You can then use the following methods to modify the counter value:
+- ``increment()`` and ``decrement()`` update the underlying value by a specified number.
+- ``set()`` reassigns the counter to a specified value.
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.update-counter.ts 
   :language: typescript
 
 .. warning:: Counter Resets
 
-   Using ``set()`` will ignore any prior calls to ``increment()`` and ``decrement()``. Subsequent calls 
-   will be applied as expected to the reset counter value. As such, you should be cautious 
-   in mixing ``set()`` with ``increment()`` and ``decrement()`` as it can lead to inaccurate counter 
-   values across clients.
+   Use caution when using ``set()``, as it overwrites any prior calls to ``increment()`` and
+   ``decrement()``. Depending on the order of operations, this can result in the counter
+   converging on a different value. To avoid inaccurate counter values across clients, we
+   recommend not mixing ``set()`` with ``increment()`` and ``decrement()``.
 
-Once a counter is created, the value can only be changed by using the class’s methods. 
-Attempting to change the counter value manually or by updating the object and overwriting 
-the counter value will result in an error. The only exception is when using a nullable counter; 
-you can create a counter from a previously ``null`` value or reset the nullable counter to ``null``. 
-This is because you are updating the value of the field from either ``null`` to ``counter`` or ``counter`` 
-to ``null``, not the value of the counter itself. This is done using ``realm.create()`` with the 
-``UpdateMode.Modified`` or ``UpdateMode.All`` parameters. These parameters update objects that already 
-exist, as indicated by a matching primary key. ``UpdateMode.All`` updates all properties provided, 
-while ``UpdateMode.Modified`` updates only modified properties.
+To update a nullable counter (either _to_ or _from_ a ``null`` value), you must use
+``realm.create()`` with an :js-sdk:`UpdateMode <enums/Realm.UpdateMode.html#Modified>`
+specified. Rather than updating the underlying counter value, you are setting the counter
+property either to null or new counter.
+
+``UpdateMode`` updates any existing Counter object with a matching primary key:
+
+- ``UpdateMode.All`` updates all properties provided.
+- ``UpdateMode.Modified`` updates only modified properties.
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.null-updating.ts 
   :language: typescript
@@ -111,7 +112,9 @@ Query Counter Values
 --------------------
 
 You can query counter properties like other property types. However, to query by the 
-underlying counter value, you must use ``counter.value`` as a placeholder value:
+underlying counter value, you must use ``counter.value`` as a placeholder value. In the
+following example, we want to find all objects with a counter value greater than or equal to
+that of the specified counter.
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.filtering-with-counter.ts 
   :language: typescript
