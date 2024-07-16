@@ -8,7 +8,7 @@ store, or user, such as ``user_id == $0, “641374b03725038381d2e1fb”``, is
 a good candidate for an indexed queryable field. However, an indexed 
 queryable field has specific requirements for use in a query subscription:
 
-- The indexed queryable field must be used in every subscription query. It 
+- The indexed queryable field must be used in *every* subscription query. It 
   cannot be missing from the query.
 - The indexed queryable field must use an ``==`` or ``IN`` comparison 
   against a constant at least once in the subscription query. For example,
@@ -20,7 +20,7 @@ queryable field is directly compared against a constant using ``==`` or ``IN``
 at least once. For example, ``store_id IN {1,2,3} AND region=="Northeast"``
 or ``store_id == 1 AND (active_promotions < 5 OR num_employees < 10)``.
 
-*Invalid* Flexible Sync queries on an indexed queryable field include queries 
+*Invalid* Device Sync queries on an indexed queryable field include queries 
 where:
 
 - The indexed queryable field does not use ``AND`` with the rest of the query.
@@ -37,14 +37,14 @@ where:
   ``region=="Northeast`` or ``truepredicate`` are invalid because they do
   not contain the indexed queryable field.
 
-Unsupported Query Operators in Flexible Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unsupported Sync Subscription Query Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Flexible Sync has some limitations when using RQL operators. When you 
-write the :ref:`query subscription <flexible-sync-query-subscription>` 
-that determines which data to sync, the server does not support these
-query operators. However, you can still use the full range of RQL features
-to query the synced data set in the client application.
+Device Sync does not support all RQL operators when creating your subscription
+queries. When you write the :ref:`query subscription <sdks-query-subscription-concept>` 
+that determines which data to sync to the device, the server does not support
+these query operators. However, you can use all RQL operators to query the
+data set once it has synced to the client application.
 
 .. list-table::
    :header-rows: 1
@@ -63,12 +63,12 @@ Case insensitive queries (``[c]``) cannot use indexes effectively.
 As a result, case insensitive queries are not recommended, since they could lead to
 performance problems.
 
-Flexible Sync only supports ``@count`` for array fields.
+Device Sync only supports ``@count`` for array fields.
 
 List Queries
 ~~~~~~~~~~~~
 
-Flexible Sync supports querying lists using the ``IN`` operator.
+Device Sync supports querying lists using the ``IN`` operator.
 
 You can query a list of constants to see if it contains the value of a
 queryable field:
@@ -88,8 +88,9 @@ contains a constant value:
 
 .. warning::
 
-   You **cannot** compare two lists with each other in a Flexible Sync query.
-   Note that this is valid Realm Query Language syntax outside of Flexible Sync queries.
+   You **cannot** compare two lists with each other in a Device Sync query.
+   Note that this is valid Realm Query Language syntax outside of Device Sync
+   queries.
 
    .. code-block:: javascript
       :copyable: false
@@ -103,5 +104,5 @@ contains a constant value:
 Embedded or Linked Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Flexible Sync does not support querying on properties in Embedded Objects 
+Device Sync does not support querying on properties in Embedded Objects 
 or links. For example, ``obj1.field == "foo"``.

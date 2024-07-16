@@ -34,6 +34,8 @@ You can manually add, update, and remove subscriptions to determine which
 data syncs to the client device. Or you can subscribe to queries instead of
 or in addition to manually managing subscriptions.
 
+.. _sdks-query-subscription-concept:
+
 What are Subscriptions?
 -----------------------
 
@@ -55,13 +57,19 @@ The SDK tracks these queries through a **subscription set**, which is a
 collection of subscriptions. You can add, remove, and update subscriptions in
 the subscription set.
 
-You can construct subscription queries with RQL, or one of the SDK-idiomatic
-query engines.
+You can construct subscription queries with Realm Query Language (RQL), or one
+of the SDK-idiomatic query engines.
 
 - :ref:`realm-query-language`
 - :ref:`java-filter-data`
 - :ref:`dotnet-linq`
 - :ref:`sdks-filter-data-swift`
+
+.. important:: RQL Support in Sync Subscription Queries
+
+   Device Sync does not support the full range of RQL operators when constructing
+   a subscription query. For details about these limitations, refer to
+   :ref:`sdks-sync-subscription-query-rql-limitations`.
 
 Subscribe to Object Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1300,7 +1308,7 @@ API Efficiency
 Adding several subscriptions with the ``.subscribe()`` and ``.unsubscribe()``
 APIs described in the :ref:`sdks-sync-results-subscribe-api` section
 is less efficient than performing batch updates when you manually 
-manage subscriptions. On every ``.subscribe()``, the Swift SDK opens a new
+manage subscriptions. On every call to ``.subscribe()``, the SDK opens a new
 update block. For better performance adding multiple 
 subscriptions, use the ``subscriptions.update`` API described in the 
 :ref:`sdks-manually-manage-subscriptions` section.
@@ -1310,9 +1318,9 @@ Group Updates for Improved Performance
 
 .. include:: /includes/sync-memory-performance.rst
 
-.. _swift-flexible-sync-rql-limitations:
+.. _sdks-sync-subscription-query-rql-limitations:
 
-Flexible Sync RQL Requirements and Limitations
------------------------------------------------
+Sync RQL Requirements and Limitations
+-------------------------------------
 
 .. include:: /includes/flex-sync-limitations.rst
