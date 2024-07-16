@@ -8,6 +8,8 @@
             :language: cpp
             :copyable: false
 
+         .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-refresh-realm-description.rst
+
      - id: csharp
        content: |
 

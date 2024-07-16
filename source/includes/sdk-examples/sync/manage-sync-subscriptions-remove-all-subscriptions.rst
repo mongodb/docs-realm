@@ -7,6 +7,8 @@
          .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.clear-all-subscriptions.cpp
             :language: cpp
 
+         .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-refresh-realm-description.rst
+
      - id: csharp
        content: |
 
