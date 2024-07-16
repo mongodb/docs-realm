@@ -1,8 +1,20 @@
 .. _sdks-call-function:
 
-===============
-Call a Function
-===============
+======================
+Call an Atlas Function
+======================
+
+.. meta::
+   :description: Call serverless Atlas Functions from a client application with Atlas Device SDK.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
 
 .. contents:: On this page
    :local:
@@ -10,4 +22,133 @@ Call a Function
    :depth: 2
    :class: singlecol
 
-Placeholder page for the call a Function content.
+.. tabs-selector:: drivers
+
+You can call an **Atlas Function** from a client application using Atlas
+Device SDK. Functions are serverless JavaScript functions that let you define
+and execute server-side logic. These server-side Functions can run in the
+context of the authenticated user, and thus honor the rules, roles, and
+permissions that you have assigned to your data in Atlas.
+
+For more information on configuring and writing Atlas Functions, refer to
+:ref:`Atlas Functions <functions>` in the App Services documentation.
+
+Before You Begin
+----------------
+
+#. In an App Services App, :ref:`define an Atlas Function <define-a-function>`.
+#. In your client project, :ref:`initialize the App client <sdks-connect-to-atlas>`.
+#. Then, :ref:`authenticate a user <sdks-authenticate-users>`. You access
+   Functions through the user object.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/atlas/call-atlas-function-before-you-begin-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/atlas/call-atlas-function-before-you-begin-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/atlas/call-atlas-function-before-you-begin-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/atlas/call-atlas-function-before-you-begin-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/atlas/call-atlas-function-before-you-begin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/atlas/call-atlas-function-before-you-begin-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/atlas/call-atlas-function-before-you-begin-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objc/atlas/call-atlas-function-before-you-begin-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/atlas/call-atlas-function-before-you-begin-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+Call a Function
+---------------
+
+.. important::
+
+   Make sure to sanitize client data to protect against code injection when using
+   Functions.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/atlas/call-atlas-function-call-function-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/atlas/call-atlas-function-call-function-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/atlas/call-atlas-function-call-function-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/atlas/call-atlas-function-call-function-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/atlas/call-atlas-function-call-function-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/atlas/call-atlas-function-call-function-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/atlas/call-atlas-function-call-function-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objc/atlas/call-atlas-function-call-function-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/call-atlas-function-call-function-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/atlas/call-atlas-function-call-function-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/atlas/call-function-call-function.rst
