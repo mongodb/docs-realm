@@ -142,6 +142,14 @@ You can:
 
 Subscriptions persist across user sessions unless you unsubscribe from them.
 
+Initial Subscriptions
+~~~~~~~~~~~~~~~~~~~~~
+
+Before you can read from or write to a synced database, you must provide at
+least one subscription. Some of the SDK languages provide a dedicated API
+to make it more convenient to set initial subscriptions. For details, refer
+to :ref:`sdks-set-initial-subscriptions`.
+
 .. _sdks-sync-results-subscribe-api:
 
 Subscribe to Queries
@@ -444,6 +452,126 @@ You can specify an optional string name for your subscription.
 When you create a subscription, the SDK looks for data matching a query on a
 specific object type. You can have multiple subscription sets on different 
 object types. You can also have multiple queries on the same object type.
+
+.. _sdks-get-sync-subscriptions:
+
+Access the Subscription Set
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can access the subscription set through the database ``subscriptions``
+property. You perform all operations to add, find, update, remove, or watch
+subscriptions through this property.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-access-subscription-set-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-access-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-access-subscription-set-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-access-subscription-set.rst
+
+.. _sdks-find-sync-subscriptions:
+
+Find a Subscription
+~~~~~~~~~~~~~~~~~~~
+
+You can find a specific subscription in a subscription set. You might want to
+find a specific subscription:
+
+- To avoid adding the same subscription again, which in some languages throws
+  an error.
+- To update the subscription.
+- To remove the subscription.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-find-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-find-subscription-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-find-subscription-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-find-subscription.rst
 
 .. _sdks-sync-subscriptions-add-subscription:
 
