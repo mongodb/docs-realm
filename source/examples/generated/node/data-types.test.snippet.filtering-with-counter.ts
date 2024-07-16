@@ -1,15 +1,15 @@
-const filtered_out = realm.write(() => {
-    return realm.create( WithCounterSchema, {_id: new BSON.ObjectId(), counter: 0 } ); // Object 1, counter = 0
+const belowThreshold = realm.write(() => {
+    return realm.create( myClass, { myCounter: 0 } );
 });
 
-const threshold = realm.write(() => {
-    return realm.create( WithCounterSchema, {_id: new BSON.ObjectId(), counter: 1 } ); // Object 2, counter = 1
+const atThreshold = realm.write(() => {
+    return realm.create( myClass, { myCounter: 1 } );
 });
 
-const passes_filter = realm.write(() => {
-    return realm.create( WithCounterSchema, {_id: new BSON.ObjectId(), counter: 2 } ); // Object 3, counter = 2
+const aboveThreshold = realm.write(() => {
+    return realm.create( myClass, { myCounter: 2 } );
 });
 
-const Objects = realm.objects('WithCounterSchema'); // creates list of objects
+const allObjects = realm.objects('myClass');
 
-let filtered_objects = Objects.filtered('counter >= $0', threshold.counter.value);
+let filteredObjects = allObjects.filtered('counter >= $0', atThreshold.myCounter.value);

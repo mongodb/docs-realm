@@ -9,6 +9,10 @@ Counters - Node.js SDK
   :keywords: code example
 
 .. facet::
+  :name: programming_language
+  :values: javascript/typescript
+
+.. facet::
   :name: genre
   :values: reference
 
@@ -20,36 +24,49 @@ Counters - Node.js SDK
 
 .. versionadded:: 12.10.0
 
-Atlas Device SDK for Node.js offers a ``Counter`` class that you can use as a synchronized logical
-counter across different clients. Traditionally, you would create a variable that you would
-manually add or subtract from to act as a counter. However, if multiple clients are attempting
-to update said variable, changes to the underlying value may arrive out of order. This can
-result in varying or inaccurate values across clients. The ''Counter'' class makes it possible to
-sync these updates so the counter converges to the same value across all clients.
+Atlas Device SDK for Node.js offers a ``Counter`` class you can use as a logical counter
+when working with Synchronized Realms. Traditionally, you would store a counter value and
+manually read, increment, set it. However, multiple clients attempting to update the
+counter could result in an inaccurate underlying value across clients. Consider the following
+scenario:
 
-The counter data type is an ''int'' presented as a counter. This allows the counter to behave like
-an ''int'' while supporting the class’s methods. Because implicit coercion into a ''number'' is not
-supported, the JavaScript ''number'' methods cannot be leveraged against the counter value.
-Migration will also be necessary for existing counters that are not ''int'' types.
+- A Realm object has a ``count`` property that stores an ``int``. The value is currently set
+to ``0``.
+- Devices A and B both read the ``count`` value as ``0``.
+- To increment the count, both devices add ``1`` to the read value and set the ``count`` to
+this new value.
+- The underlying value of the ``count`` is now ``1``, though it should be ``2`` to reflect
+both devices' increments.
+
+The ``Counter`` class makes it possible to sync these updates so the ``counter`` converges to
+the same underlying value across all clients.
+
+The SDK's :sdk-js:`counter <classes/Realm.Types.Counter.html>` is a presentation data type,
+with an underlying type of ``int``. This means no migration is necessary when changing an
+``int`` type to a ``counter``.
 
 Counters cannot be used as:
 
 - Mixed values
 - Primary keys
 - Elements in a collection
-- Query arguments for placeholders while filtering
-  - See Querying with Counters below
 
 Define a Counter Property
 -------------------------
 
-To use a counter, you must declare a property of ``Counter`` type in your schema. You can optionally 
-declare the ''counter'' field as a nullable counter if needed in your use case. This allows the 
-''counter'' field within the class to be set to ''null'', though the counter value itself can never 
-be ''null''. The ''Counter'' field is declared by using either:
+To use the ``Counter`` class, declare a property in your schema as type ``Counter``. You can
+optionally declare this property as nullable by making it optional and passing both types
+``Counter`` and ``null``. With a nullable counter, you can set the counter property within your
+schema to ``null``. However, if the property is already set to a ``Counter``, the class's
+``counter`` value can never be ``null``. The ``Counter`` field is initialized by using either:
 
-- ''"counter”''
-- ''{ type: "int", presentation: "counter" }''
+- Object notation (as used above)
+  - ``{ type: "int", presentation: "counter" }``
+  - ``{ type: "int", presentation: "counter", optional: true }``
+
+- Shorthand
+  - ``"counter"``
+  - ``"counter?"``
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.declare-counter-schema.ts 
   :language: typescript
@@ -64,28 +81,28 @@ counter properties and demonstrate both declaration types:
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.ts 
   :language: typescript
 
-You then use the ''increment()'' and ''decrement()'' methods to update the value. 
-There is also a ''set()'' method that resets the counter to a specified value:
+You then use the ``increment()`` and ``decrement()`` methods to update the value. 
+There is also a ``set()`` method that resets the counter to a specified value:
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.update-counter.ts 
   :language: typescript
 
 .. warning:: Counter Resets
 
-   Using ''set()'' will ignore any prior calls to ''increment()'' and ''decrement()''. Subsequent calls 
+   Using ``set()`` will ignore any prior calls to ``increment()`` and ``decrement()``. Subsequent calls 
    will be applied as expected to the reset counter value. As such, you should be cautious 
-   in mixing ''set()'' with ''increment()'' and ''decrement()'' as it can lead to inaccurate counter 
+   in mixing ``set()`` with ``increment()`` and ``decrement()`` as it can lead to inaccurate counter 
    values across clients.
 
 Once a counter is created, the value can only be changed by using the class’s methods. 
 Attempting to change the counter value manually or by updating the object and overwriting 
 the counter value will result in an error. The only exception is when using a nullable counter; 
-you can create a counter from a previously ''null'' value or reset the nullable counter to ''null''. 
-This is because you are updating the value of the field from either ''null'' to ''counter'' or ''counter'' 
-to ''null'', not the value of the counter itself. This is done using ''realm.create()'' with the 
-''UpdateMode.Modified'' or ''UpdateMode.All'' parameters. These parameters update objects that already 
-exist, as indicated by a matching primary key. ''UpdateMode.All'' updates all properties provided, 
-while ''UpdateMode.Modified'' updates only modified properties.
+you can create a counter from a previously ``null`` value or reset the nullable counter to ``null``. 
+This is because you are updating the value of the field from either ``null`` to ``counter`` or ``counter`` 
+to ``null``, not the value of the counter itself. This is done using ``realm.create()`` with the 
+``UpdateMode.Modified`` or ``UpdateMode.All`` parameters. These parameters update objects that already 
+exist, as indicated by a matching primary key. ``UpdateMode.All`` updates all properties provided, 
+while ``UpdateMode.Modified`` updates only modified properties.
 
 .. literalinclude:: /examples/generated/node/data-types.test.snippet.null-updating.ts 
   :language: typescript

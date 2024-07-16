@@ -1,16 +1,15 @@
-    class WithCounterSchema extends Realm.Object<WithCounterSchema> {
-        _id!: BSON.ObjectId;
-        counter!: Counter; // define a non-nullable counter property
-        nullableCounter?: Counter | null; // define a nullable counter property
+class myClass extends Realm.Object<myClass> {
+    _id!: BSON.ObjectId;
+    myCounter!: Counter;
+    nullableCounter?: Counter | null;
 
-        static schema: ObjectSchema = {
-            name: "WithCounterSchema",
-            primaryKey: "_id",
-            properties: {
-                // examples of both declaration methods:
-                _id: { type: "objectId", default: () => new BSON.ObjectId() },
-                counter: { type: "int", presentation: "counter", default: 0 },
-                nullableCounter: "counter?",
-            },
-        }
-    };
+    static schema: ObjectSchema = {
+        name: "myClass",
+        primaryKey: "_id",
+        properties: {
+            _id: { type: "objectId", default: () => new BSON.ObjectId() },
+            myCounter: { type: "int", presentation: "counter" }, // or myCounter: "counter"
+            nullableCounter: { type: "int", presentation: "counter", optional: true }, // or nullableCounter: "counter?" 
+        },
+    }
+};
