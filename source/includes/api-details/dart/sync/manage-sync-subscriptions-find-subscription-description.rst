@@ -3,5 +3,5 @@ To find a specific subscription by name, call the
 method with the name of a subscription.
 
 You can also find a subscription matching a specific query by calling the
-:flutter-sdk:`find<T>() <realm/SubscriptionSet/find.html>` method with an
+:flutter-sdk:`find() <realm/SubscriptionSet/find.html>` method with an
 RQL query.
