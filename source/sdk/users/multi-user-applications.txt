@@ -4,10 +4,415 @@
 Multi-User Applications
 =======================
 
+.. meta::
+   :description: Provide a short description of the consolidated page. This is critical for SEO.
+   :keywords: Realm, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: csharp, dart, java, javascript/typescript, kotlin, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for multi-user application content.
+.. tabs-selector:: drivers
+
+Atlas Device SDK allows multiple :ref:`users <user-accounts>` to be logged in
+to an app simultaneously on a given device. Client applications run
+in the context of a single active user even if multiple users are logged in
+simultaneously. You can quickly switch between authenticated users without
+requiring them to log in again.
+
+.. important::
+
+   C++ does not currently support multi-user applications.
+
+.. important::
+   
+   **Any logged in user may become the active user without re-authenticating.**
+   Depending on your app, this may be a security vulnerability. For example, a
+   user on a shared device may switch to a coworker's logged in account without
+   providing their credentials or requiring their explicit permission. If your
+   application requires stricter authentication, avoid switching between users
+   and prefer to explicitly log the active user out before authenticating
+   another user.
+
+.. _sdks-multi-user-user-account-states:
+
+User Account States
+-------------------
+
+When a user first logs in through Atlas App Services on a given device or
+browser, the SDK saves the user's information and keeps track of the user's
+state on the device. The user's data remains on the device, even if they log
+out, unless you actively remove the user.
+
+The following states describe an on-device user at any given time:
+
+- **Authenticated:** any user that has logged in on the device
+  and has not logged out or had its session revoked.
+  
+  - **Active**: a single authenticated user that is currently using the
+    app on a given device. The SDK associates this user with outgoing
+    requests and Atlas evaluates data access permissions and runs Functions in
+    this user's context. See :ref:`active user <active-user>` for more
+    information.
+   
+  - **Inactive**: all authenticated users that are not the current
+    active user. You switch the active user to a currently inactive user at
+    any time.
+
+- **Logged Out:** any user that authenticated on the device but
+  has since logged out or had their session revoked.
+
+The following diagram shows how users within a client app
+transition between states when certain events occur:
+
+.. figure:: /images/multi-user.png
+   :alt: A diagram the outlines the different states a user can be in: logged out, logged in and active, & logged in and inactive.
+
+.. _sdks-multi-user-account-check-user-state:
+
+Check User State
+~~~~~~~~~~~~~~~~
+
+The SDK provides a method to determine the user's current state.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/multi-user-applications-change-active-user-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+   .. tab::
+      :tabid: javascript
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/multi-user-applications-check-user-state-description.rst
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+
+.. _sdks-multi-user-add-new-user-to-device:
+
+Add a New User to the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK automatically adds users to a device when they log in for the first
+time on that device. When a user logs in, they immediately become the
+application's active user. For details about authenticating a user, refer to
+:ref:`sdks-authenticate-users`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      
+   .. tab::
+      :tabid: dart
+
+
+   .. tab::
+      :tabid: java
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-add-user-to-device-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+
+   .. tab::
+      :tabid: swift
+
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-add-user-to-device-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/multi-user-applications-add-new-user-to-device.rst
+
+.. _sdks-multi-user-list-all-users-on-device:
+
+List All Users on the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can access a list of all :ref:`user accounts <user-accounts>` that are
+stored on the device. This list includes all users that have logged in to the
+app on a given device regardless of whether they are currently authenticated.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/list-all-users-on-device-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/list-all-users-on-device-description.rst
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-list-all-users-on-device-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/multi-user-applications-list-all-users-on-device-description.rst
+
+   .. tab::
+      :tabid: swift
+
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-list-all-users-on-device-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/multi-user-applications-list-all-users-on-device.rst
+
+.. _sdks-multi-user-retrieve-active-user:
+
+Retrieve the Active User
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can retrieve the current active user in your app. If multiple users are
+logged in, this returns the last valid user that logged in to the device. This
+method returns the language's implementation of ``nil`` or ``null`` if there
+are no logged-in users.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      
+   .. tab::
+      :tabid: dart
+
+
+   .. tab::
+      :tabid: java
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+   .. tab::
+      :tabid: javascript
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/retrieve-active-user-description.rst
+
+   .. tab::
+      :tabid: swift
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/users/multi-user-applications-retrieve-active-user.rst
+
+.. _sdks-multi-user-change-active-user:
+
+Change the Active User
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can change an app's :ref:`active user <active-user>` to another
+logged in user at any time.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/multi-user-applications-change-active-user-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/change-active-user-description.rst
+
+   .. tab::
+      :tabid: java
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-change-active-user-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/multi-user-applications-change-active-user-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-change-active-user-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/multi-user-applications-change-active-user.rst
+
+.. _sdks-multi-user-log-user-out:
+
+Log a User Out
+~~~~~~~~~~~~~~
+
+You can log a logged-in user out of an app. Once logged out, the user is still
+stored on the device but must log back in to use the app. 
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      
+   .. tab::
+      :tabid: dart
+
+
+   .. tab::
+      :tabid: java
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+   .. tab::
+      :tabid: javascript
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/log-user-out-description.rst
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+
+.. include:: /includes/sdk-examples/users/multi-user-applications-change-active-user.rst
+
+For more information on logging a user out of an app, refer to :ref:`sdks-logout`.
+
+.. _sdks-multi-user-remove-user-from-device:
+
+Remove a User from the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can remove all information about a user from the device and automatically
+log the user out. Once removed, the user must re-authenticate to use the app
+again. This *does not* delete the user from Atlas.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/multi-user-applications-remove-user-from-device-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/multi-user-applications-remove-user-from-device-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/multi-user-applications-remove-user-from-device-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/multi-user-applications-remove-user-from-device-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-remove-user-from-device-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/multi-user-applications-remove-user-from-device-description.rst
+
+   .. tab::
+      :tabid: swift
+
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-remove-user-from-device-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/multi-user-applications-remove-user-from-device.rst
+
+For more information on removing and deleting users, refer to
+:ref:`sdks-create-and-delete-users`.

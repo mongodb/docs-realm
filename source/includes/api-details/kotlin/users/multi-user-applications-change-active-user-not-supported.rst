@@ -1,0 +1,1 @@
+Kotlin does not currently provide a method to switch users.
