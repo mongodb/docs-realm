@@ -83,7 +83,7 @@ transition between states when certain events occur:
 Check User State
 ~~~~~~~~~~~~~~~~
 
-The SDK provides a method to determine the user's current state.
+The SDK provides a property you can check to determine the user's current state.
 
 .. tabs-drivers::
 
@@ -116,6 +116,8 @@ The SDK provides a method to determine the user's current state.
 
    .. tab::
       :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/multi-user-applications-check-user-state-description.rst
 
    .. tab::
       :tabid: typescript
@@ -210,6 +212,7 @@ app on a given device regardless of whether they are currently authenticated.
    .. tab::
       :tabid: swift
 
+      .. include:: /includes/api-details/swift/users/multi-user-applications-list-all-users-on-device-description.rst
 
    .. tab::
       :tabid: typescript
@@ -258,6 +261,7 @@ are no logged-in users.
    .. tab::
       :tabid: swift
 
+      .. include:: /includes/api-details/swift/users/multi-user-applications-retrieve-active-user-description.rst
 
    .. tab::
       :tabid: typescript
@@ -306,6 +310,7 @@ logged in user at any time.
    .. tab::
       :tabid: swift
 
+      .. include:: /includes/api-details/swift/users/multi-user-applications-change-active-user-description.rst
 
    .. tab::
       :tabid: typescript
@@ -320,7 +325,9 @@ Log a User Out
 ~~~~~~~~~~~~~~
 
 You can log a logged-in user out of an app. Once logged out, the user is still
-stored on the device but must log back in to use the app. 
+stored on the device but must log back in to use the app. If another logged-in
+user exists on the device, logging a user out automatically sets the remaining
+logged-in user as the active user.
 
 .. tabs-drivers::
 
@@ -352,7 +359,7 @@ stored on the device but must log back in to use the app.
    .. tab::
       :tabid: swift
 
-
+      .. include:: /includes/api-details/swift/users/multi-user-applications-log-user-out-description.rst
 
    .. tab::
       :tabid: typescript
@@ -370,7 +377,9 @@ Remove a User from the Device
 
 You can remove all information about a user from the device and automatically
 log the user out. Once removed, the user must re-authenticate to use the app
-again. This *does not* delete the user from Atlas.
+again. This *does not* delete the user from Atlas. If another logged-in
+user exists on the device, removing a user out automatically sets the remaining
+logged-in user as the active user.
 
 .. tabs-drivers::
 
@@ -407,6 +416,7 @@ again. This *does not* delete the user from Atlas.
    .. tab::
       :tabid: swift
 
+      .. include:: /includes/api-details/swift/users/multi-user-applications-remove-user-from-device-description.rst
 
    .. tab::
       :tabid: typescript
