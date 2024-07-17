@@ -136,7 +136,7 @@ modify the counter value:
    recommend not mixing ``set()`` with ``increment()`` and ``decrement()``.
 
 To update a nullable counter (either *to* or *from* a ``null`` value), you must use
-``realm.create()`` with an :js-sdk:`UpdateMode <enums/Realm.UpdateMode.html#Modified>`
+``realm.create()`` with an :js-sdk:`UpdateMode <enums/Realm.UpdateMode.html#All>`
 specified. Rather than updating the underlying counter value, this sets the counter
 property either to null or to a new counter.
 
