@@ -41,15 +41,15 @@ Consider the following scenario:
 The ``Counter`` class makes it possible to sync these updates so the ``counter`` converges to
 the same underlying value across all clients.
 
-The SDK's :js-sdk:`counter <classes/Realm.Types.Counter.html>` is a presentation data type,
+The SDK's ``counter`` is a presentation data type,
 with an underlying type of ``int``. This means no migration is necessary when changing an
 ``int`` type to a ``counter``.
 
 Counters cannot be used as:
 
-- Mixed values
-- Primary keys
-- Elements in a collection
+- :doc:`Mixed values </sdk/node/model-data/data-types/mixed>`
+- :ref:`Primary keys <node-primary-keys>`
+- :ref:`Elements in a collection <node-data-types-collections>`
 
 Define a Counter Property
 -------------------------
@@ -90,7 +90,9 @@ The ``Counter`` field is initialized by using either:
 Create and Update a Counter
 ---------------------------
 
-To initialize a counter, use the ``realm.create()`` method and pass the desired :js-sdk:`Realm Object Schema <>`and initial values for the properties.`
+To initialize a counter, create your object using the ``realm.create()`` method. Pass in your
+desired :ref:`Realm Object Schema <node-define-a-realm-object-schema>` and initial counter
+value, as well as initial values for any other properties the object has.
 
 .. tabs-realm-languages::
 
@@ -106,7 +108,8 @@ To initialize a counter, use the ``realm.create()`` method and pass the desired 
       .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.js
           :language: javascript
 
-You can then use the following methods to modify the counter value:
+You can then use the following :js-sdk:`methods<classes/Realm.Types.Counter.html#decrement>` to
+modify the counter value:
 
 - ``increment()`` and ``decrement()`` update the underlying value by a specified number.
 - ``set()`` reassigns the counter to a specified value.
@@ -160,7 +163,8 @@ Query Counter Values
 --------------------
 
 You can query counter properties like other property types. However, to query by the 
-underlying counter value, you must use ``counter.value`` as a placeholder value. In the
+underlying counter value, you must create a :ref:`parameterized
+query<rql-parameterized-queries>` using ``counter.value`` as an interpolated variable. In the
 following example, we want to find all objects with a counter value greater than or equal to
 that of the specified counter.
 
