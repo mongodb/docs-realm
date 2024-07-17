@@ -24,7 +24,7 @@ Counters - Node.js SDK
 
 .. versionadded:: 12.10.0
 
-Atlas Device SDK for Node.js offers a :js-sdk: `Counter <classes/Realm.Types.Counter.html>` class
+Atlas Device SDK for Node.js offers a :js-sdk:`Counter <classes/Realm.Types.Counter.html>` class
 you can use as a logical counter when working with Synchronized Realms. Traditionally,
 you would store a counter value and manually read, increment, set it. However, multiple clients
 attempting to update the counter could result in an inaccurate underlying value across clients.
@@ -41,7 +41,7 @@ Consider the following scenario:
 The ``Counter`` class makes it possible to sync these updates so the ``counter`` converges to
 the same underlying value across all clients.
 
-The SDK's :js-sdk: `counter <classes/Realm.Types.Counter.html>` is a presentation data type,
+The SDK's :js-sdk:`counter <classes/Realm.Types.Counter.html>` is a presentation data type,
 with an underlying type of ``int``. This means no migration is necessary when changing an
 ``int`` type to a ``counter``.
 
@@ -54,7 +54,8 @@ Counters cannot be used as:
 Define a Counter Property
 -------------------------
 
-To use the ``Counter`` class, declare a property in your :js-sdk: `Realm Object <classes/Realm.Object.html>`as type ``Counter``. 
+To use the ``Counter`` class, declare a property in your :js-sdk:`Realm Object<classes/Realm.Object.html>`
+as type ``Counter``. 
 
 You can optionally declare this property as nullable by making it optional and passing both 
 ``Counter`` and ``null`` as types. With a nullable counter, you can set the counter property
@@ -89,8 +90,7 @@ The ``Counter`` field is initialized by using either:
 Create and Update a Counter
 ---------------------------
 
-To initialize a counter, use the ``realm.create()`` method and pass the desired :js-sdk:
-`Realm Object Schema <>`and initial values for the properties.
+To initialize a counter, use the ``realm.create()`` method and pass the desired :js-sdk:`Realm Object Schema <>`and initial values for the properties.
 
 .. tabs-realm-languages::
 
