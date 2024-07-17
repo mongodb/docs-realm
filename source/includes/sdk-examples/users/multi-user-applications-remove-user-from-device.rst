@@ -50,8 +50,9 @@
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.logout.swift
+         .. literalinclude:: /examples/MissingPlaceholders/example.swift
             :language: swift
+            :copyable: false
 
      - id: typescript
        content: |

@@ -4,13 +4,13 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/generated/dotnet/MultiUserExamples.snippet.multi-switch.cs
+         .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.logout.cs
             :language: csharp
 
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.change-active-user.dart
+         .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.log-out.dart
             :language: dart
 
      - id: java
@@ -28,7 +28,7 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/node/authenticate.snippet.logout-current-user.js
             :language: javascript
 
      - id: kotlin
@@ -47,11 +47,12 @@
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/MultipleUsers.snippet.switch-user.swift
+         .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.logout.swift
             :language: swift
 
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         .. literalinclude::  /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false

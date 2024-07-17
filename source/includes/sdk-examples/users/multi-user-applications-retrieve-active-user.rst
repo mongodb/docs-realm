@@ -4,13 +4,14 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/generated/dotnet/MultiUserExamples.snippet.multi-switch.cs
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
             :language: csharp
+            :copyable: false
 
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.change-active-user.dart
+         .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.retrieve-current-user.dart
             :language: dart
 
      - id: java
@@ -40,11 +41,13 @@
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/MultipleUsers.snippet.switch-user.swift
+         .. literalinclude:: /examples/MissingPlaceholders/example.swift
             :language: swift
+            :copyable: false
 
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         .. literalinclude::  /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false
