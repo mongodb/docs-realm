@@ -34,9 +34,6 @@
      - id: kotlin
        content: |
 
-         In the following example, Joe logs in to the app and becomes the 
-         active user. Then, Emma logs in and replaces Joe as the active user:
-
          .. io-code-block::
 
             .. input:: /examples/generated/kotlin/AuthenticationTest.snippet.add-a-new-user.kt

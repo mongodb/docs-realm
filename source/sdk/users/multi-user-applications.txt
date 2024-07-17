@@ -5,7 +5,7 @@ Multi-User Applications
 =======================
 
 .. meta::
-   :description: Provide a short description of the consolidated page. This is critical for SEO.
+   :description: Build an app that supports multiple users, including the ability switch the active user, with Atlas Device SDK.
    :keywords: Realm, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
 
 .. facet::
@@ -125,17 +125,21 @@ The SDK provides a property you can check to determine the user's current state.
    .. tab::
       :tabid: typescript
 
-      .. include:: /includes/api-details/typescript/users/multi-user-applications-check-user-state-js-ts-description.rst
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-check-user-state-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/multi-user-applications-check-user-state.rst
 
 .. _sdks-multi-user-add-new-user-to-device:
 
 Add a New User to the Device
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 The SDK automatically adds users to a device when they log in for the first
 time on that device. When a user logs in, they immediately become the
 application's active user. For details about authenticating a user, refer to
 :ref:`sdks-authenticate-users`.
+
+.. TODO: Add an API description to the Dart tab in the consolidation gaps follow-up ticket when we update the code example
 
 .. tabs-drivers::
 
@@ -166,6 +170,7 @@ application's active user. For details about authenticating a user, refer to
    .. tab::
       :tabid: kotlin
 
+      .. include:: /includes/api-details/kotlin/users/multi-user-applications-add-user-to-device-description.rst
 
    .. tab::
       :tabid: swift
@@ -182,7 +187,7 @@ application's active user. For details about authenticating a user, refer to
 .. _sdks-multi-user-list-all-users-on-device:
 
 List All Users on the Device
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 You can access a list of all :ref:`user accounts <user-accounts>` that are
 stored on the device. This list includes all users that have logged in to the
@@ -232,12 +237,12 @@ app on a given device regardless of whether they are currently authenticated.
 
 .. include:: /includes/sdk-examples/users/multi-user-applications-list-all-users-on-device.rst
 
-.. _sdks-multi-user-retrieve-active-user:
+.. _sdks-multi-user-get-active-user:
 
-Retrieve the Active User
-~~~~~~~~~~~~~~~~~~~~~~~~
+Get the Active User
+-------------------
 
-You can retrieve the current active user in your app. If multiple users are
+You can get the current active user in your app. If multiple users are
 logged in, this returns the last valid user that logged in to the device. This
 method returns the language's implementation of ``nil`` or ``null`` if there
 are no logged-in users.
@@ -247,49 +252,49 @@ are no logged-in users.
    .. tab::
       :tabid: csharp
 
-      .. include:: /includes/api-details/csharp/users/multi-user-applications-retrieve-active-user-description.rst
+      .. include:: /includes/api-details/csharp/users/multi-user-applications-get-active-user-description.rst
       
    .. tab::
       :tabid: dart
 
-      .. include:: /includes/api-details/dart/users/multi-user-applications-retrieve-active-user-description.rst
+      .. include:: /includes/api-details/dart/users/multi-user-applications-get-active-user-description.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /includes/api-details/java/users/multi-user-applications-retrieve-active-user-description.rst
+      .. include:: /includes/api-details/java/users/multi-user-applications-get-active-user-description.rst
 
    .. tab::
       :tabid: java-kotlin
 
-      .. include:: /includes/api-details/java/users/multi-user-applications-retrieve-active-user-description.rst
+      .. include:: /includes/api-details/java/users/multi-user-applications-get-active-user-description.rst
 
    .. tab::
       :tabid: javascript
 
-      .. include:: /includes/api-details/javascript/users/multi-user-applications-retrieve-active-user-js-ts-description.rst
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-get-active-user-js-ts-description.rst
 
    .. tab::
       :tabid: kotlin
 
-      .. include:: /includes/api-details/kotlin/users/multi-user-applications-retrieve-active-user-description.rst
+      .. include:: /includes/api-details/kotlin/users/multi-user-applications-get-active-user-description.rst
 
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/swift/users/multi-user-applications-retrieve-active-user-description.rst
+      .. include:: /includes/api-details/swift/users/multi-user-applications-get-active-user-description.rst
 
    .. tab::
       :tabid: typescript
 
-      .. include:: /includes/api-details/javascript/users/multi-user-applications-retrieve-active-user-js-ts-description.rst
+      .. include:: /includes/api-details/javascript/users/multi-user-applications-get-active-user-js-ts-description.rst
 
-.. include:: /includes/sdk-examples/users/multi-user-applications-retrieve-active-user.rst
+.. include:: /includes/sdk-examples/users/multi-user-applications-get-active-user.rst
 
 .. _sdks-multi-user-change-active-user:
 
 Change the Active User
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 You can change an app's :ref:`active user <active-user>` to another
 logged in user at any time.
@@ -341,7 +346,7 @@ logged in user at any time.
 .. _sdks-multi-user-log-user-out:
 
 Log a User Out
-~~~~~~~~~~~~~~
+--------------
 
 You can log a logged-in user out of an app. Once logged out, the user is still
 stored on the device but must log back in to use the app. If another logged-in
@@ -397,7 +402,7 @@ For more information on logging a user out of an app, refer to :ref:`sdks-logout
 .. _sdks-multi-user-remove-user-from-device:
 
 Remove a User from the Device
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 You can remove all information about a user from the device and automatically
 log the user out. Once removed, the user must re-authenticate to use the app
