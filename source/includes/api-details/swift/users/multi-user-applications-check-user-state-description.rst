@@ -1,3 +1,3 @@
-To check the user state, read the ``user.state`` property. This property is
-an :objc-sdk:`RLMUserState <Enums/RLMUserState.html>` enum whose values
-reflect whether the user is logged out, logged in, or removed.
+To check the user state, read the ``user.state`` property. This property's
+value is an :objc-sdk:`RLMUserState <Enums/RLMUserState.html>` enum whose
+cases reflect whether the user is logged out, logged in, or removed.
