@@ -14,5 +14,5 @@ page to generate the ``RealmObject`` model and schema definitions.
 
 Then, use the generated ``RealmObject`` model in your application code.
 
-The following example shows how to model an embedded object in a Realm schema.
-The ``_Address`` model is embedded within the ``_Person`` model.
+The following example shows how to model an embedded object in a Realm object
+schema. The ``_Address`` model is embedded within the ``_Person`` model.

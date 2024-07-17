@@ -11,7 +11,7 @@ database:
 
 In this example, ``Frog`` is the Kotlin class name used in the code 
 throughout the project to perform CRUD operations, and ``Frog_Entity`` is the
-persisted name to used to store objects in a realm:
+persisted name to used to store objects in the database:
 
 .. literalinclude:: /examples/generated/kotlin/Schema.snippet.define-persisted-class.kt
    :language: kotlin

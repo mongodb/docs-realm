@@ -10,8 +10,8 @@ or implement :java-sdk:`RealmModel <io/realm/RealmModel.html>`.
 **Extend RealmObject**
 
 The following code block shows a Realm object that
-describes a Frog. This Frog class can be stored in
-Realm because it ``extends`` the ``RealmObject`` class.
+describes a Frog. This Frog class can be stored in the database because it
+``extends`` the ``RealmObject`` class.
 
 .. include:: /examples/generated/java/local/FrogObjectExample.snippet.complete.java.rst
 
@@ -19,7 +19,7 @@ Realm because it ``extends`` the ``RealmObject`` class.
 
 The following code block shows a Realm object that
 describes a Frog. This Frog class can
-be stored in Realm because it ``implements`` the
+be stored in the database because it ``implements`` the
 ``RealmModel`` class and uses the ``@RealmClass`` annotation:
 
 .. include:: /examples/generated/java/local/FrogRealmModelExample.snippet.complete.java.rst

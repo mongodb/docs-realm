@@ -6,7 +6,7 @@ In JavaScript, to create a class that conforms to the GeoJSON spec, you:
 #. At a minimum, add the two fields required by the GeoJSON spec:
 
    - A field of type ``double[]`` that maps to a "coordinates" (case sensitive) 
-     property in the realm schema. 
+     property in the object schema. 
 
    - A field of type ``string`` that maps to a "type" property. The value of this 
      field must be "Point".

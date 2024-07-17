@@ -10,7 +10,7 @@ In the Kotlin SDK, to create a class that conforms to the GeoJSON spec, you:
      with the value of ``"Point"``: ``var type: String = "Point"``
 
    - A field of type ``RealmList<Double>`` that maps to a ``coordinates`` 
-     property in the realm schema containing a latitude/longitude 
+     property in the object schema containing a latitude/longitude 
      pair: ``var coordinates: RealmList<Double> = realmListOf()``
 
 The following example shows an embedded class named ``CustomGeoPoint`` that is used 
