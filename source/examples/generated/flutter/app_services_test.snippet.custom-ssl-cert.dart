@@ -2,7 +2,7 @@ import 'package:realm_dart/realm.dart';
 import "dart:io";
 import "dart:convert";
 
-HttpClient createCustomHttpsClient(String cert) {
+IOClient createCustomHttpsClient(String cert) {
   SecurityContext context = SecurityContext.defaultContext;
   try {
     final bytes = utf8.encode(cert);
@@ -14,13 +14,13 @@ HttpClient createCustomHttpsClient(String cert) {
     }
   }
 
-  return HttpClient(context: context);
+  return IOClient(HttpClient(context: context));
 }
 
 App createAppWithCustomHttpsClient(
     String letsEncryptCertificate, String appId) {
-  HttpClient httpClient = createCustomHttpsClient(letsEncryptCertificate);
-  final appConfig = AppConfiguration(appId, httpClient: httpClient);
+  IOClient ioClient = createCustomHttpsClient(letsEncryptCertificate);
+  final appConfig = AppConfiguration(appId, httpClient: ioClient);
   return App(appConfig);
 }
 

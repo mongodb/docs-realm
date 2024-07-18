@@ -1,3 +1,70 @@
+# July 12, 2024
+
+## .NET SDK
+
+- Sync Data/Check Upload & Download Progress: Updates to "Monitor Sync Progress" section for compatibility with Flexible Sync.
+
+## React Native SDK
+
+- Manage Users
+  - Authenticate Users: Update information and code example for logging in with an API key.
+  - Create & Manage User API Keys: Update information and code examples for creating, deleting, enabling, and disabling API keys from the client.
+
+## Other
+
+- SDK Landing Pages: Update illustrations for 2024 branding and compatibility with dark mode.
+
+# June 28, 2024
+
+## Flutter SDK
+
+- Logging: Update content and code examples to use the newer Logger.
+- Internal
+  - Update Flutter SDK test suite to match latest `realm_dart` version.
+  - Fix Flutter SDK tests and regenerate code snippets.
+
+## Swift SDK
+
+- Model Data/Define an Object Model: Correct the SDK version number specified for "Model Unstructured Data" section.
+- Model Data/Supported Types: Correct the SDK version number specified for "RealmAny" section.
+
+## Other
+
+- Example Projects: Add Airbnb project to table as "Searchable Offline Collection".
+- Throughout the SDK docs: Fixed "the the" typo and added meta data.
+
+# June 21, 2024
+
+## Kotlin SDK
+
+- Realm/Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types: Update "RealmAny" section to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+## .NET SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types > RealmValue: Update page to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+## Node.js SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types/Mixed: Update page to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+## React Native SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Data Types/Mixed: Update page to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
+## Swift SDK
+
+- Model Data
+  - Define an Object Model: Add new "Define Unstructured Data" section outlining support for Collections as Mixed feature.
+  - Supported Types: Update "AnyRealmValue" section to indicate support for holding lists and dictionaries. Add a new "Collections as Mixed" section with details about modeling unstructured or variable data.
+
 # June 14, 2024
 
 ## .NET SDK

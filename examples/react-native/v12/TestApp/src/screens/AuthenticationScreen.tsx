@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {LoginExample} from '../components/authentication/login/RealmWrapper';
 import {LinkIdentities} from '../components/authentication/link-identities/LinkIdentities';
+import {ApiKeyAuth} from '../components/authentication/api-keys/ApiKeys';
 
 import {AuthenticationStackParamList} from '../navigation/types';
 import {AuthenticationHomeProps} from '../navigation/types';
@@ -20,6 +21,7 @@ export const AuthenticationScreen = () => {
       />
       <Stack.Screen name="Login" component={LoginExample} />
       <Stack.Screen name="LinkIdentities" component={LinkIdentities} />
+      <Stack.Screen name="ApiKeyAuth" component={ApiKeyAuth} />
     </Stack.Navigator>
   );
 };
@@ -47,6 +49,18 @@ const AuthenticationHome = ({navigation}: AuthenticationHomeProps) => {
             title={'Check it out'}
             onPress={() => {
               navigation.navigate('LinkIdentities');
+            }}
+          />
+        </View>
+      </View>
+      <Text>This is API Key Auth section</Text>
+      <View style={styles.exampleList}>
+        <View style={styles.example}>
+          <Text style={styles.exampleTitle}>API Key Auth</Text>
+          <Button
+            title={'Check it out'}
+            onPress={() => {
+              navigation.navigate('ApiKeyAuth');
             }}
           />
         </View>

@@ -49,6 +49,10 @@ class Project extends _Project with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Project>(this);
 
   @override
+  Stream<RealmObjectChanges<Project>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Project>(this, keyPaths);
+
+  @override
   Project freeze() => RealmObjectBase.freezeObject<Project>(this);
 
   EJsonValue toEJson() {
@@ -160,6 +164,10 @@ class Item extends _Item with RealmEntity, RealmObjectBase, RealmObject {
   @override
   Stream<RealmObjectChanges<Item>> get changes =>
       RealmObjectBase.getChanges<Item>(this);
+
+  @override
+  Stream<RealmObjectChanges<Item>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Item>(this, keyPaths);
 
   @override
   Item freeze() => RealmObjectBase.freezeObject<Item>(this);

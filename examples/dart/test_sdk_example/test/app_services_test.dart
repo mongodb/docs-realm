@@ -19,7 +19,7 @@ void main() {
 
   test("Check user type", () {
     final user = app.currentUser!;
-    expect(user.provider, AuthProviderType.anonymous);
+    expect(user.identities[0].provider, AuthProviderType.anonymous);
   });
 }
 // :snippet-end:

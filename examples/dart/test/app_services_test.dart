@@ -1,9 +1,9 @@
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
+import 'package:http/io_client.dart';
 import "dart:io";
 import "dart:convert";
 import "dart:isolate";
-import 'utils.dart';
 
 void main() {
   const APP_ID = "example-testers-kvjdy";
@@ -48,10 +48,8 @@ void main() {
       // :snippet-start: change-base-url
       // Specify a custom baseUrl to connect to.
       // In this case, an Edge Server instance running on the device.
-      final appConfig = AppConfiguration(
-        EDGE_SERVER_APP_ID,
-        baseUrl: Uri.parse('http://localhost:80')
-        );
+      final appConfig = AppConfiguration(EDGE_SERVER_APP_ID,
+          baseUrl: Uri.parse('http://localhost:80'));
 
       var app = App(appConfig);
 
@@ -124,7 +122,7 @@ void main() {
       // import "dart:convert";
       // :uncomment-end:
 
-      HttpClient createCustomHttpsClient(String cert) {
+      IOClient createCustomHttpsClient(String cert) {
         SecurityContext context = SecurityContext.defaultContext;
         try {
           final bytes = utf8.encode(cert);
@@ -136,13 +134,13 @@ void main() {
           }
         }
 
-        return HttpClient(context: context);
+        return IOClient(HttpClient(context: context));
       }
 
       App createAppWithCustomHttpsClient(
           String letsEncryptCertificate, String appId) {
-        HttpClient httpClient = createCustomHttpsClient(letsEncryptCertificate);
-        final appConfig = AppConfiguration(appId, httpClient: httpClient);
+        IOClient ioClient = createCustomHttpsClient(letsEncryptCertificate);
+        final appConfig = AppConfiguration(appId, httpClient: ioClient);
         return App(appConfig);
       }
 

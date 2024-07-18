@@ -29,7 +29,21 @@ class _Team {
 
 void main() {
   group('Query Data', () {
-    test('Query Object by Primary Key', () {
+    setUp(() async {
+      final config = Configuration.local([Person.schema]);
+      final realm = Realm(config);
+
+      realm.write(() => realm.deleteAll<Person>());
+      await delay(300);
+
+      realm.close();
+      await delay(300);
+
+      Realm.deleteRealm(realm.config.path);
+      await delay(300);
+    });
+
+    test('Query Object by Primary Key', () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
 
@@ -41,9 +55,9 @@ void main() {
       // :snippet-end:
       expect(luke, isNotNull);
       expect(luke!.name, 'Luke');
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Query All Objects', () {
+    test('Query All Objects', () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
 
@@ -54,9 +68,9 @@ void main() {
       final people = realm.all<Person>();
       // :snippet-end:
       expect(people.length, 1);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Query List of Realm Objects', () {
+    test('Query List of Realm Objects', () async {
       // :snippet-start: query-realm-list
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
@@ -76,9 +90,9 @@ void main() {
         realm.deleteMany(realm.all<Person>());
         realm.deleteMany(realm.all<Team>());
       });
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Lists asResults', () {
+    test('Lists asResults', () async {
       // :snippet-start: list-as-results
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
@@ -113,11 +127,11 @@ void main() {
         realm.deleteMany(realm.all<Person>());
         realm.deleteMany(realm.all<Team>());
       });
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
   });
   group('Filter Data', () {
-    test('Filter Results', () {
+    test('Filter Results', () async {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
       final heroes = Team(ObjectId(), 'Millennium Falcon Crew', crew: [
@@ -144,9 +158,9 @@ void main() {
       for (var person in matchingRealmObjects) {
         print(person.name);
       }
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Sort Results', () {
+    test('Sort Results', () async {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
       // :snippet-start: sort
@@ -168,9 +182,9 @@ void main() {
       // :snippet-end:
       expect(alphabetizedPeople.first.name, 'Chewbacca');
       expect(alphabetizedPeople.last.name, 'Luke');
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Filter Nested Collections', () {
+    test('Filter Nested Collections', () async {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
 
@@ -235,9 +249,9 @@ void main() {
         // :remove-end:
       });
       // :snippet-end:
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Limit Results', () {
+    test('Limit Results', () async {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
       // :snippet-start: limit
@@ -258,11 +272,11 @@ void main() {
       // :snippet-end:
       expect(limitedPeopleResults.length, 2);
 
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
   });
   group('Write, update, and delete data', () {
-    test('Return from write block', () {
+    test('Return from write block', () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
 
@@ -272,10 +286,10 @@ void main() {
       });
       // :snippet-end:
       expect(yoda.name, 'Yoda');
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
 
-    test("Create an Object", () {
+    test("Create an Object", () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
       // :snippet-start: create-object
@@ -284,9 +298,9 @@ void main() {
       });
       // :snippet-end:
       expect(realm.all<Person>().first.name, 'Lando');
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Create Multiple Objects', () {
+    test('Create Multiple Objects', () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
       // :snippet-start: create-multiple-objects
@@ -299,9 +313,9 @@ void main() {
       });
       // :snippet-end:
       expect(realm.all<Person>().length, 3);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Update Object Properties', () {
+    test('Update Object Properties', () async {
       final config = Configuration.local([Person.schema, Team.schema]);
       final realm = Realm(config);
       final spaceshipTeam = Team(ObjectId(), 'Millennium Falcon Crew',
@@ -316,10 +330,10 @@ void main() {
       // :snippet-end:
       expect(spaceshipTeam.name, 'Galactic Republic Scout Team');
       expect(spaceshipTeam.crew.length, 4);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
 
-    test('Upsert data', () {
+    test('Upsert data', () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
       // :snippet-start: upsert
@@ -342,9 +356,9 @@ void main() {
       // :snippet-end:
       final darthAnakin = realm.find<Person>(id);
       expect(darthAnakin!.name, 'Darth Vader');
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test("Delete a single object", () {
+    test("Delete a single object", () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
       final obiWan =
@@ -356,9 +370,9 @@ void main() {
       });
       // :snippet-end:
       expect(realm.all<Person>().length, 0);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test("Delete multiple objects", () {
+    test("Delete multiple objects", () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
       final obiWan =
@@ -372,9 +386,9 @@ void main() {
       });
       // :snippet-end:
       expect(realm.all<Person>().length, 0);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test("Delete all objects of a type", () {
+    test("Delete all objects of a type", () async {
       final config = Configuration.local([Person.schema]);
       final realm = Realm(config);
       realm.write(
@@ -390,7 +404,7 @@ void main() {
       });
       // :snippet-end:
       expect(realm.all<Person>().length, 0);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
 
     test('Write async', () async {
@@ -407,10 +421,10 @@ void main() {
       expect(leiaAgain.length, 0);
       expect(realm.isInTransaction, true);
       // let transaction resolve
-      await Future.delayed(Duration(milliseconds: 500));
+      await delay(500);
       expect(realm.isInTransaction, false);
       expect(realm.query<Person>("name == \$0", ['Leia']).length, 1);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
   });
 }
