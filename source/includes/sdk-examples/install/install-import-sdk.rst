@@ -25,8 +25,9 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
-            :language: javascript
+         .. code-block:: javascript
+
+            import Realm from "realm";
 
      - id: kotlin
        content: |
@@ -49,5 +50,6 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
-            :language: typescript
+         .. code-block:: typescript
+
+            import Realm from "realm";

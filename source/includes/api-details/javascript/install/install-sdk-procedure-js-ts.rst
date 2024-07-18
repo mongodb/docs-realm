@@ -1,43 +1,4 @@
-.. _sdks-build-for-iot:
-
-=============
-Build for IoT
-=============
-
-.. contents:: On this page
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
-
-Placeholder page for information about building for IoT.
-
-Include info about which frameworks we support building for IoT, plus
-any specific version or compatibility info worth calling out?
-
-Install the SDK for IoT
------------------------
-
-.. TODO: Should also add details about C++ here
-
-JavaScript Library
-~~~~~~~~~~~~~~~~~~
-
-To create a Node.js project and add the Node.js SDK on an
-Internet of Things (IoT) platform such as the Raspberry Pi 2, 3, or 4
-running Raspberry Pi OS (formerly Raspbian), follow the steps below:
-
 .. procedure::
-
-   .. step:: Install a C++ Compiler
-
-      The  Node.js SDK's IoT library is not distributed as a binary, so you 
-      must build it from source. To do this, you'll need a working C++ compiler. 
-      To install such a compiler on your IoT device, run the following command:
-
-      .. code-block:: bash
-
-         sudo apt install build-essential g++ libssl-dev
 
    .. step:: Create a Node.js Project
 
