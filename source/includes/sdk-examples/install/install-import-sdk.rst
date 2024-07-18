@@ -22,18 +22,6 @@
 
             import 'package:realm_dart/realm.dart';
 
-     - id: java
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
-            :language: java
-
-     - id: java-kotlin
-       content: |
-
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
-            :language: kotlin
-
      - id: javascript
        content: |
 
