@@ -10,8 +10,9 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
-            :language: csharp
+         .. code-block:: csharp
+
+            using Realms;
 
      - id: dart
        content: |
