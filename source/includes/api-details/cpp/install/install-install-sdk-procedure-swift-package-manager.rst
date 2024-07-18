@@ -11,7 +11,7 @@ install the SDK's ``realm-cpp`` library.
 
       Copy and paste the following into the search/input box.
 
-      .. code-block:: sh
+      .. code-block::
 
          https://github.com/realm/realm-cpp
 

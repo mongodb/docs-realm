@@ -70,7 +70,7 @@ dependencies in your C++ project.
       Run CMake in a gitignored directory, such as ``build``, to generate the build
       configurations that you can then use to compile your app:
 
-      .. code-block:: bash
+      .. code-block::
 
          # build/ is in .gitignore
          mkdir build
