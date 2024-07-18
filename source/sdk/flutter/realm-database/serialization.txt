@@ -24,10 +24,12 @@ Serialization allows for easier integration with MongoDB APIs.
 Supported Data Types for Serialization
 --------------------------------------
 
-The Flutter SDK supports serialization of the following Realm-specific data types:
+The Flutter SDK supports serialization of all :ref:`supported data types <flutter-data-types>`. 
+The following table illustrates how the SDK's Realm-specific data types serialize with output examples:
 
 .. list-table::
    :header-rows: 1
+   :stub-columns: 1
    :widths: 30 70
 
    * - Realm Type
@@ -68,7 +70,7 @@ The Flutter SDK supports serialization of the following Realm-specific data type
 
        ``Uint8List aBinaryProperty = Uint8List.fromList([1, 2])`` serializes to ``aBinaryProperty: {$binary: {base64: AQI=, subType: 00}}``
 
-   * - Embedded Object
+   * - Object
      - Document
      
        ``Address address = Address("500 Dean Street", "Brooklyn", "NY", "USA")`` serializes to ``address: {street: 500 Dean Street, city: Brooklyn, state: NY, country: USA}``
@@ -76,7 +78,7 @@ The Flutter SDK supports serialization of the following Realm-specific data type
 For more information on the serialization of non-Realm specific types,
 see :manual:`BSON Data Types and Associated Representations </reference/mongodb-extended-json/#bson-data-types-and-associated-representations>`.
 
-The SDK does not currently support the following types: Code, 
+The SDK does not currently support the following types: RealmValue, Decimal128, Code, 
 CodeWScope, DBPointer, DBRef, Regular Expression, and Timestamp. 
 
 Serialize Realm Objects
@@ -136,6 +138,7 @@ to generate a decoder and encoder:
 
 .. literalinclude:: /examples/generated/flutter/person.snippet.ejson-annotation.dart
     :language: dart
+    :emphasize-lines: 8
 
 Register Custom Codecs
 ----------------------

@@ -3,8 +3,6 @@ import 'package:realm_dart/realm.dart';
 import 'utils.dart';
 import 'dart:typed_data';
 
-import 'package:realm_dart/realm.dart';
-
 import './pet.dart';
 part 'serialization_test.realm.dart';
 
@@ -26,7 +24,6 @@ class _SerializeModel {
   late Uuid myId;
 
   // Array
-  // RealmList of Value doesn't seem to encode
   late List<String> listOfStrings;
   late Set<int> setOfInts;
   late Map<String, int> mapOfMixedAnyValues;
@@ -40,8 +37,7 @@ class _SerializeModel {
   // Date
   late DateTime dateLastServiced;
 
-  // Document: one to one with Pet
-
+  // Document
   late _Address? address; 
 
   // Double
@@ -57,17 +53,8 @@ class _SerializeModel {
   // Null
   int? a;
 
-  // RealmValue supported??? Engineer said so but doesn't seem to be so
-  
-  // late RealmValue anyValue;
-
-  // Decimal128: seems like it's not supported
-
-  //late Decimal128 decimal;
-
-  // Symbol
-  // Symbol sym = #hhh;
- 
+  // Missing encoders for RealmValue and Decimal 128, engineering ticket number: 
+  // RDART-1063 (https://jira.mongodb.org/browse/RDART-1063)
 }
 
 main() {
@@ -81,8 +68,6 @@ main() {
       '90ZXWYZL', listOfStrings: ['food', 'water'], setOfInts: {0, 1, 2, 3},
        mapOfMixedAnyValues: {'first': 123 , 'second': 567}, 
        address: Address("500 Dean Street", "Brooklyn", "NY", "USA"));
-      // anyValue: RealmValue.from('abc')
-      // Decimal128.fromInt(9));
 
     realm.write(() {
       realm.add(example);
