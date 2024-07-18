@@ -5,7 +5,7 @@
        content: |
 
          .. literalinclude:: /examples/generated/cpp/filter-data.snippet.models.cpp
-           :language: cpp
+           :language: cpp-sdk
 
      - id: csharp
        content: |
@@ -39,6 +39,28 @@
             String name;
             RealmList<Item> items;
             Integer quota = null;
+          }
+
+     - id: java-kotlin
+       content: |
+
+        .. code-block:: kotlin
+
+          open class Item(): RealmObject() {
+            var id: ObjectId = new ObjectId()
+            @FullText
+            lateinit var name: String
+            var isComplete: Boolean = false
+            var assignee: String? = null
+            var priority: Int = 0
+            var progressMinutes: Int = 0
+          }
+
+          open class Project(): RealmObject() {
+            var id: ObjectId = new ObjectId()
+            lateinit var name: String
+            lateinit var items: RealmList<Item>
+            var quota: Int? = null
           }
 
      - id: javascript

@@ -170,7 +170,7 @@ describe("Realm Query Language Reference", () => {
     // NOTE: snippet used on Node.js Query Data page, not RQL page
     // :snippet-start: simple-query
     const items = realm.objects(Item);
-    // Get all items where 'priority' property is 7 or more.
+    // Get all items where 'priority' property is 7 or more
     const importantItems = items.filtered("priority >= $0", 7);
     // :snippet-end:
     expect(importantItems.length).toEqual(5);
@@ -179,8 +179,11 @@ describe("Realm Query Language Reference", () => {
   describe("Basic syntax", () => {
     test("Expression query", () => {
       const items = realm.objects(Item);
-      // :snippet-start: predicate
-      const expression = "priority == 1";
+      // prettier-ignore
+      const expression =
+        // :snippet-start: predicate
+        "priority == 1"
+        ; // :remove:
       // Property Name: priority
       // Operator: ==
       // Value: 1
@@ -201,7 +204,7 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const substitution = items.filtered(
         // :snippet-start: parameterized-query
-        // Include one parameter with `$0`.
+        // Include one parameter with `$0`
         "progressMinutes > 1 AND assignee == $0", "Ali"
 
         // :remove-start:
@@ -214,7 +217,8 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const substitution = items.filtered(
         // :remove-end:
-        // Include multiple parameters using ascending integers, starting at`$0`.
+        // Include multiple parameters using ascending integers,
+        // starting at`$0`
         "progressMinutes > $0 AND assignee == $1", 1, "Alex"
         // :snippet-end:
       );
@@ -225,13 +229,15 @@ describe("Realm Query Language Reference", () => {
       const address = realm.objects(Project);
       const nestedItem = address.filtered(
         // :snippet-start: dot-notation
-        // Find projects whose `items` list property contains an item with a specific name.
+        // Find projects whose `items` list property contains an item
+        // with a specific name
         "items[0].name == 'Approve project plan'"
         // :snippet-end:
       );
       const nestedZipcode = address.filtered(
         // :snippet-start: deep-dot-notation
-        // Find projects whose `projectLocation` property contains an embedded Address object with a specific zip code.
+        // Find projects whose `projectLocation` property contains an
+        // embedded Address object with a specific zip code
         "projectLocation.address.zipcode == 10019"
         // :snippet-end:
       );
@@ -246,7 +252,7 @@ describe("Realm Query Language Reference", () => {
 
     const highPriorityItems = items.filtered(
       // :snippet-start: comparison-operators
-      // Compare `priority` values against a threshold value.
+      // Compare `priority` values against a threshold value
       "priority > $0", 5
 
       // :remove-start:
@@ -264,7 +270,7 @@ describe("Realm Query Language Reference", () => {
 
     const progressMinutesRange = items.filtered(
       // :remove-end:
-      // Compare `priority` values against an inclusive range of values.
+      // Compare `priority` values against an inclusive range of values
       "priority BETWEEN { $0 , $1 }", 1, 5
 
       // :remove-start:
@@ -273,7 +279,7 @@ describe("Realm Query Language Reference", () => {
 
     const progressMinutesIn = items.filtered(
     // :remove-end:
-      // Compare `progressMinutes` values against any of the listed values.
+      // Compare `progressMinutes` values against any of the listed values
       "progressMinutes IN { $0, $1, $2 }", 10, 30, 60
       // :snippet-end:
     );
@@ -284,14 +290,14 @@ describe("Realm Query Language Reference", () => {
     const items = realm.objects(Item);
     const aliComplete = items.filtered(
       // :snippet-start: logical-operators
-      // Find all items assigned to Ali AND marked completed.
+      // Find all items assigned to Ali AND marked completed
       "assignee == $0 AND isComplete == $1", "Ali", true
 
       // :remove-start:
     );
     const alexOrAli = items.filtered(
       // :remove-end:
-      // Find all items assigned to Alex OR to Ali.
+      // Find all items assigned to Alex OR to Ali
       "assignee == $0 OR assignee == $1", "Alex", "Ali"
       // :snippet-end:
     );
@@ -305,13 +311,13 @@ describe("Realm Query Language Reference", () => {
       const basicMath = items.filtered(
         // :snippet-start: basic-arithmetic
         // Evaluate against an item's `priority` property value:
-        "2 * priority > 6" // resolves to `priority > 3`
+        "2 * priority > 6" // (resolves to `priority > 3`)
 
         // :remove-start:
       );
       const lessBasicMath = items.filtered(
         // :remove-end:
-        "priority >= 2 * (2 - 1) + 2" // resolves to `priority >= 4`
+        "priority >= 2 * (2 - 1) + 2" // (resolves to `priority >= 4`)
 
         // :remove-start:
       );
@@ -337,7 +343,8 @@ describe("Realm Query Language Reference", () => {
       const projects = realm.objects(Project);
       const startWithE = projects.filtered(
         // :snippet-start: string-operators
-        // Find projects whose name starts with 'E' or 'e' (case-insensitive).
+        // Find projects whose name starts with 'E' or 'e'
+        // (case-insensitive query)
         "name BEGINSWITH[c] $0", "E"
 
         // :remove-start:
@@ -346,7 +353,8 @@ describe("Realm Query Language Reference", () => {
 
       const containIe = projects.filtered(
         // :remove-end:
-        // Find projects whose name contains 'ie' (case-sensitive).
+        // Find projects whose name contains 'ie'
+        // (case-sensitive query)
         "name CONTAINS $0", "ie"
 
         // :remove-start:
@@ -360,7 +368,8 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const assigneeBetween = items.filtered(
         // :remove-end:
-        // Find items where the assignee name is lexicographically between 'Ali' and 'Chris' (case-sensitive).
+        // Find items where the assignee name is lexicographically between
+        // 'Ali' and 'Chris'(case-sensitive)
         "assignee BETWEEN { $0 , $1 }", "Ali", "Chris"
 
         // :remove-start:
@@ -368,7 +377,8 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const compareStreet = projects.filtered(
         // :remove-end:
-        // Find projects where the street address is lexicographically greater than '123 Main St' (case-sensitive).
+        // Find projects where the street address is lexicographically
+        // greater than '123 Main St'(case-sensitive)
         "projectLocation.address.street > $0", "123 Main St"
       //  :snippet-end:
       );
@@ -386,7 +396,7 @@ describe("Realm Query Language Reference", () => {
     // :remove-start:
     const averageItemPriorityAbove5 = projects.filtered(
       // :remove-end:
-      // Find projects with average item `priority` above 5.
+      // Find projects with average item `priority` above 5
       "items.@avg.priority > $0", priorityNum
 
       // :remove-start:
@@ -395,7 +405,7 @@ describe("Realm Query Language Reference", () => {
 
     const allItemsLowerPriority = projects.filtered(
       // :remove-end:
-      // Find projects where maximum `priority` of all items is 5.
+      // Find projects where maximum `priority` of all items is 5
       "items.@max.priority < $0", priorityNum
 
       // :remove-start:
@@ -404,7 +414,7 @@ describe("Realm Query Language Reference", () => {
 
     const allItemsHighPriority = projects.filtered(
       // :remove-end:
-      // Find projects where minimum `priority` of all items is 5.
+      // Find projects where minimum `priority` of all items is 5
       "items.@min.priority > $0", priorityNum
 
       // :remove-start:
@@ -413,8 +423,7 @@ describe("Realm Query Language Reference", () => {
 
     const moreThan5Items = projects.filtered(
       // :remove-end:
-
-      // Find projects with more than 5 items.
+      // Find projects with more than 5 items
       "items.@count > $0", 5
 
       // :remove-start:
@@ -423,7 +432,7 @@ describe("Realm Query Language Reference", () => {
 
     const longRunningProjects = projects.filtered(
       // :remove-end:
-      // Find projects with item `progressMinutes` greater than 100.
+      // Find projects with item `progressMinutes` greater than 100
       "items.@sum.progressMinutes > $0", 100
       // :snippet-end:
     );
@@ -436,7 +445,7 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const noCompleteItems = projects.filtered(
         // :snippet-start: set-operators
-        // Find projects with no complete items.
+        // Find projects with no complete items
         "NONE items.isComplete == $0", true
 
         // :remove-start:
@@ -444,15 +453,15 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const anyTopPriorityItems = projects.filtered(
         // :remove-end:
-        // Find projects that contain any item with priority 10.
-        "items.priority == $0", 10 // (ANY operator is implied.)
+        // Find projects that contain any item with priority 10
+        "items.priority == $0", 10 // (ANY operator is implied)
 
         // :remove-start:
       );
       // prettier-ignore
       const allItemsCompleted = projects.filtered(
         // :remove-end:
-        // Find projects that only contain completed items.
+        // Find projects that only contain completed items
         "ALL items.isComplete == $0", true
 
         // :remove-start:
@@ -460,7 +469,8 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const assignedToAlexOrAli = projects.filtered(
         // :remove-end:
-        // Find projects with at least one item assigned to either Alex or Ali.
+        // Find projects with at least one item assigned to
+        // either Alex or Ali
         "ANY items.assignee IN { $0 , $1 }", "Alex", "Ali"
 
         // :remove-start:
@@ -468,7 +478,7 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const notAssignedToAlexOrAli = projects.filtered(
         // :remove-end:
-        // Find projects with no items assigned to either Alex or Ali.
+        // Find projects with no items assigned to either Alex or Ali
         "NONE items.assignee IN { $0 , $1 }", "Alex", "Ali"
         // :snippet-end:
       );
@@ -486,13 +496,15 @@ describe("Realm Query Language Reference", () => {
 
       const collectionQuery = projects.filtered(
         // :snippet-start: list-comparisons-collection
-        // Find an item with the specified ObjectId value in the `items` collection.
+        // Find an item with the specified ObjectId value
+        // in the`items` collection
         "oid(631a072f75120729dc9223d9) IN items._id"
         // :snippet-end:
       );
       const staticQuery = items.filtered(
         // :snippet-start: list-comparisons-static
-        // Find items with a priority value matching any value in the static list.
+        // Find items with a priority value matching any value
+        // in the static list
         "priority IN {0, 1, 2}"
         // :snippet-end:
       );
@@ -502,7 +514,8 @@ describe("Realm Query Language Reference", () => {
         new BSON.ObjectId("631a0737c98f89f5b81cd24d"),
         new BSON.ObjectId("631a073c833a34ade21db2b2"),
       ];
-      // Find items with an ObjectId value matching any value in the parameterized list.
+      // Find items with an ObjectId value matching any value
+      // in the parameterized list
       const parameterizedQuery = realm.objects(Item).filtered("_id IN $0", ids);
       // :snippet-end:
 
@@ -516,7 +529,7 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const equivalentAnyOperator = items.filtered(
         // :remove-end:
-        "assignee == { $0, $1 }", "Alex", "Ali" // Equivalent (ANY is implied.)
+        "assignee == { $0, $1 }", "Alex", "Ali" // Equivalent (ANY is implied)
         // :snippet-end:
       );
 
@@ -532,8 +545,9 @@ describe("Realm Query Language Reference", () => {
 
       const sortedItems = items.filtered(
         // :snippet-start: sort-distinct-limit
-        // Find incomplete items, sort by `priority` in descending order, then
-        // sort equal `priority` values by `progressMinutes` in ascending order.
+        // Find incomplete items, sort by `priority` in descending order,
+        // then sort equal `priority` values by `progressMinutes`
+        // in ascending order
         "isComplete == false SORT(priority DESC, progressMinutes ASC)"
 
         // :remove-start:
@@ -542,7 +556,7 @@ describe("Realm Query Language Reference", () => {
       const distinctItems = items.filtered(
         // :remove-end:
         // Find high priority items, then remove from the results any items
-        // with duplicate values for both `name` AND `assignee` properties.
+        // with duplicate values for both `name` AND `assignee` properties
         "priority >= 5 DISTINCT(name, assignee)"
 
         // :remove-start:
@@ -550,7 +564,7 @@ describe("Realm Query Language Reference", () => {
       expect(distinctItems.length).toBe(6);
       const limitItems = items.filtered(
         // :remove-end:
-        // Find in-progress items, then return the first 10 results.
+        // Find in-progress items, then return the first 10 results
         "progressMinutes > 0 && isComplete != true LIMIT(10)"
         // :snippet-end:
       );
@@ -558,18 +572,18 @@ describe("Realm Query Language Reference", () => {
 
       const sortFirst = items.filtered(
         // :snippet-start: sort-distinct-limit-order-matters
-        // 1. Sorts by highest priority.
-        // 2. Returns the first item.
-        // 3. Remove duplicate names (N/A because a single item is always considered distinct).
+        // 1. Sorts by highest priority
+        // 2. Returns the first item
+        // 3. Remove duplicate names (N/A - a single item is always distinct)
         "assignee == null SORT(priority ASC) LIMIT(1) DISTINCT(name)"
 
         // :remove-start:
       );
       const limitLast = items.filtered(
         // :remove-end:
-        // 1. Removes any duplicates by name.
-        // 2. Sorts by highest priority.
-        // 3. Returns the first item.
+        // 1. Removes any duplicates by name
+        // 2. Sorts by highest priority
+        // 3. Returns the first item
         "assignee == null DISTINCT(name) SORT(priority ASC) LIMIT(1)"
         // :snippet-end:
       );
@@ -579,7 +593,7 @@ describe("Realm Query Language Reference", () => {
         const projects = realm.objects("Project");
         const subquery = projects.filtered(
           // :snippet-start: subquery
-          // Find projects with incomplete items with 'Demo' in the name.
+          // Find projects with incomplete items with 'Demo' in the name
           "SUBQUERY(items, $item, $item.isComplete == false AND $item.name CONTAINS[c] 'Demo').@count > 0"
 
           // :remove-start:
@@ -589,7 +603,8 @@ describe("Realm Query Language Reference", () => {
 
         const subquery2 = projects.filtered(
           // :remove-end:
-          // Find projects where the number of completed items is greater than or equal to the project's `quota` property.
+          // Find projects where the number of completed items is
+          // greater than or equal to the project's `quota` property
           "SUBQUERY(items, $item, $item.isComplete == true).@count >= quota"
           // :snippet-end:
         );
@@ -603,21 +618,24 @@ describe("Realm Query Language Reference", () => {
       const dictionaries = realm.objects(Project);
       const statusKey = dictionaries.filtered(
         // :snippet-start: dictionary-operators
-        // Find projects whose `comments` dictionary property have a key of 'status'.
+        // Find projects whose `comments` dictionary property
+        // have a key of 'status'
         "comments.@keys == $0", "status"
 
         // :remove-start:
       );
       const statusOnTrack = dictionaries.filtered(
         // :remove-end:
-        // Find projects whose `comments` dictionary property have a 'status' key with a value that ends in 'track'.
+        // Find projects whose `comments` dictionary property
+        // have a 'status' key with a value that ends in 'track'
         "comments['status'] LIKE $0", "*track"
 
         // :remove-start:
       );
       const numItemsInDict = dictionaries.filtered(
         // :remove-end:
-        // Find projects whose `comments` dictionary property have more than one key-value pair.
+        // Find projects whose `comments` dictionary property
+        // have more than one key-value pair
         "comments.@count > $0", 1
 
         // :remove-start:
@@ -625,7 +643,8 @@ describe("Realm Query Language Reference", () => {
 
       const allString = dictionaries.filtered(
         // :remove-end:
-        // Find projects whose `comments` dictionary property contains only values of type 'string'.
+        // Find projects whose `comments` dictionary property contains
+        // only values of type 'string'
         "ALL comments.@type == 'string'"
 
         // :remove-start:
@@ -633,7 +652,8 @@ describe("Realm Query Language Reference", () => {
 
       const noInts = dictionaries.filtered(
         // :remove-end:
-        // Find projects whose `comments` dictionary property contains no values of type 'int'.
+        // Find projects whose `comments` dictionary property contains
+        // no values of type 'int'
         "NONE comments.@type == 'int'"
         // :snippet-end:
       );
@@ -650,7 +670,7 @@ describe("Realm Query Language Reference", () => {
       const atLinksResult = realm.objects(Item).filtered(
         // :snippet-start: backlinks-atLinks
         // Find items that belong to a project with a quota less than 10
-        // (using '@links.<ObjectType>.<PropertyName>').
+        // (using '@links.<ObjectType>.<PropertyName>')
         "@links.Project.items.quota < 10"
         // :snippet-end:
       );
@@ -658,8 +678,9 @@ describe("Realm Query Language Reference", () => {
 
       const linkingObjectsResult = realm.objects(Item).filtered(
         // :snippet-start: backlinks-linkingObjects
-        // Find items that belong to a project with a quota greater than 10 through the Item object's `projects` property
-        // (using 'LinkingObjects').
+        // Find items that belong to a project with a quota greater than 10
+        // through the Item object's `projects` property
+        // (using 'LinkingObjects')
         "projects.quota > 10"
         // :snippet-end:
       );
@@ -669,7 +690,8 @@ describe("Realm Query Language Reference", () => {
     test("Backlinks collection operators", () => {
       const anyResult = realm.objects(Item).filtered(
         // :snippet-start: backlinks-collection-operators
-        // Find items where no project that references the item has a quota greater than 10.
+        // Find items where no project that references the item has a
+        // quota greater than 10
         "NONE @links.Project.items.quota > 10"
 
         // :remove-start:
@@ -678,7 +700,8 @@ describe("Realm Query Language Reference", () => {
 
       const allResult = realm.objects(Item).filtered(
         // :remove-end:
-        // Find items where all projects that reference the item have a quota less than 5.
+        // Find items where all projects that reference the item have a
+        // quota less than 5
         "ALL @links.Project.items.quota < 5"
 
         // :remove-start:
@@ -689,7 +712,7 @@ describe("Realm Query Language Reference", () => {
     test("Backlinks aggregate operators", () => {
       const shallowResultLinkingObjects = realm.objects(Item).filtered(
         // :remove-end:
-        // Find items that are referenced by multiple projects.
+        // Find items that are referenced by multiple projects
         "projects.@count > 1"
 
         // :remove-start:
@@ -699,7 +722,7 @@ describe("Realm Query Language Reference", () => {
 
       const shallowResultAtLinks = realm.objects(Item).filtered(
         // :remove-end:
-        // Find items that are not referenced by any project.
+        // Find items that are not referenced by any project
         "@links.Project.items.@count == 0"
 
         // :remove-start:
@@ -709,7 +732,8 @@ describe("Realm Query Language Reference", () => {
 
       const deepResultAtLinks = realm.objects(Item).filtered(
         // :remove-end:
-        // Find items that belong to a project where the average item has been worked on for at least 10 minutes
+        // Find items that belong to a project where the average item
+        // has been worked on for at least 10 minutes
         "@links.Project.items.items.@avg.progressMinutes > 10"
 
         // :remove-start:
@@ -721,7 +745,8 @@ describe("Realm Query Language Reference", () => {
     test("Count all backlinks (@links.@count)", () => {
       const result = realm.objects(Item).filtered(
         // :remove-end:
-        // Find items that are not referenced by another object of any type (backlink count is 0).
+        // Find items that are not referenced by another object
+        // of any type (backlink count is 0)
         "@links.@count == 0"
         // :snippet-end:
       );
@@ -735,7 +760,7 @@ describe("Realm Query Language Reference", () => {
       const projects = realm.objects(Project);
       const mixedString = projects.filtered(
         // :snippet-start: type-operator
-        // Find projects with an `additionalInfo` property of string type.
+        // Find projects with an `additionalInfo` property of string type
         "additionalInfo.@type == 'string'"
 
         // :remove-start:
@@ -743,14 +768,15 @@ describe("Realm Query Language Reference", () => {
       const mixedCollection = projects.filtered(
         // :remove-end:
         // Find projects with an `additionalInfo` property of
-        // `collection` type, which matches list or dictionary types.
+        // `collection` type, which matches list or dictionary types
         "additionalInfo.@type == 'collection'"
 
         // :remove-start:
       );
       const mixedBool = projects.filtered(
         // :remove-end:
-        // Find projects with an `additionalInfo` property of list type, where any list element is of type 'bool'.
+        // Find projects with an `additionalInfo` property of list type,
+        // where any list element is of type 'bool'
         "additionalInfo[*].@type == 'bool'"
         // :snippet-end:
       );
@@ -769,7 +795,7 @@ describe("Realm Query Language Reference", () => {
     // prettier-ignore
     const res2 = realm.objects(Item).filtered(
       // :remove-end:
-      "assignee == $0", null // 'null' maps to the SDK language's null pointer
+      "assignee == $0", null // 'null' maps to SDK language's null pointer
       // :snippet-end:
     );
     expect(res.length).toBe(1);
@@ -818,7 +844,8 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const oidStringLiteral = oidUuids.filtered(
         // :snippet-start: oid
-        // Find an item whose `_id` matches the ObjectID value passed to 'oid()'.
+        // Find an item whose `_id` matches the ObjectID value
+        // passed to 'oid()'
         "_id == oid(6001c033600510df3bbfd864)"
 
         // :remove-start:
@@ -826,7 +853,8 @@ describe("Realm Query Language Reference", () => {
 
       const oidInterpolation = oidUuids.filtered(
         // :remove-end:
-        // Find an item whose `_id` matches the ObjectID passed as a parameterized query argument.
+        // Find an item whose `_id` matches the ObjectID passed as
+        // a parameterized query argument
         "_id == $0", oidValue
 
         // :remove-start:
@@ -839,7 +867,8 @@ describe("Realm Query Language Reference", () => {
       const oidUuids = realm.objects("OidUuid");
       const uuid = oidUuids.filtered(
         // :remove-end:
-        // Find an item whose `id` matches the UUID value passed to 'uuid()'.
+        // Find an item whose `id` matches the UUID value
+        // passed to 'uuid()'
         "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
 
         // :remove-start:
@@ -847,7 +876,8 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const test = oidUuids.filtered(
         // :remove-end:
-        // Find an item whose `_id` matches the UUID passed as a parameterized query argument.
+        // Find an item whose `_id` matches the UUID passed as
+        // a parameterized query argument
         "id == $0", uuidValue
         // :snippet-end:
       );
@@ -903,7 +933,7 @@ describe("Realm Query Language Reference", () => {
       // :snippet-end:
       const dateParameterizedQuery = dates.filtered(
         // :snippet-start: date-parameterized-query
-        // Find to-do items completed before today's date.
+        // Find to-do items completed before today's date
         "dateCompleted < $0", today
 
         // :remove-start:
@@ -911,7 +941,7 @@ describe("Realm Query Language Reference", () => {
 
       const dateAlt1 = dates.filtered(
         // :remove-end:
-        // Find to-do items completed between the start of the year until today.
+        // Find to-do items completed between start of the year to today
         "dateCompleted > $0 AND dateCompleted < $1", thisYear, today
         // :snippet-end:
       );
@@ -936,7 +966,7 @@ describe("Realm Query Language Reference", () => {
     const itemsWithWriteNotTest = items.filtered(
       // :remove-end:
       // Use '-' to exclude:
-      // Find items with 'write' but not 'tests' in the name.
+      // Find items with 'write' but not 'tests' in the name
       "name TEXT $0", "write -tests"
 
       // :remove-start:
@@ -945,7 +975,7 @@ describe("Realm Query Language Reference", () => {
     const itemsStartingWithWri = items.filtered(
       // :remove-end:
       // Use '*' to match any characters after a prefix:
-      // Find items with a name that starts with 'wri'.
+      // Find items with a name that starts with 'wri'
       "name TEXT $0", "wri*"
       // :snippet-end:
     );
