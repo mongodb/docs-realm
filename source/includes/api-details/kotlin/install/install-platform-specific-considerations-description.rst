@@ -1,4 +1,5 @@
-- :ref:`macOS: Device Sync and App Sandbox Entitlements <sdks-macos-flutter-app-sandbox-entitlements>`
+- :ref:`sdks-build-for-android`
+- :ref:`sdks-build-for-apple`
 
 When building for Apple platforms, Apple requires any apps or third-party SDKs
 that use *required reasons APIs* to provide a privacy manifest. The manifest
@@ -7,7 +8,9 @@ and it must be included when submitting new apps or app updates to the Apple
 App Store.
 
 Some of the SDK language and framework libraries provide a privacy manifest to
-streamline this process. Starting in version 2.2.0, the Dart and Flutter
-libraries provide a privacy manifest.
+streamline this process. The Kotlin library does not provide a privacy
+manifest. If your application is a cross-platform app that you intend to
+submit to the Apple App Store, you may be required to provide your own version
+of this privacy manifest.
 
 For details, refer to :ref:`sdks-apple-privacy-manifest`.
