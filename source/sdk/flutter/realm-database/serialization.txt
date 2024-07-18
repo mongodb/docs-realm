@@ -19,7 +19,12 @@ Serialization - Flutter SDK
 
 The Atlas Device SDK for Flutter supports serialization and deserialization of
 :manual:`Extended JSON (EJSON) </reference/mongodb-extended-json>` to and from static Realm objects.
-Serialization allows for easier integration with MongoDB APIs.
+The Flutter SDK can also use this full-document EJSON encoding to communicate 
+directly with MongoDB Atlas, such as through the following APIs:
+
+- App Services :ref:`Function calls <flutter-call-function>`
+- Credentials with :ref:`custom function authentication <flutter-login-custom-function>`
+- User profile and :ref:`custom user data <flutter-custom-user-data>`
 
 Supported Data Types for Serialization
 --------------------------------------
