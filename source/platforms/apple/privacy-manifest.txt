@@ -1,0 +1,71 @@
+.. _sdks-apple-privacy-manifest:
+
+===========================================
+The Atlas Device SDK Apple Privacy Manifest
+===========================================
+
+.. meta::
+   :description: Learn about the SDK-provided Privacy Manifest when building for the Apple App Store, and any additional details you may be required to supply. 
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Apple may require apps that use Atlas Device SDK to provide a privacy manifest
+containing details about the SDK's data collection and use practices. The
+bundled manifest file must be included when submitting new apps or app updates
+to the App Store. For more details about Apple's requirements, refer to
+:apple:`Upcoming third-party SDK requirements <support/third-party-SDK-requirements/>`
+on the Apple Developer website.
+
+Some of the SDK libraries provide a privacy manifest to comply with Apple's
+required API disclosures and the reasons for using those APIs. You can view
+the privacy manifests in each package, or in the relevant GitHub repository:
+
+- Dart
+
+  - ``realm-dart``/iOS:
+    `https://github.com/realm/realm-dart/blob/main/packages/realm/ios/Resources/PrivacyInfo.xcprivacy
+    <https://github.com/realm/realm-dart/blob/main/packages/realm/ios/Resources/PrivacyInfo.xcprivacy>`__
+  - ``realm-dart``/macOS:
+    `https://github.com/realm/realm-dart/blob/main/packages/realm/macos/Resources/PrivacyInfo.xcprivacy
+    <https://github.com/realm/realm-dart/blob/main/packages/realm/macos/Resources/PrivacyInfo.xcprivacy>`__
+
+- Swift: ``RealmSwift``: `https://github.com/realm/realm-swift/blob/master/RealmSwift/PrivacyInfo.xcprivacy <https://github.com/realm/realm-swift/blob/master/RealmSwift/PrivacyInfo.xcprivacy>`_
+- ObjectiveC: ``Realm``: `https://github.com/realm/realm-swift/blob/master/Realm/PrivacyInfo.xcprivacy <https://github.com/realm/realm-swift/blob/master/Realm/PrivacyInfo.xcprivacy>`_
+
+The SDK does not include analytics code in builds for the App Store.
+The SDK does not log into Atlas on its own behalf.
+
+If you write an app that uses any App Services functionality, such as
+:ref:`connecting to Atlas <sdks-connect-to-atlas>` to:
+
+- :ref:`Call an Atlas Function <sdks-call-function>`
+- :ref:`Authenticate and manage users <sdks-manage-users>`
+- :ref:`Access MongoDB Atlas <sdks-access-mongodb>`
+- :ref:`Open a synced database <sdks-configure-and-open-synced-database>`
+
+You may need to add additional disclosures to your app's privacy manifest
+detailing your data collection and use practices when using these APIs.
+
+For more information, refer to Apple's
+:apple:`Privacy manifest files documentation <documentation/bundleresources/privacy_manifest_files>`.
+
+Special Build Instructions
+--------------------------
+
+To include these manifests in a build target that uses ``RealmSwift``, you must
+build ``RealmSwift`` as a dynamic framework. For details, refer to the Swift
+Package Manager Installation instructions step
+**(Optional) Build RealmSwift as a Dynamic Framework**.

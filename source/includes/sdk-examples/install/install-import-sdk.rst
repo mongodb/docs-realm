@@ -17,8 +17,10 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
-            :language: dart
+         .. code-block:: dart
+            :caption: ExampleFile.dart
+
+            import 'package:realm_dart/realm.dart';
 
      - id: java
        content: |
