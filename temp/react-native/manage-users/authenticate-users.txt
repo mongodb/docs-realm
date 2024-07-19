@@ -4,6 +4,9 @@
 Authenticate Users - React Native SDK
 =====================================
 
+.. meta::
+  :description: Learn how to use authentication providers with the Atlas Device SDK for React Native.
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -161,11 +164,15 @@ API Key User
 The :ref:`API key <api-key-authentication>` authentication provider allows
 server processes to access your app directly or on behalf of a user.
 
-To log in with an API key, create an API Key credential with a server or user
-API key and pass it to ``App.logIn()``:
+Before you can log a user in with an API key, you need to
+:ref:`create an API key <react-native-create-a-user-api-key>`.
 
-.. literalinclude:: /examples/generated/node/authenticate.snippet.server-api-key-login.js
-   :language: javascript
+To log in with an API key:
+
+#. Destructure ``loginWithApiKey`` and ``result`` from the ``useAuth`` hook.
+#. Pass your API key to ``loginWithApiKey()``.
+
+.. include:: /examples/generated/react-native/v12/LoginManager.snippet.api-key-login.tsx.rst
 
 .. _react-native-custom-jwt-login:
 .. _react-native-login-custom-jwt:
