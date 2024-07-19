@@ -41,3 +41,5 @@
 
       This downloads and copies the required native binaries to the app
       directory.
+
+.. include:: /includes/api-details/dart/install/install-update-package-version-description.rst
