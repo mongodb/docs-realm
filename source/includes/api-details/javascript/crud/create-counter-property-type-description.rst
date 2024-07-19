@@ -9,18 +9,3 @@ value:
 - ``increment()`` and ``decrement()`` update the underlying value by a
   specified number.
 - ``set()`` reassigns the counter to a specified value.
-
-.. tabs-realm-languages::
-
-    .. tab::
-      :tabid: typescript
-    
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.ts 
-          :language: typescript
-    
-    .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.js
-          :language: javascript
-
