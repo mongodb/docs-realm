@@ -4,70 +4,1403 @@
 Define an SDK Object Model
 ==========================
 
+.. meta:: 
+   :description: Define an object and schema to persist data with Atlas Device SDK. Data models may include properties with special behaviors, such as indexes or default values.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 3
+   :depth: 2
    :class: singlecol
 
-.. _sdks-define-object-schema:
+.. tabs-selector:: drivers
 
-Define an SDK Object Schema
----------------------------
+Atlas Device SDK applications model data as objects composed of
+field-value pairs that each contain one or more :ref:`supported
+<sdks-define-property-types>` data types. You can annotate a property to
+provide additional meta-information that gives the property special behaviors,
+such as:
+
+- Designate a property as the object's primary key
+- Ignore a property when reading and writing data
+- Index a property to improve performance for queries on that property
+- Index a property for use with Full-Text Search
+- Map a property or class to a different stored name
+
+.. _sdks-object-types-schemas:
+
+Object Types and Schemas
+------------------------
+
+Every database object has an *object type* that refers to the object's
+class or struct. Objects of the same type share an :ref:`object schema
+<sdks-object-schema>` that defines the properties and relationships of those
+objects.
+
+.. _sdks-database-schema:
+
+Database Schema
+~~~~~~~~~~~~~~~
+
+A **database schema** is a list of valid object schemas that the database may 
+contain. Every database object must conform to an object type that's included 
+in its database's schema.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-database-schema-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-database-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-database-schema-js-ts-description.rst
+
+If the database already contains data when you open it, the SDK 
+validates each object to ensure that an object schema was provided for 
+its type and that it meets all of the constraints specified in the schema.
+
+For more information about how to open the database, refer to 
+:ref:`sdks-configure-and-open-database`.
+
+.. _sdks-object-model:
+
+Object Model
+~~~~~~~~~~~~
+
+Your **object model** is the core structure that gives the database
+information about how to interpret and store the objects in your app.
+The properties that you want to persist must use the :ref:`supported data types
+<sdks-define-property-types>`. Properties are also the mechanism for
+establishing :ref:`relationships <sdks-relationships>` between object types,
+or establishing other special behaviors for specific fields in your object.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-object-model-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-object-model-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-object-model-description.rst
+
+.. _sdks-object-schema:
+
+Object Schema
+~~~~~~~~~~~~~
+
+An **object schema** maps properties for a specific object type. The SDK
+schemas give the SDK the information it needs to validate, store, and retrieve
+the objects. A schema must accompany every object model you want to persist.
+When possible, Device SDK uses language-specific features to simplify or
+abstract away the process of creating a schema.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-object-schema-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-object-schema-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-object-schema-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-object-schema-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-object-schema-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-object-schema-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-object-schema-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/swift/model-data/object-models-object-schema-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-object-schema-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-object-schema-js-ts-description.rst
 
 .. _sdks-define-objects:
 
 Define an SDK Object Model
 --------------------------
 
-Placeholder page for defining an object model.
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-sdk-object-model-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-sdk-object-model-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-define-sdk-object-model-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-sdk-object-model-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-sdk-object-model-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-define-sdk-object-model-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-define-sdk-object-model-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-sdk-object-model-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-sdk-object-model-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-define-sdk-object-model-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-define-sdk-object-model.rst
+
+.. include:: /includes/note-class-char-limit.rst
+
+.. _sdks-define-models-object-types:
+
+Define Models for Specific Object Types
+---------------------------------------
+
+The SDK provides three specific object types, plus support for using an object
+with geospatial data:
+
+- **Realm object**: the base object type used by the SDK.  
+- **Embedded object**: a special object type that cannot exist outside the
+  lifecycle of its parent Realm object.
+- **Asymmetric object**: a special object type used in heavy insert-only
+  workloads using the Data Ingest feature.
+- **Geospatial object**: an object that uses duck-typing to provide a
+  consistent interface and special methods for working with geospatial data.
+
+Throughout the documentation, when we refer to "SDK objects" or "SDK object
+types," we refer to one of these object types.
+
+.. _sdks-realm-objects:
+
+Define a Realm Object
+~~~~~~~~~~~~~~~~~~~~~
+
+A Realm object is the base object type stored by the SDK's device persistence
+layer, Realm.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-realm-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-realm-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-define-realm-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-realm-object-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-realm-object-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-define-realm-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-define-realm-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-realm-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-realm-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-define-realm-object-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-define-realm-object.rst
 
 .. _sdks-embedded-objects:
 
 Define an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Placeholder for defining an embedded object, so we have a ref target to link to.
+An **embedded object** is a special type of object that models complex 
+data about a specific object. Embedded objects are similar to 
+relationships, but they provide additional constraints and
+map more naturally to the denormalized :manual:`MongoDB document model
+</core/data-modeling-introduction/>`.
+
+The SDK enforces unique ownership constraints that treat each embedded
+object as nested data inside of a single, specific parent object. An
+embedded object inherits the lifecycle of its parent object and cannot
+exist as an independent database object. The SDK automatically deletes
+embedded objects if their parent object is deleted or when overwritten
+by a new embedded object instance. This differs from a :ref:`to-one
+<sdks-to-one-relationship>` or :ref:`to-many <sdks-to-many-relationship>`
+relationship, in which the related objects have independent lifecycles.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-embedded-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-embedded-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-define-embedded-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-embedded-object-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-embedded-object-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-define-embedded-object-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-define-embedded-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-embedded-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-embedded-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-define-embedded-object-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-define-embedded-object.rst
+
+.. important:: Lifecycle considerations
+   
+   Because embedded objects cannot exist as objects independent of their parent
+   object, when you delete a Realm object, the SDK automatically deletes any
+   embedded objects referenced by that object. Any objects that your
+   application must persist after the deletion of their parent object
+   should use :ref:`relationships <sdks-relationships>` instead.
+   
+   Additionally, embedded objects cannot have a primary key.
 
 .. _sdks-asymmetric-objects:
 
 Define an Asymmetric Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Placeholder for defining an asymmetric object, so we have a ref target to link to.
+You can use :ref:`Data Ingest <optimize-data-ingest>` to sync an 
+object unidirectionally from your device to the database linked to your 
+Atlas App Services App.
+
+Asymmetric objects do not function in the same way as other database objects. 
+You cannot:
+
+- Remove an asymmetric object from the device database
+- Query an asymmetric object from the device database
+
+You can only create an asymmetric object, which then syncs unidirectionally 
+to the Atlas database linked to your App with Device Sync.
+
+For more information, see: :ref:`Create an Asymmetric Object 
+<sdks-create-asymmetric-object>`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-asymmetric-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-define-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-asymmetric-object-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-asymmetric-object-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-define-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-define-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-define-asymmetric-object-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-define-asymmetric-object.rst
 
 .. _sdks-define-geospatial-object:
 
 Define a Geospatial Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _sdks-define-special-property-types:
+To persist ``GeoPoint`` data, it must conform to the 
+`GeoJSON spec <https://datatracker.ietf.org/doc/html/rfc7946>`_. 
 
-Define Special Property Types
------------------------------
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-geospatial-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-define-geospatial-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-define-geospatial-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-define-geospatial-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-geospatial-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-geospatial-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-define-geospatial-object-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-define-geospatial-object.rst
+
+.. important:: Cannot Persist Geospatial Data Types
+
+   Currently, you can only persist geospatial data. Geospatial data types
+   *cannot* be persisted directly. For example, you can't declare a property
+   that is of type ``GeoBox``. 
+   
+   These types can only be used as arguments for geospatial queries.
+
+.. _sdks-define-property-behaviors:
+
+Define Property Behaviors
+-------------------------
+
+You can define property types that have special behavior. These property types
+provide additional functionality or constraints to these fields in your data
+model.
+
+.. _sdks-index-property:
+
+Index a Property
+~~~~~~~~~~~~~~~~
+
+When you add an index to a property, the SDK can perform equality matches and
+range-based query operations on the property much more efficiently. Without
+indexes, the SDK scans every object of its type to select the objects that
+match the given query. However, if an applicable index exists for a query, the
+SDK uses the index to limit the number of objects it must inspect.
+
+Indexes are special data structures that store a small portion of a
+database's data in an easy-to-traverse form. The index stores the value
+of a specific field ordered by the value of the field.
+
+When indexing a property, keep in mind:
+
+- Indexes can be nullable.
+- :ref:`Primary keys <sdks-primary-key>` are indexed by default.
+- You *cannot* combine standard indexes with full-text search (FTS) 
+  indexes on the same property. To create an FTS index on a property, refer to 
+  the :ref:`sdks-fts-property` section on this page.
+
+Indexing a property makes some types of queries more efficient, but can slow
+down writes and increase the size of the database file:
+
+- Indexes support more efficient match and range-based query operations.
+- Indexes make insert and update operation speed slightly slower.
+- Adding an index to a property increases disk space consumed by your database
+  file. Each index entry is a minimum of 12 bytes.
+- Indexes on the client and on the server are entirely separate. The only
+  effect that adding indexes has on initial Sync performance is to make it
+  slightly slower as the index has to be populated.
+
+Generally, you should only add an index when you need to improve the performance
+of a specific equality-based query, and the minor slowdown in writes is
+acceptable with your app's write patterns.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-index-property-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-index-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-index-property-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-index-property-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-index-property-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-index-property.rst
+
+.. note::
+
+   When you create an index with the SDK, you are creating it in the device
+   persistence layer and not on an Atlas collection. If you need to query an
+   Atlas collection directly and want to improve performance, refer to
+   `Create, View, Drop, and Hide Indexes <https://www.mongodb.com/docs/atlas/atlas-ui/indexes/>`__.
 
 .. _sdks-fts-property:
 
-Define a Full-Text Search Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enable Full-Text Search on a Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+The SDK supports Full-Text Search (FTS) on string properties. You do this by 
+adding a FTS index on the property. When you query a FTS property, the FTS
+index enables searching for multiple words and phrases and excluding others.
 
-.. _sdks-optional-property-types:
+Similar to a regular index, FTS indexes have performance benefits and
+implications. Adding a FTS index to a property makes some types of queries more
+efficient, but can slow down writes and increase the size of the database file:
 
-Define Optional Property Types
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- FTS indexes support more efficient match and range-based query operations
+  when seraching for multiple words or phrases and excluding others.
+- FTS indexes make insert and update operation speed slightly slower.
+- Adding a FTS index to a property increases disk space consumed by your
+  database file. Each index entry is a minimum of 12 bytes.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-fts-index-property-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-fts-index-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-fts-index-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-fts-index-property-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-fts-index-property-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-fts-index-property-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-fts-index-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/swift/model-data/object-models-fts-index-property-swift-objc-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-fts-index-property-swift-objc-not-supported.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-fts-index-property-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-enable-full-text-search-on-property.rst
+
+You *cannot* combine standard indexes with full-text search (FTS) 
+indexes on the same property. To create a standard index on a property, refer
+to the :ref:`sdks-index-property` section on this page.
+
+.. note:: Character Limitations for Full-Text Search Indexes
+
+  For Full-Text Search (FTS) indexes, only ASCII and Latin-1 alphanumerical 
+  chars (most western languages) are included in the index. 
+  
+  Indexes are diacritics- and case-insensitive.
 
 .. _sdks-primary-key:
 
-Define a Primary Key
-~~~~~~~~~~~~~~~~~~~~
+Designate a Primary Key
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _sdks-required-optional-property:
+A **primary key** is a property that uniquely identifies an object.
 
-Placeholder for .NET nullability info, and any other SDKs with similar
-APIs/requirements
+Primary keys allow you to efficiently find, update, and upsert objects.
+
+Primary keys are subject to the following limitations:
+
+- You can define only one primary key per object model.
+- Primary key values must be unique across all instances of an object
+  in the database. The SDK throws an error if you try to
+  insert a duplicate primary key value.
+- Primary key values are immutable. To change the primary key value of
+  an object, you must delete the original object and insert a new object
+  with a different primary key value.
+- Embedded objects cannot define a primary key.
+
+If you are using :ref:`Device Sync <sdks-sync-data>`, your models must 
+have a primary key named ``_id``.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-designate-primary-key-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-designate-primary-key-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-designate-primary-key-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-designate-primary-key-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-designate-primary-key.rst
+
+.. _sdks-optional-property-types:
+
+Define an Optional Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK supports defining optional properties. The SDK uses language-specific
+idioms for handling optional model properties. The SDK considers all model
+properties required unless you designate them as optional, or ignore them.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-optional-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-optional-property-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-define-optional-property-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-optional-property-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-define-optional-property-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-define-optional-property.rst
+
+Special Rules
+`````````````
+
+The SDK has some special rules about when things *must* be nullable, and when
+they *cannot* be nullable:
+
+- You must declare properties that are SDK object types as nullable.
+
+- You cannot declare collections (list, sets, backlinks, and dictionaries) as
+  nullable, but their parameters may be nullable according to the following rules:
+
+  - For all types of collections, if the parameters are primitives
+    (value- or reference-types), they can be required or nullable.
+
+  - For lists, sets, and backlinks, if the parameters are SDK objects, they
+    **cannot** be nullable.
+
+  - For dictionaries with a value type of an SDK object, you **must** declare
+    the value type parameter as nullable.
+
+.. _sdks-ignore-property:
+
+Ignore a Property
+~~~~~~~~~~~~~~~~~
+
+You can ignore a property to avoid persisting that property's value.
+
+An ignored property behaves exactly like a managed property, except:
+
+- They aren't stored to the database
+- They can't be used in queries
+- They don't trigger notifications
+
+You can mix managed and ignored properties within a model. 
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-ignore-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-ignore-property-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-ignore-property-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-ignore-property-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-ignore-property.rst
+
+.. _sdks-set-default-property-value:
+
+Set a Default Value for a Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can specify a default value for a property in your data model.
+
+You cannot set a default value on a collection, except to set it to null or nil.
+Even if you set a collection to nil, collections are always initialized on
+first access, so will never be nil.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-set-default-value-for-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-set-default-value-for-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-set-default-value-for-property-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-set-default-value-for-property-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-set-default-value-for-property-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-set-default-value-for-property-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-set-default-value-for-property.rst
+
+.. _sdks-custom-setters:
+
+Define Custom Setters
+~~~~~~~~~~~~~~~~~~~~~
+
+For some platforms and languages, the idiomatic developer experience involves
+defining custom setters. The SDK does not directly persist properties using
+custom setters. Instead, you can store the property value in a private property,
+and then map that value to a public property that uses the custom setter.
+
+The SDK stores the private property, while you modify its value through the
+public property.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-define-custom-setters-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+   .. tab::
+      :tabid: java-kotlin
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+.. include:: /includes/sdk-examples/model-data/object-models-define-custom-setters.rst
 
 .. _sdks-model-unstructured-data:
 
 Model Unstructured Data
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
+
+**Unstructured data** is data that doesn't easily conform to an expected
+schema, making it difficult or impractical to model to individual
+data classes. For example, your app might have highly variable data or dynamic
+data whose structure is unknown at runtime.
+
+The SDK provides the ability to store :ref:`collections of mixed data
+<sdks-nested-collections-in-mixed>` within a mixed property. You can use this
+feature to model complex data structures, such as JSON or MongoDB documents,
+without having to define a strict data model.
+
+You can work with these collections the same way you would a non-mixed
+collection:
+
+- You can nest mixed collections up to 100 levels.
+- You can query on and :ref:`react to changes
+  <sdks-react-to-changes>` on mixed collections.
+- You can find and update individual mixed collection elements.
+
+However, storing data in mixed collections is less performant than using a
+structured schema or serializing JSON blobs into a single string property.
+
+.. tip::
+
+   - Use a map of mixed data types when the type is unknown but each value will have a unique identifier.
+   - Use a list of mixed data types when the type is unknown but the order of objects is meaningful.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-unstructured-data-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-model-unstructured-data-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-model-unstructured-data-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-unstructured-data-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-unstructured-data-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-model-unstructured-data-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-model-unstructured-data-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-model-unstructured-data-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-model-unstructured-data-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-model-unstructured-data-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-model-unstructured-data.rst
+
+.. _sdks-map-db-name:
+
+Map a Model or Property to a Different Name
+-------------------------------------------
+
+Some of the SDK implementations provide the ability to map an SDK object model
+or property to a different stored name in the database. This can be useful when:
+
+- You work across platforms where naming conventions differ. For example, if
+  your Device Sync schema property names use snake case, while your project
+  uses camel case.
+- You want to change a class or field name without forcing a migration.
+- You need to support multiple model classes with the same name in different
+  packages.
+- You want to use a class name that is longer than the 57-character limit
+  enforced by the SDK.
+
+If you're using Atlas Device Sync, the name that you specify when you map the
+model or property to a new name is the name used in the persisted
+:ref:`App Services Schema <schemas>`.
+
+.. note::
+
+   Migrations must use the persisted class or property name. Any schema errors
+   reported also use the persisted name.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/object-models-map-model-or-property-to-different-name-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/object-models-map-model-or-property-to-different-name-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/object-models-map-model-or-property-to-different-name-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/object-models-map-model-or-property-to-different-name-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/object-models-map-model-or-property-to-different-name-description.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-map-model-or-property-to-different-name.rst
+
+.. _sdks-define-model-projection:
+
+Transform Model Data for View Models
+------------------------------------
+
+You can define a **projection** of your model objects and properties to
+transform the data into different shapes and structures. You might want to use
+a projection to make data available in a specific form, but persist it in a
+different form.
+
+For example, you might want to work with persisted data in a different way in
+a view model or based on certain business logic. This simplifies using and
+testing SDK objects in your application.
+
+With projection, you can use a subset of your object's properties directly in
+the UI, or transform them. When you use a projection for this, you get all the
+benefits of the SDK's live objects:
+
+- The class-projected object live updates
+- You can observe it for changes
+- You can apply changes directly to the properties in write transactions
+
+Projection is currently only available in the Swift SDK.
+
+Transform Persisted Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you define a projection, you can transform the original persisted
+property in several ways:
+
+- Passthrough: the property is the same name and type as the original object
+- Rename: the property has the same type as the original object, but a
+  different name
+- Keypath resolution: use keypath resolution to access properties of the
+  original object, including embedded object properties
+- Collection mapping: Project :ref:`lists <sdks-list-property-types>` or
+  :ref:`sets <sdks-set-property-types>` of ``Object`` s or
+  ``EmbeddedObject`` s as a collection of primitive values
+- Exclusion: when you use a model projection, the underlying object's
+  properties that are not projected through the model projection are
+  excluded. This enables you to watch for changes to a model projection
+  and not see changes for properties that are not part of the model
+  projection.
+
+Define a Projection
+~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/object-models-define-projection-missing-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/object-models-define-projection-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/model-data/object-models-define-projection-not-supported.rst
+
+.. include:: /includes/sdk-examples/model-data/object-models-define-projection.rst
