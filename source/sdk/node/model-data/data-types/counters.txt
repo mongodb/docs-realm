@@ -29,7 +29,7 @@ the you can use as a logical counter when working with synchronized databases. T
 you would store a counter value and manually read, increment, and set it. However, if multiple clients
 attempt to update the counter, it could result in an inaccurate underlying value across clients.
 
-Consider a scenario where a REalm object hsa a ``count`` property of type ``int``. Devices A
+Consider a scenario where a Realm object has a ``count`` property of type ``int``. Devices A
 and B both read the value as ``0``, then increment the count by adding ``1`` to the read value.
 Instead of reflecting both devices' increments and converging to ``2``, the underlying value is
 only ``1``.
