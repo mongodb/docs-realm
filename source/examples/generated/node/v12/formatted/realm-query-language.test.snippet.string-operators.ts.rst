@@ -1,13 +1,17 @@
 .. code-block:: typescript
 
-       // Find projects whose name starts with 'E' or 'e' (case-insensitive).
+       // Find projects whose name starts with 'E' or 'e'
+       // (case-insensitive query)
        "name BEGINSWITH[c] $0", "E"
 
-       // Find projects whose name contains 'ie' (case-sensitive).
+       // Find projects whose name contains 'ie'
+       // (case-sensitive query)
        "name CONTAINS $0", "ie"
 
-       // Find items where the assignee name is lexicographically between 'Ali' and 'Chris' (case-sensitive).
+       // Find items where the assignee name is lexicographically between
+       // 'Ali' and 'Chris'(case-sensitive)
        "assignee BETWEEN { $0 , $1 }", "Ali", "Chris"
 
-       // Find projects where the street address is lexicographically greater than '123 Main St' (case-sensitive).
+       // Find projects where the street address is lexicographically
+       // greater than '123 Main St'(case-sensitive)
        "projectLocation.address.street > $0", "123 Main St"
