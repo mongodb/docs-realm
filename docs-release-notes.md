@@ -1,3 +1,16 @@
+# July 19, 2024
+
+## Flutter SDK
+
+- Serialization: Add new page for serialization of objects to and from EJSON.
+
+## Node.js SDK
+
+- Model Data/Data Types
+  - Counters: Create page to document the addition of the Counter class and data type to the
+    Node.js SDK and updated the Table of Contents to reflect the addition.
+  - Field Types: Add counter as a supported data type.
+
 # July 12, 2024
 
 ## .NET SDK
