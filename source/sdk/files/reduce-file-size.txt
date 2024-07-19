@@ -30,7 +30,7 @@ Atlas Device SDK's great performance, concurrency, and safety benefits.
 
 The SDK writes new data within unused space tracked inside a
 file. In some situations, unused space may comprise a significant 
-portion of a ``.realm`` file. The SDK's default behavior is to automatically 
+portion of a ``.realm`` database file. The SDK's default behavior is to automatically 
 compact a file to prevent it from growing too large. 
 You can use additional strategies for compaction when 
 automatic compaction is not sufficient for your use case 
@@ -47,6 +47,17 @@ minimizing the file size for most applications.
 Automatic compaction begins when the size of unused space in the file is more than twice the size of user 
 data in the file. Automatic compaction only takes place when
 the file is not being accessed.
+
+The minimum SDK version requirements for automatic compaction are:
+
+- C++ SDK 
+- Flutter SDK
+- Java SDK
+- Kotlin SDK
+- .NET SDK
+- Node.js SDK
+- React Native SDK v 11.3.0
+- Swift SDK
 
 Additional Strategies to Reduce File Size
 -----------------------------------------
