@@ -12,7 +12,7 @@ Carthage 0.33 or later.
       You can create a Cartfile or append to an existing one by
       running the following command in your project directory:
 
-      .. code-block:: bash
+      .. code-block::
 
          echo 'github "realm/realm-swift"' >> Cartfile
 

@@ -25,7 +25,7 @@ and clean the Xcode build folder.
 
       Run these commands in the terminal, in the root of your project:
 
-      .. code-block:: bash
+      .. code-block::
 
          rm -rf Carthage
          # Assumes default DerivedData location:
