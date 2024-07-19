@@ -4,7 +4,7 @@
 
       To create a Dart project, run the following commands:
 
-      .. code-block:: bash
+      .. code-block::
 
          dart create <app_name>
          cd <app_name>
@@ -17,7 +17,7 @@
 
       To add the SDK to your project, run the following command:
 
-      .. code-block:: bash
+      .. code-block::
 
          dart pub add realm_dart
 
@@ -35,7 +35,7 @@
 
       After the package is added, run the following command to install it:
 
-      .. code-block:: bash
+      .. code-block::
 
          dart run realm_dart install
 

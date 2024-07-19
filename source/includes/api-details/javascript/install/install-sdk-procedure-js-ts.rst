@@ -8,7 +8,7 @@
       with your desired project name. Answer all of the prompts
       to fill out the details of your project.
 
-      .. code-block:: bash
+      .. code-block::
 
          mkdir MyApp && cd MyApp && npm init
 
@@ -17,7 +17,7 @@
       In your Node.js project directory, use the following command
       to add the SDK to your project:
 
-      .. code-block:: bash
+      .. code-block::
 
          npm install realm
 

@@ -6,7 +6,7 @@
       :file:`apply false`, to the list of plugins in your project-level Gradle
       build file, typically found at :file:`<project>/build.gradle`:
 
-      .. code-block:: kotlin
+      .. code-block::
          :caption: Global build.gradle
 
          plugins {
@@ -24,7 +24,7 @@
 
       - To use coroutines with the SDK, add :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core` to the list of dependencies.
 
-      .. code-block:: kotlin
+      .. code-block::
          :caption: Module build.gradle
          :emphasize-lines: 4, 12-16
 

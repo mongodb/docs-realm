@@ -153,7 +153,7 @@ when upgrading an app that used the removed class or member, if any:
 
    * - ``Realm.logger.level``
      - Replaced by ``Realm.logger.setLogLevel``.
-     - Replace any instances. See also :ref:`flutter-logging`.
+     - Replace any instances. See also :ref:`sdks-logging`.
 
    * - ``RealmProperty.indexed``
      - Replaced by ``RealmProperty.indexType``.
@@ -161,11 +161,11 @@ when upgrading an app that used the removed class or member, if any:
 
    * - ``RealmValue.type``
      - Changed to an enum of ``RealmValueType``.
-     - Replace any instances. See also :ref:`RealmValue Data Type <flutter-realm-value>`.
+     - Replace any instances. See also :ref:`RealmValue Data Type <sdks-mixed-data-type>`.
 
    * - ``RealmValue.uint8List``
      - Renamed to ``RealmValue.binary``.
-     - Replace any instances. See also :ref:`RealmValue Data Type <flutter-realm-value>`.
+     - Replace any instances. See also :ref:`RealmValue Data Type <sdks-mixed-data-type>`.
 
    * - ``SchemaObject.properties``
      - ``SchemaObject`` changed to an iterable collection of ``SchemaProperty``.
@@ -198,7 +198,7 @@ when upgrading an app that used the removed class or member, if any:
    * - ``SyncProgress.transferredBytes`` and ``SyncProgress.transferableBytes``
      - Reported transferred and transferable values were incorrect. Consolidated
        into a new ``SyncProgress.progressEstimate`` metric.
-     - Use ``SyncProgress.progressEstimate``. See also :ref:`flutter-monitor-sync-progress`.
+     - Use ``SyncProgress.progressEstimate``. See also :ref:`sdks-check-upload-and-download-progress`.
 
    * - ``User.provider``
      - Provider is associated with each identity, so value was incorrect

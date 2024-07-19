@@ -12,7 +12,7 @@
 
          - To use coroutines with the SDK, add :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core` to the list of dependencies.
 
-         .. code-block:: kotlin
+         .. code-block::
             :caption: App build.gradle
             :emphasize-lines: 5, 18-22
 
@@ -45,7 +45,7 @@
 
       2. If you use any part of the SDK inside the Android module, add the following compile-time dependencies to your module-level Gradle build file, typically found at :file:`<project>/module/build.gradle`:
 
-         .. code-block:: kotlin
+         .. code-block::
             :caption: Android Module build.gradle
 
             dependencies {

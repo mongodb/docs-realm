@@ -37,7 +37,7 @@ To change the version of the SDK in your project, perform the following steps:
       models. From the command line, run the following command to regenerate
       object models with new and updated functionality:
 
-      .. code-block:: bash
+      .. code-block::
 
          dart run realm_dart generate
 
