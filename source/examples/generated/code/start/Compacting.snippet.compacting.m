@@ -9,8 +9,8 @@ config.shouldCompactOnLaunch = ^BOOL(NSUInteger totalBytes, NSUInteger usedBytes
 };
 
 NSError *error = nil;
-// The database is compacted on the first open if the configuration block conditions were met.
+// Realm is compacted on the first open if the configuration block conditions were met.
 RLMRealm *realm = [RLMRealm realmWithConfiguration:config error:&error];
 if (error) {
-    // handle error compacting or opening database
+    // handle error compacting or opening Realm
 }

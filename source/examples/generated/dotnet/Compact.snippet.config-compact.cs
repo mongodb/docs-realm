@@ -5,7 +5,7 @@ config = new RealmConfiguration()
         /* totalBytes refers to the size of the file on disk in 
          * bytes (data + free space).
          * usedBytes refers to the number of bytes used by 
-         * the file
+         * the realm file
          */
 
         // Compact if the file is over 100MB in size and less

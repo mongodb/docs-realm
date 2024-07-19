@@ -14,10 +14,10 @@ class Compacting: XCTestCase {
             return (totalBytes > oneHundredMB) && (Double(usedBytes) / Double(totalBytes)) < 0.5
         })
         do {
-            // The database is compacted on the first open if the configuration block conditions were met.
+            // Realm is compacted on the first open if the configuration block conditions were met.
             let realm = try Realm(configuration: config)
         } catch {
-            // handle error compacting or opening the database
+            // handle error compacting or opening Realm
         }
         // :snippet-end:
     }
@@ -34,11 +34,11 @@ class Compacting: XCTestCase {
         })
 
         do {
-            // The database is compacted asynchronously on the first open if the
+            // Realm is compacted asynchronously on the first open if the
             // configuration block conditions were met.
             let realm = try await Realm(configuration: config)
         } catch {
-            // handle error compacting or opening the database
+            // handle error compacting or opening Realm
         }
     }
     // :snippet-end:
