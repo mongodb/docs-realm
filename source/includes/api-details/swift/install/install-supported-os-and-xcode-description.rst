@@ -4,7 +4,7 @@ Supported Target Environments
 .. important::
 
    There are special considerations when using the SDK with
-   tvOS. See :ref:`ios-tvos` for more information.
+   tvOS. See :ref:`sdks-tvos` for more information.
 
 Xcode 15
 ````````

@@ -1,8 +1,9 @@
 Before getting started, ensure your development environment
 meets the following prerequisites:
 
-- Your project uses an Xcode version and minimum OS version listed in the
-  :ref:`swift-os-support` section of this page.
+- Your project uses an Xcode version and minimum OS version that the library
+  supports. Refer to **Supported Target Environments** on this page for more
+  details.
 - Reflection is enabled in your project. The Swift SDK uses reflection to
   determine your model's properties. Your project must not set
   ``SWIFT_REFLECTION_METADATA_LEVEL = none``, or the SDK cannot see properties
