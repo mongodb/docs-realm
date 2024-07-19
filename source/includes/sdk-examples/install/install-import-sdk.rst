@@ -38,13 +38,13 @@
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.m
+         .. literalinclude:: /examples/generated/code/start/MyRealmApp.snippet.import-realm.m
             :language: objectivec
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.create-asymmetric-object.swift
+         .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.import-realm.swift
             :language: swift
 
      - id: typescript
