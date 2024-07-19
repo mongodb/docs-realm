@@ -7,7 +7,7 @@
 ## Node.js SDK
 
 - Model Data/Data Types
-  - Counters: Create page to document the addition of the Counter class and data type to the
+  - Counters: Create page to document the addition of the ``Counter`` class and data type to the
     Node.js SDK and update the Table of Contents to reflect the addition.
   - Field Types: Add ``Counter`` as a supported data type.
 
