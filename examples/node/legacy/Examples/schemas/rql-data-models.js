@@ -1,3 +1,9 @@
+/*
+  DON'T UPDATE THIS FILE. DEPRECATED IN FAVOR OF V12 MODELS.
+  Updates should be placed in the new file compatible with
+  JSv12 and later, located at:
+  examples/node/v12/__tests__/models/rql-data-models.ts
+*/
 // :snippet-start: rql-data-models
 const ItemModel = {
   name: "Item",
