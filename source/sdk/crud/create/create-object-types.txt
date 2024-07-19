@@ -1,0 +1,353 @@
+.. _sdks-create-specific-object-types:
+
+============================
+Create Specific Object Types
+============================
+
+.. meta::
+   :description: Learn how to create specific types of objects with Atlas Device SDK, including constraints for certain object types.
+   :keywords: Realm, C++ SDK, .NET SDK, Flutter SDK, Kotlin SDK, Java SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+This page describes how to create specific types of objects using Atlas Device
+SDK. To learn more about object models and how to define them, refer to 
+:ref:`sdks-object-models`.
+
+You can create objects whose object type is managed by the database instance. 
+For more information, refer to 
+:ref:`sdks-configure-and-open-database` or 
+:ref:`sdks-configure-and-open-synced-database`.
+
+For more information about write transactions and the methods you can use to
+create an object, refer to :ref:`sdks-crud-create`.
+
+For information about creating specific property types, including special
+types, collections, and relationship properties, refer to
+:ref:`sdks-create-specific-property-types`.
+
+Create Specific SDK Object Types
+--------------------------------
+
+Before you can create a new object and persist it to the database, you must 
+:ref:`sdks-object-models`. Then, include that object type in your database
+schema when you open the database.
+
+.. important:: Object Types Must Be in Your Schema
+
+   You can only write objects whose object type is included in the database
+   schema. If you try to reference or write an object of an object type 
+   that isn't in your schema, the SDK returns a schema validation error.
+
+.. _sdks-create-realm-object:
+
+Create a Realm Object
+~~~~~~~~~~~~~~~~~~~~~
+
+The SDK refers to the base object type as a Realm object. This identifies it
+as an object type that can be managed by the device persistence layer, Realm
+database.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/create-realm-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/create-realm-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/create-realm-object-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-realm-object.rst
+
+Model
+`````
+
+For more information about modeling an object, refer to
+:ref:`sdks-object-models`.
+
+.. include:: /includes/sdk-examples/crud/create-realm-object-model.rst
+
+.. _sdks-create-an-embedded-object:
+
+Create an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a new embedded object instance, assign an instance of an 
+:ref:`embedded object type <sdks-embedded-objects>` to a 
+parent object's property. This can be in a one-to-one, one-to-many, or 
+inverse :ref:`relationship <sdks-relationships>` 
+depending on how you defined the embedded object within the parent 
+object type.
+
+.. note:: Embedded Objects Must Be Created Within a Parent Object
+
+   An embedded object requires a parent object and *cannot* exist as an 
+   independent SDK object. 
+
+Embedded objects have strict ownership with their parent object.
+After you create the embedded object, you *cannot* reassign it to a 
+different parent object or share it between multiple parent objects.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-embedded-object-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-embedded-object.rst
+
+Model
+`````
+
+For more information about modeling an embedded object, refer to
+:ref:`sdks-embedded-objects`.
+
+.. include:: /includes/sdk-examples/crud/create-embedded-object-model.rst
+
+.. _sdks-create-asymmetric-object:
+
+Create an Asymmetric Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Asymmetric objects are write-only. Once inserted, the asymmetric object syncs
+to Atlas. You *cannot* access the managed data locally, remove it from the 
+database, or query for it. 
+
+For information on how to use asymmetric objects in your application, 
+refer to :ref:`sdks-stream-data-to-atlas`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-asymmetric-object-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-asymmetric-object-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+.. include:: /includes/sdk-examples/crud/create-asymmetric-object.rst
+
+Model
+`````
+
+For more information about modeling an asymmetric object, refer to
+:ref:`sdks-asymmetric-objects`.
+
+.. include:: /includes/sdk-examples/crud/create-asymmetric-object-model.rst
+
+.. _sdks-create-geospatial-data:
+
+Create a Geospatial Data Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After you :ref:`define a geospatial object type <sdks-define-geospatial-object>`,
+you can use that type to create objects that persist geospatial data.
+
+Initialize objects that use the geospatial data class, and add them to the
+database like you would any other object type.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/create-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/create-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/create-geospatial-object-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/create-geospatial-object-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: objectivec
+
+   .. tab::
+      :tabid: swift
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/create-geospatial-object-js-ts-description.rst
+
+
+.. include:: /includes/sdk-examples/crud/create-geospatial-data-object.rst
+
+The following image shows the results of creating these two company objects:
+
+.. figure:: /images/geopoints.png
+   :alt: 2 GeoPoints
+   :width: 150
+   :lightbox:
+
+Model
+`````
+
+For more information about modeling a geospatial object, refer to
+:ref:`sdks-define-geospatial-object`.
+
+.. include:: /includes/sdk-examples/crud/create-geospatial-data-model.rst

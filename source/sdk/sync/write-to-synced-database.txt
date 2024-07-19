@@ -1,0 +1,375 @@
+.. _sdks-write-synced-database:
+
+===============================
+Write Data to a Synced Database
+===============================
+
+.. meta::
+   :description: Atlas Device SDK uses a combination of server-side permissions and Sync subscription to validate what data users can write to a synced database.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, javascript/typescript, kotlin, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+When writing data to a synced database using Device Sync, you can use the 
+same APIs as writing to a non-synced database. However, there are some
+differences in behavior to keep in mind as you develop your application.
+
+When you write to a synced database, your write operations must match *both*
+of the following:
+
+- **The sync subscription query.**
+    - If your write operation doesn't match the query in the subscription,
+      the write reverts with a non-fatal compensating write error.
+- **The permissions** in your App Services App.
+    - If your try to write data that doesn't match the permissions expression,
+      the write reverts with a non-fatal permission denied error. In the client,
+      this shows as a compensating write error. On the server, you can see more
+      details about how the write was denied was by a write filter in the role.
+    - To learn more about configuring permissions for your app, see
+      :ref:`sync-rules` and the :ref:`flexible-sync-permissions-guide` in the
+      App Services documentation.
+
+.. warning:: Multi-Process Sync is Not Supported
+
+   Device Sync does not currently support opening or writing to a synced 
+   database from more than one process. For more information, including 
+   suggested alternatives, refer to: :ref:`multiprocess-sync-not-supported`.
+
+Determining What Data Syncs
+---------------------------
+
+The data that you can write to a synced database is the intersection of:
+
+- Your Device Sync configuration.
+- Your Atlas server-side permissions.
+- The Sync subscription query that you use when you open the database.
+
+The examples on this page use the following configurations and models:
+
+App Services Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Device Sync is configured with the following queryable fields:
+
+- ``_id`` (always included)
+- ``complexity``
+- ``ownerId``
+
+The App Services App has permissions configured to let users read and write
+only their own data:
+
+.. code-block:: json
+
+   {
+     "name": "owner-read-write", 
+     "apply_when": {},
+     "document_filters": {
+       "read": { "ownerId": "%%user.id" },
+       "write": { "ownerId": "%%user.id" }
+     },
+     "read": true,
+     "write": true
+   }
+
+Client Data Model and Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The examples on this page use the following object model:
+
+.. include:: /includes/sdk-examples/sync/write-to-synced-database-client-data-model-and-configuration-model.rst
+
+Using that object model, the synced database configuration syncs objects that 
+match the subscription query where the ``complexity`` property's value 
+is less than or equal to ``4``:
+
+.. include:: /includes/sdk-examples/sync/write-to-synced-database-client-data-model-and-configuration-subscription.rst
+
+What Data Syncs?
+~~~~~~~~~~~~~~~~
+
+The subscription query combined with the permissions mean that the synced
+database only syncs objects where:
+
+- The ``ownerId`` matches the user ID of the logged-in user (from the
+  permissions)
+- The ``complexity`` property's value is less than or equal to ``4`` (from the
+  subscription query)
+
+Any object in the Atlas collection where the ``ownerId`` does not match 
+the user ID of the logged-in user, or the ``complexity`` property's 
+value is greater than ``4``, cannot sync to this database.
+
+Write to a Synced Database
+--------------------------
+
+Writes to synced databases may broadly fall into one of two categories: 
+
+- **Successful writes**: The written object matches both the query subscription
+  and the user's permissions. The object writes successfully to the database,
+  and syncs successfully to the App Services backend and other devices.
+
+- **Compensating writes**: When the written object does not match
+  the subscription query, or where the user does not have sufficient 
+  permissions to perform the write, the SDK reverts the illegal write.
+
+.. _sdks-successful-writes:
+
+Successful Writes
+~~~~~~~~~~~~~~~~~
+
+When the write matches both the :ref:`permissions <permissions>` and the
+:ref:`Sync subscription query <sdks-manage-sync-subscriptions>` in the client,
+the SDK can successfully write the object to the synced database. This object
+syncs with the App Services backend when the device has a network connection.
+
+.. include:: /includes/sdk-examples/sync/write-to-synced-database-successful-writes.rst
+
+.. _sdks-compensating-writes:
+
+Compensating Writes
+~~~~~~~~~~~~~~~~~~~
+
+In some cases, a write that initially appears to succeed is actually an 
+illegal write. In these cases, the object writes to the database, but when 
+the database syncs to the backend, the SDK reverts the write in a non-fatal 
+error operation called a compensating write. Compensating writes can occur
+when:
+
+- **Writes don't match the query subscription**: The written object matches 
+  the user's permissions, but does not match the query subscription. 
+- **Writes don't match permissions**: The written object matches the query
+  subscription, but does not match the user's permissions.
+
+In more detail, when you write data that is outside the bounds of a query
+subscription or does not match the user's permissions, the following occurs:
+
+#. Because the client database has no concept of "illegal" writes,
+   the write initially succeeds until the SDK resolves the changeset
+   with the App Services backend.
+#. Upon sync, the server applies the rules and permissions.
+   The server determines that the user does not have authorization to perform
+   the write.
+#. The server sends a revert operation, called a "compensating write", back to
+   the client.
+#. The client's database reverts the illegal write operation.
+
+Any client-side writes to a given object between an illegal write to that object
+and the corresponding compensating write will be lost.
+
+In practice, this may look like an object being written to the database, and
+then disappearing after the server sends the compensating write back to 
+the client.
+
+To learn more about permission denied errors, compensating write errors
+and other Device Sync error types, refer to :ref:`sync-errors` in the App
+Services documentation.
+
+The :ref:`App Services logs <logs-sync>` contain more information about 
+why a compensating write error occurs.
+
+Compensating Write Error Information
+````````````````````````````````````
+
+You can get additional information in the client about why a compensating 
+write occurs.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/write-to-synced-database-compensating-write-error-information-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/write-to-synced-database-compensating-write-error-information-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/write-to-synced-database-compensating-write-error-information-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/write-to-synced-database-compensating-write-error-information-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/write-to-synced-database-compensating-write-error-information-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/write-to-synced-database-compensating-write-error-information-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/sync/write-to-synced-database-compensating-write-error-information-description.rst
+
+.. _sdks-writes-outside-subscription:
+
+Writes That Don't Match the Query Subscription
+``````````````````````````````````````````````
+
+You can only write objects to a synced database if they match the 
+subscription query. If you perform a write that does not match the 
+subscription query, the SDK initially writes the object, but then performs 
+a compensating write. This is a non-fatal operation that 
+reverts an illegal write that does not match the subscription query.
+
+In practice, this may look like the write succeeding, but then the 
+object "disappears" when the SDK syncs with the App Services backend and 
+performs the compensating write.
+
+If you want to write an object that does not match the query subscription,
+you must open a different database where the object matches the query 
+subscription. Alternately, you could write the object to a :ref:`non-synced 
+database <sdks-synced-dbs-vs-non-synced-dbs>` that does not enforce 
+permissions or subscription queries.
+
+Code Example
+++++++++++++
+
+Given the configuration for the synced database above, attempting to 
+write this object does not match the query subscription:
+
+.. include:: /includes/sdk-examples/sync/write-to-synced-database-writes-dont-match-subscription-code-example.rst
+
+App Services Error
+++++++++++++++++++
+
+The error message in the App Services logs in this scenario is:
+
+.. code-block:: console
+
+   "Item": {
+       "63bdfc40f16be7b1e8c7e4b7": "write to \"63bdfc40f16be7b1e8c7e4b7\" 
+       in table \"Item\" not allowed; object is outside of 
+       the current query view"
+   }
+
+.. _sdks-writes-outside-permissions:
+
+Writes That Don't Match Permissions
+```````````````````````````````````
+
+Attempting to write to the client can also trigger a compensating write 
+error when the object does not match the user's server-side write permissions. 
+
+On the client, this type of write behaves the same as a write that doesn't 
+match the query subscription. In practice, this may look like the write 
+succeeding, but then the object "disappears" when the database syncs with the 
+App Services backend and performs the compensating write.
+
+Code Example
+++++++++++++
+
+Given the permissions in the Device Sync Configuration detailed above, 
+attempting to write an object where the ``ownerId`` property does not match
+the ``user.id`` of the logged-in user is not a legal write:
+
+.. include:: /includes/sdk-examples/sync/write-to-synced-database-writes-dont-match-permissions-code-example.rst
+
+App Services Error
+++++++++++++++++++
+
+The error message in the App Services logs provides some additional 
+information to help you determine that it is a permissions issue,
+and not a query subscription issue. In this example, the error message shows
+that the the object does not match the user's role:
+
+.. code-block:: console
+
+   "Item": {
+       "63bdfc40f16be7b1e8c7e4b8": "write to \"63bdfc40f16be7b1e8c7e4b8\" 
+       in table \"Item\" was denied by write filter in role 
+       \"owner-read-write\""
+   }
+
+Group Writes for Improved Performance
+-------------------------------------
+
+.. include:: /includes/sync-memory-performance.rst
+
+.. _multiprocess-sync-not-supported:
+
+Multi-Process Sync Not Supported
+--------------------------------
+
+If you are developing an app that may attempt to use a synced database in more
+than one process, such as an Apple device application using a Share 
+Extension, avoid writing to a synced database in the additional process.
+Device Sync supports opening a synced database in at most one process. In
+practice, this means that if your app uses a synced database in an additional
+process, it may crash intermittently.
+
+Crashes Related to Opening a Synced Database in Multiple Processes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you attempt to open a synced database in a Share Extension or other
+multiple-process use case, and that database is not already open in the main
+app, a write from a Share Extension may succeed. However, if the synced
+database is already open in the main app, or is syncing data in the background,
+you may see a crash related to ``Realm::MultiSyncAgents``. In this scenario,
+you may need to restart the device.
+
+Alternatives to Writing to a Synced Database in Multiple Processes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you need to read from or write to a synced database in more than one
+process, there are a few recommended alternatives:
+
+- **Offline-first**: pass data on disk to or from the main process or main app
+- **Always up-to-date**: communicate directly with the backing 
+  Atlas collection across a network connection
+
+Pass Data On Disk
+`````````````````
+
+If offline-first functionality is the most important consideration for your app,
+you can pass data on disk to or from your main app. In an Apple ecosystem, for
+example, you could copy objects to a non-synced database and read and share
+it between apps in an App Group. Or you could use an on-disk queue to send the
+data to or from the main app and only write to the synced database from there.
+Then, regardless of the device's network connectivity, information can be
+shared any time to or from the App Extension.
+
+Communicate Directly with the Backing Atlas Collection
+``````````````````````````````````````````````````````
+
+If having the information always up-to-date across all devices is the most 
+important consideration for your app, you can read or write data directly 
+to or from the backing Atlas collection across the network. Depending on your 
+needs, you may want to use one of these tools to communicate directly with 
+Atlas:
+
+- Query Atlas with the :ref:`the SDK MongoClient <sdks-access-mongodb>`
+- Pass data to an :ref:`App Services Function <sdks-call-function>` 
+- Make HTTPS calls with the :ref:`Data API <data-api>`
+
+Then, any device that has a network connection is always getting the most 
+up-to-date information, without waiting for the user to open your main app 
+as in the option above.
+
+This option does require your user's device to have a network connection 
+when using the secondary process. As a fallback, you could check for a network
+connection. Then, use the on-disk option above in the event that the user's 
+device lacks network connectivity.

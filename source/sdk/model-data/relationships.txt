@@ -1,0 +1,178 @@
+.. _sdks-relationships:
+
+===================
+Model Relationships
+===================
+
+.. meta::
+   :description: Learn how Atlas Device SDK uses relationships to reference other database objects, and how to define relationships in your code.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+This page describes how to define relationships between objects in your data 
+model. To learn about SDK objects and how to define them, refer to 
+:ref:`sdks-object-models`.
+
+Atlas Device SDK uses explicit relationships between the types of
+objects in an App. A relationship is an object property that references
+another SDK object rather than one of the primitive data types. You
+define relationships by setting the type of an object property to
+another object type in the object model or object schema.
+
+Relationships are direct references to other objects in a database, which
+means that you don't need bridge tables or explicit joins to define a
+relationship like you would in a relational database. Instead you can
+access related objects by reading and writing to the property that
+defines the relationship. The SDK executes read operations lazily as they
+come in, so querying a relationship is just as performant as reading a regular
+property.
+
+Relationship Types
+------------------
+
+The SDK supports **to-one**, **to-many**, and **inverse**
+relationships. The SDK also provides a special type of object, called an
+:ref:`embedded object <sdks-embedded-objects>`, that is conceptually 
+similar to a relationship but provides additional constraints.
+
+The SDK *does not* inherently limit object references from other 
+objects within the same database. This means that SDK relationships are 
+implicitly "many-to-one" or "many-to-many." The only way to restrict a 
+relationship to "one to one/one to many" instead of "many to one/many 
+to many" is to use an embedded object, which is a nested object with exactly
+one parent.
+
+.. _sdks-to-one-relationship:
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship maps one property in an object model to a single
+instance of another object type. For example, a dog might have a to-one
+relationship with a favorite toy.
+
+Setting a relationship field to null removes the connection between objects. 
+The SDK does not delete the referenced object, though, unless it is 
+:ref:`an embedded object <sdks-embedded-objects>`.
+
+.. important:: To-one relationships must be optional
+
+   When you declare a to-one relationship in your object model, it must
+   be an optional property. If you try to make a to-one relationship
+   required, the SDK throws an exception at runtime.
+
+.. include:: /includes/sdk-examples/model-data/relationships-to-one-relationship.rst
+
+.. _sdks-to-many-relationship:
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object relates to more than one 
+other object. In Atlas Device SDK, a to-many relationship is a list of 
+references to other objects. For example, a person might have many dogs.
+
+You can represent a to-many relationship between two SDK types as a list, map,
+or a set. Lists, maps, and sets are mutable: within a write transaction, you
+can add and remove elements to and from these collection types. Lists, maps,
+and sets are not associated with a query and are declared as a property of the
+object model.
+
+.. include:: /includes/sdk-examples/model-data/relationships-to-many-relationship.rst
+
+.. _sdks-inverse-relationship:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+Relationship definitions in the SDK are unidirectional. An 
+**inverse relationship** links an object back to an object
+that refers to it.
+
+An inverse relationship property is an automatic **backlink** relationship. 
+The SDK automatically updates implicit relationships whenever an object is 
+added or removed in the specified relationship. You cannot manually set the
+value of an inverse relationship property.
+
+Since relationships are many-to-one or many-to-many, following inverse
+relationships can result in zero, one, or many objects.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/model-data/relationships-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/model-data/relationships-inverse-relationship-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/model-data/relationships-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/model-data/relationships-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/model-data/relationships-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/model-data/relationships-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/model-data/relationships-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/model-data/relationships-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/model-data/relationships-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/model-data/relationships-inverse-relationship-description.rst
+
+.. include:: /includes/sdk-examples/model-data/relationships-inverse-relationship.rst
+
+.. note:: Inverse Relationships Not Present in Device Sync Schema
+
+   If you are using Atlas Device Sync, inverse relationships are not present
+   in the server-side Device Sync schema in your App Services App.
+   Since you can't directly set the value of an inverse relationship,
+   the relationship does not exist in Device Sync schema.
+
+   For more information on the server-side Device Sync schema,
+   refer to :ref:`Configure and Update Your Data Model <sync-schema-overview>`
+   in the Atlas App Services documentation.

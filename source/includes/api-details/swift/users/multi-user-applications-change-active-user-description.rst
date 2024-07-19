@@ -1,0 +1,1 @@
+You can change the active user with the ``App.switch(to: User)`` method.

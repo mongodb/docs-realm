@@ -1,0 +1,189 @@
+.. _sdks-stream-data-to-atlas:
+
+====================
+Stream Data to Atlas
+====================
+
+.. meta::
+   :description: Stream data from your client device to Atlas for heavy insert-only workloads using Data Ingest.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, javascript/typescript, kotlin, swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. tabs-selector:: drivers
+
+If you have a mobile or client application that produces a large volume of data 
+you'd like to stream to MongoDB Atlas, you can sync data unidirectionally using 
+Device Sync. We call the feature that enables this unidirectional sync **Data Ingest**.
+
+You can use :ref:`Data Ingest <optimize-data-ingest>` to stream 
+data from the client application to a Device Sync-enabled Atlas App Services
+App.
+
+You might want to sync data unidirectionally in IoT applications, such as
+a weather sensor sending data to the cloud. Data Ingest is also useful 
+for writing other types of immutable data where you do not require conflict 
+resolution, such as creating invoices from a retail app or logging application 
+events.
+
+Data Ingest is optimized to provide performance improvements for heavy
+client-side *insert-only* workloads.
+
+.. _sdks-data-ingest-procedure:
+
+Sync Data Unidirectionally from a Client Application
+----------------------------------------------------
+
+To use Data Ingest, stream data to Atlas using insert-only
+**asymmetric objects** in a synced database. 
+
+Atlas Device Sync completely manages the lifecycle of this data. The SDK
+maintains it on the device until Data Ingest synchronization is complete. Then,
+the SDK removes the data from the device.
+
+You cannot read, query, or delete an asymmetric object from a database. 
+Asymmetric objects are incompatible with standard, bi-directional Device Sync
+or a non-synced database.
+
+.. procedure::
+
+   .. step:: Define an Asymmetric Object
+
+      .. tabs-drivers::
+
+         .. tab::
+            :tabid: cpp-sdk
+
+            .. include:: /includes/api-details/cpp/sync/stream-data-define-asymmetric-object-description.rst
+
+         .. tab::
+            :tabid: csharp
+
+            .. include:: /includes/api-details/csharp/sync/stream-data-define-asymmetric-object-description.rst
+            
+         .. tab::
+            :tabid: dart
+
+            .. include:: /includes/api-details/dart/sync/stream-data-define-asymmetric-object-description.rst
+
+         .. tab::
+            :tabid: javascript
+
+            .. include:: /includes/api-details/generic/sync/stream-data-define-asymmetric-object-js-ts-description.rst
+
+         .. tab::
+            :tabid: kotlin
+
+            .. include:: /includes/api-details/kotlin/sync/stream-data-define-asymmetric-object-description.rst
+
+         .. tab::
+            :tabid: swift
+
+            .. include:: /includes/api-details/swift/sync/stream-data-define-asymmetric-object-description.rst
+
+         .. tab::
+            :tabid: typescript
+
+            .. include:: /includes/api-details/generic/sync/stream-data-define-asymmetric-object-js-ts-description.rst
+
+      .. include:: /includes/sdk-examples/sync/stream-data-define-asymmetric-object.rst
+
+   .. step:: Connect and Authenticate with an App Services App
+
+      To stream data from the client to your backend App, you must 
+      :ref:`connect to Atlas <sdks-connect-to-atlas>` and
+      :ref:`authenticate a user <sdks-authenticate-users>`.
+
+      .. include:: /includes/sdk-examples/sync/stream-data-connect-and-authenticate.rst
+
+   .. step:: Open a Synced Database
+
+      After you have an authenticated user, open a :ref:`synced database
+      <sdks-configure-and-open-synced-database>`.
+
+      Unlike bi-directional Device Sync, Data Ingest does not use a 
+      :ref:`Sync subscription <sdks-manage-sync-subscriptions>`.
+
+      .. tabs-drivers::
+
+         .. tab::
+            :tabid: cpp-sdk
+
+            .. include:: /includes/api-details/cpp/sync/stream-data-open-database-description.rst
+
+         .. tab::
+            :tabid: csharp
+            
+         .. tab::
+            :tabid: dart
+
+         .. tab::
+            :tabid: javascript
+
+         .. tab::
+            :tabid: kotlin
+
+            .. include:: /includes/api-details/kotlin/sync/stream-data-open-synced-database-description.rst
+
+         .. tab::
+            :tabid: swift
+
+            .. include:: /includes/api-details/swift/sync/stream-data-open-synced-database-description.rst
+
+         .. tab::
+            :tabid: typescript
+
+      .. include:: /includes/sdk-examples/sync/stream-data-open-synced-database.rst
+
+   .. step:: Create Asymmetric Objects
+
+      .. tabs-drivers::
+
+         .. tab::
+            :tabid: cpp-sdk
+
+            .. include:: /includes/api-details/cpp/sync/stream-data-create-asymmetric-objects-description.rst
+
+         .. tab::
+            :tabid: csharp
+
+            .. include:: /includes/api-details/csharp/sync/stream-data-create-asymmetric-objects-description.rst
+            
+         .. tab::
+            :tabid: dart
+
+            .. include:: /includes/api-details/dart/sync/stream-data-create-asymmetric-objects-description.rst
+
+         .. tab::
+            :tabid: javascript
+
+            .. include:: /includes/api-details/generic/sync/stream-data-create-asymmetric-objects-js-ts-description.rst
+
+         .. tab::
+            :tabid: kotlin
+
+            .. include:: /includes/api-details/kotlin/sync/stream-data-create-asymmetric-objects-description.rst
+
+         .. tab::
+            :tabid: swift
+
+            .. include:: /includes/api-details/swift/sync/stream-data-create-asymmetric-objects-description.rst
+
+         .. tab::
+            :tabid: typescript
+
+            .. include:: /includes/api-details/generic/sync/stream-data-create-asymmetric-objects-js-ts-description.rst
+
+      .. include:: /includes/sdk-examples/sync/stream-data-create-asymmetric-objects.rst
