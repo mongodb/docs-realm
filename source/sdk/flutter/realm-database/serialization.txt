@@ -20,17 +20,14 @@ Serialization - Flutter SDK
 The Atlas Device SDK for Flutter supports serialization and deserialization of
 :manual:`Extended JSON (EJSON) </reference/mongodb-extended-json>` to and from static Realm objects.
 
-The Flutter SDK can also use this full-document EJSON encoding to communicate 
-directly with MongoDB Atlas, such as through the following APIs:
-
-- App Services :ref:`Function calls <flutter-call-function>`
-- Credentials with :ref:`custom function authentication <flutter-login-custom-function>`
-- User profile and :ref:`custom user data <flutter-custom-user-data>`
-
 Supported Data Types for Serialization
 --------------------------------------
 
-The Flutter SDK supports serialization of all :ref:`supported data types <flutter-data-types>`. 
+The Flutter SDK currently supports serialization of the following :ref:`supported data types <flutter-data-types>`:
+
+- All Dart-language data types
+- All Realm-specific data types _except_ Decimal128 and RealmValue
+
 The following table illustrates how the SDK's Realm-specific data types serialize with output examples:
 
 .. list-table::
@@ -84,7 +81,7 @@ The following table illustrates how the SDK's Realm-specific data types serializ
 For more information on the serialization of non-Realm specific types,
 see :manual:`BSON Data Types and Associated Representations </reference/mongodb-extended-json/#bson-data-types-and-associated-representations>`.
 
-The SDK does not currently support the following types: RealmValue, Decimal128, Code, 
+Flutter SDK serialization does not currently support the following BSON types: Code, 
 CodeWScope, DBPointer, DBRef, Regular Expression, and Timestamp. 
 
 Serialize Realm Objects
