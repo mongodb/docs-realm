@@ -2,7 +2,7 @@
 
 ## Flutter SDK
 
-- Serialization: Add new page for serialization of objects to and from EJSON.
+- Realm Database/Serialization: Add new page for serialization of objects to and from EJSON.
 
 ## Node.js SDK
 
