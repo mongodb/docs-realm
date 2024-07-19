@@ -405,7 +405,7 @@ describe("Realm Query Language Reference", () => {
 
     const allItemsLowerPriority = projects.filtered(
       // :remove-end:
-      // Find projects where maximum `priority` of all items is 5
+      // Find projects where every item has a `priority` less than 5
       "items.@max.priority < $0", priorityNum
 
       // :remove-start:
@@ -414,7 +414,7 @@ describe("Realm Query Language Reference", () => {
 
     const allItemsHighPriority = projects.filtered(
       // :remove-end:
-      // Find projects where minimum `priority` of all items is 5
+      // Find projects where every item has `priority` greater than 5
       "items.@min.priority > $0", priorityNum
 
       // :remove-start:
@@ -432,8 +432,10 @@ describe("Realm Query Language Reference", () => {
 
     const longRunningProjects = projects.filtered(
       // :remove-end:
-      // Find projects with item `progressMinutes` greater than 100
-      "items.@sum.progressMinutes > $0", 100
+      // Find projects where the sum total value of `progressMinutes`
+      // across all items is greater than 100
+      "items.@sum.progressMinutes > $0",
+      100
       // :snippet-end:
     );
     expect(longRunningProjects.length).toBe(1);

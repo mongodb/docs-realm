@@ -423,7 +423,8 @@ describe("Realm Query Language Reference", () => {
 
     const longRunningProjects = projects.filtered(
       // [remove-end]
-      // Find projects with item `progressMinutes` greater than 100.
+      // Find projects where the sum total value of `progressMinutes`
+      // across all items is greater than 100.
       "items.@sum.progressMinutes > $0", 100
       // [snippet-end]
     );

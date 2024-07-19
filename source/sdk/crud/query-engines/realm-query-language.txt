@@ -128,7 +128,7 @@ parameterized for the specific data types:
   * - :ref:`Nil <rql-nil-type>`
     - "assignee == $0", null
     - "assignee == nil"
-    - For parameterized queries, ``nill`` maps to each SDK's respective null
+    - For parameterized queries, ``null`` maps to each SDK's respective null
       pointer.
 
   * - Boolean
@@ -621,58 +621,9 @@ criteria:
 
 .. include:: examples/generated/node/v12/formatted/realm-query-language.test.snippet.type-operator.ts.rst
 
+
 Type-Specific Queries
 ---------------------
-
-.. _rql-backlinks:
-
-Backlink Queries
-~~~~~~~~~~~~~~~~
-
-A **backlink** is an :ref:`inverse relationship <sdks-relationships>` link that
-lets you query objects that reference another object. Backlinks use the to-one
-and to-many relationships defined in your object schemas but reverse the
-direction. Every relationship that you define in your schema implicitly has a
-corresponding backlink.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 80
-
-   * - Operator
-     - Description
-
-   * - ``@links``
-     - Accesses the backlink of a relationship specified by the object type and
-       property name (``@links.<ObjectType>.<PropertyName>``).
-   * - ``@count``
-     - The number of elements in a backlink collection. You can use the
-       ``@count`` operator directly on ``@links`` to query the count of all
-       relationships that point to an object.
-
-You can access backlinks:
-
-- Using the ``@links.<ObjectType>.<PropertyName>`` syntax, where
-  ``<ObjectType>`` and ``<PropertyName>`` refer to a specific property on an
-  object type that references the queried object type.
-
-  .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.backlinks-atLinks.ts.rst
-
-- Using the ``linkingObjects`` property to explicitly include the backlink in
-  your data model. This lets you reference the backlink through an assigned
-  property name using :ref:`dot notation <rql-dot-notation>`.
-
-  .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.backlinks-linkingObjects.ts.rst
-
-The result of a backlink is treated like a collection and supports
-:ref:`collection operators <rql-collection-operators>` and
-:ref:`aggregate operators <rql-aggregate-operators>`.
-
-The following examples find items based on the projects they belong to through
-the ``@links`` operator or the ``projects`` property:
-
-.. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.backlinks-collection-operators.ts.rst
-
 
 .. _rql-date-operators:
 
@@ -800,6 +751,56 @@ property against the boundaries of the ``GeoCircle`` shape named
 
    You cannot use :ref:`parameterized queries <rql-parameterized-queries>` with
    geospatial data.
+
+
+.. _rql-backlinks:
+
+Inverse Relationship Queries (Backlinks)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query an object's :ref:`inverse relationship <sdks-relationships>` to
+another object through its **backlink**. Backlinks use the to-one
+and to-many relationships defined in your object schemas but reverse the
+direction. Every relationship that you define in your schema implicitly has a
+corresponding backlink.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Operator
+     - Description
+
+   * - ``@links``
+     - Accesses the inverse relationship specified by the object type and
+       property name (``@links.<ObjectType>.<PropertyName>``).
+   * - ``@count``
+     - The number of elements in a backlink collection. You can use the
+       ``@count`` operator directly on ``@links`` to query the count of all
+       relationships that point to an object.
+
+You can access an inverse relationship:
+
+- Using the ``@links.<ObjectType>.<PropertyName>`` syntax, where
+  ``<ObjectType>`` and ``<PropertyName>`` refer to a specific property on an
+  object type that references the queried object type.
+
+  .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.backlinks-atLinks.ts.rst
+
+- Using the ``linkingObjects`` property to explicitly include the backlink in
+  your data model. This lets you reference the backlink through an assigned
+  property name using :ref:`dot notation <rql-dot-notation>`.
+
+  .. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.backlinks-linkingObjects.ts.rst
+
+The result is treated like a collection and supports :ref:`collection operators
+<rql-collection-operators>` and :ref:`aggregate operators
+<rql-aggregate-operators>`.
+
+The following examples find items based on the projects they belong to through
+the ``@links`` operator or the ``projects`` property:
+
+.. include:: /examples/generated/node/v12/formatted/realm-query-language.test.snippet.backlinks-collection-operators.ts.rst
 
 
 .. _rql-list-queries:
