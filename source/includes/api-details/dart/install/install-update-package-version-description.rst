@@ -9,7 +9,7 @@ To change the version of the SDK in your project, perform the following steps:
 
       Update the package version in your :file:`pubspec.yaml` file dependencies.
 
-      .. code-block:: yaml
+      .. code-block::
          :caption: pubspec.yaml
 
          dependencies:

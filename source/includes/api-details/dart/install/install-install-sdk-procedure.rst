@@ -27,7 +27,7 @@
 
       In your ``pubspec.yaml`` file, you should see:
 
-      .. code-block:: yaml
+      .. code-block::
          :caption: pubspec.yaml
 
          dependencies:
