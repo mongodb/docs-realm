@@ -36,9 +36,8 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.js
+         .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.js
             :language: javascript
-            :copyable: false
 
      - id: kotlin
        content: |
@@ -63,6 +62,5 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/MissingPlaceholders/api.ts
+         .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.ts 
             :language: typescript
-            :copyable: false

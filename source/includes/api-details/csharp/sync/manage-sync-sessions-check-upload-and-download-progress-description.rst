@@ -24,3 +24,7 @@ as a double between 0.0 and 1.0.
 
 Once you no longer wish to receive notifications, unregister the token with 
 ``token.Dispose()``.
+
+In the following example, we subscribe to a progress observable on the
+``session`` to listen for upload events. When this callback is triggered, it
+prints the upload progress as a percentage.
