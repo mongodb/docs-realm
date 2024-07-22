@@ -1,5 +1,5 @@
-To execute a function in Swift, use the ``functions`` object on the currently
-logged-in user.
+To execute a function in Swift, use the :swift-sdk:`functions 
+<Structs/Functions.html>` object on the currently logged-in user.
 
 The ``functions`` object has dynamic members corresponding to functions.
 In this case, ``functions.concatenate()`` refers to the ``concatenate`` 

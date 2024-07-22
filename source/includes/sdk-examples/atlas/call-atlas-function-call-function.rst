@@ -68,6 +68,13 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/MissingPlaceholders/example.ts
-            :language: typescript
-            :copyable: false
+         .. io-code-block::
+
+            .. input:: /examples/generated/node/call-a-function.snippet.call-a-function-by-name.js
+               :language: javascript
+
+            .. output:: 
+               :language: console
+
+               Using the "functions.sum()" method: the sum of 2 + 3 = 5
+               Using the "callFunction()" method: the sum of 2 + 3 = 5
