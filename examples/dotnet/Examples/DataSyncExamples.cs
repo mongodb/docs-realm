@@ -1,4 +1,8 @@
-﻿using Realms;
+﻿using System;
+using Microsoft.VisualBasic;
+using NUnit.Framework;
+using NUnit.Framework.Internal;
+using Realms;
 using Realms.Sync;
 
 namespace Examples
@@ -6,16 +10,23 @@ namespace Examples
     public class DataSyncExamples
     {
         Realm realm;
+         App app;
+            Realms.Sync.User user;
+            FlexibleSyncConfiguration config;
 
-        public void TestsCustomSetter()
+
+        public void Setup()
         {
-            realm = Realm.GetInstance();
-            // :snippet-start: pause-synced-realm
-            var session = realm.SyncSession;
-            session.Stop();
-            //later...
-            session.Start();
-            // :snippet-end:
+            const string myRealmAppId = Config.FSAppId;
+            app = App.Create(myRealmAppId);
+            user = app.LogInAsync(
+                Credentials.Anonymous()).Result;
+
+            config = new FlexibleSyncConfiguration(user);
+        }
+
+        public void GetSessionAndState(){
+            
         }
     }
 }
