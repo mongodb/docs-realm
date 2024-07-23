@@ -1,8 +1,20 @@
 .. _sdks-crud-delete:
 
-==============
-Delete Objects
-==============
+==================================
+Delete Objects and Property Values
+==================================
+
+.. meta::
+   :description: Provide a short description of the consolidated page. This is critical for SEO.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
 
 .. contents:: On this page
    :local:
@@ -10,4 +22,947 @@ Delete Objects
    :depth: 2
    :class: singlecol
 
-Placeholder page for content related to deleting objects.
+.. tabs-selector:: drivers
+
+This page describes how to delete objects from a non-synced or synced database 
+using Atlas Device SDK. 
+
+You can choose to delete a single object, multiple objects, or all 
+objects from the database. After you delete an object, you can no longer access
+or modify it. If you try to use a deleted object, the SDK throws an error.
+
+Deleting objects from a database *does not* delete the database file or affect
+the database schema. It only deletes the object instance from the database. If
+you want to delete the database file itself, refer to :ref:`sdks-delete-file`.
+If you want to remove objects or properties from the database schema, refer to
+:ref:`sdks-change-object-model`.
+
+.. note:: Write to a Synced Database
+
+   The syntax to delete an object from the database is the same for a non-synced
+   or a synced database. However, there are additional considerations that
+   determine whether the delete operation in a synced database is successful.
+   For more information, refer to :ref:`sdks-write-synced-database`.
+
+.. _sdks-delete-operations:
+
+Delete Operations
+-----------------
+
+All operations that modify a realm - including delete operations - 
+must be performed inside of a **write transaction**. For more information on 
+write transactions and how the SDK handles them, refer to 
+:ref:`sdks-write-transactions`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-operations-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+
+.. include:: /includes/sdk-examples/crud/delete-operations.rst
+
+.. _sdks-related-objects-and-references:
+
+Related Objects and References
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you delete an object that has a :ref:`relationship <sdks-relationships>` 
+property with another object, the SDK *does not* automatically 
+delete the instance of the related object. Instead, the SDK only
+deletes the *reference* to the other object. The referenced object instance
+remains in the database, but it can no longer be queried through the
+relationship property.
+
+:ref:`Embedded objects <sdks-embedded-objects>` are handled differently.
+When you delete an object that contains an embedded object, the SDK
+automatically deletes the embedded object in a **cascading delete**. 
+This is because embedded objects do not have a lifecycle outside of their
+parent object. For more information, refer to the
+:ref:`sdks-delete-embedded-object` section on this page.
+
+Chaining Deletes with Related SDK Objects
+`````````````````````````````````````````
+
+If you want to delete any related objects when you delete a parent object, 
+we recommend performing a **chaining delete**. A chaining delete consists 
+of manually deleting dependent objects by iterating through the 
+dependencies and deleting them before deleting the parent object.
+For more information on chaining deletes, refer to the
+:ref:`sdks-delete-related-objects` section on this page.
+
+If you do not delete the related objects yourself, they remain in your
+database. Whether or not this is a problem depends on your application's
+needs.
+
+.. _sdks-delete-objects-procedure:
+
+Delete Objects
+--------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-objects-procedure.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+.. _sdks-delete-single-object:
+
+Delete a Single Object
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. tip:: Use Unique Identifying Information
+
+   We recommend using unique identifying information to find the object you
+   want to delete, such as a :ref:`primary key <sdks-primary-key>` value, to
+   ensure your query returns the correct object.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-single-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-single-object.rst
+
+.. _sdks-delete-multiple-objects:
+
+Delete Multiple Objects
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-multiple-objects-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-multiple-objects.rst
+
+.. _sdks-delete-all-objects-of-type:
+
+Delete All Objects of a Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-all-objects-of-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-all-objects-of-type.rst
+
+.. _sdks-delete-all-objects-in-database:
+
+Delete All Objects in the Database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The SDK lets you delete all managed objects of all types, which is useful 
+for quickly clearing out your database while prototyping. For example, instead
+of writing a migration to update objects to a new schema, it may be faster to 
+delete all, and then re-generate the objects with the app itself.
+
+This does not affect the database schema or any objects that are not managed
+by the database instance.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-all-objects-in-the-database-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-all-objects-in-the-database.rst
+
+.. _sdks-delete-related-objects:
+
+Delete Related Objects
+----------------------
+
+Deleting an object *does not* automatically delete any objects that are
+related to it unless the related object is embedded. Instead, the SDK only
+deletes the reference to the related object.
+
+You can optionally define logic in your app to delete related objects. Or if
+an object lifecycle should not outlive a parent object, model it as an embedded
+object instead of an independent object with a relationship.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-related-objects-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-related-objects.rst
+
+.. _sdks-delete-object-and-its-related-objects:
+
+Delete an Object and Its Related Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To delete related objects when you delete a parent object, you must manually
+delete the related objects yourself. We recommend chaining deletes: 
+first query for the parent object that you want to delete, then iterate 
+through the parent object's relationships and delete each related object. 
+Finally, delete the parent object itself.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-an-object-and-its-related-objects-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-an-object-and-its-related-objects.rst
+
+.. _sdks-delete-embedded-object:
+
+Delete an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning:: The SDK Uses Cascading Deletes for Embedded Objects
+
+   When you delete a ``Realm`` object, the SDK automatically deletes any
+   embedded objects referenced by that object. This is because embedded objects
+   are objects tha do not exist independent of the ``Realm`` object, and do
+   not have their own lifecycle. If you want the referenced objects to persist
+   after the deletion of the main object, use a regular ``Realm`` object with a
+   :ref:`to-one relationship <sdks-relationships>` instead.
+
+You can delete an embedded object through the parent object in a cascading 
+delete or by deleting the embedded object directly.
+
+- To delete the embedded object through the parent object, fetch and delete
+  the parent object. The SDK automatically deletes all of its embedded objects
+  from the database.
+- To delete an embedded object instance directly:
+
+  - Fetch and delete a specific embedded object.  
+  - Clear the parent's reference to the embedded object, which also 
+    deletes the embedded object instance.  
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/delete-embedded-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-embedded-object.rst
+
+.. _sdks-delete-property-values:
+
+Delete Property Values
+----------------------
+
+.. _sdks-delete-inverse-relationship:
+
+Delete an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can't delete an inverse relationship directly. Instead, an 
+inverse relationship automatically updates by removing the relationship 
+through the related object.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/delete-inverse-relationship-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-inverse-relationship.rst
+
+.. _sdks-delete-mixed-property-values:
+
+Delete Mixed Property Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Although mixed property instances *cannot* store null values, you can 
+delete a mixed property value by assigning your language's implementation of
+``null`` or ``nil`` directly to the property. For more information on the
+mixed data type, refer to :ref:`sdks-mixed-data-type`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/cpp/crud/delete-mixed-property-values-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-mixed-property-values.rst
+
+.. _sdks-remove-elements-from-collections:
+
+Remove Elements from Collections
+--------------------------------
+
+SDK collection instances that contain objects only store references to those
+objects. You can remove one or more referenced objects from a collection
+without deleting the objects themselves. The objects that you remove from a
+collection remain in the database until you manually delete them.
+Alternatively, deleting an SDK object from a database also deletes that object
+from any collection instances that contain the object.
+
+.. _sdks-remove-elements-from-list:
+
+Remove Elements from a List
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/cpp/crud/delete-remove-elements-from-list-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-remove-elements-from-list.rst
+
+.. _sdks-remove-elements-from-set:
+
+Remove Elements from a Set
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/cpp/crud/delete-remove-elements-from-set-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-remove-elements-from-set.rst
+
+.. _sdks-remove-dictionary-keys-values:
+
+Remove Dictionary Keys/Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/cpp/crud/delete-remove-dictionary-keys-values-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+
+   .. tab::
+      :tabid: swift
+
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/delete-remove-dictionary-keys-values.rst
