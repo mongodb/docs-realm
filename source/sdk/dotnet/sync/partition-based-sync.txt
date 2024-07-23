@@ -73,7 +73,6 @@ method:
 
    :ref:`Partition Strategies <partition-strategies>`
 
-
 Open a Partition-Based Sync Realm While Offline
 -----------------------------------------------
 
@@ -163,3 +162,27 @@ codebase for future iteration and debugging.
 
 For more information about the automatically-generated Flexible Sync 
 subscriptions, refer to :ref:`realm-sync-migrate-client`.
+
+.. _dotnet-convert-to-sync:
+
+Migrate from Non-Synced Realms to Synced Realms
+-----------------------------------------------
+You can convert a non-synced realm to a synced realm (with partition-based sync). 
+To convert from a non-synced realm to one that uses partition-based sync, you do 
+the following:
+
+1. Open the existing realm.
+2. Create a configuration for a new realm.
+3. Call the :dotnet-sdk:`WriteCopy() <reference/Realms.Realm.html#Realms_Realm_WriteCopy_Realms_RealmConfigurationBase_>` 
+   method on the existing realm to copy the data to the new realm. 
+
+In the following code, we open a non-synced realm, create a new 
+:dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
+object and then copy the existing realm to the new realm. We then delete the 
+existing realm and open the new realm.
+
+.. literalinclude:: /examples/generated/dotnet/Convert.snippet.nonsync-to-sync.cs
+   :language: csharp
+   :copyable: true
+
+.. include:: /includes/note-writecopy-local-to-sync.rst

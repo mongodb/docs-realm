@@ -4,7 +4,7 @@ var existingRealm = Realm.GetInstance(existingConfig);
 var app = App.Create("my-app-id");
 var user = await app.LogInAsync(
     Credentials.EmailPassword("email@example.com", "password"));
-var syncConfig = new FlexibleSyncConfiguration(user);
+var syncConfig = new PartitionSyncConfiguration("user_partition", user);
 
 existingRealm.WriteCopy(syncConfig);
 
