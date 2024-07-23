@@ -17,26 +17,12 @@ namespace Examples
         [OneTimeSetUp]
         public void Setup()
         {
-            
             const string myRealmAppId = Config.FSAppId;
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(
                 Credentials.Anonymous()).Result;
 
-            config = new FlexibleSyncConfiguration(user)
-            ;
-        }
-
-        [Test]
-        public void StartStopSession()
-        {
-            // :snippet-start: pause-synced-realm
-            realm = Realm.GetInstance(config);
-            var session = realm.SyncSession;
-            session.Stop();
-            //later...
-            session.Start();
-            // :snippet-end:
+            config = new FlexibleSyncConfiguration(user);
         }
 
         [Test]
@@ -44,6 +30,13 @@ namespace Examples
             // :snippet-start: get-sync-session
             realm = Realm.GetInstance(config);
             var session = realm.SyncSession;
+            // :snippet-end:
+            // :snippet-start: pause-synced-realm
+            realm = Realm.GetInstance(config);
+            session = realm.SyncSession;
+            session.Stop();
+            //later...
+            session.Start();
             // :snippet-end:
             // :snippet-start: get-session-state
             var sessionState = session.State;

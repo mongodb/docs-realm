@@ -1,5 +1,5 @@
 realm = Realm.GetInstance(config);
-var session = realm.SyncSession;
+session = realm.SyncSession;
 session.Stop();
 //later...
 session.Start();
