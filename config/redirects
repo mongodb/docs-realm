@@ -1020,7 +1020,7 @@ raw: ${prefix}/sdk/dotnet/fundamentals/device-sync -> ${base}/sdk/dotnet/sync/
 raw: ${prefix}/sdk/dotnet/fundamentals/asymmetric-sync -> ${base}/sdk/dotnet/sync/asymmetric-sync/
 raw: ${prefix}/sdk/dotnet/advanced-guides/client-reset -> ${base}/sdk/dotnet/sync/client-reset/
 raw: ${prefix}/sdk/dotnet/examples/open-a-realm -> ${base}/sdk/dotnet/sync/configure-and-open-a-synced-realm/
-raw: ${prefix}/sdk/dotnet/advanced-guides/convert-realm -> ${base}/sdk/dotnet/sync/convert-realm/
+raw: ${prefix}/sdk/dotnet/advanced-guides/convert-realm -> ${base}/sdk/dotnet/sync/configure-and-open-a-synced-realm
 raw: ${prefix}/sdk/dotnet/examples/flexible-sync -> ${base}/sdk/dotnet/sync/flexible-sync/
 raw: ${prefix}/sdk/dotnet/examples/work-with-users -> ${base}/sdk/dotnet/work-with-users/
 raw: ${prefix}/sdk/dotnet/advanced-guides -> ${base}/sdk/dotnet/
@@ -1292,7 +1292,7 @@ raw: ${prefix}/sdk/node/integrations/electron-cra -> ${base}/sdk/node/
 raw: ${prefix}/sdk/node/integrations/electron -> ${base}/sdk/node/
 raw: ${prefix}/sdk/node/integrations -> ${base}/sdk/node/
 
-# DOP-4255 Rehoming /docs/realm docs at /docs/atlas/device-sdks
+# DOP-4452 Rehoming /docs/realm docs at /docs/atlas/device-sdks
 raw: ${prefix} -> ${deviceSDKsBase}/
 raw: ${prefix}/introduction -> ${deviceSDKsBase}/introduction/
 raw: ${prefix}/realm-query-language -> ${deviceSDKsBase}/realm-query-language/
@@ -1301,4 +1301,6 @@ raw: ${prefix}/help -> ${deviceSDKsBase}/help/
 raw: ${prefix}/migrate -> ${deviceSDKsBase}/migrate/
 
 # DOCSP-39075
-raw: ${prefix}/sdk/dotnet/sync/convert-realm -> ${deviceSDKsBase}/sdk/dotnet/sync/configure-and-open-a-synced-realm
+# No clarity from DOP on whether to use ${deviceSDKsBase} or ${base}, so going
+# with what we know works (${base}).
+raw: ${prefix}/sdk/dotnet/sync/convert-realm -> ${base}/sdk/dotnet/sync/configure-and-open-a-synced-realm
