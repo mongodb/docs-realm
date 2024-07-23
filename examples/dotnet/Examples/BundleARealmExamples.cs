@@ -73,6 +73,37 @@ namespace Examples
             // Want to know where the copy is?
             var locationOfCopy = existingConfig.DatabasePath;
             // :snippet-end:
+
+            // :snippet-start: get-sync-session
+            // :replace-start: {
+            //   "terms": {
+            //     "bundledConfig": "config"
+            //   }
+            // }
+            // :replace-end:
+            realm = Realm.GetInstance(bundledConfig);
+            // :uncomment-start:
+            // var session = realm.SyncSession;
+            // :uncomment-end:
+            // :snippet-end:
+            // :snippet-start: pause-synced-realm
+            // :uncomment-start:
+            // realm = Realm.GetInstance(config);
+            // :uncomment-end:
+            session = realm.SyncSession;
+            session.Stop();
+            //later...
+            session.Start();
+            // :snippet-end:
+            // :snippet-start: get-session-state
+            var sessionState = session.State;
+            if (sessionState == SessionState.Active){
+                Console.WriteLine("The session is active");
+            } else {
+                Console.WriteLine("The session is inactive");
+            }
+            // :snippet-end:
+
         }
 
 
@@ -84,6 +115,7 @@ namespace Examples
             //  "terms": {
             //   "Config.AppId": "\"myRealmAppId\""}
             // }
+            // :replace-end:
             // If you are using a local realm
             var config = RealmConfiguration.DefaultConfiguration;
 
@@ -94,7 +126,6 @@ namespace Examples
             // :remove-start:
             config.Schema = new[] { typeof(Examples.Models.User) };
             // :remove-end:
-            // :replace-end:
 
             // Extract and copy the realm
             if (!File.Exists(config.DatabasePath))

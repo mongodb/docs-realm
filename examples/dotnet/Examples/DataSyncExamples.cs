@@ -14,7 +14,7 @@ namespace Examples
             Realms.Sync.User user;
             FlexibleSyncConfiguration config;
 
-        [OneTimeSetUp]
+
         public void Setup()
         {
             const string myRealmAppId = Config.FSAppId;
@@ -25,27 +25,8 @@ namespace Examples
             config = new FlexibleSyncConfiguration(user);
         }
 
-        [Test]
         public void GetSessionAndState(){
-            // :snippet-start: get-sync-session
-            realm = Realm.GetInstance(config);
-            var session = realm.SyncSession;
-            // :snippet-end:
-            // :snippet-start: pause-synced-realm
-            realm = Realm.GetInstance(config);
-            session = realm.SyncSession;
-            session.Stop();
-            //later...
-            session.Start();
-            // :snippet-end:
-            // :snippet-start: get-session-state
-            var sessionState = session.State;
-            if (sessionState == SessionState.Active){
-                Console.WriteLine("The session is active");
-            } else {
-                Console.WriteLine("The session is inactive");
-            }
-            // :snippet-end:
+            
         }
     }
 }

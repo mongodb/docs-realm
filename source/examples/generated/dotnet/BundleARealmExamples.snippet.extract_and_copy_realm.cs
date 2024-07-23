@@ -2,7 +2,7 @@
 var config = RealmConfiguration.DefaultConfiguration;
 
 // If the realm file is a synced realm
-var app = App.Create("myRealmAppId");
+var app = App.Create(Config.AppId);
 var user = await app.LogInAsync(Credentials.Anonymous());
 config = new PartitionSyncConfiguration("myPartition", user);
 
