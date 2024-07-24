@@ -38,9 +38,9 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-object.js
+         .. literalinclude:: /examples/MissingPlaceholders/example.js
             :language: javascript
-            :emphasize-lines: 3
+            :copyable: false
 
      - id: kotlin
        content: |

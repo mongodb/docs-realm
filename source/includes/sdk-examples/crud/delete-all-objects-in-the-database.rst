@@ -38,7 +38,7 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-object.js
+         .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-all.js
             :language: javascript
             :emphasize-lines: 3
 

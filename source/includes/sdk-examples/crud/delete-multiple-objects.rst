@@ -37,9 +37,9 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-object.js
+         .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-multiple-objects.js
             :language: javascript
-            :emphasize-lines: 3
+            :emphasize-lines: 5
 
      - id: kotlin
        content: |
