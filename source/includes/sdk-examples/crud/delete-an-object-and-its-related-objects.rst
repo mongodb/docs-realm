@@ -24,14 +24,14 @@
      - id: java
        content: |
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-an-object.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.cascading-deletes.java
             :language: java
-            :emphasize-lines: 4
+            :emphasize-lines: 5
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-an-object.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.cascading-deletes.kt
             :language: kotlin
             :emphasize-lines: 6
 

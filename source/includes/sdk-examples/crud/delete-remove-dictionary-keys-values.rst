@@ -24,16 +24,16 @@
      - id: java
        content: |
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-an-object.java
+         .. literalinclude:: /examples/MissingPlaceholders/example.java
             :language: java
-            :emphasize-lines: 4
+            :copyable: false
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-an-object.kt
+         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
             :language: kotlin
-            :emphasize-lines: 6
+            :copyable: false
 
      - id: javascript
        content: |
