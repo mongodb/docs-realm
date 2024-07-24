@@ -51,13 +51,13 @@
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete.m
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.cascading-delete.m
             :language: objectivec
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/DeleteRealmObjects.snippet.delete.swift
+         .. literalinclude:: /examples/generated/code/start/DeleteRealmObjects.snippet.chaining-delete.swift
             :language: swift
 
      - id: typescript

@@ -52,13 +52,14 @@
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete.m
+         .. literalinclude:: /examples/MissingPlaceholders/example.m
             :language: objectivec
+            :copyable: false
 
      - id: swift
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/DeleteRealmObjects.snippet.delete.swift
+         .. literalinclude:: /examples/generated/code/start/DeleteRealmObjects.snippet.mixed-data-type.swift
             :language: swift
 
      - id: typescript

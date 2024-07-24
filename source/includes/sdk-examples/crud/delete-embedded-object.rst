@@ -52,8 +52,9 @@
      - id: objectivec
        content: |
 
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete.m
+         .. literalinclude:: /examples/MissingPlaceholders/example.m
             :language: objectivec
+            :copyable: false
 
      - id: swift
        content: |
