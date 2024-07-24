@@ -17,7 +17,7 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.delete-one-object.dart
+         .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.delete-all-objects-of-type.dart
             :language: dart
 
      - id: java
