@@ -4,7 +4,7 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-an-object.cpp
+         .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-set.cpp
             :language: cpp
 
      - id: csharp

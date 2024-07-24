@@ -4,8 +4,9 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/crud.snippet.delete-an-object.cpp
+         .. literalinclude:: /examples/MissingPlaceholders/example.cpp
             :language: cpp
+            :copyable: false
 
      - id: csharp
        content: |
