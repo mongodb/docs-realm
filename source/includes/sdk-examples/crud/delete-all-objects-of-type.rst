@@ -11,7 +11,7 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/CRUD/Delete.cs
+         .. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
             :language: csharp
 
      - id: dart

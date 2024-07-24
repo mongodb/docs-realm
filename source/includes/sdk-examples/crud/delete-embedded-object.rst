@@ -11,8 +11,9 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/CRUD/Delete.cs
+         .. literalinclude:: /examples/MissingPlaceholders/example.cs
             :language: csharp
+            :copyable: false
 
      - id: dart
        content: |
