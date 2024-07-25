@@ -23,19 +23,19 @@ Providers & Hooks
    :class: singlecol
 
 
-The @realm/react library offers custom React components called Providers to simplify the app
+The ``@realm/react`` library offers custom React components called Providers to simplify the app
 development process.
 
 Atlas App Services offers pathways that support user creation, user authentication, and data
 management. However, manually integrating these processes into your app introduces a new layer
-of complexity. Instead of manually integrating these features, you can use the RealmProvider,
-AppProvider, and UserProvider to manage the logic needed to run your app.
+of complexity. Instead of manually integrating these features, you can use the the Providers
+to manage the logic needed to run your app.
 
-- RealmProvider provides access to the configured realm
-- AppProvider provides access to the App Services App
-- UserProvider provides access to the logged-in user object
+- ``RealmProvider`` provides access to the configured realm
+- ``AppProvider`` provides access to the App Services App
+- ``UserProvider`` provides access to the logged-in user object
 
-These Providers are available to all frameworks used to build with the JavaScript SDK.
+The Providers are available to all frameworks used to build with the JavaScript SDK.
 
 Providers as Components
 -----------------------
@@ -54,7 +54,7 @@ Hooks
 -----
 
 Hooks act as functions you can use to access states in your app. React has built-in hooks you
-can import and use in any component. The @realm/react library also has custom hooks for each
+can import and use in any component. The ``@realm/react`` library also has custom hooks for each
 provider you can import. You can use a Provider’s hooks within its component and any of its
 child components. There are two important rules to consider when working with hooks:
 
@@ -68,7 +68,7 @@ state can now be used throughout the component.
 Wrapping your App
 -----------------
 
-Most applications built using the @realm/react library organize their app by using an App
+Most applications built using the ``@realm/react`` library organize their app by using an App
 component. You build your app’s functionality in the App component by assembling the custom
 components you make. To make your Providers context available to your entire app, you can
 create an App Wrapper by nesting the Providers in each other, then netting the App component in
@@ -77,6 +77,8 @@ this wrapper.
 You *must* nest the Providers as shown below when making a wrapper to ensure each Provider can
 access the context it needs to function.
 
-[insert heading here :P] (maybe a tab switch option?)
+Props and Hooks
+---------------
+
 Below is a brief overview of the Props and Hooks available for each Provider. For more details,
 please see the API Reference for each provider.
