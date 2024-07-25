@@ -31,47 +31,53 @@ management. However, manually integrating these processes into your app introduc
 of complexity. Instead of manually integrating these features, you can use the the Providers
 to manage the logic needed to run your app.
 
-- ``RealmProvider`` provides access to the configured realm
-- ``AppProvider`` provides access to the App Services App
-- ``UserProvider`` provides access to the logged-in user object
+- ``RealmProvider`` grants access to the configured realm
+- ``AppProvider`` grants access to the App Services App
+- ``UserProvider`` grants access to the logged-in user object
 
 The Providers are available to all frameworks used to build with the JavaScript SDK.
 
-Providers as Components
------------------------
+Components and Hooks
+--------------------
+
+Providers are specialized React components, so you can interact with them as you would any other
+component. As with components, you can use hooks to access states from Providers.
+
+Components
+~~~~~~~~~~
 
 Components are the basic building blocks of React applications and resemble JavaScript
 functions. They allow you to separate your app’s functionality and views into smaller chunks
 you can manipulate and assemble to create the complete app. You call components using html
-opening and closing tags, and they take parameters called Props as input. Providers are
-specialized components and so you can interact with them as you would any other component.
+opening and closing tags, and they take parameters called Props as input.
 
 You can nest components within another’s tags, creating a parent-child relationship between
 them. The props passed into the parent component help create the context that its child
 components need to execute their logic. Child components can access this context using hooks.
 
 Hooks
------
+~~~~~
 
 Hooks act as functions you can use to access states in your app. React has built-in hooks you
 can import and use in any component. The ``@realm/react`` library also has custom hooks for each
 provider you can import. You can use a Provider’s hooks within its component and any of its
 child components. There are two important rules to consider when working with hooks:
 
-Hooks can only be used at the top level of a React component.
-Hooks can only be called in a React component or a custom hook, not in regular JavaScript functions.
+- Hooks can only be used at the top level of a React component.
+- Hooks can only be called in a React component or a custom hook, not in regular JavaScript
+  functions.
 
 To use a state in a component you’re creating, call the related hook at the top of your
-component definition and save the return value to a variable. This variable containing the
-state can now be used throughout the component.
+component definition and save the return value to a variable. You can then use this variable
+containing the state throughout your component.
 
-Wrapping your App
------------------
+Using Providers
+---------------
 
-Most applications built using the ``@realm/react`` library organize their app by using an App
+Most applications built using the ``@realm/react`` library organize their app in an App
 component. You build your app’s functionality in the App component by assembling the custom
 components you make. To make your Providers context available to your entire app, you can
-create an App Wrapper by nesting the Providers in each other, then netting the App component in
+create an App Wrapper by nesting the Providers in each other, then nesting the App component in
 this wrapper.
 
 You *must* nest the Providers as shown below when making a wrapper to ensure each Provider can
