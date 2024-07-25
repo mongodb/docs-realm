@@ -67,21 +67,24 @@ child components. There are two important rules to consider when working with ho
 - Hooks can only be called in a React component or a custom hook, not in regular JavaScript
   functions.
 
-To use a state in a component you’re creating, call the related hook at the top of your
-component definition and save the return value to a variable. You can then use this variable
-containing the state throughout your component.
-
 Using Providers
 ---------------
 
-Most applications built using the ``@realm/react`` library organize their app in an App
-component. You build your app’s functionality in the App component by assembling the custom
-components you make. To make your Providers context available to your entire app, you can
-create an App Wrapper by nesting the Providers in each other, then nesting the App component in
-this wrapper.
+To make your Providers context available to your entire app, you can create an App Wrapper by
+nesting the Providers in each other. You can then nest any of your custom components in this wrapper.
+Most applications built using the ``@realm/react`` library assemble their custom components in
+an ``App`` component for better organization.
 
-You *must* nest the Providers as shown below when making a wrapper to ensure each Provider can
+. literalinclude:: /examples/generated/react/providers-hooks.snippet.use-providers.js
+
+You *must* nest the Providers as shown when making a wrapper to ensure each Provider can
 access the context it needs to function.
+
+To use a state in a component you’re creating, call the related hook at the top of your
+component definition and save the return value to a variable. You can then use this variable
+containing the state throughout your component. 
+
+``CODE EXAMPLE COMING``
 
 Props and Hooks
 ---------------
