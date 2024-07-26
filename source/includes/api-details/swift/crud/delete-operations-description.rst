@@ -10,4 +10,4 @@ resolve the reference within the write transaction and then delete the resovled
 object.
 
 For more information about working with objects across threads, refer to
-ref:`sdks-threading`.
+:ref:`sdks-threading`.

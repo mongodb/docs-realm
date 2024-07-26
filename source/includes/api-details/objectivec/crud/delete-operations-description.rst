@@ -9,4 +9,4 @@ Similarly, if you're passing an :objc-sdk:`RLMThreadSafeReference
 must resolve the reference and then delete the resovled object.
 
 For more information about working with objects across threads, refer to
-ref:`sdks-threading`.
+:ref:`sdks-threading`.
