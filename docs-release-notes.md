@@ -6,8 +6,9 @@
 
 ## .NET SDK
 
-- Sync Data: Update pages to reflect that converting to a Synced Realm is only supported in Partition Bases Sync.
-- Sync Data/Suspend or Resume a Sync Session: Add additional context to the existing code snippet.
+- Sync Data:
+  - Suspend or Resume a Sync Session: Add additional context to the existing code snippet that demonstrates calling the ``Start()`` and ``Stop()`` methods.
+  - Throughout the section: Update pages to reflect that converting to a Synced Realm is only supported in Partition Bases Sync.
 
 ## Node.js SDK
 
