@@ -22,9 +22,6 @@ jobs:
         working-directory: examples/node/v12
         shell: bash
         run: npm install
-      - name: Annotate failed tests
-        run: npx github-actions-ctrf test-result.json
-        if: always()
       - name: Test JavaScript
         shell: bash
         working-directory: examples/node/v12
@@ -33,5 +30,3 @@ jobs:
         shell: bash
         working-directory: examples/node/v12
         run: set -eox pipefail && npm run test:ts
-      - name: Publish Test Summary Results
-        run: npx github-actions-ctrf test-result.json
