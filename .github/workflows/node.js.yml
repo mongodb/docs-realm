@@ -25,8 +25,8 @@ jobs:
       - name: Test JavaScript
         shell: bash
         working-directory: examples/node/v12
-        run: set -eox pipefail && npm run test:js
+        run: npm test:js || exit
       - name: Test TypeScript
         shell: bash
         working-directory: examples/node/v12
-        run: set -eox pipefail && npm run test:ts
+        run: npm test:ts || exit
