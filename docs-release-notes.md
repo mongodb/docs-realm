@@ -1,8 +1,21 @@
 # July 26, 2024
 
+## Flutter SDK
+
+- Sync Device Data: Add information about converting a non-synced realm to a synced realm.
+
+## .NET SDK
+
+- Sync Data: Update pages to reflect that converting to a Synced Realm is only supported in Partition Bases Sync.
+- Sync Data/Suspend or Resume a Sync Session: Add additional context to the existing code snippet.
+
 ## Node.js SDK
 
 - Model Data/Data Types/Counters: Fix typos on the Node.js SDK Counters page.
+
+## Swift SDK
+
+- Sync Data/Configure & Open a Synced Realm: Add information about converting a non-synced realm to a synced realm.
 
 # July 19, 2024
 
@@ -13,8 +26,7 @@
 ## Node.js SDK
 
 - Model Data/Data Types
-  - Counters: Create page to document the addition of the ``Counter`` class and data type to the
-    Node.js SDK and update the Table of Contents to reflect the addition.
+  - Counters: Create page to document the addition of the ``Counter`` class and data type to the Node.js SDK and update the Table of Contents to reflect the addition.
   - Field Types: Add ``counter`` as a supported data type.
 
 # July 12, 2024
