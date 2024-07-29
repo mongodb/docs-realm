@@ -25,8 +25,12 @@ jobs:
       - name: Test JavaScript
         shell: bash
         working-directory: examples/node/v12
-        run: npm run test:js || exit
+        run: |
+          if npm run test:js 2>&1 | grep -o "failed"
+          then
+            exit 1
+          fi
       - name: Test TypeScript
         shell: bash
         working-directory: examples/node/v12
-        run: npm run test:ts || exit
+        run: npm run test:ts || exit 1
