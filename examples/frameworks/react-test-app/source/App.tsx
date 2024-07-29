@@ -1,16 +1,24 @@
-// import { useState } from "react";
-// import * as Realm from "realm-web";
-import { AppProvider, useAuth, UserProvider, useUser } from "@realm/react";
+import {
+  AppProvider,
+  UserProvider,
+  RealmProvider,
+  useUser,
+} from "@realm/react";
+import { LoginPage } from "./pages/LoginPage";
+import { TodoPage } from "./pages/TodoPage";
 
 import { APP_ID } from "./appServicesConfig";
-
 import "./App.css";
+import { Item } from "./models";
 
 function AppWrapper() {
   return (
     <AppProvider id={APP_ID}>
-      <div className="App">
-        <UserProvider fallback={Login}>
+      <div className="app-header">
+        <p>@realm/react Test App</p>
+      </div>
+      <div className="app">
+        <UserProvider fallback={LoginPage}>
           <App />
         </UserProvider>
       </div>
@@ -19,11 +27,25 @@ function AppWrapper() {
 }
 
 const App = () => {
+  const user = useUser();
+
   return (
     <div>
-      <div className="App-header">
+      <RealmProvider
+        schema={[Item]}
+        sync={{
+          flexible: true,
+          user: user,
+          initialSubscriptions: {
+            update(subs, realm) {
+              subs.add(realm.objects(Item));
+            },
+          },
+        }}
+      >
         <UserDetail />
-      </div>
+        <TodoPage />
+      </RealmProvider>
     </div>
   );
 };
@@ -33,18 +55,10 @@ const UserDetail = () => {
 
   return (
     <div>
-      <h1>Logged in with anonymous id: {user.id}</h1>
+      <p>Account id: {user.id}</p>
+      {user.profile.email && <p>Email: {user.profile.email}</p>}
     </div>
   );
-};
-
-const Login = () => {
-  const { logInWithAnonymous } = useAuth();
-
-  const loginAnonymous = async () => {
-    logInWithAnonymous();
-  };
-  return <button onClick={loginAnonymous}>Log In</button>;
 };
 
 export default AppWrapper;
