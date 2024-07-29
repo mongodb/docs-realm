@@ -26,11 +26,15 @@ jobs:
         shell: bash
         working-directory: examples/node/v12
         run: |
-          if npm run test:js 2>&1 | grep -o "failed"
+          if npm run test:js 2>&1 | grep q "failed"
           then
             exit 1
           fi
       - name: Test TypeScript
         shell: bash
         working-directory: examples/node/v12
-        run: npm run test:ts || exit 1
+        run: |
+          if npm run test:ts 2>&1 | grep q "failed"
+          then
+            exit 1
+          fi
