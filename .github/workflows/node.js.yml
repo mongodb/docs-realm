@@ -22,6 +22,11 @@ jobs:
         working-directory: examples/node/v12
         shell: bash
         run: npm install
+      - name: DEBUG TEST
+        shell: bash
+        working-directory: examples/node/v12
+        run: |
+          npm run test:ts
       - name: Test JavaScript
         shell: bash
         working-directory: examples/node/v12
