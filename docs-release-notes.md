@@ -1,3 +1,9 @@
+# July 26, 2024
+
+## Node.js SDK
+
+- Model Data/Data Types/Counters: Fix typos on the Node.js SDK Counters page.
+
 # July 19, 2024
 
 ## Flutter SDK
