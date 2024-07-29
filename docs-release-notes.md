@@ -8,7 +8,7 @@
 
 - Sync Data:
   - Suspend or Resume a Sync Session: Add additional context to the existing code snippet that demonstrates calling the ``Start()`` and ``Stop()`` methods.
-  - Throughout the section: Update pages to reflect that converting to a Synced Realm is only supported in Partition Bases Sync.
+  - Throughout the section: Update pages to reflect that converting to a Synced Realm is only supported in Partition Based Sync.
 
 ## Node.js SDK
 
