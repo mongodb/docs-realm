@@ -22,16 +22,11 @@ jobs:
         working-directory: examples/node/v12
         shell: bash
         run: npm install
-      - name: DEBUG TEST
-        shell: bash
-        working-directory: examples/node/v12
-        run: |
-          npm run test:ts
       - name: Test JavaScript
         shell: bash
         working-directory: examples/node/v12
         run: |
-          if npm run test:js 2>&1 | grep -q "failed"
+          if npm run test:js 2>&1 | grep "fail"
           then
             exit 1
           fi
@@ -39,7 +34,7 @@ jobs:
         shell: bash
         working-directory: examples/node/v12
         run: |
-          if npm run test:ts 2>&1 | grep -q "failed"
+          if npm run test:ts 2>&1 | grep "fail"
           then
             exit 1
           fi
