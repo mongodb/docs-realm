@@ -17,9 +17,6 @@ describe("Test changing the baseUrl", () => {
     expect(app.baseUrl).toBe("https://example.com");
   });
 
-
-   // delete this test line
-
   test("should change the baseURL and then revert to the default baseURL", async () => {
     // Note for internal review: I tested this manually running an Edge Server
     // on my machine and it succeeds. Until we get Edge Server running in a CI
