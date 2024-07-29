@@ -21,9 +21,7 @@ jobs:
       - name: Install Dependencies
         working-directory: examples/node/v12
         shell: bash
-        run: |
-          touch test-result.json
-          npm install
+        run: npm install
       - name: Annotate failed tests
         run: npx github-actions-ctrf test-result.json
         if: always()
