@@ -2,18 +2,13 @@ name: Node.js SDK v12 CI Tests
 
 on:
   pull_request:
-    paths:
-      - "examples/node/v12/**"
-
 jobs:
-  build:
+  run-jest-tests:
     name: Run Node.js SDK v12 Tests
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [18.x]
-
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -22,10 +17,21 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
         working-directory: examples/node/v12
+        shell: bash
         run: npm install
       - name: Test JavaScript
+        shell: bash
         working-directory: examples/node/v12
-        run: npm run test:js
+        run: |
+          if npm run test:js 2>&1 | grep "fail"
+          then
+            exit 1
+          fi
       - name: Test TypeScript
+        shell: bash
         working-directory: examples/node/v12
-        run: npm run test:ts
+        run: |
+          if npm run test:ts 2>&1 | grep "fail"
+          then
+            exit 1
+          fi
