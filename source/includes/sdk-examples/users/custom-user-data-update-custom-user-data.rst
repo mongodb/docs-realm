@@ -36,7 +36,7 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/node/custom-user-data.snippet.write-custom-user-data.js
             :language: javascript
 
      - id: kotlin
@@ -60,5 +60,6 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         .. literalinclude::  /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false

@@ -38,6 +38,7 @@
 
          .. literalinclude:: /examples/MissingPlaceholders/example.js
             :language: javascript
+            :copyable: false
 
      - id: kotlin
        content: |
@@ -60,5 +61,6 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.write-asymmetric-object.ts
+         .. literalinclude::  /examples/MissingPlaceholders/example.ts
             :language: typescript
+            :copyable: false
