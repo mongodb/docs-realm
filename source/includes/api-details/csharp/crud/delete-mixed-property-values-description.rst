@@ -1,0 +1,1 @@
+To delete the value of a mixed property, set its value to ``Null``.
