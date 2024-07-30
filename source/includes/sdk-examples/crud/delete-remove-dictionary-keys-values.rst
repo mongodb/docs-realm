@@ -38,9 +38,8 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/node/data-types.snippet.remove-fields-of-the-dictionary.js
             :language: javascript
-            :copyable: false
 
      - id: kotlin
        content: |

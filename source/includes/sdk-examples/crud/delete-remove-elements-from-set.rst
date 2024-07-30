@@ -38,9 +38,8 @@
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.js
+         .. literalinclude:: /examples/generated/node/data-types.snippet.remove-all-items-from-set.js
             :language: javascript
-            :copyable: false
 
      - id: kotlin
        content: |
