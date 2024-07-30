@@ -4,10 +4,125 @@
 User Metadata
 =============
 
+.. meta::
+   :description: Use Atlas Device SDK to read user metadata, such as email or birthday, from configured authentication providers.
+   :keywords: Realm, Flutter SDK, Kotlin SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: csharp, dart, javascript/typescript, kotlin, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for user metadata content.
+.. tabs-selector:: drivers
+
+This page describes how to manage user metadata for an authorized App 
+Services App user using Atlas Device SDK. For more information, 
+refer to :ref:`auth-provider-metadata` in the App Services documentation.
+
+Atlas App Services can read **user metadata** from authentication providers,
+such as Google or Facebook. Then, App Services exposes each user's metadata in
+a field of their ``User`` object. For example, you might want to access a
+user's name, email, birthday, or gender. This is read-only data that comes
+from the third-party authentication provider.
+
+This is distinct from maintaining your own, editable custom user data. If
+you'd like to define your own user data fields, or have the ability to directly
+update user data, use :ref:`sdks-custom-user-data`.
+
+.. important:: Configure Metadata in Atlas
+
+   Before you can work with metadata provided by the authentication provider,
+   you must :ref:`configure metadata for the authentication provider
+   <configure-user-metadata-on-the-backend>`. 
+
+.. _sdks-read-user-metadata:
+
+Read User Metadata
+------------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/user-metadata-read-user-metadata-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/user-metadata-read-user-metadata-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/user-metadata-read-user-metadata-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/user-metadata-read-user-metadata-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/user-metadata-read-user-metadata-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/user-metadata-read-user-metadata.rst
+
+User metadata options vary depending on which provider you're using and
+:ref:`which metadata fields you enable <configure-user-metadata-on-the-backend>`.
+
+.. include:: /includes/stale-user-metadata.rst
+
+.. _sdks-serializable-user-metadata:
+
+Serializable User Metadata 
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Some of the SDK languages provide serializers for user metadata.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/users/user-metadata-serializable-user-metadata-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/users/user-metadata-serializable-user-metadata-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/users/user-metadata-serializable-user-metadata-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/user-metadata-serializable-user-metadata-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/users/user-metadata-serializable-user-metadata-not-supported.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/users/user-metadata-serializable-user-metadata-not-supported.rst
