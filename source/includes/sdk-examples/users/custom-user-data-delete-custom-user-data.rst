@@ -10,9 +10,8 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+         .. literalinclude:: /examples/generated/dotnet/CustomUserDataExamples.snippet.delete.cs
             :language: csharp
-            :copyable: false
 
      - id: dart
        content: |

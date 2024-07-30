@@ -10,7 +10,7 @@
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+         .. literalinclude:: /examples/generated/dotnet/CustomUserDataExamples.snippet.read.cs
             :language: csharp
 
      - id: dart
