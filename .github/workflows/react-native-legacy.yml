@@ -15,10 +15,18 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use React Native ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd examples/react-native/legacy && npm install
-      - run: cd examples/react-native/legacy && npm run test
+      - name: Install Dependencies
+        working-directory: examples/react-native/legacy
+        run: npm install
+      - name: Run tests 
+        working-directory: examples/react-native/legacy
+        run: |
+          if npm run test 2>&1 | grep "fail"
+          then
+            exit 1
+          fi
