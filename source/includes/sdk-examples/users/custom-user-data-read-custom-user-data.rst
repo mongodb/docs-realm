@@ -22,14 +22,16 @@
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/api.java
+         .. literalinclude:: /examples/generated/java/sync/AccessCustomUserDataTest.snippet.read-custom-user-data.java
             :language: java
+            :emphasize-lines: 6
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+         .. literalinclude:: /examples/generated/java/sync/AccessCustomUserDataTest.snippet.read-custom-user-data.kt
             :language: kotlin
+            :emphasize-lines: 6
 
      - id: javascript
        content: |
