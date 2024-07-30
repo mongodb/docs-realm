@@ -45,10 +45,10 @@ following:
    in the App Services documentation
 #. :ref:`sdks-connect-to-atlas`
 
-.. _sdks-create-custom-user-data-document:
+.. _sdks-create-custom-user-data:
 
-Create a Custom User Data Document
-----------------------------------
+Create Custom User Data
+-----------------------
 
 When you configure custom user data in Atlas, you designate a database and
 collection to store the custom user data. This data is stored as documents in
@@ -84,7 +84,7 @@ ways:
    .. tab::
       :tabid: cpp-sdk
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/cpp/users/custom-user-data-create-custom-user-data-description.rst
 
    .. tab::
       :tabid: csharp
@@ -119,19 +119,19 @@ ways:
    .. tab::
       :tabid: objectivec
 
-      .. include:: /includes/api-details/objectivec/users/custom-user-data-create-custom-user-data-document-description.rst
+      .. include:: /includes/api-details/objectivec/users/custom-user-data-create-custom-user-data-description.rst
 
    .. tab::
       :tabid: swift
 
-      .. include:: /includes/api-details/swift/users/custom-user-data-create-custom-user-data-document-description.rst
+      .. include:: /includes/api-details/swift/users/custom-user-data-create-custom-user-data-description.rst
 
    .. tab::
       :tabid: typescript
 
       .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
 
-.. include:: /includes/sdk-examples/users/custom-user-data-create-custom-user-data-document.rst
+.. include:: /includes/sdk-examples/users/custom-user-data-create-custom-user-data.rst
 
 You can add any number of arbitrary fields and values to the custom user
 data document when you create it. The user ID field is the only
@@ -153,7 +153,7 @@ data, see  the Update Custom User Data section on this page.
    .. tab::
       :tabid: cpp-sdk
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/cpp/users/custom-user-data-read-custom-user-data-description.rst
 
    .. tab::
       :tabid: csharp
@@ -219,7 +219,7 @@ data, see  the Update Custom User Data section on this page.
    .. tab::
       :tabid: cpp-sdk
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/cpp/users/custom-user-data-read-custom-user-data-2-description.rst
 
    .. tab::
       :tabid: csharp
@@ -286,7 +286,7 @@ You can update custom user data in a few ways:
    .. tab::
       :tabid: cpp-sdk
 
-      .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
+      .. include:: /includes/api-details/cpp/users/custom-user-data-update-custom-user-data-description.rst
 
    .. tab::
       :tabid: csharp
@@ -334,3 +334,68 @@ You can update custom user data in a few ways:
       .. include:: /includes/api-details/generic/crud/create-asymmetric-object-description.rst
 
 .. include:: /includes/sdk-examples/users/custom-user-data-update-custom-user-data.rst
+
+.. _sdks-delete-custom-user-data:
+
+Delete Custom User Data
+-----------------------
+
+Custom user data is stored in a document linked to the user object. 
+Deleting a user does not delete the custom user data. To fully delete user
+data to comply with, for example, :apple:`Apple's Account deletion guidance 
+<support/offering-account-deletion-in-your-app/>`, you must manually delete
+the user's custom data document.
+
+You can delete custom user data in a few ways:
+
+- Define a Function that you call to delete custom user data.
+- Access MongoDB through the SDK, if your language supports it, and delete
+  the user data document from the custom user data collection directly.
+- Manually delete a custom data document through:
+
+  - :compass:`MongoDB Compass </>`
+  - :atlas:`MongoDB Atlas Data Explorer </data-explorer/>`
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/custom-user-data-delete-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+   .. tab::
+      :tabid: javascript
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/create-asymmetric-object-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+   .. tab::
+      :tabid: swift
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/users/custom-user-data-delete-custom-user-data.rst

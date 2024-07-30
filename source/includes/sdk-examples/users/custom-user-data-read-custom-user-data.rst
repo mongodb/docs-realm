@@ -4,8 +4,8 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/asymmetric-sync.snippet.create-asymmetric-object.cpp
-           :language: cpp
+         .. literalinclude:: /examples/generated/cpp/custom-user-data.snippet.read.cpp
+            :language: cpp
 
      - id: csharp
        content: |
