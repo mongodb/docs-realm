@@ -1,6 +1,5 @@
-You can read the :ref:`user metadata <user-metadata>` of a
-currently logged-in user through the :flutter-sdk:`User <realm/User-class.html>`
-object.
+You can read the user metadata of a currently logged-in user through the
+:flutter-sdk:`User <realm/User-class.html>` object.
 
 The ``profile`` property on the ``User`` object returns a
 :flutter-sdk:`User.profile <realm/User/profile.html>` object
