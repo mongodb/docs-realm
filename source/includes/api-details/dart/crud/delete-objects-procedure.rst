@@ -10,7 +10,7 @@
       You can only delete live objects. If you are working with a frozen
       object, you must query for the live object before deleting the object.
 
-#. Call the :dotnet-sdk:`delete <realm/Realm/delete.html>`
+#. Call the :flutter-sdk:`delete <realm/Realm/delete.html>`
    method with the object you want to delete as an argument.
 
 #. The specified object is deleted from the database and can no longer be

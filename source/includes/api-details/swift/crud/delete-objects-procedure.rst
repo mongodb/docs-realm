@@ -1,4 +1,5 @@
 1. Open a write transaction with one of the relevant APIs:
+
    - :swift-sdk:`write() <Structs/Realm.html#/s:10RealmSwift0A0V5write16withoutNotifying_xSaySo20RLMNotificationTokenCG_xyKXEtKlF>`
    - :swift-sdk:`writeAsync() <Structs/Realm.html#/s:10RealmSwift0A0V10writeAsync_10onCompletes6UInt32Vyyc_ys5Error_pSgcSgtF>`
    - :swift-sdk:`asyncWrite() <Structs/Realm.html#/s:10RealmSwift0A0V10asyncWriteyxxyKXEYaKlF>` and friends
