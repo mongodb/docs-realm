@@ -16,7 +16,7 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_ingest.test.snippet.write-asymmetric-object.dart
+         .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.read-custom-user-data.dart
             :language: dart
 
      - id: java
