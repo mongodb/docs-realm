@@ -22,76 +22,100 @@ Providers & Hooks
    :depth: 2
    :class: singlecol
 
+The ``@realm/react`` offers custom React components that eliminate the boilerplate needed to
+develop a React app. The components leverage the Provider design pattern to manage user
+creation, user authentication, and data management.
 
-The ``@realm/react`` library offers custom React components called Providers to simplify the app
-development process.
+- ``RealmProvider``: Work with the configured database.
 
-Atlas App Services offers pathways that support user creation, user authentication, and data
-management. However, manually integrating these processes into your app introduces a new layer
-of complexity. Instead of manually integrating these features, you can use the the Providers
-to manage the logic needed to run your app.
+- ``AppProvider``: Connect to your App Client for user authentication, only necessary when
+  using Device Sync. 
 
-- ``RealmProvider`` grants access to the configured realm
-- ``AppProvider`` grants access to the App Services App
-- ``UserProvider`` grants access to the logged-in user object
+- ``UserProvider``: Access to the logged-in user object, only necessary when using Device Sync.
 
 The Providers are available to all frameworks used to build with the JavaScript SDK.
 
-Components and Hooks
---------------------
+Configure your Providers
+------------------------
 
-Providers are specialized React components, so you can interact with them as you would any other
-component. As with components, you can use hooks to access states from Providers.
+Like all React components, you call Providers using html opening and closing tags. They take
+parameters called Props as input, passed into the opening tag.
 
-Components
-~~~~~~~~~~
+Nesting components within each other creates a parent-child relationship between them. The
+props passed into the parent component help create the context inherited by the components it
+wraps. Thus, any component wrapped by the Providers can access their context.
 
-Components are the basic building blocks of React applications and resemble JavaScript
-functions. They allow you to separate your app’s functionality and views into smaller chunks
-you can manipulate and assemble to create the complete app. You call components using html
-opening and closing tags, and they take parameters called Props as input.
+You can configure a ``RealmProvider`` in two ways:
 
-You can nest components within another components tags, creating a parent-child relationship between
-them. The props passed into the parent component help create the context that its child
-components need to execute their logic. Child components can access this context using hooks.
+- Import ``RealmProvider`` directly from ``@realm/react``
+- Use ``createRealmContext()`` to configure a ``Realm
 
-Hooks
-~~~~~
+This section details how to configure a ``RealmProvider`` imported directly from
+``@realm/react`` to expose a single realm. For information about using
+``createRealmContext()``, refer to :ref:`Create Context with createRealmContext()
+<react-native-realm-context>`. For information about using
+configuring more than one realm, refer to Expose More Than One Realm.
 
-Hooks act as functions you can use to access states in your app. React has built-in hooks you
-can import and use in any component. The ``@realm/react`` library also has custom hooks for each
-provider you can import. You can use a Provider’s hooks within its component and any of its
-child components. There are two important rules to consider when working with hooks:
+``sentence about when you may need a synced vs non-synced realm``
 
-- Hooks can only be used at the top level of a React component.
-- Hooks can only be called in a React component or a custom hook, not in regular JavaScript
-  functions.
+.. tabs::
 
-Using Providers
----------------
+   .. tab:: Configure realm with sync
+      :tabid: configure-sync-realm
 
-To make your Providers context available to your entire app, you can create an App Wrapper by
-nesting the Providers in each other. You can then nest any of your custom components in this wrapper.
-Most applications built using the ``@realm/react`` library assemble their custom components in
-an ``App`` component for better organization.
+      If you are developing an app using sync, you will need to use ``RealmProvider``,
+      ``AppProvider``, and ``UserProvider``. 
 
-.. literalinclude:: /examples/generated/react/providers-hooks.snippet.use-providers.js
+      By default, Realm syncs all data from the server before returning anything. If you want
+      to sync data in the background, read Configure a Synced Realm While Offline [link]. 
 
-You *must* nest the Providers as shown when making a wrapper to ensure each Provider can
-access the context it needs to function.
+      To configure a synced realm:
 
-To use a state in a component you’re creating, call the related hook at the top of your
-component definition and save the return value to a variable. You can then use this variable
-containing the state throughout your component. 
+      #. Import ``RealmProvider``, ``AppProvider``, and ``UserProvider`` from ``@realm/react``.
+      
+      #. Configure ``AppProvider``.
 
-``CODE EXAMPLE COMING``
+         Pass your App ID string to the ``id`` prop of the ``AppProvider``. 
+      
+      #. Configure ``UserProvider`` and nest it within ``AppProvider``.
 
-Props and Hooks
----------------
+         Pass a component that logs a user in into the ``fallback`` prop. The app renders this component if there is no authenticated user.
+      
+      #. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
 
-For more detail about configuration each provider and to see the props and hooks available for
-each, please refer their the API references:
+         Pass your object models to the ``schema`` prop. (link out)
 
-- :ref:`react-realm-provider`
-- :ref:`react-user-provider`
-- :ref:`react-app-provider`
+         Pass your sync properties into the ``sync`` prop. Your sync properties are formatted like a json dictionary.
+         
+         Add other Configuration object properties as props to ``RealmProvider``.
+
+      Once your Providers have been configured, nest your app components within the ``RealmProvider``.
+
+      You *must* nest the Providers and app components as described. This ensures each Provider can
+      access the context it needs to function and all your app components can access the App Client, authenticated user object, and opened realm.
+
+      [Code example here]
+
+   .. tab:: Configure realm without sync
+      :tabid: configure-non-sync-realm
+
+      If you are developing an app without sync, you only need to configure your ``RealmProvider``.
+
+      To configure a non-synced realm:
+      
+      #. Import ``RealmProvider`` from ``@realm/react``.
+
+      #. Pass your object models to the ``schema`` prop. (link out)
+
+      #. Add other Configuration object properties as props to ``RealmProvider``
+
+      Once your ``RealmProvider`` has been configured, nest your app components within it to
+      give them access to the realm opened. 
+
+      [code example - unsynced]
+
+
+Working in your Providers
+-------------------------
+
+[insert text here lol]
