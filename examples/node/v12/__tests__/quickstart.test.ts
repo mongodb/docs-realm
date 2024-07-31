@@ -1,7 +1,8 @@
 // :snippet-start: import-realm
 import Realm, { BSON } from "realm";
-import { QuickstartTask } from "./models/models.ts";
 // :snippet-end:
+
+import { QuickstartTask } from "./models/models.ts";
 
 describe("QuickStart Local", () => {
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
