@@ -22,7 +22,7 @@ Providers & Hooks
    :depth: 2
    :class: singlecol
 
-The ``@realm/react`` offers custom React components that eliminate the boilerplate needed to
+The ``@realm/react`` library offers custom React components that eliminate the boilerplate needed to
 develop a React app. The components leverage the Provider design pattern to manage user
 creation, user authentication, and data management.
 
@@ -38,12 +38,52 @@ The Providers are available to all frameworks used to build with the JavaScript 
 Configure your Providers
 ------------------------
 
-Like all React components, you call Providers using html opening and closing tags. They take
-parameters called Props as input, passed into the opening tag.
+Like all React components, you call Providers using html opening and closing tags. Nesting a
+component within in another component's tags creates a parent-child relationship between them,
+where child components can access the context created by its parent component.
 
-Nesting components within each other creates a parent-child relationship between them. The
-props passed into the parent component help create the context inherited by the components it
-wraps. Thus, any component wrapped by the Providers can access their context.
+Props
+~~~~~
+
+Components take parameters called Props as input, passed into the opening tag. The props passed
+into a parent component help create the context inherited by the components it wraps. Each
+Provider has different props you can use for configuration.
+
+.. tabs::
+
+   .. tab:: RealmProvider Props
+      :tabid: realm-provider-props
+
+      All properties of :realm-react-sdk:`BaseConfiguration 
+      <types/Realm.BaseConfiguration.html>` can be passed as props.
+
+      ``RealmProvider`` has more props that define its behavior:
+
+      - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
+         The fallback component to render while the Realm is opening.
+
+      - ``closeOnUnmount?: boolean``
+         Default is ``true``. If set to ``false``, realm will not close when the
+         component unmounts.
+
+      - ``realmRef?: React.MutableRefObject<Realm | null>``
+         A ref to the realm instance. This is useful if you need to access the realm
+         instance outside of the scope of the realm.
+      
+      - ``children: React.ReactNode``
+
+   .. tab:: AppProvider Props
+      :tabid: app-provider-props
+
+      All properties of :realm-react-sdk:`AppConfiguration 
+      <types/Realm.AppConfiguration.html>` can be passed as props to ``AppProvider``.
+
+   .. tab:: UserProvider Props
+      :tabid: user-provider-props
+
+      - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
+         The fallback component to render if there is no authorized user. This can be
+         used to render a log in screen or otherwise handle authentication.
 
 You can configure a ``RealmProvider`` in two ways:
 

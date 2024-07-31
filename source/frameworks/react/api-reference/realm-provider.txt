@@ -32,16 +32,16 @@ All properties of :realm-react-sdk:`BaseConfiguration
 ``RealmProvider`` has more props that define its behavior:
 
 - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
-
   The fallback component to render while the Realm is opening.
-- ``closeOnUnmount?: boolean``
 
+- ``closeOnUnmount?: boolean``
   Default is ``true``. If set to ``false``, realm will not close when the
   component unmounts.
-- ``realmRef?: React.MutableRefObject<Realm | null>``
 
+- ``realmRef?: React.MutableRefObject<Realm | null>``
   A ref to the realm instance. This is useful if you need to access the realm
   instance outside of the scope of the realm.
+  
 - ``children: React.ReactNode``
 
 Configure a Realm with RealmProvider
