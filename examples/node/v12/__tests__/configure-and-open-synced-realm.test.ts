@@ -1,5 +1,5 @@
 import Realm, { BSON, Credentials, ObjectSchema } from "realm";
-import { APP_ID } from "../config";
+import { APP_ID } from "../config.ts";
 
 describe("Configure & Open a Synced Realm", () => {
   test("test cancelWaitsOnNonFatalError is valid config", async () => {
@@ -63,6 +63,11 @@ describe("Configure & Open a Synced Realm", () => {
       mutableSubs.add(realm.objects(Doggie), {
         name: "testDoggies",
       });
+    });
+
+    // Make sure realm is empty
+    realm.write(() => {
+      realm.deleteAll();
     });
 
     const dogs = realm.objects<Doggie>(Doggie);
