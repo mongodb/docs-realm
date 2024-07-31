@@ -59,24 +59,24 @@ Provider has different props you can use for configuration.
       The most common BaseConfiguration properties used are:
 
       - ``schema?: (RealmObjectConstructor<AnyRealmObject> | ObjectSchema)[]``
-         Specifies all the object schemas in this Realm. Required when first creating a Realm.
-         If omitted, the schema will be read from the existing Realm file.
+        Specifies all the object schemas in this Realm. Required when first creating a Realm.
+        If omitted, the schema will be read from the existing Realm file.
 
       - ``sync?: SyncConfiguration``
-         Configures a synced realm.
+        Configures a synced realm.
 
       ``RealmProvider`` has more props that define its behavior:
 
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
-         The fallback component to render while the Realm is opening.
+        The fallback component to render while the Realm is opening.
 
       - ``closeOnUnmount?: boolean``
-         Default is ``true``. If set to ``false``, realm will not close when the
-         component unmounts.
+        Default is ``true``. If set to ``false``, realm will not close when the
+        component unmounts.
 
       - ``realmRef?: React.MutableRefObject<Realm | null>``
-         A ref to the realm instance. This is useful if you need to access the realm
-         instance outside of the scope of the realm.
+        A ref to the realm instance. This is useful if you need to access the realm
+        instance outside of the scope of the realm.
       
       - ``children: React.ReactNode``
 
@@ -89,14 +89,14 @@ Provider has different props you can use for configuration.
       The most common AppConfiguration property used is:
 
       - ``id: string``
-         Specifies the App ID.
+        Specifies the App ID.
 
    .. tab:: UserProvider Props
       :tabid: user-provider-props
 
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
-         The fallback component to render if there is no authorized user. This can be
-         used to render a log in screen or otherwise handle authentication.
+        The fallback component to render if there is no authorized user. This can be
+        used to render a log in screen or otherwise handle authentication.
 
 Configure your Providers
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,38 +105,38 @@ This section details how to configure and expose a single realm using a ``RealmP
 imported directly from ``@realm/react``. For information about using ``createRealmContext()``
 to configure a realm or exposing more than one realm, refer to their respective sections below.
 
-If you are developing an app using sync, you will need to use all three Providers. If you are
-developing an app without sync, you only need to use ``RealmProvider``.
-
 .. tabs::
 
    .. tab:: Configure realm with sync
       :tabid: configure-sync-realm
+
+      If you are developing an app using sync, you will need to use all three Providers. 
 
       By default, Realm syncs all data from the server before returning anything. If you want
       to sync data in the background, read Configure a Synced Realm While Offline [link]. 
 
       To configure a synced realm:
 
-      #. Import ``RealmProvider``, ``AppProvider``, and ``UserProvider`` from ``@realm/react``.
+      1. Import ``RealmProvider``, ``AppProvider``, and ``UserProvider`` from ``@realm/react``.
       
-      #. Configure ``AppProvider``.
-         Pass your App ID string to the ``id`` prop of the ``AppProvider``. 
+      2. Configure ``AppProvider``.
+
+         a. Pass your App ID string to the ``id`` prop of the ``AppProvider``. 
       
-      #. Configure ``UserProvider`` and nest it within ``AppProvider``.
-
-         Pass a component that logs a user in into the ``fallback`` prop. The app renders this component if there is no authenticated user.
+      3. Configure ``UserProvider`` and nest it within ``AppProvider``.
+        
+         a. Pass a component that logs a user in into the ``fallback`` prop. The app renders this component if there is no authenticated user.
       
-      #. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
+      4. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
 
-         Pass your object models to the ``schema`` prop. (link out)
+         a. Pass your object models to the ``schema`` prop. (link out)
 
-         Pass your sync properties into the ``sync`` prop. Your sync properties are formatted like a json dictionary.
+         b. Pass your sync properties into the ``sync`` prop. Your sync properties are formatted like a json dictionary.
 
-         Add other Configuration object properties as props to ``RealmProvider``.
+         c. Add other Configuration object properties as props to ``RealmProvider``.
 
-         You must set up a sync subscription. The example below uses an initial subscription,
-         but you can also set up subscriptions in ``RealmProvider`` child components.
+         d. You must set up a sync subscription. The example below uses an initial subscription,
+            but you can also set up subscriptions in ``RealmProvider`` child components.
 
       .. include:: /includes/note-rn-multiple-app-clients-and-app-config-cache.rst
 
@@ -149,6 +149,8 @@ developing an app without sync, you only need to use ``RealmProvider``.
 
    .. tab:: Configure realm without sync
       :tabid: configure-non-sync-realm
+
+      If you are developing an app without sync, you only need to use ``RealmProvider``.
 
       To configure a non-synced realm:
       
@@ -164,8 +166,8 @@ developing an app without sync, you only need to use ``RealmProvider``.
       [code example - unsynced]
 
 
-Working in your Providers
--------------------------
+Working with Providers using Hooks
+----------------------------------
 
 To use the Provider's context in your app's components, you can use hooks [link].
 
