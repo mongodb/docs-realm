@@ -13,8 +13,10 @@ Build for Apple
 .. toctree::
    :titlesonly:
 
+   Apple Privacy Manifest </platforms/apple/privacy-manifest>
    Swift Concurrency </platforms/apple/swift-concurrency>
    Swift Actor Support </platforms/apple/use-sdk-with-actors>
+   Build for tvOS </platforms/apple/tvos>
 
 Placeholder page for information about building for Apple.
 
@@ -23,3 +25,41 @@ any specific version or compatibility info worth calling out?
 
 Maybe make this a directory with Apple-specific content (Apple Privacy
 Manifest, build for tvOS, etc.?)
+
+Build for macOS
+---------------
+
+Device Sync and App Sandbox Entitlements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you are developing for macOS and require network access, you must enable
+network entitlements in your application. By default, Apple's App Sandbox
+does not allow network requests due to built-in security settings.
+
+Enable network entitlements to use these SDK features:
+
+- :ref:`Device Sync <sdks-sync-data>`
+- :ref:`Call an Atlas Function <sdks-call-function>`
+- :ref:`Access MongoDB Atlas <sdks-access-mongodb>`
+
+.. _sdks-macos-flutter-app-sandbox-entitlements:
+
+With Flutter
+~~~~~~~~~~~~
+
+To enable network requests in a Flutter application, add the following code
+to **both** the files :file:`macos/Runner/DebugProfile.entitlements` and
+:file:`macos/Runner/Release.entitlements`:
+
+.. code-block:: xml
+    :emphasize-lines: 2-3
+
+    <!--  Other entitlements -->
+    <key>com.apple.security.network.client</key>
+    <true/>
+    <!--  Other entitlements -->
+
+For more information about Flutter development for macOS, refer to
+`Building macOS apps with Flutter
+<https://docs.flutter.dev/development/platform-integration/macos/building#setting-up-entitlements>`__
+in the Flutter documentation.

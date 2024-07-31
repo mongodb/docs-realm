@@ -1,0 +1,70 @@
+.. _sdks-tvos:
+
+==============
+Build for tvOS
+==============
+
+.. meta::
+   :description: When you're using Atlas Device SDK to build for Apple's tvOS, keep these important considerations in mind.
+   :keywords: Realm, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: swift
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+When you're using Atlas Device SDK to build for Apple's tvOS, keep these
+important considerations in mind.
+
+.. seealso::
+
+   :ref:`sdks-install`
+
+Avoid Storing Important User Data
+---------------------------------
+
+Avoid storing important user data in the database on tvOS. Instead, it's
+best to treat the SDK as a rebuildable cache. 
+
+.. note::
+
+   The reason for this has to do with where the SDK writes its
+   :ref:`database files <sdks-configure-and-open-database>`. On other Apple
+   platforms, the SDK writes its database files to the "Documents"
+   directory. Because tvOS restricts writes to that directory, the
+   default database file location on tvOS is instead ``NSCachesDirectory``.
+   tvOS can purge files in that directory at any time, so reliable
+   long-term persistence is not possible. For cloud-backed persistence
+   on tvOS, consider using :ref:`Device Sync <sdks-sync-data>`.
+
+You can also use the SDK as an initial data source by
+:ref:`bundling prebuilt database files <sdks-bundle-file>` in your app.
+Note that the :apple:`App Store guidelines <tvos/submit/>` limit your
+app size to 4GB.
+
+.. tip::
+
+   Browse our :github:`tvOS examples
+   <realm/realm-swift/tree/master/examples/tvos>` for sample tvOS apps
+   that demonstrate how to use the SDK as an offline cache.
+
+Share Database Files with TV Services Extensions
+------------------------------------------------
+
+To share a :ref:`database file <sdks-configure-and-open-database>` between a
+tvOS app and a TV services extension such as :apple:`Top Shelf
+<design/human-interface-guidelines/tvos/overview/top-shelf/>`, use the
+``Library/Caches/`` directory in the shared container for the
+application group:
+
+.. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.tvos-share-path.swift
+   :language: swift
