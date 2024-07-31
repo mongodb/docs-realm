@@ -101,7 +101,7 @@ Provider has different props you can use for configuration.
       :tabid: user-provider-props
 
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
-      
+
         The fallback component to render if there is no authorized user. This can be
         used to render a log in screen or otherwise handle authentication.
 
@@ -120,7 +120,8 @@ to configure a realm or exposing more than one realm, refer to their respective 
       If you are developing an app using sync, you will need to use all three Providers. 
 
       By default, Realm syncs all data from the server before returning anything. If you want
-      to sync data in the background, read Configure a Synced Realm While Offline [link]. 
+      to sync data in the background, read :ref:`Configure a Synced Realm While Offline
+      <react-native-open-synced-realm-offline>`.
 
       To configure a synced realm:
 
@@ -136,7 +137,7 @@ to configure a realm or exposing more than one realm, refer to their respective 
       
       4. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
 
-         a. Pass your object models to the ``schema`` prop. (link out)
+         a. Pass your object models to the ``schema`` prop.
 
          b. Pass your sync properties into the ``sync`` prop. Your sync properties are formatted like a json dictionary.
 
@@ -147,8 +148,11 @@ to configure a realm or exposing more than one realm, refer to their respective 
 
       .. include:: /includes/note-rn-multiple-app-clients-and-app-config-cache.rst
 
-      Once your Providers have been configured, nest your app components within the ``RealmProvider``.
-
+      Once your Providers have been configured, nest your app components within the
+      ``RealmProvider``. The rendering of each component is dependent on the successful
+      execution of its parent components' functionality. For example, if ``AppProvider`` cannot
+      connect to your app's App Services backend, the components it wraps will not render.
+      
       You *must* nest the Providers and app components as shown below to ensure each component
       has access to its required context:
 
@@ -178,7 +182,7 @@ to configure a realm or exposing more than one realm, refer to their respective 
 Working with Providers using Hooks
 ----------------------------------
 
-To use the Provider's context in your app's components, you can use hooks [link].
+To use the Provider's context in your app's components, you can use hooks.
 
 Hooks act as functions used to access states in your app. React offers built-in hooks you can
 use either on their own or to build custom hooks.
@@ -977,12 +981,14 @@ For a detailed guide, refer to :ref:`Expose More Than One Realm
 *Parameters* 
 
 - ``realmConfig?: Realm.Configuration``
+
   All properties of :realm-react-sdk:`BaseConfiguration 
   <types/Realm.BaseConfiguration.html>` can be used.
 
 *Returns*
 
 - ``RealmContext``
+
   An object containing a ``RealmProvider`` component, and the ``useRealm``,
   ``useQuery`` and ``useObject`` hooks.
 
