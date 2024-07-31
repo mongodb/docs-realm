@@ -41,3 +41,23 @@ export class ClassWithCounter extends Realm.Object<ClassWithCounter> {
   };
 }
 // :snippet-end:
+
+// :snippet-start: define-an-object-model
+export class QuickstartTask extends Realm.Object<Task> {
+  _id!: BSON.ObjectID;
+  name!: string;
+  status?: string;
+  owner_id?: string;
+
+  static schema: ObjectSchema = {
+    name: "Task",
+    properties: {
+      _id: "objectId",
+      name: "string",
+      status: "string?",
+      owner_id: "string?",
+    },
+    primaryKey: "_id",
+  };
+}
+// :snippet-end:

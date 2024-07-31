@@ -1,16 +1,11 @@
-// :snippet-start: import-realm
 import Realm, { BSON } from "realm";
 import { QuickstartTask } from "./models/models.ts";
-// :snippet-end:
 
 describe("QuickStart Local", () => {
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
-    // :snippet-start: open-a-realm
-
     const realm = await Realm.open({
       schema: [QuickstartTask],
     });
-    // :snippet-end:
 
     expect(realm.isClosed).toBe(false);
 
@@ -27,7 +22,6 @@ describe("QuickStart Local", () => {
       });
     });
 
-    // :snippet-start: find-sort-and-filter-objects
     // Query for specific obect using primary key.
     const specificTask = realm.objectForPrimaryKey(QuickstartTask, testId);
 
@@ -39,7 +33,6 @@ describe("QuickStart Local", () => {
 
     // Sort tasks by name in ascending order.
     const tasksByName = tasks.sorted("name");
-    // :snippet-end:
 
     expect(specificTask).toBeTruthy();
     expect(tasks.length).toBe(1);
@@ -48,11 +41,7 @@ describe("QuickStart Local", () => {
 
     // :snippet-start: watch-a-collection
     // Define the collection notification listener.
-    //@ts-expect-error TYPEBUG: OrderedCollection is incorrectly implemented
-    const listener: Realm.CollectionChangeCallback = (
-      tasks: Realm.OrderedCollection<QuickstartTask>,
-      changes: Realm.CollectionChangeSet
-    ) => {
+    const listener = (tasks, changes) => {
       // :remove-start:
       if (changes.newModifications.length > 0) {
         taskHasBeenModified = true;
@@ -87,11 +76,9 @@ describe("QuickStart Local", () => {
     };
 
     // Observe collection notifications.
-    //@ts-expect-error TYPEBUG: OrderedCollection is incorrectly implemented
     tasks.addListener(listener);
     // :snippet-end:
 
-    // :snippet-start: create-modify-delete
     const allTasks = realm.objects(QuickstartTask);
 
     // Add a couple of Tasks in a single, atomic transaction.
@@ -108,7 +95,7 @@ describe("QuickStart Local", () => {
         status: "Open",
       });
     });
-    // :remove-start:
+
     expect(tasks.length).toBe(3);
     expect(openTasks.length).toBe(3);
     expect(tasksByName[0].name).toBe("go exercise");
@@ -117,27 +104,25 @@ describe("QuickStart Local", () => {
 
     let taskHasBeenModified = false;
     let taskHasBeenDeleted = false;
-    // :remove-end:
 
     const task1 = allTasks.find(
       (task) => task._id.toString() == firstId.toString()
     );
-    expect(task1).toBeTruthy(); // :remove:
+    expect(task1).toBeTruthy();
     const task2 = allTasks.find(
       (task) => task._id.toString() == secondId.toString()
     );
-    expect(task2).toBeTruthy(); // :remove:
+    expect(task2).toBeTruthy();
 
     realm.write(() => {
       // Modify an object.
-      task1!.status = "InProgress";
+      task1.status = "InProgress";
 
       // Delete an object.
-      realm.delete(task2!);
+      realm.delete(task2);
     });
-    // :snippet-end:
 
-    expect(task1!.status).toBe("InProgress");
+    expect(task1.status).toBe("InProgress");
 
     // Wait 1 second until the collection listener has registered the
     // modification and deletion events.
@@ -151,10 +136,8 @@ describe("QuickStart Local", () => {
       realm.deleteAll();
     });
 
-    // :snippet-start: close-a-realm
     // Close the realm.
     realm.close();
-    // :snippet-end:
 
     expect.hasAssertions();
   });
@@ -163,8 +146,6 @@ describe("QuickStart Local", () => {
 describe("Quickstart Sync", () => {
   test("should open a Flexible Sync realm with initial subscriptions", async () => {
     // :snippet-start: open-realm-with-subscriptions
-    // :snippet-start: anonymous-login
-    // :snippet-start: initialize
     // :replace-start: {
     //   "terms": {
     //     "js-flexible-oseso": "<yourAppId>"
@@ -175,17 +156,15 @@ describe("Quickstart Sync", () => {
       id: "js-flexible-oseso",
     });
     // :replace-end:
-    // :snippet-end:
     expect(app).toBeTruthy(); // :remove:
     expect(app.id).toBe("js-flexible-oseso"); // :remove:
 
     // Authenticate an anonymous user.
     const anonymousUser = await app.logIn(Realm.Credentials.anonymous());
-    // :snippet-end:
     expect(app.currentUser).toBeTruthy(); // :remove:
 
     // Create a `SyncConfiguration` object.
-    const config: Realm.Configuration = {
+    const config = {
       schema: [QuickstartTask],
       sync: {
         // Use the previously-authenticated anonymous user.
