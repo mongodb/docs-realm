@@ -7,7 +7,7 @@ CocoaPods 1.10.1 or later.
    .. step:: Update the CocoaPods repositories
 
    On the command line, run ``pod repo update`` to ensure
-   CocoaPods can access the latest available Realm versions.
+   CocoaPods can access the latest available ``Realm`` library versions.
 
    .. step:: Initialize CocoaPods for Your Project
 

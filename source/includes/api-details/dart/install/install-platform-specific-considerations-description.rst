@@ -1,5 +1,8 @@
 - :ref:`macOS: Device Sync and App Sandbox Entitlements <sdks-macos-flutter-app-sandbox-entitlements>`
 
+Apple Privacy Manifest
+~~~~~~~~~~~~~~~~~~~~~~
+
 When building for Apple platforms, Apple requires any apps or third-party SDKs
 that use *required reasons APIs* to provide a privacy manifest. The manifest
 contains details about the app's or SDK's data collection and use practices,

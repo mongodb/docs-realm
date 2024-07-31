@@ -18,7 +18,7 @@ Xcode 15
    :class: index-table
 
    * - Supported OS
-     - Realm
+     - Realm Database
      - Atlas App Services
 
    * - iOS 12.0+

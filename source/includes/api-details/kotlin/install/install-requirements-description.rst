@@ -16,7 +16,7 @@ Additionally, Kotlin Multiplatform (KMP) for mobile projects require the followi
   `Kotlin Multiplatform documentation
   <https://kotlinlang.org/docs/mobile/create-first-app.html>`__.
 
-For more details on setting up your KMP environment, refer to the `official Kotlin
+For more details on setting up your KMP environment, refer to the `official
 Kotlin Multiplatform for mobile
 <https://kotlinlang.org/docs/multiplatform-mobile-setup.html>`__ documentation. To verify your
 environment setup, follow Kotlin's `guide to checking your

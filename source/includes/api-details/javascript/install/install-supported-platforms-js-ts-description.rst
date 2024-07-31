@@ -12,5 +12,5 @@ Unsupported Platforms
   it is not possible to build a browser-based web app with this library. For
   front-end web applications, refer to :ref:`sdks-build-for-web`.
 
-- **Mobile App Development**: For cross-platform mobile app development, use
-  the :ref:`sdks-build-with-react-native`.
+- **Mobile App Development**: For cross-platform mobile app development, refer
+  to :ref:`sdks-build-with-react-native`.

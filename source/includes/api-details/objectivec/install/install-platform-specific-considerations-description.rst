@@ -12,9 +12,9 @@ submitting new apps or app updates to the Apple App Store.
 The Swift and Objective-C libraries provide a privacy manifest to streamline
 this process.
 
-To include these manifests in a build target that uses ``Realm``, you must
-build ``Realm`` as a dynamic framework. For details, refer to the Swift
-Package Manager Installation instructions step
+To include these manifests in a build target that uses the ``Realm`` library,
+you must build ``Realm`` as a dynamic framework. For details, refer to the
+Swift Package Manager Installation instructions step
 **(Optional) Build RealmSwift as a Dynamic Framework**.
 
 For additional details, refer to :ref:`sdks-apple-privacy-manifest`.
