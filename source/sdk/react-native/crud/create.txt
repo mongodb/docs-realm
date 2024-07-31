@@ -19,24 +19,24 @@ object conforms to the schema, then Realm stores the object.
 The example for creating an object uses the following schema:
 
 .. tabs-realm-languages::
-      
+
    .. tab::
       :tabid: typescript
-      
+
       .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.create-object-schema.tsx
          :language: typescript
 
    .. tab::
       :tabid: javascript
-      
+
       .. literalinclude:: /examples/generated/react-native/js/create-test.test.snippet.create-object-schema.jsx
          :language: javascript
 
-To create a new object: 
+To create a new object:
 
 #. Access a realm instance using the ``useRealm()`` hook.
 #. Create ``handleAddPerson()``, which creates a new ``Person`` object based on the TextInput value.
-#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPerson()``. 
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPerson()``.
 
 .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
    :language: typescript
@@ -51,28 +51,28 @@ To learn more about one-to-one relationships, refer to to :ref:`Relationships & 
 Objects <react-native-to-one-relationship>`.
 
 The example for creating an object with a to-one relationship uses the following schema to indicate that a Pet Owner
-may only own one Pet: 
+may only own one Pet:
 
 .. tabs-realm-languages::
-      
+
    .. tab::
       :tabid: typescript
-      
+
       .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.create-to-one-schema.tsx
          :language: typescript
 
    .. tab::
       :tabid: javascript
-      
+
       .. literalinclude:: /examples/generated/react-native/js/create-test.test.snippet.create-to-one-schema.jsx
          :language: javascript
 
-To create an object with a to-one relationship to another object: 
+To create an object with a to-one relationship to another object:
 
 #. Query the realm for a pre-existing Pet object. Assign the result to ``newPet``.
 #. Create a new PetOwner object and pass ``newPet`` to the ``pet`` property.
 #. Wrap your write transaction in a ``handleAddPetOwner()`` function, which creates a new ``PetOwner`` object with an associated ``Pet``.
-#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPetOwner()``. 
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddPetOwner()``.
 
 .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-to-one-object.tsx
    :language: typescript
@@ -90,25 +90,25 @@ The example for creating an object with a to-many relationship uses the followin
 may employ multiple Employees:
 
 .. tabs-realm-languages::
-      
+
    .. tab::
       :tabid: typescript
-      
+
       .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.create-to-many-schema.tsx
          :language: typescript
 
    .. tab::
       :tabid: javascript
-      
+
       .. literalinclude:: /examples/generated/react-native/js/create-test.test.snippet.create-to-many-schema.jsx
          :language: javascript
 
-To create an object with a to-many relationship to another object: 
+To create an object with a to-many relationship to another object:
 
 #. Query the realm for all pre-existing Employee objects using :ref:`useQuery() <react-native-use-query-hook>`.
 #. Create a new Company object and pass the results of your previous query to the ``employees`` property.
 #. Wrap your write transaction in a ``handleAddCompany()`` function, which creates a new ``Company`` object with an associated list of ``Employees``.
-#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddCompany()``. 
+#. Add an `onPress <https://reactnative.dev/docs/handling-touches>`__ event on the submit button that calls ``handleAddCompany()``.
 
 .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-to-many-object.tsx
    :language: typescript
@@ -165,7 +165,7 @@ Address into a new Contact object:
 
 To create an embedded object, assign an instance of the embedded object to a parent object's property.
 
-The following ``CreateContact`` example creates a new ``Contact`` object 
+The following ``CreateContact`` example creates a new ``Contact`` object
 with an embedded ``Address`` object.
 
 The ``CreateContact`` component does the following:
@@ -183,7 +183,7 @@ The ``CreateContact`` component does the following:
 Create an Asymmetric Object
 ---------------------------
 
-An asymmetric object allows you to sync a collection unidirectionally from your decive to your Atlas database, if
+An asymmetric object allows you to sync a collection unidirectionally from your device to your Atlas database, if
 you are using Flexible Sync. To learn more about asymmetric objects, refer to to :ref:`Stream Data to Atlas <react-native-stream-data-to-atlas>`.
 
 The example for creating an asymmetric object uses the following schema that defines a Weather Sensor object for
@@ -194,14 +194,14 @@ sending weather-related data one-way from your device to your Atlas database:
    .. tab::
       :tabid: javascript
 
-      .. literalinclude:: /examples/generated/react-native/js/data-ingest.test.snippet.data-ingest-object.jsx 
+      .. literalinclude:: /examples/generated/react-native/js/data-ingest.test.snippet.data-ingest-object.jsx
          :language: javascript
          :emphasize-lines: 6
 
    .. tab::
       :tabid: typescript
 
-      .. literalinclude::  /examples/generated/react-native/ts/data-ingest.test.snippet.data-ingest-object.tsx 
+      .. literalinclude::  /examples/generated/react-native/ts/data-ingest.test.snippet.data-ingest-object.tsx
          :language: typescript
          :emphasize-lines: 12
 
