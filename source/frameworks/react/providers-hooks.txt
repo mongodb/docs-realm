@@ -35,8 +35,8 @@ creation, user authentication, and data management.
 
 The Providers are available to all frameworks used to build with the JavaScript SDK.
 
-Configure your Providers
-------------------------
+Getting Started with Providers
+------------------------------
 
 Like all React components, you call Providers using html opening and closing tags. Nesting a
 component within in another component's tags creates a parent-child relationship between them,
@@ -98,26 +98,20 @@ Provider has different props you can use for configuration.
          The fallback component to render if there is no authorized user. This can be
          used to render a log in screen or otherwise handle authentication.
 
-You can configure a ``RealmProvider`` in two ways:
+Configure your Providers
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Import ``RealmProvider`` directly from ``@realm/react``
-- Use ``createRealmContext()`` to configure a ``Realm
+This section details how to configure and expose a single realm using a ``RealmProvider``
+imported directly from ``@realm/react``. For information about using ``createRealmContext()``
+to configure a realm or exposing more than one realm, refer to their respective sections below.
 
-This section details how to configure a ``RealmProvider`` imported directly from
-``@realm/react`` to expose a single realm. For information about using
-``createRealmContext()``, refer to :ref:`Create Context with createRealmContext()
-<react-native-realm-context>`. For information about using
-configuring more than one realm, refer to Expose More Than One Realm.
-
-``sentence about when you may need a synced vs non-synced realm``
+If you are developing an app using sync, you will need to use all three Providers. If you are
+developing an app without sync, you only need to use ``RealmProvider``.
 
 .. tabs::
 
    .. tab:: Configure realm with sync
       :tabid: configure-sync-realm
-
-      If you are developing an app using sync, you will need to use ``RealmProvider``,
-      ``AppProvider``, and ``UserProvider``. 
 
       By default, Realm syncs all data from the server before returning anything. If you want
       to sync data in the background, read Configure a Synced Realm While Offline [link]. 
@@ -141,17 +135,20 @@ configuring more than one realm, refer to Expose More Than One Realm.
 
          Add other Configuration object properties as props to ``RealmProvider``.
 
+         You must set up a sync subscription. The example below uses an initial subscription,
+         but you can also set up subscriptions in ``RealmProvider`` child components.
+
+      .. include:: /includes/note-rn-multiple-app-clients-and-app-config-cache.rst
+
       Once your Providers have been configured, nest your app components within the ``RealmProvider``.
 
-      You *must* nest the Providers and app components as described. This ensures each Provider can
-      access the context it needs to function and all your app components can access the App Client, authenticated user object, and opened realm.
+      You *must* nest the Providers and app components as shown below to ensure each component
+      has access to its required context:
 
       [Code example here]
 
    .. tab:: Configure realm without sync
       :tabid: configure-non-sync-realm
-
-      If you are developing an app without sync, you only need to configure your ``RealmProvider``.
 
       To configure a non-synced realm:
       
@@ -938,3 +935,62 @@ use in any wrapped component.
 
       - ``Realm.User``
       An instance of the currently-authenticated Realm user.
+
+Create Context with createRealmContext()
+----------------------------------------
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   createRealmContext(realmConfig?): RealmContext
+
+Most of the time, you will only use ``createRealmContext()`` if you need to
+configure more than one realm. Otherwise, you should import ``RealmProvider``
+and hooks directly from ``@realm/react``.
+
+The ``createRealmContext()`` method creates a :reactjs:`React Context
+<docs/context.html>` object for a realm with a given
+:realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
+``Context`` object contains the following: 
+
+- A :reactjs:`Context Provider <docs/context.html#contextprovider>` (referred to
+  as ``RealmProvider`` elsewhere) component that wraps around child components
+  and provides them with access to hooks.
+- Various prebuilt :reactjs:`Hooks <docs/hooks-intro.html>` that access the
+  configured realm.
+
+For a detailed guide, refer to :ref:`Expose More Than One Realm 
+<react-native-expose-multiple-realms>`.
+
+*Parameters* 
+
+- ``realmConfig?: Realm.Configuration``
+  All properties of :realm-react-sdk:`BaseConfiguration 
+  <types/Realm.BaseConfiguration.html>` can be used.
+
+*Returns*
+
+- ``RealmContext``
+  An object containing a ``RealmProvider`` component, and the ``useRealm``,
+  ``useQuery`` and ``useObject`` hooks.
+
+Configure More Than One Realm
+-----------------------------
+
+When you import ``RealmProvider`` from ``@realm/react``, that Provider has a
+specific context and is associated with a single realm. If you need to configure
+more than one realm, use ``createRealmContext()`` to instantiate a new Provider
+for each realm.
+
+If you import ``useRealm()``, ``useQuery()``, or ``useObject()`` directly from
+``@realm/react``, those hooks use the default realm context. To work with more
+than one realm, you need to destructure a new realm Provider and its associated
+hooks from the result of ``createRealmContext()``. You should namespace providers
+to avoid confusion about which Provider and hooks you're working with.
+
+For a detailed guide, refer to :ref:`Expose More Than One Realm 
+<react-native-expose-multiple-realms>`.
+
+For details about ``createRealmContext()``, refer to "Create Context with
+createRealmContext()" on this page.
