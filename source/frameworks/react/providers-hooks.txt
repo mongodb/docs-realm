@@ -182,7 +182,7 @@ to configure a realm or exposing more than one realm, refer to their respective 
 Working with Providers using Hooks
 ----------------------------------
 
-To use the Provider's context in your app's components, you can use hooks.
+To use the Provider's context in your app's components, you can use :react.dev:`hooks <docs/hooks-intro.html>`.
 
 Hooks act as functions used to access states in your app. React offers built-in hooks you can
 use either on their own or to build custom hooks.
@@ -314,6 +314,28 @@ use in any wrapped component.
       :tabid: app-provider-hooks
 
       .. _react-native-use-auth:
+
+      useApp()
+      ~~~~~~~~
+
+      .. code:: typescript
+         :copyable: false
+         :caption: Type signature
+
+         useApp<FunctionsFactoryType, CustomDataType>(): Realm.App<FunctionsFactoryType, CustomDataType>
+
+      *Example*
+
+      The ``useApp()`` hook provides access to a :js-sdk:`Realm.App <classes/App.html>`
+      instance.
+
+      .. include:: /examples/generated/react-native/v12/use-app.snippet.import-use-app.tsx.rst
+      .. include:: /examples/generated/react-native/v12/use-app.snippet.use-app.tsx.rst
+
+      *Returns*
+
+      - ``Realm.App``
+      An instance of the current ``Realm.App`` created by ``AppProvider``.
 
       useAuth()
       ~~~~~~~~~
@@ -674,28 +696,6 @@ use in any wrapped component.
             - ``args``. An object that contains ``email`` and ``password`` properties.
             - ``restArgs``. Additional arguments that you need to pass to your custom
               reset password function.
-
-      useApp()
-      ~~~~~~~~
-
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
-
-         useApp<FunctionsFactoryType, CustomDataType>(): Realm.App<FunctionsFactoryType, CustomDataType>
-
-      *Example*
-
-      The ``useApp()`` hook provides access to a :js-sdk:`Realm.App <classes/App.html>`
-      instance.
-
-      .. include:: /examples/generated/react-native/v12/use-app.snippet.import-use-app.tsx.rst
-      .. include:: /examples/generated/react-native/v12/use-app.snippet.use-app.tsx.rst
-
-      *Returns*
-
-      - ``Realm.App``
-      An instance of the current ``Realm.App`` created by ``AppProvider``.
 
    .. tab:: UserProvider Hooks
       :tabid: user-provider-hooks
