@@ -1,109 +1,107 @@
-import Realm, { BSON, Counter, ObjectSchema, UpdateMode } from "realm";
+import Realm, { UpdateMode } from "realm";
 
-// :snippet-start:declare-counter-schema
-class myClass extends Realm.Object {
-    _id!;
-    myCounter!;
-    nullableCounter;
+import { ClassWithCounter } from "./models/models.js";
 
-    static schema = {
-        name: "myClass",
-        primaryKey: "_id",
-        properties: {
-            _id: { type: "objectId", default: () => new BSON.ObjectId() },
-            myCounter: { type: "int", presentation: "counter" }, 
-            // or myCounter: "counter"
-            nullableCounter: { type: "int", presentation: "counter", optional: true }, 
-            // or nullableCounter: "counter?" 
-        },
-    }
-};
-// :snippet-end:
-
-const realm = await Realm.open({
-    schema: [myClass],
-});
+// This test exists to ensure that the JS model definition works that same way
+// as the TS model definition. There are no snippets generated from this file,
+// as it's the exact same code as what's in the TS file.
 
 describe("Counter Updates", () => {
-    test("testing normal methods", async () => {
-
-        // :snippet-start:initialize-counter
-        const myObject = realm.write(() => {
-            return realm.create( myClass, { myCounter: 0 } );
-        });
-        // :snippet-end:
-
-        realm.write(() => {
-            // :snippet-start:update-counter
-            myObject.myCounter.increment();
-            myObject.myCounter.value; // 1
-            expect(myObject.myCounter.value).toBe(1) // :remove:
-            myObject.myCounter.increment(2);
-            myObject.myCounter.value; // 3
-            expect(myObject.myCounter.value).toBe(3) // :remove:
-            myObject.myCounter.decrement(2);
-            myObject.myCounter.value; // 1
-            expect(myObject.myCounter.value).toBe(1) // :remove:
-            myObject.myCounter.increment(-2);
-            myObject.myCounter.value; // -1
-            expect(myObject.myCounter.value).toBe(-1) // :remove:
-            myObject.myCounter.set(0); // reset counter value to 0
-            // :snippet-end:
-            expect(myObject.myCounter.value).toBe(0)
-        });
-
-        realm.close()
+  test("testing normal methods", async () => {
+    const realm = await Realm.open({
+      schema: [ClassWithCounter],
     });
 
-    test("testing nullability switching", async () => {
-
-        // :snippet-start:null-updating
-        const myObject = realm.write(() => {
-            return realm.create( myClass, { nullableCounter: 0 } );
-        });
-
-        const myID = myObject._id
-        expect(myObject.nullableCounter?.value).toBe(0) // :remove:
-
-        realm.write(() => {
-            realm.create( myClass, { _id: myID, nullableCounter: null }, UpdateMode.Modified );
-        });
-        expect(myObject.nullableCounter).toBe(null) // :remove:
-
-        realm.write(() => {
-            realm.create( myClass, { _id: myID, nullableCounter: 0 }, UpdateMode.Modified );
-        });
-        // :snippet-end:
-
-        expect(myObject.nullableCounter?.value).toBe(0)
-
+    const myObject = realm.write(() => {
+      return realm.create(ClassWithCounter, { myCounter: 0 });
     });
 
-    test("testing filtering", async () => {
+    realm.write(() => {
+      myObject.myCounter.increment();
+      myObject.myCounter.value; // 1
+      expect(myObject.myCounter.value).toBe(1);
+      myObject.myCounter.increment(2);
+      myObject.myCounter.value; // 3
+      expect(myObject.myCounter.value).toBe(3);
+      myObject.myCounter.decrement(2);
+      myObject.myCounter.value; // 1
+      expect(myObject.myCounter.value).toBe(1);
+      myObject.myCounter.increment(-2);
+      myObject.myCounter.value; // -1
+      expect(myObject.myCounter.value).toBe(-1);
+      myObject.myCounter.set(0); // reset counter value to 0
 
-        // :snippet-start:filtering-with-counter
-        const belowThreshold = realm.write(() => {
-            return realm.create( myClass, { myCounter: 0 } );
-        });
-
-        const atThreshold = realm.write(() => {
-            return realm.create( myClass, { myCounter: 1 } );
-        });
-
-        const aboveThreshold = realm.write(() => {
-            return realm.create( myClass, { myCounter: 2 } );
-        });
-
-        const allObjects = realm.objects('myClass');
-
-        let filteredObjects = allObjects.filtered('counter >= $0', atThreshold.myCounter.value);
-        // :snippet-end:
-
-        let unfilteredExpected = [belowThreshold, atThreshold, aboveThreshold]
-        let filteredExpected = [atThreshold, aboveThreshold]
-
-        expect(JSON.stringify(allObjects)).toMatch(JSON.stringify(unfilteredExpected));
-        expect(JSON.stringify(filteredObjects)).toMatch(JSON.stringify(filteredExpected));
-
+      expect(myObject.myCounter.value).toBe(0);
     });
+  });
+
+  test("testing nullability switching", async () => {
+    const realm = await Realm.open({
+      schema: [ClassWithCounter],
+    });
+
+    const myObject = realm.write(() => {
+      return realm.create(ClassWithCounter, {
+        nullableCounter: 0,
+        myCounter: 1,
+      });
+    });
+
+    const myID = myObject._id;
+    expect(myObject.nullableCounter?.value).toBe(0);
+
+    realm.write(() => {
+      realm.create(
+        ClassWithCounter,
+        { _id: myID, nullableCounter: null },
+        UpdateMode.Modified
+      );
+    });
+    expect(myObject.nullableCounter).toBe(null);
+
+    realm.write(() => {
+      realm.create(
+        ClassWithCounter,
+        { _id: myID, nullableCounter: 0 },
+        UpdateMode.Modified
+      );
+    });
+
+    expect(myObject.nullableCounter?.value).toBe(0);
+  });
+
+  test("testing filtering", async () => {
+    const realm = await Realm.open({
+      schema: [ClassWithCounter],
+    });
+
+    const belowThreshold = realm.write(() => {
+      return realm.create(ClassWithCounter, { myCounter: 0 });
+    });
+
+    const atThreshold = realm.write(() => {
+      return realm.create(ClassWithCounter, { myCounter: 1 });
+    });
+
+    const aboveThreshold = realm.write(() => {
+      return realm.create(ClassWithCounter, { myCounter: 2 });
+    });
+
+    const allObjects = realm.objects("ClassWithCounter");
+
+    let filteredObjects = allObjects.filtered(
+      "myCounter >= $0",
+      atThreshold.myCounter.value
+    );
+
+    let unfilteredExpected = [belowThreshold, atThreshold, aboveThreshold];
+    let filteredExpected = [atThreshold, aboveThreshold];
+
+    expect(JSON.stringify(allObjects)).toMatch(
+      JSON.stringify(unfilteredExpected)
+    );
+    expect(JSON.stringify(filteredObjects)).toMatch(
+      JSON.stringify(filteredExpected)
+    );
+  });
 });

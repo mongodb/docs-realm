@@ -73,14 +73,12 @@ The property is initialized by using either:
     .. tab::
       :tabid: typescript
     
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.declare-counter-schema.ts 
-          :language: typescript
+      .. include:: /examples/generated/node/v12/formatted/models.snippet.declare-counter-schema.ts.rst
     
     .. tab::
       :tabid: javascript
 
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.declare-counter-schema.js
-          :language: javascript
+      .. include:: /examples/generated/node/v12/formatted/models.snippet.declare-counter-schema.js.rst
 
 Create and Update a Counter
 ---------------------------
@@ -89,38 +87,14 @@ To initialize a counter, create your object using the ``realm.create()`` method.
 :ref:`Realm Object Schema <node-define-a-realm-object-schema>` and initial counter value, as
 well as initial values for any other properties the object has.
 
-.. tabs-realm-languages::
-
-    .. tab::
-      :tabid: typescript
-    
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.ts 
-          :language: typescript
-    
-    .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.initialize-counter.js
-          :language: javascript
+.. include:: /examples/generated/node/v12/formatted/data-types.test.snippet.initialize-counter.ts.rst
 
 You can then use the following methods to modify the counter value:
 
 - ``increment()`` and ``decrement()`` update the underlying value by a specified number.
 - ``set()`` reassigns the counter to a specified value.
 
-.. tabs-realm-languages::
-
-    .. tab::
-      :tabid: typescript
-    
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.update-counter.ts 
-          :language: typescript
-    
-    .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.update-counter.js
-          :language: javascript
+.. include:: /examples/generated/node/v12/formatted/data-types.test.snippet.update-counter.ts.rst
 
 .. warning:: Counter Resets
 
@@ -140,21 +114,7 @@ the specified mode:
 - ``UpdateMode.All`` updates all properties provided.
 - ``UpdateMode.Modified`` updates only modified properties.
 
-.. tabs-realm-languages::
-
-    .. tab::
-      :tabid: typescript
-    
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.null-updating.ts 
-          :language: typescript
-          :emphasize-lines: 8, 12
-    
-    .. tab::
-      :tabid: javascript
-
-      .. literalinclude::  /examples/generated/node/data-types.test.snippet.null-updating.js
-          :language: javascript
-          :emphasize-lines: 8, 12
+.. include:: /examples/generated/node/v12/formatted/data-types.test.snippet.null-updating.ts.rst
 
 Query Counter Values
 --------------------
@@ -164,18 +124,6 @@ underlying counter value, you must pass the ``counter.value`` in a :ref:`paramet
 query<rql-parameterized-queries>`. In the following example, we want to find all objects with a
 counter value greater than or equal to that of the specified counter.
 
-.. tabs-realm-languages::
-
-    .. tab::
-      :tabid: typescript
-    
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.filtering-with-counter.ts 
-          :language: typescript
-    
-    .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/data-types.test.snippet.filtering-with-counter.js
-          :language: javascript
+.. include:: /examples/generated/node/v12/formatted/data-types.test.snippet.filtering-with-counter.ts.rst
 
 For more information on querying with the SDK, refer to :ref:`realm-query-language`. 
