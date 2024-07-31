@@ -324,8 +324,8 @@ use in any wrapped component.
 
          useAuth(): UseAuth
 
-      ``useAuth`` has an authentication method for every App Services
-      authentication provider.
+      ``useAuth`` returns ``result`` and an authentication method you specify, as shown below. There is an authentication
+      method for every App Services authentication provider.
 
       result
       ``````
@@ -342,284 +342,164 @@ use in any wrapped component.
       *Enum values* 
 
       - ``state``. Can be "not-started", "pending", "success", "error".
+
       - ``operation``. For a list of all operation names, refer to the
-      :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
+        :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
+
       - ``pending``. Can be ``true`` or ``false``.
+
       - ``success``. Can be ``true`` or ``false``.
+
       - ``error``. Error-based object or undefined.
 
-      logIn(credentials)
-      ``````````````````
+      Authentication Methods
+      ``````````````````````
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+      Below is a list of authentication methods and their Type signatures. An example of using
+      an authentication method is provided for ``logIn(credentials)``. You use the other authentication
+      methods in the same way. 
 
-         logIn(credentials: Realm.Credentials): void
+      .. glossary::
 
-      *Parameters*
+         **logIn(credentials)**
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-      - ``credentials``. A Realm credential supplied by any supported Realm
-      authentication.
+               logIn(credentials: Realm.Credentials): void
 
-      *Example*
+            *Parameters*
 
-      Logs in a user with any authentication mechanism supported by
-      Realm. If called when a user is logged in, the current user switches to
-      the new user. Usually, it's better to use the more specific login
-      methods.
+            - ``credentials``. A Realm credential supplied by any supported Realm
+              authentication.
 
-      .. code:: typescript
+            *Example*
 
-      const {logIn, result} = useAuth();
+            Logs in a user with any authentication mechanism supported by
+            Realm. If called when a user is logged in, the current user switches to
+            the new user. Usually, it's better to use the more specific login
+            methods.
 
-      useEffect(() => logIn(Realm.Credentials.anonymous()), []);
+            .. code:: typescript
 
-      if(result.pending) {
-         return (<LoadingSpinner/>)
-      }
+               const {logIn, result} = useAuth();
 
-      if(result.error) {
-         return (<ErrorComponent/>)
-      }
+               useEffect(() => logIn(Realm.Credentials.anonymous()), []);
 
-      if(result.success) {
-         return (<SuccessComponent/>)
-      }
-      //...
+               if(result.pending) {
+                  return (<LoadingSpinner/>)
+               }
 
-      logInWithAnonymous()
-      ````````````````````
+               if(result.error) {
+                  return (<ErrorComponent/>)
+               }
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+               if(result.success) {
+                  return (<SuccessComponent/>)
+               }
+               //...
 
-         logInWithAnonymous(): void
 
-      *Example*
+         logInWithAnonymous()
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-      Log in with the anonymous authentication provider.
+               logInWithAnonymous(): void
 
-      .. code:: typescript
+         logInWithApiKey(key)
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-         const {logInWithAnonymous, result} = useAuth();
-         const performLogin = () => {
-            logInWithAnonymous();
-         };
+               logInWithApiKey(key: string): void
 
-      logInWithApiKey(key)
-      ````````````````````
+            *Parameters*
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+            - ``key``. A string that is linked to an App Services user.
 
-         logInWithApiKey(key: string): void
+      
+         logInWithEmailPassword(credentials)
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-      *Parameters*
+               logInWithEmailPassword(credentials: {
+               email: string;
+               password: string;
+               }): void
 
-      - ``key``. A string that is linked to an App Services user.
+            *Parameters*
 
-      *Example*
+            - ``credentials``. An object with ``email`` and ``password`` fields.
 
-      Log in with an API key.
+         logInWithJWT(credentials)
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-      .. code:: typescript
+               logInWithJWT(token: string): void
 
-         const {logInWithApiKey, result} = useAuth();
-         const performLogin = () => {
-         const key = getApiKey(); // user defined function
-            logInWithApiKey(key);
-         };
+            *Parameters*
 
-      logInWithEmailPassword(credentials)
-      ```````````````````````````````````
+            - ``credentials``. A string representation of a user's JWT.
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+         logInWithGoogle(credentials)
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-         logInWithEmailPassword(credentials: {
-         email: string;
-         password: string;
-         }): void
+               logInWithGoogle(credentials: {
+                  idToken: string;
+               } | {
+                  authCode: string;
+               }): void;
 
-      *Parameters*
+            *Parameters*
 
-      - ``credentials``. An object with ``email`` and ``password`` fields.
+            - ``credentials``. An object with an ``idToken`` or ``authCode`` field that
+            should contain the string token you get from Google Identity Services.
 
-      *Example*
+         logInWithApple(idToken)
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-      Log in with Email/Password.
+               logInWithApple(idToken: string): void;
 
-      .. code:: typescript
+            *Parameters*
 
-         const {logInWithEmailPassword, result} = useAuth();
-         const [email, setEmail] = useState('');
-         const [password, setPassword] = useState('');
+            - ``idToken``. A string you get from the Apple SDK.
 
-         const performLogin = () => {
-            logInWithEmailPassword({email, password});
-         };
+         logInWithFacebook(accessToken)
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-      logInWithJWT(credentials)
-      `````````````````````````
+               logInWithFacebook(accessToken: string): void;
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+            *Parameters*
 
-         logInWithJWT(token: string): void
+            - ``accessToken``. A string you get from the Facebook SDK.
 
-      *Parameters*
+         logInWithFunction(payload)
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-      - ``credentials``. A string representation of a user's JWT.
+               logInWithFunction<PayloadType extends Record<string, unknown>>(payload: PayloadType): void;
 
-      *Example*
+            *Parameters*
 
-      Log in with a JSON Web Token (JWT).
-            
-      .. code:: typescript
+            - ``payload``. An object that contains user information you want to pass to
+            the App Services function that processes log in requests.
 
-         const {logInWithJWT, result} = useAuth();
+         logOut()
+            .. code:: typescript
+               :copyable: false
+               :caption: Type signature
 
-         const performLogin = () => {
-         const token = authorizeWithCustomerProvider(); // user defined function
-            logInWithJWT(token);
-         };
-
-      logInWithGoogle(credentials)
-      ````````````````````````````
-
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
-
-         logInWithGoogle(credentials: {
-            idToken: string;
-         } | {
-            authCode: string;
-         }): void;
-
-      *Parameters*
-
-      - ``credentials``. An object with an ``idToken`` or ``authCode`` field that
-      should contain the string token you get from Google Identity Services.
-
-      *Example*
-
-      Log in with Google.
-            
-      .. code:: typescript
-
-         const {logInWithGoogle, result} = useAuth();
-
-         const performLogin = () => {
-         const token = getGoogleToken(); // user defined function
-            logInWithGoogle({idToken: token});
-         };
-
-      logInWithApple(idToken)
-      ```````````````````````
-
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
-
-         logInWithApple(idToken: string): void;
-
-      *Parameters*
-
-      - ``idToken``. A string you get from the Apple SDK.
-
-      *Example*
-
-      Log in with Apple.
-            
-      .. code:: typescript
-
-         const {logInWithApple, result} = useAuth();
-
-         const performLogin = () => {
-         const token = getAppleToken(); // user defined function
-            logInWithApple(token);
-         };
-
-      logInWithFacebook(accessToken)
-      ``````````````````````````````
-
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
-
-         logInWithFacebook(accessToken: string): void;
-
-      *Parameters*
-
-      - ``accessToken``. A string you get from the Facebook SDK.
-
-      *Example*
-
-      Log in with Facebook.
-            
-      .. code:: typescript
-
-         const {logInWithFacebook, result} = useAuth();
-
-         const performLogin = () => {
-         const token = getFacebookToken(); // user defined function
-            logInWithFacebook(token);
-         };
-
-      logInWithFunction(payload)
-      ``````````````````````````
-
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
-
-         logInWithFunction<PayloadType extends Record<string, unknown>>(payload: PayloadType): void;
-
-      *Parameters*
-
-      - ``payload``. An object that contains user information you want to pass to
-      the App Services function that processes log in requests.
-
-      *Example*
-
-      Log in with a custom function.
-            
-      .. code:: typescript
-
-         const {logInWithFunction, result} = useAuth();
-
-         const performLogin = () => {
-         const customPayload = getAuthParams(); // user defined arguments
-            logInWithFunction(customPayload);
-         };
-
-      logOut()
-      ````````
-
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
-
-         logOut(): void;
-
-      *Example*
-
-      Logs out the current user.
-            
-      .. code:: typescript
-
-         const {logOut, result} = useEmailPasswordAuth();
-         const performLogout = () => {
-            logOut();
-         }
-
-      .. _react-native-use-emailpassword-auth:
+               logOut(): void;
 
       useEmailPasswordAuth()
       ~~~~~~~~~~~~~~~~~~~~~~
