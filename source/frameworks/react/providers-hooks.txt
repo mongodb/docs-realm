@@ -54,8 +54,16 @@ Provider has different props you can use for configuration.
    .. tab:: RealmProvider Props
       :tabid: realm-provider-props
 
-      All properties of :realm-react-sdk:`BaseConfiguration 
-      <types/Realm.BaseConfiguration.html>` can be passed as props.
+      All properties of :realm-react-sdk:`BaseConfiguration <types/Realm.BaseConfiguration.html>` can be passed as props.
+
+      The most common BaseConfiguration properties used are:
+
+      - ``schema?: (RealmObjectConstructor<AnyRealmObject> | ObjectSchema)[]``
+         Specifies all the object schemas in this Realm. Required when first creating a Realm.
+         If omitted, the schema will be read from the existing Realm file.
+
+      - ``sync?: SyncConfiguration``
+         Configures a synced realm.
 
       ``RealmProvider`` has more props that define its behavior:
 
@@ -77,6 +85,11 @@ Provider has different props you can use for configuration.
 
       All properties of :realm-react-sdk:`AppConfiguration 
       <types/Realm.AppConfiguration.html>` can be passed as props to ``AppProvider``.
+
+      The most common AppConfiguration property used is:
+
+      - ``id: string``
+         Specifies the App ID.
 
    .. tab:: UserProvider Props
       :tabid: user-provider-props
@@ -114,7 +127,6 @@ configuring more than one realm, refer to Expose More Than One Realm.
       #. Import ``RealmProvider``, ``AppProvider``, and ``UserProvider`` from ``@realm/react``.
       
       #. Configure ``AppProvider``.
-
          Pass your App ID string to the ``id`` prop of the ``AppProvider``. 
       
       #. Configure ``UserProvider`` and nest it within ``AppProvider``.
