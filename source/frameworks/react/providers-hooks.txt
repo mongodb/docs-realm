@@ -59,22 +59,27 @@ Provider has different props you can use for configuration.
       The most common BaseConfiguration properties used are:
 
       - ``schema?: (RealmObjectConstructor<AnyRealmObject> | ObjectSchema)[]``
+
         Specifies all the object schemas in this Realm. Required when first creating a Realm.
         If omitted, the schema will be read from the existing Realm file.
 
       - ``sync?: SyncConfiguration``
+
         Configures a synced realm.
 
       ``RealmProvider`` has more props that define its behavior:
 
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
+
         The fallback component to render while the Realm is opening.
 
       - ``closeOnUnmount?: boolean``
+
         Default is ``true``. If set to ``false``, realm will not close when the
         component unmounts.
 
       - ``realmRef?: React.MutableRefObject<Realm | null>``
+
         A ref to the realm instance. This is useful if you need to access the realm
         instance outside of the scope of the realm.
       
@@ -89,12 +94,14 @@ Provider has different props you can use for configuration.
       The most common AppConfiguration property used is:
 
       - ``id: string``
+
         Specifies the App ID.
 
    .. tab:: UserProvider Props
       :tabid: user-provider-props
 
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
+      
         The fallback component to render if there is no authorized user. This can be
         used to render a log in screen or otherwise handle authentication.
 
@@ -145,7 +152,8 @@ to configure a realm or exposing more than one realm, refer to their respective 
       You *must* nest the Providers and app components as shown below to ensure each component
       has access to its required context:
 
-      [Code example here]
+      .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
+        :language: javascript
 
    .. tab:: Configure realm without sync
       :tabid: configure-non-sync-realm
@@ -163,7 +171,8 @@ to configure a realm or exposing more than one realm, refer to their respective 
       Once your ``RealmProvider`` has been configured, nest your app components within it to
       give them access to the realm opened. 
 
-      [code example - unsynced]
+      .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
+        :language: typescript
 
 
 Working with Providers using Hooks
