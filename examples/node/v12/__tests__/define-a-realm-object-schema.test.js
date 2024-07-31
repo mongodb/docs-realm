@@ -47,6 +47,10 @@ describe("Define a Realm Object Schema", () => {
     expect(realm.isClosed).toBe(false); // :remove:
 
     realm.write(() => {
+      realm.deleteAll();
+    });
+
+    realm.write(() => {
       // Use the mapped name when performing CRUD operations.
       realm.create(`Todo_Item`, {
         _id: 12342245,
