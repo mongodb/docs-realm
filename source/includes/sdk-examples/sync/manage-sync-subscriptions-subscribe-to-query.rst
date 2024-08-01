@@ -18,9 +18,8 @@
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.dart
-            :language: dart
-            :copyable: false
+         .. literalinclude:: /examples/generated/flutter/manage_sync_subscription_test.snippet.add-subscription-subscribe-api.dart
+            :language: dart 
 
      - id: java
        content: |

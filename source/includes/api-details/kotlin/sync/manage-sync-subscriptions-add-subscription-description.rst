@@ -6,5 +6,5 @@ To add a subscription:
 #. Call the ``add`` method to append the new subscription to the
    subscription set.
 #. Pass a query with the name of the object type. Optionally, use
-   :ref:`Realm Query Language query <rql>` to query only a subset of the objects.
+   :ref:`Realm Query Language <rql>` to query only a subset of the objects.
    You can also add an optional query name.
