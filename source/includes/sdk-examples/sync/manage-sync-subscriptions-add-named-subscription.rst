@@ -1,7 +1,7 @@
 .. tabs-drivers::
 
    tabs:
-     - id: cpp
+     - id: cpp-sdk
        content: |
 
          .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.subscribe-to-objects-matching-a-query.cpp

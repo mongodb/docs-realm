@@ -1,7 +1,7 @@
 .. tabs-drivers::
 
    tabs:
-     - id: cpp
+     - id: cpp-sdk
        content: |
 
          .. literalinclude:: /examples/MissingPlaceholders/api.cpp
