@@ -4,20 +4,1454 @@
 Manage Sync Subscriptions
 =========================
 
+.. meta::
+   :description: Create, update, and delete query subscriptions to sync data between client devices and Atlas Device Sync.
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for information about managing Flexible Sync subscriptions.
+.. tabs-selector:: drivers
 
-.. _sdks-add-sync-subscriptions:
+Atlas Device Sync uses subscriptions and permissions to determine what
+data to sync with your client application.
 
-Add Sync Subscriptions
-----------------------
+After you :ref:`open a synced database <sdks-configure-and-open-synced-database>`,
+you must add subscriptions before you can read to and write from the database.
 
-.. _sdks-remove-sync-subscriptions:
+You can manually add, update, and remove subscriptions to determine which 
+data syncs to the client device. Or you can subscribe to queries instead of
+or in addition to manually managing subscriptions.
 
-Remove Sync Subscriptions
--------------------------
+.. _sdks-query-subscription-concept:
+
+What are Subscriptions?
+-----------------------
+
+When you configure Device Sync in Atlas, you specify which fields your 
+client application can query. The SDK tracks these queries through a
+**subscription**. When you subscribe to a query, the SDK automatically tracks 
+changes to data matching that subscription, and uploads and downloads relevant
+data.
+
+Each subscription corresponds to a query on **queryable fields** for a 
+specific object type. See :ref:`Queryable Fields <queryable-fields>` 
+in the Device Sync documentation for more information.
+
+For each query subscription, the SDK looks for data matching the query. 
+Data matching the subscription, where the user has the appropriate 
+permissions, syncs between clients and the backend application.
+
+The SDK tracks these queries through a **subscription set**, which is a
+collection of subscriptions. You can add, remove, and update subscriptions in
+the subscription set.
+
+You can construct subscription queries with Realm Query Language (RQL), or one
+of the SDK-idiomatic query engines.
+
+- :ref:`realm-query-language`
+- :ref:`java-filter-data`
+- :ref:`dotnet-linq`
+- :ref:`sdks-filter-data-swift`
+
+.. important:: RQL Support in Sync Subscription Queries
+
+   Device Sync does not support the full range of RQL operators when constructing
+   a subscription query. For details about these limitations, refer to
+   :ref:`sdks-sync-subscription-query-rql-limitations`.
+
+Subscribe to Object Types
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Subscription sets are based on your :ref:`data model object types <sdks-object-models>`. 
+You might have multiple subscriptions if you have many types of SDK objects.
+You can also have multiple subscriptions on the same object type. 
+
+However, note the following if you use :ref:`relationships 
+<sdks-relationships>` or :ref:`asymmetric objects 
+<sdks-asymmetric-objects>` in your app:
+
+Object Links
+````````````
+
+You must add both an object and its linked object to the subscription 
+set to see a linked object.
+
+If your subscription results contain an object with a property that links 
+to an object not contained in the results, the link appears to be nil.
+The SDK does not provide a way to distinguish whether that property's value is 
+legitimately nil, or whether the object it links to exists but is out of
+view of the query subscription.
+
+Asymmetric Objects
+``````````````````
+
+If your app uses :ref:`Data Ingest <sdks-stream-data-to-atlas>` to 
+unidirectionally sync **asymmetric objects**, you *cannot* create subscriptions
+for those objects. If your app contains asymmetric objects and non-asymmetric
+objects in the same database, you can add subscription queries for the
+non-asymmetric objects.
+
+Permissions
+~~~~~~~~~~~
+
+Subscriptions work hand-in-hand with permissions to determine what data to 
+Sync to your client application. The client application only sees the 
+subset of data that matches your subscriptions which *also* matches the
+permissions of the logged-in user. For more information about the intersection
+of subscriptions and user permissions, refer to :ref:`sdks-write-synced-database`.
+
+This page details how to manage client subscriptions for Device Sync. 
+For information about setting up permissions for Device Sync, see:
+:ref:`Device Sync Rules & Permissions <flexible-sync-rules-and-permissions>`.
+
+.. _sdks-manage-subscriptions-in-client:
+
+Manage Subscriptions in Your Client App
+---------------------------------------
+
+In the client application, you add, update, and remove subscriptions to specific 
+queries on the queryable fields. This determines which data syncs to the
+client device.
+
+You can:
+
+- Add subscriptions with an optional subscription name:
+  
+  - You can subscribe to a database query. This automatically adds the
+    subscription to the subscription set. 
+  - Manually add a subscription to the subscription set with the subscribe API.
+    Use this API if you need more control over subscriptions for performance
+    optimization or business-logic reasons. See :ref:`Performance Considerations
+    <sdks-sync-subscription-performance-considerations>` for more information.
+  
+- React to subscription state changes.
+- Update subscriptions with new queries.
+- Remove individual subscriptions or all subscriptions for an object type.
+
+Subscriptions persist across user sessions unless you unsubscribe from them.
+
+Initial Subscriptions
+~~~~~~~~~~~~~~~~~~~~~
+
+Before you can read from or write to a synced database, you must provide at
+least one subscription. Some of the SDK languages provide a dedicated API
+to make it more convenient to set initial subscriptions. For details, refer
+to :ref:`sdks-set-initial-subscriptions`.
+
+.. _sdks-sync-results-subscribe-api:
+
+Subscribe to Queries
+--------------------
+
+To simplify subscription management, the SDK offers APIs to subscribe to and
+unsubscribe from a query directly. These APIs abstract away the details of
+manually adding and removing subscriptions. This API is not available for all
+languages. If your preferred language does not provide this API, refer to
+:ref:`sdks-manually-manage-subscriptions`.
+
+.. important:: The Subscribe to Queries API is in Preview
+
+   The APIs described here are currently in Preview. These APIs may be subject
+   to change in the future.
+
+.. _sdks-subscribe-to-query:
+
+Subscribe to a Query
+~~~~~~~~~~~~~~~~~~~~
+
+With an :ref:`authenticated user <sdks-authenticate-users>` and a
+:ref:`Sync configuration <sdks-configure-and-open-synced-database>`, you can
+open a synced database and query for the objects you want to read and write.
+You can subscribe to the query to create a subscription for objects matching
+the query.
+
+This creates an unnamed subscription and adds it to the subscription set,
+similar to :ref:`manually creating a subscription
+<sdks-sync-subscriptions-add-subscription>`.
+
+Subscriptions persist across user sessions unless you unsubscribe from them.
+
+.. tip::
+
+   If your app works with multiple subscriptions, or if you want to update
+   a subscription, you should add a name when you subscribe to a query. For
+   details, refer to the :ref:`sdks-subscribe-to-query-with-name` section on
+   this page.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-subscribe-to-query-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-subscribe-to-query-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-subscribe-to-query-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-subscribe-to-query-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-subscribe-to-query-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-subscribe-to-query.rst
+
+.. _sdks-subscribe-to-query-with-name:
+
+Subscribe to a Query with a Subscription Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your app works with multiple subscriptions, or if you want to update
+a subscription, you should add a name when you subscribe to a query.
+
+You can later use this name to:
+
+- :ref:`Change a subscription's query <sdks-change-subscription-queries>`
+- :ref:`Remove the query by name <sdks-remove-query-by-name>`
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-subscribe-to-query-with-name-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-subscribe-to-query-with-name-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-subscribe-to-query-with-name-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-subscribe-to-query-with-name-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-subscribe-to-query-with-name-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-subscribe-to-query-with-name.rst
+
+.. _sdks-wait-for-query-subscription-to-sync:
+
+Wait for a Query Subscription to Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you subscribe to a query, that query's results do not contain objects
+until the subscription syncs with Atlas.
+
+If your app creates objects, you may not need to download synced data before
+the user works with it. However, if your app requires data from Atlas before
+the user can work with your app, you can specify that the SDK should wait for
+the subscription query data to sync before proceeding.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-wait-for-query-subscription-to-sync-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-wait-for-query-subscription-to-sync-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-subscribe-to-query-with-name-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-wait-for-query-subscription-to-sync-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/sync/manage-sync-subscriptions-wait-for-query-subscription-to-sync-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-wait-for-query-subscriptions-to-sync.rst
+
+.. _sdks-unsubscribe-from-query:
+
+Unsubscribe from a Query
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can unsubscribe from a query that you have previously subscribed to.
+Unsubscribing removes the suscription from the subscription set, similar to
+:ref:`manually removing a subscription <sdks-remove-query-by-name>`.
+
+A query results set may still contain objects after calling the unsubscribe
+method if the subscription set contains another overlapping subscription.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-unsubscribe-from-query-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-subscribe-to-query-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-unsubscribe-from-query-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-unsubscribe-from-query-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-unsubscribe-from-query-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-unsubscribe-from-query-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-unsubscribe-from-query.rst
+
+The unsubscribe method returns before objects matching the removed subscription
+are deleted from the database. Sync continues in the background based on the
+new set of subscriptions. There is no API to wait for the unsubscribe method
+to sync with the server.
+
+.. _sdks-manually-manage-subscriptions:
+
+Manually Manage Subscriptions
+-----------------------------
+
+As an alternative to the subscribe to a query API, you can manually manage the
+subscriptions in a subscription set.
+
+You can:
+
+- Add subscriptions
+- React to subscription state change
+- Update subscriptions with new queries
+- Remove individual subscriptions or all subscriptions for an object type
+
+Data matching the subscription, where the user has the appropriate 
+permissions, syncs between devices and Atlas.
+
+You can specify an optional string name for your subscription.
+
+When you create a subscription, the SDK looks for data matching a query on a
+specific object type. You can have multiple subscription sets on different 
+object types. You can also have multiple queries on the same object type.
+
+.. _sdks-get-sync-subscriptions:
+
+Access the Subscription Set
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can access the subscription set through the database ``subscriptions``
+property. You perform all operations to add, find, update, remove, or watch
+subscriptions through this property.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-access-subscription-set-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-access-subscription-set-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-access-subscription-set-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-access-subscription-set.rst
+
+.. _sdks-find-sync-subscriptions:
+
+Find a Subscription
+~~~~~~~~~~~~~~~~~~~
+
+You can find a specific subscription in a subscription set. You might want to
+find a specific subscription:
+
+- To avoid adding the same subscription again, which in some languages throws
+  an error.
+- To update the subscription.
+- To remove the subscription.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-find-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-find-subscription-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-find-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-find-subscription-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-find-subscription.rst
+
+.. _sdks-sync-subscriptions-add-subscription:
+
+Add a Subscription
+~~~~~~~~~~~~~~~~~~
+
+Add a subscription in a subscriptions update block. You append each
+new subscription to the client's SDK subscriptions.
+
+Subscriptions persist across user sessions unless you remove them from the
+subscription set.
+
+If your app is adding subscriptions for the first time, some SDK languages
+provide a special parameter to set initial subscriptions or recalculate
+initial subscriptions on app launch. For details, skip to the
+:ref:`set initial subscriptions <sdks-set-initial-subscriptions>` on this page.
+
+.. tip::
+
+   If your app works with multiple subscriptions, or if you want to update
+   a subscription, you should add a name when you subscribe to a query. For
+   details, refer to the :ref:`sdks-add-named-subscription` section on
+   this page.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-add-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-add-subscription-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-add-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-add-subscription-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-subscription.rst
+
+.. Some of the SDKs have special behavior around duplicate subs, but others don't.
+.. Adding this tab set to show/hide relevant details.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+   .. tab::
+      :tabid: csharp
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-duplicate-subscriptions-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-duplicate-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-duplicate-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+   .. tab::
+      :tabid: kotlin
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-duplicate-subscriptions-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+.. _sdks-add-unnamed-subscription:
+
+Add Unnamed Subscription
+````````````````````````
+
+If your app doesn't need to update or remove subscriptions, you can add a
+subscription without a name.
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-unnamed-subscription.rst
+
+.. _sdks-add-named-subscription:
+
+Add a Named Subscription
+````````````````````````
+
+If your app might need to update or remove subscriptions, you should add a
+name when you create a subscription. You can use the name to find and update
+or remove the appropriate subscription later.
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-named-subscription.rst
+
+.. _sdks-add-multiple-subscriptions:
+
+Add Multiple Subscriptions
+``````````````````````````
+
+You can add multiple subscriptions within a subscription update block, 
+including subscriptions of different object types.
+
+Performing query updates requires Atlas to recalculate which documents match the
+query. We strongly advise designing your application to minimize updates. You
+can do this by batching additions and changes to the subscription set.
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-add-multiple-subscriptions.rst
+
+.. _sdks-subscribe-to-all-objects-of-type:
+
+Subscribe to All Objects of a Specific Type
+```````````````````````````````````````````
+
+In addition to syncing all objects that match a given query, you can subscribe 
+to all objects of a specific type. You do this by appending a subscription
+without providing a query.
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-subscribe-to-all-objects-of-type.rst
+
+.. _sdks-set-initial-subscriptions:
+
+Set Initial Subscriptions
+`````````````````````````
+
+You must have at least one subscription before you can read from or write
+to the database. You can bootstrap the database with an initial subscription
+set when you open it. This ensures your app can start working with the database
+successfully right away.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-set-initial-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-set-initial-subscriptions-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-set-initial-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-set-initial-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/sync/manage-sync-subscriptions-set-initial-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-set-initial-subscriptions-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-set-initial-subscriptions-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-set-initial-subscriptions-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-set-initial-subscriptions-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-set-initial-subscriptions.rst
+
+At any point after setting initial subscriptions, you can:
+
+- :ref:`Add more subscriptions to the subscription set. <sdks-sync-subscriptions-add-subscription>`
+- :ref:`Change existing subscriptions in the subscription set. <sdks-change-subscription-queries>`
+- :ref:`Remove subscriptions from the subscription set. <sdks-remove-subscriptions>`
+
+.. _sdks-wait-for-subscription-changes-to-sync:
+
+Wait for Subscription Changes to Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Updating the subscription set on the device is only one component 
+of changing a subscription. After the client app subscription change, the SDK 
+synchronizes with the server to resolve any updates to the data due to 
+the subscription change. This could mean adding or removing data from the 
+synced database.
+
+**Adding New Subscriptions**
+
+If your app creates objects, you may not need to download synced data before
+the user works with it. However, if your app requires data from Atlas before
+the user can work with your app, you can specify that the SDK should wait for
+the subscription changes to sync before proceeding.
+
+**Updating Existing Subscriptions**
+
+When you update an existing subscription, this could mean adding new data or
+removing data from the synced database. If this involves things like changing
+user permissions to add or remove data, or if your app otherwise makes these
+changes visible to users in the UI, you may want to wait for subscription
+changes to update before proceeding with app execution. Otherwise, the changes
+may appear to the user as unexpected changes to the data set later during
+"normal" app execution.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-wait-for-subscription-changes-to-sync.rst
+
+.. _sdks-subscription-set-state:
+
+Check Subscription Set State
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can check the state of the subscription set through to find out the current
+status of the subscription set. This provides information about whether
+Atlas has registered the subscription that is on the device. It does not
+make any guarantees about the state of the documents matching the subscription.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-subscription-set-state-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-subscription-set-state-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-subscription-set-state-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-subscription-set-state-js-ts-description.rst
+
+.. note:: Subscription State "Complete"
+
+   The subscription set state "complete" does not mean "sync is done" or "all
+   documents have been synced". "Complete" means the following two things have
+   happened:
+   
+   - The subscription has become the active subscription set that is currently
+     being synchronized with the server.
+   - The documents that matched the subscription *at the time the subscription
+     was sent to the server* are now on the device. Note that this does
+     not necessarily include all documents that currently match the
+     subscription.
+  
+   The SDK does not provide a way to check whether all documents that
+   match a subscription have synced to the device.
+
+.. _sdks-change-subscription-queries:
+
+Change Subscription Queries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can change the queries in a subscription set. You might want to do this
+when business logic dictates syncing a different subset of objects, such as
+when a user unlocks new features in an app.
+
+- Change a named query
+- Change an unnamed query
+
+When you change a query, consider how it interacts with any other queries that
+may be in the subscription set. You may need to
+:ref:`add <sdks-sync-subscriptions-add-subscription>` or
+:ref:`remove <sdks-remove-subscriptions>` other subscriptions, such as:
+
+- Adding a new subscription when a change to a query introduces new linked objects
+- Removing a subscription when an overlapping query inadvertently exposes
+  objects you don't want to sync
+
+.. _sdks-change-named-subscription:
+
+Change a Named Subscription
+```````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-change-named-subscription-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-change-named-subscription-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-change-named-subscription.rst
+
+.. _sdks-change-unnamed-subscription:
+
+Change an Unnamed Subscription
+``````````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-change-unnamed-subscription-js-ts-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-change-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-change-unnamed-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-change-unnamed-subscription-js-ts-not-supported.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-change-unnamed-subscription.rst
+
+.. _sdks-remove-subscriptions:
+
+Remove Subscriptions
+~~~~~~~~~~~~~~~~~~~~
+
+To remove subscriptions, you can:
+
+- Remove a specific subscription
+
+  - Remove a named subscription
+  - Remove an unnamed subscription
+  - Remove a subscription by reference
+
+- Remove all subscriptions for a specific object type
+- Remove all unnamed subscriptions
+- Remove all subscriptions
+
+When you remove a subscription query, the SDK asynchronously removes the
+synced data that matched the query from the client device.
+
+.. _sdks-remove-query-by-name:
+
+Remove a Named Subscription
+````````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-change-named-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/sync/manage-sync-subscriptions-remove-named-subscription-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-named-subscription.rst
+
+.. _sdks-remove-unnamed-subscription:
+
+Remove an Unnamed Subscription
+``````````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-unnamed-subscription-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/sync/manage-sync-subscriptions-remove-unnamed-subscription-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-unnamed-subscription.rst
+
+.. _sdks-remove-subscription-by-reference:
+
+Remove a Subscription by Reference
+``````````````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-subscription-by-reference-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-subscription-by-reference-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-subscription-by-reference-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-subscription-by-reference-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-subscription-by-reference.rst
+
+.. _sdks-remove-all-subscriptions-for-object-type:
+
+Remove All Subscriptions to an Object Type
+``````````````````````````````````````````
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-all-subscriptions-to-object-type.rst
+
+.. _sdks-remove-all-unnamed-subscriptions:
+
+Remove All Unnamed Subscriptions
+`````````````````````````````````
+
+You may want to remove unnamed subscriptions that are transient or dynamically 
+generated, but leave named subscriptions in place.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-all-unnamed-subscriptions.rst
+
+.. _sdks-remove-all-subscriptions:
+
+Remove All Subscriptions
+````````````````````````
+
+.. important::
+
+   If you remove all subscriptions and do not add a new one, you'll 
+   get an error. A database opened with a flexible sync configuration needs
+   at least one subscription to sync with the server.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-subscriptions-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/manage-sync-subscriptions-remove-all-subscriptions-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/sync/manage-sync-subscriptions-remove-all-subscriptions-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/sync/manage-sync-subscriptions-remove-all-subscriptions.rst
+
+.. _sdks-sync-subscription-performance-considerations:
+
+Performance Considerations
+--------------------------
+
+API Efficiency
+~~~~~~~~~~~~~~
+
+Adding several subscriptions with the ``.subscribe()`` and ``.unsubscribe()``
+APIs described in the :ref:`sdks-sync-results-subscribe-api` section
+is less efficient than performing batch updates when you manually 
+manage subscriptions. On every call to ``.subscribe()``, the SDK opens a new
+update block. For better performance adding multiple 
+subscriptions, use the ``subscriptions.update`` API described in the 
+:ref:`sdks-manually-manage-subscriptions` section.
+
+Group Updates for Improved Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/sync-memory-performance.rst
+
+.. _sdks-sync-subscription-query-rql-limitations:
+
+Sync RQL Requirements and Limitations
+-------------------------------------
+
+.. include:: /includes/flex-sync-limitations.rst
