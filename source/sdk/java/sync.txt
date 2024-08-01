@@ -54,7 +54,7 @@ the client application.
 
 You can form queries using :ref:`Realm Query Language <realm-query-language>`.
 
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+.. include:: /includes/warning-device-sync-query-size-limit.rst
 
 Subscription sets are based on a specific type of :ref:`Realm object <java-object-schema>`. 
 You might have multiple subscriptions if you have many types of Realm objects.
@@ -62,6 +62,8 @@ You might have multiple subscriptions if you have many types of Realm objects.
 To use Flexible Sync in your client application, open a synced realm 
 with a flexible sync configuration. Then, manage subscriptions
 to determine which documents to sync.
+
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
 .. _java-sync-data:
 

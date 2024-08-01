@@ -54,7 +54,7 @@ the client application.
 
 You can form queries using :ref:`Realm Query Language <realm-query-language>`.
 
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+.. include:: /includes/warning-device-sync-query-size-limit.rst
 
 Subscription sets are based on a specific type of :ref:`Realm object 
 <cpp-object-model>`. You might have multiple subscriptions if you 
@@ -64,6 +64,8 @@ To use Device Sync in your client application, open a synced realm
 with a Flexible Sync configuration. Then, manage subscriptions
 to determine which documents to sync. For more information, refer to
 :ref:`cpp-manage-flexible-sync-subscriptions`.
+
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
 Group Updates for Improved Performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
