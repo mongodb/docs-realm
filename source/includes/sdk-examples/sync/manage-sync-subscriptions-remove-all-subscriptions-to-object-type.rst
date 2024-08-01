@@ -4,10 +4,9 @@
      - id: cpp
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/flexible-sync.snippet.remove-subscription-by-name.cpp
+         .. literalinclude:: /examples/MissingPlaceholders/api.cpp
             :language: cpp
-
-         .. include:: /includes/api-details/cpp/sync/manage-sync-subscriptions-refresh-realm-description.rst
+            :copyable: false
 
      - id: csharp
        content: |
