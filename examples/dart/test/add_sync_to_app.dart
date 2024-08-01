@@ -16,11 +16,11 @@ class _Car {
 }
 
 void main() {
-  const APP_ID = "flutter-flexible-luccm";
+  const appId = "flutter-flexible-luccm";
 
   test("Add Sync to App", () async {
     // :snippet-start: connect-to-app
-    final app = App(AppConfiguration(APP_ID));
+    final app = App(AppConfiguration(appId));
     // :snippet-end:
     // :snippet-start: log-in
     final user = await app.logIn(Credentials.anonymous());

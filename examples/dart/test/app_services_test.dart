@@ -6,30 +6,30 @@ import "dart:convert";
 import "dart:isolate";
 
 void main() {
-  const APP_ID = "example-testers-kvjdy";
-  const EDGE_SERVER_APP_ID = "sync-edge-server-cskhoow";
+  const appId = "example-testers-kvjdy";
+  const edgeServerAppId = "sync-edge-server-cskhoow";
   const baseUrl = 'http://localhost';
   const newBaseUrl = 'https://services.cloud.mongodb.com';
 
   group('App Services client - ', () {
     test('Access App client', () {
       // :snippet-start: access-app-client
-      final appConfig = AppConfiguration(APP_ID);
+      final appConfig = AppConfiguration(appId);
       final app = App(appConfig);
       //:snippet-end:
       expect(app, isNotNull);
-      expect(app.id, APP_ID);
+      expect(app.id, appId);
     });
     test('App client advanced configuration', () {
       // :snippet-start: app-client-advanced-configuration
-      final appConfig = AppConfiguration(APP_ID,
+      final appConfig = AppConfiguration(appId,
           defaultRequestTimeout: const Duration(seconds: 120)
           // ... see reference docs for all available configuration options
           );
       //:snippet-end:
       final app = App(appConfig);
       expect(app, isNotNull);
-      expect(app.id, APP_ID);
+      expect(app.id, appId);
       expect(appConfig.defaultRequestTimeout, Duration(seconds: 120));
     });
 
@@ -37,7 +37,7 @@ void main() {
       // :snippet-start: custom-base-url
       // Specify a baseUrl to connect to a server other than the default
       final appConfig =
-          AppConfiguration(APP_ID, baseUrl: Uri.parse('https://example.com'));
+          AppConfiguration(appId, baseUrl: Uri.parse('https://example.com'));
 
       var app = App(appConfig);
       // :snippet-end:
@@ -48,7 +48,7 @@ void main() {
       // :snippet-start: change-base-url
       // Specify a custom baseUrl to connect to.
       // In this case, an Edge Server instance running on the device.
-      final appConfig = AppConfiguration(EDGE_SERVER_APP_ID,
+      final appConfig = AppConfiguration(edgeServerAppId,
           baseUrl: Uri.parse('http://localhost:80'));
 
       var app = App(appConfig);
@@ -73,9 +73,8 @@ void main() {
       // :snippet-start: access-app-by-id
       // Create an App instance once on main isolate,
       // ideally as soon as the app starts
-      final appConfig = AppConfiguration(APP_ID);
+      final appConfig = AppConfiguration(appId);
       final app = App(appConfig);
-      final appId = app.id;
       final receivePort = ReceivePort();
       // :remove-start:
       expect(app, isNotNull);

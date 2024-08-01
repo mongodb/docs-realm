@@ -26,8 +26,8 @@ class _Car {
 
 void main() {
   group('Open Flexible Sync Realm', () {
-    const APP_ID = "flutter-flexible-luccm";
-    final appConfig = AppConfiguration(APP_ID);
+    const appId = "flutter-flexible-luccm";
+    final appConfig = AppConfiguration(appId);
     final app = App(appConfig);
     test("Open Flexible Sync Realm", () async {
       final credentials = Credentials.anonymous();
@@ -71,31 +71,24 @@ void main() {
     test('Track download progress', () async {
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
-      late int transferred;
-      late int transferable;
+      late double progress = -1;
       final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
       // :snippet-start: async-open-track-progress
-      final realm =
-          await Realm.open(config, onProgressCallback: (syncProgress) {
-        if (syncProgress.transferableBytes == syncProgress.transferredBytes) {
-          print('All bytes transferred!');
-          // :remove-start:
-          transferred = syncProgress.transferredBytes;
-          transferable = syncProgress.transferableBytes;
-          // :remove-end:
-        }
+      final realm = await Realm.open(config, onProgressCallback: (syncProgress) {
+            progress = syncProgress.progressEstimate;
+            // Percent complete == progress * 100
+          if (syncProgress.progressEstimate == 1.0) {
+             //transfer is complete
+          }
       });
       // :snippet-end:
       expect(realm.isClosed, false);
-      expect(transferred, transferable);
-      expect(transferred, greaterThanOrEqualTo(0));
+      expect(progress, greaterThanOrEqualTo(0));
       cleanUpRealm(realm, app);
     });
     test('Cancel download in progress', () async {
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
-      late int transferred;
-      late int transferable;
       final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
       // :snippet-start: async-open-cancel
       final token = CancellationToken();
@@ -132,7 +125,7 @@ void main() {
       final config = Configuration.flexibleSync(currentUser, [Car.schema],
           syncErrorHandler: (SyncError error) {
         handlerCalled = true; // :remove:
-        print("Error message" + error.message.toString());
+        print("Error message${error.message}");
       });
 
       final realm = Realm(config);
@@ -176,7 +169,7 @@ void main() {
         testCompensatingWriteError = compensatingWriteError; // :remove:
         final writeReason = compensatingWriteError.compensatingWrites!.first;
 
-        print("Error message: " + writeReason.reason);
+        print("Error message: ${writeReason.reason}");
         // ... handle compensating write error as needed.
       }
 

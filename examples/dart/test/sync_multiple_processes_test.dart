@@ -1,5 +1,4 @@
 // @Skip('hmm')
-import 'dart:io';
 
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
