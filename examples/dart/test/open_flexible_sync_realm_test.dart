@@ -9,7 +9,6 @@ class _Tricycle {
   @PrimaryKey()
   @MapTo('_id')
   late int id;
-
   late String name;
 }
 
@@ -78,12 +77,12 @@ void main() {
             progress = syncProgress.progressEstimate;
             // Percent complete == progress * 100
           if (syncProgress.progressEstimate == 1.0) {
-             //transfer is complete
+             // Transfer is complete
           }
       });
       // :snippet-end:
       expect(realm.isClosed, false);
-      expect(progress, greaterThanOrEqualTo(-1));
+      expect(progress, greaterThanOrEqualTo(0));
       cleanUpRealm(realm, app);
     });
     test('Cancel download in progress', () async {
