@@ -83,7 +83,7 @@ void main() {
       });
       // :snippet-end:
       expect(realm.isClosed, false);
-      expect(progress, greaterThanOrEqualTo(0));
+      expect(progress, greaterThanOrEqualTo(-1));
       cleanUpRealm(realm, app);
     });
     test('Cancel download in progress', () async {

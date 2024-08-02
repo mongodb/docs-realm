@@ -44,7 +44,7 @@ void main() {
       realmWithSync.subscriptions.update((mutableSubscriptions) {
         mutableSubscriptions.add(realmWithSync.all<Tricycle>());
       });
-      realmWithSync.write(() => realmWithSync.add(Tricycle(1, 'MyTri')));
+      realmWithSync.write(() => realmWithSync.add(Tricycle(10, 'MyTri')));
       await realmWithSync.subscriptions.waitForSynchronization();
       realmWithSync.close();
       // :snippet-start: secondary-process
@@ -56,8 +56,9 @@ void main() {
           Configuration.disconnectedSync(schema, path: sameRealmPath);
       final realmWithDisconnectedSync = Realm(disconnectedSyncConfig);
       // :snippet-end:
-      final myTri = realmWithDisconnectedSync.find<Tricycle>(1);
+      final myTri = realmWithDisconnectedSync.find<Tricycle>(10);
       expect(myTri, isNotNull);
+      realmWithSync.close();
       realmWithDisconnectedSync.close();
       // since both realm connections are only for 1 realm, this deletes both
       await cleanUpRealm(realmWithSync, app);
