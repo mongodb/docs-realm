@@ -19,7 +19,7 @@ Providers & Hooks
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 The ``@realm/react`` library offers custom React components that eliminate the boilerplate needed to
@@ -198,534 +198,752 @@ There are two important rules to consider when working with hooks:
 The ``@realm/react`` library has custom  Hooks for each provider you can import and
 use in any wrapped component.
 
-.. tabs::
+RealmProvider Hooks
+~~~~~~~~~~~~~~~~~~~
 
-   .. tab:: RealmProvider Hooks
-      :tabid: realm-provider-hooks
+useRealm()
+``````````
 
-      .. _react-native-use-realm-hook:
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      useRealm()
-      ~~~~~~~~~~
+   useRealm(): Realm 
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+The ``useRealm()`` hook returns an opened realm instance. The realm instance
+gives you access to realm methods and properties. For example, you can call
+``realm.write()`` to add a realm object to your realm.
 
-         useRealm(): Realm 
+To learn more about modifying Realm data, refer to :ref:`Write Transactions
+<react-native-write-transactions>`.
 
-      The ``useRealm()`` hook returns an opened realm instance. The realm instance
-      gives you access to realm methods and properties. For example, you can call
-      ``realm.write()`` to add a realm object to your realm.
+.. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
+   :language: typescript
+   :emphasize-lines: 3, 6-8, 15
 
-      To learn more about modifying Realm data, refer to :ref:`Write Transactions
-      <react-native-write-transactions>`.
+*Returns*
 
-      .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
+- ``Realm``
+Returns a realm instance. This is the realm created by the hook's parent,
+``RealmProvider``.
+
+.. _react-native-use-object-hook:
+
+useObject()
+```````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   useObject<T>(type, primaryKey): T & Realm.Object<T> | null
+
+The ``useObject()`` hook returns a Realm object for a given
+:ref:`primary key <react-native-primary-keys>`. You can pass an object class
+or the class name as a string and the primary key.
+
+The ``useObject()`` method returns null if the object doesn't exist or you have
+deleted it. The hook will automatically subscribe to updates and rerender the
+component using the hook on any change to the object.
+
+.. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-object-by-id.tsx
          :language: typescript
-         :emphasize-lines: 3, 6-8, 15
 
-      *Returns*
+*Parameters* 
 
-      - ``Realm``
-      Returns a realm instance. This is the realm created by the hook's parent,
-      ``RealmProvider``.
+- ``type: string``
+A string that matches your object model's class name or a reference to a
+class that extends :js-sdk:`Realm.Object <classes/Object.html>`.
+- ``primaryKey: T[keyof T]``
+The primary key of the desired object.
 
-      .. _react-native-use-object-hook:
+*Returns*
 
-      useObject()
-      ~~~~~~~~~~~
+- ``Realm.Object | null``
+A Realm Object or ``null`` if no object is found.
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+.. _react-native-use-query-hook:
 
-         useObject<T>(type, primaryKey): T & Realm.Object<T> | null
+useQuery()
+``````````
 
-      The ``useObject()`` hook returns a Realm object for a given
-      :ref:`primary key <react-native-primary-keys>`. You can pass an object class
-      or the class name as a string and the primary key.
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      The ``useObject()`` method returns null if the object doesn't exist or you have
-      deleted it. The hook will automatically subscribe to updates and rerender the
-      component using the hook on any change to the object.
+   useQuery<T>(type, query?, deps?): Realm.Results<T & Realm.Object<T>>
 
-      .. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-object-by-id.tsx
-               :language: typescript
+The ``useQuery()`` hook returns a collection of realm objects of a given type.
+These are the results of your query. A query can be an object class or the class
+name as a string.
 
-      *Parameters* 
+The ``useQuery()`` method subscribes to updates to any objects in the collection
+and rerenders the component using it on any change to the results.
 
-      - ``type: string``
-      A string that matches your object model's class name or a reference to a
-      class that extends :js-sdk:`Realm.Object <classes/Object.html>`.
-      - ``primaryKey: T[keyof T]``
-      The primary key of the desired object.
+You can use ``.filtered()`` and ``.sorted()`` to filter and sort your query
+results. You should do this in the ``query`` argument of ``useQuery`` so that
+they only run when there are changes in the dependency array. For more examples,
+refer to the :ref:`CRUD - Read <react-native-read-objects>` docs.
 
-      *Returns*
+.. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-filter-data.tsx
+   :language: typescript
+   :emphasize-lines: 3-5, 8-14
 
-      - ``Realm.Object | null``
-      A Realm Object or ``null`` if no object is found.
+*Parameters* 
 
-      .. _react-native-use-query-hook:
+- ``type: string``
+A string that matches your object model's class name or a reference to a
+class that extends :js-sdk:`Realm.Object <classes/Object.html>`.
+- ``query?: QueryCallback<T>``
+A query function that can filter and sort query results. Builds on
+``useCallback`` to memoize the query function.
+- ``deps?: DependencyList``
+A list of query function dependencies that's used to memoize
+the query function.
 
-      useQuery()
-      ~~~~~~~~~~
+*Returns*
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+- ``Realm.Results<T>``
+A Realm Object or ``null`` if no object is found.
 
-         useQuery<T>(type, query?, deps?): Realm.Results<T & Realm.Object<T>>
+.. _react-native-realm-context:
 
-      The ``useQuery()`` hook returns a collection of realm objects of a given type.
-      These are the results of your query. A query can be an object class or the class
-      name as a string.
+UserProvider Hooks
+~~~~~~~~~~~~~~~~~~
 
-      The ``useQuery()`` method subscribes to updates to any objects in the collection
-      and rerenders the component using it on any change to the results.
+useUser()
+`````````
 
-      You can use ``.filtered()`` and ``.sorted()`` to filter and sort your query
-      results. You should do this in the ``query`` argument of ``useQuery`` so that
-      they only run when there are changes in the dependency array. For more examples,
-      refer to the :ref:`CRUD - Read <react-native-read-objects>` docs.
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      .. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-filter-data.tsx
-         :language: typescript
-         :emphasize-lines: 3-5, 8-14
+   useUser<FunctionsFactoryType, CustomDataType, UserProfileDataType>(): Realm.User<FunctionsFactoryType, CustomDataType, UserProfileDataType>
 
-      *Parameters* 
+The ``useUser()`` hook provides access to the logged-in user. For example,
+you can use ``useUser()`` to log the current user out.
 
-      - ``type: string``
-      A string that matches your object model's class name or a reference to a
-      class that extends :js-sdk:`Realm.Object <classes/Object.html>`.
-      - ``query?: QueryCallback<T>``
-      A query function that can filter and sort query results. Builds on
-      ``useCallback`` to memoize the query function.
-      - ``deps?: DependencyList``
-      A list of query function dependencies that's used to memoize
-      the query function.
+When changes to the user object happen, this hook will rerender its parent
+component. For example, if you call ``user.refreshCustomData`` to get updated
+custom user data, the ``useUser()`` parent component will rerender.
 
-      *Returns*
+.. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.log-user-out.tsx.rst
 
-      - ``Realm.Results<T>``
-      A Realm Object or ``null`` if no object is found.
+*Returns*
 
-      .. _react-native-realm-context:
+- ``Realm.User``
+An instance of the currently-authenticated Realm user.
 
-   .. tab:: AppProvider Hooks
-      :tabid: app-provider-hooks
+AppProvider Hooks
+~~~~~~~~~~~~~~~~~
 
-      .. _react-native-use-auth:
+useApp()
+````````
 
-      useApp()
-      ~~~~~~~~
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+   useApp<FunctionsFactoryType, CustomDataType>(): Realm.App<FunctionsFactoryType, CustomDataType>
 
-         useApp<FunctionsFactoryType, CustomDataType>(): Realm.App<FunctionsFactoryType, CustomDataType>
+*Example*
 
-      *Example*
+The ``useApp()`` hook provides access to a :js-sdk:`Realm.App <classes/App.html>`
+instance.
 
-      The ``useApp()`` hook provides access to a :js-sdk:`Realm.App <classes/App.html>`
-      instance.
+.. include:: /examples/generated/react-native/v12/use-app.snippet.import-use-app.tsx.rst
+.. include:: /examples/generated/react-native/v12/use-app.snippet.use-app.tsx.rst
 
-      .. include:: /examples/generated/react-native/v12/use-app.snippet.import-use-app.tsx.rst
-      .. include:: /examples/generated/react-native/v12/use-app.snippet.use-app.tsx.rst
+*Returns*
 
-      *Returns*
+- ``Realm.App``
+An instance of the current ``Realm.App`` created by ``AppProvider``.
 
-      - ``Realm.App``
-      An instance of the current ``Realm.App`` created by ``AppProvider``.
+useAuth()
+~~~~~~~~~
 
-      useAuth()
-      ~~~~~~~~~
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+   useAuth(): UseAuth
 
-         useAuth(): UseAuth
+``useAuth`` has an authentication method for every App Services
+authentication provider.
 
-      ``useAuth`` returns ``result`` and an authentication method you specify, as shown below. There is an authentication
-      method for every App Services authentication provider.
+result
+``````
 
-      result
-      ``````
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+   result: AuthResult
 
-         result: AuthResult
+Result of authentication hook operation. For example, ``result.operation`` gives
+you the name of the current operation.
 
-      Result of authentication hook operation. For example, ``result.operation`` gives
-      you the name of the current operation.
+*Enum values* 
 
-      *Enum values* 
+- ``state``. Can be "not-started", "pending", "success", "error".
+- ``operation``. For a list of all operation names, refer to the
+  :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
+- ``pending``. Can be ``true`` or ``false``.
+- ``success``. Can be ``true`` or ``false``.
+- ``error``. Error-based object or undefined.
 
-      - ``state``. Can be "not-started", "pending", "success", "error".
+logIn(credentials)
+``````````````````
 
-      - ``operation``. For a list of all operation names, refer to the
-        :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      - ``pending``. Can be ``true`` or ``false``.
+   logIn(credentials: Realm.Credentials): void
 
-      - ``success``. Can be ``true`` or ``false``.
+*Parameters*
 
-      - ``error``. Error-based object or undefined.
+- ``credentials``. A Realm credential supplied by any supported Realm
+  authentication.
 
-      Authentication Methods
-      ``````````````````````
+*Example*
 
-      Below is a list of authentication methods and their Type signatures. An example of using
-      an authentication method is provided for ``logIn(credentials)``. You use the other authentication
-      methods in the same way. 
+Logs in a user with any authentication mechanism supported by
+Realm. If called when a user is logged in, the current user switches to
+the new user. Usually, it's better to use the more specific login
+methods.
 
-      .. glossary::
+.. code:: typescript
 
-         logIn(credentials)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+  const {logIn, result} = useAuth();
 
-               logIn(credentials: Realm.Credentials): void
+  useEffect(() => logIn(Realm.Credentials.anonymous()), []);
 
-            *Parameters*
+  if(result.pending) {
+    return (<LoadingSpinner/>)
+  }
 
-            - ``credentials``. A Realm credential supplied by any supported Realm
-              authentication.
+  if(result.error) {
+    return (<ErrorComponent/>)
+  }
 
-            *Example*
+  if(result.success) {
+    return (<SuccessComponent/>)
+  }
+  //...
 
-            Logs in a user with any authentication mechanism supported by
-            Realm. If called when a user is logged in, the current user switches to
-            the new user. Usually, it's better to use the more specific login
-            methods.
+logInWithAnonymous()
+````````````````````
 
-            .. code:: typescript
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-               const {logIn, result} = useAuth();
+   logInWithAnonymous(): void
 
-               useEffect(() => logIn(Realm.Credentials.anonymous()), []);
+*Example*
 
-               if(result.pending) {
-                  return (<LoadingSpinner/>)
-               }
+Log in with the anonymous authentication provider.
 
-               if(result.error) {
-                  return (<ErrorComponent/>)
-               }
+.. code:: typescript
 
-               if(result.success) {
-                  return (<SuccessComponent/>)
-               }
-               //...
+   const {logInWithAnonymous, result} = useAuth();
+   const performLogin = () => {
+      logInWithAnonymous();
+   };
 
+logInWithApiKey(key)
+````````````````````
 
-         logInWithAnonymous()
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-               logInWithAnonymous(): void
+   logInWithApiKey(key: string): void
 
-         logInWithApiKey(key)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+*Parameters*
 
-               logInWithApiKey(key: string): void
+- ``key``. A string that is linked to an App Services user.
 
-            *Parameters*
+*Example*
 
-            - ``key``. A string that is linked to an App Services user.
+Log in with an API key.
 
-      
-         logInWithEmailPassword(credentials)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+.. code:: typescript
 
-               logInWithEmailPassword(credentials: {
-               email: string;
-               password: string;
-               }): void
+   const {logInWithApiKey, result} = useAuth();
+   const performLogin = () => {
+   const key = getApiKey(); // user defined function
+      logInWithApiKey(key);
+   };
 
-            *Parameters*
+logInWithEmailPassword(credentials)
+```````````````````````````````````
 
-            - ``credentials``. An object with ``email`` and ``password`` fields.
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-         logInWithJWT(credentials)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+   logInWithEmailPassword(credentials: {
+     email: string;
+     password: string;
+   }): void
 
-               logInWithJWT(token: string): void
+*Parameters*
 
-            *Parameters*
+- ``credentials``. An object with ``email`` and ``password`` fields.
 
-            - ``credentials``. A string representation of a user's JWT.
+*Example*
 
-         logInWithGoogle(credentials)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+Log in with Email/Password.
 
-               logInWithGoogle(credentials: {
-                  idToken: string;
-               } | {
-                  authCode: string;
-               }): void;
+.. code:: typescript
 
-            *Parameters*
+   const {logInWithEmailPassword, result} = useAuth();
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
 
-            - ``credentials``. An object with an ``idToken`` or ``authCode`` field that
-            should contain the string token you get from Google Identity Services.
+   const performLogin = () => {
+      logInWithEmailPassword({email, password});
+   };
 
-         logInWithApple(idToken)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+logInWithJWT(credentials)
+`````````````````````````
 
-               logInWithApple(idToken: string): void;
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-            *Parameters*
+   logInWithJWT(token: string): void
 
-            - ``idToken``. A string you get from the Apple SDK.
+*Parameters*
 
-         logInWithFacebook(accessToken)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+- ``credentials``. A string representation of a user's JWT.
 
-               logInWithFacebook(accessToken: string): void;
+*Example*
 
-            *Parameters*
+Log in with a JSON Web Token (JWT).
+       
+.. code:: typescript
 
-            - ``accessToken``. A string you get from the Facebook SDK.
+   const {logInWithJWT, result} = useAuth();
 
-         logInWithFunction(payload)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+   const performLogin = () => {
+   const token = authorizeWithCustomerProvider(); // user defined function
+      logInWithJWT(token);
+   };
 
-               logInWithFunction<PayloadType extends Record<string, unknown>>(payload: PayloadType): void;
+logInWithGoogle(credentials)
+````````````````````````````
 
-            *Parameters*
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-            - ``payload``. An object that contains user information you want to pass to
-            the App Services function that processes log in requests.
+   logInWithGoogle(credentials: {
+        idToken: string;
+    } | {
+        authCode: string;
+    }): void;
 
-         logOut()
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+*Parameters*
 
-               logOut(): void;
+- ``credentials``. An object with an ``idToken`` or ``authCode`` field that
+  should contain the string token you get from Google Identity Services.
 
-      useEmailPasswordAuth()
-      ~~~~~~~~~~~~~~~~~~~~~~
+*Example*
 
-      ``useEmailPasswordAuth`` returns ``result`` and an authentication method you specify, as
-      shown below.
-      
-      result
-      ``````
+Log in with Google.
+       
+.. code:: typescript
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+   const {logInWithGoogle, result} = useAuth();
 
-         result: AuthResult
+   const performLogin = () => {
+   const token = getGoogleToken(); // user defined function
+      logInWithGoogle({idToken: token});
+   };
 
-      Result of authentication hook operation. For example, ``result.operation`` gives
-      you the name of the current operation.
+logInWithApple(idToken)
+```````````````````````
 
-      *Enum values* 
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      - ``state``. Can be "not-started", "pending", "success", "error".
+   logInWithApple(idToken: string): void;
 
-      - ``operation``. For a list of all operation names, refer to the
-        :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
+*Parameters*
 
-      - ``pending``. Can be ``true`` or ``false``.
+- ``idToken``. A string you get from the Apple SDK.
 
-      - ``success``. Can be ``true`` or ``false``.
+*Example*
 
-      - ``error``. Error-based object or undefined.
+Log in with Apple.
+       
+.. code:: typescript
 
-      Authentication Methods
-      `````````````````
+   const {logInWithApple, result} = useAuth();
 
-      Below is a list of authentication methods and their Type signatures. An example of using
-      an authentication method is provided for ``logIn(credentials)``. You use the other authentication
-      methods in the same way.
+   const performLogin = () => {
+   const token = getAppleToken(); // user defined function
+      logInWithApple(token);
+   };
 
-      .. glossary::
+logInWithFacebook(accessToken)
+``````````````````````````````
 
-         logIn(credentials)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-               logIn(credentials: { email: string; password: string }): void;
+   logInWithFacebook(accessToken: string): void;
 
-            *Parameters*
+*Parameters*
 
-            - ``credentials``. An object that contains ``email`` and ``password`` properties.
+- ``accessToken``. A string you get from the Facebook SDK.
 
-            *Example*
+*Example*
 
-            Logs a user in using an email and password. You could also call
-            ``logIn(Realm.Credentials.emailPassword(email, password))``. Returns a
-            ``Realm.User`` instance of the logged-in user.
+Log in with Facebook.
+       
+.. code:: typescript
 
-            .. code:: typescript
+   const {logInWithFacebook, result} = useAuth();
 
-               const {logIn, result} = useEmailPasswordAuth();
+   const performLogin = () => {
+   const token = getFacebookToken(); // user defined function
+      logInWithFacebook(token);
+   };
 
-               const [email, setEmail] = useState('');
-               const [password, setPassword] = useState('');
+logInWithFunction(payload)
+``````````````````````````
 
-               const performLogin = () => {
-                  logIn({email, password});
-               };
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-               if(result.pending) {
-                  return (<LoadingSpinner/>)
-               }
+   logInWithFunction<PayloadType extends Record<string, unknown>>(payload: PayloadType): void;
 
-               if(result.error) {
-                  return (<ErrorComponent/>)
-               }
+*Parameters*
 
-               if(result.success) {
-                  return (<SuccessComponent/>)
-               }
-               //...
+- ``payload``. An object that contains user information you want to pass to
+  the App Services function that processes log in requests.
 
-         logOut()
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+*Example*
 
-               logOut(): void;
+Log in with a custom function.
+       
+.. code:: typescript
 
-         register(args)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+   const {logInWithFunction, result} = useAuth();
 
-               register(args: { email: string; password: string }): void;
+   const performLogin = () => {
+   const customPayload = getAuthParams(); // user defined arguments
+      logInWithFunction(customPayload);
+   };
 
-            *Parameters*
+logOut()
+````````
 
-            - ``args``. An object that contains ``email`` and ``password`` properties.
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-         confirm(args)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+   logOut(): void;
 
-               confirm(args: { token: string; tokenId: string }): void;
+*Example*
 
-            *Parameters*
+Logs out the current user.
+       
+.. code:: typescript
 
-            - ``args``. An object that contains ``token`` and ``tokenId`` properties.
+   const {logOut, result} = useEmailPasswordAuth();
+   const performLogout = () => {
+      logOut();
+   }
 
-         resendConfirmationEmail(args)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+.. _react-native-use-emailpassword-auth:
 
-               resendConfirmationEmail(args: { email: string }): void;
+useEmailPasswordAuth()
+~~~~~~~~~~~~~~~~~~~~~~
 
-            *Parameters*
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-            - ``args``. An object that contains an ``email`` property.
+   result: AuthResult
 
-         retryCustomConfirmation(args)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+Result of authentication hook operation. For example, ``result.operation`` gives
+you the name of the current operation.
 
-               retryCustomConfirmation(args: { email: string }): void;
+*Enum values* 
 
-            *Parameters*
+- ``state``. Can be "not-started", "pending", "success", "error".
+- ``operation``. For a list of all operation names, refer to the
+  :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
+- ``pending``. Can be ``true`` or ``false``.
+- ``success``. Can be ``true`` or ``false``.
+- ``error``. Error-based object or undefined.
 
-            - ``args``. An object that contains an ``email`` property.
+logIn(credentials)
+``````````````````
 
-         sendResetPasswordEmail(args)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-               sendResetPasswordEmail(args: { email: string }): void;
+   logIn(credentials: { email: string; password: string }): void;
 
-            *Parameters*
+*Parameters*
 
-            - ``args``. An object that contains an ``email`` property.
+- ``credentials``. An object that contains ``email`` and ``password`` properties.
 
-         resetPassword(args)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+*Example*
 
-               resetPassword(args: { token: string; tokenId: string; password: string }): void;
+Logs a user in using an email and password. You could also call
+``logIn(Realm.Credentials.emailPassword(email, password))``. Returns a
+``Realm.User`` instance of the logged-in user.
 
-            *Parameters*
+.. code:: typescript
 
-            - ``args``. An object that contains ``token``, ``tokenId``, and ``password``
-              properties.
+   const {logIn, result} = useEmailPasswordAuth();
 
-         callResetPasswordFunction(args, restArgs)
-            .. code:: typescript
-               :copyable: false
-               :caption: Type signature
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
 
-               callResetPasswordFunction<Args extends unknown[] = []>(
-               args: {
-                  email: string;
-                  password: string;
-               },
-               ...restArgs: Args
-               ): void;
+   const performLogin = () => {
+      logIn({email, password});
+   };
 
-            *Parameters*
+   if(result.pending) {
+      return (<LoadingSpinner/>)
+   }
 
-            - ``args``. An object that contains ``email`` and ``password`` properties.
-            - ``restArgs``. Additional arguments that you need to pass to your custom
-              reset password function.
+   if(result.error) {
+      return (<ErrorComponent/>)
+   }
 
-   .. tab:: UserProvider Hooks
-      :tabid: user-provider-hooks
+   if(result.success) {
+      return (<SuccessComponent/>)
+   }
+   //...
 
-      .. _react-native-use-user-hook:
+logOut()
+````````
 
-      useUser()
-      ~~~~~~~~~
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      .. code:: typescript
-         :copyable: false
-         :caption: Type signature
+   logOut(): void;
 
-         useUser<FunctionsFactoryType, CustomDataType, UserProfileDataType>(): Realm.User<FunctionsFactoryType, CustomDataType, UserProfileDataType>
+*Example*
 
-      The ``useUser()`` hook provides access to the logged-in user. For example,
-      you can use ``useUser()`` to log the current user out.
+Logs out the current user.
+       
+.. code:: typescript
 
-      When changes to the user object happen, this hook will rerender its parent
-      component. For example, if you call ``user.refreshCustomData`` to get updated
-      custom user data, the ``useUser()`` parent component will rerender.
+   const {logOut, result} = useEmailPasswordAuth();
+   const performLogout = () => {
+      logOut();
+   }
 
-      .. include:: /examples/generated/react-native/v12/RealmWrapper.snippet.log-user-out.tsx.rst
+register(args)
+``````````````
 
-      *Returns*
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
 
-      - ``Realm.User``
-      An instance of the currently-authenticated Realm user.
+   register(args: { email: string; password: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains ``email`` and ``password`` properties.
+
+*Example*
+
+Registers a new user. Requires a user email and password.
+       
+.. code:: typescript
+
+   const {register, result} = useEmailPasswordAuth();
+
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+
+   const performRegister = () => {
+      register({email, password});
+   };
+
+confirm(args)
+`````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   confirm(args: { token: string; tokenId: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains ``token`` and ``tokenId`` properties.
+
+*Example*
+
+Confirms a user account. Requires a ``token`` and ``tokenId``.
+       
+.. code:: typescript
+
+   const {confirm, result} = useEmailPasswordAuth();
+
+   const performConfirmation = () => {
+      confirm({token, tokenId});
+   };
+
+resendConfirmationEmail(args)
+`````````````````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   resendConfirmationEmail(args: { email: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+*Example*
+
+Resends a confirmation email.
+
+.. code:: typescript
+
+   const {resendConfirmationEmail, result} = useEmailPasswordAuth();
+   const [email, setEmail] = useState('');
+
+   const performResendConfirmationEmail = () => {
+      resendConfirmationEmail({email});
+   };
+
+retryCustomConfirmation(args)
+`````````````````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   retryCustomConfirmation(args: { email: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+*Example*
+
+Retries confirmation with a custom function.
+
+.. code:: typescript
+
+   const {retryCustomConfirmation, result} = useEmailPasswordAuth();
+   const [email, setEmail] = useState('');
+
+   const performRetryCustomConfirmation = () => {
+      retryCustomConfirmation({email});
+   };
+
+sendResetPasswordEmail(args)
+`````````````````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   sendResetPasswordEmail(args: { email: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains an ``email`` property.
+
+*Example*
+
+Sends a password reset email.
+
+.. code:: typescript
+
+   const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
+   const [email, setEmail] = useState('');
+
+   const performSendResetPasswordEmail = () => {
+      sendResetPasswordEmail({email});
+   };
+
+resetPassword(args)
+```````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   resetPassword(args: { token: string; tokenId: string; password: string }): void;
+
+*Parameters*
+
+- ``args``. An object that contains ``token``, ``tokenId``, and ``password``
+  properties.
+
+*Example*
+
+Resets a user's password.
+
+.. code:: typescript
+
+   const {resetPassword, result} = useEmailPasswordAuth();
+   const [password, setPassword] = useState('');
+
+   const performResetPassword = () => {
+      resetPassword({token, tokenId, password});
+   };
+
+callResetPasswordFunction(args, restArgs)
+`````````````````````````````````````````
+
+.. code:: typescript
+   :copyable: false
+   :caption: Type signature
+
+   callResetPasswordFunction<Args extends unknown[] = []>(
+    args: {
+      email: string;
+      password: string;
+    },
+    ...restArgs: Args
+   ): void;
+
+*Parameters*
+
+- ``args``. An object that contains ``email`` and ``password`` properties.
+- ``restArgs``. Additional arguments that you need to pass to your custom
+  reset password function.
+
+*Example*
+
+Calls your App Services backend password reset function. Can pass arguments to
+the function as needed.
+
+.. code:: typescript
+
+   const {callResetPasswordFunction, result} = useEmailPasswordAuth();
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+
+   const performResetPassword = () => {
+      callResetPasswordFunction({email, password}, "extraArg1", "extraArg2");
+   };
+
+.. _react-native-use-app-hook:
 
 Create Context with createRealmContext()
 ----------------------------------------
