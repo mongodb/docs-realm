@@ -273,9 +273,9 @@ useQuery()
 
    useQuery<T>(type, query?, deps?): Realm.Results<T & Realm.Object<T>>
 
-The ``useQuery()`` hook returns a collection of realm objects of a given type.
-These are the results of your query. A query can be an object class or the class
-name as a string.
+The ``useQuery()`` hook returns a :js-sdk:`result <classes/Realm.Results.html>` that is a
+collection of realm objects of a given type. These are the results of your query. A query can
+be an object class or the class name as a string.
 
 The ``useQuery()`` method subscribes to updates to any objects in the collection
 and rerenders the component using it on any change to the results.
@@ -320,7 +320,7 @@ useUser()
 
    useUser<FunctionsFactoryType, CustomDataType, UserProfileDataType>(): Realm.User<FunctionsFactoryType, CustomDataType, UserProfileDataType>
 
-The ``useUser()`` hook provides access to the logged-in user. For example,
+The ``useUser()`` hook provides access to the :js-sdk:`logged-in user <classes/Realm.User.html>`. For example,
 you can use ``useUser()`` to log the current user out.
 
 When changes to the user object happen, this hook will rerender its parent
@@ -368,7 +368,7 @@ useAuth()
 
    useAuth(): UseAuth
 
-``useAuth`` has an authentication method for every App Services authentication provider.
+You use the `useAuth()` Hook with a result and authentication method.
 
 result
 ++++++
@@ -393,6 +393,8 @@ you the name of the current operation.
 
 Authentication Methods
 ++++++++++++++++++++++
+
+The authentication method specifies how you want users to login to your app. ``useAuth`` has an authentication method for every App Services authentication provider.
 
 .. list-table::
    :header-rows: 1
@@ -547,7 +549,7 @@ Authentication Methods
 useEmailPasswordAuth()
 ``````````````````````
 
-``useEmailPasswordAuth`` has a number of operations to facilitate email and password user authentication.
+You use the `useEmailPasswordAuth()` Hook with a result and authentication operation.
 
 result
 ++++++
@@ -572,6 +574,8 @@ operation.
 
 Authentication Operations
 +++++++++++++++++++++++++
+
+``useEmailPasswordAuth`` has a number of operations to facilitate email and password user authentication.
 
 .. list-table::
    :header-rows: 1
