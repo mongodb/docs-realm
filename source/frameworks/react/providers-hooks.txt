@@ -360,7 +360,7 @@ instance.
 An instance of the current ``Realm.App`` created by ``AppProvider``.
 
 useAuth()
-~~~~~~~~~
+`````````
 
 .. code:: typescript
    :copyable: false
@@ -392,45 +392,39 @@ you the name of the current operation.
 - ``success``. Can be ``true`` or ``false``.
 - ``error``. Error-based object or undefined.
 
-logIn(credentials)
-``````````````````
 
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 20 20 60
 
-   logIn(credentials: Realm.Credentials): void
+   * - Method
+     - Parameter
+     - Example
 
-*Parameters*
+   * - ``logIn``
+     - ``credentials``: A Realm credential supplied by any supported Realm authentication.
+     - Logs in a user with any authentication mechanism supported by Realm. If called when a
+       user is logged in, the current user switches to the new user. Usually, it's better to use
+       the more specific login methods.
 
-- ``credentials``. A Realm credential supplied by any supported Realm
-  authentication.
+       .. code:: typescript
+         const {logIn, result} = useAuth();
 
-*Example*
+         useEffect(() => logIn(Realm.Credentials.anonymous()), []);
 
-Logs in a user with any authentication mechanism supported by
-Realm. If called when a user is logged in, the current user switches to
-the new user. Usually, it's better to use the more specific login
-methods.
+         if(result.pending) {
+            return (<LoadingSpinner/>)
+         }
 
-.. code:: typescript
+         if(result.error) {
+            return (<ErrorComponent/>)
+         }
 
-  const {logIn, result} = useAuth();
-
-  useEffect(() => logIn(Realm.Credentials.anonymous()), []);
-
-  if(result.pending) {
-    return (<LoadingSpinner/>)
-  }
-
-  if(result.error) {
-    return (<ErrorComponent/>)
-  }
-
-  if(result.success) {
-    return (<SuccessComponent/>)
-  }
-  //...
+         if(result.success) {
+            return (<SuccessComponent/>)
+         }
+         //...
 
 logInWithAnonymous()
 ````````````````````
