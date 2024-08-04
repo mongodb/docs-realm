@@ -210,7 +210,7 @@ useRealm()
 
    useRealm(): Realm 
 
-The ``useRealm()`` hook returns an opened realm instance. The realm instance
+The ``useRealm()`` hook returns an opened `realm instance <https://www.mongodb.com/docs/realm-sdks/react/latest/classes/Realm-1.html>`__. The realm instance
 gives you access to realm methods and properties. For example, you can call
 ``realm.write()`` to add a realm object to your realm.
 
@@ -238,7 +238,7 @@ useObject()
 
    useObject<T>(type, primaryKey): T & Realm.Object<T> | null
 
-The ``useObject()`` hook returns a Realm object for a given
+The ``useObject()`` hook returns a :js-sdk:`Realm object <classes/Realm.Object.html>` for a given
 :ref:`primary key <react-native-primary-keys>`. You can pass an object class
 or the class name as a string and the primary key.
 
