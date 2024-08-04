@@ -368,11 +368,10 @@ useAuth()
 
    useAuth(): UseAuth
 
-``useAuth`` has an authentication method for every App Services
-authentication provider.
+``useAuth`` has an authentication method for every App Services authentication provider.
 
 result
-``````
+++++++
 
 .. code:: typescript
    :copyable: false
@@ -392,23 +391,25 @@ you the name of the current operation.
 - ``success``. Can be ``true`` or ``false``.
 - ``error``. Error-based object or undefined.
 
+Authentication Methods
+++++++++++++++++++++++
 
 .. list-table::
    :header-rows: 1
    :stub-columns: 1
-   :widths: 20 20 60
 
-   * - Method
+   * - Operation
      - Parameter
      - Example
 
-   * - ``logIn``
+   * - ``logIn(credentials)``
      - ``credentials``: A Realm credential supplied by any supported Realm authentication.
      - Logs in a user with any authentication mechanism supported by Realm. If called when a
        user is logged in, the current user switches to the new user. Usually, it's better to use
        the more specific login methods.
 
        .. code:: typescript
+
          const {logIn, result} = useAuth();
 
          useEffect(() => logIn(Realm.Credentials.anonymous()), []);
@@ -426,241 +427,130 @@ you the name of the current operation.
          }
          //...
 
-logInWithAnonymous()
-````````````````````
+   * - ``logInWithAnonymous``
+     - None
+     - Log in with the anonymous authentication provider.
 
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
+       .. code:: typescript
 
-   logInWithAnonymous(): void
+         const {logInWithAnonymous, result} = useAuth();
+         const performLogin = () => {
+            logInWithAnonymous();
+         };
 
-*Example*
+   * - ``logInWithApiKey(key)``
+     - ``key``: A string that is linked to an App Services user.
+     - Log in with an API key.
 
-Log in with the anonymous authentication provider.
+       .. code:: typescript
 
-.. code:: typescript
+         const {logInWithApiKey, result} = useAuth();
+         const performLogin = () => {
+         const key = getApiKey(); // user defined function
+            logInWithApiKey(key);
+         };
 
-   const {logInWithAnonymous, result} = useAuth();
-   const performLogin = () => {
-      logInWithAnonymous();
-   };
+   * - ``logInWithEmailPassword(credentials)``
+     - ``credentials``: An object with ``email`` and ``password`` fields.
+     - Log in with Email/Password.
 
-logInWithApiKey(key)
-````````````````````
+       .. code:: typescript
 
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
+         const {logInWithEmailPassword, result} = useAuth();
+         const [email, setEmail] = useState('');
+         const [password, setPassword] = useState('');
 
-   logInWithApiKey(key: string): void
+         const performLogin = () => {
+            logInWithEmailPassword({email, password});
+         };
 
-*Parameters*
-
-- ``key``. A string that is linked to an App Services user.
-
-*Example*
-
-Log in with an API key.
-
-.. code:: typescript
-
-   const {logInWithApiKey, result} = useAuth();
-   const performLogin = () => {
-   const key = getApiKey(); // user defined function
-      logInWithApiKey(key);
-   };
-
-logInWithEmailPassword(credentials)
-```````````````````````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   logInWithEmailPassword(credentials: {
-     email: string;
-     password: string;
-   }): void
-
-*Parameters*
-
-- ``credentials``. An object with ``email`` and ``password`` fields.
-
-*Example*
-
-Log in with Email/Password.
-
-.. code:: typescript
-
-   const {logInWithEmailPassword, result} = useAuth();
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
-
-   const performLogin = () => {
-      logInWithEmailPassword({email, password});
-   };
-
-logInWithJWT(credentials)
-`````````````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   logInWithJWT(token: string): void
-
-*Parameters*
-
-- ``credentials``. A string representation of a user's JWT.
-
-*Example*
-
-Log in with a JSON Web Token (JWT).
+   * - ``logInWithJWT(credentials)``
+     - ``credentials``: A string representation of a user's JWT.
+     - Log in with a JSON Web Token (JWT).
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {logInWithJWT, result} = useAuth();
+         const {logInWithJWT, result} = useAuth();
 
-   const performLogin = () => {
-   const token = authorizeWithCustomerProvider(); // user defined function
-      logInWithJWT(token);
-   };
+         const performLogin = () => {
+         const token = authorizeWithCustomerProvider(); // user defined function
+            logInWithJWT(token);
+         };
 
-logInWithGoogle(credentials)
-````````````````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   logInWithGoogle(credentials: {
-        idToken: string;
-    } | {
-        authCode: string;
-    }): void;
-
-*Parameters*
-
-- ``credentials``. An object with an ``idToken`` or ``authCode`` field that
-  should contain the string token you get from Google Identity Services.
-
-*Example*
-
-Log in with Google.
+   * - ``logInWithGoogle(credentials)``
+     - ``credentials``; An object with an ``idToken`` or ``authCode`` field that
+       should contain the string token you get from Google Identity Services.
+     - Log in with Google.
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {logInWithGoogle, result} = useAuth();
+         const {logInWithGoogle, result} = useAuth();
 
-   const performLogin = () => {
-   const token = getGoogleToken(); // user defined function
-      logInWithGoogle({idToken: token});
-   };
+         const performLogin = () => {
+         const token = getGoogleToken(); // user defined function
+            logInWithGoogle({idToken: token});
+         };
 
-logInWithApple(idToken)
-```````````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   logInWithApple(idToken: string): void;
-
-*Parameters*
-
-- ``idToken``. A string you get from the Apple SDK.
-
-*Example*
-
-Log in with Apple.
+   * - ``logInWithApple(idToken)``
+     - ``idToken``: A string you get from the Apple SDK.
+     - Log in with Apple.
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {logInWithApple, result} = useAuth();
+         const {logInWithApple, result} = useAuth();
 
-   const performLogin = () => {
-   const token = getAppleToken(); // user defined function
-      logInWithApple(token);
-   };
+         const performLogin = () => {
+         const token = getAppleToken(); // user defined function
+            logInWithApple(token);
+         };
 
-logInWithFacebook(accessToken)
-``````````````````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   logInWithFacebook(accessToken: string): void;
-
-*Parameters*
-
-- ``accessToken``. A string you get from the Facebook SDK.
-
-*Example*
-
-Log in with Facebook.
+   * - ``logInWithFacebook(accessToken)``
+     - ``accessToken``: A string you get from the Facebook SDK.
+     - Log in with Facebook.
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {logInWithFacebook, result} = useAuth();
+         const {logInWithFacebook, result} = useAuth();
 
-   const performLogin = () => {
-   const token = getFacebookToken(); // user defined function
-      logInWithFacebook(token);
-   };
+         const performLogin = () => {
+         const token = getFacebookToken(); // user defined function
+            logInWithFacebook(token);
+         };
 
-logInWithFunction(payload)
-``````````````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   logInWithFunction<PayloadType extends Record<string, unknown>>(payload: PayloadType): void;
-
-*Parameters*
-
-- ``payload``. An object that contains user information you want to pass to
-  the App Services function that processes log in requests.
-
-*Example*
-
-Log in with a custom function.
+   * - ``logInWithFunction(payload)``
+     - ``payload``: An object that contains user information you want to pass to
+       the App Services function that processes log in requests.
+     - Log in with a custom function.
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {logInWithFunction, result} = useAuth();
+         const {logInWithFunction, result} = useAuth();
 
-   const performLogin = () => {
-   const customPayload = getAuthParams(); // user defined arguments
-      logInWithFunction(customPayload);
-   };
+         const performLogin = () => {
+         const customPayload = getAuthParams(); // user defined arguments
+            logInWithFunction(customPayload);
+         };
 
-logOut()
-````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   logOut(): void;
-
-*Example*
-
-Logs out the current user.
+   * - ``logOut()``
+     - None
+     - Logs out the current user.
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {logOut, result} = useEmailPasswordAuth();
-   const performLogout = () => {
-      logOut();
-   }
+         const {logOut, result} = useEmailPasswordAuth();
+         const performLogout = () => {
+            logOut();
+         }
 
 .. _react-native-use-emailpassword-auth:
 
 useEmailPasswordAuth()
-~~~~~~~~~~~~~~~~~~~~~~
+``````````````````````
+
+``useEmailPasswordAuth`` has a number of operations to facilitate email and password user authentication.
+
+result
+++++++
 
 .. code:: typescript
    :copyable: false
@@ -668,8 +558,8 @@ useEmailPasswordAuth()
 
    result: AuthResult
 
-Result of authentication hook operation. For example, ``result.operation`` gives
-you the name of the current operation.
+Result of operation. For example, ``result.operation`` gives you the name of the current
+operation.
 
 *Enum values* 
 
@@ -680,264 +570,155 @@ you the name of the current operation.
 - ``success``. Can be ``true`` or ``false``.
 - ``error``. Error-based object or undefined.
 
-logIn(credentials)
-``````````````````
+Authentication Operations
++++++++++++++++++++++++++
 
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
 
-   logIn(credentials: { email: string; password: string }): void;
+   * - Operation
+     - Parameter
+     - Example
 
-*Parameters*
+   * - ``logIn(credentials)``
+     - ``credentials``: An object that contains ``email`` and ``password`` properties.
+     - Logs a user in using an email and password. You could also call
+       ``logIn(Realm.Credentials.emailPassword(email, password))``. Returns a
+       ``Realm.User`` instance of the logged-in user.
 
-- ``credentials``. An object that contains ``email`` and ``password`` properties.
+       .. code:: typescript
 
-*Example*
+         const {logIn, result} = useEmailPasswordAuth();
 
-Logs a user in using an email and password. You could also call
-``logIn(Realm.Credentials.emailPassword(email, password))``. Returns a
-``Realm.User`` instance of the logged-in user.
+         const [email, setEmail] = useState('');
+         const [password, setPassword] = useState('');
 
-.. code:: typescript
+         const performLogin = () => {
+            logIn({email, password});
+         };
 
-   const {logIn, result} = useEmailPasswordAuth();
+         if(result.pending) {
+            return (<LoadingSpinner/>)
+         }
 
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
+         if(result.error) {
+            return (<ErrorComponent/>)
+         }
 
-   const performLogin = () => {
-      logIn({email, password});
-   };
+         if(result.success) {
+            return (<SuccessComponent/>)
+         }
+         //...
 
-   if(result.pending) {
-      return (<LoadingSpinner/>)
-   }
-
-   if(result.error) {
-      return (<ErrorComponent/>)
-   }
-
-   if(result.success) {
-      return (<SuccessComponent/>)
-   }
-   //...
-
-logOut()
-````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   logOut(): void;
-
-*Example*
-
-Logs out the current user.
+   * - ``logOut()``
+     - None
+     - Logs out the current user.
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {logOut, result} = useEmailPasswordAuth();
-   const performLogout = () => {
-      logOut();
-   }
+         const {logOut, result} = useEmailPasswordAuth();
+         const performLogout = () => {
+            logOut();
+         }
 
-register(args)
-``````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   register(args: { email: string; password: string }): void;
-
-*Parameters*
-
-- ``args``. An object that contains ``email`` and ``password`` properties.
-
-*Example*
-
-Registers a new user. Requires a user email and password.
+   * - ``register(args)``
+     - ``args``: An object that contains ``email`` and ``password`` properties.
+     - Registers a new user. Requires a user email and password.
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {register, result} = useEmailPasswordAuth();
+         const {register, result} = useEmailPasswordAuth();
 
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
+         const [email, setEmail] = useState('');
+         const [password, setPassword] = useState('');
 
-   const performRegister = () => {
-      register({email, password});
-   };
+         const performRegister = () => {
+            register({email, password});
+         };
 
-confirm(args)
-`````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   confirm(args: { token: string; tokenId: string }): void;
-
-*Parameters*
-
-- ``args``. An object that contains ``token`` and ``tokenId`` properties.
-
-*Example*
-
-Confirms a user account. Requires a ``token`` and ``tokenId``.
+   * - ``confirm(args)``
+     - ``args``: An object that contains ``token`` and ``tokenId`` properties.
+     - Confirms a user account. Requires a ``token`` and ``tokenId``.
        
-.. code:: typescript
+       .. code:: typescript
 
-   const {confirm, result} = useEmailPasswordAuth();
+         const {confirm, result} = useEmailPasswordAuth();
 
-   const performConfirmation = () => {
-      confirm({token, tokenId});
-   };
+         const performConfirmation = () => {
+            confirm({token, tokenId});
+         };
 
-resendConfirmationEmail(args)
-`````````````````````````````
+   * - ``resendConfirmationEmail(args)``
+     - ``args``: An object that contains an ``email`` property.
+     - Resends a confirmation email.
 
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
+       .. code:: typescript
 
-   resendConfirmationEmail(args: { email: string }): void;
+         const {resendConfirmationEmail, result} = useEmailPasswordAuth();
+         const [email, setEmail] = useState('');
 
-*Parameters*
+         const performResendConfirmationEmail = () => {
+            resendConfirmationEmail({email});
+         };
 
-- ``args``. An object that contains an ``email`` property.
+   * - ``retryCustomConfirmation(args)``
+     - ``args``: An object that contains an ``email`` property.
+     - Retries confirmation with a custom function.
 
-*Example*
+       .. code:: typescript
 
-Resends a confirmation email.
+         const {retryCustomConfirmation, result} = useEmailPasswordAuth();
+         const [email, setEmail] = useState('');
 
-.. code:: typescript
+         const performRetryCustomConfirmation = () => {
+            retryCustomConfirmation({email});
+         };
 
-   const {resendConfirmationEmail, result} = useEmailPasswordAuth();
-   const [email, setEmail] = useState('');
+   * - ``sendResetPasswordEmail(args)``
+     - ``args``: An object that contains an ``email`` property.
+     - Sends a password reset email.
 
-   const performResendConfirmationEmail = () => {
-      resendConfirmationEmail({email});
-   };
+       .. code:: typescript
 
-retryCustomConfirmation(args)
-`````````````````````````````
+         const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
+         const [email, setEmail] = useState('');
 
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
+         const performSendResetPasswordEmail = () => {
+            sendResetPasswordEmail({email});
+         };
 
-   retryCustomConfirmation(args: { email: string }): void;
+   * - ``resetPassword(args)``
+     - ``args``: An object that contains ``token``, ``tokenId``, and ``password``
+       properties.
+     - Resets a user's password.
 
-*Parameters*
+       .. code:: typescript
 
-- ``args``. An object that contains an ``email`` property.
+         const {resetPassword, result} = useEmailPasswordAuth();
+         const [password, setPassword] = useState('');
 
-*Example*
+         const performResetPassword = () => {
+            resetPassword({token, tokenId, password});
+         };
 
-Retries confirmation with a custom function.
+   * - ``callResetPasswordFunction(args, restArgs)``
+     - ``args``: An object that contains ``email`` and ``password`` properties.
 
-.. code:: typescript
+       ``restArgs``: Additional arguments that you need to pass to your custom
+       reset password function.
+     - Calls your App Services backend password reset function. Can pass arguments to
+       the function as needed.
 
-   const {retryCustomConfirmation, result} = useEmailPasswordAuth();
-   const [email, setEmail] = useState('');
+       .. code:: typescript
 
-   const performRetryCustomConfirmation = () => {
-      retryCustomConfirmation({email});
-   };
+         const {callResetPasswordFunction, result} = useEmailPasswordAuth();
+         const [email, setEmail] = useState('');
+         const [password, setPassword] = useState('');
 
-sendResetPasswordEmail(args)
-`````````````````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   sendResetPasswordEmail(args: { email: string }): void;
-
-*Parameters*
-
-- ``args``. An object that contains an ``email`` property.
-
-*Example*
-
-Sends a password reset email.
-
-.. code:: typescript
-
-   const {sendResetPasswordEmail, result} = useEmailPasswordAuth();
-   const [email, setEmail] = useState('');
-
-   const performSendResetPasswordEmail = () => {
-      sendResetPasswordEmail({email});
-   };
-
-resetPassword(args)
-```````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   resetPassword(args: { token: string; tokenId: string; password: string }): void;
-
-*Parameters*
-
-- ``args``. An object that contains ``token``, ``tokenId``, and ``password``
-  properties.
-
-*Example*
-
-Resets a user's password.
-
-.. code:: typescript
-
-   const {resetPassword, result} = useEmailPasswordAuth();
-   const [password, setPassword] = useState('');
-
-   const performResetPassword = () => {
-      resetPassword({token, tokenId, password});
-   };
-
-callResetPasswordFunction(args, restArgs)
-`````````````````````````````````````````
-
-.. code:: typescript
-   :copyable: false
-   :caption: Type signature
-
-   callResetPasswordFunction<Args extends unknown[] = []>(
-    args: {
-      email: string;
-      password: string;
-    },
-    ...restArgs: Args
-   ): void;
-
-*Parameters*
-
-- ``args``. An object that contains ``email`` and ``password`` properties.
-- ``restArgs``. Additional arguments that you need to pass to your custom
-  reset password function.
-
-*Example*
-
-Calls your App Services backend password reset function. Can pass arguments to
-the function as needed.
-
-.. code:: typescript
-
-   const {callResetPasswordFunction, result} = useEmailPasswordAuth();
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
-
-   const performResetPassword = () => {
-      callResetPasswordFunction({email, password}, "extraArg1", "extraArg2");
-   };
-
-.. _react-native-use-app-hook:
+         const performResetPassword = () => {
+            callResetPasswordFunction({email, password}, "extraArg1", "extraArg2");
+         };
 
 Create Context with createRealmContext()
 ----------------------------------------
