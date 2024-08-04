@@ -5,7 +5,7 @@ Providers & Hooks
 =================
 
 .. meta:: 
-   :description: Develop apps using the Providers and Hooks available in the @realm/react library.
+   :description: Develop apps using the providers and Hooks available in the @realm/react library.
    :keywords: Realm, Javascript SDK, React, code example
 
 .. facet::
@@ -23,24 +23,27 @@ Providers & Hooks
    :class: singlecol
 
 The ``@realm/react`` library offers custom React components that eliminate the boilerplate needed to
-develop a React app. The components leverage the Provider design pattern to manage user
-creation, user authentication, and data management.
+develop a React app. The components leverage the provider design pattern to manage your Atlas
+connection, user creation and authentication, and data management.
 
-- ``RealmProvider``: Work with the configured database.
+- ``RealmProvider``: Work with the configured `database <https://www.mongodb.com/docs/realm-sdks/react/latest/classes/Realm-1.html>`__.
 
-- ``AppProvider``: Connect to your App Client for user authentication, only necessary when
-  using Device Sync. 
+- ``AppProvider``: Connect to your `App Services App Client <https://www.mongodb.com/docs/realm-sdks/react/latest/classes/Realm.App-1.html>`__.
 
-- ``UserProvider``: Access to the logged-in user object, only necessary when using Device Sync.
+- ``UserProvider``: Access the logged-in `user object <https://www.mongodb.com/docs/realm-sdks/react/latest/classes/Realm.User.html>`__.
 
-The Providers are available to all frameworks used to build with the JavaScript SDK.
+The providers are available to all frameworks used to build with the JavaScript SDK.
 
 Getting Started with Providers
 ------------------------------
 
-Like all React components, you call Providers using html opening and closing tags. Nesting a
-component within in another component's tags creates a parent-child relationship between them,
-where child components can access the context created by its parent component.
+Like all React components, you call providers using HTML opening and closing tags. Nesting a
+component within another component's tags creates a parent-child relationship between them,
+where child components can access the context created by its parent component. 
+
+Context refers to the information made accessible by a provider. For example, the
+``RealmProvider`` context is the database it connects to, so all components nested in the
+``RealmProvider`` have access to that database.
 
 Props
 ~~~~~
@@ -60,28 +63,28 @@ Provider has different props you can use for configuration.
 
       - ``schema?: (RealmObjectConstructor<AnyRealmObject> | ObjectSchema)[]``
 
-        Specifies all the object schemas in this Realm. Required when first creating a Realm.
+        Specifies all the object schemas in this database. Required when first creating a database.
         If omitted, the schema will be read from the existing Realm file.
 
       - ``sync?: SyncConfiguration``
 
-        Configures a synced realm.
+        Configures a synced database.
 
       ``RealmProvider`` has more props that define its behavior:
 
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
 
-        The fallback component to render while the Realm is opening.
+        The fallback component to render while the connecting to the database.
 
       - ``closeOnUnmount?: boolean``
 
-        Default is ``true``. If set to ``false``, realm will not close when the
+        Default is ``true``. If set to ``false``, the database connection will not close when the
         component unmounts.
 
       - ``realmRef?: React.MutableRefObject<Realm | null>``
 
-        A ref to the realm instance. This is useful if you need to access the realm
-        instance outside of the scope of the realm.
+        A ref to the database instance. This is useful if you need to access the database
+        instance outside of the scope of the Realm.
       
       - ``children: React.ReactNode``
 
@@ -108,18 +111,19 @@ Provider has different props you can use for configuration.
 Configure your Providers
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section details how to configure and expose a single realm using a ``RealmProvider``
-imported directly from ``@realm/react``. For information about using ``createRealmContext()``
-to configure a realm or exposing more than one realm, refer to their respective sections below.
+This section details how to configure and expose a single database using a ``RealmProvider``
+imported directly from ``@realm/react``. 
+For information about using ``createRealmContext()`` to configure a database or exposing more
+than one database, refer to their respective sections below.
 
 .. tabs::
 
-   .. tab:: Configure realm with sync
-      :tabid: configure-sync-realm
+   .. tab:: Configure a database with sync
+      :tabid: configure-sync-database
 
-      If you are developing an app using sync, you will need to use all three Providers. 
+      If you are developing an app using sync, you will need to use all three providers. 
 
-      By default, Realm syncs all data from the server before returning anything. If you want
+      By default, Atlas syncs all data from the server before returning anything. If you want
       to sync data in the background, read :ref:`Configure a Synced Realm While Offline
       <react-native-open-synced-realm-offline>`.
 
@@ -146,14 +150,12 @@ to configure a realm or exposing more than one realm, refer to their respective 
          d. You must set up a sync subscription. The example below uses an initial subscription,
             but you can also set up subscriptions in ``RealmProvider`` child components.
 
-      .. include:: /includes/note-rn-multiple-app-clients-and-app-config-cache.rst
-
-      Once your Providers have been configured, nest your app components within the
+      Once your providers have been configured, nest your app components within the
       ``RealmProvider``. The rendering of each component is dependent on the successful
       execution of its parent components' functionality. For example, if ``AppProvider`` cannot
       connect to your app's App Services backend, the components it wraps will not render.
       
-      You *must* nest the Providers and app components as shown below to ensure each component
+      You *must* nest the providers and app components as shown below to ensure each component
       has access to its required context:
 
       .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
@@ -168,7 +170,7 @@ to configure a realm or exposing more than one realm, refer to their respective 
       
       #. Import ``RealmProvider`` from ``@realm/react``.
 
-      #. Pass your object models to the ``schema`` prop. (link out)
+      #. Pass your object models to the ``schema`` prop.
 
       #. Add other Configuration object properties as props to ``RealmProvider``
 
@@ -182,10 +184,10 @@ to configure a realm or exposing more than one realm, refer to their respective 
 Working with Providers using Hooks
 ----------------------------------
 
-To use the Provider's context in your app's components, you can use :react.dev:`hooks <docs/hooks-intro.html>`.
+To use the provider's context in your app's components, you can use Hooks.
 
 Hooks act as functions used to access states in your app. React offers built-in hooks you can
-use either on their own or to build custom hooks.
+use either on their own or to build custom  Hooks.
 
 There are two important rules to consider when working with hooks:
 
@@ -193,7 +195,7 @@ There are two important rules to consider when working with hooks:
 - Hooks can only be called in a React component or a custom hook, not in regular JavaScript
   functions.
 
-The ``@realm/react`` library has custom hooks for each Provider you can import and
+The ``@realm/react`` library has custom  Hooks for each provider you can import and
 use in any wrapped component.
 
 .. tabs::
@@ -736,16 +738,16 @@ Create Context with createRealmContext()
 
 Most of the time, you will only use ``createRealmContext()`` if you need to
 configure more than one realm. Otherwise, you should import ``RealmProvider``
-and hooks directly from ``@realm/react``.
+and  Hooks directly from ``@realm/react``.
 
 The ``createRealmContext()`` method creates a :reactjs:`React Context
 <docs/context.html>` object for a realm with a given
 :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
 ``Context`` object contains the following: 
 
-- A :reactjs:`Context Provider <docs/context.html#contextprovider>` (referred to
+- A :reactjs:`Context provider <docs/context.html#contextprovider>` (referred to
   as ``RealmProvider`` elsewhere) component that wraps around child components
-  and provides them with access to hooks.
+  and provides them with access to  Hooks.
 - Various prebuilt :reactjs:`Hooks <docs/hooks-intro.html>` that access the
   configured realm.
 
@@ -764,21 +766,21 @@ For a detailed guide, refer to :ref:`Expose More Than One Realm
 - ``RealmContext``
 
   An object containing a ``RealmProvider`` component, and the ``useRealm``,
-  ``useQuery`` and ``useObject`` hooks.
+  ``useQuery`` and ``useObject``  Hooks.
 
 Configure More Than One Realm
 -----------------------------
 
-When you import ``RealmProvider`` from ``@realm/react``, that Provider has a
+When you import ``RealmProvider`` from ``@realm/react``, that provider has a
 specific context and is associated with a single realm. If you need to configure
-more than one realm, use ``createRealmContext()`` to instantiate a new Provider
+more than one realm, use ``createRealmContext()`` to instantiate a new provider
 for each realm.
 
 If you import ``useRealm()``, ``useQuery()``, or ``useObject()`` directly from
 ``@realm/react``, those hooks use the default realm context. To work with more
-than one realm, you need to destructure a new realm Provider and its associated
+than one realm, you need to destructure a new realm provider and its associated
 hooks from the result of ``createRealmContext()``. You should namespace providers
-to avoid confusion about which Provider and hooks you're working with.
+to avoid confusion about which provider and hooks you're working with.
 
 For a detailed guide, refer to :ref:`Expose More Than One Realm 
 <react-native-expose-multiple-realms>`.
