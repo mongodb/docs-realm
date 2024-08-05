@@ -2,9 +2,8 @@
 
 Jira ticket: https://jira.mongodb.org/browse/DOCSP-NNNNN
 
-*Staged Page*
-
-- [PAGE_NAME](https://docs-mongodbcom-staging.corp.mongodb.com/realm/docsworker-xlarge/BRANCH_NAME/)
+### Staging Links
+<!-- start insert-links --><!-- end insert-links -->
 
 *Page Source*
 
