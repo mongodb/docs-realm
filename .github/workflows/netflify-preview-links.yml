@@ -34,7 +34,7 @@ jobs:
                   file="${file#source}"
                   file="${file%.txt}"
                   echo "${base_link}${file}"
-                  new_links+="${base_link}${file}<br/>- "
+                  new_links+="<li>${base_link}${file}</li>"
                 else
                   echo "(file skipped)"
                 fi
@@ -51,5 +51,5 @@ jobs:
                 regex: "<!-- start insert-links -->.*<!-- end insert-links -->"
                 appendContentOnMatchOnly: true
                 regexFlags: is
-                content: "<!-- start insert-links -->\n - ${{ steps.build_page_links.outputs.staging_links }}\n<!-- end insert-links -->"
+                content: "<!-- start insert-links -->\n${{ steps.build_page_links.outputs.staging_links }}\n<!-- end insert-links -->"
                 token: ${{ secrets.GITHUB_TOKEN }}
