@@ -26,7 +26,7 @@ The ``@realm/react`` library offers custom React components that eliminate the b
 develop a React app using JavaScript-based Atlas Device SDKs. The components leverage the provider design pattern to manage your Atlas
 connection, user creation and authentication, and data management.
 
-- ``RealmProvider``: Work with the configured :js-sdk:`database <classes/Realm-1.html>`.
+- ``RealmProvider``: Work with the configured :js-sdk:`Realm <classes/Realm-1.html>`.
 
 - ``AppProvider``: Connect to your :js-sdk:`App Services App Client <classes/Realm.App-1.html>`.
 
@@ -43,8 +43,8 @@ component within another component's tags creates a parent-child relationship be
 where child components can access the context created by their parent component. 
 
 Context refers to the information made accessible by a provider. For example, the
-``RealmProvider`` context is the database it connects to, so all components nested in the
-``RealmProvider`` have access to that database.
+``RealmProvider`` context is the Realm it connects to, so all components nested in the
+``RealmProvider`` have access to that Realm.
 
 Props
 ~~~~~
@@ -64,7 +64,7 @@ Provider has different props you can use for configuration.
 
       - ``schema?: (RealmObjectConstructor<AnyRealmObject> | ObjectSchema)[]``
 
-        Specifies all the object schemas in this database. Required when first creating a database.
+        Specifies all the object schemas in the Realm. Required when first creating a Realm.
         If omitted, the schema will be read from the existing Realm file.
 
       - ``sync?: SyncConfiguration``
@@ -84,7 +84,7 @@ Provider has different props you can use for configuration.
 
       - ``realmRef?: React.MutableRefObject<Realm | null>``
 
-        A ref to the database instance. This is useful if you need to access the database
+        A ref to the Realm instance. This is useful if you need to access the Realm
         instance outside of the scope of the Realm.
       
       - ``children: React.ReactNode``
@@ -112,15 +112,18 @@ Provider has different props you can use for configuration.
 Configure your Providers
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section details how to configure and expose a single database using a ``RealmProvider``
+Your app's needs determine what providers you use, as all three providers are not always
+necessary. 
+
+This section details how to configure and expose a single Realm using a ``RealmProvider``
 imported directly from ``@realm/react``. 
 For information about using ``createRealmContext()`` to configure a Realm or exposing more
 than one Realm, see "Create Context with createRealmContext()" below.
 
 .. tabs::
 
-   .. tab:: Configure a database with sync
-      :tabid: configure-sync-database
+   .. tab:: Configure a Realm with sync
+      :tabid: configure-sync-realm
 
       If you are developing an app using Device Sync, you will need to use all three providers. 
 
@@ -772,4 +775,4 @@ To work with more than one realm, you need to destructure a new realm provider a
 associated hooks from the result of ``createRealmContext()``. You can call this new realm
 provider and use its associated Hooks the same way you would with the ``RealmProvider``
 imported from the ``@realm/react`` library. You should namespace providers
-to avoid confusion about which provider and hooks you're working with.
+to avoid confusion about which provider and Hooks you're working with.
