@@ -23,8 +23,9 @@ Providers & Hooks
    :class: singlecol
 
 The ``@realm/react`` library offers custom React components that eliminate the boilerplate needed to
-develop a React app using JavaScript-based Atlas Device SDKs. The components leverage the provider design pattern to manage your Atlas
-connection, user creation and authentication, and data management.
+develop a React app using JavaScript-based Atlas Device SDKs. The components leverage the
+provider design pattern to manage your Atlas connection, user creation and authentication, and
+data management.
 
 The providers are available in all SDKs that support a React environment. This includes React
 Native, Web, and Electron.
@@ -37,8 +38,8 @@ component within another component's tags creates a parent-child relationship be
 where child components can access the context created by their parent component. 
 
 Context refers to the information made accessible by a provider. For example, the
-``RealmProvider`` context is the Realm it connects to, so all components nested in the
-``RealmProvider`` have access to that Realm.
+``RealmProvider`` context is the database it connects to, so all components nested in the
+``RealmProvider`` have access to that database.
 
 Props
 ~~~~~
@@ -58,28 +59,28 @@ Provider has different props you can use for configuration.
 
       - ``schema?: (RealmObjectConstructor<AnyRealmObject> | ObjectSchema)[]``
 
-        Specifies all the object schemas in the Realm. Required when first creating a Realm.
-        If omitted, the schema will be read from the existing Realm file.
+        Specifies all the object schemas in the database. Required when first creating a database.
+        If omitted, the schema will be read from the existing database file.
 
       - ``sync?: SyncConfiguration``
 
-        Defines Device Sync behavior for this realm, including initial subscriptions.
+        Defines Device Sync behavior for this database, including initial subscriptions.
 
       ``RealmProvider`` has more props that define its behavior:
 
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
 
-        The fallback component to render while the Realm is opening or if the Realm fails to open.
+        The fallback component to render while the database is opening or if it fails to open.
 
       - ``closeOnUnmount?: boolean``
 
-        Default is ``true``. If set to ``false``, the open realm will not close when the
+        Default is ``true``. If set to ``false``, the open datahase will not close when the
         component unmounts.
 
       - ``realmRef?: React.MutableRefObject<Realm | null>``
 
-        A ref to the Realm instance. This is useful if you need to access the Realm
-        instance outside of the scope of the Realm.
+        A ref to the database instance. This is useful if you need to access the database
+        instance outside of the scope of the database.
       
       - ``children: React.ReactNode``
 
@@ -114,10 +115,10 @@ necessary:
 
 - ``UserProvider``: Used to access the logged-in :js-sdk:`user object <classes/Realm.User.html>`.
 
-- ``RealmProvider``: Used to work with the configured :js-sdk:`Realm <classes/Realm-1.html>`.
+- ``RealmProvider``: Used to work with the configured :js-sdk:`database <classes/Realm-1.html>`.
 
-This example below walks through configuring all three providers. If your app does not need a
-provider, you can skip the associated steps and omit the associated code.
+The example below walks through configuring all three providers. If your app does not need a
+certain provider, you can skip the steps and omit the code for that provider.
 
 **To configure your providers:**
 
@@ -125,7 +126,9 @@ provider, you can skip the associated steps and omit the associated code.
 
 2. Configure ``AppProvider``.
 
-   a. Pass your App Services App ID string to the ``id`` prop of the ``AppProvider``. 
+   a. Pass your App Services App ID string to the ``id`` prop of the ``AppProvider``.
+
+   b. Add other configuration object properties as props to ``AppProvider`` as needed.
 
 3. Configure ``UserProvider`` and nest it within ``AppProvider``.
    
@@ -135,13 +138,13 @@ provider, you can skip the associated steps and omit the associated code.
 
    a. Pass your object models to the ``schema`` prop.
 
-   b. If configuring a synced Realm, pass your sync properties into the ``sync`` prop. Your
+   b. If configuring a synced database, pass your sync properties into the ``sync`` prop. Your
       sync properties are formatted like a JSON dictionary.
    
       To sync data, you must set up a sync subscription. The example below uses an initial subscription,
       but you can also set up subscriptions in ``RealmProvider`` child components.
 
-   c. Add other configuration object properties as props to ``RealmProvider``.
+   c. Add other configuration object properties as props to ``RealmProvider`` as needed.
 
 Once your providers have been configured, nest your app components within the
 provider whose context it needs to access. Generally, you can nest your components within the
@@ -158,10 +161,10 @@ You *must* nest the providers as shown below to ensure each has access to its re
 
 .. note::
 
-   The example details how to configure and expose a single Realm using a ``RealmProvider``
+   The example details how to configure and expose a single database using a ``RealmProvider``
    imported directly from ``@realm/react``. 
-   For information about using ``createRealmContext()`` to configure a Realm or exposing more
-   than one Realm, see :ref:`Create Context with createRealmContext()
+   For information about using ``createRealmContext()`` to configure a database or exposing more
+   than one database, see :ref:`Create Context with createRealmContext()
    <create_context_with_createrealmcontext>` below.
 
 Working with Providers using Hooks
@@ -195,11 +198,11 @@ useRealm()
 
    useRealm(): Realm 
 
-The ``useRealm()`` Hook returns an opened :js-sdk:`realm instance<classes/Realm-1.html>`. The realm instance
-gives you access to realm methods and properties. For example, you can call
-``realm.write()`` to add a realm object to your realm.
+The ``useRealm()`` Hook returns an opened :js-sdk:`database instance<classes/Realm-1.html>`. The database instance
+gives you access to database methods and properties. For example, you can call
+``realm.write()`` to add a Realm Object to your database.
 
-To learn more about modifying Realm data, refer to :ref:`Write Transactions
+To learn more about modifying data in your database, refer to :ref:`Write Transactions
 <sdks-write-transactions>`.
 
 .. literalinclude:: /examples/generated/react-native/ts/create-test.test.snippet.crud-create-object.tsx
@@ -208,7 +211,7 @@ To learn more about modifying Realm data, refer to :ref:`Write Transactions
 
 *Returns*
 
-- ``Realm`` Returns a realm instance. This is the realm created by the Hook's parent,
+- ``Realm`` Returns a database instance. This is the database created by the Hook's parent,
   ``RealmProvider``.
 
 .. _sdks-react-use-object-hook:
@@ -222,11 +225,11 @@ useObject()
 
    useObject<T>(type, sdks-open-synced-database-offlineKey): T & Realm.Object<T> | null
 
-The ``useObject()`` Hook returns a :js-sdk:`Realm object <classes/Realm.Object.html>` for a given
+The ``useObject()`` Hook returns a :js-sdk:`Realm Object <classes/Realm.Object.html>` for a given
 :ref:`primary key <sdks-primary-key>`. You can pass an object class
 or the class name as a string and the primary key.
 
-The ``useObject()`` Hook returns null if the object doesn't exist or you have
+The ``useObject()`` Hook returns ``null`` if the object doesn't exist or you have
 deleted it. The Hook will automatically subscribe to updates and rerender the
 component using the Hook on any change to the object.
 
@@ -255,7 +258,7 @@ useQuery()
    useQuery<T>(type, query?, deps?): Realm.Results<T & Realm.Object<T>>
 
 The ``useQuery()`` Hook returns a :js-sdk:`result <classes/Realm.Results.html>` that is a
-collection of realm objects of a given type. These are the results of your query. A query can
+collection of Realm Objects of a given type. These are the results of your query. A query can
 be an object class or the class name as a string.
 
 The ``useQuery()`` method subscribes to updates to any objects in the collection
@@ -308,7 +311,7 @@ custom user data, the ``useUser()`` parent component will rerender.
 
 *Returns*
 
-- ``Realm.User`` An instance of the currently-authenticated Realm user.
+- ``Realm.User`` An instance of the currently-authenticated Atlas user.
 
 AppProvider Hooks
 ~~~~~~~~~~~~~~~~~
@@ -384,8 +387,8 @@ The authentication method specifies how you want users to login to your app. ``u
      - Example
 
    * - ``logIn(credentials)``
-     - ``credentials``: A Realm credential supplied by any supported Realm authentication.
-     - Logs in a user with any authentication mechanism supported by Realm. If called when a
+     - ``credentials``: An Atlas credential supplied by any supported Atlas authentication.
+     - Logs in a user with any authentication mechanism supported by Atlas. If called when a
        user is logged in, the current user switches to the new user. Usually, it's better to use
        the more specific login methods.
 
@@ -459,7 +462,7 @@ The authentication method specifies how you want users to login to your app. ``u
          };
 
    * - ``logInWithGoogle(credentials)``
-     - ``credentials``; An object with an ``idToken`` or ``authCode`` field that
+     - ``credentials``: An object with an ``idToken`` or ``authCode`` field that
        should contain the string token you get from Google Identity Services.
      - Log in with Google.
        
@@ -725,20 +728,20 @@ Create Context with createRealmContext()
   ``useQuery`` and ``useObject``  Hooks.
 
 Most of the time, you will only use ``createRealmContext()`` if you need to
-configure more than one realm. Otherwise, you should import ``RealmProvider``
-and Hooks directly from ``@realm/react``.
+configure more than one database. Otherwise, you should import ``RealmProvider``
+and its associated Hooks directly from ``@realm/react``.
 
 The ``createRealmContext()`` method creates a `React Context
-<https://react.dev/learn/passing-data-deeply-with-context>`__ object for a realm with a given
+<https://react.dev/learn/passing-data-deeply-with-context>`__ object for a database with a given
 :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
 ``Context`` object contains the following: 
 
 - A Context Provider component that wraps around child components
   and provides them with access to Hooks.
-- Various prebuilt Hooks that access the configured realm.
+- Various prebuilt Hooks that access the configured database.
 
-To work with more than one realm, you need to destructure a new realm provider and its
-associated Hooks from the result of ``createRealmContext()``. You can call this new realm
+To work with more than one database, you need to destructure a new provider and its
+associated Hooks from the result of ``createRealmContext()``. You can call this new database
 provider and use its associated Hooks the same way you would with the ``RealmProvider``
 imported from the ``@realm/react`` library. You should namespace providers
 to avoid confusion about which provider and Hooks you're working with.
