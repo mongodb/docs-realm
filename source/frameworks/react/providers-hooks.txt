@@ -27,6 +27,12 @@ develop a React app using JavaScript-based Atlas Device SDKs. The components lev
 provider design pattern to manage your Atlas connection, user creation and authentication, and
 data management.
 
+- :realm-react-sdk:`AppProvider (@realm/react) <functions/AppProvider.html>`
+
+- :realm-react-sdk:`UserProvider (@realm/react) <functions/UserProvider.html>`
+
+- :realm-react-sdk:`RealmProvider (@realm/react) <functions/RealmProvider.html>`
+
 The providers are available in all SDKs that support a React environment. This includes React
 Native, Web, and Electron.
 
@@ -99,6 +105,8 @@ Provider has different props you can use for configuration.
    .. tab:: UserProvider Props
       :tabid: user-provider-props
 
+      The only prop passed into ``UserProvider`` is an optional fallback component:
+
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
 
         The fallback component to render if there is no authorized user. This can be
@@ -110,15 +118,23 @@ Configure your Providers
 Your app's needs determine what providers you use, as all three providers are not always
 necessary:
 
-- ``AppProvider``: Used to connect to your :js-sdk:`Atlas App Services App Client
-  <classes/Realm.App-1.html>`, including for user authentication.
+- ``AppProvider``: Used to connect to your :ref:`Atlas App Services App Client
+  <create-app>`, including for user authentication.
 
-- ``UserProvider``: Used to access the logged-in :js-sdk:`user object <classes/Realm.User.html>`.
+- ``UserProvider``: Used to access the logged-in :ref:`user object <user-accounts>`.
 
-- ``RealmProvider``: Used to work with the configured :js-sdk:`database <classes/Realm-1.html>`.
+- ``RealmProvider``: Used to work with the configured database.
 
 The example below walks through configuring all three providers. If your app does not need a
 certain provider, you can skip the steps and omit the code for that provider.
+
+.. note:: Exposing more than one database using createRealmContext()
+
+   The example details how to configure and expose a single database using a ``RealmProvider``
+   imported directly from ``@realm/react``. 
+   For information about using ``createRealmContext()`` to configure a database or exposing more
+   than one database, see :ref:`Create Context with createRealmContext()
+   <create_context_with_createrealmcontext>` below.
 
 **To configure your providers:**
 
@@ -146,9 +162,10 @@ certain provider, you can skip the steps and omit the code for that provider.
 
    c. Add other configuration object properties as props to ``RealmProvider`` as needed.
 
-Once your providers have been configured, nest your app components within the
-provider whose context it needs to access. Generally, you can nest your components within the
-``RealmProvider`` to ensure they have access to all three providers' contexts.
+5. Nest you app components in the providers.
+   Once your providers have been configured, nest your app components within the
+   provider whose context it needs to access. Generally, you can nest your components within the
+   ``RealmProvider`` to ensure they have access to all three providers' contexts.
 
 The rendering of each component is dependent on the successful
 execution of its parent components' functionality. For example, if ``AppProvider`` cannot
@@ -158,14 +175,6 @@ You *must* nest the providers as shown below to ensure each has access to its re
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: javascript
-
-.. note::
-
-   The example details how to configure and expose a single database using a ``RealmProvider``
-   imported directly from ``@realm/react``. 
-   For information about using ``createRealmContext()`` to configure a database or exposing more
-   than one database, see :ref:`Create Context with createRealmContext()
-   <create_context_with_createrealmcontext>` below.
 
 Working with Providers using Hooks
 ----------------------------------
@@ -211,8 +220,7 @@ To learn more about modifying data in your database, refer to :ref:`Write Transa
 
 *Returns*
 
-- ``Realm`` Returns a database instance. This is the database created by the Hook's parent,
-  ``RealmProvider``.
+- ``Realm`` Returns a database instance from the ``RealmProvider`` context.
 
 .. _sdks-react-use-object-hook:
 
@@ -350,7 +358,7 @@ useAuth()
 
    useAuth(): UseAuth
 
-You destructure the `useAuth()` Hook result into a ``result`` and authentication method.
+You destructure the ``useAuth()`` Hook result into a ``result`` and authentication method.
 
 result
 ++++++
@@ -366,12 +374,12 @@ you the name of the current operation.
 
 *Enum values* 
 
-- ``state``. Can be "not-started", "pending", "success", "error".
-- ``operation``. For a list of all operation names, refer to the
+- ``state``: Can be ``"not-started"``, ``"pending"``, ``"success"``, ``"error"``.
+- ``operation``: For a list of all operation names, refer to the
   :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
-- ``pending``. Can be ``true`` or ``false``.
-- ``success``. Can be ``true`` or ``false``.
-- ``error``. Error-based object or undefined.
+- ``pending``: Can be ``true`` or ``false``.
+- ``success``: Can be ``true`` or ``false``.
+- ``error``: Error-based object or undefined.
 
 Authentication Methods
 ++++++++++++++++++++++
@@ -381,12 +389,13 @@ The authentication method specifies how you want users to login to your app. ``u
 .. list-table::
    :header-rows: 1
    :stub-columns: 1
+   :widths: 15 20 65
 
    * - Operation
      - Parameter
      - Example
 
-   * - ``logIn(credentials)``
+   * - logIn
      - ``credentials``: An Atlas credential supplied by any supported Atlas authentication.
      - Logs in a user with any authentication mechanism supported by Atlas. If called when a
        user is logged in, the current user switches to the new user. Usually, it's better to use
@@ -411,7 +420,7 @@ The authentication method specifies how you want users to login to your app. ``u
          }
          //...
 
-   * - ``logInWithAnonymous``
+   * - logInWithAnonymous
      - None
      - Log in with the anonymous authentication provider.
 
@@ -422,7 +431,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logInWithAnonymous();
          };
 
-   * - ``logInWithApiKey(key)``
+   * - logInWithApiKey
      - ``key``: A string that is linked to an App Services user.
      - Log in with an API key.
 
@@ -434,7 +443,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logInWithApiKey(key);
          };
 
-   * - ``logInWithEmailPassword(credentials)``
+   * - logInWithEmailPassword
      - ``credentials``: An object with ``email`` and ``password`` fields.
      - Log in with Email/Password.
 
@@ -448,7 +457,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logInWithEmailPassword({email, password});
          };
 
-   * - ``logInWithJWT(credentials)``
+   * - logInWithJWT
      - ``credentials``: A string representation of a user's JWT.
      - Log in with a JSON Web Token (JWT).
        
@@ -461,7 +470,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logInWithJWT(token);
          };
 
-   * - ``logInWithGoogle(credentials)``
+   * - logInWithGoogle
      - ``credentials``: An object with an ``idToken`` or ``authCode`` field that
        should contain the string token you get from Google Identity Services.
      - Log in with Google.
@@ -475,7 +484,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logInWithGoogle({idToken: token});
          };
 
-   * - ``logInWithApple(idToken)``
+   * - logInWithApple
      - ``idToken``: A string you get from the Apple SDK.
      - Log in with Apple.
        
@@ -488,7 +497,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logInWithApple(token);
          };
 
-   * - ``logInWithFacebook(accessToken)``
+   * - logInWithFacebook
      - ``accessToken``: A string you get from the Facebook SDK.
      - Log in with Facebook.
        
@@ -501,7 +510,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logInWithFacebook(token);
          };
 
-   * - ``logInWithFunction(payload)``
+   * - logInWithFunction
      - ``payload``: An object that contains user information you want to pass to
        the App Services function that processes log in requests.
      - Log in with a custom function.
@@ -515,7 +524,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logInWithFunction(customPayload);
          };
 
-   * - ``logOut()``
+   * - logOut
      - None
      - Logs out the current user.
        
@@ -531,7 +540,7 @@ The authentication method specifies how you want users to login to your app. ``u
 useEmailPasswordAuth()
 ``````````````````````
 
-You destructure the `useEmailPasswordAuth()` Hook result into a ``result`` and authentication operation.
+You destructure the ``useEmailPasswordAuth()`` Hook result into a ``result`` and authentication operation.
 
 result
 ++++++
@@ -547,12 +556,12 @@ operation.
 
 *Enum values* 
 
-- ``state``. Can be "not-started", "pending", "success", "error".
-- ``operation``. For a list of all operation names, refer to the
+- ``state``: Can be ``"not-started"``, ``"pending"``, ``"success"``, ``"error"``.
+- ``operation``: For a list of all operation names, refer to the
   :realm-react-sdk:`API documentation <enums/AuthOperationName.html>`.
-- ``pending``. Can be ``true`` or ``false``.
-- ``success``. Can be ``true`` or ``false``.
-- ``error``. Error-based object or undefined.
+- ``pending``: Can be ``true`` or ``false``.
+- ``success``: Can be ``true`` or ``false``.
+- ``error``: Error-based object or undefined.
 
 Authentication Operations
 +++++++++++++++++++++++++
@@ -562,12 +571,13 @@ Authentication Operations
 .. list-table::
    :header-rows: 1
    :stub-columns: 1
+   :widths: 15 20 65
 
    * - Operation
      - Parameter
      - Example
 
-   * - ``logIn(credentials)``
+   * - logIn
      - ``credentials``: An object that contains ``email`` and ``password`` properties.
      - Logs a user in using an email and password. You could also call
        ``logIn(Realm.Credentials.emailPassword(email, password))``. Returns a
@@ -597,7 +607,7 @@ Authentication Operations
          }
          //...
 
-   * - ``logOut()``
+   * - logOut
      - None
      - Logs out the current user.
        
@@ -608,7 +618,7 @@ Authentication Operations
             logOut();
          }
 
-   * - ``register(args)``
+   * - register
      - ``args``: An object that contains ``email`` and ``password`` properties.
      - Registers a new user. Requires a user email and password.
        
@@ -623,7 +633,7 @@ Authentication Operations
             register({email, password});
          };
 
-   * - ``confirm(args)``
+   * - confirm
      - ``args``: An object that contains ``token`` and ``tokenId`` properties.
      - Confirms a user account. Requires a ``token`` and ``tokenId``.
        
@@ -635,7 +645,7 @@ Authentication Operations
             confirm({token, tokenId});
          };
 
-   * - ``resendConfirmationEmail(args)``
+   * - resendConfirmationEmail
      - ``args``: An object that contains an ``email`` property.
      - Resends a confirmation email.
 
@@ -648,7 +658,7 @@ Authentication Operations
             resendConfirmationEmail({email});
          };
 
-   * - ``retryCustomConfirmation(args)``
+   * - retryCustomConfirmation
      - ``args``: An object that contains an ``email`` property.
      - Retries confirmation with a custom function.
 
@@ -661,7 +671,7 @@ Authentication Operations
             retryCustomConfirmation({email});
          };
 
-   * - ``sendResetPasswordEmail(args)``
+   * - sendResetPasswordEmail
      - ``args``: An object that contains an ``email`` property.
      - Sends a password reset email.
 
@@ -674,7 +684,7 @@ Authentication Operations
             sendResetPasswordEmail({email});
          };
 
-   * - ``resetPassword(args)``
+   * - resetPassword
      - ``args``: An object that contains ``token``, ``tokenId``, and ``password``
        properties.
      - Resets a user's password.
@@ -688,7 +698,7 @@ Authentication Operations
             resetPassword({token, tokenId, password});
          };
 
-   * - ``callResetPasswordFunction(args, restArgs)``
+   * - callResetPasswordFunction
      - ``args``: An object that contains ``email`` and ``password`` properties.
 
        ``restArgs``: Additional arguments that you need to pass to your custom
@@ -717,16 +727,6 @@ Create Context with createRealmContext()
 
    createRealmContext(realmConfig?): RealmContext
 
-*Parameters* 
-
-- ``realmConfig?: Realm.Configuration`` All properties of :realm-react-sdk:`BaseConfiguration 
-  <types/Realm.BaseConfiguration.html>` can be used.
-
-*Returns*
-
-- ``RealmContext`` An object containing a ``RealmProvider`` component, and the ``useRealm``,
-  ``useQuery`` and ``useObject``  Hooks.
-
 Most of the time, you will only use ``createRealmContext()`` if you need to
 configure more than one database. Otherwise, you should import ``RealmProvider``
 and its associated Hooks directly from ``@realm/react``.
@@ -745,5 +745,15 @@ associated Hooks from the result of ``createRealmContext()``. You can call this 
 provider and use its associated Hooks the same way you would with the ``RealmProvider``
 imported from the ``@realm/react`` library. You should namespace providers
 to avoid confusion about which provider and Hooks you're working with.
+
+*Parameters* 
+
+- ``realmConfig?: Realm.Configuration`` All properties of :realm-react-sdk:`BaseConfiguration 
+  <types/Realm.BaseConfiguration.html>` can be used.
+
+*Returns*
+
+- ``RealmContext`` An object containing a ``RealmProvider`` component, and the ``useRealm``,
+  ``useQuery`` and ``useObject``  Hooks.
 
 For a detailed guide, refer to :ref:`Expose More Than One Database <sdks-expose-more-than-one-database>`.
