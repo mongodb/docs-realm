@@ -34,7 +34,7 @@ jobs:
                   file="${file#source}"
                   file="${file%.txt}"
                   echo "${base_link}${file}"
-                  new_links+="<br/> - ${base_link}${file}"
+                  new_links+="${base_link}${file}<br/>- "
                 else
                   echo "(file skipped)"
                 fi
