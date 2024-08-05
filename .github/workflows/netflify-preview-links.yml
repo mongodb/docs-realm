@@ -23,7 +23,7 @@ jobs:
             id: build_page_links
             run: |
               new_links=""
-              base_link='https://deploy-preview-${{ github.event.number }}--app-services.netlify.app'
+              base_link='https://deploy-preview-${{ github.event.number }}--docs-realm.netlify.app'
               changed_files=${{ steps.changed-files.outputs.all_changed_files }}
               files=$(echo $changed_files | tr "," "\n")
               for file in $files; do
