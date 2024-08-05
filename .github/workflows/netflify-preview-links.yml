@@ -33,9 +33,9 @@ jobs:
                     (! grep -s "examples/"  <<< $file); then
                   file="${file#source}"
                   file="${file%.txt}"
-                  file-no-slash="${file:1}"
+                  filenoslash="${file:1}"
                   echo "${base_link}${file}"
-                  new_links+="<li><a href=${base_link}${file}>${file-no-slash}</a></li>"
+                  new_links+="<li><a href=${base_link}${file}>${filenoslash}</a></li>"
                 else
                   echo "(file skipped)"
                 fi
