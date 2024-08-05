@@ -26,12 +26,6 @@ The ``@realm/react`` library offers custom React components that eliminate the b
 develop a React app using JavaScript-based Atlas Device SDKs. The components leverage the provider design pattern to manage your Atlas
 connection, user creation and authentication, and data management.
 
-- ``RealmProvider``: Work with the configured :js-sdk:`Realm <classes/Realm-1.html>`.
-
-- ``AppProvider``: Connect to your :js-sdk:`App Services App Client <classes/Realm.App-1.html>`.
-
-- ``UserProvider``: Access the logged-in :js-sdk:`user object <classes/Realm.User.html>`.
-
 The providers are available in all SDKs that support a React environment. This includes React
 Native, Web, and Electron.
 
@@ -113,76 +107,62 @@ Configure your Providers
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Your app's needs determine what providers you use, as all three providers are not always
-necessary. 
+necessary:
 
-This section details how to configure and expose a single Realm using a ``RealmProvider``
-imported directly from ``@realm/react``. 
-For information about using ``createRealmContext()`` to configure a Realm or exposing more
-than one Realm, see "Create Context with createRealmContext()" below.
+- ``AppProvider``: Used to connect to your :js-sdk:`Atlas App Services App Client
+  <classes/Realm.App-1.html>`, including for user authentication.
 
-.. tabs::
+- ``UserProvider``: Used to access the logged-in :js-sdk:`user object <classes/Realm.User.html>`.
 
-   .. tab:: Configure a Realm with sync
-      :tabid: configure-sync-realm
+- ``RealmProvider``: Used to work with the configured :js-sdk:`Realm <classes/Realm-1.html>`.
 
-      If you are developing an app using Device Sync, you will need to use all three providers. 
+This example below walks through configuring all three providers. If your app does not need a
+provider, you can skip the associated steps and omit the associated code.
 
-      By default, Atlas syncs all data from the server before returning anything. If you want
-      to sync data in the background, read :ref:`Configure a Synced Realm While Offline
-      <react-native-open-synced-realm-offline>`.
+**To configure your providers:**
 
-      To configure a synced realm:
+1. Import ``RealmProvider``, ``AppProvider``, and ``UserProvider`` from ``@realm/react``.
 
-      1. Import ``RealmProvider``, ``AppProvider``, and ``UserProvider`` from ``@realm/react``.
-      
-      2. Configure ``AppProvider``.
+2. Configure ``AppProvider``.
 
-         a. Pass your App Services App ID string to the ``id`` prop of the ``AppProvider``. 
-      
-      3. Configure ``UserProvider`` and nest it within ``AppProvider``.
-        
-         a. Pass a component that logs in a user to the ``fallback`` prop. The app renders this component if there is no authenticated user.
-      
-      4. Configure ``RealmProvider`` for Device Sync and nest it within ``UserProvider``.
+   a. Pass your App Services App ID string to the ``id`` prop of the ``AppProvider``. 
 
-         a. Pass your object models to the ``schema`` prop.
+3. Configure ``UserProvider`` and nest it within ``AppProvider``.
+   
+   a. Pass a component that logs in a user to the ``fallback`` prop. The app renders this component if there is no authenticated user.
 
-         b. Pass your sync properties into the ``sync`` prop. Your sync properties are formatted like a json dictionary.
+4. Configure ``RealmProvider`` and nest it within ``UserProvider``.
 
-         c. Add other configuration object properties as props to ``RealmProvider``.
+   a. Pass your object models to the ``schema`` prop.
 
-         d. To sync data, you must set up a sync subscription. The example below uses an initial subscription,
-            but you can also set up subscriptions in ``RealmProvider`` child components.
+   b. If configuring a synced Realm, pass your sync properties into the ``sync`` prop. Your
+      sync properties are formatted like a JSON dictionary.
+   
+      To sync data, you must set up a sync subscription. The example below uses an initial subscription,
+      but you can also set up subscriptions in ``RealmProvider`` child components.
 
-      Once your providers have been configured, nest your app components within the
-      ``RealmProvider``. The rendering of each component is dependent on the successful
-      execution of its parent components' functionality. For example, if ``AppProvider`` cannot
-      connect to your app's App Services backend, the components it wraps will not render.
-      
-      You *must* nest the providers and app components as shown below to ensure each component
-      has access to its required context:
+   c. Add other configuration object properties as props to ``RealmProvider``.
 
-      .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
-        :language: javascript
+Once your providers have been configured, nest your app components within the
+provider whose context it needs to access. Generally, you can nest your components within the
+``RealmProvider`` to ensure they have access to all three providers' contexts.
 
-   .. tab:: Configure realm without sync
-      :tabid: configure-non-sync-realm
+The rendering of each component is dependent on the successful
+execution of its parent components' functionality. For example, if ``AppProvider`` cannot
+connect to your app's App Services backend, the components it wraps will not render.
 
-      If you are developing an app without sync, you only need to use ``RealmProvider``.
+You *must* nest the providers as shown below to ensure each has access to its required context:
 
-      To configure a non-synced realm:
-      
-      #. Import ``RealmProvider`` from ``@realm/react``.
+.. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
+   :language: javascript
 
-      #. Pass your object models to the ``schema`` prop.
+.. note::
 
-      #. Add other Configuration object properties as props to ``RealmProvider``
-
-      Once your ``RealmProvider`` has been configured, nest your app components within it to
-      give them access to the realm opened. 
-
-      .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
-        :language: typescript
+   The example details how to configure and expose a single Realm using a ``RealmProvider``
+   imported directly from ``@realm/react``. 
+   For information about using ``createRealmContext()`` to configure a Realm or exposing more
+   than one Realm, see :ref:`Create Context with createRealmContext()
+   <create_context_with_createrealmcontext>` below.
 
 Working with Providers using Hooks
 ----------------------------------
@@ -292,7 +272,7 @@ refer to the :ref:`CRUD - Read <react-native-read-objects>` docs.
 
 .. literalinclude:: /examples/generated/react-native/ts/read.test.snippet.crud-read-filter-data.tsx
    :language: typescript
-   :emphasize-lines: 3-5, 8-14
+   :emphasize-lines: 6-8, 14-18
 
 *Parameters* 
 
@@ -377,7 +357,7 @@ useAuth()
 
    useAuth(): UseAuth
 
-You use the `useAuth()` Hook with a result and authentication method.
+You destructure the `useAuth()` Hook result into a ``result`` and authentication method.
 
 result
 ++++++
@@ -558,7 +538,7 @@ The authentication method specifies how you want users to login to your app. ``u
 useEmailPasswordAuth()
 ``````````````````````
 
-You use the `useEmailPasswordAuth()` Hook with a result and authentication operation.
+You destructure the `useEmailPasswordAuth()` Hook result into a ``result`` and authentication operation.
 
 result
 ++++++
