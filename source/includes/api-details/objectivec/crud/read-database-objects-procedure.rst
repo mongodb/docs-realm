@@ -2,7 +2,7 @@ To find objects stored within a database:
 
 1. Query for objects of a given type in the database. Pass the object type 
    to the :objc-sdk:`RLMObject allObjects 
-   Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)allObjects>` method.
+   <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)allObjects>` method.
 
 #. Optionally, pass any query conditions to further refine the results: 
    

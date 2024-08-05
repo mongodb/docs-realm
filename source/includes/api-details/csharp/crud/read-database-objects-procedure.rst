@@ -1,7 +1,7 @@
 To find objects stored within a database:
 
 1. Query for objects of a given type in the database. Pass the object type 
-   to the :dotnet-sdk:`Realm.All\<T\> <classes/Realm-1.html#objects>` method.
+   to the :dotnet-sdk:`Realm.All\<T\> <reference/Realms.Realm.html#Realms_Realm_All__1>` method.
 
 #. Optionally, pass any query conditions to further refine the results: 
    
