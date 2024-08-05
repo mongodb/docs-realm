@@ -114,8 +114,8 @@ Configure your Providers
 
 This section details how to configure and expose a single database using a ``RealmProvider``
 imported directly from ``@realm/react``. 
-For information about using ``createRealmContext()`` to configure a database or exposing more
-than one database, refer to their respective sections below.
+For information about using ``createRealmContext()`` to configure a Realm or exposing more
+than one Realm, see "Create Context with createRealmContext()" below.
 
 .. tabs::
 
@@ -181,7 +181,6 @@ than one database, refer to their respective sections below.
       .. literalinclude:: /examples/generated/react-native/ts/configure-realm-local.test.snippet.configure-realm.tsx
         :language: typescript
 
-
 Working with Providers using Hooks
 ----------------------------------
 
@@ -201,6 +200,8 @@ use to access a provider's context in the components it wraps.
 
 RealmProvider Hooks
 ~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-react-use-realm-hook:
 
 useRealm()
 ``````````
@@ -228,7 +229,7 @@ To learn more about modifying Realm data, refer to :ref:`Write Transactions
 Returns a realm instance. This is the realm created by the hook's parent,
 ``RealmProvider``.
 
-.. _react-native-use-object-hook:
+.. _sdks-react-use-object-hook:
 
 useObject()
 ```````````
@@ -263,7 +264,7 @@ The primary key of the desired object.
 - ``Realm.Object | null``
 A Realm Object or ``null`` if no object is found.
 
-.. _react-native-use-query-hook:
+.. _sdks-react-use-query-hook:
 
 useQuery()
 ``````````
@@ -307,10 +308,10 @@ the query function.
 - ``Realm.Results<T>``
 A Realm Object or ``null`` if no object is found.
 
-.. _react-native-realm-context:
-
 UserProvider Hooks
 ~~~~~~~~~~~~~~~~~~
+
+.. _sdks-react-use-user-hook:
 
 useUser()
 `````````
@@ -338,6 +339,8 @@ An instance of the currently-authenticated Realm user.
 AppProvider Hooks
 ~~~~~~~~~~~~~~~~~
 
+.. _sdks-react-use-app-hook:
+
 useApp()
 ````````
 
@@ -359,6 +362,8 @@ instance.
 
 - ``Realm.App``
 An instance of the current ``Realm.App`` created by ``AppProvider``.
+
+.. _sdks-react-use-auth-hook:
 
 useAuth()
 `````````
@@ -545,7 +550,7 @@ The authentication method specifies how you want users to login to your app. ``u
             logOut();
          }
 
-.. _react-native-use-emailpassword-auth:
+.. _sdks-react-use-emailpassword-auth-hook:
 
 useEmailPasswordAuth()
 ``````````````````````
@@ -725,6 +730,8 @@ Authentication Operations
             callResetPasswordFunction({email, password}, "extraArg1", "extraArg2");
          };
 
+.. _create_context_with_createrealmcontext:
+
 Create Context with createRealmContext()
 ----------------------------------------
 
@@ -733,24 +740,6 @@ Create Context with createRealmContext()
    :caption: Type signature
 
    createRealmContext(realmConfig?): RealmContext
-
-Most of the time, you will only use ``createRealmContext()`` if you need to
-configure more than one realm. Otherwise, you should import ``RealmProvider``
-and  Hooks directly from ``@realm/react``.
-
-The ``createRealmContext()`` method creates a :reactjs:`React Context
-<docs/context.html>` object for a realm with a given
-:realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
-``Context`` object contains the following: 
-
-- A :reactjs:`Context Provider <docs/context.html#contextprovider>` (referred to
-  as ``RealmProvider`` elsewhere) component that wraps around child components
-  and provides them with access to  Hooks.
-- Various prebuilt :reactjs:`Hooks <docs/hooks-intro.html>` that access the
-  configured realm.
-
-For a detailed guide, refer to :ref:`Expose More Than One Realm 
-<react-native-expose-multiple-realms>`.
 
 *Parameters* 
 
@@ -766,22 +755,21 @@ For a detailed guide, refer to :ref:`Expose More Than One Realm
   An object containing a ``RealmProvider`` component, and the ``useRealm``,
   ``useQuery`` and ``useObject``  Hooks.
 
-Configure More Than One Realm
------------------------------
+Most of the time, you will only use ``createRealmContext()`` if you need to
+configure more than one realm. Otherwise, you should import ``RealmProvider``
+and Hooks directly from ``@realm/react``.
 
-When you import ``RealmProvider`` from ``@realm/react``, that provider has a
-specific context and is associated with a single realm. If you need to configure
-more than one realm, use ``createRealmContext()`` to instantiate a new provider
-for each realm.
+The ``createRealmContext()`` method creates a `React Context
+<https://react.dev/learn/passing-data-deeply-with-context>`__ object for a realm with a given
+:realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
+``Context`` object contains the following: 
 
-If you import ``useRealm()``, ``useQuery()``, or ``useObject()`` directly from
-``@realm/react``, those hooks use the default realm context. To work with more
-than one realm, you need to destructure a new realm provider and its associated
-hooks from the result of ``createRealmContext()``. You should namespace providers
+- A Context Provider component that wraps around child components
+  and provides them with access to Hooks.
+- Various prebuilt Hooks that access the configured realm.
+
+To work with more than one realm, you need to destructure a new realm provider and its
+associated hooks from the result of ``createRealmContext()``. You can call this new realm
+provider and use its associated Hooks the same way you would with the ``RealmProvider``
+imported from the ``@realm/react`` library. You should namespace providers
 to avoid confusion about which provider and hooks you're working with.
-
-For a detailed guide, refer to :ref:`Expose More Than One Realm 
-<react-native-expose-multiple-realms>`.
-
-For details about ``createRealmContext()``, refer to "Create Context with
-createRealmContext()" on this page.
