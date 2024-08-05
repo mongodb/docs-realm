@@ -23,23 +23,24 @@ Providers & Hooks
    :class: singlecol
 
 The ``@realm/react`` library offers custom React components that eliminate the boilerplate needed to
-develop a React app. The components leverage the provider design pattern to manage your Atlas
+develop a React app using JavaScript-based Atlas Device SDKs. The components leverage the provider design pattern to manage your Atlas
 connection, user creation and authentication, and data management.
 
-- ``RealmProvider``: Work with the configured `database <https://www.mongodb.com/docs/realm-sdks/react/latest/classes/Realm-1.html>`__.
+- ``RealmProvider``: Work with the configured :js-sdk:`database <classes/Realm-1.html>`.
 
-- ``AppProvider``: Connect to your `App Services App Client <https://www.mongodb.com/docs/realm-sdks/react/latest/classes/Realm.App-1.html>`__.
+- ``AppProvider``: Connect to your :js-sdk:`App Services App Client <classes/Realm.App-1.html>`.
 
-- ``UserProvider``: Access the logged-in `user object <https://www.mongodb.com/docs/realm-sdks/react/latest/classes/Realm.User.html>`__.
+- ``UserProvider``: Access the logged-in :js-sdk:`user object <classes/Realm.User.html>`.
 
-The providers are available to all frameworks used to build with the JavaScript SDK.
+The providers are available in all SDKs that support a React environment. This includes React
+Native, Web, and Electron.
 
 Getting Started with Providers
 ------------------------------
 
 Like all React components, you call providers using HTML opening and closing tags. Nesting a
 component within another component's tags creates a parent-child relationship between them,
-where child components can access the context created by its parent component. 
+where child components can access the context created by their parent component. 
 
 Context refers to the information made accessible by a provider. For example, the
 ``RealmProvider`` context is the database it connects to, so all components nested in the
@@ -48,7 +49,7 @@ Context refers to the information made accessible by a provider. For example, th
 Props
 ~~~~~
 
-Components take parameters called Props as input, passed into the opening tag. The props passed
+Components take parameters called props as input, passed into the opening tag. The props passed
 into a parent component help create the context inherited by the components it wraps. Each
 Provider has different props you can use for configuration.
 
@@ -68,17 +69,17 @@ Provider has different props you can use for configuration.
 
       - ``sync?: SyncConfiguration``
 
-        Configures a synced database.
+        Defines Device Sync behavior for this realm, including initial subscriptions.
 
       ``RealmProvider`` has more props that define its behavior:
 
       - ``fallback?: React.ComponentType<unknown> | React.ReactElement | null | undefined``
 
-        The fallback component to render while the connecting to the database.
+        The fallback component to render while the Realm is opening or if the Realm fails to open.
 
       - ``closeOnUnmount?: boolean``
 
-        Default is ``true``. If set to ``false``, the database connection will not close when the
+        Default is ``true``. If set to ``false``, the open realm will not close when the
         component unmounts.
 
       - ``realmRef?: React.MutableRefObject<Realm | null>``
@@ -98,7 +99,7 @@ Provider has different props you can use for configuration.
 
       - ``id: string``
 
-        Specifies the App ID.
+        Specifies the App Services App ID.
 
    .. tab:: UserProvider Props
       :tabid: user-provider-props
@@ -121,7 +122,7 @@ than one database, refer to their respective sections below.
    .. tab:: Configure a database with sync
       :tabid: configure-sync-database
 
-      If you are developing an app using sync, you will need to use all three providers. 
+      If you are developing an app using Device Sync, you will need to use all three providers. 
 
       By default, Atlas syncs all data from the server before returning anything. If you want
       to sync data in the background, read :ref:`Configure a Synced Realm While Offline
@@ -133,21 +134,21 @@ than one database, refer to their respective sections below.
       
       2. Configure ``AppProvider``.
 
-         a. Pass your App ID string to the ``id`` prop of the ``AppProvider``. 
+         a. Pass your App Services App ID string to the ``id`` prop of the ``AppProvider``. 
       
       3. Configure ``UserProvider`` and nest it within ``AppProvider``.
         
-         a. Pass a component that logs a user in into the ``fallback`` prop. The app renders this component if there is no authenticated user.
+         a. Pass a component that logs in a user to the ``fallback`` prop. The app renders this component if there is no authenticated user.
       
-      4. Configure ``RealmProvider`` for sync and nest it within ``UserProvider``.
+      4. Configure ``RealmProvider`` for Device Sync and nest it within ``UserProvider``.
 
          a. Pass your object models to the ``schema`` prop.
 
          b. Pass your sync properties into the ``sync`` prop. Your sync properties are formatted like a json dictionary.
 
-         c. Add other Configuration object properties as props to ``RealmProvider``.
+         c. Add other configuration object properties as props to ``RealmProvider``.
 
-         d. You must set up a sync subscription. The example below uses an initial subscription,
+         d. To sync data, you must set up a sync subscription. The example below uses an initial subscription,
             but you can also set up subscriptions in ``RealmProvider`` child components.
 
       Once your providers have been configured, nest your app components within the
@@ -195,8 +196,8 @@ There are two important rules to consider when working with hooks:
 - Hooks can only be called in a React component or a custom hook, not in regular JavaScript
   functions.
 
-The ``@realm/react`` library has custom  Hooks for each provider you can import and
-use in any wrapped component.
+The ``@realm/react`` library has custom Hooks for each provider you can
+use to access a provider's context in the components it wraps.
 
 RealmProvider Hooks
 ~~~~~~~~~~~~~~~~~~~
@@ -742,7 +743,7 @@ The ``createRealmContext()`` method creates a :reactjs:`React Context
 :realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
 ``Context`` object contains the following: 
 
-- A :reactjs:`Context provider <docs/context.html#contextprovider>` (referred to
+- A :reactjs:`Context Provider <docs/context.html#contextprovider>` (referred to
   as ``RealmProvider`` elsewhere) component that wraps around child components
   and provides them with access to  Hooks.
 - Various prebuilt :reactjs:`Hooks <docs/hooks-intro.html>` that access the
