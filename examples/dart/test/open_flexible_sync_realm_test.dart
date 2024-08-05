@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
@@ -67,23 +68,59 @@ void main() {
       expect(realm.isClosed, false);
       cleanUpRealm(realm, app);
     });
-    test('Track download progress', () async {
+
+    test('CHT', () async {
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
       late double progress = -1;
       final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
-      // :snippet-start: async-open-track-progress
-      final realm = await Realm.open(config, onProgressCallback: (syncProgress) {
-            progress = syncProgress.progressEstimate;
-            // Percent complete == progress * 100
+
+      final realm = Realm(config);
+      final sub = realm.syncSession.getProgressStream(ProgressDirection.download, ProgressMode.reportIndefinitely).listen((syncProgress) {
+          print("listen to me");
+          progress = syncProgress.progressEstimate;
           if (syncProgress.progressEstimate == 1.0) {
              // Transfer is complete
           }
       });
-      // :snippet-end:
+      print('here');
+      final query = realm.query<Tricycle>(r'name BEGINSWITH $0', ['a']);
+      realm.subscriptions.update((mutableSubscriptions) => mutableSubscriptions.add(query));
+      print(realm.subscriptions.first.queryString);
+      realm.syncSession.waitForDownload();
+      // sub.cancel(); // no need for further progress notifications
       expect(realm.isClosed, false);
       expect(progress, greaterThanOrEqualTo(0));
       cleanUpRealm(realm, app);
+  });
+
+
+    test('Track download progress', () async {
+      print("start");
+      final credentials = Credentials.anonymous();
+      final currentUser = await app.logIn(credentials);
+      double progress = -1;
+      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
+      // :snippet-start: async-open-track-progress
+      print(progress);
+
+      final realm = await Realm.open(config, onProgressCallback: (syncProgress) {
+            progress = syncProgress.progressEstimate;
+            print("here");
+            // Percent complete == progress * 100
+          print(progress);
+          if (syncProgress.progressEstimate == 1.0) {
+             // Transfer is complete
+          }
+      });
+          await realm.syncSession.waitForUpload();
+              await realm.syncSession.waitForDownload();
+      var foo = realm.syncSession.getProgressStream(ProgressDirection.download,ProgressMode.forCurrentlyOutstandingWork);
+
+      // :snippet-end:
+      /*expect(realm.isClosed, false);
+      expect(progress, greaterThanOrEqualTo(0));
+      cleanUpRealm(realm, app);*/
     });
     test('Cancel download in progress', () async {
       final credentials = Credentials.anonymous();
