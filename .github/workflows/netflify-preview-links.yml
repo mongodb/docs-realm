@@ -4,18 +4,16 @@ on:
     pull_request_target:
 jobs:
     get-pr-changes:
-        name: Get Changed Files
+        name: Get Changed Files & Update PR Description
         runs-on: ubuntu-latest
         permissions:
             issues: write
             contents: write
             pull-requests: write
             repository-projects: write
-        outputs:
-            staging_links: ${{ steps.build_page_links.outputs.staging_links }}
         steps:
           - uses: actions/checkout@v4
-          - name: Get changed files
+          - name: Get Changed Files
             id: changed-files
             uses: tj-actions/changed-files@v44
             with:
@@ -47,21 +45,11 @@ jobs:
               echo "Final new_links string: "
               echo "${new_links}"
               echo "staging_links=${new_links}" >> "$GITHUB_OUTPUT"
-    update-pr-description:
-        name: Update the PR Description
-        needs: get-pr-changes
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: Debug
-              id: parser
-              run: |
-                echo "${{ needs.get-pr-changes.outputs.staging_links }}"
-            - name: Update PR Description
-              uses: MongoCaleb/pr-description-action@master
-              with:
-                  regex: "<!-- start insert-links -->.*<!-- end insert-links -->"
-                  appendContentOnMatchOnly: true
-                  regexFlags: is
-                  content: "<!-- start insert-links -->\n${{ needs.get-pr-changes.outputs.staging_links }}\n<!-- end insert-links -->"
-                  token: ${{ secrets.GITHUB_TOKEN }}
+          - name: Update the PR Description
+            uses: MongoCaleb/pr-description-action@master
+            with:
+                regex: "<!-- start insert-links -->.*<!-- end insert-links -->"
+                appendContentOnMatchOnly: true
+                regexFlags: is
+                content: "<!-- start insert-links -->\n${{ steps.build_page_links.outputs.staging_links }}\n<!-- end insert-links -->"
+                token: ${{ secrets.GITHUB_TOKEN }}
