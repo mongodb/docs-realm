@@ -4,4 +4,4 @@ versions of the ``deleteFromRealm()`` method of a :java-sdk:`RealmObject
 
 The following example shows how to delete one object from
 its realm with :java-sdk:`deleteFromRealm()
-<io/realm/RealmObject.html#deleteFromRealm-->`.
+<io/realm/RealmObject.html#deleteFromRealm()>`.

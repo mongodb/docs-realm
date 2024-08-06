@@ -4,7 +4,7 @@ You can remove one or more elements in a single transaction from a
 - To remove one element from the list, pass the element to 
   :kotlin-sdk:`list.remove() <io.realm.kotlin.types/-realm-list/index.html#731697687%2FFunctions%2F878332154>`.
 - To remove one element at a specified index in the list, pass the index to 
-  :kotlin-sdk:`list.removeAt() <io.realm.kotlin.types/-realm-list/index.html#1522148962%2FFunctions%2F878332154>`.
+  :kotlin-sdk:`list.removeAt() <io.realm.kotlin.types/-realm-list/index.html#-1899070414%2FFunctions%2F878332154>`.
 - To remove multiple elements from the list, pass the elements to
   :kotlin-sdk:`list.removeAll() <io.realm.kotlin.types/-realm-list/index.html#1522148962%2FFunctions%2F878332154>`.
 
