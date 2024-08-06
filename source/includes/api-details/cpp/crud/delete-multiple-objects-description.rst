@@ -1,0 +1,1 @@
+You can delete multiple objects within a write transaction.
