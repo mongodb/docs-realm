@@ -1,11 +1,11 @@
 .. code-block:: typescript
 
-   myObject.myCounter.increment();
-   myObject.myCounter.value; // 1
-   myObject.myCounter.increment(2);
-   myObject.myCounter.value; // 3
-   myObject.myCounter.decrement(2);
-   myObject.myCounter.value; // 1
-   myObject.myCounter.increment(-2);
-   myObject.myCounter.value; // -1
-   myObject.myCounter.set(0); // reset counter value to 0
+   siteVisitTracker.siteVisits.increment();
+   siteVisitTracker.siteVisits.value; // 1
+   siteVisitTracker.siteVisits.increment(2);
+   siteVisitTracker.siteVisits.value; // 3
+   siteVisitTracker.siteVisits.decrement(2);
+   siteVisitTracker.siteVisits.value; // 1
+   siteVisitTracker.siteVisits.increment(-2);
+   siteVisitTracker.siteVisits.value; // -1
+   siteVisitTracker.siteVisits.set(0); // reset counter value to 0

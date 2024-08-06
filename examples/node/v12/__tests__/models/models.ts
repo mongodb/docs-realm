@@ -23,20 +23,24 @@ export class Task extends Realm.Object<Task> {
 }
 
 // :snippet-start: declare-counter-schema
-export class ClassWithCounter extends Realm.Object<ClassWithCounter> {
+export class SiteVisitTracker extends Realm.Object<SiteVisitTracker> {
   _id!: BSON.ObjectId;
-  myCounter!: Counter;
-  nullableCounter?: Counter | null;
+  siteVisits!: Counter;
+  nullableSiteVisits?: Counter | null;
 
   static schema: ObjectSchema = {
-    name: "ClassWithCounter",
+    name: "SiteVisitTracker",
     primaryKey: "_id",
     properties: {
       _id: { type: "objectId", default: () => new BSON.ObjectId() },
-      myCounter: { type: "int", presentation: "counter" },
-      // or myCounter: "counter"
-      nullableCounter: { type: "int", presentation: "counter", optional: true },
-      // or nullableCounter: "counter?"
+      siteVisits: { type: "int", presentation: "counter" },
+      // or siteVisits: "counter"
+      nullableSiteVisits: {
+        type: "int",
+        presentation: "counter",
+        optional: true,
+      },
+      // or nullableSiteVisits: "counter?"
     },
   };
 }

@@ -1,20 +1,20 @@
 .. code-block:: typescript
 
    const belowThreshold = realm.write(() => {
-     return realm.create(ClassWithCounter, { myCounter: 0 });
+     return realm.create(SiteVisitTracker, { siteVisits: 0 });
    });
 
    const atThreshold = realm.write(() => {
-     return realm.create(ClassWithCounter, { myCounter: 1 });
+     return realm.create(SiteVisitTracker, { siteVisits: 1 });
    });
 
    const aboveThreshold = realm.write(() => {
-     return realm.create(ClassWithCounter, { myCounter: 2 });
+     return realm.create(SiteVisitTracker, { siteVisits: 2 });
    });
 
-   const allObjects = realm.objects("ClassWithCounter");
+   const allObjects = realm.objects("SiteVisitTracker");
 
    let filteredObjects = allObjects.filtered(
-     "myCounter >= $0",
-     atThreshold.myCounter.value
+     "siteVisits >= $0",
+     atThreshold.siteVisits.value
    );

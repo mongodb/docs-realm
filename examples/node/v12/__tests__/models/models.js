@@ -1,16 +1,20 @@
 import Realm, { BSON } from "realm";
 
 // :snippet-start: declare-counter-schema
-export class ClassWithCounter extends Realm.Object {
+export class SiteVisitTracker extends Realm.Object {
   static schema = {
-    name: "ClassWithCounter",
+    name: "SiteVisitTracker",
     primaryKey: "_id",
     properties: {
       _id: { type: "objectId", default: () => new BSON.ObjectId() },
-      myCounter: { type: "int", presentation: "counter" },
-      // or myCounter: "counter"
-      nullableCounter: { type: "int", presentation: "counter", optional: true },
-      // or nullableCounter: "counter?"
+      siteVisits: { type: "int", presentation: "counter" },
+      // or siteVisits: "counter"
+      nullableSiteVisits: {
+        type: "int",
+        presentation: "counter",
+        optional: true,
+      },
+      // or nullableSiteVisits: "counter?"
     },
   };
 }

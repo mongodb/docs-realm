@@ -1,3 +1,9 @@
+// :replace-start: {
+//   "terms": {
+//     "js-flexible-oseso": "<yourAppId>"
+//   }
+// }
+
 import Realm, { BSON } from "realm";
 import { QuickstartTask } from "./models/models.ts";
 
@@ -146,22 +152,31 @@ describe("QuickStart Local", () => {
 describe("Quickstart Sync", () => {
   test("should open a Flexible Sync realm with initial subscriptions", async () => {
     // :snippet-start: open-realm-with-subscriptions
-    // :replace-start: {
-    //   "terms": {
-    //     "js-flexible-oseso": "<yourAppId>"
-    //   }
-    // }
     // Initialize your App.
     const app = new Realm.App({
       id: "js-flexible-oseso",
     });
-    // :replace-end:
     expect(app).toBeTruthy(); // :remove:
     expect(app.id).toBe("js-flexible-oseso"); // :remove:
 
     // Authenticate an anonymous user.
     const anonymousUser = await app.logIn(Realm.Credentials.anonymous());
     expect(app.currentUser).toBeTruthy(); // :remove:
+
+    // Add a test object throught the MongoDB client so that we have something
+    // to look for with initial subscriptions.
+    const testTask = {
+      _id: new BSON.ObjectID(),
+      name: "go grocery shopping",
+      status: "Open",
+      owner_id: anonymousUser.id,
+    };
+    const mongodb = app.currentUser?.mongoClient("mongodb-atlas");
+    const tasks = mongodb?.db("JSFlexibleSyncDB").collection("Task");
+
+    if (tasks) {
+      await tasks.insertOne(testTask);
+    }
 
     // Create a `SyncConfiguration` object.
     const config = {
@@ -201,3 +216,5 @@ describe("Quickstart Sync", () => {
 
   expect.hasAssertions();
 });
+
+// :replace-end:

@@ -1,5 +1,5 @@
 .. code-block:: typescript
 
-   const myObject = realm.write(() => {
-     return realm.create(ClassWithCounter, { myCounter: 0 });
+   const siteVisitTracker = realm.write(() => {
+     return realm.create(SiteVisitTracker, { siteVisits: 0 });
    });
