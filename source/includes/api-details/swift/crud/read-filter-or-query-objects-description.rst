@@ -5,9 +5,9 @@ operators available for Swift queries, refer to :ref:`sdks-filter-data-swift`.
 Type-Safe Queries
 `````````````````
 
-To use the :ref:`Realm Swift Query API <ios-realm-swift-query-api>`, call
-:swift-sdk:`.where <Structs/Query.html>` with a closure that contains a query
-expression as an argument.
+To use the type-safe Swift Query API, call :swift-sdk:`.where
+<Structs/Query.html>` with a closure that contains a query expression as an
+argument.
 
 This query API provides compile-time type-safe query checking. Prefer using
 this API over the older string-based ``NSPredicate`` API.

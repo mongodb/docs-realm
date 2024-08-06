@@ -3,4 +3,4 @@ To filter results in Objective-C, call :objc-sdk:`-[RLMResults objectsWhere:]
 with a query predicate.
 
 For more details about the supported operators available for Objective-C
-queries, refer to :ref:`sdks-nspredicate-query`.
+queries, refer to :ref:`sdks-filter-data-swift`.
