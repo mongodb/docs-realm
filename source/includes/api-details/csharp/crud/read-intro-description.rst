@@ -1,5 +1,4 @@
-:dotnet-sdk:`Query operations
-<https://www.mongodb.com/docs/realm-sdks/dotnet/latest/linqsupport.html>`
+:dotnet-sdk:`Query operations <linqsupport.html>`
 return an ``IQueryable<T>``, which represents a collection of all objects
 of the given type in the database. This collection may be either live or frozen.
 
