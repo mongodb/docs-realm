@@ -110,4 +110,4 @@ Query Size Limit
 ~~~~~~~~~~~~~~~~
 
 The **size limit** for any given query subscription in your subscription set is **256 kB**.
-Exceeding this limit results in a :ref:`LimitsExceeded Error<flexible-sync-errors>`.
+Exceeding this limit results in a :ref:`LimitsExceeded Error<flexible-sync-errors>`. 
