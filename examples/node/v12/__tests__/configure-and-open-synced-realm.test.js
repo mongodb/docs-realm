@@ -58,6 +58,11 @@ describe("Configure & Open a Synced Realm", () => {
       });
     });
 
+    // Make sure realm is empty
+    realm.write(() => {
+      realm.deleteAll();
+    });
+
     const dogs = realm.objects(Doggie);
 
     await realm.syncSession?.downloadAllServerChanges();

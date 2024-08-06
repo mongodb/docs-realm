@@ -51,6 +51,10 @@ describe("Define a Realm Object Schema", () => {
     expect(realm.isClosed).toBe(false); // :remove:
 
     realm.write(() => {
+      realm.deleteAll();
+    });
+
+    realm.write(() => {
       // Use the mapped name when performing CRUD operations.
       realm.create(`Todo_Item`, {
         _id: 12342245,
@@ -77,6 +81,7 @@ describe("Define a Realm Object Schema", () => {
       name: "Test the Todo_Item object name",
     });
     expect(retrievedTodoItem?.owner_id).toBe(anonymousUser.id);
+
     const result = await collection.deleteOne({
       owner_id: anonymousUser.id,
     });
