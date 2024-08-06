@@ -355,6 +355,90 @@ querying for all objects of a type.
 Filter or Query Objects
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+A **filter** selects a subset of results based on the value(s) of one or more
+object properties. The most common use case is to find objects where a certain
+property matches a certain value. Additionally, you can compare strings,
+aggregate over collections of numbers, and use logical operators to build up
+complex queries.
+
+The SDK provides several full-featured query engines you
+can use to define filters. The core query engine uses :ref:`Realm Query
+Language (RQL) <realm-query-language>` to construct queries. RQL is a
+string-based query language that you can use to retrieve objects from the
+database. Some of the SDK languages provide special query APIs that provide
+idiomatic query syntax and features. The available query APIs include:
+
+- :ref:`RQL <realm-query-language>`: C++, C#, Dart, Java, JavaScript, Kotlin,
+  TypeScript
+- :ref:`LINQ <sdks-dotnet-linq>`: C#
+- :ref:`Type-Safe and NSPredicate Queries <sdks-filter-data-swift>`: Swift,
+  Objective-C
+- :ref:`Fluent Interface <sdks-java-filter-data>`: Java, Kotlin (Java SDK)
+
+For more details about the supported operators when using each of these query
+APIs, refer to the query engine for your preferred language.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-filter-or-query-objects-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-filter-or-query-objects-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-filter-or-query-objects-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-filter-or-query-objects-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-filter-or-query-objects-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-filter-or-query-objects.rst
+
+.. tip:: Filter on Related and Embedded Object Properties
+   
+   To filter a query based on a property of an :ref:`embedded object
+   <sdks-embedded-objects>` or a :ref:`related object
+   <sdks-relationships>`, use dot-notation as if it were in a regular,
+   nested object.
+
 .. _sdks-read-find-object-by-primary-key:
 
 Find an Object by Primary Key
