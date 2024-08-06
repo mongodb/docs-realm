@@ -76,13 +76,17 @@ client application can query. In the client application, the
 :cpp-sdk:`sync_subscription_set <structrealm_1_1sync__subscription__set.html>` 
 is a list of zero or more :cpp-sdk:`sync_subscription 
 <structrealm_1_1sync__subscription.html>` objects that determine what 
-objects the realm can store.
+objects the realm can store. 
 
 The Realm C++ SDK also has a :cpp-sdk:`mutable_sync_subscription_set 
 <structrealm_1_1mutable__sync__subscription__set.html>` that enables you to
 add, change, and remove ``sync_subscription`` objects.
 
-.. include:: /includes/warning-device-sync-query-size-limit.rst
+.. warning:: Query Size Limit
+
+   The **size limit** for a subscription to a query from your client application is **256 kB**
+   when using Device Sync. Exceeding this limit in a query will result in a
+   :ref:`LimitsExceeded Error<flexible-sync-errors>`.
 
 .. _cpp-verify-subscription-size-find-subscription:
 
