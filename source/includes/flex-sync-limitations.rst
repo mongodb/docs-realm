@@ -109,6 +109,5 @@ or links. For example, ``obj1.field == "foo"``.
 Query Size Limit
 ~~~~~~~~~~~~~~~~
 
-The **size limit** for a subscription to a query from your client application is **256 kB**
-when using Device Sync. Exceeding this limit results in a
-:ref:`LimitsExceeded Error<flexible-sync-errors>`.
+The **size limit** for any given query subscription in your subscription set is **256 kB**.
+Exceeding this limit results in a :ref:`LimitsExceeded Error<flexible-sync-errors>`.
