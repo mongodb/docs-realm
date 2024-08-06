@@ -208,7 +208,7 @@ data, see  the Update Custom User Data section on this page.
    user custom data document immediately when underlying data changes.
    Instead, App Services fetches the most recent version of custom user
    data whenever a user refreshes their :ref:`access token
-   <user-sessions>`, which is used by most SDK operations that contact
+   <manage-user-sessions>`, which is used by most SDK operations that contact
    the App Services backend. If the token is not refreshed before its default 
    30 minute expiration time, the SDK refreshes the token on the next call to
    the backend. Custom user data could be stale for up to 30 minutes plus the
