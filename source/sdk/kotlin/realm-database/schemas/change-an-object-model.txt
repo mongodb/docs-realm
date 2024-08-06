@@ -8,39 +8,19 @@ Change an Object Model - Kotlin SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
-.. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
 
-Overview
---------
+.. include:: /includes/baas-server-migration-note.rst
 
-You can make changes to your object schema after you 
-:ref:`create your Realm object model <kotlin-define-object-model>`.  
-Depending on the type of changes you make to the schema, the changes can be 
-automatically applied or require a manual update to the new schema.  
-
-- Realm will automatically update a Realm :ref:`object schema <kotlin-object-schema>` when you add or 
-  delete a property from a Realm object model. 
-  You only need to update the schema version.
-- For all other schema changes, you must manually migrate old instances 
-  of a given object to the new schema. 
-
-.. tip:: Bypass Migration During Development
-
-   When developing or debugging your application, you may prefer to :ref:`delete 
-   the realm <kotlin-delete-to-avoid-migration>` instead of migrating it. Use the 
-   `deleteRealmIfMigrationNeeded <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-builder/delete-realm-if-migration-needed.html>`__ 
-   flag to delete the database automatically when a schema mismatch would
-   require a migration. 
-
-   Never release an app to production with this flag set to ``true``.
+Update a Data Model in an Unsynced (Local-Only) Realm
+-----------------------------------------------------
 
 .. _kotlin-schema-version:
 
 Schema Version
---------------
+~~~~~~~~~~~~~~
 
 A **schema version** identifies the state of a 
 :ref:`realm schema<kotlin-realm-schema>` at some point in time. 
@@ -64,7 +44,7 @@ realm, then the realm defaults to version ``0``.
 .. _kotlin-migrations:
 
 Migration
----------
+~~~~~~~~~
 
 Schema updates are called **migrations** in Realm.
 A migration updates a realm and any objects it
@@ -92,16 +72,15 @@ automatically :ref:`Sync <sync>` with another realm.
    Device Sync documentation.
 
 Automatically Update Schema
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If your schema update adds or removes properties, 
-Realm can perform the migration automatically. 
-You only need to increment the ``schemaVersion``. 
+If your schema update adds or removes properties, Realm can perform the migration 
+automatically. You only need to increment the ``schemaVersion``. 
 
 .. _kotlin-add-a-property:
 
 Add a Property
-~~~~~~~~~~~~~~
+``````````````
 
 To add a property to a schema:  
 
@@ -137,7 +116,7 @@ set values for the new property through a :ref:`migration function <kotlin-other
 .. _kotlin-delete-a-property:
 
 Delete a Property
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 To delete a property from a schema: 
 
@@ -171,7 +150,7 @@ Deleting a property will not impact existing objects.
 .. _kotlin-perform-a-schema-migration:
 
 Manually Migrate Schema
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 For more complex schema updates, Realm requires you to manually 
 migrate old instances of a given object to the new schema.
@@ -187,7 +166,7 @@ in the
 .. _kotlin-rename-a-property:
 
 Modify a Property
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 To modify an object property (e.g. rename, merge, split, or change property
 type): 
@@ -221,7 +200,7 @@ the modified properties in the old object schema and the new object schema:
 .. _kotlin-other-migration-tasks:
 
 Other Migration Tasks
-~~~~~~~~~~~~~~~~~~~~~
+`````````````````````
 
 To perform other realm schema migrations, use the following properties of
 the ``AutomaticSchemaMigration.MigrationContext`` interface:
@@ -243,3 +222,5 @@ Any data affected by the schema update that is not migrated will be lost.
 
 .. literalinclude:: /examples/generated/kotlin/MigrationTest.snippet.local-migration-other.kt
    :language: kotlin
+
+.. include:: /includes/tip-bypass-migration.rst
