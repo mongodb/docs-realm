@@ -1,6 +1,6 @@
 To filter a query, call :js-sdk:`filtered()
-<classes/Results.html#filtered>` on the query results collection.
-Pass a Realm Query Language query as argument to ``filtered()``.
+<classes/Results.html#filtered>` on a collection. Pass a Realm Query Language
+query as argument to ``filtered()``.
 
 In the following example, we use RQL comparison operators to:
 

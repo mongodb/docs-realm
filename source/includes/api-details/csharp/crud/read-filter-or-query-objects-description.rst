@@ -25,10 +25,7 @@ You can also use the :ref:`Realm Query Language <realm-query-language>` (RQL)
 to query realms. RQL is a string-based query language used to access the query 
 engine. When using RQL, you use the 
 :dotnet-sdk:`Filter() <reference/Realms.CollectionExtensions.html?q=Filter>`
-method: 
-
-.. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.rql.cs
-    :language: csharp
+method.
 
 .. important::
 
