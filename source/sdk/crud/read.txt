@@ -444,6 +444,71 @@ APIs, refer to the query engine for your preferred language.
 Find an Object by Primary Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Finding a specific object by its :ref:`primary key <sdks-primary-key>` is a
+common operation, which some of the SDK languages support through a dedicated
+method.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-find-object-by-primary-key-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-find-object-by-primary-key-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-find-object-by-primary-key-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-find-object-by-primary-key-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-find-object-by-primary-key-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-find-object-by-primary-key-not-supported.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-find-object-by-primary-key-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-find-object-by-primary-key-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-find-object-by-primary-key-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-find-object-by-primary-key.rst
+
+.. tip:: Device Sync Always Uses _id as Primary Key
+   
+   If you use Atlas Device Sync, you can always query by the primary key 
+   field ``_id``. This is because the Device Sync data model requires 
+   objects have a primary key named ``_id``. For more information, refer to 
+   :ref:`<sdks-model-data-device-sync>`. 
+
 .. _sdks-read-filter-by-property:
 
 Filter by Property
