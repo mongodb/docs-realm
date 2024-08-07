@@ -23,7 +23,7 @@ persisted name to used to store objects in the database:
     In the example above, you must query ``Frog_Entity`` instead of 
     ``Frog``. 
     For more information, refer to :ref:`Query Inverse Relationships 
-    <sdks-query-inverse-relationships>`.
+    <sdks-read-query-inverse-relationships>`.
 
 **Map a Property Name**
 

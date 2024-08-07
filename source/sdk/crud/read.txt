@@ -439,6 +439,134 @@ APIs, refer to the query engine for your preferred language.
    <sdks-relationships>`, use dot-notation as if it were in a regular,
    nested object.
 
+.. _sdks-read-access-results:
+
+Access Results
+``````````````
+
+When you perform a query operation, and the query is valid, the SDK returns a
+results collection that contains 0 or more objects matching your query.
+
+The SDK provides convenience methods to make it easier to work with the results.
+The available methods vary depending on the SDK language.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-access-results-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-access-results-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-access-results-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-access-results.rst
+
+.. _sdks-read-chain-queries:
+
+Chain Queries
+~~~~~~~~~~~~~
+
+.. _sdks-read-sort-and-limit:
+
+Sort and Limit
+~~~~~~~~~~~~~~
+
+
+
+.. _sdks-read-aggregate:
+
+Aggregate
+~~~~~~~~~
+
+.. _sdks-read-section-query-results:
+
+Section Query Results
+~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-read-query-projections:
+
+Query Projections
+~~~~~~~~~~~~~~~~~
+
+.. _sdks-read-filter-by-property-type:
+
+Filter by Property Type
+-----------------------
+
+.. _sdks-read-filter-by-collection:
+
+Query Collections (List, Set, Dictionary)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-read-list:
+
+.. _sdks-read-set:
+
+.. _sdks-read-dictionary:
+
+.. _sdks-read-filter-property-behaviors:
+
+.. _sdks-read-filter-geospatial-data:
+
+Query Geospatial Data
+~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-read-filter-mixed-property:
+
+Query a Mixed Property
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. _sdks-read-query-custom-persistable-property:
+
+Query a Custom Persistable Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Filter by Property Behaviors
+----------------------------
+
 .. _sdks-read-find-object-by-primary-key:
 
 Find an Object by Primary Key
@@ -509,28 +637,32 @@ method.
    objects have a primary key named ``_id``. For more information, refer to 
    :ref:`<sdks-model-data-device-sync>`. 
 
-.. _sdks-read-filter-by-property:
+.. _sdks-read-filter-by-remapped-property-name:
 
-Filter by Property
-------------------
+Filter by Remapped Property Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _sdks-query-engines:
+.. _sdks-read-filter-by-fts:
 
-Filter Data
------------
+Filter by Full-Text Search Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Placeholder. Add some concept information about the SDK having query engines,
-and the one you use varying depending on the SDK you're using. i.e.:
+.. _sdks-read-query-relationship-properties:
 
-- RQL (C++ (subset only), C#, Dart, JS, Kotlin, TS, maybe also Java/Java Kotlin?)
-- LINQ (C#)
-- Swift SDK (Swift & Objective-C Type-Safe queries and NS Predicate queries)
-- Java (Java & Kotlin, Fluent Interface)
+Filter Relationships
+~~~~~~~~~~~~~~~~~~~~
 
-Read Relationship Properties
-----------------------------
+.. _sdks-read-query-to-one-relationship:
 
-.. _sdks-query-inverse-relationships:
+Query a To-One Relationship
+```````````````````````````
 
-Query Inverse Relationships
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _sdks-read-query-to-many-relationship:
+
+Query a To-Many Relationship
+````````````````````````````
+
+.. _sdks-read-query-inverse-relationships:
+
+Query an Inverse Relationship
+`````````````````````````````
