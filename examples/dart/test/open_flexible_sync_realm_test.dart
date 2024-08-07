@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
@@ -69,32 +68,43 @@ void main() {
       cleanUpRealm(realm, app);
     });
 
-    test('CHT', () async {
-      final credentials = Credentials.anonymous();
-      final currentUser = await app.logIn(credentials);
-      late double progress = -1;
-      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
+Future<void> _addSubscriptions(Realm realm, String searchByPrefix) async {
+  final query = realm.query<Tricycle>(r'name BEGINSWITH $0', ["a"]);
+  if (realm.subscriptions.find(query) == null) {
+    realm.subscriptions.update((mutableSubscriptions) => mutableSubscriptions.add(query));
+  }
+  await realm.subscriptions.waitForSynchronization();
+}
 
-      final realm = Realm(config);
-      final sub = realm.syncSession.getProgressStream(ProgressDirection.download, ProgressMode.reportIndefinitely).listen((syncProgress) {
-          print("listen to me");
-          progress = syncProgress.progressEstimate;
-          if (syncProgress.progressEstimate == 1.0) {
-             // Transfer is complete
-          }
-      });
-      print('here');
-      final query = realm.query<Tricycle>(r'name BEGINSWITH $0', ['a']);
-      realm.subscriptions.update((mutableSubscriptions) => mutableSubscriptions.add(query));
-      print(realm.subscriptions.first.queryString);
-      realm.syncSession.waitForDownload();
-      // sub.cancel(); // no need for further progress notifications
-      expect(realm.isClosed, false);
-      expect(progress, greaterThanOrEqualTo(0));
-      cleanUpRealm(realm, app);
+Future<Configuration> _subscribeForAtlasAddedData(App app, {String? queryDifferentiator, int itemsCount = 100}) async {
+  final productNamePrefix = queryDifferentiator ?? generateRandomString(10);
+  final user1 = await app.logIn(Credentials.anonymous(reuseCredentials: false));
+  final config1 = Configuration.flexibleSync(user1, [Tricycle.schema]);
+  final realm1 = Realm(config1);
+  await _addSubscriptions(realm1, productNamePrefix);
+  realm1.close();
+  return config1;
+}
+
+test("Track upload progress", () async {
+    final config = await _subscribeForAtlasAddedData(app);
+    
+    int printCount = 0;
+    double progressEstimate = -1;
+
+     final syncedRealm = await Realm.open(config, onProgressCallback: (syncProgress) {
+      printCount++;
+      progressEstimate = syncProgress.progressEstimate;
+    });
+
+    await syncedRealm.syncSession.waitForUpload();
+    await syncedRealm.syncSession.waitForDownload();
+    expect(syncedRealm.isClosed, false);
+    expect(printCount, 1);
+    expect(progressEstimate, 1.0);
   });
 
-
+    
     test('Track download progress', () async {
       print("start");
       final credentials = Credentials.anonymous();
@@ -115,8 +125,7 @@ void main() {
       });
           await realm.syncSession.waitForUpload();
               await realm.syncSession.waitForDownload();
-      var foo = realm.syncSession.getProgressStream(ProgressDirection.download,ProgressMode.forCurrentlyOutstandingWork);
-
+     
       // :snippet-end:
       /*expect(realm.isClosed, false);
       expect(progress, greaterThanOrEqualTo(0));

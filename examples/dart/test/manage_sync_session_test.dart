@@ -55,12 +55,14 @@ main() {
       dynamic streamListener;
       streamListener = syncProgress.listen((syncProgressEvent) {
         if (called == false) {
+          print(syncProgressEvent.progressEstimate);
           expect(syncProgressEvent.progressEstimate > 0.0, isTrue);
           expect(syncProgressEvent.progressEstimate > 0.0, isTrue);
           called = true;
           streamListener.cancel();
         }
       });
+
       // :remove-end:
       // Add data locally
       realm.write(() {
@@ -111,15 +113,16 @@ main() {
       // :snippet-start: monitor-progress
       final stream = realm.syncSession.getProgressStream(
           ProgressDirection.upload, ProgressMode.forCurrentlyOutstandingWork);
-
+      double progressEstimate = -1;
       late StreamSubscription streamListener;
       streamListener = stream.listen((syncProgressEvent) {
-        final progressEstimate = syncProgressEvent.progressEstimate;
+        progressEstimate = syncProgressEvent.progressEstimate;
 
         if (progressEstimate < 1.0) {
           print('Upload progress: ${progressEstimate * 100}%');
         }
       }, onDone: () {
+        print('Upload progress: ${progressEstimate * 100}%');
         print("Upload complete");
         isCalled = true; // :remove:
       }, onError: (error) {
