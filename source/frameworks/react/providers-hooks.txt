@@ -6,7 +6,7 @@ Providers & Hooks
 
 .. meta:: 
    :description: Develop apps using the providers and Hooks available in the @realm/react library.
-   :keywords: Realm, Javascript SDK, React, code example
+   :keywords: Realm, JavaScript SDK, React, code example
 
 .. facet::
   :name: genre
@@ -24,17 +24,18 @@ Providers & Hooks
 
 The ``@realm/react`` library offers custom React components that eliminate the boilerplate needed to
 develop a React app using JavaScript-based Atlas Device SDKs. The components leverage the
-provider design pattern to manage your Atlas connection, user creation and authentication, and
+Provider design pattern to manage your Atlas connection, user creation and authentication, and
 data management.
 
-- :realm-react-sdk:`AppProvider (@realm/react) <functions/AppProvider.html>`
+- ``AppProvider``: Used to connect to your :ref:`Atlas App Services App Client
+  <create-app>`, including for user authentication.
 
-- :realm-react-sdk:`UserProvider (@realm/react) <functions/UserProvider.html>`
+- ``UserProvider``: Used to access the logged-in :ref:`user object <user-accounts>`.
 
-- :realm-react-sdk:`RealmProvider (@realm/react) <functions/RealmProvider.html>`
+- ``RealmProvider``: Used to work with the configured database.
 
-The providers are available in all SDKs that support a React environment. This includes React
-Native, Web, and Electron.
+Use these providers to develop with frameworks and for platforms that support a React
+environment, including: React Native, Web, and Electron. 
 
 Getting Started with Providers
 ------------------------------
@@ -44,7 +45,7 @@ component within another component's tags creates a parent-child relationship be
 where child components can access the context created by their parent component. 
 
 Context refers to the information made accessible by a provider. For example, the
-``RealmProvider`` context is the database it connects to, so all components nested in the
+``RealmProvider`` context is the Realm database it connects to, so all components nested in the
 ``RealmProvider`` have access to that database.
 
 Props
@@ -80,7 +81,7 @@ Provider has different props you can use for configuration.
 
       - ``closeOnUnmount?: boolean``
 
-        Default is ``true``. If set to ``false``, the open datahase will not close when the
+        Default is ``true``. If set to ``false``, the open database will not close when the
         component unmounts.
 
       - ``realmRef?: React.MutableRefObject<Realm | null>``
@@ -89,6 +90,15 @@ Provider has different props you can use for configuration.
         instance outside of the scope of the database.
       
       - ``children: React.ReactNode``
+
+      - ``realm?: Realm``
+
+        A configured Realm instance for the provider to connect to. Using this prop
+        eliminates the need to pass in other configuration parameters as props.
+
+        ``closeOnUnmount`` will be set to ``false`` by default.
+
+      For more details, see the :realm-react-sdk:`RealmProvider API Reference (@realm/react) <functions/RealmProvider.html>`
 
    .. tab:: AppProvider Props
       :tabid: app-provider-props
@@ -102,6 +112,15 @@ Provider has different props you can use for configuration.
 
         Specifies the App Services App ID.
 
+      ``AppProvider`` has more an additional prop that defines its behavior:
+
+      - ``app?: Realm.App``
+
+        An Atlas App Services App for the provider to connect to. Using this prop
+        eliminates the need to pass in other configuration parameters as props.
+
+      For more details, see the :realm-react-sdk:`AppProvider API Reference (@realm/react) <functions/AppProvider.html>`
+
    .. tab:: UserProvider Props
       :tabid: user-provider-props
 
@@ -112,29 +131,14 @@ Provider has different props you can use for configuration.
         The fallback component to render if there is no authorized user. This can be
         used to render a log in screen or otherwise handle authentication.
 
+      For more details, see the :realm-react-sdk:`UserProvider API Reference (@realm/react) <functions/UserProvider.html>`
+
 Configure your Providers
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Your app's needs determine what providers you use, as all three providers are not always
-necessary:
-
-- ``AppProvider``: Used to connect to your :ref:`Atlas App Services App Client
-  <create-app>`, including for user authentication.
-
-- ``UserProvider``: Used to access the logged-in :ref:`user object <user-accounts>`.
-
-- ``RealmProvider``: Used to work with the configured database.
-
-The example below walks through configuring all three providers. If your app does not need a
+necessary. The example below walks through configuring all three providers. If your app does not need a
 certain provider, you can skip the steps and omit the code for that provider.
-
-.. note:: Exposing more than one database using createRealmContext()
-
-   The example details how to configure and expose a single database using a ``RealmProvider``
-   imported directly from ``@realm/react``. 
-   For information about using ``createRealmContext()`` to configure a database or exposing more
-   than one database, see :ref:`Create Context with createRealmContext()
-   <create_context_with_createrealmcontext>` below.
 
 **To configure your providers:**
 
@@ -154,27 +158,38 @@ certain provider, you can skip the steps and omit the code for that provider.
 
    a. Pass your object models to the ``schema`` prop.
 
-   b. If configuring a synced database, pass your sync properties into the ``sync`` prop. Your
-      sync properties are formatted like a JSON dictionary.
+   b. If configuring a synced database, use the ``sync`` prop. Sync properties are defined by
+      a :ref:`Sync Config Object <flexible-sync-config-object>`.
    
       To sync data, you must set up a sync subscription. The example below uses an initial subscription,
       but you can also set up subscriptions in ``RealmProvider`` child components.
 
    c. Add other configuration object properties as props to ``RealmProvider`` as needed.
 
-5. Nest you app components in the providers.
-   Once your providers have been configured, nest your app components within the
+5. Nest your app components in the providers.
+
+   Once your providers have been configured and nested as described above, nest your app components within the
    provider whose context it needs to access. Generally, you can nest your components within the
    ``RealmProvider`` to ensure they have access to all three providers' contexts.
 
 The rendering of each component is dependent on the successful
-execution of its parent components' functionality. For example, if ``AppProvider`` cannot
-connect to your app's App Services backend, the components it wraps will not render.
+execution of its parent components' functionality. For example, while ``AppProvider`` is
+connecting to your app's App Services backend, or if ``AppProvider`` is unable to connect, the
+components it wraps will not render. In these cases, the provider's fallback component is
+rendered instead.
 
 You *must* nest the providers as shown below to ensure each has access to its required context:
 
 .. literalinclude:: /examples/generated/react-native/ts/configure-realm-sync.test.snippet.configure-realm-sync-full.tsx
    :language: javascript
+
+.. note:: Exposing more than one database using createRealmContext()
+
+   The example above details how to configure and expose a single database using a ``RealmProvider``
+   imported directly from ``@realm/react``. 
+   For information about using ``createRealmContext()`` to configure a database or exposing more
+   than one database, see :ref:`Create Context with createRealmContext()
+   <create_context_with_createrealmcontext>` below.
 
 Working with Providers using Hooks
 ----------------------------------
@@ -273,7 +288,7 @@ The ``useQuery()`` method subscribes to updates to any objects in the collection
 and rerenders the component using it on any change to the results.
 
 You can use ``.filtered()`` and ``.sorted()`` to filter and sort your query
-results. You should do this in the ``query`` argument of ``useQuery`` so that
+results. Do this in the ``query`` argument of ``useQuery`` so that
 they only run when there are changes in the dependency array. For more examples,
 refer to the :ref:`Read Objects <sdks-crud-read>` page.
 
@@ -389,15 +404,16 @@ The authentication method specifies how you want users to login to your app. ``u
 .. list-table::
    :header-rows: 1
    :stub-columns: 1
-   :widths: 15 20 65
+   :widths: 23 20 57
 
    * - Operation
      - Parameter
      - Example
 
    * - logIn
-     - ``credentials``: An Atlas credential supplied by any supported Atlas authentication.
-     - Logs in a user with any authentication mechanism supported by Atlas. If called when a
+     - ``credentials``: An Atlas credential supplied by any supported Atlas App Services
+       authentication provider.
+     - Logs in a user with any authentication mechanism supported by Atlas App Services. If called when a
        user is logged in, the current user switches to the new user. Usually, it's better to use
        the more specific login methods.
 
@@ -439,8 +455,9 @@ The authentication method specifies how you want users to login to your app. ``u
 
          const {logInWithApiKey, result} = useAuth();
          const performLogin = () => {
-         const key = getApiKey(); // user defined function
-            logInWithApiKey(key);
+          const key = getApiKey(); 
+              // user defined function
+              logInWithApiKey(key);
          };
 
    * - logInWithEmailPassword
@@ -466,8 +483,9 @@ The authentication method specifies how you want users to login to your app. ``u
          const {logInWithJWT, result} = useAuth();
 
          const performLogin = () => {
-         const token = authorizeWithCustomerProvider(); // user defined function
-            logInWithJWT(token);
+          const token = authorizeWithCustomerProvider(); 
+              // user defined function
+              logInWithJWT(token);
          };
 
    * - logInWithGoogle
@@ -480,8 +498,9 @@ The authentication method specifies how you want users to login to your app. ``u
          const {logInWithGoogle, result} = useAuth();
 
          const performLogin = () => {
-         const token = getGoogleToken(); // user defined function
-            logInWithGoogle({idToken: token});
+          const token = getGoogleToken(); 
+              // user defined function
+              logInWithGoogle({idToken: token});
          };
 
    * - logInWithApple
@@ -493,8 +512,9 @@ The authentication method specifies how you want users to login to your app. ``u
          const {logInWithApple, result} = useAuth();
 
          const performLogin = () => {
-         const token = getAppleToken(); // user defined function
-            logInWithApple(token);
+          const token = getAppleToken(); 
+              // user defined function
+              logInWithApple(token);
          };
 
    * - logInWithFacebook
@@ -506,8 +526,9 @@ The authentication method specifies how you want users to login to your app. ``u
          const {logInWithFacebook, result} = useAuth();
 
          const performLogin = () => {
-         const token = getFacebookToken(); // user defined function
-            logInWithFacebook(token);
+          const token = getFacebookToken(); 
+              // user defined function
+              logInWithFacebook(token);
          };
 
    * - logInWithFunction
@@ -520,8 +541,9 @@ The authentication method specifies how you want users to login to your app. ``u
          const {logInWithFunction, result} = useAuth();
 
          const performLogin = () => {
-         const customPayload = getAuthParams(); // user defined arguments
-            logInWithFunction(customPayload);
+          const customPayload = getAuthParams(); 
+              // user defined arguments
+              logInWithFunction(customPayload);
          };
 
    * - logOut
@@ -571,7 +593,7 @@ Authentication Operations
 .. list-table::
    :header-rows: 1
    :stub-columns: 1
-   :widths: 15 20 65
+   :widths: 27 18 55
 
    * - Operation
      - Parameter
@@ -727,14 +749,10 @@ Create Context with createRealmContext()
 
    createRealmContext(realmConfig?): RealmContext
 
-Most of the time, you will only use ``createRealmContext()`` if you need to
-configure more than one database. Otherwise, you should import ``RealmProvider``
-and its associated Hooks directly from ``@realm/react``.
-
-The ``createRealmContext()`` method creates a `React Context
-<https://react.dev/learn/passing-data-deeply-with-context>`__ object for a database with a given
-:realm-react-sdk:`Configuration <types/Realm.BaseConfiguration.html>`. The
-``Context`` object contains the following: 
+Use ``createRealmContext()`` to configure more than one database. The ``createRealmContext()``
+method creates a `React Context <https://react.dev/learn/passing-data-deeply-with-context>`__
+object for a database with a given :realm-react-sdk:`Configuration
+<types/Realm.BaseConfiguration.html>`. The ``Context`` object contains the following: 
 
 - A Context Provider component that wraps around child components
   and provides them with access to Hooks.
@@ -743,8 +761,8 @@ The ``createRealmContext()`` method creates a `React Context
 To work with more than one database, you need to destructure a new provider and its
 associated Hooks from the result of ``createRealmContext()``. You can call this new database
 provider and use its associated Hooks the same way you would with the ``RealmProvider``
-imported from the ``@realm/react`` library. You should namespace providers
-to avoid confusion about which provider and Hooks you're working with.
+imported from the ``@realm/react`` library.  Namespace your providers to avoid confusion about
+which provider and Hooks you're working with.
 
 *Parameters* 
 
