@@ -4,11 +4,11 @@ import 'package:realm_dart/realm.dart';
 import 'dart:convert';
 
 void main() {
-  const APP_ID = "example-testers-kvjdy";
+  const appId = "example-testers-kvjdy";
   group('Access tokens - ', () {
     late App app;
     setUp(() async {
-      final appConfig = AppConfiguration(APP_ID);
+      final appConfig = AppConfiguration(appId);
       app = App(appConfig);
       final authProvider = EmailPasswordAuthProvider(app);
       final email = "lisa@example.com";

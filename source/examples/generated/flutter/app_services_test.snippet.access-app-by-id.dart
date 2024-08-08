@@ -1,8 +1,7 @@
 // Create an App instance once on main isolate,
 // ideally as soon as the app starts
-final appConfig = AppConfiguration(APP_ID);
+final appConfig = AppConfiguration(appId);
 final app = App(appConfig);
-final appId = app.id;
 final receivePort = ReceivePort();
 
 // Later, access the App instance on background isolate

@@ -1,6 +1,6 @@
 // Specify a custom baseUrl to connect to.
 // In this case, an Edge Server instance running on the device.
-final appConfig = AppConfiguration(EDGE_SERVER_APP_ID,
+final appConfig = AppConfiguration(edgeServerAppId,
     baseUrl: Uri.parse('http://localhost:80'));
 
 var app = App(appConfig);

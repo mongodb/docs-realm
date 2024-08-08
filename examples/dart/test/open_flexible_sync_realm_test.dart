@@ -9,7 +9,6 @@ class _Tricycle {
   @PrimaryKey()
   @MapTo('_id')
   late int id;
-
   late String name;
 }
 
@@ -26,8 +25,8 @@ class _Car {
 
 void main() {
   group('Open Flexible Sync Realm', () {
-    const APP_ID = "flutter-flexible-luccm";
-    final appConfig = AppConfiguration(APP_ID);
+    const appId = "flutter-flexible-luccm";
+    final appConfig = AppConfiguration(appId);
     final app = App(appConfig);
     test("Open Flexible Sync Realm", () async {
       final credentials = Credentials.anonymous();
@@ -68,34 +67,63 @@ void main() {
       expect(realm.isClosed, false);
       cleanUpRealm(realm, app);
     });
-    test('Track download progress', () async {
-      final credentials = Credentials.anonymous();
-      final currentUser = await app.logIn(credentials);
-      late int transferred;
-      late int transferable;
-      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
-      // :snippet-start: async-open-track-progress
-      final realm =
-          await Realm.open(config, onProgressCallback: (syncProgress) {
-        if (syncProgress.transferableBytes == syncProgress.transferredBytes) {
-          print('All bytes transferred!');
-          // :remove-start:
-          transferred = syncProgress.transferredBytes;
-          transferable = syncProgress.transferableBytes;
-          // :remove-end:
-        }
-      });
-      // :snippet-end:
-      expect(realm.isClosed, false);
-      expect(transferred, transferable);
-      expect(transferred, greaterThanOrEqualTo(0));
-      cleanUpRealm(realm, app);
+
+Future<void> addSubscriptions(Realm realm, String searchByPrefix) async {
+  final query = realm.query<Tricycle>(r'name BEGINSWITH $0', ["a"]);
+  if (realm.subscriptions.find(query) == null) {
+    realm.subscriptions.update((mutableSubscriptions) => mutableSubscriptions.add(query));
+  }
+  await realm.subscriptions.waitForSynchronization();
+}
+
+Future<Configuration> subscribeForAtlasAddedData(App app, {int itemsCount = 100}) async {
+  final productNamePrefix = "a";
+  final user1 = await app.logIn(Credentials.anonymous(reuseCredentials: false));
+  final config1 = Configuration.flexibleSync(user1, [Tricycle.schema]);
+  final realm1 = Realm(config1);
+  await addSubscriptions(realm1, productNamePrefix);
+  realm1.close();
+
+  final user2 = await app.logIn(Credentials.anonymous(reuseCredentials: false));
+  final config2 = Configuration.flexibleSync(user2, [Tricycle.schema]);
+  final realm2 = Realm(config2);
+ 
+  await addSubscriptions(realm2, productNamePrefix);
+
+  final trikes = realm2.all<Tricycle>();
+  realm2.write(() {
+    realm2.deleteMany(trikes);
+    realm2.add(Tricycle(1001, "a1001"));
+    realm2.add(Tricycle(2002, "a2002"));
+    realm2.add(Tricycle(3003, "a3003"));
+  });
+
+  await realm2.syncSession.waitForUpload();
+  await realm2.syncSession.waitForDownload();
+  realm2.close();
+  return config1;
+}
+
+test("Track upload progress", () async {
+    final config = await subscribeForAtlasAddedData(app);
+    // :snippet-start: async-open-track-progress
+    double progressEstimate = -1;
+    final realm = await Realm.open(config, onProgressCallback: (syncProgress) {
+      progressEstimate = syncProgress.progressEstimate;
+      print('Sync progress: ${progressEstimate * 100}% complete.');
+      if (progressEstimate == 1.0) {
+        // Transfer is complete
+      }
     });
+    // :snippet-end:
+    expect(realm.isClosed, false);
+    expect(progressEstimate, 1.0);
+    cleanUpRealm(realm, app);
+  });
+    
     test('Cancel download in progress', () async {
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
-      late int transferred;
-      late int transferable;
       final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
       // :snippet-start: async-open-cancel
       final token = CancellationToken();
@@ -132,7 +160,7 @@ void main() {
       final config = Configuration.flexibleSync(currentUser, [Car.schema],
           syncErrorHandler: (SyncError error) {
         handlerCalled = true; // :remove:
-        print("Error message" + error.message.toString());
+        print("Error message${error.message}");
       });
 
       final realm = Realm(config);
@@ -176,7 +204,7 @@ void main() {
         testCompensatingWriteError = compensatingWriteError; // :remove:
         final writeReason = compensatingWriteError.compensatingWrites!.first;
 
-        print("Error message: " + writeReason.reason);
+        print("Error message: ${writeReason.reason}");
         // ... handle compensating write error as needed.
       }
 

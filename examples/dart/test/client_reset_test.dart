@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:realm_dart/realm.dart';
 import 'package:test/test.dart';

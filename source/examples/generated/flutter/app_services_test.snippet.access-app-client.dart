@@ -1,2 +1,2 @@
-final appConfig = AppConfiguration(APP_ID);
+final appConfig = AppConfiguration(appId);
 final app = App(appConfig);

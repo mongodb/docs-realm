@@ -335,11 +335,11 @@ void main() {
       // :snippet-end:
     });
     test('Remove a user from the device', () async {
-      late var user;
+      late User? user;
       if (app.currentUser != null) {
         user = app.currentUser;
         // :snippet-start: remove-user
-        await app.removeUser(user);
+        await app.removeUser(user!);
         // :snippet-end:
       }
     });

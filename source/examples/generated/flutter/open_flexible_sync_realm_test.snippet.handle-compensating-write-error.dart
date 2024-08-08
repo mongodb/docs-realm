@@ -2,7 +2,7 @@ void handleCompensatingWrite(
     CompensatingWriteError compensatingWriteError) {
   final writeReason = compensatingWriteError.compensatingWrites!.first;
 
-  print("Error message: " + writeReason.reason);
+  print("Error message: ${writeReason.reason}");
   // ... handle compensating write error as needed.
 }
 

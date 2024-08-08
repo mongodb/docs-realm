@@ -74,9 +74,7 @@ void main() {
           // That person must have been deleted, so nothing to do.
           continue;
         }
-        newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
-            " " +
-            oldPerson.dynamic.get<String>("lastName");
+        newPerson.fullName = "${oldPerson.dynamic.get<String>("firstName")} ${oldPerson.dynamic.get<String>("lastName")}";
         final oldId = oldPerson.dynamic.get<ObjectId>("id");
         newPerson.id = oldId.toString();
       }
@@ -110,9 +108,7 @@ void main() {
         }
         // Use dynamic API to get properties from old schema and use in the
         // new schema
-        newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
-            " " +
-            oldPerson.dynamic.get<String>("lastName");
+        newPerson.fullName = "${oldPerson.dynamic.get<String>("firstName")} ${oldPerson.dynamic.get<String>("lastName")}";
         // convert `id` from ObjectId to String
         final oldId = oldPerson.dynamic.get<ObjectId>("id");
         newPerson.id = oldId.toString();
