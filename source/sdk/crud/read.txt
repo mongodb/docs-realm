@@ -766,10 +766,131 @@ specified numerical property or collection.
 Section Query Results
 ~~~~~~~~~~~~~~~~~~~~~
 
+Some of the SDK languages provide an API to split results collections into
+individual sections. Each section corresponds to a key generated from a
+property on the object it represents. This simplifies working with logical
+subsets of query results.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-section-query-results-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-section-query-results-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
 .. _sdks-read-query-projections:
 
 Query Projections
 ~~~~~~~~~~~~~~~~~
+
+If your app defines a :ref:`class projection <sdks-define-model-projection>`
+to work with persisted data in a different way in a view model or based on
+certain business logic, you can query on that projection.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-query-projections-missing-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-query-projections-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+.. tip::
+
+   Don't do derived queries on top of class projection results. Instead, run a 
+   query against the SDK object directly and then project the result. If you 
+   try to do a derived query on top of class projection results, querying a 
+   field with the same name and type as the original object works, but querying 
+   a field with a name or type that isn't in the original object fails.
 
 .. _sdks-read-filter-by-property-type:
 
