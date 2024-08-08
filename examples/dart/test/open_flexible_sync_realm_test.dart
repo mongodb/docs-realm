@@ -112,7 +112,7 @@ test("Track upload progress", () async {
       progressEstimate = syncProgress.progressEstimate;
       print('Sync progress: ${progressEstimate * 100}% complete.');
       if (progressEstimate == 1.0) {
-        //transfer is complete
+        // Transfer is complete
       }
     });
     // :snippet-end:
