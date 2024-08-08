@@ -1,7 +1,8 @@
+double progressEstimate = -1;
 final realm = await Realm.open(config, onProgressCallback: (syncProgress) {
-      progress = syncProgress.progressEstimate;
-      // Percent complete == progress * 100
-    if (syncProgress.progressEstimate == 1.0) {
-       //transfer is complete
-    }
+  progressEstimate = syncProgress.progressEstimate;
+  print('Sync progress: ${progressEstimate * 100}% complete.');
+  if (progressEstimate == 1.0) {
+    //transfer is complete
+  }
 });

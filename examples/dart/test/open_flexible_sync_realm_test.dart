@@ -68,7 +68,7 @@ void main() {
       cleanUpRealm(realm, app);
     });
 
-Future<void> _addSubscriptions(Realm realm, String searchByPrefix) async {
+Future<void> addSubscriptions(Realm realm, String searchByPrefix) async {
   final query = realm.query<Tricycle>(r'name BEGINSWITH $0', ["a"]);
   if (realm.subscriptions.find(query) == null) {
     realm.subscriptions.update((mutableSubscriptions) => mutableSubscriptions.add(query));
@@ -76,61 +76,51 @@ Future<void> _addSubscriptions(Realm realm, String searchByPrefix) async {
   await realm.subscriptions.waitForSynchronization();
 }
 
-Future<Configuration> _subscribeForAtlasAddedData(App app, {String? queryDifferentiator, int itemsCount = 100}) async {
-  final productNamePrefix = queryDifferentiator ?? generateRandomString(10);
+Future<Configuration> subscribeForAtlasAddedData(App app, {int itemsCount = 100}) async {
+  final productNamePrefix = "a";
   final user1 = await app.logIn(Credentials.anonymous(reuseCredentials: false));
   final config1 = Configuration.flexibleSync(user1, [Tricycle.schema]);
   final realm1 = Realm(config1);
-  await _addSubscriptions(realm1, productNamePrefix);
+  await addSubscriptions(realm1, productNamePrefix);
   realm1.close();
+
+  final user2 = await app.logIn(Credentials.anonymous(reuseCredentials: false));
+  final config2 = Configuration.flexibleSync(user2, [Tricycle.schema]);
+  final realm2 = Realm(config2);
+ 
+  await addSubscriptions(realm2, productNamePrefix);
+
+  final trikes = realm2.all<Tricycle>();
+  realm2.write(() {
+    realm2.deleteMany(trikes);
+    realm2.add(Tricycle(1001, "a1001"));
+    realm2.add(Tricycle(2002, "a2002"));
+    realm2.add(Tricycle(3003, "a3003"));
+  });
+
+  await realm2.syncSession.waitForUpload();
+  await realm2.syncSession.waitForDownload();
+  realm2.close();
   return config1;
 }
 
 test("Track upload progress", () async {
-    final config = await _subscribeForAtlasAddedData(app);
-    
-    int printCount = 0;
+    final config = await subscribeForAtlasAddedData(app);
+    // :snippet-start: async-open-track-progress
     double progressEstimate = -1;
-
-     final syncedRealm = await Realm.open(config, onProgressCallback: (syncProgress) {
-      printCount++;
+    final realm = await Realm.open(config, onProgressCallback: (syncProgress) {
       progressEstimate = syncProgress.progressEstimate;
+      print('Sync progress: ${progressEstimate * 100}% complete.');
+      if (progressEstimate == 1.0) {
+        //transfer is complete
+      }
     });
-
-    await syncedRealm.syncSession.waitForUpload();
-    await syncedRealm.syncSession.waitForDownload();
-    expect(syncedRealm.isClosed, false);
-    expect(printCount, 1);
+    // :snippet-end:
+    expect(realm.isClosed, false);
     expect(progressEstimate, 1.0);
+    cleanUpRealm(realm, app);
   });
-
     
-    test('Track download progress', () async {
-      print("start");
-      final credentials = Credentials.anonymous();
-      final currentUser = await app.logIn(credentials);
-      double progress = -1;
-      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
-      // :snippet-start: async-open-track-progress
-      print(progress);
-
-      final realm = await Realm.open(config, onProgressCallback: (syncProgress) {
-            progress = syncProgress.progressEstimate;
-            print("here");
-            // Percent complete == progress * 100
-          print(progress);
-          if (syncProgress.progressEstimate == 1.0) {
-             // Transfer is complete
-          }
-      });
-          await realm.syncSession.waitForUpload();
-              await realm.syncSession.waitForDownload();
-     
-      // :snippet-end:
-      /*expect(realm.isClosed, false);
-      expect(progress, greaterThanOrEqualTo(0));
-      cleanUpRealm(realm, app);*/
-    });
     test('Cancel download in progress', () async {
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
