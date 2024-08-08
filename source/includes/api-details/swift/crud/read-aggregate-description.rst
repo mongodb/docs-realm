@@ -1,10 +1,12 @@
 In Swift, you can perform aggregations with these methods:
 
-- :swift-sdk:`min(ofProperty:)
-  <Protocols/RealmKeyedCollection.html#/s:10RealmSwift0A15KeyedCollectionPA2A11AddableType5Value_09PersistedF0RPzrlE7averageqd__SgyAA04_HashF0Rd__AadFRpd__lF:~:text=Aggregate%20Operations-,min(ofProperty%3A),-max(ofProperty%3A>`
-- :swift-sdk:`max(ofProperty:)
-  <Protocols/RealmKeyedCollection.html#/s:10RealmSwift0A15KeyedCollectionP3max10ofPropertyqd__SgSS_tAA17_HasPersistedTypeRd__AA06MinMaxJ00iJ0Rpd__lF>`
-- :swift-sdk:`sum(ofProperty:)
-  <Protocols/RealmKeyedCollection.html#/s:10RealmSwift0A15KeyedCollectionPA2A11AddableType5Value_09PersistedF0RPzrlE7averageqd__SgyAA04_HashF0Rd__AadFRpd__lF:~:text=max(ofProperty%3A)-,sum(ofProperty%3A),-average(ofProperty%3A>`
-- :swift-sdk:`average(ofProperty:)
-  <Protocols/RealmKeyedCollection.html#/s:10RealmSwift0A15KeyedCollectionP7average10ofPropertyqd__SgSS_tAA17_HasPersistedTypeRd__AA07AddableJ00iJ0Rpd__lF>`
+- :swift-sdk:`.avg
+  <Structs/Query.html#/s:10RealmSwift5QueryVA2A0A10CollectionRzAA01_C7Numeric7Element_13PersistedTypeRPzlE3avgACyAFQzGvp>`
+- :swift-sdk:`.min
+  <Structs/Query.html#/s:10RealmSwift5QueryVA2A0A10CollectionRzAA01_C7Numeric7Element_13PersistedTypeRPzlE3minACyAFQzGvp>`
+- :swift-sdk:`.max
+  <Structs/Query.html#/s:10RealmSwift5QueryVA2A0A10CollectionRzAA01_C7Numeric7Element_13PersistedTypeRPzlE3maxACyAFQzGvp>`
+- :swift-sdk:`.count
+  <Structs/Query.html#/s:10RealmSwift5QueryVA2A0A10CollectionRzlE5countACySiGvp>`
+- :swift-sdk:`.sum
+  <Structs/Query.html#/s:10RealmSwift5QueryVA2A0A10CollectionRzAA01_C7Numeric7Element_13PersistedTypeRPzlE3sumACyAFQzGvp>`
