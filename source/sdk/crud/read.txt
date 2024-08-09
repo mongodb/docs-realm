@@ -1727,8 +1727,89 @@ name that's persisted in the database.
 
 .. _sdks-read-filter-by-fts:
 
-Filter by Full-Text Search Property
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Filter a Full-Text Search Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your data model includes a :ref:`Full-Text Search (FTS) <sdks-fts-property>` 
+index property, you can filter by the property using the ``TEXT`` predicate. 
+Words in the query are converted to tokens by a tokenizer using the following 
+rules:
+
+- Tokens can only consist of characters from ASCII and the Latin-1 
+  supplement (western languages). All other characters are considered whitespace. 
+- Words split by a hyphen (``-``) are split into two tokens. For example, 
+  ``full-text`` splits into ``full`` and ``text``.
+- Tokens are diacritics- and case-insensitive. 
+
+You can search for an entire word or phrase, or limit your results with the 
+following characters: 
+
+- Exclude results for a word by placing the ``-`` character in front of the 
+  word. For example, ``fiction -science`` would include all search results 
+  for ``fiction`` and exclude those that include the word ``science``.
+- Specify prefixes by placing the ``*`` character at the end of a word. For
+  example, ``fict*`` would include all search results for ``fiction`` and
+  ``fictitious``. The SDK does *not* currently support suffix searches.
+
+The SDK returns a Boolean match for the specified query, instead of a 
+relevance-based match. 
+
+In the following example, the ``Frog`` object type has an FTS index property  
+called ``physicalDescription`` that we can filter by to find different types of frogs:
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/read-filter-full-text-search-property-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-filter-full-text-search-property-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-filter-full-text-search-property-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/read-filter-full-text-search-property-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-filter-full-text-search-property-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-filter-full-text-search-property-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-filter-full-text-search-property-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/generic/crud/read-filter-full-text-search-property-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/generic/crud/read-filter-full-text-search-property-not-supported.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/typescript/crud/read-filter-full-text-search-property-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-filter-full-text-search-property.rst
 
 .. _sdks-read-query-relationship-properties:
 
