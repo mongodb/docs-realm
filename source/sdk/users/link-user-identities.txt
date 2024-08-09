@@ -4,10 +4,91 @@
 Link User Identities
 ====================
 
-.. contents:: On this page
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
+.. meta::
+   :description: You can link user identities to associate multiple sets of credentials with the same user object.
+   :keywords: Realm, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
 
-Placeholder page for information about linking user identities.
+.. facet::
+  :name: genre
+  :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
+.. tabs-selector:: drivers
+
+Atlas Device SDK provides :ref:`many authentication providers
+<authentication-providers>` to log users into your app. Each provider has its
+own credentials that create a unique user identity. The SDK lets you merge
+multiple identities into a single user account.
+
+User identities must be linked prior to logging a user in. Once the user is
+logged in, you cannot link the credential used to login to the user account. 
+Also, you cannot link multiple email/password identities together.
+
+Example
+-------
+
+Consider an application that offers :ref:`anonymous login
+<anonymous-authentication>`, which allows users to explore the app without 
+registering. If a user wants to continue using the application, they can
+create a permanent account with an authentication provider intended to
+persist user data over a longer period, such as email/password authentication.
+The SDK creates a new identity belonging to a new ``User`` object. The app can
+then link the new identity with the current user.
+
+.. note:: 
+
+   Depending on how you have configured email/password authentication, there may 
+   be additional steps (confirming the email address, for example) before the 
+   new account is created and can be linked.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/link-user-identities-example-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/link-user-identities-example-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/link-user-identities-example-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/link-user-identities-example-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/link-user-identities-example-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/link-user-identities-example-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/users/link-user-identities-example-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/link-user-identities-example-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/link-user-identities-example-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/link-user-identities-example.rst

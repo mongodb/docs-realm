@@ -4,10 +4,400 @@
 Custom User Data
 ================
 
+.. meta:: 
+  :description: Learn how to store and access custom user data using Atlas Device SDK.
+  :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for information about custom user data.
+.. tabs-selector:: drivers
+
+This page describes custom user data in an App Services App and how to manage it 
+with Atlas Device SDK.
+
+Atlas App Services lets you associate data with an authenticated user, such as
+a user's preferred language, date of birth, or local timezone. You can store
+this arbitrary **custom user data** about your users and read it from your
+client application. 
+
+Prerequisites
+-------------
+
+To use custom user data, you must have an App Services App with custom user
+data enabled. 
+
+To set up an App Services App that uses custom user data, refer to the 
+following:
+
+#. :ref:`Enable Custom User Data <enable-custom-user-data-procedure>` 
+   in the App Services documentation
+#. :ref:`sdks-connect-to-atlas`
+
+.. _sdks-create-custom-user-data:
+
+Create Custom User Data
+-----------------------
+
+When you configure custom user data in Atlas, you designate a database and
+collection to store the custom user data. This data is stored as documents in
+Atlas.
+
+To create custom user data for a user, create a MongoDB document in the
+custom user data collection. The user ID field of the document should
+contain the user's user ID. You can create custom user data documents in a few
+ways:
+
+- Define a User Creation Function that automatically creates custom user data
+  as part of the user registration process.
+- Define a Function that you call with the user data, perhaps sometime
+  after registration.
+- Access MongoDB through the SDK, if your language supports it, and insert a
+  document directly into the custom user data collection.
+- Manually create a custom data document through:
+
+  - :compass:`MongoDB Compass </>`
+  - :atlas:`MongoDB Atlas Data Explorer </data-explorer/>`
+
+.. tip::
+   
+   In the App Services UI, check the :guilabel:`App Users` page under the
+   :guilabel:`Custom User Data` tab to find and configure custom user
+   data settings, including:
+
+   - The custom user data cluster, database, and collection
+   - The user ID field used to map custom user data documents to users
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/custom-user-data-create-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/custom-user-data-create-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/custom-user-data-create-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/custom-user-data-create-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/custom-user-data-create-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/custom-user-data-create-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/users/custom-user-data-create-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/custom-user-data-create-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+
+
+.. include:: /includes/sdk-examples/users/custom-user-data-create-custom-user-data.rst
+
+You can add any number of arbitrary fields and values to the custom user
+data document when you create it. The user ID field is the only
+requirement for the document to become available on the ``User`` object
+as custom user data.
+
+.. _sdks-read-custom-user-data:
+
+Read Custom User Data
+---------------------
+
+You can read the :ref:`custom user data <custom-user-data>` of a
+currently logged-in user through that user's ``User`` object. You cannot
+edit custom user data through a ``User`` object. To edit custom user
+data, see  the Update Custom User Data section on this page.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/custom-user-data-read-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/custom-user-data-read-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/custom-user-data-read-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/custom-user-data-read-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/custom-user-data-read-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/custom-user-data-read-custom-user-data-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/custom-user-data-read-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/users/custom-user-data-read-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/custom-user-data-read-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/custom-user-data-read-custom-user-data-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/users/custom-user-data-read-custom-user-data.rst
+
+.. warning:: Custom Data May Be Stale
+   
+   Atlas App Services does not dynamically update the value of the client-side
+   user custom data document immediately when underlying data changes.
+   Instead, App Services fetches the most recent version of custom user
+   data whenever a user refreshes their :ref:`access token
+   <manage-user-sessions>`, which is used by most SDK operations that contact
+   the App Services backend. If the token is not refreshed before its default 
+   30 minute expiration time, the SDK refreshes the token on the next call to
+   the backend. Custom user data could be stale for up to 30 minutes plus the
+   time until the next SDK call to the backend occurs.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/custom-user-data-read-custom-user-data-2-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/custom-user-data-read-custom-user-data-2-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/custom-user-data-read-custom-user-data-2-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/custom-user-data-read-custom-user-data-2-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/custom-user-data-read-custom-user-data-2-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/custom-user-data-read-custom-user-data-js-ts-2-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/custom-user-data-read-custom-user-data-2-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/users/custom-user-data-read-custom-user-data-2-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/custom-user-data-read-custom-user-data-2-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/users/custom-user-data-read-custom-user-data-js-ts-2-description.rst
+
+.. _sdks-update-custom-user-data:
+
+Update Custom User Data
+-----------------------
+
+You can update custom user data in a few ways:
+
+- Define a Function that you call with the updated user data.
+- Access MongoDB through the SDK, if your language supports it, and update
+  the user data document in the custom user data collection directly.
+- Manually update a custom data document through:
+
+  - :compass:`MongoDB Compass </>`
+  - :atlas:`MongoDB Atlas Data Explorer </data-explorer/>`
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/custom-user-data-update-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/custom-user-data-update-custom-user-data-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/users/custom-user-data-update-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/users/custom-user-data-update-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/users/custom-user-data-update-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/users/custom-user-data-update-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/custom-user-data-update-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/users/custom-user-data-update-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/users/custom-user-data-update-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+
+
+.. include:: /includes/sdk-examples/users/custom-user-data-update-custom-user-data.rst
+
+.. _sdks-delete-custom-user-data:
+
+Delete Custom User Data
+-----------------------
+
+Custom user data is stored in a document linked to the user object. 
+Deleting a user does not delete the custom user data. To fully delete user
+data to comply with, for example, :apple:`Apple's Account deletion guidance 
+<support/offering-account-deletion-in-your-app/>`, you must manually delete
+the user's custom data document.
+
+You can delete custom user data in a few ways:
+
+- Define a Function that you call to delete custom user data.
+- Access MongoDB through the SDK, if your language supports it, and delete
+  the user data document from the custom user data collection directly.
+- Manually delete a custom data document through:
+
+  - :compass:`MongoDB Compass </>`
+  - :atlas:`MongoDB Atlas Data Explorer </data-explorer/>`
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/users/custom-user-data-delete-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/users/custom-user-data-delete-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: dart
+
+   .. tab::
+      :tabid: java
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+   .. tab::
+      :tabid: javascript
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/users/custom-user-data-delete-custom-user-data-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+
+   .. tab::
+      :tabid: swift
+
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/users/custom-user-data-delete-custom-user-data.rst
