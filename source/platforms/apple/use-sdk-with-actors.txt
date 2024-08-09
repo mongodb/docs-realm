@@ -208,7 +208,7 @@ object local to that actor.
    
    If you may need to share the same database object across actors more than 
    once, you may prefer to share the :ref:`primary key <sdks-primary-key>` 
-   and :ref:`query for it <sdks-find-object-by-primary-key>` on 
+   and :ref:`query for it <sdks-read-find-object-by-primary-key>` on 
    the actor where you want to use it. Refer to the "Pass a Primary Key 
    and Query for the Object on Another Actor" section on this page for an
    example.
@@ -240,7 +240,7 @@ Pass a Primary Key and Query for the Object on Another Actor
 
 If you want to use a database object on another actor, you can share the 
 :ref:`primary key <sdks-primary-key>` and 
-:ref:`query for it <sdks-find-object-by-primary-key>` on the actor 
+:ref:`query for it <sdks-read-find-object-by-primary-key>` on the actor 
 where you want to use it.
 
 .. literalinclude:: /examples/generated/code/start/RealmActor.snippet.query-for-data-on-another-actor.swift
