@@ -17,11 +17,11 @@ class _Todo {
 
 void main() async {
   test('Add query to subscription set', () async {
-    const YOUR_APP_ID_HERE = 'flutter-flexible-luccm'; // :remove:
+    const yourAppIdHere = 'flutter-flexible-luccm'; // :remove:
     // Add your App Services App ID
-    const APP_ID = YOUR_APP_ID_HERE;
+    const appId = yourAppIdHere;
     // :snippet-start: init-app
-    final app = App(AppConfiguration(APP_ID));
+    final app = App(AppConfiguration(appId));
     // :snippet-end:
     // :snippet-start: log-in
     final loggedInUser = await app.logIn(Credentials.anonymous());

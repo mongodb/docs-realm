@@ -12,17 +12,17 @@ void main(List<String> arguments) async {
     realm.add(Car(ObjectId(), "Audi", model: 'A8'));
     realm.add(Car(ObjectId(), "Mercedes", model: 'G Wagon'));
   });
-  print("Bundled realm location: " + realm.config.path);
+  print("Bundled realm location: ${realm.config.path}");
   realm.close();
   // :snippet-end:
   Future<void> createSyncedBundle() async {
-    final APP_ID = 'flutter-flexible-luccm';
+    final appId = 'flutter-flexible-luccm';
     // :snippet-start: create-synced-bundle
     print("Bundling synced realm");
 
     // You must connect to the Device Sync server with an authenticated
     // user to work with the synced realm.
-    final app = App(AppConfiguration(APP_ID));
+    final app = App(AppConfiguration(appId));
     // Check if current user exists and log anonymous user if not.
     final user = app.currentUser ?? await app.logIn(Credentials.anonymous());
 
@@ -54,7 +54,7 @@ void main(List<String> arguments) async {
         path: 'sync_bundle.realm');
     realm.writeCopy(bundledConfig);
 
-    print("Bundled realm location: " + bundledConfig.path);
+    print("Bundled realm location: ${bundledConfig.path}");
     realm.close();
     // :snippet-end:
   }

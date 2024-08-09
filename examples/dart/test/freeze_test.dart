@@ -90,9 +90,9 @@ void main() {
       // Update data in the non-frozen realm
       final newLastName = "Foo";
       realm.write(() {
-        people.forEach((Person person) {
+        for (var person in people) {
           person.lastName = newLastName;
-        });
+        }
       });
 
       // Data changes not in the frozen snapshot

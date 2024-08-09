@@ -2,7 +2,6 @@ import 'package:test/test.dart';
 import '../bin/models/car.dart';
 import 'package:realm_dart/realm.dart';
 
-import 'utils.dart';
 
 void main() {
   group('CRUD Operations', () {

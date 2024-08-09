@@ -50,6 +50,10 @@ class Pet extends _Pet with RealmEntity, RealmObjectBase, RealmObject {
       RealmObjectBase.getChanges<Pet>(this);
 
   @override
+  Stream<RealmObjectChanges<Pet>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Pet>(this, keyPaths);
+
+  @override
   Pet freeze() => RealmObjectBase.freezeObject<Pet>(this);
 
   EJsonValue toEJson() {

@@ -1,10 +1,8 @@
 import 'package:test/test.dart';
 import '../bin/models/car.dart';
 import 'package:realm_dart/realm.dart';
-import 'package:path/path.dart' as path;
 import 'dart:io';
 import './utils.dart';
-import 'dart:io';
 
 void main() {
   test('Delete a Realm', () async {

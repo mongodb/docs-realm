@@ -64,11 +64,18 @@ to open a realm immediately and sync data in the background when an internet con
 .. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open.dart
    :language: dart
 
+.. _flutter-progress-callback:
+
 To track the state of the synchronization, pass a :flutter-sdk:`ProgressCallback <realm/ProgressCallback.html>`
 to the optional named argument ``onProgressCallback``.
 
 .. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open-track-progress.dart
    :language: dart
+
+.. tip::
+
+   If you want to configure progress notifications *after* opening a realm, use 
+   :ref:`SyncSession.getProgressStream <flutter-monitor-sync-progress>`.
 
 To be able to cancel a synchronization in progress, pass a `CancellationToken
 <https://pub.dev/documentation/cancellation_token/latest/cancellation_token/CancellationToken-class.html>`__

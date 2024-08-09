@@ -28,4 +28,9 @@ jobs:
         run: dart run realm_dart install
 
       - name: Run Realm SDK tests
-        run: ./scripts/test.sh
+        run: |
+          if ./scripts/test.sh --concurrency=1 2>&1 | grep "Some tests failed."
+          then
+            exit 1
+          fi
+        

@@ -22,8 +22,8 @@ void main() {
   // Because the Flutter/Dart SDK doesn't have a mongoClient yet,
   // we can't test that asymmetric objects exist in the backend.
   group('Create asymmetric abject and use Data Ingest', () {
-    const APP_ID = "flutter-flexible-luccm";
-    final appConfig = AppConfiguration(APP_ID);
+    const appId = "flutter-flexible-luccm";
+    final appConfig = AppConfiguration(appId);
     final app = App(appConfig);
 
     test("Create asymmetric object locally", () async {

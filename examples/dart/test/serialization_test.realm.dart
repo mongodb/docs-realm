@@ -48,6 +48,10 @@ class Address extends _Address
       RealmObjectBase.getChanges<Address>(this);
 
   @override
+  Stream<RealmObjectChanges<Address>> changesFor([List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<Address>(this, keyPaths);
+
+  @override
   Address freeze() => RealmObjectBase.freezeObject<Address>(this);
 
   EJsonValue toEJson() {
@@ -232,6 +236,11 @@ class SerializeModel extends _SerializeModel
   @override
   Stream<RealmObjectChanges<SerializeModel>> get changes =>
       RealmObjectBase.getChanges<SerializeModel>(this);
+
+  @override
+  Stream<RealmObjectChanges<SerializeModel>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<SerializeModel>(this, keyPaths);
 
   @override
   SerializeModel freeze() => RealmObjectBase.freezeObject<SerializeModel>(this);
