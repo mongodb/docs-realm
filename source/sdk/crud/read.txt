@@ -1089,6 +1089,13 @@ The SDK provides several shapes to simplify querying
 circle, polygon, and box shapes to set the boundaries for your geospatial
 data queries.
 
+To query geospatial data:
+
+1. Define a geospatial shape representing the bounds within which you want to
+   query data.
+2. Use the geospatial shape in a query with the relevant geospatial query
+   operators.
+
 .. tabs-drivers::
 
    .. tab::
@@ -1441,6 +1448,82 @@ query.
 
 Query a Mixed Property
 ~~~~~~~~~~~~~~~~~~~~~~
+
+A :ref:`sdks-mixed-data-type` property represents a polymorphic value that can 
+hold any one of its supported data types at a particular moment. You can query 
+a mixed property the same way you would any property. 
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-query-mixed-properties-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+
+      
+   .. tab::
+      :tabid: dart
+
+
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-query-mixed-properties-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-query-mixed-properties-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-query-mixed-properties-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-query-mixed-properties-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-query-mixed-properties-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-query-mixed-properties-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-query-mixed-properties-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-query-mixed-properties.rst
+
+Query Nested Collections of Mixed Data
+``````````````````````````````````````
+
+A mixed data type can hold collections (a list or dictionary, but *not* a set)
+of mixed elements. You can use mixed collections to model unstructured or
+variable data. For more information, refer to :ref:`<sdks-model-unstructured-data>`.
+
+- You can nest mixed collections up to 100 levels.
+- You can query mixed collection properties and
+  :ref:`register a listener for changes <sdks-collection-change-listener>`, as you
+  would a normal collection.
+
+- You can find and update individual mixed collection elements
+- You *cannot* store sets or embedded objects in mixed collections.
+
+For details about supported operators and list comparisons, refer to the
+:ref:`rql-collections-in-mixed-queries` documentation.  
 
 .. _sdks-read-query-custom-persistable-property:
 
