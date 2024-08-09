@@ -105,3 +105,9 @@ Embedded or Linked Objects
 
 Flexible Sync does not support querying on properties in Embedded Objects 
 or links. For example, ``obj1.field == "foo"``.
+
+Query Size Limit
+~~~~~~~~~~~~~~~~
+
+The **size limit** for any given query subscription in your subscription set is **256 kB**.
+Exceeding this limit results in a :ref:`LimitsExceeded Error<flexible-sync-errors>`. 

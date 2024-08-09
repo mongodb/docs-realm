@@ -57,6 +57,10 @@ describe("Test core Realm logger", () => {
     };
     let logs: Log[] = [];
 
+    // :remove-start:
+    // @ts-ignore this is an outdated API. Test will be updated with new
+    // logger API later
+    // :remove-end:
     Realm.setLogger((level, message) => {
       logs.push({ level, message });
     });
@@ -91,6 +95,10 @@ describe("Test core Realm logger", () => {
     };
     let logs: Log[] = [];
 
+    // :remove-start:
+    // @ts-ignore this is an outdated API. Test will be updated with new
+    // logger API later
+    // :remove-end:
     Realm.setLogger((level, message) => {
       logs.push({ level, message });
     });

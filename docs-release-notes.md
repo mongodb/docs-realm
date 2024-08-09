@@ -25,6 +25,23 @@
 - Fixed failing tests in Node SDK test suite
 - Added a new GitHub Action that generates staging links and inserts them into the PR description.
 
+# August 2, 2024
+
+## .NET SDK
+
+- Create
+  - New C# API descriptions for "Create an unmanaged copy of an object" and "Copy an object to another database" advising developers to use third-party libraries for this functionality.
+- Fix typo of incorrect .NET SDK version
+
+## React Native SDK
+
+- Fix typo per reported feedback.
+
+## Other
+
+- Fix the jest node test (for v12) CI, so it fails when jest tests fail.
+- Re-add path to Node v12 tests. Update RN tests to use same logic as Node. Clean up legacy node tests. Use `checkout@4` to remove warnings.
+
 # July 26, 2024
 
 ## Flutter SDK
