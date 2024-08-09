@@ -40,7 +40,7 @@
 ## Other
 
 - Fix the jest node test (for v12) CI, so it fails when jest tests fail.
-- Re-add path to Node v12 tests. Update RN tests to use same logic as Node. Clean up legacy node tests. Use `checkout@4` to remove warnings.
+- Re-add path to Node v12 CI checks. Update RN CI checks to use same logic as Node. Clean up legacy node CI checks. Use `checkout@4` to remove warnings.
 
 # July 26, 2024
 
