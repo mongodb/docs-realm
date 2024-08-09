@@ -3,9 +3,7 @@
 Jira ticket: https://jira.mongodb.org/browse/DOCSP-NNNNN
 
 ### Staging Links
-<!-- start insert-links -->
--
-<!-- end insert-links -->
+<!-- start insert-links --><!-- end insert-links -->
 
 *Page Source*
 
