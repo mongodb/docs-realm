@@ -1,3 +1,30 @@
+# August 9, 2024
+
+## C++ SDK
+
+- Sync Data/Manage Sync Subscriptions: Add a warning about the query size limit when using Device Sync.
+
+## Node.js SDK
+
+- Update some examples based on fixed tests
+
+## Consolidation Project
+
+- 4 PRs merged
+  - Custom User Data page
+  - Delete Page
+  - Swift Filter Data page
+  - Link User Identities page
+
+## Other
+
+- Throughout the SDK Docs: Update the "Flexible Sync RQL Requirements and Limitations" section to include the query size limit when using Device Sync.
+
+## Internal
+
+- Fixed failing tests in Node SDK test suite
+- Added a new GitHub Action that generates staging links and inserts them into the PR description.
+
 # July 26, 2024
 
 ## Flutter SDK
@@ -7,7 +34,7 @@
 ## .NET SDK
 
 - Sync Data:
-  - Suspend or Resume a Sync Session: Add additional context to the existing code snippet that demonstrates calling the ``Start()`` and ``Stop()`` methods.
+  - Suspend or Resume a Sync Session: Add additional context to the existing code snippet that demonstrates calling the `Start()` and `Stop()` methods.
   - Throughout the section: Update pages to reflect that converting to a Synced Realm is only supported in Partition Based Sync.
 
 ## Node.js SDK
@@ -27,8 +54,8 @@
 ## Node.js SDK
 
 - Model Data/Data Types
-  - Counters: Create page to document the addition of the ``Counter`` class and data type to the Node.js SDK and update the Table of Contents to reflect the addition.
-  - Field Types: Add ``counter`` as a supported data type.
+  - Counters: Create page to document the addition of the `Counter` class and data type to the Node.js SDK and update the Table of Contents to reflect the addition.
+  - Field Types: Add `counter` as a supported data type.
 
 # July 12, 2024
 
@@ -119,7 +146,7 @@
 
 ## Other
 
-- Internal: Update Node version to 18.x for compatibility with Bluehawk. 
+- Internal: Update Node version to 18.x for compatibility with Bluehawk.
 
 # May 31, 2024
 
@@ -291,6 +318,7 @@
 ## Other
 
 Throughout Device SDK docs:
+
 - Add deprecation notices to pages with substantial GraphQL content.
 - Remove high-level references to our GraphQL API to make the feature less discoverable.
 
@@ -354,7 +382,7 @@ Throughout Device SDK docs:
 ## React Native SDK
 
 - Atlas App Services/Connect to an App Services App:
-  - Note that, starting in v12.6.0, you can update the `baseUrl` in the  `AppConfiguration` because the App client no longer caches it.
+  - Note that, starting in v12.6.0, you can update the `baseUrl` in the `AppConfiguration` because the App client no longer caches it.
   - Update examples to use new auth hooks.
 - API Reference/App Provider: Update `useApp` example to remove old auth pattern.
 
@@ -411,6 +439,7 @@ Throughout Device SDK docs:
 ## C++ SDK
 
 Prepare docs for C++ GA release, including:
+
 - Remove "Preview" from naming.
 - Move Bluehawked, tested code examples out of the experimental namespace, and generate updated examples.
 - Remove tabs for "Current" and "Deprecated" (Beta and Alpha) syntaxes.
