@@ -104,41 +104,8 @@ Realm emits an initial notification when a subscription is added. After the
 initial notification, Realm delivers notifications asynchronously whenever a 
 write transaction adds, modifies, or removes objects in the collection.
 
-To subscribe to collection notifications, call the 
-:dotnet-sdk:`SubscribeForNotifications <reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_SubscribeForNotifications__1_System_Collections_Generic_IDictionary_System_String___0__Realms_NotificationCallbackDelegate_System_Collections_Generic_KeyValuePair_System_String___0___>` 
-method. ``SubscribeForNotifications`` returns a subscription token which can be 
-disposed at any time to stop receiving notifications on the collection. 
-
-The following code shows how to observe a collection for changes. 
-
-.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.collection-notifications.cs
-   :language: csharp
-
-.. important:: Order Matters
-   
-   In collection notification handlers, always apply changes
-   in the following order:
-
-   1. deletions
-   #. insertions
-   #. modifications 
-   
-   Handling insertions before deletions may result in unexpected behavior.
-
-Limit Notifications
-~~~~~~~~~~~~~~~~~~~
-
-The SDK provides also provides a 
-:dotnet-sdk:`KeyPathsCollection <reference/Realms.KeyPathsCollection.html>`, which 
-provides a way to filter the fields that will trigger a notification. You pass  
-the ``KeyPathsCollection`` to the ``SubscribeForNotifications`` method. 
-The following code shows how to observe specific fields:
-
-.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.field-notifications.cs
-   :language: csharp
-
-Notification ChangeSet 
-~~~~~~~~~~~~~~~~~~~~~~
+Notification ChangeSets
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The notification contains a :dotnet-sdk:`ChangeSet <reference/Realms.ChangeSet.html>` 
 with 6 properties:
@@ -158,6 +125,42 @@ with 6 properties:
 - ``Moved`` is an array of :dotnet-sdk:`ChangeSet.Move <reference/Realms.ChangeSet.Move.html>` 
   structs that contain the previous and new index of an object moved within the 
   collection.
+
+.. important:: Order Matters
+   
+   In collection notification handlers, always apply changes
+   in the following order:
+
+   1. deletions
+   #. insertions
+   #. modifications 
+   
+   Handling insertions before deletions may result in unexpected behavior.
+
+Get Notified of All Collection Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To subscribe to collection notifications, call the 
+:dotnet-sdk:`SubscribeForNotifications <reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_SubscribeForNotifications__1_System_Collections_Generic_IDictionary_System_String___0__Realms_NotificationCallbackDelegate_System_Collections_Generic_KeyValuePair_System_String___0___>` 
+method. ``SubscribeForNotifications`` returns a subscription token which can be 
+disposed at any time to stop receiving notifications on the collection. 
+
+The following code shows how to observe a collection for changes. 
+
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.collection-notifications.cs
+   :language: csharp
+
+Limit Notifications
+~~~~~~~~~~~~~~~~~~~
+
+The SDK provides also provides a 
+:dotnet-sdk:`KeyPathsCollection <reference/Realms.KeyPathsCollection.html>`, which 
+provides a way to filter the fields that will trigger a notification. You pass  
+the ``KeyPathsCollection`` to the ``SubscribeForNotifications`` method. 
+The following code shows how to observe specific fields:
+
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.field-notifications.cs
+   :language: csharp
 
 .. _dotnet-unregister-a-change-listener:
 
