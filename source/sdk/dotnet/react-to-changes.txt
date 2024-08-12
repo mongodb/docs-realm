@@ -90,9 +90,6 @@ notification handler on the collection or handle the `CollectionChanged
 <https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged?view=net-6.0>`__ 
 event. 
 
-Register a Collection Change Listener
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 You can register a notification handler on a specific 
 collection within a realm. The collection can be of realm objects 
 (like ``realm.All<Person>()``) or a collection property on a 
@@ -106,25 +103,6 @@ to manage a list or other view that represents the collection in the UI.
 Realm emits an initial notification when a subscription is added. After the 
 initial notification, Realm delivers notifications asynchronously whenever a 
 write transaction adds, modifies, or removes objects in the collection.
-
-Specifically, the notification contains a :dotnet-sdk:`ChangeSet <reference/Realms.ChangeSet.html>` 
-with 6 properties:
-
-- ``DeletedIndices`` is an ``int[]`` that contains the indices of the objects that were 
-  deleted.
-- ``InsertedIndices`` is an ``int[]`` that contains the indices of the objects that were 
-  inserted.
-- ``ModifiedIndices`` is an ``int[]`` that contains the *old* indices of the objects 
-  that were modified. These indices indicate the position of the modified objects 
-  in the original collection before any deletions or insertions ocurred. 
-- ``NewModifiedIndices`` is an ``int[]`` that represents the same entries as the 
-  ``ModifiedIndices`` property, but the indices represent the new locations in the 
-  collection after all changes have been accounted for.
-- ``IsCleared`` is a boolean set to ``true`` when a collection has been cleared by 
-  calling the ``Clear()`` method.
-- ``Moved`` is an array of :dotnet-sdk:`ChangeSet.Move <reference/Realms.ChangeSet.Move.html>` 
-  structs that contain the previous and new index of an object moved within the 
-  collection.
 
 To subscribe to collection notifications, call the 
 :dotnet-sdk:`SubscribeForNotifications <reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_SubscribeForNotifications__1_System_Collections_Generic_IDictionary_System_String___0__Realms_NotificationCallbackDelegate_System_Collections_Generic_KeyValuePair_System_String___0___>` 
@@ -146,6 +124,40 @@ The following code shows how to observe a collection for changes.
    #. modifications 
    
    Handling insertions before deletions may result in unexpected behavior.
+
+Limit Notifications
+~~~~~~~~~~~~~~~~~~~
+
+The SDK provides also provides a 
+:dotnet-sdk:`KeyPathsCollection <reference/Realms.KeyPathsCollection.html>`, which 
+provides a way to filter the fields that will trigger a notification. You pass  
+the ``KeyPathsCollection`` to the ``SubscribeForNotifications`` method. 
+The following code shows how to observe specific fields:
+
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.field-notifications.cs
+   :language: csharp
+
+Notification ChangeSet 
+~~~~~~~~~~~~~~~~~~~~~~
+
+The notification contains a :dotnet-sdk:`ChangeSet <reference/Realms.ChangeSet.html>` 
+with 6 properties:
+
+- ``DeletedIndices`` is an ``int[]`` that contains the indices of the objects that were 
+  deleted.
+- ``InsertedIndices`` is an ``int[]`` that contains the indices of the objects that were 
+  inserted.
+- ``ModifiedIndices`` is an ``int[]`` that contains the *old* indices of the objects 
+  that were modified. These indices indicate the position of the modified objects 
+  in the original collection before any deletions or insertions ocurred. 
+- ``NewModifiedIndices`` is an ``int[]`` that represents the same entries as the 
+  ``ModifiedIndices`` property, but the indices represent the new locations in the 
+  collection after all changes have been accounted for.
+- ``IsCleared`` is a boolean set to ``true`` when a collection has been cleared by 
+  calling the ``Clear()`` method.
+- ``Moved`` is an array of :dotnet-sdk:`ChangeSet.Move <reference/Realms.ChangeSet.Move.html>` 
+  structs that contain the previous and new index of an object moved within the 
+  collection.
 
 .. _dotnet-unregister-a-change-listener:
 
