@@ -11,4 +11,7 @@ operation, and has these characteristics:
   contents change in the isolate context. If they derive from frozen objects,
   they represent only a snapshot and do not automatically update.
 - You cannot manually initialize an empty ``RealmResults`` set. Results can
-  only be initialized as the result of a query.
+  only be initialized:
+  
+  - As the result of a query.
+  - From a ``RealmList`` or ``RealmSet``, by calling the ``asResults()`` method.

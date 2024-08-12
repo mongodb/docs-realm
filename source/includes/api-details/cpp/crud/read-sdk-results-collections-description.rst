@@ -11,4 +11,10 @@ has these characteristics:
   contents change. If they derive from frozen objects, they represent only a
   snapshot and do not automatically update.
 - You cannot manually initialize an empty results set. Results can only
-  be initialized as the result of a query.
+  be initialized:
+
+  - As the result of a query.
+  - From a managed :ref:`list <sdks-read-list>`, using the
+    :cpp-sdk:`as_results()
+    <structrealm_1_1managed_3_01std_1_1vector_3_01T_01_5_01_4_01_4.html>`
+    member funcion.
