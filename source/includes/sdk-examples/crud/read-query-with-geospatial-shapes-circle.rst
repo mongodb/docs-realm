@@ -4,47 +4,54 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/crud.snippet.read-map-value.cpp
+         .. literalinclude:: /examples/MissingPlaceholders/api.cpp
             :language: cpp
+            :copyable: false
 
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+         .. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geocircle-query.cs
             :language: csharp
-            :copyable: false
 
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.map-work-with.dart
+         .. literalinclude:: /examples/generated/flutter/geospatial_data_test.snippet.geocircle-query.dart
             :language: dart
 
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.java
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
             :language: java
             :copyable: false
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+         .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.kt
             :language: kotlin
             :copyable: false
 
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/data-types.snippet.query-a-dictionary.js
+         .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle-query.js
             :language: javascript
 
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-dictionary.kt
-            :language: kotlin
+         .. io-code-block::
+
+            .. input:: /examples/generated/kotlin/Geospatial.snippet.geocircle-query.kt
+               :language: kotlin
+
+            .. output:: 
+
+               Companies in large circle: 1
+               Companies in small circle: 0
 
      - id: objectivec
        content: |
@@ -62,6 +69,5 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/MissingPlaceholders/example.ts
+         .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle-query.ts
             :language: typescript
-            :copyable: false

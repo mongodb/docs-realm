@@ -4,46 +4,46 @@
      - id: cpp-sdk
        content: |
 
-         .. literalinclude:: /examples/generated/cpp/crud.snippet.read-map-value.cpp
+         .. literalinclude:: /examples/MissingPlaceholders/api.cpp
             :language: cpp
+            :copyable: false
 
      - id: csharp
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.cs
+         .. literalinclude:: /examples/generated/dotnet/Geospatial.snippet.geocircle.cs
             :language: csharp
-            :copyable: false
 
      - id: dart
        content: |
 
-         .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.map-work-with.dart
+         .. literalinclude:: /examples/generated/flutter/geospatial_data_test.snippet.geocircle.dart
             :language: dart
 
      - id: java
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example.java
+         .. literalinclude:: /examples/MissingPlaceholders/api.java
             :language: java
             :copyable: false
 
      - id: java-kotlin
        content: |
 
-         .. literalinclude:: /examples/MissingPlaceholders/example-java-kotlin.kt
+         .. literalinclude:: /examples/MissingPlaceholders/api-java-kotlin.kt
             :language: kotlin
             :copyable: false
 
      - id: javascript
        content: |
 
-         .. literalinclude:: /examples/generated/node/data-types.snippet.query-a-dictionary.js
+         .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle.js
             :language: javascript
 
      - id: kotlin
        content: |
 
-         .. literalinclude:: /examples/generated/kotlin/ReadTest.snippet.read-realm-dictionary.kt
+         .. literalinclude:: /examples/generated/kotlin/Geospatial.snippet.geocircle.kt
             :language: kotlin
 
      - id: objectivec
@@ -62,6 +62,5 @@
      - id: typescript
        content: |
 
-         .. literalinclude::  /examples/MissingPlaceholders/example.ts
+         .. literalinclude::  /examples/generated/node/v12/geospatial.test.snippet.geocircle.ts
             :language: typescript
-            :copyable: false
