@@ -27,13 +27,13 @@ SwiftUI-friendly way.
 
 You can:
 
-- :ref:`Implicitly open a database <ios-open-realm-with-configuration-swiftui>` 
+- :ref:`Implicitly open a database <swiftui-open-database-with-configuration>` 
   with a ``defaultConfiguration`` or specify a different configuration. 
   This works for both non-synced and synced databases.
 - :ref:`Always download changes before opening a synced database 
-  <swiftui-async-open-synced-realm>`, which times out when the user is offline.
+  <swiftui-async-open-synced-database>`, which times out when the user is offline.
 - :ref:`Open a synced database even when a user is offline 
-  <swiftui-auto-open-synced-realm>`. The database may lack the most recent data.
+  <swiftui-auto-open-synced-database>`. The database may lack the most recent data.
 
 .. _swiftui-open-database-with-configuration:
 
@@ -79,14 +79,12 @@ The main difference between these property wrappers is whether the user
 must be online:
 
 - To download updates from your Atlas App Services app before opening a database,
-  use the :ref:`@AsyncOpen <swiftui-async-open-synced-realm>` property wrapper.
+  use the :ref:`@AsyncOpen <_swiftui-async-open-synced-database>` property wrapper.
   This requires the user to have a network connection. 
 - To open a synced database regardless of whether the user has a network 
-  connection, use the :ref:`@AutoOpen <swiftui-auto-open-synced-realm>` 
+  connection, use the :ref:`@AutoOpen <swiftui-auto-open-synced-database>` 
   property wrapper. This property wrapper enables developers to design 
   offline-first capabilities into their apps.
-
-.. include:: /includes/tip-swift-migrate-to-flexible-sync.rst
 
 .. _swiftui-async-open-synced-database:
 
