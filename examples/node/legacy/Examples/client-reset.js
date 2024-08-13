@@ -267,7 +267,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
               // :remove-end:
             },
           },
-          error: handleSyncError, // invoked with destructive schema changes
+          onError: handleSyncError, // invoked with destructive schema changes
         },
       };
       // :snippet-end:
