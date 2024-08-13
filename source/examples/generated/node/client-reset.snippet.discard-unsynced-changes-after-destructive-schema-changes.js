@@ -40,6 +40,6 @@ const config = {
         console.log("New realm path", afterRealm.path);
       },
     },
-    error: handleSyncError, // invoked with destructive schema changes
+    onError: handleSyncError, // invoked with destructive schema changes
   },
 };
