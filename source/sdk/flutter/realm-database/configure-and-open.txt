@@ -105,7 +105,7 @@ Add Initial Data to Realm
 
 Use :flutter-sdk:`initialDataCallback() <realm/InitialDataCallback.html>` to invoke
 a callback function the first time that you open a realm.
-The function only executes the first time that the realm on the device.
+The function only executes the first time you open that realm on the device.
 The realm instance passed to the callback function already has a write transaction open,
 so you do not need to wrap write operations in a ``Realm.write()`` transaction block.
 ``initialDataCallback`` can be useful for adding initial data to your application
