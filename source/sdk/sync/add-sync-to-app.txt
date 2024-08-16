@@ -4,10 +4,394 @@
 Add Device Sync to an App
 =========================
 
+.. meta::
+   :description: If you already have an app that uses Atlas Device SDK to persist data on device, you can add Device Sync to sync data between devices.
+   :keywords: Realm, Flutter SDK, Kotlin SDK, .NET SDK, Swift SDK, code example
+
+.. facet::
+  :name: genre
+  :values: tutorial
+
+.. facet::
+   :name: programming_language
+   :values: csharp, dart, kotlin, swift
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
 
-Placeholder page for adding Device Sync to a local-only app.
+.. tabs-selector:: drivers
+
+This page contains information about Device Sync, its basic concepts, 
+and how to add Sync to a client app using Atlas Device SDK. Once you have
+added Sync to your app, you can access a synced database from the client. 
+
+Already familiar with Device Sync? Skip ahead to the 
+:ref:`sdks-add-sync-to-app-enable-sync-in-atlas` section 
+to get started.
+
+Device Sync
+-----------
+
+**Device Sync** synchronizes data between client devices and Atlas. 
+Data is persisted on a device, even when offline. When the device has a 
+network connection, Device Sync uploads and downloads
+data in the background and manages conflict resolution. 
+
+The data that syncs between your client app and Atlas is determined by 
+a user's permissions to access eligible data. Eligible data is the
+intersection of:
+
+- Data model: your data type information
+- Subscription queries: the conditions that define what data to store
+- Permissions: the role-based permissions required to interact with data 
+  that meets the specified conditions
+
+For a detailed explanation of Device Sync, refer to 
+:ref:`realm-sync-get-started` in the Atlas App Services
+documentation.
+
+Data Model 
+~~~~~~~~~~
+
+The Device Sync data model defines the object types that you can sync.
+Every SDK object you sync requires a client-side and server-side schema: 
+
+- **Object schema**: the object schema in your client app that defines your 
+  data in your preferred programming language.
+- **App Services schema**: the schema in Atlas App Services that defines
+  your data in BSON. 
+
+Both schemas must be consistent with each other to sync data. 
+
+You can define the Device Sync data model in a client app first or 
+in Atlas first:
+
+- To define your data model through your client app, you first
+  :ref:`define an object model <sdks-object-models>` 
+  directly in your client app code. Then, you can use **Development Mode** to 
+  generate a matching App Services schema automatically. Development Mode
+  is a configuration setting that allows Device Sync 
+  to infer and update schemas based on client-side data models when you 
+  sync data from the client. The
+  :ref:`sdks-add-sync-to-app-enable-sync-in-atlas` section describes
+  how to enable Device Sync with Development Mode in your client app. 
+
+- If you already have data in Atlas and would
+  prefer to define your data model through Atlas first, refer to 
+  :ref:`sync-data-in-atlas-with-client` in the App Services documentation.
+
+.. note:: Data Model Mapping with Device Sync
+
+  To learn more about how data maps between the client and Atlas, refer to
+  :ref:`sdks-model-data-device-sync`.
+
+Subscriptions
+~~~~~~~~~~~~~
+
+A **subscription** is a client-side query to objects in your data model. 
+Device Sync only syncs objects that match the query. You can define multiple
+queries in your client app. You must define at least one query for 
+each object type in your data model.
+
+Device Sync ensures that your client-side queries are consistent with
+your App Services schema through **queryable fields**. These are the 
+fields from your data model that can be used in a subscription query. You 
+cannot define a subscription using a field that isn't in your queryable
+fields.
+
+When Development Mode is enabled, Device Sync automatically
+adds the fields that appear in your client queries as queryable fields.
+You can also manually add and remove queryable fields through the 
+Atlas UI. For more information, refer to :ref:`queryable-fields` 
+in the App Services documentation.
+
+User Permissions
+~~~~~~~~~~~~~~~~
+
+App Services uses **role-based permissions** to control the data that users 
+can read and write: 
+
+- When a user has read permissions, Device Sync downloads data matching the
+  subscription query to the client.
+- When a user has write permissions, Device Sync permits writes to the synced
+  data and uploads locally-written data to the backend.
+
+You can define and manage roles in the Atlas UI. When you enable Sync, 
+you select a default role, which you can modify later. For more information,
+refer to :ref:`flexible-sync-roles` in the App Services 
+documentation.
+
+.. _sdks-add-sync-to-app-prereqs:
+
+Prerequisites
+-------------
+
+You can add Device Sync to an app in several ways, depending on the state 
+of your app and your data. This guide describes how to add Sync to an 
+existing client app using Development Mode. This guide assumes that your 
+app already uses Atlas Device SDK and that you have already defined a data
+model in your client code. 
+
+Because Device Sync connects your client app to the Atlas backend 
+through an Atlas App Services App, you need the following before you 
+can get started: 
+
+#. An Atlas App Services App with authentication enabled. To learn how, 
+   refer to :ref:`create-a-realm-app` in the App Services documentation.
+#. Confirm that your app can connect to Atlas. To learn how, refer to
+   :ref:`sdks-connect-to-atlas`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      
+   .. tab::
+      :tabid: dart
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/add-sync-to-app-prerequisites-description.rst
+
+   .. tab::
+      :tabid: swift
+
+
+.. _sdks-add-sync-to-app-example-data-model:
+
+Example Data Model
+------------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/add-sync-to-app-example-data-model-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/add-sync-to-app-example-data-model-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/add-sync-to-app-example-data-model-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/add-sync-to-app-example-data-model-description.rst
+
+.. include:: /includes/sdk-examples/sync/add-sync-to-app-example-data-model.rst
+
+.. _sdks-add-sync-to-app-enable-sync-in-atlas:
+
+Enable Device Sync in Atlas
+---------------------------
+
+You must first enable Device Sync in Atlas before you can add Sync to your
+client app. 
+
+To enable Device Sync in your App, complete the steps outlined in 
+:ref:`Configure and Enable Atlas Device Sync <enable-flexible-sync>` 
+procedure in the App Services documentation.
+
+During this process, you can choose whether to enable Development 
+Mode and you can select a default role for your app users. 
+For more information on the available settings, refer to 
+:ref:`sync-settings` in the App Services documentation.
+
+.. tip:: 
+
+   We recommend enabling Development Mode when you first enable 
+   Sync, and then disabling it before your app goes to production. 
+   For more information, refer to :ref:`development-mode` in the 
+   App Services documentation.
+
+For our example app, we enable Device Sync with Development Mode, and 
+then add the "User can read and write all data" default role. This means that,
+for an authorized user with a network connection, Device Sync downloads
+eligible data to the client *and* Atlas permits writes to the client and then
+syncs them the backend. To learn more about what happens when an authorized
+user does not have a network connection, refer to
+:ref:`sdks-write-synced-database`.
+
+Add Sync to Your Client App
+---------------------------
+
+After you've configured and enabled Sync in Atlas, you can add Sync to your
+client app. 
+
+.. procedure::
+
+   .. step:: Connect to Atlas
+
+      Pass your App ID to an ``App`` client to initialize the App. To get 
+      your App ID from the App Services UI, refer to 
+      :ref:`Find Your App ID <find-your-app-id>` in the 
+      App Services documentation.
+
+      For our example app, we pass our App ID to initialize an ``App`` with 
+      default configuration values:
+
+      .. include:: /includes/sdk-examples/sync/add-sync-to-app-connect-to-atlas.rst
+
+      For more information on accessing and configuring the App client, refer 
+      to :ref:`sdks-connect-to-atlas`.
+
+   .. step:: Authenticate a User
+
+      Authenticate a user in your client app using an 
+      authentication provider that you have enabled. 
+      
+      For our example app, we log in a user using anonymous authentication: 
+
+      .. include:: /includes/sdk-examples/sync/add-sync-to-app-authenticate-user.rst
+
+      For more information on authenticating users in your app, refer to
+      :ref:`sdks-authenticate-users`.
+
+   .. step:: Define the Sync Configuration 
+      
+      .. tabs-drivers::
+
+         .. tab::
+            :tabid: csharp
+
+            .. include:: /includes/api-details/csharp/sync/add-sync-to-app-define-sync-configuration-description.rst
+            
+         .. tab::
+            :tabid: dart
+
+            .. include:: /includes/api-details/dart/sync/add-sync-to-app-define-sync-configuration-description.rst
+
+         .. tab::
+            :tabid: kotlin
+
+            .. include:: /includes/api-details/kotlin/sync/add-sync-to-app-define-sync-configuration-description.rst
+
+         .. tab::
+            :tabid: swift
+
+            .. include:: /includes/api-details/swift/sync/add-sync-to-app-define-sync-configuration-description.rst
+
+      .. include:: /includes/sdk-examples/sync/add-sync-to-app-define-sync-configuration.rst
+
+      .. important:: Object Types in Your Schema
+
+         The Sync configuration schema *must* include all object types that
+         you want to work with in your synced database. If you try to reference 
+         or write an object of an object type that isn't in your schema, 
+         the SDK returns a schema validation error.
+
+   .. step:: Open the Synced Database
+
+      Use the defined configuration to 
+      :ref:`open the synced database <sdks-configure-and-open-synced-database>`.
+      When the database is opened successfully, the initial subscription
+      query determines which data to sync to the client.
+      If Development Mode is enabled, Device Sync automatically 
+      adds any queryable fields based on the query defined in 
+      your schema.
+      
+      .. tabs-drivers::
+
+         .. tab::
+            :tabid: csharp
+
+            
+         .. tab::
+            :tabid: dart
+
+            .. include:: /includes/api-details/dart/sync/add-sync-to-app-open-synced-database-description.rst
+
+         .. tab::
+            :tabid: kotlin
+
+            .. include:: /includes/api-details/kotlin/sync/add-sync-to-app-open-synced-database-description.rst
+
+         .. tab::
+            :tabid: swift
+
+
+      .. include:: /includes/sdk-examples/sync/add-sync-to-app-open-synced-database.rst
+
+Use the Synced Database
+-----------------------
+
+Now that you've opened the synced database, you can work with your 
+data in the database. While you work with data on the device, a 
+background thread efficiently integrates, uploads, and downloads changesets. 
+
+The syntax to perform read and write operations and watch for changes is
+identical to the syntax for non-synced databases. However, there are additional
+considerations when writing data to a synced database. For more information,
+refer to :ref:`sdks-write-synced-database`.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/sync/add-sync-to-app-use-synced-database-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/sync/add-sync-to-app-use-synced-database-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/sync/add-sync-to-app-use-synced-database-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/sync/add-sync-to-app-use-synced-database-description.rst
+
+
+.. include:: /includes/sdk-examples/sync/add-sync-to-app-use-synced-database.rst
+
+If our write operation didn't match the query *or* the current user didn't 
+have the requisite permissions, then the SDK reverts the write with a
+non-fatal error operation called a :ref:`compensating write <sdks-compensating-writes>`.
+
+.. important:: When Using Sync, Avoid Synchronous Writes on the Main Thread
+
+   The fact that the SDK performs sync integrations on a background thread
+   means that if you write to your database synchronously on the main thread,
+   there's a small chance your UI could appear to hang as it waits for the
+   background sync thread to finish a write transaction. Therefore, it's a
+   best practice :ref:`not to write on the main thread when using Device Sync
+   <sdks-threading-three-rules>`. Instead, use your language's implementation
+   of the asynchronous write API.
+
+.. include:: /includes/sync-memory-performance.rst
+
+Next Steps
+----------
+
+Once your app is successfully syncing the desired data to Atlas, you 
+can learn more about how to use Sync in the SDK:
+
+- :ref:`sdks-configure-and-open-synced-database`: Learn about the available 
+  App client configuration options, such as providing custom request headers,
+  connecting to Edge Server, or platform-idiomatic configuration options.
+- :ref:`sdks-manage-sync-subscriptions`: Learn how to define and manage 
+  the subscription queries in your app. 
+- :ref:`sdks-write-synced-database`: Learn more about how to write to
+  a synced database, how to handle compensating write errors, and how to 
+  group writes for improved performance.
+- :ref:`sdks-manage-sync-sessions`: Learn how to manage 
+  communication with Atlas through sync sessions.
+- :ref:`sdks-handle-sync-errors`: Learn how to handle sync
+  errors that can occur, including client resets.
