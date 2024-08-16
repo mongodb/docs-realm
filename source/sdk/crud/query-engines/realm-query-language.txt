@@ -40,8 +40,8 @@ engine. For more information about SDK-specific query methods, refer to
 The following SDKs also support language-specific idiomatic APIs for querying
 databases:
 
-- :ref:`Fluent Interface (Java SDK) <java-filter-data>`
-- :ref:`LINQ (.NET SDK) <dotnet-linq>`
+- :ref:`Fluent Interface (Java SDK) <sdks-java-filter-data>`
+- :ref:`LINQ (.NET SDK) <sdks-dotnet-linq>`
 
 In addition to using RQL in your client code, you can also use RQL in
 :ref:`Realm Studio <realm-studio>` to browse for data.
@@ -935,6 +935,30 @@ The following example uses subquery filters to find projects based on the
    subquery results collection. You can compare the count with the number ``0``
    to return all matching objects.
 
+.. _rql-collections-in-mixed-queries:
+
+Mixed Properties with Nested Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query nested collections of mixed properties using the same syntax as
+you would for a normal :ref:`list <rql-collection-operators>` or
+:ref:`dictionary <rql-dictionary-operators>` collection.
+
+For nested collections, you can also use: 
+
+- Bracket notation, which provides the following collection query operators: 
+
+  - ``[FIRST]`` and [``LAST``]: match the first or last elements within the collection.
+  - ``[<int>]``: match the element at the specific index. 
+  - ``[*]``: match any element within the collection (this operator assumes a
+    collection type at that path). 
+  - ``[SIZE]``: match the collection length. 
+
+- The ``@type`` operator, which supports the following values: 
+
+  - ``array`` and ``list``: match a list collection.
+  - ``dictionary`` and ``object``: match a map collection.
+  - ``collection``: match a list or a map collection.  
 
 .. _rql-objectid-uuid-operators:
 

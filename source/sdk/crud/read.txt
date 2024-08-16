@@ -4,13 +4,22 @@
 Read Objects
 ============
 
+.. toctree::
+   :titlesonly:
+
+   Read Properties </sdk/crud/read/read-properties>
+
 .. meta:: 
    :description: Read objects from the database by object type. Query by property to filter results.
-   :keywords: code example
+   :keywords: Realm, C++ SDK, Flutter SDK, Kotlin SDK, Java SDK, .NET SDK, Node.js SDK, Swift SDK, code example
 
 .. facet::
   :name: genre
   :values: reference
+
+.. facet::
+   :name: programming_language
+   :values: cpp, csharp, dart, java, javascript/typescript, kotlin, objective-c, swift
 
 .. contents:: On this page
    :local:
@@ -18,44 +27,876 @@ Read Objects
    :depth: 2
    :class: singlecol
 
-Placeholder page for content related to reading realm objects.
+.. tabs-selector:: drivers
 
-.. _sdks-find-object-by-primary-key:
+This page describes how to query and read objects from the a database 
+with Atlas Device SDK. You can read the data that you have
+:ref:`written <sdks-write-transactions>` to the database by finding,
+filtering, and sorting objects.
 
-Find an Object by Primary Key
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A read from the database generally consists of the following steps:
+
+- Get all objects of a certain type from the database instance.
+- Optionally, filter the results.
+- Optionally, sort the results.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-intro-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-intro-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-intro-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-intro-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-intro-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-intro-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-intro-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-intro-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-intro-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-intro-js-ts-description.rst
+
+The syntax for read operations is the same for synced and non-synced databases.
+
+For information related to reading specific property types, including finding
+an object by primary key, refer to :ref:`sdks-crud-read-properties`.
+
+.. _sdks-read-characteristics:
+
+Read Characteristics
+--------------------
+
+Design your app's data access patterns around these read characteristics to
+read data as efficiently as possible.
 
 .. _sdks-read-results:
 
 SDK Results Collections
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Placeholder. Add some concept information about results being a special SDK
-auto-updating collection type for read operations (except in Kotlin, where it's
-frozen).
+.. tabs-drivers::
 
-.. _sdks-query-engines:
+   .. tab::
+      :tabid: cpp-sdk
 
-Filter Data
------------
+      .. include:: /includes/api-details/cpp/crud/read-sdk-results-collections-description.rst
 
-Placeholder. Add some concept information about the SDK having query engines,
-and the one you use varying depending on the SDK you're using. i.e.:
+   .. tab::
+      :tabid: csharp
 
-- RQL (C++ (subset only), C#, Dart, JS, Kotlin, TS, maybe also Java/Java Kotlin?)
-- LINQ (C#)
-- Swift SDK (Swift & Objective-C Type-Safe queries and NS Predicate queries)
-- Java (Java & Kotlin, Fluent Interface)
+      .. include:: /includes/api-details/csharp/crud/read-sdk-results-collections-description.rst
+      
+   .. tab::
+      :tabid: dart
 
-Read Relationship Properties
-----------------------------
+      .. include:: /includes/api-details/dart/crud/read-sdk-results-collections-description.rst
 
-.. _sdks-query-inverse-relationships:
+   .. tab::
+      :tabid: java
 
-Query Inverse Relationships
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      .. include:: /includes/api-details/java/crud/read-sdk-results-collections-description.rst
 
-.. _sdks-query-geospatial:
+   .. tab::
+      :tabid: java-kotlin
 
-Query Geospatial Data
+      .. include:: /includes/api-details/java/crud/read-sdk-results-collections-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-sdk-results-collections-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-sdk-results-collections-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-sdk-results-collections-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-sdk-results-collections-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-sdk-results-collections-js-ts-description.rst
+
+.. _sdks-results-are-not-copies:
+
+Results Are Not Copies
+``````````````````````
+
+Unless you are working with frozen objects, results to a query are not copies
+of your data. Modifying the results of a query modifies the data on disk
+directly. This memory mapping also means that results are **live**: that is,
+they always reflect the current state on disk.
+
+For more details about live versus frozen objects, refer to
+:ref:`sdks-live-and-frozen-objects`.
+
+.. _sdks-results-are-lazy:
+
+Results Are Lazy
+````````````````
+
+The SDK only runs a query when you actually request the results of that query.
+This lazy evaluation enables you to write highly performant code for handling
+large data sets and complex queries. You can chain several filter operations
+without requiring extra work to process the intermediate state.
+
+.. _sdks-references-retained:
+
+References Are Retained
+```````````````````````
+
+Atlas Device SDK automatically retains all of an object's :ref:`relationships
+<sdks-relationships>` as direct references. This enables you to traverse your
+graph of relationships directly through the results of a query.
+
+A **direct reference**, or pointer, allows you to access a related object's
+properties directly through the reference.
+
+Other databases typically copy objects from database storage into application
+memory when you need to work with them directly. Because application objects
+contain direct references, you are left with a choice: copy the object
+referred to by each direct reference out of the database in case it's needed,
+or copy the foreign key for each object and query for the object with that key
+if it's accessed. If you choose to copy referenced objects into application
+memory, you can use up a lot of resources for objects that are never accessed.
+If you copy only the foreign key, referenced object lookups can cause your
+application to slow down.
+
+The SDK bypasses all of this using zero-copy live objects. Database object
+accessors point directly into database storage using memory mapping, so there
+is no distinction between the objects in the database and the results of your
+query in application memory. Because of this, you can traverse direct
+references across an entire database from any query result.
+
+.. _sdks-limiting-results:
+
+Limiting Query Results
+``````````````````````
+
+As a result of lazy evaluation, you do not need any special mechanism to
+limit query results with the SDK. For example, if your query matches thousands
+of objects, but you only want to load the first ten, access only the first ten
+elements of the results collection. None of the remaining objects are loaded
+into memory.
+
+.. _sdks-pagination:
+
+Pagination
+``````````
+
+With lazy evaluation, pagination is very direct. Consider a query that matches
+thousands of objects in your realm. Your app displays one hundred objects per
+page. To advance to any page, access the elements of the results collection
+starting at the index that corresponds to the target page.
+
+.. _sdks-read-database-objects:
+
+Read Database Objects
+---------------------
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-database-objects-procedure.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-database-objects-procedure.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-database-objects-procedure.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-database-objects-procedure.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-database-objects-procedure.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-database-objects-js-ts-procedure.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-database-objects-procedure.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-database-objects-procedure.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-database-objects-procedure.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-database-objects-js-ts-procedure.rst
+
+.. _sdks-read-methods:
+
+Read Object Methods
+-------------------
+
+.. _sdks-read-all-objects-of-type:
+
+Read All Objects of a Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because results sets are homogenous by type, most read operations begin with
+querying for all objects of a type.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-all-objects-of-type-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-all-objects-of-type-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-all-objects-of-type-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-all-objects-of-type-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-all-objects-of-type-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-all-objects-of-type-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-all-objects-of-type-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-all-objects-of-type-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-all-objects-of-type-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-all-objects-of-type-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-all-objects-of-type.rst
+
+.. _sdks-read-query-objects:
+
+Filter or Query Objects
+~~~~~~~~~~~~~~~~~~~~~~~
+
+A **filter** selects a subset of results based on the value(s) of one or more
+object properties. The most common use case is to find objects where a certain
+property matches a certain value. Additionally, you can compare strings,
+aggregate over collections of numbers, and use logical operators to build up
+complex queries.
+
+The SDK provides several full-featured query engines you
+can use to define filters. The core query engine uses :ref:`Realm Query
+Language (RQL) <realm-query-language>` to construct queries. RQL is a
+string-based query language that you can use to retrieve objects from the
+database. Some of the SDK languages provide special query APIs that provide
+idiomatic query syntax and features. The available query APIs include:
+
+- :ref:`RQL <realm-query-language>`: C++, C#, Dart, Java, JavaScript, Kotlin,
+  TypeScript
+- :ref:`LINQ <sdks-dotnet-linq>`: C#
+- :ref:`Type-Safe and NSPredicate Queries <sdks-filter-data-swift>`: Swift,
+  Objective-C
+- :ref:`Fluent Interface <sdks-java-filter-data>`: Java, Kotlin (Java SDK)
+
+For more details about the supported operators when using each of these query
+APIs, refer to the query engine for your preferred language.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-filter-or-query-objects-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-filter-or-query-objects-java-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-filter-or-query-objects-kotlin-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-filter-or-query-objects-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-filter-or-query-objects-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-filter-or-query-objects-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-filter-or-query-objects.rst
+
+.. tip:: Filter on Related and Embedded Object Properties
+   
+   To filter a query based on a property of an :ref:`embedded object
+   <sdks-embedded-objects>` or a :ref:`related object
+   <sdks-relationships>`, use dot-notation as if it were in a regular,
+   nested object.
+
+.. _sdks-read-access-results:
+
+Access Results
+~~~~~~~~~~~~~~
+
+When you perform a read operation, such as getting all objects of a type or
+performing a query, the SDK returns a results collection that contains 0
+or more objects.
+
+The SDK provides convenience methods to make it easier to work with the results.
+The available methods vary depending on the SDK language.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-access-results-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-access-results-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-access-results-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-access-results-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-access-results.rst
+
+.. _sdks-read-chain-queries:
+
+Chain Queries
+~~~~~~~~~~~~~
+
+Because results are lazily evaluated, you can chain several queries together. 
+Unlike traditional databases, this does not require a separate trip to the
+database for each successive query.
+
+.. The tab set below doesn't contain API details - just description of examples
+.. Most are empty because they lack examples
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+
+   .. tab::
+      :tabid: csharp
+
+      
+   .. tab::
+      :tabid: dart
+
+
+   .. tab::
+      :tabid: java
+
+
+   .. tab::
+      :tabid: java-kotlin
+
+
+   .. tab::
+      :tabid: javascript
+
+
+   .. tab::
+      :tabid: kotlin
+
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-chain-queries-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-chain-queries-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+
+
+.. include:: /includes/sdk-examples/crud/read-chain-queries.rst
+
+.. _sdks-read-sort:
+
+Sort
+~~~~
+
+A sort operation allows you to configure the order in which the SDK
+returns queried objects. You can sort based on one or more properties of the
+objects in the results collection. The SDK only guarantees a consistent order
+of results if you explicitly sort them.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-sort-description.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-sort-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-sort-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-sort-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-sort-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-sort-js-ts-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-sort-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-sort-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-sort-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-sort-js-ts-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-sort.rst
+
+.. tip:: Sort on Related and Embedded Object Properties
+   
+   To sort a query based on a property of an :ref:`embedded object
+   <sdks-embedded-objects>` or a :ref:`related object
+   <sdks-relationships>`, use dot-notation as if it were in a regular,
+   nested object.
+
+.. _sdks-read-limit:
+
+Limit
+~~~~~
+
+SDK languages that use the Realm Query Language query engine can limit query
+results using the :ref:`RQL LIMIT() operator <rql-sort-distinct-limit>`.
+
+Note that you can't use :ref:`parameterized queries <rql-parameterized-queries>`
+in RQL LIMIT() clauses. Instead, use strings or string interpolation.
+
+.. Languages that use RQL and don't have a separate limit method don't need details here
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-limit-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-limit-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-limit-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-limit-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-limit-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-limit-not-supported.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-limit-not-supported.rst
+
+   .. tab::
+      :tabid: typescript
+
+
+.. include:: /includes/sdk-examples/crud/read-limit.rst
+
+.. _sdks-read-aggregate:
+
+Aggregate
+~~~~~~~~~
+
+You can aggregate results, which reduces results to a single value based on a
+specified numerical property or collection.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/cpp/crud/read-aggregate-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/csharp/crud/read-aggregate-description.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/dart/crud/read-aggregate-description.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/java/crud/read-aggregate-description.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/java/crud/read-aggregate-description.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/javascript/crud/read-aggregate-description.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/kotlin/crud/read-aggregate-description.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-aggregate-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-aggregate-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/javascript/crud/read-aggregate-description.rst
+
+.. include:: /includes/sdk-examples/crud/read-aggregate.rst
+
+.. _sdks-read-section-query-results:
+
+Section Query Results
 ~~~~~~~~~~~~~~~~~~~~~
+
+Some of the SDK languages provide an API to split results collections into
+individual sections. Each section corresponds to a key generated from a
+property on the object it represents. This simplifies working with logical
+subsets of query results.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-section-query-results-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-section-query-results-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/read-section-query-results-not-supported.rst
+
+.. _sdks-read-query-projections:
+
+Query Projections
+~~~~~~~~~~~~~~~~~
+
+If your app defines a :ref:`class projection <sdks-define-model-projection>`
+to work with persisted data in a different way in a view model or based on
+certain business logic, you can query on that projection.
+
+.. tabs-drivers::
+
+   .. tab::
+      :tabid: cpp-sdk
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: csharp
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+      
+   .. tab::
+      :tabid: dart
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: java-kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: javascript
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+   .. tab::
+      :tabid: objectivec
+
+      .. include:: /includes/api-details/objectivec/crud/read-query-projections-missing-description.rst
+
+   .. tab::
+      :tabid: swift
+
+      .. include:: /includes/api-details/swift/crud/read-query-projections-description.rst
+
+   .. tab::
+      :tabid: typescript
+
+      .. include:: /includes/api-details/generic/crud/read-query-projections-not-supported.rst
+
+.. tip::
+
+   Don't do derived queries on top of class projection results. Instead, run a 
+   query against the SDK object directly and then project the result. If you 
+   try to do a derived query on top of class projection results, querying a 
+   field with the same name and type as the original object works, but querying 
+   a field with a name or type that isn't in the original object fails.
