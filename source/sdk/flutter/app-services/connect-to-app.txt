@@ -127,9 +127,8 @@ By default, Atlas Device SDK connects to Atlas using the global ``baseUrl``
 of ``https://services.cloud.mongodb.com``. In some cases, you may want to
 connect to a different server:
 
-- Your App Services App uses local deployment, and you want to connect directly to a local ``baseUrl`` in your region. For more information, refer to the :ref:`<local-deployment>` App Services documentation.
-- You want to connect to an Edge Server instance. For more information, refer to
-  the :ref:`edge-server-connect-from-client` App Services documentation.
+- Your App Services App uses local deployment, and you want to connect directly to a local ``baseUrl`` in your region. 
+For more information, refer to the :ref:`<local-deployment>` App Services documentation.
 
 You can specify a ``baseUrl`` in the
 :flutter-sdk:`AppConfiguration <realm/AppConfiguration-class.html>`:
@@ -145,8 +144,7 @@ Connect to a Different Server During Runtime
    ``updateBaseUrl`` accepts ``null`` value
 
 In some cases, you might want to change the ``baseUrl`` while the app is
-running. For example, you might want to roam between Edge Servers or
-move from an App Services connection to an Edge Server connection.
+running.
 
 To change the ``baseUrl`` during runtime, call the experimental
 :flutter-sdk:`app.updateBaseUrl <realm/App/updateBaseUrl.html>` method. You can
