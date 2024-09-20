@@ -13,6 +13,14 @@ Add links to every SDK's pages where you got the SDK-specific information:
 
 - [PAGE_NAME](https://www.mongodb.com/docs/atlas/device-sdks/LIVE-DOCS-LINK)
 
+### Release Notes
+
+<!--
+- **Define Data Access Permissions**
+  - Data Access Role Examples: Update CRUD Permissions example screenshots and
+    copyable JSON
+-->
+
 ### PR Author Checklist
 
 Before requesting a review for your PR, please check these items:
