@@ -47,7 +47,7 @@ void main() {
     test('Change BaseUrl', () async {
       // :snippet-start: change-base-url
       // Specify a custom baseUrl to connect to.
-      // In this case, an custom server instance running on the device.
+      // In this case, a custom server instance running on the device.
       final appConfig = AppConfiguration(customServerAppId,
           baseUrl: Uri.parse('http://localhost:80'));
 
