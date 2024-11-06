@@ -1303,17 +1303,16 @@ raw: ${prefix}/help -> ${deviceSDKsBase}/help/
 raw: ${prefix}/migrate -> ${deviceSDKsBase}/migrate/
 
 # DOCSP-39075
-# No clarity from DOP on whether to use ${deviceSDKsBase} or ${base}, so going
-# with what we know works (${base}).
-raw: ${prefix}/sdk/dotnet/sync/convert-realm -> ${base}/sdk/dotnet/sync/configure-and-open-a-synced-realm
+raw: ${deviceSDKsBase}/sdk/dotnet/sync/convert-realm -> ${deviceSDKsBase}/sdk/dotnet/sync/configure-and-open-a-synced-realm
 
 # DOCSP-45013
 # Some links to the SDK docs aren't getting properly redirected
-raw: ${prefix}/sdk/ios/ -> ${base}/sdk/swift/
-raw: ${prefix}/sdk/swift/sync/sync-progress/ -> ${base}/sdk/swift/sync/sync-session/
-raw: ${prefix}/sdk/swift/examples/define-a-realm-object-model/#std-label-ios-index-a-property -> ${base}/sdk/swift/model-data/object-models/#index-a-property
-raw: ${prefix}/sdk/dotnet/fundamentals/object-models-and-schemas/#indexes -> ${base}/sdk/dotnet/model-data/define-object-model/#indexes
-raw: ${prefix}/sdk/dotnet/examples/define-a-realm-object-model/#index-a-property -> ${base}/sdk/dotnet/model-data/define-object-model/#indexes
-raw: ${prefix}/sdk/node/examples/define-a-realm-object-model/#index-a-property -> ${base}/sdk/node/model-data/define-a-realm-object-model/#index-a-property
-raw: ${prefix}/sdk/react-native/examples/define-a-realm-object-model/#index-a-property -> ${base}/sdk/react-native/model-data/define-a-realm-object-model/#index-a-property
-raw: ${prefix}/sdk/java/examples/define-a-realm-object-model/#index-a-field -> ${base}/sdk/java/model-data/define-a-realm-object-model/#index-a-field
+raw: ${deviceSDKsBase}/sdk/ios/ -> ${deviceSDKsBase}/sdk/swift/
+raw: ${deviceSDKsBase}/sdk/swift/sync/sync-progress/ -> ${deviceSDKsBase}/sdk/swift/sync/sync-session/
+raw: ${deviceSDKsBase}/sdk/swift/examples/define-a-realm-object-model/#std-label-ios-index-a-property -> ${deviceSDKsBase}/sdk/swift/model-data/object-models/#index-a-property
+raw: ${deviceSDKsBase}/sdk/dotnet/fundamentals/object-models-and-schemas/#indexes -> ${deviceSDKsBase}/sdk/dotnet/model-data/define-object-model/#indexes
+raw: ${deviceSDKsBase}/sdk/dotnet/examples/define-a-realm-object-model/#index-a-property -> ${deviceSDKsBase}/sdk/dotnet/model-data/define-object-model/#indexes
+raw: ${deviceSDKsBase}/sdk/node/examples/define-a-realm-object-model/#index-a-property -> ${deviceSDKsBase}/sdk/node/model-data/define-a-realm-object-model/#index-a-property
+raw: ${deviceSDKsBase}/sdk/react-native/examples/define-a-realm-object-model/#index-a-property -> ${deviceSDKsBase}/sdk/react-native/model-data/define-a-realm-object-model/#index-a-property
+raw: ${deviceSDKsBase}/sdk/java/examples/define-a-realm-object-model/#index-a-field -> ${deviceSDKsBase}/sdk/java/model-data/define-a-realm-object-model/#index-a-field
+
